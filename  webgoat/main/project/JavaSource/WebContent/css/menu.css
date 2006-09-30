@@ -1,0 +1,7 @@
+.pviimenudiv td {font-family: "Trebuchet MS", Arial, sans-serif; font-size: 10px}
+.pviimenudiv p {font-family: "Trebuchet MS", Arial, sans-serif; font-size: 10px; margin-top: 12px; margin-bottom: 6px}
+.pviimenudiv b {font-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal; color: #666666}
+.pviimenudiv a:link {color: #333333; text-decoration: underline}
+.pviimenudiv a:visited {color: #0066FF; text-decoration: underline}
+.pviimenudiv a:hover {color: red; text-decoration: underline}
+.pviimenudiv a:active {color: #0066FF; text-decoration: underline}
