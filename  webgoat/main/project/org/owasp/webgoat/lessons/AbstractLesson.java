@@ -1,0 +1,1024 @@
+package org.owasp.webgoat.lessons;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import org.apache.ecs.Element;
+import org.apache.ecs.ElementContainer;
+import org.apache.ecs.StringElement;
+import org.apache.ecs.html.B;
+import org.apache.ecs.html.Body;
+import org.apache.ecs.html.Form;
+import org.apache.ecs.html.HR;
+import org.apache.ecs.html.Head;
+import org.apache.ecs.html.Html;
+import org.apache.ecs.html.IMG;
+import org.apache.ecs.html.LI;
+import org.apache.ecs.html.PRE;
+import org.apache.ecs.html.TD;
+import org.apache.ecs.html.TR;
+import org.apache.ecs.html.Table;
+import org.apache.ecs.html.Title;
+import org.apache.ecs.html.UL;
+import org.owasp.webgoat.session.ParameterNotFoundException;
+import org.owasp.webgoat.session.Screen;
+import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.session.WebgoatProperties;
+
+/**
+ * Copyright (c) 2002 Free Software Foundation developed under the custody of the Open Web
+ * Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is
+ * published by OWASP under the GPL. You should read and accept the LICENSE before you use, modify
+ * and/or redistribute this software.
+ * 
+ * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @created October 28, 2003
+ */
+public abstract class AbstractLesson extends Screen implements Comparable
+{
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A1 = new Category( "Unvalidated Parameters", new Integer( 110 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A10 = new Category( "Insecure Configuration Management", new Integer( 1010 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A2 = new Category( "Broken Access Control", new Integer( 210 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A3 = new Category( "Broken Authentication and Session Management", new Integer( 310 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A4 = new Category( "Cross-Site Scripting (XSS)", new Integer( 410 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A5 = new Category( "Buffer Overflows", new Integer( 510 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A6 = new Category( "Injection Flaws", new Integer( 610 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A7 = new Category( "Improper Error Handling", new Integer( 710 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A8 = new Category( "Insecure Storage", new Integer( 810 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category A9 = new Category( "Denial of Service", new Integer( 910 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static Category WEB_SERVICES = new Category( "Web Services", new Integer( 1110 ) );
+
+	public final static Category ADMIN_FUNCTIONS = new Category( "Admin Functions", new Integer( 10 ) );
+
+	public final static Category GENERAL = new Category( "General", new Integer( 50 ) );
+
+	public final static Category CODE_QUALITY = new Category( "Code Quality", new Integer( 70 ) );
+
+	public final static Category CHALLENGE = new Category( "Challenge", new Integer( 2000 ) );
+
+	/**
+	 * Description of the Field
+	 */
+	public final static String ADMIN_ROLE = "admin";
+	
+	public final static String CHALLENGE_ROLE = "challenge";
+
+	/**
+	 * Description of the Field
+	 */
+	public final static String HACKED_ADMIN_ROLE = "hacked_admin";
+
+	/**
+	 * Description of the Field
+	 */
+	public final static String USER_ROLE = "user";
+
+	private static int count = 1;
+
+	private Integer id = null;
+
+	final static IMG nextGrey = new IMG( "images/right16.gif" ).setAlt( "Next" ).setBorder( 0 ).setHspace( 0 )
+			.setVspace( 0 );
+
+	final static IMG previousGrey = new IMG( "images/left14.gif" ).setAlt( "Previous" ).setBorder( 0 ).setHspace( 0 )
+			.setVspace( 0 );
+
+	private static Vector categories = new Vector();
+	private Integer ranking;
+	private Category category;
+	private boolean hidden;
+	
+    private String sourceFileName;
+    private String lessonPlanFileName;
+    
+	static
+	{
+		categories.add(A1);
+		categories.add(A2);
+		categories.add(A3);
+		categories.add(A4);
+		categories.add(A5);
+		categories.add(A6);
+		categories.add(A7);
+		categories.add(A8);
+		categories.add(A9);
+		categories.add(A10);
+		categories.add(WEB_SERVICES);
+		categories.add(ADMIN_FUNCTIONS);
+		categories.add(GENERAL);
+		categories.add(CODE_QUALITY);
+		categories.add(CHALLENGE);
+	}
+	
+	/**
+	 * Constructor for the Lesson object
+	 */
+	public AbstractLesson()
+	{
+		id = new Integer( ++count );
+	}
+	
+	public String getName()
+	{
+		String className = getClass().getName();
+		return className.substring(className.lastIndexOf('.') + 1);
+	}
+
+	public void setRanking(Integer ranking)
+	{
+		this.ranking = ranking;
+	}
+
+	public void setHidden(boolean hidden)
+	{
+		this.hidden = hidden;
+	}
+	
+	public static Category getCategory(String myCategoryName)
+	{
+		Category myCategory = null;
+		
+		Iterator i = categories.iterator();
+		boolean done = false;
+		while (i.hasNext() && !done)
+		{
+			Category category = (Category) i.next();
+			if (category.getName().equalsIgnoreCase(myCategoryName))
+			{
+				myCategory = category;
+				done = true;
+			}
+		}
+		
+		return myCategory;
+	}
+	
+	public void update(WebgoatProperties properties)
+	{
+		String className = getClass().getName();
+		className = className.substring(className.lastIndexOf(".") + 1);
+		setRanking(new Integer(properties.getIntProperty("lesson." + className + ".ranking", getDefaultRanking().intValue())));
+		String categoryRankingKey = "category." + getDefaultCategory().getName() + ".ranking";
+		//System.out.println("Category ranking key: " + categoryRankingKey);
+		Category tempCategory = AbstractLesson.getCategory(getDefaultCategory().getName());
+		tempCategory.setRanking(new Integer(properties.getIntProperty(categoryRankingKey, getDefaultCategory().getRanking().intValue())));
+		category = tempCategory;
+		setHidden(properties.getBooleanProperty("lesson." + className + ".hidden", getDefaultHidden()));
+		//System.out.println(className + " in " + tempCategory.getName() + " (Category Ranking: " + tempCategory.getRanking() + " Lesson ranking: " + getRanking() + ", hidden:" + hidden +")");
+	}
+	
+	
+	public boolean isCompleted(WebSession s)
+	{
+		return getLessonTracker( s, this ).getCompleted();
+	}
+
+	/**
+	 * Gets the credits attribute of the AbstractLesson object
+	 * 
+	 * @return The credits value
+	 */
+	public abstract Element getCredits();
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param obj Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	public int compareTo( Object obj )
+	{
+		return this.getRanking().compareTo( ( (AbstractLesson) obj ).getRanking() );
+	}
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param obj Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	public boolean equals( Object obj )
+	{
+		return this.getScreenId() == ( (AbstractLesson) obj ).getScreenId();
+	}
+
+	/**
+	 * Gets the category attribute of the Lesson object
+	 * 
+	 * @return The category value
+	 */
+	public Category getCategory()
+	{
+		return category;
+	}
+
+	protected abstract Integer getDefaultRanking();
+	
+	protected abstract Category getDefaultCategory();
+	
+	protected abstract boolean getDefaultHidden();
+
+
+	public void setCategory(String categoryName)
+	{
+		if (categoryName != null)
+		{
+			category = getCategory(categoryName);
+		}
+		else
+		{
+			category = getDefaultCategory();
+		}
+	}
+
+
+	/**
+	 * Gets the fileMethod attribute of the Lesson class
+	 * 
+	 * @param reader Description of the Parameter
+	 * @param methodName Description of the Parameter
+	 * @param numbers Description of the Parameter
+	 * @return The fileMethod value
+	 */
+	public static String getFileMethod( BufferedReader reader, String methodName, boolean numbers )
+	{
+		int count = 0;
+		StringBuffer sb = new StringBuffer();
+		boolean echo = false;
+		boolean startCount = false;
+		int parenCount = 0;
+
+		try
+		{
+			String line;
+
+			while ( ( line = reader.readLine() ) != null )
+			{
+				if ( ( line.indexOf( methodName ) != -1 )
+						&& ( ( line.indexOf( "public" ) != -1 ) || ( line.indexOf( "protected" ) != -1 ) || ( line
+								.indexOf( "private" ) != -1 ) ) )
+				{
+					echo = true;
+					startCount = true;
+				}
+
+				if ( echo && startCount )
+				{
+					if ( numbers )
+					{
+						sb.append( pad( ++count ) + "    " );
+					}
+
+					sb.append( line + "\n" );
+				}
+
+				if ( echo && ( line.indexOf( "{" ) != -1 ) )
+				{
+					parenCount++;
+				}
+
+				if ( echo && ( line.indexOf( "}" ) != -1 ) )
+				{
+					parenCount--;
+
+					if ( parenCount == 0 )
+					{
+						startCount = false;
+						echo = false;
+					}
+				}
+			}
+
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			System.out.println( e );
+			e.printStackTrace();
+		}
+
+		return ( sb.toString() );
+	}
+
+	/**
+	 * Reads text from a file into an ElementContainer. Each line in the file is represented in the
+	 * ElementContainer by a StringElement. Each StringElement is appended with a new-line
+	 * character.
+	 * 
+	 * @param reader Description of the Parameter
+	 * @param numbers Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	public static String readFromFile( BufferedReader reader, boolean numbers )
+	{
+		return ( getFileText( reader, numbers ) );
+	}
+
+
+	/**
+	 * Gets the fileText attribute of the Screen class
+	 * 
+	 * @param reader Description of the Parameter
+	 * @param numbers Description of the Parameter
+	 * @return The fileText value
+	 */
+	public static String getFileText( BufferedReader reader, boolean numbers )
+	{
+		int count = 0;
+		StringBuffer sb = new StringBuffer();
+
+		try
+		{
+			String line;
+
+			while ( ( line = reader.readLine() ) != null )
+			{
+				if ( numbers )
+				{
+					sb.append( pad( ++count ) + "  " );
+				}
+				sb.append( line + System.getProperty( "line.separator" ) );
+			}
+
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			System.out.println( e );
+			e.printStackTrace();
+		}
+
+		return ( sb.toString() );
+	}
+
+	/**
+	 * Will this screen be included in an enterprise edition.
+	 * 
+	 * @return The ranking value
+	 */
+	public boolean isEnterprise()
+	{
+		return false;
+	}
+
+	/**
+	 * Gets the hintCount attribute of the Lesson object
+	 * 
+	 * @return The hintCount value
+	 */
+	public int getHintCount()
+	{
+		return getHints().size();
+	}
+
+	protected abstract List getHints();
+	
+	/**
+	 * Fill in a minor hint that will help people who basically get it, but are stuck on somthing
+	 * silly.
+	 * 
+	 * @return The hint1 value
+	 */
+	public String getHint(int hintNumber)
+	{
+		return (String) getHints().get(hintNumber);
+	}
+
+	/**
+	 * Gets the instructions attribute of the AbstractLesson object
+	 * 
+	 * @return The instructions value
+	 */
+	public abstract String getInstructions( WebSession s );
+
+	/**
+	 * Gets the lessonPlan attribute of the Lesson object
+	 * 
+	 * @return The lessonPlan value
+	 */
+	protected String getLessonName()
+	{
+		int index = this.getClass().getName().indexOf( "lessons." );
+		return this.getClass().getName().substring( index + "lessons.".length() );
+	}
+
+	/**
+	 * Gets the title attribute of the HelloScreen object
+	 * 
+	 * @return The title value
+	 */
+	public abstract String getTitle();
+
+	
+	/**
+	 * Gets the content of lessonPlanURL
+	 * @param s TODO
+	 * 
+	 * @return The HTML content of the current lesson plan
+	 */
+	public String getLessonPlan(WebSession s)
+	{
+        String src = null;
+
+        try
+        {
+            //System.out.println("Loading lesson plan file: " + getLessonPlanFileName());
+            src =  readFromFile( new BufferedReader( new FileReader( s.getWebResource(getLessonPlanFileName()) ) ), false );
+
+        }
+        catch ( Exception e )
+        {
+        		//s.setMessage( "Could not find lesson plan for " + getLessonName());
+            src = ( "Could not find lesson plan for: " + getLessonName() );
+ 
+        }
+        return src;
+	}
+
+	/**
+	 * Gets the ranking attribute of the Lesson object
+	 * 
+	 * @return The ranking value
+	 */
+	public Integer getRanking()
+	{
+		if (ranking != null)
+		{
+			return ranking;
+		} 
+		else 
+		{
+			return getDefaultRanking();
+		}
+	}
+	
+	/**
+	 * Gets the hidden value of the Lesson Object
+	 * 
+	 * @return The hidden value
+	 */
+	public boolean getHidden()
+	{
+		return this.hidden;
+	}
+
+	/**
+	 * Gets the role attribute of the AbstractLesson object
+	 * 
+	 * @return The role value
+	 */
+	public String getRole()
+	{
+		// FIXME: Each lesson should have a role assigned to it. Each user/student
+		// should also have a role(s) assigned. The user would only be allowed
+		// to see lessons that correspond to their role. Eventually these roles
+		// will be stored in the internal database. The user will be able to hack
+		// into the database and change their role. This will allow the user to
+		// see the admin screens, once they figure out how to turn the admin
+		// switch on.
+		return USER_ROLE;
+	}
+
+	/**
+	 * Gets the uniqueID attribute of the AbstractLesson object
+	 * 
+	 * @return The uniqueID value
+	 */
+	public int getScreenId()
+	{
+		return id.intValue();
+	}
+
+	public String getHtml(WebSession s)
+	{
+		String html = null;
+		
+		// FIXME: This doesn't work for the labs since they do not implement createContent().
+		String rawHtml = createContent(s).toString();
+		//System.out.println("Getting raw html content: " + rawHtml.substring(0, Math.min(rawHtml.length(), 100)));
+		html = convertMetachars(AbstractLesson.readFromFile( new BufferedReader( new StringReader( rawHtml ) ), true ) );
+		//System.out.println("Getting encoded html content: " + html.substring(0, Math.min(html.length(), 100)));
+		
+		return html;
+	}	
+
+	public String getSource(WebSession s)
+	{
+		String source = null;
+		String src = null;
+
+		try
+		{
+			//System.out.println("Loading source file: " + getSourceFileName());
+			src = convertMetacharsJavaCode( readFromFile( new BufferedReader( new FileReader( s.getWebResource(getSourceFileName()) ) ), true ) );
+
+			// TODO: For styled line numbers and better memory efficiency, use a custom FilterReader 
+			// that performs the convertMetacharsJavaCode() transform plus optionally adds a styled 
+			// line number.  Wouldn't color syntax be great too?
+		}
+		catch ( IOException e )
+		{
+			s.setMessage( "Could not find source file");
+			src = ( "Could not find source file" );
+		}
+
+		Html html = new Html();
+
+		Head head = new Head();
+		head.addElement( new Title( getSourceFileName() ) );
+		head.addElement( new StringElement( "<meta name=\"Author\" content=\"Jeff Williams\">" ) );
+		head.addElement( new StringElement( "<link rev=\"made\" href=\"mailto:jeff.williams@aspectsecurity.com\">" ) );
+
+		Body body = new Body();
+		body.addElement( new StringElement( src ) );
+
+		html.addElement( head );
+		html.addElement( body );
+		
+		source = html.toString();
+
+		return source;
+	}
+	
+	/**
+	 * Get the link that can be used to request this screen.
+	 * 
+	 * @return
+	 */
+	public String getLink()
+	{
+		StringBuffer link = new StringBuffer();
+
+		link.append( "attack?" );
+		link.append( WebSession.SCREEN );
+		link.append( "=" );
+		link.append( getScreenId() );
+
+		return link.toString();
+	}
+	
+	/**
+	 * Get the link to the jsp page used to render this screen.
+	 * 
+	 * @return
+	 */
+	public String getPage(WebSession s)
+	{
+		return null;
+	}
+
+	/**
+	 * Get the link to the jsp template page used to render this screen.
+	 * 
+	 * @return
+	 */
+	public String getTemplatePage(WebSession s)
+	{
+		return null;
+	}
+	
+	public abstract String getCurrentAction(WebSession s);
+	
+	public abstract void setCurrentAction(WebSession s, String lessonScreen);
+	
+	public void setStage(WebSession s, int stage)
+	{
+		//System.out.println("Changed to stage " + stage);
+		getLessonTracker( s ).setStage(stage);
+	}
+
+	public int getStage(WebSession s)
+	{
+		int stage = getLessonTracker( s ).getStage();
+		
+		//System.out.println("In stage " + stage);
+		return stage;
+	}
+
+	/**
+	 * Override this method to implement accesss control in a lesson.
+	 * 
+	 * @param s
+	 * @param functionId
+	 * @return
+	 */
+	public boolean isAuthorized(WebSession s, int employeeId, String functionId)
+	{
+		return false;
+	}
+	
+	/**
+	 * Override this method to implement accesss control in a lesson.
+	 * 
+	 * @param s
+	 * @param functionId
+	 * @return
+	 */
+	public boolean isAuthorized(WebSession s, String role, String functionId)
+	{
+		boolean authorized = false;
+		try
+		{
+			String query = "SELECT * FROM auth WHERE role = '" + role + "' and functionid = '" + functionId + "'";
+			try
+			{
+				Statement answer_statement = WebSession.getConnection(s).createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+				ResultSet answer_results = answer_statement.executeQuery( query );
+				authorized = answer_results.first();
+			}
+			catch ( SQLException sqle )
+			{
+				s.setMessage( "Error authorizing" );
+				sqle.printStackTrace();
+			}
+		}
+		catch ( Exception e )
+		{
+			s.setMessage( "Error authorizing" );
+			e.printStackTrace();
+		}
+		return authorized;
+	}
+	
+	public int getUserId(WebSession s) throws ParameterNotFoundException
+	{
+		return -1;
+	}
+
+	public String getUserName(WebSession s) throws ParameterNotFoundException
+	{
+		return null;
+	}
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	protected TD makeParamDump_DELETEME( WebSession s )
+	{
+		Vector v = new Vector();
+
+		if ( s.getParser() != null )
+		{
+			Enumeration e = s.getParser().getParameterNames();
+
+			while ( ( e != null ) && e.hasMoreElements() )
+			{
+				String name = (String) e.nextElement();
+				String[] values = s.getParser().getParameterValues( name );
+
+				for ( int loop = 0; ( values != null ) && ( loop < values.length ); loop++ )
+				{
+					v.add( name + " -> " + values[loop] );
+				}
+			}
+
+			Collections.sort( v );
+		}
+
+		UL list = new UL();
+
+		if ( v.size() == 0 )
+		{
+			list.addElement( new LI( "No parameters" ) );
+		}
+
+		Iterator i = v.iterator();
+
+		while ( i.hasNext() )
+		{
+			String str = (String) i.next();
+			list.addElement( new LI( str ) );
+		}
+
+		ElementContainer ec = new ElementContainer();
+		ec.addElement( new B( "Parameters from HTTP Request" ) );
+		ec.addElement( list );
+
+		return ( new TD().setVAlign( "TOP" ).addElement( ec ) );
+	}
+
+	// this doesn't work -- I think it's because getting parameters
+	// also causes the servlet container to read the request
+	// but I'm not sure.
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	protected Element makeRequestDump_DELETEME( WebSession s )
+	{
+		Element el = null;
+
+		try
+		{
+			el = new StringElement( readFromFile( s.getRequest().getReader(), false ) );
+		}
+		catch ( Exception e )
+		{
+			s.setMessage( "Couldn't read HTTP request" );
+		}
+
+		ElementContainer ec = new ElementContainer();
+		ec.addElement( new B( "HTTP Request" ) );
+		ec.addElement( el );
+
+		Table t = new Table().setCellSpacing( 0 ).setCellPadding( 0 ).setBorder( 0 );
+
+		if ( s.isColor() )
+		{
+			t.setBorder( 1 );
+		}
+
+		t.addElement( new TR().addElement( new TD().setVAlign( "TOP" ).addElement( ec ) ) );
+
+		return ( t );
+	}
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	protected Element makeSourceDump_DELETEME( WebSession s )
+	{
+		if ( !s.showSource() )
+		{
+			return new StringElement();
+		}
+
+		String filename = s.getWebResource( this.getClass().getName() );
+		Table t = new Table().setWidth( Screen.MAIN_SIZE );
+
+		/*
+		if ( s.isColor() )
+		{
+			t.setBorder( 1 );
+			t.setBgColor( HtmlColor.CORAL );
+		}
+		*/
+
+		t.addElement( new TR().addElement( new TD().addElement( new HR() ) ) );
+
+		try
+		{
+			t.addElement( new TR().addElement( new TD().addElement( convertMetachars( readFromFile( new BufferedReader(
+					new FileReader( filename ) ), true ) ) ) ) );
+		}
+		catch ( IOException e )
+		{
+			System.out.println( "reading file EXCEPTION: " + filename );
+			s.setMessage( "Could not find source file" );
+		}
+
+		return ( t );
+	}
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param windowName Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	public static String makeWindowScript( String windowName )
+	{
+		// FIXME: make this string static
+		StringBuffer script = new StringBuffer();
+		script.append( "<script language=\"JavaScript\">\n" );
+		script.append( "	<!--\n" );
+		script.append( "	  function makeWindow(url) {\n" );
+		script.append( "\n" );
+		script.append( "	      agent = navigator.userAgent;\n" );
+		script.append( "\n" );
+		script.append( "	      params  = \"\";\n" );
+		script.append( "	      params += \"toolbar=0,\";\n" );
+		script.append( "	      params += \"location=0,\";\n" );
+		script.append( "	      params += \"directories=0,\";\n" );
+		script.append( "	      params += \"status=0,\";\n" );
+		script.append( "	      params += \"menubar=0,\";\n" );
+		script.append( "	      params += \"scrollbars=1,\";\n" );
+		script.append( "	      params += \"resizable=1,\";\n" );
+		script.append( "	      params += \"width=500,\";\n" );
+		script.append( "	      params += \"height=350\";\n" );
+		script.append( "\n" );
+		script.append( "		  // close the window to vary the window size\n" );
+		script.append( "	   	  if (typeof(win) == \"object\" && !win.closed){\n" );
+		script.append( "            win.close();\n" );
+		script.append( "	      }\n" );
+		script.append( "\n" );
+		script.append( "	      win = window.open(url, '" + windowName + "' , params);\n" );
+		script.append( "\n" );
+		script.append( " 		  // bring the window to the front\n" );
+		script.append( "		  win.focus();\n" );
+		script.append( "	  }\n" );
+		script.append( "	//-->\n" );
+		script.append( "	</script>\n" );
+
+		return script.toString();
+	}
+
+	/**
+	 * Simply reads a url into an Element for display. CAUTION: you might want to tinker with any
+	 * non-https links (href)
+	 * 
+	 * @param url Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	public static Element readFromURL( String url )
+	{
+		ElementContainer ec = new ElementContainer();
+
+		try
+		{
+			URL u = new URL( url );
+			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
+			BufferedReader reader = new BufferedReader( new InputStreamReader( huc.getInputStream() ) );
+			String line;
+
+			while ( ( line = reader.readLine() ) != null )
+			{
+				ec.addElement( new StringElement( line ) );
+			}
+
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			System.out.println( e );
+			e.printStackTrace();
+		}
+
+		return ( ec );
+	}
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param reader Description of the Parameter
+	 * @param numbers Description of the Parameter
+	 * @param methodName Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	public static Element readMethodFromFile( BufferedReader reader, String methodName, boolean numbers )
+	{
+		PRE pre = new PRE().addElement( getFileMethod( reader, methodName, numbers ) );
+
+		return ( pre );
+	}
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s Description of the Parameter
+	 */
+	public void handleRequest( WebSession s )
+	{
+		// call createContent first so messages will go somewhere
+
+		Form form = new Form( getFormAction(), Form.POST ).setName( "form" ).setEncType( "" );
+
+		form.addElement( createContent( s ) );
+
+        setContent(form);
+	}
+
+	protected String getFormAction()
+	{
+		return "attack"+ "?menu="+ getCategory().getRanking();
+	}
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	/*
+	public String makeSourceHTML( WebSession s )
+	{
+
+		String className = this.getClass().getName();
+		String lessonName = className.substring( className.indexOf( '.' ) + 1 );
+		String filename = s.getSourceFile( lessonName );
+
+		String src = null;
+
+		try
+		{
+			src = convertMetacharsJavaCode( readFromFile( new BufferedReader( new FileReader( filename ) ), true ) );
+
+		}
+		catch ( IOException e )
+		{
+			s.setMessage( "Could not find source file" );
+			src = ( "Could not find source file" );
+		}
+
+		Html html = new Html();
+
+		Head head = new Head();
+		head.addElement( new Title( lessonName + ".java" ) );
+		head.addElement( new StringElement( "<meta name=\"Author\" content=\"Jeff Williams\">" ) );
+		head.addElement( new StringElement( "<link rev=\"made\" href=\"mailto:jeff.williams@aspectsecurity.com\">" ) );
+
+		Body body = new Body();
+		body.addElement( new StringElement( src ) );
+
+		html.addElement( head );
+		html.addElement( body );
+
+		return html.toString();
+	}
+	*/
+	
+	public String toString()
+	{
+		return getTitle();
+	}
+
+    
+    public String getLessonPlanFileName() 
+    {
+        return lessonPlanFileName;
+    }
+
+    
+    public void setLessonPlanFileName(String lessonPlanFileName) 
+    {
+        this.lessonPlanFileName = lessonPlanFileName;
+    }
+
+    
+    public String getSourceFileName() 
+    {
+        return sourceFileName;
+    }
+
+    
+    public void setSourceFileName(String sourceFileName) 
+    {
+		//System.out.println("Setting source file of lesson " + this + " to: " + sourceFileName);
+		this.sourceFileName = sourceFileName;
+    }
+}
