@@ -1,0 +1,24 @@
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b> Http Splitting </p>
+ </div>
+ 
+<p><b>Concept / Topic To Teach:</b> </p>
+ This lesson teaches how to perform HTPP Splitting attacks.
+ <br> 
+<div align="Left"> 
+<p>
+<b>How the attacks works:</b>
+</p>
+The attacker passes malacious code to the web server together with normal input. 
+A victim application will not be checking for CR (carriage return, also given by %0d or \r) 
+and LF (line feed, also given by %0a or \n)characters. These characters not only give attackers control 
+of the remaining headers and body of the response the application intends to send, 
+but also allows them to create additional responses entirely under their control
+</div>
+<p><b>General Goal(s):</b> </p>
+<!-- Start Instructions -->
+* Enter a language for the system to search by.<br> 
+* You notice that the application is redirecting your request to another resource on the server.<br>
+* You should be able to use the CR (%0d) and LF (%0a) to exploit the attack.<br>
+* Your excercise should be to force the server to send a 200 OK. 
+<!-- Stop Instructions -->
