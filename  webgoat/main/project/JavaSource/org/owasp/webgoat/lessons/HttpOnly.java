@@ -280,8 +280,7 @@ public class HttpOnly extends LessonAdapter {
 						readSuccess = false;
 						writeSuccess = false;
 					}
-				}
-				else {
+				} else {
 					if (!this.isCompleted(s)) {
 						s.setMessage("Now try to see if your browser protects write access to this cookie.");
 						readSuccess = true;
@@ -313,8 +312,7 @@ public class HttpOnly extends LessonAdapter {
 						readSuccess = false;
 						writeSuccess = false;
 					}
-				}
-				else {
+				} else {
 					if (!this.isCompleted(s)) {
 						s.setMessage("Now try to see if your browser protects read access to this cookie.");
 						writeSuccess = true;
@@ -370,6 +368,18 @@ public class HttpOnly extends LessonAdapter {
 				result = "Internet Explorer";
 			} else if(browser.indexOf("opera") != -1) {
 				result = "Opera";
+			} else if(browser.indexOf("safari") != -1) {
+				result = "Safari";
+			} else if(browser.indexOf("netscape") != -1) {
+				browser = browser.substring(browser.indexOf("netscape"));
+				
+				offset = getOffset(browser);
+				
+				result = browser.substring(0, offset);
+			} else if(browser.indexOf("konqueror") != -1) {
+				result = "Konqueror";
+			} else if(browser.indexOf("mozilla") != -1) {
+				result = "Mozilla";
 			}
 		}
 		

@@ -299,6 +299,8 @@ public class SoapRequest extends LessonAdapter {
         // before completing the lesson.
         if ((accessFirstName + accessLastName + accessCreditCard + accessLoginCount) >= 2)
         {
+        	/** Reset function access counters **/
+        	accessFirstName = accessLastName = accessCreditCard = accessLoginCount = 0;
         	//SoapRequest.completed = true;
         	makeSuccess(s);
         }
