@@ -21,16 +21,16 @@ import org.owasp.webgoat.session.WebSession;
 
 public class HttpSplitting extends LessonAdapter {
 	
-	private final static String URL = "url";
+	private final static String LANGUAGE = "language";
+	
 	/**
 	 * Description of the Method
 	 * 
-	 * @param s Description of the Parameter
+	 * @param s Current WebSession
 	 */
 	public void handleRequest( WebSession s )
 	{
-		// call createContent first so messages will go somewhere
-
+		//Setting a special action to be able to submit to redirect.jsp
 		Form form = new Form( "/WebGoat/lessons/General/redirect.jsp?" +
 				        "Screen=" + String.valueOf(getScreenId()) +
 				        "&menu=" + getDefaultCategory().getRanking().toString()
@@ -44,18 +44,20 @@ public class HttpSplitting extends LessonAdapter {
 	protected Element createContent(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-		StringBuffer url = null;
+		StringBuffer lang = null;
 		
 		try
 		{
+			//add the text
 			ec.addElement( new StringElement( "Search by country : " ) );
 
-			url = new StringBuffer( s.getParser().getStringParameter( URL, "" ) );
+			lang = new StringBuffer( s.getParser().getStringParameter( LANGUAGE, "" ) );
 			
-			Input input = new Input( Input.TEXT, URL, url.toString() );
+			//add the search by field
+			Input input = new Input( Input.TEXT, LANGUAGE, lang.toString() );
 			ec.addElement( input );
 	
-			Element b = ECSFactory.makeButton( "Go!" );
+			Element b = ECSFactory.makeButton( "Search!" );
 			
 			ec.addElement( b );
 						
@@ -66,11 +68,15 @@ public class HttpSplitting extends LessonAdapter {
 			e.printStackTrace();
 		}
 		
+		//Check if we are coming from the redirect page
 		String fromRedirect = s.getParser().getStringParameter ( "fromRedirect" , "");
-		if ( url.length() != 0 && fromRedirect.length() != 0 )
+		if ( lang.length() != 0 && fromRedirect.length() != 0 )
 		{	
-			String[] arrTokens = url.toString().split(System.getProperty("line.separator"));
-			if (Arrays.binarySearch(arrTokens, "Content-Length: 0") >= 0 &&
+			//Split by the line separator line.separator is platform independant
+			String[] arrTokens = lang.toString().toUpperCase().split(System.getProperty("line.separator"));
+			
+			//Check if the user ended the first request and wrote the second malcious reply
+			if (Arrays.binarySearch(arrTokens, "CONTENT-LENGTH: 0") >= 0 &&
 					Arrays.binarySearch(arrTokens, "HTTP/1.1 200 OK") >= 0 )	
 			{	
 				makeSuccess( s );

@@ -10,7 +10,7 @@
 <% response.sendRedirect("/WebGoat/attack?" +
 		        "Screen=" + request.getParameter("Screen") +
 		        "&menu=" + request.getParameter("menu") +
-		        "&fromRedirect=yes&url=" + request.getParameter("url")); 
+		        "&fromRedirect=yes&language=" + request.getParameter("language")); 
 %>
 </body>
 </html>
