@@ -1,7 +1,5 @@
 package org.owasp.webgoat.lessons;
 import java.util.*;
-import java.net.URLDecoder;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.ecs.*;
 import org.apache.ecs.html.*;
@@ -75,7 +73,7 @@ public class HttpSplitting extends LessonAdapter {
 			//Split by the line separator line.separator is platform independant
 			String[] arrTokens = lang.toString().toUpperCase().split(System.getProperty("line.separator"));
 			
-			//Check if the user ended the first request and wrote the second malcious reply
+			//Check if the user ended the first request and wrote the second malacious reply
 			if (Arrays.binarySearch(arrTokens, "CONTENT-LENGTH: 0") >= 0 &&
 					Arrays.binarySearch(arrTokens, "HTTP/1.1 200 OK") >= 0 )	
 			{	
@@ -99,7 +97,7 @@ public class HttpSplitting extends LessonAdapter {
 		hints.add( "A 200 OK message looks like this: HTTP/1.1 200 OK" );
 
 		return hints;
-		
+	
 	}
 
 	private final static Integer DEFAULT_RANKING = new Integer(10);
