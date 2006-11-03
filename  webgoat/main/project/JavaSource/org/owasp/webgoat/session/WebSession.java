@@ -1117,7 +1117,7 @@ public class WebSession
 
 	public void setHasHackableConfig ( String url)
 	{
-		if ( config.indexOf("config") >= 0)
+		if ( url.indexOf("config") >= 0)
 		{
 			completedHackableConfig = true;
 		}	

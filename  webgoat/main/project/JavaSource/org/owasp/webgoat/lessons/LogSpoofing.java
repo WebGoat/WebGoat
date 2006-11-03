@@ -12,7 +12,6 @@ import org.owasp.webgoat.session.WebSession;
 
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.Input;
-import org.apache.ecs.html.P;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
