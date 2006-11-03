@@ -68,7 +68,7 @@ public class HttpBasics extends LessonAdapter
 	 */
 	public List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Type in your name and press 'go'" );
 		hints.add( "Turn on Show Parameters or other features" );
 		hints.add( "Press the Show Lesson Plan button to view a lesson summary" );

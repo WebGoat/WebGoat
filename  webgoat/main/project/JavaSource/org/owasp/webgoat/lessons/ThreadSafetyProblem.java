@@ -104,7 +104,7 @@ public class ThreadSafetyProblem extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Web applications handle many HTTP requests at the same time." );
 		hints.add( "Developers use variables that are not thread safe." );
 		hints.add( "Show the Java source code and trace the 'currentUser' variable" );

@@ -20,7 +20,7 @@ import org.owasp.webgoat.lessons.Category;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
 public class Course
@@ -223,7 +223,7 @@ public class Course
 	 */
 	public List getCategories()
 	{
-		List categories = new ArrayList();
+		List<Category> categories = new ArrayList<Category>();
 		Iterator iter = lessons.iterator();
 
 		while ( iter.hasNext() )
@@ -333,7 +333,7 @@ public class Course
 	 */
 	private List getLessons( Category category, List roles )
 	{
-		List lessonList = new ArrayList();
+		List<AbstractLesson> lessonList = new ArrayList<AbstractLesson>();
 
 		Iterator iter = lessons.iterator();
 		while ( iter.hasNext() )

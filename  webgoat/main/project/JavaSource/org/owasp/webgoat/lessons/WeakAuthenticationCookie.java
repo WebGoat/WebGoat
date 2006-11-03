@@ -232,7 +232,7 @@ public class WeakAuthenticationCookie extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "The server skips authentication if you send the right cookie." );
 		hints.add( "Is the AuthCookie value guessable knowing the username and password?" );
 		hints.add( "Add 'AuthCookie=********;' to the Cookie: header using <A href=\"http://www.owasp.org/development/webscarab\">WebScarab</A>." );

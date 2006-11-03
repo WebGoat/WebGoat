@@ -144,7 +144,7 @@ public class SQLInjection extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "The application is taking your input and inserting it at the end of a pre-formed SQL command." );
 		hints.add( "This is the code for the query being built and issued by WebGoat:<br><br> " +
 					"\"SELECT * FROM employee WHERE userid = \" + userId + \" and password = \" + password" );

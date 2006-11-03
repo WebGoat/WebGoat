@@ -2,13 +2,10 @@ package org.owasp.webgoat.lessons;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
-import org.apache.ecs.html.B;
-import org.apache.ecs.html.H1;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.TD;
@@ -90,7 +87,7 @@ public class CSRF extends LessonAdapter {
 
 	@Override	
 	protected List getHints() {
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Enter some text and try to include an image in there." );
 		hints.add( "The format of an image in html is <pre>&lt;img src=\"[URL]\" width=\"1\" height=\"1\" /&gt;</pre>");		
 		hints.add( "In order to make the picture almost invisible try to add width=\"1\" and height=\"1\"." );

@@ -163,7 +163,7 @@ public class HtmlClues extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "You can view the HTML source by selecting 'view source' in the browser menu." );
 		hints.add( "There are lots of clues in the HTML" );
 		hints.add( "Search for the word HIDDEN, look at URLs, look for comments." );

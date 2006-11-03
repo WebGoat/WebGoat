@@ -54,19 +54,21 @@ public class CommandInjection extends LessonAdapter
 				{
 					index = helpFile.indexOf(';');
 				}
-				
+				index = index + 1;
+				int helpFileLen = helpFile.length() -1; // subtract 1 for the closing quote
+				System.out.println("Command = [" + helpFile.substring(index, helpFileLen).trim().toLowerCase() + "]");
 				if (( osName.indexOf( "Windows" ) != -1 &&
-						( helpFile.substring(index + 1).trim().toLowerCase().equals("netstat -a") ||
-						  helpFile.substring(index + 1).trim().toLowerCase().equals("dir") ||
-						  helpFile.substring(index + 1).trim().toLowerCase().equals("ls") ||
-						  helpFile.substring(index + 1).trim().toLowerCase().equals("ifconfig") ||
-						  helpFile.substring(index + 1).trim().toLowerCase().equals("ipconfig") )) ||
-					(helpFile.substring(index + 1).trim().toLowerCase().equals("netstat -a #") ||
-					 helpFile.substring(index + 1).trim().toLowerCase().equals("dir #") ||
-					 helpFile.substring(index + 1).trim().toLowerCase().equals("ls #") ||
-					 helpFile.substring(index + 1).trim().toLowerCase().equals("ls -l #") ||
-					 helpFile.substring(index + 1).trim().toLowerCase().equals("ifconfig #") ||
-					 helpFile.substring(index + 1).trim().toLowerCase().equals("ipconfig #") )) 
+						( helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("netstat -a") ||
+						  helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("dir") ||
+						  helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("ls") ||
+						  helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("ifconfig") ||
+						  helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("ipconfig") )) ||
+					(helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("netstat -a #") ||
+					 helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("dir #") ||
+					 helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("ls #") ||
+					 helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("ls -l #") ||
+					 helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("ifconfig #") ||
+					 helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("ipconfig #") )) 
 				{
 					illegalCommand = false;
 				} 

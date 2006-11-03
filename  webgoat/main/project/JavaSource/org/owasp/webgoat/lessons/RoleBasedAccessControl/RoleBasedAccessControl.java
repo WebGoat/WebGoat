@@ -135,7 +135,7 @@ public class RoleBasedAccessControl extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Many sites attempt to restrict access to resources by role." );
 		hints.add( "Developers frequently make mistakes implementing this scheme." );
 		hints.add( "Attempt combinations of users, roles, and resources." );

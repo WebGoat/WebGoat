@@ -1,22 +1,21 @@
 package org.owasp.webgoat.lessons;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ecs.Element;
-import org.apache.ecs.StringElement;
-import org.owasp.webgoat.session.ECSFactory;
-import org.owasp.webgoat.session.WebSession;
-
 import org.apache.ecs.ElementContainer;
+import org.apache.ecs.HtmlColor;
+import org.apache.ecs.StringElement;
 import org.apache.ecs.html.Input;
+import org.apache.ecs.html.PRE;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
-import org.apache.ecs.html.PRE;
-import org.apache.ecs.HtmlColor;
+import org.owasp.webgoat.session.ECSFactory;
+import org.owasp.webgoat.session.WebSession;
 
 /**
  *  Copyright (c) 2002 Free Software Foundation developed under the custody of the Open Web
@@ -102,7 +101,7 @@ public class LogSpoofing extends LessonAdapter {
 
 	@Override
 	protected List getHints() {
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Try to fool the humane eye by using new lines." );
 		hints.add( "Use CR (%0d) and LF (%0a) for a new line." );
 		hints.add( "Try: fooledYa%0d%0aLogin Succeeded for username: admin" );
@@ -116,8 +115,8 @@ public class LogSpoofing extends LessonAdapter {
 	}
 
 	@Override
-	public Category getCategory() {
-		return super.A6;
+	protected Category getDefaultCategory() {
+		return AbstractLesson.A6;
 	}
 
 }

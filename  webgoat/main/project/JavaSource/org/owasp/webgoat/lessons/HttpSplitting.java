@@ -83,14 +83,14 @@ public class HttpSplitting extends LessonAdapter {
 		return ( ec );	
 	}
 
-	public Category getCategory()
+	protected Category getDefaultCategory()
 	{
-		return LessonAdapter.GENERAL;
+		return AbstractLesson.GENERAL;
 	}
 
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Enter a language for the system to search by." );
 		hints.add( "Use CR (%0d) and LF (%0a) for a new line" );
 		hints.add( "The Content-Length: 0 will tell the server that the first request is over." );

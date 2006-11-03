@@ -63,7 +63,7 @@ public class ForcedBrowsing extends LessonAdapter
 	 */
 	public List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Try to guess the URL for the config page" );
 		hints.add( "The config page is guessable and hackable" );
 		hints.add( "Play with the URL and try to guess what the can you replace 'attack' with." );

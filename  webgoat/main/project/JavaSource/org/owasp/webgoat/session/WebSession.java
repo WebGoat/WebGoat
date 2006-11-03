@@ -337,7 +337,7 @@ public class WebSession
 
 	public List getRoles()
 	{
-		List roles = new ArrayList();
+		List<String> roles = new ArrayList<String>();
 
 		roles.add(AbstractLesson.USER_ROLE);
 		if (isAdmin())
@@ -440,7 +440,7 @@ public class WebSession
 	
 	public String getRestartLink()
 	{
-		List parameters = new ArrayList();
+		List<String> parameters = new ArrayList<String>();
 		
 		String screenValue = request.getParameter(SCREEN);
 		if (screenValue != null)

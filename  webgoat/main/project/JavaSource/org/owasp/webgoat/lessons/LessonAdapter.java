@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
-import org.apache.ecs.HtmlColor;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.Center;
 import org.apache.ecs.html.H3;
@@ -17,7 +16,6 @@ import org.apache.ecs.html.PRE;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
-
 import org.owasp.webgoat.session.WebSession;
 
 /**
@@ -26,12 +24,12 @@ import org.owasp.webgoat.session.WebSession;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
 public abstract class LessonAdapter extends AbstractLesson
 {
-    final static IMG ASPECT_LOGO = new IMG( "images/logos/aspect.jpg" ).setAlt( "Aspect Security" ).setBorder( 0 ).setHspace( 0 ).setVspace( 0 );
+    final static IMG WEBGOAT_LOGO = new IMG( "images/logos/WebGoat.jpg" ).setAlt( "WebGoat Logo" ).setBorder( 0 ).setHspace( 0 ).setVspace( 0 );
 	/**
 	 *  Description of the Method
 	 *
@@ -199,7 +197,7 @@ public abstract class LessonAdapter extends AbstractLesson
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "There are no hints defined." );
 
 		return hints;
@@ -217,7 +215,14 @@ public abstract class LessonAdapter extends AbstractLesson
 	 */
 	public Element getCredits()
 	{
-		return getCustomCredits("Sponsored by&nbsp;", ASPECT_LOGO);
+		if (getClass().getResource("images/logos/WebGoat.jpg") != null )
+		{
+			return getCustomCredits("Presented by&nbsp;", WEBGOAT_LOGO);
+		} 
+		else
+		{
+			return new StringElement();
+		}
 	}
 
 	/**
@@ -316,8 +321,6 @@ public abstract class LessonAdapter extends AbstractLesson
 	 */
 	protected Element getCustomCredits(String text, IMG logo) 
 	{
-		ElementContainer ec = new  ElementContainer();
-	
 		Table t = new Table().setCellSpacing( 0 ).setCellPadding( 0 ).setBorder( 0 ).setWidth("90%").setAlign("RIGHT");
 	    TR tr = new TR();
 		tr.addElement( new TD(text).setVAlign("MIDDLE").setAlign("RIGHT").setWidth("100%"));

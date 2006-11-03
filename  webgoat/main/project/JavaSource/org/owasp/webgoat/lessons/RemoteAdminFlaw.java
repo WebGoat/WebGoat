@@ -13,7 +13,7 @@ import org.owasp.webgoat.session.WebSession;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
 public class RemoteAdminFlaw extends LessonAdapter
@@ -61,7 +61,7 @@ public class RemoteAdminFlaw extends LessonAdapter
 	 */
 	public List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "WebGoat has 2 admin interfaces." );
 		hints.add( "WebGoat has one admin interface that is controlled via a URL parameter and is 'hackable'" );
 		hints.add( "WebGoat has one admin interface that is controlled via server side security constraints and should not be 'hackable'" );

@@ -44,7 +44,7 @@ import org.owasp.webgoat.session.WebgoatProperties;
  * published by OWASP under the GPL. You should read and accept the LICENSE before you use, modify
  * and/or redistribute this software.
  * 
- * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
 public abstract class AbstractLesson extends Screen implements Comparable
@@ -139,7 +139,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
 	final static IMG previousGrey = new IMG( "images/left14.gif" ).setAlt( "Previous" ).setBorder( 0 ).setHspace( 0 )
 			.setVspace( 0 );
 
-	private static Vector categories = new Vector();
+	private static Vector<Category> categories = new Vector<Category>();
 	private Integer ranking;
 	private Category category;
 	private boolean hidden;
@@ -275,7 +275,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
 	protected abstract boolean getDefaultHidden();
 
 
-	public void setCategory(String categoryName)
+	public void setCategory_DELETE_ME(String categoryName)
 	{
 		if (categoryName != null)
 		{

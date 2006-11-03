@@ -27,7 +27,7 @@ import org.owasp.webgoat.util.HtmlEncoder;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
 
@@ -188,7 +188,7 @@ public class ReflectedXSS extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "A simple script is &lt;SCRIPT&gt;alert('bang!');&lt;/SCRIPT&gt;." );
 		hints.add( "Can you get the script to disclose the JSESSIONID cookie?" );
 		hints.add( "You can use &lt;SCRIPT&gt;alert(document.cookie);&lt;/SCRIPT&gt; to access the session id cookie" );

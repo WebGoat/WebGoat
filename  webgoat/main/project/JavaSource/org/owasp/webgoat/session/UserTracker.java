@@ -15,7 +15,7 @@ import org.apache.catalina.users.MemoryUserDatabase;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 29, 2003
  */
 

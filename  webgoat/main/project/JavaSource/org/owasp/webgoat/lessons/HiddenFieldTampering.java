@@ -147,7 +147,7 @@ public class HiddenFieldTampering extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "This application is using hidden fields to transmit price information to the server." );
 		hints.add( "Use a program to intercept and change the value in the hidden field." );
 		hints.add( "Use <A href=\"http://www.owasp.org/development/webscarab\">WebScarab</A> to change the price of the TV from " + 

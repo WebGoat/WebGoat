@@ -108,7 +108,7 @@ public class BlindSqlInjection extends LessonAdapter
 	 *
 	 * @return    The category value
 	 */
-	public Category getCategory()
+	protected Category getDefaultCategory()
 	{
 		return AbstractLesson.A6;
 	}
@@ -151,7 +151,7 @@ public class BlindSqlInjection extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		if (runningOnWindows()) {
 			hints.add( "Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. " +
 					"Create a SQL statement that you can use as a true/false test and then " +

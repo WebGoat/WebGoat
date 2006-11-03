@@ -1,16 +1,15 @@
 package org.owasp.webgoat.session;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.util.Properties;
 
 
 /**
  *  Description of the Class
  *
- * @author     Bruce Mayhew
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 29, 2003
  */
 public class LessonTracker

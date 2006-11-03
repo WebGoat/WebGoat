@@ -103,7 +103,7 @@ public class AccessControlMatrix extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Many sites attempt to restrict access to resources by role." );
 		hints.add( "Developers frequently make mistakes implementing this scheme." );
 		hints.add( "Attempt combinations of users, roles, and resources." );
@@ -126,7 +126,7 @@ public class AccessControlMatrix extends LessonAdapter
 	private List getResources( List rl )
 	{
 		// return the resources allowed for these roles
-		ArrayList list = new ArrayList();
+		ArrayList<String> list = new ArrayList<String>();
 
 		if ( rl.contains( roles[0] ) )
 		{
@@ -165,7 +165,7 @@ public class AccessControlMatrix extends LessonAdapter
 
 	private List getRoles( String user )
 	{
-		ArrayList list = new ArrayList();
+		ArrayList<String> list = new ArrayList<String>();
 
 		if ( user.equals( users[0] ) )
 		{

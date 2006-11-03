@@ -21,7 +21,7 @@ import org.owasp.webgoat.session.WebSession;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
 public class BasicAuthentication extends LessonAdapter
@@ -38,12 +38,6 @@ public class BasicAuthentication extends LessonAdapter
 	private final static String HEADER_VALUE = "value";
 	
 	/**
-	 * Save the session so it can be used in a staged lesson
-	 */
-	private WebSession session = null;
-	
-	
-	/**
 	 *  Description of the Method
 	 *
 	 * @param  s  Description of the Parameter
@@ -51,7 +45,6 @@ public class BasicAuthentication extends LessonAdapter
 	 */
 	protected Element createContent( WebSession s )
 	{
-		session = s;
 		return super.createStagedContent(s);
 	}
 	
@@ -218,7 +211,7 @@ public class BasicAuthentication extends LessonAdapter
 	 */
 	public List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 //		int stage = getLessonTracker(session, BASIC).getStage();
 
 //		switch ( stage )

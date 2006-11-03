@@ -43,7 +43,7 @@ import org.owasp.webgoat.util.ExecResults;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
 public class Challenge2Screen extends LessonAdapter
@@ -451,7 +451,7 @@ public class Challenge2Screen extends LessonAdapter
 	{
 		//<START_OMIT_SOURCE>
 
-	    List hints = new ArrayList();
+	    List<String> hints = new ArrayList<String>();
 		hints.add( "You need to gain access to the Java source code for this lesson." );	
 		hints.add( "Seriously, no more hints -- it's a CHALLENGE!" );
 		hints.add( "Come on -- give it a rest!" );

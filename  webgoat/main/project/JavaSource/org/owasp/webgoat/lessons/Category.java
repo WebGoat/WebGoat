@@ -1,5 +1,14 @@
 package org.owasp.webgoat.lessons;
 
+/**
+ *  Copyright (c) 2002 Free Software Foundation developed under the custody of the Open Web
+ *  Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is published by OWASP
+ *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
+ *  this software.
+ *
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
+ * @created    October 28, 2003
+ */
 public class Category implements Comparable
 {
 		

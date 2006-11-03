@@ -552,14 +552,10 @@ public class Encoding extends LessonAdapter
 	public List getHints()
 	{
 
-		List hints = new ArrayList();
-
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Enter a string and press 'go'" );
-
 		hints.add( "Enter 'abc' and notice the rot13 encoding is 'nop' ( increase each letter by 13 characters )." );
-
 		hints.add( "Enter 'a c' and notice the url encoding is 'a+c' ( ' ' is converted to '+' )." );
-
 		return hints;
 	}
 
@@ -573,7 +569,6 @@ public class Encoding extends LessonAdapter
 
 	public String getInstructions(WebSession s)
 	{
-
 		return "This lesson will familiarize the user with different encoding schemes.  ";
 	}
 
@@ -596,7 +591,6 @@ public class Encoding extends LessonAdapter
 
 	public String getTitle()
 	{
-
 		return ( "Encoding Basics" );
 	}
 
@@ -613,27 +607,18 @@ public class Encoding extends LessonAdapter
 	{
 
 		byte[] b = str.getBytes();
-
 		MessageDigest md = null;
 
 		try
 		{
-
 			md = MessageDigest.getInstance( "MD5" );
-
 			md.update( b );
-
 		}
-
 		catch ( NoSuchAlgorithmException e )
 		{
-
 			// it's got to be there
-
 			e.printStackTrace();
-
 		}
-
 		return ( base64Encode( md.digest() ) );
 	}
 
@@ -648,29 +633,18 @@ public class Encoding extends LessonAdapter
 
 	public static String hashSHA( String str )
 	{
-
 		byte[] b = str.getBytes();
-
 		MessageDigest md = null;
-
 		try
 		{
-
 			md = MessageDigest.getInstance( "SHA-256" );
-
 			md.update( b );
-
 		}
-
 		catch ( NoSuchAlgorithmException e )
 		{
-
 			// it's got to be there
-
 			e.printStackTrace();
-
 		}
-
 		return ( base64Encode( md.digest() ) );
 	}
 
@@ -685,40 +659,26 @@ public class Encoding extends LessonAdapter
 
 	public static String hexDecode( String hexString )
 	{
-
 		try
 		{
-
 			if ( ( hexString.length() % 3 ) != 0 )
 			{
-
 				return ( "String not comprised of Hex digit pairs." );
 			}
-
 			char[] chars = new char[hexString.length()];
-
 			char[] convChars = new char[hexString.length() / 3];
-
 			hexString.getChars( 0, hexString.length(), chars, 0 );
-
 			for ( int i = 1; i < hexString.length(); i += 3 )
 			{
-
 				String hexToken = new String( chars, i, 2 );
-
 				convChars[i / 3] = (char) Integer.parseInt( hexToken, 16 );
-
 			}
-
 			return new String( convChars );
 		}
-
 		catch ( NumberFormatException nfe )
 		{
-
 			return ( "String not comprised of Hex digits" );
 		}
-
 	}
 
 
@@ -732,22 +692,14 @@ public class Encoding extends LessonAdapter
 
 	public static String hexEncode( String asciiString )
 	{
-
 		char[] ascii = new char[asciiString.length()];
-
 		asciiString.getChars( 0, asciiString.length(), ascii, 0 );
-
 		StringBuffer hexBuff = new StringBuffer();
-
 		for ( int i = 0; i < asciiString.length(); i++ )
 		{
-
 			hexBuff.append( "%" );
-
 			hexBuff.append( Integer.toHexString( ascii[i] ) );
-
 		}
-
 		return hexBuff.toString().toUpperCase();
 	}
 
@@ -761,73 +713,40 @@ public class Encoding extends LessonAdapter
 
 	public static void main( String[] args )
 	{
-
 		try
 		{
-
 			String userInput = args[0];
-
 			String userKey = args[1];
-
 			System.out.println( "Working with: " + userInput );
-
 			System.out.print( "Base64 encoding: " );
-
 			System.out.println( base64Encode( userInput ) + " : " + base64Decode( userInput ) );
-
 			System.out.print( "Entity encoding: " );
-
 			System.out.println( HtmlEncoder.encode( userInput ) + " : " + HtmlEncoder.decode( userInput ) );
-
 			System.out.print( "Password based encryption (PBE): " );
-
 			System.out.println( encryptString( userInput, userKey ) + " : " + decryptString( userInput, userKey ) );
-
 			System.out.print( "MD5 hash: " );
-
 			System.out.println( hashMD5( userInput ) + " : " + "Cannot reverse a hash" );
-
 			System.out.print( "SHA-256 hash: " );
-
 			System.out.println( hashSHA( userInput ) + " : " + "Cannot reverse a hash" );
-
 			System.out.print( "Unicode encoding: " );
-
 			System.out.println( "Not Implemented" + " : " + "Not Implemented" );
-
 			System.out.print( "URL encoding: " );
-
 			System.out.println( urlEncode( userInput ) + " : " + urlDecode( userInput ) );
-
 			System.out.print( "Hex encoding: " );
-
 			System.out.println( hexEncode( userInput ) + " : " + hexDecode( userInput ) );
-
 			System.out.print( "Rot13 encoding: " );
-
 			System.out.println( rot13( userInput ) + " : " + rot13( userInput ) );
-
 			System.out.print( "XOR with password: " );
-
 			System.out.println( xorEncode( userInput, userKey ) + " : " + xorDecode( userInput, userKey ) );
-
 			System.out.print( "Double unicode encoding is..." );
-
 			System.out.println( "Not Implemented" + " : " + "Not Implemented" );
-
 			System.out.print( "Double URL encoding: " );
-
 			System.out.println( urlEncode( urlEncode( userInput ) ) + " : " + urlDecode( urlDecode( userInput ) ) );
-
 		}
-
 		catch ( Exception e )
 		{
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 
@@ -868,29 +787,18 @@ public class Encoding extends LessonAdapter
 
 	private TR makeTitleRow( String description, String value1, String value2 )
 	{
-
 		TD desc = new TD().addElement( new B().addElement( description ) );
-
 		TD val1 = new TD().addElement( new B().addElement( value1 ) );
 		TD val2 = new TD().addElement( new B().addElement( value2 ) );
-
 		desc.setAlign( "center" );
-
 		val1.setAlign( "center" );
-
 		val2.setAlign( "center" );
-
 		TR tr = new TR();
-
 		tr.addElement( desc );
-
 		tr.addElement( val1 );
-
 		tr.addElement( val2 );
-
 		return ( tr );
 	}
-
 
 
 	/**
@@ -902,54 +810,33 @@ public class Encoding extends LessonAdapter
 
 	public static synchronized String rot13( String input )
 	{
-
 		StringBuffer output = new StringBuffer();
-
 		if ( input != null )
 		{
-
 			for ( int i = 0; i < input.length(); i++ )
 			{
-
 				char inChar = input.charAt( i );
-
 				if ( ( inChar >= 'A' ) & ( inChar <= 'Z' ) )
 				{
-
 					inChar += 13;
-
 					if ( inChar > 'Z' )
 					{
-
 						inChar -= 26;
-
 					}
-
 				}
-
 				if ( ( inChar >= 'a' ) & ( inChar <= 'z' ) )
 				{
-
 					inChar += 13;
-
 					if ( inChar > 'z' )
 					{
-
 						inChar -= 26;
-
 					}
-
 				}
-
 				output.append( inChar );
-
 			}
-
 		}
-
 		return output.toString();
 	}
-
 
 
 	/**
@@ -961,31 +848,21 @@ public class Encoding extends LessonAdapter
 
 	public static String unicodeDecode( String str )
 	{
-
 		// FIXME: TOTALLY EXPERIMENTAL
 
 		try
 		{
-
 			ByteBuffer bbuf = ByteBuffer.allocate( str.length() );
-
 			bbuf.put( str.getBytes() );
-
 			Charset charset = Charset.forName( "ISO-8859-1" );
-
 			CharsetDecoder decoder = charset.newDecoder();
-
 			CharBuffer cbuf = decoder.decode( bbuf );
-
 			return ( cbuf.toString() );
 		}
-
 		catch ( Exception e )
 		{
-
 			return ( "Encoding problem" );
 		}
-
 	}
 
 
@@ -999,27 +876,18 @@ public class Encoding extends LessonAdapter
 
 	public static String unicodeEncode( String str )
 	{
-
 		// FIXME: TOTALLY EXPERIMENTAL
-
 		try
 		{
-
 			Charset charset = Charset.forName( "ISO-8859-1" );
-
 			CharsetEncoder encoder = charset.newEncoder();
-
 			ByteBuffer bbuf = encoder.encode( CharBuffer.wrap( str ) );
-
 			return ( new String( bbuf.array() ) );
 		}
-
 		catch ( Exception e )
 		{
-
 			return ( "Encoding problem" );
 		}
-
 	}
 
 
@@ -1033,19 +901,14 @@ public class Encoding extends LessonAdapter
 
 	public static String urlDecode( String str )
 	{
-
 		try
 		{
-
 			return ( URLDecoder.decode( str, "UTF-8" ) );
 		}
-
 		catch ( Exception e )
 		{
-
 			return ( "Decoding error" );
 		}
-
 	}
 
 
@@ -1059,19 +922,14 @@ public class Encoding extends LessonAdapter
 
 	public static String urlEncode( String str )
 	{
-
 		try
 		{
-
 			return ( URLEncoder.encode( str, "UTF-8" ) );
 		}
-
 		catch ( Exception e )
 		{
-
 			return ( "Encoding error" );
 		}
-
 	}
 
 
@@ -1086,38 +944,23 @@ public class Encoding extends LessonAdapter
 
 	public static synchronized char[] xor( String input, String userKey )
 	{
-
 		if ( ( userKey == null ) || ( userKey.trim().length() == 0 ) )
 		{
-
 			userKey = "Goober";
-
 		}
-
 		char[] xorChars = userKey.toCharArray();
-
 		int keyLen = xorChars.length;
-
 		char[] inputChars = null;
-
 		char[] outputChars = null;
-
 		if ( input != null )
 		{
-
 			inputChars = input.toCharArray();
-
 			outputChars = new char[inputChars.length];
-
 			for ( int i = 0; i < inputChars.length; i++ )
 			{
-
 				outputChars[i] = (char) ( inputChars[i] ^ xorChars[i % keyLen] );
-
 			}
-
 		}
-
 		return outputChars;
 	}
 
@@ -1133,21 +976,15 @@ public class Encoding extends LessonAdapter
 
 	public static synchronized String xorDecode( String input, String userKey )
 	{
-
 		try
 		{
-
 			String decoded = base64Decode( input );
-
 			return new String( xor( decoded, userKey ) );
 		}
-
 		catch ( Exception e )
 		{
-
 			return "String not XOR encoded.";
 		}
-
 	}
 
 
@@ -1162,24 +999,15 @@ public class Encoding extends LessonAdapter
 
 	public static synchronized String xorEncode( String input, String userKey )
 	{
-
 		return base64Encode( xor( input, userKey ) );
 	}
 
 	static
 	{
-
 		for ( int i = 0; i < entities.length; ++i )
 		{
-
 			e2i.put( entities[i][0], entities[i][1] );
-
 			i2e.put( entities[i][1], entities[i][0] );
-
 		}
-
 	}
-
 }
-
-

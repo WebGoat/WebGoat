@@ -140,7 +140,7 @@ public class CrossSiteScripting extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		
 		// Stage 1
 		hints.add( "You can put HTML tags in form input fields." );

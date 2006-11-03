@@ -114,7 +114,7 @@ public class FailOpenAuthentication extends WeakAuthenticationCookie
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "You can force errors during the authentication process." );
 		hints.add( "You can change length, existance, or values of authentication parameters." );
 		hints.add( "Try removing a parameter ENTIRELY with <A href=\"http://www.owasp.org/development/webscarab\">WebScarab</A>." );

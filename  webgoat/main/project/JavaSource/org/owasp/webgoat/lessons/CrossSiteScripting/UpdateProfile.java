@@ -3,7 +3,6 @@ package org.owasp.webgoat.lessons.CrossSiteScripting;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

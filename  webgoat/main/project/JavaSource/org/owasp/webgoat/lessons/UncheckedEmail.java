@@ -31,7 +31,7 @@ import org.owasp.webgoat.session.WebSession;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
 
@@ -179,7 +179,7 @@ public class UncheckedEmail extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "Try sending an anonymous message to yourself." );
 		hints.add( "Try inserting some html or javascript code in the message field" );
 		hints.add( "Look at the hidden fields in the HTML.");
