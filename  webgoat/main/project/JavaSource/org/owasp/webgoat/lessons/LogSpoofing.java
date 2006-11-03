@@ -19,6 +19,16 @@ import org.apache.ecs.html.Table;
 import org.apache.ecs.html.PRE;
 import org.apache.ecs.HtmlColor;
 
+/**
+ *  Copyright (c) 2002 Free Software Foundation developed under the custody of the Open Web
+ *  Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is published by OWASP
+ *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
+ *  this software.
+ *
+ * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies</a>
+ * @created    October 28, 2006
+ */
+
 public class LogSpoofing extends LessonAdapter {
 
 	private static final String USERNAME = "username";

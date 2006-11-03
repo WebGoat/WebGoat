@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ecs.Element;
+import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 
 import org.owasp.webgoat.session.WebSession;
@@ -14,8 +15,8 @@ import org.owasp.webgoat.session.WebSession;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
- * @created    October 28, 2003
+ * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
+ * @created    November 02, 2006
  */
 public class ForcedBrowsing extends LessonAdapter
 {
@@ -28,8 +29,18 @@ public class ForcedBrowsing extends LessonAdapter
 	 */
 	protected Element createContent( WebSession s )
 	{
-		// just to get the generic how to text.
-		return super.createContent(s);
+		ElementContainer ec = new ElementContainer();
+
+		if ( s.completedHackableConfig() )
+		{				
+			makeSuccess( s );		
+		}
+		else 
+		{
+			ec.addElement( "Can you try to force browse to the config page which  "
+					+ "should only be accessed by maintenance personnel.");
+		}
+		return ec;
 	}
 
 
@@ -53,13 +64,12 @@ public class ForcedBrowsing extends LessonAdapter
 	public List getHints()
 	{
 		List hints = new ArrayList();
-		hints.add( "Lesson Hint 1" );
-		hints.add( "Lesson Hint 2" );
-
+		hints.add( "Try to guess the URL for the config page" );
+		hints.add( "The config page is guessable and hackable" );
+		hints.add( "Play with the URL and try to guess what the can you replace 'attack' with." );
+		
 		return hints;
 	}
-
-
 
 
 	private final static Integer DEFAULT_RANKING = new Integer(15);
@@ -80,7 +90,7 @@ public class ForcedBrowsing extends LessonAdapter
 	
 	public Element getCredits()
 	{
-		return new StringElement("This screen created by: Your name could go here");
+		return new StringElement("This screen created by: Sherif Koussa");
 	}
 }
 

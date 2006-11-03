@@ -225,6 +225,8 @@ public class WebSession
 	private String feedbackAddress = "<A HREF=mailto:webgoat@aspectsecurity.com>webgoat@aspectsecurity.com</A>";
 
 	private boolean completedHackableAdmin = false;
+	
+	private boolean completedHackableConfig = false;
 
 	private int currentMenu;
 
@@ -725,6 +727,16 @@ public class WebSession
 	}
 
 	/**
+	 * Has the user ever hacked the hackable config URL
+	 * 
+	 * @return The hackable config value
+	 */
+	public boolean completedHackableConfig()
+	{
+		return ( completedHackableConfig );
+	}
+		
+	/**
 	 * Gets the authenticated attribute of the WebSession object
 	 * 
 	 * @return The authenticated value
@@ -1103,6 +1115,14 @@ public class WebSession
 		}
 	}
 
+	public void setHasHackableConfig ( String url)
+	{
+		if ( config.indexOf("config") >= 0)
+		{
+			completedHackableConfig = true;
+		}	
+	}
+	
 	/**
 	 * @return Returns the isDebug.
 	 */
