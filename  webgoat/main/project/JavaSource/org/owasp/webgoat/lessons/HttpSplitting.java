@@ -95,7 +95,7 @@ public class HttpSplitting extends LessonAdapter {
 		hints.add( "Use CR (%0d) and LF (%0a) for a new line" );
 		hints.add( "The Content-Length: 0 will tell the server that the first request is over." );
 		hints.add( "A 200 OK message looks like this: HTTP/1.1 200 OK" );
-
+		hints.add( "Try French%0d%0aContent-Length: 0%0d%0aHTTP/1.1 200 OK" );
 		return hints;
 	
 	}

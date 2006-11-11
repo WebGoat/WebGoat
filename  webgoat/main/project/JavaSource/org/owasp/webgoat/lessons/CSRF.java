@@ -89,8 +89,8 @@ public class CSRF extends LessonAdapter {
 	protected List getHints() {
 		List<String> hints = new ArrayList<String>();
 		hints.add( "Enter some text and try to include an image in there." );
-		hints.add( "The format of an image in html is <pre>&lt;img src=\"[URL]\" width=\"1\" height=\"1\" /&gt;</pre>");		
 		hints.add( "In order to make the picture almost invisible try to add width=\"1\" and height=\"1\"." );
+		hints.add( "The format of an image in html is <pre>&lt;img src=\"[URL]\" width=\"1\" height=\"1\" /&gt;</pre>");		
 
 		return hints;
 	}

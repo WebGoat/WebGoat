@@ -11,10 +11,10 @@ import org.owasp.webgoat.session.WebSession;
  *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
  *  this software.
  *
- * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
+ * @author     Sherif Koussa <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
-public class ParameterInjection extends LessonAdapter
+public class NewLesson extends LessonAdapter
 {
 	/**
 	 *  Description of the Method
@@ -25,22 +25,20 @@ public class ParameterInjection extends LessonAdapter
 	protected Element createContent( WebSession s )
 	{
 		// just to get the generic how to text.
-		return super.createContent(s);
+		makeSuccess(s);
+		return( new StringElement( "Welcome to the WebGoat hall of fame !!" ) );
 	}
 	/**
-	 *  Gets the category attribute of the CommandInjection object
+	 *  Gets the category attribute of the NEW_LESSON object
 	 *
 	 * @return    The category value
 	 */
 	protected Category getDefaultCategory()
 	{
-		return AbstractLesson.A6;
+		return AbstractLesson.NEW_LESSON;
 	}
 
-
-
-
-	private final static Integer DEFAULT_RANKING = new Integer(40);
+	private final static Integer DEFAULT_RANKING = new Integer(10);
 
 	protected Integer getDefaultRanking()
 	{
@@ -54,12 +52,12 @@ public class ParameterInjection extends LessonAdapter
 	 */
 	public String getTitle()
 	{
-		return ( "How to Perform Parameter Injection" );
+		return ( "How to add a new WebGoat lesson" );
 	}
 
 	public Element getCredits()
 	{
-		return new StringElement("This screen created by: Your name could go here");
+		return new StringElement("This screen created by: Sherif Koussa");
 	}
 }
 

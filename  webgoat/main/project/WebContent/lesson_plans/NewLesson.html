@@ -1,0 +1,25 @@
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b> How to Add a New WebGoat Lesson </p>
+ </div>
+ 
+<p><b>Concept / Topic To Teach:</b> </p>
+<!-- Start Instructions -->
+Adding lessons to WebGoat is very easy. If you have an idea that would be suitable<br> 
+for a new lesson, follow these few simple instructions:<br><br>
+* Download the source code from <a href="http://sourceforge.net/project/showfiles.php?group_id=64424&package_id=61824">here.</a><br><br>
+* Setup framework: follow the simple instructions in "HOW TO create the WebGoat workspace.txt" that comes with the project.<br><br>
+* You need to add two files for each class: <br>
+&nbsp;&nbsp;- YourLesson.java to org.owasp.webgoat.lessons<br>
+&nbsp;&nbsp;- YourLesson.html to WebContent/lesson_plans<br><br>
+* YourLesson class implmenet LessonAdapter and override the following methods:<br>
+&nbsp;- createContent: Use the <a href="http://jakarta.apache.org/site/downloads/downloads_ecs.cgi">ECS package</a> to develop HTML presented to the user.<br>
+&nbsp;- getCategory: Returns the category for which this lesson belongs (XSS, Injection flaws..etc)<br>
+&nbsp;- getHints: List of hints you would like to pass on to the users to point them to right direction.<br>
+&nbsp;- getTitle: The title for your new lesson.<br>
+&nbsp;- getCredits: Your name goes here.<br><br>
+
+<!-- Stop Instructions -->
+<br>
+ 
+<p><b>General Goal(s):</b> </p>
+ The user should be able to learn how to add a new lesson.  

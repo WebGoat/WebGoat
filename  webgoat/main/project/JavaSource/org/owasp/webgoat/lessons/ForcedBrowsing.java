@@ -67,7 +67,7 @@ public class ForcedBrowsing extends LessonAdapter
 		hints.add( "Try to guess the URL for the config page" );
 		hints.add( "The config page is guessable and hackable" );
 		hints.add( "Play with the URL and try to guess what the can you replace 'attack' with." );
-		
+		hints.add( "Try to navigate to http://localhost:8080/WebGoat/config" );
 		return hints;
 	}
 
