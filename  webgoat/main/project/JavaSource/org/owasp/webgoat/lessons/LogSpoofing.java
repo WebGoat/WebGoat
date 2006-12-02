@@ -111,7 +111,7 @@ public class LogSpoofing extends LessonAdapter {
 
 	@Override
 	public String getTitle() {
-		return "Log Spoofing";
+		return "How to Perform Log Spoofing";
 	}
 
 	@Override
