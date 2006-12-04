@@ -6,7 +6,16 @@ import java.util.List;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.B;
+import org.apache.ecs.html.BR;
+import org.apache.ecs.html.H1;
+import org.apache.ecs.html.Input;
+import org.apache.ecs.html.TD;
+import org.apache.ecs.html.TH;
+import org.apache.ecs.html.TR;
+import org.apache.ecs.html.Table;
 
+import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
 /**
@@ -20,7 +29,7 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class ForcedBrowsing extends LessonAdapter
 {
-
+	private final static String SUCCEEDED = "succeeded";
 	/**
 	 *  Description of the Method
 	 *
@@ -30,9 +39,31 @@ public class ForcedBrowsing extends LessonAdapter
 	protected Element createContent( WebSession s )
 	{
 		ElementContainer ec = new ElementContainer();
-
-		if ( s.completedHackableConfig() )
+		String success = new String( s.getParser().getStringParameter( SUCCEEDED, "" ) );
+		if ( success.length()!= 0 && success.equals("yes") )
 		{				
+			ec.addElement( new BR().addElement (new H1().addElement( "Welcome to WebGoat Configuration Page")));
+			ec.addElement( new BR());
+			Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("center");
+			
+			TR tr = new TR();			
+			tr.addElement( new TD( new StringElement( "Set Admin Privileges for: " ) ));		
+			
+			Input input1 = new Input( Input.TEXT, "", "" );
+			tr.addElement( new TD( input1 ) );
+			t1.addElement( tr );
+			
+			tr = new TR();
+			tr.addElement( new TD( new StringElement ( "Set Admin Password:" )));
+			
+			input1 = new Input( Input.PASSWORD, "", "");
+			tr.addElement( new TD(input1));
+			t1.addElement( tr );
+			
+			Element b = ECSFactory.makeButton( "Submit" );
+			t1.addElement( new TR( new TD( b ).setColSpan(2).setAlign("right") ) );
+			ec.addElement(t1);			
+			
 			makeSuccess( s );		
 		}
 		else 

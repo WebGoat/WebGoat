@@ -307,9 +307,6 @@ public class HammerHead extends HttpServlet
 					
 					s.setHasHackableAdmin( screen.getRole() );
 					
-					//More bookkeeping here to see if the user was able to force browse to the
-					//config URL.
-					s.setHasHackableConfig( s.getRequest().getRequestURI());
 					lesson.handleRequest( s );
 					s.setCurrentMenu( lesson.getCategory().getRanking() );
 				}

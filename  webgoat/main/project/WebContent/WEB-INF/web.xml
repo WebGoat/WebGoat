@@ -124,7 +124,7 @@
 
       <init-param>
             <param-name>DefuseOSCommands</param-name>
-            <param-value>true</param-value>
+            <param-value>false</param-value>
       </init-param>
       
       <init-param>
@@ -174,7 +174,15 @@
       </description>
       <servlet-class>org.owasp.webgoat.LessonSource</servlet-class>
     </servlet>
-
+	<servlet>
+		<servlet-name>validate</servlet-name>
+		<servlet-class>org.owasp.webgoat.servlets.ValidateServlet</servlet-class>
+	</servlet>
+	<servlet>
+	     <servlet-name>config</servlet-name>
+	     <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
+	</servlet>
+	
     <!-- Define mappings that are used by the servlet container to
          translate a particular request URI (context-relative) to a
          particular servlet.  The examples below correspond to the
@@ -226,11 +234,16 @@
       <servlet-name>WebGoat</servlet-name>
       <url-pattern>/attack</url-pattern>
     </servlet-mapping>
+
+	<servlet-mapping>
+	     <servlet-name>config</servlet-name>
+	     <url-pattern>/config</url-pattern>
+	</servlet-mapping>
     
-    <servlet-mapping>
-      <servlet-name>WebGoat</servlet-name>
-      <url-pattern>/config</url-pattern>    
-    </servlet-mapping>
+	<servlet-mapping>
+	     <servlet-name>validate</servlet-name>
+	     <url-pattern>/validate</url-pattern>
+	</servlet-mapping>
 
     <servlet-mapping>
       <servlet-name>LessonSource</servlet-name>

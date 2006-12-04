@@ -226,8 +226,6 @@ public class WebSession
 
 	private boolean completedHackableAdmin = false;
 	
-	private boolean completedHackableConfig = false;
-
 	private int currentMenu;
 
 	/**
@@ -727,16 +725,6 @@ public class WebSession
 	}
 
 	/**
-	 * Has the user ever hacked the hackable config URL
-	 * 
-	 * @return The hackable config value
-	 */
-	public boolean completedHackableConfig()
-	{
-		return ( completedHackableConfig );
-	}
-		
-	/**
 	 * Gets the authenticated attribute of the WebSession object
 	 * 
 	 * @return The authenticated value
@@ -1113,14 +1101,6 @@ public class WebSession
 		{
 			completedHackableAdmin = true;
 		}
-	}
-
-	public void setHasHackableConfig ( String url)
-	{
-		if ( url.indexOf("config") >= 0)
-		{
-			completedHackableConfig = true;
-		}	
 	}
 	
 	/**
