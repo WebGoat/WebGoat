@@ -39,7 +39,7 @@ import org.owasp.webgoat.session.ECSFactory;
  * @author sherif
  *
  */
-public class XMLInjection extends LessonAdapter {
+public class XPATHInjection extends LessonAdapter {
 
 	private final static Integer DEFAULT_RANKING = new Integer(74);
 	private final static String USERNAME = "Username";
@@ -99,7 +99,7 @@ public class XMLInjection extends LessonAdapter {
 				return ec;
 			}
 			
-			String dir = s.getContext().getRealPath( "/lessons/XMLInjection/EmployeesData.xml" );
+			String dir = s.getContext().getRealPath( "/lessons/XPATHInjection/EmployeesData.xml" );
 			File d = new File( dir );
 			XPathFactory  factory = XPathFactory.newInstance();
 			XPath xPath = factory.newXPath();
@@ -195,7 +195,7 @@ public class XMLInjection extends LessonAdapter {
 
 	public String getTitle() {
 		
-		return "How to Perform XML Injection";
+		return "How to Perform XPATH Injection";
 	}
 
 }
