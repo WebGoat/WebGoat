@@ -77,6 +77,7 @@ public class HttpSplitting extends LessonAdapter {
 			if (Arrays.binarySearch(arrTokens, "CONTENT-LENGTH: 0") >= 0 &&
 					Arrays.binarySearch(arrTokens, "HTTP/1.1 200 OK") >= 0 )	
 			{	
+				ec.addElement("HTTP/1.1 200 OK" + System.getProperty("line.separator") + "test");
 				makeSuccess( s );
 			}
 		}

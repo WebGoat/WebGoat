@@ -104,6 +104,8 @@ public abstract class AbstractLesson extends Screen implements Comparable
 	 */
 	public final static Category WEB_SERVICES = new Category( "Web Services", new Integer( 1110 ) );
 	
+	public final static Category AJAX_SECURITY = new Category( "AJAX Security", new Integer( 1150 ) );
+	
 	public final static Category NEW_LESSON = new Category ( "New Lessons" , new Integer ( 1210 ) );
 
 	public final static Category ADMIN_FUNCTIONS = new Category( "Admin Functions", new Integer( 10 ) );
@@ -162,6 +164,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
 		categories.add(A9);
 		categories.add(A10);
 		categories.add(WEB_SERVICES);
+		categories.add(AJAX_SECURITY);
 		categories.add(NEW_LESSON);
 		categories.add(ADMIN_FUNCTIONS);
 		categories.add(GENERAL);
