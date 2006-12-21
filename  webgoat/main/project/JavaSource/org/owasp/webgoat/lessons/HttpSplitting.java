@@ -1,4 +1,6 @@
 package org.owasp.webgoat.lessons;
+import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.*;
 
 import org.apache.ecs.*;
@@ -42,14 +44,14 @@ public class HttpSplitting extends LessonAdapter {
 	protected Element createContent(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-		StringBuffer lang = null;
+		String lang = null;
 		
 		try
 		{
 			//add the text
 			ec.addElement( new StringElement( "Search by country : " ) );
 
-			lang = new StringBuffer( s.getParser().getStringParameter( LANGUAGE, "" ) );
+			lang = URLDecoder.decode(s.getParser().getRawParameter( LANGUAGE, "" )) ;
 			
 			//add the search by field
 			Input input = new Input( Input.TEXT, LANGUAGE, lang.toString() );
@@ -71,13 +73,31 @@ public class HttpSplitting extends LessonAdapter {
 		if ( lang.length() != 0 && fromRedirect.length() != 0 )
 		{	
 			//Split by the line separator line.separator is platform independant
-			String[] arrTokens = lang.toString().toUpperCase().split(System.getProperty("line.separator"));
+			String lineSep = System.getProperty("line.separator");
+			String[] arrTokens = lang.toString().toUpperCase().split(lineSep);
 			
 			//Check if the user ended the first request and wrote the second malacious reply
+			
 			if (Arrays.binarySearch(arrTokens, "CONTENT-LENGTH: 0") >= 0 &&
 					Arrays.binarySearch(arrTokens, "HTTP/1.1 200 OK") >= 0 )	
 			{	
-				ec.addElement("HTTP/1.1 200 OK" + System.getProperty("line.separator") + "test");
+				try
+				{
+					//ec.addElement("HTTP/1.1 200 OK" + System.getProperty("line.separator") + "<html>test</html>");
+					//s.getResponse().setContentType("text/html");
+					//s.getResponse().setHeader("Cache-Control", "no-cache");
+					PrintWriter out = new PrintWriter(s.getResponse().getOutputStream());
+					out.print(lang.substring(lang.indexOf("HTTP/1.1")));	
+					out.flush();
+					out.close();
+					
+					//we gotta set it manually here so that we don't throw an exception
+					getLessonTracker(s).setCompleted(true);
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
 				makeSuccess( s );
 			}
 		}
@@ -101,7 +121,7 @@ public class HttpSplitting extends LessonAdapter {
 	
 	}
 
-	private final static Integer DEFAULT_RANKING = new Integer(10);
+	private final static Integer DEFAULT_RANKING = new Integer(20);
 
 	protected Integer getDefaultRanking()
 	{

@@ -8,32 +8,17 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.BR;
-import org.apache.ecs.html.Form;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
-import org.apache.ecs.html.Button;
-import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
 public class DOMInjection extends LessonAdapter {
 
 	private final static Integer DEFAULT_RANKING = new Integer(10);
 	private final static String KEY = "key";
-	/*public void handleRequest( WebSession s )
-	{
-		//Setting a special action to be able to submit to redirect.jsp
-		Form form = new Form( "/WebGoat/lessons/AJAXSecurity/DOMInjection.jsp?" +
-				        "Screen=" + String.valueOf(getScreenId()) +
-				        "&menu=" + getDefaultCategory().getRanking().toString()
-				        , Form.POST ).setName( "form" ).setEncType( "" );
-
-		form.addElement( createContent( s ) );
-
-        setContent(form);
-	}*/
 	
 	protected Element createContent(WebSession s) {
 		
@@ -68,7 +53,6 @@ public class DOMInjection extends LessonAdapter {
 		String lineSep = System.getProperty("line.separator");
 		String script  =  "<script>" + lineSep +
 			"function validate() {" + lineSep +
-			"alert('we are here');" + lineSep +
 			"var keyField = document.getElementById('key');" + lineSep +
 			"var url = '/WebGoat/attack?Screen=" + String.valueOf(getScreenId()) +
 			"&menu=" + getDefaultCategory().getRanking().toString() +
@@ -126,25 +110,21 @@ public class DOMInjection extends LessonAdapter {
 		return ec ;
 	}
 
-	@Override
 	public Element getCredits() {
 
 		return new StringElement("This screen created by: Sherif Koussa");
 	}
 
-	@Override
 	protected Category getDefaultCategory() {
 		
 		return AJAX_SECURITY;
 	}
 
-	@Override
 	protected Integer getDefaultRanking() {
 		
 		return DEFAULT_RANKING;
 	}
 
-	@Override
 	protected List getHints() {
 		
 		List<String> hints = new ArrayList<String>();
@@ -154,9 +134,7 @@ public class DOMInjection extends LessonAdapter {
 		return hints;
 	}
 
-	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
 		return "DOM Injection";
 	}
 

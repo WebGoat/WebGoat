@@ -1,0 +1,205 @@
+package org.owasp.webgoat.lessons;
+
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ecs.Element;
+import org.apache.ecs.ElementContainer;
+import org.apache.ecs.html.BR;
+import org.apache.ecs.html.Form;
+import org.apache.ecs.html.H1;
+import org.apache.ecs.html.Input;
+import org.apache.ecs.html.TD;
+import org.apache.ecs.html.TH;
+import org.apache.ecs.html.TR;
+import org.apache.ecs.html.Table;
+import org.apache.ecs.html.Div;
+import org.apache.ecs.StringElement;
+
+import org.owasp.webgoat.session.WebSession;
+
+public class XMLInjection extends LessonAdapter {
+
+	private final static Integer DEFAULT_RANKING = new Integer(20);
+	private final static String ACCOUNTID = "accountID";
+
+
+	public void handleRequest(WebSession s) {
+		
+		try 
+		{
+			if(s.getParser().getRawParameter("from", "").equals("ajax"))
+			{
+				if(s.getParser().getRawParameter(ACCOUNTID, "").equals("836239"))
+				{
+					String lineSep = System.getProperty("line.separator");
+					String xmlStr = "<root>" + lineSep +
+					"<reward>WebGoat t-shirt 20 Pts</reward>" + lineSep +
+					"<reward>WebGoat Secure Kettle 50 Pts</reward>" + lineSep +
+					"<reward>WebGoat Mug 30 Pts</reward>" + lineSep + 
+					"</root>";
+					s.getResponse().setContentType("text/xml");
+					s.getResponse().setHeader("Cache-Control", "no-cache");
+					PrintWriter out = new PrintWriter(s.getResponse().getOutputStream());
+					out.print(xmlStr);	
+					out.flush();
+					out.close();
+					return;
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		Form form = new Form( getFormAction(), Form.POST ).setName( "form" ).setEncType( "" );
+
+		form.addElement( createContent( s ) );
+
+        setContent(form);
+
+	}
+
+	protected Element createContent(WebSession s) {
+		ElementContainer ec = new ElementContainer();
+		boolean isDone = false;
+		
+		if (s.getParser().getRawParameter("done", "").equals("yes"))
+		{
+			isDone = true;
+		}
+		String lineSep = System.getProperty("line.separator");
+		String script  =  "<script>" + lineSep +
+			"function getRewards() {" + lineSep +
+			"var accountIDField = document.getElementById('" + ACCOUNTID + "');" + lineSep +
+			"if (accountIDField.value.length < 6 ) { return; }" + lineSep +
+			"var url = '/WebGoat/attack?Screen=" + String.valueOf(getScreenId()) +
+			"&menu=" + getDefaultCategory().getRanking().toString() +
+			"&from=ajax&" + ACCOUNTID + "=' + encodeURIComponent(accountIDField.value);" + lineSep +	        
+			"if (typeof XMLHttpRequest != 'undefined') {" + lineSep +
+			"req = new XMLHttpRequest();" + lineSep +
+			"} else if (window.ActiveXObject) {" + lineSep +
+			"req = new ActiveXObject('Microsoft.XMLHTTP');" + lineSep +
+			"   }" + lineSep +
+			"   req.open('GET', url, true);" + lineSep +
+			"   req.onreadystatechange = callback;" + lineSep +
+			"   req.send(null);" + lineSep +
+			"}" + lineSep +
+			"function callback() {" + lineSep +
+			"    if (req.readyState == 4) { " + lineSep +
+			"        if (req.status == 200) { " + lineSep +
+			"            var rewards = req.responseXML.getElementsByTagName('root')[0];" + lineSep +
+			"			 var rewardsDiv = document.getElementById('rewardsDiv');" + lineSep +
+			"				rewardsDiv.innerHTML = '';" + lineSep +
+			"				var strHTML='';"+ lineSep +
+			"				strHTML = '<tr><td>&nbsp;</td><td>Rewards</td></tr>';" + lineSep +
+			"			 for(var i=0; i<rewards.childNodes.length; i++){" + lineSep +
+			"				var node = rewards.childNodes[i];" + lineSep +
+			"				strHTML = strHTML + '<tr><td><input name=\"check' + i +'\" type=\"checkbox\"></td><td>';" + lineSep +
+			"			    strHTML = strHTML + node.childNodes[0].nodeValue + '</td></tr>';" + lineSep +
+			"			 }" + lineSep +
+			"				strHTML = '<table>' + strHTML + '</table>';" + lineSep +
+			"               rewardsDiv.innerHTML = strHTML;"+ lineSep +
+			//"				if (rewards.childNodes.length>3){" + lineSep +
+			//"   				makeSuccess();" + lineSep +
+			//"				}" + lineSep +
+			"        }}}" + lineSep +
+			//"function makeSuccess(){" + lineSep +
+			//"var url = '/WebGoat/attack?Screen=" + String.valueOf(getScreenId()) +
+			//"&menu=" + getDefaultCategory().getRanking().toString() +
+			//"&from=ajax&done=yes';" + lineSep +	        
+			//"   req.open('GET', url, true);" + lineSep +
+			//"   req.send(null);" + lineSep +
+			//"}" + lineSep +
+			"</script>" + lineSep;
+		
+		if (!isDone)
+		{
+			ec.addElement( new StringElement(script));
+		}
+		ec.addElement( new BR().addElement (new H1().addElement( "Welcome to WebGoat-Miles Reward Miles Program.")));
+		ec.addElement( new BR());
+		
+		Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("center");
+		
+		
+		TR tr = new TR();			
+		
+		tr = new TR();
+		
+		tr.addElement( new TD("Please enter your account ID:") );
+		
+		Input input1 = new Input( Input.TEXT, ACCOUNTID, "" );
+		input1.addAttribute("onkeyup", "getRewards();");
+		
+		tr.addElement( new TD(input1));
+		t1.addElement( tr );
+
+		ec.addElement(t1);
+		ec.addElement(new BR());
+		ec.addElement(new BR());
+		ec.addElement(new BR());
+		
+		Div div = new Div();
+		div.addAttribute("name", "rewardsDiv");
+		div.addAttribute("id", "rewardsDiv");
+		ec.addElement(div);
+		
+		Input b = new Input();
+		b.setType( Input.SUBMIT );
+		b.setValue( "Submit" );
+		b.setName("SUBMIT");
+		ec.addElement(b);
+		
+		if (s.getParser().getRawParameter("SUBMIT", "")!= "")
+		{
+			if(s.getParser().getRawParameter("check3", "") != "")
+			{
+				makeSuccess(s);	
+			}
+			
+		}
+		
+		return ec;
+	}
+
+	protected Element makeSuccess(WebSession s) 
+	{	    
+	    getLessonTracker( s ).setCompleted( true );
+	    
+	    s.setMessage("Congratulations. You have successfully completed this lesson.");
+	    
+	    return ( null );
+	}
+	
+	public Element getCredits() {
+		
+		return new StringElement("Created by Sherif Koussa");
+	}
+
+	protected Category getDefaultCategory() {
+		
+		return AJAX_SECURITY;
+	}
+
+	protected Integer getDefaultRanking() {
+
+		return DEFAULT_RANKING;
+	}
+
+	protected List getHints() {
+		
+		List<String> hints = new ArrayList<String>();
+		hints.add( "This page is using XMLHTTP to comunicate with the server." );
+		hints.add( "Try to intercept the reply and check the reply." );
+		hints.add( "Intercept the reply and try to inject some XML to add more rewards to yourself." );
+		return hints;
+	}
+
+	public String getTitle() {
+		return "XML Injection";
+	}
+
+}
