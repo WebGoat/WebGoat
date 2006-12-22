@@ -11,7 +11,6 @@ import org.apache.ecs.html.Form;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
-import org.apache.ecs.html.TH;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.apache.ecs.html.Div;
@@ -102,17 +101,7 @@ public class XMLInjection extends LessonAdapter {
 			"			 }" + lineSep +
 			"				strHTML = '<table>' + strHTML + '</table>';" + lineSep +
 			"               rewardsDiv.innerHTML = strHTML;"+ lineSep +
-			//"				if (rewards.childNodes.length>3){" + lineSep +
-			//"   				makeSuccess();" + lineSep +
-			//"				}" + lineSep +
 			"        }}}" + lineSep +
-			//"function makeSuccess(){" + lineSep +
-			//"var url = '/WebGoat/attack?Screen=" + String.valueOf(getScreenId()) +
-			//"&menu=" + getDefaultCategory().getRanking().toString() +
-			//"&from=ajax&done=yes';" + lineSep +	        
-			//"   req.open('GET', url, true);" + lineSep +
-			//"   req.send(null);" + lineSep +
-			//"}" + lineSep +
 			"</script>" + lineSep;
 		
 		if (!isDone)

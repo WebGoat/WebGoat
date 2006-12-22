@@ -83,9 +83,6 @@ public class HttpSplitting extends LessonAdapter {
 			{	
 				try
 				{
-					//ec.addElement("HTTP/1.1 200 OK" + System.getProperty("line.separator") + "<html>test</html>");
-					//s.getResponse().setContentType("text/html");
-					//s.getResponse().setHeader("Cache-Control", "no-cache");
 					PrintWriter out = new PrintWriter(s.getResponse().getOutputStream());
 					out.print(lang.substring(lang.indexOf("HTTP/1.1")));	
 					out.flush();
