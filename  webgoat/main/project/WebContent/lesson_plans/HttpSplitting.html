@@ -13,7 +13,18 @@ The attacker passes malacious code to the web server together with normal input.
 A victim application will not be checking for CR (carriage return, also given by %0d or \r) 
 and LF (line feed, also given by %0a or \n)characters. These characters not only give attackers control 
 of the remaining headers and body of the response the application intends to send, 
-but also allows them to create additional responses entirely under their control
+but also allows them to create additional responses entirely under their control.<br>
+The effect of an HTTP Splitting attack is maximized when accompanied with a Cache Poisining. The goal of<br>
+Cache Poisining attack is to poison the cache of the victim by fooling the cache to believe that the page<br>
+hijacked using the HTTP splitting is a good one and it is indeed the server's copy.<br>
+The attack happens using the HTTP Splitting attack plus adding the <b>Last-Modified:</b> header and setting it<br>
+to a future date. This will force the browser to send <b>If-Modified-Since</b> request header, which gives the attacker<br>
+the chance to intercept the server's reply and replace it with a '304 Not Modified' reply. A sample of a 304 response is:<br>
+HTTP/1.1 304 Not Modified 
+Date: Fri, 30 Dec 2005 17:32:47 GMT
+
+
+
 </div>
 <p><b>General Goal(s):</b> </p>
 <!-- Start Instructions -->
@@ -22,4 +33,5 @@ but also allows them to create additional responses entirely under their control
 * You should be able to use the CR (%0d) and LF (%0a) to exploit the attack.<br>
 * Your excercise should be to force the server to send a 200 OK. <br>
 * If the screen changed as an effect to your attack, just go back to the homepage where you will find the lesson completed if you successfully exploited the attack.
+
 <!-- Stop Instructions -->
