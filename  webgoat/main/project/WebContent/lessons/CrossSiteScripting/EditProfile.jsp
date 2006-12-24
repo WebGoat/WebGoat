@@ -128,6 +128,7 @@
 	 						<input type="submit" name="action" value="<%=CrossSiteScripting.LOGOUT_ACTION%>"/>
 						</td>
                  	</tr>
-              	</table>			
+              	</table>
+              	</div>			
 			</form>
 		</div>	
