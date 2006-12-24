@@ -48,7 +48,7 @@ public class ListStaff extends DefaultLessonAction
 	{
 		// Query the database for all employees "owned" by the given employee
 		
-		List employees = new Vector();
+		List<EmployeeStub> employees = new Vector<EmployeeStub>();
 		
 		try
 		{
@@ -92,7 +92,7 @@ public class ListStaff extends DefaultLessonAction
 	{
 		// Query the database for all employees "owned" by the given employee
 		
-		List employees = new Vector();
+		List<EmployeeStub> employees = new Vector<EmployeeStub>();
 		
 		try
 		{

@@ -183,7 +183,7 @@ public class Challenge2Screen extends LessonAdapter
 		// pull the USER_COOKIE from the cookies
 		String user = getCookie(s);
 		String query = "SELECT * FROM user_data WHERE last_name = '" + user +"'";
-		Vector v = new Vector();
+		Vector<String> v = new Vector<String>();
 		try 
 		{ 
 			ResultSet results = statement3.executeQuery( query );

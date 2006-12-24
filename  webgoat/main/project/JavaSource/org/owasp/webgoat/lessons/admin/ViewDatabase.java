@@ -103,7 +103,7 @@ public class ViewDatabase extends LessonAdapter
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
+		List<String> hints = new ArrayList<String>();
 		hints.add( "There are no hints defined" );
 
 		return hints;

@@ -70,7 +70,7 @@ public class StoredXss extends LessonAdapter
 			statement.setString(2, title);
 			statement.setString(3, message);
 			statement.setString(4, s.getUserName());
-			ResultSet results = statement.executeQuery();
+			statement.executeQuery();
 		}
 		catch ( Exception e )
 		{

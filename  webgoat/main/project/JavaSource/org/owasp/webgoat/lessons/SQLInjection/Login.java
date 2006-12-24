@@ -166,7 +166,7 @@ public class Login extends DefaultLessonAction
 	
 	public List getAllEmployees(WebSession s)
 	{
-		List employees = new Vector();
+		List<EmployeeStub> employees = new Vector<EmployeeStub>();
 		
 		// Query the database for all roles the given employee belongs to
 		// Query the database for all employees "owned" by these roles
