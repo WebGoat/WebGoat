@@ -130,7 +130,7 @@ public class DOMInjection extends LessonAdapter {
 		List<String> hints = new ArrayList<String>();
 		hints.add( "This page is using XMLHTTP to comunicate with the server." );
 		hints.add( "Try to find a way to inject the DOM to enable the Activate button." );
-		hints.add( "Intercept the reply and add document.forms[0].SUBMIT.disabled = false;" );
+		hints.add( "Intercept the reply and replace the body withx document.forms[0].SUBMIT.disabled = false;" );
 		return hints;
 	}
 
