@@ -104,7 +104,8 @@ public class LogSpoofing extends LessonAdapter {
 		List<String> hints = new ArrayList<String>();
 		hints.add( "Try to fool the humane eye by using new lines." );
 		hints.add( "Use CR (%0d) and LF (%0a) for a new line." );
-		hints.add( "Try: fooledYa%0d%0aLogin Succeeded for username: admin" );
+		hints.add( "Try: Smith%0d%0aLogin Succeeded for username: admin" );
+		hints.add( "Try: Smith%0d%0aLogin Succeeded for username: admin&lt;script&gt;alert(document.cookie)&lt;/script&gt;" );
 
 		return hints;
 	}

@@ -128,9 +128,8 @@ public class HttpOnly extends LessonAdapter {
 	 */
 	protected List getHints()
 	{
-		List hints = new ArrayList();
-		
-		
+		List<String> hints = new ArrayList<String>();
+		hints.add( "Read the directions and try out the buttons." );
 		return hints;
 	}
 	
