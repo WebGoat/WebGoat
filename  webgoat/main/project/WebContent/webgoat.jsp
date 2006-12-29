@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>WebGoat V4</title>
+<title>WebGoat V5</title>
 <link rel="stylesheet" href="css/webgoat.css" type="text/css" />
 </head>
 
@@ -25,20 +25,18 @@
                   <td width="50%"><div align="center"><span class="style1">Lesson Contributers </span></div></td>
                 </tr>
                 <tr>
-                  <td rowspan="6" valign="top">
-                  	<div align="center" class="style2">Jeff Williams</div>                    
+                  <td rowspan="4" valign="top">
 	                 <div align="center" class="style2">Bruce Mayhew</div>                    
 	                 <div align="center" class="style2">Laurence Casey</div>                    
 	                 <div align="center" class="style2">David Anderson</div>                    
 	                 <div align="center" class="style2">Eric Sheridan</div>
-	                 <div align="center" class="style2">Dave Wichers</div>
 	              </td>
                   <td><div align="center" class="style2">Aspect Security <br />
                   (http://www.aspectsecurity.com) </div></td>
                 </tr>
                 <tr>
-                  <td><div align="center" class="style2">Alex Smolen <br />
-                  (http://www.parasoft.com) </div></td>
+                  <td><div align="center" class="style2">Alex Smolen <br /></div>
+                  </td>
                 </tr>
                 <tr>
                   <td><div align="center" class="style2">Rogan Dawes <br />
@@ -49,18 +47,32 @@
                   (http://www.securityfoundry.com) </div></td>
                 </tr>
                 <tr>
+                  <td height="25" valign="bottom"><div align="center"><span class="style1">Special Thanks for V5</span></div></td>
                   <td height="25" valign="bottom"><div align="center"><span class="style1">Documentation Contributer</span></div></td>
                 </tr>
                 <tr>
+                  <td><div align="center" class="style2">Sherif Kousa<br /></div>
+                  </td>
                   <td><div align="center" class="style2">Robert Sullivan<br />
                   (http://www.unitedhealthgroup.com/) </div></td>
                 </tr>
+                <tr>
+                  <td><div align="center" class="style2">OWASP Autumn of Code<br />
+                  (http://www.owasp.org/) </div></td>
+                  <td><div align="center" class="style2">Sherif Kousa<br /></div>
+                  </td>
+                </tr>
+                 <tr>
+                  <td><div align="center" class="style2">To all who have sent comments</div></td>
+                </tr>
+                <tr>
+                  <td colspan = "2"><div align="center" class="style2">			
+                      <form id="form" name="form" method="post" action="attack">
+    			            <input type="submit" name="start" value="Start" />
+			          </form>
+                  </td>
+                </tr>
             </table>
-			<form id="form" name="form" method="post" action="attack">
-	    			<div align="center">  
-    			        <input type="submit" name="start" value="Start" />
-	    			</div>
-			</form>
 		  </div>
 	  </div>
 		<div id="warning"> WARNING<br /> 
