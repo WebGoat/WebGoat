@@ -56,7 +56,7 @@ public class XPATHInjection extends LessonAdapter {
 			Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("center");
 			
 			TR tr = new TR();
-			tr.addElement( new TH().addElement("Please input your username and password to view your profile.").setColSpan(2).setAlign("left"));
+			tr.addElement( new TH().addElement("Please confirm your username and password before viewing your profile.").setColSpan(2).setAlign("left"));
 			t1.addElement(tr);
 			
 			tr = new TR();
@@ -189,7 +189,7 @@ public class XPATHInjection extends LessonAdapter {
 		hints.add( "Remember that the data is stored in XML format." );
 		hints.add( "The system is using XPath to query." );
 		hints.add( "XPath is almost the same thing as SQL, the same hacking techniques apply too." );
-		hints.add( "Try username: tricked' or 1=1 or 'a'='a and a password: trickedya " );
+		hints.add( "Try username: Smtih' or 1=1 or 'a'='a and a password: anything " );
 		return hints;
 	}
 
