@@ -2,19 +2,25 @@ package org.owasp.webgoat.lessons;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Form;
 import org.apache.ecs.html.H1;
+import org.apache.ecs.html.H3;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.apache.ecs.html.Div;
+import org.apache.ecs.vxml.Initial;
 import org.apache.ecs.StringElement;
+
 
 import org.owasp.webgoat.session.WebSession;
 
@@ -23,7 +29,39 @@ public class XMLInjection extends LessonAdapter {
 	private final static Integer DEFAULT_RANKING = new Integer(20);
 	private final static String ACCOUNTID = "accountID";
 
+	public static HashMap rewardsMap = new HashMap();
+	
+	protected static HashMap init()
+	{
+		Reward r = new Reward();
+		
+		r.setName("WebGoat t-shirt");
+		r.setPoints(50);
+		rewardsMap.put( 1001 , r);
 
+		r = new Reward();
+		r.setName("WebGoat Secure Kettle");
+		r.setPoints(30);
+		rewardsMap.put( 1002 , r);
+
+		r = new Reward();
+		r.setName("WebGoat Mug");
+		r.setPoints(20);
+		rewardsMap.put( 1003 , r);
+
+		r = new Reward();
+		r.setName("WebGoat Core Duo Laptop");
+		r.setPoints(2000);
+		rewardsMap.put( 1004 , r);
+
+		r = new Reward();
+		r.setName("WebGoat Hawaii Cruise");
+		r.setPoints(3000);
+		rewardsMap.put( 1005 , r);
+		
+		return rewardsMap;
+}
+	
 	public void handleRequest(WebSession s) {
 		
 		try 
@@ -64,6 +102,7 @@ public class XMLInjection extends LessonAdapter {
 	protected Element createContent(WebSession s) {
 		ElementContainer ec = new ElementContainer();
 		boolean isDone = false;
+		init();
 		
 		if (s.getParser().getRawParameter("done", "").equals("yes"))
 		{
@@ -93,13 +132,14 @@ public class XMLInjection extends LessonAdapter {
 			"			 var rewardsDiv = document.getElementById('rewardsDiv');" + lineSep +
 			"				rewardsDiv.innerHTML = '';" + lineSep +
 			"				var strHTML='';"+ lineSep +
-			"				strHTML = '<tr><td>&nbsp;</td><td>Rewards</td></tr>';" + lineSep +
-			"			 for(var i=0; i<rewards.childNodes.length; i++){" + lineSep +
+			"				strHTML = '<tr><td>&nbsp;</td><td><b>Rewards</b></td></tr>';" + lineSep +
+			"			 for(var i=0; i< rewards.childNodes.length; i++){" + lineSep +
 			"				var node = rewards.childNodes[i];" + lineSep +
-			"				strHTML = strHTML + '<tr><td><input name=\"check' + i +'\" type=\"checkbox\"></td><td>';" + lineSep +
+			"				strHTML = strHTML + '<tr><td><input name=\"check' + (i+1001) +'\" type=\"checkbox\"></td><td>';" + lineSep +
 			"			    strHTML = strHTML + node.childNodes[0].nodeValue + '</td></tr>';" + lineSep +
 			"			 }" + lineSep +
 			"				strHTML = '<table>' + strHTML + '</table>';" + lineSep +
+			"				strHTML = 'Your account balance is now 100 points<br><br>' + strHTML;" + lineSep + 
 			"               rewardsDiv.innerHTML = strHTML;"+ lineSep +
 			"        }}}" + lineSep +
 			"</script>" + lineSep;
@@ -111,13 +151,30 @@ public class XMLInjection extends LessonAdapter {
 		ec.addElement( new BR().addElement (new H1().addElement( "Welcome to WebGoat-Miles Reward Miles Program.")));
 		ec.addElement( new BR());
 		
-		Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("center");
+		ec.addElement( new BR().addElement (new H3().addElement( "Rewards available through the program:")));
+		ec.addElement( new BR());
+		Table t2 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("center");
+		TR trRewards = null;
 		
+		for (int i=1001; i< 1001 + rewardsMap.size() ; i++)
+		{
+			trRewards = new TR();
+			Reward r = (Reward)rewardsMap.get(i);
+			trRewards.addElement( new TD("-" + r.getName() + r.getPoints() + " Pts") );
+			t2.addElement( trRewards);
+		}
+
+		ec.addElement( t2 );
+		
+		ec.addElement( new BR());
+
+		ec.addElement( new H3().addElement( "Redeem your points:"));
+		ec.addElement( new BR());
+		
+		Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("center");		
 		
 		TR tr = new TR();			
-		
-		tr = new TR();
-		
+			
 		tr.addElement( new TD("Please enter your account ID:") );
 		
 		Input input1 = new Input( Input.TEXT, ACCOUNTID, "" );
@@ -144,9 +201,23 @@ public class XMLInjection extends LessonAdapter {
 		
 		if (s.getParser().getRawParameter("SUBMIT", "")!= "")
 		{
-			if(s.getParser().getRawParameter("check3", "") != "")
+			if(s.getParser().getRawParameter("check1004", "") != "")
 			{
 				makeSuccess(s);	
+			}
+			else
+			{
+				StringBuffer shipment = new StringBuffer();
+				for (int i=1001; i< 1001 + rewardsMap.size() ; i++)
+				{
+					
+					if (s.getParser().getRawParameter("check" + i, "") != "")
+					{
+						shipment.append( ((Reward)rewardsMap.get(i)).getName() + "<br>" );
+					}
+				}
+				shipment.insert(0, "<br><br><b>The following items will be shipped to your address:</b><br>");
+				ec.addElement( new StringElement(shipment.toString()));
 			}
 			
 		}
@@ -190,5 +261,23 @@ public class XMLInjection extends LessonAdapter {
 	public String getTitle() {
 		return "XML Injection";
 	}
-
+	
+	static class Reward
+	{
+		private String name;
+		private int points;
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public int getPoints() {
+			return points;
+		}
+		public void setPoints(int points) {
+			this.points = points;
+		}
+		
+	}
 }

@@ -21,7 +21,7 @@ import org.owasp.webgoat.session.WebSession;
 
 public class SilentTransactions extends LessonAdapter {
 	private final static Integer DEFAULT_RANKING = new Integer(40);
-
+	private final static Double CURRENT_BALANCE = 11987.09;
 	/**
 	 *  Copyright (c) 2002 Free Software Foundation developed under the 
 	 *  custody of the Open Web Application Security Project 
@@ -54,7 +54,7 @@ public class SilentTransactions extends LessonAdapter {
 					s.getResponse().setContentType("text/html");
 					s.getResponse().setHeader("Cache-Control", "no-cache");
 					PrintWriter out = new PrintWriter(s.getResponse().getOutputStream());
-					out.print("<br><br>The transaction had been completed successfully.");	
+					out.print("<br><br>The Transaction has Completed Successfully.");	
 					out.flush();
 					out.close();
 					return;
@@ -96,9 +96,18 @@ public class SilentTransactions extends LessonAdapter {
 			" alert('Please enter a valid amount to transfer.')" + lineSep +
 			" return;" + lineSep +
 			"}" + lineSep +
+			" var balanceValue = document.getElementById('balanceID').innerText;" + lineSep +
+			" balanceValue = balanceValue.replace( new RegExp('$') , '');" + lineSep +
+			" if ( parseFloat(amount) > parseFloat(balanceValue) ) {" + lineSep +
+			" alert('You can not transfer more funds than what is available in your balance.')" + lineSep +
+			" return;" + lineSep +
+			"}" + lineSep +
 			" document.getElementById('confirm').value  = 'Transferring'" + lineSep +
 			"submitData(accountNo, amount);" + lineSep +
 			" document.getElementById('confirm').value  = 'Confirm'" + lineSep +
+			"balanceValue = parseFloat(balanceValue) - parseFloat(amount);" + lineSep +
+			"balanceValue = balanceValue.toFixed(2);" + lineSep +
+			"document.getElementById('balanceID').innerText = balanceValue + '$';" + lineSep +
 			"}" + lineSep +
 			"function submitData(accountNo, balance) {" + lineSep +
 			"var url = '/WebGoat/attack?Screen=" + String.valueOf(getScreenId()) +
@@ -131,26 +140,12 @@ public class SilentTransactions extends LessonAdapter {
 		Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(1).setWidth("70%").setAlign("left");
 		ec.addElement( new BR() );
 		TR tr = new TR();			
-		tr.addElement( new TD( new StringElement( "Account Number" ) ));
-		tr.addElement( new TD( new StringElement( "Account Balance" ) ));
+		tr.addElement( new TD( new StringElement( "Account Balance:" ) ));
+		tr.addElement( new TD( new StringElement( "<div id='balanceID'>" + CURRENT_BALANCE.toString() + "$</div>") ));
 		t1.addElement( tr );
 		
 		tr = new TR();
-		tr.addElement( new TD( new StringElement( "007-872108-023" )));
-		tr.addElement( new TD( new StringElement( "11983" )));
-		t1.addElement( tr );
-		
-		ec.addElement( t1 );
-		ec.addElement( new BR() );
-		ec.addElement( new BR() );
-		
-		ec.addElement( new H3("<br><br>Transfer Information:<br>"));
-		ec.addElement( new BR() );
-
-		t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(1).setWidth("70%").setAlign("left");
-		
-		tr = new TR();			
-		tr.addElement( new TD( new StringElement( "Transfer to Account:" ) ));
+		tr.addElement( new TD( new StringElement( "Transfer to Account:" )));
 		Input newAccount = new Input();
 		newAccount.setType( Input.TEXT );
 		newAccount.setName( "newAccount" );
@@ -168,6 +163,8 @@ public class SilentTransactions extends LessonAdapter {
 		t1.addElement( tr );
 		
 		ec.addElement( t1 );
+		ec.addElement( new BR() );
+		ec.addElement( new BR() );
 		
 		ec.addElement( new PRE() );
 		Input b = new Input();
@@ -197,6 +194,9 @@ public class SilentTransactions extends LessonAdapter {
 		List<String> hints = new ArrayList<String>();
 		hints.add("Check the javascript in the HTML source.");
 		hints.add("Check how the application calls a specific javascript function to execute the transaction.");
+		hints.add("Check the javascript functions processData and submitData()");
+		hints.add("Function submitData() is the one responsible for actually ececuting the transaction.");
+		hints.add("Check if your browser supports running javascript from the address bar.");
 		hints.add("Try to navigate to 'javascript:submitData(1234556,11000);'");
 		return hints;
 	
