@@ -132,7 +132,7 @@ public class CSRF extends LessonAdapter {
 	 * @param  s  Description of the Parameter
 	 * @return    Description of the Return Value
 	 */
-	public static Element makeList( WebSession s )
+	public Element makeList( WebSession s )
 	{
 		Table t = new Table( 0 ).setCellSpacing( 0 ).setCellPadding( 0 ).setBorder( 0 );
 
@@ -154,7 +154,11 @@ public class CSRF extends LessonAdapter {
 				for ( int i = 0; results.next(); i++ )
 				{
 					A a = ECSFactory.makeLink( results.getString( TITLE_COL ), NUMBER, results.getInt( NUM_COL ) );
-					TD td = new TD().addElement( a );
+					String link = "<a href='attack?" + NUMBER + "=" + results.getInt( NUM_COL ) +
+			        "&Screen=" + String.valueOf(getScreenId()) +
+			        "&menu=" + getDefaultCategory().getRanking().toString() +
+			        "' style='cursor:hand'>" +  results.getString( TITLE_COL ) + "</a>";
+					TD td = new TD().addElement( link );
 					TR tr = new TR().addElement( td );
 					t.addElement( tr );
 				}
@@ -168,6 +172,12 @@ public class CSRF extends LessonAdapter {
 		ElementContainer ec = new ElementContainer();
 		ec.addElement( new H1( "Message List" ) );
 		ec.addElement( t );
+		String transferFunds = s.getParser().getRawParameter("transferFunds" , "");
+		if (transferFunds.length() != 0)
+		{
+			makeSuccess(s);
+		}
+		
 
 		return ( ec );
 	}
@@ -220,14 +230,7 @@ public class CSRF extends LessonAdapter {
 				t.addElement( row3 );
 								
 				ec.addElement( t );
-				
-				// Some sanity checks that the script may be correct
-				
-				String transferFunds = s.getParser().getRawParameter("transferFunds" , "");
-				if (transferFunds.length() != 0)
-				{
-					makeSuccess(s);
-				}
+								
 			}
 			else
 			{
@@ -236,6 +239,7 @@ public class CSRF extends LessonAdapter {
 					ec.addElement( new P().addElement( "Could not find message " + messageNum ) );
 				}
 			}
+
 		}
 		catch ( Exception e )
 		{
@@ -265,7 +269,11 @@ public class CSRF extends LessonAdapter {
 		hints.add( "Enter some text and try to include an image in there." );
 		hints.add( "In order to make the picture almost invisible try to add width=\"1\" and height=\"1\"." );
 		hints.add( "The format of an image in html is <pre>&lt;img src=\"[URL]\" width=\"1\" height=\"1\" /&gt;</pre>");		
-
+		hints.add( "Include this URL in the message <pre>&lt;img src='http://localhost:8080/WebGoat/attack?"+
+			        "&Screen=" + String.valueOf(getScreenId()) +
+			        "&menu=" + getDefaultCategory().getRanking().toString() +
+			        "&transferFunds=5000' width=\"1\" height=\"1\" /&gt;</pre>");
+		
 		return hints;
 	}
 
