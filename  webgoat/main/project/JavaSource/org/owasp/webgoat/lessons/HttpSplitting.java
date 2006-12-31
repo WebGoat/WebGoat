@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.ecs.*;
 import org.apache.ecs.html.*;
 import org.owasp.webgoat.session.ECSFactory;
@@ -55,43 +57,47 @@ public class HttpSplitting extends LessonAdapter {
 			ec.addElement(createAttackEnvironment(s));						
 			lang = URLDecoder.decode(s.getParser().getRawParameter( LANGUAGE, "" ), "UTF-8") ;
 		
-		//Check if we are coming from the redirect page
-		String fromRedirect = s.getParser().getStringParameter ( "fromRedirect" , "");		
-		
-		if ( lang.length() != 0 && fromRedirect.length() != 0 )
-		{	
-			//Split by the line separator line.separator is platform independant
-			String lineSep = System.getProperty("line.separator");
-			String[] arrTokens = lang.toString().toUpperCase().split(lineSep);
+			//Check if we are coming from the redirect page
+			String fromRedirect = s.getParser().getStringParameter ( "fromRedirect" , "");		
 			
-			//Check if the user ended the first request and wrote the second malacious reply
-			
-			if (Arrays.binarySearch(arrTokens, "CONTENT-LENGTH: 0") >= 0 &&
-					Arrays.binarySearch(arrTokens, "HTTP/1.1 200 OK") >= 0 )	
+			if ( lang.length() != 0 && fromRedirect.length() != 0 )
 			{	
-				PrintWriter out = new PrintWriter(s.getResponse().getOutputStream());
-				out.print(lang.substring(lang.indexOf("HTTP/1.1")));	
-				out.flush();
-				out.close();
+				//Split by the line separator line.separator is platform independant
+				String lineSep = System.getProperty("line.separator");
+				String[] arrTokens = lang.toString().toUpperCase().split(lineSep);
 				
-				//we gotta set it manually here so that we don't throw an exception
-				getLessonTracker(s).setCompleted(true);
-
-				//makeSuccess( s );
-				getLessonTracker(s).setStage(2);
+				//Check if the user ended the first request and wrote the second malacious reply
 				
-				StringBuffer msg = new StringBuffer();
-				
-				msg.append("Good Job! ");
-				msg.append("This lesson has detected your successfull attack, ");
-				msg.append("time to elevate your attack to a higher level. ");
-				msg.append("Try again and add Last-Modified header, intercept");
-				msg.append("the reply and replace it with a 304 reply.");
-				
-				s.setMessage(msg.toString());
-				
+				if (Arrays.binarySearch(arrTokens, "CONTENT-LENGTH: 0") >= 0 &&
+						Arrays.binarySearch(arrTokens, "HTTP/1.1 200 OK") >= 0 )	
+				{	
+					HttpServletResponse res = s.getResponse();
+					res.setContentType( "text/html" );
+					PrintWriter out = new PrintWriter( res.getOutputStream() );
+					String message = lang.substring(lang.indexOf("<html>"));
+					
+					out.print(message);	
+					out.flush();
+					out.close();
+					
+					//we gotta set it manually here so that we don't throw an exception
+					getLessonTracker(s).setCompleted(true);
+	
+					//makeSuccess( s );
+					getLessonTracker(s).setStage(2);
+					
+					StringBuffer msg = new StringBuffer();
+					
+					msg.append("Good Job! ");
+					msg.append("This lesson has detected your successfull attack, ");
+					msg.append("time to elevate your attack to a higher level. ");
+					msg.append("Try again and add Last-Modified header, intercept");
+					msg.append("the reply and replace it with a 304 reply.");
+					
+					s.setMessage(msg.toString());
+					
+				}
 			}
-		}
 		}
 		catch (Exception e)
 		{
@@ -120,6 +126,14 @@ public class HttpSplitting extends LessonAdapter {
 		ElementContainer ec = new ElementContainer();
 		String  lang = null;
 		
+		if (getLessonTracker(s).getStage() == 1)
+		{
+			ec.addElement( new H3( "Stage 1: HTTP Splitting:<br>" ) );
+		}
+		else
+		{
+			ec.addElement( new H3( "Stage 2: Cache Poisoning:<br>" ) );
+		}
 		ec.addElement( new StringElement( "Search by country : " ) );
 
 		lang = URLDecoder.decode(s.getParser().getRawParameter( LANGUAGE, "" ), "UTF-8") ;
@@ -187,12 +201,17 @@ public class HttpSplitting extends LessonAdapter {
 
 	protected List getHints()
 	{
+		
 		List<String> hints = new ArrayList<String>();
 		hints.add( "Enter a language for the system to search by." );
 		hints.add( "Use CR (%0d) and LF (%0a) for a new line" );
 		hints.add( "The Content-Length: 0 will tell the server that the first request is over." );
 		hints.add( "A 200 OK message looks like this: HTTP/1.1 200 OK" );
 		hints.add( "Try: language=?foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Insert undesireable content here&lt;/html&gt;" );
+		hints.add( "Cache Poisoning starts with including 'Last-Modified' header in the hijacked page and setting it to a future date." );
+		hints.add( "Try language=?foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aLast-Modified:%20Mon,%2027%20Oct%202003%2014:50:18%20GMT%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Insert undesireable content here&lt;/html&gt;" );
+		hints.add( "'Last-Modified' header forces the browser to send a 'If-Modified-Since' header. Some cache servers will take the bait and keep serving the hijacked page");
+		hints.add( "Try to intercept the reply and add HTTP/1.1 304 Not Modified0d%0aDate:%20Mon,%2027%20Oct%202003%2014:50:18%20GMT");
 		return hints;
 	
 	}

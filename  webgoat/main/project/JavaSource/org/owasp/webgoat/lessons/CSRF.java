@@ -153,7 +153,6 @@ public class CSRF extends LessonAdapter {
 
 				for ( int i = 0; results.next(); i++ )
 				{
-					A a = ECSFactory.makeLink( results.getString( TITLE_COL ), NUMBER, results.getInt( NUM_COL ) );
 					String link = "<a href='attack?" + NUMBER + "=" + results.getInt( NUM_COL ) +
 			        "&Screen=" + String.valueOf(getScreenId()) +
 			        "&menu=" + getDefaultCategory().getRanking().toString() +
