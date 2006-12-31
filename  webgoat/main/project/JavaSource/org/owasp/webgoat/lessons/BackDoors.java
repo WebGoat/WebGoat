@@ -3,6 +3,7 @@ package org.owasp.webgoat.lessons;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.Statement;
 
@@ -15,6 +16,9 @@ import org.apache.ecs.html.Span;
 import org.apache.ecs.html.Div;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.BR;
+import org.apache.ecs.html.TD;
+import org.apache.ecs.html.TR;
+import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.WebSession;
 
@@ -23,7 +27,7 @@ public class BackDoors extends LessonAdapter {
 	private static Connection connection = null;
 	private final static Integer DEFAULT_RANKING = new Integer(80);
 	private final static String USERNAME = "username";
-	
+	private final static String SELECT_ST = "select userid, password, ssn, salary from employee where userid=";
 	protected Element createContent( WebSession s )
 	{
 		return super.createStagedContent(s);
@@ -51,16 +55,35 @@ public class BackDoors extends LessonAdapter {
 			String userInput = s.getParser().getRawParameter(USERNAME, "");
 			if (!userInput.equals(""))
 			{
+				userInput = SELECT_ST + userInput;
 				String[] arrSQL = userInput.split(";");
+				Connection conn = getConnection(s);
+				Statement statement = conn.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
 				if (arrSQL.length == 2)
 				{
-					Connection conn = getConnection(s);
-					Statement statement = conn.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
 					statement.executeUpdate( arrSQL[1] );
 					
-					makeSuccess(s);
 					getLessonTracker(s).setStage(2);
 					s.setMessage("You have succeeded in exploiting the vulnerable query and created another SQL statement. Now move to stage 2 to learn how to create a backdoor or a DB worm");
+				}
+				
+				ResultSet rs = statement.executeQuery( arrSQL[0]);
+				if (rs.next())
+				{
+					Table t = new Table( 0 ).setCellSpacing( 0 ).setCellPadding( 0 ).setBorder( 1 );
+					TR tr = new TR();
+					tr.addElement( new TD("User ID"));
+					tr.addElement( new TD("Password"));
+					tr.addElement( new TD("SSN"));
+					tr.addElement( new TD("Salary"));
+					t.addElement(tr);
+					tr = new TR();
+					tr.addElement( new TD(rs.getString("userid")));
+					tr.addElement( new TD(rs.getString("password")));
+					tr.addElement( new TD(rs.getString("ssn")));
+					tr.addElement( new TD(rs.getString("salary")));
+					t.addElement(tr);
+					ec.addElement(t);
 				}
 			}
 		}
@@ -105,8 +128,8 @@ public class BackDoors extends LessonAdapter {
 				instructions = "Stage " + getStage(s) + ": Use String SQL Injection to execute more than one SQL Statement. ";
 				instructions = instructions + " The first stage of this lesson is to teach you how to use a vulnerable field to create two SQL ";
 				instructions = instructions + " statements. The first is the system's while the second is totally yours.";
-				instructions = instructions + " Try to enter something in the email field and it will get updated in the rectangle below,";
-				instructions = instructions + " to see the actual SQL statement that will be executed. Try to execute an update statement";
+				instructions = instructions + " Your account ID is 101. This page allows you to see your password, ssn and salary.";
+				instructions = instructions + "  Try to inject another update to update salary to something higher";
 				break;
 			case 2:
 				instructions = "Stage " + getStage(s) + ": Use String SQL Injection to inject a backdoor. " ;
@@ -137,7 +160,7 @@ public class BackDoors extends LessonAdapter {
 		script.append( "</STYLE>" );		
 		ec.addElement( new StringElement(script.toString()));
 			
-		ec.addElement( new StringElement( "Username: " ) ) ;
+		ec.addElement( new StringElement( "User ID: " ) ) ;
 		Input username = new Input( Input.TEXT, "username", "" );
 		ec.addElement( username  );
 				
@@ -147,7 +170,7 @@ public class BackDoors extends LessonAdapter {
 		ec.addElement(new BR());
 		
 		String formattedInput = "<span class='myClass'>" + userInput + "</span>";
-		ec.addElement( new Div("select userid, ssn, salary from employee where login=" + formattedInput ));
+		ec.addElement( new Div(SELECT_ST + formattedInput ));
 		
 		Input b = new Input();
 		
@@ -176,7 +199,12 @@ public class BackDoors extends LessonAdapter {
 	}
 
 	protected List getHints() {
-		return super.getHints();
+		List<String> hints = new ArrayList<String>();
+		hints.add( "Your user id is 101. Use it to see your information" );
+		hints.add( "A semi-colon usually ends a SQL statement and starts a new one." );
+		hints.add( "Try this 101; update employee set salary=100000" );
+		hints.add( "For stage 2, Try 101; CREATE TRIGGER myBackDoor BEFORE INSERT ON customers FOR EACH ROW BEGIN UPDATE customers SET email='john@hackme.com'WHERE userid = NEW.userid");
+		return hints;
 	}
 
 	protected Category getDefaultCategory()

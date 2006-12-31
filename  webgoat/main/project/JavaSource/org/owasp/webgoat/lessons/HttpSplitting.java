@@ -79,11 +79,7 @@ public class HttpSplitting extends LessonAdapter {
 					out.print(message);	
 					out.flush();
 					out.close();
-					
-					//we gotta set it manually here so that we don't throw an exception
-					getLessonTracker(s).setCompleted(true);
-	
-					//makeSuccess( s );
+						
 					getLessonTracker(s).setStage(2);
 					
 					StringBuffer msg = new StringBuffer();
@@ -128,11 +124,11 @@ public class HttpSplitting extends LessonAdapter {
 		
 		if (getLessonTracker(s).getStage() == 1)
 		{
-			ec.addElement( new H3( "Stage 1: HTTP Splitting:<br>" ) );
+			ec.addElement( new H3( "Stage 1: HTTP Splitting:<br><br>" ) );
 		}
 		else
 		{
-			ec.addElement( new H3( "Stage 2: Cache Poisoning:<br>" ) );
+			ec.addElement( new H3( "Stage 2: Cache Poisoning:<br><br>" ) );
 		}
 		ec.addElement( new StringElement( "Search by country : " ) );
 
@@ -155,7 +151,7 @@ public class HttpSplitting extends LessonAdapter {
 		
 		try 
 		{
-			ec.addElement("Now that you have successfully performed an HTTP Splitting, now try to poison" +
+			s.setMessage("Now that you have successfully performed an HTTP Splitting, now try to poison" +
 					" the victim's cache using. Type 'restart' in the input field if you wish to " +
 					" to return to the HTTP Splitting lesson.<br><br>");
 			if ( s.getParser().getRawParameter( LANGUAGE, "YOUR_NAME" ).equals("restart"))
@@ -182,7 +178,6 @@ public class HttpSplitting extends LessonAdapter {
 					if (sdf.parse(dateStr.trim()).after(cal.getTime()))
 					{
 						makeSuccess(s);
-						getLessonTracker(s).setStage(2);
 					}
 				}
 			}
