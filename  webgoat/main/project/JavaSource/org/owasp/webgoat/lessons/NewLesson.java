@@ -55,9 +55,8 @@ public class NewLesson extends LessonAdapter
 		return ( "How to add a new WebGoat lesson" );
 	}
 
-	public Element getCredits()
-	{
-		return new StringElement("This screen created by: Sherif Koussa");
+	public Element getCredits() {
+		return new StringElement("Created by Sherif Koussa");
 	}
 }
 

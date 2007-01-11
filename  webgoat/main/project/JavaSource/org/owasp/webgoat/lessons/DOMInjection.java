@@ -111,8 +111,7 @@ public class DOMInjection extends LessonAdapter {
 	}
 
 	public Element getCredits() {
-
-		return new StringElement("This screen created by: Sherif Koussa");
+		return new StringElement("Created by Sherif Koussa");
 	}
 
 	protected Category getDefaultCategory() {

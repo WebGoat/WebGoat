@@ -41,12 +41,24 @@ public class SilentTransactions extends LessonAdapter {
 			{
 				if (s.getParser().getRawParameter( "confirm", "").equals("Confirm"))
 				{
+					String amount = s.getParser().getRawParameter( "amount", "");
 					s.getResponse().setContentType("text/html");
 					s.getResponse().setHeader("Cache-Control", "no-cache");
 					PrintWriter out = new PrintWriter(s.getResponse().getOutputStream());
-					out.print("<br><br>* Congratulations. You have successfully completed this lesson.");	
+					StringBuffer result =  new StringBuffer();
+					result.append("<br><br>* Congratulations. You have successfully completed this lesson.<br>");
+					if (!amount.equals(""))
+					{
+						result.append("You have just silently authorized ");
+						result.append(amount);
+						result.append("$ without the user interaction.<br>");
+					}
+					result.append("Now you can send out a spam email containing this link and whoever clicks on it<br>");
+					result.append(" and happens to be logged in the same time will loose their money !!");
+					out.print(result.toString());	
 					out.flush();
 					out.close();
+					getLessonTracker(s).setCompleted(true);
 					return;
 				}
 				else if (s.getParser().getRawParameter( "confirm", "").equals("Transferring"))
@@ -217,5 +229,8 @@ public class SilentTransactions extends LessonAdapter {
 		return ( "Silent Transactions Attacks" );
 	}
 
+	public Element getCredits() {
+		return new StringElement("Created by Sherif Koussa");
+	}
 
 }

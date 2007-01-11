@@ -163,10 +163,8 @@ public class XPATHInjection extends LessonAdapter {
 	}
 
 	public Element getCredits() {
-		
-		return new StringElement("Sherif Koussa");
+		return new StringElement("Created by Sherif Koussa");
 	}
-
 
 	protected Category getDefaultCategory() {
 		
@@ -189,7 +187,7 @@ public class XPATHInjection extends LessonAdapter {
 		hints.add( "Remember that the data is stored in XML format." );
 		hints.add( "The system is using XPath to query." );
 		hints.add( "XPath is almost the same thing as SQL, the same hacking techniques apply too." );
-		hints.add( "Try username: Smtih' or 1=1 or 'a'='a and a password: anything " );
+		hints.add( "Try username: Smith' or 1=1 or 'a'='a and a password: anything " );
 		return hints;
 	}
 

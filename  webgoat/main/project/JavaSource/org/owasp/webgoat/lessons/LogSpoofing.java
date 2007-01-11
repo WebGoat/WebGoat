@@ -120,4 +120,7 @@ public class LogSpoofing extends LessonAdapter {
 		return AbstractLesson.A6;
 	}
 
+	public Element getCredits() {
+		return new StringElement("Created by Sherif Koussa");
+	}
 }

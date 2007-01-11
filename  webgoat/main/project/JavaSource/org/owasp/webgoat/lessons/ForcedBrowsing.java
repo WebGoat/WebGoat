@@ -98,7 +98,7 @@ public class ForcedBrowsing extends LessonAdapter
 		hints.add( "Try to guess the URL for the config page" );
 		hints.add( "The config page is guessable and hackable" );
 		hints.add( "Play with the URL and try to guess what the can you replace 'attack' with." );
-		hints.add( "Try to navigate to http://localhost:8080/WebGoat/config" );
+		hints.add( "Try to navigate to http://localhost/WebGoat/config" );
 		return hints;
 	}
 
@@ -119,9 +119,8 @@ public class ForcedBrowsing extends LessonAdapter
 		return ( "Forced Browsing" );
 	}
 	
-	public Element getCredits()
-	{
-		return new StringElement("This screen created by: Sherif Koussa");
+	public Element getCredits() {
+		return new StringElement("Created by Sherif Koussa");
 	}
 }
 

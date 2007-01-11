@@ -152,7 +152,7 @@ public class HttpSplitting extends LessonAdapter {
 		try 
 		{
 			s.setMessage("Now that you have successfully performed an HTTP Splitting, now try to poison" +
-					" the victim's cache using. Type 'restart' in the input field if you wish to " +
+					" the victim's cache. Type 'restart' in the input field if you wish to " +
 					" to return to the HTTP Splitting lesson.<br><br>");
 			if ( s.getParser().getRawParameter( LANGUAGE, "YOUR_NAME" ).equals("restart"))
 			{
@@ -206,7 +206,7 @@ public class HttpSplitting extends LessonAdapter {
 		hints.add( "Cache Poisoning starts with including 'Last-Modified' header in the hijacked page and setting it to a future date." );
 		hints.add( "Try language=?foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aLast-Modified:%20Mon,%2027%20Oct%202003%2014:50:18%20GMT%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Insert undesireable content here&lt;/html&gt;" );
 		hints.add( "'Last-Modified' header forces the browser to send a 'If-Modified-Since' header. Some cache servers will take the bait and keep serving the hijacked page");
-		hints.add( "Try to intercept the reply and add HTTP/1.1 304 Not Modified0d%0aDate:%20Mon,%2027%20Oct%202003%2014:50:18%20GMT");
+		hints.add( "Try to intercept the reply and add HTTP/1.1 304 Not Modified0d%0aDate:%20Mon,%2027%20Oct%202030%2014:50:18%20GMT");
 		return hints;
 	
 	}
@@ -226,6 +226,10 @@ public class HttpSplitting extends LessonAdapter {
 	public String getTitle()
 	{
 		return ( "HTTP Splitting" );
+	}
+
+	public Element getCredits() {
+		return new StringElement("Created by Sherif Koussa");
 	}
 
 }

@@ -219,11 +219,7 @@ public class CSRF extends LessonAdapter {
 				TR row2 = new TR( new TD( new B(new StringElement( "Message:" )) ) );
 				row2.addElement( new TD( new StringElement( messageData ) ) );
 				t.addElement( row2 );
-				
-				// Edited by Chuck Willis - added display of the user who posted the message, so that
-				// if users use a cross site request forgery or XSS to make another user post a message,
-				// they can see that the message is attributed to that user
-								
+											
 				TR row3 = new TR( new TD( new StringElement( "Posted By:" ) ) );
 				row3.addElement( new TD( new StringElement( results.getString( USER_COL ) ) ) );
 				t.addElement( row3 );
@@ -268,8 +264,8 @@ public class CSRF extends LessonAdapter {
 		hints.add( "Enter some text and try to include an image in there." );
 		hints.add( "In order to make the picture almost invisible try to add width=\"1\" and height=\"1\"." );
 		hints.add( "The format of an image in html is <pre>&lt;img src=\"[URL]\" width=\"1\" height=\"1\" /&gt;</pre>");		
-		hints.add( "Include this URL in the message <pre>&lt;img src='http://localhost:8080/WebGoat/attack?"+
-			        "&Screen=" + String.valueOf(getScreenId()) +
+		hints.add( "Include this URL in the message <pre>&lt;img src='http://localhost/WebGoat/attack?"+
+			        "Screen=" + String.valueOf(getScreenId()) +
 			        "&menu=" + getDefaultCategory().getRanking().toString() +
 			        "&transferFunds=5000' width=\"1\" height=\"1\" /&gt;</pre>");
 		
@@ -296,4 +292,8 @@ public class CSRF extends LessonAdapter {
 		return nameroot;
 	}
 
+	public Element getCredits() {
+		return new StringElement("Created by Sherif Koussa");
+	}
+	
 }

@@ -216,5 +216,8 @@ public class JSONInjection extends LessonAdapter {
 		return ( "JSON Injection" );
 	}
 
+	public Element getCredits() {
+		return new StringElement("Created by Sherif Koussa");
+	}
 
 }
