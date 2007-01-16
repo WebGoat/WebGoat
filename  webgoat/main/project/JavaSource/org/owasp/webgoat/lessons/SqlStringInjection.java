@@ -19,257 +19,302 @@ import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
-
-/**
- *  Copyright (c) 2002 Free Software Foundation developed under the custody of the Open Web
- *  Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is published by OWASP
- *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
- *  this software.
+/*******************************************************************************
+ * 
+ * 
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ * 
+ * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 
+ * Getting Source ==============
+ * 
+ * Source for this application is maintained at code.google.com, a repository
+ * for free software projects.
+ * 
+ * For details, please see http://code.google.com/p/webgoat/
  *
  * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
 public class SqlStringInjection extends LessonAdapter
 {
-	private final static String ACCT_NAME = "account_name";
-	private static Connection connection = null;
-	private static String STAGE = "stage";
-	private String accountName;
 
-	/**
-	 *  Description of the Method
-	 *
-	 * @param  s  Description of the Parameter
-	 * @return    Description of the Return Value
-	 */
-	protected Element createContent( WebSession s )
-	{
-		return super.createStagedContent(s);
-	}
-	
-	protected Element doStage1( WebSession s ) throws Exception
-	{
-		return injectableQuery( s );
-	}
-	
-	protected Element doStage2( WebSession s ) throws Exception
-	{
-		return parameterizedQuery( s);
-	}
+    private final static String ACCT_NAME = "account_name";
 
-	
-	protected Element injectableQuery( WebSession s )
-	{
-		ElementContainer ec = new ElementContainer();
+    private static Connection connection = null;
 
-		try
+    private static String STAGE = "stage";
+
+    private String accountName;
+
+
+    /**
+     *  Description of the Method
+     *
+     * @param  s  Description of the Parameter
+     * @return    Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+	return super.createStagedContent(s);
+    }
+
+
+    protected Element doStage1(WebSession s) throws Exception
+    {
+	return injectableQuery(s);
+    }
+
+
+    protected Element doStage2(WebSession s) throws Exception
+    {
+	return parameterizedQuery(s);
+    }
+
+
+    protected Element injectableQuery(WebSession s)
+    {
+	ElementContainer ec = new ElementContainer();
+
+	try
+	{
+	    if (connection == null)
+	    {
+		connection = DatabaseUtilities.makeConnection(s);
+	    }
+
+	    ec.addElement(makeAccountLine(s));
+
+	    String query = "SELECT * FROM user_data WHERE last_name = '"
+		    + accountName + "'";
+	    ec.addElement(new PRE(query));
+
+	    try
+	    {
+		Statement statement = connection.createStatement(
+			ResultSet.TYPE_SCROLL_INSENSITIVE,
+			ResultSet.CONCUR_READ_ONLY);
+		ResultSet results = statement.executeQuery(query);
+
+		if ((results != null) && (results.first() == true))
 		{
-			if ( connection == null )
-			{
-				connection = DatabaseUtilities.makeConnection( s );
-			}
+		    ResultSetMetaData resultsMetaData = results.getMetaData();
+		    ec.addElement(DatabaseUtilities.writeTable(results,
+			    resultsMetaData));
+		    results.last();
 
-			ec.addElement( makeAccountLine( s ) );
+		    // If they get back more than one user they succeeded
+		    if (results.getRow() >= 6)
+		    {
+			makeSuccess(s);
+			getLessonTracker(s).setStage(2);
 
-			String query = "SELECT * FROM user_data WHERE last_name = '" + accountName +"'";
-			ec.addElement( new PRE( query ) );
+			StringBuffer msg = new StringBuffer();
 
-			try
-			{
-				Statement statement = connection.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-				ResultSet results = statement.executeQuery( query );
+			msg.append("Bet you can't do it again! ");
+			msg
+				.append("This lesson has detected your successfull attack ");
+			msg.append("and has now switch to a defensive mode. ");
+			msg
+				.append("Try again to attack a parameterized query.");
 
-				if ( ( results != null ) && ( results.first() == true ) )
-				{
-					ResultSetMetaData resultsMetaData = results.getMetaData();
-					ec.addElement( DatabaseUtilities.writeTable( results, resultsMetaData ) );
-					results.last();
-					
-					// If they get back more than one user they succeeded
-					if ( results.getRow() >= 6 )
-					{
-						makeSuccess( s );
-						getLessonTracker(s).setStage(2);
-						
-						StringBuffer msg = new StringBuffer();
-						
-						msg.append("Bet you can't do it again! ");
-						msg.append("This lesson has detected your successfull attack ");
-						msg.append("and has now switch to a defensive mode. ");
-						msg.append("Try again to attack a parameterized query.");
-						
-						s.setMessage(msg.toString());
-					}
-				}
-				else 
-				{
-					ec.addElement( "No results matched.  Try Again." );
-				}
-			}
-			catch ( SQLException sqle )
-			{
-				ec.addElement( new P().addElement( sqle.getMessage() ) );
-			}
+			s.setMessage(msg.toString());
+		    }
 		}
-		catch ( Exception e )
+		else
 		{
-			s.setMessage( "Error generating " + this.getClass().getName() );
-			e.printStackTrace();
+		    ec.addElement("No results matched.  Try Again.");
 		}
-
-		return ( ec );
+	    }
+	    catch (SQLException sqle)
+	    {
+		ec.addElement(new P().addElement(sqle.getMessage()));
+	    }
 	}
-	
-
-	protected Element parameterizedQuery( WebSession s )
+	catch (Exception e)
 	{
-		ElementContainer ec = new ElementContainer();
+	    s.setMessage("Error generating " + this.getClass().getName());
+	    e.printStackTrace();
+	}
 
-		ec.addElement("Now that you have successfully performed an SQL injection, try the same " +
-				" type of attack on a parameterized query.  Type 'restart' in the input field if you wish to " +
-				" to return to the injectable query");
-		if ( s.getParser().getRawParameter( ACCT_NAME, "YOUR_NAME" ).equals("restart"))
+	return (ec);
+    }
+
+
+    protected Element parameterizedQuery(WebSession s)
+    {
+	ElementContainer ec = new ElementContainer();
+
+	ec
+		.addElement("Now that you have successfully performed an SQL injection, try the same "
+			+ " type of attack on a parameterized query.  Type 'restart' in the input field if you wish to "
+			+ " to return to the injectable query");
+	if (s.getParser().getRawParameter(ACCT_NAME, "YOUR_NAME").equals(
+		"restart"))
+	{
+	    getLessonTracker(s).getLessonProperties().setProperty(STAGE, "1");
+	    return (injectableQuery(s));
+	}
+
+	ec.addElement(new BR());
+
+	try
+	{
+	    if (connection == null)
+	    {
+		connection = DatabaseUtilities.makeConnection(s);
+	    }
+
+	    ec.addElement(makeAccountLine(s));
+
+	    String query = "SELECT * FROM user_data WHERE last_name = ?";
+	    ec.addElement(new PRE(query));
+
+	    try
+	    {
+		PreparedStatement statement = connection.prepareStatement(
+			query, ResultSet.TYPE_SCROLL_INSENSITIVE,
+			ResultSet.CONCUR_READ_ONLY);
+		statement.setString(1, accountName);
+		ResultSet results = statement.executeQuery();
+
+		if ((results != null) && (results.first() == true))
 		{
-			getLessonTracker(s).getLessonProperties().setProperty(STAGE,"1");
-			return( injectableQuery(s));
+		    ResultSetMetaData resultsMetaData = results.getMetaData();
+		    ec.addElement(DatabaseUtilities.writeTable(results,
+			    resultsMetaData));
+		    results.last();
+
+		    // If they get back more than one user they succeeded
+		    if (results.getRow() >= 6)
+		    {
+			makeSuccess(s);
+		    }
 		}
-		
-		ec.addElement( new BR() );
-		
-		try
+		else
 		{
-			if ( connection == null )
-			{
-				connection = DatabaseUtilities.makeConnection( s );
-			}
-
-			ec.addElement( makeAccountLine( s ) );
-
-			String query = "SELECT * FROM user_data WHERE last_name = ?";
-			ec.addElement( new PRE( query ) );
-
-			try
-			{
-				PreparedStatement statement = connection.prepareStatement( query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-				statement.setString(1, accountName);
-				ResultSet results = statement.executeQuery();
-
-				if ( ( results != null ) && ( results.first() == true ) )
-				{
-					ResultSetMetaData resultsMetaData = results.getMetaData();
-					ec.addElement( DatabaseUtilities.writeTable( results, resultsMetaData ) );
-					results.last();
-					
-					// If they get back more than one user they succeeded
-					if ( results.getRow() >= 6 )
-					{
-						makeSuccess( s );
-					}
-				}
-				else 
-				{
-					ec.addElement( "No results matched.  Try Again." );
-				}
-			}
-			catch ( SQLException sqle )
-			{
-				ec.addElement( new P().addElement( sqle.getMessage() ) );
-			}
+		    ec.addElement("No results matched.  Try Again.");
 		}
-		catch ( Exception e )
-		{
-			s.setMessage( "Error generating " + this.getClass().getName() );
-			e.printStackTrace();
-		}
-
-		return ( ec );
+	    }
+	    catch (SQLException sqle)
+	    {
+		ec.addElement(new P().addElement(sqle.getMessage()));
+	    }
 	}
-
-	protected Element makeAccountLine( WebSession s )
+	catch (Exception e)
 	{
-		ElementContainer ec = new ElementContainer();
-		ec.addElement( new P().addElement( "Enter your last name: " ) );
-
-		accountName = s.getParser().getRawParameter( ACCT_NAME, "Your Name" );
-		Input input = new Input( Input.TEXT, ACCT_NAME, accountName.toString() );
-		ec.addElement( input );
-
-		Element b = ECSFactory.makeButton( "Go!" );
-		ec.addElement( b );
-
-		return ec;
-
+	    s.setMessage("Error generating " + this.getClass().getName());
+	    e.printStackTrace();
 	}
-	
-	
-	/**
-	 *  Gets the category attribute of the SqNumericInjection object
-	 *
-	 * @return    The category value
-	 */
-	protected Category getDefaultCategory()
+
+	return (ec);
+    }
+
+
+    protected Element makeAccountLine(WebSession s)
+    {
+	ElementContainer ec = new ElementContainer();
+	ec.addElement(new P().addElement("Enter your last name: "));
+
+	accountName = s.getParser().getRawParameter(ACCT_NAME, "Your Name");
+	Input input = new Input(Input.TEXT, ACCT_NAME, accountName.toString());
+	ec.addElement(input);
+
+	Element b = ECSFactory.makeButton("Go!");
+	ec.addElement(b);
+
+	return ec;
+
+    }
+
+
+    /**
+     *  Gets the category attribute of the SqNumericInjection object
+     *
+     * @return    The category value
+     */
+    protected Category getDefaultCategory()
+    {
+	return AbstractLesson.A6;
+    }
+
+
+    /**
+     *  Gets the hints attribute of the DatabaseFieldScreen object
+     *
+     * @return    The hints value
+     */
+    protected List getHints()
+    {
+	List<String> hints = new ArrayList<String>();
+	hints
+		.add("The application is taking your input and inserting it at the end of a pre-formed SQL command.");
+	hints
+		.add("This is the code for the query being built and issued by WebGoat:<br><br> "
+			+ "\"SELECT * FROM user_data WHERE last_name = \" + accountName ");
+	hints
+		.add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR."
+			+ "Try appending a SQL statement that always resolves to true");
+	hints.add("Try entering [ smith' OR '1' = '1 ].");
+
+	return hints;
+    }
+
+    private final static Integer DEFAULT_RANKING = new Integer(75);
+
+
+    protected Integer getDefaultRanking()
+    {
+	return DEFAULT_RANKING;
+    }
+
+
+    /**
+     *  Gets the title attribute of the DatabaseFieldScreen object
+     *
+     * @return    The title value
+     */
+    public String getTitle()
+    {
+	return ("How to Perform String SQL Injection");
+    }
+
+
+    /**
+     *  Constructor for the DatabaseFieldScreen object
+     *
+     * @param  s  Description of the Parameter
+     */
+    public void handleRequest(WebSession s)
+    {
+	try
 	{
-		return AbstractLesson.A6;
+	    super.handleRequest(s);
+
+	    if (connection == null)
+	    {
+		connection = DatabaseUtilities.makeConnection(s);
+	    }
 	}
-
-
-	/**
-	 *  Gets the hints attribute of the DatabaseFieldScreen object
-	 *
-	 * @return    The hints value
-	 */
-	protected List getHints()
+	catch (Exception e)
 	{
-		List<String> hints = new ArrayList<String>();
-		hints.add( "The application is taking your input and inserting it at the end of a pre-formed SQL command." );
-		hints.add( "This is the code for the query being built and issued by WebGoat:<br><br> " +
-					"\"SELECT * FROM user_data WHERE last_name = \" + accountName " );
-		hints.add( "Compound SQL statements can be made by joining multiple tests with keywords like AND and OR." +
-					"Try appending a SQL statement that always resolves to true");
-		hints.add( "Try entering [ smith' OR '1' = '1 ]." );
-
-		return hints;
+	    System.out.println("Exception caught: " + e);
+	    e.printStackTrace(System.out);
 	}
-
-	private final static Integer DEFAULT_RANKING = new Integer(75);
-
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
-
-	/**
-	 *  Gets the title attribute of the DatabaseFieldScreen object
-	 *
-	 * @return    The title value
-	 */
-	public String getTitle()
-	{
-		return ( "How to Perform String SQL Injection" );
-	}
-
-
-	/**
-	 *  Constructor for the DatabaseFieldScreen object
-	 *
-	 * @param  s  Description of the Parameter
-	 */
-	public void handleRequest( WebSession s )
-	{
-		try
-		{
-			super.handleRequest( s );
-
-			if ( connection == null )
-			{
-				connection = DatabaseUtilities.makeConnection( s );
-			}
-		}
-		catch ( Exception e )
-		{
-			System.out.println( "Exception caught: " + e );
-			e.printStackTrace( System.out );
-		}
-	}
+    }
 }
-

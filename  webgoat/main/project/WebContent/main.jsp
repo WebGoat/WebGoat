@@ -202,6 +202,8 @@ StringBuffer buildList = new StringBuffer();
 			<%
 			if (currentLesson.getTemplatePage(webSession) != null)
 			{
+				System.out.println("Main.jsp - current lesson: " + currentLesson.getName() );
+				System.out.println("         - template Page: " + currentLesson.getTemplatePage(webSession));
 			%>
 			<jsp:include page="<%=currentLesson.getTemplatePage(webSession)%>" />
 			<%

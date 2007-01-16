@@ -139,12 +139,6 @@
 -->
 
   
-  <target name="dist_CBT" depends="clean, compile"
-   	description="Create CBT binary distribution">
-    <CopyWebCBTToBuild/>
-    <WarBuild/>
-  </target> 
-
   <target name="ZipProject"
    	description="Create a zip archive of all Eclipse project files from C:\WebGoatClassCD">
 
@@ -273,7 +267,7 @@
 		<zip destfile="${dist.home}/${ant.project.name}.zip">
 			<zipfileset dir="." prefix="${install.home}"
 				includes="eclipse/, java/, project/, tomcat/, webscarab/, InfoZip/, eclipse.bat, webgoat.bat, webscarab.bat"
-				excludes="project/.*, project/.settings/**, project/dist/**, project/bin/**, project/build/**, project/web_CBT/**"/>
+				excludes="project/.*, project/.settings/**, project/dist/**, project/bin/**, project/build/**"/>
 			<zipfileset src="project-student.zip" prefix="${install.home}"/>
 		</zip>
 		<copy todir="${dist.home}"> 

@@ -14,168 +14,204 @@ import org.apache.ecs.html.P;
 
 import org.owasp.webgoat.session.*;
 
-
-/**
- *  Copyright (c) 2002 Free Software Foundation developed under the custody of the Open Web
- *  Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is published by OWASP
- *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
- *  this software.
+/*******************************************************************************
+ * 
+ * 
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ * 
+ * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 
+ * Getting Source ==============
+ * 
+ * Source for this application is maintained at code.google.com, a repository
+ * for free software projects.
+ * 
+ * For details, please see http://code.google.com/p/webgoat/
  *
  * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  * @created    October 28, 2003
  */
 public class ThreadSafetyProblem extends LessonAdapter
 {
-	private final static String USER_NAME = "username";
-	private Connection connection = null;
-	private static String currentUser;
-	private String originalUser;
+
+    private final static String USER_NAME = "username";
+
+    private Connection connection = null;
+
+    private static String currentUser;
+
+    private String originalUser;
 
 
-	/**
-	 *  Description of the Method
-	 *
-	 * @param  s  Description of the Parameter
-	 * @return    Description of the Return Value
-	 */
-	protected Element createContent( WebSession s )
+    /**
+     *  Description of the Method
+     *
+     * @param  s  Description of the Parameter
+     * @return    Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+	ElementContainer ec = new ElementContainer();
+
+	try
 	{
-		ElementContainer ec = new ElementContainer();
+	    if (connection == null)
+	    {
+		connection = DatabaseUtilities.makeConnection(s);
+	    }
 
-		try
+	    ec.addElement(new StringElement("Enter user name: "));
+	    ec.addElement(new Input(Input.TEXT, USER_NAME, ""));
+	    currentUser = s.getParser().getRawParameter(USER_NAME, "");
+	    originalUser = currentUser;
+
+	    // Store the user name
+	    String user1 = new String(currentUser);
+
+	    Element b = ECSFactory.makeButton("Submit");
+	    ec.addElement(b);
+	    ec.addElement(new P());
+
+	    if (!"".equals(currentUser))
+	    {
+		Thread.sleep(1500);
+
+		// Get the users info from the DB
+		String query = "SELECT * FROM user_system_data WHERE user_name = '"
+			+ currentUser + "'";
+		Statement statement = connection.createStatement(
+			ResultSet.TYPE_SCROLL_INSENSITIVE,
+			ResultSet.CONCUR_READ_ONLY);
+		ResultSet results = statement.executeQuery(query);
+
+		if ((results != null) && (results.first() == true))
 		{
-			if ( connection == null )
-			{
-				connection = DatabaseUtilities.makeConnection( s );
-			}
-
-			ec.addElement( new StringElement( "Enter user name: " ) );
-			ec.addElement( new Input( Input.TEXT, USER_NAME, "" ) );
-			currentUser = s.getParser().getRawParameter( USER_NAME, "" );
-			originalUser = currentUser;
-			
-			// Store the user name
-			String user1 = new String( currentUser );
-			
-			Element b = ECSFactory.makeButton( "Submit" );
-			ec.addElement( b );
-			ec.addElement( new P() );
-
-			if ( !"".equals( currentUser ) )
-			{
-				Thread.sleep( 1500 );
-
-				// Get the users info from the DB
-				String query = "SELECT * FROM user_system_data WHERE user_name = '" + currentUser + "'";
-				Statement statement = connection.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-				ResultSet results = statement.executeQuery( query );
-
-				if ( ( results != null ) && ( results.first() == true ) )
-				{
-					ec.addElement("Account information for user: " + originalUser + "<br><br>");
-					ResultSetMetaData resultsMetaData = results.getMetaData();
-					ec.addElement( DatabaseUtilities.writeTable( results, resultsMetaData ) );
-				}
-				else
-				{
-					s.setMessage("'" + currentUser + "' is not a user in the WebGoat database.");
-				}
-			}
-			if ( !user1.equals( currentUser ) )
-			{
-				makeSuccess( s );
-			}
-
+		    ec.addElement("Account information for user: "
+			    + originalUser + "<br><br>");
+		    ResultSetMetaData resultsMetaData = results.getMetaData();
+		    ec.addElement(DatabaseUtilities.writeTable(results,
+			    resultsMetaData));
 		}
-		catch ( Exception e )
+		else
 		{
-			s.setMessage( "Error generating " + this.getClass().getName() );
-			e.printStackTrace();
+		    s.setMessage("'" + currentUser
+			    + "' is not a user in the WebGoat database.");
 		}
+	    }
+	    if (!user1.equals(currentUser))
+	    {
+		makeSuccess(s);
+	    }
 
-		return ( ec );
 	}
-
-
-	/**
-	 *  Gets the hints attribute of the ConcurrencyScreen object
-	 *
-	 * @return    The hints value
-	 */
-	protected List getHints()
+	catch (Exception e)
 	{
-		List<String> hints = new ArrayList<String>();
-		hints.add( "Web applications handle many HTTP requests at the same time." );
-		hints.add( "Developers use variables that are not thread safe." );
-		hints.add( "Show the Java source code and trace the 'currentUser' variable" );
-		hints.add( "Open two browsers and send 'jeff' in one and 'dave' in the other." );
-
-		return hints;
+	    s.setMessage("Error generating " + this.getClass().getName());
+	    e.printStackTrace();
 	}
 
+	return (ec);
+    }
 
-	/**
-	 *  Gets the instructions attribute of the ThreadSafetyProblem object
-	 *
-	 * @return    The instructions value
-	 */
-	public String getInstructions(WebSession s)
+
+    /**
+     *  Gets the hints attribute of the ConcurrencyScreen object
+     *
+     * @return    The hints value
+     */
+    protected List getHints()
+    {
+	List<String> hints = new ArrayList<String>();
+	hints
+		.add("Web applications handle many HTTP requests at the same time.");
+	hints.add("Developers use variables that are not thread safe.");
+	hints
+		.add("Show the Java source code and trace the 'currentUser' variable");
+	hints
+		.add("Open two browsers and send 'jeff' in one and 'dave' in the other.");
+
+	return hints;
+    }
+
+
+    /**
+     *  Gets the instructions attribute of the ThreadSafetyProblem object
+     *
+     * @return    The instructions value
+     */
+    public String getInstructions(WebSession s)
+    {
+
+	String instructions = "The user should be able to exploit the concurrency error in this web application "
+		+ "and view login information for another user that is attempting the same function "
+		+ "at the same time.  <b>This will require the use of two browsers</b>. Valid user "
+		+ "names are 'jeff' and 'dave'."
+		+ "<p>Please enter your username to access your account.";
+
+	return (instructions);
+    }
+
+    private final static Integer DEFAULT_RANKING = new Integer(80);
+
+
+    protected Integer getDefaultRanking()
+    {
+	return DEFAULT_RANKING;
+    }
+
+
+    protected Category getDefaultCategory()
+    {
+	return AbstractLesson.GENERAL;
+    }
+
+
+    /**
+     *  Gets the title attribute of the ConcurrencyScreen object
+     *
+     * @return    The title value
+     */
+    public String getTitle()
+    {
+	return ("How to Exploit Thread Safety Problems");
+    }
+
+
+    /**
+     *  Constructor for the ConcurrencyScreen object
+     *
+     * @param  s  Description of the Parameter
+     */
+    public void handleRequest(WebSession s)
+    {
+	try
 	{
-		
-		String instructions = "The user should be able to exploit the concurrency error in this web application " + 
-							  "and view login information for another user that is attempting the same function " +
-							  "at the same time.  <b>This will require the use of two browsers</b>. Valid user " +
-							  "names are 'jeff' and 'dave'." +
-							  "<p>Please enter your username to access your account.";
+	    super.handleRequest(s);
 
-		return (instructions );
+	    if (connection == null)
+	    {
+		connection = DatabaseUtilities.makeConnection(s);
+	    }
 	}
-
-
-	private final static Integer DEFAULT_RANKING = new Integer(80);
-
-	protected Integer getDefaultRanking()
+	catch (Exception e)
 	{
-		return DEFAULT_RANKING;
+	    System.out.println("Exception caught: " + e);
+	    e.printStackTrace(System.out);
 	}
-
-	protected Category getDefaultCategory()
-	{
-		return AbstractLesson.GENERAL;
-	}
-	
-	/**
-	 *  Gets the title attribute of the ConcurrencyScreen object
-	 *
-	 * @return    The title value
-	 */
-	public String getTitle()
-	{
-		return ( "How to Exploit Thread Safety Problems" );
-	}
-
-
-	/**
-	 *  Constructor for the ConcurrencyScreen object
-	 *
-	 * @param  s  Description of the Parameter
-	 */
-	public void handleRequest( WebSession s )
-	{
-		try
-		{
-			super.handleRequest( s );
-
-			if ( connection == null )
-			{
-				connection = DatabaseUtilities.makeConnection( s );
-			}
-		}
-		catch ( Exception e )
-		{
-			System.out.println( "Exception caught: " + e );
-			e.printStackTrace( System.out );
-		}
-	}
+    }
 }
-

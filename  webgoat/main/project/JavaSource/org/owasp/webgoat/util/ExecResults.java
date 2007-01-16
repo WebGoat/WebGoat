@@ -1,15 +1,39 @@
 package org.owasp.webgoat.util;
 
-/**
- *  Copyright (c) 2002 Free Software Foundation developed under the custody of
- *  the Open Web Application Security Project (http://www.owasp.org) This
- *  software package org.owasp.webgoat.is published by OWASP under the GPL. You should read and
- *  accept the LICENSE before you use, modify and/or redistribute this software.
+/*******************************************************************************
+ * 
+ * 
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ * 
+ * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 
+ * Getting Source ==============
+ * 
+ * Source for this application is maintained at code.google.com, a repository
+ * for free software projects.
+ * 
+ * For details, please see http://code.google.com/p/webgoat/
  *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  */
 public class ExecResults
 {
+
     /**
      *  Description of the Field
      */
@@ -19,17 +43,29 @@ public class ExecResults
      *  Description of the Field
      */
     public final static int THROWABLE = 1;
+
     private String myCommand;
+
     private boolean myError = false;
+
     private int myErrorType = 0;
+
     private String myErrors = null;
+
     private String myInput;
+
     private boolean myInterrupted = false;
+
     private String myOutput = null;
+
     private int myReturnCode = 0;
+
     private int mySuccessCode;
+
     private Throwable myThrowable = null;
+
     private int myTimeout;
+
 
     /**
      *  Constructor for the ExecResults object
@@ -39,13 +75,15 @@ public class ExecResults
      *@param  successCode  Description of the Parameter
      *@param  timeout      Description of the Parameter
      */
-    public ExecResults(String command, String input, int successCode, int timeout)
+    public ExecResults(String command, String input, int successCode,
+	    int timeout)
     {
-        myCommand = command.trim();
-        myInput = input.trim();
-        mySuccessCode = successCode;
-        myTimeout = timeout;
+	myCommand = command.trim();
+	myInput = input.trim();
+	mySuccessCode = successCode;
+	myTimeout = timeout;
     }
+
 
     /**
      *  Description of the Method
@@ -57,7 +95,8 @@ public class ExecResults
      */
     private boolean contains(String haystack, String needle, int fromIndex)
     {
-        return (haystack.trim().toLowerCase().indexOf(needle.trim().toLowerCase(), fromIndex) != -1);
+	return (haystack.trim().toLowerCase().indexOf(
+		needle.trim().toLowerCase(), fromIndex) != -1);
     }
 
 
@@ -69,7 +108,7 @@ public class ExecResults
      */
     public boolean errorsContains(String value)
     {
-        return (errorsContains(value, 0));
+	return (errorsContains(value, 0));
     }
 
 
@@ -82,7 +121,7 @@ public class ExecResults
      */
     public boolean errorsContains(String value, int fromIndex)
     {
-        return (contains(myErrors, value, fromIndex));
+	return (contains(myErrors, value, fromIndex));
     }
 
 
@@ -93,7 +132,7 @@ public class ExecResults
      */
     public boolean getError()
     {
-        return (myError);
+	return (myError);
     }
 
 
@@ -104,17 +143,17 @@ public class ExecResults
      */
     public String getErrorMessage()
     {
-        switch (getErrorType())
-        {
-        case THROWABLE:
-            return ("Exception: " + myThrowable.getMessage());
+	switch (getErrorType())
+	{
+	    case THROWABLE:
+		return ("Exception: " + myThrowable.getMessage());
 
-        case BADRETURNCODE:
-            return ("Bad return code (expected " + mySuccessCode + ")");
+	    case BADRETURNCODE:
+		return ("Bad return code (expected " + mySuccessCode + ")");
 
-        default:
-            return ("Unknown error");
-        }
+	    default:
+		return ("Unknown error");
+	}
     }
 
 
@@ -125,7 +164,7 @@ public class ExecResults
      */
     public int getErrorType()
     {
-        return (myErrorType);
+	return (myErrorType);
     }
 
 
@@ -136,7 +175,7 @@ public class ExecResults
      */
     public String getErrors()
     {
-        return (myErrors);
+	return (myErrors);
     }
 
 
@@ -147,7 +186,7 @@ public class ExecResults
      */
     public boolean getInterrupted()
     {
-        return (myInterrupted);
+	return (myInterrupted);
     }
 
 
@@ -158,7 +197,7 @@ public class ExecResults
      */
     public String getOutput()
     {
-        return (myOutput);
+	return (myOutput);
     }
 
 
@@ -169,7 +208,7 @@ public class ExecResults
      */
     public int getReturnCode()
     {
-        return (myReturnCode);
+	return (myReturnCode);
     }
 
 
@@ -180,7 +219,7 @@ public class ExecResults
      */
     public Throwable getThrowable()
     {
-        return (myThrowable);
+	return (myThrowable);
     }
 
 
@@ -192,7 +231,7 @@ public class ExecResults
      */
     public boolean outputContains(String value)
     {
-        return (outputContains(value, 0));
+	return (outputContains(value, 0));
     }
 
 
@@ -205,7 +244,7 @@ public class ExecResults
      */
     public boolean outputContains(String value, int fromIndex)
     {
-        return (contains(myOutput, value, fromIndex));
+	return (contains(myOutput, value, fromIndex));
     }
 
 
@@ -216,8 +255,8 @@ public class ExecResults
      */
     public void setError(int value)
     {
-        myError = true;
-        myErrorType = value;
+	myError = true;
+	myErrorType = value;
     }
 
 
@@ -228,7 +267,7 @@ public class ExecResults
      */
     public void setErrors(String errors)
     {
-        myErrors = errors.trim();
+	myErrors = errors.trim();
     }
 
 
@@ -237,7 +276,7 @@ public class ExecResults
      */
     public void setInterrupted()
     {
-        myInterrupted = true;
+	myInterrupted = true;
     }
 
 
@@ -248,7 +287,7 @@ public class ExecResults
      */
     public void setOutput(String value)
     {
-        myOutput = value.trim();
+	myOutput = value.trim();
     }
 
 
@@ -259,7 +298,7 @@ public class ExecResults
      */
     public void setReturnCode(int value)
     {
-        myReturnCode = value;
+	myReturnCode = value;
     }
 
 
@@ -270,8 +309,8 @@ public class ExecResults
      */
     public void setThrowable(Throwable value)
     {
-        setError(THROWABLE);
-        myThrowable = value;
+	setError(THROWABLE);
+	myThrowable = value;
     }
 
 
@@ -282,39 +321,40 @@ public class ExecResults
      */
     public String toString()
     {
-        String sep = System.getProperty("line.separator");
-        StringBuffer value = new StringBuffer();
-        value.append("ExecResults for \'" + myCommand + "\'" + sep);
+	String sep = System.getProperty("line.separator");
+	StringBuffer value = new StringBuffer();
+	value.append("ExecResults for \'" + myCommand + "\'" + sep);
 
-        if ((myInput != null) && !myInput.equals(""))
-        {
-            value.append(sep + "Input..." + sep + myInput + sep);
-        }
+	if ((myInput != null) && !myInput.equals(""))
+	{
+	    value.append(sep + "Input..." + sep + myInput + sep);
+	}
 
-        if ((myOutput != null) && !myOutput.equals(""))
-        {
-            value.append(sep + "Output..." + sep + myOutput + sep);
-        }
+	if ((myOutput != null) && !myOutput.equals(""))
+	{
+	    value.append(sep + "Output..." + sep + myOutput + sep);
+	}
 
-        if ((myErrors != null) && !myErrors.equals(""))
-        {
-            value.append(sep + "Errors..." + sep + myErrors + sep);
-        }
+	if ((myErrors != null) && !myErrors.equals(""))
+	{
+	    value.append(sep + "Errors..." + sep + myErrors + sep);
+	}
 
-        value.append(sep);
+	value.append(sep);
 
-        if (myInterrupted)
-        {
-            value.append("Command timed out after " + (myTimeout / 1000) + " seconds " + sep);
-        }
+	if (myInterrupted)
+	{
+	    value.append("Command timed out after " + (myTimeout / 1000)
+		    + " seconds " + sep);
+	}
 
-        value.append("Returncode: " + myReturnCode + sep);
+	value.append("Returncode: " + myReturnCode + sep);
 
-        if (myError)
-        {
-            value.append(getErrorMessage() + sep);
-        }
+	if (myError)
+	{
+	    value.append(getErrorMessage() + sep);
+	}
 
-        return (value.toString());
+	return (value.toString());
     }
 }

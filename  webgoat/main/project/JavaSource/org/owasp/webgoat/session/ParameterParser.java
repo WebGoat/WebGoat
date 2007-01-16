@@ -9,19 +9,44 @@ import javax.servlet.ServletRequest;
 
 import org.owasp.webgoat.util.HtmlEncoder;
 
-
-/**
- *  Copyright (c) 2002-2004 Free Software Foundation developed under the custody of
- *  the Open Web Application Security Project (http://www.owasp.org) This
- *  software package org.owasp.webgoat.is published by OWASP under the GPL. You should read and
- *  accept the LICENSE before you use, modify and/or redistribute this software.
+/*******************************************************************************
+ * 
+ * 
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ * 
+ * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 
+ * Getting Source ==============
+ * 
+ * Source for this application is maintained at code.google.com, a repository
+ * for free software projects.
+ * 
+ * For details, please see http://code.google.com/p/webgoat/
  *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  */
 public class ParameterParser
 {
+
     private final static String ALLOWED_CHARACTERS = "$()-?.@!,:;=//+"; // Don't allow #& specifically
+
     private ServletRequest request;
+
 
     /**
      *  Constructs a new ParameterParser to handle the parameters of the given
@@ -31,8 +56,9 @@ public class ParameterParser
      */
     public ParameterParser(ServletRequest request)
     {
-        this.request = request;
+	this.request = request;
     }
+
 
     /**
      *  Description of the Method
@@ -42,23 +68,24 @@ public class ParameterParser
      */
     private String clean(String s)
     {
-        StringBuffer clean = new StringBuffer();
+	StringBuffer clean = new StringBuffer();
 
-        for (int loop = 0; loop < s.length(); loop++)
-        {
-            char c = s.charAt(loop);
+	for (int loop = 0; loop < s.length(); loop++)
+	{
+	    char c = s.charAt(loop);
 
-            if (Character.isLetterOrDigit(c) || Character.isWhitespace(c) || (ALLOWED_CHARACTERS.indexOf(c) != -1))
-            {
-                clean.append(c);
-            }
-            else
-            {
-                clean.append('.');
-            }
-        }
+	    if (Character.isLetterOrDigit(c) || Character.isWhitespace(c)
+		    || (ALLOWED_CHARACTERS.indexOf(c) != -1))
+	    {
+		clean.append(c);
+	    }
+	    else
+	    {
+		clean.append('.');
+	    }
+	}
 
-        return (clean.toString());
+	return (clean.toString());
     }
 
 
@@ -69,9 +96,10 @@ public class ParameterParser
      *@return                                 the parameter value as a boolean
      *@exception  ParameterNotFoundException  if the parameter was not found
      */
-    public boolean getBooleanParameter(String name) throws ParameterNotFoundException
+    public boolean getBooleanParameter(String name)
+	    throws ParameterNotFoundException
     {
-        return new Boolean(getStringParameter(name)).booleanValue();
+	return new Boolean(getStringParameter(name)).booleanValue();
     }
 
 
@@ -85,14 +113,14 @@ public class ParameterParser
      */
     public boolean getBooleanParameter(String name, boolean def)
     {
-        try
-        {
-            return getBooleanParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getBooleanParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -106,14 +134,14 @@ public class ParameterParser
      */
     public boolean getBooleanSubParameter(String first, String next, boolean def)
     {
-        try
-        {
-            return new Boolean(getSubParameter(first, next)).booleanValue();
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return new Boolean(getSubParameter(first, next)).booleanValue();
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -126,9 +154,10 @@ public class ParameterParser
      *@exception  NumberFormatException       if the parameter value could not be
      *      converted to a byte
      */
-    public byte getByteParameter(String name) throws ParameterNotFoundException, NumberFormatException
+    public byte getByteParameter(String name)
+	    throws ParameterNotFoundException, NumberFormatException
     {
-        return Byte.parseByte(getStringParameter(name));
+	return Byte.parseByte(getStringParameter(name));
     }
 
 
@@ -143,14 +172,14 @@ public class ParameterParser
      */
     public byte getByteParameter(String name, byte def)
     {
-        try
-        {
-            return getByteParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getByteParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -164,16 +193,16 @@ public class ParameterParser
      */
     public char getCharParameter(String name) throws ParameterNotFoundException
     {
-        String param = getStringParameter(name);
+	String param = getStringParameter(name);
 
-        if (param.length() == 0)
-        {
-            throw new ParameterNotFoundException(name + " is empty string");
-        }
-        else
-        {
-            return (param.charAt(0));
-        }
+	if (param.length() == 0)
+	{
+	    throw new ParameterNotFoundException(name + " is empty string");
+	}
+	else
+	{
+	    return (param.charAt(0));
+	}
     }
 
 
@@ -187,14 +216,14 @@ public class ParameterParser
      */
     public char getCharParameter(String name, char def)
     {
-        try
-        {
-            return getCharParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getCharParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -204,13 +233,14 @@ public class ParameterParser
      *@param  name  Description of the Parameter
      *@return       The classNameParameter value
      */
-    public String getClassNameParameter(String name) throws ParameterNotFoundException
+    public String getClassNameParameter(String name)
+	    throws ParameterNotFoundException
     {
- 		String p = getStringParameter(name);
-		StringTokenizer st = new StringTokenizer(p);
+	String p = getStringParameter(name);
+	StringTokenizer st = new StringTokenizer(p);
 
-		return (st.nextToken().trim());
-     }
+	return (st.nextToken().trim());
+    }
 
 
     // FIXME: check for [a-zA-Z].([a-zA-Z])*
@@ -224,14 +254,14 @@ public class ParameterParser
      */
     public String getClassNameParameter(String name, String def)
     {
-        try
-        {
-            return getClassNameParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getClassNameParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -244,9 +274,10 @@ public class ParameterParser
      *@exception  NumberFormatException       if the parameter could not be
      *      converted to a double
      */
-    public double getDoubleParameter(String name) throws ParameterNotFoundException, NumberFormatException
+    public double getDoubleParameter(String name)
+	    throws ParameterNotFoundException, NumberFormatException
     {
-        return new Double(getStringParameter(name)).doubleValue();
+	return new Double(getStringParameter(name)).doubleValue();
     }
 
 
@@ -260,14 +291,14 @@ public class ParameterParser
      */
     public double getDoubleParameter(String name, double def)
     {
-        try
-        {
-            return getDoubleParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getDoubleParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -280,9 +311,10 @@ public class ParameterParser
      *@exception  NumberFormatException       if the parameter could not be
      *      converted to a float
      */
-    public float getFloatParameter(String name) throws ParameterNotFoundException, NumberFormatException
+    public float getFloatParameter(String name)
+	    throws ParameterNotFoundException, NumberFormatException
     {
-        return new Float(getStringParameter(name)).floatValue();
+	return new Float(getStringParameter(name)).floatValue();
     }
 
 
@@ -296,14 +328,14 @@ public class ParameterParser
      */
     public float getFloatParameter(String name, float def)
     {
-        try
-        {
-            return getFloatParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getFloatParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -317,14 +349,14 @@ public class ParameterParser
      */
     public String getIPParameter(String name, String def)
     {
-        try
-        {
-            return getIPParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getIPParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -339,83 +371,83 @@ public class ParameterParser
      */
     public String getIPParameter(String name) throws ParameterNotFoundException
     {
-        boolean valid = true;
-        String[] values = request.getParameterValues(name);
-        String value;
+	boolean valid = true;
+	String[] values = request.getParameterValues(name);
+	String value;
 
-        if (values == null)
-        {
-            throw new ParameterNotFoundException(name + " not found");
-        }
-        else if (values[0].length() == 0)
-        {
-            throw new ParameterNotFoundException(name + " was empty");
-        }
-        else
-        {
-            // trim illegal characters
-            value = clean(values[0].trim());
+	if (values == null)
+	{
+	    throw new ParameterNotFoundException(name + " not found");
+	}
+	else if (values[0].length() == 0)
+	{
+	    throw new ParameterNotFoundException(name + " was empty");
+	}
+	else
+	{
+	    // trim illegal characters
+	    value = clean(values[0].trim());
 
-            if (value.indexOf("&") > 0)
-            {
-                // truncate additional parameters that follow &
-                value = value.substring(0, value.indexOf("&"));
-            }
+	    if (value.indexOf("&") > 0)
+	    {
+		// truncate additional parameters that follow &
+		value = value.substring(0, value.indexOf("&"));
+	    }
 
-            // validate the IP  ex: 124.143.12.254
-            int startIndex = 0;
-            int endIndex = 0;
-            int octetCount = 0;
-            int octetValue;
-            String octet;
+	    // validate the IP  ex: 124.143.12.254
+	    int startIndex = 0;
+	    int endIndex = 0;
+	    int octetCount = 0;
+	    int octetValue;
+	    String octet;
 
-            // if no .'s then it's not an IP
-            if (value.indexOf(".") >= 0)
-            {
-                while ((valid == true) && (octetCount < 4))
-                {
-                    endIndex = value.indexOf(".", startIndex);
+	    // if no .'s then it's not an IP
+	    if (value.indexOf(".") >= 0)
+	    {
+		while ((valid == true) && (octetCount < 4))
+		{
+		    endIndex = value.indexOf(".", startIndex);
 
-                    if (endIndex == -1)
-                    {
-                        endIndex = value.length();
-                    }
+		    if (endIndex == -1)
+		    {
+			endIndex = value.length();
+		    }
 
-                    octet = value.substring(startIndex, endIndex);
-                    startIndex = endIndex + 1;
+		    octet = value.substring(startIndex, endIndex);
+		    startIndex = endIndex + 1;
 
-                    try
-                    {
-                        octetValue = Integer.parseInt(octet);
+		    try
+		    {
+			octetValue = Integer.parseInt(octet);
 
-                        if ((octetValue <= 0) || (octetValue >= 256))
-                        {
-                            valid = false;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        valid = false;
-                    }
+			if ((octetValue <= 0) || (octetValue >= 256))
+			{
+			    valid = false;
+			}
+		    }
+		    catch (Exception e)
+		    {
+			valid = false;
+		    }
 
-                    octetCount++;
-                }
-            }
-            else
-            {
-                // Not a valid IP
-                valid = false;
-            }
+		    octetCount++;
+		}
+	    }
+	    else
+	    {
+		// Not a valid IP
+		valid = false;
+	    }
 
-            // Check for any extra garbage. If the last octet was a large value
-            // it would be trapped by the above range check.
-            if (value.length() != endIndex)
-            {
-                valid = false;
-            }
+	    // Check for any extra garbage. If the last octet was a large value
+	    // it would be trapped by the above range check.
+	    if (value.length() != endIndex)
+	    {
+		valid = false;
+	    }
 
-            return valid ? value : null;
-        }
+	    return valid ? value : null;
+	}
     }
 
 
@@ -428,9 +460,10 @@ public class ParameterParser
      *@exception  NumberFormatException       if the parameter could not be
      *      converted to a int
      */
-    public int getIntParameter(String name) throws ParameterNotFoundException, NumberFormatException
+    public int getIntParameter(String name) throws ParameterNotFoundException,
+	    NumberFormatException
     {
-        return Integer.parseInt(getStringParameter(name));
+	return Integer.parseInt(getStringParameter(name));
     }
 
 
@@ -444,14 +477,14 @@ public class ParameterParser
      */
     public int getIntParameter(String name, int def)
     {
-        try
-        {
-            return getIntParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getIntParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -464,9 +497,10 @@ public class ParameterParser
      *@exception  NumberFormatException       if the parameter could not be
      *      converted to a long
      */
-    public long getLongParameter(String name) throws ParameterNotFoundException, NumberFormatException
+    public long getLongParameter(String name)
+	    throws ParameterNotFoundException, NumberFormatException
     {
-        return Long.parseLong(getStringParameter(name));
+	return Long.parseLong(getStringParameter(name));
     }
 
 
@@ -480,14 +514,14 @@ public class ParameterParser
      */
     public long getLongParameter(String name, long def)
     {
-        try
-        {
-            return getLongParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getLongParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -501,29 +535,29 @@ public class ParameterParser
      */
     public String[] getMissingParameters(String[] requestuired)
     {
-        Vector missing = new Vector();
+	Vector missing = new Vector();
 
-        for (int i = 0; i < requestuired.length; i++)
-        {
-            String val = getStringParameter(requestuired[i], null);
+	for (int i = 0; i < requestuired.length; i++)
+	{
+	    String val = getStringParameter(requestuired[i], null);
 
-            if (val == null)
-            {
-                missing.addElement(requestuired[i]);
-            }
-        }
+	    if (val == null)
+	    {
+		missing.addElement(requestuired[i]);
+	    }
+	}
 
-        if (missing.size() == 0)
-        {
-            return null;
-        }
-        else
-        {
-            String[] ret = new String[missing.size()];
-            missing.copyInto(ret);
+	if (missing.size() == 0)
+	{
+	    return null;
+	}
+	else
+	{
+	    String[] ret = new String[missing.size()];
+	    missing.copyInto(ret);
 
-            return ret;
-        }
+	    return ret;
+	}
     }
 
 
@@ -534,12 +568,12 @@ public class ParameterParser
      */
     public Enumeration getParameterNames()
     {
-        if (request == null)
-        {
-            return (null);
-        }
+	if (request == null)
+	{
+	    return (null);
+	}
 
-        return request.getParameterNames();
+	return request.getParameterNames();
     }
 
 
@@ -551,12 +585,12 @@ public class ParameterParser
      */
     public String[] getParameterValues(String name)
     {
-        if (request == null)
-        {
-            return (null);
-        }
+	if (request == null)
+	{
+	    return (null);
+	}
 
-        return request.getParameterValues(name);
+	return request.getParameterValues(name);
     }
 
 
@@ -569,14 +603,14 @@ public class ParameterParser
      */
     public String getRawParameter(String name, String def)
     {
-        try
-        {
-            return getRawParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getRawParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -587,20 +621,21 @@ public class ParameterParser
      *@return                                 The rawParameter value
      *@exception  ParameterNotFoundException  Description of the Exception
      */
-    public String getRawParameter(String name) throws ParameterNotFoundException
+    public String getRawParameter(String name)
+	    throws ParameterNotFoundException
     {
-        String[] values = request.getParameterValues(name);
+	String[] values = request.getParameterValues(name);
 
-        if (values == null)
-        {
-            throw new ParameterNotFoundException(name + " not found");
-        }
-        else if (values[0].length() == 0)
-        {
-            throw new ParameterNotFoundException(name + " was empty");
-        }
+	if (values == null)
+	{
+	    throw new ParameterNotFoundException(name + " not found");
+	}
+	else if (values[0].length() == 0)
+	{
+	    throw new ParameterNotFoundException(name + " was empty");
+	}
 
-        return (values[0]);
+	return (values[0]);
     }
 
 
@@ -613,9 +648,10 @@ public class ParameterParser
      *@exception  NumberFormatException       if the parameter could not be
      *      converted to a short
      */
-    public short getShortParameter(String name) throws ParameterNotFoundException, NumberFormatException
+    public short getShortParameter(String name)
+	    throws ParameterNotFoundException, NumberFormatException
     {
-        return Short.parseShort(getStringParameter(name));
+	return Short.parseShort(getStringParameter(name));
     }
 
 
@@ -629,14 +665,14 @@ public class ParameterParser
      */
     public short getShortParameter(String name, short def)
     {
-        try
-        {
-            return getShortParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getShortParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -648,32 +684,33 @@ public class ParameterParser
      *@exception  ParameterNotFoundException  if the parameter was not found or was
      *      the empty string
      */
-    public String getStringParameter(String name) throws ParameterNotFoundException
+    public String getStringParameter(String name)
+	    throws ParameterNotFoundException
     {
-        String[] values = request.getParameterValues(name);
-        String value;
+	String[] values = request.getParameterValues(name);
+	String value;
 
-        if (values == null)
-        {
-            throw new ParameterNotFoundException(name + " not found");
-        }
-        else if (values[0].length() == 0)
-        {
-            throw new ParameterNotFoundException(name + " was empty");
-        }
-        else
-        {
-            // trim illegal characters
-            value = clean(values[0].trim());
+	if (values == null)
+	{
+	    throw new ParameterNotFoundException(name + " not found");
+	}
+	else if (values[0].length() == 0)
+	{
+	    throw new ParameterNotFoundException(name + " was empty");
+	}
+	else
+	{
+	    // trim illegal characters
+	    value = clean(values[0].trim());
 
-            if (value.indexOf("&") > 0)
-            {
-                // truncate additional parameters that follow &
-                value = value.substring(0, value.indexOf("&"));
-            }
+	    if (value.indexOf("&") > 0)
+	    {
+		// truncate additional parameters that follow &
+		value = value.substring(0, value.indexOf("&"));
+	    }
 
-            return value;
-        }
+	    return value;
+	}
     }
 
 
@@ -687,14 +724,14 @@ public class ParameterParser
      */
     public String getStringParameter(String name, String def)
     {
-        try
-        {
-            return getStringParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getStringParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -708,14 +745,14 @@ public class ParameterParser
      */
     public String getSubParameter(String first, String next, String def)
     {
-        try
-        {
-            return getSubParameter(first, next);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getSubParameter(first, next);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
 
 
@@ -728,62 +765,63 @@ public class ParameterParser
      *@return                                 The subParameter value
      *@exception  ParameterNotFoundException  Description of the Exception
      */
-    public String getSubParameter(String first, String next) throws ParameterNotFoundException
+    public String getSubParameter(String first, String next)
+	    throws ParameterNotFoundException
     {
-        String[] values = request.getParameterValues(first);
-        String value;
+	String[] values = request.getParameterValues(first);
+	String value;
 
-        if (values == null)
-        {
-            throw new ParameterNotFoundException(first + " not found");
-        }
-        else if (values[0].length() == 0)
-        {
-            throw new ParameterNotFoundException(first + " was empty");
-        }
-        else
-        {
-            value = clean(values[0].trim());
+	if (values == null)
+	{
+	    throw new ParameterNotFoundException(first + " not found");
+	}
+	else if (values[0].length() == 0)
+	{
+	    throw new ParameterNotFoundException(first + " was empty");
+	}
+	else
+	{
+	    value = clean(values[0].trim());
 
-            int idx = value.indexOf("&") + 1;
+	    int idx = value.indexOf("&") + 1;
 
-            // index of first char of first sub-param name
-            if (idx == 0)
-            {
-                throw new ParameterNotFoundException("No subparameter key");
-            }
+	    // index of first char of first sub-param name
+	    if (idx == 0)
+	    {
+		throw new ParameterNotFoundException("No subparameter key");
+	    }
 
-            value = value.substring(idx);
+	    value = value.substring(idx);
 
-            //System.out.println("= = = = = =Parameter parser looking for " + next + " in " + value );
-            int nextValueIndex = value.indexOf(next + "=");
+	    //System.out.println("= = = = = =Parameter parser looking for " + next + " in " + value );
+	    int nextValueIndex = value.indexOf(next + "=");
 
-            //System.out.println("= = = = = =Parameter parser nextValueIndex = " + nextValueIndex );
-            if (nextValueIndex < 0)
-            {
-                throw new ParameterNotFoundException("No subparameter value");
-            }
+	    //System.out.println("= = = = = =Parameter parser nextValueIndex = " + nextValueIndex );
+	    if (nextValueIndex < 0)
+	    {
+		throw new ParameterNotFoundException("No subparameter value");
+	    }
 
-            nextValueIndex += (next.length() + 1);
+	    nextValueIndex += (next.length() + 1);
 
-            if (nextValueIndex >= 0)
-            {
-                value = value.substring(nextValueIndex);
-            }
-            else
-            {
-                throw new ParameterNotFoundException(next + " not found");
-            }
-        }
+	    if (nextValueIndex >= 0)
+	    {
+		value = value.substring(nextValueIndex);
+	    }
+	    else
+	    {
+		throw new ParameterNotFoundException(next + " not found");
+	    }
+	}
 
-        if (value.indexOf("&") > 0)
-        {
-            // truncate additional parameters that follow &
-            value = value.substring(0, value.indexOf("&"));
-        }
+	if (value.indexOf("&") > 0)
+	{
+	    // truncate additional parameters that follow &
+	    value = value.substring(0, value.indexOf("&"));
+	}
 
-        //System.out.println("=-=-=-=-=ParameterParser returning value " + value );
-        return value;
+	//System.out.println("=-=-=-=-=ParameterParser returning value " + value );
+	return value;
     }
 
 
@@ -793,12 +831,13 @@ public class ParameterParser
      *@param  name  Description of the Parameter
      *@return       The wordParameter value
      */
-    public String getWordParameter(String name) throws ParameterNotFoundException
+    public String getWordParameter(String name)
+	    throws ParameterNotFoundException
     {
- 		String p = getStringParameter(name);
-		StringTokenizer st = new StringTokenizer(p);
+	String p = getStringParameter(name);
+	StringTokenizer st = new StringTokenizer(p);
 
-		return (st.nextToken().trim());
+	return (st.nextToken().trim());
     }
 
 
@@ -813,15 +852,16 @@ public class ParameterParser
      */
     public String getWordParameter(String name, String def)
     {
-        try
-        {
-        	return getWordParameter(name);
-        }
-        catch (Exception e)
-        {
-            return def;
-        }
+	try
+	{
+	    return getWordParameter(name);
+	}
+	catch (Exception e)
+	{
+	    return def;
+	}
     }
+
 
     /**
      * Gets the specified parameter from the request and validates it against the provided regular expression. 
@@ -832,19 +872,21 @@ public class ParameterParser
      *@param  regexpattern	The precompiled regular expression to be used to validate the parameter.
      *@return       The validated parameter value, or the default value if validation failed.
      */
-    private String getRegexParameter(String name, String def, Pattern regexpattern) throws ValidationException
+    private String getRegexParameter(String name, String def,
+	    Pattern regexpattern) throws ValidationException
     {
-    	try
-    	{
-    		return getRegexParameter(name, regexpattern);
-    	}
-    	catch (Exception e)
-    	{
-    		//System.out.println("Exception occured in defined pattern match");
-    		//e.printStackTrace();
-    		return def;
-    	}	
+	try
+	{
+	    return getRegexParameter(name, regexpattern);
+	}
+	catch (Exception e)
+	{
+	    //System.out.println("Exception occured in defined pattern match");
+	    //e.printStackTrace();
+	    return def;
+	}
     }
+
 
     /**
      * Gets the specified parameter from the request and validates it against the provided regular expression. 
@@ -855,142 +897,164 @@ public class ParameterParser
      *@param  regexpattern	The precompiled regular expression to be used to validate the parameter.
      *@return       The validated parameter value, or the default value if validation failed.
      */
-    private String getRegexParameter(String name, Pattern regexpattern) 
-    			throws ParameterNotFoundException, ValidationException
+    private String getRegexParameter(String name, Pattern regexpattern)
+	    throws ParameterNotFoundException, ValidationException
     {
-		String param = getStringParameter( name );
-		
-		if ( regexpattern.matcher( param ).matches() )
-		{
-			return param;
-		}
-		else
-		{
-			//System.out.println(param + " didn't match defined pattern.");
-			throw new ValidationException(name + " contained an invalid value");
-		}
+	String param = getStringParameter(name);
+
+	if (regexpattern.matcher(param).matches())
+	{
+	    return param;
+	}
+	else
+	{
+	    //System.out.println(param + " didn't match defined pattern.");
+	    throw new ValidationException(name + " contained an invalid value");
+	}
     }
-    
-    
-    
-    public String getStrictAlphaParameter(String name, int maxLength) 
-    			throws ParameterNotFoundException, ValidationException
+
+
+    public String getStrictAlphaParameter(String name, int maxLength)
+	    throws ParameterNotFoundException, ValidationException
     {
-		String alphaRegEx = "^[a-zA-Z\\s]{0," + maxLength + "}$";
-		Pattern alphaPattern = Pattern.compile(alphaRegEx);
-		
-		return getRegexParameter(name, alphaPattern);
+	String alphaRegEx = "^[a-zA-Z\\s]{0," + maxLength + "}$";
+	Pattern alphaPattern = Pattern.compile(alphaRegEx);
+
+	return getRegexParameter(name, alphaPattern);
     }
-    
-    
-    
+
+
     public String getStrictNumericParameter(String name, int maxLength)
-    			throws ParameterNotFoundException, ValidationException
+	    throws ParameterNotFoundException, ValidationException
     {
-		String numericRegEx = "^\\d{0," + maxLength + "}$";
-		Pattern numericPattern = Pattern.compile(numericRegEx);
-		
-		return getRegexParameter(name, numericPattern);
-    }
-    
-    
-    
-    private static final String SSNREGEX = "^\\d{3}-\\d{2}-\\d{4}$";
-    private static final Pattern Ssnpattern = Pattern.compile(SSNREGEX);
-    
-    public String getSsnParameter(String name) throws ParameterNotFoundException, ValidationException
-    {
-    		return getRegexParameter(name, Ssnpattern);
-    }
-    
-    
-    // Validates format for major brands of credit card.
-	//private static final String CCNREGEX = "^(?:(?<Visa>4\\d{3})|(?<Mastercard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<AmericanExpress>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(AmericanExpress)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
-    	private static final String CCNREGEX = "^\\d{16}$";
-    private static final Pattern Ccnpattern = Pattern.compile(CCNREGEX);
-    
-    public String getCcnParameter(String name) throws ParameterNotFoundException, ValidationException
-    {
-    		return getRegexParameter(name, Ccnpattern);
-    }
-    
-    
-    private static final String ZIPREGEX = "^\\d{5}(-\\d{4})?$";
-    private static final Pattern Zippattern = Pattern.compile( ZIPREGEX );
-     
-    public String getZipParameter(String name) throws ParameterNotFoundException, ValidationException
-    {
-    		return getZipParameter(name, null);
-    }
-    
-    public String getZipParameter(String name, String def) throws ValidationException
-    {
-    		return getRegexParameter(name, def, Zippattern);
+	String numericRegEx = "^\\d{0," + maxLength + "}$";
+	Pattern numericPattern = Pattern.compile(numericRegEx);
+
+	return getRegexParameter(name, numericPattern);
     }
 
-    
+    private static final String SSNREGEX = "^\\d{3}-\\d{2}-\\d{4}$";
+
+    private static final Pattern Ssnpattern = Pattern.compile(SSNREGEX);
+
+
+    public String getSsnParameter(String name)
+	    throws ParameterNotFoundException, ValidationException
+    {
+	return getRegexParameter(name, Ssnpattern);
+    }
+
+    // Validates format for major brands of credit card.
+    //private static final String CCNREGEX = "^(?:(?<Visa>4\\d{3})|(?<Mastercard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<AmericanExpress>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(AmericanExpress)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
+    private static final String CCNREGEX = "^\\d{16}$";
+
+    private static final Pattern Ccnpattern = Pattern.compile(CCNREGEX);
+
+
+    public String getCcnParameter(String name)
+	    throws ParameterNotFoundException, ValidationException
+    {
+	return getRegexParameter(name, Ccnpattern);
+    }
+
+    private static final String ZIPREGEX = "^\\d{5}(-\\d{4})?$";
+
+    private static final Pattern Zippattern = Pattern.compile(ZIPREGEX);
+
+
+    public String getZipParameter(String name)
+	    throws ParameterNotFoundException, ValidationException
+    {
+	return getZipParameter(name, null);
+    }
+
+
+    public String getZipParameter(String name, String def)
+	    throws ValidationException
+    {
+	return getRegexParameter(name, def, Zippattern);
+    }
+
     private static final String PHONEREGEX = "^\\(?[\\d]{3}\\)?[\\s-]?[\\d]{3}[\\s-]?[\\d]{4}$";
+
     // Or this more forgiving pattern:
     //private static final String PHONEREGEX = "^([\\-()+ 0-9x])+$";
-    private static final Pattern phonepattern = Pattern.compile( PHONEREGEX );
-    
-    public String getPhoneParameter(String name) throws ParameterNotFoundException, ValidationException
+    private static final Pattern phonepattern = Pattern.compile(PHONEREGEX);
+
+
+    public String getPhoneParameter(String name)
+	    throws ParameterNotFoundException, ValidationException
     {
-    		return getPhoneParameter(name, null);
+	return getPhoneParameter(name, null);
     }
-    
-    public String getPhoneParameter(String name, String def) throws ValidationException
+
+
+    public String getPhoneParameter(String name, String def)
+	    throws ValidationException
     {
-    		return getRegexParameter(name, def, phonepattern);
+	return getRegexParameter(name, def, phonepattern);
     }
-    
-    
+
     private static final String EMAILREGEX = "^[\\w-]+(?:\\.[\\w-]+)*@(?:[\\w-]+\\.)+[a-zA-Z]{2,7}$";
-    private static final Pattern emailpattern = Pattern.compile( EMAILREGEX );
-    
-    public String getEMailParameter(String name) throws ParameterNotFoundException, ValidationException
+
+    private static final Pattern emailpattern = Pattern.compile(EMAILREGEX);
+
+
+    public String getEMailParameter(String name)
+	    throws ParameterNotFoundException, ValidationException
     {
-    		return getEMailParameter(name, null);
+	return getEMailParameter(name, null);
     }
-    
-    public String getEMailParameter(String name, String def) throws ValidationException
+
+
+    public String getEMailParameter(String name, String def)
+	    throws ValidationException
     {
-    		return getRegexParameter(name, def, emailpattern);
+	return getRegexParameter(name, def, emailpattern);
     }
-    
-    
-    private static final String DATEREGEX =	"([\\/ .,:0-9a-zA-Z])+$";
-    private static final Pattern datepattern = Pattern.compile( DATEREGEX );
-    
-    public String getDateParameter(String name) throws ParameterNotFoundException, ValidationException
+
+    private static final String DATEREGEX = "([\\/ .,:0-9a-zA-Z])+$";
+
+    private static final Pattern datepattern = Pattern.compile(DATEREGEX);
+
+
+    public String getDateParameter(String name)
+	    throws ParameterNotFoundException, ValidationException
     {
-		return getDateParameter(name, null);
+	return getDateParameter(name, null);
     }
-    
-    public String getDateParameter(String name, String def) throws ValidationException
+
+
+    public String getDateParameter(String name, String def)
+	    throws ValidationException
     {
-    		return getRegexParameter(name, def, datepattern);
+	return getRegexParameter(name, def, datepattern);
     }
-    
-    
+
     private static final String URLREGEX = "^(((https?)://)([-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,][[:blank:]])?$";
-    private static final Pattern URLpattern = Pattern.compile( URLREGEX );
-    
-    public String getURLParameter(String name) throws ParameterNotFoundException, ValidationException
+
+    private static final Pattern URLpattern = Pattern.compile(URLREGEX);
+
+
+    public String getURLParameter(String name)
+	    throws ParameterNotFoundException, ValidationException
     {
-    		return getURLParameter(name, null);
+	return getURLParameter(name, null);
     }
-    
-    public String getURLParameter(String name, String def) throws ValidationException
+
+
+    public String getURLParameter(String name, String def)
+	    throws ValidationException
     {
-    		return getRegexParameter(name, def, URLpattern);
+	return getRegexParameter(name, def, URLpattern);
     }
-    
-	
-	protected static String htmlEncode(String s)
-	{
-		return HtmlEncoder.encode(s);
-	}
+
+
+    protected static String htmlEncode(String s)
+    {
+	return HtmlEncoder.encode(s);
+    }
+
 
     /**
      *  Description of the Method
@@ -999,24 +1063,24 @@ public class ParameterParser
      */
     public String toString()
     {
-        StringBuffer s = new StringBuffer("[");
-        Enumeration e = getParameterNames();
+	StringBuffer s = new StringBuffer("[");
+	Enumeration e = getParameterNames();
 
-        while (e.hasMoreElements())
-        {
-            String key = (String) e.nextElement();
-            s.append(key + "=" + getParameterValues(key)[0]);
+	while (e.hasMoreElements())
+	{
+	    String key = (String) e.nextElement();
+	    s.append(key + "=" + getParameterValues(key)[0]);
 
-            // FIXME: Other values?
-            if (e.hasMoreElements())
-            {
-                s.append(",");
-            }
-        }
+	    // FIXME: Other values?
+	    if (e.hasMoreElements())
+	    {
+		s.append(",");
+	    }
+	}
 
-        s.append("]");
+	s.append("]");
 
-        return (s.toString());
+	return (s.toString());
     }
 
 
@@ -1027,6 +1091,6 @@ public class ParameterParser
      */
     public void update(ServletRequest request)
     {
-        this.request = request;
+	this.request = request;
     }
 }

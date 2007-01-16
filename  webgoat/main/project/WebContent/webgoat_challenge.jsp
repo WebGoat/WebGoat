@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>WebGoat V4</title>
+<title>WebGoat V5</title>
 <link rel="stylesheet" href="css/webgoat_challenge.css" type="text/css" />
 </head>
 

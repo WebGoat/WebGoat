@@ -22,203 +22,272 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.WebSession;
 
-public class BackDoors extends LessonAdapter {
+/*******************************************************************************
+ * 
+ * 
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ * 
+ * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 
+ * Getting Source ==============
+ * 
+ * Source for this application is maintained at code.google.com, a repository
+ * for free software projects.
+ * 
+ * For details, please see http://code.google.com/p/webgoat/
+ */
+public class BackDoors extends LessonAdapter
+{
 
-	private static Connection connection = null;
-	private final static Integer DEFAULT_RANKING = new Integer(80);
-	private final static String USERNAME = "username";
-	private final static String SELECT_ST = "select userid, password, ssn, salary from employee where userid=";
-	protected Element createContent( WebSession s )
-	{
-		return super.createStagedContent(s);
-	}
-	
-	protected Element doStage1( WebSession s ) throws Exception
-	{
-		return concept1( s );
-	}
-	
-	protected Element doStage2( WebSession s ) throws Exception
-	{
-		return concept2( s);
-	}
+    private static Connection connection = null;
+
+    private final static Integer DEFAULT_RANKING = new Integer(80);
+
+    private final static String USERNAME = "username";
+
+    private final static String SELECT_ST = "select userid, password, ssn, salary from employee where userid=";
 
 
-	protected Element concept1( WebSession s) throws Exception
+    protected Element createContent(WebSession s)
+    {
+	return super.createStagedContent(s);
+    }
+
+
+    protected Element doStage1(WebSession s) throws Exception
+    {
+	return concept1(s);
+    }
+
+
+    protected Element doStage2(WebSession s) throws Exception
+    {
+	return concept2(s);
+    }
+
+
+    protected Element concept1(WebSession s) throws Exception
+    {
+	ElementContainer ec = new ElementContainer();
+
+	ec.addElement(makeUsername(s));
+
+	try
 	{
-		ElementContainer ec = new ElementContainer();
-		
-		ec.addElement( makeUsername(s));
-		
-		try
+	    String userInput = s.getParser().getRawParameter(USERNAME, "");
+	    if (!userInput.equals(""))
+	    {
+		userInput = SELECT_ST + userInput;
+		String[] arrSQL = userInput.split(";");
+		Connection conn = getConnection(s);
+		Statement statement = conn.createStatement(
+			ResultSet.TYPE_SCROLL_INSENSITIVE,
+			ResultSet.CONCUR_READ_ONLY);
+		if (arrSQL.length == 2)
 		{
-			String userInput = s.getParser().getRawParameter(USERNAME, "");
-			if (!userInput.equals(""))
-			{
-				userInput = SELECT_ST + userInput;
-				String[] arrSQL = userInput.split(";");
-				Connection conn = getConnection(s);
-				Statement statement = conn.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-				if (arrSQL.length == 2)
-				{
-					statement.executeUpdate( arrSQL[1] );
-					
-					getLessonTracker(s).setStage(2);
-					s.setMessage("You have succeeded in exploiting the vulnerable query and created another SQL statement. Now move to stage 2 to learn how to create a backdoor or a DB worm");
-				}
-				
-				ResultSet rs = statement.executeQuery( arrSQL[0]);
-				if (rs.next())
-				{
-					Table t = new Table( 0 ).setCellSpacing( 0 ).setCellPadding( 0 ).setBorder( 1 );
-					TR tr = new TR();
-					tr.addElement( new TD("User ID"));
-					tr.addElement( new TD("Password"));
-					tr.addElement( new TD("SSN"));
-					tr.addElement( new TD("Salary"));
-					t.addElement(tr);
-					tr = new TR();
-					tr.addElement( new TD(rs.getString("userid")));
-					tr.addElement( new TD(rs.getString("password")));
-					tr.addElement( new TD(rs.getString("ssn")));
-					tr.addElement( new TD(rs.getString("salary")));
-					t.addElement(tr);
-					ec.addElement(t);
-				}
-			}
+		    statement.executeUpdate(arrSQL[1]);
+
+		    getLessonTracker(s).setStage(2);
+		    s
+			    .setMessage("You have succeeded in exploiting the vulnerable query and created another SQL statement. Now move to stage 2 to learn how to create a backdoor or a DB worm");
 		}
-		catch(Exception ex)
+
+		ResultSet rs = statement.executeQuery(arrSQL[0]);
+		if (rs.next())
 		{
-			ec.addElement( new PRE(ex.getMessage()) );
+		    Table t = new Table(0).setCellSpacing(0).setCellPadding(0)
+			    .setBorder(1);
+		    TR tr = new TR();
+		    tr.addElement(new TD("User ID"));
+		    tr.addElement(new TD("Password"));
+		    tr.addElement(new TD("SSN"));
+		    tr.addElement(new TD("Salary"));
+		    t.addElement(tr);
+		    tr = new TR();
+		    tr.addElement(new TD(rs.getString("userid")));
+		    tr.addElement(new TD(rs.getString("password")));
+		    tr.addElement(new TD(rs.getString("ssn")));
+		    tr.addElement(new TD(rs.getString("salary")));
+		    t.addElement(tr);
+		    ec.addElement(t);
 		}
-		return ec;
+	    }
 	}
-
-	protected Element concept2( WebSession s) throws Exception
+	catch (Exception ex)
 	{
-		ElementContainer ec = new ElementContainer();
-		ec.addElement(makeUsername(s));
-		
-		String userInput = s.getParser().getRawParameter(USERNAME, "");
-		
-		if (!userInput.equals(""))
+	    ec.addElement(new PRE(ex.getMessage()));
+	}
+	return ec;
+    }
+
+
+    protected Element concept2(WebSession s) throws Exception
+    {
+	ElementContainer ec = new ElementContainer();
+	ec.addElement(makeUsername(s));
+
+	String userInput = s.getParser().getRawParameter(USERNAME, "");
+
+	if (!userInput.equals(""))
+	{
+	    String[] arrSQL = userInput.split(";");
+	    if (arrSQL.length == 2)
+	    {
+		if (userInput.toUpperCase().indexOf("CREATE TRIGGER") != 0)
 		{
-			String[] arrSQL = userInput.split(";");
-			if (arrSQL.length == 2)
-			{
-				if ( userInput.toUpperCase().indexOf("CREATE TRIGGER") != 0)
-				{
-					makeSuccess(s);					
-				}
-			}
-			
+		    makeSuccess(s);
 		}
-		return ec;
-	}
+	    }
 
-	public String getInstructions(WebSession s)
+	}
+	return ec;
+    }
+
+
+    public String getInstructions(WebSession s)
+    {
+	String instructions = "";
+
+	if (!getLessonTracker(s).getCompleted())
 	{
-		String instructions = "";
-		
-		if (!getLessonTracker(s).getCompleted())
-		{
-			switch (getStage(s))
-			{
-			case 1:
-				instructions = "Stage " + getStage(s) + ": Use String SQL Injection to execute more than one SQL Statement. ";
-				instructions = instructions + " The first stage of this lesson is to teach you how to use a vulnerable field to create two SQL ";
-				instructions = instructions + " statements. The first is the system's while the second is totally yours.";
-				instructions = instructions + " Your account ID is 101. This page allows you to see your password, ssn and salary.";
-				instructions = instructions + "  Try to inject another update to update salary to something higher";
-				break;
-			case 2:
-				instructions = "Stage " + getStage(s) + ": Use String SQL Injection to inject a backdoor. " ;
-				instructions = instructions + " The second stage of this lesson is to teach you how to use a vulneable fields to inject the DB work or the backdoor." ;
-				instructions = instructions + " Now try to use the same technique to inject a trigger that would act as " ;
-				instructions = instructions + " SQL backdoor, the syntax of a trigger is: <br>";
-				instructions = instructions + " CREATE TRIGGER myBackDoor BEFORE INSERT ON employee FOR EACH ROW BEGIN UPDATE employee SET email='john@hackme.com'WHERE userid = NEW.userid<br>";
-				instructions = instructions + " Note that nothing will actually be executed because the current underlying DB doesn't support triggers.";
-				break;
-			}
-		}
-		
-		return instructions;
+	    switch (getStage(s))
+	    {
+		case 1:
+		    instructions = "Stage "
+			    + getStage(s)
+			    + ": Use String SQL Injection to execute more than one SQL Statement. ";
+		    instructions = instructions
+			    + " The first stage of this lesson is to teach you how to use a vulnerable field to create two SQL ";
+		    instructions = instructions
+			    + " statements. The first is the system's while the second is totally yours.";
+		    instructions = instructions
+			    + " Your account ID is 101. This page allows you to see your password, ssn and salary.";
+		    instructions = instructions
+			    + "  Try to inject another update to update salary to something higher";
+		    break;
+		case 2:
+		    instructions = "Stage "
+			    + getStage(s)
+			    + ": Use String SQL Injection to inject a backdoor. ";
+		    instructions = instructions
+			    + " The second stage of this lesson is to teach you how to use a vulneable fields to inject the DB work or the backdoor.";
+		    instructions = instructions
+			    + " Now try to use the same technique to inject a trigger that would act as ";
+		    instructions = instructions
+			    + " SQL backdoor, the syntax of a trigger is: <br>";
+		    instructions = instructions
+			    + " CREATE TRIGGER myBackDoor BEFORE INSERT ON employee FOR EACH ROW BEGIN UPDATE employee SET email='john@hackme.com'WHERE userid = NEW.userid<br>";
+		    instructions = instructions
+			    + " Note that nothing will actually be executed because the current underlying DB doesn't support triggers.";
+		    break;
+	    }
 	}
-	protected Element makeUsername(WebSession s)
+
+	return instructions;
+    }
+
+
+    protected Element makeUsername(WebSession s)
+    {
+	ElementContainer ec = new ElementContainer();
+	StringBuffer script = new StringBuffer();
+	script.append("<STYLE TYPE=\"text/css\"> ");
+	script.append(".blocklabel { margin-top: 8pt; }");
+	script.append(".myClass 	{ color:red;");
+	script.append(" font-weight: bold;");
+	script.append("padding-left: 1px;");
+	script.append("padding-right: 1px;");
+	script.append("background: #DDDDDD;");
+	script.append("border: thin black solid; }");
+	script.append("LI	{ margin-top: 10pt; }");
+	script.append("</STYLE>");
+	ec.addElement(new StringElement(script.toString()));
+
+	ec.addElement(new StringElement("User ID: "));
+	Input username = new Input(Input.TEXT, "username", "");
+	ec.addElement(username);
+
+	String userInput = s.getParser().getRawParameter("username", "");
+
+	ec.addElement(new BR());
+	ec.addElement(new BR());
+
+	String formattedInput = "<span class='myClass'>" + userInput
+		+ "</span>";
+	ec.addElement(new Div(SELECT_ST + formattedInput));
+
+	Input b = new Input();
+
+	b.setName("Submit");
+	b.setType(Input.SUBMIT);
+	b.setValue("Submit");
+
+	ec.addElement(new PRE(b));
+
+	return ec;
+    }
+
+
+    public static synchronized Connection getConnection(WebSession s)
+	    throws SQLException, ClassNotFoundException
+    {
+	if (connection == null)
 	{
-		ElementContainer ec = new ElementContainer();
-		StringBuffer script = new StringBuffer();
-		script.append( "<STYLE TYPE=\"text/css\"> " );
-		script.append( ".blocklabel { margin-top: 8pt; }" );
-		script.append( ".myClass 	{ color:red;" );
-		script.append( " font-weight: bold;" );
-		script.append( "padding-left: 1px;" );
-		script.append( "padding-right: 1px;" );
-		script.append( "background: #DDDDDD;" );
-		script.append( "border: thin black solid; }" );
-		script.append( "LI	{ margin-top: 10pt; }" );
-		script.append( "</STYLE>" );		
-		ec.addElement( new StringElement(script.toString()));
-			
-		ec.addElement( new StringElement( "User ID: " ) ) ;
-		Input username = new Input( Input.TEXT, "username", "" );
-		ec.addElement( username  );
-				
-		String userInput = s.getParser().getRawParameter("username" , "");
-
-		ec.addElement(new BR());
-		ec.addElement(new BR());
-		
-		String formattedInput = "<span class='myClass'>" + userInput + "</span>";
-		ec.addElement( new Div(SELECT_ST + formattedInput ));
-		
-		Input b = new Input();
-		
-		b.setName("Submit");
-		b.setType(Input.SUBMIT);
-		b.setValue("Submit");
-		
-		ec.addElement(new PRE( b ) ); 	
-		
-		return ec;
+	    connection = DatabaseUtilities.makeConnection(s);
 	}
 
-	public static synchronized Connection getConnection(WebSession s) 
-	throws SQLException, ClassNotFoundException
-	{
-		if ( connection == null )
-		{
-			connection = DatabaseUtilities.makeConnection( s );
-		}
-		
-		return connection;
-	}
-	
-	public Element getCredits() {
-		return new StringElement("Created by Sherif Koussa");
-	}
+	return connection;
+    }
 
-	protected List getHints() {
-		List<String> hints = new ArrayList<String>();
-		hints.add( "Your user id is 101. Use it to see your information" );
-		hints.add( "A semi-colon usually ends a SQL statement and starts a new one." );
-		hints.add( "Try this 101; update employee set salary=100000" );
-		hints.add( "For stage 2, Try 101; CREATE TRIGGER myBackDoor BEFORE INSERT ON customers FOR EACH ROW BEGIN UPDATE customers SET email='john@hackme.com'WHERE userid = NEW.userid");
-		return hints;
-	}
 
-	protected Category getDefaultCategory()
-	{
-		return AbstractLesson.A6;
-	}
+    public Element getCredits()
+    {
+	return new StringElement("Created by Sherif Koussa");
+    }
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
 
-	public String getTitle()
-	{
-		return ( "How to Use Database Backdoors " );
-	}
+    protected List getHints()
+    {
+	List<String> hints = new ArrayList<String>();
+	hints.add("Your user id is 101. Use it to see your information");
+	hints
+		.add("A semi-colon usually ends a SQL statement and starts a new one.");
+	hints.add("Try this 101; update employee set salary=100000");
+	hints
+		.add("For stage 2, Try 101; CREATE TRIGGER myBackDoor BEFORE INSERT ON customers FOR EACH ROW BEGIN UPDATE customers SET email='john@hackme.com'WHERE userid = NEW.userid");
+	return hints;
+    }
+
+
+    protected Category getDefaultCategory()
+    {
+	return AbstractLesson.A6;
+    }
+
+
+    protected Integer getDefaultRanking()
+    {
+	return DEFAULT_RANKING;
+    }
+
+
+    public String getTitle()
+    {
+	return ("How to Use Database Backdoors ");
+    }
 }

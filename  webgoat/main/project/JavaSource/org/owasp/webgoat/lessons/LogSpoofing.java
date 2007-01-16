@@ -17,110 +17,155 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
-/**
- *  Copyright (c) 2002 Free Software Foundation developed under the custody of the Open Web
- *  Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is published by OWASP
- *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
- *  this software.
- *
+/*******************************************************************************
+ * 
+ * 
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ * 
+ * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 
+ * Getting Source ==============
+ * 
+ * Source for this application is maintained at code.google.com, a repository
+ * for free software projects.
+ * 
+ * For details, please see http://code.google.com/p/webgoat/
+ * 
  * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies</a>
  * @created    October 28, 2006
  */
 
-public class LogSpoofing extends LessonAdapter {
+public class LogSpoofing extends LessonAdapter
+{
 
-	private static final String USERNAME = "username";
-	private static final String PASSWORD = "password";
-	
-	protected Element createContent(WebSession s) {
-		
-		ElementContainer ec = null;
-		String inputUsername = null; 
-		try{
-		
-		Table t = new Table( 0 ).setCellSpacing( 0 ).setCellPadding( 0 ).setBorder( 0 );
-		TR row1 = new TR();
-		TR row2 = new TR();
-		TR row3 = new TR();
-		
-		row1.addElement( new TD( new StringElement( "Username: " ) ) );
-		Input username = new Input( Input.TEXT, USERNAME, "" );
-		row1.addElement( new TD( username ) );
+    private static final String USERNAME = "username";
 
-		row2.addElement( new TD(new StringElement( "Password: ") ) );
-		Input password = new Input ( Input.PASSWORD, PASSWORD, "");
-		row2.addElement( new TD (password));
-		
-		Element b = ECSFactory.makeButton( "Login" );
-		row3.addElement( new TD (new StringElement( "&nbsp; ")));
-		row3.addElement( new TD(b) ).setAlign("right");
-		
-		t.addElement(row1);
-		t.addElement(row2);
-		t.addElement(row3);
-		
-		ec = new ElementContainer();
-		ec.addElement( t );
-
-		inputUsername = new String( s.getParser().getRawParameter( USERNAME, "" ) );
-		if ( inputUsername.length() != 0)
-		{
-			inputUsername = URLDecoder.decode( inputUsername, "UTF-8"); 
-		}
-		
-		ec.addElement( new PRE(" "));
-		
-		Table t2 = new Table( 0 ).setCellSpacing( 0 ).setCellPadding( 0 ).setBorder( 0 );
-		TR row4 = new TR();
-		row4.addElement( new TD(new PRE ("Login failed for username: " + inputUsername ))).setBgColor( HtmlColor.GRAY);
-
-		t2.addElement(row4);
-		
-		ec.addElement( t2 );
+    private static final String PASSWORD = "password";
 
 
-		if ( inputUsername.length() != 0 &&
-				inputUsername.toUpperCase().indexOf( System.getProperty("line.separator") + "LOGIN SUCCEEDED FOR USERNAME:") >= 0)
-		{
-			makeSuccess(s);
-		}
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			s.setMessage( "Error generating " + this.getClass().getName() );
-			e.printStackTrace();			
-		}
-		return ec;
+    protected Element createContent(WebSession s)
+    {
+
+	ElementContainer ec = null;
+	String inputUsername = null;
+	try
+	{
+
+	    Table t = new Table(0).setCellSpacing(0).setCellPadding(0)
+		    .setBorder(0);
+	    TR row1 = new TR();
+	    TR row2 = new TR();
+	    TR row3 = new TR();
+
+	    row1.addElement(new TD(new StringElement("Username: ")));
+	    Input username = new Input(Input.TEXT, USERNAME, "");
+	    row1.addElement(new TD(username));
+
+	    row2.addElement(new TD(new StringElement("Password: ")));
+	    Input password = new Input(Input.PASSWORD, PASSWORD, "");
+	    row2.addElement(new TD(password));
+
+	    Element b = ECSFactory.makeButton("Login");
+	    row3.addElement(new TD(new StringElement("&nbsp; ")));
+	    row3.addElement(new TD(b)).setAlign("right");
+
+	    t.addElement(row1);
+	    t.addElement(row2);
+	    t.addElement(row3);
+
+	    ec = new ElementContainer();
+	    ec.addElement(t);
+
+	    inputUsername = new String(s.getParser().getRawParameter(USERNAME,
+		    ""));
+	    if (inputUsername.length() != 0)
+	    {
+		inputUsername = URLDecoder.decode(inputUsername, "UTF-8");
+	    }
+
+	    ec.addElement(new PRE(" "));
+
+	    Table t2 = new Table(0).setCellSpacing(0).setCellPadding(0)
+		    .setBorder(0);
+	    TR row4 = new TR();
+	    row4.addElement(
+		    new TD(new PRE("Login failed for username: "
+			    + inputUsername))).setBgColor(HtmlColor.GRAY);
+
+	    t2.addElement(row4);
+
+	    ec.addElement(t2);
+
+	    if (inputUsername.length() != 0
+		    && inputUsername.toUpperCase().indexOf(
+			    System.getProperty("line.separator")
+				    + "LOGIN SUCCEEDED FOR USERNAME:") >= 0)
+	    {
+		makeSuccess(s);
+	    }
 	}
-
-	private final static Integer DEFAULT_RANKING = new Integer(72);
-	
-	protected Integer getDefaultRanking() {
-		return DEFAULT_RANKING;
+	catch (UnsupportedEncodingException e)
+	{
+	    s.setMessage("Error generating " + this.getClass().getName());
+	    e.printStackTrace();
 	}
+	return ec;
+    }
 
-	@Override
-	protected List getHints() {
-		List<String> hints = new ArrayList<String>();
-		hints.add( "Try to fool the humane eye by using new lines." );
-		hints.add( "Use CR (%0d) and LF (%0a) for a new line." );
-		hints.add( "Try: Smith%0d%0aLogin Succeeded for username: admin" );
-		hints.add( "Try: Smith%0d%0aLogin Succeeded for username: admin&lt;script&gt;alert(document.cookie)&lt;/script&gt;" );
+    private final static Integer DEFAULT_RANKING = new Integer(72);
 
-		return hints;
-	}
 
-	@Override
-	public String getTitle() {
-		return "How to Perform Log Spoofing";
-	}
+    protected Integer getDefaultRanking()
+    {
+	return DEFAULT_RANKING;
+    }
 
-	@Override
-	protected Category getDefaultCategory() {
-		return AbstractLesson.A6;
-	}
 
-	public Element getCredits() {
-		return new StringElement("Created by Sherif Koussa");
-	}
+    @Override
+    protected List getHints()
+    {
+	List<String> hints = new ArrayList<String>();
+	hints.add("Try to fool the humane eye by using new lines.");
+	hints.add("Use CR (%0d) and LF (%0a) for a new line.");
+	hints.add("Try: Smith%0d%0aLogin Succeeded for username: admin");
+	hints
+		.add("Try: Smith%0d%0aLogin Succeeded for username: admin&lt;script&gt;alert(document.cookie)&lt;/script&gt;");
+
+	return hints;
+    }
+
+
+    @Override
+    public String getTitle()
+    {
+	return "How to Perform Log Spoofing";
+    }
+
+
+    @Override
+    protected Category getDefaultCategory()
+    {
+	return AbstractLesson.A6;
+    }
+
+
+    public Element getCredits()
+    {
+	return new StringElement("Created by Sherif Koussa");
+    }
 }

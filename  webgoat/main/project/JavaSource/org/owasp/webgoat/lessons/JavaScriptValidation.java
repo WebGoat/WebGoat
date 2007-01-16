@@ -14,12 +14,34 @@ import org.apache.ecs.html.TextArea;
 
 import org.owasp.webgoat.session.WebSession;
 
-
-/**
- *  Copyright (c) 2002 Free Software Foundation developed under the custody of the Open Web
- *  Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is published by OWASP
- *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
- *  this software.
+/*******************************************************************************
+ * 
+ * 
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ * 
+ * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 
+ * Getting Source ==============
+ * 
+ * Source for this application is maintained at code.google.com, a repository
+ * for free software projects.
+ * 
+ * For details, please see http://code.google.com/p/webgoat/
  *
  * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  * @created    October 28, 2003
@@ -28,237 +50,276 @@ import org.owasp.webgoat.session.WebSession;
 public class JavaScriptValidation extends LessonAdapter
 {
 
-	/**
-	 *  Description of the Method
-	 *
-	 * @param  s  Description of the Parameter
-	 * @return    Description of the Return Value
-	 */
-	protected Element createContent( WebSession s )
+    /**
+     *  Description of the Method
+     *
+     * @param  s  Description of the Parameter
+     * @return    Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+
+	ElementContainer ec = new ElementContainer();
+
+	// Regular expressions in Java and JavaScript compatible form
+
+	// Note: if you want to use the regex=new RegExp(\"" + regex + "\");" syntax
+
+	// you'll have to use \\\\d to indicate a digit for example -- one escaping for Java and one for JavaScript
+
+	String regex1 = "^[a-z]{3}$";// any three lowercase letters
+	String regex2 = "^[0-9]{3}$";// any three digits
+	String regex3 = "^[a-zA-Z0-9 ]*$";// alphanumerics and space without punctuation
+	String regex4 = "^(one|two|three|four|five|six|seven|eight|nine)$";// enumeration of numbers
+	String regex5 = "^\\d{5}$";// simple zip code
+	String regex6 = "^\\d{5}(-\\d{4})?$";// zip with optional dash-four
+	String regex7 = "^[2-9]\\d{2}-?\\d{3}-?\\d{4}$";//US phone number with or without dashes
+	Pattern pattern1 = Pattern.compile(regex1);
+	Pattern pattern2 = Pattern.compile(regex2);
+	Pattern pattern3 = Pattern.compile(regex3);
+	Pattern pattern4 = Pattern.compile(regex4);
+	Pattern pattern5 = Pattern.compile(regex5);
+	Pattern pattern6 = Pattern.compile(regex6);
+	Pattern pattern7 = Pattern.compile(regex7);
+	String lineSep = System.getProperty("line.separator");
+	String script = "<SCRIPT>"
+		+ lineSep
+		+ "regex1=/"
+		+ regex1
+		+ "/;"
+		+ lineSep
+		+ "regex2=/"
+		+ regex2
+		+ "/;"
+		+ lineSep
+		+ "regex3=/"
+		+ regex3
+		+ "/;"
+		+ lineSep
+		+ "regex4=/"
+		+ regex4
+		+ "/;"
+		+ lineSep
+		+ "regex5=/"
+		+ regex5
+		+ "/;"
+		+ lineSep
+		+ "regex6=/"
+		+ regex6
+		+ "/;"
+		+ lineSep
+		+ "regex7=/"
+		+ regex7
+		+ "/;"
+		+ lineSep
+		+ "function validate() { "
+		+ lineSep
+		+ "msg='JavaScript found form errors'; err=0; "
+		+ lineSep
+		+ "if (!regex1.test(document.form.field1.value)) {err+=1; msg+='\\n  bad field1';}"
+		+ lineSep
+		+ "if (!regex2.test(document.form.field2.value)) {err+=1; msg+='\\n  bad field2';}"
+		+ lineSep
+		+ "if (!regex3.test(document.form.field3.value)) {err+=1; msg+='\\n  bad field3';}"
+		+ lineSep
+		+ "if (!regex4.test(document.form.field4.value)) {err+=1; msg+='\\n  bad field4';}"
+		+ lineSep
+		+ "if (!regex5.test(document.form.field5.value)) {err+=1; msg+='\\n  bad field5';}"
+		+ lineSep
+		+ "if (!regex6.test(document.form.field6.value)) {err+=1; msg+='\\n  bad field6';}"
+		+ lineSep
+		+ "if (!regex7.test(document.form.field7.value)) {err+=1; msg+='\\n  bad field7';}"
+		+ lineSep + "if ( err > 0 ) alert(msg);" + lineSep
+		+ "else document.form.submit();" + lineSep + "} " + lineSep
+		+ "</SCRIPT>" + lineSep;
+	try
 	{
+	    String param1 = s.getParser().getRawParameter("field1", "abc");
+	    String param2 = s.getParser().getRawParameter("field2", "123");
+	    String param3 = s.getParser().getRawParameter("field3",
+		    "abc 123 ABC");
+	    String param4 = s.getParser().getRawParameter("field4", "seven");
+	    String param5 = s.getParser().getRawParameter("field5", "90210");
+	    String param6 = s.getParser().getRawParameter("field6",
+		    "90210-1111");
+	    String param7 = s.getParser().getRawParameter("field7",
+		    "301-604-4882");
+	    ec.addElement(new StringElement(script));
+	    TextArea input1 = new TextArea("field1", 1, 25).addElement(param1);
+	    TextArea input2 = new TextArea("field2", 1, 25).addElement(param2);
+	    TextArea input3 = new TextArea("field3", 1, 25).addElement(param3);
+	    TextArea input4 = new TextArea("field4", 1, 25).addElement(param4);
+	    TextArea input5 = new TextArea("field5", 1, 25).addElement(param5);
+	    TextArea input6 = new TextArea("field6", 1, 25).addElement(param6);
+	    TextArea input7 = new TextArea("field7", 1, 25).addElement(param7);
 
-		ElementContainer ec = new ElementContainer();
+	    Input b = new Input();
+	    b.setType(Input.BUTTON);
+	    b.setValue("Submit");
+	    b.addAttribute("onclick", "validate();");
+	    ec.addElement(new Div().addElement(new StringElement(
+		    "Field1: exactly three lowercase characters (" + regex1
+			    + ")")));
+	    ec.addElement(new Div().addElement(input1));
+	    ec.addElement(new P());
+	    ec.addElement(new Div().addElement(new StringElement(
+		    "Field2: exactly three digits (" + regex2 + ")")));
+	    ec.addElement(new Div().addElement(input2));
+	    ec.addElement(new P());
+	    ec.addElement(new Div()
+		    .addElement(new StringElement(
+			    "Field3: letters, numbers, and space only ("
+				    + regex3 + ")")));
+	    ec.addElement(new Div().addElement(input3));
+	    ec.addElement(new P());
+	    ec.addElement(new Div().addElement(new StringElement(
+		    "Field4: enumeration of numbers (" + regex4 + ")")));
+	    ec.addElement(new Div().addElement(input4));
+	    ec.addElement(new P());
+	    ec.addElement(new Div().addElement(new StringElement(
+		    "Field5: simple zip code (" + regex5 + ")")));
+	    ec.addElement(new Div().addElement(input5));
+	    ec.addElement(new P());
+	    ec.addElement(new Div().addElement(new StringElement(
+		    "Field6: zip with optional dash four (" + regex6 + ")")));
+	    ec.addElement(new Div().addElement(input6));
+	    ec.addElement(new P());
+	    ec.addElement(new Div().addElement(new StringElement(
+		    "Field7: US phone number with or without dashes (" + regex7
+			    + ")")));
+	    ec.addElement(new Div().addElement(input7));
+	    ec.addElement(new P());
+	    ec.addElement(b);
 
-		// Regular expressions in Java and JavaScript compatible form
+	    // Check the patterns on the server -- and note the errors in the response
+	    // these should never match unless the client side pattern script doesn't work
 
-		// Note: if you want to use the regex=new RegExp(\"" + regex + "\");" syntax
+	    int err = 0;
+	    String msg = "";
 
-		// you'll have to use \\\\d to indicate a digit for example -- one escaping for Java and one for JavaScript
+	    if (!pattern1.matcher(param1).matches())
+	    {
+		err++;
+		msg += "<BR>Server side validation violation: You succeeded for Field1.";
+	    }
 
+	    if (!pattern2.matcher(param2).matches())
+	    {
+		err++;
+		msg += "<BR>Server side validation violation:  You succeeded for Field2.";
+	    }
 
-		String regex1 = "^[a-z]{3}$";// any three lowercase letters
-		String regex2 = "^[0-9]{3}$";// any three digits
-		String regex3 = "^[a-zA-Z0-9 ]*$";// alphanumerics and space without punctuation
-		String regex4 = "^(one|two|three|four|five|six|seven|eight|nine)$";// enumeration of numbers
-		String regex5 = "^\\d{5}$";// simple zip code
-		String regex6 = "^\\d{5}(-\\d{4})?$";// zip with optional dash-four
-		String regex7 = "^[2-9]\\d{2}-?\\d{3}-?\\d{4}$";//US phone number with or without dashes
-		Pattern pattern1 = Pattern.compile( regex1 );
-		Pattern pattern2 = Pattern.compile( regex2 );
-		Pattern pattern3 = Pattern.compile( regex3 );
-		Pattern pattern4 = Pattern.compile( regex4 );
-		Pattern pattern5 = Pattern.compile( regex5 );
-		Pattern pattern6 = Pattern.compile( regex6 );
-		Pattern pattern7 = Pattern.compile( regex7 );
-		String lineSep = System.getProperty("line.separator");
-		String script = "<SCRIPT>" + lineSep +
-				"regex1=/" + regex1 + "/;" + lineSep +
-				"regex2=/" + regex2 + "/;" + lineSep +
-				"regex3=/" + regex3 + "/;" + lineSep +
-				"regex4=/" + regex4 + "/;" + lineSep +
-				"regex5=/" + regex5 + "/;" + lineSep +
-				"regex6=/" + regex6 + "/;" + lineSep +
-				"regex7=/" + regex7 + "/;" + lineSep +
-				"function validate() { " + lineSep +
-				"msg='JavaScript found form errors'; err=0; " + lineSep +
-				"if (!regex1.test(document.form.field1.value)) {err+=1; msg+='\\n  bad field1';}" + lineSep +
-				"if (!regex2.test(document.form.field2.value)) {err+=1; msg+='\\n  bad field2';}" + lineSep +
-				"if (!regex3.test(document.form.field3.value)) {err+=1; msg+='\\n  bad field3';}" + lineSep +
-				"if (!regex4.test(document.form.field4.value)) {err+=1; msg+='\\n  bad field4';}" + lineSep +
-				"if (!regex5.test(document.form.field5.value)) {err+=1; msg+='\\n  bad field5';}" + lineSep +
-				"if (!regex6.test(document.form.field6.value)) {err+=1; msg+='\\n  bad field6';}" + lineSep +
-				"if (!regex7.test(document.form.field7.value)) {err+=1; msg+='\\n  bad field7';}" + lineSep +
-				"if ( err > 0 ) alert(msg);" + lineSep +
-				"else document.form.submit();" + lineSep +
-				"} " + lineSep + 
-				"</SCRIPT>" + lineSep;
-		try
-		{
-			String param1 = s.getParser().getRawParameter( "field1", "abc" );
-			String param2 = s.getParser().getRawParameter( "field2", "123" );
-			String param3 = s.getParser().getRawParameter( "field3", "abc 123 ABC" );
-			String param4 = s.getParser().getRawParameter( "field4", "seven" );
-			String param5 = s.getParser().getRawParameter( "field5", "90210" );
-			String param6 = s.getParser().getRawParameter( "field6", "90210-1111" );
-			String param7 = s.getParser().getRawParameter( "field7", "301-604-4882" );
-			ec.addElement( new StringElement( script ) );
-			TextArea input1 = new TextArea( "field1", 1, 25 ).addElement( param1 );
-			TextArea input2 = new TextArea( "field2", 1, 25 ).addElement( param2 );
-			TextArea input3 = new TextArea( "field3", 1, 25 ).addElement( param3 );
-			TextArea input4 = new TextArea( "field4", 1, 25 ).addElement( param4 );
-			TextArea input5 = new TextArea( "field5", 1, 25 ).addElement( param5 );
-			TextArea input6 = new TextArea( "field6", 1, 25 ).addElement( param6 );
-			TextArea input7 = new TextArea( "field7", 1, 25 ).addElement( param7 );
+	    if (!pattern3.matcher(param3).matches())
+	    {
+		err++;
+		msg += "<BR>Server side validation violation:  You succeeded for Field3.";
+	    }
 
-			Input b = new Input();
-			b.setType( Input.BUTTON );
-			b.setValue( "Submit" );
-			b.addAttribute( "onclick", "validate();" );
-			ec.addElement( new Div().addElement( new StringElement( "Field1: exactly three lowercase characters (" + regex1 + ")" ) ) );
-			ec.addElement( new Div().addElement( input1 ) );
-			ec.addElement( new P() );
-			ec.addElement( new Div().addElement( new StringElement( "Field2: exactly three digits (" + regex2 + ")" ) ) );
-			ec.addElement( new Div().addElement( input2 ) );
-			ec.addElement( new P() );
-			ec.addElement( new Div().addElement( new StringElement( "Field3: letters, numbers, and space only (" + regex3 + ")" ) ) );
-			ec.addElement( new Div().addElement( input3 ) );
-			ec.addElement( new P() );
-			ec.addElement( new Div().addElement( new StringElement( "Field4: enumeration of numbers (" + regex4 + ")" ) ) );
-			ec.addElement( new Div().addElement( input4 ) );
-			ec.addElement( new P() );
-			ec.addElement( new Div().addElement( new StringElement( "Field5: simple zip code (" + regex5 + ")" ) ) );
-			ec.addElement( new Div().addElement( input5 ) );
-			ec.addElement( new P() );
-			ec.addElement( new Div().addElement( new StringElement( "Field6: zip with optional dash four (" + regex6 + ")" ) ) );
-			ec.addElement( new Div().addElement( input6 ) );
-			ec.addElement( new P() );
-			ec.addElement( new Div().addElement( new StringElement( "Field7: US phone number with or without dashes (" + regex7 + ")" ) ) );
-			ec.addElement( new Div().addElement( input7 ) );
-			ec.addElement( new P() );
-			ec.addElement( b );
+	    if (!pattern4.matcher(param4).matches())
+	    {
+		err++;
+		msg += "<BR>Server side validation violation:  You succeeded for Field4.";
+	    }
 
-			// Check the patterns on the server -- and note the errors in the response
-			// these should never match unless the client side pattern script doesn't work
+	    if (!pattern5.matcher(param5).matches())
+	    {
+		err++;
+		msg += "<BR>Server side validation violation:  You succeeded for Field5.";
+	    }
 
-			int err = 0;
-			String msg = "";
+	    if (!pattern6.matcher(param6).matches())
+	    {
+		err++;
+		msg += "<BR>Server side validation violation:  You succeeded for Field6.";
+	    }
 
-			if ( !pattern1.matcher( param1 ).matches() )
-			{
-				err++;
-				msg += "<BR>Server side validation violation: You succeeded for Field1.";
-			}
+	    if (!pattern7.matcher(param7).matches())
+	    {
+		err++;
+		msg += "<BR>Server side validation violation:  You succeeded for Field7.";
+	    }
 
-			if ( !pattern2.matcher( param2 ).matches() )
-			{
-				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field2.";
-			}
-
-			if ( !pattern3.matcher( param3 ).matches() )
-			{
-				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field3.";
-			}
-
-			if ( !pattern4.matcher( param4 ).matches() )
-			{
-				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field4.";
-			}
-
-			if ( !pattern5.matcher( param5 ).matches() )
-			{
-				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field5.";
-			}
-
-			if ( !pattern6.matcher( param6 ).matches() )
-			{
-				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field6.";
-			}
-
-			if ( !pattern7.matcher( param7 ).matches() )
-			{
-				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field7.";
-			}
-
-			if ( err > 0 )
-			{
-				s.setMessage( msg );
-			}
-			if ( err >= 7 )
-			{
-				// This means they defeated all the client side checks
-				makeSuccess( s );
-			}
-		}
-
-		catch ( Exception e )
-		{
-			s.setMessage( "Error generating " + this.getClass().getName() );
-			e.printStackTrace();
-		}
-
-		return ( ec );
+	    if (err > 0)
+	    {
+		s.setMessage(msg);
+	    }
+	    if (err >= 7)
+	    {
+		// This means they defeated all the client side checks
+		makeSuccess(s);
+	    }
 	}
 
-	/**
-	 *  DOCUMENT ME!
-	 *
-	 * @return    DOCUMENT ME!
-	 */
-	protected Category getDefaultCategory()
+	catch (Exception e)
 	{
-		return AbstractLesson.A1;
+	    s.setMessage("Error generating " + this.getClass().getName());
+	    e.printStackTrace();
 	}
 
+	return (ec);
+    }
 
 
-	/**
-	 *  Gets the hints attribute of the AccessControlScreen object
-	 *
-	 * @return    The hints value
-	 */
-	protected List getHints()
-	{
-		List<String> hints = new ArrayList<String>();
-
-		hints.add( "The validation is happening in your browser." );
-		hints.add( "Try modifying the values with a proxy after they leave your browser" );
-		hints.add( "Another way is to delete the JavaScript before you view the page." );
-
-		return hints;
-	}
+    /**
+     *  DOCUMENT ME!
+     *
+     * @return    DOCUMENT ME!
+     */
+    protected Category getDefaultCategory()
+    {
+	return AbstractLesson.A1;
+    }
 
 
+    /**
+     *  Gets the hints attribute of the AccessControlScreen object
+     *
+     * @return    The hints value
+     */
+    protected List getHints()
+    {
+	List<String> hints = new ArrayList<String>();
 
-	/**
-	 *  Gets the instructions attribute of the WeakAccessControl object
-	 *
-	 * @return    The instructions value
-	 */
-	public String getInstructions(WebSession s)
-	{
-		String instructions = "This website performs both client and server side validation.  " +
-			"For this exercise, your job is to break the client side validation and send the " +
-			" website input that it wasn't expecting." +
-			"<b> You must break all 7 validators at the same time. </b>";
-		return ( instructions );
-	}
+	hints.add("The validation is happening in your browser.");
+	hints
+		.add("Try modifying the values with a proxy after they leave your browser");
+	hints
+		.add("Another way is to delete the JavaScript before you view the page.");
+
+	return hints;
+    }
 
 
+    /**
+     *  Gets the instructions attribute of the WeakAccessControl object
+     *
+     * @return    The instructions value
+     */
+    public String getInstructions(WebSession s)
+    {
+	String instructions = "This website performs both client and server side validation.  "
+		+ "For this exercise, your job is to break the client side validation and send the "
+		+ " website input that it wasn't expecting."
+		+ "<b> You must break all 7 validators at the same time. </b>";
+	return (instructions);
+    }
+
+    private final static Integer DEFAULT_RANKING = new Integer(120);
 
 
+    protected Integer getDefaultRanking()
+    {
+	return DEFAULT_RANKING;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(120);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
-
-	/**
-	 *  Gets the title attribute of the AccessControlScreen object
-	 *
-	 * @return    The title value
-	 */
-	public String getTitle()
-	{
-		return ( "How to Bypass Client Side JavaScript Validation" );
-	}
+    /**
+     *  Gets the title attribute of the AccessControlScreen object
+     *
+     * @return    The title value
+     */
+    public String getTitle()
+    {
+	return ("How to Bypass Client Side JavaScript Validation");
+    }
 }
-
-

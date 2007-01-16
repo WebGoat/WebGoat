@@ -44,28 +44,6 @@
       </description>
     </context-param>
 
-    <!-- Enable the following two elements if you want to integrate with 
-    OWASP Site Generator, the OSGServerName represents the server on which the
-    OSG desktop application resides and the OSGServerPort represents the port it is
-    listening to-->
-    <!--
-    <context-param>
-      <param-name>OSGServerName</param-name>
-      <param-value>localhost</param-value>
-      <description>Enable this element if you want to integrate with
-      OWASP Site Generator 
-      </description>
-    </context-param>
-
-    <context-param>
-      <param-name>OSGServerPort</param-name>
-      <param-value>4000</param-value>
-      <description>
-        The EMAIL address of the administrator to whom questions
-        and comments about this application should be addressed.
-      </description>
-    </context-param>
-	-->
     <!-- Servlet definitions for the servlets that make up
          your web application, including initialization
          parameters.  With Tomcat, you can also send requests
@@ -90,14 +68,7 @@
 
          You can define any number of servlets, including zero.
     -->
-	<filter>
-		<filter-name>Interceptor</filter-name>
-		<filter-class>org.owasp.webgoat.util.Interceptor</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>Interceptor</filter-name>
-		 <url-pattern>/*</url-pattern>
-	</filter-mapping>
+
     <servlet>
       <servlet-name>AxisServlet</servlet-name>
       <display-name>Apache-Axis Servlet</display-name>
@@ -203,15 +174,7 @@
       </description>
       <servlet-class>org.owasp.webgoat.LessonSource</servlet-class>
     </servlet>
-	<servlet>
-		<servlet-name>validate</servlet-name>
-		<servlet-class>org.owasp.webgoat.servlets.ValidateServlet</servlet-class>
-	</servlet>
-	<servlet>
-	     <servlet-name>config</servlet-name>
-	     <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
-	</servlet>
-	
+
     <!-- Define mappings that are used by the servlet container to
          translate a particular request URI (context-relative) to a
          particular servlet.  The examples below correspond to the
@@ -263,17 +226,7 @@
       <servlet-name>WebGoat</servlet-name>
       <url-pattern>/attack</url-pattern>
     </servlet-mapping>
-
-	<servlet-mapping>
-	     <servlet-name>config</servlet-name>
-	     <url-pattern>/config</url-pattern>
-	</servlet-mapping>
     
-	<servlet-mapping>
-	     <servlet-name>validate</servlet-name>
-	     <url-pattern>/validate</url-pattern>
-	</servlet-mapping>
-
     <servlet-mapping>
       <servlet-name>LessonSource</servlet-name>
       <url-pattern>/source</url-pattern>
@@ -362,5 +315,4 @@
 	</security-role>
 	
 </web-app>
-
 

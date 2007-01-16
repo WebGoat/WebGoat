@@ -19,199 +19,234 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
-/**
- *  Copyright (c) 2002 Free Software Foundation developed under the custody of the Open Web
- *  Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is published by OWASP
- *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
- *  this software.
+/*******************************************************************************
+ * 
+ * 
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ * 
+ * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 
+ * Getting Source ==============
+ * 
+ * Source for this application is maintained at code.google.com, a repository
+ * for free software projects.
+ * 
+ * For details, please see http://code.google.com/p/webgoat/
  *
  * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  * @created    October 28, 2003
  */
 public class HtmlClues extends LessonAdapter
 {
-	/**
-	 *  Description of the Field
-	 */
-	protected final static String PASSWORD = "Password";
-	/**
-	 *  Description of the Field
-	 */
-	protected final static String USERNAME = "Username";
-	/**
-	 *  Description of the Method
-	 *
-	 * @param  s  Description of the Parameter
-	 * @return    Description of the Return Value
-	 */
-	private boolean backdoor( WebSession s )
-	{
-		String username = s.getParser().getRawParameter( USERNAME, "" );
-		String password = s.getParser().getRawParameter( PASSWORD, "" );
 
-		//<START_OMIT_SOURCE>
-		return ( username.equals( "admin" ) && password.equals( "adminpw" ) );
-		//<END_OMIT_SOURCE>
+    /**
+     *  Description of the Field
+     */
+    protected final static String PASSWORD = "Password";
+
+    /**
+     *  Description of the Field
+     */
+    protected final static String USERNAME = "Username";
+
+
+    /**
+     *  Description of the Method
+     *
+     * @param  s  Description of the Parameter
+     * @return    Description of the Return Value
+     */
+    private boolean backdoor(WebSession s)
+    {
+	String username = s.getParser().getRawParameter(USERNAME, "");
+	String password = s.getParser().getRawParameter(PASSWORD, "");
+
+	//<START_OMIT_SOURCE>
+	return (username.equals("admin") && password.equals("adminpw"));
+	//<END_OMIT_SOURCE>
+    }
+
+
+    /**
+     *  Description of the Method
+     *
+     * @param  s  Description of the Parameter
+     * @return    Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+	ElementContainer ec = new ElementContainer();
+
+	try
+	{
+	    //<START_OMIT_SOURCE>
+	    ec.addElement(new Comment("FIXME admin:adminpw"));
+	    //<END_OMIT_SOURCE>
+	    ec.addElement(new Comment("Use Admin to regenerate database"));
+
+	    if (backdoor(s))
+	    {
+		makeSuccess(s);
+
+		s.setMessage("BINGO -- admin authenticated");
+		ec.addElement(makeUser(s, "jsnow", "CREDENTIALS"));
+	    }
+	    else
+	    {
+		ec.addElement(makeLogin(s));
+	    }
+	}
+	catch (Exception e)
+	{
+	    s.setMessage("Error generating " + this.getClass().getName());
 	}
 
+	return (ec);
+    }
 
-	/**
-	 *  Description of the Method
-	 *
-	 * @param  s  Description of the Parameter
-	 * @return    Description of the Return Value
-	 */
-	protected Element createContent( WebSession s )
+
+    /**
+     *  Description of the Method
+     *
+     * @param  s              Description of the Parameter
+     * @param  user           Description of the Parameter
+     * @param  method         Description of the Parameter
+     * @return                Description of the Return Value
+     * @exception  Exception  Description of the Exception
+     */
+    protected Element makeUser(WebSession s, String user, String method)
+	    throws Exception
+    {
+	ElementContainer ec = new ElementContainer();
+	ec.addElement(new P().addElement("Welcome, " + user));
+	ec.addElement(new P().addElement("You have been authenticated with "
+		+ method));
+
+	return (ec);
+    }
+
+
+    protected Element makeLogin(WebSession s)
+    {
+	ElementContainer ec = new ElementContainer();
+
+	ec.addElement(new H1().addElement("Sign In "));
+	Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0)
+		.setWidth("90%").setAlign("center");
+
+	if (s.isColor())
 	{
-		ElementContainer ec = new ElementContainer();
-
-		try
-		{
-			//<START_OMIT_SOURCE>
-			ec.addElement( new Comment( "FIXME admin:adminpw" ) );
-			//<END_OMIT_SOURCE>
-			ec.addElement( new Comment( "Use Admin to regenerate database" ) );
-
-			if ( backdoor( s ) )
-			{
-				makeSuccess( s );
-
-				s.setMessage( "BINGO -- admin authenticated" );
-				ec.addElement( makeUser( s, "jsnow", "CREDENTIALS" ) );
-			}
-			else
-			{
-				ec.addElement( makeLogin( s ) );
-			}
-		}
-		catch ( Exception e )
-		{
-			s.setMessage( "Error generating " + this.getClass().getName() );
-		}
-
-		return ( ec );
+	    t.setBorder(1);
 	}
 
-	
-	/**
-	 *  Description of the Method
-	 *
-	 * @param  s              Description of the Parameter
-	 * @param  user           Description of the Parameter
-	 * @param  method         Description of the Parameter
-	 * @return                Description of the Return Value
-	 * @exception  Exception  Description of the Exception
-	 */
-	protected Element makeUser( WebSession s, String user, String method ) throws Exception
-	{
-		ElementContainer ec = new ElementContainer();
-		ec.addElement( new P().addElement( "Welcome, " + user ) );
-		ec.addElement( new P().addElement( "You have been authenticated with " + method ) );
+	TR tr = new TR();
+	tr
+		.addElement(new TH()
+			.addElement(
+				"Please sign in to your account.  See the OWASP admin if you do not have an account.")
+			.setColSpan(2).setAlign("left"));
+	t.addElement(tr);
 
-		return ( ec );
-	}
+	tr = new TR();
+	tr.addElement(new TD().addElement("*Required Fields").setWidth("30%"));
+	t.addElement(tr);
 
+	tr = new TR();
+	tr.addElement(new TD().addElement("&nbsp;").setColSpan(2));
+	t.addElement(tr);
 
-	protected Element makeLogin( WebSession s )
-	{
-		ElementContainer ec = new ElementContainer();
+	TR row1 = new TR();
+	TR row2 = new TR();
+	row1.addElement(new TD(new B(new StringElement("*User Name: "))));
+	row2.addElement(new TD(new B(new StringElement("*Password: "))));
 
-		ec.addElement( new H1().addElement( "Sign In " ));
-		Table t = new Table().setCellSpacing( 0 ).setCellPadding( 2 ).setBorder( 0 ).setWidth("90%").setAlign("center");
+	Input input1 = new Input(Input.TEXT, USERNAME, "");
+	Input input2 = new Input(Input.PASSWORD, PASSWORD, "");
+	row1.addElement(new TD(input1));
+	row2.addElement(new TD(input2));
+	t.addElement(row1);
+	t.addElement(row2);
 
-		if ( s.isColor() )
-		{
-			t.setBorder( 1 );
-		}
-		
-		TR tr = new TR();
-		tr.addElement( new TH().addElement("Please sign in to your account.  See the OWASP admin if you do not have an account.")
-				.setColSpan(2).setAlign("left"));
-		t.addElement( tr );
+	Element b = ECSFactory.makeButton("Login");
+	t.addElement(new TR(new TD(b)));
+	ec.addElement(t);
 
-		tr = new TR();
-		tr.addElement( new TD().addElement("*Required Fields").setWidth("30%"));
-		t.addElement( tr );
-		
-		tr = new TR();
-		tr.addElement( new TD().addElement("&nbsp;").setColSpan(2));
-		t.addElement( tr );
-		
-		TR row1 = new TR();
-		TR row2 = new TR();
-		row1.addElement( new TD( new B( new StringElement( "*User Name: " ) ) ));
-		row2.addElement( new TD( new B(new StringElement( "*Password: " ) ) ));
-
-		Input input1 = new Input( Input.TEXT, USERNAME, "" );
-		Input input2 = new Input( Input.PASSWORD, PASSWORD, "" );
-		row1.addElement( new TD( input1 ) );
-		row2.addElement( new TD( input2 ) );
-		t.addElement( row1 );
-		t.addElement( row2 );
-
-		Element b = ECSFactory.makeButton( "Login" );
-		t.addElement( new TR( new TD( b ) ) );
-		ec.addElement( t );
-
-		return ( ec );
-	}
-
-	/**
-	 *  Gets the hints attribute of the CluesScreen object
-	 *
-	 * @return    The hints value
-	 */
-	protected List getHints()
-	{
-		List<String> hints = new ArrayList<String>();
-		hints.add( "You can view the HTML source by selecting 'view source' in the browser menu." );
-		hints.add( "There are lots of clues in the HTML" );
-		hints.add( "Search for the word HIDDEN, look at URLs, look for comments." );
-
-		return hints;
-	}
+	return (ec);
+    }
 
 
-	/**
-	 *  Gets the instructions attribute of the HtmlClues object
-	 *
-	 * @return    The instructions value
-	 */
-	public String getInstructions(WebSession s)
-	{
-		String instructions = "Below is an example of a forms based authentication form.  Look for clues to help you log in.";
+    /**
+     *  Gets the hints attribute of the CluesScreen object
+     *
+     * @return    The hints value
+     */
+    protected List getHints()
+    {
+	List<String> hints = new ArrayList<String>();
+	hints
+		.add("You can view the HTML source by selecting 'view source' in the browser menu.");
+	hints.add("There are lots of clues in the HTML");
+	hints
+		.add("Search for the word HIDDEN, look at URLs, look for comments.");
 
-		return ( instructions );
-	}
+	return hints;
+    }
 
 
+    /**
+     *  Gets the instructions attribute of the HtmlClues object
+     *
+     * @return    The instructions value
+     */
+    public String getInstructions(WebSession s)
+    {
+	String instructions = "Below is an example of a forms based authentication form.  Look for clues to help you log in.";
+
+	return (instructions);
+    }
+
+    private final static Integer DEFAULT_RANKING = new Integer(30);
 
 
-	private final static Integer DEFAULT_RANKING = new Integer(30);
+    protected Integer getDefaultRanking()
+    {
+	return DEFAULT_RANKING;
+    }
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
 
-	/**
-	 *  Gets the category attribute of the FailOpenAuthentication object
-	 *
-	 * @return    The category value
-	 */	
-	protected Category getDefaultCategory()
-	{
-		return AbstractLesson.CODE_QUALITY;
-	}
+    /**
+     *  Gets the category attribute of the FailOpenAuthentication object
+     *
+     * @return    The category value
+     */
+    protected Category getDefaultCategory()
+    {
+	return AbstractLesson.CODE_QUALITY;
+    }
 
-	/**
-	 *  Gets the title attribute of the CluesScreen object
-	 *
-	 * @return    The title value
-	 */
-	public String getTitle()
-	{
-		return ( "How to Discover Clues in the HTML" );
-	}
+
+    /**
+     *  Gets the title attribute of the CluesScreen object
+     *
+     * @return    The title value
+     */
+    public String getTitle()
+    {
+	return ("How to Discover Clues in the HTML");
+    }
 }
-
