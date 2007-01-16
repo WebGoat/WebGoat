@@ -247,7 +247,7 @@ public class WebSession
 
 	private boolean enterprise = false;
 
-	private String feedbackAddress = "<A HREF=mailto:webgoat@aspectsecurity.com>webgoat@aspectsecurity.com</A>";
+	private String feedbackAddress = "<A HREF=mailto:webgoat@g2-inc.com>webgoat@g2-inc.com</A>";
 
 	private boolean completedHackableAdmin = false;
 	

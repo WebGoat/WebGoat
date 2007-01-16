@@ -168,7 +168,7 @@ public class LessonSource extends HammerHead
 	}
 	if (source == null)
 	{
-	    return "Source code is not available. Contact webgoat@aspectsecurity.com";
+	    return "Source code is not available. Contact webgoat@g2-inc.com";
 	}
 	return (source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*"
 		+ END_SOURCE_SKIP, "Code Section Deliberately Omitted"));

@@ -11,9 +11,8 @@
       This web application is designed to demonstrate web
       application security flaws for the purpose of educating
       developers and security professionals about web
-      application security problems. The initial version was
-      written by Aspect Security (info@aspectsecurity.com), 
-      and was donated to the OWASP.
+      application security problems. Please contact Bruce Mayhew 
+      (webgoat@g2-inc.com) if you have any questions.
     </description>
 
 
@@ -37,7 +36,7 @@
 
     <context-param>
       <param-name>email</param-name>
-      <param-value>info@aspectsecurity.com</param-value>
+      <param-value>WebGoat@g2-inc.com</param-value>
       <description>
         The EMAIL address of the administrator to whom questions
         and comments about this application should be addressed.
@@ -139,7 +138,7 @@
       			 example, replace "<" with "&lt;" and ">" with "&gt;". -->
             <param-name>FeedbackAddress</param-name>
             <param-value>
-				&lt;A HREF=mailto:webgoat@aspectsecurity.com&gt;webgoat@aspectsecurity.com&lt;/A&gt;
+				&lt;A HREF=mailto:webgoat@g2-inc.com&gt;webgoat@g2-inc.com&lt;/A&gt;
             </param-value>
       </init-param>
       

@@ -696,10 +696,10 @@ public abstract class AbstractLesson extends Screen implements Comparable
 	Head head = new Head();
 	head.addElement(new Title(getSourceFileName()));
 	head.addElement(new StringElement(
-		"<meta name=\"Author\" content=\"Jeff Williams\">"));
+		"<meta name=\"Author\" content=\"Bruce Mayhew\">"));
 	head
 		.addElement(new StringElement(
-			"<link rev=\"made\" href=\"mailto:jeff.williams@aspectsecurity.com\">"));
+			"<link rev=\"made\" href=\"mailto:webgoat@g2-inc.com\">"));
 
 	Body body = new Body();
 	body.addElement(new StringElement(src));
@@ -1111,35 +1111,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
      *        Description of the Parameter
      * @return Description of the Return Value
      */
-    /*
-     * public String makeSourceHTML( WebSession s ) {
-     * 
-     * String className = this.getClass().getName(); String lessonName =
-     * className.substring( className.indexOf( '.' ) + 1 ); String filename =
-     * s.getSourceFile( lessonName );
-     * 
-     * String src = null;
-     * 
-     * try { src = convertMetacharsJavaCode( readFromFile( new
-     * BufferedReader( new FileReader( filename ) ), true ) );
-     *  } catch ( IOException e ) { s.setMessage( "Could not find source
-     * file" ); src = ( "Could not find source file" ); }
-     * 
-     * Html html = new Html();
-     * 
-     * Head head = new Head(); head.addElement( new Title( lessonName +
-     * ".java" ) ); head.addElement( new StringElement( "<meta
-     * name=\"Author\" content=\"Jeff Williams\">" ) ); head.addElement( new
-     * StringElement( "<link rev=\"made\"
-     * href=\"mailto:jeff.williams@aspectsecurity.com\">" ) );
-     * 
-     * Body body = new Body(); body.addElement( new StringElement( src ) );
-     * 
-     * html.addElement( head ); html.addElement( body );
-     * 
-     * return html.toString(); }
-     */
-
+ 
     public String toString()
     {
 	return getTitle();
