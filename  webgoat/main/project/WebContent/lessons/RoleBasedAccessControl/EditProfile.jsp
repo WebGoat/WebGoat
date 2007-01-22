@@ -76,7 +76,7 @@
 						Comments: 
 					</TD>
 					<TD colspan="3">
-						<input name="<%=RoleBasedAccessControl.DESCRIPTION%>" type="text" class="lesson_text_db" value="<%=employee.getPersonalDescription()%>" size="62"/>
+						<input name="<%=RoleBasedAccessControl.DESCRIPTION%>" type="text" class="lesson_text_db" value="<%=employee.getPersonalDescription()%>" size="58"/>
 					</TD>
 				<TR>
 					<TD colspan="2">				
@@ -91,7 +91,7 @@
 				</TR>
 				<TR>
 					<TD colspan="4">
-						<textarea name="<%=RoleBasedAccessControl.DISCIPLINARY_NOTES%>" cols="52" rows="2" wrap="off" class="lesson_text_db" ><%=employee.getDisciplinaryActionNotes()%></textarea>
+						<textarea name="<%=RoleBasedAccessControl.DISCIPLINARY_NOTES%>" cols="53" rows="2" wrap="off" class="lesson_text_db" ><%=employee.getDisciplinaryActionNotes()%></textarea>
 					</TD>
 				</TR>
 				<TR>	
@@ -133,4 +133,5 @@
                  	</tr>
               	</table>			
 			</div></form>
-		</div>	
+		</div>
+		
