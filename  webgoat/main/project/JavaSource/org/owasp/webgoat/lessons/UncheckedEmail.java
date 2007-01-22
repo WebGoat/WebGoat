@@ -101,8 +101,8 @@ public class UncheckedEmail extends LessonAdapter
 	    tr = new TR();
 	    tr.addElement(new TH().addElement(new H1("Contact Us")).setAlign(
 		    "left").setWidth("55%").setVAlign("BOTTOM"));
-	    tr.addElement(new TH().addElement("&nbsp;"));
-	    tr.addElement(new TH().addElement(new H3("Contact Information:"))
+	    //tr.addElement(new TH().addElement("&nbsp;"));
+	    tr.addElement(new TH().setColSpan(2).addElement(new H3("Contact Information:"))
 		    .setAlign("left").setVAlign("BOTTOM"));
 	    t.addElement(tr);
 
@@ -112,8 +112,8 @@ public class UncheckedEmail extends LessonAdapter
 			    .addElement("We value your comments.  To send OWASP your questions or comments regarding the "
 				    + "WebGoat tool, please enter your comments below.  The information you provide will be handled according "
 				    + "to our <U>Privacy Policy</U>."));
-	    tr.addElement(new TD().addElement("&nbsp;"));
-	    tr.addElement(new TD().addElement(
+	    //tr.addElement(new TD().addElement("&nbsp;"));
+	    tr.addElement(new TD().setColSpan(2).addElement(
 		    "<b>OWASP</B><BR>" + "9175 Guilford Rd <BR> Suite 300 <BR>"
 			    + "Columbia, MD.  21046").setVAlign("top"));
 	    t.addElement(tr);
