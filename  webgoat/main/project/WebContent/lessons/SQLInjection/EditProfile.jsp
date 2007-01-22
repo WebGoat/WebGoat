@@ -100,7 +100,7 @@
 						Disciplinary Explanation: 
 					</TD>
 					<TD>
-						<textarea name="<%=SQLInjection.DISCIPLINARY_NOTES%>"  rows="3" class="lesson_text_db" ><%=employee.getDisciplinaryActionNotes()%></textarea>
+						<textarea name="<%=SQLInjection.DISCIPLINARY_NOTES%>"  cols="16" rows="3" class="lesson_text_db" ><%=employee.getDisciplinaryActionNotes()%></textarea>
 					</TD>
 					<TD>				
 						Disciplinary Action Dates: 
