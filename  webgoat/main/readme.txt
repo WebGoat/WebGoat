@@ -1,5 +1,13 @@
-WebGoat 4.0
-05.23.2006
+**********          WebGoat 5.0
+**********          01.17.2007
+**********
+**
+**  Source Code: http://code.google.com/p/webgoat
+**  User Guide: http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents
+**  Home Page: http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project
+**  Contact Info: webgoat@g2-inc.com
+**
+**********
 
 Thank you for downloading WebGoat!
 
@@ -25,31 +33,22 @@ http://www.owasp.org
 
 CREDITS (Latest release)
 
-	Laurence Casey (http://www.aspectsecurity.com)
-	Bruce Mayhew (http://www.aspectsecurity.com)
-	Jeremy Ferragamo (http://www.aspectsecurity.com)
-	Alex Smolen (http://www.parasoft.com)
+	Bruce Mayhew (http://www.g2-inc.com)
+	Sherif Koussa (http://www.macadamian.com)
 	Rogan Dawes (http://dawes.za.net/rogan)
-	Chuck Willis (http://www.securityfoundry.com)
-
+	Carlo Pelliccioni
 	The many people who have sent comments and suggestions...
         
 WHAT'S NEW
 
-	* Runs on Linux and OSX 10.4
-	* WebGoat is now current in CVS. (http://cvs.sourceforge.net/viewcvs.py/owasp/webgoat/)
-	* Improved ant build process and added Unix support 
-	* Infrastructure changes to support multi-stage lessons
-	* Eclipse development release 
-	* Minor screen improvements
-
-	* Web services lessons
-	* Blind SQL lesson
-	* Weak session identifier lesson
-	* Split SQL lesson into numeric and string SQL lessons
-	* Added parameterized query stage to SQL lessons
-	* Additional stage for basic authentication lesson
-	* Summary report card for multi-user environment
+	* WebGoat is now current at Google code. (http://code.google.com/p/webgoat)
+	* HTTP Splitting 
+	* Cross-Site Request Forgery 
+	* XPATH Injection 
+	* AJAX Security 
+	* Log Spoofing 
+	* Cache Poisoning 
+	* Back Doors via SQL Injection 
 
 INSTALLATION
 

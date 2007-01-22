@@ -138,7 +138,7 @@
       			 example, replace "<" with "&lt;" and ">" with "&gt;". -->
             <param-name>FeedbackAddress</param-name>
             <param-value>
-				&lt;A HREF=mailto:webgoat@g2-inc.com&gt;webgoat@g2-inc.com&lt;/A&gt;
+				&lt;A HREF=mailto:WebGoat@g2-inc.com&gt;WebGoat@g2-inc.com&lt;/A&gt;
             </param-value>
       </init-param>
       

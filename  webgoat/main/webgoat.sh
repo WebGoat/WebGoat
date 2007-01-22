@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 
 SYSTEM=`uname -s`
 CATALINA_HOME=./tomcat

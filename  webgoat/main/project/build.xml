@@ -74,7 +74,7 @@
 
   <property name="app.name"      		   value="WebGoat"/>
   <property name="app.path"      		   value="/${app.name}"/>
-  <property name="app.version"   		   value="5.0"/> <!-- UPDATE THIS! -->
+  <property name="app.version"   		   value="5.0-RC1"/> <!-- UPDATE THIS! -->
   <property name="build.home"    		   value="${basedir}/build"/>
   <property name="catalina.home" 		   value="${basedir}/../tomcat"/> <!-- UPDATE THIS! -->
   <property name="dist.home"     		   value="${basedir}/dist"/>
@@ -259,10 +259,10 @@
 		<copy file="${web.home}/WEB-INF/webgoat-class.properties" tofile="${web.home}/WEB-INF/webgoat.properties" overwrite="yes"/>
 	</target>
 				
-	<!-- Copying webgoat-lmc.properties to webgoat.properties -->
-	<target name="WebGoatPropertiesLMC">
+	<!-- Copying webgoat-lab.properties to webgoat.properties -->
+	<target name="WebGoatPropertiesLAB">
 		<attrib file="${web.home}/WEB-INF/webgoat.properties" readonly="false"/>
-		<copy file="${web.home}/WEB-INF/webgoat-lmc.properties" tofile="${web.home}/WEB-INF/webgoat.properties" overwrite="yes"/>
+		<copy file="${web.home}/WEB-INF/webgoat-lab.properties" tofile="${web.home}/WEB-INF/webgoat.properties" overwrite="yes"/>
 	</target>
 				
 	<!-- Copying the static content into the build directory -->
