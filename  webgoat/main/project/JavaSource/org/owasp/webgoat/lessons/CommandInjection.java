@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
@@ -216,8 +217,21 @@ public class CommandInjection extends LessonAdapter
 
     private String parseResults(String results)
     {
-	return results.replaceAll("(?s).*Output...\\s", "").replaceAll(
-		"(?s)Returncode.*", "");
+    	results.replaceAll("(?s).*Output...\\s", "").replaceAll("(?s)Returncode.*", "");
+    	StringTokenizer st = new StringTokenizer(results, "\n");
+    	StringBuffer modified = new StringBuffer();
+    	
+    	while(st.hasMoreTokens())
+    	{
+    		String s = (String)st.nextToken().trim();
+    		
+    		if(s.length() > 0 && s.endsWith(".help"))
+    		{
+    			modified.append(s + "\n");
+    		}
+    	}
+    	
+    	return modified.toString();
     }
 
 
