@@ -178,7 +178,7 @@ public class DOMInjection extends LessonAdapter
 	hints
 		.add("Try to find a way to inject the DOM to enable the Activate button.");
 	hints
-		.add("Intercept the reply and replace the body withx document.forms[0].SUBMIT.disabled = false;");
+		.add("Intercept the reply and replace the body with document.forms[0].SUBMIT.disabled = false;");
 	return hints;
     }
 
