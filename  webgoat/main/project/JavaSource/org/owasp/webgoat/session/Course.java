@@ -1,5 +1,6 @@
 package org.owasp.webgoat.session;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+import java.util.LinkedList;
 
 import javax.servlet.ServletContext;
 
@@ -49,11 +51,13 @@ import org.owasp.webgoat.lessons.Category;
 public class Course
 {
 
-    private List lessons = new ArrayList();
+    private List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
 
     private final static String PROPERTIES_FILENAME = HammerHead.propertiesPath;
 
     private WebgoatProperties properties = null;
+    
+    private List<String> files = new LinkedList<String>();
 
 
     public Course()
@@ -68,6 +72,23 @@ public class Course
 	    e.printStackTrace();
 	}
     }
+    
+    private static String getFileName(String s)
+    {
+    	String fileName = new File(s).getName();
+		
+		if(fileName.indexOf("/") != -1)
+		{
+			fileName = fileName.substring(fileName.lastIndexOf("/"), fileName.length());
+		}
+		
+		if(fileName.indexOf(".") != -1)
+		{
+			fileName = fileName.substring(0, fileName.indexOf("."));
+		}
+		
+		return fileName;
+    }
 
 
     /**
@@ -78,7 +99,7 @@ public class Course
      * @param  ext       Description of the Parameter
      * @return           Description of the Return Value
      */
-    private String clean(String fileName, String path, String ext)
+    private static String clean(String fileName, String path, String ext)
     {
 	fileName = fileName.trim();
 
@@ -113,144 +134,6 @@ public class Course
 	return fileName;
     }
 
-
-    /**
-     *  Description of the Method
-     * @param  lesson      Description of the Parameter
-     * @param  context     Description of the Parameter
-     * @param  path        Description of the Parameter
-     * @param  courseName  Description of the Parameter
-     * @param extension TODO
-     */
-    private void findSourceResource(AbstractLesson lesson,
-	    ServletContext context, String path, String className,
-	    String extension)
-    {
-	//System.out.println("findSourceResource() looking for source files in: " + path);
-	//System.out.println("findSourceResource() looking for source files for class: " + className);
-	Set files = context.getResourcePaths(path);
-	Iterator fileIter = files.iterator();
-	String resource = null;
-
-	while (fileIter.hasNext())
-	{
-	    resource = (String) fileIter.next();
-	    //System.out.println("findSourceResource() inspecting resource: " + resource);
-	    String lessonName = clean(resource, path, extension);
-	    //System.out.println("findSourceResource() cleaned resource name: " + lessonName);
-	    //if ( className != null )
-	    //{
-	    //	System.out.println("Resource to check: " + resource);
-	    //	System.out.println("Lesson name: " + lessonName);
-	    //}
-
-	    // Not a match
-	    if (lessonName == null)
-	    {
-		continue;
-	    }
-	    // A subdirectory
-	    else if ((lessonName.length() != 1) && lessonName.endsWith("/"))
-	    {
-		findSourceResource(lesson, context, lessonName, className,
-			extension);
-	    }
-	    // A source file
-	    else
-	    {
-		// Course name will be the fully qualified name: 
-		// like lesson.admin.lessonName
-		if (className.endsWith(lessonName))
-		{
-		    int length = 0;
-		    int index = className.indexOf("admin.");
-		    if (index == -1)
-		    {
-			index = className.indexOf("lessons.");
-			length = "lessons.".length();
-		    }
-		    else
-		    {
-			length = "admin.".length();
-		    }
-		    className = className.substring(index + length);
-		    //System.out.println("Resource to check: " + resource);
-		    //System.out.println("Lesson name: " + lessonName);
-
-		    //store the web path of the source file in the lesson
-		    lesson.setSourceFileName(resource);
-
-		}
-	    }
-	}
-    }
-
-
-    /**
-     *  Description of the Method
-     * @param  lesson      Description of the Parameter
-     * @param  context     Description of the Parameter
-     * @param  path        Description of the Parameter
-     * @param  courseName  Description of the Parameter
-     * @param extension TODO
-     */
-    private void findLessonPlanResource(AbstractLesson lesson,
-	    ServletContext context, String path, String courseName,
-	    String extension)
-    {
-	Set files = context.getResourcePaths(path);
-	Iterator fileIter = files.iterator();
-	String resource = null;
-
-	while (fileIter.hasNext())
-	{
-	    resource = (String) fileIter.next();
-	    String className = clean(resource, path, extension);
-	    //if ( className != null )
-	    //{
-	    //    System.out.println("ClassName: " + className);
-	    //    System.out.println("ResourceToCheck: " + resourceToCheck);
-	    //}
-
-	    if (className == null)
-	    {
-		continue;
-	    }
-	    else if ((className.length() != 1) && className.endsWith("/"))
-	    {
-		findLessonPlanResource(lesson, context, className, courseName,
-			extension);
-	    }
-	    else
-	    {
-		// Course name will be the fully qualified name: 
-		// like lesson.admin.lessonName
-		if (courseName.endsWith(className))
-		{
-		    int length = 0;
-		    int index = courseName.indexOf("admin.");
-		    if (index == -1)
-		    {
-			index = courseName.indexOf("lessons.");
-			length = "lessons.".length();
-		    }
-		    else
-		    {
-			length = "admin.".length();
-		    }
-		    courseName = courseName.substring(index + length);
-		    //System.out.println("ClassName: " + className);
-		    //System.out.println("ResourceToCheck: " + resource);
-
-		    //store the web path of the source file in the lesson
-		    lesson.setLessonPlanFileName(resource);
-
-		}
-	    }
-	}
-    }
-
-
     /**
      *  Gets the categories attribute of the Course object
      *
@@ -284,7 +167,7 @@ public class Course
      */
     public AbstractLesson getFirstLesson()
     {
-	List roles = new ArrayList();
+	List<String> roles = new ArrayList<String>();
 	roles.add(AbstractLesson.USER_ROLE);
 	// Category 0 is the admin function.  We want the first real category 
 	// to be returned. This is noramally the General category and the Http Basics lesson
@@ -327,7 +210,7 @@ public class Course
 
     public AbstractLesson getLesson(WebSession s, int lessonId, String role)
     {
-	List roles = new Vector();
+	List<String> roles = new Vector<String>();
 	roles.add(role);
 	return getLesson(s, lessonId, roles);
     }
@@ -335,7 +218,7 @@ public class Course
 
     public List getLessons(WebSession s, String role)
     {
-	List roles = new Vector();
+	List<String> roles = new Vector<String>();
 	roles.add(role);
 	return getLessons(s, roles);
     }
@@ -347,13 +230,13 @@ public class Course
      * @param  role  Description of the Parameter
      * @return       The lessons value
      */
-    public List getLessons(WebSession s, List roles)
+    public List getLessons(WebSession s, List<String> roles)
     {
 	if (s.isHackedAdmin())
 	{
 	    roles.add(AbstractLesson.HACKED_ADMIN_ROLE);
 	}
-	List lessonList = new ArrayList();
+	List<String> lessonList = new ArrayList<String>();
 	Iterator categoryIter = getCategories().iterator();
 
 	while (categoryIter.hasNext())
@@ -396,13 +279,13 @@ public class Course
 
     public List getLessons(WebSession s, Category category, String role)
     {
-	List roles = new Vector();
+	List<String> roles = new Vector<String>();
 	roles.add(role);
 	return getLessons(s, category, roles);
     }
 
 
-    public List getLessons(WebSession s, Category category, List roles)
+    public List getLessons(WebSession s, Category category, List<String> roles)
     {
 	if (s.isHackedAdmin())
 	{
@@ -410,7 +293,96 @@ public class Course
 	}
 	return getLessons(category, roles);
     }
-
+    
+    private void loadFiles(ServletContext context, String path)
+    {
+    	Set resourcePaths = context.getResourcePaths(path);
+    	Iterator itr = resourcePaths.iterator();
+    	
+    	while(itr.hasNext())
+    	{
+    		String file = (String)itr.next();
+    		
+    		if(file.length() != 1 && file.endsWith("/"))
+    		{
+    			loadFiles(context, file);
+    		}
+    		else
+    		{	
+    			files.add(file);
+    		}
+    	}
+    }
+    
+    private void loadLessons(String path)
+    {
+    	Iterator itr = files.iterator();
+    	
+    	while(itr.hasNext())
+    	{
+    		String file = (String)itr.next();
+    		String className = clean(file, path, ".class");
+    		
+    		if(className != null)
+    		{
+    			try
+    			{
+    				Class c = Class.forName(className);
+    				Object o = c.newInstance();
+    				
+    				if(o instanceof AbstractLesson)
+    				{
+    					AbstractLesson lesson = (AbstractLesson)o;
+    					
+    					lesson.update(properties);
+    					
+    					if(lesson.getHidden() == false)
+    					{
+    						lessons.add(lesson);
+    					}
+    				}
+    			}
+    			catch (Exception e)
+    			{
+    				System.out.println("Warning: " + e.getMessage());
+    			}
+    		}
+    	}
+    }
+    
+    private void loadResources()
+    {
+    	Iterator lessonItr = lessons.iterator();
+    	
+    	while(lessonItr.hasNext())
+    	{
+    		AbstractLesson lesson = (AbstractLesson)lessonItr.next();
+    		String className = lesson.getClass().getName();
+    		Iterator fileItr = files.iterator();
+    		
+    		while(fileItr.hasNext())
+    		{
+    			String absoluteFile = (String)fileItr.next();
+    			String fileName = getFileName(absoluteFile);
+    			String javaName = clean(absoluteFile, "/", ".java");
+    			String lessonName = clean(absoluteFile, "/", ".html");
+    			
+    			if(javaName != null && className.endsWith(fileName))
+    			{
+    				System.out.println("DEBUG: setting source file " + absoluteFile + " for lesson " + lesson.getClass().getName());
+    				lesson.setSourceFileName(absoluteFile);
+    				break;
+    			}
+    			
+    			if(lessonName != null && className.endsWith(fileName))
+    			{
+    				System.out.println("DEBUG: setting lesson plan file " + absoluteFile + " for lesson " + lesson.getClass().getName());
+    				lesson.setLessonPlanFileName(absoluteFile);
+    				break;
+    			}
+    		}
+    	}
+    }
 
     /**
      *  Description of the Method
@@ -418,78 +390,10 @@ public class Course
      * @param  path     Description of the Parameter
      * @param  context  Description of the Parameter
      */
-    public void loadCourses(boolean enterprise, ServletContext context,
-	    String path)
+    public void loadCourses(boolean enterprise, ServletContext context, String path)
     {
-	Set files = context.getResourcePaths(path);
-	Iterator fileIter = files.iterator();
-
-	while (fileIter.hasNext())
-	{
-	    String file = (String) fileIter.next();
-	    String className = clean(file, path, ".class");
-
-	    //if ( className != null )
-	    //{
-	    //	System.out.println( "Checking file: " + file );
-	    //	System.out.println( "        class: " + className );
-	    //}
-	    if (className == null)
-	    {
-		continue;
-	    }
-	    else if ((className.length() != 1) && className.endsWith("/"))
-	    {
-		loadCourses(enterprise, context, className);
-	    }
-	    else
-	    {
-		Class lessonClass = null;
-		try
-		{
-		    lessonClass = Class.forName(className);
-		    Object possibleLesson = lessonClass.newInstance();
-
-		    if (possibleLesson instanceof AbstractLesson)
-		    {
-			AbstractLesson lesson = (AbstractLesson) possibleLesson;
-
-			// Determine if the screen is to be loaded.  Look 
-			// to see if the session parameter has been initialized.
-			// Look to see if the screen is an enterprise edition screen.
-			if (!enterprise)
-			{
-			    if (lesson.isEnterprise())
-			    {
-				continue;
-			    }
-			}
-
-			// Do not load instructor screens.  Currently, they must be manually deployed.
-			if (lesson.getClass().getName().indexOf("instructor") > -1)
-			    continue;
-
-			// There are two methods instead of one because the developer was not
-			// smart enough to figure out the recursive return value
-			findSourceResource(lesson, context, "/", className,
-				".java");
-			findLessonPlanResource(lesson, context, "/", className,
-				".html");
-
-			// Override lesson attributes based on properties.
-			lesson.update(properties);
-
-			if (lesson.getHidden() == false)
-			    lessons.add(lesson);
-			//System.out.println( "Found lesson: " + lesson );
-		    }
-		}
-		catch (Exception e)
-		{
-		    //System.out.println("Could not load lesson: " + className);
-		    //e.printStackTrace();
-		}
-	    }
-	}
+    	loadFiles(context, path);
+    	loadLessons(path);
+    	loadResources();
     }
 }
