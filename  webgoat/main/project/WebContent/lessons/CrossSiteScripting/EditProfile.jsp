@@ -100,7 +100,7 @@
 						Disciplinary Explanation: 
 					</TD>
 					<TD>
-						<textarea name="<%=CrossSiteScripting.DISCIPLINARY_NOTES%>"  rows="3" class="lesson_text_db" ><%=employee.getDisciplinaryActionNotes()%></textarea>
+						<textarea name="<%=CrossSiteScripting.DISCIPLINARY_NOTES%>" cols="16" rows="3" class="lesson_text_db" ><%=employee.getDisciplinaryActionNotes()%></textarea>
 					</TD>
 					<TD>				
 						Disciplinary Action Dates: 
@@ -128,7 +128,6 @@
 	 						<input type="submit" name="action" value="<%=CrossSiteScripting.LOGOUT_ACTION%>"/>
 						</td>
                  	</tr>
-              	</table>
-              	</div>			
+              	</table>			
 			</form>
-		</div>	
+		</div>
