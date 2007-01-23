@@ -205,7 +205,7 @@ public class WsSqlInjection extends LessonAdapter
 	    {
 		ec.addElement(new P().addElement(sqle.getMessage()));
 	    }
-	    A a = new A("services/WsSqlInjection?WSDL", "WebGoat WSDL");
+	    A a = new A("services/WsSqlInjection?WSDL", "WebGoat WSDL File");
 	    ec
 		    .addElement(new P()
 			    .addElement("Exploit the following WSDL to access sensitive data:"));

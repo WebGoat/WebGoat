@@ -280,7 +280,7 @@ public class SoapRequest extends LessonAdapter
 	{
 	    ec.addElement(makeOperationsLine(s));
 
-	    A a = new A("services/SoapRequest?WSDL", "WebGoat WSDL");
+	    A a = new A("services/SoapRequest?WSDL", "WebGoat WSDL File");
 	    ec
 		    .addElement(new P()
 			    .addElement("View the following WSDL and count available operations:"));
@@ -337,7 +337,7 @@ public class SoapRequest extends LessonAdapter
 	{
 	    ec.addElement(makeTypeLine(s));
 
-	    A a = new A("services/SoapRequest?WSDL", "WebGoat WSDL");
+	    A a = new A("services/SoapRequest?WSDL", "WebGoat WSDL File");
 	    ec
 		    .addElement(new P()
 			    .addElement("View the following WSDL and count available operations:"));

@@ -235,7 +235,7 @@ public class WSDLScanning extends LessonAdapter
 	}
 	try
 	{
-	    A a = new A("services/WSDLScanning?WSDL", "WebGoat WSDL");
+	    A a = new A("services/WSDLScanning?WSDL", "WebGoat WSDL File");
 	    ec
 		    .addElement(new P()
 			    .addElement("View the web services definition language (WSDL) to see the complete API:"));
