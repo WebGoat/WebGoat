@@ -62,17 +62,25 @@ public class Course
 
     public Course()
     {
-	try
-	{
-	    properties = new WebgoatProperties(PROPERTIES_FILENAME);
-	}
-	catch (IOException e)
-	{
-	    System.out.println("Error loading WebGoat properties");
-	    e.printStackTrace();
-	}
+		try
+		{
+		    properties = new WebgoatProperties(PROPERTIES_FILENAME);
+		}
+		catch (IOException e)
+		{
+		    System.out.println("Error loading WebGoat properties");
+		    e.printStackTrace();
+		}
     }
     
+    /**
+     * Take an absolute file and return the filename.
+     * 
+     * Ex. /etc/password becomes password
+     * 
+     * @param s
+     * @return the file name
+     */
     private static String getFileName(String s)
     {
     	String fileName = new File(s).getName();
@@ -89,49 +97,62 @@ public class Course
 		
 		return fileName;
     }
+    
+    /**
+     * Take a class name and return the equivalent file name
+     * 
+     * Ex. org.owasp.webgoat becomes org/owasp/webgoat.java
+     * 
+     * @param className
+     * @return
+     */
+    private static String getSourceFile(String className)
+    {
+    	StringBuffer sb = new StringBuffer();
+    	
+    	sb.append(className.replace(".", "/"));
+    	sb.append(".java");
+    	
+    	return sb.toString();
+    }
 
 
     /**
-     *  Description of the Method
+     *  Takes a file name and builds the class file name
      *
      * @param  fileName  Description of the Parameter
      * @param  path      Description of the Parameter
-     * @param  ext       Description of the Parameter
      * @return           Description of the Return Value
      */
-    private static String clean(String fileName, String path, String ext)
+    private static String getClassFile(String fileName, String path)
     {
-	fileName = fileName.trim();
-
-	// check if file is a directory
-	if (fileName.endsWith("/"))
-	{
-	    return fileName;
-	}
-
-	// check if file is a class or java file
-	if (!fileName.endsWith(ext))
-	{
-	    return null;
-	}
-
-	// if the file is in /WEB-INF/classes strip the dir info off
-	int index = fileName.indexOf("/WEB-INF/classes/");
-	if (index != -1)
-	{
-	    fileName = fileName.substring(index + "/WEB-INF/classes/".length(),
-		    fileName.length() - ext.length());
-	    fileName = fileName.replace('/', '.');
-	    fileName = fileName.replace('\\', '.');
-	}
-	else
-	{
-	    // Strip off the leading path info
-	    fileName = fileName.substring(path.length(), fileName.length()
-		    - ext.length());
-	}
-
-	return fileName;
+    	String ext = ".class";
+		fileName = fileName.trim();
+		
+		/**
+		 * We do not handle directories.
+		 * We do not handle files with different extensions
+		 */
+		if(fileName.endsWith("/") || !fileName.endsWith(ext))
+		{
+			return null;
+		}
+	
+		// if the file is in /WEB-INF/classes strip the dir info off
+		int index = fileName.indexOf("/WEB-INF/classes/");
+		if (index != -1)
+		{
+		    fileName = fileName.substring(index + "/WEB-INF/classes/".length(), fileName.length() - ext.length());
+		    fileName = fileName.replace('/', '.');
+		    fileName = fileName.replace('\\', '.');
+		}
+		else
+		{
+		    // Strip off the leading path info
+		    fileName = fileName.substring(path.length(), fileName.length() - ext.length());
+		}
+	
+		return fileName;
     }
 
     /**
@@ -294,6 +315,12 @@ public class Course
 	return getLessons(category, roles);
     }
     
+    /**
+     * Load all of the filenames into a temporary cache
+     * 
+     * @param context
+     * @param path
+     */
     private void loadFiles(ServletContext context, String path)
     {
     	Set resourcePaths = context.getResourcePaths(path);
@@ -314,6 +341,11 @@ public class Course
     	}
     }
     
+    /**
+     * Instantiate all the lesson objects into a cache
+     * 
+     * @param path
+     */
     private void loadLessons(String path)
     {
     	Iterator itr = files.iterator();
@@ -321,7 +353,7 @@ public class Course
     	while(itr.hasNext())
     	{
     		String file = (String)itr.next();
-    		String className = clean(file, path, ".class");
+    		String className = getClassFile(file, path);
     		
     		if(className != null)
     		{
@@ -344,12 +376,15 @@ public class Course
     			}
     			catch (Exception e)
     			{
-    				System.out.println("Warning: " + e.getMessage());
+    				//System.out.println("Warning: " + e.getMessage());
     			}
     		}
     	}
     }
     
+    /**
+     * For each lesson, set the source file and lesson file
+     */
     private void loadResources()
     {
     	Iterator lessonItr = lessons.iterator();
@@ -358,27 +393,25 @@ public class Course
     	{
     		AbstractLesson lesson = (AbstractLesson)lessonItr.next();
     		String className = lesson.getClass().getName();
+    		String classFile = getSourceFile(className);
+    		
     		Iterator fileItr = files.iterator();
     		
     		while(fileItr.hasNext())
     		{
     			String absoluteFile = (String)fileItr.next();
     			String fileName = getFileName(absoluteFile);
-    			String javaName = clean(absoluteFile, "/", ".java");
-    			String lessonName = clean(absoluteFile, "/", ".html");
     			
-    			if(javaName != null && className.endsWith(fileName))
+    			if(absoluteFile.endsWith(classFile))
     			{
-    				System.out.println("DEBUG: setting source file " + absoluteFile + " for lesson " + lesson.getClass().getName());
+    				//System.out.println("Set source file for " + classFile);
     				lesson.setSourceFileName(absoluteFile);
-    				break;
     			}
     			
-    			if(lessonName != null && className.endsWith(fileName))
+    			if(absoluteFile.endsWith(".html") && className.endsWith(fileName))
     			{
-    				System.out.println("DEBUG: setting lesson plan file " + absoluteFile + " for lesson " + lesson.getClass().getName());
+    				//System.out.println("DEBUG: setting lesson plan file " + absoluteFile + " for lesson " + lesson.getClass().getName());
     				lesson.setLessonPlanFileName(absoluteFile);
-    				break;
     			}
     		}
     	}
