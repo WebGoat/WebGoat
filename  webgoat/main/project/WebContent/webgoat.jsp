@@ -30,6 +30,7 @@
 	                 <div align="center" class="style2">Laurence Casey</div>                    
 	                 <div align="center" class="style2">David Anderson</div>                    
 	                 <div align="center" class="style2">Eric Sheridan</div>
+	                 <div align="center" class="style2">Dave Wichers</div>
 	              </td>
                   <td><div align="center" class="style2">Aspect Security <br />
                   (http://www.aspectsecurity.com) </div></td>
