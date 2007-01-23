@@ -355,7 +355,7 @@ public class Course
     		String file = (String)itr.next();
     		String className = getClassFile(file, path);
     		
-    		if(className != null)
+    		if(className != null && !className.endsWith("_i"))
     		{
     			try
     			{
