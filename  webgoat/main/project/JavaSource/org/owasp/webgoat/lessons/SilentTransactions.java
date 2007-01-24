@@ -48,7 +48,7 @@ import org.owasp.webgoat.session.WebSession;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author     Sherif Koussa <a href="http://code.google.com/p/webgoat">WebGoat</a>
+ * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
  * @created    December 26, 2006
  */
 
@@ -306,7 +306,7 @@ public class SilentTransactions extends LessonAdapter
 
     public Element getCredits()
     {
-	return new StringElement("Created by Sherif Koussa");
+	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
     }
 
 }

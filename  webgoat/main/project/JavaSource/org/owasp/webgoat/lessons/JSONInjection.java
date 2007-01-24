@@ -45,8 +45,8 @@ import java.util.ArrayList;
  * for free software projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
- *
- * @author     sherif@macadamian.com
+ * 
+ * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
  * @created    December 25, 2006
  */
 
@@ -270,9 +270,10 @@ public class JSONInjection extends LessonAdapter
 	return ec;
     }
 
-	public Element getCredits() {
-		return new StringElement("Created by Sherif Koussa");
-	}
+    public Element getCredits()
+    {
+	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+    }
 
     protected Category getDefaultCategory()
     {

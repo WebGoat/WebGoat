@@ -41,8 +41,8 @@ import org.owasp.webgoat.session.WebSession;
  * for free software projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
- *
- * @author     sherif@macadamian.com
+ * 
+ * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
  * @created    September 30, 2006
  */
 
@@ -289,7 +289,7 @@ public class HttpSplitting extends LessonAdapter
 
     public Element getCredits()
     {
-	return new StringElement("Created by Sherif Koussa");
+	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
     }
 
 }

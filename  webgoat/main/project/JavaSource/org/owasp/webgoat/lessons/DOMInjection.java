@@ -44,7 +44,7 @@ import org.owasp.webgoat.session.WebSession;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author     Sherif Koussa <a href="http://code.google.com/p/webgoat">WebGoat</a>
+ * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
  * @created    October 28, 2006
  */
 
@@ -152,7 +152,7 @@ public class DOMInjection extends LessonAdapter
 
     public Element getCredits()
     {
-	return new StringElement("Created by Sherif Koussa");
+	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
     }
 
 
@@ -175,10 +175,8 @@ public class DOMInjection extends LessonAdapter
 
 	List<String> hints = new ArrayList<String>();
 	hints.add("This page is using XMLHTTP to comunicate with the server.");
-	hints
-		.add("Try to find a way to inject the DOM to enable the Activate button.");
-	hints
-		.add("Intercept the reply and replace the body with document.forms[0].SUBMIT.disabled = false;");
+	hints.add("Try to find a way to inject the DOM to enable the Activate button.");
+	hints.add("Intercept the reply and replace the body with document.forms[0].SUBMIT.disabled = false;");
 	return hints;
     }
 

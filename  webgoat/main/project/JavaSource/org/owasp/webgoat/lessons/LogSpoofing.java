@@ -166,6 +166,6 @@ public class LogSpoofing extends LessonAdapter
 
     public Element getCredits()
     {
-	return new StringElement("Created by Sherif Koussa");
+	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
     }
 }

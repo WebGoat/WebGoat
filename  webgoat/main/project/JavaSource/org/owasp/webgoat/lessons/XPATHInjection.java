@@ -64,7 +64,7 @@ import org.owasp.webgoat.session.ECSFactory;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author     Sherif Koussa <a href="http://code.google.com/p/webgoat">WebGoat</a>
+ * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
  * @created    November 28, 2006
  */
 
@@ -214,7 +214,7 @@ public class XPATHInjection extends LessonAdapter
 
     public Element getCredits()
     {
-	return new StringElement("Created by Sherif Koussa");
+	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
     }
 
 

@@ -56,6 +56,8 @@ public abstract class LessonAdapter extends AbstractLesson
     final static IMG WEBGOAT_LOGO = new IMG("images/logos/WebGoat.jpg").setAlt(
 	    "WebGoat Logo").setBorder(0).setHspace(0).setVspace(0);
 
+    final static IMG AOC_LOGO = new IMG("images/logos/AOC_Logo.jpg").setAlt(
+    "OWASP Autumn of Code").setBorder(0).setHspace(0).setVspace(0);
 
     /**
      *  Description of the Method

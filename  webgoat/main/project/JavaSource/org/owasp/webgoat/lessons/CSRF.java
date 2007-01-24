@@ -52,6 +52,9 @@ import org.owasp.webgoat.util.HtmlEncoder;
  * for free software projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
+ * 
+ * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
+
  */
 public class CSRF extends LessonAdapter {
 
@@ -320,8 +323,9 @@ public class CSRF extends LessonAdapter {
 		return nameroot;
 	}
 
-	public Element getCredits() {
-		return new StringElement("Created by Sherif Koussa");
-	}
+    public Element getCredits()
+    {
+	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+    }
 	
 }
