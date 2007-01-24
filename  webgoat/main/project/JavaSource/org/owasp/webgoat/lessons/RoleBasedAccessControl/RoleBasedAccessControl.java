@@ -121,7 +121,7 @@ public class RoleBasedAccessControl extends LessonAdapter
 
     private final static String JSP_PATH = "/lessons/" + LESSON_NAME + "/";
 
-    private final static Integer DEFAULT_RANKING = new Integer(120);
+    private final static Integer DEFAULT_RANKING = new Integer(125);
 
     private static Connection connection = null;
 
