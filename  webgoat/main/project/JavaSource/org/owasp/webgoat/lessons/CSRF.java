@@ -278,10 +278,10 @@ public class CSRF extends LessonAdapter {
 
 	@Override	
 	protected Category getDefaultCategory() {
-		return AbstractLesson.A4;
+		return AbstractLesson.A2;
 	}
 
-	private final static Integer DEFAULT_RANKING = new Integer(140);
+	private final static Integer DEFAULT_RANKING = new Integer(120);
 	
 	@Override
 	protected Integer getDefaultRanking() {
@@ -325,7 +325,7 @@ public class CSRF extends LessonAdapter {
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+    	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
     }
 	
 }

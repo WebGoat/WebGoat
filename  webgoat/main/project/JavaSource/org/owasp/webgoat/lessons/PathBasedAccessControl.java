@@ -282,12 +282,12 @@ public class PathBasedAccessControl extends LessonAdapter
 	return (instructions);
     }
 
-    private final static Integer DEFAULT_RANKING = new Integer(120);
+    private final static Integer DEFAULT_RANKING = new Integer(115);
 
 
     protected Integer getDefaultRanking()
     {
-	return DEFAULT_RANKING;
+    	return DEFAULT_RANKING;
     }
 
 
@@ -298,6 +298,6 @@ public class PathBasedAccessControl extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Bypass a Path Based Access Control Scheme");
+    	return ("How to Bypass a Path Based Access Control Scheme");
     }
 }

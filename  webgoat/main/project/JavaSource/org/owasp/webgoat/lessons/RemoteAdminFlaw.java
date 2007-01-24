@@ -50,19 +50,18 @@ public class RemoteAdminFlaw extends LessonAdapter
      */
     protected Element createContent(WebSession s)
     {
-	ElementContainer ec = new ElementContainer();
-
-	if (s.completedHackableAdmin())
-	{
-	    makeSuccess(s);
-	}
-	else
-	{
-	    ec
-		    .addElement("WebGoat has an admin interface.  To 'complete' this lesson you must figure "
-			    + "out how to access the administrative interface for WebGoat.");
-	}
-	return ec;
+		ElementContainer ec = new ElementContainer();
+	
+		if (s.completedHackableAdmin())
+		{
+		    makeSuccess(s);
+		}
+		else
+		{
+		    ec.addElement("WebGoat has an admin interface.  To 'complete' this lesson you must figure "
+				    + "out how to access the administrative interface for WebGoat.");
+		}
+		return ec;
 
     }
 
@@ -74,8 +73,7 @@ public class RemoteAdminFlaw extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-
-	return AbstractLesson.A2;
+    	return AbstractLesson.A2;
     }
 
 
@@ -88,21 +86,19 @@ public class RemoteAdminFlaw extends LessonAdapter
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("WebGoat has 2 admin interfaces.");
-	hints
-		.add("WebGoat has one admin interface that is controlled via a URL parameter and is 'hackable'");
-	hints
-		.add("WebGoat has one admin interface that is controlled via server side security constraints and should not be 'hackable'");
+	hints.add("WebGoat has one admin interface that is controlled via a URL parameter and is 'hackable'");
+	hints.add("WebGoat has one admin interface that is controlled via server side security constraints and should not be 'hackable'");
 	hints.add("Follow the Source!");
 
 	return hints;
     }
 
-    private final static Integer DEFAULT_RANKING = new Integer(15);
+    private final static Integer DEFAULT_RANKING = new Integer(160);
 
 
     protected Integer getDefaultRanking()
     {
-	return DEFAULT_RANKING;
+    	return DEFAULT_RANKING;
     }
 
 
@@ -113,7 +109,7 @@ public class RemoteAdminFlaw extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("Remote Admin Access");
+    	return ("Remote Admin Access");
     }
 
 }

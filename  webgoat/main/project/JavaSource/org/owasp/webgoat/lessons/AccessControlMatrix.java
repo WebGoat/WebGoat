@@ -67,53 +67,51 @@ public class AccessControlMatrix extends LessonAdapter
      */
     protected Element createContent(WebSession s)
     {
-	ElementContainer ec = new ElementContainer();
-
-	try
-	{
-	    String user = s.getParser().getRawParameter(USER, users[0]);
-	    String resource = s.getParser().getRawParameter(RESOURCE,
-		    resources[0]);
-	    String credentials = getRoles(user).toString();
-	    ec.addElement(new P().addElement("Change user:"));
-	    ec.addElement(ECSFactory.makePulldown(USER, users, user, 1));
-	    ec.addElement(new P());
-
-	    // These two lines would allow the user to select the resource from a  list
-	    // Didn't seem right to me so I made them type it in.
-	    //	ec.addElement( new P().addElement( "Choose a resource:" ) );
-	    //	ec.addElement( ECSFactory.makePulldown( RESOURCE, resources, resource, 1 ) );
-	    ec.addElement(new P().addElement("Select resource: "));
-	    ec.addElement(ECSFactory.makePulldown(RESOURCE, resources,
-		    resource, 1));
-
-	    ec.addElement(new P());
-	    ec.addElement(ECSFactory.makeButton("Check Access"));
-
-	    if (isAllowed(user, resource))
-	    {
-		if (!getRoles(user).contains("Admin")
-			&& resource.equals("Account Manager"))
+		ElementContainer ec = new ElementContainer();
+	
+		try
 		{
-		    makeSuccess(s);
+		    String user = s.getParser().getRawParameter(USER, users[0]);
+		    String resource = s.getParser().getRawParameter(RESOURCE, resources[0]);
+		    String credentials = getRoles(user).toString();
+		    ec.addElement(new P().addElement("Change user:"));
+		    ec.addElement(ECSFactory.makePulldown(USER, users, user, 1));
+		    ec.addElement(new P());
+	
+		    // These two lines would allow the user to select the resource from a  list
+		    // Didn't seem right to me so I made them type it in.
+		    //	ec.addElement( new P().addElement( "Choose a resource:" ) );
+		    //	ec.addElement( ECSFactory.makePulldown( RESOURCE, resources, resource, 1 ) );
+		    ec.addElement(new P().addElement("Select resource: "));
+		    ec.addElement(ECSFactory.makePulldown(RESOURCE, resources, resource, 1));
+	
+		    ec.addElement(new P());
+		    ec.addElement(ECSFactory.makeButton("Check Access"));
+	
+		    if (isAllowed(user, resource))
+		    {
+			if (!getRoles(user).contains("Admin")
+				&& resource.equals("Account Manager"))
+			{
+			    makeSuccess(s);
+			}
+			s.setMessage("User " + user + " " + credentials
+				+ " was allowed to access resource " + resource);
+		    }
+		    else
+		    {
+			s.setMessage("User " + user + " " + credentials
+				+ " did not have privilege to access resource "
+				+ resource);
+		    }
 		}
-		s.setMessage("User " + user + " " + credentials
-			+ " was allowed to access resource " + resource);
-	    }
-	    else
-	    {
-		s.setMessage("User " + user + " " + credentials
-			+ " did not have privilege to access resource "
-			+ resource);
-	    }
-	}
-	catch (Exception e)
-	{
-	    s.setMessage("Error generating " + this.getClass().getName());
-	    e.printStackTrace();
-	}
-
-	return (ec);
+		catch (Exception e)
+		{
+		    s.setMessage("Error generating " + this.getClass().getName());
+		    e.printStackTrace();
+		}
+	
+		return (ec);
     }
 
 
@@ -125,7 +123,7 @@ public class AccessControlMatrix extends LessonAdapter
 
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.A2;
+    	return AbstractLesson.A2;
     }
 
 
@@ -136,21 +134,19 @@ public class AccessControlMatrix extends LessonAdapter
      */
     protected List getHints()
     {
-	List<String> hints = new ArrayList<String>();
-	hints
-		.add("Many sites attempt to restrict access to resources by role.");
-	hints
-		.add("Developers frequently make mistakes implementing this scheme.");
-	hints.add("Attempt combinations of users, roles, and resources.");
-	return hints;
+		List<String> hints = new ArrayList<String>();
+		hints.add("Many sites attempt to restrict access to resources by role.");
+		hints.add("Developers frequently make mistakes implementing this scheme.");
+		hints.add("Attempt combinations of users, roles, and resources.");
+		return hints;
     }
 
-    private final static Integer DEFAULT_RANKING = new Integer(120);
+    private final static Integer DEFAULT_RANKING = new Integer(10);
 
 
     protected Integer getDefaultRanking()
     {
-	return DEFAULT_RANKING;
+    	return DEFAULT_RANKING;
     }
 
 
@@ -162,33 +158,33 @@ public class AccessControlMatrix extends LessonAdapter
      */
     private List getResources(List rl)
     {
-	// return the resources allowed for these roles
-	ArrayList<String> list = new ArrayList<String>();
-
-	if (rl.contains(roles[0]))
-	{
-	    list.add(resources[0]);
-	}
-
-	if (rl.contains(roles[1]))
-	{
-	    list.add(resources[1]);
-	    list.add(resources[5]);
-	}
-
-	if (rl.contains(roles[2]))
-	{
-	    list.add(resources[2]);
-	    list.add(resources[3]);
-	}
-
-	if (rl.contains(roles[3]))
-	{
-	    list.add(resources[4]);
-	    list.add(resources[5]);
-	}
-
-	return list;
+		// return the resources allowed for these roles
+		ArrayList<String> list = new ArrayList<String>();
+	
+		if (rl.contains(roles[0]))
+		{
+		    list.add(resources[0]);
+		}
+	
+		if (rl.contains(roles[1]))
+		{
+		    list.add(resources[1]);
+		    list.add(resources[5]);
+		}
+	
+		if (rl.contains(roles[2]))
+		{
+		    list.add(resources[2]);
+		    list.add(resources[3]);
+		}
+	
+		if (rl.contains(roles[3]))
+		{
+		    list.add(resources[4]);
+		    list.add(resources[5]);
+		}
+	
+		return list;
     }
 
 
@@ -201,28 +197,28 @@ public class AccessControlMatrix extends LessonAdapter
 
     private List getRoles(String user)
     {
-	ArrayList<String> list = new ArrayList<String>();
-
-	if (user.equals(users[0]))
-	{
-	    list.add(roles[0]);
-	}
-	else if (user.equals(users[1]))
-	{
-	    list.add(roles[1]);
-	    list.add(roles[2]);
-	}
-	else if (user.equals(users[2]))
-	{
-	    list.add(roles[0]);
-	    list.add(roles[2]);
-	}
-	else if (user.equals(users[3]))
-	{
-	    list.add(roles[3]);
-	}
-
-	return list;
+		ArrayList<String> list = new ArrayList<String>();
+	
+		if (user.equals(users[0]))
+		{
+		    list.add(roles[0]);
+		}
+		else if (user.equals(users[1]))
+		{
+		    list.add(roles[1]);
+		    list.add(roles[2]);
+		}
+		else if (user.equals(users[2]))
+		{
+		    list.add(roles[0]);
+		    list.add(roles[2]);
+		}
+		else if (user.equals(users[3]))
+		{
+		    list.add(roles[3]);
+		}
+	
+		return list;
     }
 
 
@@ -234,7 +230,7 @@ public class AccessControlMatrix extends LessonAdapter
 
     public String getTitle()
     {
-	return ("Using an Access Control Matrix");
+		return ("Using an Access Control Matrix");
     }
 
 
@@ -253,8 +249,8 @@ public class AccessControlMatrix extends LessonAdapter
 
     private boolean isAllowed(String user, String resource)
     {
-	List roles = getRoles(user);
-	List resources = getResources(roles);
-	return (resources.contains(resource));
+		List roles = getRoles(user);
+		List resources = getResources(roles);
+		return (resources.contains(resource));
     }
 }
