@@ -142,9 +142,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
     public final static Category AJAX_SECURITY = new Category("AJAX Security",
 	    new Integer(1150));
 
-    public final static Category NEW_LESSON = new Category("New Lessons",
-	    new Integer(1210));
-
     public final static Category ADMIN_FUNCTIONS = new Category(
 	    "Admin Functions", new Integer(10));
 
@@ -196,34 +193,28 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
     private String lessonPlanFileName;
 
-    static
-    {
-	categories.add(A1);
-	categories.add(A2);
-	categories.add(A3);
-	categories.add(A4);
-	categories.add(A5);
-	categories.add(A6);
-	categories.add(A7);
-	categories.add(A8);
-	categories.add(A9);
-	categories.add(A10);
-	categories.add(WEB_SERVICES);
-	categories.add(AJAX_SECURITY);
-	categories.add(NEW_LESSON);
-	categories.add(ADMIN_FUNCTIONS);
-	categories.add(GENERAL);
-	categories.add(CODE_QUALITY);
-	categories.add(CHALLENGE);
-    }
-
-
     /**
      * Constructor for the Lesson object
      */
     public AbstractLesson()
     {
-	id = new Integer(++count);
+		categories.add(A1);
+		categories.add(A2);
+		categories.add(A3);
+		categories.add(A4);
+		categories.add(A5);
+		categories.add(A6);
+		categories.add(A7);
+		categories.add(A8);
+		categories.add(A9);
+		categories.add(A10);
+		categories.add(WEB_SERVICES);
+		categories.add(AJAX_SECURITY);
+		categories.add(ADMIN_FUNCTIONS);
+		categories.add(GENERAL);
+		categories.add(CODE_QUALITY);
+		categories.add(CHALLENGE);
+    	id = new Integer(++count);
     }
 
 

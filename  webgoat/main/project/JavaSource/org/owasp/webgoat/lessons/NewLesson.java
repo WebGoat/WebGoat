@@ -61,15 +61,15 @@ public class NewLesson extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.NEW_LESSON;
+    	return GENERAL;
     }
 
-    private final static Integer DEFAULT_RANKING = new Integer(10);
+    private final static Integer DEFAULT_RANKING = new Integer(5);
 
 
     protected Integer getDefaultRanking()
     {
-	return DEFAULT_RANKING;
+    	return DEFAULT_RANKING;
     }
 
 
