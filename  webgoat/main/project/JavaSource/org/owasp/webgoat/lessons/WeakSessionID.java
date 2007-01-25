@@ -184,7 +184,7 @@ public class WeakSessionID extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to hijack a session");
+	return ("How to Hijack a Session");
     }
 
 
