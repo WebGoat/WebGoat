@@ -79,9 +79,9 @@ public class JSONInjection extends LessonAdapter
 			+ lineSep
 			+ "\"flights\": ["
 			+ lineSep
-			+ "{\"stops\": \"0\", \"transit\" : \"N/A\", \"price\": \"600$\"},"
+			+ "{\"stops\": \"0\", \"transit\" : \"N/A\", \"price\": \"$600\"},"
 			+ lineSep
-			+ "{\"stops\": \"2\", \"transit\" : \"Newark,Chicago\", \"price\": \"300$\"} "
+			+ "{\"stops\": \"2\", \"transit\" : \"Newark,Chicago\", \"price\": \"$300\"} "
 			+ lineSep + "]" + lineSep + "}";
 		s.getResponse().setContentType("text/html");
 		s.getResponse().setHeader("Cache-Control", "no-cache");
@@ -267,7 +267,7 @@ public class JSONInjection extends LessonAdapter
 	    else
 	    {
 		s
-			.setMessage("You are close, try to set the price for the non-stop flight to be less than 600$");
+			.setMessage("You are close, try to set the price for the non-stop flight to be less than $600");
 	    }
 	}
 	return ec;
@@ -290,7 +290,7 @@ public class JSONInjection extends LessonAdapter
 	hints.add("JSON stands for JavaScript Object Notation.");
 	hints.add("JSON is a way of representing data just like XML.");
 	hints.add("The JSON payload is easily interceptable.");
-	hints.add("Intercept the reply, change the 600$ to 25$.");
+	hints.add("Intercept the reply, change the $600 to $25.");
 	return hints;
 
     }
