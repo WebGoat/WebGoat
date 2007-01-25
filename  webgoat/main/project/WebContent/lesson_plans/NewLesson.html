@@ -11,10 +11,10 @@ for a new lesson, follow these few simple instructions to implement it:<br><br>
 * You need to add two files for each new lesson: <br>
 &nbsp;&nbsp;- YourLesson.java to org.owasp.webgoat.lessons<br>
 &nbsp;&nbsp;- YourLesson.html to WebContent/lesson_plans<br><br>
-* YourLesson class implmenet LessonAdapter and override the following methods:<br>
+* YourLesson class must implement LessonAdapter and override the following methods:<br>
 &nbsp;- createContent: Use the <a href="http://jakarta.apache.org/site/downloads/downloads_ecs.cgi">ECS package</a> to develop HTML presented to the user.<br>
 &nbsp;- getCategory: Returns the category for which this lesson belongs (XSS, Injection flaws..etc)<br>
-&nbsp;- getHints: List of hints you would like to pass on to the users to point them to right direction.<br>
+&nbsp;- getHints: List of hints you would like to pass on to the users to point them in the right direction.<br>
 &nbsp;- getTitle: The title for your new lesson.<br>
 &nbsp;- getCredits: Your name goes here.<br><br>
 
