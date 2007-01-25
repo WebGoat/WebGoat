@@ -240,8 +240,8 @@ public class XMLInjection extends LessonAdapter
 	{
 	    trRewards = new TR();
 	    Reward r = (Reward) rewardsMap.get(i);
-	    trRewards.addElement(new TD("-" + r.getName() + r.getPoints()
-		    + " Pts"));
+	    trRewards.addElement(new TD("-" + r.getName()));
+	    trRewards.addElement(new TD(r.getPoints() + " Pts"));
 	    t2.addElement(trRewards);
 	}
 
