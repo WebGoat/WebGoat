@@ -281,6 +281,6 @@ public class TraceXSS extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Perform Cross Site Trace Attacks");
+	return ("How to Perform Cross Site Trace (XST) Attacks");
     }
 }
