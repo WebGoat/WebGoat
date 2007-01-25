@@ -7,7 +7,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
+import org.apache.ecs.html.IMG;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonAction;
@@ -56,7 +58,8 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class SQLInjection extends LessonAdapter
 {
-
+    public final static IMG ASPECT_LOGO = new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0);
+    
     public final static String DESCRIPTION = "description";
 
     public final static String DISCIPLINARY_DATE = "disciplinaryDate";
@@ -435,4 +438,8 @@ public class SQLInjection extends LessonAdapter
 	return super.getSourceFileName();
     }
 
+    public Element getCredits()
+    {
+    	return super.getCustomCredits("", ASPECT_LOGO);
+    }
 }
