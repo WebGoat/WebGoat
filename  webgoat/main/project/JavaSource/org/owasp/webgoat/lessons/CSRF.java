@@ -14,6 +14,7 @@ import org.apache.ecs.html.A;
 import org.apache.ecs.html.B;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.HR;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.TD;
@@ -68,6 +69,8 @@ public class CSRF extends LessonAdapter {
 	private static Connection connection = null;
 	private static int count = 1;
 	private final static int USER_COL = 4;	// Added by Chuck Willis - used to show user who posted message
+    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 	
 	/**
 	 *  Adds a feature to the Message attribute of the MessageBoardScreen object
@@ -325,7 +328,7 @@ public class CSRF extends LessonAdapter {
 
     public Element getCredits()
     {
-    	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+    	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
     }
 	
 }

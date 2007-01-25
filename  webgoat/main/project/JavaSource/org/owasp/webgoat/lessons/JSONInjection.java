@@ -7,6 +7,7 @@ import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.Div;
 import org.apache.ecs.html.Form;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Table;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.TD;
@@ -59,6 +60,8 @@ public class JSONInjection extends LessonAdapter
 
     private final static String TRAVEL_TO = "travelTo";
 
+    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     public void handleRequest(WebSession s)
     {
@@ -272,7 +275,7 @@ public class JSONInjection extends LessonAdapter
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
     }
 
     protected Category getDefaultCategory()

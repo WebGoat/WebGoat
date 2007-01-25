@@ -13,6 +13,7 @@ import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Form;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.H3;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
@@ -63,6 +64,8 @@ public class XMLInjection extends LessonAdapter
 
     public static HashMap rewardsMap = new HashMap();
 
+    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     protected static HashMap init()
     {
@@ -321,7 +324,7 @@ public class XMLInjection extends LessonAdapter
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
     }
 
 

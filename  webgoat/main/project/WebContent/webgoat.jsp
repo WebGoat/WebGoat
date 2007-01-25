@@ -51,7 +51,9 @@
                   <td height="25" valign="bottom"><div align="center"><span class="style1">Documentation Contributer</span></div></td>
                 </tr>
                 <tr>
-                  <td><div align="center" class="style2">Sherif Koussa<br /></div>
+                  <td><div align="center" class="style2">Sherif Koussa<br />
+                  (http://www.macadamian.com)<br />
+                  </div>
                   </td>
                   <td><div align="center" class="style2">Robert Sullivan<br />
                   (http://www.unitedhealthgroup.com/) </div></td>
@@ -59,7 +61,7 @@
                 <tr>
                   <td><div align="center" class="style2">OWASP Autumn of Code<br />
                   (http://www.owasp.org/) </div></td>
-                  <td><div align="center" class="style2">Sherif Koussa<br /></div>
+                  <td><div align="center" class="style2">Sherif Koussa<br />(http://www.macadamian.com)<br /></div>
                   </td>
                 </tr>
                  <tr>

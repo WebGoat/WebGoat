@@ -2,6 +2,7 @@ package org.owasp.webgoat.lessons;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.IMG;
 
 import org.owasp.webgoat.session.WebSession;
 
@@ -39,6 +40,8 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class NewLesson extends LessonAdapter
 {
+    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     /**
      *  Description of the Method
@@ -86,6 +89,6 @@ public class NewLesson extends LessonAdapter
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
     }
 }

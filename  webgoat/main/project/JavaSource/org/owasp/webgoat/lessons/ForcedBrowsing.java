@@ -8,6 +8,7 @@ import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.H1;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
@@ -52,6 +53,8 @@ public class ForcedBrowsing extends LessonAdapter
 
     private final static String SUCCEEDED = "succeeded";
 
+    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     /**
      *  Description of the Method
@@ -153,6 +156,6 @@ public class ForcedBrowsing extends LessonAdapter
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
     }
 }

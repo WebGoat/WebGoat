@@ -55,6 +55,8 @@ public class HttpSplitting extends LessonAdapter
 
     private static String STAGE = "stage";
 
+    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     /**
      * Description of the Method
@@ -289,7 +291,7 @@ public class HttpSplitting extends LessonAdapter
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
     }
 
 }

@@ -11,6 +11,7 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.H2;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.PRE;
 import org.apache.ecs.html.Span;
 import org.apache.ecs.html.Div;
@@ -64,6 +65,8 @@ public class BackDoors extends LessonAdapter
 
     private final static String SELECT_ST = "select userid, password, ssn, salary from employee where userid=";
 
+    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     protected Element createContent(WebSession s)
     {
@@ -259,7 +262,7 @@ public class BackDoors extends LessonAdapter
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
     }
 
 

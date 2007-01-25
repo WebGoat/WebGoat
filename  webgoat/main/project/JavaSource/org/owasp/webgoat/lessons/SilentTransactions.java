@@ -12,6 +12,7 @@ import org.apache.ecs.html.Div;
 import org.apache.ecs.html.Form;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.H3;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.PRE;
 import org.apache.ecs.html.TD;
@@ -59,6 +60,8 @@ public class SilentTransactions extends LessonAdapter
 
     private final static Double CURRENT_BALANCE = 11987.09;
 
+    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     public void handleRequest(WebSession s)
     {
@@ -306,7 +309,7 @@ public class SilentTransactions extends LessonAdapter
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa - Macadamian Technologies", AOC_LOGO);
+	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
     }
 
 }
