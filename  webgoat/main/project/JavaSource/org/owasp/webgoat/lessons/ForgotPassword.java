@@ -55,7 +55,7 @@ import org.owasp.webgoat.session.WebSession;
 public class ForgotPassword extends LessonAdapter
 {
 
-    final static IMG ASPECT_LOGO = new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0);
+    public final static IMG ASPECT_LOGO = new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0);
 
     private final static String USERNAME = "Username";
 
@@ -332,6 +332,6 @@ public class ForgotPassword extends LessonAdapter
 
     public Element getCredits()
     {
-    	return super.getCustomCredits("Eric Sheridan ", ASPECT_LOGO);
+    	return super.getCustomCredits("", ASPECT_LOGO);
     }
 }

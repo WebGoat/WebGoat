@@ -11,6 +11,7 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.Form;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
@@ -48,6 +49,8 @@ import sun.misc.BASE64Encoder;
  * For details, please see http://code.google.com/p/webgoat/
  */
 public class HttpOnly extends LessonAdapter {
+	
+	public final static IMG ASPECT_LOGO = new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0);
 	
 	private final static Integer DEFAULT_RANKING = new Integer(125);
 	
@@ -425,4 +428,9 @@ public class HttpOnly extends LessonAdapter {
 		
 		return result;
 	}
+	
+    public Element getCredits()
+    {
+    	return super.getCustomCredits("", ASPECT_LOGO);
+    }
 }
