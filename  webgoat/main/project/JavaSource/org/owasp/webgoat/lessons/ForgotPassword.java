@@ -55,8 +55,7 @@ import org.owasp.webgoat.session.WebSession;
 public class ForgotPassword extends LessonAdapter
 {
 
-    final static IMG ASPECT_LOGO = new IMG("images/logos/aspect.jpg").setAlt(
-	    "Aspect Security").setBorder(0).setHspace(0).setVspace(0);
+    final static IMG ASPECT_LOGO = new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0);
 
     private final static String USERNAME = "Username";
 
@@ -75,162 +74,141 @@ public class ForgotPassword extends LessonAdapter
 
     private void populateTables()
     {
-	USERS.put("admin", "2275$starBo0rn3");
-	USERS.put("jeff", "(_I_)illia(V)s");
-	USERS.put("dave", "\\V/ich3r$");
-	USERS.put("intern", "H3yn0w");
-	USERS.put("webgoat", "webgoat");
-
-	COLORS.put("admin", "green");
-	COLORS.put("jeff", "orange");
-	COLORS.put("dave", "purple");
-	COLORS.put("intern", "yellow");
-	COLORS.put("webgoat", "red");
+		USERS.put("admin", "2275$starBo0rn3");
+		USERS.put("jeff", "(_I_)illia(V)s");
+		USERS.put("dave", "\\V/ich3r$");
+		USERS.put("intern", "H3yn0w");
+		USERS.put("webgoat", "webgoat");
+	
+		COLORS.put("admin", "green");
+		COLORS.put("jeff", "orange");
+		COLORS.put("dave", "purple");
+		COLORS.put("intern", "yellow");
+		COLORS.put("webgoat", "red");
     }
 
 
     protected Element doStage1(WebSession s)
     {
-	ElementContainer ec = new ElementContainer();
-
-	ec.addElement(new BR().addElement(new H1()
-		.addElement("Webgoat Password Recovery ")));
-	Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0)
-		.setWidth("90%").setAlign("center");
-
-	if (s.isColor())
-	{
-	    t.setBorder(1);
-	}
-
-	TR tr = new TR();
-	tr
-		.addElement(new TH()
-			.addElement(
-				"Please input your username.  See the OWASP admin if you do not have an account.")
-			.setColSpan(2).setAlign("left"));
-	t.addElement(tr);
-
-	tr = new TR();
-	tr.addElement(new TD().addElement("*Required Fields").setWidth("30%"));
-	t.addElement(tr);
-
-	tr = new TR();
-	tr.addElement(new TD().addElement("&nbsp;").setColSpan(2));
-	t.addElement(tr);
-
-	TR row1 = new TR();
-	row1.addElement(new TD(new B(new StringElement("*User Name: "))));
-
-	Input input1 = new Input(Input.TEXT, USERNAME, "");
-	row1.addElement(new TD(input1));
-	t.addElement(row1);
-
-	Element b = ECSFactory.makeButton("Submit");
-	t.addElement(new TR(new TD(b)));
-	ec.addElement(t);
-
-	return (ec);
+		ElementContainer ec = new ElementContainer();
+	
+		ec.addElement(new BR().addElement(new H1().addElement("Webgoat Password Recovery ")));
+		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%").setAlign("center");
+	
+		if (s.isColor())
+		{
+		    t.setBorder(1);
+		}
+	
+		TR tr = new TR();
+		tr.addElement(new TH().addElement("Please input your username.  See the OWASP admin if you do not have an account.").setColSpan(2).setAlign("left"));
+		t.addElement(tr);
+	
+		tr = new TR();
+		tr.addElement(new TD().addElement("*Required Fields").setWidth("30%"));
+		t.addElement(tr);
+	
+		tr = new TR();
+		tr.addElement(new TD().addElement("&nbsp;").setColSpan(2));
+		t.addElement(tr);
+	
+		TR row1 = new TR();
+		row1.addElement(new TD(new B(new StringElement("*User Name: "))));
+	
+		Input input1 = new Input(Input.TEXT, USERNAME, "");
+		row1.addElement(new TD(input1));
+		t.addElement(row1);
+	
+		Element b = ECSFactory.makeButton("Submit");
+		t.addElement(new TR(new TD(b)));
+		ec.addElement(t);
+	
+		return (ec);
     }
 
 
     protected Element doStage2(WebSession s)
     {
-	ElementContainer ec = new ElementContainer();
-
-	ec.addElement(new H1().addElement("Webgoat Password Recovery "));
-	Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0)
-		.setWidth("90%").setAlign("center");
-
-	if (s.isColor())
-	{
-	    t.setBorder(1);
-	}
-
-	TR tr = new TR();
-	tr.addElement(new TH().addElement(
-		"Secret Question: What is your favorite color?").setColSpan(2)
-		.setAlign("left"));
-	t.addElement(tr);
-
-	tr = new TR();
-	tr.addElement(new TD().addElement("*Required Fields").setWidth("20%"));
-	t.addElement(tr);
-
-	tr = new TR();
-	tr.addElement(new TD().addElement("&nbsp;").setColSpan(2));
-	t.addElement(tr);
-
-	TR row1 = new TR();
-	row1.addElement(new TD(new B(new StringElement("*Answer: "))));
-
-	Input input1 = new Input(Input.TEXT, COLOR, "");
-	row1.addElement(new TD(input1));
-	t.addElement(row1);
-
-	Element b = ECSFactory.makeButton("Submit");
-	t.addElement(new TR(new TD(b)));
-	ec.addElement(t);
-
-	return (ec);
+		ElementContainer ec = new ElementContainer();
+	
+		ec.addElement(new H1().addElement("Webgoat Password Recovery "));
+		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%").setAlign("center");
+	
+		if (s.isColor())
+		{
+		    t.setBorder(1);
+		}
+	
+		TR tr = new TR();
+		tr.addElement(new TH().addElement("Secret Question: What is your favorite color?").setColSpan(2).setAlign("left"));
+		t.addElement(tr);
+	
+		tr = new TR();
+		tr.addElement(new TD().addElement("*Required Fields").setWidth("30%"));
+		t.addElement(tr);
+	
+		tr = new TR();
+		tr.addElement(new TD().addElement("&nbsp;").setColSpan(2));
+		t.addElement(tr);
+	
+		TR row1 = new TR();
+		row1.addElement(new TD(new B(new StringElement("*Answer: "))));
+	
+		Input input1 = new Input(Input.TEXT, COLOR, "");
+		row1.addElement(new TD(input1));
+		t.addElement(row1);
+	
+		Element b = ECSFactory.makeButton("Submit");
+		t.addElement(new TR(new TD(b)));
+		ec.addElement(t);
+	
+		return (ec);
     }
 
 
     protected Element doStage3(WebSession s)
     {
-	ElementContainer ec = new ElementContainer();
-
-	ec.addElement(new H1().addElement("Webgoat Password Recovery "));
-	Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0)
-		.setWidth("90%").setAlign("center");
-
-	if (s.isColor())
-	{
-	    t.setBorder(1);
-	}
-
-	TR tr = new TR();
-	tr
-		.addElement(new TH()
-			.addElement(
-				"For security reasons, please change your password immediately.")
-			.setColSpan(2).setAlign("left"));
-	t.addElement(tr);
-
-	tr = new TR();
-	tr.addElement(new TD().addElement(
-		new BR().addElement(new B().addElement(new StringElement(
-			"Results:")))).setAlign("left"));
-	t.addElement(tr);
-
-	tr = new TR();
-	tr.addElement(new TD().addElement(new StringElement("Username: "
-		+ USERNAME_RESPONSE)));
-	t.addElement(tr);
-
-	tr = new TR();
-	tr.addElement(new TD().addElement(new StringElement("Color: "
-		+ COLOR_RESPONSE)));
-	t.addElement(tr);
-
-	tr = new TR();
-	tr.addElement(new TD().addElement(new StringElement("Password: "
-		+ USERS.get(USERNAME_RESPONSE).toString())));
-	t.addElement(tr);
-
-	ec.addElement(t);
-
-	if (USERNAME_RESPONSE.equals("admin") && COLOR_RESPONSE.equals("green"))
-	{
-	    makeSuccess(s);
-	}
-	else if (!USERNAME_RESPONSE.equals("webgoat")
-		&& USERS.containsKey(USERNAME_RESPONSE))
-	{
-	    s
-		    .setMessage("Close. Now try to get the password of a privileged account.");
-	}
-	return ec;
+		ElementContainer ec = new ElementContainer();
+	
+		ec.addElement(new H1().addElement("Webgoat Password Recovery "));
+		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%").setAlign("center");
+	
+		if (s.isColor())
+		{
+		    t.setBorder(1);
+		}
+	
+		TR tr = new TR();
+		tr.addElement(new TH().addElement("For security reasons, please change your password immediately.").setColSpan(2).setAlign("left"));
+		t.addElement(tr);
+	
+		tr = new TR();
+		tr.addElement(new TD().addElement(new BR().addElement(new B().addElement(new StringElement("Results:")))).setAlign("left"));
+		t.addElement(tr);
+	
+		tr = new TR();
+		tr.addElement(new TD().addElement(new StringElement("Username: " + USERNAME_RESPONSE)));
+		t.addElement(tr);
+	
+		tr = new TR();
+		tr.addElement(new TD().addElement(new StringElement("Color: " + COLOR_RESPONSE)));
+		t.addElement(tr);
+	
+		tr = new TR();
+		tr.addElement(new TD().addElement(new StringElement("Password: " + USERS.get(USERNAME_RESPONSE).toString())));
+		t.addElement(tr);
+	
+		ec.addElement(t);
+	
+		if (USERNAME_RESPONSE.equals("admin") && COLOR_RESPONSE.equals("green"))
+		{
+		    makeSuccess(s);
+		}
+		else if (!USERNAME_RESPONSE.equals("webgoat") && USERS.containsKey(USERNAME_RESPONSE))
+		{
+		    s.setMessage("Close. Now try to get the password of a privileged account.");
+		}
+		return ec;
     }
 
 
@@ -242,63 +220,64 @@ public class ForgotPassword extends LessonAdapter
      */
     protected Element createContent(WebSession s)
     {
-	ElementContainer ec = new ElementContainer();
-	String username = "";
-	String color = "";
-
-	color = s.getParser().getStringParameter(COLOR, "");
-
-	if (color.length() > 0)
-	    STAGE = 2;
-	else
-	    STAGE = 1;
-
-	if (USERS.size() == 0)
-	{
-	    populateTables();
-	}
-
-	if (STAGE == 2)
-	{
-	    color = s.getParser().getStringParameter(COLOR, "");
-
-	    if (COLORS.get(USERNAME_RESPONSE).equals(color))
-	    {
-		STAGE = 1;
-		COLOR_RESPONSE = color;
-		ec.addElement(doStage3(s));
-	    }
-	    else
-	    {
-		s.setMessage("Incorrect response for " + USERNAME_RESPONSE
-			+ ". Please try again!");
-		ec.addElement(doStage2(s));
-	    }
-	}
-	else if (STAGE == 1)
-	{
-	    username = s.getParser().getStringParameter(USERNAME, "");
-
-	    if (USERS.containsKey(username))
-	    {
-		STAGE = 2;
-		USERNAME_RESPONSE = username;
-		ec.addElement(doStage2(s));
-	    }
-	    else
-	    {
-		if (username.length() > 0)
-		    s.setMessage("Not a valid username. Please try again");
-		ec.addElement(doStage1(s));
-	    }
-	}
-	else
-	{
-	    ec.addElement(doStage1(s));
-	    STAGE = 1;
-	}
-
-	return ec;
+		ElementContainer ec = new ElementContainer();
+		String username = "";
+		String color = "";
+	
+		color = s.getParser().getStringParameter(COLOR, "");
+	
+		if (color.length() > 0)
+		    STAGE = 2;
+		else
+		    STAGE = 1;
+	
+		if (USERS.size() == 0)
+		{
+		    populateTables();
+		}
+	
+		if (STAGE == 2)
+		{
+		    color = s.getParser().getStringParameter(COLOR, "");
+	
+		    if (COLORS.get(USERNAME_RESPONSE).equals(color))
+		    {
+				STAGE = 1;
+				COLOR_RESPONSE = color;
+				ec.addElement(doStage3(s));
+		    }
+		    else
+		    {
+				s.setMessage("Incorrect response for " + USERNAME_RESPONSE + ". Please try again!");
+				ec.addElement(doStage2(s));
+		    }
+		}
+		else if (STAGE == 1)
+		{
+		    username = s.getParser().getStringParameter(USERNAME, "");
+	
+		    if (USERS.containsKey(username))
+		    {
+				STAGE = 2;
+				USERNAME_RESPONSE = username;
+				ec.addElement(doStage2(s));
+		    }
+		    else
+		    {
+				if (username.length() > 0)
+				{
+					s.setMessage("Not a valid username. Please try again.");
+				}
+				ec.addElement(doStage1(s));
+		    }
+		}
+		else
+		{
+		    ec.addElement(doStage1(s));
+		    STAGE = 1;
+		}
+	
+		return ec;
     }
 
 
@@ -321,15 +300,14 @@ public class ForgotPassword extends LessonAdapter
      */
     public List getHints()
     {
-	List<String> hints = new ArrayList<String>();
-	hints
-		.add("There is no lock out policy in place, brute force your way!");
-	hints
-		.add("Try using usernames you might encounter throughout WebGoat.");
-	hints.add("There are only so many possible colors, can you guess one?");
-	hints.add("The administrative account is \"admin\"");
-
-	return hints;
+		List<String> hints = new ArrayList<String>();
+		
+		hints.add("There is no lock out policy in place, brute force your way!");
+		hints.add("Try using usernames you might encounter throughout WebGoat.");
+		hints.add("There are only so many possible colors, can you guess one?");
+		hints.add("The administrative account is \"admin\"");
+	
+		return hints;
     }
 
     private final static Integer DEFAULT_RANKING = new Integer(15);
@@ -337,7 +315,7 @@ public class ForgotPassword extends LessonAdapter
 
     protected Integer getDefaultRanking()
     {
-	return DEFAULT_RANKING;
+    	return DEFAULT_RANKING;
     }
 
 
@@ -348,12 +326,12 @@ public class ForgotPassword extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("Forgot Password");
+    	return ("Forgot Password");
     }
 
 
     public Element getCredits()
     {
-	return super.getCustomCredits("The Intern", ASPECT_LOGO);
+    	return super.getCustomCredits("Eric Sheridan ", ASPECT_LOGO);
     }
 }
