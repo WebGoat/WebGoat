@@ -85,7 +85,7 @@ public class WeakSessionID extends LessonAdapter
      */
     public Element getCredits()
     {
-    	return super.getCustomCredits("By Rogan Dawes", ASPECT_LOGO);
+    	return super.getCustomCredits("By Rogan Dawes of ", ASPECT_LOGO);
     }
 
 
