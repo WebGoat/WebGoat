@@ -10,6 +10,7 @@ import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.B;
 import org.apache.ecs.html.H1;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TH;
@@ -54,7 +55,7 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class WeakSessionID extends LessonAdapter
 {
-
+	public final static IMG ASPECT_LOGO = new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0);
     /**
      *  Description of the Field
      */
@@ -84,7 +85,7 @@ public class WeakSessionID extends LessonAdapter
      */
     public Element getCredits()
     {
-	return new StringElement("By Rogan Dawes");
+    	return super.getCustomCredits("By Rogan Dawes", ASPECT_LOGO);
     }
 
 
