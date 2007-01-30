@@ -2,14 +2,14 @@ package org.owasp.webgoat.lessons;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
+import org.apache.ecs.StringElement;
 import org.apache.ecs.html.BR;
+import org.apache.ecs.html.Div;
 import org.apache.ecs.html.Form;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.H3;
@@ -18,10 +18,6 @@ import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
-import org.apache.ecs.html.Div;
-import org.apache.ecs.vxml.Initial;
-import org.apache.ecs.StringElement;
-
 import org.owasp.webgoat.session.WebSession;
 
 /*******************************************************************************

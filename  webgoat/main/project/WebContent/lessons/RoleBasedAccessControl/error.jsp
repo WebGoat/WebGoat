@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
-	import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.RoleBasedAccessControl.*"
+	import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.RoleBasedAccessControl.RoleBasedAccessControl"
 	errorPage="" %>
 <%
 	WebSession webSession = ((WebSession)session.getAttribute("websession"));
@@ -9,5 +9,5 @@
 <br><br><br>
 <form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
 
-	<input type="submit" name="action" value="<%=RoleBasedAccessControl.LOGIN_ACTION%>"/>
+ <input type="submit" name="action" value="<%=RoleBasedAccessControl.LOGIN_ACTION%>"/>
 </form>

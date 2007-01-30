@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
-	import="java.util.*, org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.CrossSiteScripting.*" 
+	import="java.util.*, org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.CrossSiteScripting.CrossSiteScripting" 
 	errorPage="" %>
 	<div id="lesson_login">
 		<div id="lesson_login_txt">

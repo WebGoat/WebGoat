@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
-import org.apache.ecs.html.A;
 import org.apache.ecs.html.B;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.HR;

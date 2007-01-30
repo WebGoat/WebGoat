@@ -2,7 +2,7 @@
 STAGE 4 FIXES Look for the <-- STAGE 4 - FIX
 -->
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
-	import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.CrossSiteScripting.*" errorPage="" %>
+	import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.CrossSiteScripting.CrossSiteScripting" errorPage="" %>
 <%
 WebSession webSession = ((WebSession)session.getAttribute("websession"));
 	Employee employee = (Employee) session.getAttribute("CrossSiteScripting." + CrossSiteScripting.EMPLOYEE_ATTRIBUTE_KEY);
@@ -136,7 +136,7 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
 					%>			
 					</td>
                     <td width="60">
-					<%					
+					<%
 					if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), CrossSiteScripting.DELETEPROFILE_ACTION))
 					{
 					%>

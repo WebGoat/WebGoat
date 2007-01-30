@@ -67,7 +67,7 @@ public class NewLesson extends LessonAdapter
     	return GENERAL;
     }
 
-    private final static Integer DEFAULT_RANKING = new Integer(5);
+    private final static Integer DEFAULT_RANKING = new Integer(85);
 
 
     protected Integer getDefaultRanking()

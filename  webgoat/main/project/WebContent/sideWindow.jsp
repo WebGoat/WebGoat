@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
-	import="org.owasp.webgoat.session.*" 
+	import="org.owasp.webgoat.session.WebSession" 
 	errorPage="" %>
 
 <%

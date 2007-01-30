@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
-	import="java.util.*, org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.SQLInjection.*" 
+	import="java.util.*, org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.SQLInjection.SQLInjection" 
 	errorPage="" %>
 	<div id="lesson_login">
 		<div id="lesson_login_txt">
