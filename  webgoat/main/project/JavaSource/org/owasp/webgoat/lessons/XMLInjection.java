@@ -60,7 +60,7 @@ public class XMLInjection extends LessonAdapter
 
     public static HashMap rewardsMap = new HashMap();
 
-    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
     "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     protected static HashMap init()

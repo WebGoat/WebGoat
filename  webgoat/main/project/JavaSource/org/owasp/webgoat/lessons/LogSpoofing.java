@@ -58,7 +58,7 @@ public class LogSpoofing extends LessonAdapter
 
     private static final String PASSWORD = "password";
 
-    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
     "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     protected Element createContent(WebSession s)

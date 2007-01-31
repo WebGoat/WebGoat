@@ -40,7 +40,7 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class NewLesson extends LessonAdapter
 {
-    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
     "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     /**

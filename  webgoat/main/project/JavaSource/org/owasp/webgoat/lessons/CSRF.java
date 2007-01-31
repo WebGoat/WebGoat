@@ -68,7 +68,7 @@ public class CSRF extends LessonAdapter {
 	private static Connection connection = null;
 	private static int count = 1;
 	private final static int USER_COL = 4;	// Added by Chuck Willis - used to show user who posted message
-    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
     "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 	
 	/**

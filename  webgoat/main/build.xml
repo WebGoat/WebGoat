@@ -56,7 +56,7 @@
 
   <property name="app.home"    		   value="${basedir}/project"/>
   <property name="app.name"    		   value="WebGoat"/>	<!-- MUST BE CONSISTENT WITH project/build.xml! -->
-  <property name="app.version"    		   value="5.0-RC1"/>		<!-- MUST BE CONSISTENT WITH project/build.xml! -->
+  <property name="app.version"    		   value="5.0"/>		<!-- MUST BE CONSISTENT WITH project/build.xml! -->
   <property name="catalina.home" 		   value="${basedir}/tomcat"/>
   <property name="dist.home"     		   value="${app.home}/dist"/>
   <property name="dist.owasp"     		   value="${app.home}/owasp_distributions"/>

@@ -316,7 +316,7 @@
 	    <role-name>webgoat_user</role-name>
 	</security-role>
 	
-		<security-role>
+	<security-role>
 	    <description>This role is for admins only</description>
 	    <role-name>server_admin</role-name>
 	</security-role>

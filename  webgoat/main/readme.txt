@@ -1,10 +1,11 @@
 **********          WebGoat 5.0
-**********          01.17.2007
+**********          01.31.2007
 **********
 **
-**  Source Code: http://code.google.com/p/webgoat
-**  User Guide: http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents
-**  Home Page: http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project
+**  Source Code:  http://code.google.com/p/webgoat
+**  Download:     http://sourceforge.net/project/showfiles.php?group_id=64424&package_id=61824
+**  User Guide:   http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents
+**  Home Page:    http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project
 **  Contact Info: webgoat@g2-inc.com
 **
 **********
@@ -18,7 +19,7 @@ testing techniques.
 
 
 WARNING 1: While running this program your machine will be 
-extremely vulnerable to attack. You want to disconnect
+extremely vulnerable to attack. You should to disconnect
 from the Internet while using this program.
 
 WARNING 2: This program is for educational purposes only. If you
@@ -28,14 +29,15 @@ hacking, most companies will fire you. Claiming that you were
 doing security research will not work as that is the first thing
 that all hackers claim.
 
-You can find more information about WebGoat at
-http://www.owasp.org
+You can find more information about WebGoat at:
+http://code.google.com/p/webgoat
 
 CREDITS (Latest release)
 
 	Bruce Mayhew (http://www.g2-inc.com)
 	Sherif Koussa (http://www.macadamian.com)
 	Rogan Dawes (http://dawes.za.net/rogan)
+	Eric Sheridan (http://www.aspectsecurity.com) 
 	Carlo Pelliccioni
 	The many people who have sent comments and suggestions...
         
@@ -49,23 +51,30 @@ WHAT'S NEW
 	* Log Spoofing 
 	* Cache Poisoning 
 	* Back Doors via SQL Injection 
+	* Many upgrades and minor fixes
 
 INSTALLATION
 
-Windows
+Windows - (Download, Extract, Double Click Release)
 
-1. unzip the Windows_WebGoat-x.x.zip to your working environment 
-2. To start Tomcat, browse to the WebGoat directory unzipped above and double click "webgoat.bat"
+1. unzip the Windows_WebGoat-x.x_Release.zip to your working environment 
+2. To start Tomcat, browse to the WebGoat directory unzipped above and 
+     double click "webgoat.bat"
 3. start your browser and browse to... (Notice the capital 'W' and 'G')
-	http://localhost/WebGoat/attack
+	 http://localhost/WebGoat/attack
 4. login in as: user = guest, password = guest
 5. To stop WebGoat, simply close the window you launched it from.
+
+Note: When intercepting request with IE7.  You must add a '.' to the
+      end of localhost.  i.e. 
+          http://localhost./WebGoat/attack        or
+          http://localhost.8080/WebGoat/attack    if using a non standard port
 
 
 Linux
 
 1. Download and install Java JDK 1.5 from Sun (http://java.sun.com)
-2. Unzip the Unix_WebGoat-x.x.zip to your working directory
+2. Unzip the Unix_WebGoat-x.x_Release.zip to your working directory
 3. Set JAVA_HOME to point to your JDK1.5 installation
 4. chmod +x webgoat.sh 
 5. Since the latest version runs on a privileged port, you will need to start/stop WebGoat as root.
@@ -78,7 +87,7 @@ Linux
 
 OS X (Tiger 10.4+)
 
-1. Unzip the Unix_WebGoat-x.x.zip to your working directory
+1. Unzip the Unix_WebGoat-x.x_Release.zip to your working directory
 2. chmod +x webgoat.sh
 3. Since the latest version runs on a privileged port, you will need to start/stop WebGoat as root.
 	sudo sh webgoat.sh start
@@ -120,8 +129,24 @@ A. This usually indicates an Eclipse environment setting misconfiguration. Here 
 		- Return to the Ant View and refresh.
 
 Q. When I start up WebGoat it dies very quickly.
-A. WebGoat is a Java application that runs on Tomcat using port 80.  If you have another application listening on port 80 (like IIS), you will need to change WebGoat's port (to 8080 or something) in the tomcat_root/conf/server.xml file.
+A. WebGoat is a Java application that runs on Tomcat using port 80.  If you have another 
+   application listening on port 80 (like IIS), you will need to change WebGoat's port 
+   (to 8080 or something) in the tomcat_root/conf/server.xml file.
 
-For more current FAQs, please visit http://www.owasp.org/software/webgoat/faq.html
+Q. When I deploy the war file to the Tomcat wepapps directory, I can't login to WebGoat
+A. You need to add the webgoat users and roles to tomcat/conf/tomcat-users.xml
 
-Please send questions, comments, suggestions, bugs, etc to webgoat@owasp.org
+    <?xml version="1.0" encoding="UTF-8"?>
+    <tomcat-users>
+      <role rolename="webgoat_basic"/>
+      <role rolename="webgoat_admin"/>
+      <role rolename="webgoat_user"/>
+      <role rolename="tomcat"/>
+      <user password="webgoat" roles="webgoat_admin" username="webgoat"/>
+      <user password="basic" roles="webgoat_user,webgoat_basic" username="basic"/>
+      <user password="tomcat" roles="tomcat" username="tomcat"/>
+      <user password="guest" roles="webgoat_user" username="guest"/>
+    </tomcat-users>
+
+
+Please send questions, comments, suggestions, bugs, etc to webgoat@g2-inc.com

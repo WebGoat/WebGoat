@@ -60,7 +60,7 @@ public class JSONInjection extends LessonAdapter
 
     private final static String TRAVEL_TO = "travelTo";
 
-    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
     "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     public void handleRequest(WebSession s)

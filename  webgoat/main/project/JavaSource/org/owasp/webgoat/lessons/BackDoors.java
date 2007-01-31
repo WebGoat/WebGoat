@@ -63,7 +63,7 @@ public class BackDoors extends LessonAdapter
 
     private final static String SELECT_ST = "select userid, password, ssn, salary from employee where userid=";
 
-    private final static IMG MAC_LOGO = new IMG("images/logos/mac_Logo.gif").setAlt(
+    private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
     "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     protected Element createContent(WebSession s)
