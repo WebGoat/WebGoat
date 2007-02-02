@@ -53,8 +53,7 @@ public class ForcedBrowsing extends LessonAdapter
 
     private final static String SUCCEEDED = "succeeded";
 
-    private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
-    "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
+    private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt("Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
     /**
      *  Description of the Method
@@ -64,45 +63,40 @@ public class ForcedBrowsing extends LessonAdapter
      */
     protected Element createContent(WebSession s)
     {
-	ElementContainer ec = new ElementContainer();
-	String success = new String(s.getParser().getStringParameter(SUCCEEDED,
-		""));
-	if (success.length() != 0 && success.equals("yes"))
-	{
-	    ec.addElement(new BR().addElement(new H1()
-		    .addElement("Welcome to WebGoat Configuration Page")));
-	    ec.addElement(new BR());
-	    Table t1 = new Table().setCellSpacing(0).setCellPadding(0)
-		    .setBorder(0).setWidth("90%").setAlign("center");
-
-	    TR tr = new TR();
-	    tr.addElement(new TD(
-		    new StringElement("Set Admin Privileges for: ")));
-
-	    Input input1 = new Input(Input.TEXT, "", "");
-	    tr.addElement(new TD(input1));
-	    t1.addElement(tr);
-
-	    tr = new TR();
-	    tr.addElement(new TD(new StringElement("Set Admin Password:")));
-
-	    input1 = new Input(Input.PASSWORD, "", "");
-	    tr.addElement(new TD(input1));
-	    t1.addElement(tr);
-
-	    Element b = ECSFactory.makeButton("Submit");
-	    t1.addElement(new TR(new TD(b).setColSpan(2).setAlign("right")));
-	    ec.addElement(t1);
-
-	    makeSuccess(s);
-	}
-	else
-	{
-	    ec
-		    .addElement("Can you try to force browse to the config page which  "
-			    + "should only be accessed by maintenance personnel.");
-	}
-	return ec;
+		ElementContainer ec = new ElementContainer();
+		String success = new String(s.getParser().getStringParameter(SUCCEEDED,""));
+		
+		if (success.length() != 0 && success.equals("yes"))
+		{
+		    ec.addElement(new BR().addElement(new H1().addElement("Welcome to WebGoat Configuration Page")));
+		    ec.addElement(new BR());
+		    Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("center");
+		
+		    TR tr = new TR();
+		    tr.addElement(new TD(new StringElement("Set Admin Privileges for: ")));
+		
+		    Input input1 = new Input(Input.TEXT, "", "");
+		    tr.addElement(new TD(input1));
+		    t1.addElement(tr);
+		
+		    tr = new TR();
+		    tr.addElement(new TD(new StringElement("Set Admin Password:")));
+		
+		    input1 = new Input(Input.PASSWORD, "", "");
+		    tr.addElement(new TD(input1));
+		    t1.addElement(tr);
+		
+		    Element b = ECSFactory.makeButton("Submit");
+		    t1.addElement(new TR(new TD(b).setColSpan(2).setAlign("right")));
+		    ec.addElement(t1);
+		
+		    makeSuccess(s);
+		}
+		else
+		{
+		    ec.addElement("Can you try to force browse to the config page which should only be accessed by maintenance personnel.");
+		}
+		return ec;
     }
 
 
@@ -113,8 +107,7 @@ public class ForcedBrowsing extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-
-	return AbstractLesson.A10;
+    	return AbstractLesson.A10;
     }
 
 
@@ -125,13 +118,12 @@ public class ForcedBrowsing extends LessonAdapter
      */
     public List getHints()
     {
-	List<String> hints = new ArrayList<String>();
-	hints.add("Try to guess the URL for the config page");
-	hints.add("The config page is guessable and hackable");
-	hints
-		.add("Play with the URL and try to guess what the can you replace 'attack' with.");
-	hints.add("Try to navigate to http://localhost/WebGoat/config");
-	return hints;
+    	List<String> hints = new ArrayList<String>();
+		hints.add("Try to guess the URL for the config page");
+		hints.add("The config page is guessable and hackable");
+		hints.add("Play with the URL and try to guess what the can you replace 'attack' with.");
+		hints.add("Try to navigate to http://localhost/WebGoat/conf");
+		return hints;
     }
 
     private final static Integer DEFAULT_RANKING = new Integer(15);
@@ -139,7 +131,7 @@ public class ForcedBrowsing extends LessonAdapter
 
     protected Integer getDefaultRanking()
     {
-	return DEFAULT_RANKING;
+    	return DEFAULT_RANKING;
     }
 
 
@@ -150,12 +142,12 @@ public class ForcedBrowsing extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("Forced Browsing");
+    	return ("Forced Browsing");
     }
 
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
+    	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
     }
 }
