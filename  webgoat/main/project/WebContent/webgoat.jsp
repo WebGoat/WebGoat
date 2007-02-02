@@ -19,7 +19,11 @@
 		  The exercises are intended to provide hands on experience with application 
 		  penetration testing techniques.</p>
 		  <div id="team">
-			<table width="460" border="0" align="center" class="lessonText">
+			<table border="0" align="center" class="lessonText">
+                <tr>
+                  <td width="50%"><div align="center"><a href="http://www.owasp.org"><img border="0" src="images/logos/owasp.jpg" alt="OWASP Foundation" longdesc="http://www.owasp.org" /></a></div></td>
+                  <td width="50%"><div align="center"><a href="http://www.aspectsecurity.com"><img border="0" src="images/logos/aspect.jpg" alt="Aspect Security" longdesc="http://www.aspectsecurity.com" /></div></td>
+                </tr>
                 <tr>
                   <td width="50%"><div align="center"><span class="style1">WebGoat Design Team </span></div></td>
                   <td width="50%"><div align="center"><span class="style1">Lesson Contributers </span></div></td>
@@ -86,10 +90,6 @@
 		  Use of these techniques without permission could lead to 
 		  job termination, financial liability, and/or criminal penalties.
 	  </div>
-		<div id="bottom">
-			<div align="center"><img src="images/logos/owasp.jpg" alt="OWASP Foundation" width="238" height="43" longdesc="http://www.owasp.org" /><a href="http://www.owasp.org"><br />
-Project WebGoat </a></div>
-	  	</div>
 	</div>
 </body>
 </html>

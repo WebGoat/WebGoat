@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
+import org.apache.ecs.html.A;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.P;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
@@ -44,7 +46,8 @@ import org.owasp.webgoat.session.WebSession;
 
 public class AccessControlMatrix extends LessonAdapter
 {
-
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
+	
     private final static String RESOURCE = "Resource";
 
     private final static String USER = "User";
@@ -252,5 +255,10 @@ public class AccessControlMatrix extends LessonAdapter
 		List roles = getRoles(user);
 		List resources = getResources(roles);
 		return (resources.contains(resource));
+    }
+    
+    public Element getCredits()
+    {
+    	return super.getCustomCredits("", ASPECT_LOGO);
     }
 }

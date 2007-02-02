@@ -7,7 +7,9 @@ import java.util.regex.Pattern;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.A;
 import org.apache.ecs.html.Div;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.TextArea;
@@ -49,7 +51,8 @@ import org.owasp.webgoat.session.WebSession;
 
 public class JavaScriptValidation extends LessonAdapter
 {
-
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
+	
     /**
      *  Description of the Method
      *
@@ -321,5 +324,10 @@ public class JavaScriptValidation extends LessonAdapter
     public String getTitle()
     {
 	return ("How to Bypass Client Side JavaScript Validation");
+    }
+    
+    public Element getCredits()
+    {
+    	return super.getCustomCredits("", ASPECT_LOGO);
     }
 }

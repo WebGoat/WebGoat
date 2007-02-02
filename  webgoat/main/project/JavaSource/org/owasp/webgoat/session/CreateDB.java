@@ -474,7 +474,7 @@ public class CreateDB
 
 	String insertData1 = "INSERT INTO employee VALUES (101, 'Larry', 'Stooge', '386-09-5451', 'larry',"
 		+ "'Technician','443-689-0192','9175 Guilford Rd','New York, NY', 102, 01012000,55000,'2578546969853547',"
-		+ "5000,010106,'Constantly harrassing coworkers','Does not work well with others')";
+		+ "5000,010106,'Constantly harassing coworkers','Does not work well with others')";
 
 	String insertData2 = "INSERT INTO employee VALUES (102, 'Moe', 'Stooge', '936-18-4524','moe',"
 		+ "'CSO','443-938-5301', '3013 AMD Ave', 'New York, NY', 112, 03082003, 140000, 'NA', 0, 0101013, "

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.A;
 import org.apache.ecs.html.B;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.H1;
@@ -55,7 +56,7 @@ import org.owasp.webgoat.session.WebSession;
 public class ForgotPassword extends LessonAdapter
 {
 
-    public final static IMG ASPECT_LOGO = new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0);
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
 
     private final static String USERNAME = "Username";
 

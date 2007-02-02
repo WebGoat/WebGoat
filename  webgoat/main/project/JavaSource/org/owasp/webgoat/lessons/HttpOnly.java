@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.A;
 import org.apache.ecs.html.Form;
 import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
@@ -50,7 +51,7 @@ import sun.misc.BASE64Encoder;
  */
 public class HttpOnly extends LessonAdapter {
 	
-	public final static IMG ASPECT_LOGO = new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0);
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
 	
 	private final static Integer DEFAULT_RANKING = new Integer(125);
 	
