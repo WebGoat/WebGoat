@@ -370,16 +370,13 @@ public abstract class LessonAdapter extends AbstractLesson
      *
      * @return    The credits value
      */
-    protected Element getCustomCredits(String text, IMG logo)
+    protected Element getCustomCredits(String text, Element e)
     {
-	Table t = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0)
-		.setWidth("90%").setAlign("RIGHT");
-	TR tr = new TR();
-	tr.addElement(new TD(text).setVAlign("MIDDLE").setAlign("RIGHT")
-		.setWidth("100%"));
-	tr.addElement(new TD(logo).setVAlign("MIDDLE").setAlign("RIGHT"));
-	t.addElement(tr);
-
-	return t;
+		Table t = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("RIGHT");
+		TR tr = new TR();
+		tr.addElement(new TD(text).setVAlign("MIDDLE").setAlign("RIGHT").setWidth("100%"));
+		tr.addElement(new TD(e).setVAlign("MIDDLE").setAlign("RIGHT"));
+		t.addElement(tr);
+		return t;
     }
 }
