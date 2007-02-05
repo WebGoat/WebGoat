@@ -17,52 +17,46 @@
 		  <p>Thank you for using WebGoat!</p>
 		  <p>This program is a demonstration of common web application flaws.  
 		  The exercises are intended to provide hands on experience with application 
-		  penetration testing techniques.</p>
+		  penetration testing techniques.  This project is run by Bruce Mayhew, please send all 
+		  comments to him at WebGoat@g2-inc.com</p>
 		  <div id="team">
 			<table border="0" align="center" class="lessonText">
                 <tr>
                   <td width="50%"><div align="center"><a href="http://www.owasp.org"><img border="0" src="images/logos/owasp.jpg" alt="OWASP Foundation" longdesc="http://www.owasp.org" /></a></div></td>
-                  <td width="50%"><div align="center"><a href="http://www.aspectsecurity.com"><img border="0" src="images/logos/aspect.jpg" alt="Aspect Security" longdesc="http://www.aspectsecurity.com" /></div></td>
+                  <td width="50%"><div align="center"><a href="http://www.aspectsecurity.com"><img border="0" src="images/logos/aspect.jpg" alt="Aspect Security" longdesc="http://www.aspectsecurity.com" /></a></div></td>
                 </tr>
                 <tr>
-                  <td width="50%"><div align="center"><span class="style1">WebGoat Design Team </span></div></td>
-                  <td width="50%"><div align="center"><span class="style1">Lesson Contributers </span></div></td>
+                  <td width="50%"><div align="center"><span class="style1"><br />WebGoat Design Team </span></div></td>
+                  <td width="50%"><div align="center"><span class="style1"><br />Lesson Contributers </span></div></td>
                 </tr>
                 <tr>
-                  <td rowspan="4" valign="top">
+                  <td  valign="top">
 	                 <div align="center" class="style2">Bruce Mayhew</div>                    
 	                 <div align="center" class="style2">Laurence Casey</div>                    
 	                 <div align="center" class="style2">David Anderson</div>                    
 	                 <div align="center" class="style2">Eric Sheridan</div>
 	              </td>
-                  <td><div align="center" class="style2">Aspect Security <br />
-                  (http://www.aspectsecurity.com) </div></td>
-                </tr>
-                <tr>
-                  <td><div align="center" class="style2">Alex Smolen <br /></div>
+                  <td  valign="top">
+                  	<div align="center" class="style2">Aspect Security</div>
+                   	<div align="center" class="style2">Sherif Koussa</div>
+                   	<div align="center" class="style2">Alex Smolen</div>
+                  	<div align="center" class="style2">Chuck Willis</div>
+
                   </td>
-                </tr>
-                <tr>
-                  <td><div align="center" class="style2">Rogan Dawes <br />
-                  (http://dawes.za.net/rogan) </div></td>
-                </tr>
-                <tr>
-                  <td><div align="center" class="style2">Chuck Willis<br />
-                  (http://www.securityfoundry.com) </div></td>
                 </tr>
                 <tr>
                   <td height="25" valign="bottom"><div align="center"><span class="style1">Special Thanks for V5</span></div></td>
-                  <td height="25" valign="bottom"><div align="center"><span class="style1">Documentation Contributer</span></div></td>
+                  <td height="25" valign="bottom"><div align="center"><span class="style1">Documentation Contributers</span></div></td>
                 </tr>
                 <tr>
                   <td><div align="center" class="style2">Sherif Koussa<br />
-                  (http://www.macadamian.com)<br />
-                  </div>
+                  (http://www.macadamian.com)<br /> </div>
                   </td>
                   <td><div align="center" class="style2">Robert Sullivan<br />
-                  (http://www.unitedhealthgroup.com/) </div></td>
+                  (http://www.unitedhealthgroup.com/) </div>
+                  </td>
                 </tr>
-                <tr>
+                 <tr>
                   <td><div align="center" class="style2">OWASP Autumn of Code<br />
                   (http://www.owasp.org/) </div></td>
                   <td><div align="center" class="style2">Sherif Koussa<br />(http://www.macadamian.com)<br /></div>
@@ -71,11 +65,16 @@
                  <tr>
                   <td><div align="center" class="style2">To all who have sent comments</div></td>
                 </tr>
+                 <tr>
+                  <td><div align="center" class="style2">&nbsp;</div></td>
+                </tr>
                 <tr>
-                  <td colspan = "2"><div align="center" class="style2">			
+                  <td colspan = "2">
+                    <div align="center" class="style2">			
                       <form id="form" name="form" method="post" action="attack">
-    			            <input type="submit" name="start" value="Start" />
+    			            <input type="submit" name="start" value="Start WebGoat" />
 			          </form>
+			        </div>
                   </td>
                 </tr>
             </table>
@@ -89,7 +88,7 @@
 		  This program is for educational purposes only. 
 		  Use of these techniques without permission could lead to 
 		  job termination, financial liability, and/or criminal penalties.
+	    </div>
 	  </div>
-	</div>
 </body>
 </html>
