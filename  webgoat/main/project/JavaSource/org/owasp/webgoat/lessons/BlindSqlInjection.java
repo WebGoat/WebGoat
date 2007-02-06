@@ -168,7 +168,7 @@ public class BlindSqlInjection extends LessonAdapter
     public Element getCredits()
     {
 	return new StringElement(
-		"By Chuck Willis (edited 14 Dec 05 - Hints need to updated for non-Windows systems)");
+		"By Chuck Willis");
     }
 
 

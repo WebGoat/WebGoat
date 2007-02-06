@@ -17,8 +17,8 @@
 		  <p>Thank you for using WebGoat!</p>
 		  <p>This program is a demonstration of common web application flaws.  
 		  The exercises are intended to provide hands on experience with application 
-		  penetration testing techniques.  This project is run by Bruce Mayhew, please send all 
-		  comments to him at WebGoat@g2-inc.com</p>
+		  penetration testing techniques.  The WebGoat project is lead by Bruce Mayhew. Please send all 
+		  comments to Bruce at <A HREF=mailto:WebGoat@g2-inc.com>WebGoat@G2-Inc.com.</A>.</p>
 		  <div id="team">
 			<table border="0" align="center" class="lessonText">
                 <tr>

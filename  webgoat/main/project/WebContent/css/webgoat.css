@@ -242,10 +242,10 @@ html>body #navBar li {}
 }
 
 #start {
-	height: 380px;
+	height: 390px;
 	width: 700px;
 	padding: 10px 50px 10px 50px;
-	font-size: 12px;
+	font-size: 15px;
 }
 #warning {
 	border: 1px solid #666666;
@@ -266,7 +266,7 @@ html>body #navBar li {}
 	padding-left: 10px;
 }
 .style1 {
-	font-size: 10px;
+	font-size: 11px;
 	font-weight: bold;
 }
 .style2 {
