@@ -177,7 +177,7 @@
     <servlet>
 	 <servlet-name>conf</servlet-name>
 	 <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
-    </servlet>		
+    </servlet>
     <!-- Define mappings that are used by the servlet container to
          translate a particular request URI (context-relative) to a
          particular servlet.  The examples below correspond to the
@@ -239,7 +239,7 @@
       <servlet-name>conf</servlet-name>
       <url-pattern>/conf</url-pattern>
     </servlet-mapping>
-    
+
     <!-- Define the default session timeout for your application,
          in minutes.  From a servlet or JSP page, you can modify
          the timeout for a particular session dynamically by using

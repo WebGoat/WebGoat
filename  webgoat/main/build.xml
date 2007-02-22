@@ -6,7 +6,7 @@
      set to the current working directory.
 -->
 
-<project name="WebGoatClass-J2EE" default="Build_Lab_Env" basedir=".">
+<project name="WebGoatClass-J2EE" default="Build_Class_Env" basedir=".">
 
 <!-- ===================== Property Definitions =========================== -->
 
@@ -269,7 +269,7 @@
 	</target>
 	
 	<!-- Build J2EE Lab Environment release -->
-	<target name="Build_Lab_Env" depends="clean"
+	<target name="Build_DeveloperLab_Env" depends="clean"
 			description="Builds J2EE Course release">
 
 		<!-- Build the WebGoat WAR with the desired properties file -->
@@ -288,6 +288,25 @@
 		</zip>
 	</target> 	
 	
+	<target name="Build_Class_Env" depends="clean"
+			description="Builds WebGoat Course release">
+
+		<!-- Build the WebGoat WAR with the desired properties file -->
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="WebGoatPropertiesOWASP"/>
+			<target name="BuildWindowsWar"/>
+		</ant>
+
+		<antcall target="DeployWar"> </antcall> 
+
+		<!-- Build the CD image -->
+		<zip destfile="${dist.home}/${ant.project.name}.zip">
+			<zipfileset dir="." prefix="${install.home}"
+				includes="java/, tomcat/, webscarab/, webgoat.bat, webgoat_8080.bat, webscarab.bat"
+				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
+		</zip>
+	</target> 	
+
 	<!--Build all release -->
 	<target name="Build_OWASP_Release" depends="clean_all"
 		   description="Creates all binary distributions for OWASP">
