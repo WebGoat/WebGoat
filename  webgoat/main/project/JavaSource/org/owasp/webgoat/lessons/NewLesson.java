@@ -2,8 +2,6 @@ package org.owasp.webgoat.lessons;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.StringElement;
-import org.apache.ecs.html.IMG;
-
 import org.owasp.webgoat.session.WebSession;
 
 /*******************************************************************************
