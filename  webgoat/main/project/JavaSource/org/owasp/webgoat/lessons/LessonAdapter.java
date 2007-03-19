@@ -73,7 +73,7 @@ public abstract class LessonAdapter extends AbstractLesson
 	ec
 		.addElement(new Center().addElement(new H3()
 			.addElement(new StringElement(
-				"This lesson needs a creator."))));
+				"Detailed Lesson Creation Instructions."))));
 	ec.addElement(new P());
 	ec
 		.addElement(new StringElement(
@@ -99,7 +99,9 @@ public abstract class LessonAdapter extends AbstractLesson
 		ec.addElement(pre);
 	    }
 	    catch (Exception e)
-	    {}
+	    {
+	    	e.printStackTrace();
+	    }
 	}
 	return (ec);
     }

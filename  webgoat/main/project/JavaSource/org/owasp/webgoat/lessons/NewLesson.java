@@ -46,9 +46,10 @@ public class NewLesson extends LessonAdapter
      */
     protected Element createContent(WebSession s)
     {
-	// just to get the generic how to text.
-	makeSuccess(s);
-	return (new StringElement("Welcome to the WebGoat hall of fame !!"));
+	return super.createContent(s);
+	//makeSuccess(s);
+	//ec.addElement(new StringElement("Welcome to the WebGoat hall of fame !!"));
+	//return (ec);
     }
 
 
@@ -80,4 +81,10 @@ public class NewLesson extends LessonAdapter
     {
 	return ("How to add a new WebGoat lesson");
     }
+    
+    public Element getCredits()
+    {
+	return super.getCustomCredits("Created by: Your name goes here!", new StringElement(""));
+    }
+
 }
