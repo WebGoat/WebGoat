@@ -138,7 +138,7 @@
       			 example, replace "<" with "&lt;" and ">" with "&gt;". -->
             <param-name>FeedbackAddress</param-name>
             <param-value>
-				&lt;A HREF=mailto:webgoat@g2-inc.com&gt;webgoat@g2-inc.com&lt;/A&gt;
+				&lt;A HREF=mailto:WebGoat@g2-inc.com&gt;WebGoat@g2-inc.com&lt;/A&gt;
             </param-value>
       </init-param>
       
@@ -175,6 +175,14 @@
     </servlet>
 
     <servlet>
+      <servlet-name>CookieCatcher</servlet-name>
+      <description>
+        This servlet catches any posts and marks the appropriate lesson property. 
+      </description>
+      <servlet-class>org.owasp.webgoat.CookieCatcher</servlet-class>
+    </servlet>
+
+    <servlet>
 	 <servlet-name>conf</servlet-name>
 	 <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
     </servlet>
@@ -195,8 +203,7 @@
          It is also legal to define more than one mapping for the same
          servlet, if you wish to.
     -->
-    
-    
+
     <servlet-mapping>
       <servlet-name>AxisServlet</servlet-name>
       <url-pattern>/servlet/AxisServlet</url-pattern>
@@ -236,10 +243,15 @@
     </servlet-mapping>
 
     <servlet-mapping>
+      <servlet-name>CookieCatcher</servlet-name>
+      <url-pattern>/catcher</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
       <servlet-name>conf</servlet-name>
       <url-pattern>/conf</url-pattern>
     </servlet-mapping>
-    
+
     <!-- Define the default session timeout for your application,
          in minutes.  From a servlet or JSP page, you can modify
          the timeout for a particular session dynamically by using

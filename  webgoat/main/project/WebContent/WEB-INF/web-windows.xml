@@ -175,6 +175,14 @@
     </servlet>
 
     <servlet>
+      <servlet-name>CookieCatcher</servlet-name>
+      <description>
+        This servlet catches any posts and marks the appropriate lesson property. 
+      </description>
+      <servlet-class>org.owasp.webgoat.CookieCatcher</servlet-class>
+    </servlet>
+
+    <servlet>
 	 <servlet-name>conf</servlet-name>
 	 <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
     </servlet>
@@ -233,6 +241,11 @@
     <servlet-mapping>
       <servlet-name>LessonSource</servlet-name>
       <url-pattern>/source</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>CookieCatcher</servlet-name>
+      <url-pattern>/catcher</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -315,11 +328,11 @@
 	    <description>The role that is required to use WebGoat</description>
 	    <role-name>webgoat_user</role-name>
 	</security-role>
-	
+
 	<security-role>
 	    <description>This role is for admins only</description>
 	    <role-name>server_admin</role-name>
 	</security-role>
-	
+
 </web-app>
 

@@ -173,6 +173,6 @@ public class ViewDatabase extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("Database Dump");
+	return ("Adhoc Query");
     }
 }
