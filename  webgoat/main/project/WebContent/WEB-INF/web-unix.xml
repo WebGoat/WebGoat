@@ -175,11 +175,11 @@
     </servlet>
 
     <servlet>
-      <servlet-name>CookieCatcher</servlet-name>
+      <servlet-name>Catcher</servlet-name>
       <description>
         This servlet catches any posts and marks the appropriate lesson property. 
       </description>
-      <servlet-class>org.owasp.webgoat.CookieCatcher</servlet-class>
+      <servlet-class>org.owasp.webgoat.Catcher</servlet-class>
     </servlet>
 
     <servlet>
@@ -243,7 +243,7 @@
     </servlet-mapping>
 
     <servlet-mapping>
-      <servlet-name>CookieCatcher</servlet-name>
+      <servlet-name>Catcher</servlet-name>
       <url-pattern>/catcher</url-pattern>
     </servlet-mapping>
 
