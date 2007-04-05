@@ -22,6 +22,7 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.session.ParameterNotFoundException;
 
 /*******************************************************************************
  * 
@@ -79,105 +80,106 @@ public class DOS_Login extends LessonAdapter
      */
     protected Element createContent(WebSession s)
     {
-	ElementContainer ec = new ElementContainer();
-
-	try
-	{
-	    String username = "";
-	    String password = "";
-	    username = s.getParser().getRawParameter(USERNAME);
-	    password = s.getParser().getRawParameter(PASSWORD);
-
-	    // don;t allow user name from other lessons.  it would be too simple.
-	    if (username.equals("jeff") || username.equals("dave"))
-	    {
-		ec
-			.addElement(new H2(
-				"Login Failed: 'jeff' and 'dave' are not valid for this lesson"));
-		return (ec.addElement(makeLogin(s)));
-	    }
-
-	    // Check if the login is valid
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.makeConnection(s);
-	    }
-
-	    String query = "SELECT * FROM user_system_data WHERE user_name = '"
-		    + username + "' and password = '" + password + "'";
-	    ec.addElement(new StringElement(query));
-	    try
-	    {
-		Statement statement = connection.createStatement(
-			ResultSet.TYPE_SCROLL_INSENSITIVE,
-			ResultSet.CONCUR_READ_ONLY);
-		ResultSet results = statement.executeQuery(query);
-		if ((results != null) && (results.first() == true))
+		ElementContainer ec = new ElementContainer();
+	
+		try
 		{
-		    ResultSetMetaData resultsMetaData = results.getMetaData();
-		    ec.addElement(DatabaseUtilities.writeTable(results,
-			    resultsMetaData));
-		    results.last();
-
-		    // If they get back more than one user they succeeded
-		    if (results.getRow() >= 1)
+		    String username = "";
+		    String password = "";
+		    username = s.getParser().getRawParameter(USERNAME);
+		    password = s.getParser().getRawParameter(PASSWORD);
+	
+		    // don;t allow user name from other lessons.  it would be too simple.
+		    if (username.equals("jeff") || username.equals("dave"))
 		    {
-			// Make sure this isn't data from an sql injected query.
-			if (results.getString(2).equals(username)
-				&& results.getString(3).equals(password))
-			{
-			    String insertData1 = "INSERT INTO user_login VALUES ( '"
-				    + username
-				    + "', '"
-				    + s.getUserName()
-				    + "' )";
-			    statement.executeUpdate(insertData1);
-			}
-			// check the total count of logins
-			query = "SELECT * FROM user_login WHERE webgoat_user = '"
-				+ s.getUserName() + "'";
-			results = statement.executeQuery(query);
-			results.last();
-			// If they get back more than one user they succeeded
-			if (results.getRow() >= 3)
-			{
-			    makeSuccess(s);
-			    String deleteData1 = "DELETE from user_login WHERE webgoat_user = '"
-				    + s.getUserName() + "'";
-			    statement.executeUpdate(deleteData1);
-			    return (new H1("Congratulations! Lesson Completed"));
-			}
-
-			ec.addElement(new H2(
-				"Login Succeeded: Total login count: "
-					+ results.getRow()));
+				ec.addElement(new H2("Login Failed: 'jeff' and 'dave' are not valid for this lesson"));
+				return (ec.addElement(makeLogin(s)));
+		    }
+	
+		    // Check if the login is valid
+		    if (connection == null)
+		    {
+		    	connection = DatabaseUtilities.makeConnection(s);
+		    }
+	
+		    String query = "SELECT * FROM user_system_data WHERE user_name = '"
+			    + username + "' and password = '" + password + "'";
+		    ec.addElement(new StringElement(query));
+		    
+		    try
+		    {
+				Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+				ResultSet results = statement.executeQuery(query);
+				
+				if ((results != null) && (results.first() == true))
+				{
+				    ResultSetMetaData resultsMetaData = results.getMetaData();
+				    ec.addElement(DatabaseUtilities.writeTable(results,resultsMetaData));
+				    results.last();
+		
+				    // If they get back more than one user they succeeded
+				    if (results.getRow() >= 1)
+				    {
+						// Make sure this isn't data from an sql injected query.
+						if (results.getString(2).equals(username) && results.getString(3).equals(password))
+						{
+						    String insertData1 = "INSERT INTO user_login VALUES ( '"
+							    + username
+							    + "', '"
+							    + s.getUserName()
+							    + "' )";
+						    statement.executeUpdate(insertData1);
+						}
+						// check the total count of logins
+						query = "SELECT * FROM user_login WHERE webgoat_user = '" + s.getUserName() + "'";
+						results = statement.executeQuery(query);
+						results.last();
+						// If they get back more than one user they succeeded
+						if (results.getRow() >= 3)
+						{
+						    makeSuccess(s);
+						    String deleteData1 = "DELETE from user_login WHERE webgoat_user = '" + s.getUserName() + "'";
+						    statement.executeUpdate(deleteData1);
+						    return (new H1("Congratulations! Lesson Completed"));
+						}
+			
+						ec.addElement(new H2("Login Succeeded: Total login count: " + results.getRow()));
+				    }
+				}
+				else
+				{
+				    ec.addElement(new H2("Login Failed"));
+				    // check the total count of logins
+				    query = "SELECT * FROM user_login WHERE webgoat_user = '"
+					    + s.getUserName() + "'";
+				    results = statement.executeQuery(query);
+				    results.last();
+				    ec.addElement(new H2("Successfull login count: "
+					    + results.getRow()));
+		
+				}
+		    }
+		    catch (SQLException sqle)
+		    {
+				ec.addElement(new P().addElement(sqle.getMessage()));
+				sqle.printStackTrace();
 		    }
 		}
-		else
+		catch (ParameterNotFoundException pnfe)
 		{
-		    ec.addElement(new H2("Login Failed"));
-		    // check the total count of logins
-		    query = "SELECT * FROM user_login WHERE webgoat_user = '"
-			    + s.getUserName() + "'";
-		    results = statement.executeQuery(query);
-		    results.last();
-		    ec.addElement(new H2("Successfull login count: "
-			    + results.getRow()));
-
+			/**
+			 * Catching this exception prevents the "Error generating org.owasp.webgoat.lesson.DOS_Login"
+			 * message from being displayed on first load. Note that if we are missing a parameter in
+			 * the request, we do not want to continue processing and we simply want to display the
+			 * default login page.
+			 */
 		}
-	    }
-	    catch (SQLException sqle)
-	    {
-		ec.addElement(new P().addElement(sqle.getMessage()));
-		sqle.printStackTrace();
-	    }
-	}
-	catch (Exception e)
-	{
-	    s.setMessage("Error generating " + this.getClass().getName());
-	}
-
-	return (ec.addElement(makeLogin(s)));
+		catch (Exception e)
+		{
+			s.setMessage("Error generating " + this.getClass().getName());
+		}
+	
+		return (ec.addElement(makeLogin(s)));
     }
 
 
