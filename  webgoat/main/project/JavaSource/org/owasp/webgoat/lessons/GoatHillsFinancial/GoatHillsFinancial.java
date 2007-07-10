@@ -1,7 +1,5 @@
 package org.owasp.webgoat.lessons.GoatHillsFinancial;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -13,7 +11,6 @@ import org.apache.ecs.html.A;
 import org.apache.ecs.html.IMG;
 import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.lessons.LessonAdapter;
-import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
@@ -121,22 +118,7 @@ public class GoatHillsFinancial extends LessonAdapter
 
     private final static Integer DEFAULT_RANKING = new Integer(125);
 
-    private static Connection connection = null;
-
     private Map<String, LessonAction> lessonFunctions = new Hashtable<String, LessonAction>();
-
-
-    public static synchronized Connection getConnection(WebSession s)
-	    throws SQLException, ClassNotFoundException
-    {
-	if (connection == null)
-	{
-	    connection = DatabaseUtilities.makeConnection(s);
-	}
-
-	return connection;
-    }
-
 
     public GoatHillsFinancial()
     {
