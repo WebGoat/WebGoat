@@ -181,7 +181,7 @@ public class WebSession
 
 	private String servletName;
 
-	private HashMap session = new HashMap();
+	private HashMap<String,Object> session = new HashMap<String, Object>();
 
 	private boolean showCookies = false;
 
@@ -290,7 +290,7 @@ public class WebSession
 		return context;
 	}
 
-	public List getRoles()
+	public List<String> getRoles()
 	{
 		List<String> roles = new ArrayList<String>();
 
@@ -430,7 +430,7 @@ public class WebSession
 		return getCourse().getLesson( this, id, getRoles() );
 	}
 	
-	public List getLessons(Category category)
+	public List<AbstractLesson> getLessons(Category category)
 	{
 		return getCourse().getLessons( this, category, getRoles() );
 	}
@@ -456,13 +456,13 @@ public class WebSession
 		return hint;
 	}
 
-	public List getParams()
+	public List<Parameter> getParams()
 	{
-		Vector params = null;
+		Vector<Parameter> params = null;
 
 		if ( showParams() && getParser() != null )
 		{
-			params = new Vector();
+			params = new Vector<Parameter>();
 
 			Enumeration e = getParser().getParameterNames();
 
@@ -655,7 +655,7 @@ public class WebSession
 		return ( isAuthenticated );
 	}
 	
-	private Map lessonSessions = new Hashtable();
+	private Map<AbstractLesson, LessonSession> lessonSessions = new Hashtable<AbstractLesson, LessonSession>();
 
 	
 	public boolean isAuthenticatedInLesson(AbstractLesson lesson)

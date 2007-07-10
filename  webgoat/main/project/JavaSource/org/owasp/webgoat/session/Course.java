@@ -205,7 +205,7 @@ public class Course
      * @param  role      Description of the Parameter
      * @return           The lesson value
      */
-    public AbstractLesson getLesson(WebSession s, int lessonId, List roles)
+    public AbstractLesson getLesson(WebSession s, int lessonId, List<String> roles)
     {
 	if (s.isHackedAdmin())
 	{
@@ -252,13 +252,13 @@ public class Course
      * @param  role  Description of the Parameter
      * @return       The lessons value
      */
-    public List getLessons(WebSession s, List<String> roles)
+    public List<AbstractLesson> getLessons(WebSession s, List<String> roles)
     {
 	if (s.isHackedAdmin())
 	{
 	    roles.add(AbstractLesson.HACKED_ADMIN_ROLE);
 	}
-	List<String> lessonList = new ArrayList<String>();
+	List<AbstractLesson> lessonList = new ArrayList<AbstractLesson>();
 	Iterator categoryIter = getCategories().iterator();
 
 	while (categoryIter.hasNext())
@@ -277,7 +277,7 @@ public class Course
      * @param  role      Description of the Parameter
      * @return           The lessons value
      */
-    private List getLessons(Category category, List roles)
+    private List<AbstractLesson> getLessons(Category category, List roles)
     {
 	List<AbstractLesson> lessonList = new ArrayList<AbstractLesson>();
 
@@ -307,7 +307,7 @@ public class Course
     }
 
 
-    public List getLessons(WebSession s, Category category, List<String> roles)
+    public List<AbstractLesson> getLessons(WebSession s, Category category, List<String> roles)
     {
 	if (s.isHackedAdmin())
 	{
