@@ -159,7 +159,8 @@ public class DeleteProfile extends DefaultLessonAction
 
     private void updateLessonStatus(WebSession s)
     {
-	// If the logged in user is not authorized to be here, stage is complete.
+	// If the logged in user is not authorized to be here, stage 1 is complete.
+	if (getStage(s) == 1) 
 	try
 	{
 	    int userId = getIntSessionAttribute(s, getLessonName() + "."

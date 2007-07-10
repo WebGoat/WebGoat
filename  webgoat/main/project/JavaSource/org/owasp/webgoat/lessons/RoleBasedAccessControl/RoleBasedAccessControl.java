@@ -12,6 +12,7 @@ import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.A;
 import org.apache.ecs.html.IMG;
 import org.owasp.webgoat.lessons.Category;
+import org.owasp.webgoat.lessons.DefaultLessonAction;
 import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.lessons.LessonAdapter;
 import org.owasp.webgoat.session.DatabaseUtilities;
@@ -355,6 +356,49 @@ public class RoleBasedAccessControl extends LessonAdapter
 	}
 	catch (UnauthorizedException ue2)
 	{
+		// Update lesson status if necessary.
+		if (getStage(s) == 2)
+		{
+			try
+			{
+			if (RoleBasedAccessControl.DELETEPROFILE_ACTION.equals(requestedActionName) &&
+					!isAuthorized(s, getUserId(s), RoleBasedAccessControl.DELETEPROFILE_ACTION))
+			{
+				s.setMessage( "Welcome to stage 3 -- exploiting the data layer" );
+				setStage(s, 3);
+			}
+			} catch (ParameterNotFoundException pnfe)
+			{
+			pnfe.printStackTrace();
+			}
+		}
+		//System.out.println("isAuthorized() exit stage: " + getStage(s));
+		// Update lesson status if necessary.
+		if (getStage(s) == 4)
+		{
+			try
+			{
+			//System.out.println("Checking for stage 4 completion");
+			DefaultLessonAction action = (DefaultLessonAction) getAction(getCurrentAction(s));
+			int userId = Integer.parseInt((String)s.getRequest().getSession().getAttribute(getLessonName() + "."
+					+ RoleBasedAccessControl.USER_ID));
+			int employeeId = s.getParser().getIntParameter(
+				RoleBasedAccessControl.EMPLOYEE_ID);
+
+			if (!action.isAuthorizedForEmployee(s, userId, employeeId))
+			{
+			    s.setMessage("Congratulations. You have successfully completed this lesson.");
+			    getLessonTracker( s ).setCompleted( true );
+			}
+			} catch (Exception e)
+			{
+				// swallow this - shouldn't happen inthe normal course
+				// e.printStackTrace();
+			}
+		}
+		
+
+
 	    s.setMessage("You are not authorized to perform this function");
 	    System.out.println("Authorization failure");
 	    setCurrentAction(s, ERROR_ACTION);

@@ -278,19 +278,6 @@ public abstract class DefaultLessonAction implements LessonAction
 			e.printStackTrace();
 		}
 				
-		// Update lesson status if necessary.
-		if (getStage(s) == 2)
-		{
-			//System.out.println("Checking for stage 2 completion handling action " + functionId);
-			if (lessonName.equals("RoleBasedAccessControl") && !calledFromJsp("isAuthorized") && !authorized &&
-					functionId.equals(RoleBasedAccessControl.DELETEPROFILE_ACTION))
-			{
-				s.setMessage( "Welcome to stage 3 -- exploiting the data layer" );
-				setStage(s, 3);
-			}
-		}
-		//System.out.println("isAuthorized() exit stage: " + getStage(s));		
-		
 		//System.out.println("Authorized? " + authorized);
 		return authorized;
 	}
@@ -326,50 +313,7 @@ public abstract class DefaultLessonAction implements LessonAction
 			e.printStackTrace();
 		}
 		
-		// Update lesson status if necessary.
-		if (getStage(s) == 4)
-		{
-			//System.out.println("Checking for stage 4 completion");
-			if (lessonName.equals("RoleBasedAccessControl") && !calledFromJsp("isAuthorized") && !authorized)
-			{
-			    s.setMessage("Congratulations. You have successfully completed this lesson.");
-			    getLesson().getLessonTracker( s ).setCompleted( true );
-			}			
-		}
-		
 		return authorized;
-	}
-	/**
-	 * Determine if the calling method was in turn called from a compiled JSP class.
-	 * This skips calling methods that start with the given string (e.g. isAuthorized).
-	 * @return
-	 */
-	private boolean calledFromJsp(String caller)
-	{
-		boolean fromJsp = false;
-		
-		Throwable throwable = new Throwable();
-		StackTraceElement[] trace = throwable.getStackTrace();
-		int callerIndex = 0;
-		boolean done = false;
-		for (int i = 1; i < trace.length && !done; i++)
-		{
-			String callerMethodName = trace[i].getMethodName();
-			//System.out.println("calledFromJsp() callee (" + i + ") is " + callerMethodName);
-			if (!callerMethodName.startsWith(caller))		// Yikes what a hack!
-			{
-				callerIndex = i;
-				done = true;
-			}
-		}
-		String callerClassName = trace[callerIndex].getClassName();
-		//System.out.println("calledFromJsp() callee class (" + (callerIndex) + ") is " + callerClassName);
-		
-		if (callerClassName.endsWith("_jsp"))
-			fromJsp = true;
-		
-		//System.out.println("calledFromJsp() result: " + fromJsp);
-		return fromJsp;
 	}
 	
 	protected void setStage(WebSession s, int stage)
