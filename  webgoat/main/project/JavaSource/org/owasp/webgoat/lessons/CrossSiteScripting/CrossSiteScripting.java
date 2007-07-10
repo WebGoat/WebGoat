@@ -11,7 +11,6 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.A;
-import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonAdapter;
 import org.owasp.webgoat.lessons.LessonAction;
@@ -199,7 +198,7 @@ public class CrossSiteScripting extends LessonAdapter
      */
     public Category getDefaultCategory()
     {
-	return AbstractLesson.A4;
+	return Category.A4;
     }
 
 

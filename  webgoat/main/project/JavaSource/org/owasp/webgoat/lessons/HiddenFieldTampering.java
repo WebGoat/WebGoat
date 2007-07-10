@@ -176,7 +176,7 @@ public class HiddenFieldTampering extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.A1;
+	return Category.A1;
     }
 
 

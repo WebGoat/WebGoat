@@ -324,7 +324,7 @@ public class CommandInjection extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.A6;
+	return Category.A6;
     }
 
 

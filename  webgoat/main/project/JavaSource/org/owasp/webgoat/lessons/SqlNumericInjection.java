@@ -334,7 +334,7 @@ public class SqlNumericInjection extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.A6;
+	return Category.A6;
     }
 
 

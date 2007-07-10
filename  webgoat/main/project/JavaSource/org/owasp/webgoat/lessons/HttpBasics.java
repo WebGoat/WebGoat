@@ -119,7 +119,7 @@ public class HttpBasics extends LessonAdapter
 
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.GENERAL;
+	return Category.GENERAL;
     }
 
 

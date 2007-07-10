@@ -11,7 +11,6 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.A;
 import org.apache.ecs.html.IMG;
-import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.lessons.LessonAdapter;
@@ -192,7 +191,7 @@ public class RoleBasedAccessControl extends LessonAdapter
      */
     public Category getDefaultCategory()
     {
-	return AbstractLesson.A2;
+	return Category.A2;
     }
 
 

@@ -162,7 +162,7 @@ public class DOMInjection extends LessonAdapter
     protected Category getDefaultCategory()
     {
 
-	return AJAX_SECURITY;
+	return Category.AJAX_SECURITY;
     }
 
 

@@ -200,7 +200,7 @@ public abstract class LessonAdapter extends AbstractLesson
      */
     protected Category getDefaultCategory()
     {
-	return GENERAL;
+	return Category.GENERAL;
     }
 
 

@@ -239,7 +239,7 @@ public class HtmlClues extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.CODE_QUALITY;
+	return Category.CODE_QUALITY;
     }
 
 

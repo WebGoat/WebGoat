@@ -280,7 +280,7 @@ public class JSONInjection extends LessonAdapter
 
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.AJAX_SECURITY;
+	return Category.AJAX_SECURITY;
     }
 
 

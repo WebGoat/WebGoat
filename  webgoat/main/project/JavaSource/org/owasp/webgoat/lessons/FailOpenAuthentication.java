@@ -133,7 +133,7 @@ public class FailOpenAuthentication extends WeakAuthenticationCookie
      */
     public Category getDefaultCategory()
     {
-	return AbstractLesson.A7;
+	return Category.A7;
     }
 
 

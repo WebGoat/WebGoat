@@ -327,7 +327,7 @@ public class XMLInjection extends LessonAdapter
     protected Category getDefaultCategory()
     {
 
-	return AJAX_SECURITY;
+	return Category.AJAX_SECURITY;
     }
 
 

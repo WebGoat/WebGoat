@@ -99,7 +99,7 @@ public class ProductsAdminScreen extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return ADMIN_FUNCTIONS;
+	return Category.ADMIN_FUNCTIONS;
     }
 
 

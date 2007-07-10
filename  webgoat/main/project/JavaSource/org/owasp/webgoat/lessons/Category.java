@@ -35,6 +35,54 @@ package org.owasp.webgoat.lessons;
 public class Category implements Comparable
 {
 
+    public final static Category A1 = new Category("Unvalidated Parameters",
+	    new Integer(110));
+
+    public final static Category A2 = new Category("Broken Access Control",
+	    new Integer(210));
+
+    public final static Category A3 = new Category(
+	    "Broken Authentication and Session Management", new Integer(310));
+
+    public final static Category A4 = new Category(
+	    "Cross-Site Scripting (XSS)", new Integer(410));
+
+    public final static Category A5 = new Category("Buffer Overflows",
+	    new Integer(510));
+
+    public final static Category A6 = new Category("Injection Flaws",
+	    new Integer(610));
+
+    public final static Category A7 = new Category("Improper Error Handling",
+	    new Integer(710));
+
+    public final static Category A8 = new Category("Insecure Storage",
+	    new Integer(810));
+
+    public final static Category A9 = new Category("Denial of Service",
+	    new Integer(910));
+
+    public final static Category A10 = new Category(
+    	    "Insecure Configuration Management", new Integer(1010));
+
+    public final static Category WEB_SERVICES = new Category("Web Services",
+	    new Integer(1110));
+
+    public final static Category AJAX_SECURITY = new Category("AJAX Security",
+	    new Integer(1150));
+
+    public final static Category ADMIN_FUNCTIONS = new Category(
+	    "Admin Functions", new Integer(10));
+
+    public final static Category GENERAL = new Category("General", new Integer(
+	    50));
+
+    public final static Category CODE_QUALITY = new Category("Code Quality",
+	    new Integer(70));
+
+    public final static Category CHALLENGE = new Category("Challenge",
+	    new Integer(2000));
+
     private String category;
 
     private Integer ranking;
@@ -45,7 +93,6 @@ public class Category implements Comparable
 	this.category = category;
 	this.ranking = ranking;
     }
-
 
     public int compareTo(Object obj)
     {
@@ -80,7 +127,7 @@ public class Category implements Comparable
 
     public boolean equals(Object obj)
     {
-	return getName().equals(((Category) obj).getName());
+	return (obj instanceof Category) && getName().equals(((Category) obj).getName());
     }
 
 

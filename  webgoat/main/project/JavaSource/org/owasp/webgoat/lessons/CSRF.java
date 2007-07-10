@@ -280,7 +280,7 @@ public class CSRF extends LessonAdapter {
 
 	@Override	
 	protected Category getDefaultCategory() {
-		return AbstractLesson.A2;
+		return Category.A2;
 	}
 
 	private final static Integer DEFAULT_RANKING = new Integer(120);

@@ -163,7 +163,7 @@ public class LogSpoofing extends LessonAdapter
     @Override
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.A6;
+	return Category.A6;
     }
 
 

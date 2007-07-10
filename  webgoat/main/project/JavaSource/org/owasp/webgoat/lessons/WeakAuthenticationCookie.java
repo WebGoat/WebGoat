@@ -229,7 +229,7 @@ public class WeakAuthenticationCookie extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.A3;
+	return Category.A3;
     }
 
 

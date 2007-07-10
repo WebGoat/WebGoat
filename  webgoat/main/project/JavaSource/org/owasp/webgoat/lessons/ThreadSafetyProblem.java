@@ -180,7 +180,7 @@ public class ThreadSafetyProblem extends LessonAdapter
 
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.GENERAL;
+	return Category.GENERAL;
     }
 
 

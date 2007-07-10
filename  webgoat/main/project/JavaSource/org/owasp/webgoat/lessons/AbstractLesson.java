@@ -76,87 +76,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
     /**
      * Description of the Field
      */
-    public final static Category A1 = new Category("Unvalidated Parameters",
-	    new Integer(110));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category A10 = new Category(
-	    "Insecure Configuration Management", new Integer(1010));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category A2 = new Category("Broken Access Control",
-	    new Integer(210));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category A3 = new Category(
-	    "Broken Authentication and Session Management", new Integer(310));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category A4 = new Category(
-	    "Cross-Site Scripting (XSS)", new Integer(410));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category A5 = new Category("Buffer Overflows",
-	    new Integer(510));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category A6 = new Category("Injection Flaws",
-	    new Integer(610));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category A7 = new Category("Improper Error Handling",
-	    new Integer(710));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category A8 = new Category("Insecure Storage",
-	    new Integer(810));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category A9 = new Category("Denial of Service",
-	    new Integer(910));
-
-    /**
-     * Description of the Field
-     */
-    public final static Category WEB_SERVICES = new Category("Web Services",
-	    new Integer(1110));
-
-    public final static Category AJAX_SECURITY = new Category("AJAX Security",
-	    new Integer(1150));
-
-    public final static Category ADMIN_FUNCTIONS = new Category(
-	    "Admin Functions", new Integer(10));
-
-    public final static Category GENERAL = new Category("General", new Integer(
-	    50));
-
-    public final static Category CODE_QUALITY = new Category("Code Quality",
-	    new Integer(70));
-
-    public final static Category CHALLENGE = new Category("Challenge",
-	    new Integer(2000));
-
-    /**
-     * Description of the Field
-     */
     public final static String ADMIN_ROLE = "admin";
 
     public final static String CHALLENGE_ROLE = "challenge";
@@ -198,22 +117,22 @@ public abstract class AbstractLesson extends Screen implements Comparable
      */
     public AbstractLesson()
     {
-		categories.add(A1);
-		categories.add(A2);
-		categories.add(A3);
-		categories.add(A4);
-		categories.add(A5);
-		categories.add(A6);
-		categories.add(A7);
-		categories.add(A8);
-		categories.add(A9);
-		categories.add(A10);
-		categories.add(WEB_SERVICES);
-		categories.add(AJAX_SECURITY);
-		categories.add(ADMIN_FUNCTIONS);
-		categories.add(GENERAL);
-		categories.add(CODE_QUALITY);
-		categories.add(CHALLENGE);
+		categories.add(Category.A1);
+		categories.add(Category.A2);
+		categories.add(Category.A3);
+		categories.add(Category.A4);
+		categories.add(Category.A5);
+		categories.add(Category.A6);
+		categories.add(Category.A7);
+		categories.add(Category.A8);
+		categories.add(Category.A9);
+		categories.add(Category.A10);
+		categories.add(Category.WEB_SERVICES);
+		categories.add(Category.AJAX_SECURITY);
+		categories.add(Category.ADMIN_FUNCTIONS);
+		categories.add(Category.GENERAL);
+		categories.add(Category.CODE_QUALITY);
+		categories.add(Category.CHALLENGE);
     	id = new Integer(++count);
     }
 

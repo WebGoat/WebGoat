@@ -565,7 +565,7 @@ public class Encoding extends LessonAdapter
 
 	protected Category getDefaultCategory()
 	{
-		return AbstractLesson.A8;
+		return Category.A8;
 	}
 
 

@@ -64,7 +64,7 @@ public class BufferOverflow extends LessonAdapter
     protected Category getDefaultCategory()
     {
 
-	return AbstractLesson.A5;
+	return Category.A5;
     }
 
 

@@ -445,7 +445,7 @@ public class Challenge2Screen extends LessonAdapter
 
     protected Category getDefaultCategory()
     {
-	return CHALLENGE;
+	return Category.CHALLENGE;
     }
 
 

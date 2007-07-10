@@ -224,7 +224,7 @@ public class XPATHInjection extends LessonAdapter
     protected Category getDefaultCategory()
     {
 
-	return AbstractLesson.A6;
+	return Category.A6;
     }
 
 

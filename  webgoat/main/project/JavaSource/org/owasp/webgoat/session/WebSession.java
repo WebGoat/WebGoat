@@ -863,7 +863,7 @@ public class WebSession
 	{
 		if ( getCurrentLesson() != null )
 		{
-			return ( AbstractLesson.CHALLENGE.equals(getCurrentLesson().getCategory()));
+			return ( Category.CHALLENGE.equals(getCurrentLesson().getCategory()));
 		}
 		return false;
 	}

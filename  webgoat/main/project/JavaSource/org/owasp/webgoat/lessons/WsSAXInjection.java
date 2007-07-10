@@ -90,7 +90,7 @@ public class WsSAXInjection extends LessonAdapter
 
     protected Category getDefaultCategory()
     {
-	return AbstractLesson.WEB_SERVICES;
+	return Category.WEB_SERVICES;
     }
 
 

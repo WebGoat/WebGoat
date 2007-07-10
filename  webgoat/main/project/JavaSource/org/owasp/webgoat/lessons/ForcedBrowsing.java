@@ -107,7 +107,7 @@ public class ForcedBrowsing extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-    	return AbstractLesson.A10;
+    	return Category.A10;
     }
 
 

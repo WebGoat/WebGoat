@@ -60,7 +60,7 @@ public class NewLesson extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-    	return GENERAL;
+    	return Category.GENERAL;
     }
 
     private final static Integer DEFAULT_RANKING = new Integer(85);

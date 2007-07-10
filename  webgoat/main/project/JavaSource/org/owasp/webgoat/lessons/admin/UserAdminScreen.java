@@ -99,7 +99,7 @@ public class UserAdminScreen extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return ADMIN_FUNCTIONS;
+	return Category.ADMIN_FUNCTIONS;
     }
 
     private final static Integer DEFAULT_RANKING = new Integer(1000);
