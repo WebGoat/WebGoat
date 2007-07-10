@@ -100,8 +100,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
     final static IMG previousGrey = new IMG("images/left14.gif").setAlt(
 	    "Previous").setBorder(0).setHspace(0).setVspace(0);
 
-    private static Vector<Category> categories = new Vector<Category>();
-
     private Integer ranking;
 
     private Category category;
@@ -117,22 +115,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
      */
     public AbstractLesson()
     {
-		categories.add(Category.A1);
-		categories.add(Category.A2);
-		categories.add(Category.A3);
-		categories.add(Category.A4);
-		categories.add(Category.A5);
-		categories.add(Category.A6);
-		categories.add(Category.A7);
-		categories.add(Category.A8);
-		categories.add(Category.A9);
-		categories.add(Category.A10);
-		categories.add(Category.WEB_SERVICES);
-		categories.add(Category.AJAX_SECURITY);
-		categories.add(Category.ADMIN_FUNCTIONS);
-		categories.add(Category.GENERAL);
-		categories.add(Category.CODE_QUALITY);
-		categories.add(Category.CHALLENGE);
     	id = new Integer(++count);
     }
 
@@ -155,27 +137,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
 	this.hidden = hidden;
     }
 
-
-    public static Category getCategory(String myCategoryName)
-    {
-	Category myCategory = null;
-
-	Iterator i = categories.iterator();
-	boolean done = false;
-	while (i.hasNext() && !done)
-	{
-	    Category category = (Category) i.next();
-	    if (category.getName().equalsIgnoreCase(myCategoryName))
-	    {
-		myCategory = category;
-		done = true;
-	    }
-	}
-
-	return myCategory;
-    }
-
-
     public void update(WebgoatProperties properties)
     {
 	String className = getClass().getName();
@@ -185,7 +146,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
 	String categoryRankingKey = "category."
 		+ getDefaultCategory().getName() + ".ranking";
 	// System.out.println("Category ranking key: " + categoryRankingKey);
-	Category tempCategory = AbstractLesson.getCategory(getDefaultCategory()
+	Category tempCategory = Category.getCategory(getDefaultCategory()
 		.getName());
 	tempCategory.setRanking(new Integer(properties.getIntProperty(
 		categoryRankingKey, getDefaultCategory().getRanking()
@@ -263,7 +224,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
     {
 	if (categoryName != null)
 	{
-	    category = getCategory(categoryName);
+	    category = Category.getCategory(categoryName);
 	}
 	else
 	{

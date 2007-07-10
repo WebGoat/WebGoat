@@ -1,5 +1,9 @@
 package org.owasp.webgoat.lessons;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /*******************************************************************************
  * 
  * 
@@ -83,11 +87,45 @@ public class Category implements Comparable
     public final static Category CHALLENGE = new Category("Challenge",
 	    new Integer(2000));
 
+    private static final List<Category> categories = new ArrayList<Category>();
+    
     private String category;
 
     private Integer ranking;
 
-
+    static {
+		categories.add(A1);
+		categories.add(A2);
+		categories.add(A3);
+		categories.add(A4);
+		categories.add(A5);
+		categories.add(A6);
+		categories.add(A7);
+		categories.add(A8);
+		categories.add(A9);
+		categories.add(A10);
+		categories.add(WEB_SERVICES);
+		categories.add(AJAX_SECURITY);
+		categories.add(ADMIN_FUNCTIONS);
+		categories.add(GENERAL);
+		categories.add(CODE_QUALITY);
+		categories.add(CHALLENGE);
+    }
+    
+    public static synchronized void addCategory(Category c) {
+    	categories.add(c);
+    }
+    
+    public static synchronized Category getCategory(String name) {
+    	Iterator<Category> it = categories.iterator();
+    	while (it.hasNext()) {
+    		Category c = it.next();
+    		if (c.getName().equals(name))
+    			return c;
+    	}
+    	return null;
+    }
+    
     public Category(String category, Integer ranking)
     {
 	this.category = category;
