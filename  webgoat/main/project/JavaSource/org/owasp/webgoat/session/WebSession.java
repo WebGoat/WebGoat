@@ -89,26 +89,6 @@ public class WebSession
 	/**
 	 * Description of the Field
 	 */
-	public final static String DATABASE_CONNECTION_STRING = "DatabaseConnectionString";
-
-	/**
-	 * Description of the Field
-	 */
-	public final static String DATABASE_DRIVER = "DatabaseDriver";
-
-	/**
-	 * Description of the Field
-	 */
-	public final static String DATABASE_USER = "DatabaseUser";
-
-	/**
-	 * Description of the Field
-	 */
-	public final static String DATABASE_PASSWORD = "DatabasePassword";
-
-	/**
-	 * Description of the Field
-	 */
 	public final static int ERROR = 0;
 
 	public static final String STAGE = "stage";
@@ -203,6 +183,8 @@ public class WebSession
 	 */
 	public final static int WELCOME = -1;
 
+	private WebgoatContext webgoatContext;
+	
 	private ServletContext context = null;
 
 	private Course course;
@@ -212,14 +194,6 @@ public class WebSession
 	private int previousScreen = ERROR;
 
 	private static boolean databaseBuilt = false;
-
-	private String databaseConnectionString;
-
-	private String databaseDriver;
-	
-	private String databaseUser;
-
-	private String databasePassword;
 
 	private static Connection connection = null;
 
@@ -275,6 +249,7 @@ public class WebSession
 	 */
 	public WebSession( HttpServlet servlet, ServletContext context )
 	{
+		webgoatContext = new WebgoatContext(servlet);
 		// initialize from web.xml
 		showParams = "true".equals( servlet.getInitParameter( SHOWPARAMS ) );
 		showCookies = "true".equals( servlet.getInitParameter( SHOWCOOKIES ) );
@@ -285,10 +260,6 @@ public class WebSession
 				.getInitParameter( FEEDBACK_ADDRESS ) : feedbackAddress;
 		showRequest = "true".equals( servlet.getInitParameter( SHOWREQUEST ) );
 		isDebug = "true".equals( servlet.getInitParameter( DEBUG ) );
-		databaseConnectionString = servlet.getInitParameter( DATABASE_CONNECTION_STRING );
-		databaseDriver = servlet.getInitParameter( DATABASE_DRIVER );
-		databaseUser = servlet.getInitParameter(DATABASE_USER);
-		databasePassword = servlet.getInitParameter(DATABASE_PASSWORD);
 		servletName = servlet.getServletName();
 		this.context = context;
 		course = new Course();
@@ -448,60 +419,6 @@ public class WebSession
 		currentScreen = screen;
 	}
 
-	/**
-	 * returns the connection string with the real path to the database directory inserted at the
-	 * word PATH
-	 * 
-	 * @return The databaseConnectionString value
-	 */
-	public String getDatabaseConnectionString()
-	{
-		try
-		{
-			String path = context.getRealPath( "/database" ).replace( '\\', '/' );
-			System.out.println( "PATH: " + path );
-			String realConnectionString = databaseConnectionString.replaceAll( "PATH", path );
-			System.out.println( "Database Connection String: " + realConnectionString );
-
-			return realConnectionString;
-		}
-		catch ( Exception e )
-		{
-			System.out.println( "Couldn't open database: check web.xml database parameters" );
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-	/**
-	 * Gets the databaseDriver attribute of the WebSession object
-	 * 
-	 * @return The databaseDriver value
-	 */
-	public String getDatabaseDriver()
-	{
-		return ( databaseDriver );
-	}
-	
-	/**
-	 * Gets the databaseUser attribute of the WebSession object
-	 * 
-	 * @return The databaseUser value
-	 */
-	public String getDatabaseUser() {
-		return (databaseUser);
-	}
-
-	/**
-	 * Gets the databasePassword attribute of the WebSession object
-	 * 
-	 * @return The databasePassword value
-	 */
-	public String getDatabasePassword() {
-		return (databasePassword);
-	}
-	       
 	public String getRestartLink()
 	{
 		List<String> parameters = new ArrayList<String>();
@@ -1247,5 +1164,9 @@ public class WebSession
 		}
 		
 		return ParameterParser.htmlEncode(s);
+	}
+
+	public WebgoatContext getWebgoatContext() {
+		return webgoatContext;
 	}
 }
