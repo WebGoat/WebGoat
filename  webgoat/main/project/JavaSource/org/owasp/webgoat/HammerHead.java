@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -69,11 +68,6 @@ public class HammerHead extends HttpServlet
     protected static SimpleDateFormat httpDateFormat;
 
     /**
-     * Description of the Field
-     */
-    protected WebSession mySession;
-
-    /**
      * Set the session timeout to be 2 days
      */
     private final static int sessionTimeoutSeconds = 60 * 60 * 24 * 2;
@@ -122,6 +116,7 @@ public class HammerHead extends HttpServlet
     {
 	Screen screen = null;
 
+	WebSession mySession = null;
 	try
 	{
 	    // System.out.println( "HH Entering doPost: " );
@@ -198,7 +193,7 @@ public class HammerHead extends HttpServlet
 	{
 	    try
 	    {
-		this.writeScreen(screen, response);
+		this.writeScreen(mySession, screen, response);
 	    }
 	    catch (Throwable thr)
 	    {
@@ -313,17 +308,6 @@ public class HammerHead extends HttpServlet
 	log(output);
 	System.out.println(output);
     }
-
-
-    public List getCategories()
-    {
-	Course course = mySession.getCourse();
-
-	// May need to clone the List before returning it.
-	// return new ArrayList(course.getCategories());
-	return course.getCategories();
-    }
-
 
     /*
      * public List getLessons(Category category, String role) { Course
@@ -524,7 +508,7 @@ public class HammerHead extends HttpServlet
      * @exception IOException
      *            Description of the Exception
      */
-    protected void writeScreen(Screen s, HttpServletResponse response)
+    protected void writeScreen(WebSession s, Screen screen, HttpServletResponse response)
 	    throws IOException
     {
 	response.setContentType("text/html");
@@ -533,15 +517,15 @@ public class HammerHead extends HttpServlet
 
 	if (s == null)
 	{
-	    s = new ErrorScreen(mySession, "Page to display was null");
+	    screen = new ErrorScreen(s, "Page to display was null");
 	}
 
 	// set the content-length of the response.
 	// Trying to avoid chunked-encoding. (Aspect required)
-	response.setContentLength(s.getContentLength());
-	response.setHeader("Content-Length", s.getContentLength() + "");
+	response.setContentLength(screen.getContentLength());
+	response.setHeader("Content-Length", screen.getContentLength() + "");
 
-	s.output(out);
+	screen.output(out);
 	out.close();
     }
 }
