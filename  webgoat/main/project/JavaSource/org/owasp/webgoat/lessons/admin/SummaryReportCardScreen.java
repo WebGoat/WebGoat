@@ -113,11 +113,11 @@ public class SummaryReportCardScreen extends LessonAdapter
 	}
 	t.addElement(makeUserSummaryHeader());
 
-	for (Iterator userIter = UserTracker.instance().getAllUsers(
+	for (Iterator<String> userIter = UserTracker.instance().getAllUsers(
 		WebSession.WEBGOAT_USER).iterator(); userIter.hasNext();)
 	{
 
-	    String user = (String) userIter.next();
+	    String user = userIter.next();
 	    t.addElement(makeUserSummaryRow(s, user));
 	}
 

@@ -442,12 +442,12 @@ public class ECSFactory
      * @return          Description of the Return Value
      */
 
-    public static Element makePulldown(String name, List options)
+    public static Element makePulldown(String name, List<String> options)
     {
 
 	Select s = new Select(name);
 
-	s.addElement((String[]) options.toArray(new String[options.size()]));
+	s.addElement(options.toArray(new String[options.size()]));
 
 	return (s);
     }
@@ -542,7 +542,7 @@ public class ECSFactory
      */
 
     public static Element makeSelect(boolean diffNames, Select select,
-	    String name, Vector options, String[] list, String selected)
+	    String name, Vector<Option> options, String[] list, String selected)
     {
 
 	return makeSelect(diffNames, select, name, options, list, selected, 1);
@@ -563,7 +563,7 @@ public class ECSFactory
      */
 
     public static Select makeSelect(boolean diffNames, Select select,
-	    String name, Vector options, String[] list, String selected,
+	    String name, Vector<Option> options, String[] list, String selected,
 	    int rowsShowing)
     {
 
@@ -582,8 +582,7 @@ public class ECSFactory
 
 		    String label = list[loop + 1];
 
-		    org.apache.ecs.html.Option o = new org.apache.ecs.html.Option(
-			    value);
+		    Option o = new Option(value);
 
 		    if (loop == 0)
 		    {

@@ -106,11 +106,11 @@ public class UserTracker
     }
 
 
-    public Collection getAllUsers(String roleName)
+    public Collection<String> getAllUsers(String roleName)
     {
 	synchronized (usersDB)
 	{
-	    Collection allUsers = new ArrayList();
+	    Collection<String> allUsers = new ArrayList<String>();
 	    try
 	    {
 		usersDB.open();
