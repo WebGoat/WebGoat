@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.EditProfile;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.RoleBasedAccessControl;
-import org.owasp.webgoat.lessons.SQLInjection.SQLInjection;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.WebSession;
@@ -50,7 +49,7 @@ public class EditProfile_i extends EditProfile
 				
 				try
 				{
-					PreparedStatement answer_statement = SQLInjection.getConnection(s).prepareStatement( query, 
+					PreparedStatement answer_statement = WebSession.getConnection(s).prepareStatement( query, 
 							ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
 					answer_statement.setInt(1, subjectUserId);
 					ResultSet answer_results = answer_statement.executeQuery();

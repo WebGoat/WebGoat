@@ -48,7 +48,7 @@ public class Login_i extends Login
 			
 			try
 			{
-				PreparedStatement answer_statement = SQLInjection.getConnection(s).prepareStatement( query, 
+				PreparedStatement answer_statement = WebSession.getConnection(s).prepareStatement( query, 
 						ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY ); // STAGE 2 - FIX
 				answer_statement.setString(1, userId); // STAGE 2 - FIX
 				answer_statement.setString(2, password); // STAGE 2 - FIX

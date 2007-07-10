@@ -249,7 +249,7 @@ public class FindProfile extends DefaultLessonAction
 	return parameter;
     }
 
-    protected static Map patterns = new HashMap();
+    protected static Map<String, Pattern> patterns = new HashMap<String, Pattern>();
     static
     {
 	patterns.put(CrossSiteScripting.SEARCHNAME, Pattern

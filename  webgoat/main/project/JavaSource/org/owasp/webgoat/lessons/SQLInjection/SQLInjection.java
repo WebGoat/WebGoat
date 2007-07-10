@@ -1,26 +1,17 @@
 package org.owasp.webgoat.lessons.SQLInjection;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
-import org.apache.ecs.html.A;
-import org.apache.ecs.html.IMG;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonAction;
-import org.owasp.webgoat.lessons.LessonAdapter;
-import org.owasp.webgoat.lessons.RoleBasedAccessControl.DeleteProfile;
-import org.owasp.webgoat.lessons.RoleBasedAccessControl.EditProfile;
-import org.owasp.webgoat.lessons.RoleBasedAccessControl.FindProfile;
-import org.owasp.webgoat.lessons.RoleBasedAccessControl.Logout;
-import org.owasp.webgoat.lessons.RoleBasedAccessControl.SearchStaff;
-import org.owasp.webgoat.lessons.RoleBasedAccessControl.UpdateProfile;
-import org.owasp.webgoat.session.DatabaseUtilities;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.DeleteProfile;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.EditProfile;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.FindProfile;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.Logout;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.SearchStaff;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.UpdateProfile;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
@@ -56,143 +47,34 @@ import org.owasp.webgoat.session.WebSession;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  */
-public class SQLInjection extends LessonAdapter
+public class SQLInjection extends GoatHillsFinancial
 {
-	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
-    
-    public final static String DESCRIPTION = "description";
-
-    public final static String DISCIPLINARY_DATE = "disciplinaryDate";
-
-    public final static String DISCIPLINARY_NOTES = "disciplinaryNotes";
-
-    public final static String CCN_LIMIT = "ccnLimit";
-
-    public final static String CCN = "ccn";
-
-    public final static String SALARY = "salary";
-
-    public final static String START_DATE = "startDate";
-
-    public final static String MANAGER = "manager";
-
-    public final static String ADDRESS1 = "address1";
-
-    public final static String ADDRESS2 = "address2";
-
-    public final static String PHONE_NUMBER = "phoneNumber";
-
-    public final static String TITLE = "title";
-
-    public final static String SSN = "ssn";
-
-    public final static String LAST_NAME = "lastName";
-
-    public final static String FIRST_NAME = "firstName";
-
-    public final static String PASSWORD = "password";
-
-    public final static String EMPLOYEE_ID = "employee_id";
-
-    public final static String USER_ID = "user_id";
-
-    public final static String SEARCHNAME = "search_name";
-
-    public final static String SEARCHRESULT_ATTRIBUTE_KEY = "SearchResult";
-
-    public final static String EMPLOYEE_ATTRIBUTE_KEY = "Employee";
-
-    public final static String STAFF_ATTRIBUTE_KEY = "Staff";
-
-    public final static String LOGIN_ACTION = "Login";
-
-    public final static String LOGOUT_ACTION = "Logout";
-
-    public final static String LISTSTAFF_ACTION = "ListStaff";
-
-    public final static String SEARCHSTAFF_ACTION = "SearchStaff";
-
-    public final static String FINDPROFILE_ACTION = "FindProfile";
-
-    public final static String VIEWPROFILE_ACTION = "ViewProfile";
-
-    public final static String EDITPROFILE_ACTION = "EditProfile";
-
-    public final static String UPDATEPROFILE_ACTION = "UpdateProfile";
-
-    public final static String CREATEPROFILE_ACTION = "CreateProfile";
-
-    public final static String DELETEPROFILE_ACTION = "DeleteProfile";
-
-    public final static String ERROR_ACTION = "error";
-
-    private final static String LESSON_NAME = "SQLInjection";
-
-    private final static String JSP_PATH = "/lessons/" + LESSON_NAME + "/";
-
     private final static Integer DEFAULT_RANKING = new Integer(75);
 
     public final static int PRIZE_EMPLOYEE_ID = 112;
 
     public final static String PRIZE_EMPLOYEE_NAME = "Neville Bartholomew";
 
-    private static Connection connection = null;
-
-    private Map lessonFunctions = new Hashtable();
-
-
-    public static synchronized Connection getConnection(WebSession s)
-	    throws SQLException, ClassNotFoundException
+    public void registerActions(String className)
     {
-	if (connection == null)
-	{
-	    connection = DatabaseUtilities.makeConnection(s);
-	}
-
-	return connection;
-    }
-
-
-    public SQLInjection()
-    {
-	String myClassName = parseClassName(this.getClass().getName());
-	registerAction(new ListStaff(this, myClassName, LISTSTAFF_ACTION));
-	registerAction(new SearchStaff(this, myClassName, SEARCHSTAFF_ACTION));
-	registerAction(new ViewProfile(this, myClassName, VIEWPROFILE_ACTION));
-	registerAction(new EditProfile(this, myClassName, EDITPROFILE_ACTION));
-	registerAction(new EditProfile(this, myClassName, CREATEPROFILE_ACTION));
+	registerAction(new ListStaff(this, className, LISTSTAFF_ACTION));
+	registerAction(new SearchStaff(this, className, SEARCHSTAFF_ACTION));
+	registerAction(new ViewProfile(this, className, VIEWPROFILE_ACTION));
+	registerAction(new EditProfile(this, className, EDITPROFILE_ACTION));
+	registerAction(new EditProfile(this, className, CREATEPROFILE_ACTION));
 
 	// These actions are special in that they chain to other actions.
-	registerAction(new Login(this, myClassName, LOGIN_ACTION,
+	registerAction(new Login(this, className, LOGIN_ACTION,
 		getAction(LISTSTAFF_ACTION)));
-	registerAction(new Logout(this, myClassName, LOGOUT_ACTION,
+	registerAction(new Logout(this, className, LOGOUT_ACTION,
 		getAction(LOGIN_ACTION)));
-	registerAction(new FindProfile(this, myClassName, FINDPROFILE_ACTION,
+	registerAction(new FindProfile(this, className, FINDPROFILE_ACTION,
 		getAction(VIEWPROFILE_ACTION)));
-	registerAction(new UpdateProfile(this, myClassName,
+	registerAction(new UpdateProfile(this, className,
 		UPDATEPROFILE_ACTION, getAction(VIEWPROFILE_ACTION)));
-	registerAction(new DeleteProfile(this, myClassName,
+	registerAction(new DeleteProfile(this, className,
 		DELETEPROFILE_ACTION, getAction(LISTSTAFF_ACTION)));
     }
-
-
-    protected static String parseClassName(String fqcn)
-    {
-	String className = fqcn;
-
-	int lastDotIndex = fqcn.lastIndexOf('.');
-	if (lastDotIndex > -1)
-	    className = fqcn.substring(lastDotIndex + 1);
-
-	return className;
-    }
-
-
-    protected void registerAction(LessonAction action)
-    {
-	lessonFunctions.put(action.getActionName(), action);
-    }
-
 
     /**
      *  Gets the category attribute of the CrossSiteScripting object
@@ -203,7 +85,6 @@ public class SQLInjection extends LessonAdapter
     {
 	return Category.A6;
     }
-
 
     /**
      *  Gets the hints attribute of the DirectoryScreen object
@@ -298,13 +179,6 @@ public class SQLInjection extends LessonAdapter
 	return instructions;
     }
 
-
-    protected LessonAction getAction(String actionName)
-    {
-	return (LessonAction) lessonFunctions.get(actionName);
-    }
-
-
     public void handleRequest(WebSession s)
     {
 	if (s.getLessonSession(this) == null)
@@ -376,47 +250,6 @@ public class SQLInjection extends LessonAdapter
 	setContent(new ElementContainer());
     }
 
-
-    public boolean isAuthorized(WebSession s, int userId, String functionId)
-    {
-	//System.out.println("Checking authorization from " + getCurrentAction(s));
-	LessonAction action = (LessonAction) lessonFunctions
-		.get(getCurrentAction(s));
-	return action.isAuthorized(s, userId, functionId);
-    }
-
-
-    public int getUserId(WebSession s) throws ParameterNotFoundException
-    {
-	LessonAction action = (LessonAction) lessonFunctions
-		.get(getCurrentAction(s));
-	return action.getUserId(s);
-    }
-
-
-    public String getUserName(WebSession s) throws ParameterNotFoundException
-    {
-	LessonAction action = (LessonAction) lessonFunctions
-		.get(getCurrentAction(s));
-	return action.getUserName(s);
-    }
-
-
-    public String getTemplatePage(WebSession s)
-    {
-	return JSP_PATH + LESSON_NAME + ".jsp";
-    }
-
-
-    public String getPage(WebSession s)
-    {
-	String page = JSP_PATH + getCurrentAction(s) + ".jsp";
-	//System.out.println("Retrieved sub-view page for " + this.getClass().getName() + " of " + page);
-
-	return page;
-    }
-
-
     protected Integer getDefaultRanking()
     {
 	return DEFAULT_RANKING;
@@ -431,19 +264,5 @@ public class SQLInjection extends LessonAdapter
     public String getTitle()
     {
 	return "LAB: SQL Injection";
-    }
-
-
-    public String getSourceFileName()
-    {
-	// FIXME: Need to generalize findSourceResource() and use it on the currently active 
-	// LessonAction delegate to get its source file.
-	//return findSourceResource(getCurrentLessonScreen()....);
-	return super.getSourceFileName();
-    }
-
-    public Element getCredits()
-    {
-    	return super.getCustomCredits("", ASPECT_LOGO);
     }
 }

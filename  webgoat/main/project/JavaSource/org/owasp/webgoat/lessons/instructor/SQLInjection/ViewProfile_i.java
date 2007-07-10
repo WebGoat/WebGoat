@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.SQLInjection.SQLInjection;
 import org.owasp.webgoat.lessons.SQLInjection.ViewProfile;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.UnauthorizedException;
@@ -52,7 +51,7 @@ public class ViewProfile_i extends ViewProfile
 			
 			try
 			{
-				PreparedStatement answer_statement = SQLInjection.getConnection(s).prepareStatement( query, 
+				PreparedStatement answer_statement = WebSession.getConnection(s).prepareStatement( query, 
 						ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY ); // STAGE 4 - FIX
 				answer_statement.setInt(1, Integer.parseInt(subjectUserId)); // STAGE 4 - FIX
 				ResultSet answer_results = answer_statement.executeQuery(); // STAGE 4 - FIX
