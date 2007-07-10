@@ -196,6 +196,20 @@ StringBuffer buildList = new StringBuffer();
 				<br/>
 				<a href="javascript:toggle('lessonPlans')" target="_top" onclick="MM_nbGroup('down','group1','plans','',1)">Close this Window</a>
 				</div>
+				<%
+					if (webSession.isDebug()&& webSession.getCurrentLesson().getStageCount() > 1) {
+						%><form method="post" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<select name="<%= WebSession.STAGE %>" onchange="this.form.submit();">
+						<%
+						int stages = webSession.getCurrentLesson().getStageCount();
+						int stage = webSession.getCurrentLesson().getStage(webSession);
+						for (int i=1; i<=stages;i++) {
+						%><option <% if (i == stage) out.print("selected"); %> value="<%= i %>">Stage <%= i %></option>
+						<%
+						}
+						%></select></form><%
+					}
+				%>
 				<div id="lessonContent"><%=webSession.getInstructions()%></div>
 				<div id="message" class="info"><%=webSession.getMessage()%></div>
 	

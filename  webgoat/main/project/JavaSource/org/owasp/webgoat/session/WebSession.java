@@ -905,7 +905,12 @@ public class WebSession
 			eatCookies();
 			hintNum = -1;
 		}
-
+		else if (myParser.getRawParameter( STAGE, null ) != null) 
+		{
+			int stage = myParser.getIntParameter(STAGE, getCurrentLesson().getStage(this));
+			if (stage > 0 && stage <= getCurrentLesson().getStageCount())
+				getCurrentLesson().setStage(this, stage);
+		}
 		// else update global variables for the current screen
 		else
 		{
