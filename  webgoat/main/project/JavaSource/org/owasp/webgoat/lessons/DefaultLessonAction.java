@@ -259,11 +259,7 @@ public abstract class DefaultLessonAction implements LessonAction
 				/* User is validated for function, but can the user perform that function on the specified user? */
 				if(authorized)
 				{
-					query = "SELECT * FROM ownership WHERE employer_id = " + Integer.parseInt(employer_id) +
-							" AND employee_id = " + employeeId;
-					answer_statement = WebSession.getConnection(s).createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-					answer_results = answer_statement.executeQuery( query );
-					authorized = answer_results.first();
+					authorized = isAuthorizedForEmployee(s, Integer.parseInt(employer_id), employeeId);
 				}
 			}
 			catch ( SQLException sqle )
