@@ -7,10 +7,8 @@ import org.apache.ecs.Element;
 import org.apache.ecs.HtmlColor;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.A;
-import org.apache.ecs.html.B;
 import org.apache.ecs.html.Font;
 import org.apache.ecs.html.IMG;
-import org.apache.ecs.html.TD;
 import org.owasp.webgoat.lessons.AbstractLesson;
 
 /*******************************************************************************
@@ -192,21 +190,6 @@ public abstract class Screen
     {
 	return "images/aspectlogo-horizontal-small.jpg";
     }
-
-
-    /**
-     *  Description of the Method
-     *
-     * @param  text  Description of the Parameter
-     * @return       Description of the Return Value
-     */
-
-    protected TD makeMenuCategory_DELETE_ME(String text)
-    {
-	return (new TD().setWidth("100%").addElement(new Font().setColor(
-		HtmlColor.WHITE).addElement(new B().addElement(text))));
-    }
-
 
     /**
      *  Description of the Method

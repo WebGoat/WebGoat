@@ -10,29 +10,17 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
-import org.apache.ecs.html.B;
 import org.apache.ecs.html.Body;
 import org.apache.ecs.html.Form;
-import org.apache.ecs.html.HR;
 import org.apache.ecs.html.Head;
 import org.apache.ecs.html.Html;
 import org.apache.ecs.html.IMG;
-import org.apache.ecs.html.LI;
 import org.apache.ecs.html.PRE;
-import org.apache.ecs.html.TD;
-import org.apache.ecs.html.TR;
-import org.apache.ecs.html.Table;
 import org.apache.ecs.html.Title;
-import org.apache.ecs.html.UL;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.Screen;
 import org.owasp.webgoat.session.WebSession;
@@ -218,20 +206,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
 
     protected abstract boolean getDefaultHidden();
-
-
-    public void setCategory_DELETE_ME(String categoryName)
-    {
-	if (categoryName != null)
-	{
-	    category = Category.getCategory(categoryName);
-	}
-	else
-	{
-	    category = getDefaultCategory();
-	}
-    }
-
 
     /**
      * Gets the fileMethod attribute of the Lesson class
@@ -706,144 +680,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
     {
 	return null;
     }
-
-
-    /**
-     * Description of the Method
-     * 
-     * @param s
-     *        Description of the Parameter
-     * @return Description of the Return Value
-     */
-    protected TD makeParamDump_DELETEME(WebSession s)
-    {
-	Vector v = new Vector();
-
-	if (s.getParser() != null)
-	{
-	    Enumeration e = s.getParser().getParameterNames();
-
-	    while ((e != null) && e.hasMoreElements())
-	    {
-		String name = (String) e.nextElement();
-		String[] values = s.getParser().getParameterValues(name);
-
-		for (int loop = 0; (values != null) && (loop < values.length); loop++)
-		{
-		    v.add(name + " -> " + values[loop]);
-		}
-	    }
-
-	    Collections.sort(v);
-	}
-
-	UL list = new UL();
-
-	if (v.size() == 0)
-	{
-	    list.addElement(new LI("No parameters"));
-	}
-
-	Iterator i = v.iterator();
-
-	while (i.hasNext())
-	{
-	    String str = (String) i.next();
-	    list.addElement(new LI(str));
-	}
-
-	ElementContainer ec = new ElementContainer();
-	ec.addElement(new B("Parameters from HTTP Request"));
-	ec.addElement(list);
-
-	return (new TD().setVAlign("TOP").addElement(ec));
-    }
-
-
-    // this doesn't work -- I think it's because getting parameters
-    // also causes the servlet container to read the request
-    // but I'm not sure.
-
-    /**
-     * Description of the Method
-     * 
-     * @param s
-     *        Description of the Parameter
-     * @return Description of the Return Value
-     */
-    protected Element makeRequestDump_DELETEME(WebSession s)
-    {
-	Element el = null;
-
-	try
-	{
-	    el = new StringElement(readFromFile(s.getRequest().getReader(),
-		    false));
-	}
-	catch (Exception e)
-	{
-	    s.setMessage("Couldn't read HTTP request");
-	}
-
-	ElementContainer ec = new ElementContainer();
-	ec.addElement(new B("HTTP Request"));
-	ec.addElement(el);
-
-	Table t = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0);
-
-	if (s.isColor())
-	{
-	    t.setBorder(1);
-	}
-
-	t.addElement(new TR().addElement(new TD().setVAlign("TOP").addElement(
-		ec)));
-
-	return (t);
-    }
-
-
-    /**
-     * Description of the Method
-     * 
-     * @param s
-     *        Description of the Parameter
-     * @return Description of the Return Value
-     */
-    protected Element makeSourceDump_DELETEME(WebSession s)
-    {
-	if (!s.showSource())
-	{
-	    return new StringElement();
-	}
-
-	String filename = s.getWebResource(this.getClass().getName());
-	Table t = new Table().setWidth(Screen.MAIN_SIZE);
-
-	/*
-	 * if ( s.isColor() ) { t.setBorder( 1 ); t.setBgColor( HtmlColor.CORAL ); }
-	 */
-
-	t.addElement(new TR().addElement(new TD().addElement(new HR())));
-
-	try
-	{
-	    t
-		    .addElement(new TR()
-			    .addElement(new TD()
-				    .addElement(convertMetachars(readFromFile(
-					    new BufferedReader(new FileReader(
-						    filename)), true)))));
-	}
-	catch (IOException e)
-	{
-	    System.out.println("reading file EXCEPTION: " + filename);
-	    s.setMessage("Could not find source file");
-	}
-
-	return (t);
-    }
-
 
     /**
      * Description of the Method
