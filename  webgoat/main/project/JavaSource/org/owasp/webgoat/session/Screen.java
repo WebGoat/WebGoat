@@ -54,8 +54,6 @@ public abstract class Screen
     //private Head head;
     private Element content;
 
-    private LessonTracker lessonTracker;
-
     final static IMG logo = new IMG("images/aspectlogo-horizontal-small.jpg")
 	    .setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0);
 
@@ -108,8 +106,7 @@ public abstract class Screen
 	// If the lesson had any specialized properties in the user persisted properties,
 	// now would be the time to pull them out.
 
-	lessonTracker = createLessonTracker();
-	return lessonTracker;
+	return createLessonTracker();
     }
 
 
@@ -120,8 +117,7 @@ public abstract class Screen
      */
     public LessonTracker createLessonTracker()
     {
-	lessonTracker = new LessonTracker();
-	return lessonTracker;
+	return new LessonTracker();
     }
 
 
