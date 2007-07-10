@@ -353,27 +353,29 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
     /**
      * Gets the hintCount attribute of the Lesson object
+     * @param s The user's WebSession
      * 
      * @return The hintCount value
      */
-    public int getHintCount()
+    public int getHintCount(WebSession s)
     {
-	return getHints().size();
+	return getHints(s).size();
     }
 
 
-    protected abstract List getHints();
+    protected abstract List<String> getHints(WebSession s);
 
 
     /**
      * Fill in a minor hint that will help people who basically get it, but
      * are stuck on somthing silly.
+     * @param s The users WebSession
      * 
      * @return The hint1 value
      */
-    public String getHint(int hintNumber)
+    public String getHint(WebSession s, int hintNumber)
     {
-	return (String) getHints().get(hintNumber);
+	return getHints(s).get(hintNumber);
     }
 
 
@@ -409,7 +411,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
      * Gets the content of lessonPlanURL
      * 
      * @param s
-     *        TODO
+     *        The user's WebSession
      * 
      * @return The HTML content of the current lesson plan
      */

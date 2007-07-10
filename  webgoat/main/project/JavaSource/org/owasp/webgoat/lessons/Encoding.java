@@ -575,7 +575,7 @@ public class Encoding extends LessonAdapter
 	 * @return    The hints value
 	 */
 
-	public List getHints()
+	public List<String> getHints(WebSession s)
 	{
 
 		List<String> hints = new ArrayList<String>();

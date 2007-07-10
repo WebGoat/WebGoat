@@ -338,7 +338,7 @@ public class XMLInjection extends LessonAdapter
     }
 
 
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 
 	List<String> hints = new ArrayList<String>();

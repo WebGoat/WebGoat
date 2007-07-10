@@ -93,7 +93,7 @@ public class HttpBasics extends LessonAdapter
      *
      * @return    The hints value
      */
-    public List getHints()
+    public List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("Type in your name and press 'go'");

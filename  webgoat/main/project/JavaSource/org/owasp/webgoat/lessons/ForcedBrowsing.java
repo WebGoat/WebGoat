@@ -116,7 +116,7 @@ public class ForcedBrowsing extends LessonAdapter
      *
      * @return    The hints value
      */
-    public List getHints()
+    public List<String> getHints(WebSession s)
     {
     	List<String> hints = new ArrayList<String>();
 		hints.add("Try to guess the URL for the config page");

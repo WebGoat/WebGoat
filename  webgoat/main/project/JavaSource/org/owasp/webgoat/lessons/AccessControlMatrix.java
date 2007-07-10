@@ -135,7 +135,7 @@ public class AccessControlMatrix extends LessonAdapter
      *
      * @return    The hints value
      */
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 		List<String> hints = new ArrayList<String>();
 		hints.add("Many sites attempt to restrict access to resources by role.");

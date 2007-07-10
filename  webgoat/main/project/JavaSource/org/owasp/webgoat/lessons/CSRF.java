@@ -292,7 +292,7 @@ public class CSRF extends LessonAdapter {
 	}
 
 	@Override	
-	protected List getHints() {
+	protected List<String> getHints(WebSession s) {
 		List<String> hints = new ArrayList<String>();
 		hints.add( "Enter some text and try to include an image in there." );
 		hints.add( "In order to make the picture almost invisible try to add width=\"1\" and height=\"1\"." );

@@ -447,10 +447,12 @@ public class WebSession
 	public String getHint()
 	{
 		String hint = null;
-
+		int hints = getCurrentLesson().getHintCount(this);
+		if (getHintNum() > hints)
+			hintNum = -1;
 		if ( getHintNum() >= 0 )
 			// FIXME
-			hint = getCurrentLesson().getHint( getHintNum() );
+			hint = getCurrentLesson().getHint( this, getHintNum() );
 
 		return hint;
 	}
@@ -1015,7 +1017,7 @@ public class WebSession
 		String hint = null;
 
 		// FIXME
-		int maxHints = getCurrentLesson().getHintCount();
+		int maxHints = getCurrentLesson().getHintCount(this);
 		if ( hintNum < maxHints - 1 )
 		{
 			hintNum++;
@@ -1023,7 +1025,7 @@ public class WebSession
 			// Hints are indexed from 0
 			getCurrentLesson().getLessonTracker( this ).setMaxHintLevel( getHintNum() + 1 );
 
-			hint = (String) getCurrentLesson().getHint( getHintNum() );
+			hint = (String) getCurrentLesson().getHint( this, getHintNum() );
 		}
 
 		return hint;
@@ -1040,7 +1042,7 @@ public class WebSession
 			// Hints are indexed from 0
 			getCurrentLesson().getLessonTracker( this ).setMaxHintLevel( getHintNum() + 1 );
 
-			hint = (String) getCurrentLesson().getHint( getHintNum() );
+			hint = (String) getCurrentLesson().getHint( this, getHintNum() );
 		}
 
 		return hint;

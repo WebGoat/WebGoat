@@ -82,7 +82,7 @@ public class RemoteAdminFlaw extends LessonAdapter
      *
      * @return    The hints value
      */
-    public List getHints()
+    public List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("WebGoat has 2 admin interfaces.");

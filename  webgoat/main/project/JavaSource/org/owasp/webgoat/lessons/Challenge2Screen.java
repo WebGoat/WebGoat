@@ -504,7 +504,7 @@ public class Challenge2Screen extends LessonAdapter
      *
      * @return    The hints value
      */
-    protected List getHints(WebSession s)
+    protected List<String> getHints(WebSession s)
     {
 	//<START_OMIT_SOURCE>
 

@@ -142,7 +142,7 @@ public class FailOpenAuthentication extends WeakAuthenticationCookie
      *
      * @return    The hints value
      */
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("You can force errors during the authentication process.");

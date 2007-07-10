@@ -223,9 +223,9 @@ public abstract class LessonAdapter extends AbstractLesson
      *
      * @return    The hintCount value
      */
-    public int getHintCount()
+    public int getHintCount(WebSession s)
     {
-	return getHints().size();
+	return getHints(s).size();
     }
 
 
@@ -236,7 +236,7 @@ public abstract class LessonAdapter extends AbstractLesson
      *
      * @return    The hint1 value
      */
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("There are no hints defined.");
@@ -245,9 +245,9 @@ public abstract class LessonAdapter extends AbstractLesson
     }
 
 
-    public String getHint(int hintNumber)
+    public String getHint(WebSession s, int hintNumber)
     {
-	return (String) getHints().get(hintNumber);
+	return (String) getHints(s).get(hintNumber);
     }
 
 

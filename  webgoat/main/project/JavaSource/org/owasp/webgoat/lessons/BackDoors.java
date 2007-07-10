@@ -264,7 +264,7 @@ public class BackDoors extends LessonAdapter
     }
 
 
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("Your user id is 101. Use it to see your information");

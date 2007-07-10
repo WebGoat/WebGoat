@@ -158,7 +158,7 @@ public class HttpOnly extends LessonAdapter {
 	 *
 	 * @return    The hints value
 	 */
-	protected List getHints()
+	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
 		hints.add( "Read the directions and try out the buttons." );

@@ -157,7 +157,7 @@ public class StoredXss extends LessonAdapter
      *
      * @return    The hints value
      */
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("You can put HTML tags in your message.");

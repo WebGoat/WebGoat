@@ -87,7 +87,7 @@ public class WsSqlInjection extends LessonAdapter
     }
 
 
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints

@@ -242,7 +242,7 @@ public class XPATHInjection extends LessonAdapter
     }
 
 
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	// TODO Auto-generated method stub
 	List<String> hints = new ArrayList<String>();

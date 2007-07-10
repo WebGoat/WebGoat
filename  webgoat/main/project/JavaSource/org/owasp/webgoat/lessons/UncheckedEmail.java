@@ -215,7 +215,7 @@ public class UncheckedEmail extends LessonAdapter
      *
      * @return    The hints value
      */
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("Try sending an anonymous message to yourself.");

@@ -140,7 +140,7 @@ public class LogSpoofing extends LessonAdapter
 
 
     @Override
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("Try to fool the humane eye by using new lines.");

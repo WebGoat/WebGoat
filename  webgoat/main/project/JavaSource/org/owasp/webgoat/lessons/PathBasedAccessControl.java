@@ -250,7 +250,7 @@ public class PathBasedAccessControl extends LessonAdapter
      *
      * @return    The hints value
      */
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints

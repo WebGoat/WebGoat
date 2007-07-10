@@ -272,7 +272,7 @@ public class SilentTransactions extends LessonAdapter
     }
 
 
-    protected List getHints()
+    protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
 	hints.add("Check the javascript in the HTML source.");
