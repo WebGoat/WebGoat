@@ -24,6 +24,7 @@ import org.apache.ecs.html.Title;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.Screen;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.session.WebgoatContext;
 import org.owasp.webgoat.session.WebgoatProperties;
 
 /*******************************************************************************
@@ -98,6 +99,8 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
     private String lessonPlanFileName;
 
+    private WebgoatContext webgoatContext;
+    
     /**
      * Constructor for the Lesson object
      */
@@ -849,4 +852,14 @@ public abstract class AbstractLesson extends Screen implements Comparable
 	// + sourceFileName);
 	this.sourceFileName = sourceFileName;
     }
+
+
+	public WebgoatContext getWebgoatContext() {
+		return webgoatContext;
+	}
+
+
+	public void setWebgoatContext(WebgoatContext webgoatContext) {
+		this.webgoatContext = webgoatContext;
+	}
 }

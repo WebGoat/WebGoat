@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.admin.RefreshDBScreen;
 
 /*******************************************************************************
  * 
@@ -261,7 +260,7 @@ public class WebSession
 		servletName = servlet.getServletName();
 		this.context = context;
 		course = new Course();
-		course.loadCourses( enterprise, context, "/" );
+		course.loadCourses( webgoatContext, context, "/" );
 	}
 
 	public static synchronized Connection getConnection(WebSession s) 

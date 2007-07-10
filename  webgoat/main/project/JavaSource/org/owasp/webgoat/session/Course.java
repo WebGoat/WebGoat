@@ -59,6 +59,7 @@ public class Course
     
     private List<String> files = new LinkedList<String>();
 
+    private WebgoatContext webgoatContext;
 
     public Course()
     {
@@ -365,6 +366,7 @@ public class Course
     				if(o instanceof AbstractLesson)
     				{
     					AbstractLesson lesson = (AbstractLesson)o;
+    					lesson.setWebgoatContext(webgoatContext);
     					
     					lesson.update(properties);
     					
@@ -423,8 +425,9 @@ public class Course
      * @param  path     Description of the Parameter
      * @param  context  Description of the Parameter
      */
-    public void loadCourses(boolean enterprise, ServletContext context, String path)
+    public void loadCourses(WebgoatContext webgoatContext, ServletContext context, String path)
     {
+    	this.webgoatContext = webgoatContext;
     	loadFiles(context, path);
     	loadLessons(path);
     	loadResources();
