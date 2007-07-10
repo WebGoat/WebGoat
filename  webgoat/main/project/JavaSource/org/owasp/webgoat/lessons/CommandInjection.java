@@ -68,13 +68,13 @@ public class CommandInjection extends LessonAdapter
     protected Element createContent(WebSession s)
     {
 	ElementContainer ec = new ElementContainer();
-	boolean illegalCommand = s.isDefuseOSCommands();
+	boolean illegalCommand = getWebgoatContext().isDefuseOSCommands();
 	try
 	{
 	    String helpFile = s.getParser().getRawParameter(HELP_FILE,
 		    "BasicAuthentication.help");
 	    String safeDirName;
-	    if (s.isDefuseOSCommands()
+	    if (getWebgoatContext().isDefuseOSCommands()
 		    && (helpFile.indexOf('&') != -1 || helpFile.indexOf(';') != -1))
 	    {
 		int index = helpFile.indexOf('&');
@@ -123,7 +123,7 @@ public class CommandInjection extends LessonAdapter
 		}
 	    }
 
-	    if (s.isDefuseOSCommands() && helpFile.indexOf('&') == -1
+	    if (getWebgoatContext().isDefuseOSCommands() && helpFile.indexOf('&') == -1
 		    && helpFile.indexOf(';') == -1)
 	    {
 		if (helpFile.length() > 0)

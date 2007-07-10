@@ -123,29 +123,6 @@ public class WebSession
 	 */
 	public final static String SESSION = "Session";
 
-	/**
-	 * Description of the Field
-	 */
-	public final static String ENTERPRISE = "Enterprise";
-
-	/**
-	 * Description of the Field
-	 */
-	public final static String SHOWCOOKIES = "ShowCookies";
-
-	/**
-	 * Description of the Field
-	 */
-	public final static String SHOWPARAMS = "ShowParams";
-
-	/**
-	 * Description of the Field
-	 */
-	public final static String SHOWREQUEST = "ShowRequest";
-
-	/**
-	 * Description of the Field
-	 */
 	public final static String SHOWSOURCE = "ShowSource";
 	
 	public final static String SHOWHINTS = "ShowHints";
@@ -162,20 +139,7 @@ public class WebSession
 
 	public final static String SHOW_SOURCE = "Source";
 
-	/**
-	 * Description of the Field
-	 */
-	public final static String DEFUSEOSCOMMANDS = "DefuseOSCommands";
-
-	/**
-	 * Description of the Field
-	 */
-	public final static String FEEDBACK_ADDRESS = "FeedbackAddress";
-
-	/**
-	 * Description of the Field
-	 */
-	public final String DEBUG = "debug";
+	public final static String DEBUG = "debug";
 
 	/**
 	 * Description of the Field
@@ -205,7 +169,6 @@ public class WebSession
 	private boolean isColor = false;
 
 	private boolean isDebug = false;
-
 	private boolean hasHackedHackableAdmin = false;
 
 	private StringBuffer message = new StringBuffer( "" );
@@ -228,12 +191,6 @@ public class WebSession
 
 	private boolean showSource = false;
 
-	private boolean defuseOSCommands = false;
-
-	private boolean enterprise = false;
-
-	private String feedbackAddress = "<A HREF=mailto:webgoat@g2-inc.com>webgoat@g2-inc.com</A>";
-
 	private boolean completedHackableAdmin = false;
 	
 	private int currentMenu;
@@ -244,20 +201,14 @@ public class WebSession
 	 * @param servlet Description of the Parameter
 	 * @param context Description of the Parameter
 	 */
-	public WebSession( HttpServlet servlet, ServletContext context )
+	public WebSession(WebgoatContext webgoatContext, ServletContext context )
 	{
-		webgoatContext = new WebgoatContext(servlet);
+		this.webgoatContext = webgoatContext;
 		// initialize from web.xml
-		showParams = "true".equals( servlet.getInitParameter( SHOWPARAMS ) );
-		showCookies = "true".equals( servlet.getInitParameter( SHOWCOOKIES ) );
-		showSource = "true".equals( servlet.getInitParameter( SHOWSOURCE ) );
-		defuseOSCommands = "true".equals( servlet.getInitParameter( DEFUSEOSCOMMANDS ) );
-		enterprise = "true".equals( servlet.getInitParameter( ENTERPRISE ) );
-		feedbackAddress = servlet.getInitParameter( FEEDBACK_ADDRESS ) != null ? servlet
-				.getInitParameter( FEEDBACK_ADDRESS ) : feedbackAddress;
-		showRequest = "true".equals( servlet.getInitParameter( SHOWREQUEST ) );
-		isDebug = "true".equals( servlet.getInitParameter( DEBUG ) );
-		servletName = servlet.getServletName();
+		showParams = webgoatContext.isShowParams();
+		showCookies = webgoatContext.isShowCookies();
+		showSource = webgoatContext.isShowSource();
+		showRequest = webgoatContext.isShowRequest();
 		this.context = context;
 		course = new Course();
 		course.loadCourses( webgoatContext, context, "/" );
@@ -855,36 +806,6 @@ public class WebSession
 	}
 
 	/**
-	 * Description of the Method
-	 * 
-	 * @return Description of the Return Value
-	 */
-	public boolean isDefuseOSCommands()
-	{
-		return ( defuseOSCommands );
-	}
-
-	/**
-	 * Description of the Method
-	 * 
-	 * @return Description of the Return Value
-	 */
-	public boolean isEnterprise()
-	{
-		return ( enterprise );
-	}
-
-	/**
-	 * Description of the Method
-	 * 
-	 * @return Description of the Return Value
-	 */
-	public String getFeedbackAddress()
-	{
-		return ( feedbackAddress );
-	}
-
-	/**
 	 * Gets the userName attribute of the WebSession object
 	 * 
 	 * @return The userName value
@@ -976,7 +897,7 @@ public class WebSession
 		// clear variables when switching screens
 		if ( this.getCurrentScreen() != this.getPreviousScreen() )
 		{
-			if ( isDebug )
+			if ( webgoatContext.isDebug() )
 			{
 				setMessage( "Changed to a new screen, clearing cookies and hints" );
 			}

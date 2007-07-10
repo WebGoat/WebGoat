@@ -4,8 +4,6 @@ import java.sql.Connection;
 
 import javax.servlet.http.HttpServlet;
 
-import org.owasp.webgoat.lessons.admin.RefreshDBScreen;
-
 public class WebgoatContext {
 
 	public final static String DATABASE_CONNECTION_STRING = "DatabaseConnectionString";
@@ -15,6 +13,24 @@ public class WebgoatContext {
 	public final static String DATABASE_USER = "DatabaseUser";
 
 	public final static String DATABASE_PASSWORD = "DatabasePassword";
+
+	public final static String ENTERPRISE = "Enterprise";
+
+	public final static String SHOWCOOKIES = "ShowCookies";
+
+	public final static String SHOWPARAMS = "ShowParams";
+
+	public final static String SHOWREQUEST = "ShowRequest";
+
+	public final static String SHOWSOURCE = "ShowSource";
+	
+	public final static String SHOWHINTS = "ShowHints";
+
+	public final static String DEFUSEOSCOMMANDS = "DefuseOSCommands";
+
+	public final static String FEEDBACK_ADDRESS = "FeedbackAddress";
+
+	public final static String DEBUG = "debug";
 
 	private static boolean databaseBuilt = false;
 	
@@ -28,6 +44,24 @@ public class WebgoatContext {
 
 	private String databasePassword;
 
+	private boolean showCookies = false;
+
+	private boolean showParams = false;
+
+	private boolean showRequest = false;
+
+	private boolean showSource = false;
+
+	private boolean defuseOSCommands = false;
+
+	private boolean enterprise = false;
+
+	private String feedbackAddress = "<A HREF=mailto:webgoat@g2-inc.com>webgoat@g2-inc.com</A>";
+
+	private boolean isDebug = false;
+
+	private String servletName;
+
 	private HttpServlet servlet;
 
 	public WebgoatContext(HttpServlet servlet) {
@@ -37,6 +71,18 @@ public class WebgoatContext {
 		databaseDriver = servlet.getInitParameter(DATABASE_DRIVER);
 		databaseUser = servlet.getInitParameter(DATABASE_USER);
 		databasePassword = servlet.getInitParameter(DATABASE_PASSWORD);
+		
+		// initialize from web.xml
+		showParams = "true".equals( servlet.getInitParameter( SHOWPARAMS ) );
+		showCookies = "true".equals( servlet.getInitParameter( SHOWCOOKIES ) );
+		showSource = "true".equals( servlet.getInitParameter( SHOWSOURCE ) );
+		defuseOSCommands = "true".equals( servlet.getInitParameter( DEFUSEOSCOMMANDS ) );
+		enterprise = "true".equals( servlet.getInitParameter( ENTERPRISE ) );
+		feedbackAddress = servlet.getInitParameter( FEEDBACK_ADDRESS ) != null ? servlet
+				.getInitParameter( FEEDBACK_ADDRESS ) : feedbackAddress;
+		showRequest = "true".equals( servlet.getInitParameter( SHOWREQUEST ) );
+		isDebug = "true".equals( servlet.getInitParameter( DEBUG ) );
+		servletName = servlet.getServletName();
 		
 		// FIXME: need to solve concurrency problem here -- make tables for this user
 		if ( !databaseBuilt ) {
@@ -101,6 +147,42 @@ public class WebgoatContext {
 	 */
 	public String getDatabasePassword() {
 		return (databasePassword);
+	}
+
+	public boolean isDefuseOSCommands() {
+		return defuseOSCommands;
+	}
+
+	public boolean isEnterprise() {
+		return enterprise;
+	}
+
+	public String getFeedbackAddress() {
+		return feedbackAddress;
+	}
+
+	public boolean isDebug() {
+		return isDebug;
+	}
+
+	public String getServletName() {
+		return servletName;
+	}
+
+	public boolean isShowCookies() {
+		return showCookies;
+	}
+
+	public boolean isShowParams() {
+		return showParams;
+	}
+
+	public boolean isShowRequest() {
+		return showRequest;
+	}
+
+	public boolean isShowSource() {
+		return showSource;
 	}
 
 }

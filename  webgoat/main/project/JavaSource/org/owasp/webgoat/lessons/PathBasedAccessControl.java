@@ -102,8 +102,8 @@ public class PathBasedAccessControl extends LessonAdapter
 	    String file = s.getParser().getRawParameter(FILE, "");
 
 	    // defuse file searching
-	    boolean illegalCommand = s.isDefuseOSCommands();
-	    if (s.isDefuseOSCommands())
+	    boolean illegalCommand = getWebgoatContext().isDefuseOSCommands();
+	    if (getWebgoatContext().isDefuseOSCommands())
 	    {
 		// allow them to look at any file in the webgoat hierachy.  Don't allow them
 		// to look about the webgoat root, except to see the LICENSE file

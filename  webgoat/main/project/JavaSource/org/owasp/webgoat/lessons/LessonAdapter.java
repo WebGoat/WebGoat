@@ -81,7 +81,7 @@ public abstract class LessonAdapter extends AbstractLesson
 				+ "In fact, most lessons can be created by following the easy to use instructions in the "
 				+ "<A HREF=http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents>WebGoat User Guide.</A>&nbsp;&nbsp;"
 				+ "If you would prefer, send your lesson ideas to "
-				+ s.getFeedbackAddress()));
+				+ getWebgoatContext().getFeedbackAddress()));
 
 	String fileName = s.getContext().getRealPath(
 		"doc/New Lesson Instructions.txt");

@@ -24,6 +24,7 @@ import org.owasp.webgoat.session.ErrorScreen;
 import org.owasp.webgoat.session.Screen;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.session.WebgoatContext;
 
 /*******************************************************************************
  * 
@@ -79,6 +80,12 @@ public class HammerHead extends HttpServlet
      */
     public static String propertiesPath = null;
 
+    /**
+     * provides convenience methods for getting setup information 
+     * from the ServletContext
+     */
+    private WebgoatContext webgoatContext = null;
+    
 
     /**
      * Description of the Method
@@ -289,6 +296,7 @@ public class HammerHead extends HttpServlet
 	httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 	propertiesPath = getServletContext().getRealPath(
 		"./WEB-INF/webgoat.properties");
+	webgoatContext = new WebgoatContext(this);
     }
 
 
@@ -481,7 +489,7 @@ public class HammerHead extends HttpServlet
 	{
 	    // Create new custom session and save it in the HTTP session
 	    // System.out.println( "HH Creating new WebSession: " );
-	    session = new WebSession(this, context);
+	    session = new WebSession(webgoatContext, context);
 	    hs.setAttribute(WebSession.SESSION, session);
 	    // reset timeout
 	    hs.setMaxInactiveInterval(sessionTimeoutSeconds);
