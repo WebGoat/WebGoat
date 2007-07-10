@@ -123,26 +123,29 @@ public class GoatHillsFinancial extends LessonAdapter
     public GoatHillsFinancial()
     {
 	String myClassName = parseClassName(this.getClass().getName());
-	registerAction(new ListStaff(this, myClassName, LISTSTAFF_ACTION));
-	registerAction(new SearchStaff(this, myClassName, SEARCHSTAFF_ACTION));
-	registerAction(new ViewProfile(this, myClassName, VIEWPROFILE_ACTION));
-	registerAction(new EditProfile(this, myClassName, EDITPROFILE_ACTION));
-	registerAction(new EditProfile(this, myClassName, CREATEPROFILE_ACTION));
-
-	// These actions are special in that they chain to other actions.
-	registerAction(new Login(this, myClassName, LOGIN_ACTION,
-		getAction(LISTSTAFF_ACTION)));
-	registerAction(new Logout(this, myClassName, LOGOUT_ACTION,
-		getAction(LOGIN_ACTION)));
-	registerAction(new FindProfile(this, myClassName, FINDPROFILE_ACTION,
-		getAction(VIEWPROFILE_ACTION)));
-	registerAction(new UpdateProfile(this, myClassName,
-		UPDATEPROFILE_ACTION, getAction(VIEWPROFILE_ACTION)));
-	registerAction(new DeleteProfile(this, myClassName,
-		DELETEPROFILE_ACTION, getAction(LISTSTAFF_ACTION)));
+	registerActions(myClassName);
     }
 
+    protected void registerActions(String className) {
+    	registerAction(new ListStaff(this, className, LISTSTAFF_ACTION));
+    	registerAction(new SearchStaff(this, className, SEARCHSTAFF_ACTION));
+    	registerAction(new ViewProfile(this, className, VIEWPROFILE_ACTION));
+    	registerAction(new EditProfile(this, className, EDITPROFILE_ACTION));
+    	registerAction(new EditProfile(this, className, CREATEPROFILE_ACTION));
 
+    	// These actions are special in that they chain to other actions.
+    	registerAction(new Login(this, className, LOGIN_ACTION,
+    		getAction(LISTSTAFF_ACTION)));
+    	registerAction(new Logout(this, className, LOGOUT_ACTION,
+    		getAction(LOGIN_ACTION)));
+    	registerAction(new FindProfile(this, className, FINDPROFILE_ACTION,
+    		getAction(VIEWPROFILE_ACTION)));
+    	registerAction(new UpdateProfile(this, className,
+    		UPDATEPROFILE_ACTION, getAction(VIEWPROFILE_ACTION)));
+    	registerAction(new DeleteProfile(this, className,
+    		DELETEPROFILE_ACTION, getAction(LISTSTAFF_ACTION)));
+    }
+    
     protected final String parseClassName(String fqcn)
     {
 	String className = fqcn;
