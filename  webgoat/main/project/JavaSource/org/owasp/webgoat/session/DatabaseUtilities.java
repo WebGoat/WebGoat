@@ -158,8 +158,10 @@ public class DatabaseUtilities
 
 		for (int i = 1; i < (numColumns + 1); i++)
 		{
-		    row.addElement(new TD(results.getString(i).replaceAll(" ",
-			    "&nbsp;")));
+			String str = results.getString(i);
+			if (str == null)
+				str = "";
+		    row.addElement(new TD(str.replaceAll(" ", "&nbsp;")));
 		}
 
 		t.addElement(row);
