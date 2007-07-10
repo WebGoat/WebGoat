@@ -193,8 +193,6 @@ public class WebSession
 
 	private int previousScreen = ERROR;
 
-	private static boolean databaseBuilt = false;
-
 	private static Connection connection = null;
 
 	private int hintNum = -1;
@@ -264,16 +262,6 @@ public class WebSession
 		this.context = context;
 		course = new Course();
 		course.loadCourses( enterprise, context, "/" );
-
-		// FIXME: hack to save context for web service calls
-		DatabaseUtilities.servletContextRealPath = context.getRealPath("/");
-		System.out.println("Context Path: " + DatabaseUtilities.servletContextRealPath);
-		// FIXME: need to solve concurrency problem here -- make tables for this user
-		if ( !databaseBuilt )
-		{
-			new RefreshDBScreen().refreshDB( this );
-			databaseBuilt = true;
-		}
 	}
 
 	public static synchronized Connection getConnection(WebSession s) 

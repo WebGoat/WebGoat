@@ -1,6 +1,10 @@
 package org.owasp.webgoat.session;
 
+import java.sql.Connection;
+
 import javax.servlet.http.HttpServlet;
+
+import org.owasp.webgoat.lessons.admin.RefreshDBScreen;
 
 public class WebgoatContext {
 
@@ -12,6 +16,8 @@ public class WebgoatContext {
 
 	public final static String DATABASE_PASSWORD = "DatabasePassword";
 
+	private static boolean databaseBuilt = false;
+	
 	private String databaseConnectionString;
 
 	private String realConnectionString = null;
@@ -31,6 +37,22 @@ public class WebgoatContext {
 		databaseDriver = servlet.getInitParameter(DATABASE_DRIVER);
 		databaseUser = servlet.getInitParameter(DATABASE_USER);
 		databasePassword = servlet.getInitParameter(DATABASE_PASSWORD);
+		
+		// FIXME: hack to save context for web service calls
+		DatabaseUtilities.servletContextRealPath = servlet.getServletContext().getRealPath("/");
+		System.out.println("Context Path: " + DatabaseUtilities.servletContextRealPath);
+		// FIXME: need to solve concurrency problem here -- make tables for this user
+		if ( !databaseBuilt ) {
+			try {
+				Connection conn = DatabaseUtilities.makeConnection(this);
+				new CreateDB().makeDB(conn);
+				conn.close();
+				databaseBuilt = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	/**

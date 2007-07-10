@@ -63,14 +63,20 @@ public class DatabaseUtilities
     public static Connection makeConnection(WebSession s)
 	    throws ClassNotFoundException, SQLException
     {
-	Class.forName(s.getWebgoatContext().getDatabaseDriver());
+    	return makeConnection(s.getWebgoatContext());
+    }
+    
+    public static Connection makeConnection(WebgoatContext context)
+    	throws ClassNotFoundException, SQLException
+    {
+	Class.forName(context.getDatabaseDriver());
 
-	String password = s.getWebgoatContext().getDatabasePassword();
-	String conn = s.getWebgoatContext().getDatabaseConnectionString();
+	String password = context.getDatabasePassword();
+	String conn = context.getDatabaseConnectionString();
 	if (password == null || password.equals("")) {
 		return (DriverManager.getConnection(conn));
 	} else {
-		String user = s.getWebgoatContext().getDatabaseUser();
+		String user = context.getDatabaseUser();
 		return DriverManager.getConnection(conn, user, password);
 	}
     }
