@@ -226,6 +226,10 @@ public class RoleBasedAccessControl extends LessonAdapter
 	return hints;
     }
 
+    @Override
+	public int getStageCount() {
+		return 4;
+	}
 
     /**
      *  Gets the instructions attribute of the ParameterInjection object
