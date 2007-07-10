@@ -65,7 +65,14 @@ public class DatabaseUtilities
     {
 	Class.forName(s.getDatabaseDriver());
 
+	String password = s.getDatabasePassword(); 
+	if (password == null || password.equals("")) {
 	return (DriverManager.getConnection(s.getDatabaseConnectionString()));
+	} else {
+		String conn = s.getDatabaseConnectionString();
+		String user = s.getDatabaseUser();
+		return DriverManager.getConnection(conn, user, password);
+	}
     }
 
 

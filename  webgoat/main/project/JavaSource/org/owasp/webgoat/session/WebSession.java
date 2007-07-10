@@ -99,6 +99,16 @@ public class WebSession
 	/**
 	 * Description of the Field
 	 */
+	public final static String DATABASE_USER = "DatabaseUser";
+
+	/**
+	 * Description of the Field
+	 */
+	public final static String DATABASE_PASSWORD = "DatabasePassword";
+
+	/**
+	 * Description of the Field
+	 */
 	public final static int ERROR = 0;
 
 	public static final String STAGE = "stage";
@@ -207,6 +217,10 @@ public class WebSession
 
 	private String databaseDriver;
 	
+	private String databaseUser;
+
+	private String databasePassword;
+
 	private static Connection connection = null;
 
 	private int hintNum = -1;
@@ -273,6 +287,8 @@ public class WebSession
 		isDebug = "true".equals( servlet.getInitParameter( DEBUG ) );
 		databaseConnectionString = servlet.getInitParameter( DATABASE_CONNECTION_STRING );
 		databaseDriver = servlet.getInitParameter( DATABASE_DRIVER );
+		databaseUser = servlet.getInitParameter(DATABASE_USER);
+		databasePassword = servlet.getInitParameter(DATABASE_PASSWORD);
 		servletName = servlet.getServletName();
 		this.context = context;
 		course = new Course();
@@ -461,6 +477,24 @@ public class WebSession
 		return ( databaseDriver );
 	}
 	
+	/**
+	 * Gets the databaseUser attribute of the WebSession object
+	 * 
+	 * @return The databaseUser value
+	 */
+	public String getDatabaseUser() {
+		return (databaseUser);
+	}
+
+	/**
+	 * Gets the databasePassword attribute of the WebSession object
+	 * 
+	 * @return The databasePassword value
+	 */
+	public String getDatabasePassword() {
+		return (databasePassword);
+	}
+	       
 	public String getRestartLink()
 	{
 		List<String> parameters = new ArrayList<String>();
