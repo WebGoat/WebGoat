@@ -409,7 +409,7 @@ public class SoapRequest extends LessonAdapter
     {
 	try
 	{
-	    Connection connection = DatabaseUtilities.makeConnection();
+	    Connection connection = DatabaseUtilities.makeConnection(getWebgoatContext());
 	    if (connection == null)
 	    {
 		return null;

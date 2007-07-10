@@ -47,9 +47,6 @@ import org.apache.ecs.html.Table;
 public class DatabaseUtilities
 {
 
-    public static String servletContextRealPath = null;
-
-
     /**
      * Description of the Method
      *
@@ -80,51 +77,6 @@ public class DatabaseUtilities
 		return DriverManager.getConnection(conn, user, password);
 	}
     }
-
-
-    public static Connection makeConnection(String driverName,
-	    String connectionString) throws ClassNotFoundException,
-	    SQLException
-    {
-	Class.forName(driverName);
-
-	return (DriverManager.getConnection(connectionString));
-    }
-
-
-    public static Connection makeConnection()
-    {
-	try
-	{
-	    // FIXME: Work around for not having a session object with the web service lessons
-	    //        This is the same "logic" in the web.xml file
-	    //        Get the path to webgoat database
-
-	    String dbName = (servletContextRealPath + "database" + File.separator);
-	    String os = System.getProperty("os.name", "Windows");
-	    if (os.toLowerCase().indexOf("window") != -1)
-	    {
-		dbName = dbName.concat("webgoat.mdb");
-		System.out.println("DBName: " + dbName);
-		Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-		return DriverManager
-			.getConnection("jdbc:odbc:;DRIVER=Microsoft Access Driver (*.mdb);DBQ="
-				+ dbName + ";PWD=webgoat");
-	    }
-	    else
-	    {
-		dbName = dbName.concat("database.prp");
-		Class.forName("org.enhydra.instantdb.jdbc.idbDriver");
-		return DriverManager.getConnection("jdbc:idb:" + dbName);
-	    }
-	}
-	catch (Exception e)
-	{
-	    e.printStackTrace();
-	    return null;
-	}
-    }
-
 
     /**
      * Description of the Method

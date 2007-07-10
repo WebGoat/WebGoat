@@ -38,9 +38,6 @@ public class WebgoatContext {
 		databaseUser = servlet.getInitParameter(DATABASE_USER);
 		databasePassword = servlet.getInitParameter(DATABASE_PASSWORD);
 		
-		// FIXME: hack to save context for web service calls
-		DatabaseUtilities.servletContextRealPath = servlet.getServletContext().getRealPath("/");
-		System.out.println("Context Path: " + DatabaseUtilities.servletContextRealPath);
 		// FIXME: need to solve concurrency problem here -- make tables for this user
 		if ( !databaseBuilt ) {
 			try {
