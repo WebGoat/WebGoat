@@ -288,8 +288,7 @@ public class HammerHead extends HttpServlet
 		Locale.US);
 	httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 	propertiesPath = getServletContext().getRealPath(
-		"." + System.getProperty("file.separator") + "WEB-INF"
-			+ "/webgoat.properties");
+		"./WEB-INF/webgoat.properties");
     }
 
 
