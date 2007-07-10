@@ -60,8 +60,8 @@ public class UpdateProfile_i extends UpdateProfile
 				//System.out.println("Query:  " + query);
 				try
 				{
-					Statement answer_statement = RoleBasedAccessControl.getConnection(s).createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-					ResultSet answer_results = answer_statement.executeQuery( query );
+					Statement answer_statement = WebSession.getConnection(s).createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+					answer_statement.execute( query );
 				}
 				catch ( SQLException sqle )
 				{
@@ -114,7 +114,7 @@ public class UpdateProfile_i extends UpdateProfile
 				
 				try
 				{
-					Statement statement = RoleBasedAccessControl.getConnection(s).createStatement();
+					Statement statement = WebSession.getConnection(s).createStatement();
 					statement.executeUpdate(query);
 				}
 				catch ( SQLException sqle )

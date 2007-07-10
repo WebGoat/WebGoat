@@ -31,7 +31,7 @@ public class DeleteProfile_i extends DeleteProfile
 				//System.out.println("Query:  " + query);
 				try
 				{
-					Statement statement = RoleBasedAccessControl.getConnection(s).createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+					Statement statement = WebSession.getConnection(s).createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
 					statement.executeUpdate(query);
 				}
 				catch ( SQLException sqle )

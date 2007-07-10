@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.RoleBasedAccessControl.RoleBasedAccessControl;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.ViewProfile;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.UnauthorizedException;
@@ -82,7 +81,7 @@ public class ViewProfile_i extends ViewProfile
 				
 				try
 				{
-					Statement answer_statement = RoleBasedAccessControl.getConnection(s).createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+					Statement answer_statement = WebSession.getConnection(s).createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
 					ResultSet answer_results = answer_statement.executeQuery( query );
 					if (answer_results.next())
 					{
