@@ -308,7 +308,7 @@ public class WebSession
 	public static synchronized Connection getConnection(WebSession s) 
 			throws SQLException, ClassNotFoundException
 	{
-		if ( connection == null )
+		if ( connection == null || connection.isClosed() )
 		{
 			connection = DatabaseUtilities.makeConnection( s );
 		}
@@ -316,6 +316,13 @@ public class WebSession
 		return connection;
 	}
 
+	public static synchronized void closeConnection() throws SQLException
+	{
+		if (connection != null && !connection.isClosed()) {
+			connection.close();
+			connection = null;
+		}
+	}
 
 	/**
 	 * Description of the Method

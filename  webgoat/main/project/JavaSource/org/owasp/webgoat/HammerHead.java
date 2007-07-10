@@ -2,6 +2,7 @@ package org.owasp.webgoat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -204,6 +205,12 @@ public class HammerHead extends HttpServlet
 		thr.printStackTrace();
 		log(request, "Could not write error screen: "
 			+ thr.getMessage());
+	    }
+	    try
+	    {
+	    	WebSession.closeConnection();
+	    } catch (SQLException sqle) {
+	    	sqle.printStackTrace();
 	    }
 	    // System.out.println( "HH Leaving doPost: " );
 	}
