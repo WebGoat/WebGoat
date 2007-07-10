@@ -164,7 +164,13 @@ public abstract class AbstractLesson extends Screen implements Comparable
      */
     public abstract Element getCredits();
 
-
+    /**
+     * Get the number of stages provided by this lesson
+     * 
+     * @return the number of stages
+     */
+    public abstract int getStageCount();
+    
     /**
      * Description of the Method
      * 

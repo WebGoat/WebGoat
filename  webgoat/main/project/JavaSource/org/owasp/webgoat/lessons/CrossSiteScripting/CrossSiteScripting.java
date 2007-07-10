@@ -310,8 +310,12 @@ public class CrossSiteScripting extends LessonAdapter
 
     }
 
+    @Override
+	public int getStageCount() {
+		return 6;
+	}
 
-    protected LessonAction getAction(String actionName)
+	protected LessonAction getAction(String actionName)
     {
 	return (LessonAction) lessonFunctions.get(actionName);
     }

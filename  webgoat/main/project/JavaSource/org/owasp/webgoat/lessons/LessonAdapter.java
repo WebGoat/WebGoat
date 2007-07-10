@@ -381,4 +381,12 @@ public abstract class LessonAdapter extends AbstractLesson
 		t.addElement(tr);
 		return t;
     }
+    
+    /* By default returns 1 stage.
+     * (non-Javadoc)
+     * @see org.owasp.webgoat.lessons.AbstractLesson#getStageCount()
+     */
+    public int getStageCount() {
+    	return 1;
+    }
 }
