@@ -211,11 +211,11 @@ public class Course
 	    roles.add(AbstractLesson.HACKED_ADMIN_ROLE);
 	}
 	//System.out.println("getLesson() with roles: " + roles);
-	Iterator iter = lessons.iterator();
+	Iterator<AbstractLesson> iter = lessons.iterator();
 
 	while (iter.hasNext())
 	{
-	    AbstractLesson lesson = (AbstractLesson) iter.next();
+	    AbstractLesson lesson = iter.next();
 
 	    //System.out.println("getLesson() at role: " + lesson.getRole());
 	    if (lesson.getScreenId() == lessonId
