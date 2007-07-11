@@ -17,6 +17,7 @@ import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.ValidationException;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.HtmlEncoder;
 
 /**
  /*******************************************************************************
@@ -285,5 +286,19 @@ public class CrossSiteScripting extends GoatHillsFinancial
     {
 	return "LAB: Cross Site Scripting (XSS)";
     }
+
+	public String htmlEncode(WebSession s, String text)
+	{
+		//System.out.println("Testing for stage 4 completion in lesson " + getCurrentLesson().getName());
+		if (getStage(s) == 4 && 
+				text.indexOf("<script>") > -1 && text.indexOf("alert") > -1 && text.indexOf("</script>") > -1)
+		{
+			s.setMessage( "Welcome to stage 5 -- exploiting the data layer" );
+			// Set a phantom stage value to setup for the 4-5 transition
+			setStage(s, 1005);
+		}
+		
+		return HtmlEncoder.encode(text);
+	}
 
 }

@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
+import org.owasp.webgoat.lessons.SequentialLessonAdapter;
 
 /*******************************************************************************
  * 
@@ -907,9 +908,14 @@ public class WebSession
 		}
 		else if (myParser.getRawParameter( STAGE, null ) != null) 
 		{
-			int stage = myParser.getIntParameter(STAGE, getCurrentLesson().getStage(this));
-			if (stage > 0 && stage <= getCurrentLesson().getStageCount())
-				getCurrentLesson().setStage(this, stage);
+			AbstractLesson al = getCurrentLesson();
+			if (al instanceof SequentialLessonAdapter)
+			{
+			SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
+			int stage = myParser.getIntParameter(STAGE, sla.getStage(this));
+			if (stage > 0 && stage <= sla.getStageCount())
+				sla.setStage(this, stage);
+			}
 		}
 		// else update global variables for the current screen
 		else
@@ -981,9 +987,14 @@ public class WebSession
 	
 	private void restartLesson(int lessonId)
 	{
-		System.out.println("Restarting lesson: " + getLesson(lessonId));
-		getCurrentLesson().getLessonTracker( this ).setStage(1);
-		getCurrentLesson().getLessonTracker( this ).setCompleted(false);
+		AbstractLesson al = getLesson(lessonId);
+		System.out.println("Restarting lesson: " + al);
+		al.getLessonTracker( this ).setCompleted(false);
+		if (al instanceof SequentialLessonAdapter)
+		{
+		SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
+		sla.getLessonTracker( this ).setStage(1);
+		}
 	}
 
 	/**
@@ -1063,23 +1074,6 @@ public class WebSession
 		return currentMenu;	
 	}
 	
-	public String htmlEncode(String s)
-	{
-		//System.out.println("Testing for stage 4 completion in lesson " + getCurrentLesson().getName());
-		if (getCurrentLesson().getName().equals("CrossSiteScripting"))
-		{
-			if (getCurrentLesson().getStage(this) == 4 && 
-					s.indexOf("<script>") > -1 && s.indexOf("alert") > -1 && s.indexOf("</script>") > -1)
-			{
-				setMessage( "Welcome to stage 5 -- exploiting the data layer" );
-				// Set a phantom stage value to setup for the 4-5 transition
-				getCurrentLesson().setStage(this, 1005);
-			}
-		}
-		
-		return ParameterParser.htmlEncode(s);
-	}
-
 	public WebgoatContext getWebgoatContext() {
 		return webgoatContext;
 	}

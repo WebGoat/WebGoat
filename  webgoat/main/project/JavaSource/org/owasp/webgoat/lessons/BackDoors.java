@@ -52,7 +52,7 @@ import org.owasp.webgoat.session.WebSession;
  * 
  * @author     Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
  */
-public class BackDoors extends LessonAdapter
+public class BackDoors extends SequentialLessonAdapter
 {
 
     private static Connection connection = null;

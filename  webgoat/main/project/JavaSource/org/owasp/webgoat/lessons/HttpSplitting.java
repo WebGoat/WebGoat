@@ -46,7 +46,7 @@ import org.owasp.webgoat.session.WebSession;
  * @created    September 30, 2006
  */
 
-public class HttpSplitting extends LessonAdapter
+public class HttpSplitting extends SequentialLessonAdapter
 {
 
     private final static String LANGUAGE = "language";

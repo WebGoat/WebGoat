@@ -42,8 +42,6 @@ public class LessonTracker
 
     private boolean completed = false;
 
-    private int currentStage = 1;
-
     private int maxHintLevel = 0;
 
     private int numVisits = 0;
@@ -69,18 +67,6 @@ public class LessonTracker
     public boolean getCompleted()
     {
 	return completed;
-    }
-
-
-    public int getStage()
-    {
-	return currentStage;
-    }
-
-
-    public void setStage(int stage)
-    {
-	currentStage = stage;
     }
 
 
@@ -175,15 +161,13 @@ public class LessonTracker
      *
      * @param  props  The new properties value
      */
-    private void setProperties(Properties props, Screen screen)
+    protected void setProperties(Properties props, Screen screen)
     {
 	completed = Boolean.valueOf(
 		props.getProperty(screen.getTitle() + ".completed"))
 		.booleanValue();
 	maxHintLevel = Integer.parseInt(props.getProperty(screen.getTitle()
 		+ ".maxHintLevel"));
-	currentStage = Integer.parseInt(props.getProperty(screen.getTitle()
-		+ ".currentStage"));
 	numVisits = Integer.parseInt(props.getProperty(screen.getTitle()
 		+ ".numVisits"));
 	viewedCookies = Boolean.valueOf(
@@ -367,8 +351,6 @@ public class LessonTracker
 	//System.out.println( "Storing data to" + fileName );
 	lessonProperties.setProperty(screen.getTitle() + ".completed", Boolean
 		.toString(completed));
-	lessonProperties.setProperty(screen.getTitle() + ".currentStage",
-		Integer.toString(currentStage));
 	lessonProperties.setProperty(screen.getTitle() + ".maxHintLevel",
 		Integer.toString(maxHintLevel));
 	lessonProperties.setProperty(screen.getTitle() + ".numVisits", Integer
@@ -417,7 +399,6 @@ public class LessonTracker
 	StringBuffer buff = new StringBuffer();
 	buff.append("LessonTracker:" + "\n");
 	buff.append("    - completed:.......... " + completed + "\n");
-	buff.append("    - currentStage:....... " + currentStage + "\n");
 	buff.append("    - maxHintLevel:....... " + maxHintLevel + "\n");
 	buff.append("    - numVisits:.......... " + numVisits + "\n");
 	buff.append("    - viewedCookies:...... " + viewedCookies + "\n");

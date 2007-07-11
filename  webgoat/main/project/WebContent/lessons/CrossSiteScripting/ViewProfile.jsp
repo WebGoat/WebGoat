@@ -6,6 +6,7 @@ STAGE 4 FIXES Look for the <-- STAGE 4 - FIX
 <%
 WebSession webSession = ((WebSession)session.getAttribute("websession"));
 	Employee employee = (Employee) session.getAttribute("CrossSiteScripting." + CrossSiteScripting.EMPLOYEE_ATTRIBUTE_KEY);
+	CrossSiteScripting lesson = (CrossSiteScripting) webSession.getCurrentLesson();
 //	int myUserId = getIntSessionAttribute(webSession, "CrossSiteScripting." + CrossSiteScripting.USER_ID);
 %>
 		<div class="lesson_title_box"><strong>Welcome Back </strong><span class="lesson_text_db"><%=webSession.getUserNameInLesson()%></span></div>
@@ -83,7 +84,7 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
 					<TD>
 						<!-- Encode data that might contain HTML content to protect against XSS -->
 
-						<%=webSession.htmlEncode(employee.getPersonalDescription())%>
+						<%=lesson.htmlEncode(webSession, employee.getPersonalDescription())%>
 					</TD>
 					<TD>				
 						Manager: 
@@ -112,7 +113,7 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
                  <tr>
                  	<td width="50">
 					<%					
-					if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), CrossSiteScripting.EDITPROFILE_ACTION))
+					if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), CrossSiteScripting.LISTSTAFF_ACTION))
 					{
 					%>
 						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
@@ -161,9 +162,9 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
 		
 		
 		<%
-		if (webSession.getCurrentLesson().getStage(webSession) == 1005)
+		if (lesson.getStage(webSession) == 1005)
 		{
-			webSession.getCurrentLesson().setStage(webSession, 5);
+			lesson.setStage(webSession, 5);
 			//System.out.println("Reloading ViewProfile.jsp for stage 5 transition");
 			String thisPage = webSession.getCurrentLink();
 			//System.out.println("Redirecting to " + thisPage);

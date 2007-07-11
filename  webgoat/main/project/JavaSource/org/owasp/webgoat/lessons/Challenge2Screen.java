@@ -69,7 +69,7 @@ import org.owasp.webgoat.util.ExecResults;
  * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
-public class Challenge2Screen extends LessonAdapter
+public class Challenge2Screen extends SequentialLessonAdapter
 {
 
     private static final String USER_COOKIE = "user";

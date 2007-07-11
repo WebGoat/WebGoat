@@ -51,7 +51,7 @@ import org.owasp.webgoat.session.WebSession;
  * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
-public class SqlStringInjection extends LessonAdapter
+public class SqlStringInjection extends SequentialLessonAdapter
 {
 
     private final static String ACCT_NAME = "account_name";

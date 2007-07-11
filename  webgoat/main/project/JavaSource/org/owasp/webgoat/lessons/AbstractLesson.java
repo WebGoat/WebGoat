@@ -165,13 +165,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
     public abstract Element getCredits();
 
     /**
-     * Get the number of stages provided by this lesson
-     * 
-     * @return the number of stages
-     */
-    public abstract int getStageCount();
-    
-    /**
      * Description of the Method
      * 
      * @param obj
@@ -613,23 +606,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
 
     public abstract void setCurrentAction(WebSession s, String lessonScreen);
-
-
-    public void setStage(WebSession s, int stage)
-    {
-	// System.out.println("Changed to stage " + stage);
-	getLessonTracker(s).setStage(stage);
-    }
-
-
-    public int getStage(WebSession s)
-    {
-	int stage = getLessonTracker(s).getStage();
-
-	// System.out.println("In stage " + stage);
-	return stage;
-    }
-
 
     /**
      * Override this method to implement accesss control in a lesson.
