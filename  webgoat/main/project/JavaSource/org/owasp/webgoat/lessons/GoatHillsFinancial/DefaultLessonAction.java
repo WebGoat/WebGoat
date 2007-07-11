@@ -69,7 +69,7 @@ public abstract class DefaultLessonAction implements LessonAction
 
 	public abstract String getNextPage(WebSession s);
 
-	public AbstractLesson getLesson()
+	public GoatHillsFinancial getLesson()
 	{
 		return lesson;
 	}
