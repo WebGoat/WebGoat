@@ -17,7 +17,16 @@ public abstract class RandomLessonAdapter extends LessonAdapter {
 	}
 	
 	public void setStageComplete(WebSession s, String stage) {
-		getLessonTracker(s).setStageComplete(stage, true);
+		RandomLessonTracker lt = getLessonTracker(s);
+		lt.setStageComplete(stage, true);
+		if (lt.getCompleted()) {
+			s.setMessage("Congratulations, you have completed this lesson");
+		} else {
+			String message = "You have completed stage " + stage + ".";
+			if (! stage.equals(lt.getStage()))
+				message = message + " Welcome to " + lt.getStage();
+			s.setMessage(message);
+		}
 	}
 	
 	@Override
