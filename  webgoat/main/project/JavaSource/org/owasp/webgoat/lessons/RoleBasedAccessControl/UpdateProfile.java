@@ -173,7 +173,7 @@ public class UpdateProfile extends DefaultLessonAction
 		Statement answer_statement = WebSession.getConnection(s)
 			.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 				ResultSet.CONCUR_READ_ONLY);
-		ResultSet answer_results = answer_statement.executeQuery(query);
+		answer_statement.execute(query);
 	    }
 	    catch (SQLException sqle)
 	    {
@@ -222,7 +222,7 @@ public class UpdateProfile extends DefaultLessonAction
 		Statement answer_statement = WebSession.getConnection(s)
 			.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 				ResultSet.CONCUR_READ_ONLY);
-		ResultSet answer_results = answer_statement.executeQuery(query);
+		answer_statement.execute(query);
 	    }
 	    catch (SQLException sqle)
 	    {

@@ -108,7 +108,7 @@ public class FindProfile extends DefaultLessonAction
 	boolean found = false;
 	try
 	{
-	    int id = getIntRequestAttribute(s, getLessonName() + "."
+	    getIntRequestAttribute(s, getLessonName() + "."
 		    + GoatHillsFinancial.EMPLOYEE_ID);
 	    found = true;
 	}
