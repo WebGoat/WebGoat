@@ -37,6 +37,7 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.session.WebgoatContext;
 
 /*******************************************************************************
  * 
@@ -92,6 +93,24 @@ public class WSDLScanning extends LessonAdapter
     final static IMG CREDITS_LOGO = new IMG("images/logos/parasoft.jpg")
 	    .setAlt("Parasoft").setBorder(0).setHspace(0).setVspace(0);
 
+	private static WebgoatContext webgoatContext;
+	
+	/**
+	 * We maintain a static reference to WebgoatContext, since this class
+	 * is also automatically instantiated by the Axis web services module,
+	 * which does not call setWebgoatContext()
+	 * (non-Javadoc)
+	 * @see org.owasp.webgoat.lessons.AbstractLesson#setWebgoatContext(org.owasp.webgoat.session.WebgoatContext)
+	 */
+	@Override
+	public void setWebgoatContext(WebgoatContext webgoatContext) {
+		WSDLScanning.webgoatContext = webgoatContext;
+	}
+	
+	@Override
+	public WebgoatContext getWebgoatContext() {
+		return WSDLScanning.webgoatContext;
+	}
 
     protected Category getDefaultCategory()
     {

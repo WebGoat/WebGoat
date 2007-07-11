@@ -26,6 +26,7 @@ import org.apache.ecs.html.PRE;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.session.WebgoatContext;
 
 /*******************************************************************************
  * 
@@ -79,6 +80,25 @@ public class WsSqlInjection extends LessonAdapter
      * @see lessons.AbstractLesson#getMenuItem()
      */
     static boolean completed;
+
+	private static WebgoatContext webgoatContext;
+	
+	/**
+	 * We maintain a static reference to WebgoatContext, since this class
+	 * is also automatically instantiated by the Axis web services module,
+	 * which does not call setWebgoatContext()
+	 * (non-Javadoc)
+	 * @see org.owasp.webgoat.lessons.AbstractLesson#setWebgoatContext(org.owasp.webgoat.session.WebgoatContext)
+	 */
+	@Override
+	public void setWebgoatContext(WebgoatContext webgoatContext) {
+		WsSqlInjection.webgoatContext = webgoatContext;
+	}
+	
+	@Override
+	public WebgoatContext getWebgoatContext() {
+		return WsSqlInjection.webgoatContext;
+	}
 
 
     protected Category getDefaultCategory()
