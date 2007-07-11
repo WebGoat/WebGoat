@@ -158,18 +158,3 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
 				</tr>
          	</table>
 		</div>
-		
-		
-		
-		<%
-		if (lesson.getStage(webSession) == 1005)
-		{
-			lesson.setStage(webSession, 5);
-			//System.out.println("Reloading ViewProfile.jsp for stage 5 transition");
-			String thisPage = webSession.getCurrentLink();
-			//System.out.println("Redirecting to " + thisPage);
-		%>
-			<script language="javascript">location.href="<%=thisPage%>"</script>
-		<%
-		}
-		%>
