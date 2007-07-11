@@ -140,35 +140,27 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 		String stage = getStage(s);
 		if (STAGE1.equals(stage))
 	    {
-		    instructions = "Stage "
-			    + getStage(s)
-			    + ": Breaking functional access control.<br>"
+		    instructions = "Breaking functional access control.<br>"
 			    + "You should be able to login as a regular employee and delete another user's employee "
 			    + "profile, even though that is supposed to be an HR-only function.";
 	    }
 		else if (STAGE2.equals(stage))
 		{
-		    instructions = "Stage "
-			    + getStage(s)
-			    + ": Implementing access control in the Business Layer<br>"
+		    instructions = "Implementing access control in the Business Layer<br>"
 			    + "Access control has already been implemented in the Presentation Layer, but as we have just "
 			    + "seen, this is not enough.  Implement access control in the Businesss Layer to verify "
 			    + "authorization to use the Delete function before actually executing it.";
 		}
 		else if (STAGE3.equals(stage))
 		{
-		    instructions = "Stage "
-			    + getStage(s)
-			    + ": Breaking data access control.<br>"
+		    instructions = "Breaking data access control.<br>"
 			    + "Data Layer access control is being already done on the staff list, but it has not been "
 			    + "globally implemented.  Take advantage of this to login as a regular employee and view the "
 			    + "CEO's employee profile.";
 		}
 		else if (STAGE4.equals(stage))
 		{
-		    instructions = "Stage "
-			    + getStage(s)
-			    + ": Implementing access control in the Data Layer.<br>"
+		    instructions = "Implementing access control in the Data Layer.<br>"
 			    + "Implement Data Layer access control to prevent unauthorized (and potentially career threatening) "
 			    + "access to employee personal data.";
 	    }
