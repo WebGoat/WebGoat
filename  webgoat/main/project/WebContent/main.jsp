@@ -200,6 +200,8 @@ StringBuffer buildList = new StringBuffer();
 				</div>
 				<%
 					AbstractLesson al = webSession.getCurrentLesson();
+					if (!al.isCompleted(webSession))
+					{
 					if (al instanceof SequentialLessonAdapter)
 					{
 					SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
@@ -230,6 +232,7 @@ StringBuffer buildList = new StringBuffer();
 						<%
 						}
 						%></select></form><%
+					}
 					}
 					}
 				%>
