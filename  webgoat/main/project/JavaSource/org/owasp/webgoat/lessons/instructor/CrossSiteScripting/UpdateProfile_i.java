@@ -4,10 +4,10 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.lessons.CrossSiteScripting.CrossSiteScripting;
 import org.owasp.webgoat.lessons.CrossSiteScripting.UpdateProfile;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.ParameterParser;
@@ -41,7 +41,7 @@ Solution Steps:
 
 public class UpdateProfile_i extends UpdateProfile
 {
-	public UpdateProfile_i(AbstractLesson lesson, String lessonName, String actionName, LessonAction chainedAction)
+	public UpdateProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
 	{
 		super(lesson, lessonName, actionName, chainedAction);
 	}

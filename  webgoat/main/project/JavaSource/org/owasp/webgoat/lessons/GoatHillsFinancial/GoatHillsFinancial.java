@@ -9,7 +9,6 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.A;
 import org.apache.ecs.html.IMG;
-import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.lessons.LessonAdapter;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;

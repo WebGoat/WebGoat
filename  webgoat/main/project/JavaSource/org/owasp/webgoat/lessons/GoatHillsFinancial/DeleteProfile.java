@@ -4,9 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
-import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
@@ -47,7 +44,7 @@ public class DeleteProfile extends DefaultLessonAction
 
     private LessonAction chainedAction;
 
-    public DeleteProfile(AbstractLesson lesson, String lessonName,
+    public DeleteProfile(GoatHillsFinancial lesson, String lessonName,
 	    String actionName, LessonAction chainedAction)
     {
 	super(lesson, lessonName, actionName);

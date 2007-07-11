@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.DefaultLessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
@@ -44,7 +44,7 @@ import org.owasp.webgoat.session.WebSession;
 public class ViewProfile extends DefaultLessonAction
 {
 
-    public ViewProfile(AbstractLesson lesson, String lessonName,
+    public ViewProfile(GoatHillsFinancial lesson, String lessonName,
 	    String actionName)
     {
 	super(lesson, lessonName, actionName);

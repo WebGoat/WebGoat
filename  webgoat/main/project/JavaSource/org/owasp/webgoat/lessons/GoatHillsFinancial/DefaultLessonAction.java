@@ -1,10 +1,11 @@
-package org.owasp.webgoat.lessons;
+package org.owasp.webgoat.lessons.GoatHillsFinancial;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.RoleBasedAccessControl;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
@@ -46,9 +47,9 @@ public abstract class DefaultLessonAction implements LessonAction
 	private String lessonName;
 	private String actionName;
 	
-	private AbstractLesson lesson;
+	private GoatHillsFinancial lesson;
 	
-	public DefaultLessonAction(AbstractLesson lesson, String lessonName, String actionName)
+	public DefaultLessonAction(GoatHillsFinancial lesson, String lessonName, String actionName)
 	{
 		this.lesson = lesson;
 		this.lessonName = lessonName;

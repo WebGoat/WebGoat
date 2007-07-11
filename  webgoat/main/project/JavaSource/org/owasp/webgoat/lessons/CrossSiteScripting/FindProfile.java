@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
-import org.owasp.webgoat.lessons.LessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.DefaultLessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
@@ -53,7 +53,7 @@ public class FindProfile extends DefaultLessonAction
     private LessonAction chainedAction;
 
 
-    public FindProfile(AbstractLesson lesson, String lessonName,
+    public FindProfile(GoatHillsFinancial lesson, String lessonName,
 	    String actionName, LessonAction chainedAction)
     {
 	super(lesson, lessonName, actionName);

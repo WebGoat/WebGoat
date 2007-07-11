@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons;
+package org.owasp.webgoat.lessons.GoatHillsFinancial;
 
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;

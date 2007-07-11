@@ -4,9 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
-import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
@@ -49,7 +46,7 @@ public class FindProfile extends DefaultLessonAction
     private LessonAction chainedAction;
 
 
-    public FindProfile(AbstractLesson lesson, String lessonName,
+    public FindProfile(GoatHillsFinancial lesson, String lessonName,
 	    String actionName, LessonAction chainedAction)
     {
 	super(lesson, lessonName, actionName);

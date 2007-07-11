@@ -4,8 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.DefaultLessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
@@ -44,7 +44,7 @@ import org.owasp.webgoat.session.WebSession;
 public class EditProfile extends DefaultLessonAction
 {
 
-    public EditProfile(AbstractLesson lesson, String lessonName,
+    public EditProfile(GoatHillsFinancial lesson, String lessonName,
 	    String actionName)
     {
 	super(lesson, lessonName, actionName);

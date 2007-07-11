@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.LessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.DeleteProfile;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.RoleBasedAccessControl;
 import org.owasp.webgoat.session.UnauthorizedException;
@@ -15,7 +15,7 @@ public class DeleteProfile_i extends DeleteProfile
 {
 	
 	
-	public DeleteProfile_i(AbstractLesson lesson, String lessonName, String actionName, LessonAction chainedAction)
+	public DeleteProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
 	{
 		super(lesson, lessonName, actionName, chainedAction);
 	}

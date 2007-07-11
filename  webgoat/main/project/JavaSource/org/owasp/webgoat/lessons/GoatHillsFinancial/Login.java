@@ -6,9 +6,6 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Vector;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
-import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.session.EmployeeStub;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
@@ -51,7 +48,7 @@ public class Login extends DefaultLessonAction
     private LessonAction chainedAction;
 
 
-    public Login(AbstractLesson lesson, String lessonName, String actionName,
+    public Login(GoatHillsFinancial lesson, String lessonName, String actionName,
 	    LessonAction chainedAction)
     {
 	super(lesson, lessonName, actionName);

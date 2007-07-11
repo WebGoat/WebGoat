@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.LessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.RoleBasedAccessControl;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.UpdateProfile;
 import org.owasp.webgoat.session.Employee;
@@ -29,7 +29,7 @@ import org.owasp.webgoat.session.WebSession;
 
 public class UpdateProfile_i extends UpdateProfile
 {
-	public UpdateProfile_i(AbstractLesson lesson, String lessonName, String actionName, LessonAction chainedAction)
+	public UpdateProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
 	{
 		super(lesson, lessonName, actionName, chainedAction);
 	}

@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.EditProfile;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.RoleBasedAccessControl;
 import org.owasp.webgoat.session.Employee;
@@ -27,7 +27,7 @@ import org.owasp.webgoat.session.WebSession;
 
 public class EditProfile_i extends EditProfile
 {
-	public EditProfile_i(AbstractLesson lesson, String lessonName, String actionName)
+	public EditProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName)
 	{
 		super(lesson, lessonName, actionName);
 	}

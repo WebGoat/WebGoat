@@ -8,9 +8,9 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
-import org.owasp.webgoat.lessons.LessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.DefaultLessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.ParameterParser;
@@ -54,7 +54,7 @@ public class UpdateProfile extends DefaultLessonAction
     private LessonAction chainedAction;
 
 
-    public UpdateProfile(AbstractLesson lesson, String lessonName,
+    public UpdateProfile(GoatHillsFinancial lesson, String lessonName,
 	    String actionName, LessonAction chainedAction)
     {
 	super(lesson, lessonName, actionName);

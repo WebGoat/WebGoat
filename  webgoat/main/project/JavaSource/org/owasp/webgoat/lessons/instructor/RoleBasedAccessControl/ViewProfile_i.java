@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.ViewProfile;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.UnauthorizedException;
@@ -47,7 +47,7 @@ The same logic could've been applied after the query but isAuthorizedForEmployee
 
 public class ViewProfile_i extends ViewProfile
 {
-	public ViewProfile_i(AbstractLesson lesson, String lessonName, String actionName)
+	public ViewProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName)
 	{
 		super(lesson, lessonName, actionName);
 	}

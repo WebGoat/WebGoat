@@ -1,7 +1,5 @@
 package org.owasp.webgoat.lessons.GoatHillsFinancial;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
 import org.owasp.webgoat.session.WebSession;
 
 /*******************************************************************************
@@ -36,7 +34,7 @@ import org.owasp.webgoat.session.WebSession;
 public class SearchStaff extends DefaultLessonAction
 {
 
-    public SearchStaff(AbstractLesson lesson, String lessonName,
+    public SearchStaff(GoatHillsFinancial lesson, String lessonName,
 	    String actionName)
     {
 	super(lesson, lessonName, actionName);

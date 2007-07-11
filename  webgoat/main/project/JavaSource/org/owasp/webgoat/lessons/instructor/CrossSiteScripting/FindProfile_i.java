@@ -3,9 +3,9 @@ package org.owasp.webgoat.lessons.instructor.CrossSiteScripting;
 
 import java.util.regex.Pattern;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.lessons.CrossSiteScripting.FindProfile;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.ValidationException;
 import org.owasp.webgoat.session.WebSession;
@@ -31,7 +31,7 @@ Solution Steps:
 
 public class FindProfile_i extends FindProfile
 {	
-	public FindProfile_i(AbstractLesson lesson, String lessonName, String actionName, LessonAction chainedAction)
+	public FindProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
 	{
 		super(lesson, lessonName, actionName, chainedAction);
 	}

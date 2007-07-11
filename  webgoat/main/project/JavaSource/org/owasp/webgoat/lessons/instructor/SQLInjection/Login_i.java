@@ -4,8 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.LessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.lessons.SQLInjection.Login;
 import org.owasp.webgoat.lessons.SQLInjection.SQLInjection;
 import org.owasp.webgoat.session.WebSession;
@@ -32,7 +32,7 @@ Solution Steps:
 
 public class Login_i extends Login
 {
-	public Login_i(AbstractLesson lesson, String lessonName, String actionName, LessonAction chainedAction)
+	public Login_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
 	{
 		super(lesson, lessonName, actionName, chainedAction);
 	}

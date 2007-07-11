@@ -6,8 +6,6 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Vector;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
 import org.owasp.webgoat.session.EmployeeStub;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
@@ -46,7 +44,7 @@ import org.owasp.webgoat.session.WebSession;
 public class ListStaff extends DefaultLessonAction
 {
 
-    public ListStaff(AbstractLesson lesson, String lessonName, String actionName)
+    public ListStaff(GoatHillsFinancial lesson, String lessonName, String actionName)
     {
 	super(lesson, lessonName, actionName);
     }

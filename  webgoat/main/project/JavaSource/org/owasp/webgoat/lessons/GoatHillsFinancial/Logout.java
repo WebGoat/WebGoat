@@ -1,8 +1,5 @@
 package org.owasp.webgoat.lessons.GoatHillsFinancial;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.DefaultLessonAction;
-import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
@@ -44,7 +41,7 @@ public class Logout extends DefaultLessonAction
     private LessonAction chainedAction;
 
 
-    public Logout(AbstractLesson lesson, String lessonName, String actionName,
+    public Logout(GoatHillsFinancial lesson, String lessonName, String actionName,
 	    LessonAction chainedAction)
     {
 	super(lesson, lessonName, actionName);

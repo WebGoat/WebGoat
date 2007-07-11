@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.apache.ecs.ElementContainer;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.LessonAction;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.DeleteProfile;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.ListStaff;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.Login;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.Logout;
