@@ -313,7 +313,7 @@ public class GoatHillsFinancial extends RandomLessonAdapter
     
     @Override
 	protected boolean getDefaultHidden() {
-		return false;
+		return getClass().equals(GoatHillsFinancial.class);
 	}
 
 	public Element getCredits()
