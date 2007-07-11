@@ -54,6 +54,7 @@ public class RandomLessonTracker extends LessonTracker {
 			throw new UnsupportedOperationException("Use individual stage completion instead");
 		for (int i=0;i<stages.length; i++)
 			setStageComplete(stages[i], false);
+		setStage(stages[0]);
 	}
 	
     protected void setProperties(Properties props, Screen screen) {
