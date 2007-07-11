@@ -200,7 +200,6 @@ StringBuffer buildList = new StringBuffer();
 				</div>
 				<%
 					AbstractLesson al = webSession.getCurrentLesson();
-					System.out.println("AL is a " + al.getClass().getName());
 					if (al instanceof SequentialLessonAdapter)
 					{
 					SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
@@ -227,7 +226,7 @@ StringBuffer buildList = new StringBuffer();
 						<%
 						String stage = rla.getStage(webSession);
 						for (int i=0; i<stages.length;i++) {
-						%><option <% if (stages[i].equals(stage)) out.print("selected"); %> value="<%= i+1 %>">Stage <%= i+1 %></option>
+						%><option <% if (stages[i].equals(stage)) out.print("selected"); %> value="<%= i+1 %>"><%= stages[i] %><%= rla.getLessonTracker(webSession).hasCompleted(stages[i]) ? "*" : "" %></option>
 						<%
 						}
 						%></select></form><%

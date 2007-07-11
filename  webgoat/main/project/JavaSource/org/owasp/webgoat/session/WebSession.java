@@ -924,7 +924,7 @@ public class WebSession
 			RandomLessonAdapter rla = (RandomLessonAdapter) al;
 			int stage = myParser.getIntParameter(STAGE) - 1;
 			String[] stages = rla.getStages();
-			if (stage>0 && stage <= stages.length)
+			if (stage>=0 && stage < stages.length)
 				rla.setStage(this, stages[stage]);
 			} catch (ParameterNotFoundException pnfe) {}
 			}
