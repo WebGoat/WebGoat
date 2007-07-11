@@ -50,7 +50,10 @@ public class RandomLessonTracker extends LessonTracker {
 	
 	@Override
 	public void setCompleted(boolean complete) {
-		throw new UnsupportedOperationException("Use individual stage completion instead");
+		if (complete == true)
+			throw new UnsupportedOperationException("Use individual stage completion instead");
+		for (int i=0;i<stages.length; i++)
+			setStageComplete(stages[i], false);
 	}
 	
     protected void setProperties(Properties props, Screen screen) {
