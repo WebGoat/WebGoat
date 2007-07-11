@@ -160,7 +160,7 @@ public class DeleteProfile extends DefaultLessonAction
     private void updateLessonStatus(WebSession s)
     {
 	// If the logged in user is not authorized to be here, stage 1 is complete.
-	if (getStage(s) == 1) 
+	if (RoleBasedAccessControl.STAGE1.equals(getStage(s))) 
 	try
 	{
 	    int userId = getIntSessionAttribute(s, getLessonName() + "."
@@ -171,7 +171,7 @@ public class DeleteProfile extends DefaultLessonAction
 	    {
 		s
 			.setMessage("Welcome to stage 2 -- protecting the business layer");
-		setStage(s, 2);
+		setStageComplete(s, RoleBasedAccessControl.STAGE1);
 	    }
 	}
 	catch (ParameterNotFoundException e)

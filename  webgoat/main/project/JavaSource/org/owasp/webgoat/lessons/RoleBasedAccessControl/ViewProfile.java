@@ -95,11 +95,11 @@ public class ViewProfile extends DefaultLessonAction
 	    int employeeId = s.getParser().getIntParameter(
 		    RoleBasedAccessControl.EMPLOYEE_ID);
 
-	    if (getStage(s) == 3
+	    if (RoleBasedAccessControl.STAGE3.equals(getStage(s))
 		    && !isAuthorizedForEmployee(s, userId, employeeId))
 	    {
 		s.setMessage("Welcome to stage 4 -- protecting the data layer");
-		setStage(s, 4);
+		setStageComplete(s, RoleBasedAccessControl.STAGE3);
 	    }
 	}
 	catch (ParameterNotFoundException e)

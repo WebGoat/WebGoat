@@ -9,7 +9,7 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.A;
 import org.apache.ecs.html.IMG;
-import org.owasp.webgoat.lessons.SequentialLessonAdapter;
+import org.owasp.webgoat.lessons.RandomLessonAdapter;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
@@ -45,7 +45,7 @@ import org.owasp.webgoat.session.WebSession;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  */
-public class GoatHillsFinancial extends SequentialLessonAdapter
+public class GoatHillsFinancial extends RandomLessonAdapter
 {
 	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
 
@@ -161,6 +161,10 @@ public class GoatHillsFinancial extends SequentialLessonAdapter
 	lessonFunctions.put(action.getActionName(), action);
     }
 
+    public String[] getStages() {
+    	return new String[] {};
+    }
+    
     protected List<String> getHints(WebSession s)
     {
 	return new ArrayList<String>();

@@ -312,12 +312,16 @@ public abstract class DefaultLessonAction implements LessonAction
 		return authorized;
 	}
 	
-	protected void setStage(WebSession s, int stage)
+	protected void setStage(WebSession s, String stage)
 	{
 		getLesson().setStage(s, stage);
 	}
 
-	protected int getStage(WebSession s)
+	protected void setStageComplete(WebSession s, String stage) {
+		getLesson().setStageComplete(s, stage);
+	}
+	
+	protected String getStage(WebSession s)
 	{
 		return getLesson().getStage(s);
 	}

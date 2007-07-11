@@ -270,28 +270,26 @@ public class Login extends DefaultLessonAction
 		    SQLInjection.EMPLOYEE_ID);
 	    String password = s.getParser().getRawParameter(
 		    SQLInjection.PASSWORD);
-	    switch (getStage(s))
+	    String stage = getStage(s);
+	    if (SQLInjection.STAGE1.equals(stage))
 	    {
-		case 1:
 		    if (Integer.parseInt(employeeId) == SQLInjection.PRIZE_EMPLOYEE_ID
 			    && isAuthenticated(s))
 		    {
 			s.setMessage("Welcome to stage 2");
-			setStage(s, 2);
+			setStageComplete(s, SQLInjection.STAGE1);
 		    }
-		    break;
-		case 2:
+	    }
+	    else if (SQLInjection.STAGE2.equals(stage))
+	    {
 		    // This assumes the student hasn't modified login_BACKUP().
 		    if (Integer.parseInt(employeeId) == SQLInjection.PRIZE_EMPLOYEE_ID
 			    && !isAuthenticated(s)
 			    && login_BACKUP(s, employeeId, password))
 		    {
 			s.setMessage("Welcome to stage 3");
-			setStage(s, 3);
+			setStageComplete(s, SQLInjection.STAGE2);
 		    }
-		    break;
-		default:
-		    break;
 	    }
 	}
 	catch (ParameterNotFoundException pnfe)

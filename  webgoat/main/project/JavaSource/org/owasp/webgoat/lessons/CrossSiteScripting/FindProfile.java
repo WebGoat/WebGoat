@@ -88,23 +88,23 @@ public class FindProfile extends DefaultLessonAction
 	    }
 	    catch (ValidationException e)
 	    {
-		if (getStage(s) == 6)
+		if (CrossSiteScripting.STAGE6.equals(getStage(s)))
 		{
 		    s
 			    .setMessage("Congratulations. You have successfully completed this lesson");
-		    getLesson().getLessonTracker(s).setCompleted(true);
+		    setStageComplete(s, CrossSiteScripting.STAGE6);
 		}
 		throw e;
 	    }
 
-	    if (getStage(s) == 5)
+	    if (CrossSiteScripting.STAGE5.equals(getStage(s)))
 	    {
 		if (searchName.indexOf("<script>") > -1
 			&& searchName.indexOf("alert") > -1
 			&& searchName.indexOf("</script>") > -1)
 		{
 		    s.setMessage("Welcome to stage 6 - more input validation");
-		    setStage(s, 6);
+		    setStageComplete(s, CrossSiteScripting.STAGE5);
 		}
 	    }
 

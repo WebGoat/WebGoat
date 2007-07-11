@@ -212,9 +212,9 @@ public class ViewProfile extends DefaultLessonAction
 
     private void updateLessonStatus(WebSession s, Employee employee)
     {
-	switch (getStage(s))
+	String stage = getStage(s);
+	if (CrossSiteScripting.STAGE1.equals(stage))
 	{
-	    case 1:
 		String address1 = employee.getAddress1().toLowerCase();
 		if (address1.indexOf("<script>") > -1
 			&& address1.indexOf("alert") > -1
@@ -222,10 +222,11 @@ public class ViewProfile extends DefaultLessonAction
 		{
 		    s
 			    .setMessage("Welcome to stage 2 - implement input validation");
-		    setStage(s, 2);
+		    setStageComplete(s, CrossSiteScripting.STAGE1);
 		}
-		break;
-	    case 3:
+	}
+	else if (CrossSiteScripting.STAGE3.equals(stage))
+	{
 		String address2 = employee.getAddress1().toLowerCase();
 		if (address2.indexOf("<script>") > -1
 			&& address2.indexOf("alert") > -1
@@ -233,19 +234,17 @@ public class ViewProfile extends DefaultLessonAction
 		{
 		    s
 			    .setMessage("Welcome to stage 4 - implement output encoding");
-		    setStage(s, 4);
+		    setStageComplete(s, CrossSiteScripting.STAGE3);
 		}
-		break;
-	    case 4:
+	}
+	else if (CrossSiteScripting.STAGE4.equals(stage))
+	{
 		if (employee.getAddress1().toLowerCase().indexOf("&lt;") > -1)
 		{
 		    s
 			    .setMessage("Welcome to stage 5 - demonstrate reflected XSS");
-		    setStage(s, 5);
+		    setStageComplete(s, CrossSiteScripting.STAGE4);
 		}
-		break;
-	    default:
-		break;
 	}
     }
 

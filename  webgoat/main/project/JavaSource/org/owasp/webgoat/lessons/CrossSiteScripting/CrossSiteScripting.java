@@ -54,6 +54,18 @@ public class CrossSiteScripting extends GoatHillsFinancial
 {
     private final static Integer DEFAULT_RANKING = new Integer(100);
 
+    public final static String STAGE1 = "Stage 1";
+    
+    public final static String STAGE2 = "Stage 2";
+    
+    public final static String STAGE3 = "Stage 3";
+    
+    public final static String STAGE4 = "Stage 4";
+    
+    public final static String STAGE5 = "Stage 5";
+    
+    public final static String STAGE6 = "Stage 6";
+    
     protected void registerActions(String className)
     {
 	registerAction(new ListStaff(this, className, LISTSTAFF_ACTION));
@@ -140,52 +152,47 @@ public class CrossSiteScripting extends GoatHillsFinancial
 
 	if (!getLessonTracker(s).getCompleted())
 	{
-	    switch (getStage(s))
+		String stage = getStage(s);
+		if (STAGE1.equals(stage))
 	    {
-		case 1:
-		    instructions = "Stage "
-			    + getStage(s)
+		    instructions = getStage(s)
 			    + ": Execute a Stored Cross Site Scripting (XSS) attack.<br>"
 			    + "For this exercise, your mission is to cause the application to serve a script of your making "
 			    + " to some other user.";
-		    break;
-		case 2:
-		    instructions = "Stage "
-			    + getStage(s)
+	    }
+		else if (STAGE2.equals(stage))
+		{
+		    instructions = getStage(s)
 			    + ": Block Stored XSS using Input Validation.<br>"
 			    + "You will modify the application to perform input validation on the vulnerable input field "
 			    + "you just exploited.";
-		    break;
-		case 3:
-		    instructions = "Stage "
-			    + getStage(s)
+		}
+		else if (STAGE3.equals(stage))
+		{
+		    instructions = getStage(s)
 			    + ": Execute a previously Stored Cross Site Scripting (XSS) attack.<br>"
 			    + "The application is still vulnerable to scripts in the database.  Trigger a pre-stored "
 			    + "script by logging in as employee 'David' and viewing Bruce's profile.";
-		    break;
-		case 4:
-		    instructions = "Stage "
-			    + getStage(s)
+		}
+		else if (STAGE4.equals(stage))
+		{
+		    instructions = getStage(s)
 			    + ": Block Stored XSS using Output Encoding.<br>"
 			    + "Encode data served from the database to the client so that any scripts are rendered harmless.";
-		    break;
-		case 5:
-		    instructions = "Stage "
-			    + getStage(s)
+		}
+		else if (STAGE5.equals(stage))
+		{
+		    instructions = getStage(s)
 			    + ": Execute a Reflected XSS attack.<br>"
 			    + "Your goal here is to craft a link containing a script which the application will "
 			    + "serve right back to any client that activates the link.";
-		    break;
-		case 6:
-		    instructions = "Stage "
-			    + getStage(s)
+		}
+		else if (STAGE6.equals(stage))
+		{
+		    instructions = getStage(s)
 			    + ": Block Reflected XSS using Input Validation.<br>"
 			    + "Use the input validation techniques learned ealier in this lesson to close the vulnerability "
 			    + "you just exploited.";
-		    break;
-		default:
-		    // Illegal stage value
-		    break;
 	    }
 	}
 
@@ -194,8 +201,8 @@ public class CrossSiteScripting extends GoatHillsFinancial
     }
 
     @Override
-	public int getStageCount() {
-		return 6;
+	public String[] getStages() {
+		return new String[] {STAGE1, STAGE2, STAGE3, STAGE4, STAGE5, STAGE6};
 	}
 
     public void handleRequest(WebSession s)
@@ -290,12 +297,11 @@ public class CrossSiteScripting extends GoatHillsFinancial
 	public String htmlEncode(WebSession s, String text)
 	{
 		//System.out.println("Testing for stage 4 completion in lesson " + getCurrentLesson().getName());
-		if (getStage(s) == 4 && 
+		if (STAGE4.equals(getStage(s)) && 
 				text.indexOf("<script>") > -1 && text.indexOf("alert") > -1 && text.indexOf("</script>") > -1)
 		{
 			s.setMessage( "Welcome to stage 5 -- exploiting the data layer" );
-			// Set a phantom stage value to setup for the 4-5 transition
-			setStage(s, 1005);
+			setStageComplete(s, STAGE5);
 		}
 		
 		return HtmlEncoder.encode(text);

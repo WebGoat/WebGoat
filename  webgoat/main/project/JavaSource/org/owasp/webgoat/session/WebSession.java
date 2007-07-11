@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
+import org.owasp.webgoat.lessons.RandomLessonAdapter;
 import org.owasp.webgoat.lessons.SequentialLessonAdapter;
 
 /*******************************************************************************
@@ -915,6 +916,17 @@ public class WebSession
 			int stage = myParser.getIntParameter(STAGE, sla.getStage(this));
 			if (stage > 0 && stage <= sla.getStageCount())
 				sla.setStage(this, stage);
+			}
+			else if (al instanceof RandomLessonAdapter)
+			{
+			try
+			{
+			RandomLessonAdapter rla = (RandomLessonAdapter) al;
+			int stage = myParser.getIntParameter(STAGE) - 1;
+			String[] stages = rla.getStages();
+			if (stage>0 && stage <= stages.length)
+				rla.setStage(this, stages[stage]);
+			} catch (ParameterNotFoundException pnfe) {}
 			}
 		}
 		// else update global variables for the current screen

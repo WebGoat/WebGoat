@@ -52,6 +52,14 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 {
     private final static Integer DEFAULT_RANKING = new Integer(125);
 
+    public final static String STAGE1 = "Stage 1";
+    
+    public final static String STAGE2 = "Stage 2";
+    
+    public final static String STAGE3 = "Stage 3";
+    
+    public final static String STAGE4 = "Stage 4";
+
     protected void registerActions(String className) {
     	registerAction(new ListStaff(this, className, LISTSTAFF_ACTION));
     	registerAction(new SearchStaff(this, className, SEARCHSTAFF_ACTION));
@@ -114,8 +122,8 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
     }
 
     @Override
-	public int getStageCount() {
-		return 4;
+	public String[] getStages() {
+		return new String[] {STAGE1, STAGE2, STAGE3, STAGE4};
 	}
 
     /**
@@ -129,41 +137,40 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 
 	if (!getLessonTracker(s).getCompleted())
 	{
-	    switch (getStage(s))
+		String stage = getStage(s);
+		if (STAGE1.equals(stage))
 	    {
-		case 1:
 		    instructions = "Stage "
 			    + getStage(s)
 			    + ": Breaking functional access control.<br>"
 			    + "You should be able to login as a regular employee and delete another user's employee "
 			    + "profile, even though that is supposed to be an HR-only function.";
-		    break;
-		case 2:
+	    }
+		else if (STAGE2.equals(stage))
+		{
 		    instructions = "Stage "
 			    + getStage(s)
 			    + ": Implementing access control in the Business Layer<br>"
 			    + "Access control has already been implemented in the Presentation Layer, but as we have just "
 			    + "seen, this is not enough.  Implement access control in the Businesss Layer to verify "
 			    + "authorization to use the Delete function before actually executing it.";
-		    break;
-		case 3:
+		}
+		else if (STAGE3.equals(stage))
+		{
 		    instructions = "Stage "
 			    + getStage(s)
 			    + ": Breaking data access control.<br>"
 			    + "Data Layer access control is being already done on the staff list, but it has not been "
 			    + "globally implemented.  Take advantage of this to login as a regular employee and view the "
 			    + "CEO's employee profile.";
-		    break;
-		case 4:
+		}
+		else if (STAGE4.equals(stage))
+		{
 		    instructions = "Stage "
 			    + getStage(s)
 			    + ": Implementing access control in the Data Layer.<br>"
 			    + "Implement Data Layer access control to prevent unauthorized (and potentially career threatening) "
 			    + "access to employee personal data.";
-		    break;
-		default:
-		    // Illegal stage value
-		    break;
 	    }
 	}
 
@@ -236,7 +243,8 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 	catch (UnauthorizedException ue2)
 	{
 		// Update lesson status if necessary.
-		if (getStage(s) == 2)
+		String stage = getStage(s);
+		if (STAGE2.equals(stage))
 		{
 			try
 			{
@@ -244,7 +252,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 					!isAuthorized(s, getUserId(s), RoleBasedAccessControl.DELETEPROFILE_ACTION))
 			{
 				s.setMessage( "Welcome to stage 3 -- exploiting the data layer" );
-				setStage(s, 3);
+				setStageComplete(s, STAGE2);
 			}
 			} catch (ParameterNotFoundException pnfe)
 			{
@@ -253,7 +261,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 		}
 		//System.out.println("isAuthorized() exit stage: " + getStage(s));
 		// Update lesson status if necessary.
-		if (getStage(s) == 4)
+		if (STAGE4.equals(stage))
 		{
 			try
 			{
@@ -267,7 +275,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 			if (!action.isAuthorizedForEmployee(s, userId, employeeId))
 			{
 			    s.setMessage("Congratulations. You have successfully completed this lesson.");
-			    getLessonTracker( s ).setCompleted( true );
+			    setStageComplete(s, STAGE4);
 			}
 			} catch (Exception e)
 			{
@@ -370,8 +378,9 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 	    }
 	    catch (UnauthorizedException ue2)
 		{
+	    	String stage = getStage(s);
 			// Update lesson status if necessary.
-			if (getStage(s) == 2)
+			if (STAGE2.equals(stage))
 			{
 				try
 				{
@@ -379,7 +388,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 						!isAuthorized(s, getUserId(s), RoleBasedAccessControl.DELETEPROFILE_ACTION))
 				{
 					s.setMessage( "Welcome to stage 3 -- exploiting the data layer" );
-					setStage(s, 3);
+					setStageComplete(s, STAGE2);
 				}
 				} catch (ParameterNotFoundException pnfe)
 				{
@@ -388,7 +397,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 			}
 			//System.out.println("isAuthorized() exit stage: " + getStage(s));
 			// Update lesson status if necessary.
-			if (getStage(s) == 4)
+			if (STAGE4.equals(stage))
 			{
 				try
 				{
@@ -402,7 +411,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				if (!action.isAuthorizedForEmployee(s, userId, employeeId))
 				{
 				    s.setMessage("Congratulations. You have successfully completed this lesson.");
-				    getLessonTracker( s ).setCompleted( true );
+				    setStageComplete(s, STAGE4);
 				}
 				} catch (Exception e)
 				{

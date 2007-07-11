@@ -9,6 +9,7 @@ AbstractLesson currentLesson = webSession.getCurrentLesson();
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@page import="org.owasp.webgoat.lessons.SequentialLessonAdapter"%>
+<%@page import="org.owasp.webgoat.lessons.RandomLessonAdapter"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -199,6 +200,7 @@ StringBuffer buildList = new StringBuffer();
 				</div>
 				<%
 					AbstractLesson al = webSession.getCurrentLesson();
+					System.out.println("AL is a " + al.getClass().getName());
 					if (al instanceof SequentialLessonAdapter)
 					{
 					SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
@@ -210,6 +212,22 @@ StringBuffer buildList = new StringBuffer();
 						int stage = sla.getStage(webSession);
 						for (int i=1; i<=stages;i++) {
 						%><option <% if (i == stage) out.print("selected"); %> value="<%= i %>">Stage <%= i %></option>
+						<%
+						}
+						%></select></form><%
+					}
+					}
+					else if (al instanceof RandomLessonAdapter)
+					{
+					RandomLessonAdapter rla = (RandomLessonAdapter) al;
+					String[] stages = rla.getStages();
+					if (stages != null && stages.length > 0) {
+						%><form method="post" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<select name="<%= WebSession.STAGE %>" onchange="this.form.submit();">
+						<%
+						String stage = rla.getStage(webSession);
+						for (int i=0; i<stages.length;i++) {
+						%><option <% if (stages[i].equals(stage)) out.print("selected"); %> value="<%= i+1 %>">Stage <%= i+1 %></option>
 						<%
 						}
 						%></select></form><%

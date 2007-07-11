@@ -55,6 +55,14 @@ public class SQLInjection extends GoatHillsFinancial
 
     public final static String PRIZE_EMPLOYEE_NAME = "Neville Bartholomew";
 
+    public final static String STAGE1 = "Stage 1";
+    
+    public final static String STAGE2 = "Stage 2";
+    
+    public final static String STAGE3 = "Stage 3";
+    
+    public final static String STAGE4 = "Stage 4";
+    
     public void registerActions(String className)
     {
 	registerAction(new ListStaff(this, className, LISTSTAFF_ACTION));
@@ -122,8 +130,8 @@ public class SQLInjection extends GoatHillsFinancial
     }
 
     @Override
-	public int getStageCount() {
-		return 4;
+	public String[] getStages() {
+		return new String[] {STAGE1, STAGE2, STAGE3, STAGE4};
 	}
 
     /**
@@ -137,9 +145,9 @@ public class SQLInjection extends GoatHillsFinancial
 
 	if (!getLessonTracker(s).getCompleted())
 	{
-	    switch (getStage(s))
+		String stage = getStage(s);
+		if (STAGE1.equals(stage))
 	    {
-		case 1:
 		    instructions = "Stage "
 			    + getStage(s)
 			    + ": Use String SQL Injection to bypass authentication. "
@@ -147,32 +155,31 @@ public class SQLInjection extends GoatHillsFinancial
 			    + PRIZE_EMPLOYEE_NAME
 			    + ", who is in the Admin group.  "
 			    + "You do not have the password, but the form is SQL injectable.";
-		    break;
-		case 2:
+	    }
+		else if (STAGE2.equals(stage))
+		{
 		    instructions = "Stage "
 			    + getStage(s)
 			    + ": Use a parameterized query.<br>"
 			    + "A dynamic SQL query is not necessary for the login function to work.  Change login "
 			    + "to use a parameterized query to protect against malicious SQL in the query parameters.";
-		    break;
-		case 3:
+		}
+		else if (STAGE3.equals(stage))
+		{
 		    instructions = "Stage "
 			    + getStage(s)
 			    + ": Use Integer SQL Injection to bypass access control.<br>"
 			    + "The goal here is to view the CEO's employee profile, again, even with data access "
 			    + "control checks in place from a previous lesson.  "
 			    + "As before, you do not have the password, but the form is SQL injectable.";
-		    break;
-		case 4:
+		}
+		else if (STAGE4.equals(stage))
+		{
 		    instructions = "Stage "
 			    + getStage(s)
 			    + ": Use a parameterized query again.<br>"
 			    + "Change the ViewProfile function to use a parameterized query to protect against "
 			    + "malicious SQL in the numeric query parameter.";
-		    break;
-		default:
-		    // Illegal stage value
-		    break;
 	    }
 	}
 

@@ -81,11 +81,11 @@ public class UpdateProfile extends DefaultLessonAction
 	    }
 	    catch (ValidationException e)
 	    {
-		if (getStage(s) == 2)
+		if (CrossSiteScripting.STAGE2.equals(getStage(s)))
 		{
 		    s
 			    .setMessage("Welcome to stage 3 - demonstrate Stored XSS again");
-		    setStage(s, 3);
+		    setStageComplete(s, CrossSiteScripting.STAGE2);
 		}
 		throw e;
 	    }

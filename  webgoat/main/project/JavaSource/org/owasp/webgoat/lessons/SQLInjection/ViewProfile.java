@@ -224,9 +224,9 @@ public class ViewProfile extends DefaultLessonAction
 		    + SQLInjection.USER_ID);
 	    String employeeId = s.getParser().getRawParameter(
 		    SQLInjection.EMPLOYEE_ID);
-	    switch (getStage(s))
+	    String stage = getStage(s);
+	    if (SQLInjection.STAGE3.equals(stage))
 	    {
-		case 3:
 		    // If the employee we are viewing is the prize and we are not authorized to have it, 
 		    // the stage is completed
 		    if (employee != null
@@ -235,10 +235,11 @@ public class ViewProfile extends DefaultLessonAction
 				    .parseInt(userId), employee.getId()))
 		    {
 			s.setMessage("Welcome to stage 4");
-			setStage(s, 4);
+			setStageComplete(s, SQLInjection.STAGE3);
 		    }
-		    break;
-		case 4:
+	    }
+	    else if (SQLInjection.STAGE4.equals(stage))
+	    {
 		    // If we were denied the employee to view, and we would have been able to view it
 		    // in the broken state, the stage is completed.
 		    // This assumes the student hasn't modified getEmployeeProfile_BACKUP().
@@ -257,12 +258,9 @@ public class ViewProfile extends DefaultLessonAction
 			{
 			    s
 				    .setMessage("Congratulations. You have successfully completed this lesson");
-			    getLesson().getLessonTracker(s).setCompleted(true);
+			    setStageComplete(s, SQLInjection.STAGE4);
 			}
 		    }
-		    break;
-		default:
-		    break;
 	    }
 	}
 	catch (ParameterNotFoundException pnfe)
