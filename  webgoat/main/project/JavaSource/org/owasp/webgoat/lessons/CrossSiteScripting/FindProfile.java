@@ -90,8 +90,6 @@ public class FindProfile extends DefaultLessonAction
 	    {
 		if (CrossSiteScripting.STAGE6.equals(getStage(s)))
 		{
-		    s
-			    .setMessage("Congratulations. You have successfully completed this lesson");
 		    setStageComplete(s, CrossSiteScripting.STAGE6);
 		}
 		throw e;
