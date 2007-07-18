@@ -54,17 +54,17 @@ public class CrossSiteScripting extends GoatHillsFinancial
 {
     private final static Integer DEFAULT_RANKING = new Integer(100);
 
-    public final static String STAGE1 = "Stage 1";
+    public final static String STAGE1 = "Stage 1: Stored XSS";
     
-    public final static String STAGE2 = "Stage 2";
+    public final static String STAGE2 = "Stage 2: Block Stored XSS using Input Validation";
     
-    public final static String STAGE3 = "Stage 3";
+    public final static String STAGE3 = "Stage 3: Stored XSS Revisited";
     
-    public final static String STAGE4 = "Stage 4";
+    public final static String STAGE4 = "Stage 4: Block Stored XSS using Output Encoding";
     
-    public final static String STAGE5 = "Stage 5";
+    public final static String STAGE5 = "Stage 5: Reflected XSS";
     
-    public final static String STAGE6 = "Stage 6";
+    public final static String STAGE6 = "Stage 6: Block Reflected XSS";
     
     protected void registerActions(String className)
     {

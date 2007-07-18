@@ -56,9 +56,9 @@ public class DBCrossSiteScripting extends GoatHillsFinancial
 {
     private final static Integer DEFAULT_RANKING = new Integer(100);
 
-    public final static String STAGE1 = "Stage 1";
+    public final static String STAGE1 = "Stage 1: Stored XSS";
     
-    public final static String STAGE2 = "Stage 2";
+    public final static String STAGE2 = "Stage 2: Block Stored XSS using DB Input Validation";
     
     protected void registerActions(String className)
     {
