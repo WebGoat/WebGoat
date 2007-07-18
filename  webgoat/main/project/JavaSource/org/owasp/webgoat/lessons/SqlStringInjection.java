@@ -11,7 +11,9 @@ import java.util.List;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
+import org.apache.ecs.html.A;
 import org.apache.ecs.html.BR;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.PRE;
@@ -53,6 +55,7 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class SqlStringInjection extends SequentialLessonAdapter
 {
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
 
     private final static String ACCT_NAME = "account_name";
 
@@ -129,7 +132,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 			msg.append("Bet you can't do it again! ");
 			msg
 				.append("This lesson has detected your successfull attack ");
-			msg.append("and has now switch to a defensive mode. ");
+			msg.append("and has now switched to a defensive mode. ");
 			msg
 				.append("Try again to attack a parameterized query.");
 
@@ -162,7 +165,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 
 	ec
 		.addElement("Now that you have successfully performed an SQL injection, try the same "
-			+ " type of attack on a parameterized query.  Type 'restart' in the input field if you wish to "
+			+ " type of attack on a parameterized query.  Restart the lesson if you wish "
 			+ " to return to the injectable query");
 	if (s.getParser().getRawParameter(ACCT_NAME, "YOUR_NAME").equals(
 		"restart"))
@@ -316,5 +319,10 @@ public class SqlStringInjection extends SequentialLessonAdapter
 	    System.out.println("Exception caught: " + e);
 	    e.printStackTrace(System.out);
 	}
+    }
+    
+    public Element getCredits()
+    {
+    	return super.getCustomCredits("", ASPECT_LOGO);
     }
 }

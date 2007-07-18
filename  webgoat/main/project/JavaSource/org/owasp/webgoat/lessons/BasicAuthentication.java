@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.A;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.TD;
@@ -49,6 +51,7 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class BasicAuthentication extends SequentialLessonAdapter
 {
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
 
     private static final String EMPTY_STRING = "";
 
@@ -329,5 +332,10 @@ public class BasicAuthentication extends SequentialLessonAdapter
     public String getTitle()
     {
 	return ("Basic Authentication");
+    }
+    
+    public Element getCredits()
+    {
+    	return super.getCustomCredits("", ASPECT_LOGO);
     }
 }

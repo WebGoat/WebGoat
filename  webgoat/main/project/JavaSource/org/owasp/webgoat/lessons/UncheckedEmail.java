@@ -9,12 +9,14 @@ import java.util.List;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.A;
 import org.apache.ecs.html.B;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Center;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.H3;
 import org.apache.ecs.html.HR;
+import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TH;
@@ -60,6 +62,7 @@ import org.owasp.webgoat.session.WebSession;
 
 public class UncheckedEmail extends LessonAdapter
 {
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
 
     private final static String MESSAGE = "msg";
 
@@ -260,5 +263,10 @@ public class UncheckedEmail extends LessonAdapter
     public String getTitle()
     {
 	return ("How to Exploit Unchecked Email");
+    }
+    
+    public Element getCredits()
+    {
+    	return super.getCustomCredits("", ASPECT_LOGO);
     }
 }
