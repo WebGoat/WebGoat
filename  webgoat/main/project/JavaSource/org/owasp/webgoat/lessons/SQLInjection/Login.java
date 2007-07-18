@@ -276,7 +276,6 @@ public class Login extends DefaultLessonAction
 		    if (Integer.parseInt(employeeId) == SQLInjection.PRIZE_EMPLOYEE_ID
 			    && isAuthenticated(s))
 		    {
-			s.setMessage("Welcome to stage 2");
 			setStageComplete(s, SQLInjection.STAGE1);
 		    }
 	    }

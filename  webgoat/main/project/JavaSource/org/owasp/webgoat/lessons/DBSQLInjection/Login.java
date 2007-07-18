@@ -157,7 +157,6 @@ public class Login extends DefaultLessonAction
 		    		DBSQLInjection.PRIZE_EMPLOYEE_ID == Integer.parseInt(userId))
 		    {
 		    	setStageComplete(s, DBSQLInjection.STAGE1);
-		    	s.setMessage("Congratulations, you have completed " + DBSQLInjection.STAGE1);
 		    }
 	    }
 	    catch (SQLException sqle)

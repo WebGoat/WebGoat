@@ -83,9 +83,8 @@ public class UpdateProfile extends DefaultLessonAction
 	    {
 		if (CrossSiteScripting.STAGE2.equals(getStage(s)))
 		{
-		    s
-			    .setMessage("Welcome to stage 3 - demonstrate Stored XSS again");
 		    setStageComplete(s, CrossSiteScripting.STAGE2);
+		    s.setMessage("Welcome to stage 3 - demonstrate Stored XSS again");
 		}
 		throw e;
 	    }

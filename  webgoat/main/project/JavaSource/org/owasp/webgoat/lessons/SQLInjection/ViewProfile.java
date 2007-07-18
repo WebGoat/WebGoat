@@ -234,7 +234,6 @@ public class ViewProfile extends DefaultLessonAction
 			    && !isAuthorizedForEmployee(s, Integer
 				    .parseInt(userId), employee.getId()))
 		    {
-			s.setMessage("Welcome to stage 4");
 			setStageComplete(s, SQLInjection.STAGE3);
 		    }
 	    }

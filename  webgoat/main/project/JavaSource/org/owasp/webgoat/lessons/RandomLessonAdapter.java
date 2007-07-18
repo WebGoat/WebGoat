@@ -20,9 +20,9 @@ public abstract class RandomLessonAdapter extends LessonAdapter {
 		RandomLessonTracker lt = getLessonTracker(s);
 		lt.setStageComplete(stage, true);
 		if (lt.getCompleted()) {
-			s.setMessage("Congratulations, you have completed this lesson");
+			s.setMessage("Congratulations, you have completed this lab");
 		} else {
-			String message = "You have completed stage " + stage + ".";
+			String message = "You have completed " + stage + ".";
 			if (! stage.equals(lt.getStage()))
 				message = message + " Welcome to " + lt.getStage();
 			s.setMessage(message);

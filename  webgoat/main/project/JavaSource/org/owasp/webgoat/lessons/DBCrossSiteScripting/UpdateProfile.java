@@ -115,7 +115,6 @@ public class UpdateProfile extends DefaultLessonAction
 				if (pass)
 				{
 					setStageComplete(s, DBCrossSiteScripting.STAGE1);
-					s.setMessage("Congratulations, you have completed " + DBCrossSiteScripting.STAGE1);
 				}
 			}
 	    }

@@ -291,12 +291,11 @@ public class CrossSiteScripting extends GoatHillsFinancial
 
 	public String htmlEncode(WebSession s, String text)
 	{
-		//System.out.println("Testing for stage 4 completion in lesson " + getCurrentLesson().getName());
 		if (STAGE4.equals(getStage(s)) && 
 				text.indexOf("<script>") > -1 && text.indexOf("alert") > -1 && text.indexOf("</script>") > -1)
 		{
+			setStageComplete(s, STAGE4);
 			s.setMessage( "Welcome to stage 5 -- exploiting the data layer" );
-			setStageComplete(s, STAGE5);
 		}
 		
 		return HtmlEncoder.encode(text);

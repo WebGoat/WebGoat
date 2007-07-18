@@ -220,9 +220,8 @@ public class ViewProfile extends DefaultLessonAction
 			&& address1.indexOf("alert") > -1
 			&& address1.indexOf("</script>") > -1)
 		{
-		    s
-			    .setMessage("Welcome to stage 2 - implement input validation");
 		    setStageComplete(s, CrossSiteScripting.STAGE1);
+		    s.setMessage("Welcome to stage 2 - implement input validation");
 		}
 	}
 	else if (CrossSiteScripting.STAGE3.equals(stage))
