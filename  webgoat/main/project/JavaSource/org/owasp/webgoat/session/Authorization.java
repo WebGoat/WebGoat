@@ -35,7 +35,7 @@ import java.util.Map;
 public class Authorization
 {
 
-    Map permissions = new Hashtable();
+    Map<Integer, Integer> permissions = new Hashtable<Integer, Integer>();
 
 
     public Authorization()

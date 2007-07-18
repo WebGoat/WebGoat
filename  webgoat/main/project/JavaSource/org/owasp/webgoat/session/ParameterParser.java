@@ -535,7 +535,7 @@ public class ParameterParser
      */
     public String[] getMissingParameters(String[] requestuired)
     {
-	Vector missing = new Vector();
+	Vector<String> missing = new Vector<String>();
 
 	for (int i = 0; i < requestuired.length; i++)
 	{

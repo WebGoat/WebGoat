@@ -58,12 +58,12 @@ public class XMLInjection extends LessonAdapter
 
     private final static String ACCOUNTID = "accountID";
 
-    public static HashMap rewardsMap = new HashMap();
+    public static HashMap<Integer, Reward> rewardsMap = new HashMap<Integer, Reward>();
 
     private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
     "Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
 
-    protected static HashMap init()
+    protected static HashMap<Integer, Reward> init()
     {
 	Reward r = new Reward();
 

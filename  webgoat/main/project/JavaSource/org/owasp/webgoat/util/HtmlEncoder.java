@@ -35,9 +35,9 @@ import java.util.Map;
 public class HtmlEncoder
 {
 
-    static Map e2i = new HashMap();
+    static Map<String, Integer> e2i = new HashMap<String, Integer>();
 
-    static Map i2e = new HashMap();
+    static Map<Integer, String> i2e = new HashMap<Integer, String>();
 
     // html entity list
     private static Object[][] entities = { { "quot", new Integer(34) }, // " - double-quote
@@ -120,9 +120,9 @@ public class HtmlEncoder
     public HtmlEncoder()
     {
 	for (int i = 0; i < entities.length; i++)
-	    e2i.put(entities[i][0], entities[i][1]);
+	    e2i.put((String)entities[i][0], (Integer)entities[i][1]);
 	for (int i = 0; i < entities.length; i++)
-	    i2e.put(entities[i][1], entities[i][0]);
+	    i2e.put((Integer)entities[i][1], (String)entities[i][0]);
     }
 
 
@@ -146,7 +146,7 @@ public class HtmlEncoder
 	{
 	    char ch = s1.charAt(i);
 
-	    String entity = (String) i2e.get(new Integer((int) ch));
+	    String entity = i2e.get(new Integer((int) ch));
 
 	    if (entity == null)
 	    {
@@ -202,7 +202,7 @@ public class HtmlEncoder
 		}
 		else
 		{
-		    iso = (Integer) e2i.get(entity);
+		    iso = e2i.get(entity);
 		}
 		if (iso == null)
 		{

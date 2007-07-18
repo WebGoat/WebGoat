@@ -50,7 +50,7 @@ public class UserTracker
 
     // FIXME: persist this somehow!
 
-    private static HashMap storage = new HashMap();
+    private static HashMap<String, HashMap<String, LessonTracker>> storage = new HashMap<String, HashMap<String, LessonTracker>>();
 
     private static MemoryUserDatabase usersDB = new MemoryUserDatabase();
 
@@ -180,7 +180,7 @@ public class UserTracker
     public LessonTracker getLessonTracker(WebSession s, String user,
 	    Screen screen)
     {
-	HashMap usermap = getUserMap(user);
+	HashMap<String, LessonTracker> usermap = getUserMap(user);
 	LessonTracker tracker = (LessonTracker) usermap.get(screen.getTitle());
 	if (tracker == null)
 	{
@@ -214,15 +214,15 @@ public class UserTracker
      * @param  userName  Description of the Parameter
      * @return           The userMap value
      */
-    private HashMap getUserMap(String userName)
+    private HashMap<String, LessonTracker> getUserMap(String userName)
     {
 
-	HashMap usermap = (HashMap) storage.get(userName);
+	HashMap<String, LessonTracker> usermap = storage.get(userName);
 
 	if (usermap == null)
 	{
 
-	    usermap = new HashMap();
+	    usermap = new HashMap<String, LessonTracker>();
 
 	    storage.put(userName, usermap);
 
@@ -265,7 +265,7 @@ public class UserTracker
 	//System.out.println( "User [" + s.getUserName() + "] TRACKER: updating " + screen + " LTH " + tracker.hashCode() );
 	tracker.store(s, screen);
 
-	HashMap usermap = getUserMap(s.getUserName());
+	HashMap<String, LessonTracker> usermap = getUserMap(s.getUserName());
 	usermap.put(screen.getTitle(), tracker);
 
     }
