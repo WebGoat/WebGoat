@@ -12,7 +12,7 @@
       application security flaws for the purpose of educating
       developers and security professionals about web
       application security problems. Please contact Bruce Mayhew 
-      (webgoat@g2-inc.com) if you have any questions.
+      (webgoat@owasp.org) if you have any questions.
     </description>
 
 
@@ -138,24 +138,25 @@
       			 example, replace "<" with "&lt;" and ">" with "&gt;". -->
             <param-name>FeedbackAddress</param-name>
             <param-value>
-				&lt;A HREF=mailto:WebGoat@g2-inc.com&gt;WebGoat@g2-inc.com&lt;/A&gt;
+				&lt;A HREF=mailto:webgoat@owasp.org&gt;webgoat@owasp.org&lt;/A&gt;
             </param-value>
       </init-param>
       
       <init-param>
             <param-name>DatabaseDriver</param-name>
             <param-value>
-		    	<!--sun.jdbc.odbc.JdbcOdbcDriver-->
-                org.enhydra.instantdb.jdbc.idbDriver
+		    	org.hsqldb.jdbcDriver
             </param-value>
       </init-param>
 
       <init-param>
             <param-name>DatabaseConnectionString</param-name>
+            <!-- 
+            The string "${USER}" in the connection string will be replaced by the active username
+            when making a connection.
+             -->
             <param-value>
-		    	<!-- insert the word PATH where you want to insert the realpath to the base of the web context-->
-                 jdbc:idb:PATH/database.prp
-				<!--jdbc:odbc:;DRIVER=Enhydra InstantDB Driver (*.prp);DBQ=PATH/webgoat.mdb;PWD=webgoat"-->
+				jdbc:hsqldb:mem:${USER}
 		    </param-value>
       </init-param>
 
@@ -203,6 +204,7 @@
          It is also legal to define more than one mapping for the same
          servlet, if you wish to.
     -->
+
 
     <servlet-mapping>
       <servlet-name>AxisServlet</servlet-name>
@@ -294,7 +296,7 @@
 	       <role-name>webgoat_challenge</role-name>
 	    </auth-constraint>
 	</security-constraint>
-
+	
 	<security-constraint>
 	    <web-resource-collection>
 	      <web-resource-name>WebGoat Application Source</web-resource-name>
