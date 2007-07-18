@@ -150,7 +150,7 @@ public class SQLInjection extends GoatHillsFinancial
 	    {
 		    instructions = "Use String SQL Injection to bypass authentication. "
 			    + "Use SQL injection to log in as the boss ('Neville') without using the correct password.  "
-			    + "Verify that Neville’s profile can be viewed and that all functions are available (including Search, Create, and Delete).";
+			    + "Verify that Neville's profile can be viewed and that all functions are available (including Search, Create, and Delete).";
 	    }
 		else if (STAGE2.equals(stage))
 		{
@@ -168,7 +168,7 @@ public class SQLInjection extends GoatHillsFinancial
 		{
 		    instructions = "Block SQL Injection using a Parameterized Query.<br>"
 			    + "Implement a fix to block SQL injection into the relevant parameter. "
-			    + "Repeat stage 3.  Verify that access to Neville’s profile is properly blocked.";
+			    + "Repeat stage 3.  Verify that access to Neville's profile is properly blocked.";
 	    }
 	}
 
