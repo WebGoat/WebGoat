@@ -156,7 +156,7 @@
             when making a connection.
              -->
             <param-value>
-				jdbc:hsqldb:${USER}
+				jdbc:hsqldb:mem:${USER}
 		    </param-value>
       </init-param>
 
