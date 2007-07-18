@@ -186,10 +186,8 @@ public class CSRF extends LessonAdapter {
 
 				for ( int i = 0; results.next(); i++ )
 				{
-					String link = "<a href='attack?" + NUMBER + "=" + results.getInt( NUM_COL ) +
-			        "&Screen=" + String.valueOf(getScreenId()) +
-			        "&menu=" + getDefaultCategory().getRanking().toString() +
-			        "' style='cursor:hand'>" +  results.getString( TITLE_COL ) + "</a>";
+					String link = "<a href='" + getLink() + "&" + NUMBER + "=" + results.getInt( NUM_COL ) +
+					"' style='cursor:hand'>" +  results.getString( TITLE_COL ) + "</a>";
 					TD td = new TD().addElement( link );
 					TR tr = new TR().addElement( td );
 					t.addElement( tr );
@@ -297,9 +295,7 @@ public class CSRF extends LessonAdapter {
 		hints.add( "Enter some text and try to include an image in there." );
 		hints.add( "In order to make the picture almost invisible try to add width=\"1\" and height=\"1\"." );
 		hints.add( "The format of an image in html is <pre>&lt;img src=\"[URL]\" width=\"1\" height=\"1\" /&gt;</pre>");		
-		hints.add( "Include this URL in the message <pre>&lt;img src='http://localhost/WebGoat/attack?"+
-			        "Screen=" + String.valueOf(getScreenId()) +
-			        "&menu=" + getDefaultCategory().getRanking().toString() +
+		hints.add( "Include this URL in the message <pre>&lt;img src='" + getLink() +
 			        "&transferFunds=5000' width=\"1\" height=\"1\" /&gt;</pre>");
 		
 		return hints;

@@ -113,7 +113,7 @@
 					 if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), RoleBasedAccessControl.LISTSTAFF_ACTION))
 					 {
 					 %>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=RoleBasedAccessControl.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=RoleBasedAccessControl.LISTSTAFF_ACTION%>"/>
 						</form>
@@ -125,7 +125,7 @@
 					 if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), RoleBasedAccessControl.EDITPROFILE_ACTION))
 					 {
 					 %>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=RoleBasedAccessControl.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=RoleBasedAccessControl.EDITPROFILE_ACTION%>"/>
 						</form>
@@ -138,7 +138,7 @@
 					if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), RoleBasedAccessControl.DELETEPROFILE_ACTION))
 					{
 					%>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=RoleBasedAccessControl.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=RoleBasedAccessControl.DELETEPROFILE_ACTION%>"/>
 						</form>

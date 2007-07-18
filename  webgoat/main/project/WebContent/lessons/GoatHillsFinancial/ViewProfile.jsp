@@ -113,7 +113,7 @@
 					 if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), GoatHillsFinancial.LISTSTAFF_ACTION))
 					 {
 					 %>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=GoatHillsFinancial.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=GoatHillsFinancial.LISTSTAFF_ACTION%>"/>
 						</form>
@@ -125,7 +125,7 @@
 					 if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), GoatHillsFinancial.EDITPROFILE_ACTION))
 					 {
 					 %>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=GoatHillsFinancial.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=GoatHillsFinancial.EDITPROFILE_ACTION%>"/>
 						</form>
@@ -138,7 +138,7 @@
 					if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), GoatHillsFinancial.DELETEPROFILE_ACTION))
 					{
 					%>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=GoatHillsFinancial.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=GoatHillsFinancial.DELETEPROFILE_ACTION%>"/>
 						</form>

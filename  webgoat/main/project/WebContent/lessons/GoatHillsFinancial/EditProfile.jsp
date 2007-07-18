@@ -7,7 +7,7 @@
 %>
 		<div class="lesson_title_box"><strong>Welcome Back </strong><span class="lesson_text_db"><%=webSession.getUserNameInLesson()%></span> - Edit Profile Page</div>
 		<div class="lesson_text">
-			<form id="form1" name="form1" method="post" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+			<form id="form1" name="form1" method="post" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 <Table border="0" cellpadding="0" cellspacing="0">
 				<TR><TD width="110">
 						First Name:

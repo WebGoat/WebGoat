@@ -795,9 +795,9 @@ public abstract class AbstractLesson extends Screen implements Comparable
     }
 
 
-    protected String getFormAction()
+    public String getFormAction()
     {
-	return "attack" + "?menu=" + getCategory().getRanking();
+	return getLink();
     }
 
 

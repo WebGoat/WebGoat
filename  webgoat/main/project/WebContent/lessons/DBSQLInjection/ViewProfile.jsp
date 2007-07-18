@@ -109,7 +109,7 @@
 					 if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), DBSQLInjection.LISTSTAFF_ACTION))
 					 {
 					 %>                	
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=DBSQLInjection.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=DBSQLInjection.LISTSTAFF_ACTION%>"/>
 						</form>
@@ -122,7 +122,7 @@
 					 if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), DBSQLInjection.EDITPROFILE_ACTION))
 					 {
 					 %>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=DBSQLInjection.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=DBSQLInjection.EDITPROFILE_ACTION%>"/>
 						</form>
@@ -135,7 +135,7 @@
 					if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), DBSQLInjection.DELETEPROFILE_ACTION))
 					{
 					%>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=DBSQLInjection.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=DBSQLInjection.DELETEPROFILE_ACTION%>"/>
 						</form>

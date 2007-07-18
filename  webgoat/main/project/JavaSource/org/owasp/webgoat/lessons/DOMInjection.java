@@ -95,9 +95,7 @@ public class DOMInjection extends LessonAdapter
 	String lineSep = System.getProperty("line.separator");
 	String script = "<script>" + lineSep + "function validate() {"
 		+ lineSep + "var keyField = document.getElementById('key');"
-		+ lineSep + "var url = '/WebGoat/attack?Screen="
-		+ String.valueOf(getScreenId()) + "&menu="
-		+ getDefaultCategory().getRanking().toString()
+		+ lineSep + "var url = '" + getLink() 
 		+ "&from=ajax&key=' + encodeURIComponent(keyField.value);"
 		+ lineSep + "if (typeof XMLHttpRequest != 'undefined') {"
 		+ lineSep + "req = new XMLHttpRequest();" + lineSep

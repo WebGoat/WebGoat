@@ -12,7 +12,7 @@
 			<%
 			}
 			%>
-				<form id="form1" name="form1" method="post" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+				<form id="form1" name="form1" method="post" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 			    	<label>Name
 					<input class="lesson_text_db" type="text" name="<%=GoatHillsFinancial.SEARCHNAME%>"/>
 		        </label>

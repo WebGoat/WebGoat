@@ -116,7 +116,7 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
 					if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), CrossSiteScripting.LISTSTAFF_ACTION))
 					{
 					%>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=CrossSiteScripting.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=CrossSiteScripting.LISTSTAFF_ACTION%>"/>
 						</form></td>
@@ -128,7 +128,7 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
 					if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), CrossSiteScripting.EDITPROFILE_ACTION))
 					{
 					%>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=CrossSiteScripting.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=CrossSiteScripting.EDITPROFILE_ACTION%>"/>
 						</form>
@@ -141,7 +141,7 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
 					if (webSession.isAuthorizedInLesson(webSession.getUserIdInLesson(), CrossSiteScripting.DELETEPROFILE_ACTION))
 					{
 					%>
-						<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="hidden" name="<%=CrossSiteScripting.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
 							<input type="submit" name="action" value="<%=CrossSiteScripting.DELETEPROFILE_ACTION%>"/>
 						</form>

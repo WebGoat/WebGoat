@@ -135,10 +135,7 @@ public class JSONInjection extends LessonAdapter
 		+ lineSep
 		+ "if (toField.value.length < 3 ) { return; }"
 		+ lineSep
-		+ "var url = '/WebGoat/attack?Screen="
-		+ String.valueOf(getScreenId())
-		+ "&menu="
-		+ getDefaultCategory().getRanking().toString()
+		+ "var url = '" + getLink() 
 		+ "&from=ajax&"
 		+ TRAVEL_FROM
 		+ "=' + encodeURIComponent(fromField.value) +"

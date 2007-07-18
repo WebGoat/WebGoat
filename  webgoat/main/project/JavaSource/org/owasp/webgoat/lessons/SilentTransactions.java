@@ -189,10 +189,7 @@ public class SilentTransactions extends LessonAdapter
 		+ lineSep
 		+ "function submitData(accountNo, balance) {"
 		+ lineSep
-		+ "var url = '/WebGoat/attack?Screen="
-		+ String.valueOf(getScreenId())
-		+ "&menu="
-		+ getDefaultCategory().getRanking().toString()
+		+ "var url = '" + getLink()
 		+ "&from=ajax&newAccount='+ accountNo+ '&amount=' + balance +'&confirm=' + document.getElementById('confirm').value; "
 		+ lineSep + "if (typeof XMLHttpRequest != 'undefined') {"
 		+ lineSep + "req = new XMLHttpRequest();" + lineSep

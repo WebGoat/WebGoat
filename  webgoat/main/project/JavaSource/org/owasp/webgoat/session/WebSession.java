@@ -360,42 +360,7 @@ public class WebSession
 
 	public String getRestartLink()
 	{
-		List<String> parameters = new ArrayList<String>();
-		
-		String screenValue = request.getParameter(SCREEN);
-		if (screenValue != null)
-			parameters.add(SCREEN + "=" + screenValue);
-		
-		String menuValue = request.getParameter(MENU);
-		if (menuValue != null)
-			parameters.add(MENU + "=" + menuValue);
-		
-		parameters.add(RESTART + "=" + currentScreen);
-		
-		return makeQuery("attack", parameters);
-	}
-	
-	private String makeQuery(String resource, List parameters)
-	{
-		StringBuffer query = new StringBuffer(resource);
-		
-		boolean isFirstParameter = true;
-		Iterator i = parameters.iterator();
-		
-		while (i.hasNext())
-		{
-			String parameter = (String) i.next();
-			if (isFirstParameter)
-			{
-				query.append("?");
-				isFirstParameter = false;
-			}
-			else
-				query.append("&");
-			query.append(parameter);
-		}
-		
-		return query.toString();
+		return getCurrentLesson().getLink() + "&" + RESTART + "=" + getCurrentScreen();
 	}
 	
 	public String getCurrentLink()

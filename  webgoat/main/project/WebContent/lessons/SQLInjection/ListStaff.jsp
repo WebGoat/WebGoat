@@ -11,7 +11,7 @@
 		<br>
 		<p>Select from the list below	</p>
 
-		<form id="form1" name="form1" method="post" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+		<form id="form1" name="form1" method="post" action="<%=webSession.getCurrentLesson().getFormAction()%>">
   <table width="60%" border="0" cellpadding="3">
     <tr>
       <td>  <label>

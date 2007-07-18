@@ -7,7 +7,7 @@
 %>
 <br><br><br>An error has occurred.
 <br><br><br>
-<form method="POST" action="attack?menu=<%=webSession.getCurrentMenu()%>">
+<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 
  <input type="submit" name="action" value="<%=GoatHillsFinancial.LOGIN_ACTION%>"/>
 </form>

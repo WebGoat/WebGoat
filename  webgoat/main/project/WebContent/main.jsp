@@ -141,7 +141,7 @@ StringBuffer buildList = new StringBuffer();
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Params" target="_top" onclick="MM_nbGroup('down','group1','params','',1)" 
 				onmouseover="MM_nbGroup('over','params','images/buttons/paramsOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/params.jpg" alt="Show Params" name="attack?show=Params" width="92" height="20" border="0" id="params"/>
+				<img src="images/buttons/params.jpg" alt="Show Params" name="<%= webSession.getCurrentLesson().getLink() %>&show=Params" width="92" height="20" border="0" id="params"/>
 				</a>
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Cookies" target="_top" onclick="MM_nbGroup('down','group1','cookies','',1)" 
 				onmouseover="MM_nbGroup('over','cookies','images/buttons/cookiesOver.jpg','',1)" 

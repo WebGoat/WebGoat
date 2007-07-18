@@ -159,10 +159,7 @@ public class XMLInjection extends LessonAdapter
 		+ lineSep
 		+ "if (accountIDField.value.length < 6 ) { return; }"
 		+ lineSep
-		+ "var url = '/WebGoat/attack?Screen="
-		+ String.valueOf(getScreenId())
-		+ "&menu="
-		+ getDefaultCategory().getRanking().toString()
+		+ "var url = '" + getLink()
 		+ "&from=ajax&"
 		+ ACCOUNTID
 		+ "=' + encodeURIComponent(accountIDField.value);"
