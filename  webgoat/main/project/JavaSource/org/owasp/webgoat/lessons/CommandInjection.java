@@ -14,7 +14,6 @@ import org.apache.ecs.html.BR;
 import org.apache.ecs.html.HR;
 import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.P;
-import org.apache.ecs.html.PRE;
 
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
@@ -76,7 +75,6 @@ public class CommandInjection extends LessonAdapter
 	{
 	    String helpFile = s.getParser().getRawParameter(HELP_FILE,
 		    "BasicAuthentication.help");
-	    String safeDirName;
 	    if (getWebgoatContext().isDefuseOSCommands()
 		    && (helpFile.indexOf('&') != -1 || helpFile.indexOf(';') != -1))
 	    {
@@ -134,8 +132,7 @@ public class CommandInjection extends LessonAdapter
 		    if (upDirCount(helpFile) <= 3)
 		    {
 			// FIXME: This value isn't used.  What is the goal here?
-			safeDirName = s.getContext().getRealPath("/")
-				+ helpFile;
+			s.getContext().getRealPath("/");
 			illegalCommand = false;
 		    }
 		    else
@@ -294,31 +291,6 @@ public class CommandInjection extends LessonAdapter
 
 	return (er.toString());
     }
-
-
-    /**
-     *  Description of the Method
-     *
-     * @param  command  Description of the Parameter
-     * @param  args     Description of the Parameter
-     * @param  s        Description of the Parameter
-     * @return          Description of the Return Value
-     */
-    private Element exec(WebSession s, String command, String args)
-    {
-	System.out.println("Executing OS command: '" + command
-		+ "' with args: '" + args + "'");
-	ExecResults er = Exec.execSimple(command, args);
-	if ((args.indexOf("&") != -1 || args.indexOf(";") != -1)
-		&& !er.getError())
-	{
-	    makeSuccess(s);
-	}
-	PRE p = new PRE().addElement(er.toString());
-
-	return (p);
-    }
-
 
     /**
      *  Gets the category attribute of the CommandInjection object

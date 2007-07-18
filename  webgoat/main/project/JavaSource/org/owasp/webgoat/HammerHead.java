@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -235,27 +234,6 @@ public class HammerHead extends HttpServlet
 
 	return page;
     }
-
-
-    /**
-     * Description of the Method
-     * 
-     * @param session
-     *        Description of the Parameter
-     */
-    private void dumpSession(HttpSession session)
-    {
-	Enumeration enumerator = session.getAttributeNames();
-
-	while (enumerator.hasMoreElements())
-	{
-	    String name = (String) enumerator.nextElement();
-	    Object value = session.getAttribute(name);
-	    System.out.println("Name: " + name);
-	    System.out.println("Value: " + value);
-	}
-    }
-
 
     /**
      * Description of the Method
