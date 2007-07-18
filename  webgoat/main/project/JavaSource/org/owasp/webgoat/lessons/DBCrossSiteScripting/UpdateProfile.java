@@ -128,8 +128,6 @@ public class UpdateProfile extends DefaultLessonAction
     		if (DBCrossSiteScripting.STAGE2.equals(getStage(s)) && e.getMessage().contains("ORA-06512") &&
     				!employee.getAddress1().matches("^[a-zA-Z0-9,\\. ]{0,80}$"))
     		{
-    		    s
-    			    .setMessage("You have successfully completed this lesson");
     		    setStageComplete(s, DBCrossSiteScripting.STAGE2);
     		}
 

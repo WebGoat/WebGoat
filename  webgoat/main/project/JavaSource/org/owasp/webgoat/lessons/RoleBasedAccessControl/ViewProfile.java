@@ -99,7 +99,6 @@ public class ViewProfile extends DefaultLessonAction
 		    && !isAuthorizedForEmployee(s, userId, employeeId))
 	    {
 		setStageComplete(s, RoleBasedAccessControl.STAGE3);
-		s.setMessage("Welcome to stage 4 -- protecting the data layer");
 	    }
 	}
 	catch (ParameterNotFoundException e)

@@ -175,7 +175,6 @@ public class Login extends DefaultLessonAction
 					statement.setString(2, password);
 					statement.execute();
 					setStageComplete(s, DBSQLInjection.STAGE2);
-					s.setMessage("Congratulations, you have completed " + DBSQLInjection.STAGE2);
 				}
 				catch (SQLException sqle2){}
 			}

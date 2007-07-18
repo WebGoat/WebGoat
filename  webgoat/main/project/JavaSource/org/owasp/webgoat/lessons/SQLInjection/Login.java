@@ -286,7 +286,6 @@ public class Login extends DefaultLessonAction
 			    && !isAuthenticated(s)
 			    && login_BACKUP(s, employeeId, password))
 		    {
-			s.setMessage("Welcome to stage 3");
 			setStageComplete(s, SQLInjection.STAGE2);
 		    }
 	    }

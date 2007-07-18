@@ -22,11 +22,14 @@ public abstract class RandomLessonAdapter extends LessonAdapter {
 		if (lt.getCompleted()) {
 			s.setMessage("Congratulations, you have completed this lab");
 		} else {
-			String message = "You have completed " + stage + ".";
+			s.setMessage("You have completed " + stage + ".");
 			if (! stage.equals(lt.getStage()))
-				message = message + " Welcome to " + lt.getStage();
-			s.setMessage(message);
+				s.setMessage(" Welcome to " + lt.getStage());
 		}
+	}
+	
+	public boolean isStageComplete(WebSession s, String stage) {
+		return getLessonTracker(s).hasCompleted(stage);
 	}
 	
 	@Override

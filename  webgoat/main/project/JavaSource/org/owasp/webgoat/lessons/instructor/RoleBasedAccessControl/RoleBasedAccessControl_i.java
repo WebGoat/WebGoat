@@ -137,7 +137,6 @@ public class RoleBasedAccessControl_i extends RoleBasedAccessControl
 						!isAuthorized(s, getUserId(s), GoatHillsFinancial.DELETEPROFILE_ACTION))
 				{
 					setStageComplete(s, STAGE2);
-					s.setMessage( "Welcome to stage 3 -- exploiting the data layer" );
 				}
 				} catch (ParameterNotFoundException pnfe)
 				{
@@ -159,7 +158,6 @@ public class RoleBasedAccessControl_i extends RoleBasedAccessControl
 
 				if (!action.isAuthorizedForEmployee(s, userId, employeeId))
 				{
-				    s.setMessage("Congratulations. You have successfully completed this lesson.");
 				    setStageComplete(s, STAGE4);
 				}
 				} catch (Exception e)

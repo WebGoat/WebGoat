@@ -221,7 +221,6 @@ public class ViewProfile extends DefaultLessonAction
 			&& address1.indexOf("</script>") > -1)
 		{
 		    setStageComplete(s, CrossSiteScripting.STAGE1);
-		    s.setMessage("Welcome to stage 2 - implement input validation");
 		}
 	}
 	else if (CrossSiteScripting.STAGE3.equals(stage))
@@ -231,8 +230,6 @@ public class ViewProfile extends DefaultLessonAction
 			&& address2.indexOf("alert") > -1
 			&& address2.indexOf("</script>") > -1)
 		{
-		    s
-			    .setMessage("Welcome to stage 4 - implement output encoding");
 		    setStageComplete(s, CrossSiteScripting.STAGE3);
 		}
 	}
@@ -240,8 +237,6 @@ public class ViewProfile extends DefaultLessonAction
 	{
 		if (employee.getAddress1().toLowerCase().indexOf("&lt;") > -1)
 		{
-		    s
-			    .setMessage("Welcome to stage 5 - demonstrate reflected XSS");
 		    setStageComplete(s, CrossSiteScripting.STAGE4);
 		}
 	}

@@ -101,7 +101,6 @@ public class FindProfile extends DefaultLessonAction
 			&& searchName.indexOf("alert") > -1
 			&& searchName.indexOf("</script>") > -1)
 		{
-		    s.setMessage("Welcome to stage 6 - more input validation");
 		    setStageComplete(s, CrossSiteScripting.STAGE5);
 		}
 	    }

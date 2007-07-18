@@ -255,8 +255,6 @@ public class ViewProfile extends DefaultLessonAction
 			if (targetEmployee != null
 				&& targetEmployee.getId() == SQLInjection.PRIZE_EMPLOYEE_ID)
 			{
-			    s
-				    .setMessage("Congratulations. You have successfully completed this lesson");
 			    setStageComplete(s, SQLInjection.STAGE4);
 			}
 		    }

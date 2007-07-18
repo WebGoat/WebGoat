@@ -170,7 +170,6 @@ public class DeleteProfile extends DefaultLessonAction
 		    RoleBasedAccessControl.DELETEPROFILE_ACTION))
 	    {
 		setStageComplete(s, RoleBasedAccessControl.STAGE1);
-		s.setMessage("Welcome to stage 2 -- protecting the business layer");
 	    }
 	}
 	catch (ParameterNotFoundException e)

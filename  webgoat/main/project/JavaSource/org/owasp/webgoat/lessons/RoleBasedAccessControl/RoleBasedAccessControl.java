@@ -241,7 +241,6 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 					!isAuthorized(s, getUserId(s), RoleBasedAccessControl.DELETEPROFILE_ACTION))
 			{
 				setStageComplete(s, STAGE2);
-				s.setMessage( "Welcome to stage 3 -- exploiting the data layer" );
 			}
 			} catch (ParameterNotFoundException pnfe)
 			{
@@ -263,7 +262,6 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 
 			if (!action.isAuthorizedForEmployee(s, userId, employeeId))
 			{
-			    s.setMessage("Congratulations. You have successfully completed this lesson.");
 			    setStageComplete(s, STAGE4);
 			}
 			} catch (Exception e)
@@ -376,7 +374,6 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				if (RoleBasedAccessControl.DELETEPROFILE_ACTION.equals(requestedActionName) &&
 						!isAuthorized(s, getUserId(s), RoleBasedAccessControl.DELETEPROFILE_ACTION))
 				{
-					s.setMessage( "Welcome to stage 3 -- exploiting the data layer" );
 					setStageComplete(s, STAGE2);
 				}
 				} catch (ParameterNotFoundException pnfe)
@@ -399,7 +396,6 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 
 				if (!action.isAuthorizedForEmployee(s, userId, employeeId))
 				{
-				    s.setMessage("Congratulations. You have successfully completed this lesson.");
 				    setStageComplete(s, STAGE4);
 				}
 				} catch (Exception e)
