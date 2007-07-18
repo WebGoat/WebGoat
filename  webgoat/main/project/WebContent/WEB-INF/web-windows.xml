@@ -145,17 +145,18 @@
       <init-param>
             <param-name>DatabaseDriver</param-name>
             <param-value>
-		    	sun.jdbc.odbc.JdbcOdbcDriver
-                <!--org.enhydra.instantdb.jdbc.idbDriver-->
+		    	org.hsqldb.jdbcDriver
             </param-value>
       </init-param>
 
       <init-param>
             <param-name>DatabaseConnectionString</param-name>
+            <!-- 
+            The string "${USER}" in the connection string will be replaced by the active username
+            when making a connection.
+             -->
             <param-value>
-		    	<!-- insert the word PATH where you want to insert the realpath to the base of the web context-->
-                <!--jdbc:idb:PATH/database.prp-->
-				jdbc:odbc:;DRIVER=Microsoft Access Driver (*.mdb);DBQ=PATH/webgoat.mdb;PWD=webgoat"
+				jdbc:hsqldb:mem:${USER}
 		    </param-value>
       </init-param>
 
