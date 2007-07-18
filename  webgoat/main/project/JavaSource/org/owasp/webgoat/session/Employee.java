@@ -34,7 +34,12 @@ import java.io.Serializable;
 public class Employee implements Serializable
 {
 
-    public final static String EMPLOYEE_ROLE = "employee";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1901957360367218399L;
+
+	public final static String EMPLOYEE_ROLE = "employee";
 
     public final static String MANAGER_ROLE = "manager";
 

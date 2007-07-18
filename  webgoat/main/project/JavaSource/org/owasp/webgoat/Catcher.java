@@ -47,6 +47,11 @@ public class Catcher extends HammerHead
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7441856110845727651L;
+
+	/**
      *  Description of the Field
      */
     public final static String START_SOURCE_SKIP = "START_OMIT_SOURCE";

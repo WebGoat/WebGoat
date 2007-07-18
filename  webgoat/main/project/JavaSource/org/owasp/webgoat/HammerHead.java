@@ -63,6 +63,11 @@ public class HammerHead extends HttpServlet
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 645640331343188020L;
+
+	/**
      * Description of the Field
      */
     protected static SimpleDateFormat httpDateFormat;

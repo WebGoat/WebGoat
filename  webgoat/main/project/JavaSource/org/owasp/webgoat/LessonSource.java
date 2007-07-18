@@ -47,6 +47,11 @@ public class LessonSource extends HammerHead
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2588430536196446145L;
+
+	/**
      *  Description of the Field
      */
     public final static String START_SOURCE_SKIP = "START_OMIT_SOURCE";

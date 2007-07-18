@@ -34,7 +34,12 @@ import java.io.Serializable;
 public class EmployeeStub implements Serializable
 {
 
-    private int id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7109162877797765632L;
+
+	private int id;
 
     private String firstName;
 

@@ -36,7 +36,13 @@ import java.util.Properties;
 public class WebgoatProperties extends Properties
 {
 
-    public WebgoatProperties(String propertiesFileName) throws IOException
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4351681705558227918L;
+
+
+	public WebgoatProperties(String propertiesFileName) throws IOException
     {
 	try
 	{

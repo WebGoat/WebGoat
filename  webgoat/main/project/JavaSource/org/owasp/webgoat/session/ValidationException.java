@@ -32,7 +32,13 @@ package org.owasp.webgoat.session;
 public class ValidationException extends Exception
 {
 
-    public ValidationException()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8358754606830400708L;
+
+
+	public ValidationException()
     {
 	super();
     }

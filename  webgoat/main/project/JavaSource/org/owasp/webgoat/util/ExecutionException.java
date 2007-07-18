@@ -35,6 +35,12 @@ public class ExecutionException extends Exception
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7282947463831152092L;
+
+
+	/**
      *  Constructor for the ExecutionException object
      */
     public ExecutionException()

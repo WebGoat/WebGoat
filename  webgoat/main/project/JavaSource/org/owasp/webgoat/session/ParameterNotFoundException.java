@@ -35,6 +35,12 @@ public class ParameterNotFoundException extends Exception
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3286112913299408382L;
+
+
+	/**
      *  Constructs a new ParameterNotFoundException with no detail message.
      */
     public ParameterNotFoundException()

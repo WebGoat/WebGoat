@@ -32,4 +32,9 @@ package org.owasp.webgoat.session;
 public class UnauthorizedException extends Exception
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5245519486798464814L;
+
 }
