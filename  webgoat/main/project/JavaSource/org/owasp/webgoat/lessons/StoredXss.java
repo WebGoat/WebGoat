@@ -107,7 +107,7 @@ public class StoredXss extends LessonAdapter
 	    statement.setString(2, title);
 	    statement.setString(3, message);
 	    statement.setString(4, s.getUserName());
-	    statement.executeQuery();
+	    statement.execute();
 	}
 	catch (Exception e)
 	{
@@ -118,6 +118,7 @@ public class StoredXss extends LessonAdapter
 	    {
 		s.setMessage("Could not add message to database");
 	    }
+	    e.printStackTrace();
 	}
     }
 
