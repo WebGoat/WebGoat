@@ -154,23 +154,18 @@ public class HammerHead extends HttpServlet
 	    if (response.isCommitted())
 		return;
 
-	    // if the screen parameter exists, the screen was visited via
-	    // the menu categories,
-	    // we won't count these as visits. The user may be able to
-	    // manipulate the counts
-	    // by specifying the screen parameter using a proxy. Good for
-	    // them!
-	    String fromMenus = mySession.getParser().getRawParameter(
-		    WebSession.SCREEN, null);
-	    if (fromMenus == null)
-	    {
-		// if the show source parameter exists, don't add the visit
-		fromMenus = mySession.getParser().getRawParameter(
-			WebSession.SHOW, null);
-		if (fromMenus == null)
-		{
-		    screen.getLessonTracker(mySession).incrementNumVisits();
-		}
+	    // perform lesson-specific tracking activities
+	    if (screen instanceof AbstractLesson) {
+	    	AbstractLesson lesson = (AbstractLesson) screen;
+	    	
+		    // we do not count the initial display of the lesson screen as a visit
+		    if ("GET".equals(request.getMethod())) {
+		    	String uri = request.getRequestURI() + "?" + request.getQueryString();
+		    	if (! uri.endsWith(lesson.getLink()))
+		    		screen.getLessonTracker(mySession).incrementNumVisits();
+		    } else if ("POST".equals(request.getMethod()) && mySession.getPreviousScreen() == mySession.getCurrentScreen()) {
+			    screen.getLessonTracker(mySession).incrementNumVisits();
+		    }
 	    }
 
 	    // log the access to this screen for this user
