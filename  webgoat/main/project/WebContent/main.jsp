@@ -8,7 +8,6 @@ AbstractLesson currentLesson = webSession.getCurrentLesson();
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@page import="org.owasp.webgoat.lessons.SequentialLessonAdapter"%>
 <%@page import="org.owasp.webgoat.lessons.RandomLessonAdapter"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -25,15 +24,13 @@ AbstractLesson currentLesson = webSession.getCurrentLesson();
 <script language="JavaScript1.2" src="javascript/toggle.js" type="text/javascript"></script>
 </head>
 <%
-final String menuPrefix = "menu";
+final String menuPrefix = WebSession.MENU;
 final String submenuPrefix = "submenu";
 final String mbutPrefix = "mbut";
 String printHint = "";
 String printParameters = "";
 String printCookies = "";
 String lessonComplete = "<img src=\"images/buttons/lessonComplete.jpg\">";
-String m = "menu";
-String menu = request.getParameter(m);
 
 List categories = course.getCategories();
 
@@ -58,7 +55,7 @@ StringBuffer buildList = new StringBuffer();
         if (iter1.hasNext())
         		buildList.append(",");
     }%>
-<body class="page" onload="setMenuMagic1(10,40,10,'menubottom',<%=buildList%>);trigMM1url('menu',1);MM_preloadImages('images/buttons/hintLeftOver.jpg','images/buttons/hintOver.jpg','images/buttons/hintRightOver.jpg','images/buttons/paramsOver.jpg','images/buttons/htmlOver.jpg','images/buttons/cookiesOver.jpg','images/buttons/javaOver.jpg','images/buttons/plansOver.jpg','images/buttons/logout.jpg','images/buttons/helpOver.jpg'); initIframe();">
+<body class="page" onload="setMenuMagic1(10,40,10,'menubottom',<%=buildList%>);trigMM1url('<%= menuPrefix %>',1);MM_preloadImages('images/buttons/hintLeftOver.jpg','images/buttons/hintOver.jpg','images/buttons/hintRightOver.jpg','images/buttons/paramsOver.jpg','images/buttons/htmlOver.jpg','images/buttons/cookiesOver.jpg','images/buttons/javaOver.jpg','images/buttons/plansOver.jpg','images/buttons/logout.jpg','images/buttons/helpOver.jpg'); initIframe();">
 
 	<div id="wrap">
 	<%
@@ -96,8 +93,20 @@ StringBuffer buildList = new StringBuffer();
 		    		AbstractLesson lesson = (AbstractLesson)iter4.next();
 		    
 			%><tr>
-	      		<td><%=(lesson.isCompleted(webSession) ? lessonComplete : "")%><a href="<%=lesson.getLink()%>&menu=<%=category.getRanking()%>"><%=lesson.getTitle()%></a></td>
-	    		</tr><%
+	      		<td><%=(lesson.isCompleted(webSession) ? lessonComplete : "")%><a href="<%=lesson.getLink()%>"><%=lesson.getTitle()%></a></td>
+	    		</tr>
+	    		<% if (lesson instanceof RandomLessonAdapter) {
+					RandomLessonAdapter rla = (RandomLessonAdapter) lesson;
+					String[] stages = rla.getStages();
+					for (int i=0; i<stages.length; i++) {
+	    		%>
+			    		<tr><td align="right"><a href="<%=lesson.getLink() + "&stage=" + (i+1) %>"><%=stages[i] %></a>
+						</td></tr>
+				<% 
+					}
+				}
+				%>
+<%
 			}
 			%>
 	  		</table>
@@ -113,28 +122,28 @@ StringBuffer buildList = new StringBuffer();
 				if (webSession.isAuthorizedInLesson(webSession.getRole(), WebSession.SHOWHINTS))
 				{
 				%>
-				<a href="attack?show=PreviousHint&menu=<%=menu%>" target="_top" onclick="MM_nbGroup('down','group1','hintLeft','',1)" 
+				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=PreviousHint" target="_top" onclick="MM_nbGroup('down','group1','hintLeft','',1)" 
 				onmouseover="MM_nbGroup('over','hintLeft','images/buttons/hintLeftOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
 				<img src="images/buttons/hintLeft.jpg" alt="Previous Hint" name="hintLeft" width="22" height="20" border="0" id="hintLeft"/>
 				</a>
-				<a href="attack?show=NextHint&menu=<%=menu%>" target="_top" onclick="MM_nbGroup('down','group1','hint','',1)" 
+				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=NextHint" target="_top" onclick="MM_nbGroup('down','group1','hint','',1)" 
 				onmouseover="MM_nbGroup('over','hint','images/buttons/hintOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
 				<img src="images/buttons/hint.jpg" alt="Hints" name="hint" width="35" height="20" border="0" id="hint"/>
 				</a>
-				<a href="attack?show=NextHint&menu=<%=menu%>" target="_top" onclick="MM_nbGroup('down','group1','hintRight','',1)" 
+				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=NextHint" target="_top" onclick="MM_nbGroup('down','group1','hintRight','',1)" 
 				onmouseover="MM_nbGroup('over','hintRight','images/buttons/hintRightOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
 				<img src="images/buttons/hintRight.jpg" alt="Next Hint" name="hintRight" width="20" height="20" border="0" id="hintRight"/>
 				</a>
 				<%}%>
-				<a href="attack?show=Params&menu=<%=menu%>" target="_top" onclick="MM_nbGroup('down','group1','params','',1)" 
+				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Params" target="_top" onclick="MM_nbGroup('down','group1','params','',1)" 
 				onmouseover="MM_nbGroup('over','params','images/buttons/paramsOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
 				<img src="images/buttons/params.jpg" alt="Show Params" name="attack?show=Params" width="92" height="20" border="0" id="params"/>
 				</a>
-				<a href="attack?show=Cookies&menu=<%=menu%>" target="_top" onclick="MM_nbGroup('down','group1','cookies','',1)" 
+				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Cookies" target="_top" onclick="MM_nbGroup('down','group1','cookies','',1)" 
 				onmouseover="MM_nbGroup('over','cookies','images/buttons/cookiesOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
 				<img src="images/buttons/cookies.jpg" alt="Show Cookies" name="cookies" width="104" height="20" border="0" id="cookies"/>
@@ -198,44 +207,6 @@ StringBuffer buildList = new StringBuffer();
 				<br/>
 				<a href="javascript:toggle('lessonPlans')" target="_top" onclick="MM_nbGroup('down','group1','plans','',1)">Close this Window</a>
 				</div>
-				<%
-					AbstractLesson al = webSession.getCurrentLesson();
-					if (!al.isCompleted(webSession))
-					{
-					if (al instanceof SequentialLessonAdapter)
-					{
-					SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
-					if (webSession.isDebug()&& sla.getStageCount() > 1) {
-						%><form method="post" action="attack?menu=<%=webSession.getCurrentMenu()%>">
-						<select name="<%= WebSession.STAGE %>" onchange="this.form.submit();">
-						<%
-						int stages = sla.getStageCount();
-						int stage = sla.getStage(webSession);
-						for (int i=1; i<=stages;i++) {
-						%><option <% if (i == stage) out.print("selected"); %> value="<%= i %>">Stage <%= i %></option>
-						<%
-						}
-						%></select></form><%
-					}
-					}
-					else if (al instanceof RandomLessonAdapter)
-					{
-					RandomLessonAdapter rla = (RandomLessonAdapter) al;
-					String[] stages = rla.getStages();
-					if (stages != null && stages.length > 0) {
-						%><form method="post" action="attack?menu=<%=webSession.getCurrentMenu()%>">
-						<select name="<%= WebSession.STAGE %>" onchange="this.form.submit();">
-						<%
-						String stage = rla.getStage(webSession);
-						for (int i=0; i<stages.length;i++) {
-						%><option <% if (stages[i].equals(stage)) out.print("selected"); %> value="<%= i+1 %>"><%= stages[i] %><%= rla.getLessonTracker(webSession).hasCompleted(stages[i]) ? "*" : "" %></option>
-						<%
-						}
-						%></select></form><%
-					}
-					}
-					}
-				%>
 				<div id="lessonContent"><%=webSession.getInstructions()%></div>
 				<div id="message" class="info"><%=webSession.getMessage()%></div>
 	
