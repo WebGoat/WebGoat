@@ -31,10 +31,11 @@
                 </tr>
                 <tr>
                   <td  valign="top">
-	                 <div align="center" class="style2">Bruce Mayhew</div>                    
-	                 <div align="center" class="style2">Laurence Casey</div>                    
-	                 <div align="center" class="style2">David Anderson</div>                    
+	                 <div align="center" class="style2">Bruce Mayhew</div>
+	                 <div align="center" class="style2">Laurence Casey</div>
+	                 <div align="center" class="style2">David Anderson</div>
 	                 <div align="center" class="style2">Eric Sheridan</div>
+	                 <div align="center" class="style2">Rogan Dawes</div>
 	              </td>
                   <td  valign="top">
                   	<div align="center" class="style2">Aspect Security</div>

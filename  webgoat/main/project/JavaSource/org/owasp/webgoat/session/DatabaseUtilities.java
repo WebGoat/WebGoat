@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,21 +93,26 @@ public class DatabaseUtilities
 		}
 	}
 	
-    public static Connection makeConnection(String user, WebgoatContext context)
+    private static Connection makeConnection(String user, WebgoatContext context)
     	throws ClassNotFoundException, SQLException
     {
-	Class.forName(context.getDatabaseDriver());
+		Class.forName(context.getDatabaseDriver());
 
-	String password = context.getDatabasePassword();
-	String conn = context.getDatabaseConnectionString();
-	if (password == null || password.equals("")) {
-		return (DriverManager.getConnection(conn));
-	} else {
+		if (context.getDatabaseConnectionString().contains("hsqldb"))
+    		return getHsqldbConnection(user, context);
+		
 		String userPrefix = context.getDatabaseUser();
-		return DriverManager.getConnection(conn, userPrefix + "_" + user, password);
-	}
+		String password = context.getDatabasePassword();
+		String url = context.getDatabaseConnectionString();
+		return DriverManager.getConnection(url, userPrefix + "_" + user, password);
     }
 
+    private static Connection getHsqldbConnection(String user, WebgoatContext context)
+	throws ClassNotFoundException, SQLException
+	{
+		String url = context.getDatabaseConnectionString().replaceAll("\\$\\{USER\\}", user);
+		return DriverManager.getConnection(url, "sa", "");
+	}
     /**
      * Description of the Method
      *
@@ -162,4 +168,5 @@ public class DatabaseUtilities
 		    "Query Successful; however no data was returned from this query."));
 	}
     }
+    
 }

@@ -151,8 +151,12 @@
 
       <init-param>
             <param-name>DatabaseConnectionString</param-name>
+            <!-- 
+            The string "${USER}" in the connection string will be replaced by the active username
+            when making a connection.
+             -->
             <param-value>
-				jdbc:hsqldb:.
+				jdbc:hsqldb:${USER}
 		    </param-value>
       </init-param>
 
