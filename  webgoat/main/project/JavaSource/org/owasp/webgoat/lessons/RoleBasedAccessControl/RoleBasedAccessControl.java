@@ -140,29 +140,26 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 		String stage = getStage(s);
 		if (STAGE1.equals(stage))
 	    {
-		    instructions = "Breaking functional access control.<br>"
-			    + "You should be able to login as a regular employee and delete another user's employee "
-			    + "profile, even though that is supposed to be an HR-only function.";
+		    instructions = "Bypass Presentational Layer Access Control.<br>"
+			    + "As regular employee 'Tom', exploit weak access control to use the Delete function from the Staff List page.  "
+			    + "Verify that Tom's profile can be deleted.";
 	    }
 		else if (STAGE2.equals(stage))
 		{
-		    instructions = "Implementing access control in the Business Layer<br>"
-			    + "Access control has already been implemented in the Presentation Layer, but as we have just "
-			    + "seen, this is not enough.  Implement access control in the Businesss Layer to verify "
-			    + "authorization to use the Delete function before actually executing it.";
+		    instructions = "Add Business Layer Access Control.<br>"
+			    + "Implement a fix to deny unauthorized access to the Delete function. "
+			    + "Repeat stage 1.  Verify that access to Delete is properly denied.";
 		}
 		else if (STAGE3.equals(stage))
 		{
-		    instructions = "Breaking data access control.<br>"
-			    + "Data Layer access control is being already done on the staff list, but it has not been "
-			    + "globally implemented.  Take advantage of this to login as a regular employee and view the "
-			    + "CEO's employee profile.";
+		    instructions = "Breaking Data Layer Access Control.<br>"
+			    + "As regular employee 'Tom', exploit weak access control to View another employee's profile. Verify the access.";
 		}
 		else if (STAGE4.equals(stage))
 		{
-		    instructions = "Implementing access control in the Data Layer.<br>"
-			    + "Implement Data Layer access control to prevent unauthorized (and potentially career threatening) "
-			    + "access to employee personal data.";
+		    instructions = "Add Data Layer Access Control.<br>"
+			    + "Implement a fix to deny unauthorized access to this data. "
+			    + "Repeat stage 3.  Verify that access to other employee's profiles is properly denied.";
 	    }
 	}
 

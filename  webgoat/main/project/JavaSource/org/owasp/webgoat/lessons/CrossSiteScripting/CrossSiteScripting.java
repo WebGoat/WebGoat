@@ -156,37 +156,38 @@ public class CrossSiteScripting extends GoatHillsFinancial
 		if (STAGE1.equals(stage))
 	    {
 		    instructions = "Execute a Stored Cross Site Scripting (XSS) attack.<br>"
-			    + "For this exercise, your mission is to cause the application to serve a script of your making "
-			    + " to some other user.";
+			    + "As 'Tom', execute a Stored XSS attack against the Street field on the Edit Profile page.  "
+			    + "Verify that 'Jerry' is affected by the attack.";
 	    }
 		else if (STAGE2.equals(stage))
 		{
 		    instructions = "Block Stored XSS using Input Validation.<br>"
-			    + "You will modify the application to perform input validation on the vulnerable input field "
-			    + "you just exploited.";
+			    + "Implement a fix to block the stored XSS before it can be written to the database. "
+			    + "Repeat stage 1 as 'Eric' with 'David' as the manager.  Verify that 'David' is not affected by the attack.";
 		}
 		else if (STAGE3.equals(stage))
 		{
 		    instructions = "Execute a previously Stored Cross Site Scripting (XSS) attack.<br>"
-			    + "The application is still vulnerable to scripts in the database.  Trigger a pre-stored "
-			    + "script by logging in as employee 'David' and viewing Bruce's profile.";
+			    + "The 'Bruce' employee profile is pre-loaded with a stored XSS attack. "
+			    + "Verify that 'David' is affected by the attack even though the fix from stage 2 is in place.";
 		}
 		else if (STAGE4.equals(stage))
 		{
 		    instructions = "Block Stored XSS using Output Encoding.<br>"
-			    + "Encode data served from the database to the client so that any scripts are rendered harmless.";
+			    + "Implement a fix to block XSS after it is read from the database. "
+			    + "Repeat stage 3. Verify that 'David' is not affected by Bruce's profile attack.";
 		}
 		else if (STAGE5.equals(stage))
 		{
 		    instructions = "Execute a Reflected XSS attack.<br>"
-			    + "Your goal here is to craft a link containing a script which the application will "
-			    + "serve right back to any client that activates the link.";
+			    + "Use a vulnerability on the Search Staff page to craft a URL containing a reflected XSS attack.  "
+			    + "Verify that another employee using the link is affected by the attack.";
 		}
 		else if (STAGE6.equals(stage))
 		{
 		    instructions = "Block Reflected XSS using Input Validation.<br>"
-			    + "Use the input validation techniques learned ealier in this lesson to close the vulnerability "
-			    + "you just exploited.";
+			    + "Implement a fix to block this reflected XSS attack. "
+			    + "Repeat step 5.  Verify that the attack URL is no longer effective.";
 	    }
 	}
 

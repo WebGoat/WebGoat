@@ -149,29 +149,26 @@ public class SQLInjection extends GoatHillsFinancial
 		if (STAGE1.equals(stage))
 	    {
 		    instructions = "Use String SQL Injection to bypass authentication. "
-			    + "The goal here is to login as the user "
-			    + PRIZE_EMPLOYEE_NAME
-			    + ", who is in the Admin group.  "
-			    + "You do not have the password, but the form is SQL injectable.";
+			    + "Use SQL injection to log in as the boss ('Neville') without using the correct password.  "
+			    + "Verify that Neville’s profile can be viewed and that all functions are available (including Search, Create, and Delete).";
 	    }
 		else if (STAGE2.equals(stage))
 		{
-		    instructions = "Use a parameterized query.<br>"
-			    + "A dynamic SQL query is not necessary for the login function to work.  Change login "
-			    + "to use a parameterized query to protect against malicious SQL in the query parameters.";
+		    instructions = "Block SQL Injection using a Parameterized Query.<br>"
+			    + "Implement a fix to block SQL injection into the fields in question on the Login page. "
+			    + "Repeat stage 1.  Verify that the attack is no longer effective.";
 		}
 		else if (STAGE3.equals(stage))
 		{
-		    instructions = "Use Integer SQL Injection to bypass access control.<br>"
-			    + "The goal here is to view the CEO's employee profile, again, even with data access "
-			    + "control checks in place from a previous lesson.  "
-			    + "As before, you do not have the password, but the form is SQL injectable.";
+		    instructions = "Execute SQL Injection to bypass authorization.<br>"
+			    + "As regular employee 'Larry', use SQL injection into a parameter of the View function "
+			    + "(from the List Staff page) to view the profile of the boss ('Neville').";
 		}
 		else if (STAGE4.equals(stage))
 		{
-		    instructions = "Use a parameterized query again.<br>"
-			    + "Change the ViewProfile function to use a parameterized query to protect against "
-			    + "malicious SQL in the numeric query parameter.";
+		    instructions = "Block SQL Injection using a Parameterized Query.<br>"
+			    + "Implement a fix to block SQL injection into the relevant parameter. "
+			    + "Repeat stage 3.  Verify that access to Neville’s profile is properly blocked.";
 	    }
 	}
 
