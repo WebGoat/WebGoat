@@ -6,6 +6,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ecs.MultiPartElement;
 import org.apache.ecs.html.B;
 import org.apache.ecs.html.TD;
@@ -46,23 +49,50 @@ import org.apache.ecs.html.Table;
 public class DatabaseUtilities
 {
 
-    /**
-     * Description of the Method
-     *
-     * @param s Description of the Parameter
-     *
-     * @return Description of the Return Value
-     *
-     * @exception ClassNotFoundException Description of the Exception
-     * @exception SQLException Description of the Exception
-     */
-    public static Connection makeConnection(WebSession s)
-	    throws ClassNotFoundException, SQLException
-    {
-    	return makeConnection(s.getWebgoatContext());
-    }
-    
-    public static Connection makeConnection(WebgoatContext context)
+	private static Map<String, Connection> connections = new HashMap<String, Connection>();
+	private static Map<String, Boolean> dbBuilt = new HashMap<String, Boolean>();
+	
+	public static Connection getConnection(WebSession s) 
+	throws ClassNotFoundException, SQLException 
+	{
+		return getConnection(s.getUserName(), s.getWebgoatContext());
+	}
+	
+	public static Connection getConnection(String user, WebgoatContext context) 
+		throws ClassNotFoundException, SQLException 
+	{
+		Connection conn = connections.get(user);
+		if (conn != null && !conn.isClosed())
+			return conn;
+		conn = makeConnection(user, context);
+		connections.put(user, conn);
+		
+		if (dbBuilt.get(user) == null) {
+			new CreateDB().makeDB(conn);
+			dbBuilt.put(user, Boolean.TRUE);
+		}
+		
+		return conn;
+	}
+	
+	public static void returnConnection(String user)
+	{
+		try
+		{
+		Connection connection = connections.get(user);
+		if (connection == null || connection.isClosed())
+			return;
+		
+		if (connection.getMetaData().getDatabaseProductName().toLowerCase().contains("oracle"))
+			connection.close();
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+		}
+	}
+	
+    public static Connection makeConnection(String user, WebgoatContext context)
     	throws ClassNotFoundException, SQLException
     {
 	Class.forName(context.getDatabaseDriver());
@@ -72,8 +102,8 @@ public class DatabaseUtilities
 	if (password == null || password.equals("")) {
 		return (DriverManager.getConnection(conn));
 	} else {
-		String user = context.getDatabaseUser();
-		return DriverManager.getConnection(conn, user, password);
+		String userPrefix = context.getDatabaseUser();
+		return DriverManager.getConnection(conn, userPrefix + "_" + user, password);
 	}
     }
 

@@ -95,7 +95,7 @@ public class StoredXss extends LessonAdapter
 
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    String query = "INSERT INTO messages VALUES (?, ?, ?, ? )";
@@ -209,7 +209,7 @@ public class StoredXss extends LessonAdapter
 
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    // edit by Chuck Willis - Added logic to associate similar usernames
@@ -331,7 +331,7 @@ public class StoredXss extends LessonAdapter
 	{
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    Statement statement = connection.createStatement(

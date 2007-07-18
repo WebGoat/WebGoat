@@ -221,7 +221,7 @@ public class WSDLScanning extends LessonAdapter
 	    int id = s.getParser().getIntParameter("id");
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    Table t = new Table().setCellSpacing(0).setCellPadding(2)
@@ -290,7 +290,7 @@ public class WSDLScanning extends LessonAdapter
     {
 	try
 	{
-	    Connection connection = DatabaseUtilities.makeConnection(getWebgoatContext());
+	    Connection connection = DatabaseUtilities.getConnection("guest", getWebgoatContext());
 	    if (connection == null)
 	    {
 		return null;

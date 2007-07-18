@@ -208,7 +208,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 	if (connection == null)
 	{
-	    connection = DatabaseUtilities.makeConnection(s);
+	    connection = DatabaseUtilities.getConnection(s);
 	}
 
 	Statement statement3 = connection.createStatement(

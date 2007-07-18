@@ -66,7 +66,7 @@ public class ProductsAdminScreen extends LessonAdapter
 	{
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    Statement statement = connection.createStatement(

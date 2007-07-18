@@ -99,7 +99,7 @@ public class DOS_Login extends LessonAdapter
 		    // Check if the login is valid
 		    if (connection == null)
 		    {
-		    	connection = DatabaseUtilities.makeConnection(s);
+		    	connection = DatabaseUtilities.getConnection(s);
 		    }
 	
 		    String query = "SELECT * FROM user_system_data WHERE user_name = '"

@@ -75,7 +75,7 @@ public class ThreadSafetyProblem extends LessonAdapter
 	{
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    ec.addElement(new StringElement("Enter user name: "));
@@ -208,7 +208,7 @@ public class ThreadSafetyProblem extends LessonAdapter
 
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 	}
 	catch (Exception e)

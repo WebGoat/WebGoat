@@ -155,7 +155,7 @@ public class RefreshDBScreen extends LessonAdapter
 	{
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    CreateDB db = new CreateDB();

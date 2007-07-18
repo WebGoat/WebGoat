@@ -1,9 +1,9 @@
-DROP USER webgoat CASCADE;
-CREATE USER webgoat IDENTIFIED BY webgoat DEFAULT TABLESPACE users;
-GRANT CONNECT, RESOURCE TO webgoat;
-GRANT CREATE PROCEDURE TO webgoat;
+DROP USER webgoat_guest CASCADE;
+CREATE USER webgoat_guest IDENTIFIED BY webgoat DEFAULT TABLESPACE users;
+GRANT CONNECT, RESOURCE TO webgoat_guest;
+GRANT CREATE PROCEDURE TO webgoat_guest;
 
-CREATE TABLE WEBGOAT.EMPLOYEE (
+CREATE TABLE WEBGOAT_guest.EMPLOYEE (
     userid INT NOT NULL PRIMARY KEY,
     first_name VARCHAR(20),
     last_name VARCHAR(20),
@@ -24,7 +24,7 @@ CREATE TABLE WEBGOAT.EMPLOYEE (
 );
 
 
-CREATE OR REPLACE PROCEDURE WEBGOAT.EMPLOYEE_LOGIN(v_id NUMBER, v_password VARCHAR) AS
+CREATE OR REPLACE PROCEDURE WEBGOAT_guest.EMPLOYEE_LOGIN(v_id NUMBER, v_password VARCHAR) AS
     stmt VARCHAR(32767);v_userid NUMBER;
 BEGIN
     stmt  := 'SELECT USERID FROM EMPLOYEE WHERE USERID = ' || v_id || ' AND PASSWORD = ''' || v_password || '''';
@@ -32,7 +32,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE WEBGOAT.EMPLOYEE_LOGIN_BACKUP(v_id NUMBER, v_password VARCHAR) AS
+CREATE OR REPLACE PROCEDURE WEBGOAT_guest.EMPLOYEE_LOGIN_BACKUP(v_id NUMBER, v_password VARCHAR) AS
     stmt VARCHAR(32767);v_userid NUMBER;
 BEGIN
     stmt  := 'SELECT USERID FROM EMPLOYEE WHERE USERID = ' || v_id || ' AND PASSWORD = ''' || v_password || '''';
@@ -40,7 +40,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE WEBGOAT.UPDATE_EMPLOYEE(
+CREATE OR REPLACE PROCEDURE WEBGOAT_guest.UPDATE_EMPLOYEE(
     v_userid IN employee.userid%type, 
     v_first_name IN employee.first_name%type, 
     v_last_name IN employee.last_name%type, 
@@ -82,7 +82,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE WEBGOAT.UPDATE_EMPLOYEE_BACKUP(
+CREATE OR REPLACE PROCEDURE WEBGOAT_guest.UPDATE_EMPLOYEE_BACKUP(
     v_userid IN employee.userid%type, 
     v_first_name IN employee.first_name%type, 
     v_last_name IN employee.last_name%type, 

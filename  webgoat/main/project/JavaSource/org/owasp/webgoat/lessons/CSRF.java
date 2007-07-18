@@ -85,7 +85,7 @@ public class CSRF extends LessonAdapter {
 
 			if ( connection == null )
 			{
-				connection = DatabaseUtilities.makeConnection( s );
+				connection = DatabaseUtilities.getConnection( s );
 			}
 
 			String query = "INSERT INTO messages VALUES (?, ?, ?, ? )";
@@ -173,7 +173,7 @@ public class CSRF extends LessonAdapter {
 		{
 			if ( connection == null )
 			{
-				connection = DatabaseUtilities.makeConnection( s );
+				connection = DatabaseUtilities.getConnection( s );
 			}
 
 			Statement statement = connection.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
@@ -228,7 +228,7 @@ public class CSRF extends LessonAdapter {
 
 			if ( connection == null )
 			{
-				connection = DatabaseUtilities.makeConnection( s );
+				connection = DatabaseUtilities.getConnection( s );
 			}
 
 			

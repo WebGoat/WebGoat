@@ -122,7 +122,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    try
@@ -188,7 +188,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	{
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    ec.addElement(makeStationList(s));
@@ -288,7 +288,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 
 	if (connection == null)
 	{
-	    connection = DatabaseUtilities.makeConnection(s);
+	    connection = DatabaseUtilities.getConnection(s);
 	}
 
 	Map<String, String> stations = new TreeMap<String, String>();
@@ -395,7 +395,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 	}
 	catch (Exception e)

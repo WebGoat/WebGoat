@@ -251,7 +251,7 @@ public class BackDoors extends SequentialLessonAdapter
     {
 	if (connection == null)
 	{
-	    connection = DatabaseUtilities.makeConnection(s);
+	    connection = DatabaseUtilities.getConnection(s);
 	}
 
 	return connection;

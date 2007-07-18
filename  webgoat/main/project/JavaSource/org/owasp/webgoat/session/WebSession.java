@@ -156,8 +156,6 @@ public class WebSession
 
 	private int previousScreen = ERROR;
 
-	private static Connection connection = null;
-
 	private int hintNum = -1;
 
 	private boolean isAdmin = false;
@@ -217,22 +215,13 @@ public class WebSession
 	public static synchronized Connection getConnection(WebSession s) 
 			throws SQLException, ClassNotFoundException
 	{
-		if ( connection == null || connection.isClosed() )
-		{
-			connection = DatabaseUtilities.makeConnection( s );
-		}
-		
-		return connection;
+		return DatabaseUtilities.getConnection(s);
 	}
 
-	public static synchronized void closeConnection() throws SQLException
-	{
-		if (connection != null && !connection.isClosed()) {
-			connection.close();
-			connection = null;
-		}
+	public static void returnConnection(WebSession s) {
+		DatabaseUtilities.returnConnection(s.getUserName());
 	}
-
+	
 	/**
 	 * Description of the Method
 	 * 

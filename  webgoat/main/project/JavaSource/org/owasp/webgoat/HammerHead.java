@@ -2,7 +2,6 @@ package org.owasp.webgoat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -212,12 +211,7 @@ public class HammerHead extends HttpServlet
 		log(request, "Could not write error screen: "
 			+ thr.getMessage());
 	    }
-	    try
-	    {
-	    	WebSession.closeConnection();
-	    } catch (SQLException sqle) {
-	    	sqle.printStackTrace();
-	    }
+    	WebSession.returnConnection(mySession);
 	    // System.out.println( "HH Leaving doPost: " );
 	}
     }

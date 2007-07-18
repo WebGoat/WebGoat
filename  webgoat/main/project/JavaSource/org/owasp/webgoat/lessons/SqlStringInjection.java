@@ -98,7 +98,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 	{
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    ec.addElement(makeAccountLine(s));
@@ -180,7 +180,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 	{
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    ec.addElement(makeAccountLine(s));
@@ -311,7 +311,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 	}
 	catch (Exception e)

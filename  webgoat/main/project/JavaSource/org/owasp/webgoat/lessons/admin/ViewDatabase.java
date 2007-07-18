@@ -77,7 +77,7 @@ public class ViewDatabase extends LessonAdapter
 
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    if (sqlStatement.length() > 0)

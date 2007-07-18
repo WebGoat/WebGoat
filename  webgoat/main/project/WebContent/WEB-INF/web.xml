@@ -145,17 +145,14 @@
       <init-param>
             <param-name>DatabaseDriver</param-name>
             <param-value>
-		    	sun.jdbc.odbc.JdbcOdbcDriver
-                <!--org.enhydra.instantdb.jdbc.idbDriver-->
+		    	org.hsqldb.jdbcDriver
             </param-value>
       </init-param>
 
       <init-param>
             <param-name>DatabaseConnectionString</param-name>
             <param-value>
-		    	<!-- insert the word PATH where you want to insert the realpath to the base of the web context-->
-                <!--jdbc:idb:PATH/database.prp-->
-				jdbc:odbc:;DRIVER=Microsoft Access Driver (*.mdb);DBQ=PATH/webgoat.mdb;PWD=webgoat"
+				jdbc:hsqldb:.
 		    </param-value>
       </init-param>
 

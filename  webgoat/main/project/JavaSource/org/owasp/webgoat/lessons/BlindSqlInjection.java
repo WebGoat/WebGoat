@@ -72,7 +72,7 @@ public class BlindSqlInjection extends LessonAdapter
 	{
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 
 	    ec.addElement(new P().addElement("Enter your Account Number: "));
@@ -335,7 +335,7 @@ public class BlindSqlInjection extends LessonAdapter
 
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 	}
 	catch (Exception e)

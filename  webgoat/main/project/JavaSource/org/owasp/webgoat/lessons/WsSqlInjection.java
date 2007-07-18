@@ -186,7 +186,7 @@ public class WsSqlInjection extends LessonAdapter
 	{
 	    if (connection == null)
 	    {
-		connection = DatabaseUtilities.makeConnection(s);
+		connection = DatabaseUtilities.getConnection(s);
 	    }
 	    ec.addElement(makeAccountLine(s));
 
@@ -246,7 +246,7 @@ public class WsSqlInjection extends LessonAdapter
     {
 	try
 	{
-	    Connection connection = DatabaseUtilities.makeConnection(getWebgoatContext());
+	    Connection connection = DatabaseUtilities.getConnection("guest", getWebgoatContext());
 	    if (connection == null)
 	    {
 		return null;

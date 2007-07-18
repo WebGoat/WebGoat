@@ -428,7 +428,7 @@ public class SoapRequest extends SequentialLessonAdapter
     {
 	try
 	{
-	    Connection connection = DatabaseUtilities.makeConnection(getWebgoatContext());
+	    Connection connection = DatabaseUtilities.getConnection("guest", getWebgoatContext());
 	    if (connection == null)
 	    {
 		return null;

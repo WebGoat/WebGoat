@@ -1,7 +1,5 @@
 package org.owasp.webgoat.session;
 
-import java.sql.Connection;
-
 import javax.servlet.http.HttpServlet;
 
 public class WebgoatContext {
@@ -32,8 +30,6 @@ public class WebgoatContext {
 
 	public final static String DEBUG = "debug";
 
-	private static boolean databaseBuilt = false;
-	
 	private String databaseConnectionString;
 
 	private String realConnectionString = null;
@@ -84,18 +80,6 @@ public class WebgoatContext {
 		isDebug = "true".equals( servlet.getInitParameter( DEBUG ) );
 		servletName = servlet.getServletName();
 		
-		// FIXME: need to solve concurrency problem here -- make tables for this user
-		if ( !databaseBuilt ) {
-			try {
-				Connection conn = DatabaseUtilities.makeConnection(this);
-				new CreateDB().makeDB(conn);
-				conn.close();
-				databaseBuilt = true;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
 	}
 
 	/**
