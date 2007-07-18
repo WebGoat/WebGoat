@@ -7,7 +7,7 @@ import org.owasp.webgoat.session.LessonTracker;
 import org.owasp.webgoat.session.SequentialLessonTracker;
 import org.owasp.webgoat.session.WebSession;
 
-public class SequentialLessonAdapter extends LessonAdapter {
+public abstract class SequentialLessonAdapter extends LessonAdapter {
 
 
     public void setStage(WebSession s, int stage)
