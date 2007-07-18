@@ -10,11 +10,6 @@
 			    	<label>
 			      	<select name="<%=GoatHillsFinancial.EMPLOYEE_ID%>">
 			      	<%
-			      	Vector attrs = new Vector();
-			      	Enumeration ee = session.getAttributeNames();
-			      	while (ee.hasMoreElements())
-			      		attrs.add(ee.nextElement());
-			      	//System.out.println("Login.jsp inspecting session attributes: " + attrs);
 			      	//System.out.println("Retrieving employees list");
 			      	List employees = (List) session.getAttribute("GoatHillsFinancial." + GoatHillsFinancial.STAFF_ATTRIBUTE_KEY);
 			      	Iterator i = employees.iterator();
