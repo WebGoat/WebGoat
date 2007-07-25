@@ -153,7 +153,9 @@ public class DBCrossSiteScripting extends GoatHillsFinancial
 
     @Override
 	public String[] getStages() {
-		return new String[] {STAGE1, STAGE2};
+    	if (getWebgoatContext().isCodingExercises())
+    		return new String[] {STAGE1, STAGE2};
+    	return new String[] {STAGE1};
 	}
 
     public void handleRequest(WebSession s)

@@ -123,7 +123,9 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 
     @Override
 	public String[] getStages() {
-		return new String[] {STAGE1, STAGE2, STAGE3, STAGE4};
+    	if (getWebgoatContext().isCodingExercises())
+    		return new String[] {STAGE1, STAGE2, STAGE3, STAGE4};
+    	return new String[] {STAGE1, STAGE3};
 	}
 
     /**

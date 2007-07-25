@@ -132,6 +132,11 @@
       </init-param>
       
       <init-param>
+            <param-name>CodingExercises</param-name>
+            <param-value>true</param-value>
+      </init-param>
+      
+      <init-param>
       		<!-- Specify an address where you would like comments to be sent.  -->
       		<!-- This can be any URL or HTML tags, and will appear on the report card and lesson incomplete pages -->
       		<!-- Use iso8859-1 encoding to represent special characters that might confuse XML parser. For 

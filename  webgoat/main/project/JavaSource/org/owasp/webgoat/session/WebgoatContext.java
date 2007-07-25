@@ -14,6 +14,8 @@ public class WebgoatContext {
 
 	public final static String ENTERPRISE = "Enterprise";
 
+	public final static String CODING_EXERCISES = "CodingExercises";
+	
 	public final static String SHOWCOOKIES = "ShowCookies";
 
 	public final static String SHOWPARAMS = "ShowParams";
@@ -52,6 +54,8 @@ public class WebgoatContext {
 
 	private boolean enterprise = false;
 
+	private boolean codingExercises = false;
+	
 	private String feedbackAddress = "<A HREF=mailto:webgoat@owasp.org>webgoat@owasp.org</A>";
 
 	private boolean isDebug = false;
@@ -74,6 +78,7 @@ public class WebgoatContext {
 		showSource = "true".equals( servlet.getInitParameter( SHOWSOURCE ) );
 		defuseOSCommands = "true".equals( servlet.getInitParameter( DEFUSEOSCOMMANDS ) );
 		enterprise = "true".equals( servlet.getInitParameter( ENTERPRISE ) );
+		codingExercises = "true".equals( servlet.getInitParameter( CODING_EXERCISES ) );
 		feedbackAddress = servlet.getInitParameter( FEEDBACK_ADDRESS ) != null ? servlet
 				.getInitParameter( FEEDBACK_ADDRESS ) : feedbackAddress;
 		showRequest = "true".equals( servlet.getInitParameter( SHOWREQUEST ) );
@@ -141,6 +146,10 @@ public class WebgoatContext {
 		return enterprise;
 	}
 
+	public boolean isCodingExercises() {
+		return codingExercises;
+	}
+	
 	public String getFeedbackAddress() {
 		return feedbackAddress;
 	}

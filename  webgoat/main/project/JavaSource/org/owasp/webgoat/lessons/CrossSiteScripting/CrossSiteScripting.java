@@ -197,7 +197,9 @@ public class CrossSiteScripting extends GoatHillsFinancial
 
     @Override
 	public String[] getStages() {
-		return new String[] {STAGE1, STAGE2, STAGE3, STAGE4, STAGE5, STAGE6};
+    	if (getWebgoatContext().isCodingExercises())
+    		return new String[] {STAGE1, STAGE2, STAGE3, STAGE4, STAGE5, STAGE6};
+    	return new String[] {STAGE1, STAGE3, STAGE5};
 	}
 
     public void handleRequest(WebSession s)
