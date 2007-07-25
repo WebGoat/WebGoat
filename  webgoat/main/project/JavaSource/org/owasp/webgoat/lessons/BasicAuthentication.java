@@ -52,7 +52,7 @@ import org.owasp.webgoat.session.WebSession;
 public class BasicAuthentication extends SequentialLessonAdapter
 {
 	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
-
+	
     private static final String EMPTY_STRING = "";
 
     private static final String WEBGOAT_BASIC = "webgoat_basic";
@@ -110,7 +110,7 @@ public class BasicAuthentication extends SequentialLessonAdapter
 	    else
 	    {
 		if (headerName.length() > 0
-			&& !headerName.equals(AUTHORIZATION))
+			&& !headerName.equalsIgnoreCase(AUTHORIZATION))
 		{
 		    s
 			    .setMessage("Basic Authentication header name is incorrect.");
