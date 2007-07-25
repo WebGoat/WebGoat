@@ -100,7 +100,7 @@ StringBuffer buildList = new StringBuffer();
 					String[] stages = rla.getStages();
 					for (int i=0; i<stages.length; i++) {
 	    		%>
-			    		<tr><td align="right"><%=(rla.isStageComplete(webSession, stages[i]) ? lessonComplete : "")%><a href="<%=lesson.getLink() + "&stage=" + (i+1) %>">Stage <%=i+1%>: <%=stages[i] %></a>
+			    		<tr><td><%=(rla.isStageComplete(webSession, stages[i]) ? lessonComplete : "")%><a href="<%=lesson.getLink() + "&stage=" + (i+1) %>">Stage <%=i+1%>: <%=stages[i] %></a>
 						</td></tr>
 				<% 
 					}
