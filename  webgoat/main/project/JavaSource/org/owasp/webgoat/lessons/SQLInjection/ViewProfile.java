@@ -1,5 +1,6 @@
 package org.owasp.webgoat.lessons.SQLInjection;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,6 +12,7 @@ import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.HtmlEncoder;
 
 /*******************************************************************************
  * 
@@ -107,8 +109,9 @@ public class ViewProfile extends DefaultLessonAction
 	// Query the database for the profile data of the given employee
 	try
 	{
-	    String query = "SELECT * FROM employee WHERE userid = "
-		    + subjectUserId;
+	    String query = "SELECT employee.* " +
+		"FROM employee,ownership WHERE employee.userid = ownership.employee_id and " +
+		"ownership.employer_id = " + userId + " and ownership.employee_id = " + subjectUserId;
 
 	    try
 	    {

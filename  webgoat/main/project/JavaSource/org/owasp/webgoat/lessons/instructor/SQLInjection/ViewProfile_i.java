@@ -9,6 +9,7 @@ import org.owasp.webgoat.lessons.SQLInjection.ViewProfile;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.HtmlEncoder;
 
 /*
 Solution Summary: Edit ViewProfile.java and change getEmployeeProfile().  
@@ -16,15 +17,22 @@ Solution Summary: Edit ViewProfile.java and change getEmployeeProfile().
 
 Solution Steps:
 1. Change dynamic query to parameterized query.
-   a. Replace the dynamic varaibles with the "?" 
-   		String query = "SELECT * FROM employee WHERE userid = ?"; 
+   a. Replace the dynamic variables with the "?" 
+	Old: String query = "SELECT employee.* " +
+		"FROM employee,ownership WHERE employee.userid = ownership.employee_id and " +
+		"ownership.employer_id = " + userId + " and ownership.employee_id = " + subjectUserId;
+
+	New: String query = "SELECT employee.* " +
+		  "FROM employee,ownership WHERE employee.userid = ownership.employee_id and " +
+		  "ownership.employer_id = ? and ownership.employee_id = ?";
    			
    b. Create a preparedStatement using the new query
    		PreparedStatement answer_statement = SQLInjection.getConnection(s).prepareStatement( 
    				query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY ); 
 
    c. Set the values of the parameterized query
-   		answer_statement.setInt(1, Integer.parseInt(subjectUserId));
+		answer_statement.setInt(1, Integer.parseInt(userId)); // STAGE 4 - FIX
+		answer_statement.setInt(2, Integer.parseInt(subjectUserId)); // STAGE 4 - FIX
    		
    d. Execute the preparedStatement
    		ResultSet answer_results = answer_statement.executeQuery();
@@ -47,13 +55,16 @@ public class ViewProfile_i extends ViewProfile
 		
 		try
 		{
-			String query = "SELECT * FROM employee WHERE userid = ?"; // STAGE 4 - FIX
+	    		String query = "SELECT employee.* " +
+			  "FROM employee,ownership WHERE employee.userid = ownership.employee_id and " +
+			  "ownership.employer_id = ? and ownership.employee_id = ?";
 			
 			try
 			{
 				PreparedStatement answer_statement = WebSession.getConnection(s).prepareStatement( query, 
 						ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY ); // STAGE 4 - FIX
-				answer_statement.setInt(1, Integer.parseInt(subjectUserId)); // STAGE 4 - FIX
+				answer_statement.setInt(1, Integer.parseInt(userId)); // STAGE 4 - FIX
+				answer_statement.setInt(2, Integer.parseInt(subjectUserId)); // STAGE 4 - FIX
 				ResultSet answer_results = answer_statement.executeQuery(); // STAGE 4 - FIX
 				if (answer_results.next())
 				{
