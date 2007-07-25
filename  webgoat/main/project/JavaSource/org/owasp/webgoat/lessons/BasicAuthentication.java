@@ -100,7 +100,7 @@ public class BasicAuthentication extends SequentialLessonAdapter
 	    //<START_OMIT_SOURCE>
 	    // FIXME: This won;t work for CBT, we need to use the UserTracker
 	    //Authorization: Basic Z3Vlc3Q6Z3Vlc3Q=
-	    if (headerName.equals(AUTHORIZATION)
+	    if (headerName.equalsIgnoreCase(AUTHORIZATION)
 		    && (headerValue.equals("guest:guest") || headerValue
 			    .equals("webgoat:webgoat")))
 	    {
