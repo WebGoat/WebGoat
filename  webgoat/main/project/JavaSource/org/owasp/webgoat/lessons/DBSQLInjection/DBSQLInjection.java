@@ -57,9 +57,9 @@ public class DBSQLInjection extends GoatHillsFinancial
 
     public final static String PRIZE_EMPLOYEE_NAME = "Neville Bartholomew";
 
-    public final static String STAGE1 = "Stage 1: String SQL Injection";
+    public final static String STAGE1 = "String SQL Injection";
     
-    public final static String STAGE2 = "Stage 2: Block SQL Injection using Bind Variables";
+    public final static String STAGE2 = "Block SQL Injection using Bind Variables";
     
     public void registerActions(String className)
     {

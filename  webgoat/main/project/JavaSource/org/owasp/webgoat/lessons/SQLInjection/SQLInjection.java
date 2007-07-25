@@ -55,13 +55,13 @@ public class SQLInjection extends GoatHillsFinancial
 
     public final static String PRIZE_EMPLOYEE_NAME = "Neville Bartholomew";
 
-    public final static String STAGE1 = "Stage 1: String SQL Injection";
+    public final static String STAGE1 = "String SQL Injection";
     
-    public final static String STAGE2 = "Stage 2: Parameterized Query #1";
+    public final static String STAGE2 = "Parameterized Query #1";
     
-    public final static String STAGE3 = "Stage 3: Numeric SQL Injection";
+    public final static String STAGE3 = "Numeric SQL Injection";
     
-    public final static String STAGE4 = "Stage 4: Parameterized Query #2";
+    public final static String STAGE4 = "Parameterized Query #2";
     
     public void registerActions(String className)
     {
