@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
 	errorPage="" %>
+<%@page import="org.owasp.webgoat.session.WebSession"%>
+<% WebSession webSession = ((WebSession)session.getAttribute("websession")); %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -18,7 +20,7 @@
 		  <p>This program is a demonstration of common web application flaws.  
 		  The exercises are intended to provide hands on experience with application 
 		  penetration testing techniques.  The WebGoat project is lead by Bruce Mayhew. Please send all 
-		  comments to Bruce at <a href=mailto:WebGoat@g2-inc.com>WebGoat@G2-Inc.com</a>.</p>
+		  comments to Bruce at <%= webSession.getWebgoatContext().getFeedbackAddress() %>.</p>
 		  <div id="team">
 			<table border="0" align="center" class="lessonText">
                 <tr>
