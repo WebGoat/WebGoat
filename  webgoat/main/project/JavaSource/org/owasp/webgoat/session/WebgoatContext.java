@@ -52,7 +52,7 @@ public class WebgoatContext {
 
 	private boolean enterprise = false;
 
-	private String feedbackAddress = "<A HREF=mailto:webgoat@g2-inc.com>webgoat@g2-inc.com</A>";
+	private String feedbackAddress = "<A HREF=mailto:webgoat@owasp.org>webgoat@owasp.org</A>";
 
 	private boolean isDebug = false;
 

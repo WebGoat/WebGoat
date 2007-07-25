@@ -36,7 +36,7 @@
 
     <context-param>
       <param-name>email</param-name>
-      <param-value>WebGoat@g2-inc.com</param-value>
+      <param-value>WebGoat@owasp.org</param-value>
       <description>
         The EMAIL address of the administrator to whom questions
         and comments about this application should be addressed.

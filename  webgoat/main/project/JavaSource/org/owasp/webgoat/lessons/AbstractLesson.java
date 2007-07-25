@@ -544,11 +544,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
 	Head head = new Head();
 	head.addElement(new Title(getSourceFileName()));
-	head.addElement(new StringElement(
-		"<meta name=\"Author\" content=\"Bruce Mayhew\">"));
-	head
-		.addElement(new StringElement(
-			"<link rev=\"made\" href=\"mailto:webgoat@g2-inc.com\">"));
 
 	Body body = new Body();
 	body.addElement(new StringElement(src));
