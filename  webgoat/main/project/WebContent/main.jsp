@@ -125,12 +125,12 @@ StringBuffer buildList = new StringBuffer();
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=PreviousHint" target="_top" onclick="MM_nbGroup('down','group1','hintLeft','',1)" 
 				onmouseover="MM_nbGroup('over','hintLeft','images/buttons/hintLeftOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/hintLeft.jpg" alt="Previous Hint" name="hintLeft" width="22" height="20" border="0" id="hintLeft"/>
+				<img src="images/buttons/hintLeft.jpg" alt="Previous Hint" name="hintLeft" width="20" height="20" border="0" id="hintLeft"/>
 				</a>
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=NextHint" target="_top" onclick="MM_nbGroup('down','group1','hint','',1)" 
 				onmouseover="MM_nbGroup('over','hint','images/buttons/hintOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/hint.jpg" alt="Hints" name="hint" width="35" height="20" border="0" id="hint"/>
+				<img src="images/buttons/hint.jpg" alt="Hints" name="hint" width="30" height="20" border="0" id="hint"/>
 				</a>
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=NextHint" target="_top" onclick="MM_nbGroup('down','group1','hintRight','',1)" 
 				onmouseover="MM_nbGroup('over','hintRight','images/buttons/hintRightOver.jpg','',1)" 
@@ -141,12 +141,12 @@ StringBuffer buildList = new StringBuffer();
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Params" target="_top" onclick="MM_nbGroup('down','group1','params','',1)" 
 				onmouseover="MM_nbGroup('over','params','images/buttons/paramsOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/params.jpg" alt="Show Params" name="<%= webSession.getCurrentLesson().getLink() %>&show=Params" width="92" height="20" border="0" id="params"/>
+				<img src="images/buttons/params.jpg" alt="Show Params" name="<%= webSession.getCurrentLesson().getLink() %>&show=Params" width="87" height="20" border="0" id="params"/>
 				</a>
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Cookies" target="_top" onclick="MM_nbGroup('down','group1','cookies','',1)" 
 				onmouseover="MM_nbGroup('over','cookies','images/buttons/cookiesOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/cookies.jpg" alt="Show Cookies" name="cookies" width="104" height="20" border="0" id="cookies"/>
+				<img src="images/buttons/cookies.jpg" alt="Show Cookies" name="cookies" width="99" height="20" border="0" id="cookies"/>
 				</a>
 				<% 
 				if (webSession.isAuthorizedInLesson(webSession.getRole(), WebSession.SHOWSOURCE))
@@ -155,14 +155,20 @@ StringBuffer buildList = new StringBuffer();
 				<a href="source" onclick="makeWindow(this.href, 'Java Source');return false;" target="javaWin"
 				onmouseover="MM_nbGroup('over','java','images/buttons/javaOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/java.jpg" alt="Show Java" name="java" width="80" height="20" border="0" id="java"/>
+				<img src="images/buttons/java.jpg" alt="Show Java" name="java" width="75" height="20" border="0" id="java"/>
+				</a>
+				<a href="source" onclick="makeWindow(this.href + '?solution=true', 'Java Solution');return false;" target="javaWin"
+				onmouseover="MM_nbGroup('over','solutions','images/buttons/solutionsOver.jpg','',1)" 
+				onmouseout="MM_nbGroup('out')">
+				<img src="images/buttons/solutions.jpg" alt="Show Solution" name="solutions" width="75" height="20" border="0" id="solutions"/>
 				</a>
 				<a href="javascript:toggle('lessonPlans')" target="_top" onclick="MM_nbGroup('down','group1','plans','',1)" 
 				onmouseover="MM_nbGroup('over','plans','images/buttons/plansOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/plans.jpg" alt="Lesson Plans" width="94" height="20" border="0" id="plans"/>
+				<img src="images/buttons/plans.jpg" alt="Lesson Plans" width="89" height="20" border="0" id="plans"/>
 				</a>
 				<%}%>
+								
 			</div>
 			<div id="twoCol">
 	 	 	<div id="menuSpacer"></div>

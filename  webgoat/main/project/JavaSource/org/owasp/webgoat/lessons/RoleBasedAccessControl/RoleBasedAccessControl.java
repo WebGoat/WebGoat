@@ -52,11 +52,11 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 {
     private final static Integer DEFAULT_RANKING = new Integer(125);
 
-    public final static String STAGE1 = "Break Functional Access Control";
+    public final static String STAGE1 = "Bypass Business Layer Access Control";
     
     public final static String STAGE2 = "Add Business Layer Access Control";
     
-    public final static String STAGE3 = "Break Data Layer Access Control";
+    public final static String STAGE3 = "Bypass Data Layer Access Control";
     
     public final static String STAGE4 = "Add Data Layer Access Control";
 

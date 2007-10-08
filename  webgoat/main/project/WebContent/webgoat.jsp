@@ -52,26 +52,26 @@
                   <td height="25" valign="bottom"><div align="center"><span class="style1">Documentation Contributers</span></div></td>
                 </tr>
                 <tr>
+			<td>
+			<div align="center" class="style2">OWASP Autumn of Code<br />
+                  (http://www.owasp.org/) </div>
+			<div align="center" class="style2">Sherif Koussa<br />(http://www.macadamian.com)<br /></div>
+			<div align="center" class="style2">OWASP Spring of Code<br />
+                  (http://www.owasp.org/) </div>
+			<div align="center" class="style2">Erwin Geirnaert<br />(http://www.zionsecurity.com)<br /></div>
+                  </td>
                   <td><div align="center" class="style2">Sherif Koussa<br />
                   (http://www.macadamian.com)<br /> </div>
-                  </td>
-                  <td><div align="center" class="style2">Robert Sullivan<br />
+                  <div align="center" class="style2">Robert Sullivan<br />
                   (http://www.unitedhealthgroup.com/) </div>
+                  <div align="center" class="style2">Erwin Geirnaert<br />
+                  (http://www.zionsecurity.com/) </div>
                   </td>
-                </tr>
-                 <tr>
-                  <td><div align="center" class="style2">OWASP Autumn of Code<br />
-                  (http://www.owasp.org/) </div></td>
-                  <td><div align="center" class="style2">Sherif Koussa<br />(http://www.macadamian.com)<br /></div>
-                  </td>
-                </tr>
-                 <tr>
-                  <td><div align="center" class="style2">To all who have sent comments</div></td>
-                </tr>
-                 <tr>
-                  <td><div align="center" class="style2">&nbsp;</div></td>
                 </tr>
                 <tr>
+                  <td><div align="center" class="style2">To all who have sent comments</div></td>
+                </tr>
+                             <tr>
                   <td colspan = "2">
                     <div align="center" class="style2">			
                       <form id="form" name="form" method="post" action="attack">
@@ -80,9 +80,15 @@
 			        </div>
                   </td>
                 </tr>
+   		    <tr>
+                  <td><div align="center" class="style2">&nbsp;</div></td>
+                </tr>
             </table>
 		  </div>
 	  </div>
+	<div align="center" class="style2">&nbsp;</div>
+	<div align="center" class="style2">&nbsp;</div>
+	<div align="center" class="style2">&nbsp;</div>
 		<div id="warning"> WARNING<br /> 
 	      While running this program, your machine is extremely vulnerable to attack. 
 	      You should disconnect from the network while using this program.

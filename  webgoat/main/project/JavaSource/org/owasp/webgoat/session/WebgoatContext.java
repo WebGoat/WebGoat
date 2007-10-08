@@ -24,6 +24,8 @@ public class WebgoatContext {
 
 	public final static String SHOWSOURCE = "ShowSource";
 	
+	public final static String SHOWSOLUTION = "ShowSolution";
+	
 	public final static String SHOWHINTS = "ShowHints";
 
 	public final static String DEFUSEOSCOMMANDS = "DefuseOSCommands";
@@ -49,6 +51,8 @@ public class WebgoatContext {
 	private boolean showRequest = false;
 
 	private boolean showSource = false;
+
+	private boolean showSolution = false;
 
 	private boolean defuseOSCommands = false;
 
@@ -76,6 +80,7 @@ public class WebgoatContext {
 		showParams = "true".equals( servlet.getInitParameter( SHOWPARAMS ) );
 		showCookies = "true".equals( servlet.getInitParameter( SHOWCOOKIES ) );
 		showSource = "true".equals( servlet.getInitParameter( SHOWSOURCE ) );
+		showSolution = "true".equals( servlet.getInitParameter( SHOWSOLUTION ) );
 		defuseOSCommands = "true".equals( servlet.getInitParameter( DEFUSEOSCOMMANDS ) );
 		enterprise = "true".equals( servlet.getInitParameter( ENTERPRISE ) );
 		codingExercises = "true".equals( servlet.getInitParameter( CODING_EXERCISES ) );
@@ -176,6 +181,10 @@ public class WebgoatContext {
 
 	public boolean isShowSource() {
 		return showSource;
+	}
+
+	public boolean isShowSolution() {
+		return showSolution;
 	}
 
 }

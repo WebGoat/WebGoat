@@ -39,87 +39,109 @@ import org.owasp.webgoat.session.WebSession;
  * for free software projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
- *
- * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @created    October 28, 2003
+ * 
+ * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
+ * @created October 28, 2003
  */
 public class LessonSource extends HammerHead
 {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2588430536196446145L;
+     * 
+     */
+    private static final long serialVersionUID = 2588430536196446145L;
 
-	/**
-     *  Description of the Field
+    /**
+     * Description of the Field
      */
     public final static String START_SOURCE_SKIP = "START_OMIT_SOURCE";
 
     public final static String END_SOURCE_SKIP = "END_OMIT_SOURCE";
 
-
     /**
-     *  Description of the Method
-     *
-     * @param  request               Description of the Parameter
-     * @param  response              Description of the Parameter
-     * @exception  IOException       Description of the Exception
-     * @exception  ServletException  Description of the Exception
+     * Description of the Method
+     * 
+     * @param request
+     *                Description of the Parameter
+     * @param response
+     *                Description of the Parameter
+     * @exception IOException
+     *                    Description of the Exception
+     * @exception ServletException
+     *                    Description of the Exception
      */
     public void doPost(HttpServletRequest request, HttpServletResponse response)
 	    throws IOException, ServletException
     {
-		String source = null;
-	
-		try
-		{
-		    //System.out.println( "Entering doPost: " );
-		    //System.out.println( "	- request "   + request);
-		    //System.out.println( "	- principle: "   + request.getUserPrincipal() );
-		    //setCacheHeaders(response, 0);
-		    WebSession session = (WebSession) request.getSession(true)
-			    .getAttribute(WebSession.SESSION);
-		    session.update(request, response, this.getServletName()); // FIXME: Too much in this call.
-	
-		    // Get the Java source of the lesson.  FIXME: Not needed
-		    source = getSource(session);
-	
-		    int scr = session.getCurrentScreen();
-		    Course course = session.getCourse();
-		    AbstractLesson lesson = course.getLesson(session, scr,
-			    AbstractLesson.USER_ROLE);
-		    lesson.getLessonTracker(session).setViewedSource(true);
-		}
-		catch (Throwable t)
-		{
-		    t.printStackTrace();
-		    log("ERROR: " + t);
-		}
-		finally
-		{
-		    try
-		    {
-			this.writeSource(source, response);
-		    }
-		    catch (Throwable thr)
-		    {
-			thr.printStackTrace();
-			log(request, "Could not write error screen: "
-				+ thr.getMessage());
-		    }
-		    //System.out.println( "Leaving doPost: " );
-	
-		}
+	String source = null;
+
+	try
+	{
+	    // System.out.println( "Entering doPost: " );
+	    // System.out.println( " - request " + request);
+	    // System.out.println( " - principle: " + request.getUserPrincipal()
+	    // );
+	    // setCacheHeaders(response, 0);
+	    WebSession session = (WebSession) request.getSession(true).getAttribute(
+		    WebSession.SESSION);
+	    // FIXME: Too much in this call.
+	    session.update(request, response, this.getServletName());
+
+	    String showSolution = session.getParser().getRawParameter("solution");
+	    if (showSolution != null)
+	    {
+		// FIXME: we could probably just forward off to the file if the file
+		//        existed.  However, we do provide some feedback from the
+		//        getSolution() method if something goes wrong.
+		
+		// Get the Java solution of the lesson. 
+		source = getSolution(session);
+
+		int scr = session.getCurrentScreen();
+		Course course = session.getCourse();
+		AbstractLesson lesson = course.getLesson(session, scr, AbstractLesson.USER_ROLE);
+		lesson.getLessonTracker(session).setViewedSolution(true);
+
+
+	    } else
+	    {
+
+		// Get the Java source of the lesson. FIXME: Not needed
+		source = getSource(session);
+
+		int scr = session.getCurrentScreen();
+		Course course = session.getCourse();
+		AbstractLesson lesson = course.getLesson(session, scr, AbstractLesson.USER_ROLE);
+		lesson.getLessonTracker(session).setViewedSource(true);
+	    }
+	}
+	catch (Throwable t)
+	{
+	    t.printStackTrace();
+	    log("ERROR: " + t);
+	}
+	finally
+	{
+	    try
+	    {
+		this.writeSource(source, response);
+	    }
+	    catch (Throwable thr)
+	    {
+		thr.printStackTrace();
+		log(request, "Could not write error screen: " + thr.getMessage());
+	    }
+	    // System.out.println( "Leaving doPost: " );
+
+	}
     }
 
-
-
     /**
-     *  Description of the Method
-     *
-     * @param  s  Description of the Parameter
-     * @return    Description of the Return Value
+     * Description of the Method
+     * 
+     * @param s
+     *                Description of the Parameter
+     * @return Description of the Return Value
      */
     protected String getSource(WebSession s)
     {
@@ -131,8 +153,7 @@ public class LessonSource extends HammerHead
 	if (s.isUser() || s.isChallenge())
 	{
 
-	    AbstractLesson lesson = course.getLesson(s, scr,
-		    AbstractLesson.USER_ROLE);
+	    AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
 
 	    if (lesson != null)
 	    {
@@ -141,22 +162,51 @@ public class LessonSource extends HammerHead
 	}
 	if (source == null)
 	{
-	    return "Source code is not available. Contact " + s.getWebgoatContext().getFeedbackAddress();
+	    return "Source code is not available. Contact "
+		    + s.getWebgoatContext().getFeedbackAddress();
 	}
-	return (source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*"
-		+ END_SOURCE_SKIP, "Code Section Deliberately Omitted"));
+	return (source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*" + END_SOURCE_SKIP,
+		"Code Section Deliberately Omitted"));
     }
 
 
+    protected String getSolution(WebSession s)
+    {
+
+	String source = null;
+	int scr = s.getCurrentScreen();
+	Course course = s.getCourse();
+
+	if (s.isUser() || s.isChallenge())
+	{
+
+	    AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
+
+	    if (lesson != null)
+	    {
+		source = lesson.getSolution(s);
+	    }
+	}
+	if (source == null)
+	{
+	    return "Solution  is not available. Contact "
+		    + s.getWebgoatContext().getFeedbackAddress();
+	}
+	return (source);
+    }
+    
+    
     /**
-     *  Description of the Method
-     *
-     * @param  s                Description of the Parameter
-     * @param  response         Description of the Parameter
-     * @exception  IOException  Description of the Exception
+     * Description of the Method
+     * 
+     * @param s
+     *                Description of the Parameter
+     * @param response
+     *                Description of the Parameter
+     * @exception IOException
+     *                    Description of the Exception
      */
-    protected void writeSource(String s, HttpServletResponse response)
-	    throws IOException
+    protected void writeSource(String s, HttpServletResponse response) throws IOException
     {
 	response.setContentType("text/html");
 

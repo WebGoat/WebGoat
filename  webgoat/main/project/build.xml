@@ -236,14 +236,18 @@
 	</target>
 
 	<!-- Copying web-unix.xml to web.xml -->
-	<target name="-WebXMLunix">
+<!--
+	<target name="-DELETE_ME_WebXMLunix">
 		<copy file="${web.home}/WEB-INF/web-unix.xml" tofile="${web.home}/WEB-INF/web.xml" overwrite="yes"/>
 		<copy file="${web.home}/WEB-INF/web.xml" todir="${web_inf.home}" overwrite="yes"/>
 	</target>
-				
-	<!-- Copying web-windows.xml to web.xml -->
-	<target name="-WebXMLWindows">
+-->
+	
+	<!-- Copying web.xml to web-inf/web.xml -->
+	<target name="-WebXML">
+<!--
 		<copy file="${web.home}/WEB-INF/web-windows.xml" tofile="${web.home}/WEB-INF/web.xml" overwrite="yes"/>
+-->
 		<copy file="${web.home}/WEB-INF/web.xml" todir="${web_inf.home}" overwrite="yes"/>
 	</target>
 
@@ -280,12 +284,13 @@
 <!-- =================== Prepare Distributions ========================== -->
 		
 	<!-- Create unix WAR file -->
-	<target name="BuildUnixWar" depends="clean, prepare, compile, -WebXMLunix, -CopyWebToBuild, -CopySourceToBuild, -WarBuild"
+<!--
+	<target name="DELETE_ME_BuildUnixWar" depends="clean, prepare, compile, -WebXMLunix, -CopyWebToBuild, -CopySourceToBuild, -WarBuild"
 			description="Create ${app.name}.war binary distribution">
 	</target> 	
-	
-	<!-- Create windows WAR file -->
-	<target name="BuildWindowsWar" depends="clean, prepare, compile, -WebXMLWindows, -CopyWebToBuild, -CopySourceToBuild, -WarBuild"
+-->	
+	<!-- Create WAR file -->
+	<target name="BuildWar" depends="clean, prepare, compile, -WebXML, -CopyWebToBuild, -CopySourceToBuild, -WarBuild"
 			description="Create ${app.name}.war binary distribution">
 	</target> 	
 

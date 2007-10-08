@@ -403,6 +403,7 @@ public class Course
     		{
     			String absoluteFile = (String)fileItr.next();
     			String fileName = getFileName(absoluteFile);
+			//System.out.println("Course: looking at file:  " + absoluteFile);
     			
     			if(absoluteFile.endsWith(classFile))
     			{
@@ -410,10 +411,17 @@ public class Course
     				lesson.setSourceFileName(absoluteFile);
     			}
     			
-    			if(absoluteFile.endsWith(".html") && className.endsWith(fileName))
+    			if(absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html") && className.endsWith(fileName))
     			{
     				//System.out.println("DEBUG: setting lesson plan file " + absoluteFile + " for lesson " + lesson.getClass().getName());
+    				//System.out.println("fileName: " + fileName + " == className: " + className );
     				lesson.setLessonPlanFileName(absoluteFile);
+    			}
+    			if(absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html") && className.endsWith(fileName))
+    			{
+    				System.out.println("DEBUG: setting lesson solution file " + absoluteFile + " for lesson " + lesson.getClass().getName());
+    				System.out.println("fileName: " + fileName + " == className: " + className );
+    				lesson.setLessonSolutionFileName(absoluteFile);
     			}
     		}
     	}

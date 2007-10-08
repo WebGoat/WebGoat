@@ -14,9 +14,7 @@ import java.util.TreeMap;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
-import org.apache.ecs.html.A;
 import org.apache.ecs.html.BR;
-import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Option;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.PRE;
@@ -59,8 +57,6 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class SqlNumericInjection extends SequentialLessonAdapter
 {
-	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
-
     private final static String STATION_ID = "station";
 
     private static Connection connection = null;
@@ -405,8 +401,4 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	}
     }
     
-    public Element getCredits()
-    {
-    	return super.getCustomCredits("", ASPECT_LOGO);
-    }
 }

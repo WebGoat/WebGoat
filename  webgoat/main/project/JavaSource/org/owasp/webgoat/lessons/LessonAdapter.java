@@ -53,9 +53,6 @@ import org.owasp.webgoat.session.WebSession;
 public abstract class LessonAdapter extends AbstractLesson
 {
 
-    final static IMG WEBGOAT_LOGO = new IMG("images/logos/WebGoat.jpg").setAlt(
-	    "WebGoat Logo").setBorder(0).setHspace(0).setVspace(0);
-
 
     /**
      *  Description of the Method
@@ -174,14 +171,7 @@ public abstract class LessonAdapter extends AbstractLesson
      */
     public Element getCredits()
     {
-	if (getClass().getResource("images/logos/WebGoat.jpg") != null)
-	{
-	    return getCustomCredits("Presented by&nbsp;", WEBGOAT_LOGO);
-	}
-	else
-	{
-	    return new StringElement();
-	}
+    	return new StringElement();
     }
 
 

@@ -99,6 +99,8 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
     private String lessonPlanFileName;
 
+    private String lessonSolutionFileName;
+
     private WebgoatContext webgoatContext;
     
     /**
@@ -557,6 +559,40 @@ public abstract class AbstractLesson extends Screen implements Comparable
     }
 
 
+    public String getSolution(WebSession s)
+    {
+	String source = null;
+	String src = null;
+
+	try
+	{
+	    src = readFromFile(new BufferedReader(
+		    new FileReader(s.getWebResource(getLessonSolutionFileName()))),
+		    false);
+	}
+	catch (IOException e)
+	{
+	    s.setMessage("Could not find the solution file");
+	    src = ("Could not find the solution file");
+	}
+
+	Html html = new Html();
+
+	Head head = new Head();
+	head.addElement(new Title(getLessonSolutionFileName()));
+
+	Body body = new Body();
+	body.addElement(new StringElement(src));
+
+	html.addElement(head);
+	html.addElement(body);
+
+	source = html.toString();
+
+	return src;
+    }
+
+    
     /**
      * Get the link that can be used to request this screen.
      * 
@@ -821,6 +857,16 @@ public abstract class AbstractLesson extends Screen implements Comparable
 	this.lessonPlanFileName = lessonPlanFileName;
     }
 
+    public String getLessonSolutionFileName()
+    {
+	return lessonSolutionFileName;
+    }
+
+
+    public void setLessonSolutionFileName(String lessonSolutionFileName)
+    {
+	this.lessonSolutionFileName = lessonSolutionFileName;
+    }
 
     public String getSourceFileName()
     {

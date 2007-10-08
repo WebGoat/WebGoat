@@ -56,6 +56,8 @@ public class LessonTracker
 
     private boolean viewedSource = false;
 
+    private boolean viewedSolution = false;
+
     Properties lessonProperties = new Properties();
 
 
@@ -146,6 +148,11 @@ public class LessonTracker
 	return viewedSource;
     }
 
+
+    public boolean getViewedSolution()
+    {
+	return viewedSource;
+    }
 
     /**
      *  Description of the Method
@@ -327,6 +334,15 @@ public class LessonTracker
 	this.viewedSource = viewedSource;
     }
 
+    /**
+     *  Sets the viewedSource attribute of the LessonTracker object
+     *
+     * @param  viewedSource  The new viewedSource value
+     */
+    public void setViewedSolution(boolean viewedSolution)
+    {
+	this.viewedSolution = viewedSolution;
+    }
 
     /**
      *  Allows the storing of properties for the logged in and a screen.

@@ -9,12 +9,9 @@ import java.util.StringTokenizer;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
-import org.apache.ecs.html.A;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.HR;
-import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.P;
-
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.util.Exec;
@@ -49,13 +46,11 @@ import org.owasp.webgoat.util.ExecResults;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author     Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created    October 28, 2003
  */
 public class CommandInjection extends LessonAdapter
 {
-	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
-
     private final static String HELP_FILE = "HelpFile";
 
     private String osName = System.getProperty("os.name");
@@ -354,10 +349,5 @@ public class CommandInjection extends LessonAdapter
     public String getTitle()
     {
 	return "How to Perform Command Injection";
-    }
-    
-    public Element getCredits()
-    {
-    	return super.getCustomCredits("", ASPECT_LOGO);
     }
 }

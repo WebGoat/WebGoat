@@ -125,6 +125,8 @@ public class WebSession
 
 	public final static String SHOWSOURCE = "ShowSource";
 	
+	public final static String SHOWSOLUTION = "ShowSolution";
+	
 	public final static String SHOWHINTS = "ShowHints";
 
 	public final static String SHOW = "show";
@@ -138,6 +140,8 @@ public class WebSession
 	public final static String SHOW_COOKIES = "Cookies";
 
 	public final static String SHOW_SOURCE = "Source";
+
+	public final static String SHOW_SOLUTION = "Solution";
 
 	public final static String DEBUG = "debug";
 
@@ -189,6 +193,8 @@ public class WebSession
 
 	private boolean showSource = false;
 
+	private boolean showSolution = false;
+
 	private boolean completedHackableAdmin = false;
 	
 	private int currentMenu;
@@ -206,6 +212,7 @@ public class WebSession
 		showParams = webgoatContext.isShowParams();
 		showCookies = webgoatContext.isShowCookies();
 		showSource = webgoatContext.isShowSource();
+		showSolution = webgoatContext.isShowSolution();
 		showRequest = webgoatContext.isShowRequest();
 		this.context = context;
 		course = new Course();
@@ -489,6 +496,12 @@ public class WebSession
 		//return getCurrentLesson().getSource(this);
 	}
 
+	public String getSolution()
+	{
+		return "Sorry.  No solution is available.";
+		//return getCurrentLesson().getSolution(this);
+	}
+
 	public String getInstructions()
 	{
 		return getCurrentLesson().getInstructions(this);		
@@ -761,6 +774,11 @@ public class WebSession
 		return ( showSource );
 	}
 
+	public boolean showSolution()
+	{
+		return ( showSolution );
+	}
+
 	/**
 	 * Gets the userName attribute of the WebSession object
 	 * 
@@ -913,6 +931,11 @@ public class WebSession
 					content = getSource();
 					//showSource = true;
 				}
+				else if ( showCommand.equalsIgnoreCase( SHOW_SOLUTION ) )
+				{
+					content = getSolution();
+					//showSource = true;
+				}
 				else if ( showCommand.equalsIgnoreCase( SHOW_NEXTHINT ) )
 				{
 					getNextHint();
@@ -937,6 +960,7 @@ public class WebSession
 
 		// System.out.println( "showParams:" + showParams );
 		// System.out.println( "showSource:" + showSource );
+		// System.out.println( "showSolution:" + showSolution );
 		// System.out.println( "showCookies:" + showCookies );
 		// System.out.println( "showRequest:" + showRequest );
 		

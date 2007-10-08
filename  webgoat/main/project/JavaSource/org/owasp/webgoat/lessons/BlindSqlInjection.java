@@ -44,9 +44,11 @@ import org.owasp.webgoat.session.WebSession;
  * for free software projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
- *
- * @author     Chuck Willis <a href="http://www.securityfoundry.com">Chuck's web site</a> (this lesson is heavily based on Jeff Williams' SQL Injection lesson
- * @created    January 14, 2005
+ * 
+ * @author Chuck Willis <a href="http://www.securityfoundry.com">Chuck's web
+ *         site</a> (this lesson is heavily based on Jeff Williams' SQL
+ *         Injection lesson
+ * @created January 14, 2005
  */
 public class BlindSqlInjection extends LessonAdapter
 {
@@ -57,12 +59,12 @@ public class BlindSqlInjection extends LessonAdapter
 
     private static Connection connection = null;
 
-
     /**
-     *  Description of the Method
-     *
-     * @param  s  Description of the Parameter
-     * @return    Description of the Return Value
+     * Description of the Method
+     * 
+     * @param s
+     *                Description of the Parameter
+     * @return Description of the Return Value
      */
     protected Element createContent(WebSession s)
     {
@@ -77,66 +79,54 @@ public class BlindSqlInjection extends LessonAdapter
 
 	    ec.addElement(new P().addElement("Enter your Account Number: "));
 
-	    String accountNumber = s.getParser().getRawParameter(ACCT_NUM,
-		    "101");
-	    Input input = new Input(Input.TEXT, ACCT_NUM, accountNumber
-		    .toString());
+	    String accountNumber = s.getParser().getRawParameter(ACCT_NUM, "101");
+	    Input input = new Input(Input.TEXT, ACCT_NUM, accountNumber.toString());
 	    ec.addElement(input);
 
 	    Element b = ECSFactory.makeButton("Go!");
 	    ec.addElement(b);
 
-	    String query = "SELECT * FROM user_data WHERE userid = "
-		    + accountNumber;
+	    String query = "SELECT * FROM user_data WHERE userid = " + accountNumber;
 	    String answer_query;
 	    if (runningOnWindows())
 	    {
 		answer_query = "SELECT TOP 1 first_name FROM user_data WHERE userid = "
 			+ TARGET_ACCT_NUM;
-	    }
-	    else
+	    } else
 	    {
-		answer_query = "SELECT first_name FROM user_data WHERE userid = "
-			+ TARGET_ACCT_NUM;
+		answer_query = "SELECT first_name FROM user_data WHERE userid = " + TARGET_ACCT_NUM;
 	    }
 
 	    try
 	    {
 		Statement answer_statement = connection.createStatement(
-			ResultSet.TYPE_SCROLL_INSENSITIVE,
-			ResultSet.CONCUR_READ_ONLY);
-		ResultSet answer_results = answer_statement
-			.executeQuery(answer_query);
+			ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet answer_results = answer_statement.executeQuery(answer_query);
 		answer_results.first();
-		if (accountNumber.toString()
-			.equals(answer_results.getString(1)))
+		System.out.println("Account: " + accountNumber );
+		System.out.println("Answer : " + answer_results.getString(1));
+		if (accountNumber.toString().equals(answer_results.getString(1)))
 		{
 		    makeSuccess(s);
-		}
-		else
+		} else
 		{
 
 		    Statement statement = connection.createStatement(
-			    ResultSet.TYPE_SCROLL_INSENSITIVE,
-			    ResultSet.CONCUR_READ_ONLY);
+			    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		    ResultSet results = statement.executeQuery(query);
 
 		    if ((results != null) && (results.first() == true))
 		    {
-			ec.addElement(new P()
-				.addElement("Account number is valid"));
-		    }
-		    else
+			ec.addElement(new P().addElement("Account number is valid"));
+		    } else
 		    {
-			ec.addElement(new P()
-				.addElement("Invalid account number"));
+			ec.addElement(new P().addElement("Invalid account number"));
 		    }
 		}
 	    }
 	    catch (SQLException sqle)
 	    {
-		ec.addElement(new P()
-			.addElement("An error occurred, please try again."));
+		ec.addElement(new P().addElement("An error occurred, please try again."));
 	    }
 	}
 	catch (Exception e)
@@ -148,34 +138,31 @@ public class BlindSqlInjection extends LessonAdapter
 	return (ec);
     }
 
-
     /**
-     *  Gets the category attribute of the SqlInjection object
-     *
-     * @return    The category value
+     * Gets the category attribute of the SqlInjection object
+     * 
+     * @return The category value
      */
     protected Category getDefaultCategory()
     {
 	return Category.A6;
     }
 
-
     /**
-     *  Gets the credits attribute of the AbstractLesson object
-     *
-     * @return    The credits value
+     * Gets the credits attribute of the AbstractLesson object
+     * 
+     * @return The credits value
      */
     public Element getCredits()
     {
-	return new StringElement(
-		"By Chuck Willis");
+	return new StringElement("By Chuck Willis");
     }
-
 
     /**
      * 
-     * Determines the OS that WebGoat is running on.  Needed because different DB backends
-     * are used on the different OSes (Access on Windows, InstantDB on others)
+     * Determines the OS that WebGoat is running on. Needed because different DB
+     * backends are used on the different OSes (Access on Windows, InstantDB on
+     * others)
      * 
      * @return true if running on Windows, false otherwise
      */
@@ -185,18 +172,16 @@ public class BlindSqlInjection extends LessonAdapter
 	if (os.toLowerCase().indexOf("window") != -1)
 	{
 	    return true;
-	}
-	else
+	} else
 	{
 	    return false;
 	}
     }
 
-
     /**
-     *  Gets the hints attribute of the DatabaseFieldScreen object
-     *
-     * @return    The hints value
+     * Gets the hints attribute of the DatabaseFieldScreen object
+     * 
+     * @return The hints value
      */
     protected List<String> getHints(WebSession s)
     {
@@ -210,9 +195,8 @@ public class BlindSqlInjection extends LessonAdapter
 			    + "down the character using > and <"
 			    + "<br><br>The backend database is Microsoft Access.  Keep that in mind if you research SQL functions "
 			    + "on the Internet since different databases use some different functions and syntax.");
-	    hints
-		    .add("This is the code for the query being built and issued by WebGoat:<br><br> "
-			    + "\"SELECT * FROM user_data WHERE userid = \" + accountNumber ");
+	    hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
+		    + "\"SELECT * FROM user_data WHERE userid = \" + accountNumber ");
 	    hints
 		    .add("The application is taking your input and inserting it at the end of a pre-formed SQL command. "
 			    + "You will need to make use of the following SQL functions: "
@@ -239,8 +223,7 @@ public class BlindSqlInjection extends LessonAdapter
 			    + ") , 2 , 1) ) > 109 ); "
 			    + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
 			    + "invalid then answer is no.");
-	}
-	else
+	} else
 	{
 	    hints
 		    .add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. "
@@ -250,9 +233,8 @@ public class BlindSqlInjection extends LessonAdapter
 
 	    hints
 		    .add("The database backend is InstantDB.  Here is a reference guide : <a href=\"http://www.instantdb.com/doc/syntax.html\" target=\"_blank\">http://www.instantdb.com/doc/syntax.html</a>");
-	    hints
-		    .add("This is the code for the query being built and issued by WebGoat:<br><br> "
-			    + "\"SELECT * FROM user_data WHERE userid = \" + accountNumber ");
+	    hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
+		    + "\"SELECT * FROM user_data WHERE userid = \" + accountNumber ");
 	    hints
 		    .add("THIS HINT IS FOR THE MS ACCESS DB.  IT NEEDS TO BE ALTERED FOR THE INSTANTDB BACKEND. <br><br>The application is taking your input and inserting it at the end of a pre-formed SQL command. "
 			    + "You will need to make use of the following SQL functions: "
@@ -283,11 +265,10 @@ public class BlindSqlInjection extends LessonAdapter
 	return hints;
     }
 
-
     /**
-     *  Gets the instructions attribute of the SqlInjection object
-     *
-     * @return    The instructions value
+     * Gets the instructions attribute of the SqlInjection object
+     * 
+     * @return The instructions value
      */
     public String getInstructions(WebSession s)
     {
@@ -297,35 +278,34 @@ public class BlindSqlInjection extends LessonAdapter
 		+ "<br><br>The goal is to find the value of "
 		+ "the first_name in table user_data for userid "
 		+ TARGET_ACCT_NUM
-		+ ".  Put that name in the form to pass the lesson.";
+		+ ".  Put the discovered name in the form to pass the lesson.  Only the discovered name "
+		+ "should be put into the form field, paying close attention to the spelling and capitalization.";
 
 	return (instructions);
     }
 
     private final static Integer DEFAULT_RANKING = new Integer(70);
 
-
     protected Integer getDefaultRanking()
     {
 	return DEFAULT_RANKING;
     }
 
-
     /**
-     *  Gets the title attribute of the DatabaseFieldScreen object
-     *
-     * @return    The title value
+     * Gets the title attribute of the DatabaseFieldScreen object
+     * 
+     * @return The title value
      */
     public String getTitle()
     {
 	return ("How to Perform Blind SQL Injection");
     }
 
-
     /**
-     *  Constructor for the DatabaseFieldScreen object
-     *
-     * @param  s  Description of the Parameter
+     * Constructor for the DatabaseFieldScreen object
+     * 
+     * @param s
+     *                Description of the Parameter
      */
     public void handleRequest(WebSession s)
     {

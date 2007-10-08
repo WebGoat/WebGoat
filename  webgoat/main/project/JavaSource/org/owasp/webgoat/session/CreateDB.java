@@ -459,6 +459,7 @@ public class CreateDB
 		    + "address1 VARCHAR(80)," + "address2 VARCHAR(80),"
 		    + "manager INT," + "start_date CHAR(8)," + "salary INT,"
 		    + "ccn VARCHAR(30)," + "ccn_limit INT,"
+		    + "email VARCHAR(30)," // reason for the recent write-up
 		    + "disciplined_date CHAR(8)," // date of write up, NA otherwise
 		    + "disciplined_notes VARCHAR(60)," // reason for the recent write-up
 		    + "personal_description VARCHAR(60)" // We can be rude here
@@ -474,49 +475,49 @@ public class CreateDB
 
 	String insertData1 = "INSERT INTO employee VALUES (101, 'Larry', 'Stooge', '386-09-5451', 'larry',"
 		+ "'Technician','443-689-0192','9175 Guilford Rd','New York, NY', 102, 01012000,55000,'2578546969853547',"
-		+ "5000,010106,'Constantly harassing coworkers','Does not work well with others')";
+		+ "5000,'larry@stooges.com',010106,'Constantly harassing coworkers','Does not work well with others')";
 
 	String insertData2 = "INSERT INTO employee VALUES (102, 'Moe', 'Stooge', '936-18-4524','moe',"
-		+ "'CSO','443-938-5301', '3013 AMD Ave', 'New York, NY', 112, 03082003, 140000, 'NA', 0, 0101013, "
+		+ "'CSO','443-938-5301', '3013 AMD Ave', 'New York, NY', 112, 03082003, 140000, 'NA', 0, 'moe@stooges.com', 0101013, "
 		+ "'Hit Curly over head', 'Very dominating over Larry and Curly')";
 
 	String insertData3 = "INSERT INTO employee VALUES (103, 'Curly', 'Stooge', '961-08-0047','curly',"
-		+ "'Technician','410-667-6654', '1112 Crusoe Lane', 'New York, NY', 102, 02122001, 50000, 'NA', 0, 0101014, "
+		+ "'Technician','410-667-6654', '1112 Crusoe Lane', 'New York, NY', 102, 02122001, 50000, 'NA', 0, 'curly@stooges.com', 0101014, "
 		+ "'Hit Moe back', 'Owes three-thousand to company for fradulent purchases')";
 
 	String insertData4 = "INSERT INTO employee VALUES (104, 'Eric', 'Walker', '445-66-5565','eric',"
-		+ "'Engineer','410-887-1193', '1160 Prescott Rd', 'New York, NY', 107, 12152005, 13000, 'NA', 0, 0101013, "
+		+ "'Engineer','410-887-1193', '1160 Prescott Rd', 'New York, NY', 107, 12152005, 13000, 'NA', 0, 'eric@modelsrus.com',0101013, "
 		+ "'Bothering Larry about webgoat problems', 'Late. Always needs help. Too intern-ish.')";
 
 	String insertData5 = "INSERT INTO employee VALUES (105, 'Tom', 'Cat', '792-14-6364','tom',"
-		+ "'Engineer','443-599-0762', '2211 HyperThread Rd.', 'New York, NY', 106, 01011999, 80000, '5481360857968521', 30000, 0, "
+		+ "'Engineer','443-599-0762', '2211 HyperThread Rd.', 'New York, NY', 106, 01011999, 80000, '5481360857968521', 30000, 'tom@wb.com', 0, "
 		+ "'NA', 'Co-Owner.')";
 
 	String insertData6 = "INSERT INTO employee VALUES (106, 'Jerry', 'Mouse', '858-55-4452','jerry',"
-		+ "'Human Resources','443-699-3366', '3011 Unix Drive', 'New York, NY', 102, 01011999, 70000, '6981754825013564', 20000, 0, "
+		+ "'Human Resources','443-699-3366', '3011 Unix Drive', 'New York, NY', 102, 01011999, 70000, '6981754825013564', 20000, 'jerry@wb.com', 0, "
 		+ "'NA', 'Co-Owner.')";
 
 	String insertData7 = "INSERT INTO employee VALUES (107, 'David', 'Giambi', '439-20-9405','david',"
-		+ "'Human Resources','610-521-8413', '5132 DIMM Avenue', 'New York, NY', 102, 05011999, 100000, '6981754825018101', 10000, 061402, "
+		+ "'Human Resources','610-521-8413', '5132 DIMM Avenue', 'New York, NY', 102, 05011999, 100000, '6981754825018101', 10000, 'david@modelsrus.com', 061402, "
 		+ "'Hacked into accounting server. Modified personal pay.', 'Strong work habbit. Questionable ethics.')";
 
 	String insertData8 = "INSERT INTO employee VALUES (108, 'Bruce', 'McGuirre', '707-95-9482','bruce',"
-		+ "'Engineer','610-282-1103', '8899 FreeBSD Drive<script>alert(document.cookie)</script> ', 'New York, NY', 107, 03012000, 110000, '6981754825854136', 30000, 061502, "
+		+ "'Engineer','610-282-1103', '8899 FreeBSD Drive<script>alert(document.cookie)</script> ', 'New York, NY', 107, 03012000, 110000, '6981754825854136', 30000, 'bruce@modelsrus.com', 061502, "
 		+ "'Tortuous Boot Camp workout at 5am. Employees felt sick.', 'Enjoys watching others struggle in exercises.')";
 
 	String insertData9 = "INSERT INTO employee VALUES (109, 'Sean', 'Livingston', '136-55-1046','sean',"
-		+ "'Engineer','610-878-9549', '6422 dFlyBSD Road', 'New York, NY', 107, 06012003, 130000, '6981754825014510', 5000, 072804, "
+		+ "'Engineer','610-878-9549', '6422 dFlyBSD Road', 'New York, NY', 107, 06012003, 130000, '6981754825014510', 5000, 'sean@modelsrus.com', 072804, "
 		+ "'Late to work 30 days in row due to excessive Halo 2', 'Has some fascination with Steelers. Go Ravens.')";
 
 	String insertData10 = "INSERT INTO employee VALUES (110, 'Joanne', 'McDougal', '789-54-2413','joanne',"
-		+ "'Human Resources','610-213-6341', '5567 Broadband Lane', 'New York, NY', 106, 01012001, 90000, '6981754825081054', 300, 112005, "
+		+ "'Human Resources','610-213-6341', '5567 Broadband Lane', 'New York, NY', 106, 01012001, 90000, '6981754825081054', 300, 'joanne@modelsrus.com', 112005, "
 		+ "'Used company cc to purchase new car. Limit adjusted.', 'Finds it necessary to leave early every day.')";
 
 	String insertData11 = "INSERT INTO employee VALUES (111, 'John', 'Wayne', '129-69-4572', 'john',"
-		+ "'CTO','610-213-1134', '129 Third St', 'New York, NY', 112, 01012001, 200000, '4437334565679921', 300, 112005, "
+		+ "'CTO','610-213-1134', '129 Third St', 'New York, NY', 112, 01012001, 200000, '4437334565679921', 300, 'john@guns.com', 112005, "
 		+ "'', '')";
 	String insertData12 = "INSERT INTO employee VALUES (112, 'Neville', 'Bartholomew', '111-111-1111', 'socks',"
-		+ "'CEO','408-587-0024', '1 Corporate Headquarters', 'San Jose, CA', 112, 03012000, 450000, '4803389267684109', 300, 112005, "
+		+ "'CEO','408-587-0024', '1 Corporate Headquarters', 'San Jose, CA', 112, 03012000, 450000, '4803389267684109', 300000, 'neville@modelsrus.com', 112005, "
 		+ "'', '')";
 
 	statement.executeUpdate(insertData1);
@@ -660,6 +661,11 @@ public class CreateDB
 	String insertData27 = "INSERT INTO auth VALUES('"
 		+ AbstractLesson.USER_ROLE + "','" + WebSession.SHOWHINTS
 		+ "')";
+	// Add a permission for the webgoat role to see the solution.
+	// The challenge(s) will change the default role to "challenge" 
+	String insertData28 = "INSERT INTO auth VALUES('"
+		+ AbstractLesson.USER_ROLE + "','" + WebSession.SHOWSOLUTION
+		+ "')";
 
 	statement.executeUpdate(insertData1);
 	statement.executeUpdate(insertData2);
@@ -696,6 +702,7 @@ public class CreateDB
 	statement.executeUpdate(insertData25_2);
 	statement.executeUpdate(insertData26);
 	statement.executeUpdate(insertData27);
+	statement.executeUpdate(insertData28);
     }
 
 
