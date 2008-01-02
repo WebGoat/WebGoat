@@ -1,5 +1,5 @@
-**********          WebGoat 5.0
-**********          03.09.2007
+**********          WebGoat 5.1_RC2
+**********          10.09.2007
 **********
 **
 **  Source Code:  http://code.google.com/p/webgoat
@@ -7,7 +7,7 @@
 **  Download:     http://code.google.com/p/webgoat/downloads/list   (Does not have Windows release)
 **  User Guide:   http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents
 **  Home Page:    http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project
-**  Contact Info: webgoat@g2-inc.com
+**  Contact Info: webgoat@owasp.org
 **
 **********
 
@@ -35,23 +35,18 @@ http://code.google.com/p/webgoat
 
 CREDITS (Latest release)
 
-	Bruce Mayhew (http://www.g2-inc.com)
-	Sherif Koussa (http://www.macadamian.com)
+	Bruce Mayhew (http://www.ouncelabs.com)
 	Rogan Dawes (http://dawes.za.net/rogan)
 	Eric Sheridan (http://www.aspectsecurity.com) 
-	Carlo Pelliccioni
+	Erwin Geirnaert (http://www.zionsecurity.com)
 	The many people who have sent comments and suggestions...
         
 WHAT'S NEW
 
 	* WebGoat is now current at Google code. (http://code.google.com/p/webgoat)
-	* HTTP Splitting 
-	* Cross-Site Request Forgery 
-	* XPATH Injection 
-	* AJAX Security 
-	* Log Spoofing 
-	* Cache Poisoning 
-	* Back Doors via SQL Injection 
+	* Database Lessons
+	* XSS Phishing 
+	* Lesson Solutions 
 	* Many upgrades and minor fixes
 
 INSTALLATION
@@ -66,10 +61,13 @@ Windows - (Download, Extract, Double Click Release)
 4. login in as: user = guest, password = guest
 5. To stop WebGoat, simply close the window you launched it from.
 
-Note: When intercepting request with IE7.  You must add a '.' to the
-      end of localhost.  i.e. 
+Note: When intercepting requests via a proxy with IE7.  You must add a '.' to the
+      end of localhost.  This is only valid for IE7:
           http://localhost./WebGoat/attack        or
           http://localhost.8080/WebGoat/attack    if using a non standard port
+      all other browsers should use:
+ 	      http://localhost/WebGoat/attack
+      
 
 
 Linux

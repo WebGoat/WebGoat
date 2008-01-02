@@ -74,7 +74,7 @@
 
   <property name="app.name"      		   value="WebGoat"/>
   <property name="app.path"      		   value="/${app.name}"/>
-  <property name="app.version"   		   value="5.0"/> <!-- UPDATE THIS! -->
+  <property name="app.version"   		   value="5.1_RC2"/> <!-- UPDATE THIS! -->
   <property name="build.home"    		   value="${basedir}/build"/>
   <property name="catalina.home" 		   value="${basedir}/../tomcat"/> <!-- UPDATE THIS! -->
   <property name="dist.home"     		   value="${basedir}/dist"/>
