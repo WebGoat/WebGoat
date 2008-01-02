@@ -290,7 +290,7 @@ public class ForgotPassword extends LessonAdapter
     protected Category getDefaultCategory()
     {
 
-	return Category.A3;
+	return Category.AUTHENTICATION;
     }
 
 

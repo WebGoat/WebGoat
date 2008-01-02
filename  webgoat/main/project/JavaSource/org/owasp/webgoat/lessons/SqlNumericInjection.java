@@ -333,7 +333,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A6;
+	return Category.INJECTION;
     }
 
 
@@ -374,7 +374,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Perform Numeric SQL Injection");
+	return ("Numeric SQL Injection");
     }
 
 

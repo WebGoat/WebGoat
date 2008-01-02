@@ -270,7 +270,7 @@ public class JavaScriptValidation extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A1;
+	return Category.UNVALIDATED_PARAMETERS;
     }
 
 
@@ -323,7 +323,7 @@ public class JavaScriptValidation extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Bypass Client Side JavaScript Validation");
+	return ("Bypass Client Side JavaScript Validation");
     }
     
     public Element getCredits()

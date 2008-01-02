@@ -205,12 +205,11 @@ public class BasicAuthentication extends SequentialLessonAdapter
 		    getLessonTracker(s, BASIC).store(s, this, BASIC);
 		}
 
-		s
-			.setMessage("Congratulations, you have figured out the mechanics of basic authentication.");
-		s
-			.setMessage("&nbsp;&nbsp;- Now you must try to make WebGoat reauthenticate you as:  ");
+		s.setMessage("Congratulations, you have figured out the mechanics of basic authentication.");
+		s.setMessage("&nbsp;&nbsp;- Now you must try to make WebGoat reauthenticate you as:  ");
 		s.setMessage("&nbsp;&nbsp;&nbsp;&nbsp;- username:  basic");
 		s.setMessage("&nbsp;&nbsp;&nbsp;&nbsp;- password:  basic");
+		s.setMessage("Use the Basic Authentication Menu to start at login page.");
 
 		// If the auth header is different but still the original user - tell the user
 		// that the original cookie was posted bak and basic auth uses the cookie before the
@@ -261,7 +260,7 @@ public class BasicAuthentication extends SequentialLessonAdapter
     protected Category getDefaultCategory()
     {
 
-	return Category.A3;
+	return Category.AUTHENTICATION;
     }
 
 

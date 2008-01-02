@@ -278,7 +278,7 @@ public class CSRF extends LessonAdapter {
 
 	@Override	
 	protected Category getDefaultCategory() {
-		return Category.A2;
+		return Category.ACCESS_CONTROL;
 	}
 
 	private final static Integer DEFAULT_RANKING = new Integer(120);
@@ -308,7 +308,7 @@ public class CSRF extends LessonAdapter {
 	 */
 	public String getTitle()
 	{
-		return ( "How to Perform Cross Site Request Forgery (CSRF)" );
+		return ( "Cross Site Request Forgery (CSRF)" );
 	}
 
 	private static String getNameroot( String name )

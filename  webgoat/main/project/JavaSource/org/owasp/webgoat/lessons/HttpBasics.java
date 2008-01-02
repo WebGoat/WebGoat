@@ -99,6 +99,7 @@ public class HttpBasics extends LessonAdapter
 	hints.add("Type in your name and press 'go'");
 	hints.add("Turn on Show Parameters or other features");
 	hints.add("Press the Show Lesson Plan button to view a lesson summary");
+	hints.add("Press the Show Solution button to view a lesson solution");
 
 	return hints;
     }

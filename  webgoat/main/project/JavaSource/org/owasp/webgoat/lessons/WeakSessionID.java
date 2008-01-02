@@ -90,7 +90,7 @@ public class WeakSessionID extends LessonAdapter
     }
 
 
-    protected String newCookie()
+    protected String newCookie(WebSession s)
     {
 	long now = System.currentTimeMillis();
 	seq++;
@@ -98,6 +98,7 @@ public class WeakSessionID extends LessonAdapter
 	{
 	    String target = encode(seq++, lastTime + (now - lastTime) / 2);
 	    sessionList.add(target);
+	    s.setMessage(target);
 	    if (sessionList.size() > 100)
 		sessionList.remove(0);
 	}
@@ -149,7 +150,7 @@ public class WeakSessionID extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A3;
+	return Category.SESSION_MANAGEMENT;
     }
 
 
@@ -161,12 +162,11 @@ public class WeakSessionID extends LessonAdapter
     protected List<String> getHints(WebSession s)
     {
 	List<String> hints = new ArrayList<String>();
-	hints
-		.add("The server skips authentication if you send the right cookie.");
-	hints
-		.add("Is the cookie value predictable? Can you see gaps where someone else has acquired a cookie?");
+	hints.add("The server skips authentication if you send the right cookie.");
+	hints.add("Is the cookie value predictable? Can you see gaps where someone else has acquired a cookie?");
 	hints.add("Try harder, you brute!");
-
+	hints.add("The first part of the cookie is a sequential number, the second part is milliseconds.");
+	hints.add("After the 29th try, the skipped identifier is printed to your screen. Use that to login.");
 	return hints;
     }
 
@@ -186,7 +186,7 @@ public class WeakSessionID extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Hijack a Session");
+	return ("Hijack a Session");
     }
 
 
@@ -204,7 +204,7 @@ public class WeakSessionID extends LessonAdapter
 
 	if (weakid == null)
 	{
-	    weakid = newCookie();
+	    weakid = newCookie(s);
 	    Cookie cookie = new Cookie(SESSIONID, weakid);
 	    s.getResponse().addCookie(cookie);
 	}

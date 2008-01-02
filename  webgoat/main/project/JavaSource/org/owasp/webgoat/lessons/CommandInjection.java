@@ -294,7 +294,7 @@ public class CommandInjection extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A6;
+	return Category.INJECTION;
     }
 
 
@@ -348,6 +348,6 @@ public class CommandInjection extends LessonAdapter
      */
     public String getTitle()
     {
-	return "How to Perform Command Injection";
+	return "Command Injection";
     }
 }

@@ -233,7 +233,7 @@ public class TraceXSS extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A4;
+	return Category.XSS;
     }
 
 
@@ -281,6 +281,6 @@ public class TraceXSS extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Perform Cross Site Tracing (XST) Attacks");
+	return ("Cross Site Tracing (XST) Attacks");
     }
 }

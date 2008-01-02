@@ -151,7 +151,7 @@ public class StoredXss extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A4;
+	return Category.XSS;
     }
 
 
@@ -190,7 +190,7 @@ public class StoredXss extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Perform Stored Cross Site Scripting (XSS)");
+	return ("Stored XSS Attacks");
     }
 
 

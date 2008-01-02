@@ -88,7 +88,7 @@ public class DBCrossSiteScripting extends GoatHillsFinancial
      */
     public Category getDefaultCategory()
     {
-	return Category.A4;
+	return Category.XSS;
     }
 
     /**

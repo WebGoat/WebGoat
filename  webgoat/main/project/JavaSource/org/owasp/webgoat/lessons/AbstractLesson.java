@@ -499,7 +499,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
     }
 
 
-    public String getHtml(WebSession s)
+    public String getHtml_DELETE_ME(WebSession s)
     {
 	String html = null;
 
@@ -561,7 +561,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
     public String getSolution(WebSession s)
     {
-	String source = null;
 	String src = null;
 
 	try
@@ -586,8 +585,6 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
 	html.addElement(head);
 	html.addElement(body);
-
-	source = html.toString();
 
 	return src;
     }

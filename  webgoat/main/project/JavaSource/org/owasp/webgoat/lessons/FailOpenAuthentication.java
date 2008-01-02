@@ -133,7 +133,7 @@ public class FailOpenAuthentication extends WeakAuthenticationCookie
      */
     public Category getDefaultCategory()
     {
-	return Category.A7;
+	return Category.ERROR_HANDLING;
     }
 
 
@@ -183,7 +183,7 @@ public class FailOpenAuthentication extends WeakAuthenticationCookie
      */
     public String getTitle()
     {
-	return ("How to Bypass a Fail Open Authentication Scheme");
+	return ("Fail Open Authentication Scheme");
     }
     
     public Element getCredits()

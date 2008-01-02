@@ -250,7 +250,7 @@ public class HtmlClues extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Discover Clues in the HTML");
+	return ("Discover Clues in the HTML");
     }
     
     public Element getCredits()

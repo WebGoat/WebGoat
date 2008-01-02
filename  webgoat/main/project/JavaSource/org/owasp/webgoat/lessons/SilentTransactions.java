@@ -161,7 +161,7 @@ public class SilentTransactions extends LessonAdapter
 		+ lineSep
 		+ "}"
 		+ lineSep
-		+ " var balanceValue = document.getElementById('balanceID').innerText;"
+		+ " var balanceValue = document.getElementById('balanceID').innerHTML;"
 		+ lineSep
 		+ " balanceValue = balanceValue.replace( new RegExp('$') , '');"
 		+ lineSep
@@ -183,7 +183,7 @@ public class SilentTransactions extends LessonAdapter
 		+ lineSep
 		+ "balanceValue = balanceValue.toFixed(2);"
 		+ lineSep
-		+ "document.getElementById('balanceID').innerText = balanceValue + '$';"
+		+ "document.getElementById('balanceID').innerHTML = balanceValue + '$';"
 		+ lineSep
 		+ "}"
 		+ lineSep
@@ -225,6 +225,7 @@ public class SilentTransactions extends LessonAdapter
 	tr = new TR();
 	tr.addElement(new TD(new StringElement("Transfer to Account:")));
 	Input newAccount = new Input();
+	newAccount.addAttribute("id", "newAccount");
 	newAccount.setType(Input.TEXT);
 	newAccount.setName("newAccount");
 	newAccount.setValue("");
@@ -234,6 +235,7 @@ public class SilentTransactions extends LessonAdapter
 	tr = new TR();
 	tr.addElement(new TD(new StringElement("Transfer Amount:")));
 	Input amount = new Input();
+	amount.addAttribute("id", "amount");
 	amount.setType(Input.TEXT);
 	amount.setName("amount");
 	amount.setValue(0);
@@ -248,6 +250,7 @@ public class SilentTransactions extends LessonAdapter
 	Input b = new Input();
 	b.setType(Input.BUTTON);
 	b.setName("confirm");
+	b.addAttribute("id", "confirm");
 	b.setValue("Confirm");
 	b.setOnClick("processData();");
 	ec.addElement(b);

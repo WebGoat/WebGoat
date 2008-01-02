@@ -107,10 +107,10 @@ public class XMLInjection extends LessonAdapter
 		{
 		    String lineSep = System.getProperty("line.separator");
 		    String xmlStr = "<root>" + lineSep
-			    + "<reward>WebGoat t-shirt 20 Pts</reward>"
+			    + "<reward>WebGoat Mug 20 Pts</reward>"
 			    + lineSep
-			    + "<reward>WebGoat Secure Kettle 50 Pts</reward>"
-			    + lineSep + "<reward>WebGoat Mug 30 Pts</reward>"
+			    + "<reward>WebGoat t-shirt 50 Pts</reward>"
+			    + lineSep + "<reward>WebGoat Secure Kettle 30 Pts</reward>"
 			    + lineSep + "</root>";
 		    s.getResponse().setContentType("text/xml");
 		    s.getResponse().setHeader("Cache-Control", "no-cache");
@@ -188,7 +188,7 @@ public class XMLInjection extends LessonAdapter
 		+ lineSep
 		+ "        if (req.status == 200) { "
 		+ lineSep
-		+ "            var rewards = req.responseXML.getElementsByTagName('root')[0];"
+		+ "            var rewards = req.responseXML.getElementsByTagName('reward');"
 		+ lineSep
 		+ "			 var rewardsDiv = document.getElementById('rewardsDiv');"
 		+ lineSep
@@ -198,13 +198,13 @@ public class XMLInjection extends LessonAdapter
 		+ lineSep
 		+ "				strHTML = '<tr><td>&nbsp;</td><td><b>Rewards</b></td></tr>';"
 		+ lineSep
-		+ "			 for(var i=0; i< rewards.childNodes.length; i++){"
-		+ lineSep
-		+ "				var node = rewards.childNodes[i];"
+		+ "			 for(var i=0; i< rewards.length; i++){"
+		//+ lineSep
+		//+ "				var node = rewards.childNodes[i+1];"
 		+ lineSep
 		+ "				strHTML = strHTML + '<tr><td><input name=\"check' + (i+1001) +'\" type=\"checkbox\"></td><td>';"
 		+ lineSep
-		+ "			    strHTML = strHTML + node.childNodes[0].nodeValue + '</td></tr>';"
+		+ "			    strHTML = strHTML + rewards[i].firstChild.nodeValue + '</td></tr>';"
 		+ lineSep
 		+ "			 }"
 		+ lineSep
@@ -254,7 +254,7 @@ public class XMLInjection extends LessonAdapter
 
 	Input input1 = new Input(Input.TEXT, ACCOUNTID, "");
 	input1.addAttribute("onkeyup", "getRewards();");
-
+	input1.addAttribute("id", ACCOUNTID);
 	tr.addElement(new TD(input1));
 	t1.addElement(tr);
 

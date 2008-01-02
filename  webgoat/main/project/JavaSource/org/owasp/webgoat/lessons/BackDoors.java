@@ -268,7 +268,7 @@ public class BackDoors extends SequentialLessonAdapter
 
 	protected Category getDefaultCategory()
 	{
-		return Category.A6;
+		return Category.INJECTION;
 	}
 
 	protected Integer getDefaultRanking()
@@ -278,6 +278,6 @@ public class BackDoors extends SequentialLessonAdapter
 
 	public String getTitle()
 	{
-		return ("How to Use Database Backdoors ");
+		return ("Database Backdoors ");
 	}
 }

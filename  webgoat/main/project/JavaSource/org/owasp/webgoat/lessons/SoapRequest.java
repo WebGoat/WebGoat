@@ -173,7 +173,7 @@ public class SoapRequest extends SequentialLessonAdapter
 
     public String getTitle()
     {
-	return "How to Create a SOAP Request";
+	return "Create a SOAP Request";
     }
 
 

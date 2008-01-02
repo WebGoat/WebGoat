@@ -176,7 +176,7 @@ public class HiddenFieldTampering extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A1;
+	return Category.UNVALIDATED_PARAMETERS;
     }
 
 
@@ -228,7 +228,7 @@ public class HiddenFieldTampering extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Exploit Hidden Fields");
+	return ("Exploit Hidden Fields");
     }
     
     public Element getCredits()

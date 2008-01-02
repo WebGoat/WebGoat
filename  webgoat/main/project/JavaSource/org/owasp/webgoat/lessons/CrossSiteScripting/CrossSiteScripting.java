@@ -94,7 +94,7 @@ public class CrossSiteScripting extends GoatHillsFinancial
      */
     public Category getDefaultCategory()
     {
-	return Category.A4;
+	return Category.XSS;
     }
 
     /**

@@ -224,7 +224,7 @@ public class XPATHInjection extends LessonAdapter
     protected Category getDefaultCategory()
     {
 
-	return Category.A6;
+	return Category.INJECTION;
     }
 
 
@@ -259,7 +259,7 @@ public class XPATHInjection extends LessonAdapter
     public String getTitle()
     {
 
-	return "How to Perform XPATH Injection";
+	return "XPATH Injection";
     }
 
 }

@@ -87,7 +87,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
      */
     public Category getDefaultCategory()
     {
-	return Category.A2;
+	return Category.ACCESS_CONTROL;
     }
 
     /**

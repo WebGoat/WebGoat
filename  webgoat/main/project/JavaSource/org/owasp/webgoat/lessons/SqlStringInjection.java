@@ -249,7 +249,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A6;
+	return Category.INJECTION;
     }
 
 
@@ -290,7 +290,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Perform String SQL Injection");
+	return ("String SQL Injection");
     }
 
 

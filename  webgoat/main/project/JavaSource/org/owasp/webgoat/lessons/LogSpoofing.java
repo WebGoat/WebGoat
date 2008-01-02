@@ -156,14 +156,14 @@ public class LogSpoofing extends LessonAdapter
     @Override
     public String getTitle()
     {
-	return "How to Perform Log Spoofing";
+	return "Log Spoofing";
     }
 
 
     @Override
     protected Category getDefaultCategory()
     {
-	return Category.A6;
+	return Category.INJECTION;
     }
 
 

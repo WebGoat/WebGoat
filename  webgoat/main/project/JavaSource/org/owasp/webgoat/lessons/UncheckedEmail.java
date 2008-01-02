@@ -204,7 +204,7 @@ public class UncheckedEmail extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A1;
+	return Category.UNVALIDATED_PARAMETERS;
     }
 
 
@@ -257,7 +257,7 @@ public class UncheckedEmail extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Exploit Unchecked Email");
+	return ("Exploit Unchecked Email");
     }
 
 }

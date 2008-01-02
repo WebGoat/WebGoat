@@ -73,7 +73,7 @@ public class RemoteAdminFlaw extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-    	return Category.A2;
+    	return Category.ACCESS_CONTROL;
     }
 
 

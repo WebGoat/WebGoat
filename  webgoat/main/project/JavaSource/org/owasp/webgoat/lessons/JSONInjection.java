@@ -100,7 +100,7 @@ public class JSONInjection extends LessonAdapter
 
 	Form form = new Form(getFormAction(), Form.POST).setName("form")
 		.setEncType("");
-	form.setOnSubmit("check();");
+	form.setOnSubmit("return check();");
 
 	form.addElement(createContent(s));
 
@@ -127,13 +127,13 @@ public class JSONInjection extends LessonAdapter
 		+ TRAVEL_FROM
 		+ "');"
 		+ lineSep
-		+ "if (fromField.value.length < 3 ) { return; }"
+		+ "if (fromField.value.length < 3 || fromField.value!='BOS') { return; }"
 		+ lineSep
 		+ "var toField = document.getElementById('"
 		+ TRAVEL_TO
 		+ "');"
 		+ lineSep
-		+ "if (toField.value.length < 3 ) { return; }"
+		+ "if (toField.value.length < 3 || toField.value!='SEA') { return; }"
 		+ lineSep
 		+ "var url = '" + getLink() 
 		+ "&from=ajax&"
@@ -183,7 +183,7 @@ public class JSONInjection extends LessonAdapter
 		+ lineSep
 		+ "				var node = card.flights[i];"
 		+ lineSep
-		+ "				strHTML = strHTML + '<tr><td><input name=\"radio' + i +'\" type=\"radio\"></td><td>';"
+		+ "				strHTML = strHTML + '<tr><td><input name=\"radio'+i+'\" type=\"radio\" id=\"radio'+i+'\"></td><td>';"
 		+ lineSep
 		+ "			    strHTML = strHTML + card.flights[i].stops + '</td><td>';"
 		+ lineSep
@@ -205,13 +205,13 @@ public class JSONInjection extends LessonAdapter
 		+ lineSep
 		+ " if ( document.getElementById('radio0').checked  )"
 		+ lineSep
-		+ " { document.getElementById('price2Submit').value = document.getElementById('priceID0').innerText; }"
+		+ " { document.getElementById('price2Submit').value = document.getElementById('priceID0').innerHTML; return true;}"
 		+ lineSep
 		+ " else if ( document.getElementById('radio1').checked  )"
 		+ lineSep
-		+ " { document.getElementById('price2Submit').value = document.getElementById('priceID1').innerText; }"
+		+ " { document.getElementById('price2Submit').value = document.getElementById('priceID1').innerHTML; return true;}"
 		+ lineSep + " else " + lineSep
-		+ " { alert('Please choose one flight'); }" + lineSep + "}"
+		+ " { alert('Please choose one flight'); return false;}" + lineSep + "}"
 		+ lineSep + "</script>" + lineSep;
 	ec.addElement(new StringElement(script));
 	Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0)
@@ -222,6 +222,7 @@ public class JSONInjection extends LessonAdapter
 	tr.addElement(new TD("From: "));
 	Input in = new Input(Input.TEXT, TRAVEL_FROM, "");
 	in.addAttribute("onkeyup", "getFlights();");
+	in.addAttribute("id", TRAVEL_FROM);
 	tr.addElement(new TD(in));
 
 	t1.addElement(tr);
@@ -230,6 +231,7 @@ public class JSONInjection extends LessonAdapter
 	tr.addElement(new TD("To: "));
 	in = new Input(Input.TEXT, TRAVEL_TO, "");
 	in.addAttribute("onkeyup", "getFlights();");
+	in.addAttribute("id", TRAVEL_TO);
 	tr.addElement(new TD(in));
 
 	t1.addElement(tr);
@@ -251,12 +253,13 @@ public class JSONInjection extends LessonAdapter
 	Input price2Submit = new Input();
 	price2Submit.setType(Input.HIDDEN);
 	price2Submit.setName("price2Submit");
+	price2Submit.setValue("");
+	price2Submit.addAttribute("id", "price2Submit");
 	ec.addElement(price2Submit);
 	if (s.getParser().getRawParameter("radio0", "").equals("on"))
 	{
 	    String price = s.getParser().getRawParameter("price2Submit", "");
 	    price = price.replace("$", "");
-
 	    if (Integer.parseInt(price) < 600)
 	    {
 		makeSuccess(s);
@@ -272,7 +275,7 @@ public class JSONInjection extends LessonAdapter
 
     public Element getCredits()
     {
-	return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
+	return super.getCustomCredits("Created by Sherif Koussa", MAC_LOGO);
     }
 
     protected Category getDefaultCategory()

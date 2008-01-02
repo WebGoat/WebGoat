@@ -79,7 +79,7 @@ public class NewLesson extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to add a new WebGoat lesson");
+	return ("Create a WebGoat Lesson");
     }
     
     public Element getCredits()

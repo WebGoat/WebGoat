@@ -190,7 +190,7 @@ public class DOS_Login extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A9;
+	return Category.DOS;
     }
 
 

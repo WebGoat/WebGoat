@@ -145,7 +145,7 @@ public class BlindSqlInjection extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A6;
+	return Category.INJECTION;
     }
 
     /**
@@ -298,7 +298,7 @@ public class BlindSqlInjection extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Perform Blind SQL Injection");
+	return ("Blind SQL Injection");
     }
 
     /**

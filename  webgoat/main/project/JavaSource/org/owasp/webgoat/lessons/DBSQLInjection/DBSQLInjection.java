@@ -89,7 +89,7 @@ public class DBSQLInjection extends GoatHillsFinancial
      */
     public Category getDefaultCategory()
     {
-	return Category.A6;
+	return Category.INJECTION;
     }
 
     /**

@@ -191,7 +191,7 @@ public class ThreadSafetyProblem extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("How to Exploit Thread Safety Problems");
+	return ("Thread Safety Problems");
     }
 
 

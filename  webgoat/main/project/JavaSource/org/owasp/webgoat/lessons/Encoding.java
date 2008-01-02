@@ -405,7 +405,7 @@ public class Encoding extends LessonAdapter
 
 	protected Category getDefaultCategory()
 	{
-		return Category.A8;
+		return Category.INSECURE_STORAGE;
 	}
 
 

@@ -265,7 +265,7 @@ public class Phishing extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A4;
+	return Category.XSS;
     }
 
 

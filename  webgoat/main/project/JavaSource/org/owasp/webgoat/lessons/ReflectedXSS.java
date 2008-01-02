@@ -231,7 +231,7 @@ public class ReflectedXSS extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.A4;
+	return Category.XSS;
     }
 
 
@@ -288,7 +288,7 @@ public class ReflectedXSS extends LessonAdapter
      */
     public String getTitle()
     {
-	return "How to Perform Reflected Cross Site Scripting (XSS) Attacks";
+	return "Reflected XSS Attacks";
     }
     
 }

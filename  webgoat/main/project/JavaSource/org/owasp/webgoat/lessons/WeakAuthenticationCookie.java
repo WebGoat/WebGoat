@@ -46,347 +46,338 @@ import org.owasp.webgoat.session.*;
  * for free software projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
- *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
- * @created    October 28, 2003
+ * 
+ * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @created October 28, 2003
  */
 public class WeakAuthenticationCookie extends LessonAdapter
 {
-	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
-	
-    /**
-     *  Description of the Field
-     */
-    protected final static String AUTHCOOKIE = "AuthCookie";
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(
+			new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
 
-    /**
-     *  Description of the Field
-     */
-    protected final static String LOGOUT = "WACLogout";
+	/**
+	 * Description of the Field
+	 */
+	protected final static String AUTHCOOKIE = "AuthCookie";
 
-    /**
-     *  Description of the Field
-     */
-    protected final static String PASSWORD = "Password";
+	/**
+	 * Description of the Field
+	 */
+	protected final static String LOGOUT = "WACLogout";
 
-    /**
-     *  Description of the Field
-     */
-    protected final static String USERNAME = "Username";
+	/**
+	 * Description of the Field
+	 */
+	protected final static String PASSWORD = "Password";
 
+	/**
+	 * Description of the Field
+	 */
+	protected final static String USERNAME = "Username";
 
-    /**
-     *  Description of the Method
-     *
-     * @param  s              Description of the Parameter
-     * @return                Description of the Return Value
-     * @exception  Exception  Description of the Exception
-     */
-    protected String checkCookie(WebSession s) throws Exception
-    {
-	String cookie = getCookie(s);
-
-	if (cookie != null)
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s
+	 *            Description of the Parameter
+	 * @return Description of the Return Value
+	 * @exception Exception
+	 *                Description of the Exception
+	 */
+	protected String checkCookie(WebSession s) throws Exception
 	{
-	    if (cookie.equals(encode("webgoat12345")))
-	    {
-		return ("webgoat");
-	    }
+		String cookie = getCookie(s);
 
-	    if (cookie.equals(encode("aspect12345")))
-	    {
-		return ("aspect");
-	    }
+		if (cookie != null)
+		{
+			if (cookie.equals(encode("webgoat12345")))
+			{
+				return ("webgoat");
+			}
 
-	    if (cookie.equals(encode("alice12345")))
-	    {
-		makeSuccess(s);
-		return ("alice");
-	    }
-	    else
-	    {
-		s.setMessage("Invalid cookie");
-		s.eatCookies();
-	    }
+			if (cookie.equals(encode("aspect12345")))
+			{
+				return ("aspect");
+			}
+
+			if (cookie.equals(encode("alice12345")))
+			{
+				makeSuccess(s);
+				return ("alice");
+			} else
+			{
+				s.setMessage("Invalid cookie");
+				s.eatCookies();
+			}
+		}
+
+		return (null);
 	}
 
-	return (null);
-    }
-
-
-    /**
-     *  Description of the Method
-     *
-     * @param  s              Description of the Parameter
-     * @return                Description of the Return Value
-     * @exception  Exception  Description of the Exception
-     */
-    protected String checkParams(WebSession s) throws Exception
-    {
-	String username = s.getParser().getStringParameter(USERNAME, "");
-	String password = s.getParser().getStringParameter(PASSWORD, "");
-
-	if ((username.length() > 0) && (password.length() > 0))
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s
+	 *            Description of the Parameter
+	 * @return Description of the Return Value
+	 * @exception Exception
+	 *                Description of the Exception
+	 */
+	protected String checkParams(WebSession s) throws Exception
 	{
-	    String loginID = "";
+		String username = s.getParser().getStringParameter(USERNAME, "");
+		String password = s.getParser().getStringParameter(PASSWORD, "");
 
-	    if (username.equals("webgoat") && password.equals("webgoat"))
-	    {
-		loginID = encode("webgoat12345");
-	    }
-	    else if (username.equals("aspect") && password.equals("aspect"))
-	    {
-		loginID = encode("aspect12345");
-	    }
+		if ((username.length() > 0) && (password.length() > 0))
+		{
+			String loginID = "";
 
-	    if (loginID != "")
-	    {
-		Cookie newCookie = new Cookie(AUTHCOOKIE, loginID);
-		s.setMessage("Your identity has been remembered");
-		s.getResponse().addCookie(newCookie);
+			if (username.equals("webgoat") && password.equals("webgoat"))
+			{
+				loginID = encode("webgoat12345");
+			} else if (username.equals("aspect") && password.equals("aspect"))
+			{
+				loginID = encode("aspect12345");
+			}
 
-		return (username);
-	    }
-	    else
-	    {
-		s.setMessage("Invalid username and password entered.");
-	    }
+			if (loginID != "")
+			{
+				Cookie newCookie = new Cookie(AUTHCOOKIE, loginID);
+				s.setMessage("Your identity has been remembered");
+				s.getResponse().addCookie(newCookie);
+
+				return (username);
+			} else
+			{
+				s.setMessage("Invalid username and password entered.");
+			}
+		}
+
+		return (null);
 	}
 
-	return (null);
-    }
-
-
-    /**
-     *  Description of the Method
-     *
-     * @param  s  Description of the Parameter
-     * @return    Description of the Return Value
-     */
-    protected Element createContent(WebSession s)
-    {
-	boolean logout = s.getParser().getBooleanParameter(LOGOUT, false);
-
-	if (logout)
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s
+	 *            Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	protected Element createContent(WebSession s)
 	{
-	    s.setMessage("Goodbye!  Your password has been forgotten");
-	    s.eatCookies();
+		boolean logout = s.getParser().getBooleanParameter(LOGOUT, false);
 
-	    return (makeLogin(s));
+		if (logout)
+		{
+			s.setMessage("Goodbye!  Your password has been forgotten");
+			s.eatCookies();
+
+			return (makeLogin(s));
+		}
+
+		try
+		{
+			String user = checkCookie(s);
+
+			if ((user != null) && (user.length() > 0))
+			{
+				return (makeUser(s, user, "COOKIE"));
+			}
+
+			user = checkParams(s);
+
+			if ((user != null) && (user.length() > 0))
+			{
+				return (makeUser(s, user, "PARAMETERS"));
+			}
+		}
+		catch (Exception e)
+		{
+			s.setMessage("Error generating " + this.getClass().getName());
+			e.printStackTrace();
+		}
+
+		return (makeLogin(s));
 	}
 
-	try
+	/**
+	 * Description of the Method
+	 * 
+	 * @param value
+	 *            Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	private String encode(String value)
 	{
-	    String user = checkCookie(s);
+		// <START_OMIT_SOURCE>
+		StringBuffer encoded = new StringBuffer();
 
-	    if ((user != null) && (user.length() > 0))
-	    {
-		return (makeUser(s, user, "COOKIE"));
-	    }
+		for (int i = 0; i < value.length(); i++)
+		{
+			encoded.append(String.valueOf((char) (value.charAt(i) + 1)));
+		}
 
-	    user = checkParams(s);
-
-	    if ((user != null) && (user.length() > 0))
-	    {
-		return (makeUser(s, user, "PARAMETERS"));
-	    }
-	}
-	catch (Exception e)
-	{
-	    s.setMessage("Error generating " + this.getClass().getName());
-	    e.printStackTrace();
-	}
-
-	return (makeLogin(s));
-    }
-
-
-    /**
-     *  Description of the Method
-     *
-     * @param  value  Description of the Parameter
-     * @return        Description of the Return Value
-     */
-    private String encode(String value)
-    {
-	//<START_OMIT_SOURCE>
-	StringBuffer encoded = new StringBuffer();
-
-	for (int i = 0; i < value.length(); i++)
-	{
-	    encoded.append(String.valueOf((char) (value.charAt(i) + 1)));
+		return encoded.reverse().toString();
+		// <END_OMIT_SOURCE>
 	}
 
-	return encoded.reverse().toString();
-	//<END_OMIT_SOURCE>
-    }
-
-
-    /**
-     *  Gets the category attribute of the WeakAuthenticationCookie object
-     *
-     * @return    The category value
-     */
-    protected Category getDefaultCategory()
-    {
-	return Category.A3;
-    }
-
-
-    /**
-     *  Gets the cookie attribute of the CookieScreen object
-     *
-     * @param  s  Description of the Parameter
-     * @return    The cookie value
-     */
-    protected String getCookie(WebSession s)
-    {
-	Cookie[] cookies = s.getRequest().getCookies();
-
-	for (int i = 0; i < cookies.length; i++)
+	/**
+	 * Gets the category attribute of the WeakAuthenticationCookie object
+	 * 
+	 * @return The category value
+	 */
+	protected Category getDefaultCategory()
 	{
-	    if (cookies[i].getName().equalsIgnoreCase(AUTHCOOKIE))
-	    {
-		return (cookies[i].getValue());
-	    }
+		return Category.AUTHENTICATION;
 	}
 
-	return (null);
-    }
-
-
-    /**
-     *  Gets the hints attribute of the CookieScreen object
-     *
-     * @return    The hints value
-     */
-    protected List<String> getHints(WebSession s)
-    {
-	List<String> hints = new ArrayList<String>();
-	hints
-		.add("The server skips authentication if you send the right cookie.");
-	hints
-		.add("Is the AuthCookie value guessable knowing the username and password?");
-	hints
-		.add("Add 'AuthCookie=********;' to the Cookie: header using <A href=\"http://www.owasp.org/development/webscarab\">WebScarab</A>.");
-
-	return hints;
-    }
-
-
-    /**
-     *  Gets the instructions attribute of the WeakAuthenticationCookie object
-     *
-     * @return    The instructions value
-     */
-    public String getInstructions(WebSession s)
-    {
-	String instructions = "Login using the webgoat/webgoat account to see what happens. You may also try aspect/aspect. When you understand the authentication cookie, try changing your identity to alice.";
-
-	return (instructions);
-    }
-
-    private final static Integer DEFAULT_RANKING = new Integer(90);
-
-
-    protected Integer getDefaultRanking()
-    {
-	return DEFAULT_RANKING;
-    }
-
-
-    /**
-     *  Gets the title attribute of the CookieScreen object
-     *
-     * @return    The title value
-     */
-    public String getTitle()
-    {
-	return ("How to Spoof an Authentication Cookie");
-    }
-
-
-    /**
-     *  Description of the Method
-     *
-     * @param  s  Description of the Parameter
-     * @return    Description of the Return Value
-     */
-    protected Element makeLogin(WebSession s)
-    {
-	ElementContainer ec = new ElementContainer();
-
-	ec.addElement(new H1().addElement("Sign In "));
-	Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0)
-		.setWidth("90%").setAlign("center");
-
-	if (s.isColor())
+	/**
+	 * Gets the cookie attribute of the CookieScreen object
+	 * 
+	 * @param s
+	 *            Description of the Parameter
+	 * @return The cookie value
+	 */
+	protected String getCookie(WebSession s)
 	{
-	    t.setBorder(1);
+		Cookie[] cookies = s.getRequest().getCookies();
+
+		for (int i = 0; i < cookies.length; i++)
+		{
+			if (cookies[i].getName().equalsIgnoreCase(AUTHCOOKIE))
+			{
+				return (cookies[i].getValue());
+			}
+		}
+
+		return (null);
 	}
 
-	TR tr = new TR();
-	tr
-		.addElement(new TH()
-			.addElement(
-				"Please sign in to your account.  See the OWASP admin if you do not have an account.")
-			.setColSpan(2).setAlign("left"));
-	t.addElement(tr);
+	/**
+	 * Gets the hints attribute of the CookieScreen object
+	 * 
+	 * @return The hints value
+	 */
+	protected List<String> getHints(WebSession s)
+	{
+		List<String> hints = new ArrayList<String>();
+		hints.add("The server authenticates the user using a cookie, if you send the right cookie.");
+		hints.add("Is the AuthCookie value guessable knowing the username and password?");
+		hints.add("Add 'AuthCookie=********;' to the Cookie: header using "
+				+ "<A href=\"http://www.owasp.org/development/webscarab\">WebScarab</A>.");
+		hints.add("After logging in as webgoat a cookie is added. 65432ubphcfx<br/>" +
+				  "After logging in as aspect a cookie is added. 65432udfqtb<br/>" +
+				  "Is there anything similar about the cookies and the login names?");
+		return hints;
+	}
 
-	tr = new TR();
-	tr.addElement(new TD().addElement("*Required Fields").setWidth("30%"));
-	t.addElement(tr);
+	/**
+	 * Gets the instructions attribute of the WeakAuthenticationCookie object
+	 * 
+	 * @return The instructions value
+	 */
+	public String getInstructions(WebSession s)
+	{
+		String instructions = "Login using the webgoat/webgoat account to see what happens. You may also try aspect/aspect. When you understand the authentication cookie, try changing your identity to alice.";
 
-	tr = new TR();
-	tr.addElement(new TD().addElement("&nbsp;").setColSpan(2));
-	t.addElement(tr);
+		return (instructions);
+	}
 
-	TR row1 = new TR();
-	TR row2 = new TR();
-	row1.addElement(new TD(new B(new StringElement("*User Name: "))));
-	row2.addElement(new TD(new B(new StringElement("*Password: "))));
+	private final static Integer DEFAULT_RANKING = new Integer(90);
 
-	Input input1 = new Input(Input.TEXT, USERNAME, "");
-	Input input2 = new Input(Input.PASSWORD, PASSWORD, "");
-	row1.addElement(new TD(input1));
-	row2.addElement(new TD(input2));
-	t.addElement(row1);
-	t.addElement(row2);
+	protected Integer getDefaultRanking()
+	{
+		return DEFAULT_RANKING;
+	}
 
-	Element b = ECSFactory.makeButton("Login");
-	t.addElement(new TR(new TD(b)));
-	ec.addElement(t);
+	/**
+	 * Gets the title attribute of the CookieScreen object
+	 * 
+	 * @return The title value
+	 */
+	public String getTitle()
+	{
+		return ("Spoof an Authentication Cookie");
+	}
 
-	return (ec);
-    }
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s
+	 *            Description of the Parameter
+	 * @return Description of the Return Value
+	 */
+	protected Element makeLogin(WebSession s)
+	{
+		ElementContainer ec = new ElementContainer();
 
+		ec.addElement(new H1().addElement("Sign In "));
+		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%").setAlign("center");
 
-    /**
-     *  Description of the Method
-     *
-     * @param  s              Description of the Parameter
-     * @param  user           Description of the Parameter
-     * @param  method         Description of the Parameter
-     * @return                Description of the Return Value
-     * @exception  Exception  Description of the Exception
-     */
-    protected Element makeUser(WebSession s, String user, String method)
-	    throws Exception
-    {
-	ElementContainer ec = new ElementContainer();
-	ec.addElement(new P().addElement("Welcome, " + user));
-	ec.addElement(new P().addElement("You have been authenticated with "
-		+ method));
-	ec.addElement(new P().addElement(ECSFactory.makeLink("Logout", LOGOUT,
-		true)));
-	ec.addElement(new P()
-		.addElement(ECSFactory.makeLink("Refresh", "", "")));
+		if (s.isColor())
+		{
+			t.setBorder(1);
+		}
 
-	return (ec);
-    }
-    
-    public Element getCredits()
-    {
-    	return super.getCustomCredits("", ASPECT_LOGO);
-    }
+		TR tr = new TR();
+		tr.addElement(new TH().addElement(
+				"Please sign in to your account.  See the OWASP admin if you do not have an account.").setColSpan(2)
+				.setAlign("left"));
+		t.addElement(tr);
+
+		tr = new TR();
+		tr.addElement(new TD().addElement("*Required Fields").setWidth("30%"));
+		t.addElement(tr);
+
+		tr = new TR();
+		tr.addElement(new TD().addElement("&nbsp;").setColSpan(2));
+		t.addElement(tr);
+
+		TR row1 = new TR();
+		TR row2 = new TR();
+		row1.addElement(new TD(new B(new StringElement("*User Name: "))));
+		row2.addElement(new TD(new B(new StringElement("*Password: "))));
+
+		Input input1 = new Input(Input.TEXT, USERNAME, "");
+		Input input2 = new Input(Input.PASSWORD, PASSWORD, "");
+		row1.addElement(new TD(input1));
+		row2.addElement(new TD(input2));
+		t.addElement(row1);
+		t.addElement(row2);
+
+		Element b = ECSFactory.makeButton("Login");
+		t.addElement(new TR(new TD(b)));
+		ec.addElement(t);
+
+		return (ec);
+	}
+
+	/**
+	 * Description of the Method
+	 * 
+	 * @param s
+	 *            Description of the Parameter
+	 * @param user
+	 *            Description of the Parameter
+	 * @param method
+	 *            Description of the Parameter
+	 * @return Description of the Return Value
+	 * @exception Exception
+	 *                Description of the Exception
+	 */
+	protected Element makeUser(WebSession s, String user, String method) throws Exception
+	{
+		ElementContainer ec = new ElementContainer();
+		ec.addElement(new P().addElement("Welcome, " + user));
+		ec.addElement(new P().addElement("You have been authenticated with " + method));
+		ec.addElement(new P().addElement(ECSFactory.makeLink("Logout", LOGOUT, true)));
+		ec.addElement(new P().addElement(ECSFactory.makeLink("Refresh", "", "")));
+
+		return (ec);
+	}
+
+	public Element getCredits()
+	{
+		return super.getCustomCredits("", ASPECT_LOGO);
+	}
 }

@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>WebGoat V5</title>
+<title>WebGoat V5.1RC2</title>
 <link rel="stylesheet" href="css/webgoat.css" type="text/css" />
 </head>
 
@@ -19,7 +19,7 @@
 		  <p>Thank you for using WebGoat!</p>
 		  <p>This program is a demonstration of common web application flaws.  
 		  The exercises are intended to provide hands on experience with application 
-		  penetration testing techniques.  The WebGoat project is lead by Bruce Mayhew. Please send all 
+		  penetration testing techniques.  </p><p>The WebGoat project is lead by Bruce Mayhew. Please send all 
 		  comments to Bruce at <%= webSession.getWebgoatContext().getFeedbackAddress() %>.</p>
 		  <div id="team">
 			<table border="0" align="center" class="lessonText">

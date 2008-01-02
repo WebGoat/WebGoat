@@ -5,3 +5,7 @@
 .pviimenudiv a:visited {color: #0066FF; text-decoration: underline}
 .pviimenudiv a:hover {color: red; text-decoration: underline}
 .pviimenudiv a:active {color: #0066FF; text-decoration: underline}
+.pviimenudivstage a:link {color: #333333; font-size: 9px; display: block; margin-left: 2em; }
+.pviimenudivstage a:visited {color: #0066FF; font-size: 9px;  display: block; margin-left: 2em; }
+.pviimenudivstage a:hover {color: red; font-size: 9px;  display: block; margin-left: 2em; }
+.pviimenudivstage a:active {color: #0066FF; font-size: 9px;  display: block; margin-left: 2em; }
