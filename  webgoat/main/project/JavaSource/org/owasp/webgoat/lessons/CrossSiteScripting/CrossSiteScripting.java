@@ -288,7 +288,7 @@ public class CrossSiteScripting extends GoatHillsFinancial
      */
     public String getTitle()
     {
-	return "LAB: Cross Site Scripting (XSS)";
+	return "LAB: Cross Site Scripting";
     }
 
 	public String htmlEncode(WebSession s, String text)

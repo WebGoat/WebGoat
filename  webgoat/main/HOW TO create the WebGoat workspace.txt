@@ -125,24 +125,6 @@ in "Server Overview" window
     NOTE: In developer mode you may want to leave this checked
 
 
-Rename the web.xml file:
-
-    a. Delete the web.xml file located at
-       <webgoat-root>/project/WebContent/WEB-INF/web.xml
-
-    b. Copy the appropriate web-*.xml as the new web.xml
-
-	Windows:
-	
-	copy <webgoat-root>/project/WebContent/WEB-INF/web-windows.xml to
-	     <webgoat-root>/project/WebContent/WEB-INF/web.xml
-
-
-	Unix:
-
-	copy <webgoat-root>/project/WebContent/WEB-INF/web-unix.xml to
-	     <webgoat-root>/project/WebContent/WEB-INF/web.xml
-
 
 Right click on Tomcat v5.5 Sever@localhost ->Start
 

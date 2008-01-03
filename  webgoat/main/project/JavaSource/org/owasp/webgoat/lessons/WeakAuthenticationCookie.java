@@ -228,7 +228,7 @@ public class WeakAuthenticationCookie extends LessonAdapter
 	 */
 	protected Category getDefaultCategory()
 	{
-		return Category.AUTHENTICATION;
+		return Category.SESSION_MANAGEMENT;
 	}
 
 	/**

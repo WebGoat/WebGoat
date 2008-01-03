@@ -7,7 +7,9 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.A;
 import org.apache.ecs.html.IMG;
-import org.apache.ecs.html.P;
+import org.apache.ecs.html.TD;
+import org.apache.ecs.html.TR;
+import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
@@ -77,20 +79,38 @@ public class AccessControlMatrix extends LessonAdapter
 		    String user = s.getParser().getRawParameter(USER, users[0]);
 		    String resource = s.getParser().getRawParameter(RESOURCE, resources[0]);
 		    String credentials = getRoles(user).toString();
-		    ec.addElement(new P().addElement("Change user:"));
-		    ec.addElement(ECSFactory.makePulldown(USER, users, user, 1));
-		    ec.addElement(new P());
+			
+		    Table t = new Table().setCellSpacing(0).setCellPadding(2)
+			.setBorder(0).setWidth("90%").setAlign("center");
+
+    		if (s.isColor())
+    		{
+    		    t.setBorder(1);
+    		}
+
+    		TR tr = new TR();
+		    tr.addElement(new TD().addElement("Change user:"));
+		    tr.addElement(new TD().addElement(ECSFactory.makePulldown(USER, users, user, 1)));
+		    t.addElement(tr);
 	
 		    // These two lines would allow the user to select the resource from a  list
 		    // Didn't seem right to me so I made them type it in.
 		    //	ec.addElement( new P().addElement( "Choose a resource:" ) );
 		    //	ec.addElement( ECSFactory.makePulldown( RESOURCE, resources, resource, 1 ) );
-		    ec.addElement(new P().addElement("Select resource: "));
-		    ec.addElement(ECSFactory.makePulldown(RESOURCE, resources, resource, 1));
+    		tr = new TR();
+		    tr.addElement(new TD().addElement("Select resource: "));
+		    tr.addElement(new TD().addElement(ECSFactory.makePulldown(RESOURCE, resources, resource, 1)));
+		    t.addElement(tr);
 	
-		    ec.addElement(new P());
-		    ec.addElement(ECSFactory.makeButton("Check Access"));
-	
+    		tr = new TR();
+		    tr.addElement(new TD("&nbsp;").setColSpan(2).setAlign("center"));
+		    t.addElement(tr);
+		    
+    		tr = new TR();
+		    tr.addElement(new TD(ECSFactory.makeButton("Check Access")).setColSpan(2).setAlign("center"));
+		    t.addElement(tr);
+		    ec.addElement(t);
+		    
 		    if (isAllowed(user, resource))
 		    {
 			if (!getRoles(user).contains("Admin")

@@ -226,12 +226,16 @@
 	<!-- Copying the Java source code into the build directory -->
 	<!-- We must also copy the source into WebContent, since WTP will overwrite the 
 		app as it was deployed from the WAR. -->
+	<!-- We must also copy the doc dir into WebContent, for the "how to create a new lesson" lesson -->
 	<target name="-CopySourceToBuild" depends="prepare" >
 		<copy todir="${build.home}/JavaSource">
 			<fileset dir="${basedir}/JavaSource"/>
 		</copy>
 		<copy todir="${web.home}/JavaSource">
 			<fileset dir="${basedir}/JavaSource"/>
+		</copy>
+		<copy todir="${web.home}/doc">
+			<fileset dir="${basedir}/doc"/>
 		</copy>
 	</target>
 

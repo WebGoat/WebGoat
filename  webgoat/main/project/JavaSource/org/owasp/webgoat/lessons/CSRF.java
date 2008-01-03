@@ -278,7 +278,7 @@ public class CSRF extends LessonAdapter {
 
 	@Override	
 	protected Category getDefaultCategory() {
-		return Category.ACCESS_CONTROL;
+		return Category.XSS;
 	}
 
 	private final static Integer DEFAULT_RANKING = new Integer(120);

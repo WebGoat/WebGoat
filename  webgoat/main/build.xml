@@ -293,7 +293,9 @@
 		<!-- Build the CD image -->
 		<zip destfile="${dist.home}/${ant.project.name}.zip">
 			<zipfileset dir="." prefix="${install.home}"
-				includes="eclipse/, java/, project/, paros/, tomcat/, webscarab/, eclipse.bat, webgoat.bat, webgoat_8080.bat, webscarab.bat"
+				includes="eclipse/, java/, project/, FirefoxPortable/, Paros/, tomcat/, webscarab/, 
+				          eclipse.bat, webgoat.bat, webgoat_8080.bat, webscarab.bat,
+						  *.txt, Eclipse-Workspace.zip"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
 	</target> 	
@@ -312,7 +314,7 @@
 		<!-- Build the CD image -->
 		<zip destfile="${dist.home}/${ant.project.name}.zip">
 			<zipfileset dir="." prefix="${install.home}"
-				includes="java/, tomcat/, paros/, webscarab/, webgoat.bat, webgoat_8080.bat, webscarab.bat"
+				includes="java/, tomcat/, FirefoxPortable/, Paros/, webscarab/, webgoat.bat, webgoat_8080.bat, webscarab.bat"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
 	</target> 	
