@@ -152,7 +152,7 @@ StringBuffer buildList = new StringBuffer();
 				if (webSession.isAuthorizedInLesson(webSession.getRole(), WebSession.SHOWSOURCE))
 				{
 				%>
-				<a href="source" onclick="makeWindow(this.href, 'Java Source');return false;" target="javaWin"
+				<a href="source" onclick="makeWindow(this.href+ '?source=true', 'Java Source');return false;" target="javaWin"
 				onmouseover="MM_nbGroup('over','java','images/buttons/javaOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
 				<img src="images/buttons/java.jpg" alt="Show Java" name="java" width="75" height="20" border="0" id="java"/>
@@ -233,7 +233,7 @@ StringBuffer buildList = new StringBuffer();
 			}
 			%>
 				<div id="credits">
-		  		<% out.println(currentLesson.getCredits());%>
+		  		<% out.println(currentLesson.getCredits());%> 
 		  		</div>
 			</div>
 	  	</div>
