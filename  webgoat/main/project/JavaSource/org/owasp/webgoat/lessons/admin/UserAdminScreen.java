@@ -41,8 +41,8 @@ import org.owasp.webgoat.session.WebSession;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  *
- * @author     Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
- * @created    October 28, 2003
+ * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
+ * @created October 28, 2003
  */
 public class UserAdminScreen extends LessonAdapter
 {

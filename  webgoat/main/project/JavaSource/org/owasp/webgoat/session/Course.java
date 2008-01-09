@@ -419,8 +419,8 @@ public class Course
     			}
     			if(absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html") && className.endsWith(fileName))
     			{
-    				System.out.println("DEBUG: setting lesson solution file " + absoluteFile + " for lesson " + lesson.getClass().getName());
-    				System.out.println("fileName: " + fileName + " == className: " + className );
+    				//System.out.println("DEBUG: setting lesson solution file " + absoluteFile + " for lesson " + lesson.getClass().getName());
+    				//System.out.println("fileName: " + fileName + " == className: " + className );
     				lesson.setLessonSolutionFileName(absoluteFile);
     			}
     		}

@@ -116,6 +116,15 @@ public class ECSFactory
 	return (b);
     }
 
+    public static Element makeButton(String text, String onClickFunction)
+    {
+
+	Input b = (Input)makeButton(text);
+	b.setOnClick(onClickFunction);
+	
+	return (b);
+    }
+
 
     /**
      *  Description of the Method

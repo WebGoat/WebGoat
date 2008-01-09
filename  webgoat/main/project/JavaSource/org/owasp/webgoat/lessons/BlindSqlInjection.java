@@ -46,7 +46,7 @@ import org.owasp.webgoat.session.WebSession;
  * For details, please see http://code.google.com/p/webgoat/
  * 
  * @author Chuck Willis <a href="http://www.securityfoundry.com">Chuck's web
- *         site</a> (this lesson is heavily based on Jeff Williams' SQL
+ *         site</a> (this lesson is heavily based on Bruce Mayhews' SQL
  *         Injection lesson
  * @created January 14, 2005
  */
