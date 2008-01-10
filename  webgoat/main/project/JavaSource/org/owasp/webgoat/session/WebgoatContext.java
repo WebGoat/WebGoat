@@ -1,5 +1,7 @@
 package org.owasp.webgoat.session;
 
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServlet;
 
 public class WebgoatContext {
@@ -70,28 +72,30 @@ public class WebgoatContext {
 
 	public WebgoatContext(HttpServlet servlet) {
 		this.servlet = servlet;
-		databaseConnectionString = servlet
-				.getInitParameter(DATABASE_CONNECTION_STRING);
-		databaseDriver = servlet.getInitParameter(DATABASE_DRIVER);
-		databaseUser = servlet.getInitParameter(DATABASE_USER);
-		databasePassword = servlet.getInitParameter(DATABASE_PASSWORD);
+		databaseConnectionString = getParameter(servlet, DATABASE_CONNECTION_STRING);
+		databaseDriver = getParameter(servlet, DATABASE_DRIVER);
+		databaseUser = getParameter(servlet, DATABASE_USER);
+		databasePassword = getParameter(servlet, DATABASE_PASSWORD);
 		
 		// initialize from web.xml
-		showParams = "true".equals( servlet.getInitParameter( SHOWPARAMS ) );
-		showCookies = "true".equals( servlet.getInitParameter( SHOWCOOKIES ) );
-		showSource = "true".equals( servlet.getInitParameter( SHOWSOURCE ) );
-		showSolution = "true".equals( servlet.getInitParameter( SHOWSOLUTION ) );
-		defuseOSCommands = "true".equals( servlet.getInitParameter( DEFUSEOSCOMMANDS ) );
-		enterprise = "true".equals( servlet.getInitParameter( ENTERPRISE ) );
-		codingExercises = "true".equals( servlet.getInitParameter( CODING_EXERCISES ) );
-		feedbackAddress = servlet.getInitParameter( FEEDBACK_ADDRESS ) != null ? servlet
-				.getInitParameter( FEEDBACK_ADDRESS ) : feedbackAddress;
-		showRequest = "true".equals( servlet.getInitParameter( SHOWREQUEST ) );
-		isDebug = "true".equals( servlet.getInitParameter( DEBUG ) );
+		showParams = "true".equals( getParameter(servlet, SHOWPARAMS ) );
+		showCookies = "true".equals( getParameter(servlet, SHOWCOOKIES ) );
+		showSource = "true".equals( getParameter(servlet, SHOWSOURCE ) );
+		showSolution = "true".equals( getParameter( servlet, SHOWSOLUTION ) );
+		defuseOSCommands = "true".equals( getParameter(servlet, DEFUSEOSCOMMANDS ) );
+		enterprise = "true".equals( getParameter(servlet, ENTERPRISE ) );
+		codingExercises = "true".equals( getParameter(servlet, CODING_EXERCISES ) );
+		feedbackAddress = getParameter(servlet, FEEDBACK_ADDRESS ) != null ? 
+				getParameter(servlet, FEEDBACK_ADDRESS ) : feedbackAddress;
+		showRequest = "true".equals( getParameter(servlet, SHOWREQUEST ) );
+		isDebug = "true".equals( getParameter(servlet, DEBUG ) );
 		servletName = servlet.getServletName();
 		
 	}
 
+	private String getParameter(HttpServlet servlet, String key) {
+		return System.getProperty(key, servlet.getInitParameter(key));
+	}
 	/**
 	 * returns the connection string with the real path to the database
 	 * directory inserted at the word PATH
