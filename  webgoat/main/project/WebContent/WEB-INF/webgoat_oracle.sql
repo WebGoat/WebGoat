@@ -1,5 +1,5 @@
 DROP USER webgoat_guest CASCADE;
-CREATE USER webgoat_guest IDENTIFIED BY _webgoat DEFAULT TABLESPACE users;
+CREATE USER webgoat_guest IDENTIFIED BY webgoat DEFAULT TABLESPACE users;
 GRANT CONNECT, RESOURCE TO webgoat_guest;
 GRANT CREATE PROCEDURE TO webgoat_guest;
 
