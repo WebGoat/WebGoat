@@ -204,7 +204,7 @@ public class ConcurrencyCart extends LessonAdapter
 	    
 	    //Item 3
  	      tr = new TR();
-	      tr.addElement(new TD().addElement("Sony - Vaio with Intel® Centrino"));
+	      tr.addElement(new TD().addElement("Sony - Vaio with Intel Centrino"));
 	      tr.addElement(new TD().addElement("1799.00").setAlign("right"));
 	      tr.addElement(new TD().addElement(String.valueOf(quantity3)).setAlign("center"));
 	    
@@ -337,7 +337,7 @@ public class ConcurrencyCart extends LessonAdapter
 	    
 	    //Item 3
 		    tr = new TR();
-		    tr.addElement(new TD().addElement("Sony - Vaio with Intel® Centrino"));
+		    tr.addElement(new TD().addElement("Sony - Vaio with Intel Centrino"));
 		    tr.addElement(new TD().addElement("1799.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(String.valueOf(quantity3)).setAlign("center"));
 	      
@@ -454,7 +454,7 @@ public class ConcurrencyCart extends LessonAdapter
 	    
 	    //Item 3
 		    tr = new TR();
-		    tr.addElement(new TD().addElement("Sony - Vaio with Intel® Centrino"));
+		    tr.addElement(new TD().addElement("Sony - Vaio with Intel Centrino"));
 		    tr.addElement(new TD().addElement("1799.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(
 			    new Input(Input.TEXT, "QTY3", s.getParser()
