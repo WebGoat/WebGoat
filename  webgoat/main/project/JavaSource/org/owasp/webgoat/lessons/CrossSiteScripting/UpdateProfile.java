@@ -221,29 +221,6 @@ public class UpdateProfile extends DefaultLessonAction
 			String query = "UPDATE employee SET first_name = ?, last_name = ?, ssn = ?, title = ?, phone = ?, address1 = ?, address2 = ?,"
 				+ " manager = ?, start_date = ?, ccn = ?, ccn_limit = ?,"
 				+ " personal_description = ? WHERE userid = ?;";
-			/**
-	    String query = "UPDATE employee SET first_name = '"
-		    + employee.getFirstName() + "', last_name = '"
-		    + employee.getLastName() + "', ssn = '" + employee.getSsn()
-		    + "', title = '" + employee.getTitle() + "', phone = '"
-		    + employee.getPhoneNumber() + "', address1 = '"
-		    + employee.getAddress1() + "', address2 = '"
-		    + employee.getAddress2() + "', manager = "
-		    + employee.getManager()
-		    + ", start_date = '"
-		    + employee.getStartDate()
-		    + "', ccn = '"
-		    + employee.getCcn()
-		    + "', ccn_limit = "
-		    + employee.getCcnLimit()
-		    +
-		    //	"', disciplined_date = '" + employee.getDisciplinaryActionDate() +
-		    //	"', disciplined_notes = '" + employee.getDisciplinaryActionNotes() +
-		    ", personal_description = '"
-		    + employee.getPersonalDescription() + "' WHERE userid = "
-		    + subjectId;
-			    **/
-	    //System.out.println("Query:  " + query);
 	    try
 	    {
 			PreparedStatement ps = WebSession.getConnection(s).prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -261,12 +238,6 @@ public class UpdateProfile extends DefaultLessonAction
 			ps.setInt(11, employee.getCcnLimit());
 			ps.setString(12, employee.getPersonalDescription());
 			ps.setInt(13, subjectId);
-		  /**
-		Statement answer_statement = WebSession.getConnection(s)
-			.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY);
-					**/
-			//ps.executeUpdate(query);
 			ps.execute();
 	    }
 	    catch (SQLException sqle)
@@ -293,29 +264,6 @@ public class UpdateProfile extends DefaultLessonAction
 			String query = "UPDATE employee SET first_name = ?, last_name = ?, ssn = ?, title = ?, phone = ?, address1 = ?, address2 = ?,"
 				+ " manager = ?, start_date = ?, ccn = ?, ccn_limit = ?,"
 				+ " personal_description = ? WHERE userid = ?;";
-			/**
-	    String query = "UPDATE employee SET first_name = '"
-		    + employee.getFirstName() + "', last_name = '"
-		    + employee.getLastName() + "', ssn = '" + employee.getSsn()
-		    + "', title = '" + employee.getTitle() + "', phone = '"
-		    + employee.getPhoneNumber() + "', address1 = '"
-		    + employee.getAddress1() + "', address2 = '"
-		    + employee.getAddress2() + "', manager = "
-		    + employee.getManager()
-		    + ", start_date = '"
-		    + employee.getStartDate()
-		    + "', ccn = '"
-		    + employee.getCcn()
-		    + "', ccn_limit = "
-		    + employee.getCcnLimit()
-		    +
-		    //	"', disciplined_date = '" + employee.getDisciplinaryActionDate() +
-		    //	"', disciplined_notes = '" + employee.getDisciplinaryActionNotes() +
-		    ", personal_description = '"
-		    + employee.getPersonalDescription() + "' WHERE userid = "
-		    + subjectId;
-			    **/
-	    //System.out.println("Query:  " + query);
 	    try
 	    {
 			PreparedStatement ps = WebSession.getConnection(s).prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -333,11 +281,6 @@ public class UpdateProfile extends DefaultLessonAction
 			ps.setInt(11, employee.getCcnLimit());
 			ps.setString(12, employee.getPersonalDescription());
 			ps.setInt(13, subjectId);
-		  /**
-		Statement answer_statement = WebSession.getConnection(s)
-			.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY);
-					**/
 			ps.executeUpdate(query);
 	    }
 	    catch (SQLException sqle)
@@ -361,7 +304,8 @@ public class UpdateProfile extends DefaultLessonAction
 	try
 	{
 	    // FIXME: Cannot choose the id because we cannot guarantee uniqueness
-		    String query = "INSERT INTO employee VALUES ( max(userid)+1, ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		int nextId = getNextUID(s);
+	    String query = "INSERT INTO employee VALUES ( " + nextId + ", ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	    //System.out.println("Query:  " + query);
 

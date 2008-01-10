@@ -1,5 +1,6 @@
 package org.owasp.webgoat.lessons.GoatHillsFinancial;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -140,33 +141,27 @@ public class UpdateProfile extends DefaultLessonAction
 	try
 	{
 	    // Note: The password field is ONLY set by ChangePassword
-	    String query = "UPDATE employee SET first_name = '"
-		    + employee.getFirstName() + "', last_name = '"
-		    + employee.getLastName() + "', ssn = '" + employee.getSsn()
-		    + "', title = '" + employee.getTitle() + "', phone = '"
-		    + employee.getPhoneNumber() + "', address1 = '"
-		    + employee.getAddress1() + "', address2 = '"
-		    + employee.getAddress2() + "', manager = "
-		    + employee.getManager()
-		    + ", start_date = '"
-		    + employee.getStartDate()
-		    + "', ccn = '"
-		    + employee.getCcn()
-		    + "', ccn_limit = "
-		    + employee.getCcnLimit()
-		    +
-		    //	"', disciplined_date = '" + employee.getDisciplinaryActionDate() +
-		    //	"', disciplined_notes = '" + employee.getDisciplinaryActionNotes() +
-		    ", personal_description = '"
-		    + employee.getPersonalDescription() + "' WHERE userid = "
-		    + subjectId;
-	    //System.out.println("Query:  " + query);
+		String query = "UPDATE employee SET first_name = ?, last_name = ?, ssn = ?, title = ?, phone = ?, address1 = ?, address2 = ?,"
+			+ " manager = ?, start_date = ?, ccn = ?, ccn_limit = ?,"
+			+ " personal_description = ? WHERE userid = ?;";
 	    try
 	    {
-		Statement answer_statement = WebSession.getConnection(s)
-			.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY);
-		answer_statement.execute(query);
+			PreparedStatement ps = WebSession.getConnection(s).prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+			ps.setString(1, employee.getFirstName());
+			ps.setString(2, employee.getLastName());
+			ps.setString(3, employee.getSsn());
+			ps.setString(4, employee.getTitle());
+			ps.setString(5, employee.getPhoneNumber());
+			ps.setString(6, employee.getAddress1());
+			ps.setString(7, employee.getAddress2());
+			ps.setInt(8, employee.getManager());
+			ps.setString(9, employee.getStartDate());
+			ps.setString(10, employee.getCcn());
+			ps.setInt(11, employee.getCcnLimit());
+			ps.setString(12, employee.getPersonalDescription());
+			ps.setInt(13, subjectId);
+			ps.execute();
 	    }
 	    catch (SQLException sqle)
 	    {
@@ -213,55 +208,40 @@ public class UpdateProfile extends DefaultLessonAction
     {
 	try
 	{
-	    int newUID = getNextUID(s);
-	    // FIXME: This max() thing doesn't work on InstantDB.
-	    String query = "INSERT INTO employee VALUES (" + newUID + ", '"
-		    + employee.getFirstName() + "','" + employee.getLastName()
-		    + "','" + employee.getSsn() + "','goober57x','"
-		    + employee.getTitle() + "','" + employee.getPhoneNumber()
-		    + "','" + employee.getAddress1() + "','"
-		    + employee.getAddress2() + "'," + employee.getManager()
-		    + ",'" + employee.getStartDate() + "',"
-		    + employee.getSalary() + ",'" + employee.getCcn() + "',"
-		    + employee.getCcnLimit() + ",'"
-		    + employee.getDisciplinaryActionDate() + "','"
-		    + employee.getDisciplinaryActionNotes() + "','"
-		    + employee.getPersonalDescription() + "')";
-
-	    //System.out.println("Query:  " + query);
+			int nextId = getNextUID(s);
+		    String query = "INSERT INTO employee VALUES ( " + nextId + ", ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	    try
 	    {
-		Statement statement = WebSession.getConnection(s)
-			.createStatement();
-		statement.executeUpdate(query);
+    			PreparedStatement ps = WebSession.getConnection(s).prepareStatement(query);
+
+    			ps.setString(1, employee.getFirstName().toLowerCase());
+    			ps.setString(2, employee.getLastName());
+    			ps.setString(3, employee.getSsn());
+    			ps.setString(4, employee.getTitle());
+    			ps.setString(5, employee.getPhoneNumber());
+    			ps.setString(6, employee.getAddress1());
+    			ps.setString(7, employee.getAddress2());
+    			ps.setInt(8, employee.getManager());
+    			ps.setString(9, employee.getStartDate());
+    			ps.setString(10, employee.getCcn());
+    			ps.setInt(11, employee.getCcnLimit());
+    			ps.setString(12, employee.getDisciplinaryActionDate());
+    			ps.setString(13, employee.getDisciplinaryActionNotes());
+    			ps.setString(14, employee.getPersonalDescription());
+
+    			ps.execute();
 	    }
 	    catch (SQLException sqle)
 	    {
-		sqle.printStackTrace();
 		s.setMessage("Error updating employee profile");
-	    }
-
-	    query = "INSERT INTO roles VALUES (" + newUID + ", 'hr')";
-
-	    //System.out.println("Query:  " + query);
-
-	    try
-	    {
-		Statement statement = WebSession.getConnection(s)
-			.createStatement();
-		statement.executeUpdate(query);
-	    }
-	    catch (SQLException sqle)
-	    {
 		sqle.printStackTrace();
-		s.setMessage("Error updating employee profile");
 	    }
 	}
 	catch (Exception e)
 	{
-	    e.printStackTrace();
 	    s.setMessage("Error updating employee profile");
+    	    e.printStackTrace();
 	}
     }
 }
