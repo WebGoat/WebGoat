@@ -233,6 +233,8 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 	}
 	catch (UnauthorizedException ue2)
 	{
+	    s.setMessage("You are not authorized to perform this function");
+
 		// Update lesson status if necessary.
 		String stage = getStage(s);
 		if (STAGE2.equals(stage))
@@ -273,7 +275,6 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 			}
 		}
 		
-	    s.setMessage("You are not authorized to perform this function");
 	    System.out.println("Authorization failure");
 	    setCurrentAction(s, ERROR_ACTION);
 	    ue2.printStackTrace();
