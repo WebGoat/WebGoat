@@ -73,8 +73,6 @@ public class StoredXss extends LessonAdapter
 
     private final static int TITLE_COL = 2;
 
-    private static Connection connection = null;
-
     private static int count = 1;
 
     private final static int USER_COL = 4; // Added by Chuck Willis - used to show user who posted message
@@ -93,10 +91,7 @@ public class StoredXss extends LessonAdapter
 		    TITLE, ""));
 	    String message = s.getParser().getRawParameter(MESSAGE, "");
 
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    String query = "INSERT INTO messages VALUES (?, ?, ?, ? )";
 
@@ -208,10 +203,7 @@ public class StoredXss extends LessonAdapter
 	{
 	    int messageNum = s.getParser().getIntParameter(NUMBER, 0);
 
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    // edit by Chuck Willis - Added logic to associate similar usernames
 	    // The idea is that users chuck-1, chuck-2, etc will see each other's messages
@@ -330,10 +322,7 @@ public class StoredXss extends LessonAdapter
 
 	try
 	{
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    Statement statement = connection.createStatement(
 		    ResultSet.TYPE_SCROLL_INSENSITIVE,

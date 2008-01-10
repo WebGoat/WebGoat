@@ -50,9 +50,6 @@ public class ViewDatabase extends LessonAdapter
 
     private final static String SQL = "sql";
 
-    private static Connection connection = null;
-
-
     /**
      *  Description of the Method
      *
@@ -75,10 +72,7 @@ public class ViewDatabase extends LessonAdapter
 	    Element b = ECSFactory.makeButton("Go!");
 	    ec.addElement(b);
 
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    if (sqlStatement.length() > 0)
 	    {

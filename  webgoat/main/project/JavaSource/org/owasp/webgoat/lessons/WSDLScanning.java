@@ -80,8 +80,6 @@ public class WSDLScanning extends LessonAdapter
 
     static boolean beenRestartedYet = false;
 
-    public static Connection connection = null;
-
     public final static String firstName = "getFirstName";
 
     public final static String lastName = "getLastName";
@@ -219,10 +217,6 @@ public class WSDLScanning extends LessonAdapter
 	{
 	    String[] fields = s.getParser().getParameterValues("field");
 	    int id = s.getParser().getIntParameter("id");
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
 
 	    Table t = new Table().setCellSpacing(0).setCellPadding(2)
 		    .setBorder(1);
@@ -292,10 +286,6 @@ public class WSDLScanning extends LessonAdapter
 	try
 	{
 	    Connection connection = DatabaseUtilities.getConnection("guest", getWebgoatContext());
-	    if (connection == null)
-	    {
-		return null;
-	    }
 	    PreparedStatement ps = connection
 		    .prepareStatement("SELECT * FROM user_data WHERE userid = ?");
 	    ps.setInt(1, id);

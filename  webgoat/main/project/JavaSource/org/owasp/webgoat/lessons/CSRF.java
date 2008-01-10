@@ -65,7 +65,6 @@ public class CSRF extends LessonAdapter {
 	private final static String STANDARD_QUERY = "SELECT * FROM messages";
 	private final static String TITLE = "title";
 	private final static int TITLE_COL = 2;
-	private static Connection connection = null;
 	private static int count = 1;
 	private final static int USER_COL = 4;	// Added by Chuck Willis - used to show user who posted message
     private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
@@ -83,10 +82,7 @@ public class CSRF extends LessonAdapter {
 			String title = HtmlEncoder.encode( s.getParser().getRawParameter( TITLE, "" ) );
 			String message = s.getParser().getRawParameter( MESSAGE, "" );
 
-			if ( connection == null )
-			{
-				connection = DatabaseUtilities.getConnection( s );
-			}
+			Connection connection = DatabaseUtilities.getConnection( s );
 
 			String query = "INSERT INTO messages VALUES (?, ?, ?, ? )";
 
@@ -171,10 +167,7 @@ public class CSRF extends LessonAdapter {
 
 		try
 		{
-			if ( connection == null )
-			{
-				connection = DatabaseUtilities.getConnection( s );
-			}
+			Connection connection = DatabaseUtilities.getConnection( s );
 
 			Statement statement = connection.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
 			
@@ -226,11 +219,7 @@ public class CSRF extends LessonAdapter {
 		{
 			int messageNum = s.getParser().getIntParameter( NUMBER, 0 );
 
-			if ( connection == null )
-			{
-				connection = DatabaseUtilities.getConnection( s );
-			}
-
+			Connection connection = DatabaseUtilities.getConnection( s );
 			
 			String query = "SELECT * FROM messages WHERE user_name LIKE ? and num = ?";
 			PreparedStatement statement = connection.prepareStatement( query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );

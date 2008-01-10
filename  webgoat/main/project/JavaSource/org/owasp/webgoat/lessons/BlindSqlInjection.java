@@ -57,8 +57,6 @@ public class BlindSqlInjection extends LessonAdapter
 
     private final static int TARGET_ACCT_NUM = 15613;
 
-    private static Connection connection = null;
-
     /**
      * Description of the Method
      * 
@@ -72,10 +70,7 @@ public class BlindSqlInjection extends LessonAdapter
 
 	try
 	{
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+	    Connection connection = DatabaseUtilities.getConnection(s);
 
 	    ec.addElement(new P().addElement("Enter your Account Number: "));
 
@@ -312,11 +307,6 @@ public class BlindSqlInjection extends LessonAdapter
 	try
 	{
 	    super.handleRequest(s);
-
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
 	}
 	catch (Exception e)
 	{

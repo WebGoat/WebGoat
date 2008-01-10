@@ -59,8 +59,6 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 {
     private final static String STATION_ID = "station";
 
-    private static Connection connection = null;
-
     private String station;
 
 
@@ -116,10 +114,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	    if (station == null)
 		return ec;
 
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    try
 	    {
@@ -182,10 +177,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 
 	try
 	{
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    ec.addElement(makeStationList(s));
 
@@ -282,10 +274,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	    ClassNotFoundException
     {
 
-	if (connection == null)
-	{
-	    connection = DatabaseUtilities.getConnection(s);
-	}
+    Connection connection = DatabaseUtilities.getConnection(s);
 
 	Map<String, String> stations = new TreeMap<String, String>();
 	String query = "SELECT DISTINCT station, name FROM WEATHER_DATA";
@@ -388,11 +377,6 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	try
 	{
 	    super.handleRequest(s);
-
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
 	}
 	catch (Exception e)
 	{

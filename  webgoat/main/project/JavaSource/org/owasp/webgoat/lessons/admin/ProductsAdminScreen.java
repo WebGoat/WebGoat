@@ -49,9 +49,6 @@ public class ProductsAdminScreen extends LessonAdapter
 
     private final static String QUERY = "SELECT * FROM product_system_data";
 
-    private static Connection connection = null;
-
-
     /**
      *  Description of the Method
      *
@@ -64,10 +61,7 @@ public class ProductsAdminScreen extends LessonAdapter
 
 	try
 	{
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    Statement statement = connection.createStatement(
 		    ResultSet.TYPE_SCROLL_INSENSITIVE,

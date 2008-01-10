@@ -1,8 +1,6 @@
 package org.owasp.webgoat.session;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -41,92 +39,6 @@ import org.owasp.webgoat.lessons.AbstractLesson;
  */
 public class CreateDB
 {
-
-    /**
-     * The main program for the AccessSqlInjection class
-     *
-     * @param args The command line arguments
-     */
-    public static void main(String[] args)
-    {
-
-	CreateDB db = new CreateDB();
-	Connection connection = null;
-
-	try
-	{
-	    Class.forName("sun.jdbc.odbc.JdbcOdbcDriver").newInstance();
-	}
-	catch (Exception e)
-	{
-	    System.out.println("Failed to load DB driver");
-	    e.printStackTrace();
-	}
-
-	try
-	{
-
-	    connection = DriverManager
-		    .getConnection(
-			    "jdbc:odbc:;DRIVER=Microsoft Access Driver (*.mdb);DBQ=c:/webgoat.mdb;PWD=webgoat",
-			    "webgoat", "webgoat");
-	    db.makeDB(connection);
-	}
-	catch (Exception e)
-	{
-	    System.out.println("Driver Manager failed!");
-	    e.printStackTrace();
-	}
-
-	/**
-	 * getAllEmployees
-	 */
-	String query = "SELECT userid,first_name,last_name FROM employee WHERE userid in (SELECT employee_id FROM ownership WHERE employer_id = 101)";
-
-	try
-	{
-	    Statement answer_statement = connection.createStatement(
-		    ResultSet.TYPE_SCROLL_INSENSITIVE,
-		    ResultSet.CONCUR_READ_ONLY);
-	    ResultSet answer_results = answer_statement.executeQuery(query);
-	    answer_results.first();
-	    int employeeId = answer_results.getInt("userid");
-	    String firstName = answer_results.getString("first_name");
-	    String lastName = answer_results.getString("last_name");
-	    System.out.println("Query 1 Results: " + firstName + " " + lastName
-		    + " " + employeeId);
-	}
-	catch (SQLException sqle)
-	{
-	    sqle.printStackTrace();
-	}
-
-	/**
-	 * isAllowed
-	 */
-
-	query = "SELECT * FROM auth WHERE role in (SELECT role FROM roles WHERE userid = 101) and functionid = 113";
-
-	try
-	{
-	    Statement answer_statement = connection.createStatement(
-		    ResultSet.TYPE_SCROLL_INSENSITIVE,
-		    ResultSet.CONCUR_READ_ONLY);
-	    ResultSet answer_results = answer_statement.executeQuery(query);
-	    boolean allowed = answer_results.first();
-	    //boolean allowed = answer_results.next();
-
-	    if (allowed)
-		System.out.println("User is allowed");
-	    else
-		System.out.println("User is NOT allowed");
-	}
-	catch (SQLException sqle)
-	{
-	    sqle.printStackTrace();
-	}
-    }
-
 
     /**
      * Description of the Method

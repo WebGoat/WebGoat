@@ -49,9 +49,6 @@ public class RefreshDBScreen extends LessonAdapter
 
     private final static String REFRESH = "Refresh";
 
-    private static Connection connection = null;
-
-
     /**
      *  Description of the Method
      *
@@ -153,10 +150,7 @@ public class RefreshDBScreen extends LessonAdapter
     {
 	try
 	{
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    CreateDB db = new CreateDB();
 	    db.makeDB(connection);

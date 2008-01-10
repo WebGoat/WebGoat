@@ -118,8 +118,6 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	 */
 	protected final static String USERNAME = "Username";
 
-	private static Connection connection = null;
-
 	private String pass = "goodbye";
 
 	private String user = "youaretheweakestlink";
@@ -207,10 +205,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			return doStage3(s);
 		}
 
-		if (connection == null)
-		{
-			connection = DatabaseUtilities.getConnection(s);
-		}
+                Connection connection = DatabaseUtilities.getConnection(s);
 
 		Statement statement3 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 				ResultSet.CONCUR_READ_ONLY);

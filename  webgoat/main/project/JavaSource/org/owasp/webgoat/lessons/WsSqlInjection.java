@@ -74,8 +74,6 @@ public class WsSqlInjection extends LessonAdapter
     final static IMG CREDITS_LOGO = new IMG("images/logos/parasoft.jpg")
 	    .setAlt("Parasoft").setBorder(0).setHspace(0).setVspace(0);
 
-    private static Connection connection = null;
-
     /* (non-Javadoc)
      * @see lessons.AbstractLesson#getMenuItem()
      */
@@ -184,10 +182,6 @@ public class WsSqlInjection extends LessonAdapter
 	ElementContainer ec = new ElementContainer();
 	try
 	{
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
 	    ec.addElement(makeAccountLine(s));
 
 	    String query = "SELECT * FROM user_data WHERE userid = "
@@ -247,10 +241,6 @@ public class WsSqlInjection extends LessonAdapter
 	try
 	{
 	    Connection connection = DatabaseUtilities.getConnection("guest", getWebgoatContext());
-	    if (connection == null)
-	    {
-		return null;
-	    }
 	    String query = "SELECT * FROM user_data WHERE userid = " + id;
 	    try
 	    {

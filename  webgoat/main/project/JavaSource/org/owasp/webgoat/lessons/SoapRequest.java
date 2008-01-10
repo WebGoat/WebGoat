@@ -65,15 +65,6 @@ import org.owasp.webgoat.session.WebgoatContext;
 public class SoapRequest extends SequentialLessonAdapter
 {
 
-    /* TEST CODE
-     private final static String ACCT_NUM = "account_number";
-     private static Connection connection = null;
-     private String accountNumber;
-     */
-
-    //static boolean completed;
-    public static Connection connection = null;
-
     public final static String firstName = "getFirstName";
 
     public final static String lastName = "getLastName";
@@ -429,10 +420,6 @@ public class SoapRequest extends SequentialLessonAdapter
 	try
 	{
 	    Connection connection = DatabaseUtilities.getConnection("guest", getWebgoatContext());
-	    if (connection == null)
-	    {
-		return null;
-	    }
 	    PreparedStatement ps = connection
 		    .prepareStatement("SELECT * FROM user_data WHERE userid = ?");
 	    ps.setInt(1, id);

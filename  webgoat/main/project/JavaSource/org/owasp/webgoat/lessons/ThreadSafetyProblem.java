@@ -54,8 +54,6 @@ public class ThreadSafetyProblem extends LessonAdapter
 	
     private final static String USER_NAME = "username";
 
-    private Connection connection = null;
-
     private static String currentUser;
 
     private String originalUser;
@@ -73,10 +71,7 @@ public class ThreadSafetyProblem extends LessonAdapter
 
 	try
 	{
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    ec.addElement(new StringElement("Enter user name: "));
 	    ec.addElement(new Input(Input.TEXT, USER_NAME, ""));
@@ -205,11 +200,6 @@ public class ThreadSafetyProblem extends LessonAdapter
 	try
 	{
 	    super.handleRequest(s);
-
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
 	}
 	catch (Exception e)
 	{

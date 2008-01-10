@@ -69,9 +69,6 @@ public class DOS_Login extends LessonAdapter
      */
     protected final static String USERNAME = "Username";
 
-    private static Connection connection = null;
-
-
     /**
      *  Description of the Method
      *
@@ -97,10 +94,7 @@ public class DOS_Login extends LessonAdapter
 		    }
 	
 		    // Check if the login is valid
-		    if (connection == null)
-		    {
-		    	connection = DatabaseUtilities.getConnection(s);
-		    }
+	    	Connection connection = DatabaseUtilities.getConnection(s);
 	
 		    String query = "SELECT * FROM user_system_data WHERE user_name = '"
 			    + username + "' and password = '" + password + "'";

@@ -55,8 +55,6 @@ public class SqlStringInjection extends SequentialLessonAdapter
 {
     private final static String ACCT_NAME = "account_name";
 
-    private static Connection connection = null;
-
     private static String STAGE = "stage";
 
     private String accountName;
@@ -92,10 +90,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 
 	try
 	{
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    ec.addElement(makeAccountLine(s));
 
@@ -143,6 +138,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 	    catch (SQLException sqle)
 	    {
 		ec.addElement(new P().addElement(sqle.getMessage()));
+		sqle.printStackTrace();
 	    }
 	}
 	catch (Exception e)
@@ -174,10 +170,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 
 	try
 	{
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
+		Connection connection = DatabaseUtilities.getConnection(s);
 
 	    ec.addElement(makeAccountLine(s));
 
@@ -304,11 +297,6 @@ public class SqlStringInjection extends SequentialLessonAdapter
 	try
 	{
 	    super.handleRequest(s);
-
-	    if (connection == null)
-	    {
-		connection = DatabaseUtilities.getConnection(s);
-	    }
 	}
 	catch (Exception e)
 	{

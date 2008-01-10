@@ -57,8 +57,6 @@ import org.owasp.webgoat.session.WebSession;
 public class BackDoors extends SequentialLessonAdapter
 {
 
-	private static Connection connection = null;
-
 	private final static Integer DEFAULT_RANKING = new Integer(80);
 
 	private final static String USERNAME = "username";
@@ -96,7 +94,7 @@ public class BackDoors extends SequentialLessonAdapter
 			{
 				userInput = SELECT_ST + userInput;
 				String[] arrSQL = userInput.split(";");
-				Connection conn = getConnection(s);
+				Connection conn = DatabaseUtilities.getConnection(s);
 				Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
 				if (arrSQL.length == 2)
@@ -237,17 +235,6 @@ public class BackDoors extends SequentialLessonAdapter
 		ec.addElement(new PRE(b));
 
 		return ec;
-	}
-
-	public static synchronized Connection getConnection(WebSession s) throws SQLException,
-			ClassNotFoundException
-	{
-		if (connection == null)
-		{
-			connection = DatabaseUtilities.getConnection(s);
-		}
-
-		return connection;
 	}
 
 	public Element getCredits()
