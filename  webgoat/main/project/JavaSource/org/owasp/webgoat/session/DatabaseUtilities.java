@@ -58,7 +58,7 @@ public class DatabaseUtilities
 		return getConnection(s.getUserName(), s.getWebgoatContext());
 	}
 	
-	public static Connection getConnection(String user, WebgoatContext context) 
+	public static synchronized Connection getConnection(String user, WebgoatContext context) 
 		throws ClassNotFoundException, SQLException 
 	{
 		Connection conn = connections.get(user);
@@ -75,7 +75,7 @@ public class DatabaseUtilities
 		return conn;
 	}
 	
-	public static void returnConnection(String user)
+	public static synchronized void returnConnection(String user)
 	{
 		try
 		{
