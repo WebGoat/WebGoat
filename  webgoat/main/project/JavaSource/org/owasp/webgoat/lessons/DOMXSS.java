@@ -19,9 +19,9 @@ import org.apache.ecs.html.Script;
 import org.owasp.webgoat.session.*;
 
 public class DOMXSS extends SequentialLessonAdapter {
-	
+
 	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
-	
+
 
 	private final static String PERSON = "person";
 
@@ -93,25 +93,25 @@ public class DOMXSS extends SequentialLessonAdapter {
 
 		return (ec);
 	}
-	
+
 	protected Element doStage5(WebSession s) throws Exception {
 		ElementContainer ec = new ElementContainer();
-		
+
 		ec.addElement(mainContent(s));
-		
+
 		/**
 		 * They pass iff:
-		 * 
+		 *
 		 * 1. If the DOMXSS.js file contains the lines "escapeHTML(name)"
 		 */
 		String file = s.getWebResource("javascript/DOMXSS.js");
 		String content = getFileContent(file);
-		
+
 		if(content.indexOf("escapeHTML(name)") != -1)
 		{
 			makeSuccess(s);
 		}
-		
+
 		return ec;
 	}
 
@@ -154,29 +154,29 @@ public class DOMXSS extends SequentialLessonAdapter {
 	 */
 	public List<String> getHints(WebSession s) {
 		List<String> hints = new ArrayList<String>();
-		
+
 		hints.add("Try entering the following: " + "&lt;IMG SRC=\"images/logos/owasp.jpg\"/&gt;");
-		
+
 		hints.add("Try entering the following: " + "&lt;img src=x onerror=;;alert('XSS') /&gt;");
-				
+
 		hints.add("Try entering the following: " + "&lt;IFRAME SRC=\"javascript:alert('XSS');\"&gt;&lt;/IFRAME&gt;");
-		
+
 		hints.add("Try entering the following: " + "Please enter your password:&lt;BR&gt;&lt;input type = \"password\" name=\"pass\"/&gt;&lt;button " +
 				"onClick=\"javascript:alert('I have your password: ' + pass.value);\"&gt;Submit&lt;/button&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;");
 
-		
-		
+
+
 		//Attack Strings:
-		
-		//<IMG SRC="images/logos/owasp.jpg"/>	
-		
+
+		//<IMG SRC="images/logos/owasp.jpg"/>
+
 		//<img src=x onerror=;;alert('XSS') />
-		
+
 		//<IFRAME SRC="javascript:alert('XSS');"></IFRAME>
-		
+
 		//Please enter your password:<BR><input type = "password" name="pass"/><button onClick="javascript:alert('I have your password: ' + pass.value);">Submit</button><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>
-		
-		
+
+
 		return hints;
 	}
 
@@ -203,16 +203,16 @@ public class DOMXSS extends SequentialLessonAdapter {
 	public String getTitle() {
 		return ("LAB: DOM-Based cross-site scripting");
 	}
-	
+
 	public String getInstructions(WebSession s) {
 		String instructions = "";
 
 		if (getLessonTracker(s).getStage() == 1) {
 			instructions = "STAGE 1:\tFor this exercise, your mission is to deface this website using the image at the following location: <a href = '/WebGoat/images/logos/owasp.jpg'>OWASP IMAGE</a>";
 		} else if (getLessonTracker(s).getStage() == 2) {
-			instructions = "STAGE 2:\tNow, try to create a JavaScript alert up using the image tag";
+			instructions = "STAGE 2:\tNow, try to create a JavaScript alert using the image tag";
 		} else if (getLessonTracker(s).getStage() == 3) {
-			instructions = "STAGE 3:\tNext, try to create a JavaScript alert up using the IFRAME tag.";
+			instructions = "STAGE 3:\tNext, try to create a JavaScript alert using the IFRAME tag.";
 		} else if (getLessonTracker(s).getStage() == 4) {
 			instructions = "STAGE 4:\tUse the following to create a fake login form:<br><br>" + "Please enter your password:&lt;BR&gt;&lt;input type = \"password\" name=\"pass\"/&gt;&lt;button " +
 			"onClick=\"javascript:alert('I have your password: ' + pass.value);\"&gt;Submit&lt;/button&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;";
@@ -221,17 +221,17 @@ public class DOMXSS extends SequentialLessonAdapter {
 		}
 		return (instructions);
 	}
-	
+
     private String getFileContent(String content)
     {
     	BufferedReader is = null;
     	StringBuffer sb = new StringBuffer();
-    	
+
     	try
     	{
     		is = new BufferedReader(new FileReader(new File(content)));
     		String s = null;
-    		
+
     		while((s = is.readLine()) != null)
     		{
     			sb.append(s);
@@ -251,14 +251,14 @@ public class DOMXSS extends SequentialLessonAdapter {
     			}
     			catch (IOException ioe)
     			{
-    				
+
     			}
     		}
     	}
-    	
+
     	return sb.toString();
     }
-    
+
     public Element getCredits()
     {
     	return super.getCustomCredits("", ASPECT_LOGO);

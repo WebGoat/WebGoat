@@ -25,12 +25,12 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param s
 	 *            Description of the Parameter
 	 * @return Description of the Return Value
 	 */
-	
+
 	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
 
 
@@ -51,11 +51,11 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 	}
 
 	protected Element evalStage1(WebSession s) {
-		
+
 		ElementContainer ec = new ElementContainer();
-		
+
 		String param1 = s.getParser().getRawParameter("field1", "");
-		
+
 		//test success
 
 		if (param1.equalsIgnoreCase("platinum")
@@ -69,32 +69,32 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 			s.setMessage("Stage 1 completed.");
 
 			// Redirect user to Stage2 content.
-			ec.addElement(doStage2(s));			
-			
+			ec.addElement(doStage2(s));
+
 		} else {
 			if (!stage1FirstVisit) {
 				s.setMessage("Keep looking for the coupon code.");
 			}
 			stage1FirstVisit = false;
-			
+
 			ec.addElement(stage1Content(s));
 		}
-		
-		return ec;		
-	
+
+		return ec;
+
 	}
-		
-		
+
+
 	protected Element stage1Content(WebSession s) {
 
 		ElementContainer ec = new ElementContainer();
 
-		try {		
-	
+		try {
+
 
 			ec.addElement(new Script()
 					.setSrc("javascript/clientSideValidation.js"));
-			
+
 
 			ec.addElement(new HR().setWidth("90%"));
 			ec.addElement(new Center().addElement(new H1()
@@ -106,7 +106,7 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 			ec.addElement(new BR());
 			ec.addElement(new HR().setWidth("90%"));
 
-			
+
 
 		} catch (Exception e) {
 			s.setMessage("Error generating " + this.getClass().getName());
@@ -186,7 +186,7 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 		tr = new TR();
 		tr.addElement(new TD()
 				.addElement("Total to be charged to your credit card:"));
-		
+
 		tr.addElement(new TD()
 				.addElement(
 						new Input(Input.TEXT, "GRANDTOT", s.getParser()
@@ -257,7 +257,7 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 				.addElement(new TD()
 						.addElement("Studio RTA - Laptop/Reading Cart with Tilting Surface - Cherry "));
 
-		
+
 		tr.addElement(new TD().addElement(
 				new Input(Input.TEXT, "PRC1", s.getParser().getStringParameter(
 						"PRC1", "69.99")).setSize(10).setReadOnly(true)).setAlign("right"));
@@ -300,7 +300,7 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 				.addElement(new TD()
 						.addElement("Hewlett-Packard - Pavilion Notebook with Intel® Centrino™"));
 
-		
+
 		tr.addElement(new TD().addElement(
 				new Input(Input.TEXT, "PRC3", s.getParser().getStringParameter(
 						"PRC3", "1599.99")).setSize(10).setReadOnly(true))
@@ -313,7 +313,7 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 		input.setSize(10);
 		tr.addElement(new TD().addElement(input).setAlign("right"));
 
-		
+
 		tr.addElement(new TD().addElement(
 				new Input(Input.TEXT, "TOT3", s.getParser().getStringParameter(
 						"TOT3", "0")).setSize(10).setReadOnly(true)).setAlign("right"));
@@ -324,7 +324,7 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 				.addElement(new TD()
 						.addElement("3 - Year Performance Service Plan $1000 and Over "));
 
-		
+
 		tr
 				.addElement(new TD().addElement(
 						new Input(Input.TEXT, "PRC4", s.getParser()
@@ -338,7 +338,7 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 		input.setSize(10);
 		tr.addElement(new TD().addElement(input).setAlign("right"));
 
-		
+
 		tr.addElement(new TD().addElement(
 				new Input(Input.TEXT, "TOT4", s.getParser().getStringParameter(
 						"TOT4", "0")).setSize(10).setReadOnly(true)).setAlign("right"));
@@ -354,39 +354,39 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 
 	/**
 	 * Gets the hints attribute of the AccessControlScreen object
-	 * 
+	 *
 	 * @return The hints value
 	 */
 
 
 	public List<String> getHints(WebSession s)
 	    {
-		List<String> hints = new ArrayList<String>();	
-		
-		
-		
-		
+		List<String> hints = new ArrayList<String>();
+
+
+
+
 		hints.add("Use Firebug to examine the JavaScript.");
-		
+
 		hints.add("Using Firebug, you can add breakpoints in the JavaScript.");
-		
-		hints.add("Use Firebug to find the array or encrypted coupon codes, and " +
-				"step through the JavaScript to see the decrypted values.");		
-		
+
+		hints.add("Use Firebug to find the array of encrypted coupon codes, and " +
+				"step through the JavaScript to see the decrypted values.");
+
 		hints.add("You can use Firebug to inspect (and modify) the HTML.");
-		
+
 		hints.add("Use Firebug to remove the 'readonly' attribute from the input next to " +
 				"'The total charged to your credit card:' and set the value to 0.");
-		
-	
-		
+
+
+
 		return hints;
-		
+
 	}
 
 	/**
 	 * Gets the instructions attribute of the WeakAccessControl object
-	 * 
+	 *
 	 * @return The instructions value
 	 */
 	public String getInstructions(WebSession s) {
@@ -394,7 +394,7 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 
 		if (getLessonTracker(s).getStage() == 1) {
 			instructions = "STAGE 1:\tFor this exercise, your mission is to discover a coupon code to receive an unintended discount.";
-		} 
+		}
 		else if (getLessonTracker(s).getStage() == 2) {
 			instructions = "STAGE 2:\tNow, try to get your entire order for free.";
 		}
@@ -409,13 +409,13 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 
 	/**
 	 * Gets the title attribute of the AccessControlScreen object
-	 * 
+	 *
 	 * @return The title value
 	 */
 	public String getTitle() {
 		return "Insecure Client Storage";
 	}
-	
+
 	public Element getCredits()
     {
     	return super.getCustomCredits("", ASPECT_LOGO);
