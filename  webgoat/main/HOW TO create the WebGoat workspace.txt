@@ -1,5 +1,35 @@
 ***************************************
 
+As of 5.1 the developer release contains the eclipse workspace
+and project files. 
+
+Extract distribution to c:\  
+   - It will create a WebGoat-x.x directory
+Extract Eclipse-Workspace.zip to C:\WebGoat-x.x
+Start eclipse using eclipse.bat
+After eclipse starts
+    Top left - Project Explorer view
+        right click WebGoat – refresh
+        right click Servers – refresh
+    Bottom - Servers view
+        right click Tomcat… - start
+Browse to http://localhost/WebGoat/attack
+
+
+You're done.  Changing files in eclipse will automatically rebuild
+and redeploy the application.
+
+Follow the instructions below to build the workspace from scratch
+
+
+***************************************
+
+
+
+
+
+***************************************
+
 Eclipse startup and dependency removal
 WebGoat uses Eclipse WTP 1.5
 

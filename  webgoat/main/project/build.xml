@@ -74,7 +74,7 @@
 
   <property name="app.name"      		   value="WebGoat"/>
   <property name="app.path"      		   value="/${app.name}"/>
-  <property name="app.version"   		   value="5.1_RC2"/> <!-- UPDATE THIS! -->
+  <property name="app.version"   		   value="5.1"/> <!-- UPDATE THIS! -->
   <property name="build.home"    		   value="${basedir}/build"/>
   <property name="catalina.home" 		   value="${basedir}/../tomcat"/> <!-- UPDATE THIS! -->
   <property name="dist.home"     		   value="${basedir}/dist"/>
@@ -228,30 +228,23 @@
 		app as it was deployed from the WAR. -->
 	<!-- We must also copy the doc dir into WebContent, for the "how to create a new lesson" lesson -->
 	<target name="-CopySourceToBuild" depends="prepare" >
+		<delete dir="${build.home}/JavaSource"/>
 		<copy todir="${build.home}/JavaSource">
 			<fileset dir="${basedir}/JavaSource"/>
 		</copy>
+		<delete dir="${web.home}/JavaSource"/>
 		<copy todir="${web.home}/JavaSource">
 			<fileset dir="${basedir}/JavaSource"/>
 		</copy>
+		<delete dir="${web.home}/doc"/>
 		<copy todir="${web.home}/doc">
 			<fileset dir="${basedir}/doc"/>
 		</copy>
 	</target>
 
-	<!-- Copying web-unix.xml to web.xml -->
-<!--
-	<target name="-DELETE_ME_WebXMLunix">
-		<copy file="${web.home}/WEB-INF/web-unix.xml" tofile="${web.home}/WEB-INF/web.xml" overwrite="yes"/>
-		<copy file="${web.home}/WEB-INF/web.xml" todir="${web_inf.home}" overwrite="yes"/>
-	</target>
--->
 	
 	<!-- Copying web.xml to web-inf/web.xml -->
 	<target name="-WebXML">
-<!--
-		<copy file="${web.home}/WEB-INF/web-windows.xml" tofile="${web.home}/WEB-INF/web.xml" overwrite="yes"/>
--->
 		<copy file="${web.home}/WEB-INF/web.xml" todir="${web_inf.home}" overwrite="yes"/>
 	</target>
 
@@ -287,12 +280,6 @@
 	
 <!-- =================== Prepare Distributions ========================== -->
 		
-	<!-- Create unix WAR file -->
-<!--
-	<target name="DELETE_ME_BuildUnixWar" depends="clean, prepare, compile, -WebXMLunix, -CopyWebToBuild, -CopySourceToBuild, -WarBuild"
-			description="Create ${app.name}.war binary distribution">
-	</target> 	
--->	
 	<!-- Create WAR file -->
 	<target name="BuildWar" depends="clean, prepare, compile, -WebXML, -CopyWebToBuild, -CopySourceToBuild, -WarBuild"
 			description="Create ${app.name}.war binary distribution">
@@ -313,23 +300,12 @@
 		<!-- Create build directories as needed -->
 		<mkdir  dir="${build.home}/WEB-INF/classes"/>  
 
-		<copy todir="${build.home}/doc">
-			<fileset dir="${basedir}/doc"/>
-		</copy>
-	
 		<!-- Copy application resources -->
 		<copy  todir="${build.home}/WEB-INF/classes">
 			<fileset dir="${src.home}" excludes="**/*.java"/>
 		</copy>
 	</target>
 
-
-	<target name="Start Tomcat" 
-			description="start the Tomcat server">
-		<exec dir="${basedir}" executable="webgoat.bat" >
-		</exec>  
-	</target> 
-	
 </project>
 
 

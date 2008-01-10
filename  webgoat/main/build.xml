@@ -6,7 +6,7 @@
      set to the current working directory.
 -->
 
-<project name="WebGoatClass-J2EE" default="Build_Class_Env" basedir=".">
+<project name="WebGoat" default="Build_ALL_OWASP_Releases" basedir=".">
 
 <!-- ===================== Property Definitions =========================== -->
 
@@ -56,11 +56,11 @@
 
   <property name="app.home"    		   value="${basedir}/project"/>
   <property name="app.name"    		   value="WebGoat"/>	<!-- MUST BE CONSISTENT WITH project/build.xml! -->
-  <property name="app.version"    		   value="5.1_RC2"/>		<!-- MUST BE CONSISTENT WITH project/build.xml! -->
+  <property name="app.version"    		   value="5.1"/>		<!-- MUST BE CONSISTENT WITH project/build.xml! -->
   <property name="catalina.home" 		   value="${basedir}/tomcat"/>
   <property name="dist.home"     		   value="${app.home}/dist"/>
   <property name="dist.owasp"     		   value="${app.home}/owasp_distributions"/>
-  <property name="install.home"     	   value="WebGoatClassCD"/>
+  <property name="install.home"     	   value="WebGoat-${app.version}"/>
 
 <!-- ==================== Clean Target ==================================== -->
 
@@ -165,109 +165,7 @@
     <copy file="${app.home}/dist/${app.name}-${app.version}.war" tofile="${catalina.home}/webapps/${app.name}.war"/>
 	 
   </target> 
-  	
-	<!-- =================== Prepare Distributions ========================== -->
-		
-	<!-- Build unix Release -->
-<!--
-	<target name="DELETE_ME_BuildUnixWar_release" depends="Compile-WebGoat-Unix"
-			description="Builds Unix release for OWASP">
-		<delete dir="${dist.home}/temp" includeemptydirs="true"/>
-		<unzip src="${dist.home}/${app.name}-${app.version}.war" dest="${dist.home}/temp"/>
-		<delete file="${dist.home}/temp/WEB-INF/webgoat-class.properties"/>
-		<delete file="${dist.home}/temp/WEB-INF/webgoat-lab.properties"/>
-		<delete file="${dist.home}/temp/WEB-INF/web-windows.xml"/>
-		<move file="${dist.home}/temp/WEB-INF/web-unix.xml" tofile="${dist.home}/temp/WEB-INF/web.xml"/>
-		<move file="${dist.home}/temp/WEB-INF/webgoat-owasp.properties" tofile="${dist.home}/temp/WEB-INF/webgoat.properties"/>
-		<delete file="${dist.home}/${app.name}-${app.version}.war"/>
-		<zip destfile="${dist.home}/${app.name}-${app.version}.war" basedir="${dist.home}/temp"/>
--->
-		<!-- 1) A copy of the WAR file with WAR file instructions-->
-<!--
-	<copy file="${basedir}/WAR Installation Instructions.txt" todir="${dist.home}"/>
-		<zip destfile="${dist.home}/Unix_${app.name}-${app.version}-Standalone.war.zip"
-			basedir="${dist.home}"
-			includes="WebGoat-*.war, WAR*.txt"/>
-		<delete file="${dist.home}/WAR Installation Instructions.txt"/>
-		<delete dir="${dist.home}/temp" includeemptydirs="true"/>
--->		
-		<!-- 2) The normal WAR file -->
-<!--
-		<copy file="${dist.home}/${app.name}-${app.version}.war" tofile="${catalina.home}/webapps/${app.name}.war"/>
-		<zip destfile="${dist.home}/Unix_${app.name}-${app.version}_Release.zip"
-			basedir=""	
-			includes="doc/, tomcat/, webgoat.sh, readme.txt"/>	
--->
-        <!-- Add the WebGoat-x.x on the path -->
-<!--
-		<unzip src="${dist.home}/Unix_${app.name}-${app.version}_Release.zip" dest="${dist.home}/temp/${app.name}-${app.version}"/>
-		<delete file="${dist.home}/Unix_${app.name}-${app.version}_Release.zip"/>
-		<zip destfile="${dist.home}/Unix_${app.name}-${app.version}_Release.zip"
-			basedir="${dist.home}/temp"/>
-		<delete dir="${dist.home}/temp" includeemptydirs="true"/>
-		
-		<move file="${dist.home}/${app.name}-${app.version}.war" tofile="${dist.home}/Unix_${app.name}-${app.version}.war"/>
-	    	<delete file="${catalina.home}/webapps/${app.name}.war"/>		 
-	</target>
--->
 	
-	<!-- Build release -->
-	<target name="BuildWar_release" depends="Compile-WebGoat"
-			description="Builds the release for OWASP">
-	
-		<delete dir="${dist.home}/temp" includeemptydirs="true"/>
-		<unzip src="${dist.home}/${app.name}-${app.version}.war" dest="${dist.home}/temp"/>
-		<delete file="${dist.home}/temp/WEB-INF/webgoat-class.properties"/>
-		<delete file="${dist.home}/temp/WEB-INF/webgoat-lab.properties"/>
-<!--
-		<delete file="${dist.home}/temp/WEB-INF/web-unix.xml"/>
--->
-		<move file="${dist.home}/temp/WEB-INF/web.xml" tofile="${dist.home}/temp/WEB-INF/web.xml"/>
-		<move file="${dist.home}/temp/WEB-INF/webgoat-owasp.properties" tofile="${dist.home}/temp/WEB-INF/webgoat.properties"/>
-		<delete file="${dist.home}/${app.name}-${app.version}.war"/>
-		<zip destfile="${dist.home}/${app.name}-${app.version}.war"
-			basedir="${dist.home}/temp"
-			excludes="JavaSource/org/owasp/webgoat/lessons/instructor/"/>
-		
-		<!-- 1) A copy of the WAR file with WAR file instructions-->
-		<copy file="${basedir}/WAR Installation Instructions.txt" todir="${dist.home}"/>
-		<zip destfile="${dist.home}/${app.name}-${app.version}-Standalone.war.zip"
-			basedir="${dist.home}"
-			includes="WebGoat-*.war, WAR*.txt"/>
-		<delete file="${dist.home}/WAR Installation Instructions.txt"/>
-		<delete dir="${dist.home}/temp" includeemptydirs="true"/>
-		
-		<!-- 2) The normal WAR file -->
-		<copy file="${dist.home}/${app.name}-${app.version}.war" tofile="${catalina.home}/webapps/${app.name}.war"/>
-		<zip destfile="${dist.home}/${app.name}-${app.version}_Release.zip"
-			basedir=""
-		   	includes="doc/, java/, tomcat/, webgoat.bat, webgoat_8080.bat, readme.txt"/>
-        <!-- Add the WebGoat-x.x on the path -->
-		<unzip src="${dist.home}/${app.name}-${app.version}_Release.zip" dest="${dist.home}/temp/${app.name}-${app.version}"/>
-		<delete file="${dist.home}/${app.name}-${app.version}_Release.zip"/>
-		<zip destfile="${dist.home}/${app.name}-${app.version}_Release.zip"
-			basedir="${dist.home}/temp"/>
-		<delete dir="${dist.home}/temp" includeemptydirs="true"/>
-		
-		<move file="${dist.home}/${app.name}-${app.version}.war" tofile="${dist.home}/${app.name}-${app.version}.war"/>
-	    	<delete file="${catalina.home}/webapps/${app.name}.war"/>	 
-	</target> 	
-	
-	<!--Build developer release -->
-	<target name="BuildDev_release" depends="clean"
-		   description="Creates developer binary distribution for OWASP">
-		<delete dir="${dist.home}/temp" includeemptydirs="true"/>
-		<zip destfile="${dist.home}/${app.name}-${app.version}_developer.zip"
-		 	basedir=""
-	    	 	includes="java/, eclipse/, tomcat/, project/JavaSource/, project/WebContent/, project/build.xml, project/doc, webgoat.bat, webgoat_8080.bat, webgoat.sh, eclipse.bat, readme.txt, HOW*"
-	    	 	excludes="project/JavaSource/org/owasp/webgoat/lessons/instructor/, project/.*, project/WebContent/WEB-INF/webgoat-lab.properties, project/WebContent/WEB-INF/webgoat-class.properties, project/build/WEB-INF/webgoat-lab.properties, project/build/WEB-INF/webgoat-class.properties"/>
-	    	 <unzip src="${dist.home}/${app.name}-${app.version}_developer.zip" dest="${dist.home}/temp"/>
-	    	 <move file="${dist.home}/temp/project/WebContent/WEB-INF/webgoat-owasp.properties" tofile="${dist.home}/temp/project/WebContent/WEB-INF/webgoat.properties"/>
-	    	 <delete file="${dist.home}/${app.name}-${app.version}_developer.zip"/>
-	    	 <zip destfile="${dist.home}/${app.name}-${app.version}_developer.zip"
-	    	 	basedir="${dist.home}/temp"/>
-	    	 <delete dir="${dist.home}/temp" includeemptydirs="true"/>
-	</target> 
 
 	<!--Build patch release -->
 	<target name="BuildPatch_release" depends="clean, compile"
@@ -279,8 +177,8 @@
 	</target>
 	
 	<!-- Build J2EE Lab Environment release -->
-	<target name="Build_DeveloperLab_Env" depends="clean"
-			description="Builds J2EE Course release">
+	<target name="Build_DeveloperLab_Release" depends="clean"
+			description="Builds J2EE Developer Course release">
 
 		<!-- Build the WebGoat WAR with the desired properties file -->
 		<ant dir="${app.home}" inheritAll="false">
@@ -291,16 +189,16 @@
 		<antcall target="DeployWar"> </antcall> 
 
 		<!-- Build the CD image -->
-		<zip destfile="${dist.home}/${ant.project.name}.zip">
+		<zip destfile="${dist.home}/${ant.project.name}-DeveloperLab-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
 				includes="eclipse/, java/, project/, FirefoxPortable/, Paros/, tomcat/, webscarab/, 
-				          eclipse.bat, webgoat.bat, webgoat_8080.bat, webscarab.bat,
-						  *.txt, Eclipse-Workspace.zip"
+				          Read*.txt, HOW*.txt, eclipse.bat, webgoat.bat, webgoat_8080.bat, webscarab.bat,
+						  Eclipse-Workspace.zip"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
 	</target> 	
 	
-	<target name="Build_Class_Env" depends="clean"
+	<target name="Build_Class_Release" depends="clean"
 			description="Builds WebGoat Course release">
 
 		<!-- Build the WebGoat WAR with the desired properties file -->
@@ -312,28 +210,59 @@
 		<antcall target="DeployWar"> </antcall> 
 
 		<!-- Build the CD image -->
-		<zip destfile="${dist.home}/${ant.project.name}.zip">
+		<zip destfile="${dist.home}/${ant.project.name}-Class-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
 				includes="java/, tomcat/, FirefoxPortable/, Paros/, webscarab/, webgoat.bat, webgoat_8080.bat, webscarab.bat"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
 	</target> 	
 
-	<!--Build all release -->
-	<target name="Build_OWASP_Release" depends="clean_all"
+	<!-- Build OWASP Developer Lab Environment release -->
+	<target name="Build_OWASP_DeveloperLab_release" depends="clean"
+			description="Builds OWASP Developer release">
+		<!-- Build the WebGoat WAR with the desired properties file -->
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="WebGoatPropertiesOWASP"/>
+			<target name="BuildWar"/>
+		</ant>
+		<antcall target="DeployWar"> </antcall> 
+		<!-- Build the CD image -->
+		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Developer-${app.version}.zip">
+			<zipfileset dir="." prefix="${install.home}"
+				includes="eclipse/, java/, project/, tomcat/, 
+				          read*.txt, HOW*.txt, eclipse.bat, webgoat.bat, webgoat_8080.bat, webscarab.bat,
+						  Eclipse-Workspace.zip"
+				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
+		</zip>
+	</target> 	
+
+	<target name="Build_OWASP_Standard_Release" depends="clean"
+			description="Builds WebGoat OWASP release">
+		<!-- Build the WebGoat WAR with the desired properties file -->
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="WebGoatPropertiesOWASP"/>
+			<target name="BuildWar"/>
+		</ant>
+		<antcall target="DeployWar"> </antcall> 
+		<!-- Build the CD image -->
+		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard-${app.version}.zip">
+			<zipfileset dir="." prefix="${install.home}"
+				includes="java/, tomcat/, read*.txt, webgoat.bat, webgoat_8080.bat"
+				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
+		</zip>
+	</target> 	
+
+	<!--Build all OWASP release -->
+	<target name="Build_ALL_OWASP_Releases" depends="clean_all"
 		   description="Creates all binary distributions for OWASP">
 		<copy file="${basedir}/readme.txt" tofile="${dist.owasp}/readme.txt"/>
-		<antcall target="BuildDev_release"> </antcall>
+		<antcall target="Build_OWASP_Standard_Release"> </antcall>
 		<copydir dest="${dist.owasp}" src="${dist.home}"/>
-<!--
-		<antcall target="BuildUnixWar_release"> </antcall> 
+		<antcall target="Build_OWASP_DeveloperLab_release"> </antcall> 
 		<copydir dest="${dist.owasp}" src="${dist.home}"/>
--->
-		<antcall target="BuildWar_release"> </antcall> 
-		<copydir dest="${dist.owasp}" src="${dist.home}"/>
-
 	</target> 
 
+	
 <!-- ==================== Prepare Target ================================== -->
 
 <!--
@@ -347,14 +276,6 @@
 
 	<target name="prepare">
 	</target>
-
-
-	<target name="Start Tomcat" 
-			description="start the Tomcat server">
-		<exec dir="${basedir}" executable="webgoat.bat" >
-		</exec>  
-	</target> 
-	
 	
 </project>
 

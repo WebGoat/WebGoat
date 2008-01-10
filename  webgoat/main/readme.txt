@@ -1,5 +1,5 @@
-**********          WebGoat 5.1_RC2
-**********          10.09.2007
+**********          WebGoat 5.1
+**********          Jan/08/2008
 **********
 **
 **  Source Code:  http://code.google.com/p/webgoat
@@ -40,6 +40,7 @@ CREDITS (Latest release)
 	Eric Sheridan (http://www.aspectsecurity.com) 
 	Erwin Geirnaert (http://www.zionsecurity.com)
 	The many people who have sent comments and suggestions...
+
         
 WHAT'S NEW
 
@@ -49,11 +50,24 @@ WHAT'S NEW
 	* Lesson Solutions 
 	* Many upgrades and minor fixes
 
+
+RELEASES
+
+WebGoat-OWASP_Standard-x.x.zip
+    - Unzip and run version
+    - Includes java and tomcat
+
+WebGoat-OWASP_Developer-x.x.zip
+    - Includes standard version
+    - Developer version has eclipse and eclipse workspace
+
+
+
 INSTALLATION
 
 Windows - (Download, Extract, Double Click Release)
 
-1. unzip the Windows_WebGoat-x.x_Release.zip to your working environment 
+1. unzip the WebGoat-OWASP_Standard-x.x.zip to your working environment 
 2. To start Tomcat, browse to the WebGoat directory unzipped above and 
      double click "webgoat.bat"
 3. start your browser and browse to... (Notice the capital 'W' and 'G')
@@ -73,7 +87,7 @@ Note: When intercepting requests via a proxy with IE7.  You must add a '.' to th
 Linux
 
 1. Download and install Java JDK 1.5 from Sun (http://java.sun.com)
-2. Unzip the Unix_WebGoat-x.x_Release.zip to your working directory
+2. Unzip the WebGoat-OWASP_Standard-x.x.zip to your working directory
 3. Set JAVA_HOME to point to your JDK1.5 installation
 4. chmod +x webgoat.sh 
 5. Since the latest version runs on a privileged port, you will need to start/stop WebGoat as root.
@@ -86,7 +100,7 @@ Linux
 
 OS X (Tiger 10.4+)
 
-1. Unzip the Unix_WebGoat-x.x_Release.zip to your working directory
+1. Unzip the WebGoat-OWASP_Standard-x.x.zip to your working directory
 2. chmod +x webgoat.sh
 3. Since the latest version runs on a privileged port, you will need to start/stop WebGoat as root.
 	sudo sh webgoat.sh start
@@ -98,8 +112,8 @@ OS X (Tiger 10.4+)
 
 DEVELOPER INSTALLATION
 
-1. Download WebGoat-x.x_developer.zip source distribution
-2. Unzip the WebGoat-x.x_developer.zip to your working directory
+1. Download WebGoat-OWASP_Developer-x.x.zip source distribution
+2. Unzip the WebGoat-OWASP_Developer-x.x.zip to your working directory
 3. Follow the directions in HOW TO create the WebGoat workspace.txt
 
 
@@ -185,4 +199,4 @@ A. Subscribe to the WebGoat mailing list at owasp-webgoat@lists.owasp.org.
 
 	
 
-Please send questions, comments, suggestions, bugs, etc to webgoat@g2-inc.com
+Please send questions, comments, suggestions, bugs, etc to webgoat@owasp.org
