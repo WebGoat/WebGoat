@@ -413,7 +413,7 @@ public class ClientSideValidation extends SequentialLessonAdapter {
 	 * @return The title value
 	 */
 	public String getTitle() {
-		return "Client Side Validation";
+		return "Insecure Client Storage";
 	}
 	
 	public Element getCredits()
