@@ -215,7 +215,7 @@ IF EXISTS (SELECT name FROM sys.assemblies WHERE name = N'RegexMatch')
 	DROP ASSEMBLY RegexMatch;
 GO
 
-CREATE ASSEMBLY RegexMatch FROM 'c:\AspectClassCD\WebGoat\RegexMatch.dll' WITH PERMISSION_SET = SAFE;
+CREATE ASSEMBLY RegexMatch FROM 'C:\AspectClass\Database\Labs\project\WebContent\WEB-INF\RegexMatch.dll' WITH PERMISSION_SET = SAFE;
 GO
 
 CREATE FUNCTION webgoat_guest.RegexMatch (
