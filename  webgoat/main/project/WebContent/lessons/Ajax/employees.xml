@@ -17,6 +17,8 @@
         <DisciplinaryDate>10106</DisciplinaryDate>
         <Managers>
             <Manager>102</Manager>
+            <Manager>111</Manager>
+            <Manager>112</Manager>
         </Managers> 
     </Employee>
     <Employee>
@@ -35,8 +37,8 @@
         <DisciplinaryExplanation>Hit Curly over head</DisciplinaryExplanation>
         <DisciplinaryDate>101013</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
-        </Managers> 
+			<Manager>112</Manager>
+		</Managers> 
     </Employee>
     <Employee>
         <UserID>103</UserID>
@@ -54,8 +56,10 @@
         <DisciplinaryExplanation>Hit Moe back</DisciplinaryExplanation>
         <DisciplinaryDate>101014</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
-        </Managers> 
+            <Manager>102</Manager>
+            <Manager>111</Manager>
+            <Manager>112</Manager>
+        </Managers>  
     </Employee>
     <Employee>
         <UserID>104</UserID>
@@ -73,7 +77,10 @@
         <DisciplinaryExplanation>Bothering Larry about webgoat problems</DisciplinaryExplanation>
         <DisciplinaryDate>101013</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
+            <Manager>107</Manager>
+            <Manager>102</Manager>
+            <Manager>111</Manager>
+            <Manager>112</Manager>
         </Managers> 
     </Employee>
     <Employee>
@@ -92,7 +99,10 @@
         <DisciplinaryExplanation>NA</DisciplinaryExplanation>
         <DisciplinaryDate>0</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
+            <Manager>106</Manager>
+            <Manager>102</Manager>
+            <Manager>111</Manager>
+            <Manager>112</Manager>
         </Managers> 
     </Employee>
     <Employee>
@@ -111,8 +121,10 @@
         <DisciplinaryExplanation>NA</DisciplinaryExplanation>
         <DisciplinaryDate>0</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
-        </Managers> 
+            <Manager>102</Manager>
+            <Manager>111</Manager>
+            <Manager>112</Manager>
+        </Managers>  
     </Employee>
     <Employee>
         <UserID>107</UserID>
@@ -130,7 +142,9 @@
         <DisciplinaryExplanation>Hacked into accounting server. Modified personal pay.</DisciplinaryExplanation>
         <DisciplinaryDate>61402</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
+            <Manager>102</Manager>
+            <Manager>111</Manager>
+            <Manager>112</Manager>
         </Managers>         
     </Employee>
     <Employee>
@@ -149,8 +163,11 @@
         <DisciplinaryExplanation>Tortuous Boot Camp workout at 5am. Employees felt sick.</DisciplinaryExplanation>
         <DisciplinaryDate>61502</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
-        </Managers>         
+            <Manager>107</Manager>
+            <Manager>102</Manager>
+            <Manager>111</Manager>
+            <Manager>112</Manager>
+        </Managers>        
     </Employee>
     <Employee>
         <UserID>109</UserID>
@@ -168,8 +185,11 @@
         <DisciplinaryExplanation>Late to work 30 days in row due to excessive Halo 2</DisciplinaryExplanation>
         <DisciplinaryDate>72804</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
-        </Managers>         
+            <Manager>107</Manager>
+            <Manager>102</Manager>
+            <Manager>111</Manager>
+            <Manager>112</Manager>
+        </Managers>        
     </Employee>
     <Employee>
         <UserID>110</UserID>
@@ -187,7 +207,10 @@
         <DisciplinaryExplanation>Used company cc to purchase new car. Limit adjusted.</DisciplinaryExplanation>
         <DisciplinaryDate>112005</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
+            <Manager>106</Manager>
+            <Manager>102</Manager>
+            <Manager>111</Manager>
+            <Manager>112</Manager>
         </Managers> 
     </Employee>
     <Employee>
@@ -206,8 +229,8 @@
         <DisciplinaryExplanation></DisciplinaryExplanation>
         <DisciplinaryDate>112005</DisciplinaryDate>
         <Managers>
-		<Manager>102</Manager>
-        </Managers>         
+            <Manager>112</Manager>
+        </Managers>   
     </Employee>
     <Employee>
         <UserID>112</UserID>
