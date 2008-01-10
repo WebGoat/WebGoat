@@ -24,19 +24,21 @@ CREATE TABLE WEBGOAT_guest.EMPLOYEE (
 );
 
 
-CREATE OR REPLACE PROCEDURE WEBGOAT_guest.EMPLOYEE_LOGIN(v_id NUMBER, v_password VARCHAR) AS
-    stmt VARCHAR(32767);v_userid NUMBER;
+CREATE OR REPLACE FUNCTION WEBGOAT_guest.EMPLOYEE_LOGIN(v_id NUMBER, v_password VARCHAR) RETURN NUMBER AS
+    stmt VARCHAR(32767);cnt NUMBER;
 BEGIN
-    stmt  := 'SELECT USERID FROM EMPLOYEE WHERE USERID = ' || v_id || ' AND PASSWORD = ''' || v_password || '''';
-    EXECUTE IMMEDIATE stmt INTO v_userid;
+    stmt  := 'SELECT COUNT (*) FROM EMPLOYEE WHERE USERID = ' || v_id || ' AND PASSWORD = ''' || v_password || '''';
+    EXECUTE IMMEDIATE stmt INTO cnt;
+    RETURN cnt;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE WEBGOAT_guest.EMPLOYEE_LOGIN_BACKUP(v_id NUMBER, v_password VARCHAR) AS
-    stmt VARCHAR(32767);v_userid NUMBER;
+CREATE OR REPLACE FUNCTION WEBGOAT_guest.EMPLOYEE_LOGIN_BACKUP(v_id NUMBER, v_password VARCHAR) RETURN NUMBER AS
+    stmt VARCHAR(32767);cnt NUMBER;
 BEGIN
-    stmt  := 'SELECT USERID FROM EMPLOYEE WHERE USERID = ' || v_id || ' AND PASSWORD = ''' || v_password || '''';
-    EXECUTE IMMEDIATE stmt INTO v_userid;
+    stmt  := 'SELECT COUNT (*) FROM EMPLOYEE WHERE USERID = ' || v_id || ' AND PASSWORD = ''' || v_password || '''';
+    EXECUTE IMMEDIATE stmt INTO cnt;
+    RETURN cnt;
 END;
 /
 

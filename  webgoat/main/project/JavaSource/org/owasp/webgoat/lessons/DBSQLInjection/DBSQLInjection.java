@@ -252,8 +252,9 @@ public class DBSQLInjection extends GoatHillsFinancial
 
 	@Override
 	protected boolean getDefaultHidden() {
-		return ! getWebgoatContext().getDatabaseDriver().contains("oracle");
+		String driver = getWebgoatContext().getDatabaseDriver();
+		boolean hidden = ! (driver.contains("oracle") || driver.contains("jtds"));
+		return hidden;
 	}
-    
     
 }

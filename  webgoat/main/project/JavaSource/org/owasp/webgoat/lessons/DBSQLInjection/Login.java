@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.List;
 import java.util.Vector;
 
@@ -132,52 +133,61 @@ public class Login extends DefaultLessonAction
 
     public boolean login(WebSession s, String userId, String password)
     {
-		System.out.println("Using \"" + password + "\"");
 	boolean authenticated = false;
 
 	try
 	{
-	    String call = "{ CALL EMPLOYEE_LOGIN(?,?) }";
+	    String call = "{ ? = call EMPLOYEE_LOGIN(?,?) }"; // NB: "call", not "CALL"! Doh!
+	    
 	    try
 	    {
 			CallableStatement statement = WebSession.getConnection(s)
 				.prepareCall(call, ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			statement.setInt(1, Integer.parseInt(userId));
-			statement.setString(2, password);
-			// if this executes successfully, we are authenticated
+			statement.registerOutParameter(1, Types.INTEGER);
+			statement.setInt(2, Integer.parseInt(userId));
+			statement.setString(3, password);
 			statement.execute();
-			
-		    setSessionAttribute(s,
-			    getLessonName() + ".isAuthenticated", Boolean.TRUE);
-		    setSessionAttribute(s, getLessonName() + "."
-			    + DBSQLInjection.USER_ID, userId);
-		    authenticated = true;
-		    if (DBSQLInjection.STAGE1.equals(getStage(s)) && 
-		    		DBSQLInjection.PRIZE_EMPLOYEE_ID == Integer.parseInt(userId))
-		    {
-		    	setStageComplete(s, DBSQLInjection.STAGE1);
-		    }
+
+			int rows = statement.getInt(1); 
+			if (rows > 0) {
+			    setSessionAttribute(s,
+				    getLessonName() + ".isAuthenticated", Boolean.TRUE);
+			    setSessionAttribute(s, getLessonName() + "."
+				    + DBSQLInjection.USER_ID, userId);
+			    authenticated = true;
+			    if (DBSQLInjection.STAGE1.equals(getStage(s)) && 
+			    		DBSQLInjection.PRIZE_EMPLOYEE_ID == Integer.parseInt(userId))
+			    {
+			    	setStageComplete(s, DBSQLInjection.STAGE1);
+			    }
+			} else {
+				
+				if (DBSQLInjection.STAGE2.equals(getStage(s)))
+				{
+					try 
+					{
+						String call2 = "{ ? = call EMPLOYEE_LOGIN_BACKUP(?,?) }";
+						statement = WebSession.getConnection(s)
+							.prepareCall(call2, ResultSet.TYPE_SCROLL_INSENSITIVE,
+								ResultSet.CONCUR_READ_ONLY);
+						statement.registerOutParameter(1, Types.INTEGER);
+						statement.setInt(2, Integer.parseInt(userId));
+						statement.setString(3, password);
+						statement.execute();
+						
+						rows = statement.getInt(1);
+						if (rows > 0)
+							setStageComplete(s, DBSQLInjection.STAGE2);
+					}
+					catch (SQLException sqle2){}
+				}
+			}
 	    }
 	    catch (SQLException sqle)
 	    {
 			s.setMessage("Error logging in: " + sqle.getLocalizedMessage());
 			sqle.printStackTrace();
-			if (DBSQLInjection.STAGE2.equals(getStage(s)))
-			{
-				try 
-				{
-					String call2 = "{ CALL EMPLOYEE_LOGIN_BACKUP(?,?) }";
-					CallableStatement statement = WebSession.getConnection(s)
-						.prepareCall(call2, ResultSet.TYPE_SCROLL_INSENSITIVE,
-							ResultSet.CONCUR_READ_ONLY);
-					statement.setInt(1, Integer.parseInt(userId));
-					statement.setString(2, password);
-					statement.execute();
-					setStageComplete(s, DBSQLInjection.STAGE2);
-				}
-				catch (SQLException sqle2){}
-			}
 	    }
 	}
 	catch (Exception e)
