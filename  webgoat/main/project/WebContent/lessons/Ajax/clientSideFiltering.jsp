@@ -31,19 +31,19 @@
 
 
 
-
-StringBuffer sb = new StringBuffer();
-
-sb.append("/Employees/Employee/UserID | ");
-sb.append("/Employees/Employee/FirstName | ");
-sb.append("/Employees/Employee/LastName | ");
-sb.append("/Employees/Employee/SSN | ");
-sb.append("/Employees/Employee/Salary ");
-
-String expression = sb.toString();
-
-
-
+	
+	StringBuffer sb = new StringBuffer();
+	
+	sb.append("/Employees/Employee/UserID | ");
+	sb.append("/Employees/Employee/FirstName | ");
+	sb.append("/Employees/Employee/LastName | ");
+	sb.append("/Employees/Employee/SSN | ");
+	sb.append("/Employees/Employee/Salary ");
+	
+	String expression = sb.toString();
+	
+	
+	System.out.print("expression:" + expression);
 
 
 
