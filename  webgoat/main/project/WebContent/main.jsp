@@ -219,8 +219,8 @@ StringBuffer buildList = new StringBuffer();
 			<%
 			if (currentLesson.getTemplatePage(webSession) != null)
 			{
-				System.out.println("Main.jsp - current lesson: " + currentLesson.getName() );
-				System.out.println("         - template Page: " + currentLesson.getTemplatePage(webSession));
+				//System.out.println("Main.jsp - current lesson: " + currentLesson.getName() );
+				//System.out.println("         - template Page: " + currentLesson.getTemplatePage(webSession));
 			%>
 			<jsp:include page="<%=currentLesson.getTemplatePage(webSession)%>" />
 			<%
@@ -233,7 +233,7 @@ StringBuffer buildList = new StringBuffer();
 			}
 			%>
 				<div id="credits">
-		  		<% out.println(currentLesson.getCredits());%> 
+		  		<% out.println(currentLesson.getCredits());%>
 		  		</div>
 			</div>
 	  	</div>
