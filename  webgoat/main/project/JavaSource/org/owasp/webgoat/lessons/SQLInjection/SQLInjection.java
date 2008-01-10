@@ -122,7 +122,7 @@ public class SQLInjection extends GoatHillsFinancial
 
 	// Stage 3
 	hints
-		.add("Try entering a password of [ 101 OR 1=1 ORDER BY 'salary' ].");
+		.add("Try entering an employee_id of [ 101 OR 1=1 ORDER BY 'salary' ].");
 
 	// Stage 4
 
