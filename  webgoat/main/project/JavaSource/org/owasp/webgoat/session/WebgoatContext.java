@@ -94,8 +94,12 @@ public class WebgoatContext {
 	}
 
 	private String getParameter(HttpServlet servlet, String key) {
-		return System.getProperty(key, servlet.getInitParameter(key));
+		String value = System.getenv().get(key);
+		if (value == null)
+			value = servlet.getInitParameter(key);
+		return value;
 	}
+	
 	/**
 	 * returns the connection string with the real path to the database
 	 * directory inserted at the word PATH
