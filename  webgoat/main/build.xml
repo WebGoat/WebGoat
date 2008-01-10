@@ -230,7 +230,7 @@
 		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Developer-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
 				includes="eclipse/, java/, project/, tomcat/, 
-				          read*.txt, HOW*.txt, eclipse.bat, webgoat.bat, webgoat_8080.bat, webscarab.bat,
+				          read*.txt, HOW*.txt, eclipse.bat, webgoat.bat, webgoat_8080.bat,
 						  Eclipse-Workspace.zip"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
