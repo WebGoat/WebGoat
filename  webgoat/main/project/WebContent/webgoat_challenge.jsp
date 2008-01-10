@@ -8,20 +8,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>WebGoat V5.1RC2</title>
-<link rel="stylesheet" href="css/webgoat.css" type="text/css" />
+<link rel="stylesheet" href="css/webgoat_challenge.css" type="text/css" />
 </head>
 
 <body>
 
-	<div id="wrap">
-		<div id="top"></div>
-		<div id="start">
+	<div id="wrap_ch">
+		<div id="top_ch"><img src="images/header/header.jpg" width="500" height="86" /></div>
+		<div id="start_ch">
 		  <p>Thank you for using WebGoat!</p>
 		  <p>This program is a demonstration of common web application flaws.  
 		  The exercises are intended to provide hands on experience with application 
 		  penetration testing techniques.  </p><p>The WebGoat project is lead by Bruce Mayhew. Please send all 
 		  comments to Bruce at <%= webSession.getWebgoatContext().getFeedbackAddress() %>.</p>
-		  <div id="team">
+		  <div id="team_ch">
 			<table border="0" align="center" class="lessonText">
                 <tr>
                   <td width="50%"><div align="center"><a href="http://www.owasp.org"><img border="0" src="images/logos/owasp.jpg" alt="OWASP Foundation" longdesc="http://www.owasp.org" /></a></div></td>
@@ -83,7 +83,7 @@
             </table>
 		  </div>
 	  </div>
-		<div id="warning"> WARNING<br /> 
+		<div id="warning_ch"> WARNING<br />
 	      While running this program, your machine is extremely vulnerable to attack. 
 	      You should disconnect from the network while using this program.
 		  <br/>

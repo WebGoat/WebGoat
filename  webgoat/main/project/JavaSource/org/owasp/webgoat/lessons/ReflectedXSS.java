@@ -142,7 +142,7 @@ public class ReflectedXSS extends LessonAdapter
 	    tr = new TR();
 	    tr
 		    .addElement(new TD()
-			    .addElement("Hewlett-Packard - Pavilion Notebook with Intel® Centrino™"));
+			    .addElement("Hewlett-Packard - Pavilion Notebook with Intel Centrino"));
 	    tr.addElement(new TD().addElement("1599.99").setAlign("right"));
 	    tr.addElement(new TD().addElement(
 		    new Input(Input.TEXT, "QTY3", s.getParser()
@@ -201,8 +201,8 @@ public class ReflectedXSS extends LessonAdapter
 	    tr = new TR();
 	    tr.addElement(new TD()
 		    .addElement("Enter your three digit access code:"));
-	    tr.addElement(new TD().addElement(new Input(Input.TEXT, "field1",
-		    param1)));
+	    tr.addElement(new TD().addElement("<input name='field1' type='TEXT' value='" + param1 + "'>"));
+	    //tr.addElement(new TD().addElement(new Input(Input.TEXT, "field1",param1)));
 	    t.addElement(tr);
 
 	    Element b = ECSFactory.makeButton("Purchase");

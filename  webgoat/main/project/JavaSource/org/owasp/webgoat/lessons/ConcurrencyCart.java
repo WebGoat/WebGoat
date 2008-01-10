@@ -63,10 +63,10 @@ public class ConcurrencyCart extends LessonAdapter
     private static int runningTOTAL = 0;
     private static int subTOTAL = 0;
     private static int calcTOTAL = 0;
-    private static int quantity1 = 1;
-    private static int quantity2 = 1;
-    private static int quantity3 = 1;
-    private static int quantity4 = 1;
+    private static int quantity1 = 0;
+    private static int quantity2 = 0;
+    private static int quantity3 = 0;
+    private static int quantity4 = 0;
     private int discount = 0;
     
 	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
@@ -108,7 +108,7 @@ public class ConcurrencyCart extends LessonAdapter
 	    			else
 	    			{
 	    				//ALMOST
-	    				  s.setMessage("Almost! You payed too much.");
+					  //s.setMessage("Almost! You payed too much.");
 	    			}
 	    		}
 	    		else
@@ -131,10 +131,10 @@ public class ConcurrencyCart extends LessonAdapter
 	//UPDATE QUANTITY VARIABLES
 	private void updateQuantity(WebSession s)
 	{
-		quantity1 = s.getParser().getIntParameter("QTY1", 1);
-		quantity2 = s.getParser().getIntParameter("QTY2", 1);
-		quantity3 = s.getParser().getIntParameter("QTY3", 1);
-		quantity4 = s.getParser().getIntParameter("QTY4", 1);
+		quantity1 = s.getParser().getIntParameter("QTY1", 0);
+		quantity2 = s.getParser().getIntParameter("QTY2", 0);
+		quantity3 = s.getParser().getIntParameter("QTY3", 0);
+		quantity4 = s.getParser().getIntParameter("QTY4", 0);
 	}
 	
     /*
@@ -296,7 +296,7 @@ public class ConcurrencyCart extends LessonAdapter
     	
     	try
     	{
-    	Thread.sleep(5000);
+	//Thread.sleep(5000);
     	    
     	ec.addElement(new HR().setWidth("90%"));
 	    ec.addElement(new Center().addElement(new H1().addElement("Thank you for your purchase!")));
@@ -430,7 +430,7 @@ public class ConcurrencyCart extends LessonAdapter
 		    tr.addElement(new TD().addElement("169.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(
 			    new Input(Input.TEXT, "QTY1", s.getParser()
-				    .getStringParameter("QTY1", "1")))
+				    .getStringParameter("QTY1", "0")))
 			    .setAlign("right"));
 		    
 		    total = quantity1 * 169;
@@ -444,7 +444,7 @@ public class ConcurrencyCart extends LessonAdapter
 		    tr.addElement(new TD().addElement("299.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(
 			    new Input(Input.TEXT, "QTY2", s.getParser()
-				    .getStringParameter("QTY2", "1")))
+				    .getStringParameter("QTY2", "0")))
 			    .setAlign("right"));
 		    
 		    total = quantity2 * 299;
@@ -458,7 +458,7 @@ public class ConcurrencyCart extends LessonAdapter
 		    tr.addElement(new TD().addElement("1799.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(
 			    new Input(Input.TEXT, "QTY3", s.getParser()
-				    .getStringParameter("QTY3", "1")))
+				    .getStringParameter("QTY3", "0")))
 			    .setAlign("right"));
 		    
 		    total = quantity3 * 1799;
@@ -472,7 +472,7 @@ public class ConcurrencyCart extends LessonAdapter
 		    tr.addElement(new TD().addElement("649.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(
 			    new Input(Input.TEXT, "QTY4", s.getParser()
-				    .getStringParameter("QTY4", "1")))
+				    .getStringParameter("QTY4", "0")))
 			    .setAlign("right"));
 		    
 		    total = quantity4 * 649;
@@ -540,7 +540,7 @@ public class ConcurrencyCart extends LessonAdapter
     {
 	List<String> hints = new ArrayList<String>();
 	  hints.add("Can you purchase the merchandise in your shopping cart for a lower price?");
-	  hints.add("Try using another web browser to get a lower price.");
+	  hints.add("Try using a new browser window to get a lower price.");
 
 	return hints;
     }
