@@ -73,6 +73,19 @@ END;
 3. Apply a table column constraint
    	ALTER TABLE EMPLOYEE
 		ADD CONSTRAINT address1_ck CHECK (REGEXP_LIKE(address1, '^[a-zA-Z0-9,\. ]{0,80}$'));
+		
+
+FOR SQL SERVER, the following process is required:
+
+Compile the C# RegexMatch user defined class routine to a DLL:
+
+C:> c:\windows\Microsoft.NET\Framework\v2.0.50727\csc.exe /t:library RegexMatch.cs
+C:> copy RegexMatch.dll C:\TEMP\
+
+execute the following script as the SA user, using SQuirreL SQL client:
+
+ sqlserver.sql
+
 */
 
 public class UpdateProfile_i extends UpdateProfile

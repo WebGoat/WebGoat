@@ -143,8 +143,10 @@ public class DBCrossSiteScripting extends GoatHillsFinancial
 		else if (STAGE2.equals(stage))
 		{
 		    instructions = "Stage 2: Block Stored XSS using Input Validation.<br>"
-			    + "Implement a fix in the stored procedure to prevent the stored XSS from being written to the database. "
-			    + "A sample regluar expression pattern: ^[a-zA-Z0-9,\\. ]{0,80}$ "
+			    + "Implement a fix in the stored procedure to prevent the stored XSS from being written to the database. ";
+		    if (getWebgoatContext().getDatabaseDriver().contains("jtds"))
+		    	instructions += "Use the provided user-defined function RegexMatch to test the data against a pattern. ";
+			instructions += "A sample regular expression pattern: ^[a-zA-Z0-9,\\. ]{0,80}$ "
 			    + "Repeat stage 1 as 'Eric' with 'David' as the manager.  Verify that 'David' is not affected by the attack.";
 		}
 	}

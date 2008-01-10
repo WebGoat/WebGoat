@@ -125,7 +125,8 @@ public class UpdateProfile extends DefaultLessonAction
     	{
 			s.setMessage("Error updating employee profile");
 			e.printStackTrace();
-    		if (DBCrossSiteScripting.STAGE2.equals(getStage(s)) && e.getMessage().contains("ORA-06512") &&
+    		if (DBCrossSiteScripting.STAGE2.equals(getStage(s)) && 
+    				(e.getMessage().contains("ORA-06512") || e.getMessage().contains("Illegal characters")) &&
     				!employee.getAddress1().matches("^[a-zA-Z0-9,\\. ]{0,80}$"))
     		{
     		    setStageComplete(s, DBCrossSiteScripting.STAGE2);
