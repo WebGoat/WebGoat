@@ -155,37 +155,37 @@ public class CrossSiteScripting extends GoatHillsFinancial
 		String stage = getStage(s);
 		if (STAGE1.equals(stage))
 	    {
-		    instructions = "Execute a Stored Cross Site Scripting (XSS) attack.<br>"
+		    instructions = "Stage 1: Execute a Stored Cross Site Scripting (XSS) attack.<br>"
 			    + "As 'Tom', execute a Stored XSS attack against the Street field on the Edit Profile page.  "
 			    + "Verify that 'Jerry' is affected by the attack.";
 	    }
 		else if (STAGE2.equals(stage))
 		{
-		    instructions = "Block Stored XSS using Input Validation.<br>"
+		    instructions = "Stage 2: Block Stored XSS using Input Validation.<br>"
 			    + "Implement a fix to block the stored XSS before it can be written to the database. "
 			    + "Repeat stage 1 as 'Eric' with 'David' as the manager.  Verify that 'David' is not affected by the attack.";
 		}
 		else if (STAGE3.equals(stage))
 		{
-		    instructions = "Execute a previously Stored Cross Site Scripting (XSS) attack.<br>"
+		    instructions = "Stage 3: Execute a previously Stored Cross Site Scripting (XSS) attack.<br>"
 			    + "The 'Bruce' employee profile is pre-loaded with a stored XSS attack. "
 			    + "Verify that 'David' is affected by the attack even though the fix from stage 2 is in place.";
 		}
 		else if (STAGE4.equals(stage))
 		{
-		    instructions = "Block Stored XSS using Output Encoding.<br>"
+		    instructions = "Stage 4: Block Stored XSS using Output Encoding.<br>"
 			    + "Implement a fix to block XSS after it is read from the database. "
 			    + "Repeat stage 3. Verify that 'David' is not affected by Bruce's profile attack.";
 		}
 		else if (STAGE5.equals(stage))
 		{
-		    instructions = "Execute a Reflected XSS attack.<br>"
+		    instructions = "Stage 5: Execute a Reflected XSS attack.<br>"
 			    + "Use a vulnerability on the Search Staff page to craft a URL containing a reflected XSS attack.  "
 			    + "Verify that another employee using the link is affected by the attack.";
 		}
 		else if (STAGE6.equals(stage))
 		{
-		    instructions = "Block Reflected XSS using Input Validation.<br>"
+		    instructions = "Stage 6: Block Reflected XSS using Input Validation.<br>"
 			    + "Implement a fix to block this reflected XSS attack. "
 			    + "Repeat step 5.  Verify that the attack URL is no longer effective.";
 	    }

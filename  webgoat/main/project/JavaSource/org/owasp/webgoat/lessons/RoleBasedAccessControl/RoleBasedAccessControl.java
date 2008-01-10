@@ -142,24 +142,24 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 		String stage = getStage(s);
 		if (STAGE1.equals(stage))
 	    {
-		    instructions = "Bypass Presentational Layer Access Control.<br>"
+		    instructions = "Stage 1: Bypass Presentational Layer Access Control.<br>"
 			    + "As regular employee 'Tom', exploit weak access control to use the Delete function from the Staff List page.  "
 			    + "Verify that Tom's profile can be deleted.";
 	    }
 		else if (STAGE2.equals(stage))
 		{
-		    instructions = "Add Business Layer Access Control.<br>"
+		    instructions = "Stage 2: Add Business Layer Access Control.<br>"
 			    + "Implement a fix to deny unauthorized access to the Delete function. "
 			    + "Repeat stage 1.  Verify that access to Delete is properly denied.";
 		}
 		else if (STAGE3.equals(stage))
 		{
-		    instructions = "Breaking Data Layer Access Control.<br>"
+		    instructions = "Stage 3: Breaking Data Layer Access Control.<br>"
 			    + "As regular employee 'Tom', exploit weak access control to View another employee's profile. Verify the access.";
 		}
 		else if (STAGE4.equals(stage))
 		{
-		    instructions = "Add Data Layer Access Control.<br>"
+		    instructions = "Stage 4: Add Data Layer Access Control.<br>"
 			    + "Implement a fix to deny unauthorized access to this data. "
 			    + "Repeat stage 3.  Verify that access to other employee's profiles is properly denied.";
 	    }

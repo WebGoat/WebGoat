@@ -150,25 +150,25 @@ public class SQLInjection extends GoatHillsFinancial
 		String stage = getStage(s);
 		if (STAGE1.equals(stage))
 	    {
-		    instructions = "Use String SQL Injection to bypass authentication. "
+		    instructions = "Stage 1: Use String SQL Injection to bypass authentication. "
 			    + "Use SQL injection to log in as the boss ('Neville') without using the correct password.  "
 			    + "Verify that Neville's profile can be viewed and that all functions are available (including Search, Create, and Delete).";
 	    }
 		else if (STAGE2.equals(stage))
 		{
-		    instructions = "Block SQL Injection using a Parameterized Query.<br>"
+		    instructions = "Stage 2: Block SQL Injection using a Parameterized Query.<br>"
 			    + "Implement a fix to block SQL injection into the fields in question on the Login page. "
 			    + "Repeat stage 1.  Verify that the attack is no longer effective.";
 		}
 		else if (STAGE3.equals(stage))
 		{
-		    instructions = "Execute SQL Injection to bypass authorization.<br>"
+		    instructions = "Stage 3: Execute SQL Injection to bypass authorization.<br>"
 			    + "As regular employee 'Larry', use SQL injection into a parameter of the View function "
 			    + "(from the List Staff page) to view the profile of the boss ('Neville').";
 		}
 		else if (STAGE4.equals(stage))
 		{
-		    instructions = "Block SQL Injection using a Parameterized Query.<br>"
+		    instructions = "Stage 4: Block SQL Injection using a Parameterized Query.<br>"
 			    + "Implement a fix to block SQL injection into the relevant parameter. "
 			    + "Repeat stage 3.  Verify that access to Neville's profile is properly blocked.";
 	    }
