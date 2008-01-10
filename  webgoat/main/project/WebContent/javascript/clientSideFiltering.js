@@ -55,7 +55,7 @@ function ajaxFunction(userId)
       var result = xmlHttp.responseText;
       if(xmlHttp.readyState==4)
         {
-        	document.getElementById("hiddenEmployeeRecords").innerHTML=result 
+        	document.getElementById("hiddenEmployeeRecords").innerHTML=result; 
         	
         }
       }

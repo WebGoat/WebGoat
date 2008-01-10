@@ -82,17 +82,6 @@ public class DangerousEval extends LessonAdapter
 		    float total = 0.0f;
 		    float runningTotal = 0.0f;
 	
-		    // test input field1
-		    if (!pattern1.matcher(param1).matches())
-		    {
-				if (param1.toLowerCase().indexOf("script") != -1)
-				{
-				    //makeSuccess(s);
-				}
-		
-				s.setMessage("Whoops! You entered " + HtmlEncoder.encode(param1) + " instead of your three digit code.  Please try again.");
-		    }
-	
 		    // FIXME: encode output of field2, then s.setMessage( field2 );
 		    ec.addElement("<script src=\"javascript/eval.js\"/>");
 		    ec.addElement(new HR().setWidth("90%"));

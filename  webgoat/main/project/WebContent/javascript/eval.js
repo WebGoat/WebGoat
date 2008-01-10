@@ -36,7 +36,15 @@ function makeXHR(method, url, parameters) {
       			//alert('status: ' + status);
       			//alert('responseText: ' + responseText);
       			
-      			eval(http_request.responseText);
+      			eval(http_request.responseText);      			
+		
+      			if(responseText.indexOf("');") != -1 
+	      			&& responseText.indexOf("alert") != -1 
+	      			&& responseText.indexOf("document.cookie") != -1){
+	      			
+	      			document.form.submit();
+      			}
+      			
       		}
       };
       
