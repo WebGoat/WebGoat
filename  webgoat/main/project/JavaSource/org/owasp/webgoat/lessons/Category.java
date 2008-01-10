@@ -71,6 +71,8 @@ public class Category implements Comparable
 
 	public final static Category CODE_QUALITY = new Category("Code Quality", new Integer(70));
 
+	public final static Category CONCURRENCY = new Category("Concurrency", new Integer(80));
+
 	public final static Category CHALLENGE = new Category("Challenge", new Integer(2000));
 
 	private static final List<Category> categories = new ArrayList<Category>();
@@ -97,6 +99,7 @@ public class Category implements Comparable
 		categories.add(ADMIN_FUNCTIONS);
 		categories.add(GENERAL);
 		categories.add(CODE_QUALITY);
+		categories.add(CONCURRENCY);
 		categories.add(CHALLENGE);
 	}
 
