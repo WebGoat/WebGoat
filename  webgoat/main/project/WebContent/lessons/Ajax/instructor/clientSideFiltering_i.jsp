@@ -28,17 +28,17 @@ String userId = request.getParameter("userId");
 	InputSource inputSource = new InputSource(new FileInputStream(d));
 
 
-StringBuffer sb = new StringBuffer();
-
-sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/UserID | ");
-sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/FirstName | ");
-sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/LastName | ");
-sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/SSN | ");
-sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/Salary ");
-
-String expression = sb.toString();
-
-
+	StringBuffer sb = new StringBuffer();
+	
+	sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/UserID | ");
+	sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/FirstName | ");
+	sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/LastName | ");
+	sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/SSN | ");
+	sb.append("/Employees/Employee [Managers/Manager/text()='" + userId + "']/Salary ");
+	
+	String expression = sb.toString();
+	
+	System.out.print("expression:" + expression);
 
 
 
