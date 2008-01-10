@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=ISO-8859-1" language="java"  
+<%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
 	errorPage="" %>
 <%@page import="org.owasp.webgoat.session.WebSession"%>
 <% WebSession webSession = ((WebSession)session.getAttribute("websession")); %>
@@ -37,12 +37,13 @@
 	                 <div align="center" class="style2">Laurence Casey</div>
 	                 <div align="center" class="style2">David Anderson</div>
 	                 <div align="center" class="style2">Eric Sheridan</div>
+	                 <div align="center" class="style2">Rogan Dawes</div>
 	              </td>
                   <td  valign="top">
-			<div align="center" class="style2">Aspect Security</div>
-			<div align="center" class="style2">Sherif Koussa</div>
-			<div align="center" class="style2">Alex Smolen</div>
-			<div align="center" class="style2">Chuck Willis</div>
+                  	<div align="center" class="style2">Aspect Security</div>
+                   	<div align="center" class="style2">Sherif Koussa</div>
+                   	<div align="center" class="style2">Alex Smolen</div>
+                  	<div align="center" class="style2">Chuck Willis</div>
 
                   </td>
                 </tr>
@@ -58,7 +59,7 @@
                   (http://www.unitedhealthgroup.com/) </div>
                   </td>
                 </tr>
-                <tr>
+                 <tr>
                   <td><div align="center" class="style2">OWASP Autumn of Code<br />
                   (http://www.owasp.org/) </div></td>
                   <td><div align="center" class="style2">Sherif Koussa<br />(http://www.macadamian.com)<br /></div>
@@ -73,14 +74,14 @@
                 <tr>
                   <td colspan = "2">
                     <div align="center" class="style2">			
-			<form id="form" name="form" method="post" action="attack">
+                      <form id="form" name="form" method="post" action="attack">
     			            <input type="submit" name="start" value="Start WebGoat" />
-			</form>
-		  </div>
+			          </form>
+			        </div>
                   </td>
                 </tr>
             </table>
-	  </div>
+		  </div>
 	  </div>
 		<div id="warning"> WARNING<br /> 
 	      While running this program, your machine is extremely vulnerable to attack. 
@@ -90,8 +91,8 @@
 		  This program is for educational purposes only. 
 		  Use of these techniques without permission could lead to 
 		  job termination, financial liability, and/or criminal penalties.
-	  	</div>
-	</div>
+	    </div>
+	  </div>
 </body>
 </html>
 
