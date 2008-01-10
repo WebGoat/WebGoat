@@ -1,6 +1,5 @@
 package org.owasp.webgoat.lessons.SQLInjection;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,7 +11,6 @@ import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.HtmlEncoder;
 
 /*******************************************************************************
  * 
