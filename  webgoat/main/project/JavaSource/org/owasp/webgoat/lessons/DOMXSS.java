@@ -123,6 +123,8 @@ public class DOMXSS extends SequentialLessonAdapter {
 
 			ec.addElement(new Script().setSrc("javascript/DOMXSS.js"));
 
+			ec.addElement(new Script().setSrc("javascript/escape.js"));
+
 			ec.addElement(new H1().setID("greeting"));
 
 			ec.addElement(new StringElement("Enter your name: "));
@@ -208,9 +210,9 @@ public class DOMXSS extends SequentialLessonAdapter {
 		if (getLessonTracker(s).getStage() == 1) {
 			instructions = "STAGE 1:\tFor this exercise, your mission is to deface this website using the image at the following location: <a href = '/WebGoat/images/logos/owasp.jpg'>OWASP IMAGE</a>";
 		} else if (getLessonTracker(s).getStage() == 2) {
-			instructions = "STAGE 2:\tNow, try to create a pop up using the image tag";
+			instructions = "STAGE 2:\tNow, try to create a JavaScript alert up using the image tag";
 		} else if (getLessonTracker(s).getStage() == 3) {
-			instructions = "STAGE 3:\tNext, try to create a pop up using the IFRAME tag.";
+			instructions = "STAGE 3:\tNext, try to create a JavaScript alert up using the IFRAME tag.";
 		} else if (getLessonTracker(s).getStage() == 4) {
 			instructions = "STAGE 4:\tUse the following to create a fake login form:<br><br>" + "Please enter your password:&lt;BR&gt;&lt;input type = \"password\" name=\"pass\"/&gt;&lt;button " +
 			"onClick=\"javascript:alert('I have your password: ' + pass.value);\"&gt;Submit&lt;/button&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;";
