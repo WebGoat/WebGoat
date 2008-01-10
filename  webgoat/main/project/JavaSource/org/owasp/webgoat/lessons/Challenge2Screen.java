@@ -11,7 +11,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -215,10 +214,12 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 		Statement statement3 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 				ResultSet.CONCUR_READ_ONLY);
+	
 		// pull the USER_COOKIE from the cookies
 		String user = getCookie(s);
 		String query = "SELECT * FROM user_data WHERE last_name = '" + user + "'";
 		Vector<String> v = new Vector<String>();
+
 		try
 		{
 			ResultSet results = statement3.executeQuery(query);
@@ -229,20 +230,15 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				String num = results.getString("cc_number");
 				v.addElement(type + "-" + num);
 			}
-			if (v.size() > 2)
-			{
-				ResultSetMetaData resultsMetaData = results.getMetaData();
-				ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
-				ec.addElement(ECSFactory.makeButton(PROCEED_TO_NEXT_STAGE + "(3)"));
-			} else
+	    	        if (v.size() != 13)
 			{
 				s.setMessage("Try to get all the credit card numbers");
+		    	}
+	    
 				ec.addElement(buildCart(s));
 
-				// Table t = ECSFactory.makeTable( s.isColor(),
-				// HtmlColor.ALICEBLUE );
-				Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth(
-						"90%").setAlign("center");
+			Table t = new Table().setCellSpacing(0).setCellPadding(2)
+				.setBorder(0).setWidth("90%").setAlign("center");
 
 				ec.addElement(new BR());
 				TR tr = new TR();
@@ -260,7 +256,20 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				ec.addElement(new BR());
 				Input input = new Input(Input.HIDDEN, USER, "White");
 				ec.addElement(input);
+		
+			//STAGE 3 BUTTON
+			if (v.size() == 13)
+			{
+				s.setMessage("Congratulations! You stole all the credit cards, proceed to stage 3!");
+				ec.addElement(new BR());
+				//TR inf = new TR();
+				Center center = new Center();
+				Element proceed = ECSFactory.makeButton(PROCEED_TO_NEXT_STAGE + "(3)");
+				center.addElement(proceed);
+				//inf.addElement(new TD().addElement(proceed).setAlign("center"));
+				ec.addElement(center);
 			}
+		
 		}
 		catch (Exception e)
 		{
