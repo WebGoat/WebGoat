@@ -408,7 +408,11 @@ public class SoapRequest extends SequentialLessonAdapter
 		}
 		ec.addElement("</ul>");
 	    }
-	}
+
+	    A a = new A("services/SoapRequest?WSDL", "WebGoat WSDL File");
+	    ec.addElement(new BR());
+	    ec.addElement(a);
+}
 
 	//getLessonTracker( s ).setCompleted( SoapRequest.completed );
 	return (ec);
