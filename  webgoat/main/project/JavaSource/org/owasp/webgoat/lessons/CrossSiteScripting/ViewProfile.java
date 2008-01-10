@@ -213,10 +213,17 @@ public class ViewProfile extends DefaultLessonAction
     private void updateLessonStatus(WebSession s, Employee employee)
     {
 	String stage = getStage(s);
+	int userId = -1;
+	try {
+		userId = getIntSessionAttribute(s, getLessonName() + "."
+		    + CrossSiteScripting.USER_ID);
+	} catch (ParameterNotFoundException pnfe) {
+	}
 	if (CrossSiteScripting.STAGE1.equals(stage))
 	{
 		String address1 = employee.getAddress1().toLowerCase();
-		if (address1.indexOf("<script>") > -1
+		if (userId != employee.getId()
+			&& address1.indexOf("<script>") > -1
 			&& address1.indexOf("alert") > -1
 			&& address1.indexOf("</script>") > -1)
 		{
