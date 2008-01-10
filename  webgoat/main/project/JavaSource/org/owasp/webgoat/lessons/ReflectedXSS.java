@@ -107,8 +107,8 @@ public class ReflectedXSS extends LessonAdapter
 	    TR tr = new TR();
 	    tr.addElement(new TH().addElement(
 		    "Shopping Cart Items -- To Buy Now").setWidth("80%"));
-	    tr.addElement(new TH().addElement("Price:").setWidth("10%"));
-	    tr.addElement(new TH().addElement("Quantity:").setWidth("3%"));
+	    tr.addElement(new TH().addElement("Price").setWidth("10%"));
+	    tr.addElement(new TH().addElement("Quantity").setWidth("3%"));
 	    tr.addElement(new TH().addElement("Total").setWidth("7%"));
 	    t.addElement(tr);
 
@@ -121,7 +121,7 @@ public class ReflectedXSS extends LessonAdapter
 		    new Input(Input.TEXT, "QTY1", s.getParser()
 			    .getStringParameter("QTY1", "1")))
 		    .setAlign("right"));
-	    quantity = s.getParser().getFloatParameter("QTY1", 1.0f);
+	    quantity = s.getParser().getFloatParameter("QTY1", 0.0f);
 	    total = quantity * 69.99f;
 	    runningTotal += total;
 	    tr.addElement(new TD().addElement("$" + total));
@@ -134,7 +134,7 @@ public class ReflectedXSS extends LessonAdapter
 		    new Input(Input.TEXT, "QTY2", s.getParser()
 			    .getStringParameter("QTY2", "1")))
 		    .setAlign("right"));
-	    quantity = s.getParser().getFloatParameter("QTY2", 1.0f);
+	    quantity = s.getParser().getFloatParameter("QTY2", 0.0f);
 	    total = quantity * 27.99f;
 	    runningTotal += total;
 	    tr.addElement(new TD().addElement("$" + total));
@@ -148,7 +148,7 @@ public class ReflectedXSS extends LessonAdapter
 		    new Input(Input.TEXT, "QTY3", s.getParser()
 			    .getStringParameter("QTY3", "1")))
 		    .setAlign("right"));
-	    quantity = s.getParser().getFloatParameter("QTY3", 1.0f);
+	    quantity = s.getParser().getFloatParameter("QTY3", 0.0f);
 	    total = quantity * 1599.99f;
 	    runningTotal += total;
 	    tr.addElement(new TD().addElement("$" + total));
@@ -163,7 +163,7 @@ public class ReflectedXSS extends LessonAdapter
 		    new Input(Input.TEXT, "QTY4", s.getParser()
 			    .getStringParameter("QTY4", "1")))
 		    .setAlign("right"));
-	    quantity = s.getParser().getFloatParameter("QTY4", 1.0f);
+	    quantity = s.getParser().getFloatParameter("QTY4", 0.0f);
 	    total = quantity * 299.99f;
 	    runningTotal += total;
 	    tr.addElement(new TD().addElement("$" + total));

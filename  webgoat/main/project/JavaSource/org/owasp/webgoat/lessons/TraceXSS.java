@@ -109,8 +109,8 @@ public class TraceXSS extends LessonAdapter
 	    TR tr = new TR();
 	    tr.addElement(new TH().addElement(
 		    "Shopping Cart Items -- To Buy Now").setWidth("80%"));
-	    tr.addElement(new TH().addElement("Price:").setWidth("10%"));
-	    tr.addElement(new TH().addElement("Quantity:").setWidth("3%"));
+	    tr.addElement(new TH().addElement("Price").setWidth("10%"));
+	    tr.addElement(new TH().addElement("Quantity").setWidth("3%"));
 	    tr.addElement(new TH().addElement("Total").setWidth("7%"));
 	    t.addElement(tr);
 
