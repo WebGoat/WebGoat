@@ -135,15 +135,17 @@ public class DBCrossSiteScripting extends GoatHillsFinancial
 		String stage = getStage(s);
 		if (STAGE1.equals(stage))
 	    {
-		    instructions = "Execute a Stored Cross Site Scripting (XSS) attack.<br>"
-			    + "For this exercise, your mission is to cause the application to serve a script of your making "
-			    + " to some other user.";
+		    instructions = "Stage 1: Execute a Stored Cross Site Scripting (XSS) attack.<br>"
+			    + "As 'Tom', execute a Stored XSS attack against the Street field on the Edit Profile page.  "
+			    + "Verify that 'Jerry' is affected by the attack. "
+			    + "A sample JavaScript snippet you can use is: &lt;SCRIPT&gt;alert('bang!');&lt;/SCRIPT&gt;.";
 	    }
 		else if (STAGE2.equals(stage))
 		{
-		    instructions = "Block Stored XSS using Input Validation.<br>"
-			    + "You will modify the stored procedure in the database to perform input validation on the vulnerable input field "
-			    + "you just exploited.";
+		    instructions = "Stage 2: Block Stored XSS using Input Validation.<br>"
+			    + "Implement a fix in the stored procedure to prevent the stored XSS from being written to the database. "
+			    + "A sample regluar expression pattern: ^[a-zA-Z0-9,\\. ]{0,80}$ "
+			    + "Repeat stage 1 as 'Eric' with 'David' as the manager.  Verify that 'David' is not affected by the attack.";
 		}
 	}
 

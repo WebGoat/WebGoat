@@ -43,11 +43,11 @@ CREATE OR REPLACE PROCEDURE UPDATE_EMPLOYEE(
     v_personal_description IN employee.personal_description%type
 )
 AS 
-    P_ADDRESS1 VARCHAR2(32000) := '^[a-zA-Z0-9,\. ]{0,80}$';    // Stage 2 - FIX
+    P_ADDRESS1 VARCHAR2(100) := '^[a-zA-Z0-9,\. ]{0,80}$';  
 BEGIN
-    IF NOT REGEXP_LIKE(v_address1, P_ADDRESS1) THEN     // Stage 2 - FIX
-        RAISE VALUE_ERROR;                              // Stage 2 - FIX
-    END IF;                                             // Stage 2 - FIX
+    IF NOT REGEXP_LIKE(v_address1, P_ADDRESS1) THEN     
+        RAISE VALUE_ERROR;                              
+    END IF;                                             
     UPDATE EMPLOYEE
     SET
         first_name = v_first_name, 

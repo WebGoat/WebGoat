@@ -143,16 +143,20 @@ public class DBSQLInjection extends GoatHillsFinancial
 		String stage = getStage(s);
 		if (STAGE1.equals(stage))
 	    {
-		    instructions = "Use String SQL Injection to bypass authentication. "
+		    instructions = "Stage 1: Use String SQL Injection to bypass authentication. "
 			    + "The goal here is to login as the user "
 			    + PRIZE_EMPLOYEE_NAME
 			    + ", who is in the Admin group.  "
-			    + "You do not have the password, but the form is SQL injectable.";
+			    + "You do not have the password, but the form is SQL injectable. "
+			    + "View the EMPLOYEE_LOGIN stored procedure and see if you can "
+			    + "determine why the exploit exists.";
 	    }
 		else if (STAGE2.equals(stage))
 		{
-		    instructions = "Use bind variables.<br>"
-			    + "Update the stored procedure in the database to use bind variables, rather than string concatenation";
+		    instructions = "Stage 2: Use bind variables.<br>"
+			    + "Using the Squirrel SQL Client, update the EMPLOYEE_LOGIN stored procedure in the database "
+			    + "to use bind variables, rather than string concatenation. "
+			    + "Repeat the SQL Injection attack. Verify that the attack is no longer effective.";
 		}
 	}
 
