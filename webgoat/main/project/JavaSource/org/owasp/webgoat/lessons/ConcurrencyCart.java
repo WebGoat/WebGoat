@@ -1,8 +1,9 @@
 package org.owasp.webgoat.lessons;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
-
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.apache.ecs.Element;
@@ -19,8 +20,8 @@ import org.apache.ecs.html.TH;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
-import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.ParameterNotFoundException;
+import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.util.HtmlEncoder;
 
 /*******************************************************************************
@@ -60,13 +61,14 @@ public class ConcurrencyCart extends LessonAdapter
 {
 	//Shared Variables
 	private static int total = 0;
-    private static int runningTOTAL = 0;
+    private static float runningTOTAL = 0;
     private static int subTOTAL = 0;
-    private static int calcTOTAL = 0;
+    private static float calcTOTAL = 0;
     private static int quantity1 = 0;
     private static int quantity2 = 0;
     private static int quantity3 = 0;
     private static int quantity4 = 0;
+    private float ratio = 0;
     private int discount = 0;
     
 	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
@@ -96,19 +98,30 @@ public class ConcurrencyCart extends LessonAdapter
 	    			ec = confirmation(s, quantity1, quantity2, quantity3, quantity4);
 	    			
 	    			//Discount
-	    	    		discount = 100 - (subTOTAL / runningTOTAL);
 	    			
-	    			if (calcTOTAL < subTOTAL)
+				if (calcTOTAL == 0) // No total cost for items
+				{
+				discount = 0; // Discount meaningless
+				}
+				else // The expected case -- items cost something
+				{
+					ratio = runningTOTAL / calcTOTAL;
+				}
+
+
+				if (calcTOTAL > runningTOTAL)
 	    		    {
 	    				//CONGRATS
-	    					s.setMessage("Thank you for shopping! You have received a " +discount +"% discount.");
+						discount = (int) (100 * (1 - ratio));
+						s.setMessage("Thank you for shopping! You have (illegally!) received a " + discount +"% discount. Police are on the way to your IP address.");
 	    			    	    			    
 	    		    	makeSuccess(s);
 	    		    }
-	    			else
+				else if (calcTOTAL < runningTOTAL)
 	    			{
 	    				//ALMOST
-					  //s.setMessage("Almost! You payed too much.");
+					  discount = (int) (100 * (ratio - 1));
+					  s.setMessage("You are on the right track, but you actually overpaid by " + discount + "%. Try again!");
 	    			}
 	    		}
 	    		else
@@ -130,10 +143,10 @@ public class ConcurrencyCart extends LessonAdapter
 	//UPDATE QUANTITY VARIABLES
 	private void updateQuantity(WebSession s)
 	{
-		quantity1 = s.getParser().getIntParameter("QTY1", 0);
-		quantity2 = s.getParser().getIntParameter("QTY2", 0);
-		quantity3 = s.getParser().getIntParameter("QTY3", 0);
-		quantity4 = s.getParser().getIntParameter("QTY4", 0);
+		quantity1 = thinkPositive(s.getParser().getIntParameter("QTY1", 0));
+		quantity2 = thinkPositive(s.getParser().getIntParameter("QTY2", 0));
+		quantity3 = thinkPositive(s.getParser().getIntParameter("QTY3", 0));
+		quantity4 = thinkPositive(s.getParser().getIntParameter("QTY4", 0));
 	}
 	
     /*
@@ -164,7 +177,7 @@ public class ConcurrencyCart extends LessonAdapter
 	    }
 	    	  
 	    ec.addElement(new HR().setWidth("90%"));
-	    ec.addElement(new Center().addElement(new H1().addElement("Confirm your order ")));
+	    ec.addElement(new Center().addElement(new H1().addElement("Place your order ")));
 	    Table table = new Table().setCellSpacing(0).setCellPadding(2)
 		    .setBorder(1).setWidth("90%").setAlign("center");
 
@@ -174,53 +187,53 @@ public class ConcurrencyCart extends LessonAdapter
 	    //Table Setup
 	    TR tr = new TR();
 	       tr.addElement(new TH().addElement("Shopping Cart Items").setWidth("80%"));
-	       tr.addElement(new TH().addElement("Price:").setWidth("10%"));
-	       tr.addElement(new TH().addElement("Quantity:").setWidth("3%"));
-	       tr.addElement(new TH().addElement("Total").setWidth("7%"));
+	       tr.addElement(new TH().addElement("Price").setWidth("10%"));
+	       tr.addElement(new TH().addElement("Quantity").setWidth("3%"));
+	       tr.addElement(new TH().addElement("Subtotal").setWidth("7%"));
 	    table.addElement(tr);
 	    
 	    //Item 1
 	       tr = new TR();   //Create a new table object
 	       tr.addElement(new TD().addElement("Hitachi - 750GB External Hard Drive"));
-	       tr.addElement(new TD().addElement("169.00").setAlign("right"));
+	       tr.addElement(new TD().addElement("$169.00").setAlign("right"));
 	       tr.addElement(new TD().addElement(String.valueOf(quantity1)).setAlign("center"));
 	        
 		    total = quantity1 * 169;
 		    runningTOTAL += total;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);  //Adds table to the HTML
 	    
 	    //Item 2
 	       tr = new TR();
 	       tr.addElement(new TD().addElement("Hewlett-Packard - All-in-One Laser Printer"));
-	       tr.addElement(new TD().addElement("299.00").setAlign("right"));
+	       tr.addElement(new TD().addElement("$299.00").setAlign("right"));
 	       tr.addElement(new TD().addElement(String.valueOf(quantity2)).setAlign("center"));
 	        
 		    total = quantity2 * 299;
 		    runningTOTAL += total;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);
 	    
 	    //Item 3
  	      tr = new TR();
 	      tr.addElement(new TD().addElement("Sony - Vaio with Intel Centrino"));
-	      tr.addElement(new TD().addElement("1799.00").setAlign("right"));
+	      tr.addElement(new TD().addElement("$1799.00").setAlign("right"));
 	      tr.addElement(new TD().addElement(String.valueOf(quantity3)).setAlign("center"));
 	    
 		    total = quantity3 * 1799;
 		    runningTOTAL += total;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);
 	    
 	    //Item 4
 	      tr = new TR();
 	      tr.addElement(new TD().addElement("Toshiba - XGA LCD Projector "));
-	      tr.addElement(new TD().addElement("649.00").setAlign("right"));
+	      tr.addElement(new TD().addElement("$649.00").setAlign("right"));
 	      tr.addElement(new TD().addElement(String.valueOf(quantity4)).setAlign("center"));
 	    
 		    total = quantity4 * 649;
 		    runningTOTAL += total;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);
 
 	    ec.addElement(table);
@@ -236,8 +249,8 @@ public class ConcurrencyCart extends LessonAdapter
 	    
 	    //Total Charged
 		    tr = new TR();
-		    tr.addElement(new TD().addElement("Sub Total:"));
-		    tr.addElement(new TD().addElement("$" + runningTOTAL +".00").setAlign("right"));
+		    tr.addElement(new TD().addElement("Total:"));
+		    tr.addElement(new TD().addElement("$" + formatFloat(runningTOTAL)).setAlign("right"));
 		    table.addElement(tr);
 		    
 		    tr = new TR();
@@ -292,7 +305,7 @@ public class ConcurrencyCart extends LessonAdapter
     	ElementContainer ec = new ElementContainer();
     	
     	final String confNumber = "CONC-88";
-    	
+	calcTOTAL = 0;
     	try
     	{
 	//Thread.sleep(5000);
@@ -309,49 +322,53 @@ public class ConcurrencyCart extends LessonAdapter
 	    //Table Setup
 		    TR tr = new TR();
 		    tr.addElement(new TH().addElement("Shopping Cart Items").setWidth("80%"));
-		    tr.addElement(new TH().addElement("Price:").setWidth("10%"));
-		    tr.addElement(new TH().addElement("Quantity:").setWidth("3%"));
-		    tr.addElement(new TH().addElement("Total").setWidth("7%"));
+		    tr.addElement(new TH().addElement("Price").setWidth("10%"));
+		    tr.addElement(new TH().addElement("Quantity").setWidth("3%"));
+		    tr.addElement(new TH().addElement("Subtotal").setWidth("7%"));
 		    table.addElement(tr);
 	    
 	    //Item 1
 		    tr = new TR();   //Create a new table object
 		    tr.addElement(new TD().addElement("Hitachi - 750GB External Hard Drive"));
-		    tr.addElement(new TD().addElement("169.00").setAlign("right"));
+		    tr.addElement(new TD().addElement("$169.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(String.valueOf(quantity1)).setAlign("center"));
 	    
 		    total = quantity1 * 169;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    calcTOTAL += total;
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);  //Adds table to the HTML
 	    
 	    //Item 2
 		    tr = new TR();
 		    tr.addElement(new TD().addElement("Hewlett-Packard - All-in-One Laser Printer"));
-		    tr.addElement(new TD().addElement("299.00").setAlign("right"));
+		    tr.addElement(new TD().addElement("$299.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(String.valueOf(quantity2)).setAlign("center"));
 	      
 		    total = quantity2 * 299;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    calcTOTAL += total;
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);
 	    
 	    //Item 3
 		    tr = new TR();
 		    tr.addElement(new TD().addElement("Sony - Vaio with Intel Centrino"));
-		    tr.addElement(new TD().addElement("1799.00").setAlign("right"));
+		    tr.addElement(new TD().addElement("$1799.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(String.valueOf(quantity3)).setAlign("center"));
 	      
 		    total = quantity3 * 1799;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    calcTOTAL += total;
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);
 	    
 	    //Item 4
 		    tr = new TR();
 		    tr.addElement(new TD().addElement("Toshiba - XGA LCD Projector "));
-		    tr.addElement(new TD().addElement("649.00").setAlign("right"));
+		    tr.addElement(new TD().addElement("$649.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(String.valueOf(quantity4)).setAlign("center"));
 	     
 		    total = quantity4 * 649;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    calcTOTAL += total;
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);
 
 	    ec.addElement(table);
@@ -367,7 +384,7 @@ public class ConcurrencyCart extends LessonAdapter
 	    //Total Charged
 		    tr = new TR();
 		    tr.addElement(new TD().addElement("Total Amount Charged to Your Credit Card:"));
-		    tr.addElement(new TD().addElement("$" + runningTOTAL +".00").setAlign("right"));
+		    tr.addElement(new TD().addElement("$" + formatFloat(runningTOTAL)).setAlign("right"));
 		    table.addElement(tr);
 	    
 	    tr = new TR();
@@ -418,65 +435,61 @@ public class ConcurrencyCart extends LessonAdapter
 	    //Table Setup
 		    TR tr = new TR();
 		    tr.addElement(new TH().addElement("Shopping Cart Items").setWidth("80%"));
-		    tr.addElement(new TH().addElement("Price:").setWidth("10%"));
-		    tr.addElement(new TH().addElement("Quantity:").setWidth("3%"));
-		    tr.addElement(new TH().addElement("Total").setWidth("7%"));
+		    tr.addElement(new TH().addElement("Price").setWidth("10%"));
+		    tr.addElement(new TH().addElement("Quantity").setWidth("3%"));
+		    tr.addElement(new TH().addElement("Subtotal").setWidth("7%"));
 		    table.addElement(tr);
 	    
 	    //Item 1
 		    tr = new TR();   //Create a new table object
 		    tr.addElement(new TD().addElement("Hitachi - 750GB External Hard Drive"));
-		    tr.addElement(new TD().addElement("169.00").setAlign("right"));
+		    tr.addElement(new TD().addElement("$169.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(
-			    new Input(Input.TEXT, "QTY1", s.getParser()
-				    .getStringParameter("QTY1", "0")))
+				new Input(Input.TEXT, "QTY1", String.valueOf(quantity1)))
 			    .setAlign("right"));
 		    
 		    total = quantity1 * 169;
 		    subTOTAL += total;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);  //Adds table to the HTML
 	    
 	    //Item 2
 		    tr = new TR();
 		    tr.addElement(new TD().addElement("Hewlett-Packard - All-in-One Laser Printer"));
-		    tr.addElement(new TD().addElement("299.00").setAlign("right"));
+		    tr.addElement(new TD().addElement("$299.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(
-			    new Input(Input.TEXT, "QTY2", s.getParser()
-				    .getStringParameter("QTY2", "0")))
+			    new Input(Input.TEXT, "QTY2", String.valueOf(quantity2)))
 			    .setAlign("right"));
 		    
 		    total = quantity2 * 299;
 		    subTOTAL += total;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);
 	    
 	    //Item 3
 		    tr = new TR();
 		    tr.addElement(new TD().addElement("Sony - Vaio with Intel Centrino"));
-		    tr.addElement(new TD().addElement("1799.00").setAlign("right"));
+		    tr.addElement(new TD().addElement("$1799.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(
-			    new Input(Input.TEXT, "QTY3", s.getParser()
-				    .getStringParameter("QTY3", "0")))
+			    new Input(Input.TEXT, "QTY3", String.valueOf(quantity3)))
 			    .setAlign("right"));
 		    
 		    total = quantity3 * 1799;
 		    subTOTAL += total;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);
 	    
 	    //Item 4
 		    tr = new TR();
 		    tr.addElement(new TD().addElement("Toshiba - XGA LCD Projector "));
-		    tr.addElement(new TD().addElement("649.00").setAlign("right"));
+		    tr.addElement(new TD().addElement("$649.00").setAlign("right"));
 		    tr.addElement(new TD().addElement(
-			    new Input(Input.TEXT, "QTY4", s.getParser()
-				    .getStringParameter("QTY4", "0")))
+			    new Input(Input.TEXT, "QTY4", String.valueOf(quantity4)))
 			    .setAlign("right"));
 		    
 		    total = quantity4 * 649;
 		    subTOTAL += total;
-		    tr.addElement(new TD().addElement("$" + total +".00"));
+		    tr.addElement(new TD().addElement("$" + formatInt(total) +".00"));
 		    table.addElement(tr);
 
 	    ec.addElement(table);
@@ -491,7 +504,7 @@ public class ConcurrencyCart extends LessonAdapter
 	    
 	    //Purchasing Amount
 	    tr = new TR();
-	    tr.addElement(new TD().addElement("Sub Total: " +"$" +subTOTAL +".00").setAlign("left"));
+	    tr.addElement(new TD().addElement("Total: " +"$" +formatInt(subTOTAL) +".00").setAlign("left"));
 	    table.addElement(tr);
 
 	    //Update Button
@@ -523,6 +536,30 @@ public class ConcurrencyCart extends LessonAdapter
 	return (ec);
     }
 
+    String formatInt (int i)
+    {
+	NumberFormat intFormat =
+	      NumberFormat.getIntegerInstance(Locale.US);
+	return intFormat.format(i);
+    }
+
+    String formatFloat (float f)
+    {
+	NumberFormat floatFormat =
+	      NumberFormat.getNumberInstance(Locale.US);
+	floatFormat.setMinimumFractionDigits(2);
+	floatFormat.setMaximumFractionDigits(2);
+	return floatFormat.format(f);
+    }
+
+    int thinkPositive(int i)
+    {
+	if (i < 0 )
+		return 0 ;
+	else
+		return i ;
+    }
+
     /**
      *  DOCUMENT ME!
      *
@@ -540,6 +577,8 @@ public class ConcurrencyCart extends LessonAdapter
 	List<String> hints = new ArrayList<String>();
 	  hints.add("Can you purchase the merchandise in your shopping cart for a lower price?");
 	  hints.add("Try using a new browser window to get a lower price.");
+	  hints.add("In window A, purchase a low cost item, in window B a high cost item.");
+	  hints.add("In window A, commit after updating cart in window B.");
 
 	return hints;
     }
