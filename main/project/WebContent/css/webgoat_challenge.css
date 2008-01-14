@@ -1,0 +1,42 @@
+#bottom_ch{
+	color: #999999;
+	clear: both;
+	font-size: 10px;
+	padding-top: 5px;
+}
+
+#top_ch{
+	height:86px;
+	width: 500px;
+}
+
+#wrap_ch {
+	width: 500px;
+}
+
+#credits_ch {
+	float: right;
+}
+
+#start_ch {
+	height: 300px;
+	padding: 10px 50px 10px 50px;
+	font-size: 12px;
+}
+#warning_ch {
+	border: 1px solid #666666;
+	padding: 10px;
+	font-size: 10px;
+	color: #FF3300;
+	width: 400px;
+	margin-left: 50px;
+}
+#team_ch {
+}
+.style1_ch {
+	font-size: 10px;
+	font-weight: bold;
+}
+.style2_ch {
+	font-size: 10px;
+}

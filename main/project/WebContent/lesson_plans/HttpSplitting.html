@@ -1,0 +1,32 @@
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b> How to Perform Http Splitting </p>
+ </div>
+ 
+<p><b>Concept / Topic To Teach:</b> </p>
+ This lesson teaches how to perform HTTP Splitting attacks.
+ <br> 
+<div align="Left"> 
+<p>
+<b>How the attacks works:</b>
+</p>
+The attacker passes malicious code to the web server together with normal input. 
+A victim application will not be checking for CR (carriage return, also given by %0d or \r) 
+and LF (line feed, also given by %0a or \n)characters. These characters not only give attackers control 
+of the remaining headers and body of the response the application intends to send, 
+but also allows them to create additional responses entirely under their control.<br>
+The effect of an HTTP Splitting attack is maximized when accompanied with a Cache Poisoning. The goal of
+Cache Poisoning attack is to poison the cache of the victim by fooling the cache to believe that the page
+hijacked using the HTTP splitting is a good one and it is indeed the server's copy.<br>
+The attack happens using the HTTP Splitting attack plus adding the <b>Last-Modified:</b> header and setting it
+to a future date. This will force the browser to send <b>If-Modified-Since</b> request header, which gives the attacker
+the chance to intercept the server's reply and replace it with a '304 Not Modified' reply. A sample of a 304 response is:<br>
+HTTP/1.1 304 Not Modified <br>
+Date: Fri, 30 Dec 2005 17:32:47 GMT
+
+</div>
+<p><b>General Goal(s):</b> </p>
+<!-- Start Instructions -->
+This lesson has two stages. Stage 1 teaches you how to do HTTP Splitting attacks while stage 2 builds on that to teach you how to elevate HTTP Splitting to Cache Poisoning.<br>
+Enter a language for the system to search by. You will notice that the application is redirecting your request to another resource on the server. You should be able to use the CR (%0d) and LF (%0a) to exploit the attack. Your exercise should be to force the server to send a 200 OK. If the screen changed as an effect to your attack, just go back to the homepage and after stage 2 is exploited successfully you will find the green check in the left menu.
+<!-- Stop Instructions -->
+

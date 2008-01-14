@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+               
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>Lesson Plan</title>
+</head>
+  <body>
+ 
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b> Shopping Cart Concurrency Flaw </p>
+ </div>
+ 
+<p><b>Concept / Topic To Teach:</b> </p>
+<!-- Start Instructions -->
+ Web applications can handle many HTTP requests simultaneously.  Developers often use variables that are not thread safe. &nbsp;Thread safety means that the fields of an object or class always maintain a valid state when used concurrently by multiple threads. It is often possible to exploit a concurrency bug by loading the same page as another user at the exact same time. Because all threads share the same method area, and the method area is where all class variables are stored, multiple threads can attempt to use the same class variables concurrently. <br>
+<!-- Stop Instructions -->
+<p><b>General Goal(s):</b> </p>
+For this exercise, your mission is to exploit the concurrency issue which will allow you to purchase merchandise for a lower price.
+<br>
+</body>
+</html>
