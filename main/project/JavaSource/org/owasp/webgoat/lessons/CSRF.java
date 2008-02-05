@@ -91,17 +91,12 @@ public class CSRF extends LessonAdapter {
 			statement.setString(2, title);
 			statement.setString(3, message);
 			statement.setString(4, s.getUserName());
-			statement.executeQuery();
+			statement.executeUpdate();
+			
 		}
 		catch ( Exception e )
 		{
-			// ignore the empty resultset on the insert.  There are a few more SQL Injection errors
-			// that could be trapped here but we will let them try.  One error would be something
-			// like "Characters found after end of SQL statement." 
-			if ( e.getMessage().indexOf("No ResultSet was produced") == -1 )
-			{	
 				s.setMessage( "Could not add message to database" );
-			}
 		}
 	}
 	
