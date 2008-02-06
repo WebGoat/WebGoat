@@ -192,7 +192,7 @@
 		<zip destfile="${dist.home}/${ant.project.name}-DeveloperLab-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
 				includes="eclipse/, java/, project/, FirefoxPortable/, Paros/, tomcat/, webscarab/, 
-				          Read*.txt, HOW*.txt, eclipse.bat, webgoat.bat, webgoat_8080.bat, webscarab.bat,
+				          Read*.txt, HOW*.txt, eclipse.bat, webgoat.sh, webgoat.bat, webgoat_8080.bat, webscarab.bat,
 						  Eclipse-Workspace.zip"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
@@ -212,7 +212,7 @@
 		<!-- Build the CD image -->
 		<zip destfile="${dist.home}/${ant.project.name}-Class-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
-				includes="java/, tomcat/, FirefoxPortable/, Paros/, webscarab/, webgoat.bat, webgoat_8080.bat, webscarab.bat"
+				includes="java/, tomcat/, FirefoxPortable/, Paros/, webscarab/, webgoat.sh, webgoat.bat, webgoat_8080.bat, webscarab.bat"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
 	</target> 	
@@ -230,7 +230,7 @@
 		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Developer-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
 				includes="eclipse/, java/, project/, tomcat/, 
-				          read*.txt, HOW*.txt, eclipse.bat, webgoat.bat, webgoat_8080.bat,
+				          read*.txt, HOW*.txt, eclipse.bat, webgoat.sh, webgoat.bat, webgoat_8080.bat,
 						  Eclipse-Workspace.zip"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
@@ -247,7 +247,7 @@
 		<!-- Build the CD image -->
 		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
-				includes="java/, tomcat/, read*.txt, webgoat.bat, webgoat_8080.bat"
+				includes="java/, tomcat/, read*.txt, webgoat.sh, webgoat.bat, webgoat_8080.bat"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
 	</target> 	
