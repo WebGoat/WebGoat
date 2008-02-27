@@ -122,7 +122,7 @@ HOW WEBGOAT WORKS
 TROUBLESHOOTING/FAQs:
 Q. I put the OWASP downloaded war file in my tomcat/webapps directory and the 
    http://localhost/WebGoat/attack url doesn't work.
-A. Rename the downloaded war file to WebGoat.war.  Delete the existing tomcat/webapps/*WebGoat* directories.
+A. Rename the downloaded war file to WebGoat.war.  Delete the existing tomcat/webapps/*WebGoat* directories. Restart Tomcat.
 
 
 Q. I dropped the WebGoat war file into my non-Tomcat application server and WebGoat doesn't seem to work.
