@@ -1,3 +1,4 @@
+
 package org.owasp.webgoat.lessons.ClientSideFiltering;
 
 import java.io.BufferedReader;
@@ -6,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.A;
@@ -28,26 +28,30 @@ import org.owasp.webgoat.lessons.SequentialLessonAdapter;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
-public class ClientSideFiltering extends SequentialLessonAdapter {
+
+public class ClientSideFiltering extends SequentialLessonAdapter
+{
 
 	private final static String ANSWER = "answer";
 
-	public final static A ASPECT_LOGO = new A().setHref(
-			"http://www.aspectsecurity.com").addElement(
-			new IMG("images/logos/aspect.jpg").setAlt("Aspect Security")
-					.setBorder(0).setHspace(0).setVspace(0));
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com")
+			.addElement(
+						new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0)
+								.setVspace(0));
 
-	protected Element createContent(WebSession s) {
+	protected Element createContent(WebSession s)
+	{
 		return super.createStagedContent(s);
 	}
 
-	protected Element createMainContent(WebSession s) {
+	protected Element createMainContent(WebSession s)
+	{
 		ElementContainer ec = new ElementContainer();
 
-		try {
+		try
+		{
 
-			ec.addElement(new Script()
-					.setSrc("javascript/clientSideFiltering.js"));
+			ec.addElement(new Script().setSrc("javascript/clientSideFiltering.js"));
 
 			Input input = new Input(Input.HIDDEN, "userID", 102);
 
@@ -56,12 +60,11 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 			ec.addElement(input);
 
 			style sty = new style();
-			sty
-					.addElement("#lesson_wrapper {height: 435px;width: 500px;}"
-							+ "#lesson_header {background-image: url(lessons/Ajax/images/lesson1_header.jpg);"
-							+ "width: 490px;padding-right: 10px;padding-top: 60px;background-repeat: no-repeat;}"
-							+ ".lesson_workspace {background-image: url(lessons/Ajax/images/lesson1_workspace.jpg);"
-							+ "width: 489px;height: 325px;padding-left: 10px;padding-top: 10px;background-repeat: no-repeat;}");
+			sty.addElement("#lesson_wrapper {height: 435px;width: 500px;}"
+					+ "#lesson_header {background-image: url(lessons/Ajax/images/lesson1_header.jpg);"
+					+ "width: 490px;padding-right: 10px;padding-top: 60px;background-repeat: no-repeat;}"
+					+ ".lesson_workspace {background-image: url(lessons/Ajax/images/lesson1_workspace.jpg);"
+					+ "width: 489px;height: 325px;padding-left: 10px;padding-top: 10px;background-repeat: no-repeat;}");
 
 			ec.addElement(sty);
 
@@ -82,23 +85,20 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 			workspaceDiv.addElement(new BR());
 			workspaceDiv.addElement(new BR());
 
-			workspaceDiv.addElement(new P()
-					.addElement("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select user:"));
+			workspaceDiv.addElement(new P().addElement("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select user:"));
 
 			workspaceDiv.addElement(createDropDown());
 
 			workspaceDiv.addElement(new P());
 
-			Table t = new Table().setCellSpacing(0).setCellPadding(2)
-					.setBorder(1).setWidth("90%").setAlign("center");
+			Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
 
 			t.setID("hiddenEmployeeRecords");
 			t.setStyle("display: none");
 
 			workspaceDiv.addElement(t);
 
-			t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1)
-					.setWidth("90%").setAlign("center");
+			t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
 
 			TR tr = new TR();
 			tr.addElement(new TD().addElement("UserID"));
@@ -113,7 +113,8 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 
 			workspaceDiv.addElement(t);
 
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			s.setMessage("Error generating " + this.getClass().getName());
 			e.printStackTrace();
 		}
@@ -127,29 +128,34 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 	 * @return The category value
 	 */
 
-	protected ElementContainer doStage1(WebSession s) {
+	protected ElementContainer doStage1(WebSession s)
+	{
 		ElementContainer ec = new ElementContainer();
 
 		StringBuffer answerString = null;
 		int answer = 0;
 
-		try {
-			answerString = new StringBuffer(s.getParser().getStringParameter(
-					ANSWER, ""));
+		try
+		{
+			answerString = new StringBuffer(s.getParser().getStringParameter(ANSWER, ""));
 			answer = Integer.parseInt(answerString.toString());
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException e)
+		{
 
 			// e.printStackTrace();
 		}
 
-		if (answer == 450000) {
+		if (answer == 450000)
+		{
 
 			getLessonTracker(s).setStage(2);
 			s.setMessage("Stage 1 completed.");
 
 			// Redirect user to Stage2 content.
 			ec.addElement(doStage2(s));
-		} else {
+		}
+		else
+		{
 			ec.addElement(stage1Content(s));
 		}
 
@@ -157,7 +163,8 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 
 	}
 
-	protected Element doStage2(WebSession s) {
+	protected Element doStage2(WebSession s)
+	{
 		ElementContainer ec = new ElementContainer();
 
 		/**
@@ -168,31 +175,36 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 		String file = s.getWebResource("lessons/Ajax/clientSideFiltering.jsp");
 		String content = getFileContent(file);
 
-		if (content.indexOf("[Managers/Manager/text()") != -1) {
+		if (content.indexOf("[Managers/Manager/text()") != -1)
+		{
 			makeSuccess(s);
 			ec.addElement(stage2Content(s));
-		} else {
+		}
+		else
+		{
 			ec.addElement(stage2Content(s));
 		}
 
 		return ec;
 	}
 
-	protected ElementContainer stage1Content(WebSession s) {
+	protected ElementContainer stage1Content(WebSession s)
+	{
 		ElementContainer ec = new ElementContainer();
-		try {
+		try
+		{
 
 			ec.addElement(createMainContent(s));
 
 			Table t1 = new Table().setCellSpacing(0).setCellPadding(2);
 
-			if (s.isColor()) {
+			if (s.isColor())
+			{
 				t1.setBorder(1);
 			}
 
 			TR tr = new TR();
-			tr.addElement(new TD()
-					.addElement("What is Neville Bartholomew's salary? "));
+			tr.addElement(new TD().addElement("What is Neville Bartholomew's salary? "));
 			tr.addElement(new TD(new Input(Input.TEXT, ANSWER, "")));
 			Element b = ECSFactory.makeButton("Submit Answer");
 			tr.addElement(new TD(b).setAlign("LEFT"));
@@ -200,7 +212,8 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 
 			ec.addElement(t1);
 
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			s.setMessage("Error generating " + this.getClass().getName());
 			e.printStackTrace();
 		}
@@ -208,9 +221,11 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 		return ec;
 	}
 
-	protected ElementContainer stage2Content(WebSession s) {
+	protected ElementContainer stage2Content(WebSession s)
+	{
 		ElementContainer ec = new ElementContainer();
-		try {
+		try
+		{
 
 			ec.addElement(createMainContent(s));
 
@@ -219,22 +234,24 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 
 			Table t1 = new Table().setCellSpacing(0).setCellPadding(2);
 
-			if (s.isColor()) {
+			if (s.isColor())
+			{
 				t1.setBorder(1);
 			}
 
 			TR tr = new TR();
-			/*tr.addElement(new TD()
-			 .addElement("Press 'Submit' when you believe you have completed the lesson."));
+			/*
+			 * tr.addElement(new TD() .addElement("Press 'Submit' when you believe you have
+			 * completed the lesson."));
 			 */
-			Element b = ECSFactory
-					.makeButton("Click here when you believe you have completed the lesson.");
+			Element b = ECSFactory.makeButton("Click here when you believe you have completed the lesson.");
 			tr.addElement(new TD(b).setAlign("CENTER"));
 			t1.addElement(tr);
 
 			ec.addElement(t1);
 
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			s.setMessage("Error generating " + this.getClass().getName());
 			e.printStackTrace();
 		}
@@ -242,28 +259,25 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 		return ec;
 	}
 
-	protected Select createDropDown() {
+	protected Select createDropDown()
+	{
 		Select select = new Select("UserSelect");
 
 		select.setID("UserSelect");
 
-		org.apache.ecs.html.Option option = new org.apache.ecs.html.Option(
-				"Choose Employee", "0", "Choose Employee");
+		org.apache.ecs.html.Option option = new org.apache.ecs.html.Option("Choose Employee", "0", "Choose Employee");
 
 		select.addElement(option);
 
-		option = new org.apache.ecs.html.Option("Larry Stooge", "101",
-				"Larry Stooge");
+		option = new org.apache.ecs.html.Option("Larry Stooge", "101", "Larry Stooge");
 
 		select.addElement(option);
 
-		option = new org.apache.ecs.html.Option("Curly Stooge", "103",
-				"Curly Stooge");
+		option = new org.apache.ecs.html.Option("Curly Stooge", "103", "Curly Stooge");
 
 		select.addElement(option);
 
-		option = new org.apache.ecs.html.Option("Eric Walker", "104",
-				"Eric Walker");
+		option = new org.apache.ecs.html.Option("Eric Walker", "104", "Eric Walker");
 
 		select.addElement(option);
 
@@ -271,28 +285,23 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 
 		select.addElement(option);
 
-		option = new org.apache.ecs.html.Option("Jerry Mouse", "106",
-				"Jerry Mouse");
+		option = new org.apache.ecs.html.Option("Jerry Mouse", "106", "Jerry Mouse");
 
 		select.addElement(option);
 
-		option = new org.apache.ecs.html.Option("David Giambi", "107",
-				"David Giambi");
+		option = new org.apache.ecs.html.Option("David Giambi", "107", "David Giambi");
 
 		select.addElement(option);
 
-		option = new org.apache.ecs.html.Option("Bruce McGuirre", "108",
-				"Bruce McGuirre");
+		option = new org.apache.ecs.html.Option("Bruce McGuirre", "108", "Bruce McGuirre");
 
 		select.addElement(option);
 
-		option = new org.apache.ecs.html.Option("Sean Livingston", "109",
-				"Sean Livingston");
+		option = new org.apache.ecs.html.Option("Sean Livingston", "109", "Sean Livingston");
 
 		select.addElement(option);
 
-		option = new org.apache.ecs.html.Option("Joanne McDougal", "110",
-				"Joanne McDougal");
+		option = new org.apache.ecs.html.Option("Joanne McDougal", "110", "Joanne McDougal");
 
 		select.addElement(option);
 
@@ -304,7 +313,8 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 
 	}
 
-	protected Category getDefaultCategory() {
+	protected Category getDefaultCategory()
+	{
 		return Category.AJAX_SECURITY;
 	}
 
@@ -313,17 +323,16 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 	 * 
 	 * @return The hints value
 	 */
-	public List<String> getHints(WebSession s) {
+	public List<String> getHints(WebSession s)
+	{
 		List<String> hints = new ArrayList<String>();
 
 		hints
 				.add("The information displayed when an employee is choosen from the drop down menu is stored on the client side.");
 
-		hints
-				.add("Use Firebug to find where the information is stored on the client side.");
+		hints.add("Use Firebug to find where the information is stored on the client side.");
 
-		hints
-				.add("Examine the hidden table to see if there is anyone listed who is not in the drop down menu.");
+		hints.add("Examine the hidden table to see if there is anyone listed who is not in the drop down menu.");
 
 		hints.add("Look in the last row of the hidden table.");
 
@@ -333,31 +342,33 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 
 		hints.add("The server uses an XPath query agasinst an XML database.");
 
-		hints
-				.add("The query currently returns all of the contents of the database.");
+		hints.add("The query currently returns all of the contents of the database.");
 
 		hints
 				.add("The query should only return the information of employees who are managed by Moe Stooge, who's userID is 102");
 
 		hints.add("Try using a filter operator.");
 
-		hints
-				.add("your filter operator shoiuld look something like: [Managers/Manager/text()=");
+		hints.add("your filter operator shoiuld look something like: [Managers/Manager/text()=");
 
 		return hints;
 
 	}
 
-	public String getInstructions(WebSession s) {
+	public String getInstructions(WebSession s)
+	{
 		String instructions = "";
 
-		if (getLessonTracker(s).getStage() == 1) {
+		if (getLessonTracker(s).getStage() == 1)
+		{
 			instructions = "STAGE 1:\tYou are Moe Stooge, CSO of Goat Hills Financial.  "
 					+ "You have access to everyone in the company's information, except the CEO, "
 					+ "Neville Bartholomew.  Or at least you shouldn't have access to the CEO's information."
 					+ "  For this exercise, "
 					+ "examine the contents of the page to see what extra information you can find.";
-		} else if (getLessonTracker(s).getStage() == 2) {
+		}
+		else if (getLessonTracker(s).getStage() == 2)
+		{
 			instructions = "STAGE 2:\tNow, fix the problem.  Modify the server to only return "
 					+ "results that Moe Stooge is allowed to see.";
 		}
@@ -366,7 +377,8 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 
 	private final static Integer DEFAULT_RANKING = new Integer(10);
 
-	protected Integer getDefaultRanking() {
+	protected Integer getDefaultRanking()
+	{
 		return DEFAULT_RANKING;
 	}
 
@@ -392,28 +404,37 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 	 * @return The title value
 	 */
 
-	public String getTitle() {
+	public String getTitle()
+	{
 		return ("LAB: Client Side Filtering");
 	}
 
-	private String getFileContent(String content) {
+	private String getFileContent(String content)
+	{
 		BufferedReader is = null;
 		StringBuffer sb = new StringBuffer();
 
-		try {
+		try
+		{
 			is = new BufferedReader(new FileReader(new File(content)));
 			String s = null;
 
-			while ((s = is.readLine()) != null) {
+			while ((s = is.readLine()) != null)
+			{
 				sb.append(s);
 			}
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			e.printStackTrace();
-		} finally {
-			if (is != null) {
-				try {
+		} finally
+		{
+			if (is != null)
+			{
+				try
+				{
 					is.close();
-				} catch (IOException ioe) {
+				} catch (IOException ioe)
+				{
 
 				}
 			}
@@ -422,7 +443,8 @@ public class ClientSideFiltering extends SequentialLessonAdapter {
 		return sb.toString();
 	}
 
-	public Element getCredits() {
+	public Element getCredits()
+	{
 		return super.getCustomCredits("", ASPECT_LOGO);
 	}
 

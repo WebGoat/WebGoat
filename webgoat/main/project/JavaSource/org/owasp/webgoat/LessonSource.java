@@ -1,42 +1,40 @@
+
 package org.owasp.webgoat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 
-/*******************************************************************************
+
+/***************************************************************************************************
  * 
  * 
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
  * 
  * Copyright (c) 2002 - 2007 Bruce Mayhew
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
- * for free software projects.
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
@@ -98,7 +96,8 @@ public class LessonSource extends HammerHead
 				AbstractLesson lesson = course.getLesson(session, scr, AbstractLesson.USER_ROLE);
 				lesson.getLessonTracker(session).setViewedSolution(true);
 
-			} else if (showSource) 
+			}
+			else if (showSource)
 			{
 
 				// Get the Java source of the lesson. FIXME: Not needed
@@ -109,19 +108,16 @@ public class LessonSource extends HammerHead
 				AbstractLesson lesson = course.getLesson(session, scr, AbstractLesson.USER_ROLE);
 				lesson.getLessonTracker(session).setViewedSource(true);
 			}
-		}
-		catch (Throwable t)
+		} catch (Throwable t)
 		{
 			t.printStackTrace();
 			log("ERROR: " + t);
-		}
-		finally
+		} finally
 		{
 			try
 			{
 				this.writeSource(source, response);
-			}
-			catch (Throwable thr)
+			} catch (Throwable thr)
 			{
 				thr.printStackTrace();
 				log(request, "Could not write error screen: " + thr.getMessage());
@@ -155,12 +151,10 @@ public class LessonSource extends HammerHead
 				source = lesson.getSource(s);
 			}
 		}
-		if (source == null)
-		{
-			return "Source code is not available. Contact " + s.getWebgoatContext().getFeedbackAddress();
-		}
+		if (source == null) { return "Source code is not available. Contact "
+				+ s.getWebgoatContext().getFeedbackAddress(); }
 		return (source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*" + END_SOURCE_SKIP,
-								  "Code Section Deliberately Omitted"));
+									"Code Section Deliberately Omitted"));
 	}
 
 	protected String getSolution(WebSession s)
@@ -180,10 +174,8 @@ public class LessonSource extends HammerHead
 				source = lesson.getSolution(s);
 			}
 		}
-		if (source == null)
-		{
-			return "Solution  is not available. Contact " + s.getWebgoatContext().getFeedbackAddress();
-		}
+		if (source == null) { return "Solution  is not available. Contact "
+				+ s.getWebgoatContext().getFeedbackAddress(); }
 		return (source);
 	}
 

@@ -1,40 +1,38 @@
+
 package org.owasp.webgoat.session;
 
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.regex.Pattern;
-
 import javax.servlet.ServletRequest;
-
 import org.owasp.webgoat.util.HtmlEncoder;
 
-/*******************************************************************************
+
+/***************************************************************************************************
  * 
  * 
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
  * 
  * Copyright (c) 2002 - 2007 Bruce Mayhew
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
- * for free software projects.
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
@@ -44,15 +42,14 @@ public class ParameterParser
 {
 
 	private final static String ALLOWED_CHARACTERS = "$()-?.@!,:;=//+"; // Don't
-																		// allow
-																		// #&
-																		// specifically
+	// allow
+	// #&
+	// specifically
 
 	private ServletRequest request;
 
 	/**
-	 * Constructs a new ParameterParser to handle the parameters of the given
-	 * request.
+	 * Constructs a new ParameterParser to handle the parameters of the given request.
 	 * 
 	 * @param request
 	 *            the servlet request
@@ -80,7 +77,8 @@ public class ParameterParser
 			if (Character.isLetterOrDigit(c) || Character.isWhitespace(c) || (ALLOWED_CHARACTERS.indexOf(c) != -1))
 			{
 				clean.append(c);
-			} else
+			}
+			else
 			{
 				clean.append('.');
 			}
@@ -104,8 +102,8 @@ public class ParameterParser
 	}
 
 	/**
-	 * Gets the named parameter value as a boolean, with a default. Returns the
-	 * default value if the parameter is not found.
+	 * Gets the named parameter value as a boolean, with a default. Returns the default value if the
+	 * parameter is not found.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -118,8 +116,7 @@ public class ParameterParser
 		try
 		{
 			return getBooleanParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -141,8 +138,7 @@ public class ParameterParser
 		try
 		{
 			return new Boolean(getSubParameter(first, next)).booleanValue();
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -165,9 +161,8 @@ public class ParameterParser
 	}
 
 	/**
-	 * Gets the named parameter value as a byte, with a default. Returns the
-	 * default value if the parameter is not found or cannot be converted to a
-	 * byte.
+	 * Gets the named parameter value as a byte, with a default. Returns the default value if the
+	 * parameter is not found or cannot be converted to a byte.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -180,8 +175,7 @@ public class ParameterParser
 		try
 		{
 			return getByteParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -203,15 +197,16 @@ public class ParameterParser
 		if (param.length() == 0)
 		{
 			throw new ParameterNotFoundException(name + " is empty string");
-		} else
+		}
+		else
 		{
 			return (param.charAt(0));
 		}
 	}
 
 	/**
-	 * Gets the named parameter value as a char, with a default. Returns the
-	 * default value if the parameter is not found.
+	 * Gets the named parameter value as a char, with a default. Returns the default value if the
+	 * parameter is not found.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -224,8 +219,7 @@ public class ParameterParser
 		try
 		{
 			return getCharParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -262,8 +256,7 @@ public class ParameterParser
 		try
 		{
 			return getClassNameParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -286,8 +279,8 @@ public class ParameterParser
 	}
 
 	/**
-	 * Gets the named parameter value as a double, with a default. Returns the
-	 * default value if the parameter is not found.
+	 * Gets the named parameter value as a double, with a default. Returns the default value if the
+	 * parameter is not found.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -300,8 +293,7 @@ public class ParameterParser
 		try
 		{
 			return getDoubleParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -324,8 +316,8 @@ public class ParameterParser
 	}
 
 	/**
-	 * Gets the named parameter value as a float, with a default. Returns the
-	 * default value if the parameter is not found.
+	 * Gets the named parameter value as a float, with a default. Returns the default value if the
+	 * parameter is not found.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -338,16 +330,15 @@ public class ParameterParser
 		try
 		{
 			return getFloatParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
 	}
 
 	/**
-	 * Gets the named parameter value as an IP String, with a default. Returns
-	 * the default value if the parameter is not found or is the empty string.
+	 * Gets the named parameter value as an IP String, with a default. Returns the default value if
+	 * the parameter is not found or is the empty string.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -360,8 +351,7 @@ public class ParameterParser
 		try
 		{
 			return getIPParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -372,8 +362,7 @@ public class ParameterParser
 	 * 
 	 * @param name
 	 *            the parameter name
-	 * @return the parameter value as a valid IP String or an Empty string if
-	 *         invalid
+	 * @return the parameter value as a valid IP String or an Empty string if invalid
 	 * @exception ParameterNotFoundException
 	 *                if the parameter was not found or was the empty string
 	 */
@@ -386,10 +375,12 @@ public class ParameterParser
 		if (values == null)
 		{
 			throw new ParameterNotFoundException(name + " not found");
-		} else if (values[0].length() == 0)
+		}
+		else if (values[0].length() == 0)
 		{
 			throw new ParameterNotFoundException(name + " was empty");
-		} else
+		}
+		else
 		{
 			// trim illegal characters
 			value = clean(values[0].trim());
@@ -430,15 +421,15 @@ public class ParameterParser
 						{
 							valid = false;
 						}
-					}
-					catch (Exception e)
+					} catch (Exception e)
 					{
 						valid = false;
 					}
 
 					octetCount++;
 				}
-			} else
+			}
+			else
 			{
 				// Not a valid IP
 				valid = false;
@@ -472,8 +463,8 @@ public class ParameterParser
 	}
 
 	/**
-	 * Gets the named parameter value as a int, with a default. Returns the
-	 * default value if the parameter is not found.
+	 * Gets the named parameter value as a int, with a default. Returns the default value if the
+	 * parameter is not found.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -486,8 +477,7 @@ public class ParameterParser
 		try
 		{
 			return getIntParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -510,8 +500,8 @@ public class ParameterParser
 	}
 
 	/**
-	 * Gets the named parameter value as a long, with a default. Returns the
-	 * default value if the parameter is not found.
+	 * Gets the named parameter value as a long, with a default. Returns the default value if the
+	 * parameter is not found.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -524,16 +514,15 @@ public class ParameterParser
 		try
 		{
 			return getLongParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
 	}
 
 	/**
-	 * Determines which of the required parameters were missing from the
-	 * request. Returns null if all the parameters are present.
+	 * Determines which of the required parameters were missing from the request. Returns null if
+	 * all the parameters are present.
 	 * 
 	 * @param requestuired
 	 *            Description of the Parameter
@@ -556,7 +545,8 @@ public class ParameterParser
 		if (missing.size() == 0)
 		{
 			return null;
-		} else
+		}
+		else
 		{
 			String[] ret = new String[missing.size()];
 			missing.copyInto(ret);
@@ -572,10 +562,7 @@ public class ParameterParser
 	 */
 	public Enumeration getParameterNames()
 	{
-		if (request == null)
-		{
-			return (null);
-		}
+		if (request == null) { return (null); }
 
 		return request.getParameterNames();
 	}
@@ -589,10 +576,7 @@ public class ParameterParser
 	 */
 	public String[] getParameterValues(String name)
 	{
-		if (request == null)
-		{
-			return (null);
-		}
+		if (request == null) { return (null); }
 
 		return request.getParameterValues(name);
 	}
@@ -611,8 +595,7 @@ public class ParameterParser
 		try
 		{
 			return getRawParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -634,10 +617,8 @@ public class ParameterParser
 		if (values == null)
 		{
 			throw new ParameterNotFoundException(name + " not found");
-		} else if (values[0].length() == 0)
-		{
-			throw new ParameterNotFoundException(name + " was empty");
 		}
+		else if (values[0].length() == 0) { throw new ParameterNotFoundException(name + " was empty"); }
 
 		return (values[0]);
 	}
@@ -659,8 +640,8 @@ public class ParameterParser
 	}
 
 	/**
-	 * Gets the named parameter value as a short, with a default. Returns the
-	 * default value if the parameter is not found.
+	 * Gets the named parameter value as a short, with a default. Returns the default value if the
+	 * parameter is not found.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -673,8 +654,7 @@ public class ParameterParser
 		try
 		{
 			return getShortParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -697,10 +677,12 @@ public class ParameterParser
 		if (values == null)
 		{
 			throw new ParameterNotFoundException(name + " not found");
-		} else if (values[0].length() == 0)
+		}
+		else if (values[0].length() == 0)
 		{
 			throw new ParameterNotFoundException(name + " was empty");
-		} else
+		}
+		else
 		{
 			// trim illegal characters
 			value = clean(values[0].trim());
@@ -716,8 +698,8 @@ public class ParameterParser
 	}
 
 	/**
-	 * Gets the named parameter value as a String, with a default. Returns the
-	 * default value if the parameter is not found or is the empty string.
+	 * Gets the named parameter value as a String, with a default. Returns the default value if the
+	 * parameter is not found or is the empty string.
 	 * 
 	 * @param name
 	 *            the parameter name
@@ -730,8 +712,7 @@ public class ParameterParser
 		try
 		{
 			return getStringParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
@@ -753,16 +734,15 @@ public class ParameterParser
 		try
 		{
 			return getSubParameter(first, next);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
 	}
 
 	/**
-	 * Gets the parameter named 'next' following the parameter 'first'. Presumes
-	 * the structure: first=firstvalue&next=nextValue
+	 * Gets the parameter named 'next' following the parameter 'first'. Presumes the structure:
+	 * first=firstvalue&next=nextValue
 	 * 
 	 * @param first
 	 *            Description of the Parameter
@@ -780,20 +760,19 @@ public class ParameterParser
 		if (values == null)
 		{
 			throw new ParameterNotFoundException(first + " not found");
-		} else if (values[0].length() == 0)
+		}
+		else if (values[0].length() == 0)
 		{
 			throw new ParameterNotFoundException(first + " was empty");
-		} else
+		}
+		else
 		{
 			value = clean(values[0].trim());
 
 			int idx = value.indexOf("&") + 1;
 
 			// index of first char of first sub-param name
-			if (idx == 0)
-			{
-				throw new ParameterNotFoundException("No subparameter key");
-			}
+			if (idx == 0) { throw new ParameterNotFoundException("No subparameter key"); }
 
 			value = value.substring(idx);
 
@@ -803,17 +782,15 @@ public class ParameterParser
 
 			// System.out.println("= = = = = =Parameter parser nextValueIndex =
 			// " + nextValueIndex );
-			if (nextValueIndex < 0)
-			{
-				throw new ParameterNotFoundException("No subparameter value");
-			}
+			if (nextValueIndex < 0) { throw new ParameterNotFoundException("No subparameter value"); }
 
 			nextValueIndex += (next.length() + 1);
 
 			if (nextValueIndex >= 0)
 			{
 				value = value.substring(nextValueIndex);
-			} else
+			}
+			else
 			{
 				throw new ParameterNotFoundException(next + " not found");
 			}
@@ -861,35 +838,30 @@ public class ParameterParser
 		try
 		{
 			return getWordParameter(name);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return def;
 		}
 	}
 
 	/**
-	 * Gets the specified parameter from the request and validates it against
-	 * the provided regular expression. If the regular expression check fails,
-	 * the default value is returned instead.
+	 * Gets the specified parameter from the request and validates it against the provided regular
+	 * expression. If the regular expression check fails, the default value is returned instead.
 	 * 
 	 * @param name
 	 *            The name of the parameter to retrieve from the request.
 	 * @param def
 	 *            The default value of the parameter.
 	 * @param regexpattern
-	 *            The precompiled regular expression to be used to validate the
-	 *            parameter.
-	 * @return The validated parameter value, or the default value if validation
-	 *         failed.
+	 *            The precompiled regular expression to be used to validate the parameter.
+	 * @return The validated parameter value, or the default value if validation failed.
 	 */
 	private String getRegexParameter(String name, String def, Pattern regexpattern) throws ValidationException
 	{
 		try
 		{
 			return getRegexParameter(name, regexpattern);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			// System.out.println("Exception occured in defined pattern match");
 			// e.printStackTrace();
@@ -898,29 +870,27 @@ public class ParameterParser
 	}
 
 	/**
-	 * Gets the specified parameter from the request and validates it against
-	 * the provided regular expression. If the regular expression check fails,
-	 * the default value is returned instead.
+	 * Gets the specified parameter from the request and validates it against the provided regular
+	 * expression. If the regular expression check fails, the default value is returned instead.
 	 * 
 	 * @param name
 	 *            The name of the parameter to retrieve from the request.
 	 * @param def
 	 *            The default value of the parameter.
 	 * @param regexpattern
-	 *            The precompiled regular expression to be used to validate the
-	 *            parameter.
-	 * @return The validated parameter value, or the default value if validation
-	 *         failed.
+	 *            The precompiled regular expression to be used to validate the parameter.
+	 * @return The validated parameter value, or the default value if validation failed.
 	 */
 	private String getRegexParameter(String name, Pattern regexpattern) throws ParameterNotFoundException,
-																	   ValidationException
+			ValidationException
 	{
 		String param = getStringParameter(name);
 
 		if (regexpattern.matcher(param).matches())
 		{
 			return param;
-		} else
+		}
+		else
 		{
 			// System.out.println(param + " didn't match defined pattern.");
 			throw new ValidationException(name + " contained an invalid value");
@@ -928,7 +898,7 @@ public class ParameterParser
 	}
 
 	public String getStrictAlphaParameter(String name, int maxLength) throws ParameterNotFoundException,
-																	 ValidationException
+			ValidationException
 	{
 		String alphaRegEx = "^[a-zA-Z\\s]{0," + maxLength + "}$";
 		Pattern alphaPattern = Pattern.compile(alphaRegEx);
@@ -937,7 +907,7 @@ public class ParameterParser
 	}
 
 	public String getStrictNumericParameter(String name, int maxLength) throws ParameterNotFoundException,
-																	   ValidationException
+			ValidationException
 	{
 		String numericRegEx = "^\\d{0," + maxLength + "}$";
 		Pattern numericPattern = Pattern.compile(numericRegEx);
@@ -1025,8 +995,7 @@ public class ParameterParser
 		return getRegexParameter(name, def, datepattern);
 	}
 
-	private static final String URLREGEX =
-			"^(((https?)://)([-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,][[:blank:]])?$";
+	private static final String URLREGEX = "^(((https?)://)([-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,][[:blank:]])?$";
 
 	private static final Pattern URLpattern = Pattern.compile(URLREGEX);
 

@@ -1,9 +1,9 @@
+
 package org.owasp.webgoat.lessons;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -22,46 +22,44 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
-/*******************************************************************************
+
+/***************************************************************************************************
  * 
  * 
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
  * 
  * Copyright (c) 2002 - 2007 Bruce Mayhew
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
- * for free software projects.
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
-*/
+ */
 public class HiddenFieldTampering extends LessonAdapter
 {
-	public final static A ASPECT_LOGO =
-			new A().setHref("http://www.aspectsecurity.com").addElement(
-																		new IMG("images/logos/aspect.jpg")
-																				.setAlt("Aspect Security").setBorder(0)
-																				.setHspace(0).setVspace(0));
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com")
+			.addElement(
+						new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0)
+								.setVspace(0));
 
 	private final static String PRICE = "Price";
 
@@ -69,14 +67,14 @@ public class HiddenFieldTampering extends LessonAdapter
 
 	private final static String PRICE_TV_HACKED = "9.99";
 
-	String regex = "^" + PRICE_TV + "$";   // obviously the "." will match any char - any interesting exploit!
+	String regex = "^" + PRICE_TV + "$"; // obviously the "." will match any char - any
+											// interesting exploit!
 	Pattern pattern1 = Pattern.compile(regex);
 	String lineSep = System.getProperty("line.separator");
-	String script =
-			"<SCRIPT>"  + lineSep + "regex=/" + regex + "/;" + "function validate() { " + lineSep
-					+ "if (!regex.test(document.form." + PRICE + ".value)) {alert('Data tampering is disallowed'); "
-					+" document.form." + PRICE + ".value = " + PRICE_TV + ";}"
-					+ lineSep + "else document.form.submit();" + lineSep + "} " + lineSep + "</SCRIPT>" + lineSep;
+	String script = "<SCRIPT>" + lineSep + "regex=/" + regex + "/;" + "function validate() { " + lineSep
+			+ "if (!regex.test(document.form." + PRICE + ".value)) {alert('Data tampering is disallowed'); "
+			+ " document.form." + PRICE + ".value = " + PRICE_TV + ";}" + lineSep + "else document.form.submit();"
+			+ lineSep + "} " + lineSep + "</SCRIPT>" + lineSep;
 
 	/**
 	 * Constructor for the HiddenFieldScreen object
@@ -104,8 +102,7 @@ public class HiddenFieldTampering extends LessonAdapter
 			price = s.getParser().getRawParameter(PRICE, PRICE_TV);
 			quantity = s.getParser().getFloatParameter("QTY", 1.0f);
 			total = quantity * Float.parseFloat(price);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			s.setMessage("Invaild data " + this.getClass().getName());
 			price = PRICE_TV;
@@ -162,7 +159,8 @@ public class HiddenFieldTampering extends LessonAdapter
 			ec.addElement(input);
 			ec.addElement(new BR());
 
-		} else
+		}
+		else
 		{
 			if (!price.toString().equals(PRICE_TV))
 			{
@@ -200,7 +198,7 @@ public class HiddenFieldTampering extends LessonAdapter
 		hints.add("Use a program to intercept and change the value in the hidden field.");
 		hints
 				.add("Use <A href=\"http://www.owasp.org/development/webscarab\">WebScarab</A> to change the price of the TV from "
-					 + PRICE_TV + " to " + PRICE_TV_HACKED + ".");
+						+ PRICE_TV + " to " + PRICE_TV_HACKED + ".");
 
 		return hints;
 	}
@@ -212,8 +210,7 @@ public class HiddenFieldTampering extends LessonAdapter
 	 */
 	public String getInstructions(WebSession s)
 	{
-		String instructions =
-				"Try to purchase the HDTV for less than the purchase price, if you have not done so already.";
+		String instructions = "Try to purchase the HDTV for less than the purchase price, if you have not done so already.";
 
 		return (instructions);
 	}

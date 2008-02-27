@@ -1,3 +1,4 @@
+
 package org.owasp.webgoat.lessons;
 
 import java.io.BufferedReader;
@@ -5,7 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -14,36 +14,34 @@ import org.apache.ecs.html.HR;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
-
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
-/*******************************************************************************
+
+/***************************************************************************************************
  * 
  * 
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
  * 
  * Copyright (c) 2002 - 2007 Bruce Mayhew
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
- * for free software projects.
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
@@ -111,13 +109,15 @@ public class PathBasedAccessControl extends LessonAdapter
 					s.setMessage("It appears that you are on the right track.  "
 							+ "Commands that may compromise the operating system have been disabled.  "
 							+ "You are only allowed to see one file in this directory. ");
-				} else if (upDirCount(file) > 3)
+				}
+				else if (upDirCount(file) > 3)
 				{
 					s.setMessage("Access denied");
 					s.setMessage("It appears that you are on the right track.  "
 							+ "Commands that may compromise the operating system have been disabled.  "
 							+ "You are only allowed to see files in the webgoat directory. ");
-				} else
+				}
+				else
 				{
 					illegalCommand = false;
 				}
@@ -153,16 +153,20 @@ public class PathBasedAccessControl extends LessonAdapter
 						s.setMessage("Congratulations! Access to file allowed");
 						s.setMessage(" ==> " + Encoding.urlDecode(f.getCanonicalPath()));
 						makeSuccess(s);
-					} else
+					}
+					else
 					{
 						s.setMessage("File is already in allowed directory - try again!");
 						s.setMessage(" ==> " + Encoding.urlDecode(f.getCanonicalPath()));
 					}
-				} else if (file != null && file.length() != 0)
+				}
+				else if (file != null && file.length() != 0)
 				{
-					s.setMessage("Access to file/directory \"" + Encoding.urlDecode(f.getCanonicalPath())
+					s
+							.setMessage("Access to file/directory \"" + Encoding.urlDecode(f.getCanonicalPath())
 									+ "\" denied");
-				} else
+				}
+				else
 				{
 					// do nothing, probably entry screen
 				}
@@ -176,30 +180,21 @@ public class PathBasedAccessControl extends LessonAdapter
 					ec.addElement(new HR().setWidth("100%"));
 					ec.addElement("Viewing file: " + f.getCanonicalPath());
 					ec.addElement(new HR().setWidth("100%"));
-					if (f.length() > 80000)
-					{
-						throw new Exception("File is too large");
-					}
+					if (f.length() > 80000) { throw new Exception("File is too large"); }
 					String fileData = getFileText(new BufferedReader(new FileReader(f)), false);
-					if (fileData.indexOf(0x00) != -1)
-					{
-						throw new Exception("File is binary");
-					}
-					ec
-							.addElement(new StringElement(fileData.replaceAll(System.getProperty("line.separator"),
-									"<br>").replaceAll("(?s)<!DOCTYPE.*/head>", "").replaceAll("<br><br>", "<br>")
-									.replaceAll("<br>\\s<br>", "<br>").replaceAll("<\\?", "&lt;").replaceAll(
-											"<(r|u|t)", "&lt;$1")));
-				}
-				catch (Exception e)
+					if (fileData.indexOf(0x00) != -1) { throw new Exception("File is binary"); }
+					ec.addElement(new StringElement(fileData.replaceAll(System.getProperty("line.separator"), "<br>")
+							.replaceAll("(?s)<!DOCTYPE.*/head>", "").replaceAll("<br><br>", "<br>")
+							.replaceAll("<br>\\s<br>", "<br>").replaceAll("<\\?", "&lt;").replaceAll("<(r|u|t)",
+																										"&lt;$1")));
+				} catch (Exception e)
 				{
 					ec.addElement(new BR());
 					ec.addElement("The following error occurred while accessing the file: <");
 					ec.addElement(e.getMessage());
 				}
 			}
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			s.setMessage("Error generating " + this.getClass().getName());
 			e.printStackTrace();

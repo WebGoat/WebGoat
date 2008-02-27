@@ -1,3 +1,4 @@
+
 package org.owasp.webgoat.lessons;
 
 import java.sql.Connection;
@@ -6,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -22,37 +22,35 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.WebSession;
 
-/*******************************************************************************
+
+/***************************************************************************************************
  * 
  * 
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
  * 
  * Copyright (c) 2002 - 2007 Bruce Mayhew
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
- * for free software projects.
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author Sherif Koussa <a href="http://www.macadamian.com">Macadamian
- *         Technologies.</a>
+ * @author Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
  */
 public class BackDoors extends SequentialLessonAdapter
 {
@@ -63,8 +61,8 @@ public class BackDoors extends SequentialLessonAdapter
 
 	private final static String SELECT_ST = "select userid, password, ssn, salary, email from employee where userid=";
 
-	private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt(
-			"Macadamian Technologies").setBorder(0).setHspace(0).setVspace(0);
+	private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt("Macadamian Technologies")
+			.setBorder(0).setHspace(0).setVspace(0);
 
 	protected Element createContent(WebSession s)
 	{
@@ -96,13 +94,14 @@ public class BackDoors extends SequentialLessonAdapter
 				String[] arrSQL = userInput.split(";");
 				Connection conn = DatabaseUtilities.getConnection(s);
 				Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-						ResultSet.CONCUR_READ_ONLY);
+															ResultSet.CONCUR_READ_ONLY);
 				if (arrSQL.length == 2)
 				{
 					statement.executeUpdate(arrSQL[1]);
 
 					getLessonTracker(s).setStage(2);
-					s.setMessage("You have succeeded in exploiting the vulnerable query and created another SQL statement. Now move to stage 2 to learn how to create a backdoor or a DB worm");
+					s
+							.setMessage("You have succeeded in exploiting the vulnerable query and created another SQL statement. Now move to stage 2 to learn how to create a backdoor or a DB worm");
 				}
 
 				ResultSet rs = statement.executeQuery(arrSQL[0]);
@@ -129,8 +128,7 @@ public class BackDoors extends SequentialLessonAdapter
 					ec.addElement(t);
 				}
 			}
-		}
-		catch (Exception ex)
+		} catch (Exception ex)
 		{
 			ec.addElement(new PRE(ex.getMessage()));
 		}
@@ -176,12 +174,10 @@ public class BackDoors extends SequentialLessonAdapter
 							+ " statements. The first is the system's while the second is totally yours.";
 					instructions = instructions
 							+ " Your account ID is 101. This page allows you to see your password, ssn and salary.";
-					instructions = instructions
-							+ "  Try to inject another update to update salary to something higher";
+					instructions = instructions + "  Try to inject another update to update salary to something higher";
 					break;
 				case 2:
-					instructions = "Stage " + getStage(s)
-							+ ": Use String SQL Injection to inject a backdoor. ";
+					instructions = "Stage " + getStage(s) + ": Use String SQL Injection to inject a backdoor. ";
 					instructions = instructions
 							+ " The second stage of this lesson is to teach you how to use a vulneable fields to inject the DB work or the backdoor.";
 					instructions = instructions
@@ -248,8 +244,8 @@ public class BackDoors extends SequentialLessonAdapter
 		hints.add("Your user id is 101. Use it to see your information");
 		hints.add("A semi-colon usually ends a SQL statement and starts a new one.");
 		hints.add("Try this 101 or 1=1; update employee set salary=100000");
-		hints.add("For stage 2, Try 101; CREATE TRIGGER myBackDoor BEFORE INSERT ON " +
-				"employee FOR EACH ROW BEGIN UPDATE employee SET email='john@hackme.com' WHERE userid = NEW.userid");
+		hints.add("For stage 2, Try 101; CREATE TRIGGER myBackDoor BEFORE INSERT ON "
+				+ "employee FOR EACH ROW BEGIN UPDATE employee SET email='john@hackme.com' WHERE userid = NEW.userid");
 		return hints;
 	}
 
