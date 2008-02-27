@@ -1,3 +1,4 @@
+
 package org.owasp.webgoat.session;
 
 import java.io.IOException;
@@ -13,43 +14,40 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
 import org.owasp.webgoat.lessons.SequentialLessonAdapter;
 
-/*******************************************************************************
+
+/***************************************************************************************************
  * 
  * 
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
  * 
  * Copyright (c) 2002 - 2007 Bruce Mayhew
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
- * for free software projects.
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
@@ -107,7 +105,6 @@ public class WebSession
 	 */
 	public final static String RESTART = "Restart";
 
-
 	/**
 	 * Description of the Field
 	 */
@@ -124,9 +121,9 @@ public class WebSession
 	public final static String SESSION = "Session";
 
 	public final static String SHOWSOURCE = "ShowSource";
-	
+
 	public final static String SHOWSOLUTION = "ShowSolution";
-	
+
 	public final static String SHOWHINTS = "ShowHints";
 
 	public final static String SHOW = "show";
@@ -151,7 +148,7 @@ public class WebSession
 	public final static int WELCOME = -1;
 
 	private WebgoatContext webgoatContext;
-	
+
 	private ServletContext context = null;
 
 	private Course course;
@@ -173,7 +170,7 @@ public class WebSession
 	private boolean isDebug = false;
 	private boolean hasHackedHackableAdmin = false;
 
-	private StringBuffer message = new StringBuffer( "" );
+	private StringBuffer message = new StringBuffer("");
 
 	private ParameterParser myParser;
 
@@ -183,7 +180,7 @@ public class WebSession
 
 	private String servletName;
 
-	private HashMap<String,Object> session = new HashMap<String, Object>();
+	private HashMap<String, Object> session = new HashMap<String, Object>();
 
 	private boolean showCookies = false;
 
@@ -196,16 +193,18 @@ public class WebSession
 	private boolean showSolution = false;
 
 	private boolean completedHackableAdmin = false;
-	
+
 	private int currentMenu;
 
 	/**
 	 * Constructor for the WebSession object
 	 * 
-	 * @param servlet Description of the Parameter
-	 * @param context Description of the Parameter
+	 * @param servlet
+	 *            Description of the Parameter
+	 * @param context
+	 *            Description of the Parameter
 	 */
-	public WebSession(WebgoatContext webgoatContext, ServletContext context )
+	public WebSession(WebgoatContext webgoatContext, ServletContext context)
 	{
 		this.webgoatContext = webgoatContext;
 		// initialize from web.xml
@@ -216,28 +215,30 @@ public class WebSession
 		showRequest = webgoatContext.isShowRequest();
 		this.context = context;
 		course = new Course();
-		course.loadCourses( webgoatContext, context, "/" );
+		course.loadCourses(webgoatContext, context, "/");
 	}
 
-	public static synchronized Connection getConnection(WebSession s) 
-			throws SQLException, ClassNotFoundException
+	public static synchronized Connection getConnection(WebSession s) throws SQLException, ClassNotFoundException
 	{
 		return DatabaseUtilities.getConnection(s);
 	}
 
-	public static void returnConnection(WebSession s) {
+	public static void returnConnection(WebSession s)
+	{
 		DatabaseUtilities.returnConnection(s.getUserName());
 	}
-	
+
 	/**
 	 * Description of the Method
 	 * 
-	 * @param key Description of the Parameter
-	 * @param value Description of the Parameter
+	 * @param key
+	 *            Description of the Parameter
+	 * @param value
+	 *            Description of the Parameter
 	 */
-	public void add( String key, Object value )
+	public void add(String key, Object value)
 	{
-		session.put( key, value );
+		session.put(key, value);
 	}
 
 	/**
@@ -245,7 +246,7 @@ public class WebSession
 	 */
 	public void clearMessage()
 	{
-		message.setLength( 0 );
+		message.setLength(0);
 	}
 
 	/**
@@ -255,12 +256,12 @@ public class WebSession
 	{
 		Cookie[] cookies = request.getCookies();
 
-		for ( int loop = 0; loop < cookies.length; loop++ )
+		for (int loop = 0; loop < cookies.length; loop++)
 		{
-			if ( !cookies[loop].getName().startsWith( "JS" ) )
+			if (!cookies[loop].getName().startsWith("JS"))
 			{// skip jsessionid cookie
-				cookies[loop].setMaxAge( 0 );// mark for deletion by browser
-				response.addCookie( cookies[loop] );
+				cookies[loop].setMaxAge(0);// mark for deletion by browser
+				response.addCookie(cookies[loop]);
 			}
 		}
 	}
@@ -268,12 +269,13 @@ public class WebSession
 	/**
 	 * Description of the Method
 	 * 
-	 * @param key Description of the Parameter
+	 * @param key
+	 *            Description of the Parameter
 	 * @return Description of the Return Value
 	 */
-	public Object get( String key )
+	public Object get(String key)
 	{
-		return ( session.get( key ) );
+		return (session.get(key));
 	}
 
 	/**
@@ -295,13 +297,13 @@ public class WebSession
 		{
 			roles.add(AbstractLesson.ADMIN_ROLE);
 		}
-		
+
 		return roles;
 	}
-	
+
 	public String getRole()
 	{
-		
+
 		String role = "";
 		if (isAdmin())
 		{
@@ -310,7 +312,7 @@ public class WebSession
 		else if (isHackedAdmin())
 		{
 			role = AbstractLesson.HACKED_ADMIN_ROLE;
-		} 
+		}
 		else if (isChallenge())
 		{
 			role = AbstractLesson.CHALLENGE_ROLE;
@@ -319,10 +321,10 @@ public class WebSession
 		{
 			role = AbstractLesson.USER_ROLE;
 		}
-		
+
 		return role;
 	}
-	
+
 	/**
 	 * Gets the course attribute of the WebSession object
 	 * 
@@ -333,7 +335,7 @@ public class WebSession
 		return course;
 	}
 
-	public void setCourse( Course course )
+	public void setCourse(Course course)
 	{
 		this.course = course;
 	}
@@ -345,10 +347,10 @@ public class WebSession
 	 */
 	public int getCurrentScreen()
 	{
-		return ( currentScreen );
+		return (currentScreen);
 	}
 
-	public void setCurrentScreen( int screen )
+	public void setCurrentScreen(int screen)
 	{
 		currentScreen = screen;
 	}
@@ -357,7 +359,7 @@ public class WebSession
 	{
 		return getCurrentLesson().getLink() + "&" + RESTART + "=" + getCurrentScreen();
 	}
-	
+
 	public String getCurrentLink()
 	{
 		String thisLink = "attack";
@@ -383,19 +385,19 @@ public class WebSession
 
 	public AbstractLesson getCurrentLesson()
 	{
-		return getCourse().getLesson( this, getCurrentScreen(), getRoles() );
+		return getCourse().getLesson(this, getCurrentScreen(), getRoles());
 	}
-	
+
 	public AbstractLesson getLesson(int id)
 	{
-		return getCourse().getLesson( this, id, getRoles() );
+		return getCourse().getLesson(this, id, getRoles());
 	}
-	
+
 	public List<AbstractLesson> getLessons(Category category)
 	{
-		return getCourse().getLessons( this, category, getRoles() );
+		return getCourse().getLessons(this, category, getRoles());
 	}
-	
+
 	/**
 	 * Gets the hint1 attribute of the WebSession object
 	 * 
@@ -403,18 +405,17 @@ public class WebSession
 	 */
 	private int getHintNum()
 	{
-		return ( hintNum );
+		return (hintNum);
 	}
 
 	public String getHint()
 	{
 		String hint = null;
 		int hints = getCurrentLesson().getHintCount(this);
-		if (getHintNum() > hints)
-			hintNum = -1;
-		if ( getHintNum() >= 0 )
-			// FIXME
-			hint = getCurrentLesson().getHint( this, getHintNum() );
+		if (getHintNum() > hints) hintNum = -1;
+		if (getHintNum() >= 0)
+		// FIXME
+			hint = getCurrentLesson().getHint(this, getHintNum());
 
 		return hint;
 	}
@@ -423,25 +424,25 @@ public class WebSession
 	{
 		Vector<Parameter> params = null;
 
-		if ( showParams() && getParser() != null )
+		if (showParams() && getParser() != null)
 		{
 			params = new Vector<Parameter>();
 
 			Enumeration e = getParser().getParameterNames();
 
-			while ( ( e != null ) && e.hasMoreElements() )
+			while ((e != null) && e.hasMoreElements())
 			{
 				String name = (String) e.nextElement();
-				String[] values = getParser().getParameterValues( name );
+				String[] values = getParser().getParameterValues(name);
 
-				for ( int loop = 0; ( values != null ) && ( loop < values.length ); loop++ )
+				for (int loop = 0; (values != null) && (loop < values.length); loop++)
 				{
-					params.add( new Parameter( name, values[loop] ) );
+					params.add(new Parameter(name, values[loop]));
 					// params.add( name + " -> " + values[loop] );
 				}
 			}
 
-			Collections.sort( params );
+			Collections.sort(params);
 		}
 
 		return params;
@@ -451,16 +452,11 @@ public class WebSession
 	{
 		List cookies = null;
 
-		if ( showCookies() )
-			cookies = Arrays.asList( request.getCookies() );
+		if (showCookies()) cookies = Arrays.asList(request.getCookies());
 
 		/*
-		 * List cookies = new Vector();
-		 * 
-		 * HttpServletRequest request = getRequest(); Cookie[] cookies = request.getCookies();
-		 * 
-		 * if ( cookies.length == 0 ) { list.addElement( new LI( "No Cookies" ) ); }
-		 * 
+		 * List cookies = new Vector(); HttpServletRequest request = getRequest(); Cookie[] cookies =
+		 * request.getCookies(); if ( cookies.length == 0 ) { list.addElement( new LI( "No Cookies" ) ); }
 		 * for ( int i = 0; i < cookies.length; i++ ) { Cookie cookie = cookies[i];
 		 * cookies.add(cookie); //list.addElement( new LI( cookie.getName() + " -> " +
 		 * cookie.getValue() ) ); }
@@ -472,41 +468,39 @@ public class WebSession
 	/**
 	 * Gets the cookie attribute of the CookieScreen object
 	 * 
-	 * @param s Description of the Parameter
+	 * @param s
+	 *            Description of the Parameter
 	 * @return The cookie value
 	 */
-	public String getCookie( String cookieName )
+	public String getCookie(String cookieName)
 	{
 		Cookie[] cookies = getRequest().getCookies();
 
-		for ( int i = 0; i < cookies.length; i++ )
+		for (int i = 0; i < cookies.length; i++)
 		{
-			if ( cookies[i].getName().equalsIgnoreCase( cookieName ) )
-			{
-				return ( cookies[i].getValue() );
-			}
+			if (cookies[i].getName().equalsIgnoreCase(cookieName)) { return (cookies[i].getValue()); }
 		}
 
-		return ( null );
+		return (null);
 	}
-	
+
 	public String getSource()
 	{
 		return "Sorry.  No Java Source viewing available.";
-		//return getCurrentLesson().getSource(this);
+		// return getCurrentLesson().getSource(this);
 	}
 
 	public String getSolution()
 	{
 		return "Sorry.  No solution is available.";
-		//return getCurrentLesson().getSolution(this);
+		// return getCurrentLesson().getSolution(this);
 	}
 
 	public String getInstructions()
 	{
-		return getCurrentLesson().getInstructions(this);		
+		return getCurrentLesson().getInstructions(this);
 	}
-	
+
 	/**
 	 * Gets the message attribute of the WebSession object
 	 * 
@@ -514,7 +508,7 @@ public class WebSession
 	 */
 	public String getMessage()
 	{
-		return ( message.toString() );
+		return (message.toString());
 	}
 
 	/**
@@ -524,7 +518,7 @@ public class WebSession
 	 */
 	public ParameterParser getParser()
 	{
-		return ( myParser );
+		return (myParser);
 	}
 
 	/**
@@ -534,7 +528,7 @@ public class WebSession
 	 */
 	public int getPreviousScreen()
 	{
-		return ( previousScreen );
+		return (previousScreen);
 	}
 
 	/**
@@ -547,7 +541,7 @@ public class WebSession
 		return request;
 	}
 
-	public void setRequest( HttpServletRequest request )
+	public void setRequest(HttpServletRequest request)
 	{
 		this.request = request;
 	}
@@ -569,19 +563,20 @@ public class WebSession
 	 */
 	public String getServletName()
 	{
-		return ( servletName );
+		return (servletName);
 	}
 
 	/**
 	 * Gets the sourceFile attribute of the WebSession object
 	 * 
-	 * @param screen Description of the Parameter
+	 * @param screen
+	 *            Description of the Parameter
 	 * @return The sourceFile value
 	 */
-	public String getWebResource( String fileName )
+	public String getWebResource(String fileName)
 	{
 		// Note: doesn't work for admin path! Maybe with a ../ attack
-		return ( context.getRealPath( fileName ));
+		return (context.getRealPath(fileName));
 	}
 
 	/**
@@ -591,7 +586,7 @@ public class WebSession
 	 */
 	public boolean isAdmin()
 	{
-		return ( isAdmin );
+		return (isAdmin);
 	}
 
 	/**
@@ -601,7 +596,7 @@ public class WebSession
 	 */
 	public boolean isHackedAdmin()
 	{
-		return ( isHackedAdmin );
+		return (isHackedAdmin);
 	}
 
 	/**
@@ -611,7 +606,7 @@ public class WebSession
 	 */
 	public boolean completedHackableAdmin()
 	{
-		return ( completedHackableAdmin );
+		return (completedHackableAdmin);
 	}
 
 	/**
@@ -621,41 +616,40 @@ public class WebSession
 	 */
 	public boolean isAuthenticated()
 	{
-		return ( isAuthenticated );
+		return (isAuthenticated);
 	}
-	
+
 	private Map<AbstractLesson, LessonSession> lessonSessions = new Hashtable<AbstractLesson, LessonSession>();
 
-	
 	public boolean isAuthenticatedInLesson(AbstractLesson lesson)
 	{
 		boolean authenticated = false;
-		
+
 		LessonSession lessonSession = getLessonSession(lesson);
 		if (lessonSession != null)
 		{
 			authenticated = lessonSession.isAuthenticated();
 		}
-		//System.out.println("Authenticated for lesson " + lesson + "? " + authenticated);
-		
+		// System.out.println("Authenticated for lesson " + lesson + "? " + authenticated);
+
 		return authenticated;
 	}
-	
+
 	public boolean isAuthorizedInLesson(int employeeId, String functionId)
 	{
 		return getCurrentLesson().isAuthorized(this, employeeId, functionId);
 	}
-	
+
 	public boolean isAuthorizedInLesson(String role, String functionId)
 	{
 		return getCurrentLesson().isAuthorized(this, role, functionId);
 	}
-	
+
 	public int getUserIdInLesson() throws ParameterNotFoundException
 	{
 		return getCurrentLesson().getUserId(this);
 	}
-	
+
 	public String getUserNameInLesson() throws ParameterNotFoundException
 	{
 		return getCurrentLesson().getUserName(this);
@@ -667,12 +661,12 @@ public class WebSession
 		LessonSession lessonSession = new LessonSession();
 		lessonSessions.put(lesson, lessonSession);
 	}
-	
+
 	public void closeLessonSession(AbstractLesson lesson)
 	{
 		lessonSessions.remove(lesson);
 	}
-	
+
 	public LessonSession getLessonSession(AbstractLesson lesson)
 	{
 		return (LessonSession) lessonSessions.get(lesson);
@@ -685,10 +679,7 @@ public class WebSession
 	 */
 	public boolean isChallenge()
 	{
-		if ( getCurrentLesson() != null )
-		{
-			return ( Category.CHALLENGE.equals(getCurrentLesson().getCategory()));
-		}
+		if (getCurrentLesson() != null) { return (Category.CHALLENGE.equals(getCurrentLesson().getCategory())); }
 		return false;
 	}
 
@@ -699,18 +690,19 @@ public class WebSession
 	 */
 	public boolean isColor()
 	{
-		return ( isColor );
+		return (isColor);
 	}
 
 	/**
 	 * Gets the screen attribute of the WebSession object
 	 * 
-	 * @param value Description of the Parameter
+	 * @param value
+	 *            Description of the Parameter
 	 * @return The screen value
 	 */
-	public boolean isScreen( int value )
+	public boolean isScreen(int value)
 	{
-		return ( getCurrentScreen() == value );
+		return (getCurrentScreen() == value);
 	}
 
 	/**
@@ -720,17 +712,18 @@ public class WebSession
 	 */
 	public boolean isUser()
 	{
-		return ( !isAdmin && !isChallenge() );
+		return (!isAdmin && !isChallenge());
 	}
 
 	/**
 	 * Sets the message attribute of the WebSession object
 	 * 
-	 * @param text The new message value
+	 * @param text
+	 *            The new message value
 	 */
-	public void setMessage( String text )
+	public void setMessage(String text)
 	{
-		message.append( "<BR>" + " * " + text);
+		message.append("<BR>" + " * " + text);
 	}
 
 	/**
@@ -740,9 +733,8 @@ public class WebSession
 	 */
 	public boolean showCookies()
 	{
-		return ( showCookies );
+		return (showCookies);
 	}
-
 
 	/**
 	 * Description of the Method
@@ -751,7 +743,7 @@ public class WebSession
 	 */
 	public boolean showParams()
 	{
-		return ( showParams );
+		return (showParams);
 	}
 
 	/**
@@ -761,7 +753,7 @@ public class WebSession
 	 */
 	public boolean showRequest()
 	{
-		return ( showRequest );
+		return (showRequest);
 	}
 
 	/**
@@ -771,12 +763,12 @@ public class WebSession
 	 */
 	public boolean showSource()
 	{
-		return ( showSource );
+		return (showSource);
 	}
 
 	public boolean showSolution()
 	{
-		return ( showSolution );
+		return (showSolution);
 	}
 
 	/**
@@ -791,17 +783,19 @@ public class WebSession
 		// System.out.println("Name: " + getRequest().getUserPrincipal().getName( ) );
 		return getRequest().getUserPrincipal().getName();
 	}
-	
+
 	/**
 	 * Parse parameters from the given request, handle any servlet commands, and update this session
 	 * based on the parameters.
 	 * 
-	 * @param request Description of the Parameter
-	 * @param response Description of the Parameter
-	 * @param name Description of the Parameter
+	 * @param request
+	 *            Description of the Parameter
+	 * @param response
+	 *            Description of the Parameter
+	 * @param name
+	 *            Description of the Parameter
 	 */
-	public void update( HttpServletRequest request, HttpServletResponse response, String name )
-			throws IOException
+	public void update(HttpServletRequest request, HttpServletResponse response, String name) throws IOException
 	{
 		String content = null;
 
@@ -810,22 +804,22 @@ public class WebSession
 		this.response = response;
 		this.servletName = name;
 
-		if ( myParser == null )
+		if (myParser == null)
 		{
-			myParser = new ParameterParser( request );
+			myParser = new ParameterParser(request);
 		}
 		else
 		{
-			myParser.update( request );
+			myParser.update(request);
 		}
 
 		// System.out.println("Current Screen 1: " + currentScreen );
 		// System.out.println("Previous Screen 1: " + previousScreen );
 		// FIXME: requires ?Logout=true
 		// FIXME: doesn't work right -- no reauthentication
-		if ( myParser.getRawParameter( LOGOUT, null ) != null )
+		if (myParser.getRawParameter(LOGOUT, null) != null)
 		{
-			System.out.println( "Logout " + request.getUserPrincipal() );
+			System.out.println("Logout " + request.getUserPrincipal());
 			eatCookies();
 			request.getSession().invalidate();
 			currentScreen = WELCOME;
@@ -835,9 +829,9 @@ public class WebSession
 		// There are several scenarios where we want the first lesson to be loaded
 		// 1) Previous screen is Welcome - Start of the course
 		// 2) After a logout and after the session has been reinitialized
-		if ( ( this.getPreviousScreen() == WebSession.WELCOME ) || ( getRequest().getSession( false ) != null &&
+		if ((this.getPreviousScreen() == WebSession.WELCOME) || (getRequest().getSession(false) != null &&
 		// getRequest().getSession(false).isNew() &&
-				this.getCurrentScreen() == WebSession.WELCOME && this.getPreviousScreen() == WebSession.ERROR ) )
+				this.getCurrentScreen() == WebSession.WELCOME && this.getPreviousScreen() == WebSession.ERROR))
 		{
 			currentScreen = course.getFirstLesson().getScreenId();
 			hintNum = -1;
@@ -852,95 +846,95 @@ public class WebSession
 		{
 			// If the request is new there should be no parameters.
 			// This can occur from a session timeout or a the starting of a new course.
-			if ( !request.getSession().isNew() )
+			if (!request.getSession().isNew())
 			{
-				currentScreen = myParser.getIntParameter( SCREEN, currentScreen );
+				currentScreen = myParser.getIntParameter(SCREEN, currentScreen);
 			}
 			else
 			{
-				if ( !myParser.getRawParameter( SCREEN, "NULL" ).equals( "NULL" ) )
+				if (!myParser.getRawParameter(SCREEN, "NULL").equals("NULL"))
 				{
-					this.setMessage( "Session Timeout - Starting new Session." );
+					this.setMessage("Session Timeout - Starting new Session.");
 				}
 			}
-		}
-		catch ( Exception e )
+		} catch (Exception e)
 		{
 		}
 
 		// clear variables when switching screens
-		if ( this.getCurrentScreen() != this.getPreviousScreen() )
+		if (this.getCurrentScreen() != this.getPreviousScreen())
 		{
-			if ( webgoatContext.isDebug() )
+			if (webgoatContext.isDebug())
 			{
-				setMessage( "Changed to a new screen, clearing cookies and hints" );
+				setMessage("Changed to a new screen, clearing cookies and hints");
 			}
 			eatCookies();
 			hintNum = -1;
 		}
-		else if (myParser.getRawParameter( STAGE, null ) != null) 
+		else if (myParser.getRawParameter(STAGE, null) != null)
 		{
 			AbstractLesson al = getCurrentLesson();
 			if (al instanceof SequentialLessonAdapter)
 			{
-			SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
-			int stage = myParser.getIntParameter(STAGE, sla.getStage(this));
-			if (stage > 0 && stage <= sla.getStageCount())
-				sla.setStage(this, stage);
+				SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
+				int stage = myParser.getIntParameter(STAGE, sla.getStage(this));
+				if (stage > 0 && stage <= sla.getStageCount()) sla.setStage(this, stage);
 			}
 			else if (al instanceof RandomLessonAdapter)
 			{
-			try
-			{
-			RandomLessonAdapter rla = (RandomLessonAdapter) al;
-			int stage = myParser.getIntParameter(STAGE) - 1;
-			String[] stages = rla.getStages();
-			if (stage>=0 && stage < stages.length)
-				rla.setStage(this, stages[stage]);
-			} catch (ParameterNotFoundException pnfe) {}
+				try
+				{
+					RandomLessonAdapter rla = (RandomLessonAdapter) al;
+					int stage = myParser.getIntParameter(STAGE) - 1;
+					String[] stages = rla.getStages();
+					if (stage >= 0 && stage < stages.length) rla.setStage(this, stages[stage]);
+				} catch (ParameterNotFoundException pnfe)
+				{
+				}
 			}
 		}
 		// else update global variables for the current screen
 		else
 		{
 			// Handle "restart" commands
-			int lessonId = myParser.getIntParameter( RESTART, -1 );
-			if ( lessonId != -1 )
+			int lessonId = myParser.getIntParameter(RESTART, -1);
+			if (lessonId != -1)
 			{
 				restartLesson(lessonId);
 			}
-			//if ( myParser.getBooleanParameter( RESTART, false ) )
-			//{
-			//	getCurrentLesson().getLessonTracker( this ).getLessonProperties().setProperty( CHALLENGE_STAGE, "1" );
-			//}
-			
+			// if ( myParser.getBooleanParameter( RESTART, false ) )
+			// {
+			// getCurrentLesson().getLessonTracker( this ).getLessonProperties().setProperty(
+			// CHALLENGE_STAGE, "1" );
+			// }
+
 			// Handle "show" commands
-			String showCommand = myParser.getStringParameter( SHOW, null );
-			if ( showCommand != null )
+			String showCommand = myParser.getStringParameter(SHOW, null);
+			if (showCommand != null)
 			{
-				if ( showCommand.equalsIgnoreCase( SHOW_PARAMS ) )
+				if (showCommand.equalsIgnoreCase(SHOW_PARAMS))
 				{
 					showParams = !showParams;
 				}
-				else if ( showCommand.equalsIgnoreCase( SHOW_COOKIES ) )
+				else if (showCommand.equalsIgnoreCase(SHOW_COOKIES))
 				{
 					showCookies = !showCookies;
 				}
-				else if ( showCommand.equalsIgnoreCase( SHOW_SOURCE ) )
+				else if (showCommand.equalsIgnoreCase(SHOW_SOURCE))
 				{
 					content = getSource();
-					//showSource = true;
+					// showSource = true;
 				}
-				else if ( showCommand.equalsIgnoreCase( SHOW_SOLUTION ) )
+				else if (showCommand.equalsIgnoreCase(SHOW_SOLUTION))
 				{
 					content = getSolution();
-					//showSource = true;
+					// showSource = true;
 				}
-				else if ( showCommand.equalsIgnoreCase( SHOW_NEXTHINT ) )
+				else if (showCommand.equalsIgnoreCase(SHOW_NEXTHINT))
 				{
 					getNextHint();
 				}
-				else if ( showCommand.equalsIgnoreCase( SHOW_PREVIOUSHINT ) )
+				else if (showCommand.equalsIgnoreCase(SHOW_PREVIOUSHINT))
 				{
 					getPreviousHint();
 				}
@@ -948,58 +942,58 @@ public class WebSession
 
 		}
 
-		isAdmin = request.isUserInRole( WEBGOAT_ADMIN );
-		isHackedAdmin = myParser.getBooleanParameter( ADMIN, isAdmin );
-		if ( isHackedAdmin )
+		isAdmin = request.isUserInRole(WEBGOAT_ADMIN);
+		isHackedAdmin = myParser.getBooleanParameter(ADMIN, isAdmin);
+		if (isHackedAdmin)
 		{
 			System.out.println("Hacked admin");
 			hasHackedHackableAdmin = true;
 		}
-		isColor = myParser.getBooleanParameter( COLOR, isColor );
-		isDebug = myParser.getBooleanParameter( DEBUG, isDebug );
+		isColor = myParser.getBooleanParameter(COLOR, isColor);
+		isDebug = myParser.getBooleanParameter(DEBUG, isDebug);
 
 		// System.out.println( "showParams:" + showParams );
 		// System.out.println( "showSource:" + showSource );
 		// System.out.println( "showSolution:" + showSolution );
 		// System.out.println( "showCookies:" + showCookies );
 		// System.out.println( "showRequest:" + showRequest );
-		
+
 		if (content != null)
 		{
 			response.setContentType("text/html");
 			PrintWriter out = new PrintWriter(response.getOutputStream());
-			out.print(content);	
+			out.print(content);
 			out.flush();
 			out.close();
 		}
 	}
-	
+
 	private void restartLesson(int lessonId)
 	{
 		AbstractLesson al = getLesson(lessonId);
 		System.out.println("Restarting lesson: " + al);
-		al.getLessonTracker( this ).setCompleted(false);
+		al.getLessonTracker(this).setCompleted(false);
 		if (al instanceof SequentialLessonAdapter)
 		{
-		SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
-		sla.getLessonTracker( this ).setStage(1);
+			SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
+			sla.getLessonTracker(this).setStage(1);
 		}
 	}
 
 	/**
 	 * @param string
 	 */
-	public void setHasHackableAdmin( String role )
+	public void setHasHackableAdmin(String role)
 	{
-		hasHackedHackableAdmin = ( AbstractLesson.HACKED_ADMIN_ROLE.equals( role ) & hasHackedHackableAdmin );
+		hasHackedHackableAdmin = (AbstractLesson.HACKED_ADMIN_ROLE.equals(role) & hasHackedHackableAdmin);
 
 		// if the user got the Admin=true parameter correct AND they accessed an admin screen
-		if ( hasHackedHackableAdmin )
+		if (hasHackedHackableAdmin)
 		{
 			completedHackableAdmin = true;
 		}
 	}
-	
+
 	/**
 	 * @return Returns the isDebug.
 	 */
@@ -1009,12 +1003,13 @@ public class WebSession
 	}
 
 	/**
-	 * @param header - request header value to return
+	 * @param header -
+	 *            request header value to return
 	 * @return
 	 */
-	public String getHeader( String header )
+	public String getHeader(String header)
 	{
-		return getRequest().getHeader( header );
+		return getRequest().getHeader(header);
 	}
 
 	public String getNextHint()
@@ -1023,14 +1018,14 @@ public class WebSession
 
 		// FIXME
 		int maxHints = getCurrentLesson().getHintCount(this);
-		if ( hintNum < maxHints - 1 )
+		if (hintNum < maxHints - 1)
 		{
 			hintNum++;
 
 			// Hints are indexed from 0
-			getCurrentLesson().getLessonTracker( this ).setMaxHintLevel( getHintNum() + 1 );
+			getCurrentLesson().getLessonTracker(this).setMaxHintLevel(getHintNum() + 1);
 
-			hint = (String) getCurrentLesson().getHint( this, getHintNum() );
+			hint = (String) getCurrentLesson().getHint(this, getHintNum());
 		}
 
 		return hint;
@@ -1040,30 +1035,31 @@ public class WebSession
 	{
 		String hint = null;
 
-		if ( hintNum > 0 )
+		if (hintNum > 0)
 		{
 			hintNum--;
 
 			// Hints are indexed from 0
-			getCurrentLesson().getLessonTracker( this ).setMaxHintLevel( getHintNum() + 1 );
+			getCurrentLesson().getLessonTracker(this).setMaxHintLevel(getHintNum() + 1);
 
-			hint = (String) getCurrentLesson().getHint( this, getHintNum() );
+			hint = (String) getCurrentLesson().getHint(this, getHintNum());
 		}
 
 		return hint;
 	}
 
-	public void setCurrentMenu(Integer ranking) 
+	public void setCurrentMenu(Integer ranking)
 	{
 		currentMenu = ranking.intValue();
 	}
-	
+
 	public int getCurrentMenu()
 	{
-		return currentMenu;	
+		return currentMenu;
 	}
-	
-	public WebgoatContext getWebgoatContext() {
+
+	public WebgoatContext getWebgoatContext()
+	{
 		return webgoatContext;
 	}
 }

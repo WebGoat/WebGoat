@@ -1,3 +1,4 @@
+
 package org.owasp.webgoat.lessons;
 
 import java.io.BufferedReader;
@@ -16,9 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
-
 import javax.servlet.http.Cookie;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -39,32 +38,31 @@ import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.util.Exec;
 import org.owasp.webgoat.util.ExecResults;
 
-/*******************************************************************************
+
+/***************************************************************************************************
  * 
  * 
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
  * 
  * Copyright (c) 2002 - 2007 Bruce Mayhew
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
- * for free software projects.
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
@@ -195,8 +193,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		s.getResponse().addCookie(newCookie);
 
 		ElementContainer ec = new ElementContainer();
-		if (s.getParser().getStringParameter(Input.SUBMIT, "")
-				.equals(PROCEED_TO_NEXT_STAGE + "(3)"))
+		if (s.getParser().getStringParameter(Input.SUBMIT, "").equals(PROCEED_TO_NEXT_STAGE + "(3)"))
 		{
 			s.setMessage("Welcome to stage 3 -- deface the site");
 			setStage(s, 3);
@@ -205,11 +202,11 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			return doStage3(s);
 		}
 
-                Connection connection = DatabaseUtilities.getConnection(s);
+		Connection connection = DatabaseUtilities.getConnection(s);
 
-		Statement statement3 = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY);
-	
+		Statement statement3 = connection
+				.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
 		// pull the USER_COOKIE from the cookies
 		String user = getCookie(s);
 		String query = "SELECT * FROM user_data WHERE last_name = '" + user + "'";
@@ -225,48 +222,46 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				String num = results.getString("cc_number");
 				v.addElement(type + "-" + num);
 			}
-	    	        if (v.size() != 13)
+			if (v.size() != 13)
 			{
 				s.setMessage("Try to get all the credit card numbers");
-		    	}
-	    
-				ec.addElement(buildCart(s));
+			}
 
-			Table t = new Table().setCellSpacing(0).setCellPadding(2)
-				.setBorder(0).setWidth("90%").setAlign("center");
+			ec.addElement(buildCart(s));
 
-				ec.addElement(new BR());
-				TR tr = new TR();
-				tr.addElement(new TD().addElement("Please select credit card for this purchase: "));
-				Element p = ECSFactory.makePulldown(CREDIT, v);
-				tr.addElement(new TD().addElement(p).setAlign("right"));
-				t.addElement(tr);
+			Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%").setAlign("center");
 
-				tr = new TR();
-				Element b = ECSFactory.makeButton("Buy Now!");
-				tr.addElement(new TD().addElement(b));
-				t.addElement(tr);
-				ec.addElement(t);
+			ec.addElement(new BR());
+			TR tr = new TR();
+			tr.addElement(new TD().addElement("Please select credit card for this purchase: "));
+			Element p = ECSFactory.makePulldown(CREDIT, v);
+			tr.addElement(new TD().addElement(p).setAlign("right"));
+			t.addElement(tr);
 
-				ec.addElement(new BR());
-				Input input = new Input(Input.HIDDEN, USER, "White");
-				ec.addElement(input);
-		
-			//STAGE 3 BUTTON
+			tr = new TR();
+			Element b = ECSFactory.makeButton("Buy Now!");
+			tr.addElement(new TD().addElement(b));
+			t.addElement(tr);
+			ec.addElement(t);
+
+			ec.addElement(new BR());
+			Input input = new Input(Input.HIDDEN, USER, "White");
+			ec.addElement(input);
+
+			// STAGE 3 BUTTON
 			if (v.size() == 13)
 			{
 				s.setMessage("Congratulations! You stole all the credit cards, proceed to stage 3!");
 				ec.addElement(new BR());
-				//TR inf = new TR();
+				// TR inf = new TR();
 				Center center = new Center();
 				Element proceed = ECSFactory.makeButton(PROCEED_TO_NEXT_STAGE + "(3)");
 				center.addElement(proceed);
-				//inf.addElement(new TD().addElement(proceed).setAlign("center"));
+				// inf.addElement(new TD().addElement(proceed).setAlign("center"));
 				ec.addElement(center);
 			}
-		
-		}
-		catch (Exception e)
+
+		} catch (Exception e)
 		{
 			s.setMessage("An error occurred in the woods");
 		}
@@ -294,8 +289,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		// <START_OMIT_SOURCE>
 
 		ElementContainer ec = new ElementContainer();
-		if (s.getParser().getStringParameter(Input.SUBMIT, "")
-				.equals(PROCEED_TO_NEXT_STAGE + "(4)"))
+		if (s.getParser().getStringParameter(Input.SUBMIT, "").equals(PROCEED_TO_NEXT_STAGE + "(4)"))
 		{
 			setStage(s, 4);
 			// Reset the defaced webpage so the lesson can start over
@@ -309,22 +303,21 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		{
 			ec.addElement(new HR());
 			s.setMessage("CONGRATULATIONS - You have defaced the site!");
-			Table t = new Table().setCellSpacing(0).setCellPadding(2).setWidth("90%").setAlign(
-					"center");
+			Table t = new Table().setCellSpacing(0).setCellPadding(2).setWidth("90%").setAlign("center");
 			if (s.isColor())
 			{
 				t.setBorder(1);
 			}
 			TR tr = new TR();
-			tr.addElement(new TD().setAlign("center").addElement(
-					ECSFactory.makeButton(PROCEED_TO_NEXT_STAGE + "(4)")));
+			tr.addElement(new TD().setAlign("center").addElement(ECSFactory.makeButton(PROCEED_TO_NEXT_STAGE + "(4)")));
 			t.addElement(tr);
 			tr = new TR();
 			tr.addElement(new TD().addElement(showDefaceAttempt(s)));
 			t.addElement(tr);
 			ec.addElement(t);
 			return ec;
-		} else
+		}
+		else
 		{
 			// Setup the screen content
 			try
@@ -332,8 +325,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				ec.addElement(new H1("Current Network Status:"));
 				ec.addElement(netstatResults);
 
-				Table t = new Table().setCellSpacing(0).setCellPadding(2).setWidth("90%").setAlign(
-						"center");
+				Table t = new Table().setCellSpacing(0).setCellPadding(2).setWidth("90%").setAlign("center");
 				if (s.isColor())
 				{
 					t.setBorder(1);
@@ -342,21 +334,17 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 				TR tr = new TR();
 				tr.addElement(new TD().addElement(ECSFactory.makeButton("View Network")));
-				tr.addElement(new TD().setWidth("35%").addElement(
-						ECSFactory.makePulldown(PROTOCOL, list, "", 5)));
+				tr.addElement(new TD().setWidth("35%").addElement(ECSFactory.makePulldown(PROTOCOL, list, "", 5)));
 				t.addElement(tr);
 
 				ec.addElement(t);
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
-				ec.addElement(new P()
-						.addElement("Select a message to read from the Message List below"));
+				ec.addElement(new P().addElement("Select a message to read from the Message List below"));
 			}
 
 			ec.addElement(new HR());
-			Table t = new Table().setCellSpacing(0).setCellPadding(2).setWidth("90%").setAlign(
-					"center");
+			Table t = new Table().setCellSpacing(0).setCellPadding(2).setWidth("90%").setAlign("center");
 			if (s.isColor())
 			{
 				t.setBorder(1);
@@ -377,15 +365,13 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		try
 		{
 			// get current text and compare to the new text
-			String origpath = s.getContext().getRealPath(
-					WEBGOAT_CHALLENGE + "_" + s.getUserName() + JSP);
+			String origpath = s.getContext().getRealPath(WEBGOAT_CHALLENGE + "_" + s.getUserName() + JSP);
 			String masterFilePath = s.getContext().getRealPath(WEBGOAT_CHALLENGE_JSP);
 			String defacedText = getFileText(new BufferedReader(new FileReader(origpath)), false);
 			String origText = getFileText(new BufferedReader(new FileReader(masterFilePath)), false);
 
 			defaced = (!origText.equals(defacedText));
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -398,11 +384,10 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		ElementContainer ec = new ElementContainer();
 
 		// get current text and compare to the new text
-		String origpath = s.getContext().getRealPath(
-				WEBGOAT_CHALLENGE + "_" + s.getUserName() + JSP);
+		String origpath = s.getContext().getRealPath(WEBGOAT_CHALLENGE + "_" + s.getUserName() + JSP);
 		String defaced = getFileText(new BufferedReader(new FileReader(origpath)), false);
-		String origText = getFileText(new BufferedReader(new FileReader(s.getContext().getRealPath(
-				WEBGOAT_CHALLENGE_JSP))), false);
+		String origText = getFileText(new BufferedReader(new FileReader(s.getContext()
+				.getRealPath(WEBGOAT_CHALLENGE_JSP))), false);
 
 		// show webgoat.jsp text
 		ec.addElement(new H1().addElement("Original Website Text"));
@@ -420,8 +405,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		try
 		{
 			// get current text and compare to the new text
-			String defacedpath = s.getContext().getRealPath(
-					WEBGOAT_CHALLENGE + "_" + s.getUserName() + JSP);
+			String defacedpath = s.getContext().getRealPath(WEBGOAT_CHALLENGE + "_" + s.getUserName() + JSP);
 			String masterFilePath = s.getContext().getRealPath(WEBGOAT_CHALLENGE_JSP);
 
 			// replace the defaced text with the original
@@ -431,8 +415,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			fw.close();
 			// System.out.println("webgoat_guest replaced: " + getFileText( new
 			// BufferedReader( new FileReader( defacedpath ) ), false ) );
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -458,9 +441,8 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		ElementContainer ec = new ElementContainer();
 		ec.addElement(new H1().addElement("Thanks for coming!"));
 		ec.addElement(new BR());
-		ec
-				.addElement(new H1()
-						.addElement("Please remember that you will be caught and fired if you use these techniques for evil."));
+		ec.addElement(new H1()
+				.addElement("Please remember that you will be caught and fired if you use these techniques for evil."));
 
 		return (ec);
 	}
@@ -525,8 +507,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		ElementContainer ec = new ElementContainer();
 
 		ec.addElement(new H1().addElement("Sign In "));
-		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%")
-				.setAlign("center");
+		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%").setAlign("center");
 
 		if (s.isColor())
 		{
@@ -534,11 +515,9 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		}
 
 		TR tr = new TR();
-		tr
-				.addElement(new TH()
-						.addElement(
-								"Please sign in to your account.  See the OWASP admin if you do not have an account.")
-						.setColSpan(2).setAlign("left"));
+		tr.addElement(new TH()
+				.addElement("Please sign in to your account.  See the OWASP admin if you do not have an account.")
+				.setColSpan(2).setAlign("left"));
 		t.addElement(tr);
 
 		tr = new TR();
@@ -594,9 +573,9 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	}
 
 	/**
-	 * This is a deliberate 'backdoor' that would send user name and password
-	 * back to the remote host. Obviously, sending the password back to the
-	 * remote host isn't that useful but... you get the idea
+	 * This is a deliberate 'backdoor' that would send user name and password back to the remote
+	 * host. Obviously, sending the password back to the remote host isn't that useful but... you
+	 * get the idea
 	 * 
 	 * @param s
 	 *            Description of the Parameter
@@ -614,8 +593,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			System.out.println("      Sending message to " + sock.getInetAddress());
 			sock.send(dp);
 			sock.close();
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			System.out.println("Couldn't phone home");
 			e.printStackTrace();
@@ -645,8 +623,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 		ElementContainer ec = new ElementContainer();
 
-		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%")
-				.setAlign("center");
+		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
 
 		if (s.isColor())
 		{
@@ -668,7 +645,8 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		{
 			String cmd = "cmd.exe /c netstat -a -p " + protocol;
 			er = Exec.execSimple(cmd);
-		} else
+		}
+		else
 		{
 			String[] cmd = { "/bin/sh", "-c", "netstat -a -p " + protocol };
 			er = Exec.execSimple(cmd);
@@ -684,7 +662,8 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			if ((line.indexOf("Proto") != -1))
 			{
 				start++;
-			} else
+			}
+			else
 			{
 				line = lines.nextToken();
 			}
@@ -740,8 +719,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		{
 			OutputStreamWriter osw = new OutputStreamWriter(s.getOutputStream());
 			osw.write(message);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			System.out.println("Couldn't write " + message + " to " + s);
 			e.printStackTrace();
@@ -754,8 +732,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 		ec.addElement(new HR().setWidth("90%"));
 		ec.addElement(new Center().addElement(new H1().addElement("Shopping Cart ")));
-		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%")
-				.setAlign("center");
+		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
 
 		if (s.isColor())
 		{
@@ -778,8 +755,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 		ec.addElement(t);
 
-		t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%").setAlign(
-				"center");
+		t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%").setAlign("center");
 
 		if (s.isColor())
 		{
@@ -815,10 +791,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 		for (int i = 0; i < cookies.length; i++)
 		{
-			if (cookies[i].getName().equalsIgnoreCase(USER_COOKIE))
-			{
-				return (cookies[i].getValue());
-			}
+			if (cookies[i].getName().equalsIgnoreCase(USER_COOKIE)) { return (cookies[i].getValue()); }
 		}
 
 		return (null);

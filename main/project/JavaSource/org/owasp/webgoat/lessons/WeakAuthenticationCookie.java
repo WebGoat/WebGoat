@@ -1,3 +1,4 @@
+
 package org.owasp.webgoat.lessons;
 
 import java.util.ArrayList;
@@ -18,32 +19,31 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.*;
 
-/*******************************************************************************
+
+/***************************************************************************************************
  * 
  * 
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
  * 
  * Copyright (c) 2002 - 2007 Bruce Mayhew
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
- * for free software projects.
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
@@ -52,8 +52,10 @@ import org.owasp.webgoat.session.*;
  */
 public class WeakAuthenticationCookie extends LessonAdapter
 {
-	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com").addElement(
-			new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0).setVspace(0));
+	public final static A ASPECT_LOGO = new A().setHref("http://www.aspectsecurity.com")
+			.addElement(
+						new IMG("images/logos/aspect.jpg").setAlt("Aspect Security").setBorder(0).setHspace(0)
+								.setVspace(0));
 
 	/**
 	 * Description of the Field
@@ -90,21 +92,16 @@ public class WeakAuthenticationCookie extends LessonAdapter
 
 		if (cookie != null)
 		{
-			if (cookie.equals(encode("webgoat12345")))
-			{
-				return ("webgoat");
-			}
+			if (cookie.equals(encode("webgoat12345"))) { return ("webgoat"); }
 
-			if (cookie.equals(encode("aspect12345")))
-			{
-				return ("aspect");
-			}
+			if (cookie.equals(encode("aspect12345"))) { return ("aspect"); }
 
 			if (cookie.equals(encode("alice12345")))
 			{
 				makeSuccess(s);
 				return ("alice");
-			} else
+			}
+			else
 			{
 				s.setMessage("Invalid cookie");
 				s.eatCookies();
@@ -135,7 +132,8 @@ public class WeakAuthenticationCookie extends LessonAdapter
 			if (username.equals("webgoat") && password.equals("webgoat"))
 			{
 				loginID = encode("webgoat12345");
-			} else if (username.equals("aspect") && password.equals("aspect"))
+			}
+			else if (username.equals("aspect") && password.equals("aspect"))
 			{
 				loginID = encode("aspect12345");
 			}
@@ -147,7 +145,8 @@ public class WeakAuthenticationCookie extends LessonAdapter
 				s.getResponse().addCookie(newCookie);
 
 				return (username);
-			} else
+			}
+			else
 			{
 				s.setMessage("Invalid username and password entered.");
 			}
@@ -179,19 +178,12 @@ public class WeakAuthenticationCookie extends LessonAdapter
 		{
 			String user = checkCookie(s);
 
-			if ((user != null) && (user.length() > 0))
-			{
-				return (makeUser(s, user, "COOKIE"));
-			}
+			if ((user != null) && (user.length() > 0)) { return (makeUser(s, user, "COOKIE")); }
 
 			user = checkParams(s);
 
-			if ((user != null) && (user.length() > 0))
-			{
-				return (makeUser(s, user, "PARAMETERS"));
-			}
-		}
-		catch (Exception e)
+			if ((user != null) && (user.length() > 0)) { return (makeUser(s, user, "PARAMETERS")); }
+		} catch (Exception e)
 		{
 			s.setMessage("Error generating " + this.getClass().getName());
 			e.printStackTrace();
@@ -244,10 +236,7 @@ public class WeakAuthenticationCookie extends LessonAdapter
 
 		for (int i = 0; i < cookies.length; i++)
 		{
-			if (cookies[i].getName().equalsIgnoreCase(AUTHCOOKIE))
-			{
-				return (cookies[i].getValue());
-			}
+			if (cookies[i].getName().equalsIgnoreCase(AUTHCOOKIE)) { return (cookies[i].getValue()); }
 		}
 
 		return (null);
@@ -265,9 +254,9 @@ public class WeakAuthenticationCookie extends LessonAdapter
 		hints.add("Is the AuthCookie value guessable knowing the username and password?");
 		hints.add("Add 'AuthCookie=********;' to the Cookie: header using "
 				+ "<A href=\"http://www.owasp.org/development/webscarab\">WebScarab</A>.");
-		hints.add("After logging in as webgoat a cookie is added. 65432ubphcfx<br/>" +
-				  "After logging in as aspect a cookie is added. 65432udfqtb<br/>" +
-				  "Is there anything similar about the cookies and the login names?");
+		hints.add("After logging in as webgoat a cookie is added. 65432ubphcfx<br/>"
+				+ "After logging in as aspect a cookie is added. 65432udfqtb<br/>"
+				+ "Is there anything similar about the cookies and the login names?");
 		return hints;
 	}
 
@@ -320,9 +309,9 @@ public class WeakAuthenticationCookie extends LessonAdapter
 		}
 
 		TR tr = new TR();
-		tr.addElement(new TH().addElement(
-				"Please sign in to your account.  See the OWASP admin if you do not have an account.").setColSpan(2)
-				.setAlign("left"));
+		tr.addElement(new TH()
+				.addElement("Please sign in to your account.  See the OWASP admin if you do not have an account.")
+				.setColSpan(2).setAlign("left"));
 		t.addElement(tr);
 
 		tr = new TR();

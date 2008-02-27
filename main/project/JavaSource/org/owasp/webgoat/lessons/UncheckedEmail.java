@@ -1,3 +1,4 @@
+
 package org.owasp.webgoat.lessons;
 
 import java.text.Format;
@@ -7,7 +8,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -15,7 +15,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -34,32 +33,31 @@ import org.apache.ecs.html.TextArea;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 
-/*******************************************************************************
+
+/***************************************************************************************************
  * 
  * 
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
  * 
  * Copyright (c) 2002 - 2007 Bruce Mayhew
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
- * for free software projects.
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
@@ -121,7 +119,8 @@ public class UncheckedEmail extends LessonAdapter
 				{
 					Message sentMessage = sendGoogleMail(to, subject, message, emailFromAddress, gId, gPass);
 					formatMail(ec, sentMessage);
-				} else
+				}
+				else
 				{
 					sendSimulatedMail(ec, to, subject, message);
 				}
@@ -132,8 +131,7 @@ public class UncheckedEmail extends LessonAdapter
 			{
 				makeSuccess(s);
 			}
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			s.setMessage("Error generating " + this.getClass().getName());
 			e.printStackTrace();
@@ -146,7 +144,7 @@ public class UncheckedEmail extends LessonAdapter
 		try
 		{
 			ec.addElement(new Center().addElement(new B().addElement("You sent the following message to: "
-																	 + Arrays.asList(sentMessage.getAllRecipients()))));
+					+ Arrays.asList(sentMessage.getAllRecipients()))));
 			ec.addElement(new BR());
 			ec.addElement(new StringElement("<b>MAIL FROM:</b> " + Arrays.asList(sentMessage.getReplyTo())));
 			ec.addElement(new BR());
@@ -154,7 +152,7 @@ public class UncheckedEmail extends LessonAdapter
 			ec.addElement(new BR());
 			ec
 					.addElement(new StringElement("<b>Message-ID:</b> "
-												  + Arrays.asList(sentMessage.getHeader("Message-ID"))));
+							+ Arrays.asList(sentMessage.getHeader("Message-ID"))));
 			ec.addElement(new BR());
 			ec.addElement(new StringElement("<b>Date:</b> " + sentMessage.getSentDate()));
 			ec.addElement(new BR());
@@ -164,8 +162,7 @@ public class UncheckedEmail extends LessonAdapter
 			ec.addElement(new BR());
 			ec.addElement(new BR());
 			ec.addElement(new StringElement(sentMessage.getContent().toString()));
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			// TODO Auto-generated catch block
 			ec.addElement(new StringElement("Fatal error while sending message"));
@@ -241,13 +238,13 @@ public class UncheckedEmail extends LessonAdapter
 
 		tr = new TR();
 		tr.addElement(new TD().addElement(
-										  "We value your comments.  " + "To send OWASP your questions or comments "
-												  + "regarding the WebGoat tool, please enter your "
-												  + "comments below.  The information you provide will be "
-												  + "handled according to our <U>Privacy Policy</U>.").setColSpan(2));
+											"We value your comments.  " + "To send OWASP your questions or comments "
+													+ "regarding the WebGoat tool, please enter your "
+													+ "comments below.  The information you provide will be "
+													+ "handled according to our <U>Privacy Policy</U>.").setColSpan(2));
 		tr.addElement(new TD().addElement(
-										  "<b>OWASP</B><BR>" + "9175 Guilford Rd <BR> Suite 300 <BR>"
-												  + "Columbia, MD.  21046").setVAlign("top"));
+											"<b>OWASP</B><BR>" + "9175 Guilford Rd <BR> Suite 300 <BR>"
+													+ "Columbia, MD.  21046").setVAlign("top"));
 		t.addElement(tr);
 
 		tr = new TR();
@@ -325,7 +322,7 @@ public class UncheckedEmail extends LessonAdapter
 	}
 
 	private Message sendGoogleMail(String recipients, String subject, String message, String from,
-								   final String mailAccount, final String mailPassword) throws MessagingException
+			final String mailAccount, final String mailPassword) throws MessagingException
 	{
 		boolean debug = false;
 
@@ -402,10 +399,9 @@ public class UncheckedEmail extends LessonAdapter
 	 */
 	public String getInstructions(WebSession s)
 	{
-		String instructions =
-				"This form is an example of a customer support page.  Using the form below try to:<br>"
-						+ "1) Send a malicious script to the website admin.<br>"
-						+ "2) Send a malicious script to a 'friend' from OWASP.<br>";
+		String instructions = "This form is an example of a customer support page.  Using the form below try to:<br>"
+				+ "1) Send a malicious script to the website admin.<br>"
+				+ "2) Send a malicious script to a 'friend' from OWASP.<br>";
 		return (instructions);
 	}
 
