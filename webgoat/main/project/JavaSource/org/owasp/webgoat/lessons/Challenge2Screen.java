@@ -330,7 +330,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				{
 					t.setBorder(1);
 				}
-				String[] list = { "TCP", "TCPv6", "IP", "IPv6", "UDP", "UDPv6" };
+				String[] list = { "tcp", "tcpv6", "ip", "ipv6", "udp", "udpv6" };
 
 				TR tr = new TR();
 				tr.addElement(new TD().addElement(ECSFactory.makeButton("View Network")));
