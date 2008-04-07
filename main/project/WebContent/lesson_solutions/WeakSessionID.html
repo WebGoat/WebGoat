@@ -662,13 +662,13 @@ style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>The easiest
-way to complete this lesson is to use WebScarab’s Session ID Analysis.<o:p></o:p></span></p>
+way to complete this lesson is to use WebScarab's Session ID Analysis.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Go to
-WebScarab and click on the button “SessionID Analysis”. Select the last POST
-request from the “Previous requests” drop-down box.<o:p></o:p></span></p>
+WebScarab and click on the button "SessionID Analysis". Select the last POST
+request from the "Previous requests" drop-down box.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='page-break-after:avoid'><span style='font-family:
 "Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_786"
@@ -688,7 +688,7 @@ style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>To make sure
-that WebScarab is able to fetch the WEAKID cookie, you need to click the “Test”
+that WebScarab is able to fetch the WEAKID cookie, you need to click the "Test"
 button on the bottom of the screen. A pop-up window must be shown like below.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
@@ -713,7 +713,7 @@ style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>If you don’t
 have a pop-up window with the Extracted Sessionids, you must edit the Request.
 You must delete the WEAKID value from the request. Without this cookie value,
-WebGoat will return a HTTP Header “Set-Cookie: WEAKID=value” so WebScarab
+WebGoat will return a HTTP Header "Set-Cookie: WEAKID=value" so WebScarab
 learns about this value.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
@@ -721,8 +721,8 @@ learns about this value.<o:p></o:p></span></p>
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Fetch 50
-samples and examine the results. Enter “50” in the “Samples” window and click
-the button “Fetch”. You will not see any information about progress.<o:p></o:p></span></p>
+samples and examine the results. Enter "50" in the "Samples" window and click
+the button "Fetch". You will not see any information about progress.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
@@ -738,7 +738,7 @@ style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Now you need
-to go to the tab “Analysis”.<o:p></o:p></span></p>
+to go to the tab "Analysis".<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
@@ -753,7 +753,7 @@ style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>In the “Analysis”
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>In the "Analysis"
 pane you see nothing. <o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif";mso-no-proof:
@@ -793,7 +793,9 @@ there is sometimes a gap in the first value of the WEAKID, skipping with 1. The
 value that is missing is the value that you need to know to log on. Now you
 only need to calculate the timestamp. This can be brute-forced using Crowbar.
 You know the previous timestamp and the next timestamp so you have a start and
-end value.<o:p></o:p></span></p>
+end value.<br>
+You can download Crowbar for free: <a href="http://www.sensepost.com/research/crowbar/" target="_blank">http://www.sensepost.com/research/crowbar/</a>
+<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
@@ -829,35 +831,26 @@ field-end'></span><![endif]--> Crowbar<span style='font-family:"Arial","sans-ser
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
-
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
-
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
-
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Change target
-to localhost and the port to 80.<o:p></o:p></span></p>
+to localhost and adjust the port.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Create a Base
-response. Make sure that you see “How to hijack a session” in the middle
+response. Make sure that you see "How to hijack a session" in the middle
 window.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Insert ##1##
-in the WEAKID parameter where you want to brute-force the value. Start the
-first loop at 363093, the last digits of the last cookie before the
+in the WEAKID parameter where you want to brute-force the value and be aware, that the first part of the WEAKID is the one we are searching for (16936).
+The WEAKID in Crowbar lookes like this: Cookie: JSESSIONID=...; WEAKID=1693<font color="ff0000">6</font>-1163685<font color="ff0000">##1##</font>;<br>
+Start the first loop at 363093, the last digits of the last cookie before the
 authentication cookie and 363203, the first cookie after the authentication
-cookie. We have to brute-force these values, but we are sure that they lie
+cookie. You have to enter these two values in the Parameter1 fields. We have to brute-force these values, but we are sure that they lie
 between these two boundaries.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Examine the
-results until you see a different fuzzy logic value (the blue line </span><span
-style='font-family:Wingdings;mso-ascii-font-family:Arial;mso-hansi-font-family:
-Arial;mso-bidi-font-family:Arial;mso-char-type:symbol;mso-symbol-font-family:
-Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>J</span></span><span
-style='font-family:"Arial","sans-serif"'>), right-click it and click on “Show
-reply”.<o:p></o:p></span></p>
+results until you see a different fuzzy logic value (the blue line in Figure 3), right-click it and click on "Show
+reply".<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 

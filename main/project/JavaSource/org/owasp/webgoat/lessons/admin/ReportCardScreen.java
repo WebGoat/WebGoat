@@ -100,8 +100,8 @@ public class ReportCardScreen extends LessonAdapter
 	private Element makeFeedback(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-		ec.addElement(new Center(new StringElement("Comments and suggestions are welcome. "
-				+ getWebgoatContext().getFeedbackAddress())));
+		ec.addElement(new StringElement("Comments and suggestions are welcome. "
+				+ getWebgoatContext().getFeedbackAddress() + "<br><br>"));
 
 		return ec;
 	}
@@ -178,11 +178,6 @@ public class ReportCardScreen extends LessonAdapter
 		tr.addElement(new TD().setAlign("CENTER").addElement(lessonTracker.getCompleted() ? "Y" : "N"));
 		tr.addElement(new TD().setAlign("CENTER").addElement(Integer.toString(lessonTracker.getNumVisits())));
 		tr.addElement(new TD().setAlign("CENTER").addElement(Integer.toString(lessonTracker.getMaxHintLevel())));
-		tr.addElement(new TD().setAlign("CENTER").addElement(lessonTracker.getViewedCookies() ? "Y" : "N"));
-		tr.addElement(new TD().setAlign("CENTER").addElement(lessonTracker.getViewedHtml() ? "Y" : "N"));
-		tr.addElement(new TD().setAlign("CENTER").addElement(lessonTracker.getViewedLessonPlan() ? "Y" : "N"));
-		tr.addElement(new TD().setAlign("CENTER").addElement(lessonTracker.getViewedParameters() ? "Y" : "N"));
-		tr.addElement(new TD().setAlign("CENTER").addElement(lessonTracker.getViewedSource() ? "Y" : "N"));
 		return tr;
 	}
 
@@ -294,11 +289,6 @@ public class ReportCardScreen extends LessonAdapter
 		tr.addElement(new TH("Complete"));
 		tr.addElement(new TH("Visits"));
 		tr.addElement(new TH("Hints"));
-		tr.addElement(new TH("Cookies"));
-		tr.addElement(new TH("HTML"));
-		tr.addElement(new TH("LessonPlan"));
-		tr.addElement(new TH("Parameters"));
-		tr.addElement(new TH("Source"));
 
 		return tr;
 	}

@@ -179,17 +179,17 @@ public class DOMXSS extends SequentialLessonAdapter
 	{
 		List<String> hints = new ArrayList<String>();
 
-		hints.add("Try entering the following: " + "&lt;IMG SRC=\"images/logos/owasp.jpg\"/&gt;");
+		hints.add("Stage 1: Try entering the following: " + "&lt;IMG SRC=\"images/logos/owasp.jpg\"/&gt;");
 
-		hints.add("Try entering the following: " + "&lt;img src=x onerror=;;alert('XSS') /&gt;");
+		hints.add("Stage 2: Try entering the following: " + "&lt;img src=x onerror=;;alert('XSS') /&gt;");
 
-		hints.add("Try entering the following: " + "&lt;IFRAME SRC=\"javascript:alert('XSS');\"&gt;&lt;/IFRAME&gt;");
+		hints.add("Stage 3: Try entering the following: " + "&lt;IFRAME SRC=\"javascript:alert('XSS');\"&gt;&lt;/IFRAME&gt;");
 
-		hints
-				.add("Try entering the following: "
+		hints.add("Stage 4: Try entering the following: "
 						+ "Please enter your password:&lt;BR&gt;&lt;input type = \"password\" name=\"pass\"/&gt;&lt;button "
 						+ "onClick=\"javascript:alert('I have your password: ' + pass.value);\"&gt;Submit&lt;/button&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;");
 
+		hints.add("Stage 5: You will find the JavaScripts in tomcat\\webapps\\WebGoat\\javascript (Standart Version) or in WebContent\\javascript (Developer Version).");
 		// Attack Strings:
 
 		// <IMG SRC="images/logos/owasp.jpg"/>
@@ -257,7 +257,7 @@ public class DOMXSS extends SequentialLessonAdapter
 		}
 		else if (getLessonTracker(s).getStage() == 5)
 		{
-			instructions = "STAGE 5:\tPerform client-side HTML entity encoding to mitigate the DOM XSS vulnerability. A utility method is provided for you in WebContent/javascript/escape.js.";
+			instructions = "STAGE 5:\tPerform client-side HTML entity encoding to mitigate the DOM XSS vulnerability. A utility method is provided for you in escape.js.";
 		}
 		return (instructions);
 	}

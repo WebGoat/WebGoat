@@ -125,9 +125,14 @@ public class UncheckedEmail extends LessonAdapter
 					sendSimulatedMail(ec, to, subject, message);
 				}
 			}
+			
+			if(to.length() > 0 && "webgoat.admin@owasp.org".equals(to) && message.contains("<script"))
+			{
+				s.setMessage("The attack worked! Now try to attack another person than the admin.");
+			}
 
-			// only complete the lesson if they changed the "to" hidden field
-			if (to.length() > 0 && !"webgoat.admin@owasp.org".equals(to))
+			// only complete the lesson if they changed the "to" hidden field and they sen a scripttag in the message
+			if (to.length() > 0 && !"webgoat.admin@owasp.org".equals(to) && message.contains("<script"))
 			{
 				makeSuccess(s);
 			}

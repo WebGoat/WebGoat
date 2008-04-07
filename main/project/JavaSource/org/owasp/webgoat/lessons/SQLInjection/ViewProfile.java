@@ -117,6 +117,7 @@ public class ViewProfile extends DefaultLessonAction
 									.getInt("salary"), answer_results.getString("ccn"), answer_results
 									.getInt("ccn_limit"), answer_results.getString("disciplined_date"), answer_results
 									.getString("disciplined_notes"), answer_results.getString("personal_description"));
+					System.out.println("Profile: " + profile);
 					/*
 					 * System.out.println("Retrieved employee from db: " + profile.getFirstName() + " " +
 					 * profile.getLastName() + " (" + profile.getId() + ")");

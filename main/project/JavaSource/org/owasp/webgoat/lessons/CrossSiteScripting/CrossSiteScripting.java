@@ -1,9 +1,17 @@
 
 package org.owasp.webgoat.lessons.CrossSiteScripting;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.ecs.ElementContainer;
+import org.apache.ecs.StringElement;
+import org.apache.ecs.html.Body;
+import org.apache.ecs.html.Head;
+import org.apache.ecs.html.Html;
+import org.apache.ecs.html.Title;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.DeleteProfile;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
@@ -90,7 +98,32 @@ public class CrossSiteScripting extends GoatHillsFinancial
 	{
 		return Category.XSS;
 	}
+	
+	
+	public String getLessonSolutionFileName(WebSession s) {
+		String solutionFileName = null;
+		String stage = getStage(s);
+		solutionFileName = "/lesson_solutions/Lab XSS/Lab " + stage + ".html";
+		return solutionFileName;
+	}
+	
+	@Override
+	public String getSolution(WebSession s) {
+		String src = null;
 
+		try
+		{
+			System.out.println("Solution: " + getLessonSolutionFileName(s));
+			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName(s)))), false);
+		} catch (IOException e)
+		{
+			s.setMessage("Could not find the solution file");
+			src = ("Could not find the solution file");
+		}
+
+		return src;
+	}
+	
 	/**
 	 * Gets the hints attribute of the DirectoryScreen object
 	 * 
@@ -101,29 +134,27 @@ public class CrossSiteScripting extends GoatHillsFinancial
 		List<String> hints = new ArrayList<String>();
 
 		// Stage 1
-		hints.add("You can put HTML tags in form input fields.");
-		hints.add("Bury a SCRIPT tag in the field to attack anyone who reads it.");
+		hints.add("Stage1: You can put HTML tags in form input fields.");
+		hints.add("Stage1: Bury a SCRIPT tag in the field to attack anyone who reads it.");
 		hints
-				.add("Enter this: &lt;script language=\"javascript\" type=\"text/javascript\"&gt;alert(\"Ha Ha Ha\");&lt;/script&gt; in message fields.");
-		hints.add("Enter this: &lt;script&gtalert(\"document.cookie\");&lt;/script&gt; in message fields.");
+				.add("Stage1: Enter this: &lt;script language=\"javascript\" type=\"text/javascript\"&gt;alert(\"Ha Ha Ha\");&lt;/script&gt; in message fields.");
+		hints.add("Stage1: Enter this: &lt;script&gt;alert(\"document.cookie\");&lt;/script&gt; in message fields.");
 
 		// Stage 2
-		hints.add("Many scripts rely on the use of special characters such as: &lt;");
+		hints.add("Stage2: Many scripts rely on the use of special characters such as: &lt;");
 		hints
-				.add("Allowing only a certain set of characters (positive filtering) is preferred to blocking a set of characters (negative filtering).");
-		hints.add("The java.util.regex package is useful for filtering string values.");
+				.add("Stage2: Allowing only a certain set of characters (positive filtering) is preferred to blocking a set of characters (negative filtering).");
+		hints.add("Stage2: The java.util.regex package is useful for filtering string values.");
 
 		// Stage 3
-		hints
-				.add("Browsers recognize and decode HTML entity encoded content after parsing and interpretting HTML tags.");
-		hints.add("An HTML entity encoder is provided in the ParameterParser class.");
+
 
 		// Stage 4
-		hints.add("Examine content served in response to form submissions looking for data taken from the form.");
-
+		hints.add("Stage4: Examine content served in response to form submissions looking for data taken from the form.");
+		hints.add("Stage4: There is a class called HtmlEncoder in org.owasp.webgoat.util");
 		// Stage 5
 		hints
-				.add("Validate early.  Consider: out.println(\"Order for \" + request.getParameter(\"product\") + \" being processed...\");");
+				.add("Stage5: Validate early.  Consider: out.println(\"Order for \" + request.getParameter(\"product\") + \" being processed...\");");
 
 		return hints;
 	}
@@ -144,11 +175,12 @@ public class CrossSiteScripting extends GoatHillsFinancial
 			{
 				instructions = "Stage 1: Execute a Stored Cross Site Scripting (XSS) attack.<br>"
 						+ "As 'Tom', execute a Stored XSS attack against the Street field on the Edit Profile page.  "
-						+ "Verify that 'Jerry' is affected by the attack.";
+						+ "Verify that 'Jerry' is affected by the attack. <br/>The passwords for the accounts are the prenames.";
 			}
 			else if (STAGE2.equals(stage))
 			{
-				instructions = "Stage 2: Block Stored XSS using Input Validation.<br>"
+				instructions = "Stage 2: Block Stored XSS using Input Validation.<br><br>" +
+				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to block the stored XSS before it can be written to the database. "
 						+ "Repeat stage 1 as 'Eric' with 'David' as the manager.  Verify that 'David' is not affected by the attack.";
 			}
@@ -160,7 +192,8 @@ public class CrossSiteScripting extends GoatHillsFinancial
 			}
 			else if (STAGE4.equals(stage))
 			{
-				instructions = "Stage 4: Block Stored XSS using Output Encoding.<br>"
+				instructions = "Stage 4: Block Stored XSS using Output Encoding.<br><br>" +
+				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to block XSS after it is read from the database. "
 						+ "Repeat stage 3. Verify that 'David' is not affected by Bruce's profile attack.";
 			}
@@ -172,7 +205,8 @@ public class CrossSiteScripting extends GoatHillsFinancial
 			}
 			else if (STAGE6.equals(stage))
 			{
-				instructions = "Stage 6: Block Reflected XSS using Input Validation.<br>"
+				instructions = "Stage 6: Block Reflected XSS using Input Validation.<br><br>" +
+				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to block this reflected XSS attack. "
 						+ "Repeat step 5.  Verify that the attack URL is no longer effective.";
 			}

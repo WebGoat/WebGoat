@@ -266,7 +266,7 @@ public class Encoding extends LessonAdapter
 
 			description = "Rot13 encoding is a way to make text unreadable, but is easily reversed and provides no security.";
 
-			t.addElement(makeRow(description, rot13(userInput), rot13(userInput)));
+			t.addElement(makeRow(description, rot13(userInput), userInput));
 
 			description = "XOR with password encoding is a weak encryption scheme that mixes a password into data.";
 
@@ -575,7 +575,7 @@ public class Encoding extends LessonAdapter
 			System.out.print("Hex encoding: ");
 			System.out.println(hexEncode(userInput) + " : " + hexDecode(userInput));
 			System.out.print("Rot13 encoding: ");
-			System.out.println(rot13(userInput) + " : " + rot13(userInput));
+			System.out.println(rot13(userInput) + " : " + userInput);
 			System.out.print("XOR with password: ");
 			System.out.println(xorEncode(userInput, userKey) + " : " + xorDecode(userInput, userKey));
 			System.out.print("Double unicode encoding is...");

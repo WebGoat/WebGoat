@@ -85,9 +85,9 @@ public class RemoteAdminFlaw extends LessonAdapter
 		List<String> hints = new ArrayList<String>();
 		hints.add("WebGoat has 2 admin interfaces.");
 		hints.add("WebGoat has one admin interface that is controlled via a URL parameter and is 'hackable'");
-		hints
-				.add("WebGoat has one admin interface that is controlled via server side security constraints and should not be 'hackable'");
+		hints.add("WebGoat has one admin interface that is controlled via server side security constraints and should not be 'hackable'");
 		hints.add("Follow the Source!");
+		hints.add("On success you will see new submenu items in the menupoint 'Admin Functions'");
 
 		return hints;
 	}

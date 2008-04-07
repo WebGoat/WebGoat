@@ -78,6 +78,45 @@ public class BackDoors extends SequentialLessonAdapter
 	{
 		return concept2(s);
 	}
+	
+	private void addDBEntriesToEC(ElementContainer ec, ResultSet rs)
+	{
+		try {
+			if (rs.next())
+			{
+				Table t = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(1);
+				TR tr = new TR();
+				tr.addElement(new TH("User ID"));
+				tr.addElement(new TH("Password"));
+				tr.addElement(new TH("SSN"));
+				tr.addElement(new TH("Salary"));
+				tr.addElement(new TH("E-Mail"));
+				t.addElement(tr);
+				
+				tr = new TR();
+				tr.addElement(new TD(rs.getString("userid")));
+				tr.addElement(new TD(rs.getString("password")));
+				tr.addElement(new TD(rs.getString("ssn")));
+				tr.addElement(new TD(rs.getString("salary")));
+				tr.addElement(new TD(rs.getString("email")));
+				t.addElement(tr);
+				while (rs.next())
+				{
+					tr = new TR();
+					tr.addElement(new TD(rs.getString("userid")));
+					tr.addElement(new TD(rs.getString("password")));
+					tr.addElement(new TD(rs.getString("ssn")));
+					tr.addElement(new TD(rs.getString("salary")));
+					tr.addElement(new TD(rs.getString("email")));
+					t.addElement(tr);
+				}
+				ec.addElement(t);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	protected Element concept1(WebSession s) throws Exception
 	{
@@ -105,28 +144,8 @@ public class BackDoors extends SequentialLessonAdapter
 				}
 
 				ResultSet rs = statement.executeQuery(arrSQL[0]);
-				if (rs.next())
-				{
-					Table t = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(1);
-					TR tr = new TR();
-					tr.addElement(new TH("User ID"));
-					tr.addElement(new TH("Password"));
-					tr.addElement(new TH("SSN"));
-					tr.addElement(new TH("Salary"));
-					tr.addElement(new TH("E-Mail"));
-					t.addElement(tr);
-					while (rs.next())
-					{
-						tr = new TR();
-						tr.addElement(new TD(rs.getString("userid")));
-						tr.addElement(new TD(rs.getString("password")));
-						tr.addElement(new TD(rs.getString("ssn")));
-						tr.addElement(new TD(rs.getString("salary")));
-						tr.addElement(new TD(rs.getString("email")));
-						t.addElement(tr);
-					}
-					ec.addElement(t);
-				}
+				addDBEntriesToEC(ec, rs);
+
 			}
 		} catch (Exception ex)
 		{
@@ -144,14 +163,22 @@ public class BackDoors extends SequentialLessonAdapter
 
 		if (!userInput.equals(""))
 		{
+			userInput = SELECT_ST + userInput;
 			String[] arrSQL = userInput.split(";");
+			Connection conn = DatabaseUtilities.getConnection(s);
+			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+														ResultSet.CONCUR_READ_ONLY);
+			
 			if (arrSQL.length == 2)
 			{
-				if (userInput.toUpperCase().indexOf("CREATE TRIGGER") != 0)
+				if (userInput.toUpperCase().indexOf("CREATE TRIGGER") != -1)
 				{
 					makeSuccess(s);
 				}
 			}
+			ResultSet rs = statement.executeQuery(arrSQL[0]);
+			addDBEntriesToEC(ec, rs);
+			
 
 		}
 		return ec;

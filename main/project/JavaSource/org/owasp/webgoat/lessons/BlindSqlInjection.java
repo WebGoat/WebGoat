@@ -81,14 +81,7 @@ public class BlindSqlInjection extends LessonAdapter
 
 			String query = "SELECT * FROM user_data WHERE userid = " + accountNumber;
 			String answer_query;
-			if (runningOnWindows())
-			{
-				answer_query = "SELECT TOP 1 first_name FROM user_data WHERE userid = " + TARGET_ACCT_NUM;
-			}
-			else
-			{
-				answer_query = "SELECT first_name FROM user_data WHERE userid = " + TARGET_ACCT_NUM;
-			}
+			answer_query = "SELECT TOP 1 first_name FROM user_data WHERE userid = " + TARGET_ACCT_NUM;
 
 			try
 			{
@@ -151,25 +144,6 @@ public class BlindSqlInjection extends LessonAdapter
 		return new StringElement("By Chuck Willis");
 	}
 
-	/**
-	 * 
-	 * Determines the OS that WebGoat is running on. Needed because different DB backends are used
-	 * on the different OSes (Access on Windows, InstantDB on others)
-	 * 
-	 * @return true if running on Windows, false otherwise
-	 */
-	private boolean runningOnWindows()
-	{
-		String os = System.getProperty("os.name", "Windows");
-		if (os.toLowerCase().indexOf("window") != -1)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 
 	/**
 	 * Gets the hints attribute of the DatabaseFieldScreen object
@@ -179,78 +153,35 @@ public class BlindSqlInjection extends LessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		if (runningOnWindows())
-		{
-			hints
-					.add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. "
-							+ "Create a SQL statement that you can use as a true/false test and then "
-							+ "select the first character of the target element and do a start narrowing "
-							+ "down the character using > and <"
-							+ "<br><br>The backend database is Microsoft Access.  Keep that in mind if you research SQL functions "
-							+ "on the Internet since different databases use some different functions and syntax.");
+			hints.add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. "
+					+ "Create a SQL statement that you can use as a true/false test and then "
+					+ "select the first character of the target element and do a start narrowing "
+					+ "down the character using > and <"
+					+ "<br><br>The backend database is HSQLDB.  Keep that in mind if you research SQL functions "
+					+ "on the Internet since different databases use some different functions and syntax.");
 			hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
 					+ "\"SELECT * FROM user_data WHERE userid = \" + accountNumber ");
 			hints.add("The application is taking your input and inserting it at the end of a pre-formed SQL command. "
 					+ "You will need to make use of the following SQL functions: "
 					+ "<br><br>SELECT - query for your target data and get a string "
-					+ "<br><br>mid(string, start, length) - returns a "
+					+ "<br><br>substr(string, start, length) - returns a "
 					+ "substring of string starting at the start character and going for length characters "
-					+ "<br><br>asc(string) will return the ascii value of the first character in string "
+					+ "<br><br>ascii(string) will return the ascii value of the first character in string "
 					+ "<br><br>&gt and &lt - once you have a character's value, compare it to a choosen one");
 			hints.add("Example: is the first character of the first_name of userid " + TARGET_ACCT_NUM
 					+ " less than 'M' (ascii 77)? "
-					+ "<br><br>101 AND (asc( mid((SELECT first_name FROM user_data WHERE userid=" + TARGET_ACCT_NUM
+					+ "<br><br>101 AND (ascii( substr((SELECT first_name FROM user_data WHERE userid=" + TARGET_ACCT_NUM
 					+ ") , 1 , 1) ) < 77 ); "
 					+ "<br><br>If you get back that account number is valid, then yes.  If get back that the number is"
 					+ "invalid then answer is no.");
-			hints
-					.add("Another example: is the second character of the first_name of userid "
-							+ TARGET_ACCT_NUM
-							+ " greater than 'm' (ascii 109)? "
-							+ "<br><br>101 AND (asc( mid((SELECT first_name FROM user_data WHERE userid="
-							+ TARGET_ACCT_NUM
-							+ ") , 2 , 1) ) > 109 ); "
-							+ "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
-							+ "invalid then answer is no.");
-		}
-		else
-		{
-			hints.add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. "
-					+ "Create a SQL statement that you can use as a true/false test and then "
-					+ "select the first character of the target element and do a start narrowing "
-					+ "down the character using > and <");
-
-			hints
-					.add("The database backend is InstantDB.  Here is a reference guide : <a href=\"http://www.instantdb.com/doc/syntax.html\" target=\"_blank\">http://www.instantdb.com/doc/syntax.html</a>");
-			hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
-					+ "\"SELECT * FROM user_data WHERE userid = \" + accountNumber ");
-			hints
-					.add("THIS HINT IS FOR THE MS ACCESS DB.  IT NEEDS TO BE ALTERED FOR THE INSTANTDB BACKEND. <br><br>The application is taking your input and inserting it at the end of a pre-formed SQL command. "
-							+ "You will need to make use of the following SQL functions: "
-							+ "<br><br>SELECT - query for your target data and get a string "
-							+ "<br><br>mid(string, start, length) - returns a "
-							+ "substring of string starting at the start character and going for length characters "
-							+ "<br><br>asc(string) will return the ascii value of the first character in string "
-							+ "<br><br>&gt and &lt - once you have a character's value, compare it to a choosen one");
-			hints
-					.add("THIS HINT IS FOR THE MS ACCESS DB.  IT NEEDS TO BE ALTERED FOR THE INSTANTDB BACKEND. <br><br>Example: is the first character of the first_name of userid "
-							+ TARGET_ACCT_NUM
-							+ " less than 'M' (ascii 77)? "
-							+ "<br><br>101 AND (asc( mid((SELECT first_name FROM user_data WHERE userid="
-							+ TARGET_ACCT_NUM
-							+ ") , 1 , 1) ) < 77 ); "
-							+ "<br><br>If you get back that account number is valid, then yes.  If get back that the number is"
-							+ "invalid then answer is no.");
-			hints
-					.add("THIS HINT IS FOR THE MS ACCESS DB.  IT NEEDS TO BE ALTERED FOR THE INSTANTDB BACKEND. <br><br> example: is the second character of the first_name of userid "
-							+ TARGET_ACCT_NUM
-							+ " greater than 'm' (ascii 109)? "
-							+ "<br><br>101 AND (asc( mid((SELECT first_name FROM user_data WHERE userid="
-							+ TARGET_ACCT_NUM
-							+ ") , 2 , 1) ) > 109 ); "
-							+ "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
-							+ "invalid then answer is no.");
-		}
+			hints.add("Another example: is the second character of the first_name of userid "
+					+ TARGET_ACCT_NUM
+					+ " greater than 'm' (ascii 109)? "
+					+ "<br><br>101 AND (ascii( substr((SELECT first_name FROM user_data WHERE userid="
+					+ TARGET_ACCT_NUM
+					+ ") , 2 , 1) ) > 109 ); "
+					+ "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
+					+ "invalid then answer is no.");
 		return hints;
 	}
 
