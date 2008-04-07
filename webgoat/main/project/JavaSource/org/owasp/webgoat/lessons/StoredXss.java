@@ -159,9 +159,8 @@ public class StoredXss extends LessonAdapter
 		List<String> hints = new ArrayList<String>();
 		hints.add("You can put HTML tags in your message.");
 		hints.add("Bury a SCRIPT tag in the message to attack anyone who reads it.");
-		hints
-				.add("Enter this: &lt;script language=\"javascript\" type=\"text/javascript\"&gt;alert(\"Ha Ha Ha\");&lt;/script&gt; in the message field.");
-		hints.add("Enter this: &lt;script&gtalert(\"document.cookie\");&lt;/script&gt; in the message field.");
+		hints.add("Enter this: &lt;script language=\"javascript\" type=\"text/javascript\"&gt;alert(\"Ha Ha Ha\");&lt;/script&gt; in the message field.");
+		hints.add("Enter this: &lt;script&gt;alert(document.cookie);&lt;/script&gt; in the message field.");
 
 		return hints;
 	}

@@ -714,21 +714,19 @@ field-end'></span><![endif]--> XPath Injection</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal><b><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></b></p>
-
-<p class=MsoNormal><b><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></b></p>
-
-<p class=MsoNormal><b><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></b></p>
-
-<p class=MsoNormal><b><span style='font-family:"Arial","sans-serif"'>Solution:<o:p></o:p></span></b></p>
-
-<p class=MsoNormal><b><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></b></p>
-
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif";mso-bidi-font-weight:
 bold'>XPath injection is similar to SQL Injection. Input is not validated and
-used to create a XPath query. Injecting Smith' or 1=1 or 'a'='a will log you on
-as the first user defined in the system. Password is a required field, so there
-you can enter whatever you want.<o:p></o:p></span></p>
+used to create a XPath query. Here you can see how the XPATH query is built:<br><br>
+
+<i>String dir = s.getContext().getRealPath("/lessons/XPATHInjection/EmployeesData.xml");<br>
+File d = new File(dir);<br>
+XPathFactory factory = XPathFactory.newInstance();<br>
+XPath xPath = factory.newXPath();<br>
+InputSource inputSource = new InputSource(new FileInputStream(d));<br>
+String expression = "/employees/employee[loginID/text()='" + <font color="ff0000">username</font> + "' and passwd/text()='" + <font color="ff0000">password</font> + "']";<br>
+nodes = (NodeList) xPath.evaluate(expression, inputSource, XPathConstants.NODESET);</i><br>
+<br>
+</span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif";mso-bidi-font-weight:
 bold'><o:p>&nbsp;</o:p></span></p>
@@ -746,9 +744,18 @@ field-begin'></span><span style='mso-spacerun:yes'> </span>SEQ Figure \* ARABIC
 <span style='mso-element:field-separator'></span><![endif]--><span
 style='mso-no-proof:yes'>2</span><!--[if supportFields]><span style='mso-element:
 field-end'></span><![endif]--> Inject XPath payload</p>
-
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
-
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif";mso-bidi-font-weight:
+bold'>
+Injecting Smith' or 1=1 or 'a'='a will log you on
+as the first user defined in the system. Password is a required field, so there
+you can enter whatever you want.<br><br>
+This is what the server gets:<br>
+<i>expression = "/employees/employee[loginID/text()='<font color="ff0000">Smith' or 1=1 or 'a'='a</font>' and passwd/text()='<font color="ff0000">password</font>']"</i><br><br>
+And this is how the server interprets it:<br>
+<i>expression = "/employees/employee[ <font color="ff0000">(</font> loginID/text()='<font color="0000ff">Smith' or 1=1 <font color="ff0000">) OR (</font> 'a'='a</font>' and passwd/text()='<font color="0000ff">password</font>' <font color="ff0000">)</font> ]"</i><br>
+</span></p>
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
 <p class=MsoNormal style='page-break-after:avoid'><span style='mso-no-proof:
 yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_143" o:spid="_x0000_i1025"
  type="#_x0000_t75" style='width:480pt;height:277.5pt;visibility:visible;

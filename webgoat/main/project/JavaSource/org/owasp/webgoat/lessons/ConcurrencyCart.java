@@ -585,7 +585,7 @@ public class ConcurrencyCart extends LessonAdapter
 		List<String> hints = new ArrayList<String>();
 		hints.add("Can you purchase the merchandise in your shopping cart for a lower price?");
 		hints.add("Try using a new browser window to get a lower price.");
-		hints.add("In window A, purchase a low cost item, in window B a high cost item.");
+		hints.add("In window A, purchase a low cost item. In window B, update the card with a high cost item.");
 		hints.add("In window A, commit after updating cart in window B.");
 
 		return hints;

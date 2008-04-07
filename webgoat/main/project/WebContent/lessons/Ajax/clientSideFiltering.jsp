@@ -6,7 +6,7 @@
     
 <% 
 
-	String userId = request.getParameter("userID");
+	String userId = request.getParameter("userId");
 
 
 	NodeList nodes = null;

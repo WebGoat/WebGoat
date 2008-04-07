@@ -616,38 +616,11 @@ style='font-family:"Arial","sans-serif"'>Solution:<o:p></o:p></span></b></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif";mso-no-proof:
-yes'><!--[if gte vml 1]><v:shapetype id="_x0000_t75" coordsize="21600,21600"
- o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f"
- stroked="f">
- <v:stroke joinstyle="miter"/>
- <v:formulas>
-  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
-  <v:f eqn="sum @0 1 0"/>
-  <v:f eqn="sum 0 0 @1"/>
-  <v:f eqn="prod @2 1 2"/>
-  <v:f eqn="prod @3 21600 pixelWidth"/>
-  <v:f eqn="prod @3 21600 pixelHeight"/>
-  <v:f eqn="sum @0 0 1"/>
-  <v:f eqn="prod @6 1 2"/>
-  <v:f eqn="prod @7 21600 pixelWidth"/>
-  <v:f eqn="sum @8 21600 0"/>
-  <v:f eqn="prod @7 21600 pixelHeight"/>
-  <v:f eqn="sum @10 21600 0"/>
- </v:formulas>
- <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
- <o:lock v:ext="edit" aspectratio="t"/>
-</v:shapetype><v:shape id="Picture_x0020_1509" o:spid="_x0000_i1027" type="#_x0000_t75"
- style='width:480pt;height:276.75pt;visibility:visible;mso-wrap-style:square'>
- <v:imagedata src="/WebGoat/lesson_solutions/SqlNumericInjection_files/image001.png" o:title=""/>
-</v:shape><![endif]--><![if !vml]><img width=640 height=369
-src="/WebGoat/lesson_solutions/SqlNumericInjection_files/image002.jpg" v:shapes="Picture_x0020_1509"><![endif]></span><span
-style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>The
-application is taking your input and inserting it at the end of a pre-formed
+application is taking the input from the select box and inserts it at the end of a pre-formed
 SQL command.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Compound SQL
@@ -657,46 +630,40 @@ Try appending a SQL statement that always resolves to true.<o:p></o:p></span></p
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>This is the
-query: SELECT * FROM user_data WHERE userid = 101<o:p></o:p></span></p>
+query: SELECT * FROM weather_data WHERE station = 101<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>What happens
-if you insert 101 or 1=1?<o:p></o:p></span></p>
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Intercept the post request with WebScarab and replace 101 with 101 or 1=1!<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+<center>
+<img src = "/WebGoat/lesson_solutions/SqlNumericInjection_files/numericinjection.png" width=350px>
 
-<p class=MsoNormal style='page-break-after:avoid'><span style='font-family:
-"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_1510"
- o:spid="_x0000_i1026" type="#_x0000_t75" style='width:480pt;height:276.75pt;
- visibility:visible;mso-wrap-style:square'>
- <v:imagedata src="/WebGoat/lesson_solutions/SqlNumericInjection_files/image003.png" o:title=""/>
-</v:shape><![endif]--><![if !vml]><img width=640 height=369
-src="/WebGoat/lesson_solutions/SqlNumericInjection_files/image004.jpg" v:shapes="Picture_x0020_1510"><![endif]></span></p>
 
 <p class=MsoCaption>Figure <!--[if supportFields]><span style='mso-element:
 field-begin'></span><span style='mso-spacerun:yes'> </span>SEQ Figure \* ARABIC
 <span style='mso-element:field-separator'></span><![endif]--><span
 style='mso-no-proof:yes'>1</span><!--[if supportFields]><span style='mso-element:
-field-end'></span><![endif]--> Numeric SQL Injection<span style='font-family:
+field-end'></span><![endif]--> Intercepted Request with WebScarab<span style='font-family:
 "Arial","sans-serif"'><o:p></o:p></span></p>
+</center>
+<br/>
+<br/>
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>As the SQL Statement is true for every station you get
+a list of all stations:<o:p></o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+<center>
+<img src = "/WebGoat/lesson_solutions/SqlNumericInjection_files/numericinjection_solved.png" width=350px>
 
-<p class=MsoNormal style='page-break-after:avoid'><span style='font-family:
-"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_1511"
- o:spid="_x0000_i1025" type="#_x0000_t75" style='width:480pt;height:276.75pt;
- visibility:visible;mso-wrap-style:square'>
- <v:imagedata src="/WebGoat/lesson_solutions/SqlNumericInjection_files/image005.png" o:title=""/>
-</v:shape><![endif]--><![if !vml]><img width=640 height=369
-src="/WebGoat/lesson_solutions/SqlNumericInjection_files/image006.jpg" v:shapes="Picture_x0020_1511"><![endif]></span></p>
 
 <p class=MsoCaption>Figure <!--[if supportFields]><span style='mso-element:
 field-begin'></span><span style='mso-spacerun:yes'> </span>SEQ Figure \* ARABIC
 <span style='mso-element:field-separator'></span><![endif]--><span
 style='mso-no-proof:yes'>2</span><!--[if supportFields]><span style='mso-element:
-field-end'></span><![endif]--> Lesson 17 Completed<span style='font-family:
+field-end'></span><![endif]--> All stations are visible<span style='font-family:
 "Arial","sans-serif"'><o:p></o:p></span></p>
+</center>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 

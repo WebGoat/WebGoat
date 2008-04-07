@@ -235,6 +235,7 @@ public class CreateDB
 		statement.executeUpdate(insertData11);
 		statement.executeUpdate(insertData12);
 		statement.executeUpdate(insertData13);
+		
 	}
 
 	private void createLoginTable(Connection connection) throws SQLException
@@ -314,6 +315,105 @@ public class CreateDB
 		statement.executeUpdate(insertData4);
 		statement.executeUpdate(insertData5);
 		statement.executeUpdate(insertData6);
+	}
+	
+	/**
+	 * Create users whith tans
+	 * @param connection
+	 * @throws SQLException
+	 */
+	private void createTanUserDataTable(Connection connection) throws SQLException
+	{
+		Statement statement = connection.createStatement();
+
+		// Delete table if there is one
+		try
+		{
+			String dropTable = "DROP TABLE user_data_tan";
+			statement.executeUpdate(dropTable);
+		} catch (SQLException e)
+		{
+			System.out.println("Error dropping user database");
+		}
+
+		// Create the new table
+		try
+		{
+			String createTableStatement = "CREATE TABLE user_data_tan (" + "userid int not null,"
+					+ "first_name varchar(20)," + "last_name varchar(20)," + "cc_number varchar(30),"
+					+ "cc_type varchar(10)," + "cookie varchar(20)," + "login_count int," + "password varchar(20)" +")";
+			statement.executeUpdate(createTableStatement);
+		} catch (SQLException e)
+		{
+			System.out.println("Error creating user database");
+			e.printStackTrace();
+		}
+
+		// Populate it
+		String insertData1 = "INSERT INTO user_data_tan VALUES (101,'Joe','Snow','987654321','VISA',' ',0, 'banana')";
+		String insertData2 = "INSERT INTO user_data_tan VALUES (102,'Jane','Plane','123456789','MC',' ',0, 'tarzan')";
+
+
+		statement.executeUpdate(insertData1);
+		statement.executeUpdate(insertData2);
+	}
+	
+	/**
+	 * Create the Table for the tans
+	 * @param connection
+	 * @throws SQLException
+	 */
+	private void createTanTable(Connection connection) throws SQLException
+	{
+		Statement statement = connection.createStatement();
+
+		// Delete table if there is one
+		try
+		{
+			String dropTable = "DROP TABLE tan";
+			statement.executeUpdate(dropTable);
+		} catch (SQLException e)
+		{
+			System.out.println("Error dropping tan database");
+		}
+
+		// Create the new table
+		try
+		{
+			String createTableStatement = "CREATE TABLE tan (" + "userid int not null,"
+					+ "tanNr int," + "tanValue int"  + ")";
+			statement.executeUpdate(createTableStatement);
+		} catch (SQLException e)
+		{
+			System.out.println("Error creating tan database");
+			e.printStackTrace();
+		}
+
+		// Populate it
+		String insertData1 = "INSERT INTO tan VALUES (101,1,15161)";
+		String insertData2 = "INSERT INTO tan VALUES (101,2,4894)";
+		String insertData3 = "INSERT INTO tan VALUES (101,3,18794)";
+		String insertData4 = "INSERT INTO tan VALUES (101,4,1564)";
+		String insertData5 = "INSERT INTO tan VALUES (101,5,45751)";
+		
+		String insertData6 = "INSERT INTO tan VALUES (102,1,15648)";
+		String insertData7 = "INSERT INTO tan VALUES (102,2,92156)";
+		String insertData8 = "INSERT INTO tan VALUES (102,3,4879)";
+		String insertData9 = "INSERT INTO tan VALUES (102,4,9458)";
+		String insertData10 = "INSERT INTO tan VALUES (102,5,4879)";
+
+
+		statement.executeUpdate(insertData1);
+		statement.executeUpdate(insertData2);
+		statement.executeUpdate(insertData3);
+		statement.executeUpdate(insertData4);
+		statement.executeUpdate(insertData5);
+		statement.executeUpdate(insertData6);
+		statement.executeUpdate(insertData7);
+		statement.executeUpdate(insertData8);
+		statement.executeUpdate(insertData9);
+		statement.executeUpdate(insertData10);
+
 	}
 
 	// --------------------------------------------------------------------------
@@ -746,6 +846,8 @@ public class CreateDB
 		createAuthTable(connection);
 		createOwnershipTable(connection);
 		createWeatherDataTable(connection);
+		createTanUserDataTable(connection);
+		createTanTable(connection);
 		System.out.println("Success: creating tables.");
 	}
 }

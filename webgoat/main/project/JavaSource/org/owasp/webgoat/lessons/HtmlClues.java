@@ -108,7 +108,7 @@ public class HtmlClues extends LessonAdapter
 				makeSuccess(s);
 
 				s.setMessage("BINGO -- admin authenticated");
-				ec.addElement(makeUser(s, "jsnow", "CREDENTIALS"));
+				ec.addElement(makeUser(s, "admin", "CREDENTIALS"));
 			}
 			else
 			{

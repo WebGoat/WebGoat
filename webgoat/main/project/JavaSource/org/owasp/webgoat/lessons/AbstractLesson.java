@@ -528,6 +528,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
 
 		try
 		{
+			System.out.println("Solution: " + getLessonSolutionFileName());
 			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName()))), false);
 		} catch (IOException e)
 		{

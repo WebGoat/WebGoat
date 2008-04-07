@@ -647,7 +647,7 @@ character using &gt; and &lt;<o:p></o:p></span></p>
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>The backend
-database is Microsoft Access. Keep that in mind if you research SQL functions
+database is HSQLDB. Keep that in mind if you research SQL functions
 on the Internet since different databases use some different functions and
 syntax.<o:p></o:p></span></p>
 
@@ -670,13 +670,13 @@ query for your target data and get a string <o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>mid(string,
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>substr(string,
 start, length) - returns a substring of string starting at the start character
 and going for length characters <o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>asc(string)
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>ascii(string)
 will return the ascii value of the first character in string <o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
@@ -690,15 +690,15 @@ the first character of the first_name of userid 15613 less than 'M' (ascii 77)?
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>101 AND (asc(
-mid((SELECT first_name FROM user_data WHERE userid=15613) , 1 , 1) ) &lt; 77 );
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>101 AND (ascii(
+substr((SELECT first_name FROM user_data WHERE userid=15613) , 1 , 1) ) &lt; 77 );
 <o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>If you get
 back that account number is valid, then yes. If get back that the number
-isinvalid then answer is no.<o:p></o:p></span></p>
+is invalid then answer is no.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Another
 example: is the second character of the first_name of userid 15613 greater than
@@ -706,8 +706,8 @@ example: is the second character of the first_name of userid 15613 greater than
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>101 AND (asc(
-mid((SELECT first_name FROM user_data WHERE userid=15613) , 2 , 1) ) &gt; 109
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>101 AND (ascii(
+substr((SELECT first_name FROM user_data WHERE userid=15613) , 2 , 1) ) &gt; 109
 ); <o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
@@ -752,8 +752,8 @@ style='mso-no-proof:yes'>1</span><!--[if supportFields]><span style='mso-element
 field-end'></span><![endif]--> Lesson 16<span style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>For the
-query: 101 AND (asc( mid((SELECT first_name FROM user_data WHERE userid=15613)
-, 1 , 1) ) &lt; 77 ); you will get a “Account number is valid”. If the
+query: 101 AND (ascii( substr((SELECT first_name FROM user_data WHERE userid=15613)
+, 1 , 1) ) &lt; 77 ); you will get a "Account number is valid". If the
 character is bigger then the value you get an invalid account error message.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
@@ -779,7 +779,7 @@ field-end'></span><![endif]--> Invalid account number<span style='font-family:
 change the &lt; to = to make sure that you have the correct value.<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>This results
-in the query 101 AND (asc( mid((SELECT first_name FROM user_data WHERE
+in the query 101 AND (ascii( substr((SELECT first_name FROM user_data WHERE
 userid=15613) , 1 , 1) ) = 74 );<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
@@ -811,7 +811,7 @@ characters.<o:p></o:p></span></p>
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>The query for
-the second character: 101 AND (asc( mid((SELECT first_name FROM user_data WHERE
+the second character: 101 AND (ascii( substr((SELECT first_name FROM user_data WHERE
 userid=15613) , 2 , 1) ) = 111 );<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Ascii(111) =
@@ -831,19 +831,19 @@ style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>For the third
-character: 101 AND (asc( mid((SELECT first_name FROM user_data WHERE
+character: 101 AND (ascii( substr((SELECT first_name FROM user_data WHERE
 userid=15613) , 3 , 1) ) = 101 ); Ascii(101) = e<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>For the
-fourth character: 101 AND (asc( mid((SELECT first_name FROM user_data WHERE
+fourth character: 101 AND (ascii( substr((SELECT first_name FROM user_data WHERE
 userid=15613) , 4 , 1) ) = 115 ); Ascii(115) = s<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>For the fifth
-character: 101 AND (asc( mid((SELECT first_name FROM user_data WHERE
+character: 101 AND (ascii( substr((SELECT first_name FROM user_data WHERE
 userid=15613) , 5 , 1) ) = 112); Ascii(112) = p<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>For the sixth
-character: 101 AND (asc( mid((SELECT first_name FROM user_data WHERE
+character: 101 AND (ascii( substr((SELECT first_name FROM user_data WHERE
 userid=15613) , 6 , 1) ) = 104); Ascii(104) = h<o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>

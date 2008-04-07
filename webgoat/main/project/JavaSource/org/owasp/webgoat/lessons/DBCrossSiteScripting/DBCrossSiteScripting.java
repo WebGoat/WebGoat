@@ -124,7 +124,8 @@ public class DBCrossSiteScripting extends GoatHillsFinancial
 			String stage = getStage(s);
 			if (STAGE1.equals(stage))
 			{
-				instructions = "Stage 1: Execute a Stored Cross Site Scripting (XSS) attack.<br>"
+				instructions = "Stage 1: Execute a Stored Cross Site Scripting (XSS) attack.<br><br>"+
+				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "As 'Tom', execute a Stored XSS attack against the Street field on the Edit Profile page.  "
 						+ "Verify that 'Jerry' is affected by the attack. "
 						+ "A sample JavaScript snippet you can use is: &lt;SCRIPT&gt;alert('bang!');&lt;/SCRIPT&gt;.";

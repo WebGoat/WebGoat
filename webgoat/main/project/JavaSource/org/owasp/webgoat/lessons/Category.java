@@ -39,6 +39,8 @@ import java.util.List;
 public class Category implements Comparable
 {
 
+	public final static Category INTRODUCTION = new Category("Introduction", new Integer(5));
+	
 	public final static Category UNVALIDATED_PARAMETERS = new Category("Unvalidated Parameters", new Integer(110));
 
 	public final static Category ACCESS_CONTROL = new Category("Access Control Flaws", new Integer(210));
@@ -83,6 +85,7 @@ public class Category implements Comparable
 
 	static
 	{
+		categories.add(INTRODUCTION);
 		categories.add(UNVALIDATED_PARAMETERS);
 		categories.add(ACCESS_CONTROL);
 		categories.add(AUTHENTICATION);

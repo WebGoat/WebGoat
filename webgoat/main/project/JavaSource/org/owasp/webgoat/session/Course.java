@@ -186,7 +186,7 @@ public class Course
 		roles.add(AbstractLesson.USER_ROLE);
 		// Category 0 is the admin function. We want the first real category
 		// to be returned. This is noramally the General category and the Http Basics lesson
-		return ((AbstractLesson) getLessons((Category) getCategories().get(1), roles).get(0));
+		return ((AbstractLesson) getLessons((Category) getCategories().get(0), roles).get(0));
 	}
 
 	/**

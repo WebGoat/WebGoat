@@ -1,9 +1,17 @@
 
 package org.owasp.webgoat.lessons.RoleBasedAccessControl;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.ecs.ElementContainer;
+import org.apache.ecs.StringElement;
+import org.apache.ecs.html.Body;
+import org.apache.ecs.html.Head;
+import org.apache.ecs.html.Html;
+import org.apache.ecs.html.Title;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.DefaultLessonAction;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.FindProfile;
@@ -85,6 +93,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 		return Category.ACCESS_CONTROL;
 	}
 
+
 	/**
 	 * Gets the hints attribute of the DirectoryScreen object
 	 * 
@@ -92,22 +101,29 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 	 */
 	protected List<String> getHints(WebSession s)
 	{
+		String stage = getStage(s);
 		List<String> hints = new ArrayList<String>();
 		hints.add("Many sites attempt to restrict access to resources by role.");
 		hints.add("Developers frequently make mistakes implementing this scheme.");
 		hints.add("Attempt combinations of users, roles, and resources.");
 
 		// Stage 1
-		hints.add("How does the application know that the user selected the delete function?");
 
+		hints.add("Stage1: How does the application know that the user selected the delete function?");
+
+
+			hints.add("Stage2: You have to code to check the authorization of the user for the action.");
 		// Stage 2
+		
+	
 
 		// Stage 3
-		hints.add("How does the application know that the user selected any particular employee to view?");
+		hints.add("Stage3: How does the application know that the user selected any particular employee to view?");
+		
 
 		// Stage 4
-		hints.add("Note that the contents of the staff listing change depending on who is logged in.");
-
+		hints.add("Stage4: You have to code to check the authorization of the user for the action on a certain employee.");
+	
 		return hints;
 	}
 
@@ -134,13 +150,16 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 			{
 				instructions = "Stage 1: Bypass Presentational Layer Access Control.<br>"
 						+ "As regular employee 'Tom', exploit weak access control to use the Delete function from the Staff List page.  "
-						+ "Verify that Tom's profile can be deleted.";
+						+ "Verify that Tom's profile can be deleted."
+						+ "The password for a user is always his prename..";
 			}
 			else if (STAGE2.equals(stage))
 			{
-				instructions = "Stage 2: Add Business Layer Access Control.<br>"
+				instructions ="Stage 2: Add Business Layer Access Control.<br><br/>" +
+				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to deny unauthorized access to the Delete function. "
-						+ "Repeat stage 1.  Verify that access to Delete is properly denied.";
+						+ "Repeat stage 1.  Verify that access to Delete is properly denied.<br/>"
+						+ "To do this you have to alter code.";
 			}
 			else if (STAGE3.equals(stage))
 			{
@@ -149,13 +168,49 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 			}
 			else if (STAGE4.equals(stage))
 			{
-				instructions = "Stage 4: Add Data Layer Access Control.<br>"
+				instructions = "Stage 4: Add Data Layer Access Control.<br><br/>" +
+					"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to deny unauthorized access to this data. "
 						+ "Repeat stage 3.  Verify that access to other employee's profiles is properly denied.";
 			}
 		}
 
 		return instructions;
+	}
+	
+	public String getLessonSolutionFileName(WebSession s) {
+		String solutionFileName = null;
+		String stage = getStage(s);
+		solutionFileName = "/lesson_solutions/Lab Access Control/Lab " + stage + ".html";
+		return solutionFileName;
+	}
+	
+	@Override
+	public String getSolution(WebSession s) {
+		String src = null;
+
+		try
+		{
+			System.out.println("Solution: " + getLessonSolutionFileName(s));
+			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName(s)))), false);
+		} catch (IOException e)
+		{
+			s.setMessage("Could not find the solution file");
+			src = ("Could not find the solution file");
+		}
+
+//		Html html = new Html();
+//
+//		Head head = new Head();
+//		head.addElement(new Title(getLessonSolutionFileName(s)));
+//
+//		Body body = new Body();
+//		body.addElement(new StringElement(src));
+//
+//		html.addElement(head);
+//		html.addElement(body);
+
+		return src;
 	}
 
 	public void handleRequest(WebSession s)
@@ -179,7 +234,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 
 		try
 		{
-			LessonAction action = getAction(requestedActionName);
+			DefaultLessonAction action = (DefaultLessonAction) getAction(requestedActionName);
 			if (action != null)
 			{
 				// System.out.println("RoleBasedAccessControl.handleRequest() dispatching to: " +
@@ -191,6 +246,11 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				}
 				else
 				{
+					//***************CODE HERE*************************
+					
+					
+					
+					//*************************************************
 					if (action.isAuthenticated(s))
 					{
 						action.handleRequest(s);

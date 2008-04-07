@@ -95,6 +95,8 @@ public class ClientSideFiltering extends SequentialLessonAdapter
 
 			t.setID("hiddenEmployeeRecords");
 			t.setStyle("display: none");
+	
+			
 
 			workspaceDiv.addElement(t);
 
@@ -328,28 +330,28 @@ public class ClientSideFiltering extends SequentialLessonAdapter
 		List<String> hints = new ArrayList<String>();
 
 		hints
-				.add("The information displayed when an employee is choosen from the drop down menu is stored on the client side.");
+				.add("Stage 1: The information displayed when an employee is choosen from the drop down menu is stored on the client side.");
 
-		hints.add("Use Firebug to find where the information is stored on the client side.");
+		hints.add("Stage 1: Use Firebug to find where the information is stored on the client side.");
 
-		hints.add("Examine the hidden table to see if there is anyone listed who is not in the drop down menu.");
+		hints.add("Stage 1: Examine the hidden table to see if there is anyone listed who is not in the drop down menu.");
 
-		hints.add("Look in the last row of the hidden table.");
+		hints.add("Stage 1: Look in the last row of the hidden table.");
 
 		hints
-				.add("You can access the server directly <a href = \"/WebGoat/lessons/Ajax/clientSideFiltering.jsp?userId=102\">here </a>"
+				.add("Stage 1: You can access the server directly <a href = \"/WebGoat/lessons/Ajax/clientSideFiltering.jsp?userId=102\">here </a>"
 						+ "to see what results are being returned");
 
-		hints.add("The server uses an XPath query agasinst an XML database.");
+		hints.add("Stage 2: The server uses an XPath query agasinst an XML database.");
 
-		hints.add("The query currently returns all of the contents of the database.");
+		hints.add("Stage 2: The query currently returns all of the contents of the database.");
 
 		hints
-				.add("The query should only return the information of employees who are managed by Moe Stooge, who's userID is 102");
+				.add("Stage 2: The query should only return the information of employees who are managed by Moe Stooge, who's userID is 102");
 
-		hints.add("Try using a filter operator.");
+		hints.add("Stage 2: Try using a filter operator.");
 
-		hints.add("your filter operator shoiuld look something like: [Managers/Manager/text()=");
+		hints.add("Stage 2: Your filter operator should look something like: [Managers/Manager/text()=");
 
 		return hints;
 
@@ -361,7 +363,7 @@ public class ClientSideFiltering extends SequentialLessonAdapter
 
 		if (getLessonTracker(s).getStage() == 1)
 		{
-			instructions = "STAGE 1:\tYou are Moe Stooge, CSO of Goat Hills Financial.  "
+			instructions = "STAGE 1:\tYou are Moe Stooge, CSO of Goat Hills Financial. "
 					+ "You have access to everyone in the company's information, except the CEO, "
 					+ "Neville Bartholomew.  Or at least you shouldn't have access to the CEO's information."
 					+ "  For this exercise, "

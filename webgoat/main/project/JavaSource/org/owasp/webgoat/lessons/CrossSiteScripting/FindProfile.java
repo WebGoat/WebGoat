@@ -17,6 +17,7 @@ import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.ValidationException;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.HtmlEncoder;
 
 
 /***************************************************************************************************
@@ -128,6 +129,7 @@ public class FindProfile extends DefaultLessonAction
 	protected String getRequestParameter(WebSession s, String name) throws ParameterNotFoundException,
 			ValidationException
 	{
+
 		return s.getParser().getRawParameter(name);
 	}
 
