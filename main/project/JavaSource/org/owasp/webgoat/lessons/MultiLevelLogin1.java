@@ -61,10 +61,11 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 	private final static String PASSWORD = "pass";
 	private final static String HIDDEN_TAN = "hidden_tan";
 	private final static String TAN = "tan";
-	
+
 	private final static String LOGGEDIN = "loggedin";
 	private final static String CORRECTTAN = "correctTan";
 	private final static String LOGGEDINUSER = "loggedInUser";
+
 	/**
 	 * Creates Staged WebContent
 	 * 
@@ -74,9 +75,10 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 	{
 		return super.createStagedContent(s);
 	}
-	
+
 	/**
-	 * See if the user is logged in
+	 * See if the user has logged in correctly
+	 * 
 	 * @param s
 	 * @return true if loggedIn
 	 */
@@ -85,15 +87,15 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 		try
 		{
 			return s.get(LOGGEDIN).equals("true");
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return false;
 		}
 	}
-	
+
 	/**
-	 * See if the user has a used a valid tan
+	 * See if the user had used a valid tan
+	 * 
 	 * @param s
 	 * @return treu if correctTan
 	 */
@@ -102,15 +104,15 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 		try
 		{
 			return s.get(CORRECTTAN).equals("true");
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the logged in user
+	 * 
 	 * @param s
 	 * @return the logged in user
 	 */
@@ -118,10 +120,9 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 	{
 		try
 		{
-			String user = (String)s.get(LOGGEDINUSER);
+			String user = (String) s.get(LOGGEDINUSER);
 			return user;
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			return "";
 		}
@@ -202,7 +203,7 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 		// verify the password
 		if (correctLogin(user, password, s))
 		{
-			s.add(LOGGEDIN, "true");			
+			s.add(LOGGEDIN, "true");
 			s.add(LOGGEDINUSER, user);
 		}
 
@@ -222,7 +223,7 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 		}
 		if (loggedIn(s) && correctTan(s))
 		{
-			s.add(LOGGEDIN, "false");			
+			s.add(LOGGEDIN, "false");
 			s.add(CORRECTTAN, "false");
 
 			createSuccessfulLoginContent(s, ec);
