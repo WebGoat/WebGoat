@@ -142,13 +142,14 @@ public abstract class LessonAdapter extends AbstractLesson
 	{
 		List<String> hints = new ArrayList<String>();
 		hints.add("There are no hints defined.");
-
 		return hints;
 	}
 
 	public String getHint(WebSession s, int hintNumber)
 	{
-		return (String) getHints(s).get(hintNumber);
+		String hint = "Hint: ";
+		hint += (String) getHints(s).get(hintNumber);
+		return hint;
 	}
 
 	/**
