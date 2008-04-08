@@ -57,18 +57,108 @@ import org.owasp.webgoat.session.WebSession;
 
 public class MultiLevelLogin2 extends LessonAdapter
 {
-	private boolean loggedIn = false;
-	private boolean correctTan = false;
-	private String currentTan = "";
-	private int currentTanNr = 0;
-
 	private final static String USER = "user";
 	private final static String PASSWORD = "pass";
 	private final static String TAN = "tan";
 	private final static String HIDDEN_USER = "hidden_user";
 
+	private final static String LOGGEDIN = "loggedin";
+	private final static String CORRECTTAN = "correctTan";
+	private final static String CURRENTTAN = "currentTan";
+	private final static String CURRENTTANPOS = "currentTanPos";
+
 	// needed to see if lesson was successfull
-	private String LoggedInUser = "";
+	private final static String LOGGEDINUSER = "loggedInUser";
+
+	//private String LoggedInUser = "";
+
+	/**
+	 * See if the user is logged in
+	 * 
+	 * @param s
+	 * @return true if loggedIn
+	 */
+	private boolean loggedIn(WebSession s)
+	{
+		try
+		{
+			return s.get(LOGGEDIN).equals("true");
+		} catch (Exception e)
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * See if the user had used a valid tan
+	 * 
+	 * @param s
+	 * @return true if correctTan
+	 */
+	private boolean correctTan(WebSession s)
+	{
+		try
+		{
+			return s.get(CORRECTTAN).equals("true");
+		} catch (Exception e)
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Get the currentTan
+	 * 
+	 * @param s
+	 * @return the logged in user
+	 */
+	private String getCurrentTan(WebSession s)
+	{
+		try
+		{
+			String currentTan = (String) s.get(CURRENTTAN);
+			return currentTan;
+		} catch (Exception e)
+		{
+			return "";
+		}
+	}
+
+	/**
+	 * Get the currentTanPossition
+	 * 
+	 * @param s
+	 * @return the logged in user
+	 */
+	private Integer getCurrentTanPosition(WebSession s)
+	{
+		try
+		{
+			Integer tanPos = (Integer) s.get(CURRENTTANPOS);
+			return tanPos;
+		} catch (Exception e)
+		{
+			return 0;
+		}
+	}
+
+	/**
+	 * Get the logged in user
+	 * 
+	 * @param s
+	 * @return the logged in user
+	 */
+	private String getLoggedInUser(WebSession s)
+	{
+		try
+		{
+			String user = (String) s.get(LOGGEDINUSER);
+			return user;
+		} catch (Exception e)
+		{
+			return "";
+		}
+	}
 
 	/**
 	 * Creates WebContent
@@ -133,57 +223,56 @@ public class MultiLevelLogin2 extends LessonAdapter
 		ElementContainer ec = new ElementContainer();
 
 		// verify that tan is correct and user is logged in
-		if (loggedIn && correctTan(tan))
+		if (loggedIn(s) && correctTan(tan, s))
 		{
-			correctTan = true;
+			s.add(CORRECTTAN, "true");
 		}
 		// user is loggedIn but enters wrong tan
-		else if (loggedIn && !correctTan(tan))
+		else if (loggedIn(s) && !correctTan(tan, s))
 		{
-			loggedIn = false;
+			s.add(LOGGEDIN, "false");
 		}
 
 		if (correctLogin(user, password, s))
 		{
-			loggedIn = true;
-			LoggedInUser = user;
-			currentTanNr = getTanPosition(user, s);
-			currentTan = getTan(user, currentTanNr, s);
+			s.add(LOGGEDIN, "true");
+			s.add(LOGGEDINUSER, user);
+			s.add(CURRENTTANPOS, getTanPosition(user, s));
+			// currentTanNr = getTanPosition(user, s);
+			// currentTan = getTan(user, currentTanNr, s);
+			s.add(CURRENTTAN, getTan(user, getCurrentTanPosition(s), s));
 
 		}
 
 		// if restart button is clicked owe have to reset log in
 		if (!s.getParser().getStringParameter("Restart", "").equals(""))
 		{
-			loggedIn = false;
-			correctTan = false;
-			currentTanNr = 0;
-			resetTans(s);
 		}
 		// Logout Button is pressed
 		if (s.getParser().getRawParameter("logout", "").equals("true"))
 		{
-			loggedIn = false;
-			correctTan = false;
+
+			s.add(LOGGEDIN, "false");
+			s.add(CORRECTTAN, "false");
 
 		}
-		if (loggedIn && correctTan)
+		if (loggedIn(s) && correctTan(s))
 		{
-			loggedIn = false;
-			correctTan = false;
+			s.add(LOGGEDIN, "false");
+			s.add(CORRECTTAN, "false");
 
 			createSuccessfulLoginContent(s, ec, hiddenUser);
 
 		}
-		else if (loggedIn)
+		else if (loggedIn(s))
 		{
-			if (currentTanNr > 5)
+			if (getCurrentTanPosition(s) > 5)
 			{
 				createNoTanLeftContent(ec);
 			}
 			else
 			{
-				createAskForTanContent(s, ec, currentTanNr, user);
+				createAskForTanContent(s, ec, getCurrentTanPosition(s), user);
 			}
 		}
 		else
@@ -201,8 +290,6 @@ public class MultiLevelLogin2 extends LessonAdapter
 
 			createLogInContent(ec, errorMessage);
 		}
-
-		System.out.println("Logged In: " + loggedIn);
 
 		return ec;
 	}
@@ -350,7 +437,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 				tr4.addElement(new TD("<b>Credit Card Number:</b>"));
 				tr4.addElement(new TD(results.getString("cc_number")));
 
-				if (!user.equals(LoggedInUser))
+				if (!user.equals(getLoggedInUser(s)))
 				{
 					makeSuccess(s);
 				}
@@ -551,9 +638,10 @@ public class MultiLevelLogin2 extends LessonAdapter
 	 * @param tan
 	 * @return true if the tan is correct
 	 */
-	private boolean correctTan(String tan)
+	private boolean correctTan(String tan, WebSession s)
 	{
-		if (!currentTan.equals("")) { return tan.equals(String.valueOf(currentTan)); }
+		// if (!getCurrentTan(s).equals("")) { return tan.equals(String.valueOf(currentTan)); }
+		if (!getCurrentTan(s).equals("")) { return tan.equals(getCurrentTan(s)); }
 		return false;
 	}
 
