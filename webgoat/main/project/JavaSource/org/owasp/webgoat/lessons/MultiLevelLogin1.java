@@ -57,15 +57,14 @@ import org.owasp.webgoat.session.WebSession;
 
 public class MultiLevelLogin1 extends SequentialLessonAdapter
 {
-	private boolean loggedIn = false;
-	private boolean correctTan = false;
-	private String LoggedInUser = "";
-
 	private final static String USER = "user";
 	private final static String PASSWORD = "pass";
 	private final static String HIDDEN_TAN = "hidden_tan";
 	private final static String TAN = "tan";
-
+	
+	private final static String LOGGEDIN = "loggedin";
+	private final static String CORRECTTAN = "correctTan";
+	private final static String LOGGEDINUSER = "loggedInUser";
 	/**
 	 * Creates Staged WebContent
 	 * 
@@ -74,6 +73,58 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 	protected Element createContent(WebSession s)
 	{
 		return super.createStagedContent(s);
+	}
+	
+	/**
+	 * See if the user is logged in
+	 * @param s
+	 * @return true if loggedIn
+	 */
+	private boolean loggedIn(WebSession s)
+	{
+		try
+		{
+			return s.get(LOGGEDIN).equals("true");
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * See if the user has a used a valid tan
+	 * @param s
+	 * @return treu if correctTan
+	 */
+	private boolean correctTan(WebSession s)
+	{
+		try
+		{
+			return s.get(CORRECTTAN).equals("true");
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Get the logged in user
+	 * @param s
+	 * @return the logged in user
+	 */
+	private String getLoggedInUser(WebSession s)
+	{
+		try
+		{
+			String user = (String)s.get(LOGGEDINUSER);
+			return user;
+		}
+		catch (Exception e)
+		{
+			return "";
+		}
 	}
 
 	/**
@@ -138,41 +189,41 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 		ElementContainer ec = new ElementContainer();
 
 		// verify that tan is correct and user is logged in
-		if (loggedIn && correctTan(LoggedInUser, tan, hiddenTan, s))
+		if (loggedIn(s) && correctTan(getLoggedInUser(s), tan, hiddenTan, s))
 		{
-			correctTan = true;
+			s.add(CORRECTTAN, "true");
 		}
 		// user is loggedIn but enters wrong tan
-		else if (loggedIn && !correctTan(LoggedInUser, tan, hiddenTan, s))
+		else if (loggedIn(s) && !correctTan(getLoggedInUser(s), tan, hiddenTan, s))
 		{
-			loggedIn = false;
+			s.add(LOGGEDIN, "false");
 		}
 
 		// verify the password
 		if (correctLogin(user, password, s))
 		{
-			loggedIn = true;
-			LoggedInUser = user;
+			s.add(LOGGEDIN, "true");			
+			s.add(LOGGEDINUSER, user);
 		}
 
 		// if restart link is clicked owe have to reset log in
 		if (!s.getParser().getStringParameter("Restart", "").equals(""))
 		{
-			loggedIn = false;
-			correctTan = false;
+			s.add(LOGGEDIN, "false");
+			s.add(CORRECTTAN, "false");
 			resetTans(s);
 		}
 		// Logout Button is pressed
 		if (s.getParser().getRawParameter("logout", "").equals("true"))
 		{
-			loggedIn = false;
-			correctTan = false;
+			s.add(LOGGEDIN, "false");
+			s.add(CORRECTTAN, "false");
 
 		}
-		if (loggedIn && correctTan)
+		if (loggedIn(s) && correctTan(s))
 		{
-			loggedIn = false;
-			correctTan = false;
+			s.add(LOGGEDIN, "false");			
+			s.add(CORRECTTAN, "false");
 
 			createSuccessfulLoginContent(s, ec);
 			if (getLessonTracker(s).getStage() == 2)
@@ -189,9 +240,9 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 			}
 		}
 
-		else if (loggedIn)
+		else if (loggedIn(s))
 		{
-			int tanNr = getTanPosition(LoggedInUser, s);
+			int tanNr = getTanPosition(getLoggedInUser(s), s);
 			if (tanNr == 0)
 			{
 				createNoTanLeftContent(ec);
@@ -233,7 +284,6 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 		loginDiv.setID("lesson_login");
 
 		Table table = new Table();
-		// table.setStyle(tableStyle);
 		table.addAttribute("align='center'", 0);
 		TR tr1 = new TR();
 		TD td1 = new TD();
@@ -310,7 +360,7 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 		ec.addElement(loginDiv);
 		ec.addElement(createLogoutLink());
 
-		updateTan(LoggedInUser, s);
+		updateTan(getLoggedInUser(s), s);
 	}
 
 	/**
@@ -354,11 +404,11 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 		TR tr3 = new TR();
 		TR tr4 = new TR();
 		tr1.addElement(new TD("<b>Firstname:</b>"));
-		tr1.addElement(new TD(LoggedInUser));
+		tr1.addElement(new TD(getLoggedInUser(s)));
 
 		try
 		{
-			ResultSet results = getUser(LoggedInUser, s);
+			ResultSet results = getUser(getLoggedInUser(s), s);
 			results.first();
 
 			tr2.addElement(new TD("<b>Lastname:</b>"));
