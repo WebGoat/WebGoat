@@ -110,24 +110,28 @@ public class SessionFixation extends SequentialLessonAdapter
 			if(correctLogin(name, password, s))
 			{
 				getLessonTracker(s).setStage(4);
+				sid="";
+				s.add(LOGGEDIN, "true");
+				s.add(LOGGEDINUSER, name);
 				s.setMessage("You completed stage 3!");
 			}
 			
 		}
 		if(getLessonTracker(s).getStage() == 4)
 		{
-			if (sid.equals(""))
+
+			if (sid.equals("NOVALIDSESSION"))
 			{
-				String randomSid = randomSIDGenerator();
-				this.sid = randomSid;
+				System.out.println("STAGE 5");
+				getLessonTracker(s).setStage(5);
 			}
+					
 		}
 
 		if (getLessonTracker(s).getStage() == 2)
 		{
 			if (!sid.equals(""))
 			{
-				System.out.println("MySid: " + sid);
 				s.add("SID", sid);
 				getLessonTracker(s).setStage(3);
 				s.setMessage("You completed stage 2!");
@@ -165,13 +169,6 @@ public class SessionFixation extends SequentialLessonAdapter
 		return ec;
 
 	}
-	
-	@Override
-	public String getHint(WebSession s, int hintNumber)
-	{
-		// TODO Auto-generated method stub
-		return super.getHint(s, hintNumber);
-	}
 
 	@Override
 	protected Element doStage2(WebSession s) throws Exception
@@ -184,10 +181,10 @@ public class SessionFixation extends SequentialLessonAdapter
 	private Element createStage2Content(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-
+		String mailHeader = "<b>MailFrom:</b> &nbsp;&nbsp;admin@webgoatfinancial.com<br><br>";
 		String mailContent = (String) s.get(MAILCONTENTNAME);
 
-		ec.addElement(mailContent);
+		ec.addElement(mailHeader + mailContent);
 
 		return ec;
 
@@ -204,6 +201,19 @@ public class SessionFixation extends SequentialLessonAdapter
 	{
 		return createStage4Content(s);
 	}
+	
+	@Override
+	protected Element doStage5(WebSession s) throws Exception
+	{
+		System.out.println("Doing stage 5");
+		return createStage5Content(s);
+	}
+	
+	private Element createStage5Content(WebSession s)
+	{
+		
+		return createMainLoginContent(s);
+	}
 
 	private Element createStage3Content(WebSession s)
 	{
@@ -214,7 +224,9 @@ public class SessionFixation extends SequentialLessonAdapter
 	private Element createStage4Content(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-		ec.addElement("Hello Hacker");
+		ec.addElement("<h2>Jane has logged into her account. Go and grab her session!" +
+				" Use Following link to reach the login screen of the bank:</h2><br><br>" +
+				"<a href=" + super.getLink() +"&SID=NOVALIDSESSION><center> WebGoat Financial </center></a><br><br><br><br>");
 		return ec;
 		//return createMainLoginContent(s);
 	}
@@ -227,7 +239,7 @@ public class SessionFixation extends SequentialLessonAdapter
 				+ "During the last week we had a few problems with our database. "
 				+ "A lot of people complained that there account details are wrong. "
 				+ "That is why we kindly ask you to use following link to verify your "
-				+ "data:<br><br><center><a href="
+				+ "data:<br><br><center><a href=http://localhost/WebGoat/"
 				+ link
 				+ "> Goat Hills Financial</a></center><br><br>"
 				+ "We are sorry for the caused inconvenience and thank you for your colaboration.<br><br>"
@@ -395,11 +407,21 @@ public class SessionFixation extends SequentialLessonAdapter
 			}
 			else if (sid.equals(s.get("SID")) && s.get(LOGGEDIN).equals("true"))
 			{
+				makeSuccess(s);
 				createSuccessfulLoginContent(s, ec);
 			}
 			else
 			{
-				createLogInContent(ec, "");
+				if((name+password).equals(""))
+				{
+					createLogInContent(ec, "");
+
+				}
+				else
+				{
+					createLogInContent(ec, "Login Failed! Make sure user name and password is correct!");
+
+				}
 			}
 		} catch (Exception e)
 		{
@@ -436,9 +458,10 @@ public class SessionFixation extends SequentialLessonAdapter
 	 */
 	private boolean correctLogin(String userName, String password, WebSession s)
 	{
+		Connection connection = null;
 		try
 		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+			connection = DatabaseUtilities.getConnection(s);
 			String query = "SELECT * FROM user_data_tan WHERE first_name = ? AND password = ?";
 			PreparedStatement prepStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
 																			ResultSet.CONCUR_READ_ONLY);
@@ -457,6 +480,21 @@ public class SessionFixation extends SequentialLessonAdapter
 		{
 			e.printStackTrace();
 		}
+		finally
+		{
+			try
+			{
+				if (connection != null)
+				{
+					connection.close();
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
 
 		return false;
 
@@ -520,7 +558,6 @@ public class SessionFixation extends SequentialLessonAdapter
 	 */
 	private void createSuccessfulLoginContent(WebSession s, ElementContainer ec)
 	{
-		
 		String userDataStyle = "margin-top:50px;";
 
 		Div userDataDiv = new Div();
@@ -598,9 +635,10 @@ public class SessionFixation extends SequentialLessonAdapter
 	 */
 	private ResultSet getUser(String user, WebSession s)
 	{
+		Connection connection = null;
 		try
 		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+			connection = DatabaseUtilities.getConnection(s);
 			String query = "SELECT * FROM user_data_tan WHERE first_name = ? ";
 			PreparedStatement prepStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
 																			ResultSet.CONCUR_READ_ONLY);
@@ -613,6 +651,20 @@ public class SessionFixation extends SequentialLessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if (connection != null)
+				{
+					connection.close();
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 		return null;
 
@@ -661,9 +713,11 @@ public class SessionFixation extends SequentialLessonAdapter
 		hints.add("Stage 1: Alter the link in the mail to: href=" + getLink() + "&SID=Whatever");
 		hints.add("Stage 2: Click on the link!");
 		hints.add("Stage 3: Log in as Jane with user name jane and password tarzan.");
+		hints.add("Stage 4: Click on the link provided");
+		hints.add("Stage 4: What is your actual SID?");
+		hints.add("Stage 4: Change the SID (NOVALIDSESSION) to the choosen one in the mail");
 		
-		hints.add("Stage 2: Watch out for hidden fields");
-		hints.add("Stage 2: Manipulate the hidden field 'hidden_tan'");
+
 
 		return hints;
 
@@ -675,6 +729,10 @@ public class SessionFixation extends SequentialLessonAdapter
 	public String getInstructions(WebSession s)
 	{
 		int stage = getLessonTracker(s).getStage();
+		if (stage > 4)
+		{
+			stage = 4;
+		}
 		String instructions = "STAGE " +stage+": ";
 		if(stage == 1)
 		{
@@ -698,8 +756,10 @@ public class SessionFixation extends SequentialLessonAdapter
 		}
 		else if (stage == 4)
 		{
-			instructions += "It is time to steal the session. <br><br><b>You are: Hacker Joe</b> ";
+			instructions += "It is time to steal the session now. Just use the link you sent to " +
+					"Jane.<br><br><b>You are: Hacker Joe</b> ";
 		}
+
 
 		return (instructions);
 	}
