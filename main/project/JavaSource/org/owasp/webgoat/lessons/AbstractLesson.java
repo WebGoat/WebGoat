@@ -355,7 +355,7 @@ public abstract class AbstractLesson extends Screen implements Comparable
 	 */
 	public String getHint(WebSession s, int hintNumber)
 	{
-		return getHints(s).get(hintNumber);
+		return "Hint: " + getHints(s).get(hintNumber);
 	}
 
 	/**
