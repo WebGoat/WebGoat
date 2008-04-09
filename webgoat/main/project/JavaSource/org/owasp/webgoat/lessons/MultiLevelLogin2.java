@@ -488,10 +488,10 @@ public class MultiLevelLogin2 extends LessonAdapter
 	private void updateTan(String user, WebSession s)
 	{
 		int tanNr = getTanPosition(user, s);
-
+		Connection connection = null;
 		try
 		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+			connection = DatabaseUtilities.getConnection(s);
 			String query = "UPDATE user_data_tan SET login_count = ? WHERE first_name = ?";
 			PreparedStatement prepStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
 																			ResultSet.CONCUR_READ_ONLY);
@@ -502,6 +502,20 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if (connection != null)
+				{
+					connection.close();
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -515,9 +529,10 @@ public class MultiLevelLogin2 extends LessonAdapter
 	 */
 	private ResultSet getUser(String user, WebSession s)
 	{
+		Connection connection = null;
 		try
 		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+			connection = DatabaseUtilities.getConnection(s);
 			String query = "SELECT * FROM user_data_tan WHERE first_name = ? ";
 			PreparedStatement prepStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
 																			ResultSet.CONCUR_READ_ONLY);
@@ -531,6 +546,20 @@ public class MultiLevelLogin2 extends LessonAdapter
 		{
 			e.printStackTrace();
 		}
+		finally
+		{
+			try
+			{
+				if (connection != null)
+				{
+					connection.close();
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 		return null;
 
 	}
@@ -542,10 +571,10 @@ public class MultiLevelLogin2 extends LessonAdapter
 	 */
 	private void resetTans(WebSession s)
 	{
-
+		Connection connection = null;
 		try
 		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+			connection = DatabaseUtilities.getConnection(s);
 			String query = "UPDATE user_data_tan SET login_count = 0 WHERE login_count > 0";
 			PreparedStatement prepStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
 																			ResultSet.CONCUR_READ_ONLY);
@@ -554,6 +583,20 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if (connection != null)
+				{
+					connection.close();
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -568,9 +611,10 @@ public class MultiLevelLogin2 extends LessonAdapter
 	private int getTanPosition(String user, WebSession s)
 	{
 		int tanNr = 0;
+		Connection connection = null;
 		try
 		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+			connection = DatabaseUtilities.getConnection(s);
 			String query = "SELECT login_count FROM user_data_tan WHERE first_name = ?";
 			PreparedStatement prepStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
 																			ResultSet.CONCUR_READ_ONLY);
@@ -591,6 +635,20 @@ public class MultiLevelLogin2 extends LessonAdapter
 		{
 			e.printStackTrace();
 		}
+		finally
+		{
+			try
+			{
+				if (connection != null)
+				{
+					connection.close();
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 
 		return tanNr;
 	}
@@ -605,9 +663,10 @@ public class MultiLevelLogin2 extends LessonAdapter
 	 */
 	private String getTan(String user, int tanPosition, WebSession s)
 	{
+		Connection connection = null;
 		try
 		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+			connection = DatabaseUtilities.getConnection(s);
 			String query = "SELECT tan.tanValue FROM user_data_tan, tan WHERE user_data_tan.first_name = ? "
 					+ "AND user_data_tan.userid = tan.userid AND tan.tanNr = ?";
 			PreparedStatement prepStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -627,6 +686,20 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if (connection != null)
+				{
+					connection.close();
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 		return "";
 
@@ -655,9 +728,10 @@ public class MultiLevelLogin2 extends LessonAdapter
 	 */
 	private boolean correctLogin(String userName, String password, WebSession s)
 	{
+		Connection connection = null;
 		try
 		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+			connection = DatabaseUtilities.getConnection(s);
 			String query = "SELECT * FROM user_data_tan WHERE first_name = ? AND password = ?";
 			PreparedStatement prepStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
 																			ResultSet.CONCUR_READ_ONLY);
@@ -675,6 +749,20 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if (connection != null)
+				{
+					connection.close();
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		return false;
