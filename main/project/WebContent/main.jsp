@@ -135,7 +135,7 @@ StringBuffer buildList = new StringBuffer();
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=NextHint" target="_top" onclick="MM_nbGroup('down','group1','hint','',1)" 
 				onmouseover="MM_nbGroup('over','hint','images/buttons/hintOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/hint.jpg" alt="Hints" name="hint" width="30" height="20" border="0" id="hint"/>
+				<img src="images/buttons/hint.jpg" alt="Hints" name="hint" width="35" height="20" border="0" id="hint"/>
 				</a>
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=NextHint" target="_top" onclick="MM_nbGroup('down','group1','hintRight','',1)" 
 				onmouseover="MM_nbGroup('over','hintRight','images/buttons/hintRightOver.jpg','',1)" 
@@ -165,7 +165,7 @@ StringBuffer buildList = new StringBuffer();
 				<a href="source" onclick="makeWindow(this.href + '?solution=true', 'Java Solution');return false;" target="javaWin"
 				onmouseover="MM_nbGroup('over','solutions','images/buttons/solutionsOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/solutions.jpg" alt="Show Solution" name="solutions" width="75" height="20" border="0" id="solutions"/>
+				<img src="images/buttons/solutions.jpg" alt="Show Solution" name="solutions" width="73" height="20" border="0" id="solutions"/>
 				</a>
 				<%}%>
 								
