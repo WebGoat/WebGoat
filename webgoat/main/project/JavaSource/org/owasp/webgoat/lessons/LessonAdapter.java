@@ -10,7 +10,6 @@ import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.Center;
 import org.apache.ecs.html.H3;
-import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.PRE;
 import org.apache.ecs.html.TD;
@@ -145,12 +144,7 @@ public abstract class LessonAdapter extends AbstractLesson
 		return hints;
 	}
 
-	public String getHint(WebSession s, int hintNumber)
-	{
-		String hint = "Hint: ";
-		hint += (String) getHints(s).get(hintNumber);
-		return hint;
-	}
+
 
 	/**
 	 * Gets the credits attribute of the AbstractLesson object
