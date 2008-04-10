@@ -57,18 +57,18 @@ import org.owasp.webgoat.session.WebSession;
 
 public class MultiLevelLogin2 extends LessonAdapter
 {
-	private final static String USER = "user";
-	private final static String PASSWORD = "pass";
-	private final static String TAN = "tan";
-	private final static String HIDDEN_USER = "hidden_user";
+	private final static String USER = "user2";
+	private final static String PASSWORD = "pass2";
+	private final static String TAN = "tan2";
+	private final static String HIDDEN_USER = "hidden_user2";
 
-	private final static String LOGGEDIN = "loggedin";
-	private final static String CORRECTTAN = "correctTan";
-	private final static String CURRENTTAN = "currentTan";
-	private final static String CURRENTTANPOS = "currentTanPos";
+	private final static String LOGGEDIN = "loggedin2";
+	private final static String CORRECTTAN = "correctTan2";
+	private final static String CURRENTTAN = "currentTan2";
+	private final static String CURRENTTANPOS = "currentTanPos2";
 
 	// needed to see if lesson was successfull
-	private final static String LOGGEDINUSER = "loggedInUser";
+	private final static String LOGGEDINUSER = "loggedInUser2";
 
 	//private String LoggedInUser = "";
 
