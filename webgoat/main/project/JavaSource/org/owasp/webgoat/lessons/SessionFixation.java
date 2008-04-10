@@ -181,7 +181,7 @@ public class SessionFixation extends SequentialLessonAdapter
 	private Element createStage2Content(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-		String mailHeader = "<b>MailFrom:</b> &nbsp;&nbsp;admin@webgoatfinancial.com<br><br>";
+		String mailHeader = "<b>Mail From:</b> &nbsp;&nbsp;admin@webgoatfinancial.com<br><br>";
 		String mailContent = (String) s.get(MAILCONTENTNAME);
 
 		ec.addElement(mailHeader + mailContent);
@@ -286,12 +286,12 @@ public class SessionFixation extends SequentialLessonAdapter
 		ec.addElement(table);
 
 		B b = new B();
-		b.addElement("MailTo: ");
+		b.addElement("Mail To: ");
 		td1.addElement(b);
 		td2.addElement(mailTo);
 
 		b = new B();
-		b.addElement("MailFrom: ");
+		b.addElement("Mail From: ");
 		td3.addElement(b);
 		td4.addElement(mailFrom);
 
@@ -304,8 +304,8 @@ public class SessionFixation extends SequentialLessonAdapter
 		td6.addElement(titleField);
 
 		TextArea mailContent = new TextArea();
-		mailContent.addAttribute("cols", 60);
-		mailContent.addAttribute("rows", 9);
+		mailContent.addAttribute("cols", 67);
+		mailContent.addAttribute("rows", 8);
 		mailContent.addElement(mailText);
 		mailContent.setName(MAILCONTENTNAME);
 		td7.addElement(mailContent);
