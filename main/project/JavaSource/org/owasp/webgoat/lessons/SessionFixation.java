@@ -65,10 +65,10 @@ public class SessionFixation extends SequentialLessonAdapter
 	private final String mailTitel = "Check your account";
 	private final String MAILCONTENTNAME = "mailContent";
 
-	private final static String USER = "user";
-	private final static String PASSWORD = "pass";
-	private final static String LOGGEDIN = "loggedin";
-	private final static String LOGGEDINUSER = "loggedInUser";
+	private final static String USER = "user3";
+	private final static String PASSWORD = "pass3";
+	private final static String LOGGEDIN = "loggedin3";
+	private final static String LOGGEDINUSER = "loggedInUser3";
 	private final static Random random = new Random(System.currentTimeMillis());
 	private String sid = "";
 
@@ -79,6 +79,10 @@ public class SessionFixation extends SequentialLessonAdapter
 	 */
 	protected Element createContent(WebSession s)
 	{
+		if(sid.equals("") && getLessonTracker(s).getStage() > 2 )
+		{
+			getLessonTracker(s).setStage(1);
+		}
 		String sid = s.getParser().getStringParameter("SID","");
 		if (!sid.equals(""))
 		{
@@ -136,10 +140,10 @@ public class SessionFixation extends SequentialLessonAdapter
 				getLessonTracker(s).setStage(3);
 				s.setMessage("You completed stage 2!");
 			}
-			else
-			{
-				createStage2Content(s);
-			}
+//			else
+//			{
+//				createStage2Content(s);
+//			}
 		}
 
 		String mailContent = s.getParser().getRawParameter(MAILCONTENTNAME, "");
@@ -183,7 +187,14 @@ public class SessionFixation extends SequentialLessonAdapter
 		ElementContainer ec = new ElementContainer();
 		String mailHeader = "<b>Mail From:</b> &nbsp;&nbsp;admin@webgoatfinancial.com<br><br>";
 		String mailContent = (String) s.get(MAILCONTENTNAME);
-
+		
+		//Reset Lesson if server was shut down
+		if(mailContent == null)
+		{
+			getLessonTracker(s).setStage(1);
+			return createStage1Content(s);
+		}
+		
 		ec.addElement(mailHeader + mailContent);
 
 		return ec;
@@ -242,7 +253,7 @@ public class SessionFixation extends SequentialLessonAdapter
 				+ "data:<br><br><center><a href=http://localhost/WebGoat/"
 				+ link
 				+ "> Goat Hills Financial</a></center><br><br>"
-				+ "We are sorry for the caused inconvenience and thank you for your colaboration.<br><br>"
+				+ "We are sorry for the caused inconvenience and thank you for your cooparation.<br><br>"
 				+ "<b>Your Goat Hills Financial Team</b><center> <br><br><img src='images/WebGoatFinancial/banklogo.jpg'></center>";
 
 		ElementContainer ec = new ElementContainer();
@@ -814,6 +825,9 @@ public class SessionFixation extends SequentialLessonAdapter
 		return sid;
 	}
 	
-
+	public Element getCredits()
+	{
+		return super.getCustomCredits("Created by: Reto Lippuner, Marcel Wirth", new StringElement(""));
+	}
 
 }
