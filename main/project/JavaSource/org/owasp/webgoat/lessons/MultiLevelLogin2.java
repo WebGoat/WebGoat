@@ -60,7 +60,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 	private final static String USER = "user2";
 	private final static String PASSWORD = "pass2";
 	private final static String TAN = "tan2";
-	private final static String HIDDEN_USER = "hidden_user2";
+	private final static String HIDDEN_USER = "hidden_user";
 
 	private final static String LOGGEDIN = "loggedin2";
 	private final static String CORRECTTAN = "correctTan2";
@@ -247,6 +247,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 		// if restart button is clicked owe have to reset log in
 		if (!s.getParser().getStringParameter("Restart", "").equals(""))
 		{
+			resetTans(s);
 		}
 		// Logout Button is pressed
 		if (s.getParser().getRawParameter("logout", "").equals("true"))
