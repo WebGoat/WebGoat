@@ -798,7 +798,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 		String instructions = "";
 
 		instructions = "You are an attacker called Joe. You have a valid account by webgoat financial. Your goal is to log in as "
-				+ "Jane. Your username is Joe and your password is banana. This are your TANS: <br>"
+				+ "Jane. Your username is <b>Joe</b> and your password is <b>banana</b>. This are your TANS: <br>"
 				+ "Tan #1 = 15161<br>"
 				+ "Tan #2 = 4894<br>"
 				+ "Tan #3 = 18794<br>"

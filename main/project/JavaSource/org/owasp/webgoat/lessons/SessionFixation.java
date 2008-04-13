@@ -148,7 +148,7 @@ public class SessionFixation extends SequentialLessonAdapter
 		{
 			s.add(MAILCONTENTNAME, mailContent);
 		}
-		if (mailContent.contains(getLink()+"&SID=") && getLessonTracker(s).getStage() == 1)
+		if ((mailContent.contains("&SID=") || mailContent.contains("?SID=")) && getLessonTracker(s).getStage() == 1)
 		{
 			getLessonTracker(s).setStage(2);
 			s.setMessage("You completed stage 1!");
@@ -234,7 +234,7 @@ public class SessionFixation extends SequentialLessonAdapter
 		ElementContainer ec = new ElementContainer();
 		ec.addElement("<h2>Jane has logged into her account. Go and grab her session!" +
 				" Use Following link to reach the login screen of the bank:</h2><br><br>" +
-				"<a href=" + super.getLink() +"&SID=NOVALIDSESSION><center> WebGoat Financial </center></a><br><br><br><br>");
+				"<a href=" + super.getLink() +"&SID=NOVALIDSESSION><center> Goat Hills Financial </center></a><br><br><br><br>");
 		return ec;
 		//return createMainLoginContent(s);
 	}
@@ -744,12 +744,12 @@ public class SessionFixation extends SequentialLessonAdapter
 		else if (stage == 3)
 		{
 			instructions += "As the bank kindly asked to verfy your data you have to log in to see if your details are "  +
-					"correct ;). Your user name is Jane and your password is tarzan. <br><br><b>You are: Victim Jane</b> ";
+					"correct ;). Your user name is <b>Jane</b> and your password is <b>tarzan</b>. <br><br><b>You are: Victim Jane</b> ";
 		}
 		else if (stage == 4)
 		{
-			instructions += "It is time to steal the session now. Just use the link you sent to " +
-					"Jane.<br><br><b>You are: Hacker Joe</b> ";
+			instructions += "It is time to steal the session now. Use following link to reach Goat Hills " +
+					"Financial.<br><br><b>You are: Hacker Joe</b> ";
 		}
 
 

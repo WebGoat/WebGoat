@@ -821,7 +821,7 @@ public class MultiLevelLogin1 extends SequentialLessonAdapter
 		if (getLessonTracker(s).getStage() == 1)
 		{
 			instructions = "STAGE 1:\t This stage is just to show how a classic multi login works. "
-					+ "Your goal is to do a regular login as Jane with password tarzan. "
+					+ "Your goal is to do a regular login as <b>Jane</b> with password <b>tarzan</b>. "
 					+ "You have following TAN: <br>" + "Tan #1 = 15648<br>" + "Tan #2 = 92156<br>"
 					+ "Tan #3 = 4879<br>" + "Tan #4 = 9458<br>" + "Tan #5 = 4879<br>";
 
