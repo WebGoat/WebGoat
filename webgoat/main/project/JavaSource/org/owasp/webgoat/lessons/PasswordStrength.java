@@ -49,7 +49,6 @@ import org.owasp.webgoat.session.WebSession;
 
 public class PasswordStrength extends LessonAdapter
 {
-	private final static String USER = "user";
 
 	/**
 	 * Description of the Method
@@ -62,7 +61,6 @@ public class PasswordStrength extends LessonAdapter
 	{
 		ElementContainer ec = new ElementContainer();
 
-		StringBuffer person = null;
 		try
 		{
 

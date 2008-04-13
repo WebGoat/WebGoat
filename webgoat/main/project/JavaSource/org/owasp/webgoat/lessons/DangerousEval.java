@@ -4,6 +4,7 @@ package org.owasp.webgoat.lessons;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.A;
@@ -18,7 +19,6 @@ import org.apache.ecs.html.TH;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.HtmlEncoder;
 
 
 /***************************************************************************************************
