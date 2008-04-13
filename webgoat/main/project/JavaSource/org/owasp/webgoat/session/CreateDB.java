@@ -351,11 +351,12 @@ public class CreateDB
 
 		// Populate it
 		String insertData1 = "INSERT INTO user_data_tan VALUES (101,'Joe','Snow','987654321','VISA',' ',0, 'banana')";
-		String insertData2 = "INSERT INTO user_data_tan VALUES (102,'Jane','Plane','123456789','MC',' ',0, 'tarzan')";
-
+		String insertData2 = "INSERT INTO user_data_tan VALUES (102,'Jane','Plane','74589864','MC',' ',0, 'tarzan')";
+		String insertData3 = "INSERT INTO user_data_tan VALUES (103,'Jack','Sparrow','68659365','MC',' ',0, 'sniffable')";
 
 		statement.executeUpdate(insertData1);
 		statement.executeUpdate(insertData2);
+		statement.executeUpdate(insertData3);
 	}
 	
 	/**
