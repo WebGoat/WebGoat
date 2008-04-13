@@ -11,8 +11,11 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.A;
+import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Div;
 import org.apache.ecs.html.Input;
+import org.apache.ecs.html.Option;
+import org.apache.ecs.html.Select;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
@@ -28,6 +31,8 @@ public class InsecureLogin extends SequentialLessonAdapter
 	private final static String USER = "clear_user";
 	private final static String PASSWORD = "clear_pass";
 	private final static String ANSWER = "clear_answer";
+	private final static String YESNO = "yesno";
+	private final static String PROTOCOL = "protocol";
 
 	/**
 	 * Description of the Method
@@ -44,12 +49,25 @@ public class InsecureLogin extends SequentialLessonAdapter
 	@Override
 	protected Element doStage1(WebSession s) throws Exception {
 		String answer = s.getParser().getStringParameter(ANSWER,"");
-		if (answer.equals("sniffable"))
+		if (answer.equals("sniffy"))
 		{
 			s.setMessage("You completed Stage 1!");
 			getLessonTracker(s).setStage(2);
 		}
 			return createMainContent(s);
+	}
+	
+	@Override
+	protected Element doStage2(WebSession s) throws Exception {
+		String protocol = s.getParser().getStringParameter(PROTOCOL,"");
+		String yesno = s.getParser().getStringParameter(YESNO,"");
+		
+		if(yesno.equals("No") && protocol.equals("TLS"))
+		{
+			makeSuccess(s);
+		}
+		
+		return createMainContent(s);
 	}
 	
 	/**
@@ -124,7 +142,7 @@ public class InsecureLogin extends SequentialLessonAdapter
 		TD td3 = new TD();
 		TD td4 = new TD();
 		td3.addElement(new StringElement("Enter your password: "));
-		td4.addElement(new Input(Input.PASSWORD, PASSWORD).setValue("sniffable").setReadOnly(true));
+		td4.addElement(new Input(Input.PASSWORD, PASSWORD).setValue("sniffy").setReadOnly(true));
 		tr2.addElement(td3);
 		tr2.addElement(td4);
 
@@ -169,7 +187,16 @@ public class InsecureLogin extends SequentialLessonAdapter
 	{
 		List<String> hints = new ArrayList<String>();
 
-		hints.add("Stub");
+		hints.add("Stage 1: Use a sniffer to record " +
+				"the traffic");
+		hints.add("Stage 1: What Protocol does the request use?");
+		hints.add("Stage 1: What kind of request is started when " +
+				"you click on the button?");
+		hints.add("Stage 1: Take a closer look at the HTTP Post request in " +
+				"your sniffer");
+		hints.add("Stage 1: The password field has the name clear_pass");
+		
+		
 
 		return hints;
 	}
@@ -193,7 +220,25 @@ public class InsecureLogin extends SequentialLessonAdapter
 	
 	@Override
 	public String getInstructions(WebSession s) {
-		String instructions = "Stub";
+		int stage = getLessonTracker(s).getStage();
+		String instructions = "";
+		instructions = "<b>For this lesson you need to " +
+		"have a server client setup. Please refer to the" +
+		"Tomcat Setup Section in Introduction.</b><br><br> Stage" +
+		stage + ": ";
+		if (stage == 1)
+		{
+			instructions += "In this stage you have to sniff the " +
+					"password. And answer the question after the login.";
+		}
+		if (stage == 2)
+		{
+			instructions += "Now you have to change to a secure " +
+					"connection. The URL should start with https:// " +
+					"If your browser is complaining about the certificate just " +
+					"ignore it. Sniff again the traffic and answer the" +
+					" questions";
+		}
 		return instructions;
 	}
 	
@@ -303,21 +348,91 @@ public class InsecureLogin extends SequentialLessonAdapter
 		userDataDiv.addElement(table);
 		ec.addElement(userDataDiv);
 		ec.addElement(createLogoutLink());
-		ec.addElement(createQuestionContent());
+		
+		int stage = getLessonTracker(s).getStage();
+		if(stage == 1)
+		{
+			ec.addElement(createPlaintextQuestionContent());
+		}
+		else if (stage == 2)
+		{
+			ec.addElement(createSSLQuestionContent());
+		}
 		
 		
 		return ec;
 	}
 	
-	private Element createQuestionContent()
+	private Element createPlaintextQuestionContent()
 	{
 		ElementContainer ec = new ElementContainer();
 		Div div = new Div();
 		div.addAttribute("align", "center");
-		
+		div.addElement(new BR());
+		div.addElement(new BR());
 		div.addElement("What was the password?");
 		div.addElement(new Input(Input.TEXT, ANSWER));
-				
+		div.addElement(new Input(Input.SUBMIT, "Submit", "Submit"));		
+		ec.addElement(div);
+		return ec;
+	}
+	
+	private Element createSSLQuestionContent()
+	{
+		ElementContainer ec = new ElementContainer();
+		Table selectTable = new Table();
+		TR tr1 = new TR();
+		TD td1 = new TD();
+		TD td2 = new TD();
+		TR tr2 = new TR();
+		TD td3 = new TD();
+		TD td4 = new TD();
+		tr1.addElement(td1);
+		tr1.addElement(td2);
+		tr2.addElement(td3);
+		tr2.addElement(td4);
+		selectTable.addElement(tr1);
+		selectTable.addElement(tr2);
+		
+		Div div = new Div();
+		div.addAttribute("align", "center");
+		ec.addElement(new BR());
+		ec.addElement(new BR());
+		
+		td1.addElement("Is the password still transmited in plaintext?");
+		Select yesNoSelect = new Select();
+		yesNoSelect.setName(YESNO);
+		Option yesOption = new Option();
+		yesOption.addElement("Yes");
+		Option noOption = new Option();
+		noOption.addElement("No");
+		yesNoSelect.addElement(yesOption);
+		yesNoSelect.addElement(noOption);
+		td2.addElement(yesNoSelect);
+		
+		td3.addElement("Which protocol is used for the transmission?");
+		Select protocolSelect = new Select();
+		protocolSelect.setName(PROTOCOL);
+		Option httpOption = new Option();
+		httpOption.addElement("HTTP");
+		Option tcpOption = new Option();
+		tcpOption.addElement("TCP");
+		Option msnmsOption = new Option();
+		msnmsOption.addElement("MSNMS");
+		Option tlsOption = new Option();
+		tlsOption.addElement("TLS");
+		protocolSelect.addElement(httpOption);
+		protocolSelect.addElement(msnmsOption);
+		protocolSelect.addElement(tcpOption);
+		protocolSelect.addElement(tlsOption);
+		td4.addElement(protocolSelect);
+		//div.addElement(new BR());
+
+	
+		//div.addElement(new BR());
+		div.addElement(selectTable);
+		
+		div.addElement(new Input(Input.SUBMIT, "Submit", "Submit"));		
 		ec.addElement(div);
 		return ec;
 	}
