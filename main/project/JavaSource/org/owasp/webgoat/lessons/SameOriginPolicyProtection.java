@@ -3,20 +3,19 @@ package org.owasp.webgoat.lessons;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.A;
 import org.apache.ecs.html.BR;
-import org.apache.ecs.html.H2;
 import org.apache.ecs.html.H3;
 import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.Script;
 import org.apache.ecs.html.TextArea;
 import org.apache.ecs.xhtml.button;
-import org.apache.ecs.xhtml.link;
-import org.owasp.webgoat.session.*;
+import org.owasp.webgoat.session.WebSession;
 
 
 public class SameOriginPolicyProtection extends LessonAdapter

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -140,10 +141,6 @@ public class SessionFixation extends SequentialLessonAdapter
 				getLessonTracker(s).setStage(3);
 				s.setMessage("You completed stage 2!");
 			}
-//			else
-//			{
-//				createStage2Content(s);
-//			}
 		}
 
 		String mailContent = s.getParser().getRawParameter(MAILCONTENTNAME, "");
@@ -442,22 +439,6 @@ public class SessionFixation extends SequentialLessonAdapter
 		return ec;
 	}
 
-	/**
-	 * See if the user has logged in correctly
-	 * 
-	 * @param s
-	 * @return true if loggedIn
-	 */
-	private boolean loggedIn(WebSession s)
-	{
-		try
-		{
-			return s.get(LOGGEDIN).equals("true");
-		} catch (Exception e)
-		{
-			return false;
-		}
-	}
 
 	/**
 	 * See if the password and corresponding user is valid
