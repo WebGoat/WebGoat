@@ -75,6 +75,8 @@ public class Category implements Comparable
 
 	public final static Category CONCURRENCY = new Category("Concurrency", new Integer(80));
 
+	public final static Category INSECURE_COMMUNICATION = new Category("Insecure Communication", new Integer(809));
+	
 	public final static Category CHALLENGE = new Category("Challenge", new Integer(2000));
 
 	private static final List<Category> categories = new ArrayList<Category>();
@@ -103,6 +105,7 @@ public class Category implements Comparable
 		categories.add(GENERAL);
 		categories.add(CODE_QUALITY);
 		categories.add(CONCURRENCY);
+		categories.add(INSECURE_COMMUNICATION);
 		categories.add(CHALLENGE);
 	}
 
