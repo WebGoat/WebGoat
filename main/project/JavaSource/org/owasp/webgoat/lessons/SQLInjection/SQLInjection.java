@@ -265,7 +265,6 @@ public class SQLInjection extends GoatHillsFinancial
 	}
 	
 	public String getLessonSolutionFileName(WebSession s) {
-		System.out.println("SOLUTION!!!");
 		String solutionFileName = null;
 		String stage = getStage(s);
 		solutionFileName = "/lesson_solutions/Lab SQL Injection/Lab " + stage + ".html";
