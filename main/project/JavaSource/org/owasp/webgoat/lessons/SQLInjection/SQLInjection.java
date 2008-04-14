@@ -1,6 +1,9 @@
 
 package org.owasp.webgoat.lessons.SQLInjection;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.ecs.ElementContainer;
@@ -244,5 +247,28 @@ public class SQLInjection extends GoatHillsFinancial
 	public String getTitle()
 	{
 		return "LAB: SQL Injection";
+	}
+	
+	@Override
+	public String getSolution(WebSession s) {
+		String src = null;
+
+		try
+		{
+			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName(s)))), false);
+		} catch (IOException e)
+		{
+			s.setMessage("Could not find the solution file");
+			src = ("Could not find the solution file");
+		}
+		return src;
+	}
+	
+	public String getLessonSolutionFileName(WebSession s) {
+		System.out.println("SOLUTION!!!");
+		String solutionFileName = null;
+		String stage = getStage(s);
+		solutionFileName = "/lesson_solutions/Lab SQL Injection/Lab " + stage + ".html";
+		return solutionFileName;
 	}
 }

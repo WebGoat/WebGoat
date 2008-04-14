@@ -151,7 +151,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				instructions = "Stage 1: Bypass Presentational Layer Access Control.<br>"
 						+ "As regular employee 'Tom', exploit weak access control to use the Delete function from the Staff List page.  "
 						+ "Verify that Tom's profile can be deleted."
-						+ "The password for a user is always his prename..";
+						+ "The password for a user is always his prename.";
 			}
 			else if (STAGE2.equals(stage))
 			{
@@ -191,25 +191,12 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 
 		try
 		{
-			System.out.println("Solution: " + getLessonSolutionFileName(s));
 			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName(s)))), false);
 		} catch (IOException e)
 		{
 			s.setMessage("Could not find the solution file");
 			src = ("Could not find the solution file");
 		}
-
-//		Html html = new Html();
-//
-//		Head head = new Head();
-//		head.addElement(new Title(getLessonSolutionFileName(s)));
-//
-//		Body body = new Body();
-//		body.addElement(new StringElement(src));
-//
-//		html.addElement(head);
-//		html.addElement(body);
-
 		return src;
 	}
 
