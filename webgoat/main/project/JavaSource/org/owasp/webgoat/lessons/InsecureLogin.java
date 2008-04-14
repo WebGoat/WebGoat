@@ -224,7 +224,7 @@ public class InsecureLogin extends SequentialLessonAdapter
 		String instructions = "";
 		instructions = "<b>For this lesson you need to " +
 		"have a server client setup. Please refer to the" +
-		"Tomcat Setup Section in Introduction.</b><br><br> Stage" +
+		"Tomcat Configuration in the Introduction section.</b><br><br> Stage" +
 		stage + ": ";
 		if (stage == 1)
 		{
@@ -499,6 +499,11 @@ public class InsecureLogin extends SequentialLessonAdapter
 		logoutDiv.setStyle(logoutStyle);
 
 		return logoutDiv;
+	}
+	
+	public Element getCredits()
+	{
+		return super.getCustomCredits("Created by: Reto Lippuner, Marcel Wirth", new StringElement(""));
 	}
 
 }
