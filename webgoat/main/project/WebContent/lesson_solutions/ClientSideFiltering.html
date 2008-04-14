@@ -22,11 +22,14 @@ to which you should not have access.
 </p>
 
 <b>Solution:</b><br/>
+<p>
 This Lab consists of two Stages. In the first Stage you have to 
 get sensitive information . In the second one you have to fix the problem.<br/>
-<h3>Stage 1</h3>
+</p>
+<b>Stage 1</b>
+<p>
 Use Firebug to solve this stage. If you are using IE you can try it with 
-IEWatch.<br/><br/>
+IEWatch.</p>
 
 First use any person from the list and see what you get. After doing this you 
 can search for a specific person in Firebug. Make sure you find the hidden table with
@@ -36,16 +39,17 @@ Neville.
 <img src="/WebGoat/lesson_solutions/ClientSideFiltering_files/clientside_firebug.jpg" alt="Clientside Filtering" />
 <font size="2"><b>Inspect HTML on Firebug</b></font>
 </center>
-<br/><br/>
+<p>
 Now write the salary into the text edit box and submit your answer!
-
-<h3>Stage 2</h3>
+</p>
+<b>Stage 2</b>
+<p>
 In this stage you have to modify the clientSideFiltering.jsp which you will find under 
 the WebContent in the lessons/Ajax folder. The Problem is that
 the server sends all information to the client. As you could see
 even if it is hidden it is easy to find the sensitive date. In this
 stage you will add a filter to the XPath queries. In this file you will find 
-following construct:<br><br>
+following construct:<br><br></p>
 <code>
 	StringBuffer sb = new StringBuffer();<br>
 	
@@ -56,10 +60,11 @@ following construct:<br><br>
 	sb.append("/Employees/Employee/Salary ");<br>
 	
 	String expression = sb.toString();<br>
-</code><br>
+</code>
+<p>
 This string will be used for the XPath query. You have to guarantee that a manger only 
 can see employees which are working for him. To archive this you can use
-filters in XPath. Following code will exactly do this:<br><br>
+filters in XPath. Following code will exactly do this:</p>
 <code>
 	StringBuffer sb = new StringBuffer();<br>
 	
@@ -71,9 +76,9 @@ filters in XPath. Following code will exactly do this:<br><br>
 	
 	String expression = sb.toString();<br>
 </code>
-<br><br>
+<p>
 Now only information is sent to your client you are authorized for. You can click on the button.
-<br><br>
+</p>
 
 </body>
 </html>

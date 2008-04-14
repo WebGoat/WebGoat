@@ -7,6 +7,7 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.BR;
+import org.apache.ecs.html.Div;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
@@ -127,8 +128,11 @@ public class PasswordStrength extends LessonAdapter
 			ec.addElement(table);
 			ec.addElement(new BR());
 			ec.addElement(new BR());
+			Div div = new Div();
+			div.addAttribute("align", "center");
 			Element b = ECSFactory.makeButton("Go!");
-			ec.addElement(b);
+			div.addElement(b);
+			ec.addElement(div);
 		} catch (Exception e)
 		{
 			s.setMessage("Error generating " + this.getClass().getName());
@@ -155,7 +159,7 @@ public class PasswordStrength extends LessonAdapter
 	public List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("Copy the passwords in the code checker.");
+		hints.add("Copy the passwords into the code checker.");
 		return hints;
 	}
 
