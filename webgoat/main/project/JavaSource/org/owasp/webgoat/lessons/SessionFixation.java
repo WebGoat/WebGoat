@@ -433,7 +433,15 @@ public class SessionFixation extends SequentialLessonAdapter
 			}
 		} catch (Exception e)
 		{
-			createLogInContent(ec, "");
+			if((name+password).equals(""))
+			{
+				createLogInContent(ec, "");
+
+			}
+			else
+			{
+				createLogInContent(ec, "Login Failed! Make sure user name and password is correct!");
+			}
 		}
 
 		return ec;
