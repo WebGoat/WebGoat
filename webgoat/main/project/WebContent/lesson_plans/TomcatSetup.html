@@ -1,32 +1,32 @@
 <!-- Start Instructions -->
 <h1>How To Configure Tomcat</h1><br><br>
 <h2>Introduction</h2>
-<p>WebGoat comes with a sane default setup for Tomcat. This page will explain the setup 
-and which further possibilites you have to setup Tomcat. This is just 
+<p>WebGoat comes with sane default configurations for Tomcat. This page will explain the configurations
+and which further possibilities you have to configure Tomcat. This is just 
 a short description which should be enough in most cases. For more advanced tasks please 
 refer to the Tomcat documentation. Please note that all solutions
-are written for the standard setup on port 80. If you use another configuration you have 
-to ajust the solution to your configuration.</p>
+are written for the standard configurations on port 80. If you use another configurations you have 
+to adjust the solution to your configurations.</p>
 
-<h2>The Standard Configuration</h2>
-<p>There are two standard Tomcat setups. In this setups WebGoat is only reachable from within
+<h2>The Standard Configurations</h2>
+<p>There are two standard Tomcat configurations. In this configurations WebGoat is only reachable from within
 	 the localhost.
 	Both are identically with the only difference
-	that one is running on port 80 and 443 (SSL) and the other on 8080 and 8443. In Linux you have
+	that in one tomcat is running on port 80 and 443 (SSL) and in the other tomcat is running on port 8080 and 8443. In Linux you have
 	to start WebGoat as root or with sudo if you want to run it on port 80 and
 	443.
 	As running software as root is dangerous we strongly advice to use
 the port 8080 and 8443. In Windows you can
 run WebGoat.bat to run it on port 80 and WebGoat_8080.bat to run it on port 8080. In Linux you
 can use webgoat.sh and run it with webgoat.sh start80 or wegoat.sh start8080. The user in these
-setups is guest with password guest
+configurations is guest with password guest
 </p>
 
 <h2>Server Configurations</h2>
 <p>
-If you are a single user of WebGoat the standard setups should be
+If you are a single user of WebGoat the standard configurations should be
 enough but if you want to use WebGoat in laboratory or in class there
-might be the need to change the configuration. Before changing
+might be the need to change the configurations. Before changing
 the configurations we recommend doing a backup of the files you change.
 </p>
 
@@ -54,13 +54,13 @@ In this example to port 8442:
 <p>THIS MAKES IT POSSIBLE TO REALLY ATTACK YOUR SERVER! DO NOT DO THIS
 	UNTIL YOU KNOW WHAT YOU ARE DOING. THIS CONFIGURATION SHOULD BE ONLY USED IN 
 SAVE NETWORKS!</p>
-<p>By its default configuration WebGoat is only
+<p>By its default configurations WebGoat is only
 reachable within the localhost. In a laboratory or a class
 there is maybe the need of having a server and a few clients. 
 In this case it is possible to make WebGoat reachable.
 </p>
 <p>The reason why WebGoat is only reachable within the localhost is
-the parameter address in the connectors in server_80.xml. It is set
+the parameter address in the connectors for the non-SSL and SSL connection in server_80.xml. It is set
 to 127.0.0.1. The applications only listens on the port of this address for
 incoming connections if it is set. If you remove this parameter the server listens on all IPs on the
 specific port.</p>
@@ -79,10 +79,10 @@ only discussed the whitebox approach. You have to add following lines to the Hos
 </pre>
 <p>In this case only localhost, ip1 and ip2 are permitted to connect.</p>
 
-<h2>Users</h2>
+<h2>Users Configuration</h2>
 <p>
 Usually using WebGoat you just use the user guest with the password guest.
-But maybe in laboratory you have made a configuration with one server and a lot of
+But maybe in laboratory you have made a setup with one server and a lot of
 clients. In this case you might want to have a user for every client
  and you have to alter tomcat-users.xml 
 in tomcat/conf as the users are stored there. <b>We recommend not to use real passwords 
