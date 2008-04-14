@@ -63,7 +63,7 @@ public class TomcatSetup extends LessonAdapter
 		return Category.INTRODUCTION;
 	}
 
-	private final static Integer DEFAULT_RANKING = new Integer(9);
+	private final static Integer DEFAULT_RANKING = new Integer(11);
 
 	protected Integer getDefaultRanking()
 	{
@@ -77,7 +77,7 @@ public class TomcatSetup extends LessonAdapter
 	 */
 	public String getTitle()
 	{
-		return ("Tomcat Setup");
+		return ("Tomcat Configuration");
 	}
 
 	public Element getCredits()
