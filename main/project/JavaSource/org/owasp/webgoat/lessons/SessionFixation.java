@@ -738,7 +738,8 @@ public class SessionFixation extends SequentialLessonAdapter
 		{
 			instructions += "You are Hacker Joe and " +
 					"you want to steal the session from Jane. " +
-					"That is why you have to send a phishing mail " +
+					"That is why you have to send a prepared mail " +
+					"which looks like an official mail from the bank" +
 					"to her. The mail is already prepared. Only " +
 					"thing missing is a Session ID (SID) in the Link. Alter " +
 					"the link to include a SID.<br><br><b>You are: Hacker Joe</b>";
