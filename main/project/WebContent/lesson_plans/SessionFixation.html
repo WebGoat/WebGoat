@@ -11,14 +11,15 @@ How to steal a session with a 'Session Fixation'
 </p>
 A user is recognized by the server by an unique Session ID. If a
 user has logged in and is authorized he does not have to 
-reauhorize when he revisits the application as the user is recognized
+reauthorize when he revisits the application as the user is recognized
 by the Session ID. In some applications it is possible to deliver
 the Session ID in the Get-Request. Here is where the attack starts.
 <br><br>
-An attacker can send a hyperlink to a victim with a choosen Session ID.
-This can be done for example by a phishing mail.
-If the victim clicks on the link and loggs in he is authorized
-by the Session ID the attacker has choosen. The attacker
+An attacker can send a hyperlink to a victim with a chosen Session ID.
+This can be done for example by a prepared mail which looks like an 
+official mail from the application administrator.
+If the victim clicks on the link and logs in he is authorized
+by the Session ID the attacker has chosen. The attacker
 can visit the page with the same ID and is recognized as the victim and
 gets logged in without authorization.
 </div>

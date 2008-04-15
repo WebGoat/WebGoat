@@ -15,16 +15,17 @@ How to steal a session with a 'Session Fixation'
 <p><b>How the attacks works:</b><br/>
 A user is recognized by the server by an unique 
 Session ID. If a user has logged in and is authorized 
-he does not have to reauhorize when he revisits the 
+he does not have to reauthorize when he revisits the 
 application as the user is recognized by the Session ID.
  In some applications it is possible to deliver the Session 
  ID in the Get-Request. Here is where the attack starts. 
 </p>
 <p>An attacker can send a hyperlink to a
- victim with a choosen Session ID. This can be 
- done for example by a phishing mail. If the victim 
- clicks on the link and loggs in he is authorized by the 
- Session ID the attacker has choosen. The attacker can visit
+ victim with a chosen Session ID. This can be 
+ done for example by a prepared mail which looks like an 
+official mail from the application administrator. If the victim 
+ clicks on the link and logs in he is authorized by the 
+ Session ID the attacker has chosen. The attacker can visit
   the page with the same ID and is recognized as the victim
    and gets logged in without authorization.</p>
 
@@ -44,7 +45,7 @@ in lesson 2 and 3 you are the victim Jane.
 
 <p>
 <b>Stage 1:</b><br>
-You have to send a phishing mail to Jane with a link containing a Session ID.
+You have to send a prepared mail to Jane which looks like a mail from Goat Hills Financial with a link containing a Session ID.
 The mail is already prepared. You only have to alter the link so it includes
 a Session ID (SID). You can archive this by adding &SID=WHATEVER to
 the link. Of course can WHATEVER be replaced by any other string.
@@ -53,7 +54,7 @@ The link should look similar to following:<br>
 </p>
 <div align="left"><font size="2">
 <img src='lesson_solutions/SessionFixation_files/sf_stage1.png'><br>
-<b>Figure 1: Phishing Mail</b>
+<b>Figure 1: Prepared Mail</b>
 </font>
 </div>
 
@@ -66,7 +67,7 @@ stage as you have only to click on the link	'Goat Hills Financial'.
 </p>
 <div align="left"><font size="2">
 <img src='lesson_solutions/SessionFixation_files/sf_stage2.png'><br>
-<b>Figure 2: Received Phishing Mail</b>
+<b>Figure 2: Received Mail</b>
 </font>
 </div>
 
