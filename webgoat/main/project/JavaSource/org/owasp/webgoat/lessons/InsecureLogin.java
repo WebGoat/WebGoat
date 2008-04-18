@@ -416,20 +416,21 @@ public class InsecureLogin extends SequentialLessonAdapter
 		Option httpOption = new Option();
 		httpOption.addElement("HTTP");
 		Option tcpOption = new Option();
-		tcpOption.addElement("TCP");
+		tcpOption.addElement("UDP");
+		Option ipsecOption = new Option();
+		ipsecOption.addElement("IPSEC");
 		Option msnmsOption = new Option();
 		msnmsOption.addElement("MSNMS");
 		Option tlsOption = new Option();
 		tlsOption.addElement("TLS");
 		protocolSelect.addElement(httpOption);
+		protocolSelect.addElement(ipsecOption);
 		protocolSelect.addElement(msnmsOption);
 		protocolSelect.addElement(tcpOption);
 		protocolSelect.addElement(tlsOption);
 		td4.addElement(protocolSelect);
-		//div.addElement(new BR());
 
-	
-		//div.addElement(new BR());
+
 		div.addElement(selectTable);
 		
 		div.addElement(new Input(Input.SUBMIT, "Submit", "Submit"));		
