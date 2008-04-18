@@ -383,7 +383,6 @@ public class MultiLevelLogin2 extends LessonAdapter
 		ec.addElement(loginDiv);
 		ec.addElement(createLogoutLink());
 
-		updateTan(user, s);
 	}
 
 	/**
@@ -404,7 +403,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 
 	private void createSuccessfulLoginContent(WebSession s, ElementContainer ec, String user)
 	{
-
+		updateTan(user, s);
 		String userDataStyle = "margin-top:50px;";
 
 		Div userDataDiv = new Div();
