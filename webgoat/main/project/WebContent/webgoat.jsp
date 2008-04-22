@@ -9,7 +9,7 @@ WebSession webSession = ((WebSession) session.getAttribute("websession"));
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>WebGoat V5.1</title>
+<title>WebGoat V5.2</title>
 <link rel="stylesheet" href="css/webgoat.css" type="text/css" />
 </head>
 
@@ -65,7 +65,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	<tr>
 		<td height="25" valign="bottom">
 		<div align="center"><span class="style1">Special Thanks
-		for V5.1</span></div>
+		for V5.2</span></div>
 		</td>
 		<td height="25" valign="bottom">
 		<div align="center"><span class="style1">Documentation
@@ -74,22 +74,18 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	</tr>
 	<tr>
 		<td>
-		<div align="center" class="style2">OWASP Spring of Code</div>
-		<div align="center" class="style2">Erwin Geirnaert<br />
-		(http://www.zionsecurity.com)<br />
-		</div>
+		<div align="center" class="style2">Reto Lippuner</div>
+		<div align="center" class="style2">Marcel Wirth	</div>
+		<br/><div align="center" class="style2">To all who have sent comments</div>
+		
 		</td>
 		<td>
 		<div align="center" class="style2">Sherif Koussa<br />
-		(http://www.macadamian.com)<br />
 		</div>
+		<div align="center" class="style2">Aung Khant<br />
+		(http://yehg.org/)</div>
 		<div align="center" class="style2">Erwin Geirnaert<br />
 		(http://www.zionsecurity.com/)</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		<div align="center" class="style2">To all who have sent comments</div>
 		</td>
 	</tr>
 	<tr>
