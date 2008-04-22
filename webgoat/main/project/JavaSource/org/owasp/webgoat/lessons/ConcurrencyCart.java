@@ -137,7 +137,7 @@ public class ConcurrencyCart extends LessonAdapter
 
 		} catch (ParameterNotFoundException pnfe)
 		{
-			System.out.println("[DEBUG] no action selected, defaulting to createShoppingPage");
+			//System.out.println("[DEBUG] no action selected, defaulting to createShoppingPage");
 			ec = createShoppingPage(s, quantity1, quantity2, quantity3, quantity4);
 		}
 

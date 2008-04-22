@@ -721,7 +721,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			osw.write(message);
 		} catch (Exception e)
 		{
-			System.out.println("Couldn't write " + message + " to " + s);
+			//System.out.println("Couldn't write " + message + " to " + s);
 			e.printStackTrace();
 		}
 	}

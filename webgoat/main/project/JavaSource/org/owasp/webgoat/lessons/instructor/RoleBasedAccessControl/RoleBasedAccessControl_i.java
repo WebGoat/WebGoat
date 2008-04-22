@@ -109,20 +109,20 @@ public class RoleBasedAccessControl_i extends RoleBasedAccessControl
 		}
 		catch (ParameterNotFoundException pnfe)
 		{
-			System.out.println("Missing parameter");
+			//System.out.println("Missing parameter");
 			pnfe.printStackTrace();
 			setCurrentAction(s, ERROR_ACTION);												
 		}
 		catch (ValidationException ve)
 		{
-			System.out.println("Validation failed");
+			//System.out.println("Validation failed");
 			ve.printStackTrace();
 			setCurrentAction(s, ERROR_ACTION);												
 		}
 		catch (UnauthenticatedException ue)
 		{
 			s.setMessage("Login failed");
-			System.out.println("Authentication failure");
+			//System.out.println("Authentication failure");
 			ue.printStackTrace();
 		}
 		catch (UnauthorizedException ue2)
@@ -168,7 +168,7 @@ public class RoleBasedAccessControl_i extends RoleBasedAccessControl
 			}
 			
 		    s.setMessage("You are not authorized to perform this function");
-		    System.out.println("Authorization failure");
+		    // System.out.println("Authorization failure");
 		    setCurrentAction(s, ERROR_ACTION);
 		    ue2.printStackTrace();
 		}

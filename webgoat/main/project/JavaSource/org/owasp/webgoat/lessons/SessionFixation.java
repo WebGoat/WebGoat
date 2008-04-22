@@ -127,7 +127,7 @@ public class SessionFixation extends SequentialLessonAdapter
 
 			if (sid.equals("NOVALIDSESSION"))
 			{
-				System.out.println("STAGE 5");
+				//System.out.println("STAGE 5");
 				getLessonTracker(s).setStage(5);
 			}
 					
@@ -213,7 +213,7 @@ public class SessionFixation extends SequentialLessonAdapter
 	@Override
 	protected Element doStage5(WebSession s) throws Exception
 	{
-		System.out.println("Doing stage 5");
+		//System.out.println("Doing stage 5");
 		return createStage5Content(s);
 	}
 	

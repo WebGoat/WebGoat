@@ -678,7 +678,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 
 			if ((results != null) && (results.first() == true))
 			{
-				System.out.println(results.getString("tanValue"));
+				//System.out.println(results.getString("tanValue"));
 				return results.getString("tanValue");
 
 			}
