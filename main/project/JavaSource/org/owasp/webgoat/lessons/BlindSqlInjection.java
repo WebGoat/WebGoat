@@ -89,8 +89,8 @@ public class BlindSqlInjection extends LessonAdapter
 																		ResultSet.CONCUR_READ_ONLY);
 				ResultSet answer_results = answer_statement.executeQuery(answer_query);
 				answer_results.first();
-				System.out.println("Account: " + accountNumber);
-				System.out.println("Answer : " + answer_results.getString(1));
+				//System.out.println("Account: " + accountNumber);
+				//System.out.println("Answer : " + answer_results.getString(1));
 				if (accountNumber.toString().equals(answer_results.getString(1)))
 				{
 					makeSuccess(s);
@@ -233,7 +233,7 @@ public class BlindSqlInjection extends LessonAdapter
 			super.handleRequest(s);
 		} catch (Exception e)
 		{
-			System.out.println("Exception caught: " + e);
+			//System.out.println("Exception caught: " + e);
 			e.printStackTrace(System.out);
 		}
 	}

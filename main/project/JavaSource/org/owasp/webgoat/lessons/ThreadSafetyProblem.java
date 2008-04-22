@@ -189,7 +189,7 @@ public class ThreadSafetyProblem extends LessonAdapter
 			super.handleRequest(s);
 		} catch (Exception e)
 		{
-			System.out.println("Exception caught: " + e);
+			//System.out.println("Exception caught: " + e);
 			e.printStackTrace(System.out);
 		}
 	}

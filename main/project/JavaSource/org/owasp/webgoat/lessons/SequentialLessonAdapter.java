@@ -86,7 +86,7 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
 		} catch (Exception e)
 		{
 			s.setMessage("Error generating " + this.getClass().getName());
-			System.out.println(e);
+			//System.out.println(e);
 			e.printStackTrace();
 		}
 
