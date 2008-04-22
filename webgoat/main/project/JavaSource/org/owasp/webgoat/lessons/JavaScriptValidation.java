@@ -226,7 +226,7 @@ public class JavaScriptValidation extends LessonAdapter
 	 */
 	protected Category getDefaultCategory()
 	{
-		return Category.UNVALIDATED_PARAMETERS;
+		return Category.PARAMETER_TAMPERING;
 	}
 
 	/**

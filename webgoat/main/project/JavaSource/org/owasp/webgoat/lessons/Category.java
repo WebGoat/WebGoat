@@ -41,43 +41,43 @@ public class Category implements Comparable
 
 	public final static Category INTRODUCTION = new Category("Introduction", new Integer(5));
 	
-	public final static Category UNVALIDATED_PARAMETERS = new Category("Unvalidated Parameters", new Integer(110));
+	public final static Category GENERAL = new Category("General", new Integer(100));
 
-	public final static Category ACCESS_CONTROL = new Category("Access Control Flaws", new Integer(210));
+	public final static Category ACCESS_CONTROL = new Category("Access Control Flaws", new Integer(200));
 
-	public final static Category AUTHENTICATION = new Category("Authentication Flaws", new Integer(310));
+	public final static Category AJAX_SECURITY = new Category("AJAX Security", new Integer(400));
 
-	public final static Category SESSION_MANAGEMENT = new Category("Session Management Flaws", new Integer(320));
+	public final static Category AUTHENTICATION = new Category("Authentication Flaws", new Integer(500));
 
-	public final static Category XSS = new Category("Cross-Site Scripting (XSS)", new Integer(410));
+	public final static Category BUFFER_OVERFLOW = new Category("Buffer Overflows", new Integer(600));
 
-	public final static Category BUFFER_OVERFLOW = new Category("Buffer Overflows", new Integer(510));
+	public final static Category CODE_QUALITY = new Category("Code Quality", new Integer(700));
 
-	public final static Category INJECTION = new Category("Injection Flaws", new Integer(610));
+	public final static Category CONCURRENCY = new Category("Concurrency", new Integer(800));
 
-	public final static Category ERROR_HANDLING = new Category("Improper Error Handling", new Integer(710));
+	public final static Category DOS = new Category("Denial of Service", new Integer(900));
 
-	public final static Category INSECURE_STORAGE = new Category("Insecure Storage", new Integer(810));
+	public final static Category ERROR_HANDLING = new Category("Improper Error Handling", new Integer(1000));
 
-	public final static Category DOS = new Category("Denial of Service", new Integer(910));
+	public final static Category INJECTION = new Category("Injection Flaws", new Integer(1100));
 
-	public final static Category INSECURE_CONFIGURATION = new Category("Insecure Configuration", new Integer(1010));
-
-	public final static Category WEB_SERVICES = new Category("Web Services", new Integer(1110));
-
-	public final static Category AJAX_SECURITY = new Category("AJAX Security", new Integer(1150));
-
-	public final static Category ADMIN_FUNCTIONS = new Category("Admin Functions", new Integer(10));
-
-	public final static Category GENERAL = new Category("General", new Integer(50));
-
-	public final static Category CODE_QUALITY = new Category("Code Quality", new Integer(70));
-
-	public final static Category CONCURRENCY = new Category("Concurrency", new Integer(80));
-
-	public final static Category INSECURE_COMMUNICATION = new Category("Insecure Communication", new Integer(809));
+	public final static Category INSECURE_COMMUNICATION = new Category("Insecure Communication", new Integer(1200));
 	
-	public final static Category CHALLENGE = new Category("Challenge", new Integer(2000));
+	public final static Category INSECURE_CONFIGURATION = new Category("Insecure Configuration", new Integer(1300));
+
+	public final static Category INSECURE_STORAGE = new Category("Insecure Storage", new Integer(1400));
+
+	public final static Category PARAMETER_TAMPERING = new Category("Parameter Tampering", new Integer(1500));
+
+	public final static Category SESSION_MANAGEMENT = new Category("Session Management Flaws", new Integer(1600));
+
+	public final static Category WEB_SERVICES = new Category("Web Services", new Integer(1700));
+
+	public final static Category XSS = new Category("Cross-Site Scripting (XSS)", new Integer(1800));
+
+	public final static Category ADMIN_FUNCTIONS = new Category("Admin Functions", new Integer(1900));
+
+	public final static Category CHALLENGE = new Category("Challenge", new Integer(3000));
 
 	private static final List<Category> categories = new ArrayList<Category>();
 
@@ -88,7 +88,7 @@ public class Category implements Comparable
 	static
 	{
 		categories.add(INTRODUCTION);
-		categories.add(UNVALIDATED_PARAMETERS);
+		categories.add(PARAMETER_TAMPERING);
 		categories.add(ACCESS_CONTROL);
 		categories.add(AUTHENTICATION);
 		categories.add(SESSION_MANAGEMENT);
