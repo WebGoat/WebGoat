@@ -122,11 +122,6 @@ StringBuffer buildList = new StringBuffer();
 				if (webSession.isAuthorizedInLesson(webSession.getRole(), WebSession.SHOWHINTS))
 				{
 				%>
-				<a href="javascript:toggle('lessonPlans')" target="_top" onclick="MM_nbGroup('down','group1','plans','',1)" 
-				onmouseover="MM_nbGroup('over','plans','images/buttons/plansOver.jpg','',1)" 
-				onmouseout="MM_nbGroup('out')">
-				<img src="images/buttons/plans.jpg" alt="Lesson Plans" width="89" height="20" border="0" id="plans"/>
-				</a>
 				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=PreviousHint" target="_top" onclick="MM_nbGroup('down','group1','hintLeft','',1)" 
 				onmouseover="MM_nbGroup('over','hintLeft','images/buttons/hintLeftOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
@@ -143,25 +138,30 @@ StringBuffer buildList = new StringBuffer();
 				<img src="images/buttons/hintRight.jpg" alt="Next Hint" name="hintRight" width="20" height="20" border="0" id="hintRight"/>
 				</a>
 				<%}%>
-<!--				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Params" target="_top" onclick="MM_nbGroup('down','group1','params','',1)" -->
-<!--				onmouseover="MM_nbGroup('over','params','images/buttons/paramsOver.jpg','',1)" -->
-<!--				onmouseout="MM_nbGroup('out')">-->
-<!--				<img src="images/buttons/params.jpg" alt="Show Params" name="<%= webSession.getCurrentLesson().getLink() %>&show=Params" width="87" height="20" border="0" id="params"/>-->
-<!--				</a>-->
-<!--				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Cookies" target="_top" onclick="MM_nbGroup('down','group1','cookies','',1)" -->
-<!--				onmouseover="MM_nbGroup('over','cookies','images/buttons/cookiesOver.jpg','',1)" -->
-<!--				onmouseout="MM_nbGroup('out')">-->
-<!--				<img src="images/buttons/cookies.jpg" alt="Show Cookies" name="cookies" width="99" height="20" border="0" id="cookies"/>-->
-<!--				</a>-->
+				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Params" target="_top" onclick="MM_nbGroup('down','group1','params','',1)" 
+				onmouseover="MM_nbGroup('over','params','images/buttons/paramsOver.jpg','',1)" 
+				onmouseout="MM_nbGroup('out')">
+				<img src="images/buttons/params.jpg" alt="Show Params" name="<%= webSession.getCurrentLesson().getLink() %>&show=Params" width="87" height="20" border="0" id="params"/>
+				</a>
+				<a href="<%= webSession.getCurrentLesson().getLink() %>&show=Cookies" target="_top" onclick="MM_nbGroup('down','group1','cookies','',1)" 
+				onmouseover="MM_nbGroup('over','cookies','images/buttons/cookiesOver.jpg','',1)" 
+				onmouseout="MM_nbGroup('out')">
+				<img src="images/buttons/cookies.jpg" alt="Show Cookies" name="cookies" width="99" height="20" border="0" id="cookies"/>
+				</a>
+				<a href="javascript:toggle('lessonPlans')" target="_top" onclick="MM_nbGroup('down','group1','plans','',1)" 
+				onmouseover="MM_nbGroup('over','plans','images/buttons/plansOver.jpg','',1)" 
+				onmouseout="MM_nbGroup('out')">
+				<img src="images/buttons/plans.jpg" alt="Lesson Plans" width="89" height="20" border="0" id="plans"/>
+				</a>
 				<% 
 				if (webSession.isAuthorizedInLesson(webSession.getRole(), WebSession.SHOWSOURCE))
 				{
 				%>
-<!--				<a href="source" onclick="makeWindow(this.href+ '?source=true', 'Java Source');return false;" target="javaWin"-->
-<!--				onmouseover="MM_nbGroup('over','java','images/buttons/javaOver.jpg','',1)" -->
-<!--				onmouseout="MM_nbGroup('out')">-->
-<!--				<img src="images/buttons/java.jpg" alt="Show Java" name="java" width="75" height="20" border="0" id="java"/>-->
-<!--				</a>-->
+				<a href="source" onclick="makeWindow(this.href+ '?source=true', 'Java Source');return false;" target="javaWin"
+				onmouseover="MM_nbGroup('over','java','images/buttons/javaOver.jpg','',1)" 
+				onmouseout="MM_nbGroup('out')">
+				<img src="images/buttons/java.jpg" alt="Show Java" name="java" width="75" height="20" border="0" id="java"/>
+				</a>
 				<a href="source" onclick="makeWindow(this.href + '?solution=true', 'Java Solution');return false;" target="javaWin"
 				onmouseover="MM_nbGroup('over','solutions','images/buttons/solutionsOver.jpg','',1)" 
 				onmouseout="MM_nbGroup('out')">
