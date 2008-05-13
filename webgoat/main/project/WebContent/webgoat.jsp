@@ -18,11 +18,13 @@ WebSession webSession = ((WebSession) session.getAttribute("websession"));
 <div id="wrap">
 <div id="top"></div>
 <div id="start">
-<p>Thank you for using WebGoat!</p>
-<p>This program is a demonstration of common web application flaws.
+<p>Thank you for using WebGoat! This program is a demonstration of common web application flaws.
 The exercises are intended to provide hands on experience with
-application penetration testing techniques. </p><p>The WebGoat project is lead
+application penetration testing techniques. </p>
+<p>The WebGoat project is lead
 by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatContext().getFeedbackAddress()%>.</p>
+<p>Thanks to <a href="http://www.ouncelabs.com"><img align="top" height="20" width="160" border = "0" src="images/logos/ounce.jpg" alt="Ounce Labs"/></a> for supporting Bruce on the WebGoat Project.</p>
+
 <div id="team">
 <table border="0" align="center" class="lessonText">
 	<tr>

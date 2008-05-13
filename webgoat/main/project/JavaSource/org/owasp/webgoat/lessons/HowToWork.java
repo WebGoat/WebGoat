@@ -78,7 +78,7 @@ public class HowToWork extends LessonAdapter
 	 */
 	public String getTitle()
 	{
-		return ("How to work with Webgoat");
+		return ("How to work with WebGoat");
 	}
 
 	public Element getCredits()
