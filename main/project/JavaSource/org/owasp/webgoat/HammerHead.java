@@ -59,6 +59,8 @@ import org.owasp.webgoat.session.WebgoatContext;
 public class HammerHead extends HttpServlet
 {
 
+	private static final String WELCOMED = "welcomed";
+
 	/**
 	 * 
 	 */
@@ -206,9 +208,9 @@ public class HammerHead extends HttpServlet
 
 		// If this session has not seen the landing page yet, go there instead.
 		HttpSession session = webSession.getRequest().getSession();
-		if (session.getAttribute("welcomed") == null)
+		if (session.getAttribute(WELCOMED) == null)
 		{
-			session.setAttribute("welcomed", "true");
+			session.setAttribute(WELCOMED, "true");
 			page = "/webgoat.jsp";
 		}
 		else
@@ -432,6 +434,8 @@ public class HammerHead extends HttpServlet
 			// Create new custom session and save it in the HTTP session
 			// System.out.println( "HH Creating new WebSession: " );
 			session = new WebSession(webgoatContext, context);
+			// Ensure splash screen shows on any restart
+			hs.removeAttribute(WELCOMED);
 			hs.setAttribute(WebSession.SESSION, session);
 			// reset timeout
 			hs.setMaxInactiveInterval(sessionTimeoutSeconds);
