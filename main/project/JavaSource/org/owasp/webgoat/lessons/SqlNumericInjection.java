@@ -128,7 +128,14 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 					{
 						makeSuccess(s);
 						getLessonTracker(s).setStage(2);
-						s.setMessage("Start this lesson over to attack a parameterized query.");
+						StringBuffer msg = new StringBuffer();
+
+						msg.append("Bet you can't do it again! ");
+						msg.append("This lesson has detected your successfull attack ");
+						msg.append("and has now switched to a defensive mode. ");
+						msg.append("Try again to attack a parameterized query.");
+
+						s.setMessage(msg.toString());
 					}
 				}
 				else
@@ -222,9 +229,9 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 
 		ec.addElement(new P().addElement("Select your local weather station: "));
 
-		Map stations = getStations(s);
+		Map<String, String> stations = getStations(s);
 		Select select = new Select(STATION_ID);
-		Iterator it = stations.keySet().iterator();
+		Iterator<String> it = stations.keySet().iterator();
 		while (it.hasNext())
 		{
 			String key = (String) it.next();
@@ -244,7 +251,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	 * 
 	 * @return A map containing each station, indexed by station number
 	 */
-	protected Map getStations(WebSession s) throws SQLException, ClassNotFoundException
+	protected Map<String, String> getStations(WebSession s) throws SQLException, ClassNotFoundException
 	{
 
 		Connection connection = DatabaseUtilities.getConnection(s);

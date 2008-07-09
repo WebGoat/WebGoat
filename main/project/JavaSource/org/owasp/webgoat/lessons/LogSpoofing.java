@@ -134,7 +134,7 @@ public class LogSpoofing extends LessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("Try to fool the humane eye by using new lines.");
+		hints.add("Try to fool the human eye by using new lines.");
 		hints.add("Use CR (%0d) and LF (%0a) for a new line.");
 		hints.add("Try: Smith%0d%0aLogin Succeeded for username: admin");
 		hints

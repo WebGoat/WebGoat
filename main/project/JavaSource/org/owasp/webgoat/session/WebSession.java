@@ -168,6 +168,7 @@ public class WebSession
 	private boolean isColor = false;
 
 	private boolean isDebug = false;
+	
 	private boolean hasHackedHackableAdmin = false;
 
 	private StringBuffer message = new StringBuffer("");
@@ -363,11 +364,11 @@ public class WebSession
 	public String getCurrentLink()
 	{
 		String thisLink = "attack";
-		Enumeration e = request.getParameterNames();
+		Enumeration<String> e = request.getParameterNames();
 		boolean isFirstParameter = true;
 		while (e.hasMoreElements())
 		{
-			String name = (String) e.nextElement();
+			String name = e.nextElement();
 			if (isFirstParameter)
 			{
 				isFirstParameter = false;
@@ -428,7 +429,7 @@ public class WebSession
 		{
 			params = new Vector<Parameter>();
 
-			Enumeration e = getParser().getParameterNames();
+			Enumeration<String> e = getParser().getParameterNames();
 
 			while ((e != null) && e.hasMoreElements())
 			{
@@ -448,9 +449,9 @@ public class WebSession
 		return params;
 	}
 
-	public List getCookies()
+	public List<Cookie> getCookies()
 	{
-		List cookies = null;
+		List<Cookie> cookies = null;
 
 		if (showCookies()) cookies = Arrays.asList(request.getCookies());
 
@@ -669,7 +670,7 @@ public class WebSession
 
 	public LessonSession getLessonSession(AbstractLesson lesson)
 	{
-		return (LessonSession) lessonSessions.get(lesson);
+		return lessonSessions.get(lesson);
 	}
 
 	/**

@@ -107,7 +107,6 @@ public class SessionFixation extends SequentialLessonAdapter
 				String randomSid = randomSIDGenerator();
 				s.add("SID", randomSid);
 				this.sid = randomSid;
-				System.out.println("RANDOMSID " + randomSid);
 			}
 			
 			String name = s.getParser().getStringParameter(USER, "");
@@ -245,12 +244,12 @@ public class SessionFixation extends SequentialLessonAdapter
 		String link = getLink();
 		String mailText = "<b>Dear MS. Plane</b> <br><br>"
 				+ "During the last week we had a few problems with our database. "
-				+ "A lot of people complained that there account details are wrong. "
-				+ "That is why we kindly ask you to use following link to verify your "
+				+ "We have received many complaints regarding incorrect account details. "
+				+ "Please use the following link to verify your account "
 				+ "data:<br><br><center><a href=http://localhost/WebGoat/"
 				+ link
 				+ "> Goat Hills Financial</a></center><br><br>"
-				+ "We are sorry for the caused inconvenience and thank you for your cooparation.<br><br>"
+				+ "We are sorry for the any inconvenience and thank you for your cooparation.<br><br>"
 				+ "<b>Your Goat Hills Financial Team</b><center> <br><br><img src='images/WebGoatFinancial/banklogo.jpg'></center>";
 
 		ElementContainer ec = new ElementContainer();
@@ -738,22 +737,22 @@ public class SessionFixation extends SequentialLessonAdapter
 		{
 			instructions += "You are Hacker Joe and " +
 					"you want to steal the session from Jane. " +
-					"That is why you have to send a prepared mail " +
-					"which looks like an official mail from the bank" +
-					"to her. The mail is already prepared. Only " +
-					"thing missing is a Session ID (SID) in the Link. Alter " +
+					"Send a prepared email to the victim " +
+					"which looks like an official email from the bank.  " +
+					"A template message is prepared below, you will need to add " +
+					"a Session ID (SID) in the link inside the email. Alter " +
 					"the link to include a SID.<br><br><b>You are: Hacker Joe</b>";
 		}
 		else if (stage == 2)
 		{
-			instructions += "Now you are the victim Jane who received the mail you see. " +
-					"If you point on the link with your mouse you will see that there is a SID included." +
+			instructions += "Now you are the victim Jane who received the email below. " +
+					"If you point on the link with your mouse you will see that there is a SID included. " +
 					"Click on it to see what happens.<br><br><b>You are: Victim Jane</b> ";
 		}
 		else if (stage == 3)
 		{
-			instructions += "As the bank kindly asked to verfy your data you have to log in to see if your details are "  +
-					"correct ;). Your user name is <b>Jane</b> and your password is <b>tarzan</b>. <br><br><b>You are: Victim Jane</b> ";
+			instructions += "The bank has asked you to verfy your data. Log in to see if your details are "  +
+					"correct. Your user name is <b>Jane</b> and your password is <b>tarzan</b>. <br><br><b>You are: Victim Jane</b> ";
 		}
 		else if (stage == 4)
 		{

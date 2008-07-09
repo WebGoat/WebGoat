@@ -66,7 +66,7 @@ public class CreateDB
 		try
 		{
 			String createTableStatement = "CREATE TABLE messages (" + "num int not null," + "title varchar(50),"
-					+ "message varchar(200)," + "user_name varchar(50) not null " + ")";
+					+ "message varchar(200)," + "user_name varchar(50) not null, " + "lesson_type varchar(50) not null" + ")";
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{

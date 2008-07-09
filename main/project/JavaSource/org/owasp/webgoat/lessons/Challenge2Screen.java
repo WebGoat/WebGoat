@@ -252,6 +252,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			if (v.size() == 13)
 			{
 				s.setMessage("Congratulations! You stole all the credit cards, proceed to stage 3!");
+				s.setMessage("  - Look in the credit card pull down to see the numbers.");
 				ec.addElement(new BR());
 				// TR inf = new TR();
 				Center center = new Center();
@@ -340,7 +341,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				ec.addElement(t);
 			} catch (Exception e)
 			{
-				ec.addElement(new P().addElement("Select a message to read from the Message List below"));
+				ec.addElement(new P().addElement("Error in obtaining network status"));
 			}
 
 			ec.addElement(new HR());
@@ -557,7 +558,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		String instructions = "Your mission is to break the authentication scheme, "
 				+ "steal all the credit cards from the database, and then deface the website. "
 				+ "You will have to use many of the techniques you have learned in the other lessons. "
-				+ "The main webpage for this site is 'webgoat_challenge_&lt;username&gt;.jsp'";
+				+ "The main webpage to deface for this site is 'webgoat_challenge_" + s.getUserName() + ".jsp'";
 
 		return (instructions);
 	}
@@ -623,18 +624,19 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 		ElementContainer ec = new ElementContainer();
 
-		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
+		Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("80%").setAlign("center");
 
 		if (s.isColor())
 		{
 			t.setBorder(1);
 		}
 
+		String[] colWidths = new String[]{"55", "110", "260", "70"};
 		TR tr = new TR();
-		tr.addElement(new TH().addElement("Protocol").setWidth("7%"));
-		tr.addElement(new TH().addElement("Local Address").setWidth("80%"));
-		tr.addElement(new TH().addElement("Foreign Address").setWidth("10%"));
-		tr.addElement(new TH().addElement("State").setWidth("3%"));
+		tr.addElement(new TH().addElement("Protocol").setWidth(colWidths[0]));
+		tr.addElement(new TH().addElement("Local Address").setWidth(colWidths[1]));
+		tr.addElement(new TH().addElement("Foreign Address").setWidth(colWidths[2]));
+		tr.addElement(new TH().addElement("State").setWidth(colWidths[3]));
 		t.addElement(tr);
 
 		String protocol = s.getParser().getRawParameter(PROTOCOL, "tcp");
@@ -672,12 +674,14 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		{
 			// in order to avoid a ill-rendered screen when the user performs
 			// command injection, we will wrap the screen at 4 columns
-			int columnCount = 4;
+			int columnCount = 0;
 			tr = new TR();
+			TD td;
 			StringTokenizer tokens = new StringTokenizer(lines.nextToken(), "\t ");
-			while (tokens.hasMoreTokens() && columnCount-- > 0)
+			while (tokens.hasMoreTokens() && columnCount <4)
 			{
-				tr.addElement(new TD().addElement(tokens.nextToken()));
+				td = new TD().setWidth(colWidths[columnCount++]);
+				tr.addElement(td.addElement(tokens.nextToken()));
 			}
 			t.addElement(tr);
 		}
