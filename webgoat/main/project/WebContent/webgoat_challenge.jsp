@@ -10,20 +10,22 @@ WebSession webSession = ((WebSession) session.getAttribute("websession"));
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>WebGoat V5.2</title>
-<link rel="stylesheet" href="css/webgoat.css" type="text/css" />
+<link rel="stylesheet" href="css/webgoat_challenge.css" type="text/css" />
 </head>
 
 <body>
 
-<div id="wrap">
-<div id="top"></div>
-<div id="start">
-<p>Thank you for using WebGoat!</p>
-<p>This program is a demonstration of common web application flaws.
+<div id="wrap_ch">
+<div id="top_ch"></div>
+<div id="start_ch">
+<p>Thank you for using WebGoat! This program is a demonstration of common web application flaws.
 The exercises are intended to provide hands on experience with
-application penetration testing techniques. </p><p>The WebGoat project is lead
+application penetration testing techniques. </p>
+<p>The WebGoat project is lead
 by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatContext().getFeedbackAddress()%>.</p>
-<div id="team">
+<p>Thanks to <a href="http://www.ouncelabs.com"><img align="top" height="20" width="160" border = "0" src="images/logos/ounce.jpg" alt="Ounce Labs"/></a> for supporting Bruce on the WebGoat Project.</p>
+
+<div id="team_ch">
 <table border="0" align="center" class="lessonText">
 	<tr>
 		<td width="50%">
@@ -107,7 +109,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 <div align="center" class="style2">&nbsp;</div>
 <div align="center" class="style2">&nbsp;</div>
 <div align="center" class="style2">&nbsp;</div>
-<div id="warning">WARNING<br />
+<div id="warning_ch">WARNING<br />
 While running this program, your machine is extremely vulnerable to
 attack. You should disconnect from the network while using this program.
 <br />

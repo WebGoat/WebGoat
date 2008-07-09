@@ -96,7 +96,7 @@ public class StoredXss extends LessonAdapter
 
 			Connection connection = DatabaseUtilities.getConnection(s);
 
-			String query = "INSERT INTO messages VALUES (?, ?, ?, ? )";
+			String query = "INSERT INTO messages VALUES (?, ?, ?, ?, ? )";
 
 			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
 																		ResultSet.CONCUR_READ_ONLY);
@@ -104,6 +104,7 @@ public class StoredXss extends LessonAdapter
 			statement.setString(2, title);
 			statement.setString(3, message);
 			statement.setString(4, s.getUserName());
+			statement.setString(5, this.getClass().getName());
 			statement.execute();
 		} catch (Exception e)
 		{
@@ -204,11 +205,12 @@ public class StoredXss extends LessonAdapter
 			// but not anyone elses. This allows users to try out XSS to grab another user's
 			// cookies, but not get confused by other users scripts
 
-			String query = "SELECT * FROM messages WHERE user_name LIKE ? and num = ?";
+			String query = "SELECT * FROM messages WHERE user_name LIKE ? and num = ? and lesson_type = ?";
 			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
 																		ResultSet.CONCUR_READ_ONLY);
 			statement.setString(1, getNameroot(s.getUserName()) + "%");
 			statement.setInt(2, messageNum);
+			statement.setString(3, this.getClass().getName());
 			ResultSet results = statement.executeQuery();
 
 			if ((results != null) && results.first())
@@ -305,7 +307,7 @@ public class StoredXss extends LessonAdapter
 	 *            Description of the Parameter
 	 * @return Description of the Return Value
 	 */
-	public static Element makeList(WebSession s)
+	public  Element makeList(WebSession s)
 	{
 		Table t = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
 
@@ -313,16 +315,18 @@ public class StoredXss extends LessonAdapter
 		{
 			Connection connection = DatabaseUtilities.getConnection(s);
 
-			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-																ResultSet.CONCUR_READ_ONLY);
 			// edit by Chuck Willis - Added logic to associate similar usernames
 			// The idea is that users chuck-1, chuck-2, etc will see each other's messages
 			// but not anyone elses. This allows users to try out XSS to grab another user's
 			// cookies, but not get confused by other users scripts
 
-			ResultSet results = statement.executeQuery(STANDARD_QUERY + " WHERE user_name LIKE '"
-					+ getNameroot(s.getUserName()) + "%'");
-
+			String query = "SELECT * FROM messages WHERE user_name LIKE ? and lesson_type = ?";
+			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
+																		ResultSet.CONCUR_READ_ONLY);
+			statement.setString(1, getNameroot(s.getUserName()) + "%");
+			statement.setString(2, getClass().getName());
+			ResultSet results = statement.executeQuery();
+			
 			if ((results != null) && (results.first() == true))
 			{
 				results.beforeFirst();

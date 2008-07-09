@@ -59,7 +59,7 @@ import org.owasp.webgoat.session.WebgoatProperties;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-public abstract class AbstractLesson extends Screen implements Comparable
+public abstract class AbstractLesson extends Screen implements Comparable<Object>
 {
 
 	/**
