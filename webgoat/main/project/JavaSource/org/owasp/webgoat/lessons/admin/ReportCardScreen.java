@@ -101,7 +101,7 @@ public class ReportCardScreen extends LessonAdapter
 	{
 		ElementContainer ec = new ElementContainer();
 		ec.addElement(new StringElement("Comments and suggestions are welcome. "
-				+ getWebgoatContext().getFeedbackAddress() + "<br><br>"));
+				+ getWebgoatContext().getFeedbackAddressHTML() + "<br><br>"));
 
 		return ec;
 	}

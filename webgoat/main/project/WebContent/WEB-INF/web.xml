@@ -111,6 +111,15 @@
       </description>
       <servlet-class>org.owasp.webgoat.HammerHead</servlet-class>
 
+ 	  <init-param>
+      		<param-name>email</param-name>
+      		<param-value>WebGoat@owasp.org</param-value>
+      		<description>
+        		The EMAIL address of the administrator to whom questions
+        		and comments about this application should be addressed.
+      		</description>
+      </init-param>
+      
 	  <init-param>
             <param-name>debug</param-name>
             <param-value>false</param-value>

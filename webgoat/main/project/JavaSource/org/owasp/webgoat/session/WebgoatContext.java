@@ -34,7 +34,9 @@ public class WebgoatContext
 
 	public final static String DEFUSEOSCOMMANDS = "DefuseOSCommands";
 
-	public final static String FEEDBACK_ADDRESS = "FeedbackAddress";
+	public final static String FEEDBACK_ADDRESS_HTML = "FeedbackAddressHTML";
+
+	public final static String FEEDBACK_ADDRESS = "email";
 
 	public final static String DEBUG = "debug";
 
@@ -64,7 +66,9 @@ public class WebgoatContext
 
 	private boolean codingExercises = false;
 
-	private String feedbackAddress = "<A HREF=mailto:webgoat@owasp.org>webgoat@owasp.org</A>";
+	private String feedbackAddress = "webgoat@owasp.org";
+	
+	private String feedbackAddressHTML = "<A HREF=mailto:webgoat@owasp.org>webgoat@owasp.org</A>";
 
 	private boolean isDebug = false;
 
@@ -88,6 +92,8 @@ public class WebgoatContext
 		defuseOSCommands = "true".equals(getParameter(servlet, DEFUSEOSCOMMANDS));
 		enterprise = "true".equals(getParameter(servlet, ENTERPRISE));
 		codingExercises = "true".equals(getParameter(servlet, CODING_EXERCISES));
+		feedbackAddressHTML = getParameter(servlet, FEEDBACK_ADDRESS_HTML) != null ? getParameter(servlet, FEEDBACK_ADDRESS_HTML)
+				: feedbackAddressHTML;
 		feedbackAddress = getParameter(servlet, FEEDBACK_ADDRESS) != null ? getParameter(servlet, FEEDBACK_ADDRESS)
 				: feedbackAddress;
 		showRequest = "true".equals(getParameter(servlet, SHOWREQUEST));
@@ -173,6 +179,11 @@ public class WebgoatContext
 	public String getFeedbackAddress()
 	{
 		return feedbackAddress;
+	}
+
+	public String getFeedbackAddressHTML()
+	{
+		return feedbackAddressHTML;
 	}
 
 	public boolean isDebug()
