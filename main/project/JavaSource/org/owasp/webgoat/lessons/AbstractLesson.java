@@ -500,10 +500,13 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 			// that performs the convertMetacharsJavaCode() transform plus
 			// optionally adds a styled
 			// line number. Wouldn't color syntax be great too?
-		} catch (IOException e)
+		} catch (Exception e)
 		{
 			s.setMessage("Could not find source file");
-			src = ("Could not find source file");
+			src = ("Could not find the source file or source file does not exist.<br/>"
+					+ "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress() + "?subject=Source "
+					+ getSourceFileName() + " not found. Lesson: " + s.getCurrentLesson().getLessonName() + "\">" + 
+					s.getWebgoatContext().getFeedbackAddress() + "</a>");
 		}
 
 		Html html = new Html();
@@ -530,10 +533,13 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 		{
 			System.out.println("Solution: " + getLessonSolutionFileName());
 			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName()))), false);
-		} catch (IOException e)
+		} catch (Exception e)
 		{
 			s.setMessage("Could not find the solution file");
-			src = ("Could not find the solution file");
+			src = ("Could not find the solution file or solution file does not exist.<br/>"
+					+ "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress() + "?subject=Solution "
+					+ getLessonSolutionFileName() + " not found. Lesson: " + s.getCurrentLesson().getLessonName() + "\">" + 
+					s.getWebgoatContext().getFeedbackAddress() + "</a>");
 		}
 
 		Html html = new Html();

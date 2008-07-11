@@ -239,7 +239,11 @@ StringBuffer buildList = new StringBuffer();
 	  	</div>
 
 		<div id="bottom">
-			<div align="center"><a href="http://www.owasp.org">OWASP Foundation</a> | Project WebGoat</div>
+			<div align="center"><a href="http://www.owasp.org">OWASP Foundation</a> | 
+								<a href="http://www.owasp.org/index.php/OWASP_WebGoat_Project">Project WebGoat</a> | 
+								<a href="mailto: <%=webSession.getWebgoatContext().getFeedbackAddress()%>?subject=WebGoat Bug Report - Lesson: 
+												 <%=webSession.getCurrentLesson().getName()%>">Report Bug</a>
+			</div>
 	  	</div>
 	</div>
 </body>

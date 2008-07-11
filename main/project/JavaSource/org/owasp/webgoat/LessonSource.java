@@ -152,7 +152,7 @@ public class LessonSource extends HammerHead
 			}
 		}
 		if (source == null) { return "Source code is not available. Contact "
-				+ s.getWebgoatContext().getFeedbackAddress(); }
+				+ s.getWebgoatContext().getFeedbackAddressHTML(); }
 		return (source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*" + END_SOURCE_SKIP,
 									"Code Section Deliberately Omitted"));
 	}
@@ -175,7 +175,7 @@ public class LessonSource extends HammerHead
 			}
 		}
 		if (source == null) { return "Solution  is not available. Contact "
-				+ s.getWebgoatContext().getFeedbackAddress(); }
+				+ s.getWebgoatContext().getFeedbackAddressHTML(); }
 		return (source);
 	}
 
