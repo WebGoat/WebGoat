@@ -218,7 +218,22 @@ html>body #navBar li {}
 #reset {
 	text-align: right;
 	font-weight: bold;
+	float: right;
+	display: inline;
 	margin-bottom: 10px;
+}
+
+#training {
+	text-align: left;
+	font-weight: bold;
+	display: inline;
+	float: left;
+	margin-bottom: 10px;
+	
+}
+
+#training_wrap {
+	width: 540px;
 }
 
 #hint{}

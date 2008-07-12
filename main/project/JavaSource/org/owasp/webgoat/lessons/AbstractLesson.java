@@ -3,7 +3,6 @@ package org.owasp.webgoat.lessons;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -12,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -531,7 +531,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
 		try
 		{
-			System.out.println("Solution: " + getLessonSolutionFileName());
+			//System.out.println("Solution: " + getLessonSolutionFileName());
 			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName()))), false);
 		} catch (Exception e)
 		{
@@ -542,17 +542,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 					s.getWebgoatContext().getFeedbackAddress() + "</a>");
 		}
 
-		Html html = new Html();
-
-		Head head = new Head();
-		head.addElement(new Title(getLessonSolutionFileName()));
-
-		Body body = new Body();
-		body.addElement(new StringElement(src));
-
-		html.addElement(head);
-		html.addElement(body);
-
+		// Solutions are html files
 		return src;
 	}
 

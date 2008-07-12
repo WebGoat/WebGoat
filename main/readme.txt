@@ -1,5 +1,5 @@
-**********          WebGoat 5.1
-**********          Jan/08/2008
+**********          WebGoat 5.2
+**********          July/08/2008
 **********
 **
 **  Source Code:  http://code.google.com/p/webgoat
@@ -37,7 +37,9 @@ CREDITS (Latest release)
 
 	Bruce Mayhew (http://www.ouncelabs.com)
 	Rogan Dawes (http://dawes.za.net/rogan)
-	Eric Sheridan (http://www.aspectsecurity.com) 
+	Reto Lippuner
+	Marcel Wirth 
+	Aung Khant (http://yehg.org)
 	Erwin Geirnaert (http://www.zionsecurity.com)
 	The many people who have sent comments and suggestions...
 
@@ -45,9 +47,12 @@ CREDITS (Latest release)
 WHAT'S NEW
 
 	* WebGoat is now current at Google code. (http://code.google.com/p/webgoat)
-	* Database Lessons
-	* XSS Phishing 
-	* Lesson Solutions 
+	* Introduction and WebGoat instructions
+	* Multi Level Login Lesson
+	* Session Fixation Lesson
+	* Insecure Login Lesson
+	* Lesson Solution Videos
+	* Bug Report Feature
 	* Many upgrades and minor fixes
 
 
