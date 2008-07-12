@@ -177,7 +177,10 @@ StringBuffer buildList = new StringBuffer();
 			    if (currentLesson != null)
 			    {
 			    	%>
+			    	<div id="training_wrap">
+			    	<div id="training" class="info"><a href="http://yehg.net/lab/pr0js/training/webgoat.php">Solution Videos</a></div>
 			    	<div id="reset" class="info"><a href="<%=webSession.getRestartLink()%>">Restart this Lesson</a></div>
+			    	</div>
 	    			<%
 	    			}
 
