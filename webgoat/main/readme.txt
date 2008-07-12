@@ -4,7 +4,7 @@
 **
 **  Source Code:  http://code.google.com/p/webgoat
 **  Download:     http://sourceforge.net/project/showfiles.php?group_id=64424&package_id=61824
-**  Download:     http://code.google.com/p/webgoat/downloads/list   (Does not have Windows release)
+**  Download:     http://code.google.com/p/webgoat/downloads/list   (Does not have Developer release)
 **  User Guide:   http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents
 **  Home Page:    http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project
 **  Contact Info: webgoat@owasp.org
