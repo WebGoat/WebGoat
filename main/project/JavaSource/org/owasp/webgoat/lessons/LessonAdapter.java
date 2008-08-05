@@ -144,8 +144,6 @@ public abstract class LessonAdapter extends AbstractLesson
 		return hints;
 	}
 
-
-
 	/**
 	 * Gets the credits attribute of the AbstractLesson object
 	 * 

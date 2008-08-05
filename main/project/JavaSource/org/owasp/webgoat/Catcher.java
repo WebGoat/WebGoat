@@ -82,7 +82,7 @@ public class Catcher extends HammerHead
 			// setCacheHeaders(response, 0);
 			WebSession session = (WebSession) request.getSession(true).getAttribute(WebSession.SESSION);
 			session.update(request, response, this.getServletName()); // FIXME: Too much in this
-																		// call.
+			// call.
 
 			int scr = session.getCurrentScreen();
 			Course course = session.getCourse();

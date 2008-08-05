@@ -104,11 +104,11 @@ public class FindProfile extends DefaultLessonAction
 					chainedAction.handleRequest(s);
 				} catch (UnauthenticatedException ue1)
 				{
-					//System.out.println("Internal server error");
+					// System.out.println("Internal server error");
 					ue1.printStackTrace();
 				} catch (UnauthorizedException ue2)
 				{
-					//System.out.println("Internal server error");
+					// System.out.println("Internal server error");
 					ue2.printStackTrace();
 				}
 			}
@@ -171,8 +171,8 @@ public class FindProfile extends DefaultLessonAction
 									.getString("disciplined_notes"), answer_results.getString("personal_description"));
 
 					/*
-					 * System.out.println("Retrieved employee from db: " + profile.getFirstName() + " " +
-					 * profile.getLastName() + " (" + profile.getId() + ")");
+					 * System.out.println("Retrieved employee from db: " + profile.getFirstName() +
+					 * " " + profile.getLastName() + " (" + profile.getId() + ")");
 					 */
 					setRequestAttribute(s, getLessonName() + "." + CrossSiteScripting.EMPLOYEE_ID, Integer.toString(id));
 				}

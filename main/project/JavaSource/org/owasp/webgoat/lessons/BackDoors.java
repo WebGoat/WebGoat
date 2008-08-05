@@ -78,10 +78,11 @@ public class BackDoors extends SequentialLessonAdapter
 	{
 		return concept2(s);
 	}
-	
+
 	private void addDBEntriesToEC(ElementContainer ec, ResultSet rs)
 	{
-		try {
+		try
+		{
 			if (rs.next())
 			{
 				Table t = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(1);
@@ -92,7 +93,7 @@ public class BackDoors extends SequentialLessonAdapter
 				tr.addElement(new TH("Salary"));
 				tr.addElement(new TH("E-Mail"));
 				t.addElement(tr);
-				
+
 				tr = new TR();
 				tr.addElement(new TD(rs.getString("userid")));
 				tr.addElement(new TD(rs.getString("password")));
@@ -112,7 +113,8 @@ public class BackDoors extends SequentialLessonAdapter
 				}
 				ec.addElement(t);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -166,9 +168,8 @@ public class BackDoors extends SequentialLessonAdapter
 			userInput = SELECT_ST + userInput;
 			String[] arrSQL = userInput.split(";");
 			Connection conn = DatabaseUtilities.getConnection(s);
-			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-														ResultSet.CONCUR_READ_ONLY);
-			
+			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
 			if (arrSQL.length == 2)
 			{
 				if (userInput.toUpperCase().indexOf("CREATE TRIGGER") != -1)
@@ -178,7 +179,6 @@ public class BackDoors extends SequentialLessonAdapter
 			}
 			ResultSet rs = statement.executeQuery(arrSQL[0]);
 			addDBEntriesToEC(ec, rs);
-			
 
 		}
 		return ec;

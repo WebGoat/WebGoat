@@ -61,11 +61,11 @@ public class DOMInjection extends LessonAdapter
 			.setBorder(0).setHspace(0).setVspace(0);
 
 	private final static String key = "K1JFWP8BSO8HI52LNPQS8F5L01N";
-	
+
 	public void handleRequest(WebSession s)
 	{
 		try
-		{	
+		{
 			String userKey = s.getParser().getRawParameter(KEY, "");
 			String fromAJAX = s.getParser().getRawParameter("from", "");
 			if (fromAJAX.equalsIgnoreCase("ajax") && userKey.length() != 0 && userKey.equals(key))
@@ -74,11 +74,10 @@ public class DOMInjection extends LessonAdapter
 				s.getResponse().setHeader("Cache-Control", "no-cache");
 				PrintWriter out = new PrintWriter(s.getResponse().getOutputStream());
 
-
 				out.print("document.forms[0].SUBMIT.disabled = false;");
 				out.flush();
 				out.close();
-				return ;
+				return;
 			}
 
 		} catch (Exception e)
@@ -91,21 +90,19 @@ public class DOMInjection extends LessonAdapter
 
 		setContent(form);
 	}
+
 	protected Element createContent(WebSession s)
 	{
 
-
 		ElementContainer ec = new ElementContainer();
 
-		if (s.getRequest().getMethod().equalsIgnoreCase("POST") )
+		if (s.getRequest().getMethod().equalsIgnoreCase("POST"))
 		{
 			makeSuccess(s);
 		}
 
 		String lineSep = System.getProperty("line.separator");
-		String script = "<script>" + lineSep
-				+ "function validate() {" 
-				+ lineSep
+		String script = "<script>" + lineSep + "function validate() {" + lineSep
 				+ "var keyField = document.getElementById('key');" + lineSep + "var url = '" + getLink()
 				+ "&from=ajax&key=' + encodeURIComponent(keyField.value);" + lineSep
 				+ "if (typeof XMLHttpRequest != 'undefined') {" + lineSep + "req = new XMLHttpRequest();" + lineSep
@@ -113,18 +110,13 @@ public class DOMInjection extends LessonAdapter
 				+ lineSep + "   }" + lineSep + "   req.open('GET', url, true);" + lineSep
 				+ "   req.onreadystatechange = callback;" + lineSep + "   req.send(null);" + lineSep + "}" + lineSep
 				+ "function callback() {" + lineSep + "    if (req.readyState == 4) { " + lineSep
-				+ "        if (req.status == 200) { " + lineSep + "            var message = req.responseText;" + lineSep
-				+ "   var result = req.responseXML.getElementsByTagName('reward');" + lineSep
-				+ "    var messageDiv = document.getElementById('MessageDiv');" + lineSep
-				+ "  try {" + lineSep
+				+ "        if (req.status == 200) { " + lineSep + "            var message = req.responseText;"
+				+ lineSep + "   var result = req.responseXML.getElementsByTagName('reward');" + lineSep
+				+ "    var messageDiv = document.getElementById('MessageDiv');" + lineSep + "  try {" + lineSep
 				+ "			 eval(message);" + lineSep + "    " + lineSep
-				+ "        messageDiv.innerHTML = 'Correct licence Key.' " + lineSep
-				+ "      }" + lineSep
-				+ "  catch(err)" + lineSep
-				+ "  { " + lineSep
-				+ "    messageDiv.innerHTML = 'Wrong license key.'" + lineSep
-				+		"} " + lineSep
-				+ "    }}}" + lineSep + "</script>" + lineSep;
+				+ "        messageDiv.innerHTML = 'Correct licence Key.' " + lineSep + "      }" + lineSep
+				+ "  catch(err)" + lineSep + "  { " + lineSep + "    messageDiv.innerHTML = 'Wrong license key.'"
+				+ lineSep + "} " + lineSep + "    }}}" + lineSep + "</script>" + lineSep;
 
 		ec.addElement(new StringElement(script));
 		ec.addElement(new BR().addElement(new H1().addElement("Welcome to WebGoat Registration Page:")));
@@ -146,7 +138,6 @@ public class DOMInjection extends LessonAdapter
 		tr.addElement(new TD("&nbsp;").setColSpan(2));
 
 		t1.addElement(tr);
-
 
 		tr = new TR();
 		Input b = new Input();

@@ -66,7 +66,8 @@ public class CreateDB
 		try
 		{
 			String createTableStatement = "CREATE TABLE messages (" + "num int not null," + "title varchar(50),"
-					+ "message varchar(200)," + "user_name varchar(50) not null, " + "lesson_type varchar(50) not null" + ")";
+					+ "message varchar(200)," + "user_name varchar(50) not null, " + "lesson_type varchar(50) not null"
+					+ ")";
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
@@ -235,7 +236,7 @@ public class CreateDB
 		statement.executeUpdate(insertData11);
 		statement.executeUpdate(insertData12);
 		statement.executeUpdate(insertData13);
-		
+
 	}
 
 	private void createLoginTable(Connection connection) throws SQLException
@@ -316,9 +317,10 @@ public class CreateDB
 		statement.executeUpdate(insertData5);
 		statement.executeUpdate(insertData6);
 	}
-	
+
 	/**
 	 * Create users whith tans
+	 * 
 	 * @param connection
 	 * @throws SQLException
 	 */
@@ -341,7 +343,8 @@ public class CreateDB
 		{
 			String createTableStatement = "CREATE TABLE user_data_tan (" + "userid int not null,"
 					+ "first_name varchar(20)," + "last_name varchar(20)," + "cc_number varchar(30),"
-					+ "cc_type varchar(10)," + "cookie varchar(20)," + "login_count int," + "password varchar(20)" +")";
+					+ "cc_type varchar(10)," + "cookie varchar(20)," + "login_count int," + "password varchar(20)"
+					+ ")";
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
@@ -358,9 +361,10 @@ public class CreateDB
 		statement.executeUpdate(insertData2);
 		statement.executeUpdate(insertData3);
 	}
-	
+
 	/**
 	 * Create the Table for the tans
+	 * 
 	 * @param connection
 	 * @throws SQLException
 	 */
@@ -381,8 +385,8 @@ public class CreateDB
 		// Create the new table
 		try
 		{
-			String createTableStatement = "CREATE TABLE tan (" + "userid int not null,"
-					+ "tanNr int," + "tanValue int"  + ")";
+			String createTableStatement = "CREATE TABLE tan (" + "userid int not null," + "tanNr int," + "tanValue int"
+					+ ")";
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
@@ -396,13 +400,12 @@ public class CreateDB
 		String insertData3 = "INSERT INTO tan VALUES (101,3,18794)";
 		String insertData4 = "INSERT INTO tan VALUES (101,4,1564)";
 		String insertData5 = "INSERT INTO tan VALUES (101,5,45751)";
-		
+
 		String insertData6 = "INSERT INTO tan VALUES (102,1,15648)";
 		String insertData7 = "INSERT INTO tan VALUES (102,2,92156)";
 		String insertData8 = "INSERT INTO tan VALUES (102,3,4879)";
 		String insertData9 = "INSERT INTO tan VALUES (102,4,9458)";
 		String insertData10 = "INSERT INTO tan VALUES (102,5,4879)";
-
 
 		statement.executeUpdate(insertData1);
 		statement.executeUpdate(insertData2);
@@ -450,8 +453,8 @@ public class CreateDB
 					+ "ssn VARCHAR(12)," + "password VARCHAR(10)," + "title VARCHAR(20)," + "phone VARCHAR(13),"
 					+ "address1 VARCHAR(80)," + "address2 VARCHAR(80)," + "manager INT," + "start_date CHAR(8),"
 					+ "salary INT," + "ccn VARCHAR(30)," + "ccn_limit INT," + "email VARCHAR(30)," // reason
-																									// for
-																									// the
+					// for
+					// the
 					// recent write-up
 					+ "disciplined_date CHAR(8)," // date of write up, NA otherwise
 					+ "disciplined_notes VARCHAR(60)," // reason for the recent write-up

@@ -129,9 +129,9 @@ public class HtmlEncoder
 	 * <p>
 	 * 
 	 * e.g. <tt>"bread" & "butter"</tt> => <tt>&amp;quot;bread&amp;quot; &amp;amp;
-	 *  &amp;quot;butter&amp;quot;</tt> .
-	 * Update: supports nearly all HTML entities, including funky accents. See the source code for
-	 * more detail. Adapted from http://www.purpletech.com/code/src/com/purpletech/util/Utils.java.
+	 *  &amp;quot;butter&amp;quot;</tt> . Update: supports nearly all HTML entities, including funky
+	 * accents. See the source code for more detail. Adapted from
+	 * http://www.purpletech.com/code/src/com/purpletech/util/Utils.java.
 	 * 
 	 * @param s1
 	 *            Description of the Parameter

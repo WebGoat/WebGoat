@@ -77,7 +77,7 @@ public class JavaScriptValidation extends LessonAdapter
 		String regex2 = "^[0-9]{3}$";// any three digits
 		String regex3 = "^[a-zA-Z0-9 ]*$";// alphanumerics and space without punctuation
 		String regex4 = "^(one|two|three|four|five|six|seven|eight|nine)$";// enumeration of
-																			// numbers
+		// numbers
 		String regex5 = "^\\d{5}$";// simple zip code
 		String regex6 = "^\\d{5}(-\\d{4})?$";// zip with optional dash-four
 		String regex7 = "^[2-9]\\d{2}-?\\d{3}-?\\d{4}$";// US phone number with or without dashes

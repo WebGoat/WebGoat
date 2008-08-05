@@ -94,11 +94,11 @@ public class UpdateProfile extends DefaultLessonAction
 				chainedAction.handleRequest(s);
 			} catch (UnauthenticatedException ue1)
 			{
-				//System.out.println("Internal server error");
+				// System.out.println("Internal server error");
 				ue1.printStackTrace();
 			} catch (UnauthorizedException ue2)
 			{
-				//System.out.println("Internal server error");
+				// System.out.println("Internal server error");
 				ue2.printStackTrace();
 			}
 		}
@@ -111,8 +111,8 @@ public class UpdateProfile extends DefaultLessonAction
 	{
 		// The input validation can be added using a parsing component
 		// or by using an inline regular expression. The parsing component
-		// is the better solution.		
-		
+		// is the better solution.
+
 		HttpServletRequest request = s.getRequest();
 		String firstName = request.getParameter(CrossSiteScripting.FIRST_NAME);
 		String lastName = request.getParameter(CrossSiteScripting.LAST_NAME);
@@ -129,7 +129,6 @@ public class UpdateProfile extends DefaultLessonAction
 		String disciplinaryActionDate = request.getParameter(CrossSiteScripting.DISCIPLINARY_DATE);
 		String disciplinaryActionNotes = request.getParameter(CrossSiteScripting.DISCIPLINARY_NOTES);
 		String personalDescription = request.getParameter(CrossSiteScripting.DESCRIPTION);
-	
 
 		Employee employee = new Employee(subjectId, firstName, lastName, ssn, title, phone, address1, address2,
 				manager, startDate, salary, ccn, ccnLimit, disciplinaryActionDate, disciplinaryActionNotes,

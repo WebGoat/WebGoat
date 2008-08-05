@@ -3,7 +3,6 @@ package org.owasp.webgoat.lessons;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -111,8 +110,8 @@ public class SameOriginPolicyProtection extends LessonAdapter
 		int hiddenWGStatusInt = s.getParser().getIntParameter("hiddenWGStatus", 0);
 		int hiddenGoogleStatusInt = s.getParser().getIntParameter("hiddenGoogleStatus", 0);
 
-		//System.out.println("hiddenWGStatus:" + hiddenWGStatusInt);
-		//System.out.println("hiddenGoogleStatusInt:" + hiddenGoogleStatusInt);
+		// System.out.println("hiddenWGStatus:" + hiddenWGStatusInt);
+		// System.out.println("hiddenGoogleStatusInt:" + hiddenGoogleStatusInt);
 
 		if (hiddenWGStatusInt == 1 && hiddenGoogleStatusInt == 1)
 		{

@@ -282,7 +282,6 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see lessons.LessonAdapter#doStage3(session.WebSession)
 	 */
 	protected Element doStage3(WebSession s) throws Exception
@@ -631,7 +630,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			t.setBorder(1);
 		}
 
-		String[] colWidths = new String[]{"55", "110", "260", "70"};
+		String[] colWidths = new String[] { "55", "110", "260", "70" };
 		TR tr = new TR();
 		tr.addElement(new TH().addElement("Protocol").setWidth(colWidths[0]));
 		tr.addElement(new TH().addElement("Local Address").setWidth(colWidths[1]));
@@ -678,7 +677,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			tr = new TR();
 			TD td;
 			StringTokenizer tokens = new StringTokenizer(lines.nextToken(), "\t ");
-			while (tokens.hasMoreTokens() && columnCount <4)
+			while (tokens.hasMoreTokens() && columnCount < 4)
 			{
 				td = new TD().setWidth(colWidths[columnCount++]);
 				tr.addElement(td.addElement(tokens.nextToken()));
@@ -725,7 +724,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			osw.write(message);
 		} catch (Exception e)
 		{
-			//System.out.println("Couldn't write " + message + " to " + s);
+			// System.out.println("Couldn't write " + message + " to " + s);
 			e.printStackTrace();
 		}
 	}

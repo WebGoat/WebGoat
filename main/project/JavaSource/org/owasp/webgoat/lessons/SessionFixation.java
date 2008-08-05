@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -80,19 +79,19 @@ public class SessionFixation extends SequentialLessonAdapter
 	 */
 	protected Element createContent(WebSession s)
 	{
-		if(sid.equals("") && getLessonTracker(s).getStage() > 2 )
+		if (sid.equals("") && getLessonTracker(s).getStage() > 2)
 		{
 			getLessonTracker(s).setStage(1);
 		}
-		String sid = s.getParser().getStringParameter("SID","");
+		String sid = s.getParser().getStringParameter("SID", "");
 		if (!sid.equals(""))
 		{
 			this.sid = sid;
 		}
-		if(!s.getParser().getStringParameter("Restart", "").equals(""))
+		if (!s.getParser().getStringParameter("Restart", "").equals(""))
 		{
 			s.add(LOGGEDIN, "false");
-			s.add("SID","");
+			s.add("SID", "");
 			this.sid = "";
 		}
 		if (getLessonTracker(s).getStage() == 3)
@@ -108,28 +107,28 @@ public class SessionFixation extends SequentialLessonAdapter
 				s.add("SID", randomSid);
 				this.sid = randomSid;
 			}
-			
+
 			String name = s.getParser().getStringParameter(USER, "");
 			String password = s.getParser().getStringParameter(PASSWORD, "");
-			if(correctLogin(name, password, s))
+			if (correctLogin(name, password, s))
 			{
 				getLessonTracker(s).setStage(4);
-				sid="";
+				sid = "";
 				s.add(LOGGEDIN, "true");
 				s.add(LOGGEDINUSER, name);
 				s.setMessage("You completed stage 3!");
 			}
-			
+
 		}
-		if(getLessonTracker(s).getStage() == 4)
+		if (getLessonTracker(s).getStage() == 4)
 		{
 
 			if (sid.equals("NOVALIDSESSION"))
 			{
-				//System.out.println("STAGE 5");
+				// System.out.println("STAGE 5");
 				getLessonTracker(s).setStage(5);
 			}
-					
+
 		}
 
 		if (getLessonTracker(s).getStage() == 2)
@@ -183,14 +182,14 @@ public class SessionFixation extends SequentialLessonAdapter
 		ElementContainer ec = new ElementContainer();
 		String mailHeader = "<b>Mail From:</b> &nbsp;&nbsp;admin@webgoatfinancial.com<br><br>";
 		String mailContent = (String) s.get(MAILCONTENTNAME);
-		
-		//Reset Lesson if server was shut down
-		if(mailContent == null)
+
+		// Reset Lesson if server was shut down
+		if (mailContent == null)
 		{
 			getLessonTracker(s).setStage(1);
 			return createStage1Content(s);
 		}
-		
+
 		ec.addElement(mailHeader + mailContent);
 
 		return ec;
@@ -202,40 +201,40 @@ public class SessionFixation extends SequentialLessonAdapter
 	{
 		return createStage3Content(s);
 	}
-	
+
 	@Override
 	protected Element doStage4(WebSession s) throws Exception
 	{
 		return createStage4Content(s);
 	}
-	
+
 	@Override
 	protected Element doStage5(WebSession s) throws Exception
 	{
-		//System.out.println("Doing stage 5");
+		// System.out.println("Doing stage 5");
 		return createStage5Content(s);
 	}
-	
+
 	private Element createStage5Content(WebSession s)
 	{
-		
+
 		return createMainLoginContent(s);
 	}
 
 	private Element createStage3Content(WebSession s)
 	{
-		
+
 		return createMainLoginContent(s);
 	}
-	
+
 	private Element createStage4Content(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-		ec.addElement("<h2>Jane has logged into her account. Go and grab her session!" +
-				" Use Following link to reach the login screen of the bank:</h2><br><br>" +
-				"<a href=" + super.getLink() +"&SID=NOVALIDSESSION><center> Goat Hills Financial </center></a><br><br><br><br>");
+		ec.addElement("<h2>Jane has logged into her account. Go and grab her session!"
+				+ " Use Following link to reach the login screen of the bank:</h2><br><br>" + "<a href="
+				+ super.getLink() + "&SID=NOVALIDSESSION><center> Goat Hills Financial </center></a><br><br><br><br>");
 		return ec;
-		//return createMainLoginContent(s);
+		// return createMainLoginContent(s);
 	}
 
 	private Element createStage1Content(WebSession s)
@@ -395,14 +394,14 @@ public class SessionFixation extends SequentialLessonAdapter
 		ElementContainer ec = new ElementContainer();
 		String name = s.getParser().getStringParameter(USER, "");
 		String password = s.getParser().getStringParameter(PASSWORD, "");
-		
+
 		try
 		{
 			// Logout Button is pressed
 			if (s.getParser().getRawParameter("logout", "").equals("true"))
 			{
 				s.add(LOGGEDIN, "false");
-				s.add("SID","");
+				s.add("SID", "");
 				this.sid = "";
 
 			}
@@ -419,7 +418,7 @@ public class SessionFixation extends SequentialLessonAdapter
 			}
 			else
 			{
-				if((name+password).equals(""))
+				if ((name + password).equals(""))
 				{
 					createLogInContent(ec, "");
 
@@ -432,7 +431,7 @@ public class SessionFixation extends SequentialLessonAdapter
 			}
 		} catch (Exception e)
 		{
-			if((name+password).equals(""))
+			if ((name + password).equals(""))
 			{
 				createLogInContent(ec, "");
 
@@ -445,7 +444,6 @@ public class SessionFixation extends SequentialLessonAdapter
 
 		return ec;
 	}
-
 
 	/**
 	 * See if the password and corresponding user is valid
@@ -478,8 +476,7 @@ public class SessionFixation extends SequentialLessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -487,13 +484,11 @@ public class SessionFixation extends SequentialLessonAdapter
 				{
 					connection.close();
 				}
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
-		
 
 		return false;
 
@@ -541,7 +536,7 @@ public class SessionFixation extends SequentialLessonAdapter
 		table.addElement(tr3);
 		loginDiv.addElement(table);
 		ec.addElement(loginDiv);
-		
+
 		H2 errorTag = new H2(errorMessage);
 		errorTag.addAttribute("align", "center");
 		errorTag.addAttribute("class", "info");
@@ -602,7 +597,7 @@ public class SessionFixation extends SequentialLessonAdapter
 		userDataDiv.addElement(table);
 		ec.addElement(userDataDiv);
 		ec.addElement(createLogoutLink());
-		
+
 	}
 
 	/**
@@ -650,8 +645,7 @@ public class SessionFixation extends SequentialLessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -659,8 +653,7 @@ public class SessionFixation extends SequentialLessonAdapter
 				{
 					connection.close();
 				}
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -715,8 +708,6 @@ public class SessionFixation extends SequentialLessonAdapter
 		hints.add("Stage 4: Click on the link provided");
 		hints.add("Stage 4: What is your actual SID?");
 		hints.add("Stage 4: Change the SID (NOVALIDSESSION) to the choosen one in the mail");
-		
-
 
 		return hints;
 
@@ -732,34 +723,31 @@ public class SessionFixation extends SequentialLessonAdapter
 		{
 			stage = 4;
 		}
-		String instructions = "STAGE " +stage+": ";
-		if(stage == 1)
+		String instructions = "STAGE " + stage + ": ";
+		if (stage == 1)
 		{
-			instructions += "You are Hacker Joe and " +
-					"you want to steal the session from Jane. " +
-					"Send a prepared email to the victim " +
-					"which looks like an official email from the bank.  " +
-					"A template message is prepared below, you will need to add " +
-					"a Session ID (SID) in the link inside the email. Alter " +
-					"the link to include a SID.<br><br><b>You are: Hacker Joe</b>";
+			instructions += "You are Hacker Joe and " + "you want to steal the session from Jane. "
+					+ "Send a prepared email to the victim " + "which looks like an official email from the bank.  "
+					+ "A template message is prepared below, you will need to add "
+					+ "a Session ID (SID) in the link inside the email. Alter "
+					+ "the link to include a SID.<br><br><b>You are: Hacker Joe</b>";
 		}
 		else if (stage == 2)
 		{
-			instructions += "Now you are the victim Jane who received the email below. " +
-					"If you point on the link with your mouse you will see that there is a SID included. " +
-					"Click on it to see what happens.<br><br><b>You are: Victim Jane</b> ";
+			instructions += "Now you are the victim Jane who received the email below. "
+					+ "If you point on the link with your mouse you will see that there is a SID included. "
+					+ "Click on it to see what happens.<br><br><b>You are: Victim Jane</b> ";
 		}
 		else if (stage == 3)
 		{
-			instructions += "The bank has asked you to verfy your data. Log in to see if your details are "  +
-					"correct. Your user name is <b>Jane</b> and your password is <b>tarzan</b>. <br><br><b>You are: Victim Jane</b> ";
+			instructions += "The bank has asked you to verfy your data. Log in to see if your details are "
+					+ "correct. Your user name is <b>Jane</b> and your password is <b>tarzan</b>. <br><br><b>You are: Victim Jane</b> ";
 		}
 		else if (stage == 4)
 		{
-			instructions += "It is time to steal the session now. Use following link to reach Goat Hills " +
-					"Financial.<br><br><b>You are: Hacker Joe</b> ";
+			instructions += "It is time to steal the session now. Use following link to reach Goat Hills "
+					+ "Financial.<br><br><b>You are: Hacker Joe</b> ";
 		}
-
 
 		return (instructions);
 	}
@@ -781,7 +769,7 @@ public class SessionFixation extends SequentialLessonAdapter
 	{
 		return ("Session Fixation");
 	}
-	
+
 	@Override
 	public void handleRequest(WebSession s)
 	{
@@ -793,27 +781,23 @@ public class SessionFixation extends SequentialLessonAdapter
 		form.setEncType("");
 		setContent(form);
 	}
-	
+
 	@Override
 	public String getLink()
 	{
-		
-		if(sid.equals(""))
-		{
-			return super.getLink();
-		}
+
+		if (sid.equals("")) { return super.getLink(); }
 		return super.getLink() + "&SID=" + sid;
 	}
-	
 
 	private String randomSIDGenerator()
 	{
 		String sid = "";
 
-		sid = String.valueOf(Math.abs(random.nextInt()%100000));
+		sid = String.valueOf(Math.abs(random.nextInt() % 100000));
 		return sid;
 	}
-	
+
 	public Element getCredits()
 	{
 		return super.getCustomCredits("Created by: Reto Lippuner, Marcel Wirth", new StringElement(""));

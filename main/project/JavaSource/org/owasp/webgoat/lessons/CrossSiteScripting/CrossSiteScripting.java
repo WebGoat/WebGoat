@@ -98,23 +98,25 @@ public class CrossSiteScripting extends GoatHillsFinancial
 	{
 		return Category.XSS;
 	}
-	
-	
-	public String getLessonSolutionFileName(WebSession s) {
+
+	public String getLessonSolutionFileName(WebSession s)
+	{
 		String solutionFileName = null;
 		String stage = getStage(s);
 		solutionFileName = "/lesson_solutions/Lab XSS/Lab " + stage + ".html";
 		return solutionFileName;
 	}
-	
+
 	@Override
-	public String getSolution(WebSession s) {
+	public String getSolution(WebSession s)
+	{
 		String src = null;
 
 		try
 		{
-			//System.out.println("Solution: " + getLessonSolutionFileName(s));
-			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName(s)))), false);
+			// System.out.println("Solution: " + getLessonSolutionFileName(s));
+			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName(s)))),
+								false);
 		} catch (IOException e)
 		{
 			s.setMessage("Could not find the solution file");
@@ -123,7 +125,7 @@ public class CrossSiteScripting extends GoatHillsFinancial
 
 		return src;
 	}
-	
+
 	/**
 	 * Gets the hints attribute of the DirectoryScreen object
 	 * 
@@ -148,9 +150,9 @@ public class CrossSiteScripting extends GoatHillsFinancial
 
 		// Stage 3
 
-
 		// Stage 4
-		hints.add("Stage4: Examine content served in response to form submissions looking for data taken from the form.");
+		hints
+				.add("Stage4: Examine content served in response to form submissions looking for data taken from the form.");
 		hints.add("Stage4: There is a class called HtmlEncoder in org.owasp.webgoat.util");
 		// Stage 5
 		hints
@@ -179,8 +181,8 @@ public class CrossSiteScripting extends GoatHillsFinancial
 			}
 			else if (STAGE2.equals(stage))
 			{
-				instructions = "Stage 2: Block Stored XSS using Input Validation.<br><br>" +
-				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
+				instructions = "Stage 2: Block Stored XSS using Input Validation.<br><br>"
+						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to block the stored XSS before it can be written to the database. "
 						+ "Repeat stage 1 as 'Eric' with 'David' as the manager.  Verify that 'David' is not affected by the attack.";
 			}
@@ -192,8 +194,8 @@ public class CrossSiteScripting extends GoatHillsFinancial
 			}
 			else if (STAGE4.equals(stage))
 			{
-				instructions = "Stage 4: Block Stored XSS using Output Encoding.<br><br>" +
-				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
+				instructions = "Stage 4: Block Stored XSS using Output Encoding.<br><br>"
+						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to block XSS after it is read from the database. "
 						+ "Repeat stage 3. Verify that 'David' is not affected by Bruce's profile attack.";
 			}
@@ -205,8 +207,8 @@ public class CrossSiteScripting extends GoatHillsFinancial
 			}
 			else if (STAGE6.equals(stage))
 			{
-				instructions = "Stage 6: Block Reflected XSS using Input Validation.<br><br>" +
-				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
+				instructions = "Stage 6: Block Reflected XSS using Input Validation.<br><br>"
+						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to block this reflected XSS attack. "
 						+ "Repeat step 5.  Verify that the attack URL is no longer effective.";
 			}
@@ -258,28 +260,28 @@ public class CrossSiteScripting extends GoatHillsFinancial
 				}
 			} catch (ParameterNotFoundException pnfe)
 			{
-				//System.out.println("Missing parameter");
+				// System.out.println("Missing parameter");
 				pnfe.printStackTrace();
 				setCurrentAction(s, ERROR_ACTION);
 			} catch (ValidationException ve)
 			{
-				//System.out.println("Validation failed");
+				// System.out.println("Validation failed");
 				ve.printStackTrace();
 				setCurrentAction(s, ERROR_ACTION);
 			} catch (UnauthenticatedException ue)
 			{
 				s.setMessage("Login failed");
-				//System.out.println("Authentication failure");
+				// System.out.println("Authentication failure");
 				ue.printStackTrace();
 			} catch (UnauthorizedException ue2)
 			{
 				s.setMessage("You are not authorized to perform this function");
-				//System.out.println("Authorization failure");
+				// System.out.println("Authorization failure");
 				ue2.printStackTrace();
 			} catch (Exception e)
 			{
 				// All other errors send the user to the generic error page
-				//System.out.println("handleRequest() error");
+				// System.out.println("handleRequest() error");
 				e.printStackTrace();
 				setCurrentAction(s, ERROR_ACTION);
 			}

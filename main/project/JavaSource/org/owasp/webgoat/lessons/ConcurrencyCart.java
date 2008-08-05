@@ -137,7 +137,7 @@ public class ConcurrencyCart extends LessonAdapter
 
 		} catch (ParameterNotFoundException pnfe)
 		{
-			//System.out.println("[DEBUG] no action selected, defaulting to createShoppingPage");
+			// System.out.println("[DEBUG] no action selected, defaulting to createShoppingPage");
 			ec = createShoppingPage(s, quantity1, quantity2, quantity3, quantity4);
 		}
 
@@ -154,9 +154,7 @@ public class ConcurrencyCart extends LessonAdapter
 	}
 
 	/*
-	 * ********************************************************************* ******************
-	 * PURCHASING PAGE **********************************
-	 * *********************************************************************
+	 * PURCHASING PAGE
 	 */
 
 	private ElementContainer createPurchaseContent(WebSession s, int quantity1, int quantity2, int quantity3,
@@ -303,9 +301,7 @@ public class ConcurrencyCart extends LessonAdapter
 	}
 
 	/*
-	 * ********************************************************************* ******************
-	 * CONFIRMATION PAGE ********************************
-	 * *********************************************************************
+	 * CONFIRMATION PAGE
 	 */
 
 	private ElementContainer confirmation(WebSession s, int quantity1, int quantity2, int quantity3, int quantity4)
@@ -420,9 +416,7 @@ public class ConcurrencyCart extends LessonAdapter
 	}
 
 	/*
-	 * ********************************************************************* ******************
-	 * SHOPPING PAGE **********************************
-	 * *********************************************************************
+	 * SHOPPING PAGE
 	 */
 
 	private ElementContainer createShoppingPage(WebSession s, int quantity1, int quantity2, int quantity3, int quantity4)
