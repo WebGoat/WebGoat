@@ -94,11 +94,11 @@ public class UpdateProfile extends DefaultLessonAction
 				chainedAction.handleRequest(s);
 			} catch (UnauthenticatedException ue1)
 			{
-				//System.out.println("Internal server error");
+				// System.out.println("Internal server error");
 				ue1.printStackTrace();
 			} catch (UnauthorizedException ue2)
 			{
-				//System.out.println("Internal server error");
+				// System.out.println("Internal server error");
 				ue2.printStackTrace();
 			}
 		}

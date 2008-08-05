@@ -927,7 +927,8 @@ public class ParameterParser
 	// Validates format for major brands of credit card.
 	// private static final String CCNREGEX =
 	// "^(?:(?<Visa>4\\d{3})|(?<Mastercard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<AmericanExpress>3[47]\\d{2}))([
-	// -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(AmericanExpress)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
+	//-]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(AmericanExpress)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4
+	// }\\1\\d{4})))$";
 	private static final String CCNREGEX = "^\\d{16}$";
 
 	private static final Pattern Ccnpattern = Pattern.compile(CCNREGEX);

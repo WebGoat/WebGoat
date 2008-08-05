@@ -70,7 +70,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 	// needed to see if lesson was successfull
 	private final static String LOGGEDINUSER = "loggedInUser2";
 
-	//private String LoggedInUser = "";
+	// private String LoggedInUser = "";
 
 	/**
 	 * See if the user is logged in
@@ -502,8 +502,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -511,8 +510,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 				{
 					connection.close();
 				}
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -545,8 +543,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -554,8 +551,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 				{
 					connection.close();
 				}
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -583,8 +579,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -592,8 +587,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 				{
 					connection.close();
 				}
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -634,8 +628,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -643,8 +636,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 				{
 					connection.close();
 				}
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -678,7 +670,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 
 			if ((results != null) && (results.first() == true))
 			{
-				//System.out.println(results.getString("tanValue"));
+				// System.out.println(results.getString("tanValue"));
 				return results.getString("tanValue");
 
 			}
@@ -686,8 +678,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -695,8 +686,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 				{
 					connection.close();
 				}
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -749,8 +739,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -758,8 +747,7 @@ public class MultiLevelLogin2 extends LessonAdapter
 				{
 					connection.close();
 				}
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}

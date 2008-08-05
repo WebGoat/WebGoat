@@ -93,7 +93,6 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 		return Category.ACCESS_CONTROL;
 	}
 
-
 	/**
 	 * Gets the hints attribute of the DirectoryScreen object
 	 * 
@@ -111,19 +110,16 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 
 		hints.add("Stage1: How does the application know that the user selected the delete function?");
 
-
-			hints.add("Stage2: You have to code to check the authorization of the user for the action.");
+		hints.add("Stage2: You have to code to check the authorization of the user for the action.");
 		// Stage 2
-		
-	
 
 		// Stage 3
 		hints.add("Stage3: How does the application know that the user selected any particular employee to view?");
-		
 
 		// Stage 4
-		hints.add("Stage4: You have to code to check the authorization of the user for the action on a certain employee.");
-	
+		hints
+				.add("Stage4: You have to code to check the authorization of the user for the action on a certain employee.");
+
 		return hints;
 	}
 
@@ -155,8 +151,8 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 			}
 			else if (STAGE2.equals(stage))
 			{
-				instructions ="Stage 2: Add Business Layer Access Control.<br><br/>" +
-				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
+				instructions = "Stage 2: Add Business Layer Access Control.<br><br/>"
+						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to deny unauthorized access to the Delete function. "
 						+ "Repeat stage 1.  Verify that access to Delete is properly denied.<br/>"
 						+ "To do this you have to alter code.";
@@ -168,8 +164,8 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 			}
 			else if (STAGE4.equals(stage))
 			{
-				instructions = "Stage 4: Add Data Layer Access Control.<br><br/>" +
-					"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
+				instructions = "Stage 4: Add Data Layer Access Control.<br><br/>"
+						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "Implement a fix to deny unauthorized access to this data. "
 						+ "Repeat stage 3.  Verify that access to other employee's profiles is properly denied.";
 			}
@@ -177,21 +173,24 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 
 		return instructions;
 	}
-	
-	public String getLessonSolutionFileName(WebSession s) {
+
+	public String getLessonSolutionFileName(WebSession s)
+	{
 		String solutionFileName = null;
 		String stage = getStage(s);
 		solutionFileName = "/lesson_solutions/Lab Access Control/Lab " + stage + ".html";
 		return solutionFileName;
 	}
-	
+
 	@Override
-	public String getSolution(WebSession s) {
+	public String getSolution(WebSession s)
+	{
 		String src = null;
 
 		try
 		{
-			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName(s)))), false);
+			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName(s)))),
+								false);
 		} catch (IOException e)
 		{
 			s.setMessage("Could not find the solution file");
@@ -233,11 +232,9 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				}
 				else
 				{
-					//***************CODE HERE*************************
-					
-					
-					
-					//*************************************************
+					// ***************CODE HERE*************************
+
+					// *************************************************
 					if (action.isAuthenticated(s))
 					{
 						action.handleRequest(s);
@@ -250,18 +247,18 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				setCurrentAction(s, ERROR_ACTION);
 		} catch (ParameterNotFoundException pnfe)
 		{
-			//System.out.println("Missing parameter");
+			// System.out.println("Missing parameter");
 			pnfe.printStackTrace();
 			setCurrentAction(s, ERROR_ACTION);
 		} catch (ValidationException ve)
 		{
-			//System.out.println("Validation failed");
+			// System.out.println("Validation failed");
 			ve.printStackTrace();
 			setCurrentAction(s, ERROR_ACTION);
 		} catch (UnauthenticatedException ue)
 		{
 			s.setMessage("Login failed");
-			//System.out.println("Authentication failure");
+			// System.out.println("Authentication failure");
 			ue.printStackTrace();
 		} catch (UnauthorizedException ue2)
 		{
@@ -306,13 +303,13 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				}
 			}
 
-			//System.out.println("Authorization failure");
+			// System.out.println("Authorization failure");
 			setCurrentAction(s, ERROR_ACTION);
 			ue2.printStackTrace();
 		} catch (Exception e)
 		{
 			// All other errors send the user to the generic error page
-			//System.out.println("handleRequest() error");
+			// System.out.println("handleRequest() error");
 			e.printStackTrace();
 			setCurrentAction(s, ERROR_ACTION);
 		}
@@ -377,18 +374,18 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 					setCurrentAction(s, ERROR_ACTION);
 			} catch (ParameterNotFoundException pnfe)
 			{
-				//System.out.println("Missing parameter");
+				// System.out.println("Missing parameter");
 				pnfe.printStackTrace();
 				setCurrentAction(s, ERROR_ACTION);
 			} catch (ValidationException ve)
 			{
-				//System.out.println("Validation failed");
+				// System.out.println("Validation failed");
 				ve.printStackTrace();
 				setCurrentAction(s, ERROR_ACTION);
 			} catch (UnauthenticatedException ue)
 			{
 				s.setMessage("Login failed");
-				//System.out.println("Authentication failure");
+				// System.out.println("Authentication failure");
 				ue.printStackTrace();
 			} catch (UnauthorizedException ue2)
 			{
@@ -432,13 +429,13 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				}
 
 				s.setMessage("You are not authorized to perform this function");
-				//System.out.println("Authorization failure");
+				// System.out.println("Authorization failure");
 				setCurrentAction(s, ERROR_ACTION);
 				ue2.printStackTrace();
 			} catch (Exception e)
 			{
 				// All other errors send the user to the generic error page
-				//System.out.println("handleRequest() error");
+				// System.out.println("handleRequest() error");
 				e.printStackTrace();
 				setCurrentAction(s, ERROR_ACTION);
 			}

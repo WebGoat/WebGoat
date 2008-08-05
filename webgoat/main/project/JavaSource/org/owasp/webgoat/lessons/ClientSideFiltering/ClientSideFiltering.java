@@ -95,8 +95,6 @@ public class ClientSideFiltering extends SequentialLessonAdapter
 
 			t.setID("hiddenEmployeeRecords");
 			t.setStyle("display: none");
-	
-			
 
 			workspaceDiv.addElement(t);
 
@@ -334,7 +332,8 @@ public class ClientSideFiltering extends SequentialLessonAdapter
 
 		hints.add("Stage 1: Use Firebug to find where the information is stored on the client side.");
 
-		hints.add("Stage 1: Examine the hidden table to see if there is anyone listed who is not in the drop down menu.");
+		hints
+				.add("Stage 1: Examine the hidden table to see if there is anyone listed who is not in the drop down menu.");
 
 		hints.add("Stage 1: Look in the last row of the hidden table.");
 

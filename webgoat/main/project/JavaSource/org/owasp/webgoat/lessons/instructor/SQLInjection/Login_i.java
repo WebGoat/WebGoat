@@ -1,34 +1,28 @@
+
 package org.owasp.webgoat.lessons.instructor.SQLInjection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.lessons.SQLInjection.Login;
 import org.owasp.webgoat.lessons.SQLInjection.SQLInjection;
 import org.owasp.webgoat.session.WebSession;
 
-/*
-Solution Summary: Edit Login.java and change login().  
-                  Modify login() with lines denoted by // STAGE 2 - FIX.
-Solution Steps:
-1. Change dynamic query to parameterized query.
-   a. Replace the dynamic varaibles with the "?" 
-   		String query = "SELECT * FROM employee WHERE userid = ? and password = ?" 
-   			
-   b. Create a preparedStatement using the new query
-   		PreparedStatement answer_statement = SQLInjection.getConnection(s).prepareStatement( 
-   				query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY ); 
 
-   c. Set the values of the parameterized query
-		answer_statement.setString(1, userId); // STAGE 2 - FIX
-		answer_statement.setString(2, password); // STAGE 2 - FIX
-   		
-   d. Execute the preparedStatement
-   		ResultSet answer_results = answer_statement.executeQuery();
-*/
+/*
+ * Solution Summary: Edit Login.java and change login(). Modify login() with lines denoted by //
+ * STAGE 2 - FIX. Solution Steps: 1. Change dynamic query to parameterized query. a. Replace the
+ * dynamic varaibles with the "?" String query =
+ * "SELECT * FROM employee WHERE userid = ? and password = ?" b. Create a preparedStatement using
+ * the new query PreparedStatement answer_statement =
+ * SQLInjection.getConnection(s).prepareStatement( query, ResultSet.TYPE_SCROLL_INSENSITIVE,
+ * ResultSet.CONCUR_READ_ONLY ); c. Set the values of the parameterized query
+ * answer_statement.setString(1, userId); // STAGE 2 - FIX answer_statement.setString(2, password);
+ * // STAGE 2 - FIX d. Execute the preparedStatement ResultSet answer_results =
+ * answer_statement.executeQuery();
+ */
 
 public class Login_i extends Login
 {
@@ -39,17 +33,21 @@ public class Login_i extends Login
 
 	public boolean login(WebSession s, String userId, String password)
 	{
-		//System.out.println("Logging in to lesson");
+		// System.out.println("Logging in to lesson");
 		boolean authenticated = false;
-		
+
 		try
 		{
-			String query = "SELECT * FROM employee WHERE userid = ? and password = ?"; // STAGE 2 - FIX
-			
+			String query = "SELECT * FROM employee WHERE userid = ? and password = ?"; // STAGE 2 -
+																						// FIX
+
 			try
 			{
-				PreparedStatement answer_statement = WebSession.getConnection(s).prepareStatement( query, 
-						ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY ); // STAGE 2 - FIX
+				PreparedStatement answer_statement = WebSession.getConnection(s)
+						.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY); // STAGE
+																													// 2
+																													// -
+																													// FIX
 				answer_statement.setString(1, userId); // STAGE 2 - FIX
 				answer_statement.setString(2, password); // STAGE 2 - FIX
 				ResultSet answer_results = answer_statement.executeQuery(); // STAGE 2 - FIX
@@ -60,21 +58,19 @@ public class Login_i extends Login
 					authenticated = true;
 				}
 
-			}
-			catch ( SQLException sqle )
+			} catch (SQLException sqle)
 			{
-				s.setMessage( "Error logging in" );
+				s.setMessage("Error logging in");
 				sqle.printStackTrace();
 			}
-		}
-		catch ( Exception e )
+		} catch (Exception e)
 		{
-			s.setMessage( "Error logging in" );
+			s.setMessage("Error logging in");
 			e.printStackTrace();
 		}
-		
-		//System.out.println("Lesson login result: " + authenticated);
+
+		// System.out.println("Lesson login result: " + authenticated);
 		return authenticated;
 	}
-	
+
 }

@@ -1,10 +1,10 @@
+
 package org.owasp.webgoat.lessons.instructor.RoleBasedAccessControl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.LessonAction;
 import org.owasp.webgoat.lessons.RoleBasedAccessControl.RoleBasedAccessControl;
@@ -13,12 +13,13 @@ import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.WebSession;
 
+
 /**
- *  Copyright (c) 2006 Free Software Foundation developed under the custody of the Open Web
- *  Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is published by OWASP
- *  under the GPL. You should read and accept the LICENSE before you use, modify and/or redistribute
- *  this software.
- *
+ * Copyright (c) 2006 Free Software Foundation developed under the custody of the Open Web
+ * Application Security Project (http://www.owasp.org) This software package org.owasp.webgoat.is
+ * published by OWASP under the GPL. You should read and accept the LICENSE before you use, modify
+ * and/or redistribute this software.
+ * 
  */
 
 /*************************************************/
@@ -26,7 +27,6 @@ import org.owasp.webgoat.session.WebSession;
 /* This file is not currently used in the course */
 /*												 */
 /*************************************************/
-
 
 public class UpdateProfile_i extends UpdateProfile
 {
@@ -43,12 +43,13 @@ public class UpdateProfile_i extends UpdateProfile
 			try
 			{
 				// Note: The password field is ONLY set by ChangePassword
-					String query = "UPDATE employee SET first_name = ?, last_name = ?, ssn = ?, title = ?, phone = ?, address1 = ?, address2 = ?,"
+				String query = "UPDATE employee SET first_name = ?, last_name = ?, ssn = ?, title = ?, phone = ?, address1 = ?, address2 = ?,"
 						+ " manager = ?, start_date = ?, ccn = ?, ccn_limit = ?,"
 						+ " personal_description = ? WHERE userid = ?;";
 				try
 				{
-					PreparedStatement ps = WebSession.getConnection(s).prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+					PreparedStatement ps = WebSession.getConnection(s)
+							.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
 					ps.setString(1, employee.getFirstName());
 					ps.setString(2, employee.getLastName());
@@ -64,19 +65,17 @@ public class UpdateProfile_i extends UpdateProfile
 					ps.setString(12, employee.getPersonalDescription());
 					ps.setInt(13, subjectId);
 					ps.execute();
-				}
-				catch ( SQLException sqle )
+				} catch (SQLException sqle)
 				{
-					s.setMessage( "Error updating employee profile" );
+					s.setMessage("Error updating employee profile");
 					sqle.printStackTrace();
 				}
-				
-			}
-			catch ( Exception e )
+
+			} catch (Exception e)
 			{
-				s.setMessage( "Error updating employee profile" );
+				s.setMessage("Error updating employee profile");
 				e.printStackTrace();
-			}		
+			}
 		}
 		else
 		{
@@ -84,9 +83,7 @@ public class UpdateProfile_i extends UpdateProfile
 		}
 	}
 
-
-	public void createEmployeeProfile(WebSession s, int userId, Employee employee)
-			throws UnauthorizedException
+	public void createEmployeeProfile(WebSession s, int userId, Employee employee) throws UnauthorizedException
 	{
 		if (s.isAuthorizedInLesson(userId, RoleBasedAccessControl.UPDATEPROFILE_ACTION)) // FIX
 		{
@@ -94,10 +91,10 @@ public class UpdateProfile_i extends UpdateProfile
 			{
 				// FIXME: Cannot choose the id because we cannot guarantee uniqueness
 				int nextId = getNextUID(s);
-			    String query = "INSERT INTO employee VALUES ( " + nextId + ", ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-				
-				//System.out.println("Query:  " + query);
-				
+				String query = "INSERT INTO employee VALUES ( " + nextId + ", ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+				// System.out.println("Query:  " + query);
+
 				try
 				{
 					PreparedStatement ps = WebSession.getConnection(s).prepareStatement(query);
@@ -118,18 +115,16 @@ public class UpdateProfile_i extends UpdateProfile
 					ps.setString(14, employee.getPersonalDescription());
 
 					ps.execute();
-				}
-				catch ( SQLException sqle )
+				} catch (SQLException sqle)
 				{
-					s.setMessage( "Error updating employee profile" );
+					s.setMessage("Error updating employee profile");
 					sqle.printStackTrace();
 				}
-			}
-			catch ( Exception e )
+			} catch (Exception e)
 			{
-				s.setMessage( "Error updating employee profile" );
+				s.setMessage("Error updating employee profile");
 				e.printStackTrace();
-			}			
+			}
 		}
 		else
 		{

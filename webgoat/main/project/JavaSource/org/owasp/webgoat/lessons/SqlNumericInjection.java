@@ -310,13 +310,13 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("The application is taking the input from the select box and inserts it at the end of a pre-formed SQL command.");
+		hints
+				.add("The application is taking the input from the select box and inserts it at the end of a pre-formed SQL command.");
 		hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
 				+ "\"SELECT * FROM weather_data WHERE station = \" + station ");
 		hints.add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. "
 				+ "Try appending a SQL statement that always resolves to true.");
-		hints.add("Try to intercept the post request with WebScarab and replace the station " +
-				"with 101 OR 1 = 1");
+		hints.add("Try to intercept the post request with WebScarab and replace the station " + "with 101 OR 1 = 1");
 
 		return hints;
 	}
@@ -351,7 +351,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 			super.handleRequest(s);
 		} catch (Exception e)
 		{
-			//System.out.println("Exception caught: " + e);
+			// System.out.println("Exception caught: " + e);
 			e.printStackTrace(System.out);
 		}
 	}

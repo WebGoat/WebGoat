@@ -68,7 +68,7 @@ public class HiddenFieldTampering extends LessonAdapter
 	private final static String PRICE_TV_HACKED = "9.99";
 
 	String regex = "^" + PRICE_TV + "$"; // obviously the "." will match any char - any
-											// interesting exploit!
+	// interesting exploit!
 	Pattern pattern1 = Pattern.compile(regex);
 	String lineSep = System.getProperty("line.separator");
 	String script = "<SCRIPT>" + lineSep + "regex=/" + regex + "/;" + "function validate() { " + lineSep

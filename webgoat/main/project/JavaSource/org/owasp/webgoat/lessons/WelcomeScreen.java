@@ -141,7 +141,6 @@ public class WelcomeScreen extends Screen
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see session.Screen#getRole()
 	 */
 	public String getRole()

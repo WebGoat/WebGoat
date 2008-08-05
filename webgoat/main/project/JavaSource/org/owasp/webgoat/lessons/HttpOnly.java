@@ -294,8 +294,8 @@ public class HttpOnly extends LessonAdapter
 		t.addElement(tr);
 
 		/*
-		 * tr.addElement(new TD(new StringElement("<strong>Status:</strong> " )));
-		 * t.addElement(tr); if(httpOnly == true) { tr.addElement(new TD(new StringElement("<div
+		 * tr.addElement(new TD(new StringElement("<strong>Status:</strong> " ))); t.addElement(tr);
+		 * if(httpOnly == true) { tr.addElement(new TD(new StringElement("<div
 		 * id=\"status\">On</div>"))); } else { tr.addElement(new TD(new StringElement ("<div
 		 * id=\"status\">Off</div>"))); } t.addElement(tr); t.addElement(new TR(new TD(new
 		 * StringElement("<br/>"))));

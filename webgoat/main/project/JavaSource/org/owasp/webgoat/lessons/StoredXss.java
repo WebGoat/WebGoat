@@ -79,7 +79,8 @@ public class StoredXss extends LessonAdapter
 	private static int count = 1;
 
 	private final static int USER_COL = 4; // Added by Chuck Willis - used to show user who posted
-											// message
+
+	// message
 
 	/**
 	 * Adds a feature to the Message attribute of the MessageBoardScreen object
@@ -160,7 +161,8 @@ public class StoredXss extends LessonAdapter
 		List<String> hints = new ArrayList<String>();
 		hints.add("You can put HTML tags in your message.");
 		hints.add("Bury a SCRIPT tag in the message to attack anyone who reads it.");
-		hints.add("Enter this: &lt;script language=\"javascript\" type=\"text/javascript\"&gt;alert(\"Ha Ha Ha\");&lt;/script&gt; in the message field.");
+		hints
+				.add("Enter this: &lt;script language=\"javascript\" type=\"text/javascript\"&gt;alert(\"Ha Ha Ha\");&lt;/script&gt; in the message field.");
 		hints.add("Enter this: &lt;script&gt;alert(document.cookie);&lt;/script&gt; in the message field.");
 
 		return hints;
@@ -307,7 +309,7 @@ public class StoredXss extends LessonAdapter
 	 *            Description of the Parameter
 	 * @return Description of the Return Value
 	 */
-	public  Element makeList(WebSession s)
+	public Element makeList(WebSession s)
 	{
 		Table t = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
 
@@ -326,7 +328,7 @@ public class StoredXss extends LessonAdapter
 			statement.setString(1, getNameroot(s.getUserName()) + "%");
 			statement.setString(2, getClass().getName());
 			ResultSet results = statement.executeQuery();
-			
+
 			if ((results != null) && (results.first() == true))
 			{
 				results.beforeFirst();

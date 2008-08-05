@@ -183,13 +183,16 @@ public class DOMXSS extends SequentialLessonAdapter
 
 		hints.add("Stage 2: Try entering the following: " + "&lt;img src=x onerror=;;alert('XSS') /&gt;");
 
-		hints.add("Stage 3: Try entering the following: " + "&lt;IFRAME SRC=\"javascript:alert('XSS');\"&gt;&lt;/IFRAME&gt;");
+		hints.add("Stage 3: Try entering the following: "
+				+ "&lt;IFRAME SRC=\"javascript:alert('XSS');\"&gt;&lt;/IFRAME&gt;");
 
-		hints.add("Stage 4: Try entering the following: "
+		hints
+				.add("Stage 4: Try entering the following: "
 						+ "Please enter your password:&lt;BR&gt;&lt;input type = \"password\" name=\"pass\"/&gt;&lt;button "
 						+ "onClick=\"javascript:alert('I have your password: ' + pass.value);\"&gt;Submit&lt;/button&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;");
 
-		hints.add("Stage 5: You will find the JavaScripts in tomcat\\webapps\\WebGoat\\javascript (Standart Version) or in WebContent\\javascript (Developer Version).");
+		hints
+				.add("Stage 5: You will find the JavaScripts in tomcat\\webapps\\WebGoat\\javascript (Standart Version) or in WebContent\\javascript (Developer Version).");
 		// Attack Strings:
 
 		// <IMG SRC="images/logos/owasp.jpg"/>
@@ -201,7 +204,8 @@ public class DOMXSS extends SequentialLessonAdapter
 		// Please enter your password:<BR><input type = "password" name="pass"/><button
 		// onClick="javascript:alert('I
 		// have your password: ' +
-		// pass.value);">Submit</button><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>
+		// pass.value);
+		// ">Submit</button><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>
 
 		return hints;
 	}

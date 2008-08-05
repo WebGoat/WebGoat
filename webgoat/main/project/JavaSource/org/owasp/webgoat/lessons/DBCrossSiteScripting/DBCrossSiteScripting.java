@@ -124,8 +124,8 @@ public class DBCrossSiteScripting extends GoatHillsFinancial
 			String stage = getStage(s);
 			if (STAGE1.equals(stage))
 			{
-				instructions = "Stage 1: Execute a Stored Cross Site Scripting (XSS) attack.<br><br>"+
-				"<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
+				instructions = "Stage 1: Execute a Stored Cross Site Scripting (XSS) attack.<br><br>"
+						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
 						+ "As 'Tom', execute a Stored XSS attack against the Street field on the Edit Profile page.  "
 						+ "Verify that 'Jerry' is affected by the attack. "
 						+ "A sample JavaScript snippet you can use is: &lt;SCRIPT&gt;alert('bang!');&lt;/SCRIPT&gt;.";
@@ -186,28 +186,28 @@ public class DBCrossSiteScripting extends GoatHillsFinancial
 				}
 			} catch (ParameterNotFoundException pnfe)
 			{
-				//System.out.println("Missing parameter");
+				// System.out.println("Missing parameter");
 				pnfe.printStackTrace();
 				setCurrentAction(s, ERROR_ACTION);
 			} catch (ValidationException ve)
 			{
-				//System.out.println("Validation failed");
+				// System.out.println("Validation failed");
 				ve.printStackTrace();
 				setCurrentAction(s, ERROR_ACTION);
 			} catch (UnauthenticatedException ue)
 			{
 				s.setMessage("Login failed");
-				//System.out.println("Authentication failure");
+				// System.out.println("Authentication failure");
 				ue.printStackTrace();
 			} catch (UnauthorizedException ue2)
 			{
 				s.setMessage("You are not authorized to perform this function");
-				//System.out.println("Authorization failure");
+				// System.out.println("Authorization failure");
 				ue2.printStackTrace();
 			} catch (Exception e)
 			{
 				// All other errors send the user to the generic error page
-				//System.out.println("handleRequest() error");
+				// System.out.println("handleRequest() error");
 				e.printStackTrace();
 				setCurrentAction(s, ERROR_ACTION);
 			}

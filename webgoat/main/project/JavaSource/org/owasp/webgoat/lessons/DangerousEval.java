@@ -4,7 +4,6 @@ package org.owasp.webgoat.lessons;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.A;
@@ -88,7 +87,7 @@ public class DangerousEval extends LessonAdapter
 
 			// FIXME: encode output of field2, then s.setMessage( field2 );
 			ec.addElement("<script src='javascript/eval.js'> </script>");
-			//<script src='javascript/sameOrigin.js' language='JavaScript'></script>
+			// <script src='javascript/sameOrigin.js' language='JavaScript'></script>
 			ec.addElement(new HR().setWidth("90%"));
 			ec.addElement(new Center().addElement(new H1().addElement("Shopping Cart ")));
 			Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
@@ -203,7 +202,7 @@ public class DangerousEval extends LessonAdapter
 			ec.addElement(t);
 			ec.addElement(new BR());
 			ec.addElement(new HR().setWidth("90%"));
-			
+
 		} catch (Exception e)
 		{
 			s.setMessage("Error generating " + this.getClass().getName());

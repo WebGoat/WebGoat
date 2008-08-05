@@ -168,7 +168,7 @@ public class WebSession
 	private boolean isColor = false;
 
 	private boolean isDebug = false;
-	
+
 	private boolean hasHackedHackableAdmin = false;
 
 	private StringBuffer message = new StringBuffer("");
@@ -456,10 +456,10 @@ public class WebSession
 		if (showCookies()) cookies = Arrays.asList(request.getCookies());
 
 		/*
-		 * List cookies = new Vector(); HttpServletRequest request = getRequest(); Cookie[] cookies =
-		 * request.getCookies(); if ( cookies.length == 0 ) { list.addElement( new LI( "No Cookies" ) ); }
-		 * for ( int i = 0; i < cookies.length; i++ ) { Cookie cookie = cookies[i];
-		 * cookies.add(cookie); //list.addElement( new LI( cookie.getName() + " -> " +
+		 * List cookies = new Vector(); HttpServletRequest request = getRequest(); Cookie[] cookies
+		 * = request.getCookies(); if ( cookies.length == 0 ) { list.addElement( new LI(
+		 * "No Cookies" ) ); } for ( int i = 0; i < cookies.length; i++ ) { Cookie cookie =
+		 * cookies[i]; cookies.add(cookie); //list.addElement( new LI( cookie.getName() + " -> " +
 		 * cookie.getValue() ) ); }
 		 */
 
@@ -1004,8 +1004,8 @@ public class WebSession
 	}
 
 	/**
-	 * @param header -
-	 *            request header value to return
+	 * @param header
+	 *            - request header value to return
 	 * @return
 	 */
 	public String getHeader(String header)

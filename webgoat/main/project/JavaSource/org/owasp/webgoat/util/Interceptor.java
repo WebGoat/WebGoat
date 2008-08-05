@@ -59,7 +59,6 @@ public class Interceptor implements Filter
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see javax.servlet.Filter#destroy()
 	 */
 	public void destroy()
@@ -133,7 +132,6 @@ public class Interceptor implements Filter
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
 	public void init(FilterConfig arg0) throws ServletException

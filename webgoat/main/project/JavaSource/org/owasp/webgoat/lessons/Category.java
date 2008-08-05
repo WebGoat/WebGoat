@@ -40,7 +40,7 @@ public class Category implements Comparable
 {
 
 	public final static Category INTRODUCTION = new Category("Introduction", new Integer(5));
-	
+
 	public final static Category GENERAL = new Category("General", new Integer(100));
 
 	public final static Category ACCESS_CONTROL = new Category("Access Control Flaws", new Integer(200));
@@ -64,7 +64,7 @@ public class Category implements Comparable
 	public final static Category INJECTION = new Category("Injection Flaws", new Integer(1200));
 
 	public final static Category INSECURE_COMMUNICATION = new Category("Insecure Communication", new Integer(1300));
-	
+
 	public final static Category INSECURE_CONFIGURATION = new Category("Insecure Configuration", new Integer(1400));
 
 	public final static Category INSECURE_STORAGE = new Category("Insecure Storage", new Integer(1500));
