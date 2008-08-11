@@ -129,7 +129,8 @@ public class Course
 		fileName = fileName.trim();
 
 		/**
-		 * We do not handle directories. We do not handle files with different extensions
+		 * We do not handle directories.
+		 * We do not handle files with different extensions
 		 */
 		if (fileName.endsWith("/") || !fileName.endsWith(ext)) { return null; }
 

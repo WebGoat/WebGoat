@@ -114,7 +114,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 						StringBuffer msg = new StringBuffer();
 
 						msg.append("Bet you can't do it again! ");
-						msg.append("This lesson has detected your successfull attack ");
+						msg.append("This lesson has detected your successful attack ");
 						msg.append("and has now switched to a defensive mode. ");
 						msg.append("Try again to attack a parameterized query.");
 

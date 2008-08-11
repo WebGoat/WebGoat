@@ -107,10 +107,7 @@ public class DangerousEval extends LessonAdapter
 			tr = new TR();
 			tr.addElement(new TD().addElement("Studio RTA - Laptop/Reading Cart with Tilting Surface - Cherry "));
 			tr.addElement(new TD().addElement("69.99").setAlign("right"));
-			tr.addElement(new TD().addElement(
-												new Input(Input.TEXT, "QTY1", s.getParser().getStringParameter("QTY1",
-																												"1")))
-					.setAlign("right"));
+		    tr.addElement(new TD().addElement(new Input(Input.TEXT, "QTY1", s.getParser().getStringParameter("QTY1", "1"))).setAlign("right"));
 			quantity = s.getParser().getFloatParameter("QTY1", 0.0f);
 			total = quantity * 69.99f;
 			runningTotal += total;
@@ -119,10 +116,7 @@ public class DangerousEval extends LessonAdapter
 			tr = new TR();
 			tr.addElement(new TD().addElement("Dynex - Traditional Notebook Case"));
 			tr.addElement(new TD().addElement("27.99").setAlign("right"));
-			tr.addElement(new TD().addElement(
-												new Input(Input.TEXT, "QTY2", s.getParser().getStringParameter("QTY2",
-																												"1")))
-					.setAlign("right"));
+		    tr.addElement(new TD().addElement(new Input(Input.TEXT, "QTY2", s.getParser().getStringParameter("QTY2", "1"))).setAlign("right"));
 			quantity = s.getParser().getFloatParameter("QTY2", 0.0f);
 			total = quantity * 27.99f;
 			runningTotal += total;
@@ -131,10 +125,7 @@ public class DangerousEval extends LessonAdapter
 			tr = new TR();
 			tr.addElement(new TD().addElement("Hewlett-Packard - Pavilion Notebook with Intel® Centrino™"));
 			tr.addElement(new TD().addElement("1599.99").setAlign("right"));
-			tr.addElement(new TD().addElement(
-												new Input(Input.TEXT, "QTY3", s.getParser().getStringParameter("QTY3",
-																												"1")))
-					.setAlign("right"));
+		    tr.addElement(new TD().addElement(new Input(Input.TEXT, "QTY3", s.getParser().getStringParameter("QTY3", "1"))).setAlign("right"));
 			quantity = s.getParser().getFloatParameter("QTY3", 0.0f);
 			total = quantity * 1599.99f;
 			runningTotal += total;
@@ -144,10 +135,7 @@ public class DangerousEval extends LessonAdapter
 			tr.addElement(new TD().addElement("3 - Year Performance Service Plan $1000 and Over "));
 			tr.addElement(new TD().addElement("299.99").setAlign("right"));
 
-			tr.addElement(new TD().addElement(
-												new Input(Input.TEXT, "QTY4", s.getParser().getStringParameter("QTY4",
-																												"1")))
-					.setAlign("right"));
+		    tr.addElement(new TD().addElement(new Input(Input.TEXT, "QTY4", s.getParser().getStringParameter("QTY4", "1"))).setAlign("right"));
 			quantity = s.getParser().getFloatParameter("QTY4", 0.0f);
 			total = quantity * 299.99f;
 			runningTotal += total;
@@ -232,16 +220,15 @@ public class DangerousEval extends LessonAdapter
 		hints.add("The lesson is similar to the standard reflected cross-site scripting lesson.");
 		hints.add("The access code parameter is vulnerable to a reflected cross-site scripting problem.");
 		hints.add("The usual &lt;SCRIPT&gt;alert(document.cookie);&lt;/SCRIPT&gt; will not work in this lesson. Why?");
-		hints
-				.add("User-supplied data is landing in the Javascript eval() function. Your attack will not require the &lt; and &gt; characters.");
+		hints.add("User-supplied data is landing in the Javascript eval() function. Your attack will not require the &lt; and &gt; characters.");
 		hints.add("In order to pass this lesson, you must 'alert' the document.cookie.");
 		hints.add("Try 123');alert(document.cookie);('");
 		return hints;
 	}
 
-	// <script type="text/javascript">if ( navigator.appName.indexOf("Microsoft") !=-1) {var xmlHttp
-	// = new
-	// ActiveXObject("Microsoft.XMLHTTP");xmlHttp.open("TRACE", "./", false);
+
+    // <script type="text/javascript">if ( navigator.appName.indexOf("Microsoft") !=-1) 
+    // {var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");xmlHttp.open("TRACE", "./", false); 
 	// xmlHttp.send();str1=xmlHttp.responseText;document.write(str1);}</script>
 	/**
 	 * Gets the instructions attribute of the WeakAccessControl object

@@ -345,8 +345,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				if (action != null)
 				{
 					// System.out.println("RoleBasedAccessControl.handleRequest() dispatching to: "
-					// +
-					// action.getActionName());
+					// + action.getActionName());
 					if (!action.requiresAuthentication())
 					{
 						// Access to Login does not require authentication.

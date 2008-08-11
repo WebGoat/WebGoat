@@ -14,19 +14,31 @@ import org.owasp.webgoat.session.ValidationException;
 import org.owasp.webgoat.session.WebSession;
 
 
-/*
- * STAGE 2 FIXES Solution Summary: Edit UpdateProfile.java and change parseEmployeeProfile(). Modify
- * parseEmployeeProfile() with lines denoted by // STAGE 2 - FIX. Solution Steps: 1. Talk about the
- * different parser methods. a. parseEmployeeProfile(subjectId, s.getRequest()) - uses the request
- * object directly. - calling validate() on the appropriate parameter b.
- * parseEmployeeProfile(subjectId, s.getParser()) - uses the parser object to pull request data
- * (centralized mechanism) 2. Fix the request object version of the call // STAGE 2 - FIX Replace
- * the call to: String address1 = request.getParameter(CrossSiteScripting.ADDRESS1); With: final
- * Pattern PATTERN_ADDRESS1 = Pattern.compile("[a-zA-Z0-9,\\.\\- ]{0,80}"); // STAGE 2 - FIX String
- * address1 = validate(request.getParameter(CrossSiteScripting.ADDRESS1), PATTERN_ADDRESS1); //
- * STAGE 2 - FIX 3. Fix the parser version of the call. // STAGE 2 - ALTERNATE FIX Change all calls
- * in parseEmployeeProfile(subjectId, s.getParser()) to use the appropriate parser.method() call
- */
+// STAGE 2 FIXES
+// Solution Summary: Edit UpdateProfile.java and change parseEmployeeProfile().
+// Modify parseEmployeeProfile() with lines denoted by // STAGE 2 - FIX.
+// Solution Steps:
+// 1. Talk about the different parser methods.
+// a. parseEmployeeProfile(subjectId, s.getRequest())
+// - uses the request object directly.
+// - calling validate() on the appropriate parameter
+// b. parseEmployeeProfile(subjectId, s.getParser())
+// - uses the parser object to pull request data (centralized mechanism)
+//
+// 2. Fix the request object version of the call // STAGE 2 - FIX
+// Replace the call to:
+// String address1 = request.getParameter(CrossSiteScripting.ADDRESS1);
+//   
+// With:
+// final Pattern PATTERN_ADDRESS1 = Pattern.compile("[a-zA-Z0-9,\\.\\- ]{0,80}"); // STAGE 2 - FIX
+// String address1 = validate(request.getParameter(CrossSiteScripting.ADDRESS1), PATTERN_ADDRESS1);
+// // STAGE 2 - FIX
+//
+//
+// 3. Fix the parser version of the call. // STAGE 2 - ALTERNATE FIX
+// Change all calls in parseEmployeeProfile(subjectId, s.getParser()) to use
+// the appropriate parser.method() call
+//
 
 public class UpdateProfile_i extends UpdateProfile
 {
@@ -47,13 +59,12 @@ public class UpdateProfile_i extends UpdateProfile
 
 		// Validate this parameter against a regular expression pattern designed for street
 		// addresses.
-		final Pattern PATTERN_ADDRESS1 = Pattern.compile("[a-zA-Z0-9,\\.\\- ]{0,80}"); // STAGE 2 -
-																						// FIX
-		String address1 = validate(request.getParameter(CrossSiteScripting.ADDRESS1), PATTERN_ADDRESS1); // STAGE
-																											// 2
-																											// -
-																											// FIX
 
+		// STAGE 2 - FIX
+		final Pattern PATTERN_ADDRESS1 = Pattern.compile("[a-zA-Z0-9,\\.\\- ]{0,80}");
+		String address1 = validate(request.getParameter(CrossSiteScripting.ADDRESS1), PATTERN_ADDRESS1);
+
+		
 		String address2 = request.getParameter(CrossSiteScripting.ADDRESS2);
 		int manager = Integer.parseInt(request.getParameter(CrossSiteScripting.MANAGER));
 		String startDate = request.getParameter(CrossSiteScripting.START_DATE);

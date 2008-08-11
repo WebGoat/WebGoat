@@ -5,10 +5,13 @@ import org.owasp.webgoat.lessons.CrossSiteScripting.ViewProfile;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
 
 
-/*
- * STAGE 4 FIXES Solution Summary: Look in the WebContent/lesson/CrossSiteScripting/ViewProfile.jsp
- * Look for the <-- STAGE 4 - FIX in the ViewProfile.jsp
- */
+// STAGE 4 FIXES
+//
+//Solution Summary: Look in the WebContent/lesson/CrossSiteScripting/ViewProfile.jsp
+//
+//Look for the <-- STAGE 4 - FIX    in the ViewProfile.jsp
+//
+//
 
 public class ViewProfile_i extends ViewProfile
 {
