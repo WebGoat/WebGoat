@@ -268,9 +268,8 @@ public class ReportCardScreen extends LessonAdapter
 	{
 		H2 h2 = new H2();
 		// FIXME: The session is the current session, not the session of the user we are reporting.
-		// String type = s.isAdmin() ? " [Administrative User]" : s.isHackedAdmin() ? " [Normal User
-		// - Hacked Admin
-		// Access]" : " [Normal User]";
+		// String type = s.isAdmin() ? " [Administrative User]" : s.isHackedAdmin() ?
+		// " [Normal User - Hacked Admin Access]" : " [Normal User]";
 		String type = "";
 		h2.addElement(new StringElement("Results for: " + user + type));
 		return h2;

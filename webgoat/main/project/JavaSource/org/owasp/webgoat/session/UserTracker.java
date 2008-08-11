@@ -184,8 +184,7 @@ public class UserTracker
 			usermap.put(screen.getTitle(), tracker);
 		}
 		// System.out.println( "User: [" + userName + "] UserTracker:getLessonTracker() LTH " +
-		// tracker.hashCode() + "
-		// for " + screen );
+		// tracker.hashCode() + " for " + screen );
 		return tracker;
 	}
 
@@ -261,9 +260,8 @@ public class UserTracker
 
 		LessonTracker tracker = getLessonTracker(s, screen);
 
-		// System.out.println( "User [" + s.getUserName() + "] TRACKER: updating " + screen + " LTH
-		// " +
-		// tracker.hashCode() );
+		// System.out.println( "User [" + s.getUserName() + "] TRACKER: updating " + screen +
+		// " LTH " + tracker.hashCode() );
 		tracker.store(s, screen);
 
 		HashMap<String, LessonTracker> usermap = getUserMap(s.getUserName());

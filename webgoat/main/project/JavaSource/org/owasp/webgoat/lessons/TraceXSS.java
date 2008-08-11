@@ -234,8 +234,7 @@ public class TraceXSS extends LessonAdapter
 	}
 
 	// <script type="text/javascript">if ( navigator.appName.indexOf("Microsoft") !=-1) {var xmlHttp
-	// = new
-	// ActiveXObject("Microsoft.XMLHTTP");xmlHttp.open("TRACE", "./", false);
+	// = new ActiveXObject("Microsoft.XMLHTTP");xmlHttp.open("TRACE", "./", false);
 	// xmlHttp.send();str1=xmlHttp.responseText;document.write(str1);}</script>
 
 	private final static Integer DEFAULT_RANKING = new Integer(130);

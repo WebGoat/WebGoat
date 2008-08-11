@@ -57,15 +57,23 @@ public class EditProfile_i extends EditProfile
 					if (answer_results.next())
 					{
 						// Note: Do NOT get the password field.
-						profile = new Employee(answer_results.getInt("userid"), answer_results.getString("first_name"),
-								answer_results.getString("last_name"), answer_results.getString("ssn"), answer_results
-										.getString("title"), answer_results.getString("phone"), answer_results
-										.getString("address1"), answer_results.getString("address2"), answer_results
-										.getInt("manager"), answer_results.getString("start_date"), answer_results
-										.getInt("salary"), answer_results.getString("ccn"), answer_results
-										.getInt("ccn_limit"), answer_results.getString("disciplined_date"),
-								answer_results.getString("disciplined_notes"), answer_results
-										.getString("personal_description"));
+						profile = new Employee(
+							answer_results.getInt("userid"), 
+							answer_results.getString("first_name"),
+							answer_results.getString("last_name"), 
+							answer_results.getString("ssn"), 
+							answer_results.getString("title"), 
+							answer_results.getString("phone"), 
+							answer_results.getString("address1"), 
+							answer_results.getString("address2"), 
+							answer_results.getInt("manager"), 
+							answer_results.getString("start_date"), 
+							answer_results.getInt("salary"), 
+							answer_results.getString("ccn"), 
+							answer_results.getInt("ccn_limit"), 
+							answer_results.getString("disciplined_date"),
+							answer_results.getString("disciplined_notes"), 
+							answer_results.getString("personal_description"));
 						/*
 						 * System.out.println("Retrieved employee from db: " +
 						 * profile.getFirstName() + " " + profile.getLastName() + " (" +

@@ -21,25 +21,34 @@ import org.owasp.webgoat.session.WebSession;
  * 
  */
 
-/*
- * STAGE 2 FIXES Solution Summary: Edit RoleBasedAccessControl.java and change handleRequest().
- * Modify handleRequest() with lines denoted by // STAGE 2 - FIX. Solution Steps: 1. This solution
- * adds an access control check in the controller. Point out that their architecture may require the
- * check to occur in the business function. 2. Look at the RoleBasedAccessControl class identify
- * where execution happens of an action. a. action.handleRequest(s); is not protected by an access
- * control check. b. look at handleRequest(s) to determine where access control check should occur.
- * c. add protection by a programmatic authorization check before dispatching to the action: 1. Add
- * an isAuthorized() call before dispatching to the action, and throw an unauthorized exception.
- * Tell student this exception exists. Use eclipse command completion to find the isAuthorized()
- * call on the action. From command completion - determine calling arguments of isAuthorized() int
- * userId = action.getUserId(s); if (action.isAuthorized(s, userId, action.getActionName())) {
- * action.handleRequest(s); } else throw new UnauthorizedException(); Repeat stage 1 and note that
- * the function fails with a "Not authorized" message. Tom will be in the list again, because the DB
- * is reset when lesson restarts. Adding the access check in the
- * RoleBasedAccessControl:handleRequest() is putting the check in the “Controller” The access check
- * can also be added to DeleteProfile.deleteEmployeeProfile(), which is putting the check in the
- * “Business Function”
- */
+/* STAGE 2 FIXES
+Solution Summary: Edit RoleBasedAccessControl.java and change handleRequest().  
+                  Modify handleRequest() with lines denoted by // STAGE 2 - FIX.
+Solution Steps: 
+1. This solution adds an access control check in the controller.
+   Point out that their architecture may require the check to occur in the business function.
+2. Look at the RoleBasedAccessControl class identify where execution happens of an action.
+	a. action.handleRequest(s); is not protected by an access control check.
+	b. look at handleRequest(s) to determine where access control check should occur.
+	c. add protection by a programmatic authorization check before dispatching to the action:
+		1. Add an isAuthorized() call before dispatching to the action, 
+		       and throw an unauthorized exception.  Tell student this exception exists. 
+		   Use eclipse command completion to find the isAuthorized() call on the action.  
+		   From command completion - determine calling arguments of isAuthorized()
+		   
+		    				int userId = action.getUserId(s); 
+							if (action.isAuthorized(s, userId, action.getActionName()))
+							{
+								action.handleRequest(s);
+							}
+							else				
+								throw new UnauthorizedException();
+
+Repeat stage 1 and note that the function fails with a "Not authorized" message.
+ Tom will be in the list again, because the DB is reset when lesson restarts.
+ Adding the access check in the RoleBasedAccessControl:handleRequest() is putting the check in the “Controller”
+ The access check can also be added to DeleteProfile.deleteEmployeeProfile(), which is putting the check in the “Business Function”
+*/
 
 public class RoleBasedAccessControl_i extends RoleBasedAccessControl
 {
