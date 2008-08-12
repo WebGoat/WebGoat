@@ -207,7 +207,7 @@ public abstract class Screen
 
 	public int getContentLength()
 	{
-		return content.toString().length();
+		return getContent().length();
 	}
 
 	/**
@@ -224,7 +224,7 @@ public abstract class Screen
 
 		// otherwise we're doing way too much SSL encryption work
 
-		out.print(content.toString());
+		out.print(getContent());
 
 	}
 
