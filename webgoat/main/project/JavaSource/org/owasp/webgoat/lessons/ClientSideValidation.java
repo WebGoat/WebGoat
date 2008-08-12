@@ -1,6 +1,7 @@
 
 package org.owasp.webgoat.lessons;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.ecs.Element;
@@ -140,8 +141,25 @@ public class ClientSideValidation extends SequentialLessonAdapter
 			ec.addElement(new HR().setWidth("90%"));
 
 			// test success
+			DecimalFormat money = new DecimalFormat("$0.00");
 
-			float grandTotal = s.getParser().getFloatParameter("GRANDTOT", 0.0f);
+			String grandTotalString = s.getParser().getStringParameter("GRANDTOT", "0");
+
+			float grandTotal = 1;
+
+			try
+			{
+				grandTotal = money.parse(grandTotalString).floatValue();
+			} catch (java.text.ParseException e)
+			{
+				try
+				{
+					grandTotal = Float.parseFloat(grandTotalString);
+				} catch (java.lang.NumberFormatException e1)
+				{
+					// eat exception, do not update grandTotal
+				}
+			}
 
 			if (getTotalQty(s) > 0 && grandTotal == 0 && !stage2FirstVisit)
 			{
@@ -186,9 +204,9 @@ public class ClientSideValidation extends SequentialLessonAdapter
 		tr.addElement(new TD().addElement("Total before coupon is applied:"));
 
 		tr.addElement(new TD().addElement(
-											new Input(Input.TEXT, "SUBTOT", s.getParser().getStringParameter("SUBTOT",
-																												"0"))
-													.setReadOnly(true)).setAlign("right"));
+											new Input(Input.TEXT, "SUBTOT", s.getParser()
+													.getStringParameter("SUBTOT", "$0.00")).setReadOnly(true)
+													.setStyle("border:0px;")).setAlign("right"));
 		t.addElement(tr);
 
 		tr = new TR();
@@ -196,8 +214,8 @@ public class ClientSideValidation extends SequentialLessonAdapter
 
 		tr.addElement(new TD().addElement(
 											new Input(Input.TEXT, "GRANDTOT", s.getParser()
-													.getStringParameter("GRANDTOT", "0")).setReadOnly(true))
-				.setAlign("right"));
+													.getStringParameter("GRANDTOT", "$0.00")).setReadOnly(true)
+													.setStyle("border:0px;")).setAlign("right"));
 		t.addElement(tr);
 
 		t.addElement(tr);
@@ -263,8 +281,9 @@ public class ClientSideValidation extends SequentialLessonAdapter
 
 		tr.addElement(new TD().addElement(
 											new Input(Input.TEXT, "PRC1", s.getParser().getStringParameter("PRC1",
-																											"69.99"))
-													.setSize(10).setReadOnly(true)).setAlign("right"));
+																											"$69.99"))
+													.setSize(10).setReadOnly(true).setStyle("border:0px;"))
+				.setAlign("right"));
 
 		Input input = new Input(Input.TEXT, "QTY1", s.getParser().getStringParameter("QTY1", "0"));
 
@@ -274,10 +293,11 @@ public class ClientSideValidation extends SequentialLessonAdapter
 
 		tr.addElement(new TD().addElement(input).setAlign("right"));
 
-		tr.addElement(new TD()
-				.addElement(
-							new Input(Input.TEXT, "TOT1", s.getParser().getStringParameter("TOT1", "0")).setSize(10)
-									.setReadOnly(true)).setAlign("right"));
+		tr.addElement(new TD().addElement(
+											new Input(Input.TEXT, "TOT1", s.getParser().getStringParameter("TOT1",
+																											"$0.00"))
+													.setSize(10).setReadOnly(true).setStyle("border:0px;"))
+				.setAlign("right"));
 
 		t.addElement(tr);
 		tr = new TR();
@@ -285,8 +305,9 @@ public class ClientSideValidation extends SequentialLessonAdapter
 
 		tr.addElement(new TD().addElement(
 											new Input(Input.TEXT, "PRC2", s.getParser().getStringParameter("PRC2",
-																											"27.99"))
-													.setSize(10).setReadOnly(true)).setAlign("right"));
+																											"$27.99"))
+													.setSize(10).setReadOnly(true).setStyle("border:0px;"))
+				.setAlign("right"));
 
 		input = new Input(Input.TEXT, "QTY2", s.getParser().getStringParameter("QTY2", "0"));
 
@@ -294,19 +315,20 @@ public class ClientSideValidation extends SequentialLessonAdapter
 		input.setSize(10);
 		tr.addElement(new TD().addElement(input).setAlign("right"));
 
-		tr.addElement(new TD()
-				.addElement(
-							new Input(Input.TEXT, "TOT2", s.getParser().getStringParameter("TOT2", "0")).setSize(10)
-									.setReadOnly(true)).setAlign("right"));
+		tr.addElement(new TD().addElement(
+											new Input(Input.TEXT, "TOT2", s.getParser().getStringParameter("TOT2",
+																											"$0.00"))
+													.setSize(10).setReadOnly(true).setStyle("border:0px;"))
+				.setAlign("right"));
 
 		t.addElement(tr);
 		tr = new TR();
 		tr.addElement(new TD().addElement("Hewlett-Packard - Pavilion Notebook with Intel® Centrino™"));
 
-		tr.addElement(new TD().addElement(
-											new Input(Input.TEXT, "PRC3", s.getParser().getStringParameter("PRC3",
-																											"1599.99"))
-													.setSize(10).setReadOnly(true)).setAlign("right"));
+		tr.addElement(new TD()
+				.addElement(
+							new Input(Input.TEXT, "PRC3", s.getParser().getStringParameter("PRC3", "$1599.99"))
+									.setSize(10).setReadOnly(true).setStyle("border:0px;")).setAlign("right"));
 
 		input = new Input(Input.TEXT, "QTY3", s.getParser().getStringParameter("QTY3", "0"));
 
@@ -314,10 +336,11 @@ public class ClientSideValidation extends SequentialLessonAdapter
 		input.setSize(10);
 		tr.addElement(new TD().addElement(input).setAlign("right"));
 
-		tr.addElement(new TD()
-				.addElement(
-							new Input(Input.TEXT, "TOT3", s.getParser().getStringParameter("TOT3", "0")).setSize(10)
-									.setReadOnly(true)).setAlign("right"));
+		tr.addElement(new TD().addElement(
+											new Input(Input.TEXT, "TOT3", s.getParser().getStringParameter("TOT3",
+																											"$0.00"))
+													.setSize(10).setReadOnly(true).setStyle("border:0px;"))
+				.setAlign("right"));
 
 		t.addElement(tr);
 		tr = new TR();
@@ -325,8 +348,9 @@ public class ClientSideValidation extends SequentialLessonAdapter
 
 		tr.addElement(new TD().addElement(
 											new Input(Input.TEXT, "PRC4", s.getParser().getStringParameter("PRC4",
-																											"299.99"))
-													.setSize(10).setReadOnly(true)).setAlign("right"));
+																											"$299.99"))
+													.setSize(10).setReadOnly(true).setStyle("border:0px;"))
+				.setAlign("right"));
 
 		input = new Input(Input.TEXT, "QTY4", s.getParser().getStringParameter("QTY4", "0"));
 
@@ -334,10 +358,11 @@ public class ClientSideValidation extends SequentialLessonAdapter
 		input.setSize(10);
 		tr.addElement(new TD().addElement(input).setAlign("right"));
 
-		tr.addElement(new TD()
-				.addElement(
-							new Input(Input.TEXT, "TOT4", s.getParser().getStringParameter("TOT4", "0")).setSize(10)
-									.setReadOnly(true)).setAlign("right"));
+		tr.addElement(new TD().addElement(
+											new Input(Input.TEXT, "TOT4", s.getParser().getStringParameter("TOT4",
+																											"$0.00"))
+													.setSize(10).setReadOnly(true).setStyle("border:0px;"))
+				.setAlign("right"));
 
 		t.addElement(tr);
 		ec.addElement(t);

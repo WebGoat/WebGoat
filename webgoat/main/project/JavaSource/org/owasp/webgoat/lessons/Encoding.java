@@ -21,6 +21,7 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.A;
 import org.apache.ecs.html.B;
+import org.apache.ecs.html.Div;
 import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
@@ -266,7 +267,7 @@ public class Encoding extends LessonAdapter
 
 			description = "Rot13 encoding is a way to make text unreadable, but is easily reversed and provides no security.";
 
-			t.addElement(makeRow(description, rot13(userInput), userInput));
+			t.addElement(makeRow(description, rot13(userInput), rot13(userInput)));
 
 			description = "XOR with password encoding is a weak encryption scheme that mixes a password into data.";
 
@@ -575,7 +576,7 @@ public class Encoding extends LessonAdapter
 			System.out.print("Hex encoding: ");
 			System.out.println(hexEncode(userInput) + " : " + hexDecode(userInput));
 			System.out.print("Rot13 encoding: ");
-			System.out.println(rot13(userInput) + " : " + userInput);
+			System.out.println(rot13(userInput) + " : " + rot13(userInput));
 			System.out.print("XOR with password: ");
 			System.out.println(xorEncode(userInput, userKey) + " : " + xorDecode(userInput, userKey));
 			System.out.print("Double unicode encoding is...");
@@ -604,8 +605,12 @@ public class Encoding extends LessonAdapter
 	{
 
 		TD desc = new TD().addElement(description).setBgColor("#bbbbbb");
-		TD val1 = new TD().addElement(value1).setBgColor("#dddddd");
-		TD val2 = new TD().addElement(value2).setBgColor("#dddddd");
+		TD val1 = new TD()
+				.addElement(new Div().addElement(value1).setStyle("overflow:auto; height:60px; width:100px;"))
+				.setBgColor("#dddddd");
+		TD val2 = new TD()
+				.addElement(new Div().addElement(value2).setStyle("overflow:auto; height:60px; width:100px;"))
+				.setBgColor("#dddddd");
 		TR tr = new TR();
 
 		tr.addElement(desc);

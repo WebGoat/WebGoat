@@ -453,9 +453,7 @@ public class CreateDB
 					+ "ssn VARCHAR(12)," + "password VARCHAR(10)," + "title VARCHAR(20)," + "phone VARCHAR(13),"
 					+ "address1 VARCHAR(80)," + "address2 VARCHAR(80)," + "manager INT," + "start_date CHAR(8),"
 					+ "salary INT," + "ccn VARCHAR(30)," + "ccn_limit INT," + "email VARCHAR(30)," // reason
-					// for
-					// the
-					// recent write-up
+					// for the recent write-up
 					+ "disciplined_date CHAR(8)," // date of write up, NA otherwise
 					+ "disciplined_notes VARCHAR(60)," // reason for the recent write-up
 					+ "personal_description VARCHAR(60)" // We can be rude here

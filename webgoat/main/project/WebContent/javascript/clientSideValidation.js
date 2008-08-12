@@ -75,8 +75,7 @@ function ajaxFunction(coupon)
       {
       if(xmlHttp.readyState==4)
         {
-        document.form.GRANDTOT.value = document.form.SUBTOT.value * xmlHttp.responseText;
-        document.form.GRANDTOT.value = dollarRound(document.form.GRANDTOT.value);
+        document.form.GRANDTOT.value = calcTot(document.form.SUBTOT.value , xmlHttp.responseText);
         }
       }
     xmlHttp.open("GET","lessons/Ajax/clientSideValidation.jsp?coupon=" + coupon,true);
@@ -88,26 +87,59 @@ function ajaxFunction(coupon)
 
 	f = document.form;
 	
-	f.TOT1.value = dollarRound(f.QTY1.value * f.PRC1.value);
-	f.TOT2.value = dollarRound(f.QTY2.value * f.PRC2.value);
-	f.TOT3.value = dollarRound(f.QTY3.value * f.PRC3.value);
-	f.TOT4.value = dollarRound(f.QTY4.value * f.PRC4.value);
+	f.TOT1.value = calcTot(f.PRC1.value , f.QTY1.value);
+	f.TOT2.value = calcTot(f.PRC2.value , f.QTY2.value);
+	f.TOT3.value = calcTot(f.PRC3.value , f.QTY3.value);
+	f.TOT4.value = calcTot(f.PRC4.value , f.QTY4.value);	
 	
-	f.SUBTOT.value = dollarRound(parseFloat(f.TOT1.value) + parseFloat(f.TOT2.value) + parseFloat(f.TOT3.value) + parseFloat(f.TOT4.value));
-
+	f.SUBTOT.value = formatCurrency(unFormat(f.TOT1.value) 
+							+ unFormat(f.TOT2.value) 
+							+ unFormat(f.TOT3.value) 
+							+ unFormat(f.TOT4.value));
 	
-	f.GRANDTOT.value = f.SUBTOT.value;
+	f.GRANDTOT.value = f.SUBTOT.value;	
 	
 	isValidCoupon(f.field1.value);
+	
+	
+}
+
+function unFormat(price){
+	
+	price = parseFloat(unFormatCurrency(price));
+
+	if(isNaN(price))
+		price = 0;
+	
+	return price;
 
 }
 
 function calcTot( price,  qty){
 	
-	return parseInt(qty * price *100)/100;
-
+	price = unFormatCurrency(price);
+	
+	return formatCurrency(price*qty);
 }
 
-function dollarRound(price){
-	return parseInt(price *100)/100;
+
+function unFormatCurrency(price){
+	price = price.toString().replace(/\$|\,/g,'');
+	return price;
+}
+
+function formatCurrency(num) {
+	num = num.toString().replace(/\$|\,/g,'');
+	if(isNaN(num))
+		num = "0";
+	sign = (num == (num = Math.abs(num)));
+	num = Math.floor(num*100+0.50000000001);
+	cents = num%100;
+	num = Math.floor(num/100).toString();
+	if(cents<10)
+		cents = "0" + cents;
+	for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+		num = num.substring(0,num.length-(4*i+3))+','+
+	num.substring(num.length-(4*i+3));
+	return (((sign)?'':'-') + '$' + num + '.' + cents);
 }

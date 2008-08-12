@@ -247,5 +247,8 @@
         <Comments></Comments>
         <DisciplinaryExplanation></DisciplinaryExplanation>
         <DisciplinaryDate>112005</DisciplinaryDate>        
+        <Managers>
+		<Manager>112</Manager>
+	</Managers>
     </Employee>
 </Employees>

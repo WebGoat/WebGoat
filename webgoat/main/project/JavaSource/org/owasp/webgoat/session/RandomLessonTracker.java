@@ -35,8 +35,16 @@ public class RandomLessonTracker extends LessonTracker
 	public void setStageComplete(String stage, boolean complete)
 	{
 		completed.put(stage, Boolean.valueOf(complete));
-		for (int i = 0; i < stages.length - 1; i++)
-			if (stages[i].equals(stage)) setStage(stages[i + 1]);
+		if (!complete) return;
+		int i = getStageNumber(stage);
+		if (i < stages.length - 1) setStage(stages[i + 1]);
+	}
+
+	public int getStageNumber(String stage)
+	{
+		for (int i = 0; i < stages.length; i++)
+			if (stages[i].equals(stage)) return i;
+		return -1;
 	}
 
 	public boolean hasCompleted(String stage)
@@ -81,8 +89,14 @@ public class RandomLessonTracker extends LessonTracker
 		for (int i = 0; i < stages.length; i++)
 		{
 			if (hasCompleted(stages[i]))
+			{
 				lessonProperties.setProperty(screen.getTitle() + "." + stages[i] + ".completed", Boolean.TRUE
 						.toString());
+			}
+			else
+			{
+				lessonProperties.remove(screen.getTitle() + "." + stages[i] + ".completed");
+			}
 		}
 		lessonProperties.setProperty(screen.getTitle() + ".stage", getStage());
 		super.store(s, screen, user);

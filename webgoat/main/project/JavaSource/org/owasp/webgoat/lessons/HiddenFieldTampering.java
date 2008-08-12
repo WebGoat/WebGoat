@@ -1,6 +1,7 @@
 
 package org.owasp.webgoat.lessons;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -97,6 +98,7 @@ public class HiddenFieldTampering extends LessonAdapter
 		float quantity;
 		float total;
 		String price = PRICE_TV;
+		DecimalFormat money = new DecimalFormat("$0.00");
 		try
 		{
 			price = s.getParser().getRawParameter(PRICE, PRICE_TV);
@@ -124,16 +126,16 @@ public class HiddenFieldTampering extends LessonAdapter
 
 			TR tr = new TR();
 			tr.addElement(new TH().addElement("Shopping Cart Items -- To Buy Now").setWidth("80%"));
-			tr.addElement(new TH().addElement("Price:").setWidth("10%"));
-			tr.addElement(new TH().addElement("Quantity:").setWidth("3%"));
+			tr.addElement(new TH().addElement("Price").setWidth("10%"));
+			tr.addElement(new TH().addElement("Quantity").setWidth("3%"));
 			tr.addElement(new TH().addElement("Total").setWidth("7%"));
 			t.addElement(tr);
 
 			tr = new TR();
 			tr.addElement(new TD().addElement("56 inch HDTV (model KTV-551)"));
 			tr.addElement(new TD().addElement(PRICE_TV).setAlign("right"));
-			tr.addElement(new TD().addElement(new Input(Input.TEXT, "QTY", 1)).setAlign("right"));
-			tr.addElement(new TD().addElement("$" + total));
+			tr.addElement(new TD().addElement(new Input(Input.TEXT, "QTY", 1).setSize(6)).setAlign("right"));
+			tr.addElement(new TD().addElement(money.format(total)));
 			t.addElement(tr);
 
 			ec.addElement(t);
@@ -148,7 +150,7 @@ public class HiddenFieldTampering extends LessonAdapter
 			ec.addElement(new BR());
 			tr = new TR();
 			tr.addElement(new TD().addElement("The total charged to your credit card:"));
-			tr.addElement(new TD().addElement("$" + total));
+			tr.addElement(new TD().addElement(money.format(total)));
 			tr.addElement(new TD().addElement(ECSFactory.makeButton("Update Cart")));
 			tr.addElement(new TD().addElement(ECSFactory.makeButton("Purchase", "validate()")));
 			t.addElement(tr);
