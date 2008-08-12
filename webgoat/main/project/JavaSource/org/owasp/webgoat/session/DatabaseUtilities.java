@@ -51,13 +51,12 @@ public class DatabaseUtilities
 	private static Map<String, Connection> connections = new HashMap<String, Connection>();
 	private static Map<String, Boolean> dbBuilt = new HashMap<String, Boolean>();
 
-	public static Connection getConnection(WebSession s) throws ClassNotFoundException, SQLException
+	public static Connection getConnection(WebSession s) throws SQLException
 	{
 		return getConnection(s.getUserName(), s.getWebgoatContext());
 	}
 
-	public static synchronized Connection getConnection(String user, WebgoatContext context)
-			throws ClassNotFoundException, SQLException
+	public static synchronized Connection getConnection(String user, WebgoatContext context) throws SQLException
 	{
 		Connection conn = connections.get(user);
 		if (conn != null && !conn.isClosed()) return conn;
@@ -87,8 +86,9 @@ public class DatabaseUtilities
 		}
 	}
 
-	private static Connection makeConnection(String user, WebgoatContext context) throws ClassNotFoundException,
-			SQLException
+	private static Connection makeConnection(String user, WebgoatContext context) throws SQLException
+	{
+		try
 	{
 		Class.forName(context.getDatabaseDriver());
 
@@ -98,6 +98,11 @@ public class DatabaseUtilities
 		String password = context.getDatabasePassword();
 		String url = context.getDatabaseConnectionString();
 		return DriverManager.getConnection(url, userPrefix + "_" + user, password);
+		} catch (ClassNotFoundException cnfe)
+		{
+			cnfe.printStackTrace();
+			throw new SQLException("Couldn't load the database driver: " + cnfe.getLocalizedMessage());
+		}
 	}
 
 	private static Connection getHsqldbConnection(String user, WebgoatContext context) throws ClassNotFoundException,

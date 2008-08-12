@@ -378,10 +378,6 @@ public class UpdateProfile extends DefaultLessonAction
 		{
 			sqle.printStackTrace();
 			s.setMessage("Error updating employee profile");
-		} catch (ClassNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return uid + 1;
 	}

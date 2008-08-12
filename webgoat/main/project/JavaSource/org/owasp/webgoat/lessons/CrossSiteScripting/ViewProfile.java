@@ -4,18 +4,14 @@ package org.owasp.webgoat.lessons.CrossSiteScripting;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.apache.ecs.xhtml.html;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.DefaultLessonAction;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
 import org.owasp.webgoat.session.Employee;
 import org.owasp.webgoat.session.ParameterNotFoundException;
-import org.owasp.webgoat.session.ParameterParser;
 import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.ValidationException;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.HtmlEncoder;
-import com.sun.corba.se.spi.activation.Server;
 
 
 /***************************************************************************************************

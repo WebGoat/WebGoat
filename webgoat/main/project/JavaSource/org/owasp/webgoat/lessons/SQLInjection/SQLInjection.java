@@ -115,7 +115,7 @@ public class SQLInjection extends GoatHillsFinancial
 				.add("Many of WebGoat's database queries are already parameterized.  Search the project for PreparedStatement.");
 
 		// Stage 3
-		hints.add("Try entering an employee_id of [ 101 OR 1=1 ORDER BY salary ].");
+		hints.add("Try entering an employee_id of [ 101 or 1=1 order by salary desc ].");
 
 		// Stage 4
 

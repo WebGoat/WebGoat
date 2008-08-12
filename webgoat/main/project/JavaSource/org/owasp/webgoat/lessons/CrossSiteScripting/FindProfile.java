@@ -17,7 +17,6 @@ import org.owasp.webgoat.session.UnauthenticatedException;
 import org.owasp.webgoat.session.UnauthorizedException;
 import org.owasp.webgoat.session.ValidationException;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.HtmlEncoder;
 
 
 /***************************************************************************************************

@@ -3,6 +3,7 @@ package org.owasp.webgoat.session;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -219,7 +220,7 @@ public class WebSession
 		course.loadCourses(webgoatContext, context, "/");
 	}
 
-	public static synchronized Connection getConnection(WebSession s) throws SQLException, ClassNotFoundException
+	public static synchronized Connection getConnection(WebSession s) throws SQLException
 	{
 		return DatabaseUtilities.getConnection(s);
 	}
@@ -727,6 +728,11 @@ public class WebSession
 		message.append("<BR>" + " * " + text);
 	}
 
+	public void setLineBreak(String text)
+	{
+		message.append("<BR><BR>" + text);
+	}
+
 	/**
 	 * Description of the Method
 	 * 
@@ -779,10 +785,11 @@ public class WebSession
 	 */
 	public String getUserName()
 	{
-		// System.out.println("Request: " + getRequest() );
-		// System.out.println("Principal: " + getRequest().getUserPrincipal() );
-		// System.out.println("Name: " + getRequest().getUserPrincipal().getName( ) );
-		return getRequest().getUserPrincipal().getName();
+		HttpServletRequest request = getRequest();
+		if (request == null) throw new RuntimeException("Could not find the ServletRequest in the web session");
+		Principal principal = request.getUserPrincipal();
+		if (principal == null) throw new RuntimeException("Could not find the Principal in the Servlet Request");
+		return principal.getName();
 	}
 
 	/**
@@ -888,6 +895,7 @@ public class WebSession
 					RandomLessonAdapter rla = (RandomLessonAdapter) al;
 					int stage = myParser.getIntParameter(STAGE) - 1;
 					String[] stages = rla.getStages();
+					if (stages == null) stages = new String[0];
 					if (stage >= 0 && stage < stages.length) rla.setStage(this, stages[stage]);
 				} catch (ParameterNotFoundException pnfe)
 				{
@@ -978,6 +986,11 @@ public class WebSession
 		{
 			SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
 			sla.getLessonTracker(this).setStage(1);
+		}
+		else if (al instanceof RandomLessonAdapter)
+		{
+			RandomLessonAdapter rla = (RandomLessonAdapter) al;
+			rla.setStage(this, rla.getStages()[0]);
 		}
 	}
 
