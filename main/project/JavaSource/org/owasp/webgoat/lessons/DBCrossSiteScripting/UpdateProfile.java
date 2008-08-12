@@ -118,10 +118,6 @@ public class UpdateProfile extends DefaultLessonAction
 					setStageComplete(s, DBCrossSiteScripting.STAGE2);
 				}
 
-			} catch (ClassNotFoundException e)
-			{
-				s.setMessage("Error updating employee profile");
-				e.printStackTrace();
 			}
 
 			try
@@ -146,10 +142,7 @@ public class UpdateProfile extends DefaultLessonAction
 		return DBCrossSiteScripting.VIEWPROFILE_ACTION;
 	}
 
-	public void changeEmployeeProfile(WebSession s, int userId, int subjectId, Employee employee) throws SQLException,
-			ClassNotFoundException
-	{
-		try
+	public void changeEmployeeProfile(WebSession s, int userId, int subjectId, Employee employee) throws SQLException
 		{
 			String update = " { CALL UPDATE_EMPLOYEE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 			CallableStatement call = WebSession.getConnection(s).prepareCall(update);
@@ -171,10 +164,6 @@ public class UpdateProfile extends DefaultLessonAction
 			call.setString(15, employee.getDisciplinaryActionNotes());
 			call.setString(16, employee.getPersonalDescription());
 			call.executeUpdate();
-		} catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
 	}
 
 	public void createEmployeeProfile(WebSession s, int userId, Employee employee) throws UnauthorizedException
@@ -230,10 +219,6 @@ public class UpdateProfile extends DefaultLessonAction
 		{
 			sqle.printStackTrace();
 			s.setMessage("Error updating employee profile");
-		} catch (ClassNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return uid + 1;
 	}

@@ -149,6 +149,9 @@ public class CrossSiteScripting extends GoatHillsFinancial
 		hints.add("Stage2: The java.util.regex package is useful for filtering string values.");
 
 		// Stage 3
+		hints
+				.add("Stage3: Browsers recognize and decode HTML entity encoded content after parsing and interpretting HTML tags.");
+		hints.add("Stage3: An HTML entity encoder is provided in the ParameterParser class.");
 
 		// Stage 4
 		hints
@@ -177,7 +180,7 @@ public class CrossSiteScripting extends GoatHillsFinancial
 			{
 				instructions = "Stage 1: Execute a Stored Cross Site Scripting (XSS) attack.<br>"
 						+ "As 'Tom', execute a Stored XSS attack against the Street field on the Edit Profile page.  "
-						+ "Verify that 'Jerry' is affected by the attack. <br/>The passwords for the accounts are the prenames.";
+						+ "Verify that 'Jerry' is affected by the attack. <br/>(The passwords for the accounts are the first names.)";
 			}
 			else if (STAGE2.equals(stage))
 			{
