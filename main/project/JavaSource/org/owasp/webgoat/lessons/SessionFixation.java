@@ -245,7 +245,7 @@ public class SessionFixation extends SequentialLessonAdapter
 				+ "During the last week we had a few problems with our database. "
 				+ "We have received many complaints regarding incorrect account details. "
 				+ "Please use the following link to verify your account "
-				+ "data:<br><br><center><a href=http://localhost/WebGoat/"
+				+ "data:<br><br><center><a href=/WebGoat/"
 				+ link
 				+ "> Goat Hills Financial</a></center><br><br>"
 				+ "We are sorry for the any inconvenience and thank you for your cooparation.<br><br>"

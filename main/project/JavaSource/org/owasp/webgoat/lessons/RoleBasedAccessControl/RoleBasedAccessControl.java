@@ -7,11 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.ecs.ElementContainer;
-import org.apache.ecs.StringElement;
-import org.apache.ecs.html.Body;
-import org.apache.ecs.html.Head;
-import org.apache.ecs.html.Html;
-import org.apache.ecs.html.Title;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.DefaultLessonAction;
 import org.owasp.webgoat.lessons.GoatHillsFinancial.FindProfile;
@@ -100,23 +95,24 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 	 */
 	protected List<String> getHints(WebSession s)
 	{
-		String stage = getStage(s);
 		List<String> hints = new ArrayList<String>();
 		hints.add("Many sites attempt to restrict access to resources by role.");
 		hints.add("Developers frequently make mistakes implementing this scheme.");
 		hints.add("Attempt combinations of users, roles, and resources.");
 
 		// Stage 1
-
 		hints.add("Stage1: How does the application know that the user selected the delete function?");
 
-		hints.add("Stage2: You have to code to check the authorization of the user for the action.");
 		// Stage 2
+		hints.add("Stage2: You have to code to check the authorization of the user for the action.");
+
 
 		// Stage 3
 		hints.add("Stage3: How does the application know that the user selected any particular employee to view?");
 
 		// Stage 4
+		hints.add("Note that the contents of the staff listing change depending on who is logged in.");
+
 		hints
 				.add("Stage4: You have to code to check the authorization of the user for the action on a certain employee.");
 
@@ -147,7 +143,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 				instructions = "Stage 1: Bypass Presentational Layer Access Control.<br>"
 						+ "As regular employee 'Tom', exploit weak access control to use the Delete function from the Staff List page.  "
 						+ "Verify that Tom's profile can be deleted."
-						+ "The password for a user is always his prename.";
+						+ "The password for a user is always their first name.";
 			}
 			else if (STAGE2.equals(stage))
 			{

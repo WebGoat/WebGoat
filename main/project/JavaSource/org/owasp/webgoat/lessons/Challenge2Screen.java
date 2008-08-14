@@ -26,6 +26,7 @@ import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Center;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.HR;
+import org.apache.ecs.html.IFrame;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.TD;
@@ -383,18 +384,14 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	{
 		ElementContainer ec = new ElementContainer();
 
-		// get current text and compare to the new text
-		String origpath = s.getContext().getRealPath(WEBGOAT_CHALLENGE + "_" + s.getUserName() + JSP);
-		String defaced = getFileText(new BufferedReader(new FileReader(origpath)), false);
-		String origText = getFileText(new BufferedReader(new FileReader(s.getContext()
-				.getRealPath(WEBGOAT_CHALLENGE_JSP))), false);
-
 		// show webgoat.jsp text
 		ec.addElement(new H1().addElement("Original Website Text"));
-		ec.addElement(new P().addElement(origText));
+		ec.addElement(new IFrame().setHeight("500").setWidth("100%").setSrc("/WebGoat/" + WEBGOAT_CHALLENGE_JSP));
 		ec.addElement(new HR());
 		ec.addElement(new H1().addElement("Defaced Website Text"));
-		ec.addElement(new P().addElement(defaced));
+		ec.addElement(new IFrame().setHeight("500").setWidth("100%").setSrc(
+																			"/WebGoat/" + WEBGOAT_CHALLENGE + "_"
+																					+ s.getUserName() + JSP));
 		ec.addElement(new HR());
 
 		return ec;

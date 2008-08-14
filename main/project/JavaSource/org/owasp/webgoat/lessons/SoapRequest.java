@@ -300,8 +300,8 @@ public class SoapRequest extends SequentialLessonAdapter
 			{
 				getLessonTracker(s).setStage(3);
 				s.setMessage("Stage 2 completed. ");
-				// s.setMessage("Now, you'll craft a SOAP envelope for invoking a web service
-				// directly.");
+				// s.setMessage(
+				// "Now, you'll craft a SOAP envelope for invoking a web service directly.");
 
 				// Redirect user to Stage2 content.
 				ec.addElement(doStage3(s));
@@ -347,7 +347,7 @@ public class SoapRequest extends SequentialLessonAdapter
 		// before completing the lesson.
 		if ((accessFirstName + accessLastName + accessCreditCard + accessLoginCount) >= 2)
 		{
-			/** Reset function access counters * */
+			/** Reset function access counters **/
 			accessFirstName = accessLastName = accessCreditCard = accessLoginCount = 0;
 			// SoapRequest.completed = true;
 			makeSuccess(s);
