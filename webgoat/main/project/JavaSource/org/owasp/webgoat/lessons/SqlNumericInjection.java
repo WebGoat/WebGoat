@@ -316,7 +316,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 				+ "\"SELECT * FROM weather_data WHERE station = \" + station ");
 		hints.add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. "
 				+ "Try appending a SQL statement that always resolves to true.");
-		hints.add("Try to intercept the post request with WebScarab and replace the station " + "with 101 OR 1 = 1");
+		hints.add("Try to intercept the post request with WebScarab and replace the station " + "with [ 101 OR 1 = 1 ].");
 
 		return hints;
 	}

@@ -1,6 +1,7 @@
 
 package org.owasp.webgoat.lessons;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -76,6 +77,8 @@ public class ReflectedXSS extends LessonAdapter
 			float total = 0.0f;
 			float runningTotal = 0.0f;
 
+			DecimalFormat money = new DecimalFormat("$0.00");
+
 			// test input field1
 			if (!pattern1.matcher(param1).matches())
 			{
@@ -110,36 +113,36 @@ public class ReflectedXSS extends LessonAdapter
 			tr.addElement(new TD().addElement("69.99").setAlign("right"));
 			tr.addElement(new TD().addElement(
 												new Input(Input.TEXT, "QTY1", s.getParser().getStringParameter("QTY1",
-																												"1")))
-					.setAlign("right"));
+																												"1"))
+														.setSize(6)).setAlign("right"));
 			quantity = s.getParser().getFloatParameter("QTY1", 0.0f);
 			total = quantity * 69.99f;
 			runningTotal += total;
-			tr.addElement(new TD().addElement("$" + total));
+			tr.addElement(new TD().addElement(money.format(total)));
 			t.addElement(tr);
 			tr = new TR();
 			tr.addElement(new TD().addElement("Dynex - Traditional Notebook Case"));
 			tr.addElement(new TD().addElement("27.99").setAlign("right"));
 			tr.addElement(new TD().addElement(
 												new Input(Input.TEXT, "QTY2", s.getParser().getStringParameter("QTY2",
-																												"1")))
-					.setAlign("right"));
+																												"1"))
+														.setSize(6)).setAlign("right"));
 			quantity = s.getParser().getFloatParameter("QTY2", 0.0f);
 			total = quantity * 27.99f;
 			runningTotal += total;
-			tr.addElement(new TD().addElement("$" + total));
+			tr.addElement(new TD().addElement(money.format(total)));
 			t.addElement(tr);
 			tr = new TR();
 			tr.addElement(new TD().addElement("Hewlett-Packard - Pavilion Notebook with Intel Centrino"));
 			tr.addElement(new TD().addElement("1599.99").setAlign("right"));
 			tr.addElement(new TD().addElement(
 												new Input(Input.TEXT, "QTY3", s.getParser().getStringParameter("QTY3",
-																												"1")))
-					.setAlign("right"));
+																												"1"))
+														.setSize(6)).setAlign("right"));
 			quantity = s.getParser().getFloatParameter("QTY3", 0.0f);
 			total = quantity * 1599.99f;
 			runningTotal += total;
-			tr.addElement(new TD().addElement("$" + total));
+			tr.addElement(new TD().addElement(money.format(total)));
 			t.addElement(tr);
 			tr = new TR();
 			tr.addElement(new TD().addElement("3 - Year Performance Service Plan $1000 and Over "));
@@ -147,12 +150,12 @@ public class ReflectedXSS extends LessonAdapter
 
 			tr.addElement(new TD().addElement(
 												new Input(Input.TEXT, "QTY4", s.getParser().getStringParameter("QTY4",
-																												"1")))
-					.setAlign("right"));
+																												"1"))
+														.setSize(6)).setAlign("right"));
 			quantity = s.getParser().getFloatParameter("QTY4", 0.0f);
 			total = quantity * 299.99f;
 			runningTotal += total;
-			tr.addElement(new TD().addElement("$" + total));
+			tr.addElement(new TD().addElement(money.format(total)));
 			t.addElement(tr);
 
 			ec.addElement(t);
@@ -168,7 +171,7 @@ public class ReflectedXSS extends LessonAdapter
 
 			tr = new TR();
 			tr.addElement(new TD().addElement("The total charged to your credit card:"));
-			tr.addElement(new TD().addElement("$" + runningTotal));
+			tr.addElement(new TD().addElement(money.format(runningTotal)));
 			tr.addElement(new TD().addElement(ECSFactory.makeButton("Update Cart")));
 			t.addElement(tr);
 			tr = new TR();

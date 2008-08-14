@@ -2,9 +2,9 @@
 	import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.RoleBasedAccessControl.RoleBasedAccessControl" 
 	errorPage="" %>
 <%
-	Employee employee = (Employee) session.getAttribute("RoleBasedAccessControl." + RoleBasedAccessControl.EMPLOYEE_ATTRIBUTE_KEY);
 	WebSession webSession = ((WebSession)session.getAttribute("websession"));
-//	int myUserId = getIntSessionAttribute(webSession, "RoleBasedAccessControl." + RoleBasedAccessControl.USER_ID);
+	Employee employee = (Employee) session.getAttribute("RoleBasedAccessControl." + RoleBasedAccessControl.EMPLOYEE_ATTRIBUTE_KEY);
+	//int myUserId = webSession.getUserIdInLesson();
 %>
 		<div class="lesson_title_box"><strong>Welcome Back </strong><span class="lesson_text_db"><%=webSession.getUserNameInLesson()%></span> - View Profile Page</div>
 		<div class="lesson_text">
@@ -13,71 +13,71 @@
 						First Name:
 					</TD>
 					<TD>
-						<span class="lesson_text_db"><%=employee.getFirstName()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getFirstName())%></span>
 					</TD>
 					<TD>				
 						Last Name:
 					</TD>
 					<TD>
-					 	<span class="lesson_text_db"><%=employee.getLastName()%></span>
+					 	<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getLastName())%></span>
 					</TD>
 				</TR>
 				<TR><TD>				
 						Street: 
 					</TD>
 					<TD>
-						<span class="lesson_text_db"><%=employee.getAddress1()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getAddress1())%></span>
 					</TD>
 					<TD>				
 						City/State: 
 					<TD>
-						<span class="lesson_text_db"><%=employee.getAddress2()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getAddress2())%></span>
 					</TD>
 				</TR>
 				<TR><TD>
 						Phone: 
 					</TD>
 					<TD>
-						<span class="lesson_text_db"><%=employee.getPhoneNumber()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getPhoneNumber())%></span>
 					</TD>
 					<TD>				
 						Start Date: 
 					</TD>
 					<TD>
-						<span class="lesson_text_db"><%=employee.getStartDate()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getStartDate())%></span>
 					</TD>
 				</TR>
 				<TR><TD>
 			    		SSN: 
 			    	</TD>
 			    	<TD>
-			    		<span class="lesson_text_db"><%=employee.getSsn()%></span>
+			    		<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getSsn())%></span>
 					</TD>
 					<TD>				
 						Salary: 
 					</TD>
 					<TD>
-						<span class="lesson_text_db"><%=employee.getSalary()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getSalary())%></span>
 					</TD>
 				</TR>
 				<TR><TD>
 						Credit Card: 
 					</TD>
 					<TD>
-						<span class="lesson_text_db"><%=employee.getCcn()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getCcn())%></span>
 					</TD>
 					<TD>				
 						Credit Card Limit: 
 					</TD>
 					<TD>
-						<span class="lesson_text_db"><%=employee.getCcnLimit()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getCcnLimit())%></span>
 					</TD>
 				</TR>
 				<TR><TD>
 						Comments: 
 					</TD>
 					<TD colspan="3">
-						<span class="lesson_text_db"><%=employee.getPersonalDescription()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getPersonalDescription())%></span>
 					</TD>
 				</TR>				
 				<TR>
@@ -88,11 +88,11 @@
 						Disc. Dates: 
 					</TD>
 					<TD>
-						<span class="lesson_text_db"><%=employee.getDisciplinaryActionDate()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getDisciplinaryActionDate())%></span>
 					</TD>
 				<TR>
 					<TD colspan="4">
-						<span class="lesson_text_db"><%=employee.getDisciplinaryActionNotes()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getDisciplinaryActionNotes())%></span>
 					</TD>
 				</TR>
 				<TR>
@@ -100,7 +100,7 @@
 						Manager: 
 					</TD>
 					<TD>
-						<span class="lesson_text_db"><%=employee.getManager()%></span>
+						<span class="lesson_text_db"><%=(employee == null ? "unknown" : employee.getManager())%></span>
 					</TD>	
 				</TR>
 				</Table>
@@ -114,7 +114,7 @@
 					 {
 					 %>
 						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
-							<input type="hidden" name="<%=RoleBasedAccessControl.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
+							<input type="hidden" name="<%=RoleBasedAccessControl.EMPLOYEE_ID%>" value="<%=(employee == null ? "unknown" : employee.getId())%>">
 							<input type="submit" name="action" value="<%=RoleBasedAccessControl.LISTSTAFF_ACTION%>"/>
 						</form>
 					 <%
@@ -126,7 +126,7 @@
 					 {
 					 %>
 						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
-							<input type="hidden" name="<%=RoleBasedAccessControl.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
+							<input type="hidden" name="<%=RoleBasedAccessControl.EMPLOYEE_ID%>" value="<%=(employee == null ? "unknown" : employee.getId())%>">
 							<input type="submit" name="action" value="<%=RoleBasedAccessControl.EDITPROFILE_ACTION%>"/>
 						</form>
 					<%
@@ -139,7 +139,7 @@
 					{
 					%>
 						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
-							<input type="hidden" name="<%=RoleBasedAccessControl.EMPLOYEE_ID%>" value="<%=employee.getId()%>">
+							<input type="hidden" name="<%=RoleBasedAccessControl.EMPLOYEE_ID%>" value="<%=(employee == null ? "unknown" : employee.getId())%>">
 							<input type="submit" name="action" value="<%=RoleBasedAccessControl.DELETEPROFILE_ACTION%>"/>
 						</form>
 					<%

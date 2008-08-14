@@ -131,8 +131,8 @@ public class UncheckedEmail extends LessonAdapter
 				s.setMessage("The attack worked! Now try to attack another person than the admin.");
 			}
 
-			// only complete the lesson if they changed the "to" hidden field and they sen a
-			// scripttag in the message
+			// only complete the lesson if they changed the "to" hidden field and they send a
+			// script tag in the message
 			if (to.length() > 0 && !"webgoat.admin@owasp.org".equals(to) && message.contains("<script"))
 			{
 				makeSuccess(s);

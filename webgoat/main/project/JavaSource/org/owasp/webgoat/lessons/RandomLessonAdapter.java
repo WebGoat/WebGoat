@@ -1,6 +1,10 @@
 
 package org.owasp.webgoat.lessons;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import org.owasp.webgoat.session.CreateDB;
+import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.LessonTracker;
 import org.owasp.webgoat.session.RandomLessonTracker;
 import org.owasp.webgoat.session.WebSession;
@@ -14,6 +18,19 @@ public abstract class RandomLessonAdapter extends LessonAdapter
 	public void setStage(WebSession s, String stage)
 	{
 		getLessonTracker(s).setStage(stage);
+		try
+		{
+			Connection connection = DatabaseUtilities.getConnection(s);
+
+			CreateDB db = new CreateDB();
+			db.makeDB(connection);
+			System.out.println("Successfully refreshed the database.");
+
+		} catch (SQLException sqle)
+		{
+			System.out.println("Error refreshing the database!");
+			sqle.printStackTrace();
+		}
 	}
 
 	public String getStage(WebSession s)
@@ -31,8 +48,22 @@ public abstract class RandomLessonAdapter extends LessonAdapter
 		}
 		else
 		{
-			s.setMessage("You have completed " + stage + ".");
-			if (!stage.equals(lt.getStage())) s.setMessage(" Welcome to " + lt.getStage());
+			s.setMessage("You have completed Stage " + (lt.getStageNumber(stage) + 1) + ": " + stage + ".");
+			if (!stage.equals(lt.getStage()))
+				s.setMessage(" Welcome to Stage " + (lt.getStageNumber(lt.getStage()) + 1) + ": " + lt.getStage());
+		}
+		try
+		{
+			Connection connection = DatabaseUtilities.getConnection(s);
+
+			CreateDB db = new CreateDB();
+			db.makeDB(connection);
+			System.out.println("Successfully refreshed the database.");
+
+		} catch (SQLException sqle)
+		{
+			System.out.println("Error refreshing the database!");
+			sqle.printStackTrace();
 		}
 	}
 

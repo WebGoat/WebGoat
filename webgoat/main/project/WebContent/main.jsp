@@ -98,6 +98,7 @@ StringBuffer buildList = new StringBuffer();
 	    		<% if (lesson instanceof RandomLessonAdapter) {
 					RandomLessonAdapter rla = (RandomLessonAdapter) lesson;
 					String[] stages = rla.getStages();
+					if (stages != null)
 					for (int i=0; i<stages.length; i++) {
 	    		%>
 			    		<tr><td class="pviimenudivstage"><%=(rla.isStageComplete(webSession, stages[i]) ? lessonComplete : "")%><a href="<%=lesson.getLink() + "&stage=" + (i+1) %>">Stage <%=i+1%>: <%=stages[i] %></a>
@@ -216,7 +217,17 @@ StringBuffer buildList = new StringBuffer();
 				<br/>
 				<a href="javascript:toggle('lessonPlans')" target="_top" onclick="MM_nbGroup('down','group1','plans','',1)">Close this Window</a>
 				</div>
-				<div id="lessonContent"><%=webSession.getInstructions()%></div>
+				<div id="lessonContent">
+		    		<% 
+		    		AbstractLesson lesson = webSession.getCurrentLesson();
+		    		if (lesson instanceof RandomLessonAdapter) {
+					RandomLessonAdapter rla = (RandomLessonAdapter) lesson;
+	    		%>
+			    		<div class="info">Stage <%= rla.getLessonTracker(webSession).getStageNumber(rla.getStage(webSession)) + 1 %></div>
+				<% 
+					}
+				%>
+				<%=webSession.getInstructions()%></div>
 				<div id="message" class="info"><%=webSession.getMessage()%></div>
 	
 			<%

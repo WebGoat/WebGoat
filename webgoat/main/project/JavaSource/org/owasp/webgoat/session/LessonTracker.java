@@ -162,13 +162,13 @@ public class LessonTracker
 	protected void setProperties(Properties props, Screen screen)
 	{
 		completed = Boolean.valueOf(props.getProperty(screen.getTitle() + ".completed")).booleanValue();
-		maxHintLevel = Integer.parseInt(props.getProperty(screen.getTitle() + ".maxHintLevel"));
-		numVisits = Integer.parseInt(props.getProperty(screen.getTitle() + ".numVisits"));
-		viewedCookies = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedCookies")).booleanValue();
-		viewedHtml = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedHtml")).booleanValue();
-		viewedLessonPlan = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedLessonPlan")).booleanValue();
-		viewedParameters = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedParameters")).booleanValue();
-		viewedSource = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedSource")).booleanValue();
+		maxHintLevel = Integer.parseInt(props.getProperty(screen.getTitle() + ".maxHintLevel", "0"));
+		numVisits = Integer.parseInt(props.getProperty(screen.getTitle() + ".numVisits", "0"));
+		viewedCookies = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedCookies", "false")).booleanValue();
+		viewedHtml = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedHtml", "false")).booleanValue();
+		viewedLessonPlan = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedLessonPlan", "false")).booleanValue();
+		viewedParameters = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedParameters", "false")).booleanValue();
+		viewedSource = Boolean.valueOf(props.getProperty(screen.getTitle() + ".viewedSource", "false")).booleanValue();
 	}
 
 	public static String getUserDir(WebSession s)
