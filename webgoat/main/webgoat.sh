@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 SYSTEM=`uname -s`
 CATALINA_HOME=./tomcat
@@ -7,25 +7,29 @@ export CATALINA_HOME PATH
 
 chmod +x ./$CATALINA_HOME/bin/*.sh
 if [ $SYSTEM = "Darwin" ]; then
-        JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home
+        JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
         export JAVA_HOME
 
 else
 
-is_java_1dot5() {
-        if [ "X$JAVA_HOME" != "X" -a -d $JAVA_HOME ]; then
-                $JAVA_HOME/bin/java -version 2>&1 | grep 'version \"1.5' >/dev/null
+is_java_1dot6() {
+	if [ -z "$JAVA_HOME" ]; then
+        	export JAVA_HOME=$(dirname $(readlink -f $(which javac)))/../
+	fi
+
+        if [ "X$JAVA_HOME" != "X" -a $JAVA_HOME ]; then
+                $JAVA_HOME/bin/java -version 2>&1 | grep 'version "1.6' >/dev/null
                 if [ $? -ne 0 ]; then
-                        echo "The JVM in \$JAVA_HOME isn't version 1.5."
+                        echo "The JVM in \$JAVA_HOME isn't version 1.6."
                         exit 1
                 fi
         else
-                echo "Please set JAVA_HOME to a Java 1.5 JDK install"
+                echo "Please set JAVA_HOME to a Java 1.6 JDK install"
                 exit 1
         fi
 }
 
-is_java_1dot5
+is_java_1dot6
 
 fi
 
