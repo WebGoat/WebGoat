@@ -386,11 +386,11 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 		// show webgoat.jsp text
 		ec.addElement(new H1().addElement("Original Website Text"));
-		ec.addElement(new IFrame().setHeight("500").setWidth("100%").setSrc("/WebGoat/" + WEBGOAT_CHALLENGE_JSP));
+		ec.addElement(new IFrame().setHeight("500").setWidth("100%").setSrc(s.getRequest().getContextPath() + "/" + WEBGOAT_CHALLENGE_JSP));
 		ec.addElement(new HR());
 		ec.addElement(new H1().addElement("Defaced Website Text"));
 		ec.addElement(new IFrame().setHeight("500").setWidth("100%").setSrc(
-																			"/WebGoat/" + WEBGOAT_CHALLENGE + "_"
+				s.getRequest().getContextPath() + "/" + WEBGOAT_CHALLENGE + "_"
 																					+ s.getUserName() + JSP));
 		ec.addElement(new HR());
 

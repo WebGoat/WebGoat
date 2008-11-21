@@ -136,7 +136,7 @@ public class WSDLScanning extends LessonAdapter
 		return "WSDL Scanning";
 	}
 
-	public Object accessWGService(String serv, int port, String proc, String parameterName, Object parameterValue)
+	public Object accessWGService(WebSession s, String serv, int port, String proc, String parameterName, Object parameterValue)
 	{
 		String targetNamespace = "WebGoat";
 		try
@@ -150,7 +150,7 @@ public class WSDLScanning extends LessonAdapter
 			call.setReturnType(XMLType.XSD_STRING);
 			call.setUsername("guest");
 			call.setPassword("guest");
-			call.setTargetEndpointAddress("http://localhost:" + port + "/WebGoat/services/" + serv);
+			call.setTargetEndpointAddress("http://localhost:" + port + "/" + s.getRequest().getContextPath() + "/services/" + serv);
 			Object result = call.invoke(new Object[] { parameterValue });
 			return result;
 		} catch (RemoteException e)
@@ -214,7 +214,7 @@ public class WSDLScanning extends LessonAdapter
 			for (int i = 0; i < fields.length; i++)
 			{
 				header.addElement(new TD().addElement(fields[i]));
-				results.addElement(new TD().addElement((String) accessWGService("WSDLScanning", port, fields[i],
+				results.addElement(new TD().addElement((String) accessWGService(s, "WSDLScanning", port, fields[i],
 																				"acct_num", new Integer(id))));
 			}
 			if (fields.length == 0)
