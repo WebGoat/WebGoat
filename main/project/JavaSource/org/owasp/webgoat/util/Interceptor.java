@@ -123,8 +123,8 @@ public class Interceptor implements Filter
 
 		String url = req.getRequestURL().toString();
 
-		RequestDispatcher disp = req.getRequestDispatcher(url.substring(url.lastIndexOf("WebGoat/")
-				+ "WebGoat".length()));
+		RequestDispatcher disp = req.getRequestDispatcher(url.substring(url.lastIndexOf(req.getContextPath() + "/")
+				+ req.getContextPath().length()));
 
 		disp.forward(request, response);
 

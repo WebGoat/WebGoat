@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Shopping Cart Concurrency Flaw</title>
-<link rel="stylesheet" type="text/css" href="/WebGoat/lesson_solutions/formate.css">
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
 </head>
 <body>
 <p><b>Lesson Plan Title:</b> Shopping Cart Concurrency Flaw</p>
@@ -19,13 +19,13 @@ For this exercise, your mission is to exploit the concurrency issue which will a
 <b>Solution:</b><br/><br/>
 1. Open a new browser window on the same page.<br/><br/>
 2. In window A you choose a low cost item and click "Purchase".<br/><br/>
-<img src="/WebGoat/lesson_solutions/ConcurrencyCart_files/image001.jpg"><br/>
+<img src="lesson_solutions/ConcurrencyCart_files/image001.jpg"><br/>
 <font size="2"><b>Window A</b></font><br/><br/><br/>
 3. In window B you choose the a high cost item you want to buy and click "update cart". The variable of the price has been overwritten now.<br/><br/>
-<img src="/WebGoat/lesson_solutions/ConcurrencyCart_files/image002.jpg"><br/>
+<img src="lesson_solutions/ConcurrencyCart_files/image002.jpg"><br/>
 <font size="2"><b>Window B</b></font><br/><br/><br/>
 4. In window A you can click click "Confirm" and you bought your item for a lower price.<br/><br/>
-<img src="/WebGoat/lesson_solutions/ConcurrencyCart_files/image003.jpg"><br/>
+<img src="lesson_solutions/ConcurrencyCart_files/image003.jpg"><br/>
 <font size="2"><b>Window A Success</b></font><br/>
 <br><br><br>
 </body>

