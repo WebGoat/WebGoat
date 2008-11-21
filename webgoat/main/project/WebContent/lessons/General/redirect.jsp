@@ -7,10 +7,10 @@
 <title>HTTP Splitting</title>
 </head>
 <body>
-<% response.sendRedirect("/WebGoat/attack?" +
-		        "Screen=" + request.getParameter("Screen") +
-		        "&menu=" + request.getParameter("menu") +
-		        "&fromRedirect=yes&language=" + request.getParameter("language")); 
+<% response.sendRedirect(request.getContextPath() + "/attack?" +
+ 		        "Screen=" + request.getParameter("Screen") +
+ 		        "&menu=" + request.getParameter("menu") +
+ 		        "&fromRedirect=yes&language=" + request.getParameter("language")); 
 %>
 </body>
 </html>
