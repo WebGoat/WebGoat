@@ -65,8 +65,8 @@ public class HttpSplitting extends SequentialLessonAdapter
 	public void handleRequest(WebSession s)
 	{
 		// Setting a special action to be able to submit to redirect.jsp
-		Form form = new Form("/WebGoat/lessons/General/redirect.jsp?" + "Screen=" + String.valueOf(getScreenId())
-				+ "&menu=" + getDefaultCategory().getRanking().toString(), Form.POST).setName("form").setEncType("");
+		Form form = new Form(s.getRequest().getContextPath() + "/lessons/General/redirect.jsp?" + "Screen=" + String.valueOf(getScreenId())
+ 				+ "&menu=" + getDefaultCategory().getRanking().toString(), Form.POST).setName("form").setEncType("");
 
 		form.addElement(createContent(s));
 
