@@ -180,7 +180,8 @@ public class CrossSiteScripting extends GoatHillsFinancial
 			{
 				instructions = "Stage 1: Execute a Stored Cross Site Scripting (XSS) attack.<br>"
 						+ "As 'Tom', execute a Stored XSS attack against the Street field on the Edit Profile page.  "
-						+ "Verify that 'Jerry' is affected by the attack. <br/>(The passwords for the accounts are the first names.)";
+						+ "Verify that 'Jerry' is affected by the attack. <br/>The passwords for the accounts are the lower-case " 
+						+ "versions of their given names (e.g. the password for Tom Cat is \"tom\").";
 			}
 			else if (STAGE2.equals(stage))
 			{
