@@ -111,7 +111,7 @@ public class HttpSplitting extends SequentialLessonAdapter
 					StringBuffer msg = new StringBuffer();
 
 					msg.append("Good Job! ");
-					msg.append("This lesson has detected your successfull attack, ");
+					msg.append("This lesson has detected your successful attack, ");
 					msg.append("time to elevate your attack to a higher level. ");
 					msg.append("Try again and add Last-Modified header, intercept");
 					msg.append("the reply and replace it with a 304 reply.");
