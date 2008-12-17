@@ -110,8 +110,7 @@ public class DOMInjection extends LessonAdapter
 				+ lineSep + "   }" + lineSep + "   req.open('GET', url, true);" + lineSep
 				+ "   req.onreadystatechange = callback;" + lineSep + "   req.send(null);" + lineSep + "}" + lineSep
 				+ "function callback() {" + lineSep + "    if (req.readyState == 4) { " + lineSep
-				+ "        if (req.status == 200) { " + lineSep + "            var message = req.responseText;"
-				+ lineSep + "   var result = req.responseXML.getElementsByTagName('reward');" + lineSep
+				+ "        if (req.status == 200) { " + lineSep + "            var message = req.responseText;" + lineSep
 				+ "    var messageDiv = document.getElementById('MessageDiv');" + lineSep + "  try {" + lineSep
 				+ "			 eval(message);" + lineSep + "    " + lineSep
 				+ "        messageDiv.innerHTML = 'Correct licence Key.' " + lineSep + "      }" + lineSep
@@ -130,6 +129,7 @@ public class DOMInjection extends LessonAdapter
 		tr.addElement(new TD(new StringElement("License Key: ")));
 
 		Input input1 = new Input(Input.TEXT, KEY, "");
+		input1.setID(KEY);
 		input1.addAttribute("onkeyup", "validate();");
 		tr.addElement(new TD(input1));
 		t1.addElement(tr);
@@ -144,6 +144,7 @@ public class DOMInjection extends LessonAdapter
 		b.setType(Input.SUBMIT);
 		b.setValue("Activate!");
 		b.setName("SUBMIT");
+		b.setID("SUBMIT");
 		b.setDisabled(true);
 		tr.addElement(new TD("&nbsp;"));
 		tr.addElement(new TD(b));
