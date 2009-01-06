@@ -140,30 +140,30 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 			String stage = getStage(s);
 			if (STAGE1.equals(stage))
 			{
-				instructions = "Stage 1: Bypass Presentational Layer Access Control.<br>"
+				instructions = "Stage 1: Bypass Presentational Layer Access Control.<br />"
 						+ "As regular employee 'Tom', exploit weak access control to use the Delete function from the Staff List page. "
 						+ "Verify that Tom's profile can be deleted. "
 						+ "The passwords for users are their given names in lowercase (e.g. the password for Tom Cat is \"tom\").";
 			}
 			else if (STAGE2.equals(stage))
 			{
-				instructions = "Stage 2: Add Business Layer Access Control.<br><br/>"
-						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
+				instructions = "Stage 2: Add Business Layer Access Control.<br><br />"
+						+ "<b><font color=\"blue\"> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br /><br />"
 						+ "Implement a fix to deny unauthorized access to the Delete function. "
-						+ "Repeat stage 1.  Verify that access to Delete is properly denied.<br/>"
-						+ "To do this you have to alter code.";
+						+ "To do this, you will have to alter the WebGoat code. "
+						+ "Once you have done this, repeat stage 1 and verify that access to DeleteProfile functionality is properly denied.";
 			}
 			else if (STAGE3.equals(stage))
 			{
-				instructions = "Stage 3: Breaking Data Layer Access Control.<br>"
+				instructions = "Stage 3: Breaking Data Layer Access Control.<br />"
 						+ "As regular employee 'Tom', exploit weak access control to View another employee's profile. Verify the access.";
 			}
 			else if (STAGE4.equals(stage))
 			{
-				instructions = "Stage 4: Add Data Layer Access Control.<br><br/>"
-						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br/><br/>"
+				instructions = "Stage 4: Add Data Layer Access Control.<br><br />"
+						+ "<b><font color=\"blue\"> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br /><br />"
 						+ "Implement a fix to deny unauthorized access to this data. "
-						+ "Repeat stage 3.  Verify that access to other employee's profiles is properly denied.";
+						+ "Once you have done this, repeat stage 3, and verify that access to other employee's profiles is properly denied.";
 			}
 		}
 
