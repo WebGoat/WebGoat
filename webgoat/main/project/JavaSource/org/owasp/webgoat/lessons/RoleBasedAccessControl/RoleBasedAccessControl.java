@@ -141,9 +141,9 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 			if (STAGE1.equals(stage))
 			{
 				instructions = "Stage 1: Bypass Presentational Layer Access Control.<br>"
-						+ "As regular employee 'Tom', exploit weak access control to use the Delete function from the Staff List page.  "
-						+ "Verify that Tom's profile can be deleted."
-						+ "The password for a user is always their first name.";
+						+ "As regular employee 'Tom', exploit weak access control to use the Delete function from the Staff List page. "
+						+ "Verify that Tom's profile can be deleted. "
+						+ "The passwords for users are their given names in lowercase (e.g. the password for Tom Cat is \"tom\").";
 			}
 			else if (STAGE2.equals(stage))
 			{
