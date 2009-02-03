@@ -218,8 +218,8 @@ public class CreateDB
 		String insertData6 = "INSERT INTO user_data VALUES (103,'Jane','Plane','333498703333','AMEX',' ',0)";
 		String insertData7 = "INSERT INTO user_data VALUES (10312,'Jolly','Hershey','176896789','MC',' ',0)";
 		String insertData8 = "INSERT INTO user_data VALUES (10312,'Jolly','Hershey','333300003333','AMEX',' ',0)";
-		String insertData9 = "INSERT INTO user_data VALUES (10323,'Grumpy','White','673834489','MC',' ',0)";
-		String insertData10 = "INSERT INTO user_data VALUES (10323,'Grumpy','White','33413003333','AMEX',' ',0)";
+		String insertData9 = "INSERT INTO user_data VALUES (10323,'Grumpy','youaretheweakestlink','673834489','MC',' ',0)";
+		String insertData10 = "INSERT INTO user_data VALUES (10323,'Grumpy','youaretheweakestlink','33413003333','AMEX',' ',0)";
 		String insertData11 = "INSERT INTO user_data VALUES (15603,'Peter','Sand','123609789','MC',' ',0)";
 		String insertData12 = "INSERT INTO user_data VALUES (15603,'Peter','Sand','338893453333','AMEX',' ',0)";
 		String insertData13 = "INSERT INTO user_data VALUES (15613,'Joesph','Something','33843453533','AMEX',' ',0)";
