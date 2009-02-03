@@ -110,7 +110,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	/**
 	 * Description of the Field
 	 */
-	protected final static String USER = "s";
+	protected final static String USER = "user";
 
 	/**
 	 * Description of the Field
@@ -165,10 +165,10 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 		// <START_OMIT_SOURCE>
 		// these are red herrings for the first stage
-		Input input = new Input(Input.HIDDEN, USER, "White");
+		Input input = new Input(Input.HIDDEN, USER, user);
 		ec.addElement(input);
 
-		Cookie newCookie = new Cookie(USER_COOKIE, "White");
+		Cookie newCookie = new Cookie(USER_COOKIE, Encoding.base64Encode(user));
 		s.getResponse().addCookie(newCookie);
 		// <END_OMIT_SOURCE>
 
@@ -190,7 +190,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	{
 		// <START_OMIT_SOURCE>
 
-		Cookie newCookie = new Cookie(USER_COOKIE, "White");
+		Cookie newCookie = new Cookie(USER_COOKIE, Encoding.base64Encode(user));
 		s.getResponse().addCookie(newCookie);
 
 		ElementContainer ec = new ElementContainer();
@@ -209,7 +209,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
 		// pull the USER_COOKIE from the cookies
-		String user = getCookie(s);
+		String user = Encoding.base64Decode(getCookie(s));
 		String query = "SELECT * FROM user_data WHERE last_name = '" + user + "'";
 		Vector<String> v = new Vector<String>();
 
@@ -246,7 +246,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			ec.addElement(t);
 
 			ec.addElement(new BR());
-			Input input = new Input(Input.HIDDEN, USER, "White");
+			Input input = new Input(Input.HIDDEN, USER, user);
 			ec.addElement(input);
 
 			// STAGE 3 BUTTON
