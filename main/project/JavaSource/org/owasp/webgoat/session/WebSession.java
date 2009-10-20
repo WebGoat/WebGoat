@@ -991,7 +991,10 @@ public class WebSession
 		{
 			RandomLessonAdapter rla = (RandomLessonAdapter) al;
 			rla.setStage(this, rla.getStages()[0]);
-		}
+		} 
+		else if(al instanceof org.owasp.webgoat.lessons.MaliciousFileExecution) {
+			((org.owasp.webgoat.lessons.MaliciousFileExecution) al).restartLesson(this);
+		} 
 	}
 
 	/**
