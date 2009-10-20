@@ -76,6 +76,45 @@ public class CreateDB
 		}
 	}
 
+    /**
+     * Description of the Method
+     *
+     * @param connection Description of the Parameter
+     *
+     * @exception SQLException Description of the Exception
+     */
+    private void createMFEImagesTable(Connection connection) throws SQLException
+    {
+		Statement statement = connection.createStatement();
+	
+		// Drop mfe_images table
+		try
+		{
+		    String dropTable = "DROP TABLE mfe_images";
+		    statement.executeUpdate(dropTable);
+		}
+		catch (SQLException e)
+		{
+		    System.out.println("Error dropping mfe_images table from database");
+		}
+	
+		// Create the new mfe_images table
+		try
+		{
+		    String createTableStatement = "CREATE TABLE mfe_images ("
+			    + "user_name varchar(50) not null, "
+			    + "image_relative_url varchar(50) not null"
+			    + ")";
+		    statement.executeUpdate(createTableStatement);
+		}
+		catch (SQLException e)
+		{
+		    System.out.println("Error creating mfe_images table in database");
+		    e.printStackTrace();
+		}
+
+    }
+	
 	/**
 	 * Description of the Method
 	 * 
@@ -267,6 +306,53 @@ public class CreateDB
 
 	}
 
+	// creates the table pins which is used in the blind sql injection lesson
+	private void createBlindSQLLessonTable(Connection connection) throws SQLException
+    {
+		Statement statement = connection.createStatement();
+	
+		// Delete table if there is one
+		try
+		{
+		    String dropTable = "DROP TABLE pins";
+		    statement.executeUpdate(dropTable);
+		}
+		catch (SQLException e)
+		{
+		    System.out.println("Error dropping pins table");
+		}
+	
+		// Create the new table
+		try
+		{
+		    String createTableStatement = "CREATE TABLE pins ("
+			    + "cc_number varchar(30),"
+			    + "pin int," 
+			    + "name varchar(20)" 
+			    + ")";
+		    statement.executeUpdate(createTableStatement);
+		}
+		catch (SQLException e)
+		{
+		    System.out.println("Error creating pins table");
+		    e.printStackTrace();
+		}
+	
+		// Populate it
+		String insertData1 = "INSERT INTO pins VALUES ('987654321098765', 1234, 'Joe')";
+		String insertData2 = "INSERT INTO pins VALUES ('1234567890123456', 4567, 'Jack')";
+		String insertData3 = "INSERT INTO pins VALUES ('4321432143214321', 4321, 'Jill')";
+		String insertData4 = "INSERT INTO pins VALUES ('1111111111111111', 7777, 'Jim')";
+		String insertData5 = "INSERT INTO pins VALUES ('1111222233334444', 2364, 'John')";
+		
+		statement.executeUpdate(insertData1);
+		statement.executeUpdate(insertData2);
+		statement.executeUpdate(insertData3);
+		statement.executeUpdate(insertData4);
+		statement.executeUpdate(insertData5);
+	
+    }
+	
 	/**
 	 * Description of the Method
 	 * 
@@ -897,6 +983,7 @@ public class CreateDB
 		System.out.println("Successful connection to database");
 		createUserDataTable(connection);
 		createLoginTable(connection);
+		createBlindSQLLessonTable(connection);
 		createUserAdminTable(connection);
 		createProductTable(connection);
 		createMessageTable(connection);
@@ -908,6 +995,7 @@ public class CreateDB
 		createTransactionTable(connection);
 		createTanUserDataTable(connection);
 		createTanTable(connection);
+		createMFEImagesTable(connection);
 		System.out.println("Success: creating tables.");
 	}
 }

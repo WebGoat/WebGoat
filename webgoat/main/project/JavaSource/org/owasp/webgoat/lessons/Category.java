@@ -69,13 +69,15 @@ public class Category implements Comparable
 
 	public final static Category INSECURE_STORAGE = new Category("Insecure Storage", new Integer(1500));
 
-	public final static Category PARAMETER_TAMPERING = new Category("Parameter Tampering", new Integer(1600));
+	public final static Category MALICIOUS_EXECUTION = new Category("Malicious Execution", new Integer(1600));
+	
+	public final static Category PARAMETER_TAMPERING = new Category("Parameter Tampering", new Integer(1700));
 
-	public final static Category SESSION_MANAGEMENT = new Category("Session Management Flaws", new Integer(1700));
+	public final static Category SESSION_MANAGEMENT = new Category("Session Management Flaws", new Integer(1800));
 
-	public final static Category WEB_SERVICES = new Category("Web Services", new Integer(1800));
+	public final static Category WEB_SERVICES = new Category("Web Services", new Integer(1900));
 
-	public final static Category ADMIN_FUNCTIONS = new Category("Admin Functions", new Integer(1900));
+	public final static Category ADMIN_FUNCTIONS = new Category("Admin Functions", new Integer(2000));
 
 	public final static Category CHALLENGE = new Category("Challenge", new Integer(3000));
 
@@ -95,6 +97,7 @@ public class Category implements Comparable
 		categories.add(XSS);
 		categories.add(BUFFER_OVERFLOW);
 		categories.add(INJECTION);
+		categories.add(MALICIOUS_EXECUTION);
 		categories.add(ERROR_HANDLING);
 		categories.add(INSECURE_STORAGE);
 		categories.add(DOS);
