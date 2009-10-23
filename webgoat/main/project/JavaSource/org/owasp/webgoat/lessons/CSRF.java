@@ -6,11 +6,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.B;
+import org.apache.ecs.html.BR;
+import org.apache.ecs.html.Form;
 import org.apache.ecs.html.H1;
 import org.apache.ecs.html.HR;
 import org.apache.ecs.html.IMG;
@@ -58,7 +64,8 @@ import org.owasp.webgoat.util.HtmlEncoder;
  */
 public class CSRF extends LessonAdapter
 {
-
+	protected static final String TRANSFER_FUNDS_PARAMETER = "transferFunds";
+	protected static final String TRANSFER_FUNDS_PAGE = "main";
 	private final static String MESSAGE = "message";
 	private final static int MESSAGE_COL = 3;
 	private final static String NUMBER = "Num";
@@ -108,15 +115,59 @@ public class CSRF extends LessonAdapter
 	protected Element createContent(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-
-		addMessage(s);
-		ec.addElement(makeInput(s));
-		ec.addElement(new HR());
-		ec.addElement(makeCurrent(s));
-		ec.addElement(new HR());
-		ec.addElement(makeList(s));
-
+		
+		if (isTransferFunds(s)){
+			ec.addElement(doTransfer(s));
+		} else {
+			addMessage(s);
+			ec.addElement(makeInput(s));
+			ec.addElement(new HR());
+			ec.addElement(makeCurrent(s));
+			ec.addElement(new HR());
+			ec.addElement(makeList(s));
+		}
 		return ec;
+	}
+
+	/**
+	 * if TRANSFER_FUND_PARAMETER is a parameter, then doTransfer is invoked.  doTranser presents the 
+	 * web content to display the electronic transfer of funds.  An request
+	 * should have a dollar amount specified.  When this page is accessed it will mark the lesson complete  
+	 * 
+	 * @param s
+	 * @return Element will appropriate web content for a transfer of funds.
+	 */
+	protected Element doTransfer(WebSession s) {
+		String transferFunds = HtmlEncoder.encode(s.getParser().getRawParameter(TRANSFER_FUNDS_PARAMETER, ""));
+		ElementContainer ec = new ElementContainer();
+		
+		if (transferFunds.equalsIgnoreCase(TRANSFER_FUNDS_PAGE)){
+			
+			//transfer form
+			ec.addElement(new H1("Electronic Transfer:"));
+			String action = getLink();
+			Form form = new Form(action, Form.POST);
+			form.addElement( new Input(Input.text, TRANSFER_FUNDS_PARAMETER, "0"));
+			//if this token is present we won't mark the lesson as completed
+			form.addElement( new Input(Input.submit));
+			ec.addElement(form);
+			//present transfer funds form
+		} else if (transferFunds.length() != 0){
+			
+			//transfer is confirmed
+			ec.addElement(new H1("Electronic Transfer Complete"));
+			ec.addElement(new StringElement("Amount Transfered: "+transferFunds));
+			makeSuccess(s);
+		} 
+		return ec;
+	}
+
+	/**
+	 * @param s current web session
+	 * @return true if the page should be rendered as a Transfer of funds page or false for the normal message posting page.
+	 */
+	protected boolean isTransferFunds(WebSession s) {
+		return s.getRequest().getParameterMap().containsKey(TRANSFER_FUNDS_PARAMETER);
 	}
 
 	/**
@@ -142,7 +193,8 @@ public class CSRF extends LessonAdapter
 		row2.addElement(item1);
 
 		TD item2 = new TD();
-		TextArea ta = new TextArea(MESSAGE, 5, 60);
+		TextArea ta = new TextArea(MESSAGE, 12, 60);
+		ta.addAttribute("wrap", "soft");
 		item2.addElement(ta);
 		row2.addElement(item2);
 		t.addElement(row1);
@@ -281,7 +333,7 @@ public class CSRF extends LessonAdapter
 		return Category.XSS;
 	}
 
-	private final static Integer DEFAULT_RANKING = new Integer(120);
+	private final static Integer DEFAULT_RANKING = new Integer(121);
 
 	@Override
 	protected Integer getDefaultRanking()

