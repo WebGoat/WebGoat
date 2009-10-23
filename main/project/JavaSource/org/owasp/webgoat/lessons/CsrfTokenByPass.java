@@ -175,7 +175,7 @@ public class CsrfTokenByPass extends CsrfPromptByPass
 		credits.addElement(new StringElement("Contributed by "));
 		credits.addElement(partnet);
 		credits.addElement(new BR());
-		credits.addElement(new StringElement("Derived from CSRF Lesson by Sherif Koussa"));
+		credits.addElement(new StringElement("Derived from Sherif Koussa's CSRF Lesson"));
 		return credits;
 	}
 }
