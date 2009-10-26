@@ -192,9 +192,9 @@ html>body #navBar li {}
 
 #topRight {
 	position:absolute;
-	left:715px;
+	left:485px;
 	top:0px;
-	width:75px;
+	width:320px;
 	height:23px;
 	z-index:3;
 	float: right;

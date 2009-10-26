@@ -18,6 +18,7 @@ import org.apache.ecs.html.PRE;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -113,17 +114,14 @@ public class SqlStringInjection extends SequentialLessonAdapter
 
 						StringBuffer msg = new StringBuffer();
 
-						msg.append("Bet you can't do it again! ");
-						msg.append("This lesson has detected your successful attack ");
-						msg.append("and has now switched to a defensive mode. ");
-						msg.append("Try again to attack a parameterized query.");
+						msg.append(WebGoatI18N.get("NumericSqlInjectionSecondStage1"));
 
 						s.setMessage(msg.toString());
 					}
 				}
 				else
 				{
-					ec.addElement("No results matched.  Try Again.");
+					ec.addElement(WebGoatI18N.get("NoResultsMatched"));
 				}
 			} catch (SQLException sqle)
 			{
@@ -132,7 +130,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 			}
 		} catch (Exception e)
 		{
-			s.setMessage("Error generating " + this.getClass().getName());
+			s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
 			e.printStackTrace();
 		}
 
@@ -143,9 +141,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 	{
 		ElementContainer ec = new ElementContainer();
 
-		ec.addElement("Now that you have successfully performed an SQL injection, try the same "
-				+ " type of attack on a parameterized query.  Restart the lesson if you wish "
-				+ " to return to the injectable query");
+		ec.addElement(WebGoatI18N.get("StringSqlInjectioNSecondStage"));
 		if (s.getParser().getRawParameter(ACCT_NAME, "YOUR_NAME").equals("restart"))
 		{
 			getLessonTracker(s).getLessonProperties().setProperty(STAGE, "1");
@@ -184,7 +180,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 				}
 				else
 				{
-					ec.addElement("No results matched.  Try Again.");
+					ec.addElement(WebGoatI18N.get("NoResultsMatched"));
 				}
 			} catch (SQLException sqle)
 			{
@@ -192,7 +188,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 			}
 		} catch (Exception e)
 		{
-			s.setMessage("Error generating " + this.getClass().getName());
+			s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
 			e.printStackTrace();
 		}
 
@@ -202,13 +198,13 @@ public class SqlStringInjection extends SequentialLessonAdapter
 	protected Element makeAccountLine(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-		ec.addElement(new P().addElement("Enter your last name: "));
+		ec.addElement(new P().addElement(WebGoatI18N.get("EnterLastName")));
 
 		accountName = s.getParser().getRawParameter(ACCT_NAME, "Your Name");
 		Input input = new Input(Input.TEXT, ACCT_NAME, accountName.toString());
 		ec.addElement(input);
 
-		Element b = ECSFactory.makeButton("Go!");
+		Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
 		ec.addElement(b);
 
 		return ec;
@@ -233,12 +229,11 @@ public class SqlStringInjection extends SequentialLessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("The application is taking your input and inserting it at the end of a pre-formed SQL command.");
-		hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
-				+ "\"SELECT * FROM user_data WHERE last_name = \" + accountName ");
-		hints.add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR."
-				+ "Try appending a SQL statement that always resolves to true");
-		hints.add("Try entering [ smith' OR '1' = '1 ].");
+		
+		hints.add(WebGoatI18N.get("SqlStringInjectionHint1"));
+		hints.add(WebGoatI18N.get("SqlStringInjectionHint2"));
+		hints.add(WebGoatI18N.get("SqlStringInjectionHint3"));
+		hints.add(WebGoatI18N.get("SqlStringInjectionHint4"));
 
 		return hints;
 	}

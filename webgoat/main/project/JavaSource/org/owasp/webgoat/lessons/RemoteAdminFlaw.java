@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -56,11 +57,6 @@ public class RemoteAdminFlaw extends LessonAdapter
 		{
 			makeSuccess(s);
 		}
-		else
-		{
-			ec.addElement("WebGoat has an admin interface.  To 'complete' this lesson you must figure "
-					+ "out how to access the administrative interface for WebGoat.");
-		}
 		return ec;
 
 	}
@@ -83,12 +79,11 @@ public class RemoteAdminFlaw extends LessonAdapter
 	public List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("WebGoat has 2 admin interfaces.");
-		hints.add("WebGoat has one admin interface that is controlled via a URL parameter and is 'hackable'");
-		hints
-				.add("WebGoat has one admin interface that is controlled via server side security constraints and should not be 'hackable'");
-		hints.add("Follow the Source!");
-		hints.add("On success you will see new submenu items in the menupoint 'Admin Functions'");
+		hints.add(WebGoatI18N.get("RemoteAdminFlawHint1"));
+		hints.add(WebGoatI18N.get("RemoteAdminFlawHint2"));
+		hints.add(WebGoatI18N.get("RemoteAdminFlawHint3"));
+		hints.add(WebGoatI18N.get("RemoteAdminFlawHint4"));
+		hints.add(WebGoatI18N.get("RemoteAdminFlawHint5"));
 
 		return hints;
 	}

@@ -13,6 +13,7 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -101,12 +102,12 @@ public class BasicAuthentication extends SequentialLessonAdapter
 			{
 				if (headerName.length() > 0 && !headerName.equalsIgnoreCase(AUTHORIZATION))
 				{
-					s.setMessage("Basic Authentication header name is incorrect.");
+					s.setMessage(WebGoatI18N.get("BasicAuthHeaderNameIncorrect"));
 				}
 				if (headerValue.length() > 0
 						&& !(headerValue.equals("guest:guest") || headerValue.equals("webgoat:webgoat")))
 				{
-					s.setMessage("Basic Authentication header value is incorrect.");
+					s.setMessage(WebGoatI18N.get("BasicAuthHeaderValueIncorrect"));
 
 				}
 			}
@@ -120,8 +121,8 @@ public class BasicAuthentication extends SequentialLessonAdapter
 
 			TR row1 = new TR();
 			TR row2 = new TR();
-			row1.addElement(new TD(new StringElement("What is the name of the authentication header: ")));
-			row2.addElement(new TD(new StringElement("What is the decoded value of the authentication header: ")));
+			row1.addElement(new TD(new StringElement(WebGoatI18N.get("BasicAuthenticationWhatIsNameOfHeader"))));
+			row2.addElement(new TD(new StringElement(WebGoatI18N.get("BasicAuthenticationWhatIsDecodedValueOfHeader"))));
 
 			row1.addElement(new TD(new Input(Input.TEXT, HEADER_NAME, headerName.toString())));
 			row2.addElement(new TD(new Input(Input.TEXT, HEADER_VALUE, headerValue.toString())));
@@ -132,7 +133,7 @@ public class BasicAuthentication extends SequentialLessonAdapter
 			ec.addElement(t);
 			ec.addElement(new P());
 
-			Element b = ECSFactory.makeButton("Submit");
+			Element b = ECSFactory.makeButton(WebGoatI18N.get("Submit"));
 			ec.addElement(b);
 
 		} catch (Exception e)
@@ -158,7 +159,7 @@ public class BasicAuthentication extends SequentialLessonAdapter
 				getLessonTracker(s, originalUser).setStage(1);
 				getLessonTracker(s, originalUser).store(s, this);
 				makeSuccess(s);
-				s.setMessage("Close your browser and login as " + originalUser + " to get your green stars back.");
+				s.setMessage(WebGoatI18N.get("BasicAuthenticiationGreenStars1")+ originalUser + WebGoatI18N.get("BasicAuthenticationGreenStars2"));
 				return ec;
 			}
 			else
@@ -184,11 +185,7 @@ public class BasicAuthentication extends SequentialLessonAdapter
 					getLessonTracker(s, BASIC).store(s, this, BASIC);
 				}
 
-				s.setMessage("Congratulations, you have figured out the mechanics of basic authentication.");
-				s.setMessage("&nbsp;&nbsp;- Now you must try to make WebGoat reauthenticate you as:  ");
-				s.setMessage("&nbsp;&nbsp;&nbsp;&nbsp;- username:  basic");
-				s.setMessage("&nbsp;&nbsp;&nbsp;&nbsp;- password:  basic");
-				s.setMessage("Use the Basic Authentication Menu to start at login page.");
+				s.setMessage(WebGoatI18N.get("BasicAuthenticationStage1Completed"));
 
 				// If the auth header is different but still the original user - tell the user
 				// that the original cookie was posted bak and basic auth uses the cookie before the
@@ -196,32 +193,28 @@ public class BasicAuthentication extends SequentialLessonAdapter
 				if (!originalAuth.equals("") && !originalAuth.equals(s.getHeader(AUTHORIZATION)))
 				{
 					ec
-							.addElement("You're almost there!  You've modified the "
+							.addElement(WebGoatI18N.get("BasicAuthenticationAlmostThere1")
 									+ AUTHORIZATION
-									+ " header but you are "
-									+ "still logged in as "
+									+ WebGoatI18N.get("BasicAuthenticationAlmostThere2")
 									+ s.getUserName()
-									+ ".  Look at the request after you typed in the 'basic' "
-									+ "user credentials and submitted the request.  Remember the order of events that occur during Basic Authentication.");
+									+ WebGoatI18N.get("BasicAuthenticationAlmostThere3"));
 				}
 				else if (!originalSessionId.equals(s.getCookie(JSESSIONID)))
 				{
 					ec
-							.addElement("You're really close!  Changing the session cookie caused the server to create a new session for you.  This did not cause the server to reauthenticate you.  "
-									+ "When you figure out how to force the server to perform an authentication request, you have to authenticate as:<br><br>"
-									+ "&nbsp;&nbsp;&nbsp;&nbsp;user name: basic<br> "
-									+ "&nbsp;&nbsp;&nbsp;&nbsp;password: basic<br>");
+							.addElement(WebGoatI18N.get("BasicAuthenticationReallyClose"));
+									
 				}
 				else
 				{
-					ec.addElement("Use the hints!  One at a time...");
+					ec.addElement(WebGoatI18N.get("BasicAuthenticationUseTheHints"));
 				}
 
 			}
 
 		} catch (Exception e)
 		{
-			s.setMessage("Error generating " + this.getClass().getName());
+			s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
 			e.printStackTrace();
 		}
 
@@ -252,22 +245,19 @@ public class BasicAuthentication extends SequentialLessonAdapter
 		// switch ( stage )
 		// {
 		// case 1:
-		hints.add("Basic authentication uses a cookie to pass the credentials. "
-				+ "Use a proxy to intercept the request.  Look at the cookies.");
-		hints.add("Basic authentication uses Base64 encoding to 'scramble' the " + "user's login credentials.");
-		hints.add("Basic authentication uses 'Authorization' as the cookie name to " + "store the user's credentials.");
-		hints.add("Use WebScarab -> Tools -> Transcoder to Base64 decode the "
-				+ "the value in the Authorization cookie.");
+		hints.add(WebGoatI18N.get("BasicAuthenticationHint1"));
+		hints.add(WebGoatI18N.get("BasicAuthenticationHint2"));
+		hints.add(WebGoatI18N.get("BasicAuthenticationHint3"));
+		hints.add(WebGoatI18N.get("BasicAuthenticationHint4"));
+		
 		// break;
 		// case 2:
-		hints.add("Basic authentication uses a cookie to pass the credentials. "
-				+ "Use a proxy to intercept the request.  Look at the cookies.");
-		hints.add("Before the WebServer requests credentials from the client, the current "
-				+ "session is checked for validitity.");
-		hints.add("If the session is invalid the webserver will use the basic authentication credentials");
-		hints.add("If the session is invalid and the basic authentication credentials are invalid, "
-				+ "new credentials will be requested from the client.");
-		hints.add("Intercept the request and corrupt the JSESSIONID and the Authorization header.");
+		hints.add(WebGoatI18N.get("BasicAuthenticationHint5"));
+		hints.add(WebGoatI18N.get("BasicAuthenticationHint6"));
+		hints.add(WebGoatI18N.get("BasicAuthenticationHint7"));
+		hints.add(WebGoatI18N.get("BasicAuthenticationHint8"));
+		hints.add(WebGoatI18N.get("BasicAuthenticationHint9"));
+		
 		// break;
 		// }
 

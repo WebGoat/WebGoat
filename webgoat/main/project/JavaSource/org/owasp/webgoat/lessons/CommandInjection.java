@@ -16,6 +16,7 @@ import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.util.Exec;
 import org.owasp.webgoat.util.ExecResults;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -78,7 +79,7 @@ public class CommandInjection extends LessonAdapter
 				}
 				index = index + 1;
 				int helpFileLen = helpFile.length() - 1; // subtract 1 for the closing quote
-				System.out.println("Command = [" + helpFile.substring(index, helpFileLen).trim().toLowerCase() + "]");
+				System.out.println(WebGoatI18N.get("Command")+" = [" + helpFile.substring(index, helpFileLen).trim().toLowerCase() + "]");
 				if ((osName.indexOf("Windows") != -1 && (helpFile.substring(index, helpFileLen).trim().toLowerCase()
 						.equals("netstat -a")
 						|| helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("dir")
@@ -96,9 +97,8 @@ public class CommandInjection extends LessonAdapter
 				}
 				else
 				{
-					s.setMessage("It appears that you are on the right track.  "
-							+ "Commands that may compromise the operating system have been disabled.  "
-							+ "The following commands are allowed: netstat -a, dir, ls, ifconfig, and ipconfig");
+					s.setMessage(WebGoatI18N.get("CommandInjectionRightTrack1"));
+							
 				}
 			}
 
@@ -114,9 +114,7 @@ public class CommandInjection extends LessonAdapter
 					}
 					else
 					{
-						s.setMessage("It appears that you are on the right track.  "
-								+ "Commands that may compromise the operating system have been disabled.  "
-								+ "This lesson is a command injection lesson, not access control.");
+						s.setMessage(WebGoatI18N.get("CommandInjectionRightTrack2"));
 					}
 				}
 				else
@@ -125,10 +123,10 @@ public class CommandInjection extends LessonAdapter
 					illegalCommand = false;
 				}
 			}
-			File safeDir = new File(s.getContext().getRealPath("/lesson_plans"));
+			File safeDir = new File(s.getContext().getRealPath("/lesson_plans/English"));
 
-			ec.addElement(new StringElement("You are currently viewing: <b>"
-					+ (helpFile.toString().length() == 0 ? "&lt;select file from list below&gt;" : helpFile.toString())
+			ec.addElement(new StringElement(WebGoatI18N.get("YouAreCurrentlyViewing")+"<b>"
+					+ (helpFile.toString().length() == 0 ? "&lt;"+WebGoatI18N.get("SelectFileFromListBelow")+"&gt;" : helpFile.toString())
 					+ "</b>"));
 
 			if (!illegalCommand)
@@ -153,11 +151,11 @@ public class CommandInjection extends LessonAdapter
 					fileData = exec(s, cmd2);
 				}
 
-				ec.addElement(new P().addElement("Select the lesson plan to view: "));
+				ec.addElement(new P().addElement(WebGoatI18N.get("SelectLessonPlanToView")));
 				ec.addElement(ECSFactory.makePulldown(HELP_FILE, parseResults(results.replaceAll("(?s)\\.html",
 																									"\\.help"))));
 				// ec.addElement( results );
-				Element b = ECSFactory.makeButton("View");
+				Element b = ECSFactory.makeButton(WebGoatI18N.get("View"));
 				ec.addElement(b);
 				// Strip out some of the extra html from the "help" file
 				ec.addElement(new BR());
@@ -272,27 +270,14 @@ public class CommandInjection extends LessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("The application is using a system command to return the contents of a file.");
-		hints
-				.add("The ampersand(&) separates commands in the Windows 2000 command shell. In Unix the separator is typically a semi-colon(;)");
-		hints.add("Use a proxy to insert & netstat -a on Windows or ;netstat -a on Unix.");
-		hints.add("Note that the server may enclose the submitted file name within quotes");
+		hints.add(WebGoatI18N.get("CommandInjectionHint1"));
+		hints.add(WebGoatI18N.get("CommandInjectionHint2"));
+		hints.add(WebGoatI18N.get("CommandInjectionHint3"));
+		hints.add(WebGoatI18N.get("CommandInjectionHint4"));
 
 		return hints;
 	}
 
-	/**
-	 * Gets the instructions attribute of the ParameterInjection object
-	 * 
-	 * @return The instructions value
-	 */
-	public String getInstructions(WebSession s)
-	{
-		String instructions = "Choose the lesson plan you would like to view.  "
-				+ "Try to inject a command to the operating system.";
-
-		return (instructions);
-	}
 
 	private final static Integer DEFAULT_RANKING = new Integer(40);
 

@@ -16,6 +16,7 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -66,7 +67,7 @@ public class PathBasedAccessControl extends LessonAdapter
 
 		try
 		{
-			String dir = s.getContext().getRealPath("/lesson_plans");
+			String dir = s.getContext().getRealPath("/lesson_plans/English");
 			File d = new File(dir);
 
 			Table t = new Table().setCellSpacing(0).setCellPadding(2).setWidth("90%").setAlign("center");
@@ -77,8 +78,8 @@ public class PathBasedAccessControl extends LessonAdapter
 			}
 
 			String[] list = d.list();
-			String listing = " <p><B>Current Directory is:</B> " + Encoding.urlDecode(dir)
-					+ "<br><br> Choose the file to view:</p>";
+			String listing = " <p><B>"+WebGoatI18N.get("CurrentDirectory")+"</B> " + Encoding.urlDecode(dir)
+					+ "<br><br>"+WebGoatI18N.get("ChooseFileToView")+"</p>";
 
 			TR tr = new TR();
 			tr.addElement(new TD().setColSpan(2).addElement(new StringElement(listing)));
@@ -86,7 +87,7 @@ public class PathBasedAccessControl extends LessonAdapter
 
 			tr = new TR();
 			tr.addElement(new TD().setWidth("35%").addElement(ECSFactory.makePulldown(FILE, list, "", 15)));
-			tr.addElement(new TD().addElement(ECSFactory.makeButton("View File")));
+			tr.addElement(new TD().addElement(ECSFactory.makeButton(WebGoatI18N.get("ViewFile"))));
 			t.addElement(tr);
 
 			ec.addElement(t);
@@ -105,17 +106,13 @@ public class PathBasedAccessControl extends LessonAdapter
 				// file
 				if (upDirCount(file) == 3 && !file.endsWith("LICENSE"))
 				{
-					s.setMessage("Access denied");
-					s.setMessage("It appears that you are on the right track.  "
-							+ "Commands that may compromise the operating system have been disabled.  "
-							+ "You are only allowed to see one file in this directory. ");
+					s.setMessage(WebGoatI18N.get("AccessDenied"));
+					s.setMessage(WebGoatI18N.get("ItAppears1"));
 				}
 				else if (upDirCount(file) > 3)
 				{
-					s.setMessage("Access denied");
-					s.setMessage("It appears that you are on the right track.  "
-							+ "Commands that may compromise the operating system have been disabled.  "
-							+ "You are only allowed to see files in the webgoat directory. ");
+					s.setMessage(WebGoatI18N.get("AccessDenied"));
+					s.setMessage(WebGoatI18N.get("ItAppears2"));
 				}
 				else
 				{
@@ -134,13 +131,13 @@ public class PathBasedAccessControl extends LessonAdapter
 			if (s.isDebug())
 			{
 
-				s.setMessage("File: " + file);
-				s.setMessage("Dir: " + dir);
+				s.setMessage(WebGoatI18N.get("File") + file);
+				s.setMessage(WebGoatI18N.get("Dir")+ dir);
 				// s.setMessage("File URI: " + "file:///" +
 				// (Encoding.urlEncode(dir) + "\\" +
 				// Encoding.urlEncode(file)).replaceAll("\\\\","/"));
-				s.setMessage("  - isFile(): " + f.isFile());
-				s.setMessage("  - exists(): " + f.exists());
+				s.setMessage(WebGoatI18N.get("IsFile")+ f.isFile());
+				s.setMessage(WebGoatI18N.get("Exists") + f.exists());
 			}
 			if (!illegalCommand)
 			{
@@ -150,21 +147,21 @@ public class PathBasedAccessControl extends LessonAdapter
 					// directory listing we gave them.
 					if (upDirCount(file) >= 1)
 					{
-						s.setMessage("Congratulations! Access to file allowed");
+						s.setMessage(WebGoatI18N.get("CongratsAccessToFileAllowed"));
 						s.setMessage(" ==> " + Encoding.urlDecode(f.getCanonicalPath()));
 						makeSuccess(s);
 					}
 					else
 					{
-						s.setMessage("File is already in allowed directory - try again!");
+						s.setMessage(WebGoatI18N.get("FileInAllowedDirectory"));
 						s.setMessage(" ==> " + Encoding.urlDecode(f.getCanonicalPath()));
 					}
 				}
 				else if (file != null && file.length() != 0)
 				{
 					s
-							.setMessage("Access to file/directory \"" + Encoding.urlDecode(f.getCanonicalPath())
-									+ "\" denied");
+							.setMessage(WebGoatI18N.get("AccessToFileDenied1") + Encoding.urlDecode(f.getCanonicalPath())
+									+  WebGoatI18N.get("AccessToFileDenied2"));
 				}
 				else
 				{
@@ -178,11 +175,11 @@ public class PathBasedAccessControl extends LessonAdapter
 					ec.addElement(new BR());
 					ec.addElement(new BR());
 					ec.addElement(new HR().setWidth("100%"));
-					ec.addElement("Viewing file: " + f.getCanonicalPath());
+					ec.addElement(WebGoatI18N.get("ViewingFile")+ f.getCanonicalPath());
 					ec.addElement(new HR().setWidth("100%"));
-					if (f.length() > 80000) { throw new Exception("File is too large"); }
+					if (f.length() > 80000) { throw new Exception(WebGoatI18N.get("FileTooLarge")); }
 					String fileData = getFileText(new BufferedReader(new FileReader(f)), false);
-					if (fileData.indexOf(0x00) != -1) { throw new Exception("File is binary"); }
+					if (fileData.indexOf(0x00) != -1) { throw new Exception(WebGoatI18N.get("FileBinary")); }
 					ec.addElement(new StringElement(fileData.replaceAll(System.getProperty("line.separator"), "<br>")
 							.replaceAll("(?s)<!DOCTYPE.*/head>", "").replaceAll("<br><br>", "<br>")
 							.replaceAll("<br>\\s<br>", "<br>").replaceAll("<\\?", "&lt;").replaceAll("<(r|u|t)",
@@ -190,13 +187,13 @@ public class PathBasedAccessControl extends LessonAdapter
 				} catch (Exception e)
 				{
 					ec.addElement(new BR());
-					ec.addElement("The following error occurred while accessing the file: <");
+					ec.addElement(WebGoatI18N.get("TheFollowingError"));
 					ec.addElement(e.getMessage());
 				}
 			}
 		} catch (Exception e)
 		{
-			s.setMessage("Error generating " + this.getClass().getName());
+			s.setMessage(WebGoatI18N.get("ErrorGenerating")+ this.getClass().getName());
 			e.printStackTrace();
 		}
 
@@ -233,11 +230,11 @@ public class PathBasedAccessControl extends LessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("Most operating systems allow special characters in the path.");
-		hints.add("Use a file explorer to find the tomcat\\webapps\\WebGoat\\lesson_plans directory");
-		hints.add("Try .. in the path");
-		hints.add("Try ..\\..\\..\\LICENSE");
-
+		hints.add(WebGoatI18N.get("PathBasedAccessControlHint1"));
+		hints.add(WebGoatI18N.get("PathBasedAccessControlHint2"));
+		hints.add(WebGoatI18N.get("PathBasedAccessControlHint3"));
+		hints.add(WebGoatI18N.get("PathBasedAccessControlHint4"));
+		
 		return hints;
 	}
 
@@ -248,11 +245,7 @@ public class PathBasedAccessControl extends LessonAdapter
 	 */
 	public String getInstructions(WebSession s)
 	{
-		String instructions = "The '" + s.getUserName() + "' user has access to all the files in the "
-				+ "lesson_plans directory.  Try to break the access control mechanism and access a "
-				+ "resource that is not in the listed directory.  After selecting a file to view, WebGoat "
-				+ "will report if access to the file was granted.  An interesting file to try and obtain might "
-				+ "be a file like tomcat/conf/tomcat-users.xml";
+		String instructions = WebGoatI18N.get("PathBasedAccessControlInstr1")+ s.getUserName() + WebGoatI18N.get("PathBasedAccessControlInstr2");
 
 		return (instructions);
 	}

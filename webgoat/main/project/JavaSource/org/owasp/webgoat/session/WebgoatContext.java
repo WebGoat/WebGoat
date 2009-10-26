@@ -4,6 +4,8 @@ package org.owasp.webgoat.session;
 import java.util.Iterator;
 import javax.servlet.http.HttpServlet;
 
+import org.owasp.webgoat.util.WebGoatI18N;
+
 
 public class WebgoatContext
 {
@@ -39,6 +41,8 @@ public class WebgoatContext
 	public final static String FEEDBACK_ADDRESS = "email";
 
 	public final static String DEBUG = "debug";
+	
+	public final static String DEFAULTLANGUAGE = "DefaultLanguage";
 
 	private String databaseConnectionString;
 
@@ -75,6 +79,10 @@ public class WebgoatContext
 	private String servletName;
 
 	private HttpServlet servlet;
+	
+	private String defaultLanguage;
+	
+	private WebGoatI18N webgoati18n = null;
 
 	public WebgoatContext(HttpServlet servlet)
 	{
@@ -100,7 +108,10 @@ public class WebgoatContext
 		showRequest = "true".equals(getParameter(servlet, SHOWREQUEST));
 		isDebug = "true".equals(getParameter(servlet, DEBUG));
 		servletName = servlet.getServletName();
-
+		defaultLanguage = getParameter(servlet,DEFAULTLANGUAGE)!=null ? new String(getParameter(servlet, DEFAULTLANGUAGE)): new String("English");
+		
+		webgoati18n = new WebGoatI18N(this);
+		
 	}
 
 	private String getParameter(HttpServlet servlet, String key)
@@ -222,4 +233,16 @@ public class WebgoatContext
 		return showSolution;
 	}
 
+	public String getDefaultLanguage() {
+		return defaultLanguage;
+	}
+
+	public void setWebgoatiI18N(WebGoatI18N webgoati18n) {
+		this.webgoati18n = webgoati18n;
+	}
+
+	public WebGoatI18N getWebgoatI18N() {
+		return webgoati18n;
+	}
+	
 }

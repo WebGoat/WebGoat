@@ -19,6 +19,7 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.util.HtmlEncoder;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -87,13 +88,13 @@ public class ReflectedXSS extends LessonAdapter
 					makeSuccess(s);
 				}
 
-				s.setMessage("Whoops! You entered " + param1 + " instead of your three digit code.  Please try again.");
+				s.setMessage(WebGoatI18N.get("ReflectedXSSWhoops1")+ param1 + WebGoatI18N.get("ReflectedXSSWhoops2"));
 			}
 
 			// FIXME: encode output of field2, then s.setMessage( field2 );
 
 			ec.addElement(new HR().setWidth("90%"));
-			ec.addElement(new Center().addElement(new H1().addElement("Shopping Cart ")));
+			ec.addElement(new Center().addElement(new H1().addElement(WebGoatI18N.get("ShoppingCart"))));
 			Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
 
 			if (s.isColor())
@@ -102,10 +103,10 @@ public class ReflectedXSS extends LessonAdapter
 			}
 
 			TR tr = new TR();
-			tr.addElement(new TH().addElement("Shopping Cart Items -- To Buy Now").setWidth("80%"));
-			tr.addElement(new TH().addElement("Price").setWidth("10%"));
-			tr.addElement(new TH().addElement("Quantity").setWidth("3%"));
-			tr.addElement(new TH().addElement("Total").setWidth("7%"));
+			tr.addElement(new TH().addElement(WebGoatI18N.get("ShoppingCartItems")).setWidth("80%"));
+			tr.addElement(new TH().addElement(WebGoatI18N.get("Price")).setWidth("10%"));
+			tr.addElement(new TH().addElement(WebGoatI18N.get("Quantity")).setWidth("3%"));
+			tr.addElement(new TH().addElement(WebGoatI18N.get("Total")).setWidth("7%"));
 			t.addElement(tr);
 
 			tr = new TR();
@@ -170,24 +171,24 @@ public class ReflectedXSS extends LessonAdapter
 			ec.addElement(new BR());
 
 			tr = new TR();
-			tr.addElement(new TD().addElement("The total charged to your credit card:"));
+			tr.addElement(new TD().addElement(WebGoatI18N.get("TotalChargedCreditCard")+":"));
 			tr.addElement(new TD().addElement(money.format(runningTotal)));
-			tr.addElement(new TD().addElement(ECSFactory.makeButton("Update Cart")));
+			tr.addElement(new TD().addElement(ECSFactory.makeButton(WebGoatI18N.get("UpdateCart"))));
 			t.addElement(tr);
 			tr = new TR();
 			tr.addElement(new TD().addElement("&nbsp;").setColSpan(2));
 			t.addElement(tr);
 			tr = new TR();
-			tr.addElement(new TD().addElement("Enter your credit card number:"));
+			tr.addElement(new TD().addElement(WebGoatI18N.get("EnterCreditCard")+":"));
 			tr.addElement(new TD().addElement(new Input(Input.TEXT, "field2", param2)));
 			t.addElement(tr);
 			tr = new TR();
-			tr.addElement(new TD().addElement("Enter your three digit access code:"));
+			tr.addElement(new TD().addElement(WebGoatI18N.get("Enter3DigitCode")+":"));
 			tr.addElement(new TD().addElement("<input name='field1' type='TEXT' value='" + param1 + "'>"));
 			// tr.addElement(new TD().addElement(new Input(Input.TEXT, "field1",param1)));
 			t.addElement(tr);
 
-			Element b = ECSFactory.makeButton("Purchase");
+			Element b = ECSFactory.makeButton(WebGoatI18N.get("Purchase"));
 			tr = new TR();
 			tr.addElement(new TD().addElement(b).setColSpan(2).setAlign("center"));
 			t.addElement(tr);
@@ -197,7 +198,7 @@ public class ReflectedXSS extends LessonAdapter
 			ec.addElement(new HR().setWidth("90%"));
 		} catch (Exception e)
 		{
-			s.setMessage("Error generating " + this.getClass().getName());
+			s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
 			e.printStackTrace();
 		}
 		return (ec);
@@ -221,16 +222,12 @@ public class ReflectedXSS extends LessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("A simple script is &lt;SCRIPT&gt;alert('bang!');&lt;/SCRIPT&gt;.");
-		hints.add("Can you get the script to disclose the JSESSIONID cookie?");
-		hints.add("You can use &lt;SCRIPT&gt;alert(document.cookie);&lt;/SCRIPT&gt; to access the session id cookie");
-		hints.add("Can you get the script to access the credit card form field?");
-		hints
-				.add("Try a cross site trace (XST) Command:<br>"
-						+ "&lt;script type=\"text/javascript\"&gt;if ( navigator.appName.indexOf(\"Microsoft\") !=-1)"
-						+ " {var xmlHttp = new ActiveXObject(\"Microsoft.XMLHTTP\");xmlHttp.open(\"TRACE\", \"./\", false);"
-						+ " xmlHttp.send();str1=xmlHttp.responseText; while (str1.indexOf(\"\\n\") > -1) str1 = str1.replace(\"\\n\",\"&lt;br&gt;\"); "
-						+ "document.write(str1);}&lt;/script&gt;");
+		hints.add(WebGoatI18N.get("ReflectedXSSHint1"));
+		hints.add(WebGoatI18N.get("ReflectedXSSHint2"));
+		hints.add(WebGoatI18N.get("ReflectedXSSHint3"));
+		hints.add(WebGoatI18N.get("ReflectedXSSHint4"));
+		hints.add(WebGoatI18N.get("ReflectedXSSHint5"));
+		
 		return hints;
 	}
 
@@ -238,16 +235,7 @@ public class ReflectedXSS extends LessonAdapter
 	// = new
 	// ActiveXObject("Microsoft.XMLHTTP");xmlHttp.open("TRACE", "./", false);
 	// xmlHttp.send();str1=xmlHttp.responseText;document.write(str1);}</script>
-	/**
-	 * Gets the instructions attribute of the WeakAccessControl object
-	 * 
-	 * @return The instructions value
-	 */
-	public String getInstructions(WebSession s)
-	{
-		String instructions = "For this exercise, your mission is to come up with some input containing a script. You have to try to get this page to reflect that input back to your browser, which will execute the script and do something bad.";
-		return (instructions);
-	}
+	
 
 	private final static Integer DEFAULT_RANKING = new Integer(120);
 

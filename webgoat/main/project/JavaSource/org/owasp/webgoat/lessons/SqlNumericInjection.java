@@ -22,6 +22,7 @@ import org.apache.ecs.html.Select;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -129,18 +130,15 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 						makeSuccess(s);
 						getLessonTracker(s).setStage(2);
 						StringBuffer msg = new StringBuffer();
-
-						msg.append("Bet you can't do it again! ");
-						msg.append("This lesson has detected your successfull attack ");
-						msg.append("and has now switched to a defensive mode. ");
-						msg.append("Try again to attack a parameterized query.");
+						
+						msg.append(WebGoatI18N.get("NumericSqlInjectionSecondStage"));
 
 						s.setMessage(msg.toString());
 					}
 				}
 				else
 				{
-					ec.addElement("No results matched.  Try Again.");
+					ec.addElement(WebGoatI18N.get("NoResultsMatched"));
 				}
 
 			} catch (SQLException sqle)
@@ -149,7 +147,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 			}
 		} catch (Exception e)
 		{
-			s.setMessage("Error generating " + this.getClass().getName());
+			s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
 			e.printStackTrace();
 		}
 
@@ -160,8 +158,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	{
 		ElementContainer ec = new ElementContainer();
 
-		ec.addElement("Now that you have successfully performed an SQL injection, try the same "
-				+ " type of attack on a parameterized query.");
+		ec.addElement(WebGoatI18N.get("NumericSqlInjectionSecondStage2"));
 		// if ( s.getParser().getRawParameter( ACCT_NUM, "101" ).equals("restart"))
 		// {
 		// getLessonTracker(s).setStage(1);
@@ -205,14 +202,14 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 				}
 				else
 				{
-					ec.addElement("No results matched.  Try Again.");
+					ec.addElement(WebGoatI18N.get("NoResultsMatched"));
 				}
 			} catch (SQLException sqle)
 			{
 				ec.addElement(new P().addElement(sqle.getMessage()));
 			} catch (NumberFormatException npe)
 			{
-				ec.addElement(new P().addElement("Error parsing station as a number: " + npe.getMessage()));
+				ec.addElement(new P().addElement(WebGoatI18N.get("ErrorParsingAsNumber") + npe.getMessage()));
 			}
 		} catch (Exception e)
 		{
@@ -227,7 +224,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	{
 		ElementContainer ec = new ElementContainer();
 
-		ec.addElement(new P().addElement("Select your local weather station: "));
+		ec.addElement(new P().addElement(WebGoatI18N.get("SelectYourStation")));
 
 		Map<String, String> stations = getStations(s);
 		Select select = new Select(STATION_ID);
@@ -240,7 +237,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 		ec.addElement(select);
 		ec.addElement(new P());
 
-		Element b = ECSFactory.makeButton("Go!");
+		Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
 		ec.addElement(b);
 
 		return ec;
@@ -310,13 +307,12 @@ public class SqlNumericInjection extends SequentialLessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints
-				.add("The application is taking the input from the select box and inserts it at the end of a pre-formed SQL command.");
-		hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
-				+ "\"SELECT * FROM weather_data WHERE station = \" + station ");
-		hints.add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. "
-				+ "Try appending a SQL statement that always resolves to true.");
-		hints.add("Try to intercept the post request with WebScarab and replace the station " + "with [ 101 OR 1 = 1 ].");
+		hints.add(WebGoatI18N.get("SqlNumericInjectionHint1"));
+		hints.add(WebGoatI18N.get("SqlNumericInjectionHint2"));
+		hints.add(WebGoatI18N.get("SqlNumericInjectionHint3"));
+		hints.add(WebGoatI18N.get("SqlNumericInjectionHint4"));
+		
+		
 
 		return hints;
 	}
