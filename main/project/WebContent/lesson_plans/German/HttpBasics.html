@@ -1,0 +1,29 @@
+<div align="Center"> 
+<p><b>Lehrplan:</b> Http Basics </p>
+ </div>
+ 
+<p><b>Lehrinhalt:</b> </p>
+ Diese Lektion stellt die Verst&auml;ndnis-Grundlagen f&uuml;r den Datentransport zwischen Browser und Webapplikation dar.<br>
+<div align="Left"> 
+<p>
+<b>So funktioniert HTTP:</b>
+</p>
+Alle HTTP Transaktionen folgen demselben Schema. Jede Anfrage vom Client und jede Antwort des Servers besteht aus drei Teilen: Der Anfrage-/Antwortzeile, dem Kopf und dem Körper.
+Der Client initiiert eine Transaktion wie folgt:<br>
+<br>
+ Der Client kontaktiert den Server und sendet eine Dokumentenanfrage<br>
+</div>
+  <br>
+<ul>GET /index.html?param=value HTTP/1.0</ul>
+ Als n&auml;chstes sendet der Client optionale Kopfzeilen (Header) um den Server &uuml;ber die Client-seitige Konfiguration und die akzeptierten Dokumentenformate zu informieren.<br>
+ <br>
+<ul>User-Agent: Mozilla/4.06 Accept: image/gif,image/jpeg, */*</ul>
+Nachdem der eigentliche Anfrage (Request) und den weiteren Kopfzeilen (Header) kann der Client noch weitere Daten senden. Diese Daten werden meistens von CGI Programmen im Zusammenhang mit der POST Methode ausgewertet.
+<br>
+<p><b>Grunds&auml;tzliche(s) Ziel(e):</b> </p>
+<!-- Start Instructions -->
+Geben Sie Ihren Namen in das Eingabefeld ein und drücken sie "Los gehts!" um die Anfrage abzuschicken. Der Server wird die Anfrage akzeptieren, Ihre Eingabedaten umdrehen, und wieder zu Ihnen zurückschicken. Dies stellt eine vollst&auml;ndige HTTP Transaktion dar!
+<br/><br/>
+Sie sollten mit der Benutzung von WebGoat vertraut werden. Es sollten die Knöpfe f&uuml;r Hinweise (Hints), f&uuml;r das Anzeigen von Parametern(Parameters) oder Cookies und f&uuml;r das Anzeigen von Java-Quellcode ausprobiert werden.
+Außerdem, k&ouml;nnen Sie hier WebScarab gut ausprobieren. 
+<!-- Stop Instructions -->

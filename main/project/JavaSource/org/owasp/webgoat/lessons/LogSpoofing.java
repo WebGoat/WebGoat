@@ -17,6 +17,7 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -73,15 +74,15 @@ public class LogSpoofing extends LessonAdapter
 			TR row2 = new TR();
 			TR row3 = new TR();
 
-			row1.addElement(new TD(new StringElement("Username: ")));
+			row1.addElement(new TD(new StringElement(WebGoatI18N.get("UserName")+":")));
 			Input username = new Input(Input.TEXT, USERNAME, "");
 			row1.addElement(new TD(username));
 
-			row2.addElement(new TD(new StringElement("Password: ")));
+			row2.addElement(new TD(new StringElement(WebGoatI18N.get("Password")+": ")));
 			Input password = new Input(Input.PASSWORD, PASSWORD, "");
 			row2.addElement(new TD(password));
 
-			Element b = ECSFactory.makeButton("Login");
+			Element b = ECSFactory.makeButton(WebGoatI18N.get("Login"));
 			row3.addElement(new TD(new StringElement("&nbsp; ")));
 			row3.addElement(new TD(b)).setAlign("right");
 
@@ -102,7 +103,7 @@ public class LogSpoofing extends LessonAdapter
 
 			Table t2 = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
 			TR row4 = new TR();
-			row4.addElement(new TD(new PRE("Login failed for username: " + inputUsername))).setBgColor(HtmlColor.GRAY);
+			row4.addElement(new TD(new PRE(WebGoatI18N.get("LoginFailedForUserName")+": " + inputUsername))).setBgColor(HtmlColor.GRAY);
 
 			t2.addElement(row4);
 
@@ -111,7 +112,7 @@ public class LogSpoofing extends LessonAdapter
 			if (inputUsername.length() != 0
 					&& inputUsername.toUpperCase().indexOf(
 															System.getProperty("line.separator")
-																	+ "LOGIN SUCCEEDED FOR USERNAME:") >= 0)
+																	+ WebGoatI18N.get("LoginSucceededForUserName")+":") >= 0)
 			{
 				makeSuccess(s);
 			}
@@ -134,12 +135,10 @@ public class LogSpoofing extends LessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("Try to fool the human eye by using new lines.");
-		hints.add("Use CR (%0d) and LF (%0a) for a new line.");
-		hints.add("Try: Smith%0d%0aLogin Succeeded for username: admin");
-		hints
-				.add("Try: Smith%0d%0aLogin Succeeded for username: admin&lt;script&gt;alert(document.cookie)&lt;/script&gt;");
-
+		hints.add(WebGoatI18N.get("LogSpoofingHint1"));
+		hints.add(WebGoatI18N.get("LogSpoofingHint2"));
+		hints.add(WebGoatI18N.get("LogSpoofingHint3"));
+		hints.add(WebGoatI18N.get("LogSpoofingHint4"));
 		return hints;
 	}
 

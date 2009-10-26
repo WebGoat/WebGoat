@@ -10,7 +10,11 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -26,6 +30,8 @@ import org.owasp.webgoat.session.Screen;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.owasp.webgoat.session.WebgoatProperties;
+import org.owasp.webgoat.util.WebGoatI18N;
+
 
 
 /***************************************************************************************************
@@ -95,12 +101,16 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
 	private String sourceFileName;
 
-	private String lessonPlanFileName;
+	private Map<String,String> lessonPlanFileName = new HashMap<String,String>();
 
 	private String lessonSolutionFileName;
 
 	private WebgoatContext webgoatContext;
-
+	
+	private LinkedList<String> availableLanguages = new LinkedList<String>();
+	
+	private String defaultLanguage = "English";
+	
 	/**
 	 * Constructor for the Lesson object
 	 */
@@ -392,22 +402,29 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 	 */
 	public String getLessonPlan(WebSession s)
 	{
-		String src = null;
-
+		StringBuffer src = new StringBuffer();
+		String lang = s.getCurrrentLanguage();
+		
 		try
 		{
 			// System.out.println("Loading lesson plan file: " +
 			// getLessonPlanFileName());
-			src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonPlanFileName()))), false);
+			String filename = getLessonPlanFileName(lang);
+			if(filename==null){
+				filename = getLessonPlanFileName(getDefaultLanguage());
+				
+			}
+			
+			src.append(readFromFile(new BufferedReader(new FileReader(s.getWebResource(filename))), false));
 
 		} catch (Exception e)
 		{
 			// s.setMessage( "Could not find lesson plan for " +
 			// getLessonName());
-			src = ("Could not find lesson plan for: " + getLessonName());
+			src = new StringBuffer("Could not find lesson plan for: " + getLessonName()+" and language "+lang);
 
 		}
-		return src;
+		return src.toString();
 	}
 
 	/**
@@ -774,16 +791,27 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 		return getTitle();
 	}
 
-	public String getLessonPlanFileName()
+	public String getDefaultLanguage(){
+		return this.defaultLanguage;
+	}
+	
+	public String getLessonPlanFileName(String lang)
 	{
-		return lessonPlanFileName;
+		String ret = lessonPlanFileName.get(lang);
+		if(ret==null) ret = lessonPlanFileName.get(getDefaultLanguage());
+		return ret;
 	}
 
-	public void setLessonPlanFileName(String lessonPlanFileName)
+	public void setLessonPlanFileName(String lang, String lessonPlanFileName)
 	{
-		this.lessonPlanFileName = lessonPlanFileName;
+		this.lessonPlanFileName.put(lang,lessonPlanFileName);
+		this.availableLanguages.add(lang);
 	}
 
+	public List<String> getAvailableLanguages(){
+		return this.availableLanguages;
+	}
+	
 	public String getLessonSolutionFileName()
 	{
 		return lessonSolutionFileName;

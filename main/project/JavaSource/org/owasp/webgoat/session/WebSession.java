@@ -23,6 +23,8 @@ import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
 import org.owasp.webgoat.lessons.SequentialLessonAdapter;
+import org.owasp.webgoat.util.WebGoatI18N;
+
 
 
 /***************************************************************************************************
@@ -143,6 +145,8 @@ public class WebSession
 
 	public final static String DEBUG = "debug";
 
+	public final static String LANGUAGE = "language";
+	
 	/**
 	 * Description of the Field
 	 */
@@ -198,6 +202,10 @@ public class WebSession
 
 	private int currentMenu;
 
+	private String currentLanguage = null;
+	
+	
+	
 	/**
 	 * Constructor for the WebSession object
 	 * 
@@ -215,7 +223,9 @@ public class WebSession
 		showSource = webgoatContext.isShowSource();
 		showSolution = webgoatContext.isShowSolution();
 		showRequest = webgoatContext.isShowRequest();
+		currentLanguage = webgoatContext.getDefaultLanguage();
 		this.context = context;
+		
 		course = new Course();
 		course.loadCourses(webgoatContext, context, "/");
 	}
@@ -290,6 +300,9 @@ public class WebSession
 		return context;
 	}
 
+		
+	
+	
 	public List<String> getRoles()
 	{
 		List<String> roles = new ArrayList<String>();
@@ -591,20 +604,6 @@ public class WebSession
 		return (isAdmin);
 	}
 
-	/** 
-	 * Sets the admin flag - this routine is ONLY
-	 * here to allow someone a backdoor to setting the
-	 * user up as an admin.
-	 * 
-	 * This is also used by the WebSession to set the admin, but the method
-	 * should be private
-	 * 
-	 * @param state
-	 */
-	public void setAdmin(boolean state)
-	{
-		isAdmin = state;
-	}
 	/**
 	 * Gets the hackedAdmin attribute of the WebSession object
 	 * 
@@ -728,7 +727,7 @@ public class WebSession
 	 */
 	public boolean isUser()
 	{
-		return (!isAdmin() && !isChallenge());
+		return (!isAdmin && !isChallenge());
 	}
 
 	/**
@@ -834,6 +833,12 @@ public class WebSession
 		{
 			myParser.update(request);
 		}
+		
+		if(myParser.getRawParameter(LANGUAGE,null)!=null){
+			this.currentLanguage=new String(myParser.getRawParameter(LANGUAGE,null));
+			WebGoatI18N.setCurrentLanguage(this.currentLanguage);
+		}
+		
 
 		// System.out.println("Current Screen 1: " + currentScreen );
 		// System.out.println("Previous Screen 1: " + previousScreen );
@@ -965,8 +970,8 @@ public class WebSession
 
 		}
 
-		setAdmin(request.isUserInRole(WEBGOAT_ADMIN));
-		isHackedAdmin = myParser.getBooleanParameter(ADMIN, isAdmin());
+		isAdmin = request.isUserInRole(WEBGOAT_ADMIN);
+		isHackedAdmin = myParser.getBooleanParameter(ADMIN, isAdmin);
 		if (isHackedAdmin)
 		{
 			System.out.println("Hacked admin");
@@ -1005,10 +1010,7 @@ public class WebSession
 		{
 			RandomLessonAdapter rla = (RandomLessonAdapter) al;
 			rla.setStage(this, rla.getStages()[0]);
-		} 
-		else if(al instanceof org.owasp.webgoat.lessons.MaliciousFileExecution) {
-			((org.owasp.webgoat.lessons.MaliciousFileExecution) al).restartLesson(this);
-		} 
+		}
 	}
 
 	/**
@@ -1093,4 +1095,10 @@ public class WebSession
 	{
 		return webgoatContext;
 	}
+
+	public String getCurrrentLanguage() {
+		return currentLanguage;
+	}
+
+	
 }

@@ -4,6 +4,7 @@ package org.owasp.webgoat.session;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.servlet.ServletContext;
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
+
 
 
 /***************************************************************************************************
@@ -59,6 +61,7 @@ public class Course
 
 	private WebgoatContext webgoatContext;
 
+	
 	public Course()
 	{
 		try
@@ -71,6 +74,9 @@ public class Course
 		}
 	}
 
+	
+	
+	
 	/**
 	 * Take an absolute file and return the filename.
 	 * 
@@ -368,6 +374,15 @@ public class Course
 		}
 	}
 
+	private String getLanguageFromFileName(String first, String absoluteFile){
+		int p1 = absoluteFile.indexOf("/",absoluteFile.indexOf(first)+1);
+		int p2 = absoluteFile.indexOf("/",p1+1);
+		String langStr=absoluteFile.substring(p1+1,p2);
+		
+		
+		return new String(langStr);
+	}
+	
 	/**
 	 * For each lesson, set the source file and lesson file
 	 */
@@ -402,7 +417,9 @@ public class Course
 					// lesson " +
 					// lesson.getClass().getName());
 					// System.out.println("fileName: " + fileName + " == className: " + className );
-					lesson.setLessonPlanFileName(absoluteFile);
+					String language = getLanguageFromFileName("/lesson_plans",absoluteFile);
+					lesson.setLessonPlanFileName(language, absoluteFile);
+					this.webgoatContext.getWebgoatI18N().loadLanguage(language);
 				}
 				if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html")
 						&& className.endsWith(fileName))

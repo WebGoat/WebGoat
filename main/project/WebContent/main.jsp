@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
-	import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.Category, org.owasp.webgoat.lessons.AbstractLesson, java.util.*" 
+	import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.Category, org.owasp.webgoat.lessons.AbstractLesson, org.owasp.webgoat.util.*, java.util.*" 
 	errorPage=""  %>
 <%
 Course course = ((Course)session.getAttribute("course"));
@@ -107,7 +107,7 @@ StringBuffer buildList = new StringBuffer();
 					}
 				}
 				%>
-<%
+			<%
 			}
 			%>
 	  		</table>
@@ -115,7 +115,21 @@ StringBuffer buildList = new StringBuffer();
 			}%>
 		<div id="top"></div>
 		<div id="topRight">
-	  		<div align="right"><a href="attack?action=Logout" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('logout','','images/buttons/logoutOver.jpg',1)"><img src="images/buttons/logout.jpg" alt="LogOut" name="logout" width="45" height="22" border="0" id="logout" /></a>  <a href="#getFAQ()" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('help','','images/buttons/helpOver.jpg',1)"><img src="images/buttons/help.jpg" alt="Help" name="help" width="22" height="22" border="0" id="help" /></a></div>
+	  		<div align="left">
+	  		
+	  		<form method="GET" action="attack" style="display:inline;">
+	  		Choose another language:
+	  		<select name="language" size="1" onChange="changeLanguage();">
+	  		<%
+	  			for(String lang: currentLesson.getAvailableLanguages()){
+	  				%> <option value="<%=lang%>" <% if(webSession.getCurrrentLanguage().equals(lang)) out.println("selected" );%>><%=lang%> </option><%
+	  					
+	  			}
+	  			
+	  		%>
+	  		</select>
+	  		 
+	  		</form><a href="attack?action=Logout" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('logout','','images/buttons/logoutOver.jpg',1)"><img src="images/buttons/logout.jpg" alt="LogOut" name="logout" width="45" height="22" border="0" id="logout" /></a>  <a href="#getFAQ()" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('help','','images/buttons/helpOver.jpg',1)"><img src="images/buttons/help.jpg" alt="Help" name="help" width="22" height="22" border="0" id="help" /></a></div>
 		</div>
 			<div id="lessonTitle" align="right"><%=currentLesson.getTitle()%></div>
 			<div id="hMenuBar">
@@ -179,8 +193,8 @@ StringBuffer buildList = new StringBuffer();
 			    {
 			    	%>
 			    	<div id="training_wrap">
-			    	<div id="training" class="info"><a href="http://yehg.net/lab/pr0js/training/webgoat.php">Solution Videos</a></div>
-			    	<div id="reset" class="info"><a href="<%=webSession.getRestartLink()%>">Restart this Lesson</a></div>
+			    	<div id="training" class="info"><a href="http://yehg.net/lab/pr0js/training/webgoat.php"><%=WebGoatI18N.get("SolutionVideos")%></a></div>
+			    	<div id="reset" class="info"><a href="<%=webSession.getRestartLink()%>"><%=WebGoatI18N.get("RestartLesson")%></a></div>
 			    	</div>
 	    			<%
 	    			}

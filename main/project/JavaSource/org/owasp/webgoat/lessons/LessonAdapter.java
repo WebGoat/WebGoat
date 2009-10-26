@@ -16,6 +16,7 @@ import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -165,9 +166,10 @@ public abstract class LessonAdapter extends AbstractLesson
 	public String getInstructions(WebSession s)
 	{
 		StringBuffer buff = new StringBuffer();
+		String lang = s.getCurrrentLanguage();
 		try
 		{
-			String fileName = s.getWebResource(getLessonPlanFileName());
+			String fileName = s.getWebResource(getLessonPlanFileName(lang));
 			if (fileName != null)
 			{
 				BufferedReader in = new BufferedReader(new FileReader(fileName));
@@ -241,7 +243,7 @@ public abstract class LessonAdapter extends AbstractLesson
 	{
 		getLessonTracker(s).setCompleted(true);
 
-		s.setMessage("Congratulations. You have successfully completed this lesson.");
+		s.setMessage(WebGoatI18N.get("LessonCompleted"));
 
 		return (null);
 	}

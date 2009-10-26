@@ -22,6 +22,7 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -106,7 +107,7 @@ public class HiddenFieldTampering extends LessonAdapter
 			total = quantity * Float.parseFloat(price);
 		} catch (Exception e)
 		{
-			s.setMessage("Invaild data " + this.getClass().getName());
+			s.setMessage(WebGoatI18N.get("Invaild data") + this.getClass().getName());
 			price = PRICE_TV;
 			quantity = 1.0f;
 			total = quantity * Float.parseFloat(PRICE_TV);
@@ -115,7 +116,7 @@ public class HiddenFieldTampering extends LessonAdapter
 
 		if (price.equals(PRICE_TV))
 		{
-			ec.addElement(new Center().addElement(new H1().addElement("Shopping Cart ")));
+			ec.addElement(new Center().addElement(new H1().addElement(WebGoatI18N.get("ShoppingCart"))));
 			ec.addElement(new BR());
 			Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
 
@@ -125,10 +126,10 @@ public class HiddenFieldTampering extends LessonAdapter
 			}
 
 			TR tr = new TR();
-			tr.addElement(new TH().addElement("Shopping Cart Items -- To Buy Now").setWidth("80%"));
-			tr.addElement(new TH().addElement("Price").setWidth("10%"));
-			tr.addElement(new TH().addElement("Quantity").setWidth("3%"));
-			tr.addElement(new TH().addElement("Total").setWidth("7%"));
+			tr.addElement(new TH().addElement(WebGoatI18N.get("ShoppingCartItems")).setWidth("80%"));
+			tr.addElement(new TH().addElement(WebGoatI18N.get("Price")).setWidth("10%"));
+			tr.addElement(new TH().addElement(WebGoatI18N.get("Quantity")).setWidth("3%"));
+			tr.addElement(new TH().addElement(WebGoatI18N.get("Total")).setWidth("7%"));
 			t.addElement(tr);
 
 			tr = new TR();
@@ -149,10 +150,10 @@ public class HiddenFieldTampering extends LessonAdapter
 
 			ec.addElement(new BR());
 			tr = new TR();
-			tr.addElement(new TD().addElement("The total charged to your credit card:"));
+			tr.addElement(new TD().addElement(WebGoatI18N.get("TotalChargedCreditCard")+":"));
 			tr.addElement(new TD().addElement(money.format(total)));
-			tr.addElement(new TD().addElement(ECSFactory.makeButton("Update Cart")));
-			tr.addElement(new TD().addElement(ECSFactory.makeButton("Purchase", "validate()")));
+			tr.addElement(new TD().addElement(ECSFactory.makeButton(WebGoatI18N.get("UpdateCart"))));
+			tr.addElement(new TD().addElement(ECSFactory.makeButton(WebGoatI18N.get("Purchase"), "validate()")));
 			t.addElement(tr);
 
 			ec.addElement(t);
@@ -169,10 +170,10 @@ public class HiddenFieldTampering extends LessonAdapter
 				makeSuccess(s);
 			}
 
-			ec.addElement(new P().addElement("Your total price is:"));
+			ec.addElement(new P().addElement(WebGoatI18N.get("TotalPriceIs")+":"));
 			ec.addElement(new B("$" + total));
 			ec.addElement(new BR());
-			ec.addElement(new P().addElement("This amount will be charged to your credit card immediately."));
+			ec.addElement(new P().addElement(WebGoatI18N.get("ThisAmountCharged")));
 		}
 
 		return (ec);
@@ -196,26 +197,15 @@ public class HiddenFieldTampering extends LessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-		hints.add("This application is using hidden fields to transmit price information to the server.");
-		hints.add("Use a program to intercept and change the value in the hidden field.");
-		hints
-				.add("Use <A href=\"http://www.owasp.org/development/webscarab\">WebScarab</A> to change the price of the TV from "
-						+ PRICE_TV + " to " + PRICE_TV_HACKED + ".");
-
+		
+		hints.add(WebGoatI18N.get("HiddenFieldTamperingHint1"));
+		hints.add(WebGoatI18N.get("HiddenFieldTamperingHint2"));
+		hints.add(WebGoatI18N.get("HiddenFieldTamperingHint3")+ PRICE_TV +WebGoatI18N.get("HiddenFieldTamperingHint32") + PRICE_TV_HACKED );
+		
 		return hints;
 	}
 
-	/**
-	 * Gets the instructions attribute of the HiddenFieldTampering object
-	 * 
-	 * @return The instructions value
-	 */
-	public String getInstructions(WebSession s)
-	{
-		String instructions = "Try to purchase the HDTV for less than the purchase price, if you have not done so already.";
-
-		return (instructions);
-	}
+	
 
 	private final static Integer DEFAULT_RANKING = new Integer(50);
 

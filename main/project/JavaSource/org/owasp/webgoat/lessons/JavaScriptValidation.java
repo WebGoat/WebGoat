@@ -14,6 +14,7 @@ import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.TextArea;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -124,28 +125,28 @@ public class JavaScriptValidation extends LessonAdapter
 			b.setType(Input.BUTTON);
 			b.setValue("Submit");
 			b.addAttribute("onclick", "validate();");
-			ec.addElement(new Div().addElement(new StringElement("Field1: exactly three lowercase characters ("
+			ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("3LowerCase")+"("
 					+ regex1 + ")")));
 			ec.addElement(new Div().addElement(input1));
 			ec.addElement(new P());
-			ec.addElement(new Div().addElement(new StringElement("Field2: exactly three digits (" + regex2 + ")")));
+			ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("Exactly3Digits")+"(" + regex2 + ")")));
 			ec.addElement(new Div().addElement(input2));
 			ec.addElement(new P());
-			ec.addElement(new Div().addElement(new StringElement("Field3: letters, numbers, and space only (" + regex3
+			ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("LettersNumbersSpaceOnly")+"(" + regex3
 					+ ")")));
 			ec.addElement(new Div().addElement(input3));
 			ec.addElement(new P());
-			ec.addElement(new Div().addElement(new StringElement("Field4: enumeration of numbers (" + regex4 + ")")));
+			ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("EnumerationOfNumbers")+" (" + regex4 + ")")));
 			ec.addElement(new Div().addElement(input4));
 			ec.addElement(new P());
-			ec.addElement(new Div().addElement(new StringElement("Field5: simple zip code (" + regex5 + ")")));
+			ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("SimpleZipCode")+ " (" + regex5 + ")")));
 			ec.addElement(new Div().addElement(input5));
 			ec.addElement(new P());
 			ec.addElement(new Div()
-					.addElement(new StringElement("Field6: zip with optional dash four (" + regex6 + ")")));
+					.addElement(new StringElement(WebGoatI18N.get("ZIPDashFour")+" (" + regex6 + ")")));
 			ec.addElement(new Div().addElement(input6));
 			ec.addElement(new P());
-			ec.addElement(new Div().addElement(new StringElement("Field7: US phone number with or without dashes ("
+			ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("USPhoneNumber")+ " ("
 					+ regex7 + ")")));
 			ec.addElement(new Div().addElement(input7));
 			ec.addElement(new P());
@@ -160,43 +161,43 @@ public class JavaScriptValidation extends LessonAdapter
 			if (!pattern1.matcher(param1).matches())
 			{
 				err++;
-				msg += "<BR>Server side validation violation: You succeeded for Field1.";
+				msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+" Field1.";
 			}
 
 			if (!pattern2.matcher(param2).matches())
 			{
 				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field2.";
+				msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+" Field2.";
 			}
 
 			if (!pattern3.matcher(param3).matches())
 			{
 				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field3.";
+				msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field3.";
 			}
 
 			if (!pattern4.matcher(param4).matches())
 			{
 				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field4.";
+				msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field4.";
 			}
 
 			if (!pattern5.matcher(param5).matches())
 			{
 				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field5.";
+				msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field5.";
 			}
 
 			if (!pattern6.matcher(param6).matches())
 			{
 				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field6.";
+				msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field6.";
 			}
 
 			if (!pattern7.matcher(param7).matches())
 			{
 				err++;
-				msg += "<BR>Server side validation violation:  You succeeded for Field7.";
+				msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field7.";
 			}
 
 			if (err > 0)
@@ -212,7 +213,7 @@ public class JavaScriptValidation extends LessonAdapter
 
 		catch (Exception e)
 		{
-			s.setMessage("Error generating " + this.getClass().getName());
+			s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
 			e.printStackTrace();
 		}
 
@@ -237,27 +238,14 @@ public class JavaScriptValidation extends LessonAdapter
 	protected List<String> getHints(WebSession s)
 	{
 		List<String> hints = new ArrayList<String>();
-
-		hints.add("The validation is happening in your browser.");
-		hints.add("Try modifying the values with a proxy after they leave your browser");
-		hints.add("Another way is to delete the JavaScript before you view the page.");
+		hints.add(WebGoatI18N.get("JavaScriptValidationHint1"));
+		hints.add(WebGoatI18N.get("JavaScriptValidationHint2"));
+		hints.add(WebGoatI18N.get("JavaScriptValidationHint3"));
+		
 
 		return hints;
 	}
 
-	/**
-	 * Gets the instructions attribute of the WeakAccessControl object
-	 * 
-	 * @return The instructions value
-	 */
-	public String getInstructions(WebSession s)
-	{
-		String instructions = "This website performs both client and server side validation.  "
-				+ "For this exercise, your job is to break the client side validation and send the "
-				+ " website input that it wasn't expecting."
-				+ "<b> You must break all 7 validators at the same time. </b>";
-		return (instructions);
-	}
 
 	private final static Integer DEFAULT_RANKING = new Integer(120);
 
