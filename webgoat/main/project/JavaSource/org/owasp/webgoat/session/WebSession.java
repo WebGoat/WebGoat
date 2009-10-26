@@ -591,6 +591,20 @@ public class WebSession
 		return (isAdmin);
 	}
 
+	/** 
+	 * Sets the admin flag - this routine is ONLY
+	 * here to allow someone a backdoor to setting the
+	 * user up as an admin.
+	 * 
+	 * This is also used by the WebSession to set the admin, but the method
+	 * should be private
+	 * 
+	 * @param state
+	 */
+	public void setAdmin(boolean state)
+	{
+		isAdmin = state;
+	}
 	/**
 	 * Gets the hackedAdmin attribute of the WebSession object
 	 * 
@@ -714,7 +728,7 @@ public class WebSession
 	 */
 	public boolean isUser()
 	{
-		return (!isAdmin && !isChallenge());
+		return (!isAdmin() && !isChallenge());
 	}
 
 	/**
@@ -951,8 +965,8 @@ public class WebSession
 
 		}
 
-		isAdmin = request.isUserInRole(WEBGOAT_ADMIN);
-		isHackedAdmin = myParser.getBooleanParameter(ADMIN, isAdmin);
+		setAdmin(request.isUserInRole(WEBGOAT_ADMIN));
+		isHackedAdmin = myParser.getBooleanParameter(ADMIN, isAdmin());
 		if (isHackedAdmin)
 		{
 			System.out.println("Hacked admin");
