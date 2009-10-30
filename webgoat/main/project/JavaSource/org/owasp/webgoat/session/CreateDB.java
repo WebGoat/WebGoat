@@ -353,6 +353,53 @@ public class CreateDB
 	
     }
 	
+	// creates the table salaries which is used in the lessons 
+	// which add or modify data using sql injection 
+	private void createModifyWithSQLLessonTable(Connection connection) throws SQLException
+    {
+		Statement statement = connection.createStatement();
+	
+		// Delete table if there is one
+		try
+		{
+		    String dropTable = "DROP TABLE salaries";
+		    statement.executeUpdate(dropTable);
+		}
+		catch (SQLException e)
+		{
+		    System.out.println("Error dropping salaries table");
+		}
+	
+		// Create the new table
+		try
+		{
+		    String createTableStatement = "CREATE TABLE salaries ("
+			    + "userid varchar(50),"
+			    + "salary int" 
+			    + ")";
+		    statement.executeUpdate(createTableStatement);
+		}
+		catch (SQLException e)
+		{
+		    System.out.println("Error creating salaries table");
+		    e.printStackTrace();
+		}
+	
+		// Populate it
+		String insertData1 = "INSERT INTO salaries VALUES ('jsmith', 20000)";
+		String insertData2 = "INSERT INTO salaries VALUES ('lsmith', 45000)";
+		String insertData3 = "INSERT INTO salaries VALUES ('wgoat', 100000)";
+		String insertData4 = "INSERT INTO salaries VALUES ('rjones', 777777)";
+		String insertData5 = "INSERT INTO salaries VALUES ('manderson', 65000)";
+		
+		statement.executeUpdate(insertData1);
+		statement.executeUpdate(insertData2);
+		statement.executeUpdate(insertData3);
+		statement.executeUpdate(insertData4);
+		statement.executeUpdate(insertData5);
+	
+    }
+	
 	/**
 	 * Description of the Method
 	 * 
@@ -996,6 +1043,7 @@ public class CreateDB
 		createTanUserDataTable(connection);
 		createTanTable(connection);
 		createMFEImagesTable(connection);
+		createModifyWithSQLLessonTable(connection);
 		System.out.println("Success: creating tables.");
 	}
 }
