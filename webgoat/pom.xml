@@ -55,6 +55,16 @@
 			<version>1.2</version>
 		</dependency>
 		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>3.1</version>
@@ -130,6 +140,7 @@
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>catalina</artifactId>
 			<version>6.0.18</version>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
