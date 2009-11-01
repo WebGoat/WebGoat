@@ -54,8 +54,8 @@
 			     project is bound to this path.
 -->
 
-  <property name="app.home"    		   value="${basedir}/project"/>
-  <property name="app.name"    		   value="WebGoat"/>	<!-- MUST BE CONSISTENT WITH project/build.xml! -->
+  <property name="app.home"    		   value="${basedir}/main"/>
+  <property name="app.name"    		   value="WebGoat"/>	<!-- MUST BE CONSISTENT WITH main/build.xml! -->
   <property name="app.version"    		   value="5.2"/>		<!-- MUST BE CONSISTENT WITH project/build.xml! -->
   <property name="catalina.home" 		   value="${basedir}/tomcat"/>
   <property name="dist.home"     		   value="${app.home}/dist"/>
