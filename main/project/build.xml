@@ -83,8 +83,8 @@
   <property name="manager.url"   		   value="http://localhost/manager"/>
   <property name="manager.username"   	   value="admin"/> 			<!-- UPDATE THIS! -->
   <property name="manager.password"   	   value="admin"/> 			<!-- UPDATE THIS! -->
-  <property name="src.home"     		   value="${basedir}/JavaSource"/>
-  <property name="web.home"      		   value="${basedir}/WebContent"/>
+  <property name="src.home"     		   value="${basedir}/java"/>
+  <property name="web.home"      		   value="${basedir}/webapp"/>
   <property name="zip_distributions.home"  value="${basedir}/zip_distributions"/>
 
 <!-- ==================== External Dependencies =========================== -->
@@ -103,7 +103,7 @@
   files that you are going to include inside your "/WEB-INF/lib" directory.
 -->
 
-  <property name="jars"      value="${basedir}/WebContent/WEB-INF/lib"/>
+  <property name="jars"      value="${basedir}/webapp/WEB-INF/lib"/>
 
 <!-- ==================== Compilation Classpath =========================== -->
 
@@ -123,10 +123,10 @@
 		<include name="*.jar"/>
 	</fileset> 
     <pathelement location="${catalina.home}/common/classes"/>
-    <fileset dir="${catalina.home}/common/lib">
+    <fileset dir="${catalina.home}/lib">
       <include name="*.jar"/>
     </fileset>
-     <fileset dir="${catalina.home}/server/lib">
+     <fileset dir="${catalina.home}/lib">
       <include name="*.jar"/>
     </fileset>
  </path>
@@ -224,17 +224,17 @@
 <!-- =================== Internal Tasks to prepare war file  ============ -->
 
 	<!-- Copying the Java source code into the build directory -->
-	<!-- We must also copy the source into WebContent, since WTP will overwrite the 
+	<!-- We must also copy the source into webapp, since WTP will overwrite the 
 		app as it was deployed from the WAR. -->
-	<!-- We must also copy the doc dir into WebContent, for the "how to create a new lesson" lesson -->
+	<!-- We must also copy the doc dir into webapp, for the "how to create a new lesson" lesson -->
 	<target name="-CopySourceToBuild" depends="prepare" >
-		<delete dir="${build.home}/JavaSource"/>
-		<copy todir="${build.home}/JavaSource">
-			<fileset dir="${basedir}/JavaSource"/>
+		<delete dir="${build.home}/java"/>
+		<copy todir="${build.home}/java">
+			<fileset dir="${basedir}/java"/>
 		</copy>
-		<delete dir="${web.home}/JavaSource"/>
-		<copy todir="${web.home}/JavaSource">
-			<fileset dir="${basedir}/JavaSource"/>
+		<delete dir="${web.home}/java"/>
+		<copy todir="${web.home}/java">
+			<fileset dir="${basedir}/java"/>
 		</copy>
 		<delete dir="${web.home}/doc"/>
 		<copy todir="${web.home}/doc">
