@@ -196,6 +196,11 @@
          optimize="${compile.optimize}">
         <classpath refid="compile.classpath"/>
     </javac>
+  <copy todir="${build.home}/WEB-INF/classes">
+    <fileset dir="${basedir}/resources" />
+  </copy>
+
+
   </target>
 
 <!-- ==================== Dist Target ===================================== -->
