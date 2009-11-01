@@ -315,6 +315,21 @@ public class WebSession
 
 		return roles;
 	}
+	
+	/**
+	 * Sets the admin flag - this routine is ONLY here to allow someone a backdoor to setting the
+	 * user up as an admin.
+	 * 
+	 * This is also used by the WebSession to set the admin, but the method should be private
+	 * 
+	 * @param state
+	 */
+	public void setAdmin(boolean state)
+
+	{
+		isAdmin = state;
+
+	}
 
 	public String getRole()
 	{
