@@ -25,6 +25,12 @@
 					<encoding>ISO-8859-1</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+        			<artifactId>maven-eclipse-plugin</artifactId>
+        			<configuration>
+          				<wtpversion>1.5</wtpversion>
+        			</configuration>
+      			</plugin>
 		</plugins>
 	</build>
 
