@@ -29,8 +29,8 @@ Don't forget to declare a classpath variable named M2_REPO, pointing to ~/.m2/re
 You can declare new variables in Eclipse in Windows -> Preferences... and selecting Java -> Build Path -> Classpath Variables
 
 
-Run the project on Tomcat within Eclipse
------------------------------------------
+Option 1: Run the project on Tomcat within Eclipse
+---------------------------------------------------
 1. Install a local Tomcat server
 2. Open Eclipse -> File -> New -> Other -> Server -> Apache -> Tomcat -> Next 
 -> Insert your Tomcat Installation directory
@@ -52,5 +52,10 @@ Run the project on Tomcat within Eclipse
 4. Right Click on the webgoat project within eclipse -> Run As -> Run on server 
 5. http://localhost:8080/webgoat/attack
 
+
+Option 2: Run the project on Tomcat with Maven
+---------------------------------------------------
+1. mvn tomcat:run-war
+2. http://localhost:8080/webgoat/attack
 
 

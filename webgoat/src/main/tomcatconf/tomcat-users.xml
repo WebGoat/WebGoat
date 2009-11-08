@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcat-users>
+	<role rolename="webgoat_basic"/>
+	<role rolename="webgoat_admin"/>
+	<role rolename="webgoat_user"/>
+	<role rolename="tomcat"/>
+	<user password="webgoat" roles="webgoat_admin" username="webgoat"/>
+	<user password="basic" roles="webgoat_user,webgoat_basic" username="basic"/>
+	<user password="tomcat" roles="tomcat" username="tomcat"/>
+	<user password="guest" roles="webgoat_user" username="guest"/>
+</tomcat-users>
