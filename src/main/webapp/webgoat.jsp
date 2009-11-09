@@ -23,7 +23,6 @@ The exercises are intended to provide hands on experience with
 application penetration testing techniques. </p>
 <p>The WebGoat project is lead
 by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatContext().getFeedbackAddress()%>.</p>
-<p>Thanks to <a href="http://www.ouncelabs.com"><img align="top" height="20" width="160" border = "0" src="images/logos/ounce.jpg" alt="Ounce Labs"/></a> for supporting Bruce on the WebGoat Project.</p>
 
 <div id="team">
 <table border="0" align="center" class="lessonText">
@@ -46,7 +45,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 		</td>
 		<td width="50%">
 		<div align="center"><span class="style1"><br />
-		Lesson Contributers </span></div>
+		V5.3 Lesson Contributers </span></div>
 		</td>
 	</tr>
 	<tr>
@@ -57,9 +56,8 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 		<div align="center" class="style2">Laurence Casey (Graphics)</div>
 		</td>
 		<td valign="top">
-		<div align="center" class="style2">Aspect Security</div>
-		<div align="center" class="style2">Sherif Koussa</div>
-		<div align="center" class="style2">Romain Brechet</div>
+		<div align="center" class="style2">Chuck Willis</div>
+		<div align="center" class="style2">Cam Morris</div>
 		<div align="center" class="style2"></div>
 
 		</td>
@@ -67,7 +65,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	<tr>
 		<td height="25" valign="bottom">
 		<div align="center"><span class="style1">Special Thanks
-		for V5.2</span></div>
+		for V5.3</span></div>
 		</td>
 		<td height="25" valign="bottom">
 		<div align="center"><span class="style1">Documentation
@@ -76,8 +74,8 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	</tr>
 	<tr>
 		<td>
-		<div align="center" class="style2">Reto Lippuner</div>
-		<div align="center" class="style2">Marcel Wirth	</div>
+		<div align="center" class="style2">Christine (Maven)</div>
+		<div align="center" class="style2">Marek Jawurek (Internationalization)</div>
 		<br/><div align="center" class="style2">To all who have sent comments</div>
 		
 		</td>
@@ -111,7 +109,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 <div align="center" class="style2">&nbsp;</div>
 <div id="warning">WARNING<br />
 While running this program, your machine is extremely vulnerable to
-attack. You should disconnect from the network while using this program.
+attack if you are not running on localhost. If tou are NOT running on localhost (default configuration), You should disconnect from the network while using this program.
 <br />
 <br />
 This program is for educational purposes only. Use of these techniques
