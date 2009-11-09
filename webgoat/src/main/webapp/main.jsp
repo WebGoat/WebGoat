@@ -117,7 +117,7 @@ StringBuffer buildList = new StringBuffer();
 		<div id="topRight">
 	  		<div align="left">
 	  		
-	  		<form method="GET" action="attack" style="display:inline;">
+	  		<form method="get" action="attack" style="display:inline;">
 	  		Choose another language:
 	  		<select name="language" size="1" onChange="changeLanguage();">
 	  		<%
