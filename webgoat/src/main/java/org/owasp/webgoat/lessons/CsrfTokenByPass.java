@@ -2,10 +2,6 @@
 package org.owasp.webgoat.lessons;
 
 import java.security.SecureRandom;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,17 +16,7 @@ import org.apache.ecs.html.B;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Form;
 import org.apache.ecs.html.H1;
-import org.apache.ecs.html.H2;
-import org.apache.ecs.html.HR;
-import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
-import org.apache.ecs.html.P;
-import org.apache.ecs.html.TD;
-import org.apache.ecs.html.TR;
-import org.apache.ecs.html.Table;
-import org.apache.ecs.html.TextArea;
-import org.owasp.webgoat.session.DatabaseUtilities;
-import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.util.HtmlEncoder;
 
@@ -174,8 +160,6 @@ public class CsrfTokenByPass extends CsrfPromptByPass
 		ElementContainer credits = new ElementContainer();
 		credits.addElement(new StringElement("Contributed by "));
 		credits.addElement(partnet);
-		credits.addElement(new BR());
-		credits.addElement(new StringElement("Derived from Sherif Koussa's CSRF Lesson"));
 		return credits;
 	}
 }
