@@ -184,6 +184,12 @@ html>body #navBar li {}
 	height: 100%;
 	padding: 10px;
 }
+#lessonAreaTop {
+	float: right;
+	width: 540px;
+	height: 15px;
+	padding: 10px;
+}
 
 #wrap {
 	width: 800px;
@@ -192,14 +198,23 @@ html>body #navBar li {}
 
 #topRight {
 	position:absolute;
-	left:485px;
+	left:380px;
 	top:0px;
-	width:320px;
+	width:400px;
 	height:23px;
 	z-index:3;
 	float: right;
 }
 
+#topLeft {
+	position:absolute;
+	left:100px;
+	top:0px;
+	width:400px;
+	height:23px;
+	z-index:3;
+	float: right;
+}
 #topRightInner {
 	position:absolute;
 	left:450px;

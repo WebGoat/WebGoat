@@ -114,24 +114,35 @@ StringBuffer buildList = new StringBuffer();
 		</div><%
 			}%>
 		<div id="top"></div>
-		<div id="topRight">
-	  		<div align="left">
-	  		
-	  		<form method="get" action="attack" style="display:inline;">
-	  		Choose another language:
-	  		<select name="language" size="1" onChange="changeLanguage();">
-	  		<%
-	  			for(String lang: currentLesson.getAvailableLanguages()){
-	  				%> <option value="<%=lang%>" <% if(webSession.getCurrrentLanguage().equals(lang)) out.println("selected" );%>><%=lang%> </option><%
-	  					
-	  			}
-	  			
-	  		%>
-	  		</select>
-	  		 
-	  		</form><a href="attack?action=Logout" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('logout','','images/buttons/logoutOver.jpg',1)"><img src="images/buttons/logout.jpg" alt="LogOut" name="logout" width="45" height="22" border="0" id="logout" /></a>  <a href="#getFAQ()" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('help','','images/buttons/helpOver.jpg',1)"><img src="images/buttons/help.jpg" alt="Help" name="help" width="22" height="22" border="0" id="help" /></a></div>
+		<div id="topLeft">
+		<div align="left">
+		
+		<form method="get" action="attack" style="display: inline;">
+		Choose another language: <select name="language" size="1"
+			onChange="changeLanguage();">
+			<%
+					  			for(String lang: currentLesson.getAvailableLanguages()){
+					  				%>
+			<option value="<%=lang%>"
+				<% if(webSession.getCurrrentLanguage().equals(lang)) out.println("selected" );%>><%=lang%>
+			</option>
+			<%
+					  					
+					  			}
+					  			
+					  		%>
+		</select></form></div></div>
+		<div align="right" id="topRight">
+		<a href="attack?action=Logout" onmouseout="MM_swapImgRestore()"
+			onmouseover="MM_swapImage('logout','','images/buttons/logoutOver.jpg',1)"><img
+			src="images/buttons/logout.jpg" alt="LogOut" name="logout" width="45"
+			height="22" border="0" id="logout" /></a> <a href="#getFAQ()"
+			onmouseout="MM_swapImgRestore()"
+			onmouseover="MM_swapImage('help','','images/buttons/helpOver.jpg',1)"><img
+			src="images/buttons/help.jpg" alt="Help" name="help" width="22"
+			height="22" border="0" id="help" /></a>
 		</div>
-			<div id="lessonTitle" align="right"><%=currentLesson.getTitle()%></div>
+<div id="lessonTitle" align="right"><%=currentLesson.getTitle()%></div>
 			<div id="hMenuBar">
 				<% 
 				if (webSession.isAuthorizedInLesson(webSession.getRole(), WebSession.SHOWHINTS))
@@ -187,7 +198,7 @@ StringBuffer buildList = new StringBuffer();
 			</div>
 			<div id="twoCol">
 	 	 	<div id="menuSpacer"></div>
-	 	 	<div id="lessonArea">
+	 	 	<div id="lessonAreaTop">
 	 	 	<%
 			    if (currentLesson != null)
 			    {
@@ -197,8 +208,11 @@ StringBuffer buildList = new StringBuffer();
 			    	<div id="reset" class="info"><a href="<%=webSession.getRestartLink()%>"><%=WebGoatI18N.get("RestartLesson")%></a></div>
 			    	</div>
 	    			<%
-	    			}
-
+	    		}
+	 	 	%>
+	 	 	</div>
+	 	 	<div id="lessonArea">
+	 	 	<%
 				if (webSession.getHint() != null)
 				{
 					printHint = "<div id=\"hint\" class=\"info\">" + webSession.getHint() + "</div><br>";
