@@ -173,12 +173,16 @@ Step 4: Build and test
 
 Once you've implemented your new lesson, you can test the lesson by
 starting the Tomcat server (within Eclipse). See the
-"HOW TO create the WebGoat workspace.txt" document in the WebGoat root.
-
-
+"readme.txt" document in the WebGoat root.
 
 	
-Step 5: Give back to the community
+Step 5: Create the lesson plan
+
+All WebGoat lessons have a lesson plan that describes the goals of the lesson.
+Create a lesson plan and put it in lesson_plans folder for each supported language.
+
+
+Step 6: Give back to the community
 
 If you've come up with a lesson that you think helps to teach people about 
 web application security, please contribute it by sending it to the people 
