@@ -77,7 +77,7 @@ public class NewLesson extends LessonAdapter
 	 */
 	public String getTitle()
 	{
-		return ("Create a WebGoat Lesson");
+		return ("How to create a Lesson");
 	}
 
 	public Element getCredits()
