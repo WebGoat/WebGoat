@@ -114,7 +114,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 
 						StringBuffer msg = new StringBuffer();
 
-						msg.append(WebGoatI18N.get("NumericSqlInjectionSecondStage1"));
+						msg.append(WebGoatI18N.get("StringSqlInjectionSecondStage"));
 
 						s.setMessage(msg.toString());
 					}

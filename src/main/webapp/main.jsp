@@ -116,7 +116,9 @@ StringBuffer buildList = new StringBuffer();
 		<div id="top"></div>
 		<div id="topLeft">
 		<div align="left">
-		
+		<% if (currentLesson.getAvailableLanguages().size() != 0 ) 
+		{
+		%>
 		<form method="get" action="attack" style="display: inline;">
 		Choose another language: <select name="language" size="1"
 			onChange="changeLanguage();">
@@ -129,9 +131,16 @@ StringBuffer buildList = new StringBuffer();
 			<%
 					  					
 					  			}
-					  			
-					  		%>
-		</select></form></div></div>
+			%>
+		</select></form>
+		<%
+		} else {
+		%>
+			Internationalization is not available for this lesson
+		<%
+		}
+		%>
+		</div></div>
 		<div align="right" id="topRight">
 		<a href="attack?action=Logout" onmouseout="MM_swapImgRestore()"
 			onmouseover="MM_swapImage('logout','','images/buttons/logoutOver.jpg',1)"><img
