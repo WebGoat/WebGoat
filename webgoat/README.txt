@@ -1,4 +1,42 @@
-Prerequisites: 
+**********          WebGoat 5.3
+**********          November/10/2000
+**********
+**
+**  Source Code:  http://code.google.com/p/webgoat
+**  Download:     http://sourceforge.net/project/showfiles.php?group_id=64424&package_id=61824
+**  Download:     http://code.google.com/p/webgoat/downloads/list   (Does not have Developer release)
+**  User Guide:   http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents
+**  Home Page:    http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project
+**  Contact Info: webgoat@owasp.org (Direct to Bruce Mayhew)
+**  Mailing List: owasp-webgoat@lists.owasp.org (WebGoat Community - For most questions)
+**
+**********
+
+Thank you for downloading WebGoat!
+
+This program is a demonstration of common server-side
+application flaws.  The exercises are intended to
+be used by people to learn about application penetration
+testing techniques.
+
+
+WARNING 1: While running this program your machine will be 
+extremely vulnerable to attack. You should to disconnect
+from the Internet while using this program.
+
+WARNING 2: This program is for educational purposes only. If you
+attempt these techniques without authorization, you are very
+likely to get caught.  If you are caught engaging in unauthorized
+hacking, most companies will fire you. Claiming that you were
+doing security research will not work as that is the first thing
+that all hackers claim.
+
+You can find more information about WebGoat at:
+http://code.google.com/p/webgoat
+
+
+Prerequisites (Skip to Option 3 for unzip and click to run configruation): 
+--------------
 
 - Java 1.6
 - Maven > 2.0.9
@@ -7,7 +45,7 @@ Prerequisites:
 	> apt-get install maven2
 
 Building the project
-------------------
+--------------------
 > cd webgoat
 > mvn compile
 
@@ -19,7 +57,7 @@ delete artifacts from previous build:
 
 
 Building the Eclipse project files
--------------------------------
+----------------------------------
 > mvn eclipse:eclipse
 
 Afterward the project can be imported within Eclipse:
@@ -54,8 +92,15 @@ Option 1: Run the project on Tomcat within Eclipse
 
 
 Option 2: Run the project on Tomcat with Maven
----------------------------------------------------
+----------------------------------------------
 1. mvn tomcat:run-war
 2. http://localhost:8080/webgoat/attack
 
+
+Option 3: Run from the WebGoat 5.3 Standard distribution
+--------------------------------------------------------
+1. Download the WebGoat-OWASP_Standard-X.X.zip file from http://code.google.com/p/webgoat/downloads/list
+2. Unzip the file
+3. Double click webgoat.bat
+4. Browse to http://localhost/webgoat/attack
 
