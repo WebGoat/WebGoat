@@ -19,7 +19,7 @@ SET DatabaseConnectionString=jdbc:jtds:sqlserver://./webgoat;namedPipe=true;INST
 SET DatabaseUser=webgoat
 SET DtabasePassword=_webgoat
 
-delete .\tomcat\conf\server.xml
+del .\tomcat\conf\server.xml
 copy .\tomcat\conf\server_80.xml .\tomcat\conf\server.xml
 
 @REM Run tomcat: must have quotes incase var has spaces in it
