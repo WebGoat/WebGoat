@@ -77,7 +77,7 @@ public abstract class LessonAdapter extends AbstractLesson
 								+ "If you would prefer, send your lesson ideas to "
 								+ getWebgoatContext().getFeedbackAddressHTML()));
 
-		String fileName = s.getContext().getRealPath("doc/New Lesson Instructions.txt");
+		String fileName = s.getContext().getRealPath("WEB-INF/classes/New Lesson Instructions.txt");
 		if (fileName != null)
 		{
 			try
