@@ -21,7 +21,7 @@ WebSession webSession = ((WebSession) session.getAttribute("websession"));
 <p>Thank you for using WebGoat! This program is a demonstration of common web application flaws.
 The exercises are intended to provide hands on experience with
 application penetration testing techniques. </p>
-<p>The WebGoat project is lead
+<p>The WebGoat project is led
 by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatContext().getFeedbackAddress()%>.</p>
 
 <div id="team">
