@@ -48,9 +48,8 @@ These tools must be installed independent of the webgoat download.
 	At Ubuntu it can be installed with:
 	> apt-get install maven2
 - WebGoat source code
-    WebGoat source code can be downloaded at: http://webgoat.googlecode.com/files/WebGoat-OWASP_Standard-5.3.zip
-	This is the directory structure for the commands below.  You can also work with the latest 
-	WebGoat by checking out the WebGoat source at: http://code.google.com/p/webgoat/source/checkout
+    You can get the latest source for webgoat at the Google code repository
+	svn checkout http://webgoat.googlecode.com/svn/trunk/ webgoat_X_X
 
 	
 --------------------
