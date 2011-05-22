@@ -1,0 +1,114 @@
+<!-- Start Instructions -->
+<h1>How To Configure Tomcat</h1><br><br>
+<h2>Introduction</h2>
+<p>WebGoat comes with default configurations for Tomcat. This page will explain these configurations
+and other possible configurations for Tomcat. This is just 
+a short description which should be enough in most cases. For more advanced tasks please 
+refer to the Tomcat documentation. Please note that all solutions
+are written for the standard configurations on port 80. If you use another port you have 
+to adjust the solution to your configuration.</p>
+
+<h2>The Standard Configurations</h2>
+<p>There are two standard Tomcat configurations. In the basic configurations you use the server on your localhost.
+	Both are identically with the only difference
+	that in one tomcat is running on port 80 and 443 (SSL) and in the other tomcat is running on port 8080 and 8443. In Linux you have
+	to start WebGoat as root or with sudo if you want to run it on port 80 and
+	443.
+	As running software as root is dangerous we strongly advice to use
+the port 8080 and 8443. In Windows you can
+run WebGoat.bat to run it on port 80 and WebGoat_8080.bat to run it on port 8080. In Linux you
+can use webgoat.sh and run it with webgoat.sh start80 or webgoat.sh start8080. The user in these
+configurations is guest with password guest
+</p>
+
+<h2>Server Configurations</h2>
+<p>
+If you are a single user of WebGoat the standard configurations should be
+enough but if you want to use WebGoat in laboratory or in class there
+might be the need to change the configurations. Before changing
+the configurations we recommend doing a backup of the files you change.
+</p>
+
+<h3>Change Ports</h3>
+<p>
+To change the ports open the server_80.xml which you find in tomcat/conf and change the 
+non-SSL port. If you want to use it on port 8079 for example:
+</p>
+
+<pre>
+	&lt;!-- Define a non-SSL HTTP/1.1 Connector on port 8079 --&gt; 
+	&lt;Connector address=&quot;127.0.0.1&quot; port=&quot;8079&quot;...
+</pre>
+<p>
+You can also change the SSL connector to another port of course.
+In this example to port 8442:
+</p>
+<pre>
+	&lt;!-- Define a SSL HTTP/1.1 Connector on port 8442 --&gt; 
+	&lt;Connector address=&quot;127.0.0.1&quot; port=&quot;8442&quot;... 
+</pre>
+<br>
+
+<h3>Make WebGoat Reachable From Another Client</h3>
+<p>THIS MAKES IT POSSIBLE TO REALLY ATTACK YOUR SERVER! DO NOT DO THIS
+	UNTIL YOU KNOW WHAT YOU ARE DOING. THIS CONFIGURATION SHOULD BE ONLY USED IN 
+SAFE NETWORKS!</p>
+<p>By its default configurations WebGoat is only
+reachable within the localhost. In a laboratory or a class
+there is maybe the need of having a server and a few clients. 
+In this case it is possible to make WebGoat reachable.
+</p>
+<p>The reason why WebGoat is only reachable within the localhost is
+the parameter address in the connectors for the non-SSL and SSL connection in server_80.xml. It is set
+to 127.0.0.1. The applications only listens on the port of this address for
+incoming connections if it is set. If you remove this parameter the server listens on all IPs on the
+specific port.</p>
+
+<h3>Permit Only Certain Clients Connection</h3>
+<p>
+If you have made WebGoat reachable it is reachable for
+all clients. If you want to make it reachable only for certain clients specified
+by there IP you can archive this by using a 'Remote Address Filter'.
+The filter can be set in a whitebox or blackbox approach. Here is
+only discussed the whitebox approach. You have to add following lines to the Host section of web_80.xml:
+</p>
+<pre>
+	&lt;Valve className=&quot;org.apache.catalina.valves.RemoteAddrValve&quot;
+	allow=&quot;127.0.0.1,ip1,ip2&quot;/&gt;
+</pre>
+<p>In this case only localhost, ip1 and ip2 are permitted to connect.</p>
+
+<h2>WebGoat Default Users and Roles for Tomcat</h2>
+<p>
+WebGoat requires the following users and roles to be configured in order for the application to run.
+<br/>
+  <pre>
+  &gt;role rolename="webgoat_basic"/&lt;
+  &gt;role rolename="webgoat_admin"/&lt;
+  &gt;role rolename="webgoat_user"/&lt;
+  &gt;user username="webgoat" password="webgoat" roles="webgoat_admin"/&lt;
+  &gt;user username="basic" password="basic" roles="webgoat_user,webgoat_basic"/&lt;
+  &gt;user username="guest" password="guest" roles="webgoat_user"/&lt;
+  </pre>
+</p>
+<h2>Adding Users</h2>
+<p>
+Usually using WebGoat you just use the user guest with the password guest.
+But maybe in laboratory you have made a setup with one server and a lot of
+clients. In this case you might want to have a user for every client
+ and you have to alter tomcat-users.xml 
+in tomcat/conf as the users are stored there. <b>We recommend not to use real passwords 
+as the passwords are stored in plain text in this file!</b>
+</p>
+<h3>Add User</h3>
+<p>
+Adding a user is straight forward. You can use the guest entry as an example. The added
+users should have the same role as the guest user. Add lines like this to the file:
+</p>
+<pre>
+	&lt;user name=&quot;student1&quot; password=&quot;password1&quot; roles=&quot;webgoat_user&quot;/&gt;
+	&lt;user name=&quot;student2&quot; password=&quot;password2&quot; roles=&quot;webgoat_user&quot;/&gt;
+	...
+</pre>
+
+<!-- Stop Instructions -->

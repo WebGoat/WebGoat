@@ -1,0 +1,16 @@
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b> Phishing with XSS </p>
+ </div>
+ <p><b>Concept / Topic To Teach:</b> </p>
+<!-- Start Instructions -->
+It is always a good practice to validate all input on the server side.
+ XSS can occur when unvalidated user input is used in an HTTP response. 
+ With the help of XSS you can do a Phishing Attack and add content to a page
+ which looks official. It is very hard for a victim to determinate
+ that the content is malicious.
+<!-- Stop Instructions -->
+<p><b>General Goal(s):</b> </p>
+The user should be able to add a form asking for username
+and password. On submit the input should be sent
+to http://localhost/WebGoat/catcher?PROPERTY=yes &user=catchedUserName&password=catchedPasswordName
+

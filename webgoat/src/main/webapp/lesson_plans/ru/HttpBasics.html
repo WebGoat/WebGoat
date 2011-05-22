@@ -1,0 +1,27 @@
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b> Http Basics </p>
+ </div>
+ 
+<p><b>Concept / Topic To Teach:</b> </p>
+ This lesson presents the basics for understanding the transfer of data between the browser and the web application.<br>
+<div align="Left"> 
+<p>
+<b>How HTTP works:</b>
+</p>
+All HTTP transactions follow the same general format. Each client request and server response has three parts:  the request or response line, a header section, and the entity body. The client initiates a transaction as follows: <br>
+<br>
+ The client contacts the server and sends a document request <br>
+</div>
+  <br>
+<ul>GET /index.html?param=value HTTP/1.0</ul>
+ Next, the client sends optional header information to inform the server of its configuration and the document formats it will accept.<br>
+ <br>
+<ul>User-Agent: Mozilla/4.06 Accept: image/gif,image/jpeg, */*</ul>
+After sending the request and headers, the client may send additional data. This data is mostly used by CGI programs using the POST method.<br>
+<p><b>General Goal(s):</b> </p>
+<!-- Start Instructions -->
+Enter your name in the input field below and press "go" to submit. The server will accept the request, reverse the input, and display it back to the user, illustrating the basics of handling an HTTP request.
+<br/><br/>
+The user should become familiar with the features of WebGoat by manipulating the above 
+buttons to view hints, show the HTTP request parameters, the HTTP request cookies, and the Java source code. You may also try using WebScarab for the first time.
+<!-- Stop Instructions -->

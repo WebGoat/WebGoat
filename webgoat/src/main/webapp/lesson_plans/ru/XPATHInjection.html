@@ -1,0 +1,22 @@
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b> How to Perform XPATH Injection Attacks. </p>
+ </div>
+ 
+<p><b>Concept / Topic To Teach:</b> </p>
+ This lesson teaches how to perform XPath Injection attacks.
+ <br> 
+<div align="Left"> 
+<p>
+<b>How the attacks works:</b>
+</p>
+Similar to SQL Injection, XPATH Injection attacks occur when a web site uses user supplied information to query XML data. By sending intentionally malformed information into the web site, an attacker can find out how the XML data is structured or access data that they may not normally have access to.
+They may even be able to elevate their privileges on the web site if the xml data is being used for authentication (such as an xml based user file). 
+
+Querying XML is done with XPath, a type of simple descriptive statement that allows the xml query to locate a piece of information. Like SQL you can specify certain attributes to find and patterns to match. When using XML for a web site it is common to accept some form of input on the query string to identify the content to locate and display on the page. This input must be sanitized to verify that it doesn't mess up the XPath query and return the wrong data. 
+
+
+</div>
+<p><b>General Goal(s):</b> </p>
+<!-- Start Instructions -->
+The form below allows employees to see all their personal data including their salaries. Your account is Mike/test123. Your goal is to try to see other employees data as well.
+<!-- Stop Instructions -->

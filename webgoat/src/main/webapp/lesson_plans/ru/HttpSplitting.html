@@ -1,0 +1,34 @@
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b> How to Perform HTTP Splitting </p>
+ </div>
+ 
+<p><b>Concept / Topic To Teach:</b> </p>
+ This lesson teaches how to perform HTTP Splitting attacks.
+ <br /> 
+<div align="Left"> 
+<p>
+<b>How the attack works:</b>
+</p>
+<p>The attacker passes malicious code to the web server together with normal input. 
+A victim application will not be checking for CR (carriage return, also given by %0d or \r) 
+and LF (line feed, also given by %0a or \n) characters. These characters not only give attackers control 
+of the remaining headers and body of the response the application intends to send, 
+but they also allows them to create additional responses entirely under their control.</p>
+<p>The effect of an HTTP Splitting attack is maximized when accompanied with a Cache Poisoning. The goal of
+Cache Poisoning attack is to poison the cache of the victim by fooling the cache into believing that the page
+hijacked using the HTTP splitting is an authentic version of the server's copy.</p>
+<p>The attack works by using the HTTP Splitting attack plus adding the <b>Last-Modified:</b> header and setting it
+to a future date. This forces the browser to send an incorrect <b>If-Modified-Since</b> request header on future requests.
+Because of this, the server will always report that the (poisoned) page has not changed, and the victim's browser
+will continue to display the attacked version of the page.</p>
+<p>A sample of a 304 response is:
+<blockquote>HTTP/1.1 304 Not Modified <br />
+Date: Fri, 30 Dec 2005 17:32:47 GMT</blockquote>
+</p>
+</div>
+<p><b>General Goal(s):</b> </p>
+<!-- Start Instructions -->
+<p>This lesson has two stages. Stage 1 teaches you how to do HTTP Splitting attacks while stage 2 builds on that to teach you how to elevate HTTP Splitting to Cache Poisoning.</p>
+<p>Enter a language for the system to search by. You will notice that the application is redirecting your request to another resource on the server. You should be able to use the CR (%0d) and LF (%0a) characters to exploit the attack. Your goal should be to force the server to send a 200 OK. If the screen changed as an effect to your attack, just go back to the homepage. After stage 2 is exploited successfully, you will find the green check in the left menu.</p>
+<!-- Stop Instructions -->
+
