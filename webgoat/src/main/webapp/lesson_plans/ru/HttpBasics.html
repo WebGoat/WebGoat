@@ -1,27 +1,33 @@
 <div align="Center"> 
-<p><b>Lesson Plan Title:</b> Http Basics </p>
+<p><b>Название урока:</b> Основы Http </p>
  </div>
  
-<p><b>Concept / Topic To Teach:</b> </p>
- This lesson presents the basics for understanding the transfer of data between the browser and the web application.<br>
+<p><b>Тема изучения:</b> </p>
+В данном уроке представлены основы необходимые для понимания процесса передачи данных между браузером и веб-приложением.<br>
 <div align="Left"> 
 <p>
-<b>How HTTP works:</b>
+<b>Как работает HTTP:</b>
 </p>
-All HTTP transactions follow the same general format. Each client request and server response has three parts:  the request or response line, a header section, and the entity body. The client initiates a transaction as follows: <br>
+Все обращения по протоколу HTTP имеют один основной формат. Кажный запрос клиента или ответ сервера состоит из трёх частей:
+строка запроса или ответа, заголовок и тело. Клиент начинает предачу данных следующим образом: <br>
 <br>
- The client contacts the server and sends a document request <br>
+ Он соединяется с сервером и отправляет запрос для получения документа <br>
 </div>
   <br>
 <ul>GET /index.html?param=value HTTP/1.0</ul>
- Next, the client sends optional header information to inform the server of its configuration and the document formats it will accept.<br>
+Далее он шлёт различную информацию в разделе заголовка чтоб уведомить сервер о своей конфигурации и возможностях
+(например какие кодировки и типы документов поддерживаются клиентом).<br>
  <br>
-<ul>User-Agent: Mozilla/4.06 Accept: image/gif,image/jpeg, */*</ul>
-After sending the request and headers, the client may send additional data. This data is mostly used by CGI programs using the POST method.<br>
-<p><b>General Goal(s):</b> </p>
+<ul>User-Agent: Mozilla/4.06<br />Accept: image/gif,image/jpeg, */*</ul>
+После отправки запроса и заголовков клиент может отправить дополнительные данные. Они в большинстве случаев
+предназначаются для CGI-программ использующих метод POST для принятия информации.<br>
+<p><b>Основные цели и задачи:</b> </p>
 <!-- Start Instructions -->
-Enter your name in the input field below and press "go" to submit. The server will accept the request, reverse the input, and display it back to the user, illustrating the basics of handling an HTTP request.
+Введите ваше имя в поле расположенное ниже и нажмите "go" для отправки формы. Сервер примет ваш запрос, выстроит
+полученную строку в обратном порядке и выведет результат на экран. Данный пример иллюстрирует основы обработки данных
+полученных из HTTP-запроса.
 <br/><br/>
-The user should become familiar with the features of WebGoat by manipulating the above 
-buttons to view hints, show the HTTP request parameters, the HTTP request cookies, and the Java source code. You may also try using WebScarab for the first time.
+Пользователю необходимо ознакомится с использованием функций WebGoat, таких как просмотр подсказок, отображение параметров HTTP-запроса, 
+отображение Cookies и исходных кодов Java. Первое время, в качестве практики, для просмотра параметров и Cookies
+запросов вы можете использовать WebScarab.
 <!-- Stop Instructions -->

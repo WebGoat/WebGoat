@@ -1,49 +1,55 @@
 <!-- Start Instructions -->
-<h1>How To Work With WebGoat</h1>
+<h1>Как работать с WebGoat</h1>
 <p>
-Welcome to a short introduction to WebGoat.<br> 
-Here you will learn how to use WebGoat and additional tools for the lessons.<br><br>
+Добро пожаловать в краткую инструкцию по работе с WebGoat.<br>
+Здесь вы научитель использовать сам WebGoat, а также инструменты, необходимые для некоторых уроков.<br><br>
 </p>
-<h2>Environment Information</h2>
+<h2>Информация о среде работы WebGoat</h2>
 <p>
-WebGoat uses the Apache Tomcat server. It is configured to run on localhost although this can be
-easily changed. This
-configuration is for single user, additional users can be added in the tomcat-users.xml file. 
-If you want to use WebGoat in a laboratory or in 
-class you might need to change this setup. Please refer to the Tomcat Configuration 
-in the Introduction section.</p>
+WebGoat работает под управлением Apache Tomcat. По умолчанию он настроен на работу на хосте localhost,
+однако в случае необходимости имя хоста может быть легко изменено.
+Кроме того, по умолчанию WebGoat настроен на работу лишь с одним пользователем. Дополнительные учётные записи
+вы можете добавить в файле tomcat-users.xml.
+Если вы хотите использовать WebGoat в лаборатории или классе вам обязательно нужно изменить его базовую конфигурацию.
+Для этого пройдите в раздел "Введение" и прочтите главу "Настройка Tomcat"
+</p>
 
-<h2>The WebGoat Interface</h2>
+<h2>Интерфейс WebGoat</h2>
 <p>
 <img src="images/introduction/interface.jpg"><br><br>
-1. These are Lesson Categories in WebGoat. Click on a Category to see all Lessons in it.<br>
-2. This will show technical hints to solve the lesson.<br>
-3. This will show the HTTP Request Parameters<br>
-4. This will show the HTTP Request Cookies<br>
-5. This will show goals and objectives of the lesson.<br>
-6. This will show the underlying Java source code.<br>
-7. This will show the complete solution of the selected lesson.<br>
-8. If you want to restart a lesson you can use this link.</p>
-<h2>Solve The Lesson</h2>
+1. Здесь располагаются категории уроков WebGoat. Кликните по любой категории и вы увидите какие уроки в неё входят.<br>
+2. При клике здесь находятся подсказки которые помогут вам проходить уроки.<br>
+3. При клике здесь отобразятся параметры текущего HTTP-запроса<br>
+4. При клике здесь отобразятся текущие Cookies<br>
+5. При клике здесь отобразятся цели и задачи текущего урока.<br>
+6. При клике здесь отобразится исходный код урока на Java.<br>
+7. При клике здесь отобразится решение текущего урока.<br>
+8. В случае если вы хотите начать урок заново кликите на эту ссылку.</p>
+<h2>Решение уроков</h2>
 <p>
-Always start with the lessons plan. Then try to solve the lesson and if necessary, 
-use the hints. The last hint is the solution text if applicable.  If you cannot solve the lesson using the hints, you may view the 
-solution for complete details.</p>
-<h2>Read And Edit Parameters</h2>
+Всегда начинайте работу по плану текущего урока. Если вдруг решить урок у вас никак не получается,
+воспользуйтесь подсказками к нему. В том случае, если урок не получается решить даже с помощью подсказок
+вы можете посмотреть подробное его решение.</p>
+<h2>Чтение и редактирование параметров</h2>
 <p>
-To read and edit Parameters you need a local proxy to intercept the HTTP request. 
-Here we use WebScarab. More information on WebScarab can be found in the "Useful Tools" Chapter.
-After installing WebScarab and configuring your browser to use it as proxy on localhost we can start.<br><br>
+Для чтения и редактирования параметров вам необходимо иметь локальный прокси-сервер способный перехватывать
+HTTP-запросы. Здесь вы можете использовать WebScarab. Более подробную информацию о нём вы можете получить в разделе
+"Используемые инструменты". После установки WebScarab и настройки браузера на работу с ним можно начинать прохождение уроков.
+<br><br>
 <img src="images/introduction/HowToUse_1.jpg"><br><br>
-We have to select "Intercept Request" in the tab "Intercept". If we send a HTTP request we get a new WebScarab window.<br><br>
+Мы ставим галочку в поле "Intercept Request" на закладке "Intercept". Если мы сейчас пошлём из браузера какой-либо запрос, то сразу
+же появится новое окно WebScarab.<br><br>
 <img src="images/introduction/HowToUse_2.jpg"><br><br>
-Here we can read and edit the intercepted parameter. After "Accept changes" the request will be sent to the server.
+Здесь мы можем смотреть и редактировать перехватываемые параметры. После нажатия "Accept Changes" запрос пойдёт дальше на сервер.
 </p>
-<h2>Read And Edit Cookies</h2>
+<h2>Просмотр и редактирование Cookies</h2>
 <p>
-Often it is not only necessary to change the value of the parameters but to change the value of cookies. 
-We can use WebScarab to intercept the request and change cookies values just like parameter data as explained in the last topic.<br><br>
+Почти всегда редактирование Cookies происходит точно также как и редактирование параметров запроса.
+Мы можем использовать WebScarab для перехвата запроса и изменения значений имеющихся в нём Cookies
+точно также как описывалось выше.
+<br><br>
 <img src="images/introduction/HowToUse_3.jpg"><br><br>
-We get a new window on sending a HTTP request. On the screenshot you see where we can find cookies and how to edit the values of them.
+При отправке нового запроса появится уже знакомое окно. На скриншоте вы видите где может располагаться
+строка с Cookies и как можно редактировать её значение.
 </p>
 <!-- Stop Instructions -->
