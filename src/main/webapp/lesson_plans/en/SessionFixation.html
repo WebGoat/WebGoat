@@ -1,0 +1,33 @@
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b> Session Fixation</p>
+ </div>
+ 
+<p><b>Concept / Topic To Teach:</b> </p>
+How to steal a session with a 'Session Fixation'
+ <br> 
+<div align="Left"> 
+<p>
+<b>How the attacks works:</b>
+</p>
+A user is recognized by the server by an unique Session ID. If a
+user has logged in and is authorized he does not have to 
+reauthorize when he revisits the application as the user is recognized
+by the Session ID. In some applications it is possible to deliver
+the Session ID in the Get-Request. Here is where the attack starts.
+<br><br>
+An attacker can send a hyperlink to a victim with a chosen Session ID.
+This can be done for example by a prepared mail which looks like an 
+official mail from the application administrator.
+If the victim clicks on the link and logs in he is authorized
+by the Session ID the attacker has chosen. The attacker
+can visit the page with the same ID and is recognized as the victim and
+gets logged in without authorization.
+</div>
+<p><b>General Goal(s):</b> </p>
+<!-- Start Instructions -->
+This lesson has several stages. You play the attacker but also the victim.
+After having done this lesson it should be understood how
+a Session Fixation in general works. It should be also understood that
+it is a bad idea to use the Get-Request for Session IDs.
+<!-- Stop Instructions -->
+

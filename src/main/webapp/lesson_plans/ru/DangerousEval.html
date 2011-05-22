@@ -1,0 +1,14 @@
+<div align="Center">
+<p><b>Lesson Plan Title: </b>Dangerous Use of Eval</p>
+</div>
+<p><b>Concept / Topic To Teach:</b> </p>
+<!-- Start Instructions -->
+It is always a good practice to validate all input on the server side. XSS can occur
+when unvalidated user input is reflected directly into an HTTP response. In this lesson, unvalidated
+user-supplied data is used in conjunction with a Javascript eval() call. In a reflected
+XSS attack, an attacker can craft a URL with the attack script and store it on another
+website, email it, or otherwise trick a victim into clicking on it.
+<!-- Stop Instructions -->
+<p><b>General Goal(s):</b> </p>
+For this exercise, your mission is to come up with some input which, when run through eval,
+will execute a malicious script. In order to pass this lesson, you must 'alert()' document.cookie.
