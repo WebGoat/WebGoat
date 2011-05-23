@@ -1,14 +1,16 @@
 <div align="Center">
-<p><b>Lesson Plan Title: </b>Dangerous Use of Eval</p>
+<p><b>Название урока: </b>Опасное использование eval()</p>
 </div>
-<p><b>Concept / Topic To Teach:</b> </p>
+<p><b>Тема для изучения:</b> </p>
 <!-- Start Instructions -->
-It is always a good practice to validate all input on the server side. XSS can occur
-when unvalidated user input is reflected directly into an HTTP response. In this lesson, unvalidated
-user-supplied data is used in conjunction with a Javascript eval() call. In a reflected
-XSS attack, an attacker can craft a URL with the attack script and store it on another
-website, email it, or otherwise trick a victim into clicking on it.
+Хорошей практикой является проверка на стороне сервера всех принимаемых данных. 
+В случаях когда непроверенные пользовательские данные напрямую отражаются в HTTP-ответе имеется
+риск появления XSS-уязвимостей. В текущем приложении не проходящие проверку пользовательские данные помещаются
+в строку передаваемую функции eval(). В подобных ситуациях (они называются отражёнными XSS-уязвимостями)
+злоумышленник может составить URL содержащий специальные вредоносные вставки, и опубликовать его 
+на стороннем веб-сайте, отправить по почте или любым другим способом донести его до жертвы.
 <!-- Stop Instructions -->
-<p><b>General Goal(s):</b> </p>
-For this exercise, your mission is to come up with some input which, when run through eval,
-will execute a malicious script. In order to pass this lesson, you must 'alert()' document.cookie.
+<p><b>Основные цели и задачи:</b> </p>
+Ваша цель - добиться выполнения произвольного JavaScript-кода в данном приложении используя
+уже имеющийся в странице вызов eval(). Для того чтоб успешно завершить урок вы дложны вызвать выполнение строки
+'alert(document.cookie)'.
