@@ -1,9 +1,16 @@
 <div align="Center"> 
-<p><b>Lesson Plan Title:</b> Basic Authentication </p>
+<p><b>Название урока:</b> Основная аутентификация </p>
 </div>
-<p><b>Concept / Topic To Teach:</b></p>
+<p><b>Тема для изучения:</b></p>
 <!-- Start Instructions -->
-Basic Authentication is used to protect server side resources.  The web server will send a 401 authentication request with the response for the requested resource. The client side browser will then prompt the user for a user name and password using a browser supplied dialog box. The browser will base64 encode the user name and password and send those credentials back to the web server. The web server will then validate the credentials and return the requested resource if the credentials are correct. These credentials are automatically resent for each page protected with this mechanism without requiring the user to enter their credentials again.<br/>
-<p><b>General Goal(s):</b></p>
-For this lesson, your goal is to understand Basic Authentication and answer the questions below.
+Основная аутентификация используется для защиты ресурсов расположенных на стороне сервера.
+При получении запроса от пользователя веб-сервер отправляет ему ответ с кодом 401.
+Получив его браузер запрашивает у пользователя логин и пароль в специальном диалоговом окне. После
+ввода браузер кодирует полученные данные по алгоритму base64 и отсылает веб-серверу.
+Последний, в свою очередь, проверяет полученную информацию и, если всё правильно, отдаёт клиенту запрашиваемый
+документ. Указанные пользователем данные далее автоматически отсылаются браузером при каждом обращении к
+защищённым ресурсам.
+
+<p><b>Основная цель(и):</b></p>
+На этом уроке вашей целью является понимание механизмов основной аутентификации и ответ на вопросы которые находятся ниже.
 <!-- Stop Instructions -->
