@@ -1,37 +1,41 @@
 <div align="Center"> 
-<p><b>Lesson Plan Title:</b>CSRF Token Prompt By-Pass</p><br/>
+<p><b>Название урока:</b>Обход CSRF-защиты основанной на токенах</p><br/>
  </div>
  
-<p><b>Concept / Topic To Teach:</b> </p>
-This lesson teaches how to perform CSRF attacks on sites that use tokens to mitigate CSRF attacks, but are vulnerable to CSS attacks.
+<p><b>Тема для изучения:</b> </p>
+На данном уроке вы научитесь осуществлять CSRF-нападения на сайты, использующие токены в качестве защиты
+от CSRF-атак.
  <br> 
 <div align="Left"> 
 <p>
-<b>How the attacks works:</b>
+<b>Как работают эти атаки:</b>
 </p>
 <p>
-Cross-Site Request Forgery (CSRF/XSRF) is an attack that tricks the victim into 
-loading a page that contains a 'forged request' to execute commands with the 
-victim's credentials.  </p>
+CSRF-атаки заставляют браузер жертвы осуществлять необходимые злоумышленнику запросы
+к целевому серверу в невидимом режиме. Это позволяет атакующему вызывать выполнение различных операций
+от лица атакованного пользователя с его правами и привилегиями.</p>
 
-<p>Token-based request authentication mitigates these attacks.  This technique 
-inserts tokens into pages that issue requests.  These tokens are required to 
-complete a request, and help verify that requests are not scripted.  CSRFGuard from OWASP uses 
-this technique to help prevent CSRF attacks.</p>
+<p>Аутентификация запросов принимаемых от посетителей, основанная на уникальных токенах, предотвращает
+возможность CSRF-нападений. При использовании данной техники, при отправке важного запроса, серверу
+передаётся уникальный для каждого клиента токен, наличие которого подтверждает его легитимность.
+Проект OWASP CSRFGuard как раз использует такой подход, позволяя защитить приложения от CSRF-нападений.
+</p>
 
-<p>However, this technique can be by-passed if CSS vulnerabilities exist on the same site.  
-Because of the same-origin browser policy, pages from the same domain can read content from 
-other pages from the same domain.  </p>
+<p>
+Тем не менее, данный вид защиты можно обойти. Для этого достаточно обнаружить на атакуемом сайте XSS-уязвимость.
+Её наличие поможет отправлять запросы от имени жертвы, ведь системы безопасности всех браузеров,
+основанных на политике одного источника, не запрещают обращаться к текущему домену.
+</p>
 
 </div>
-<p><b>General Goal(s):</b> </p>
+<p><b>Основные цели и задачи:</b> </p>
 <!-- Start Instructions -->
-Similar to the CSRF Lesson, your goal is to send an email to a newsgroup that contains a malicious 
-request to transfer funds.  To successfully complete you need to obtain a valid request token.  
-The page that presents the transfer funds form contains a valid request token.  The URL for the 
-transfer funds page is the same as this lesson with an extra parameter "transferFunds=main". Load 
-this page, read the token and append the token in a forged request to transferFunds. When you think
-the attack is successful, refresh the page and you will find the green check on the left hand side menu.
+Как и в прошлом уроке, вашей целью является отправка письма в новостную группу для вызова нелегитимного
+перевода денег. Для её достижения вам необходимо узнать действующий токен. Он находится в коде страницы на
+которой расположена форма перевода денег. Для того чтоб увидеть форму, необходимо к текущему URL
+дописать параметр "transferFunds=main". Загрузите эту страницу, считайте оттуда значение токена и осуществите перевод.
+В конце работы обновите текущую страницу. Если задание выполнено верно, то в главном меню, на против этого урока,
+появится зелёная отметка.
 <!-- Stop Instructions -->
 
 

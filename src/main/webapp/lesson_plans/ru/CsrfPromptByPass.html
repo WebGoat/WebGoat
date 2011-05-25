@@ -1,32 +1,31 @@
 <div align="Center"> 
-<p><b>Lesson Plan Title:</b>CSRF User Prompt By-Pass</p><br/>
+<p><b>Название урока:</b>CSRF, обход мезанизмов подтверждений</p><br/>
  </div>
  
-<p><b>Concept / Topic To Teach:</b> </p>
-This lesson teaches how to perform CSRF attacks that by-pass user confirmation prompts.
+<p><b>Тема для изучения:</b> </p>
+На данном уроке вы научитесь проводить CSRF-нападения в обход механизмов подтверждения операций.
  <br> 
 <div align="Left"> 
 <p>
-<b>How the attacks works:</b>
+<b>Как работает данный класс атак:</b>
 <p>
-Cross-Site Request Forgery (CSRF/XSRF) is an attack that tricks the victim into loading a page 
-that contains a 'forged request' to execute commands with the victim's credentials.  Prompting 
-a user to confirm or cancel the command might sound like a solution, but can be by-passed if 
-the prompt is scriptable.  This lesson shows how to by-pass such a prompt by issuing another 
-forged request.  This can also apply to a series of prompts such as a wizard or issuing multiple 
-unrelated forged requests.</p> 
+CSRF является таким видом атак, при проведении которых браузер жертвы, без её ведома, отправляет
+на целевой сайт запросы нужные злоумышленнику. Иногда, при проведении важных операций, сервер может
+запросить у пользователя их подтверждение. Этот ход может показаться решением проблем связанных с CSRF,
+но только не в случаях когда подтверждение реализовано средствами JavaScript. На данном уроке вы научитесь
+обходить такие варианты подтверждений, как одиночных, так и многочисленных. Решением будет являться та же посылка
+поддельных запросов, но уже не одного, а нескольких.
+</p> 
 
 
 </div>
-<p><b>General Goal(s):</b> </p>
+<p><b>Цели и задачи:</b> </p>
 <!-- Start Instructions -->
-Similar to the CSRF Lesson, your goal is to send an email to a newsgroup that contains multiple 
-malicious requests: the first to transfer funds, and the second a request to confirm the prompt 
-that the first request triggered.  The URL should point to the CSRF lesson with an extra 
-parameter "transferFunds=4000", and "transferFunds=CONFIRM". You can copy the shortcut from the 
-left hand menu by right clicking on the left hand menu and choosing copy shortcut. Whoever 
-receives this email and happens to be authenticated at that time will have his funds transferred. 
-When you think the attack is successful, refresh the page and you will find the green check on 
-the left hand side menu.
+Как и в прошлом уроке, вашей целью является отправка электронного письма в новостную группу. Письмо, при просмотре,
+должно вызывать отправку нескольких поддельных запросов: первый на осуществление денежного перевода, второй на
+его подтверждение. Сначала URL, по которому будет произведено обращение, должен содержать параметр "transferFunds",
+равный "4000", затем его же, но со значением "CONFIRM". После того как сообщение отобразится на экране, браузер любого
+кто его увидит сам сделает всё что нужно. В конце работы обновите текущую страницу. Если задание выполнено верно, то в
+главном меню, на против этого урока, появится зелёная отметка.
 <!-- Stop Instructions -->
 
