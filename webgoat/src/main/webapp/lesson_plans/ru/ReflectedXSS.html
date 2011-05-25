@@ -1,13 +1,14 @@
 <div align="Center">
-<p><b>Lesson Plan Title: </b>How to Perform Reflected Cross Site Scripting (XSS)</p>
+<p><b>Название урока: </b>Использование отражённых XSS-уязвимостей</p>
 </div>
-<p><b>Concept / Topic To Teach:</b> </p>
+<p><b>Тема для изучения:</b> </p>
 <!-- Start Instructions -->
-It is always a good practice to validate all input on the server side.
- XSS can occur when unvalidated user input is used in an HTTP response. 
- In a reflected XSS attack, an attacker can craft a URL with the attack 
- script and post it to another website, email it, or otherwise get a 
- victim to click on it. 
+Всегда хорошей практикой считалась проверка всех входящих данных на стороне сервера.
+XSS-уязвимости могут возникать в тех случаях, когда непроверенные пользовательские
+данные сразу помещаются в HTTP-ответ. В таких случаях нападающий может сформировать URL, содержащий в себе
+вредоносный код и передать его жертве(ам) через сторонний веб-сайт, почту или любым другим способом.
 <!-- Stop Instructions -->
-<p><b>General Goal(s):</b> </p>
-For this exercise, your mission is to come up with some input containing a script. You have to try to get this page to reflect that input back to your browser, which will execute the script and do something bad.
+<p><b>Основные цели и задачи:</b> </p>
+В этом упражнении вашей целью является отправка серверу специально сформированного
+вредоносного сообщения, которое, отобразившись в ответной странице,осуществит
+какие-нибудь опасные действия (например выполнит произвольный JS-код).
