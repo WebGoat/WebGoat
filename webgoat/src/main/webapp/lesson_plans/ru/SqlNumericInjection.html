@@ -1,14 +1,22 @@
 <div align="Center"> 
-<p><b>Lesson Plan Title:</b> How to Perform Numeric SQL Injection </p>
+<p><b>Название урока:</b> Проведение числовых SQL-инъекций </p>
  </div>
  
-<p><b>Concept / Topic To Teach:</b> </p>
+<p><b>Тема для изучения:</b> </p>
 <!-- Start Instructions -->
-SQL injection attacks represent a serious threat to any database-driven site. The methods behind an attack are easy to learn and the damage caused can range from considerable to complete system compromise. Despite these risks, an incredible number of systems on the internet are susceptible to this form of attack. 
+SQL-инъекции представляют из себя очень серьёзную угрозу для сайтов основанных на БД.
+Методы их использования достаточно легки в освоении, а ущерб создаваемый ими огромен и
+при определённых условиях может произойти к компрометации всей системы. Тем не менее,
+количество интернет-сайтов с уязвимостями данного типа постоянно растёт.
 <br><br>
-Not only is it a threat easily instigated, it is also a threat that, with a little common-sense and forethought, can easily be prevented.<br>
+На самом деле всегда можно избежать появления уязвимостей этого класса
+если в процессе написания приложений соблюдать общие меры предосторожности.
+Например фильтровать все поступающие от пользователя данные. Особенно те, которые
+будут помещены в SQL-запросы.
 <br>
-It is always good practice to sanitize all input data, especially data that will used in OS command, scripts, and database queries, even if the threat of SQL injection has been prevented in some other manner.<br>
-<p><b>General Goal(s):</b> </p>
-The form below allows a user to view weather data. Try to inject an SQL string that results in all the weather data being displayed.
+<p><b>Основные цели:</b> </p>
+Расположенная ниже форма позволяет пользователям смотреть данные о погоде.
+Вам необходимо с её помощью обнаружить в тестовом приложении уязвимость.
+Для подсказки чуть ниже выводится итоговый запрос, который получается на
+стороне сервера. 
 <!-- Stop Instructions -->
