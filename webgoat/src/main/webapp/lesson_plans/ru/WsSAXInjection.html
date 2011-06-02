@@ -1,12 +1,15 @@
 <div align="Center">
-<p><b>Lesson Plan Title:</b> How to Perform Web Service SAX Injection</p>
+<p><b>Название урока:</b> Работа с SAX-инъекциями в веб-сервисах</p>
 </div>
-<p><b>Concept / Topic To Teach:</b> </p>
+<p><b>Тема для изучения:</b> </p>
 <!-- Start Instructions -->
-Web Services communicate through the use of SOAP requests. These requests are submitted to a web service in an attempt to execute a function defined in the web service definition language (WSDL) file. 
-<p><b>General Goal(s):</b> </p>
-Some web interfaces make use of Web Services in the background. If the frontend relies on the web service for all input validation, it may be possible to corrupt the XML that the web interface sends.
+Веб-сервисы общаются между собой с помощью SOAP-запросов. Эти запросы отправляются
+на веб-сервис и вызывают выполнение некоторых функций описанных в WSDL-файлах.
+<p><b>Основные цели и задачи:</b> </p>
+Некоторые веб-интерфейсы могут использовать веб-сервисы в невидимом для пользователя режиме.
+Если веб-сервис никак не проверяет целостность входных данных (или проверяет недостаточно),
+пользователь может подделать XML отсылаемый веб-интерфейсом и выдать его за настоящий.
 <br/>
 <br>
-In this exercise, try to change the password for a user other than 101.
+В данном упражнении попытайтесь сменить пароль для любого пользователя кроме 101.
 <!-- Stop Instructions -->
