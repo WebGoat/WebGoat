@@ -1,12 +1,19 @@
 <div align="Center"> 
-<p><b>Lesson Plan Title:</b> How to Spoof an Authentication Cookie </p>
+<p><b>Название урока:</b> How to Spoof an Authentication Cookie </p>
  </div>
  
-<p><b>Concept / Topic To Teach:</b> </p>
-
-Many applications will automatically log a user into their site if the right authentication cookie is specified. &nbsp; Some times the cookie values can be guessed if the algorithm for generating the cookie can be obtained. &nbsp;Some times the cookies are left on the client machine and can be stolen by exploiting another system vulnerability. &nbsp;Some times the cookies maybe intercepted using Cross site scripting. &nbsp;This lesson tries to make the student aware of authentication cookies and presents the student with a way to defeat the cookie authentication method in this lesson.<br>
-<p><b>General Goal(s):</b> </p>
+<p><b>Тема для изучения:</b> </p>
+Многие сайты автоматически аутентифицируют пользователя если он имеет особые cookies.
+Иногда содержимое таких cookies может быть угадано если злоумышленник вычислил алгоритм их генерации.
+В других случаях cookies могут быть перехвачены, украдены через уязвимости в приложении (например через XSS)
+или системе пользователя. На этом уроке вы ознакомитесь с использованием таких cookies и
+попытаетесь обойти систему аутентификации основанную на них.
+<br>
+<p><b>Основные цели и задачи:</b> </p>
 <!-- Start Instructions -->
- The user should be able to bypass the authentication check.
-Login using the webgoat/webgoat account to see what happens. You may also try aspect/aspect. When you understand the authentication cookie, try changing your identity to alice.
+Пользователь должен обойти механизм проверки аутентификации.
+Войдите под аккаунтом webgoat/webgoat и посмотрите что получится.
+Вы также можете попробовать данные aspect/aspect. Как только вы поймёте
+как можно аутентифицироваться под другими именами, попробуйте войти под
+логином alice.
 <!-- Stop Instructions -->
