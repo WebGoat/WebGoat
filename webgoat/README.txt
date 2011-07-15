@@ -48,13 +48,15 @@ These tools must be installed independent of the webgoat download.
 	At Ubuntu it can be installed with:
 	> apt-get install maven2
 - WebGoat source code
-    You can get the latest source for webgoat at the Google code repository
-	svn checkout http://webgoat.googlecode.com/svn/trunk/ webgoat_X_X
+    WebGoat source code can be downloaded at: http://code.google.com/p/webgoat/source/checkout
+    Use any svn client (ex: Tortoise svn)to checkout the code. 
 
 	
 --------------------
 Building the project
 --------------------
+
+Using the cmd shell:
 
 > cd webgoat
 > mvn compile
@@ -74,6 +76,7 @@ Building the Eclipse project files
 
 Afterward the project can be imported within Eclipse:
 File -> Import -> General -> Existing Projects into Workspace
+and select the webgoat directory as the "root directory." A webgoat should appear in the Projects section of your dialogue window.
 
 Don't forget to declare a classpath variable named M2_REPO, pointing to ~/.m2/repository, otherwise many links to existing jars will be broken.
 You can declare new variables in Eclipse in Windows -> Preferences... and selecting Java -> Build Path -> Classpath Variables
