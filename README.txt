@@ -45,11 +45,12 @@ These tools must be installed independent of the webgoat download.
 	You only need to download and install the "Java SE Development Kit (JDK)"
 - Maven > 2.0.9
 	Maven can be downloaded at: http://maven.apache.org/
-	At Ubuntu it can be installed with:
+	In Ubuntu it can be installed with:
 	> apt-get install maven2
 - WebGoat source code
     WebGoat source code can be downloaded at: http://code.google.com/p/webgoat/source/checkout
-    Use any svn client (ex: Tortoise svn)to checkout the code. 
+    Use an svn client (ex: Tortoise svn) to checkout the code.
+    
 
 	
 --------------------
@@ -79,6 +80,7 @@ File -> Import -> General -> Existing Projects into Workspace
 and select the webgoat directory as the "root directory." A webgoat should appear in the Projects section of your dialogue window.
 
 Don't forget to declare a classpath variable named M2_REPO, pointing to ~/.m2/repository, otherwise many links to existing jars will be broken.
+This folder is located in your username root folder, the same folder where "my documents" and "my pictures" are located.
 You can declare new variables in Eclipse in Windows -> Preferences... and selecting Java -> Build Path -> Classpath Variables
 
 
@@ -86,13 +88,10 @@ You can declare new variables in Eclipse in Windows -> Preferences... and select
 Option 1: Run the project on Tomcat within Eclipse
 ---------------------------------------------------
 
-1. Install a local Tomcat server
-2. Open Eclipse -> File -> New -> Other -> Server -> Apache -> Tomcat -> Next 
--> Insert your Tomcat Installation directory
--> Click next and add "webgoat" to the list of configured applications
--> Finish
-3. Adapt the conf/tomcat-users.xml file of your Tomcat server:
-    <?xml version="1.0" encoding="UTF-8"?>
+Install a local Tomcat server
+1. Download and unzip Apache Tomcat from http://tomcat.apache.org. Note that Tomcat 7.0 is currently not supported in WebGoat.
+2. Adapt the conf/tomcat-users.xml file of your Tomcat server:
+<?xml version="1.0" encoding="UTF-8"?>
     <tomcat-users>
       <role rolename="webgoat_basic"/>
       <role rolename="webgoat_admin"/>
@@ -103,9 +102,18 @@ Option 1: Run the project on Tomcat within Eclipse
       <user password="tomcat" roles="tomcat" username="tomcat"/>
       <user password="guest" roles="webgoat_user" username="guest"/>
     </tomcat-users>
+3. Open Eclipse -> File -> New -> Other -> Server -> Apache
+4. Choose your Tomcat version
+-> Click next "browse" to your tomcat install.
+-> Make sure the "JRE" dropdown is pointing to your jdk. If it isn't listed, press
+"Installed JREs" and add it.
+-> Click next and add "webgoat" to the list of configured applications
+-> Finish
 
-4. Right Click on the webgoat project within eclipse -> Run As -> Run on server 
-5. http://localhost:8080/webgoat/attack
+
+3. Right Click on the webgoat project within eclipse -> Run As -> Run on server 
+
+Point your browser to http://localhost:8080/webgoat/attack
 
 
 ----------------------------------------------

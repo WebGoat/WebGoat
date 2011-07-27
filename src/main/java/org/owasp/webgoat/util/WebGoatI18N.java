@@ -15,12 +15,12 @@ public class WebGoatI18N {
 	public WebGoatI18N(WebgoatContext context){
 		Locale l = new Locale(context.getDefaultLanguage());
 		WebGoatI18N.defaultLanguage=context.getDefaultLanguage();
-		labels.put(context.getDefaultLanguage(),ResourceBundle.getBundle("WebGoatLabels",l));
+		labels.put(context.getDefaultLanguage(),ResourceBundle.getBundle("WebGoatLabels_english",l));
 	}
 	
 	public static void loadLanguage(String language){
 		Locale l = new Locale(language);
-		labels.put(language, ResourceBundle.getBundle("WebGoatLabels",l));
+		labels.put(language, ResourceBundle.getBundle("WebGoatLabels_english",l));
 	}
 	
 	public static void setCurrentLanguage(String language){
