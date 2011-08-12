@@ -9,7 +9,7 @@ WebSession webSession = ((WebSession) session.getAttribute("websession"));
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>WebGoat V5.2</title>
+<title>WebGoat V5.4</title>
 <link rel="stylesheet" href="css/webgoat.css" type="text/css" />
 </head>
 
@@ -54,10 +54,12 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 		<div align="center" class="style2">David Anderson</div>
 		<div align="center" class="style2">Rogan Dawes</div>
 		<div align="center" class="style2">Laurence Casey (Graphics)</div>
+		<div align="center" class="style2">Brian Ciomei</div>
 		</td>
 		<td valign="top">
 		<div align="center" class="style2">Chuck Willis</div>
 		<div align="center" class="style2">Cam Morris</div>
+		<div align="center" class="style2">Yiannis Pavlosoglou</div>
 		<div align="center" class="style2"></div>
 
 		</td>

@@ -68,6 +68,8 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 		registerAction(new SearchStaff(this, className, SEARCHSTAFF_ACTION));
 		registerAction(new ViewProfile(this, className, VIEWPROFILE_ACTION));
 		registerAction(new EditProfile(this, className, EDITPROFILE_ACTION));
+		
+		// This action has not yet been implemented. None of the lessons require it.
 		registerAction(new EditProfile(this, className, CREATEPROFILE_ACTION));
 
 		// These actions are special in that they chain to other actions.

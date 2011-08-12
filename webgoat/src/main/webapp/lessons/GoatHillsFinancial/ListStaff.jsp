@@ -19,9 +19,11 @@
 			      	<%
 			      	List employees = (List) session.getAttribute("GoatHillsFinancial." + GoatHillsFinancial.STAFF_ATTRIBUTE_KEY);
 			      	Iterator i = employees.iterator();
+			      	EmployeeStub stub = (EmployeeStub) i.next();%>
+			      	<option selected value="<%=Integer.toString(stub.getId())%>"><%=stub.getFirstName() + " " + stub.getLastName()+ " (" + stub.getRole() + ")"%></option><%
 					while (i.hasNext())
 					{
-						EmployeeStub stub = (EmployeeStub) i.next();%>
+						stub = (EmployeeStub) i.next();%>
 						<option value="<%=Integer.toString(stub.getId())%>"><%=stub.getFirstName() + " " + stub.getLastName()+ " (" + stub.getRole() + ")"%></option><%
 					}%>
   </select>
@@ -33,7 +35,7 @@
 				if (webSession.isAuthorizedInLesson(myUserId, GoatHillsFinancial.CREATEPROFILE_ACTION))
 				{
 				%>
-					<input type="submit" name="action" value="<%=GoatHillsFinancial.CREATEPROFILE_ACTION%>"/><br>
+					<input type="submit" name="action" disabled value="<%=GoatHillsFinancial.CREATEPROFILE_ACTION%>"/><br>
 				<% 
 				}
 				%>

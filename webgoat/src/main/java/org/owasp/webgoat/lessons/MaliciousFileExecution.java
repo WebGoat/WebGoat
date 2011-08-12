@@ -361,7 +361,7 @@ public class MaliciousFileExecution extends LessonAdapter
 	String instructions = "The form below allows you to upload an image which will be displayed on this page.  " 
 		+ "Features like this are often found on web based discussion boards and social networking sites.  " 
 		+ "This feature is vulnerable to Malicious File Execution."
-		+ "<br><br>In order to pass this lession, upload and run a malicious file.  In order to prove that your file can execute,"
+		+ "<br><br>In order to pass this lesson, upload and run a malicious file.  In order to prove that your file can execute,"
 		+ " it should create another file named:<br><br> "
 		+ uploads_and_target_parent_directory
 		+ TARGET_RELATIVE_PATH 

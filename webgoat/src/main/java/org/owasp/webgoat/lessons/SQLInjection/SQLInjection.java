@@ -149,7 +149,8 @@ public class SQLInjection extends GoatHillsFinancial
 			}
 			else if (STAGE2.equals(stage))
 			{
-				instructions = "Stage 2: Block SQL Injection using a Parameterized Query.<br>"
+				instructions = "Stage 2: Block SQL Injection using a Parameterized Query.<br><br>"
+						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br><br>"
 						+ "Implement a fix to block SQL injection into the fields in question on the Login page. "
 						+ "Repeat stage 1.  Verify that the attack is no longer effective.";
 			}
@@ -161,7 +162,8 @@ public class SQLInjection extends GoatHillsFinancial
 			}
 			else if (STAGE4.equals(stage))
 			{
-				instructions = "Stage 4: Block SQL Injection using a Parameterized Query.<br>"
+				instructions = "Stage 4: Block SQL Injection using a Parameterized Query.<br><br>"
+						+ "<b><font color=blue> THIS LESSON ONLY WORKS WITH THE DEVELOPER VERSION OF WEBGOAT</font></b><br><br>"
 						+ "Implement a fix to block SQL injection into the relevant parameter. "
 						+ "Repeat stage 3.  Verify that access to Neville's profile is properly blocked.";
 			}

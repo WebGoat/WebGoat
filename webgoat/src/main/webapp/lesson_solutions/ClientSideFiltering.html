@@ -68,11 +68,11 @@ filters in XPath. Following code will exactly do this:</p>
 <code>
 	StringBuffer sb = new StringBuffer();<br>
 	
-	sb.append("/Employees/Employee[Managers/Manager/text() = " + userid + "]/UserID | ");<br>
-	sb.append("/Employees/Employee[Managers/Manager/text() = " + userid + "]/FirstName | ");<br>
-	sb.append("/Employees/Employee[Managers/Manager/text() = " + userid + "]/LastName | ");<br>
-	sb.append("/Employees/Employee[Managers/Manager/text() = " + userid + "]/SSN | ");<br>
-	sb.append("/Employees/Employee[Managers/Manager/text() = " + userid + "]/Salary ");<br>
+	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/UserID | ");<br>
+	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/FirstName | ");<br>
+	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/LastName | ");<br>
+	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/SSN | ");<br>
+	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/Salary ");<br>
 	
 	String expression = sb.toString();<br>
 </code>

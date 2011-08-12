@@ -9,6 +9,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 12">
 <meta name=Originator content="Microsoft Word 12">
+<title>Solution: Create a SOAP Request</title>
 <link rel=File-List href="lesson_solutions/SoapRequest_files/filelist.xml">
 <link rel=Edit-Time-Data href="lesson_solutions/SoapRequest_files/editdata.mso">
 <!--[if !mso]>
@@ -775,29 +776,19 @@ HTTP Request with WebScarab and click on the “Raw” tab. Make sure that
 <ol style='margin-top:0cm' start=1 type=1>
  <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span
      style='font-family:"Arial","sans-serif"'>Change the POST header to open
-     the SoapRequest. <o:p></o:p></span></li>
+     the SoapRequest: <br/>
+     POST http://localhost/webgoat/services/SoapRequest HTTP/1.1 <b>(This will vary based on which ports you are using)</b><o:p></o:p></span></li>
  <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span
      style='font-family:"Arial","sans-serif"'>Change the Content-Type to
-     text/xml. <o:p></o:p></span></li>
+     text/xml:<br/>
+     Content-Type: text/xml <o:p></o:p></span></li>
  <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span
-     style='font-family:"Arial","sans-serif"'>Add a header SOAPAction. <o:p></o:p></span></li>
+     style='font-family:"Arial","sans-serif"'>Add a header SOAPAction.<br/>
+     SOAPAction: <b>(No value needs to be specified for this header)</b> <o:p></o:p></span></li>
  <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span
      style='font-family:"Arial","sans-serif"'>Append the XML envelope to the
-     request<o:p></o:p></span></li>
+     request:<o:p></o:p></span></li>
 </ol>
-
-<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
-
-<p class=MsoNormal style='margin-left:36.0pt'><span style='font-family:"Arial","sans-serif"'>POST
-http://neo:80services/SoapRequest HTTP/1.1<o:p></o:p></span></p>
-
-<p class=MsoNormal style='margin-left:36.0pt'><span style='font-family:"Arial","sans-serif"'>Content-Type:
-text/xml<o:p></o:p></span></p>
-
-<p class=MsoNormal style='margin-left:36.0pt'><span style='font-family:"Arial","sans-serif"'>SOAPAction:
-<o:p></o:p></span></p>
-
-<p class=MsoNormal style='margin-left:36.0pt'><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal style='margin-left:36.0pt'><span style='font-family:"Arial","sans-serif"'>&lt;?xml
 version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; <o:p></o:p></span></p>
@@ -834,6 +825,20 @@ style='mso-spacerun:yes'>  </span>&lt;/SOAP-ENV:Body&gt; <o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:36.0pt'><span style='font-family:"Arial","sans-serif"'>&lt;/SOAP-ENV:Envelope&gt;<o:p></o:p></span></p>
 
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p><br/>It is important that there is no whitespace (carriage returns or spaces) from the SOAPAction header to the opening XML tag. This generates an error instead of the desired response.</o:p></span></p>
+
+<p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='page-break-after:avoid'><span style='font-family:
+"Arial","sans-serif";mso-no-proof:yes'><img 
+src="lesson_solutions/SoapRequest_files/image011.jpg"></span></p>
+
+<p class=MsoCaption>Figure <!--[if supportFields]><span style='mso-element:
+field-begin'></span><span style='mso-spacerun:yes'> </span>SEQ Figure \* ARABIC
+<span style='mso-element:field-separator'></span><![endif]--><span
+style='mso-no-proof:yes'>5</span><!--[if supportFields]><span style='mso-element:
+field-end'></span><![endif]--> Updated HTTP request with SOAP parameters<span style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>The response
@@ -850,7 +855,7 @@ src="lesson_solutions/SoapRequest_files/image010.jpg" v:shapes="Picture_x0020_17
 <p class=MsoCaption>Figure <!--[if supportFields]><span style='mso-element:
 field-begin'></span><span style='mso-spacerun:yes'> </span>SEQ Figure \* ARABIC
 <span style='mso-element:field-separator'></span><![endif]--><span
-style='mso-no-proof:yes'>5</span><!--[if supportFields]><span style='mso-element:
+style='mso-no-proof:yes'>6</span><!--[if supportFields]><span style='mso-element:
 field-end'></span><![endif]--> Intercept response<span style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
