@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution: Bypass HTML Field Restrictions</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Bypass HTML Field Restrictions</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+Client-side validation should not be considered a secure means of validating parameters. These validations only help reduce the amount of server processing time for normal users who do not know the format of required input. Attackers can bypass these mechanisms easily in various ways. Any client-side validation should be duplicated on the server side. This will greatly reduce the likelihood of insecure parameter values being used in the application
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+The user should be able send the website input that it wasn't expecting.<br/>
+For this exercise, your job is to break the client side validation and send the website input that it wasn't expecting, including input for the disabled field. <b>You must break all 6 validators at the same time</b>. 
+</p>
+
+<b>Solution:</b><br/><br/>
+To solve this lesson, we need to put invalid characters (slashes, quotes, etc.) into all six fields. Since three of the fields are toggles or dropdowns, we will need to intercept the request with Webscarab.<br/>
+We still need to put invalid data in the disabled field, however. There are two ways of accomplishing this; we can enable the field using Firebug, or we can insert an additional field using Webscarab.<br/><br/>
+
+To enable the field, open Firebug and find the form containing all of our fields. Find the text input named &quot;disabledinput&quot;. Delete the <b>disabled=&quot;&quot;</b> parameter. This causes the field on the page to be unlocked, and will also cause the disabledinput variable to appear in Webscarab.<br/>
+<img src="lesson_solutions/BypassHtmlFieldRestrictions_files/image001.jpg"><br/>
+<font size="2"><b>Enabled input after removing the &quot;disabled&quot; parameter in Firebug.</b></font><br/><br/>
+The other option is to add another variable when intercepting the request with Webscarab. When the intercept request window pops up, use the insert button to add a new variable called <b>disabledinput</b>.<br/><br/>
+Either way you add the input, the next step is to invalidate all of the responses. Put any symbol or character that isn't allowed in for each variable. Make sure you put more than five characters in the field that is limited by length.<br/>
+
+<img src="lesson_solutions/BypassHtmlFieldRestrictions_files/image002.jpg"><br/>
+<font size="2"><b>Correctly filled in request with all fields invalidated and the disabledinput variable added.</b></font><br/><br/>
+
+Submit the request to complete the lesson.
+<br/>
+
+</body>
+</html>

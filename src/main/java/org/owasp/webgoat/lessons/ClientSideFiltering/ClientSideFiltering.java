@@ -338,7 +338,7 @@ public class ClientSideFiltering extends SequentialLessonAdapter
 		hints.add("Stage 1: Look in the last row of the hidden table.");
 
 		hints
-				.add("Stage 1: You can access the server directly <a href = \"/WebGoat/lessons/Ajax/clientSideFiltering.jsp?userId=102\">here </a>"
+				.add("Stage 1: You can access the server directly <a href = \"/webgoat/lessons/Ajax/clientSideFiltering.jsp?userId=102\">here </a>"
 						+ "to see what results are being returned");
 
 		hints.add("Stage 2: The server uses an XPath query agasinst an XML database.");
@@ -346,7 +346,7 @@ public class ClientSideFiltering extends SequentialLessonAdapter
 		hints.add("Stage 2: The query currently returns all of the contents of the database.");
 
 		hints
-				.add("Stage 2: The query should only return the information of employees who are managed by Moe Stooge, who's userID is 102");
+				.add("Stage 2: The query should only return the information of employees who are managed by Moe Stooge, whose userID is 102");
 
 		hints.add("Stage 2: Try using a filter operator.");
 

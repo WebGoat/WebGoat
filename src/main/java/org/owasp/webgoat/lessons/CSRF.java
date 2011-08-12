@@ -92,7 +92,7 @@ public class CSRF extends LessonAdapter
 			String title = HtmlEncoder.encode(s.getParser().getRawParameter(TITLE, ""));
 			String message = s.getParser().getRawParameter(MESSAGE, "");
 
-			Connection connection = DatabaseUtilities.getConnection(s);
+			Connection connection = DatabaseUtilities.getConnection(getNameroot(s.getUserName()),s.getWebgoatContext());
 
 			String query = "INSERT INTO messages VALUES (?, ?, ?, ?, ? )";
 
@@ -221,7 +221,7 @@ public class CSRF extends LessonAdapter
 
 		try
 		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+			Connection connection = DatabaseUtilities.getConnection(getNameroot(s.getUserName()),s.getWebgoatContext());
 
 			// edit by Chuck Willis - Added logic to associate similar usernames
 			// The idea is that users chuck-1, chuck-2, etc will see each other's messages
@@ -280,7 +280,7 @@ public class CSRF extends LessonAdapter
 		{
 			int messageNum = s.getParser().getIntParameter(NUMBER, 0);
 
-			Connection connection = DatabaseUtilities.getConnection(s);
+			Connection connection = DatabaseUtilities.getConnection(getNameroot(s.getUserName()),s.getWebgoatContext());
 
 			String query = "SELECT * FROM messages WHERE user_name LIKE ? and num = ? and lesson_type = ?";
 			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,

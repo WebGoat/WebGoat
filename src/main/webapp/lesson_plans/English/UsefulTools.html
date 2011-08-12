@@ -12,6 +12,15 @@ operates as an intercepting proxy, we can review and modify requests
 and responses.<br><br>
 <img src="images/introduction/webscarab.jpg"><br><br>
 Webpage:<a href="http://www.owasp.org/index.php/Category:OWASP_WebScarab_Project">http://www.owasp.org/index.php/Category:OWASP_WebScarab_Project</a>
+<br>The .jar install file can be found at the <a href="http://sourceforge.net/project/showfiles.php?group_id=64424&package_id=61823">OWASP Sourceforge Page</a></p>
+<p>After installing WebScarab and configuring your browser to use it as proxy on localhost we can start. If you are using localhost for your Tomcat server, remember to <a href="https://www.owasp.org/index.php/WebScarab_Getting_Started">put a "." after the hostname when browsing to WebGoat</a>.<br><br>
+<img src="images/introduction/HowToUse_1.jpg"><br><br>
+We have to select "Intercept Request" in the tab "Intercept". If we send a HTTP request we get a new WebScarab window.<br><br>
+<img src="images/introduction/HowToUse_2.jpg"><br><br>
+Here we can read and edit the intercepted parameter. After "Accept changes" the request will be sent to the server.<br><br>
+WebScarab is also used to intercept the request and change cookies values just like parameter data:<br><br>
+<img src="images/introduction/HowToUse_3.jpg"><br><br>
+We get a new window on sending a HTTP request. On the screenshot you see where we can find cookies and how to edit their values.
 </p>
 <h2>Firebug:</h2>
 <p>

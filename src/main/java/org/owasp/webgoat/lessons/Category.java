@@ -57,11 +57,11 @@ public class Category implements Comparable
 
 	public final static Category XSS = new Category("Cross-Site Scripting (XSS)", new Integer(900));
 
-	public final static Category DOS = new Category("Denial of Service", new Integer(1000));
+	public final static Category ERROR_HANDLING = new Category("Improper Error Handling", new Integer(1000));
 
-	public final static Category ERROR_HANDLING = new Category("Improper Error Handling", new Integer(1100));
-
-	public final static Category INJECTION = new Category("Injection Flaws", new Integer(1200));
+	public final static Category INJECTION = new Category("Injection Flaws", new Integer(1100));
+	
+	public final static Category DOS = new Category("Denial of Service", new Integer(1200));
 
 	public final static Category INSECURE_COMMUNICATION = new Category("Insecure Communication", new Integer(1300));
 

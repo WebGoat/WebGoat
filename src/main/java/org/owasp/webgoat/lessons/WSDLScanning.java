@@ -118,7 +118,7 @@ public class WSDLScanning extends LessonAdapter
 		hints.add("Try connecting to the WSDL with a browser or Web Service tool.");
 		hints.add("Sometimes the WSDL will define methods that are not available through a web API. "
 				+ "Try to find operations that are in the WSDL, but not part of this API");
-		hints.add("The URL for the web service is: http://localost/WebGoat/services/WSDLScanning <br>"
+		hints.add("The URL for the web service is: http://localhost/webgoat/services/WSDLScanning <br>"
 				+ "The WSDL can usually be viewed by adding a ?WSDL on the end of the request.");
 		hints.add("Look in the WSDL for the getCreditCard operation and insert the field in an intercepted request.");
 		return hints;

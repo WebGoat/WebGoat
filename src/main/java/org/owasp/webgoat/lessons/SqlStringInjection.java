@@ -141,7 +141,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
 	{
 		ElementContainer ec = new ElementContainer();
 
-		ec.addElement(WebGoatI18N.get("StringSqlInjectioNSecondStage"));
+		ec.addElement(WebGoatI18N.get("StringSqlInjectionSecondStage"));
 		if (s.getParser().getRawParameter(ACCT_NAME, "YOUR_NAME").equals("restart"))
 		{
 			getLessonTracker(s).getLessonProperties().setProperty(STAGE, "1");

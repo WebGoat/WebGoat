@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution: Modify Data with SQL</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Modify Data with SQL</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+SQL injection attacks represent a serious threat to any database-driven site. The methods behind an attack are easy to learn and the damage caused can range from considerable to complete system compromise. Despite these risks, an incredible number of systems on the internet are susceptible to this form of attack. 
+<br><br>
+Not only is it a threat easily instigated, it is also a threat that, with a little common-sense and forethought, can easily be prevented.<br>
+<br>
+It is always good practice to sanitize all input data, especially data that will used in OS command, scripts, and database queries, even if the threat of SQL injection has been prevented in some other manner.<br>
+<br>
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+The form below allows a user to view salaries associated with a userid (from the table named salaries). This form is vulnerable to String SQL Injection. In order to pass this lesson, use SQL Injection to modify the salary for userid jsmith.
+</p>
+
+<b>Solution:</b><br/><br/>
+In this lesson, instead of using the SELECT query command, we use the UPDATE command, which uses the format:<br/>
+<b>UPDATE table SET column=value WHERE column=value;</b><br/><br/>
+We need to update the table <b>salaries</b>, setting the <b>salary</b> column to a new number.<br/>
+We will use the command:<br/>
+<b>UPDATE salaries SET salary=999999 WHERE userid='jsmith'</b> <br/><br/>
+We also need to end the previous query and leave our last quote open to make a valid statment.<br/>
+To complete this lesson, type the following into the field and press go:<br/>
+<b>whatever'; UPDATE salaries SET salary=999999 WHERE userid='jsmith</b><br/><br/>
+If you then search for the userid jsmith, you will see the salary has been updated.<br/><br/>
+
+<img src="lesson_solutions/SqlModifyData_files/image001.jpg"><br/>
+<font size="2"><b>Updated salary after using a MODIFY query.</b></font><br/><br/><br/>
+
+</body>
+</html>

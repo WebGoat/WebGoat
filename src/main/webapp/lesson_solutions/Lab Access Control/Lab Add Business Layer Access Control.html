@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
 </head>
 <body>
-<p><b>Lesson Plan Title:</b> How to Perform Cross Site Scripting (XSS)</p>
+<p><b>Lesson Plan Title:</b> Role Based Access Control: Stage 2</p>
 
 <p><b>Concept / Topic To Teach:</b><br/>
 In role-based access control scheme, a role represents 
@@ -38,7 +38,7 @@ There is already a method called isAuthorized which you can use:
 </p>
 <pre><code>
 //***************CODE HERE*************************
-if(!isAuthorized(s, userId, requestedActionName))
+if(!isAuthorized(s, getUserId(s), requestedActionName))
 {
   throw new UnauthorizedException();
 }									

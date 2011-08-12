@@ -62,8 +62,9 @@ public class DeleteProfile extends DefaultLessonAction
 
 		if (isAuthenticated(s))
 		{
+			if (userId != employeeId) {
 			deleteEmployeeProfile(s, userId, employeeId);
-
+			}
 			try
 			{
 				chainedAction.handleRequest(s);

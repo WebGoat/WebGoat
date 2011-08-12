@@ -19,7 +19,7 @@ For this exercise, you will perform stored and reflected XSS attacks. You will a
 
 <p><b>Solution:</b><br/>
 You have to use a static method called encode(String s) which is part of the class org.owasp.webgoat.util.HtmlEncoder.
-<p>This method changes all special characters in the string. Now you have to use this method in the getEmployeeProfile method in the org.owasp.webgoat.lessons.CrossSiteScripting class. 
+<p>This method changes all special characters in the string. Now you have to use this method in the getEmployeeProfile method in the org.owasp.webgoat.lessons.CrossSiteScripting.ViewProfile class. 
 Replace all answer_results.getString(someString) with HtmlEncoder.encode(answer_results.getString(someString)) and you are done.</p>
 
 </body>
