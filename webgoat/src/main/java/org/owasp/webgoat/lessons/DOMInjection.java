@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.A;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Div;
 import org.apache.ecs.html.Form;
@@ -46,7 +47,7 @@ import org.owasp.webgoat.session.WebSession;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
+ * @author Sherif Koussa <a href="http://www.softwaresecured.com">Software Secured</a>
  * @created October 28, 2006
  */
 
@@ -57,9 +58,8 @@ public class DOMInjection extends LessonAdapter
 
 	private final static String KEY = "key";
 
-	private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt("Macadamian Technologies")
-			.setBorder(0).setHspace(0).setVspace(0);
-
+	public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
+	
 	private final static String key = "K1JFWP8BSO8HI52LNPQS8F5L01N";
 
 	public void handleRequest(WebSession s)
@@ -161,7 +161,7 @@ public class DOMInjection extends LessonAdapter
 
 	public Element getCredits()
 	{
-		return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
+		return super.getCustomCredits("Created by Sherif Koussa&nbsp;", MAC_LOGO);
 	}
 
 	protected Category getDefaultCategory()

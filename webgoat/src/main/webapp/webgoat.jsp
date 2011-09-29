@@ -83,6 +83,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 		</td>
 		<td>
 		<div align="center" class="style2">Sherif Koussa<br />
+			(http://www.softwaresecured.com)
 		</div>
 		<div align="center" class="style2">Aung Khant<br />
 		(http://yehg.org/)</div>

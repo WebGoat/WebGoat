@@ -45,7 +45,7 @@ import java.util.ArrayList;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
+ * @author Sherif Koussa <a href="http://www.softwaresecured.com">Software Secured</a>
  * @created December 25, 2006
  */
 
@@ -58,7 +58,7 @@ public class JSONInjection extends LessonAdapter
 
 	private final static String TRAVEL_TO = "travelTo";
 
-	private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt("Macadamian Technologies")
+	private final static IMG MAC_LOGO = new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured")
 			.setBorder(0).setHspace(0).setVspace(0);
 
 	public void handleRequest(WebSession s)

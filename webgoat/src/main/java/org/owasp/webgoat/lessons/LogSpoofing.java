@@ -9,6 +9,7 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.HtmlColor;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.A;
 import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.PRE;
@@ -47,7 +48,7 @@ import org.owasp.webgoat.util.WebGoatI18N;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies</a>
+ * @author Sherif Koussa <a href="http://www.softwaresecured.com">Software Secured</a>
  * @created October 28, 2006
  */
 
@@ -58,9 +59,8 @@ public class LogSpoofing extends LessonAdapter
 
 	private static final String PASSWORD = "password";
 
-	private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt("Macadamian Technologies")
-			.setBorder(0).setHspace(0).setVspace(0);
-
+	public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
+	
 	protected Element createContent(WebSession s)
 	{
 
@@ -156,6 +156,6 @@ public class LogSpoofing extends LessonAdapter
 
 	public Element getCredits()
 	{
-		return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
+		return super.getCustomCredits("Created by Sherif Koussa&nbsp;", MAC_LOGO);
 	}
 }
