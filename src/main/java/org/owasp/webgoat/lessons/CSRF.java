@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.A;
 import org.apache.ecs.html.B;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Form;
@@ -59,7 +60,7 @@ import org.owasp.webgoat.util.HtmlEncoder;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
+ * @author Sherif Koussa <a href="http://www.softwaresecured.com">Software Secured</a>
  * 
  */
 public class CSRF extends LessonAdapter
@@ -76,9 +77,7 @@ public class CSRF extends LessonAdapter
 	private static int count = 1;
 	private final static int USER_COL = 4; // Added by Chuck Willis - used to show user who posted
 	// message
-	private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt("Macadamian Technologies")
-			.setBorder(0).setHspace(0).setVspace(0);
-
+	public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
 	/**
 	 * Adds a feature to the Message attribute of the MessageBoardScreen object
 	 * 
@@ -377,7 +376,7 @@ public class CSRF extends LessonAdapter
 
 	public Element getCredits()
 	{
-		return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
+		return super.getCustomCredits("Created by Sherif Koussa&nbsp;", MAC_LOGO);
 	}
 
 }

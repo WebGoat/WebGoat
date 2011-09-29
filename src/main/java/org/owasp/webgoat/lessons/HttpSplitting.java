@@ -40,7 +40,7 @@ import org.owasp.webgoat.session.WebSession;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
+ * @author Sherif Koussa <a href="http://www.softwaresecured.com">Software Secured</a>
  * @created September 30, 2006
  */
 
@@ -53,9 +53,7 @@ public class HttpSplitting extends SequentialLessonAdapter
 
 	private static String STAGE = "stage";
 
-	private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt("Macadamian Technologies")
-			.setBorder(0).setHspace(0).setVspace(0);
-
+    public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
 	/**
 	 * Description of the Method
 	 * 
@@ -260,7 +258,7 @@ public class HttpSplitting extends SequentialLessonAdapter
 
 	public Element getCredits()
 	{
-		return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
+		return super.getCustomCredits("Created by Sherif Koussa&nbsp;", MAC_LOGO);
 	}
 
 }

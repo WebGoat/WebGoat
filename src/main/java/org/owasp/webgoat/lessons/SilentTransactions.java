@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.A;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Div;
 import org.apache.ecs.html.Form;
@@ -48,7 +49,7 @@ import org.owasp.webgoat.session.WebSession;
  * 
  * For details, please see http://code.google.com/p/webgoat/
  * 
- * @author Sherif Koussa <a href="http://www.macadamian.com">Macadamian Technologies.</a>
+ * @author Sherif Koussa <a href="http://www.softwaresecured.com">Software Secured</a>
  * @created December 26, 2006
  */
 
@@ -59,9 +60,8 @@ public class SilentTransactions extends LessonAdapter
 
 	private final static Double CURRENT_BALANCE = 11987.09;
 
-	private final static IMG MAC_LOGO = new IMG("images/logos/macadamian.gif").setAlt("Macadamian Technologies")
-			.setBorder(0).setHspace(0).setVspace(0);
-
+	public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
+	
 	public void handleRequest(WebSession s)
 	{
 
@@ -283,7 +283,7 @@ public class SilentTransactions extends LessonAdapter
 
 	public Element getCredits()
 	{
-		return super.getCustomCredits("Created by Sherif Koussa ", MAC_LOGO);
+		return super.getCustomCredits("Created by Sherif Koussa&nbsp;", MAC_LOGO);
 	}
 
 }
