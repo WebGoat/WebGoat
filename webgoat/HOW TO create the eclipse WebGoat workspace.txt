@@ -1,0 +1,196 @@
+***************************************
+
+As of 5.1 the developer release contains the eclipse workspace
+and project files. 
+
+Extract distribution to c:\  
+   - It will create a WebGoat-x.x directory
+Extract Eclipse-Workspace.zip to C:\WebGoat-x.x
+Start eclipse using eclipse.bat
+After eclipse starts
+    Top left - Project Explorer view
+        right click WebGoat – refresh
+        right click Servers – refresh
+    Bottom - Servers view
+        right click Tomcat… - start
+Browse to http://localhost/WebGoat/attack
+
+
+You're done.  Changing files in eclipse will automatically rebuild
+and redeploy the application.
+
+Follow the instructions below to build the workspace from scratch
+
+
+***************************************
+
+
+
+
+
+***************************************
+
+Eclipse startup and dependency removal
+WebGoat uses Eclipse WTP 1.5
+
+***************************************
+
+Change paths in eclipse.bat to reflect your environment
+
+    edit <webgoat-root>/eclipse.bat
+        Change JAVAHOME to directory where java is installed.
+        ex: This may be .\java or "C:\Program Files\Java\jdk1.5.0_08"
+
+        Change ECLIPSE_HOME to directory where eclipse is installed
+        ex: This may be .\eclipse or "C:\Program Files\eclipse"
+        Note: WebGoat requires eclipse with WTP project
+
+
+Run eclipse using the eclipse.bat file
+
+   located at <webgoat-root>/eclipse.bat
+
+Remove eclipse dependencies
+
+   Delete all files and directories beginning
+   with a period. ex) .settings, .project, etc...
+   Note: These files probably do not exist unless you have
+         previously tried to build a WebGoat eclipse project
+
+
+Eclipse will start up in the default state
+Click arrow at top right to load the eclipse workbench
+
+
+***************************************
+
+Verify tomcat directory is read/write access
+
+***************************************
+
+You may have to install Tomcat and merge the webgoat users into
+the tomcat-users.xml file
+
+File: <tomcat-root>/conf/tomcat-users.xml
+
+<tomcat-users>
+  <role rolename="webgoat_admin"/>
+  <role rolename="webgoat_basic"/>
+  <role rolename="webgoat_user"/>
+  <user username="webgoat" password="webgoat" roles="webgoat_admin"/>
+  <user username="basic" password="basic" roles="webgoat_user,webgoat_basic"/>
+  <user username="guest" password="guest" roles="webgoat_user"/>
+</tomcat-users>
+
+
+
+***************************************
+
+Initial Setup of Development Enviroment
+
+***************************************
+
+Step 1) Add the WebGoat JDK
+
+window->preferences->
+    java->installed JREs
+
+    add
+        Name: WebGoat JDK 1.5
+        Directory: java
+    OK
+
+    select new JDK as default
+    remove previous JDK if exists
+    OK
+
+window->preferences
+    server->Installed Runtime
+
+    ADD
+        apache
+            tomcat v5.5
+        NEXT
+        directory: use browse button to locate <webgoat-root>/tomcat (e.g. C:\P4\BUILD\depot\WebGoat\J2EE\main\tomcat)
+        JRE: WebGoat JDK 1.5
+        FINISH
+        select apache tomcat v5.5 as default
+        OK
+
+window->open perspective
+    other
+        J2EE
+
+in Project Explorer
+    right click->New->New Dynamic Web Project
+    
+    Name: WebGoat
+    Deselect "use default"
+    Browse to <webgoat-root>/project (e.g. C:\P4\BUILD\depot\WebGoat\J2EE\main\project)
+    NEXT
+    NEXT
+    change Java Source Directory: JavaSource
+    FINISH
+    Click "I Agree" if dialog appears (will appear after build completes)
+
+From "Servers" View - Should be in bottom view
+    right click->New->Server (Tomcat 5.5 should be default selected)
+    NEXT
+    select WebGoat
+    ADD
+    FINISH
+
+From a Windows file explorer window
+    Copy the <tomcat_root>.keystore to eclipse workspace directory
+    <WebGoat_Root>\J2EE\main\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\.keystore
+
+From Servers view
+
+    double click Tomcat v 5.5 Server @ locahost
+
+in "Server Overview" window
+
+    Uncheck "Run modules directly from the workspace"
+    SAVE (ctrl-s)
+    NOTE: In developer mode you may want to leave this checked
+
+
+
+Right click on Tomcat v5.5 Sever@localhost ->Start
+
+Browse to http://localhost/WebGoat/attack
+
+
+***************************************
+
+Deploying to Tomcat
+
+***************************************
+
+From Servers view
+
+    double click Tomcat v 5.5 Server @ locahost
+
+in "Server Overview" window
+
+    Uncheck "Run modules directly from the workspace"
+    SAVE (ctrl-s)
+
+From Servers view
+
+    right click->Publish
+
+Using file system
+    copy JavaSource directory into <tomcat-root>/webapps/WebGoat/
+
+
+***************************************
+
+Configuring Webgoat.properties for
+your environment.
+    i.e. How to manage the menus
+
+***************************************
+
+Edit <webgoat-root>/project/WebContent/WEB-INF/webgoat.properties
+  - Turn off/on the desired lessons
