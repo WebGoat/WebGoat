@@ -28,7 +28,7 @@
 			<plugin>
         			<artifactId>maven-eclipse-plugin</artifactId>
         			<configuration>
-          				<wtpversion>2.0</wtpversion>
+          				<wtpversion>1.5</wtpversion>
         			</configuration>
       			</plugin>
 		</plugins>
@@ -114,7 +114,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>1.2.8</version>
 		</dependency>
 		<dependency>
 			<groupId>wsdl4j</groupId>
