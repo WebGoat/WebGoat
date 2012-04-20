@@ -48,7 +48,7 @@ These tools must be installed independent of the webgoat download.
 	In Ubuntu it can be installed with:
 	> apt-get install maven2
 - WebGoat source code
-    WebGoat source code can be downloaded at: http://code.google.com/p/webgoat/source/checkout
+    WebGoat source code can be downloaded at: http://webgoat.googlecode.com/svn/trunk/
     Use an svn client (ex: Tortoise svn) to checkout the code.
     
 
