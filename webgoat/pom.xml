@@ -4,7 +4,7 @@
 	<groupId>webgoat</groupId>
 	<artifactId>webgoat</artifactId>
 	<packaging>war</packaging>
-	<version>5.3-SNAPSHOT</version>
+	<version>5.4-SNAPSHOT</version>
 	
 	<repositories>
 		<repository>
