@@ -28,7 +28,7 @@
 			<plugin>
         			<artifactId>maven-eclipse-plugin</artifactId>
         			<configuration>
-          				<wtpversion>1.5</wtpversion>
+          				<wtpversion>2.0</wtpversion>
         			</configuration>
       			</plugin>
 		</plugins>
@@ -114,7 +114,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.8</version>
+			<version>1.2.15</version>
 		</dependency>
 		<dependency>
 			<groupId>wsdl4j</groupId>
@@ -148,11 +148,11 @@
 			<version>2.3</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>tomcat</groupId>
-			<artifactId>catalina</artifactId>
-			<version>4.1.9</version>
-			<!--scope>provided</scope-->
+ 		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-catalina</artifactId>
+			<version>7.0.27</version>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
