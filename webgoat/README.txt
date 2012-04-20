@@ -89,7 +89,7 @@ Option 1: Run the project on Tomcat within Eclipse
 ---------------------------------------------------
 
 Install a local Tomcat server
-1. Download and unzip Apache Tomcat from http://tomcat.apache.org. Note that Tomcat 7.0 is currently not supported in WebGoat.
+1. Download and unzip Apache Tomcat from http://tomcat.apache.org. 
 2. Adapt the conf/tomcat-users.xml file of your Tomcat server:
 <?xml version="1.0" encoding="UTF-8"?>
     <tomcat-users>
@@ -102,7 +102,7 @@ Install a local Tomcat server
       <user password="tomcat" roles="tomcat" username="tomcat"/>
       <user password="guest" roles="webgoat_user" username="guest"/>
     </tomcat-users>
-3. Open Eclipse -> File -> New -> Other -> Server -> Apache
+3. Open Eclipse (WTP version) -> File -> New -> Other -> Server -> Apache
 4. Choose your Tomcat version
 -> Click next "browse" to your tomcat install.
 -> Make sure the "JRE" dropdown is pointing to your jdk. If it isn't listed, press
