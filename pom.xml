@@ -4,7 +4,7 @@
 	<groupId>webgoat</groupId>
 	<artifactId>webgoat</artifactId>
 	<packaging>war</packaging>
-	<version>5.4-SNAPSHOT</version>
+	<version>5.41-SNAPSHOT</version>
 	
 	<repositories>
 		<repository>
@@ -13,8 +13,17 @@
 			<url>http://download.java.net/maven/2</url>
 		</repository>
 	</repositories>
+	
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
