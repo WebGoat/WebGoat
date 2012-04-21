@@ -54,14 +54,21 @@
 			     project is bound to this path.
 -->
 
-  <property name="app.home"    		   value="${basedir}/project"/>
-  <property name="app.name"    		   value="WebGoat"/>	<!-- MUST BE CONSISTENT WITH project/build.xml! -->
-  <property name="app.version"    		   value="5.1"/>		<!-- MUST BE CONSISTENT WITH project/build.xml! -->
-  <property name="catalina.home" 		   value="${basedir}/tomcat"/>
-  <property name="dist.home"     		   value="${app.home}/dist"/>
-  <property name="dist.owasp"     		   value="${app.home}/owasp_distributions"/>
-  <property name="install.home"     	   value="WebGoat-${app.version}"/>
+  	<property name="app.home"    		   value="${basedir}"/>
+  	<property name="app.name"    		   value="WebGoat"/>	<!-- MUST BE CONSISTENT WITH src/main/build.xml! -->
+  	<property name="app.version"    		   value="5.4"/>		<!-- MUST BE CONSISTENT WITH src/main/build.xml! -->
+  	<property name="catalina.home" 		   value="${basedir}/../apache-tomcat-7.0.27"/>
+  	<property name="dist.home"     		   value="${app.home}/dist"/>
+  	<property name="dist.owasp"     		   value="${app.home}/owasp_distributions"/>
+  	<property name="install.home"     	   value="WebGoat-${app.version}"/>
+  	<property name="maven.war"     	   value="${basedir}/target/webgoat-5.4-SNAPSHOT.war"/> <!-- UPDATE THIS! -->
+	<property name="maven.target"     	   value="${basedir}/target/webgoat-5.4-SNAPSHOT"/> <!-- UPDATE THIS! -->
+	 <property name="java32.home"     	   value="C:/Program Files (x86)/Java/jre7"/> <!-- UPDATE THIS! -->
+	 <property name="java64.home"     	   value="C:/Program Files/Java/jdk1.6.0_26"/> <!-- UPDATE THIS! -->
+	 <property name="tomcat32.home"     	   value="C:/RTC/WebGoat/apache-tomcat-7.0.27-x86/"/> <!-- UPDATE THIS! -->
+	 <property name="tomcat64.home"     	   value="C:/RTC/WebGoat/apache-tomcat-7.0.27"/> <!-- UPDATE THIS! -->
 
+	
 <!-- ==================== Clean Target ==================================== -->
 
 <!--
@@ -90,47 +97,6 @@
  	<mkdir dir="${dist.owasp}"/>
   </target>
 
-<!-- ==================== Compile Target ===================================== -->
-	
-  <target name="compile" depends="Compile-WebGoat"
-	description="Build all dependency applications">
-  </target>
-
-  <target name="Compile-WebGoat"
-	description="Build the WebGoat application">
-		<ant dir="${app.home}" target="BuildWar" inheritAll="false"/>
-  </target>
-
-<!--
-  <target name="DELETE_ME_Compile-WebGoat-Unix"
-	description="Build the WebGoat application">
-		<ant dir="${app.home}" target="BuildUnixWar" inheritAll="false"/>
-  </target>
--->
-	
-  <target name="Compile-WebGoat-LAB"
-	description="Build the WebGoat application">
-		<ant dir="${app.home}" inheritAll="false">
-			<target name="-WebGoatPropertiesLAB"/>
-			<target name="BuildWar"/>
-		</ant>
-  </target>
-
-  <target name="Compile-WebGoat-Class"
-	description="Build the WebGoat application">
-		<ant dir="${app.home}" inheritAll="false">
-			<target name="-WebGoatPropertiesClass"/>
-			<target name="BuildWar"/>
-		</ant>
-  </target>
-
-  <target name="Compile-WebGoat-OWASP"
-	description="Build the WebGoat application">
-		<ant dir="${app.home}" inheritAll="false">
-			<target name="-WebGoatPropertiesOWASP"/>
-			<target name="BuildWar"/>
-		</ant>
-  </target>
 
 <!-- ==================== Dist Target ===================================== -->
 
@@ -143,8 +109,27 @@
     dependencies) will have been assembled
 -->
 
-  
-  <target name="ZipProject"
+	  <target name="DeployWar32" 
+	   	description="Copy existing war to Tomcat - Does not rebuild">
+
+	    <!-- Install war to Tomcat -->
+	    <delete dir="${tomcat32.home}/webapps/${app.name}"/>
+	    <delete file="${tomcat32.home}/webapps/${app.name}.war"/>
+	    <copy file="${maven.war}" tofile="${tomcat32.home}/webapps/${app.name}.war"/>
+		 
+	  </target> 
+	  <target name="DeployWar64" 
+	   	description="Copy existing war to Tomcat - Does not rebuild">
+
+	    <!-- Install war to Tomcat -->
+	    <delete dir="${tomcat64.home}/webapps/${app.name}"/>
+	    <delete file="${tomcat65.home}/webapps/${app.name}.war"/>
+	    <copy file="${maven.war}" tofile="${catalina.home}/webapps/${app.name}.war"/>
+		 
+	  </target> 
+	
+
+  <target name="ZipProject-Win64"
    	description="Create a zip archive of all Eclipse project files from C:\WebGoatClassCD">
 
 		<!-- Put a copy of the keystore into the WTP dynamic deployment area -->
@@ -155,23 +140,12 @@
 		   	includes="project/.project, project/.classpath, project/.settings/**, workspace/**"/>		
   </target> 
 
-
-  <target name="DeployWar" 
-   	description="Copy existing war to Tomcat - Does not rebuild">
-
-    <!-- Install war to Tomcat -->
-    <delete dir="${catalina.home}/webapps/${app.name}"/>
-    <delete file="${catalina.home}/webapps/${app.name}.war"/>
-    <copy file="${app.home}/dist/${app.name}-${app.version}.war" tofile="${catalina.home}/webapps/${app.name}.war"/>
-	 
-  </target> 
-	
-
+ 
 	<!--Build patch release -->
-	<target name="BuildPatch_release" depends="clean, compile"
+	<target name="BuildPatch_release" depends="clean"
 	   description="Creates patch release of class files for WebGoat"> 
 		<zip destfile="${dist.home}/${app.name}-${app.version}_patch.zip">
-	    		<zipfileset dir="build/WEB-INF/classes" prefix="WEB-INF/classes"/>
+	    		<zipfileset dir="${maven.target}/WEB-INF/classes" prefix="WEB-INF/classes"/>
 			<zipfileset dir="." includes="readme_patch.txt"/>
 		</zip>
 	</target>
@@ -236,18 +210,26 @@
 		</zip>
 	</target> 	
 
-	<target name="Build_OWASP_Standard_Release" depends="clean"
+	<target name="Build_OWASP_Standard_Release_32" depends="clean"
 			description="Builds WebGoat OWASP release">
-		<!-- Build the WebGoat WAR with the desired properties file -->
-		<ant dir="${app.home}" inheritAll="false">
-			<target name="WebGoatPropertiesOWASP"/>
-			<target name="BuildWar"/>
-		</ant>
+		<antcall target="DeployWar32"> </antcall> 
+		<!-- Build the CD image -->
+		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard_32-${app.version}.zip">
+			<zipfileset dir="." prefix="${install.home}"
+				includes=", READ*.txt, webgoat.*, webgoat_8080.*"
+				excludes=".*, .settings/**,dist/**, owasp_distributions/**, bin/**, build/**"/>
+			<zipfileset dir="${java32.home}" prefix="${install.home}/java"/>
+			<zipfileset dir="${tomcat32.home}" prefix="${install.home}/tomcat"/>
+		</zip>
+	</target> 	
+	
+	<target name="Build_OWASP_Standard_Release_64" depends="clean"
+			description="Builds WebGoat OWASP release">
 		<antcall target="DeployWar"> </antcall> 
 		<!-- Build the CD image -->
-		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard-${app.version}.zip">
+		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard_64-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
-				includes="java/, tomcat/, read*.txt, webgoat.bat, webgoat_8080.bat"
+				includes="java/, tomcat/, read*.txt, webgoat.*, webgoat_8080.*"
 				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
 		</zip>
 	</target> 	
