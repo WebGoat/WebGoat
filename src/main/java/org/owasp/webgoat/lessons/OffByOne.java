@@ -130,6 +130,8 @@ public class OffByOne extends LessonAdapter
 		hints.add("See which fields during the registration process, allow for really long input to be submitted.");
 		hints.add("Check for hidden form fields during registration");
 		hints.add("Typically, web-based buffer overflows occur just above the value of 2 to the power of a number. E.g. 1024 + 1, 2048 + 1, 4096 + 1");
+		hints.add("Overflow the room number field with 4096+1 characters and look for hidden fields");
+		hints.add("Enter the VIP name in the first and last naem fields");
 		return hints;
 	}
 
@@ -405,7 +407,9 @@ public class OffByOne extends LessonAdapter
 	private Element makeThirdStep(WebSession s)
 	{
 		ElementContainer ec = new ElementContainer();
-		String param = "";
+		String param1 = "";
+		String param2 = "";
+		String param3 = "";
 
 		// Header
 		ec.addElement(new StringElement("You have now completed the 2 step process and have access to the Internet"));
@@ -453,23 +457,23 @@ public class OffByOne extends LessonAdapter
 		ec.addElement("\r\n");
 
 		// Hidden Form Fields
-		param = s.getParser().getStringParameter(LAST_NAME, "");
-		Input input = new Input(Input.HIDDEN, "a", param);
+		param1 = s.getParser().getStringParameter(LAST_NAME, "");
+		Input input = new Input(Input.HIDDEN, "a", param1);
 		ec.addElement(input);
 		ec.addElement("\r\n");
 
-		param = s.getParser().getStringParameter(FIRST_NAME, "");
-		input = new Input(Input.HIDDEN, "b", param);
+		param2 = s.getParser().getStringParameter(FIRST_NAME, "");
+		input = new Input(Input.HIDDEN, "b", param2);
 		ec.addElement(input);
 		ec.addElement("\r\n");
 
-		param = s.getParser().getStringParameter(ROOM_NUMBER, "");
-		input = new Input(Input.HIDDEN, "c", param);
+		param3 = s.getParser().getStringParameter(ROOM_NUMBER, "");
+		input = new Input(Input.HIDDEN, "c", param3);
 		ec.addElement(input);
 		ec.addElement("\r\n");
 
 		// And finally the check...
-		if(param.length() > 4096)
+		if(param3.length() > 4096)
 		{
 			ec.addElement(new Input(Input.hidden, "d", "Johnathan"));
 			ec.addElement("\r\n");
@@ -498,9 +502,18 @@ public class OffByOne extends LessonAdapter
 			ec.addElement("\r\n");
 			ec.addElement(new Input(Input.hidden, "o", "9901"));
 			ec.addElement("\r\n");
-			// :)
-			makeSuccess(s);
 
+			s.setMessage("To complete the lesson, restart lesson and enter VIP first/last name");
+
+		}
+		if (("Johnathan".equalsIgnoreCase(param2) || "John".equalsIgnoreCase(param2)
+				|| "Ana".equalsIgnoreCase(param2) ||"Lewis".equalsIgnoreCase(param2))
+				&& ("Ravern".equalsIgnoreCase(param1) || "Smith".equalsIgnoreCase(param1)
+						|| "Arneta".equalsIgnoreCase(param1) ||"Hamilton".equalsIgnoreCase(param1)))
+		{
+			// :)
+			// Allows for mixed VIP names, but that's not really the point
+			makeSuccess(s);
 		}
 		
 		// Footer
@@ -509,7 +522,6 @@ public class OffByOne extends LessonAdapter
 		ec.addElement(new StringElement("We would like to thank you for your payment."));
 		ec.addElement(new br());
 		ec.addElement(new br());
-		
 		
 		return ec;
 	}

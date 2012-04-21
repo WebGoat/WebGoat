@@ -73,6 +73,7 @@ delete artifacts from previous build:
 Building the Eclipse project files
 ----------------------------------
 
+> mvn eclipse:clean
 > mvn eclipse:eclipse
 
 Afterward the project can be imported within Eclipse:
