@@ -9,6 +9,8 @@ import org.apache.ecs.StringElement;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Div;
 import org.apache.ecs.html.Input;
+import org.apache.ecs.html.LI;
+import org.apache.ecs.html.OL;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
@@ -64,89 +66,102 @@ public class PasswordStrength extends LessonAdapter
 
 		try
 		{
+			if (s.getParser().getStringParameter("pass1", "").equals("0")
+					&& s.getParser().getStringParameter("pass2", "").equals("1394")
+					&& s.getParser().getStringParameter("pass3", "").equals("5")
+					&& s.getParser().getStringParameter("pass4", "").equals("2")
+					&& s.getParser().getStringParameter("pass5", "").equals("41"))
+			{
+				makeSuccess(s);
+				ec.addElement(new StringElement("As a guideline not bound to a single solution."));
+				ec.addElement(new BR());
+				ec.addElement(new StringElement("Assuming the brute-force power of 1,000,000 hash/second: "));
+				ec.addElement(new BR());
+				OL ol = new OL();
+				ol.addElement(new LI("123456 - 0 seconds        (dictionary based, one of top 100)"));
+				ol.addElement(new LI("abzfez - up to 5 minutes  ( 26 chars on 6 positions = 26^6 seconds)"));
+				ol.addElement(new LI("a9z1ez - up to 40 minutes ( 26+10 chars on 6 positions = 36^6 seconds)"));
+				ol.addElement(new LI("aB8fEz - up to 16 hours   ( 26+26+10 chars on 6 positions = 62^6 seconds)"));
+				ol.addElement(new LI("z8!E?7 - up to 50 days    ( 127 chars on 6 positions = 127^6 seconds)"));
+				ec.addElement(ol);
+			} else
+			{
 
-			ec.addElement(new StringElement("How much time you need for these passwords? "));
-			ec.addElement(new BR());
-			ec.addElement(new BR());
-			ec.addElement(new BR());
-			Table table = new Table();
-			table.addAttribute("align='center'", 0);
-			TR tr1 = new TR();
-			TD td1 = new TD();
-			TD td2 = new TD();
-			Input input1 = new Input(Input.TEXT, "pass1", "");
-			td1.addElement(new StringElement("Password = 123456"));
-			td2.addElement(input1);
-			td2.addElement(new StringElement("seconds"));
-			tr1.addElement(td1);
-			tr1.addElement(td2);
-
-			TR tr2 = new TR();
-			TD td3 = new TD();
-			TD td4 = new TD();
-			Input input2 = new Input(Input.TEXT, "pass2", "");
-			td3.addElement(new StringElement("Password = abzfez"));
-			td4.addElement(input2);
-			td4.addElement(new StringElement("seconds"));
-			tr2.addElement(td3);
-			tr2.addElement(td4);
-
-			TR tr3 = new TR();
-			TD td5 = new TD();
-			TD td6 = new TD();
-			Input input3 = new Input(Input.TEXT, "pass3", "");
-			td5.addElement(new StringElement("Password = a9z1ez"));
-			td6.addElement(input3);
-			td6.addElement(new StringElement("hours"));
-			tr3.addElement(td5);
-			tr3.addElement(td6);
-
-			TR tr4 = new TR();
-			TD td7 = new TD();
-			TD td8 = new TD();
-			Input input4 = new Input(Input.TEXT, "pass4", "");
-			td7.addElement(new StringElement("Password = aB8fEz"));
-			td8.addElement(input4);
-			td8.addElement(new StringElement("days"));
-			tr4.addElement(td7);
-			tr4.addElement(td8);
-
-			TR tr5 = new TR();
-			TD td9 = new TD();
-			TD td10 = new TD();
-			Input input5 = new Input(Input.TEXT, "pass5", "");
-			td9.addElement(new StringElement("Password = z8!E?7"));
-			td10.addElement(input5);
-			td10.addElement(new StringElement("days"));
-			tr5.addElement(td9);
-			tr5.addElement(td10);
-			table.addElement(tr1);
-			table.addElement(tr2);
-			table.addElement(tr3);
-			table.addElement(tr4);
-			table.addElement(tr5);
-			ec.addElement(table);
-			ec.addElement(new BR());
-			ec.addElement(new BR());
-			Div div = new Div();
-			div.addAttribute("align", "center");
-			Element b = ECSFactory.makeButton("Go!");
-			div.addElement(b);
-			ec.addElement(div);
+				ec.addElement(new StringElement("How much time you need for these passwords? "));
+				ec.addElement(new BR());
+				ec.addElement(new BR());
+				ec.addElement(new BR());
+				Table table = new Table();
+				table.addAttribute("align='center'", 0);
+				TR tr1 = new TR();
+				TD td1 = new TD();
+				TD td2 = new TD();
+				Input input1 = new Input(Input.TEXT, "pass1", "");
+				td1.addElement(new StringElement("Password = 123456"));
+				td2.addElement(input1);
+				td2.addElement(new StringElement("seconds"));
+				tr1.addElement(td1);
+				tr1.addElement(td2);
+	
+				TR tr2 = new TR();
+				TD td3 = new TD();
+				TD td4 = new TD();
+				Input input2 = new Input(Input.TEXT, "pass2", "");
+				td3.addElement(new StringElement("Password = abzfez"));
+				td4.addElement(input2);
+				td4.addElement(new StringElement("seconds"));
+				tr2.addElement(td3);
+				tr2.addElement(td4);
+	
+				TR tr3 = new TR();
+				TD td5 = new TD();
+				TD td6 = new TD();
+				Input input3 = new Input(Input.TEXT, "pass3", "");
+				td5.addElement(new StringElement("Password = a9z1ez"));
+				td6.addElement(input3);
+				td6.addElement(new StringElement("hours"));
+				tr3.addElement(td5);
+				tr3.addElement(td6);
+	
+				TR tr4 = new TR();
+				TD td7 = new TD();
+				TD td8 = new TD();
+				Input input4 = new Input(Input.TEXT, "pass4", "");
+				td7.addElement(new StringElement("Password = aB8fEz"));
+				td8.addElement(input4);
+				td8.addElement(new StringElement("days"));
+				tr4.addElement(td7);
+				tr4.addElement(td8);
+	
+				TR tr5 = new TR();
+				TD td9 = new TD();
+				TD td10 = new TD();
+				Input input5 = new Input(Input.TEXT, "pass5", "");
+				td9.addElement(new StringElement("Password = z8!E?7"));
+				td10.addElement(input5);
+				td10.addElement(new StringElement("days"));
+				tr5.addElement(td9);
+				tr5.addElement(td10);
+				table.addElement(tr1);
+				table.addElement(tr2);
+				table.addElement(tr3);
+				table.addElement(tr4);
+				table.addElement(tr5);
+				ec.addElement(table);
+				ec.addElement(new BR());
+				ec.addElement(new BR());
+				Div div = new Div();
+				div.addAttribute("align", "center");
+				Element b = ECSFactory.makeButton("Go!");
+				div.addElement(b);
+				ec.addElement(div);
+			}
 		} catch (Exception e)
 		{
 			s.setMessage("Error generating " + this.getClass().getName());
 			e.printStackTrace();
 		}
 
-		if (s.getParser().getStringParameter("pass1", "").equals("0")
-				&& s.getParser().getStringParameter("pass2", "").equals("1394")
-				&& s.getParser().getStringParameter("pass3", "").equals("5")
-				&& s.getParser().getStringParameter("pass4", "").equals("2")
-				&& s.getParser().getStringParameter("pass5", "").equals("41"))
-		{
-			makeSuccess(s);
-		}
 
 		return (ec);
 	}
