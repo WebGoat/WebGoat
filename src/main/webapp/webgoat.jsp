@@ -83,12 +83,12 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 		</td>
 		<td>
 		<div align="center" class="style2">Sherif Koussa<br />
-			(http://www.softwaresecured.com)
+			(<a href="http://www.softwaresecured.com" target="blank">http://www.softwaresecured.com</a>)
 		</div>
 		<div align="center" class="style2">Aung Khant<br />
-		(http://yehg.org/)</div>
+		(<a href="http://yehg.org/" target="_blank">http://yehg.org/</a>)</div>
 		<div align="center" class="style2">Erwin Geirnaert<br />
-		(http://www.zionsecurity.com/)</div>
+		(<a href="http://www.zionsecurity.com/" target="_blank">http://www.zionsecurity.com/</a>)</div>
 		</td>
 	</tr>
 	<tr>
