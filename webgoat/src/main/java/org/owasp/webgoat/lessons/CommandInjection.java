@@ -244,7 +244,8 @@ public class CommandInjection extends LessonAdapter
 	{
 		System.out.println("Executing OS command: " + Arrays.asList(command));
 		ExecResults er = Exec.execSimple(command);
-		if (!er.getError())
+		// the third argument (index 2) will have the command injection in it
+		if ((command[2].indexOf("&") != -1 || command[2].indexOf(";") != -1) && !er.getError())
 		{
 			makeSuccess(s);
 		}
