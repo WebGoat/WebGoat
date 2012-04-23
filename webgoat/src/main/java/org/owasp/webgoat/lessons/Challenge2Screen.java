@@ -10,6 +10,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -209,7 +210,9 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
 		// pull the USER_COOKIE from the cookies
-		String user = Encoding.base64Decode(getCookie(s));
+		String cookie = URLDecoder.decode(getCookie(s),"utf-8");
+		
+		String user = Encoding.base64Decode(cookie);
 		String query = "SELECT * FROM user_data WHERE last_name = '" + user + "'";
 		Vector<String> v = new Vector<String>();
 
@@ -626,12 +629,13 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			t.setBorder(1);
 		}
 
-		String[] colWidths = new String[] { "55", "110", "260", "70" };
+		String[] colWidths = new String[] { "55", "110", "260", "70", "50" };
 		TR tr = new TR();
 		tr.addElement(new TH().addElement("Protocol").setWidth(colWidths[0]));
 		tr.addElement(new TH().addElement("Local Address").setWidth(colWidths[1]));
 		tr.addElement(new TH().addElement("Foreign Address").setWidth(colWidths[2]));
 		tr.addElement(new TH().addElement("State").setWidth(colWidths[3]));
+		tr.addElement(new TH().addElement("Offload State").setWidth(colWidths[4]));
 		t.addElement(tr);
 
 		String protocol = s.getParser().getRawParameter(PROTOCOL, "tcp");
@@ -640,12 +644,12 @@ public class Challenge2Screen extends SequentialLessonAdapter
 		ExecResults er = null;
 		if (osName.indexOf("Windows") != -1)
 		{
-			String cmd = "cmd.exe /c netstat -a -p " + protocol;
+			String cmd = "cmd.exe /c netstat -ant -p " + protocol;
 			er = Exec.execSimple(cmd);
 		}
 		else
 		{
-			String[] cmd = { "/bin/sh", "-c", "netstat -a -p " + protocol };
+			String[] cmd = { "/bin/sh", "-c", "netstat -ant -p " + protocol };
 			er = Exec.execSimple(cmd);
 		}
 
@@ -673,7 +677,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			tr = new TR();
 			TD td;
 			StringTokenizer tokens = new StringTokenizer(lines.nextToken(), "\t ");
-			while (tokens.hasMoreTokens() && columnCount < 4)
+			while (tokens.hasMoreTokens() && columnCount < 5)
 			{
 				td = new TD().setWidth(colWidths[columnCount++]);
 				tr.addElement(td.addElement(tokens.nextToken()));
