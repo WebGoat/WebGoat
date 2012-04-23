@@ -243,7 +243,7 @@ public class DOMXSS extends SequentialLessonAdapter
 
 		if (getLessonTracker(s).getStage() == 1)
 		{
-			instructions = "STAGE 1:\tFor this exercise, your mission is to deface this website using the image at the following location: <a href = '/webgoat/images/logos/owasp.jpg'>OWASP IMAGE</a>";
+			instructions = "STAGE 1:\tFor this exercise, your mission is to deface this website using the image at the following location: <a href = '/WebGoat/images/logos/owasp.jpg'>OWASP IMAGE</a>";
 		}
 		else if (getLessonTracker(s).getStage() == 2)
 		{
