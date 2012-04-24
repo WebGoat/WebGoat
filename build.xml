@@ -6,7 +6,7 @@
      set to the current working directory.
 -->
 
-<project name="WebGoat" default="Build_ALL_OWASP_Releases" basedir=".">
+<project name="WebGoat" xmlns:artifact="antlib:org.apache.maven.artifact.ant" default="Build_ALL_OWASP_Releases" basedir=".">
 
 <!-- ===================== Property Definitions =========================== -->
 
@@ -57,16 +57,18 @@
   	<property name="app.home"    		   value="${basedir}"/>
   	<property name="app.name"    		   value="WebGoat"/>	<!-- MUST BE CONSISTENT WITH src/main/build.xml! -->
   	<property name="app.version"    		   value="5.4"/>		<!-- MUST BE CONSISTENT WITH src/main/build.xml! -->
-  	<property name="catalina.home" 		   value="${basedir}/../apache-tomcat-7.0.27"/>
   	<property name="dist.home"     		   value="${app.home}/dist"/>
   	<property name="dist.owasp"     		   value="${app.home}/owasp_distributions"/>
   	<property name="install.home"     	   value="WebGoat-${app.version}"/>
-  	<property name="maven.war"     	   value="${basedir}/target/webgoat-5.4-SNAPSHOT.war"/> <!-- UPDATE THIS! -->
-	<property name="maven.target"     	   value="${basedir}/target/webgoat-5.4-SNAPSHOT"/> <!-- UPDATE THIS! -->
+  	<property name="maven.war"     	   value="${basedir}/target/WebGoat-5.4-SNAPSHOT.war"/> <!-- UPDATE THIS! -->
+	<property name="maven.target"     	   value="${basedir}/target/WebGoat-5.4-SNAPSHOT"/> <!-- UPDATE THIS! -->
+	<property name="maven.home"     	   value="C:/Program Files (x86)/apache/apache-maven-3.0.3"/> <!-- UPDATE THIS! -->
 	 <property name="java32.home"     	   value="C:/Program Files (x86)/Java/jre7"/> <!-- UPDATE THIS! -->
+	 <property name="java32.ubuntu.home"     	   value="C:/RTC/WebGoat/ubuntu_openjava_6_32"/> <!-- UPDATE THIS! -->
 	 <property name="java64.home"     	   value="C:/Program Files/Java/jdk1.6.0_26"/> <!-- UPDATE THIS! -->
 	 <property name="tomcat32.home"     	   value="C:/RTC/WebGoat/apache-tomcat-7.0.27-x86/"/> <!-- UPDATE THIS! -->
 	 <property name="tomcat64.home"     	   value="C:/RTC/WebGoat/apache-tomcat-7.0.27"/> <!-- UPDATE THIS! -->
+	 <property name="tomcat32.ubuntu.home"     	   value="C:/RTC/WebGoat/ubuntu_tomcat_7_32"/> <!-- UPDATE THIS! -->
 
 	
 <!-- ==================== Clean Target ==================================== -->
@@ -76,20 +78,41 @@
   so that you can be ensured the application can be built from scratch.
 -->
 
-  <target name="clean"
+  <target name="cleanwin32"
    description="Delete old build and dist directories">
-    <delete file="${web_inf.home}/web.xml"/>
  	<delete dir="${dist.home}"/>
-	<delete dir="${catalina.home}/logs"/>
-	<delete dir="${catalina.home}/work/Catalina/localhost"/>
- 	<delete dir="${catalina.home}/webapps/${app.name}"/>
-	<delete file="${catalina.home}/webapps/${app.name}.war"/>
-	<delete dir="${catalina.home}/server/webapps/${app.name}"/>
+	<delete dir="${tomcat32.home}/logs"/>
+	<delete dir="${tomcat32.home}/work/Catalina/localhost"/>
+ 	<delete dir="${tomcat32.home}/webapps/${app.name}"/>
+	<delete file="${tomcat32.home}/webapps/${app.name}.war"/>
+	<delete dir="${tomcat32.home}/server/webapps/${app.name}"/>
     <mkdir dir="${dist.home}"/>
- 	<mkdir dir="${catalina.home}/logs"/>
+ 	<mkdir dir="${tomcat32.home}/logs"/>
  </target>
+	  <target name="cleanwin64"
+	   description="Delete old build and dist directories">
+	 	<delete dir="${dist.home}"/>
+		<delete dir="${tomcat64.home}/logs"/>
+		<delete dir="${tomcat64.home}/work/Catalina/localhost"/>
+	 	<delete dir="${tomcat64.home}/webapps/${app.name}"/>
+		<delete file="${tomcat64.home}/webapps/${app.name}.war"/>
+		<delete dir="${tomcat64.home}/server/webapps/${app.name}"/>
+	    <mkdir dir="${dist.home}"/>
+	 	<mkdir dir="${tomcat64.home}/logs"/>
+	 </target>
+	  <target name="cleanubuntu32"
+	   description="Delete old build and dist directories">
+	 	<delete dir="${dist.home}"/>
+		<delete dir="${tomcat32.ubuntu.home}/logs"/>
+		<delete dir="${tomcat32.ubuntu.home}/work/Catalina/localhost"/>
+	 	<delete dir="${tomcat32.ubuntu.home}/webapps/${app.name}"/>
+		<delete file="${tomcat32.ubuntu.home}/webapps/${app.name}.war"/>
+		<delete dir="${tomcat32.ubuntu.home}/server/webapps/${app.name}"/>
+	    <mkdir dir="${dist.home}"/>
+	 	<mkdir dir="${tomcat32.ubuntu.home}/logs"/>
+	 </target>
 
-  <target name="clean_all"
+  <target name="clean_dist"
    description="Delete old build, dist directories and zips">
  	<delete dir="${dist.home}"/>
  	<delete dir="${dist.owasp}"/>
@@ -109,7 +132,7 @@
     dependencies) will have been assembled
 -->
 
-	  <target name="DeployWar32" 
+	  <target name="DeployWarWin32" 
 	   	description="Copy existing war to Tomcat - Does not rebuild">
 
 	    <!-- Install war to Tomcat -->
@@ -118,40 +141,28 @@
 	    <copy file="${maven.war}" tofile="${tomcat32.home}/webapps/${app.name}.war"/>
 		 
 	  </target> 
-	  <target name="DeployWar64" 
+	  <target name="DeployWarWin64" 
 	   	description="Copy existing war to Tomcat - Does not rebuild">
 
 	    <!-- Install war to Tomcat -->
 	    <delete dir="${tomcat64.home}/webapps/${app.name}"/>
-	    <delete file="${tomcat65.home}/webapps/${app.name}.war"/>
-	    <copy file="${maven.war}" tofile="${catalina.home}/webapps/${app.name}.war"/>
+	    <delete file="${tomcat64.home}/webapps/${app.name}.war"/>
+	    <copy file="${maven.war}" tofile="${tomcat64.home}/webapps/${app.name}.war"/>
+		 
+	  </target> 
+	  <target name="DeployWarUbuntu32" 
+	   	description="Copy existing war to Tomcat - Does not rebuild">
+
+	    <!-- Install war to Tomcat -->
+	    <delete dir="${tomcat32.ubuntu.home}/webapps/${app.name}"/>
+	    <delete file="${tomcat32.ubuntu.home}/webapps/${app.name}.war"/>
+	    <copy file="${maven.war}" tofile="${tomcat32.ubuntu.home}/webapps/${app.name}.war"/>
 		 
 	  </target> 
 	
 
-  <target name="ZipProject-Win64"
-   	description="Create a zip archive of all Eclipse project files from C:\WebGoatClassCD">
-
-		<!-- Put a copy of the keystore into the WTP dynamic deployment area -->
-		<copy file="/WebGoatClassCD/tomcat/.keystore" tofile="/WebGoatClassCD/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/.keystore"/>
-
-		<zip destfile="${basedir}/project-student.zip"
-			basedir="/WebGoatClassCD"	
-		   	includes="project/.project, project/.classpath, project/.settings/**, workspace/**"/>		
-  </target> 
-
- 
-	<!--Build patch release -->
-	<target name="BuildPatch_release" depends="clean"
-	   description="Creates patch release of class files for WebGoat"> 
-		<zip destfile="${dist.home}/${app.name}-${app.version}_patch.zip">
-	    		<zipfileset dir="${maven.target}/WEB-INF/classes" prefix="WEB-INF/classes"/>
-			<zipfileset dir="." includes="readme_patch.txt"/>
-		</zip>
-	</target>
-	
 	<!-- Build J2EE Lab Environment release -->
-	<target name="Build_DeveloperLab_Release" depends="clean"
+	<target name="Build_DeveloperLab_Release_FIXME" depends="cleanwin32"
 			description="Builds J2EE Developer Course release">
 
 		<!-- Build the WebGoat WAR with the desired properties file -->
@@ -172,7 +183,7 @@
 		</zip>
 	</target> 	
 	
-	<target name="Build_Class_Release" depends="clean"
+	<target name="Build_Class_Release_FIXME" depends="cleanwin32"
 			description="Builds WebGoat Course release">
 
 		<!-- Build the WebGoat WAR with the desired properties file -->
@@ -192,7 +203,7 @@
 	</target> 	
 
 	<!-- Build OWASP Developer Lab Environment release -->
-	<target name="Build_OWASP_DeveloperLab_release" depends="clean"
+	<target name="Build_OWASP_DeveloperLab_release_FIXME" depends="cleanwin32"
 			description="Builds OWASP Developer release">
 		<!-- Build the WebGoat WAR with the desired properties file -->
 		<ant dir="${app.home}" inheritAll="false">
@@ -210,9 +221,9 @@
 		</zip>
 	</target> 	
 
-	<target name="Build_OWASP_Standard_Release_32" depends="clean"
-			description="Builds WebGoat OWASP release">
-		<antcall target="DeployWar32"> </antcall> 
+	<target name="Build_OWASP_Standard_Release_win32" depends="cleanwin32"
+			description="Builds WebGoat OWASP win32 release">
+		<antcall target="DeployWarWin32"> </antcall> 
 		<!-- Build the CD image -->
 		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard_32-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
@@ -223,24 +234,41 @@
 		</zip>
 	</target> 	
 	
-	<target name="Build_OWASP_Standard_Release_64" depends="clean"
-			description="Builds WebGoat OWASP release">
-		<antcall target="DeployWar"> </antcall> 
+	<target name="Build_OWASP_Standard_Release_win64" depends="cleanwin64"
+			description="Builds WebGoat OWASP win64 release">
+		<antcall target="DeployWarWin64"> </antcall> 
 		<!-- Build the CD image -->
 		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard_64-${app.version}.zip">
 			<zipfileset dir="." prefix="${install.home}"
-				includes="java/, tomcat/, read*.txt, webgoat.*, webgoat_8080.*"
-				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
+				includes=", READ*.txt, webgoat.*, webgoat_8080.*"
+				excludes=".*, .settings/**,dist/**, owasp_distributions/**, bin/**, build/**"/>
+			<zipfileset dir="${java64.home}" prefix="${install.home}/java"/>
+			<zipfileset dir="${tomcat64.home}" prefix="${install.home}/tomcat"/>
+		</zip>
+	</target> 	
+
+	<target name="Build_OWASP_Standard_Release_ubuntu32" depends="cleanubuntu32"
+			description="Builds WebGoat OWASP ubuntu release">
+		<antcall target="DeployWarUbuntu32"> </antcall> 
+		<!-- Build the CD image -->
+		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard_Ubuntu_32-${app.version}.zip">
+			<zipfileset dir="." prefix="${install.home}"
+				includes=", READ*.txt, webgoat.*, webgoat_8080.*"
+				excludes=".*, .settings/**,dist/**, owasp_distributions/**, bin/**, build/**"/>
+			<zipfileset dir="${java32.ubuntu.home}" prefix="${install.home}/java"/>
+			<zipfileset dir="${tomcat32.ubuntu.home}" prefix="${install.home}/tomcat"/>
 		</zip>
 	</target> 	
 
 	<!--Build all OWASP release -->
-	<target name="Build_ALL_OWASP_Releases" depends="clean_all"
+	<target name="Build_ALL_OWASP_Releases" depends="clean_dist"
 		   description="Creates all binary distributions for OWASP">
 		<copy file="${basedir}/readme.txt" tofile="${dist.owasp}/readme.txt"/>
-		<antcall target="Build_OWASP_Standard_Release"> </antcall>
+		<antcall target="Build_OWASP_Standard_Release_win32"> </antcall>
 		<copydir dest="${dist.owasp}" src="${dist.home}"/>
-		<antcall target="Build_OWASP_DeveloperLab_release"> </antcall> 
+		<antcall target="Build_OWASP_Standard_Release_win64"> </antcall> 
+		<copydir dest="${dist.owasp}" src="${dist.home}"/>
+		<antcall target="Build_OWASP_Standard_Release_ubuntu32"> </antcall> 
 		<copydir dest="${dist.owasp}" src="${dist.home}"/>
 	</target> 
 
