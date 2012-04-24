@@ -58,6 +58,7 @@ public class LogSpoofing extends LessonAdapter
 	private static final String USERNAME = "username";
 
 	private static final String PASSWORD = "password";
+	
 
 	public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
 	
@@ -94,6 +95,7 @@ public class LogSpoofing extends LessonAdapter
 			ec.addElement(t);
 
 			inputUsername = new String(s.getParser().getRawParameter(USERNAME, ""));
+			
 			if (inputUsername.length() != 0)
 			{
 				inputUsername = URLDecoder.decode(inputUsername, "UTF-8");
@@ -107,13 +109,10 @@ public class LogSpoofing extends LessonAdapter
 
 			t2.addElement(row4);
 
-			ec.addElement(t2);
-
-			if (inputUsername.length() != 0
-					&& inputUsername.toUpperCase().indexOf(
-															System.getProperty("line.separator")
-																	+ WebGoatI18N.get("LoginSucceededForUserName")+":") >= 0)
-			{
+			ec.addElement(t2);			
+					
+			if (inputUsername.length() > 0 && inputUsername.indexOf('\n') >= 0 && inputUsername.indexOf('\n') >= 0)
+			{				
 				makeSuccess(s);
 			}
 		} catch (UnsupportedEncodingException e)
