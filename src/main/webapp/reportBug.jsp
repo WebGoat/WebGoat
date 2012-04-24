@@ -37,7 +37,7 @@
 	the most common problems are in the FAQ. The FAQ also allows user comments,
 	but it is not monitored like the WebGoat mailing list.</li>
 	<li>Send an email to the <a
-		href="mailto: owasp-webgoat@lists.owasp.org?subject=WebGoat Bug Report - Lesson: 
+		href="mailto: owasp-webgoat@lists.owasp.org?subject=WebGoat Help Request - Lesson: 
 												 <%=webSession.getCurrentLesson().getName()%>">WebGoat
 	mail list</a>. The WebGoat mail list is the preferred method to ask for
 	help. It is likely that someone has already experienced the issue you
@@ -45,7 +45,7 @@
 		href="https://lists.owasp.org/mailman/listinfo/owasp-webgoat">subscribed</a>
 	to the WebGoat Mail List.</li>
 	<li>Send an email to <a
-		href="mailto: <%=webSession.getWebgoatContext().getFeedbackAddress()%>?subject=WebGoat Bug Report - Lesson: 
+		href="mailto: <%=webSession.getWebgoatContext().getFeedbackAddress()%>?subject=WebGoat Direct Help Request - Lesson: 
 												 <%=webSession.getCurrentLesson().getName()%>">Bruce
 	Mayhew</a></li>
 </ol>
@@ -59,6 +59,11 @@
 	as many bugs/lessons as you desire.</li>
 </ol>
 
+		<div id="bottom">
+			<div align="center"><a href="http://www.owasp.org">OWASP Foundation</a> | 
+								<a href="http://www.owasp.org/index.php/OWASP_WebGoat_Project">Project WebGoat</a> 
+			</div>
+	  	</div>
 
 </div>
 </div>
