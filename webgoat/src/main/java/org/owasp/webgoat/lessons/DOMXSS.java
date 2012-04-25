@@ -73,6 +73,10 @@ public class DOMXSS extends SequentialLessonAdapter
 		{
 			getLessonTracker(s).setStage(3);
 			s.setMessage("Stage 2 completed. ");
+		} 
+		else
+		{
+			s.setMessage("Only &lt;img onerror...  attacks are recognized for success criteria");
 		}
 
 		return (ec);
@@ -91,6 +95,16 @@ public class DOMXSS extends SequentialLessonAdapter
 		{
 			getLessonTracker(s).setStage(4);
 			s.setMessage("Stage 3 completed.");
+		} else 	if (attackString.toString().toLowerCase().indexOf("iframe") != -1
+				&& attackString.toString().toLowerCase().indexOf("onload") != -1
+				&& attackString.toString().toLowerCase().indexOf("alert") != -1)
+		{
+			getLessonTracker(s).setStage(3);
+			s.setMessage("Stage 3 completed. ");
+		}
+		else
+		{
+			s.setMessage("Only &lt;iframe javascript/onload...  attacks are recognized for success criteria");
 		}
 		return (ec);
 	}
