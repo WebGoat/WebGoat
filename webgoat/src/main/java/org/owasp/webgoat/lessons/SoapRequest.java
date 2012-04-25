@@ -357,8 +357,11 @@ public class SoapRequest extends SequentialLessonAdapter
 
 			// display Stage2 content
 			ec
-					.addElement(new P()
-							.addElement("Intercept the request and invoke any method by sending a valid SOAP request for a valid account. <br>"));
+			.addElement(new P()
+					.addElement("Intercept the request and invoke any method by sending a valid SOAP request for a valid account. <br/>"));
+			ec
+			.addElement(new P()
+					.addElement("You must access at least 2 of the methods to pass the lesson. <br/>"));
 			Element b = ECSFactory.makeButton("Press to generate an HTTP request");
 			ec.addElement(b);
 
