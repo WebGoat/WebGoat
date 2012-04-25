@@ -41,7 +41,7 @@ import org.owasp.webgoat.util.HtmlEncoder;
 public class ParameterParser
 {
 
-	private final static String ALLOWED_CHARACTERS = "$()-?.@!,:;=//+"; // Don't
+	private final static String ALLOWED_CHARACTERS = "_$()-?.@!,:;=//+"; // Don't
 	// allow
 	// #&
 	// specifically
