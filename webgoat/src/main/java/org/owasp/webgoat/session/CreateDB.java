@@ -59,7 +59,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error dropping message database");
+			System.out.println("Info - Could not drop message database");
 		}
 
 		// Create the new table
@@ -71,8 +71,7 @@ public class CreateDB
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
-			System.out.println("Error creating message database");
-			e.printStackTrace();
+			System.out.println("Error creating message database " + e.getLocalizedMessage());
 		}
 	}
 
@@ -95,7 +94,7 @@ public class CreateDB
 		}
 		catch (SQLException e)
 		{
-		    System.out.println("Error dropping mfe_images table from database");
+		    System.out.println("Info - Could not drop mfe_images table from database");
 		}
 	
 		// Create the new mfe_images table
@@ -109,8 +108,7 @@ public class CreateDB
 		}
 		catch (SQLException e)
 		{
-		    System.out.println("Error creating mfe_images table in database");
-		    e.printStackTrace();
+		    System.out.println("Error creating mfe_images table in database " + e.getLocalizedMessage());
 		}
 
     }
@@ -135,7 +133,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error dropping product database");
+			System.out.println("Info - Could not drop product table");
 		}
 
 		// Create the new table
@@ -147,8 +145,7 @@ public class CreateDB
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
-			System.out.println("Error creating product database");
-			e.printStackTrace();
+			System.out.println("Error creating product table " + e.getLocalizedMessage());
 		}
 
 		// Populate
@@ -184,7 +181,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error dropping user admin database");
+			System.out.println("Info - Could not drop user admin table");
 		}
 
 		// Create the new table
@@ -195,8 +192,7 @@ public class CreateDB
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
-			System.out.println("Error creating user admin database");
-			e.printStackTrace();
+			System.out.println("Error creating user admin table " + e.getLocalizedMessage());
 		}
 
 		// Populate
@@ -232,7 +228,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error dropping user database");
+			System.out.println("Info - Could not drop user table");
 		}
 
 		// Create the new table
@@ -244,8 +240,7 @@ public class CreateDB
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
-			System.out.println("Error creating user database");
-			e.printStackTrace();
+			System.out.println("Error creating user table " + e.getLocalizedMessage());
 		}
 
 		// Populate it
@@ -289,7 +284,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error dropping user_login table");
+			System.out.println("Info - Could not drop user_login table");
 		}
 
 		// Create the new table
@@ -300,8 +295,7 @@ public class CreateDB
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
-			System.out.println("Error creating user database");
-			e.printStackTrace();
+			System.out.println("Error creating user_login table " + e.getLocalizedMessage());
 		}
 
 	}
@@ -319,7 +313,7 @@ public class CreateDB
 		}
 		catch (SQLException e)
 		{
-		    System.out.println("Error dropping pins table");
+		    System.out.println("Info - Could not drop pins table");
 		}
 	
 		// Create the new table
@@ -334,8 +328,7 @@ public class CreateDB
 		}
 		catch (SQLException e)
 		{
-		    System.out.println("Error creating pins table");
-		    e.printStackTrace();
+		    System.out.println("Error creating pins table " + e.getLocalizedMessage());
 		}
 	
 		// Populate it
@@ -367,7 +360,7 @@ public class CreateDB
 		}
 		catch (SQLException e)
 		{
-		    System.out.println("Error dropping salaries table");
+		    System.out.println("Info - Could not drop salaries table");
 		}
 	
 		// Create the new table
@@ -381,8 +374,7 @@ public class CreateDB
 		}
 		catch (SQLException e)
 		{
-		    System.out.println("Error creating salaries table");
-		    e.printStackTrace();
+		    System.out.println("Error creating salaries table " + e.getLocalizedMessage());
 		}
 	
 		// Populate it
@@ -420,7 +412,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error dropping weather database");
+			System.out.println("Info - Could not drop weather table");
 		}
 
 		// Create the new table
@@ -432,8 +424,7 @@ public class CreateDB
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
-			System.out.println("Error creating weather database");
-			e.printStackTrace();
+			System.out.println("Error creating weather table " + e.getLocalizedMessage());
 		}
 
 		// Populate it
@@ -468,7 +459,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error dropping user database");
+			System.out.println("Info - Could not drop user_data_tan table");
 		}
 
 		// Create the new table
@@ -481,8 +472,7 @@ public class CreateDB
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
-			System.out.println("Error creating user database");
-			e.printStackTrace();
+			System.out.println("Error creating user_data_tan table " + e.getLocalizedMessage());
 		}
 
 		// Populate it
@@ -512,7 +502,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error dropping tan database");
+			System.out.println("Info - Could not drop tan table");
 		}
 
 		// Create the new table
@@ -523,8 +513,7 @@ public class CreateDB
 			statement.executeUpdate(createTableStatement);
 		} catch (SQLException e)
 		{
-			System.out.println("Error creating tan database");
-			e.printStackTrace();
+			System.out.println("Error creating tan table " + e.getLocalizedMessage());
 		}
 
 		// Populate it
@@ -574,7 +563,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error: unable to drop employee table");
+			System.out.println("Info - Could not drop employee table");
 		}
 
 		// Create Table
@@ -596,7 +585,7 @@ public class CreateDB
 			statement.executeUpdate(createTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error: unable to create employee table");
+			System.out.println("Error: unable to create employee table " + e.getLocalizedMessage());
 		}
 
 		String insertData1 = "INSERT INTO employee VALUES (101, 'Larry', 'Stooge', '386-09-5451', 'larry',"
@@ -671,7 +660,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error: unable to drop roles");
+			System.out.println("Info - Could not drop roles table");
 		}
 
 		try
@@ -682,7 +671,7 @@ public class CreateDB
 			statement.executeUpdate(createTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error: Unable to create role table");
+			System.out.println("Error: Unable to create role table: " + e.getLocalizedMessage());
 		}
 
 		String insertData1 = "INSERT INTO roles VALUES (101, 'employee')";
@@ -722,7 +711,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error: unable to drop auth");
+			System.out.println("Info - Could not drop auth table");
 		}
 
 		try
@@ -733,7 +722,7 @@ public class CreateDB
 			statement.executeUpdate(createTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error: unable to create auth table");
+			System.out.println("Error: unable to create auth table: " + e.getLocalizedMessage());
 		}
 
 		String insertData1 = "INSERT INTO auth VALUES('employee', 'Logout')";
@@ -829,7 +818,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error: unable to drop ownership");
+			System.out.println("Info - Could not drop ownership table");
 		}
 
 		try
@@ -840,7 +829,7 @@ public class CreateDB
 			statement.executeUpdate(createTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error: unable to create ownership table");
+			System.out.println("Error: unable to create ownership table: " + e.getLocalizedMessage());
 		}
 
 		String inputData = "INSERT INTO ownership VALUES (112, 101)";
@@ -973,7 +962,7 @@ public class CreateDB
 			statement.executeUpdate(dropTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Warning: unable to drop Transactions");
+			System.out.println("Info - Could not drop transactions table");
 		}
 
 		try
@@ -986,7 +975,7 @@ public class CreateDB
 			statement.executeUpdate(createTable);
 		} catch (SQLException e)
 		{
-			System.out.println("Error: unable to create Transactions: " + e.getLocalizedMessage());
+			System.out.println("Error: unable to create transactions table: " + e.getLocalizedMessage());
 			throw e;
 		}
 
@@ -1008,7 +997,7 @@ public class CreateDB
 			}
 		} catch (SQLException sqle)
 		{
-			System.out.println("Error: Unable to insert data: " + sqle);
+			System.out.println("Error: Unable to insert transactions:  " + sqle.getLocalizedMessage());
 			int errorCode = sqle.getErrorCode();
 			System.out.println("Error Code: " + errorCode);
 			// ignore exceptions for Oracle and SQL Server
