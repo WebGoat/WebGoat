@@ -65,7 +65,7 @@ public class HttpSplitting extends SequentialLessonAdapter
 		// Setting a special action to be able to submit to redirect.jsp
 		Form form = new Form(s.getRequest().getContextPath() + "/lessons/General/redirect.jsp?" + "Screen=" + String.valueOf(getScreenId())
  				+ "&menu=" + getDefaultCategory().getRanking().toString(), Form.POST).setName("form").setEncType("");
-
+		
 		form.addElement(createContent(s));
 
 		setContent(form);
@@ -86,25 +86,15 @@ public class HttpSplitting extends SequentialLessonAdapter
 
 			if (lang.length() != 0 && fromRedirect.length() != 0)
 			{
-				// Split by the line separator line.separator is platform independant
-				String lineSep = System.getProperty("line.separator");
-				String[] arrTokens = lang.toString().toUpperCase().split(lineSep);
+				
+	
+				String[] arrTokens = lang.toString().toUpperCase().split("\r\n");
 
-				// Check if the user ended the first request and wrote the second malacious reply
-
-				if (Arrays.binarySearch(arrTokens, "CONTENT-LENGTH: 0") >= 0
-						&& Arrays.binarySearch(arrTokens, "HTTP/1.1 200 OK") >= 0)
+				// Check if the user ended the first request and wrote the second malicious reply
+				if (arrTokens.length > 1)
 				{
 					HttpServletResponse res = s.getResponse();
 					res.setContentType("text/html");
-					PrintWriter out = new PrintWriter(res.getOutputStream());
-					String message = lang.substring(lang.indexOf("<html>"));
-
-					out.print(message);
-					out.flush();
-					out.close();
-
-					getLessonTracker(s).setStage(2);
 
 					StringBuffer msg = new StringBuffer();
 
@@ -115,6 +105,10 @@ public class HttpSplitting extends SequentialLessonAdapter
 					msg.append("the reply and replace it with a 304 reply.");
 
 					s.setMessage(msg.toString());
+					getLessonTracker(s).setStage(2);
+
+
+					//makeSuccess(s);
 
 				}
 			}
@@ -189,11 +183,11 @@ public class HttpSplitting extends SequentialLessonAdapter
 			String fromRedirect = s.getParser().getStringParameter(REDIRECT, "");
 
 			if (lang.length() != 0 && fromRedirect.length() != 0)
-			{
-				String lineSep = System.getProperty("line.separator");
+			{				
+				String lineSep = "\r\n";
 				String dateStr = lang.substring(lang.indexOf("Last-Modified:") + "Last-Modified:".length(), lang
 						.indexOf(lineSep, lang.indexOf("Last-Modified:")));
-				if (dateStr.length() != 0)
+				if (dateStr.length() > 0)
 				{
 					Calendar cal = Calendar.getInstance();
 
