@@ -12,10 +12,11 @@ if(field1 == null) field1 = "123";
 if(field2 == null) field2 = "-1";
 
 /** For security reasons, we remove all '<' and '>' characters to prevent XSS **/
-field1.replaceAll("<", "");
-field1.replaceAll(">", "");
-field2.replaceAll("<", "");
-field2.replaceAll(">", "");
+// Thank you Victor Bucutea for noticing replaceAll only cleans taint to the return value.
+field1 = field1.replaceAll("<", "");
+field1 = field1.replaceAll(">", "");
+field2 = field2.replaceAll("<", "");
+field2 = field2.replaceAll(">", "");
 
 if("Purchase".equals(action))
 {
