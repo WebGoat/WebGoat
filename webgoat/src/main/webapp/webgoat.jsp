@@ -39,13 +39,31 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 		</td>
 	</tr>
 	<tr>
+		<td colspan="2">
+		<div align="center"><span class="style1">
+		WebGoat Authors </span></div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		<div align="center"><span class="style2">
+		Bruce Mayhew </span></div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		<div align="center"><span class="style2">
+		Jeff Williams </span></div>
+		</td>
+	</tr>
+	<tr>
 		<td width="50%">
 		<div align="center"><span class="style1"><br />
 		WebGoat Design Team </span></div>
 		</td>
 		<td width="50%">
 		<div align="center"><span class="style1"><br />
-		V5.3 Lesson Contributers </span></div>
+		V5.4 Lesson Contributers </span></div>
 		</td>
 	</tr>
 	<tr>
@@ -54,11 +72,9 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 		<div align="center" class="style2">David Anderson</div>
 		<div align="center" class="style2">Rogan Dawes</div>
 		<div align="center" class="style2">Laurence Casey (Graphics)</div>
-		<div align="center" class="style2">Brian Ciomei</div>
 		</td>
 		<td valign="top">
-		<div align="center" class="style2">Chuck Willis</div>
-		<div align="center" class="style2">Cam Morris</div>
+		<div align="center" class="style2">Sherif Koussa</div>
 		<div align="center" class="style2">Yiannis Pavlosoglou</div>
 		<div align="center" class="style2"></div>
 
@@ -67,7 +83,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	<tr>
 		<td height="25" valign="bottom">
 		<div align="center"><span class="style1">Special Thanks
-		for V5.3</span></div>
+		for V5.4</span></div>
 		</td>
 		<td height="25" valign="bottom">
 		<div align="center"><span class="style1">Documentation
@@ -76,8 +92,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	</tr>
 	<tr>
 		<td>
-		<div align="center" class="style2">Christine (Maven)</div>
-		<div align="center" class="style2">Marek Jawurek (Internationalization)</div>
+		<div align="center" class="style2">Brian Ciomei (Multitude of bug fixes)</div>
 		<br/><div align="center" class="style2">To all who have sent comments</div>
 		
 		</td>
@@ -112,7 +127,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 <div align="center" class="style2">&nbsp;</div>
 <div id="warning">WARNING<br />
 While running this program, your machine is extremely vulnerable to
-attack if you are not running on localhost. If tou are NOT running on localhost (default configuration), You should disconnect from the network while using this program.
+attack if you are not running on localhost. If you are NOT running on localhost (default configuration), You should disconnect from the network while using this program.
 <br />
 <br />
 This program is for educational purposes only. Use of these techniques
