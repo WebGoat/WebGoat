@@ -225,7 +225,7 @@
 			description="Builds WebGoat OWASP win32 release">
 		<antcall target="DeployWarWin32"> </antcall> 
 		<!-- Build the CD image -->
-		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard_32-${app.version}.zip">
+		<zip destfile="${dist.home}/${ant.project.name}-${app.version}-OWASP_Standard_Win32.zip">
 			<zipfileset dir="." prefix="${install.home}"
 				includes=", READ*.txt, webgoat.*, webgoat_8080.*"
 				excludes=".*, .settings/**,dist/**, owasp_distributions/**, bin/**, build/**"/>
@@ -238,7 +238,7 @@
 			description="Builds WebGoat OWASP win64 release">
 		<antcall target="DeployWarWin64"> </antcall> 
 		<!-- Build the CD image -->
-		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard_64-${app.version}.zip">
+		<zip destfile="${dist.home}/${ant.project.name}-${app.version}-OWASP_Standard_Win64.zip">
 			<zipfileset dir="." prefix="${install.home}"
 				includes=", READ*.txt, webgoat.*, webgoat_8080.*"
 				excludes=".*, .settings/**,dist/**, owasp_distributions/**, bin/**, build/**"/>
@@ -251,7 +251,7 @@
 			description="Builds WebGoat OWASP ubuntu release">
 		<antcall target="DeployWarUbuntu32"> </antcall> 
 		<!-- Build the CD image -->
-		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard_Ubuntu_32-${app.version}.zip">
+		<zip destfile="${dist.home}/${ant.project.name}-${app.version}-OWASP_Standard_Ubuntu32.zip">
 			<zipfileset dir="." prefix="${install.home}"
 				includes=", READ*.txt, webgoat.*, webgoat_8080.*"
 				excludes=".*, .settings/**,dist/**, owasp_distributions/**, bin/**, build/**"/>
