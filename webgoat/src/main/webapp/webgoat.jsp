@@ -68,10 +68,10 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	</tr>
 	<tr>
 		<td valign="top">
-		<div align="center" class="style2">Bruce Mayhew</div>
 		<div align="center" class="style2">David Anderson</div>
-		<div align="center" class="style2">Rogan Dawes</div>
 		<div align="center" class="style2">Laurence Casey (Graphics)</div>
+		<div align="center" class="style2">Rogan Dawes</div>
+		<div align="center" class="style2">Bruce Mayhew</div>
 		</td>
 		<td valign="top">
 		<div align="center" class="style2">Sherif Koussa</div>
@@ -93,17 +93,17 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	<tr>
 		<td>
 		<div align="center" class="style2">Brian Ciomei (Multitude of bug fixes)</div>
-		<br/><div align="center" class="style2">To all who have sent comments</div>
+		<div align="center" class="style2">To all who have sent comments</div>
 		
 		</td>
 		<td>
-		<div align="center" class="style2">Sherif Koussa<br />
-			(<a href="http://www.softwaresecured.com" target="blank">http://www.softwaresecured.com</a>)
+		<div align="center" class="style2">
+		<a href="http://www.zionsecurity.com/" target="_blank">Erwin Geirnaert</a></div>
+		<div align="center" class="style2">
+		<a href="http://yehg.org/" target="_blank">Aung Khant</a></div>
+		<div align="center" class="style2">
+			<a href="http://www.softwaresecured.com" target="blank">Sherif Koussa</a>
 		</div>
-		<div align="center" class="style2">Aung Khant<br />
-		(<a href="http://yehg.org/" target="_blank">http://yehg.org/</a>)</div>
-		<div align="center" class="style2">Erwin Geirnaert<br />
-		(<a href="http://www.zionsecurity.com/" target="_blank">http://www.zionsecurity.com/</a>)</div>
 		</td>
 	</tr>
 	<tr>
