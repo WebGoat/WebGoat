@@ -9,7 +9,8 @@ WebSession webSession = ((WebSession) session.getAttribute("websession"));
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>WebGoat V5.2</title>
+<title>WebGoat V5.4</title>
+<link rel="stylesheet" href="css/webgoat.css" type="text/css" />
 <link rel="stylesheet" href="css/webgoat_challenge.css" type="text/css" />
 </head>
 
@@ -23,7 +24,6 @@ The exercises are intended to provide hands on experience with
 application penetration testing techniques. </p>
 <p>The WebGoat project is led
 by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatContext().getFeedbackAddress()%>.</p>
-<p>Thanks to <a href="http://www.ouncelabs.com"><img align="top" height="20" width="160" border = "0" src="images/logos/ounce.jpg" alt="Ounce Labs"/></a> for supporting Bruce on the WebGoat Project.</p>
 
 <div id="team_ch">
 <table border="0" align="center" class="lessonText">
@@ -40,13 +40,31 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 		</td>
 	</tr>
 	<tr>
+		<td colspan="2">
+		<div align="center"><span class="style1">
+		WebGoat Authors </span></div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		<div align="center"><span class="style2">
+		Bruce Mayhew </span></div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		<div align="center"><span class="style2">
+		Jeff Williams </span></div>
+		</td>
+	</tr>
+	<tr>
 		<td width="50%">
 		<div align="center"><span class="style1"><br />
 		WebGoat Design Team </span></div>
 		</td>
 		<td width="50%">
 		<div align="center"><span class="style1"><br />
-		Lesson Contributers </span></div>
+		V5.4 Lesson Contributers </span></div>
 		</td>
 	</tr>
 	<tr>
@@ -57,9 +75,8 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 		<div align="center" class="style2">Laurence Casey (Graphics)</div>
 		</td>
 		<td valign="top">
-		<div align="center" class="style2">Aspect Security</div>
 		<div align="center" class="style2">Sherif Koussa</div>
-		<div align="center" class="style2">Romain Brechet</div>
+		<div align="center" class="style2">Yiannis Pavlosoglou</div>
 		<div align="center" class="style2"></div>
 
 		</td>
@@ -67,7 +84,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	<tr>
 		<td height="25" valign="bottom">
 		<div align="center"><span class="style1">Special Thanks
-		for V5.2</span></div>
+		for V5.4</span></div>
 		</td>
 		<td height="25" valign="bottom">
 		<div align="center"><span class="style1">Documentation
@@ -76,18 +93,18 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 	</tr>
 	<tr>
 		<td>
-		<div align="center" class="style2">Reto Lippuner</div>
-		<div align="center" class="style2">Marcel Wirth	</div>
+		<div align="center" class="style2">Brian Ciomei (Multitude of bug fixes)</div>
 		<br/><div align="center" class="style2">To all who have sent comments</div>
 		
 		</td>
 		<td>
 		<div align="center" class="style2">Sherif Koussa<br />
+			(<a href="http://www.softwaresecured.com" target="blank">http://www.softwaresecured.com</a>)
 		</div>
 		<div align="center" class="style2">Aung Khant<br />
-		(http://yehg.org/)</div>
+		(<a href="http://yehg.org/" target="_blank">http://yehg.org/</a>)</div>
 		<div align="center" class="style2">Erwin Geirnaert<br />
-		(http://www.zionsecurity.com/)</div>
+		(<a href="http://www.zionsecurity.com/" target="_blank">http://www.zionsecurity.com/</a>)</div>
 		</td>
 	</tr>
 	<tr>
@@ -111,7 +128,7 @@ by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatCo
 <div align="center" class="style2">&nbsp;</div>
 <div id="warning_ch">WARNING<br />
 While running this program, your machine is extremely vulnerable to
-attack. You should disconnect from the network while using this program.
+attack if you are not running on localhost. If you are NOT running on localhost (default configuration), You should disconnect from the network while using this program.
 <br />
 <br />
 This program is for educational purposes only. Use of these techniques
