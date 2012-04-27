@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.BitSet;
 
 
@@ -95,7 +96,7 @@ public class Exec
 		Process child = null;
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		ByteArrayOutputStream errors = new ByteArrayOutputStream();
-		ExecResults results = new ExecResults(command[0], input, successCode, timeout);
+		ExecResults results = new ExecResults(Arrays.asList(command).toString(), input, successCode, timeout);
 		BitSet interrupted = new BitSet(1);
 		boolean lazyQuit = false;
 		ThreadWatcher watcher;
