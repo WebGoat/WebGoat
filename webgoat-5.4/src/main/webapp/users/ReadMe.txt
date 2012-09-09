@@ -1,1 +1,0 @@
-User-specific lesson state is stored under this directory.
