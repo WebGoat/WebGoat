@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution: How to Hijack a Session</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> How to Hijack a Session</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+Application developers who develop their own session IDs frequently forget to incorporate the complexity and randomness necessary for security. If the user specific session ID is not complex and random, then the application is highly susceptible to session-based brute force attacks.
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+Try to access an authenticated session belonging to someone else. <br/><br/>
+In this lesson we are trying to predict the WEAKID value. THe WEAKID is used to differentiate authenticated and anonymous users of WebGoat.
+</p>
+
+<b>Solution:</b><br/><br/>
+The easiest way to complete this lesson is to use WebScarab's Session ID Analysis feature. The Solution Videos provide another method of uncovering it as well.<br/><br/>
+To access the Session ID Analysis, you need to put WebScarab in its full-featured mode, if it isn't already. This can be enabled by going to <b>Tools -> use full-featured interface</b> in WebScarab.<br/>
+Click on the SessionID Analysis tab at the top of the page, then use the <b>Previous Requests</b> dropdown to select the most recent GET request with a 200 OK header. Its address will end with webgoat/attack, not an image or java file.<br/><br/>
+
+<img src="lesson_solutions/WeakSessionID_files/image001.jpg"><br/>
+<font size="2"><b>Selecting the correct GET request for Session ID analysis.</b></font><br/><br/>
+
+Next, we need to make sure that WebScarab is able to fetch the WEAKID cookie. Click the <b>Test</b> button at the bottom of the page. You should get a popup window showing the WEAKID.<br/><br/>
+
+<img src="lesson_solutions/WeakSessionID_files/image002.jpg"><br/>
+<font size="2"><b>Succesful WEAKID test popup.</b></font><br/><br/>
+
+If the popup indicates that no valid session is found, that means there is already a WEAKID value in the request. This prevents the &quot;Set-Cookie&quot; header from being sent in the response. To fix this, delete the <b>WEAKID=value;</b> portion of the Cookie header and press test again.<br/><br/>
+
+Now we need to fetch a set of WEAKIDs. Enter &quot;50&quot; into the <b>Samples</b> field at the bottom of the window, then press <b>Fetch</b>. Switch to the &quot;Analysis&quot; tab. Select the WEAKID option from the <b>Session Identifier</b> dropdown, and the window should populate with WEAKID values.<br/><br/>
+
+The WEAKID is divided into two parts: the first part before the dash is an identifier that increases by 1 in each cookie, and the part after the dash is a time value that is calculated when the request is submitted.<br/>
+Notice that there is sometimes a gap in the first value of the WEAKID, where one number is skipped. The missing value is what we need to log in, we just need to figure out the time stamp value that goes after the dash.<br/><br/>
+It's simple to spot where this value is. Look at the &quot;Difference&quot; column on the analysis screen. Almost all of the values will be only one or two apart. We are looking for the record where this value is around double the rest of them.<br/><br/>
+
+<img src="lesson_solutions/WeakSessionID_files/image003.jpg"><br/>
+<font size="2"><b>Analysis screen with the cookie of interest highlighted.</b></font><br/><br/>
+
+This WEAKID follows the one we're trying to find. You will notice the identifier of the cookie preceding the highlighted one is two less, whereas all the other cookies decrease only by one. The one missing is what we want to find:<br/>
+<b><font color="red">16964</font>-1312472439375</b><br/>
+<b><font color="red">16966</font>-1312472439484</b><br/><br/>
+The WEAKID beginning with <b>16965</b> is missing. This is the WEAKID we want, we just need to figure out the second part.<br/>
+
+We'll figure this out by using the brute force method. We will send requests with each possible timestamp value until we find one that is successful. Its timestamp must be between the two surrounding it:<br/>
+<b>16964-<font color="red">1312472439375</font></b><br/>
+<b>16965-<font color="red">?????????????</font></b><br/>
+<b>16966-<font color="red">1312472439484</font></b><br/><br/>
+
+So our timestamp is between <b>1312472439375</b> and <b>1312472439484</b>. Now we just need a program to do brute force this for us. We will use <a href="http://www.sensepost.com/labs/tools/pentest/j-baah" target="_blank">J-Baah</a>, previously known as Crowbar. Download it and run the .jar.<br/><br/>
+We will configure J-Baah to send our request repeatedly, with a different WEAKID each time. Copy our RAW HTTP Request we used to generate these cookies, found under the Collection tab. Paste it in the Request box in J-Baah.<br/><br/>
+
+The WEAKID paramter needs to be put into the request. It will begin with the missing value we figured out before the dash, <b>16965</b> in our case. How do we fill in the rest when we dont know what it is?<br/>
+In this case, we will add <b>WEAKID=16965-1312472439<font color="red">##1##</font>;</b> to the Cookie paramter of our request. The <b><font color="red">##1##</font></b> replaces the part of the timestamp that varies in our range. Next, we specify this range. In the Paramter 1 Tab, we set <b>From</b> as 375, and <b>To</b> as 484.<br/><br/>
+
+<img src="lesson_solutions/WeakSessionID_files/image004.jpg"><br/>
+<font size="2"><b>J-Baah setup.</b></font><br/><br/>
+Lastly, go to the &quot;Target&quot; tab at the bottom right, and set the <b>Host</b> to localhost and the <b>Port</b> to whichever port WebGoat is using, generally 80 or 8080.<br/>
+Go back to the &quot;Action&quot; tab, and click <b>Base Response</b>. You should see a message on the bottom left that a response is generated successfully. Change <b>Threads</b> to 2 and then press <b>Start</b>. The bottom left window should start filling up with &quot;Hijack a session&quot;<br/><br/>
+
+<img src="lesson_solutions/WeakSessionID_files/image005.jpg"><br/>
+<font size="2"><b>All of the responses for each WEAKID. The successful attempt is highlighted.</b></font><br/><br/>
+
+
+Before we go any further, it is important to understand what is happening here. The <b>##1##</b> string is replaced with a different number in the range we specified and the request is sent. The first WEAKID tried is <b>16965-1312472439375</b>, then it tries every timestamp until the last one, <b>16965-1312472439484</b>. J-Baah collects all of these responses and shows them in the bottom left window.<br/><br/>
+
+Each line shows one response, and displays important information about it.<br/><br/>
+<b><font color="red">0.99969</font> : 417 : : Hijack a Session</b><br/>
+Clicking base response tries the first WEAKID and sets its response as the control. This first number indicates how similar this response is to the base response. A value of 1 means the responses are identical. The further the number is from 1, the more different this response is.<br/>
+<br/>
+<b>0.99969 : <font color="red">417</font> : : Hijack a Session</b><br/>
+This second number is the value replacing the <b>##1##</b> in our request.<br/><br/>
+<b>0.99969 : 417 : : <font color="red">Hijack a Session</font></b><br/>
+The last portion is the title of the response page. In this case, if it's not &quot;Hijack a Session&quot;, something went wrong.<br/><br/>
+
+The value indicating similarity to the base response will tell us which WEAKID worked. If everything went swimmingly, there should only be three values for this number. Look again at the screenshot above. There are many responses showing .99969, one showing .9949, then many more showing .99954. The response stayed the same until we got to the WEAKID ending in 429, then it changed. This is where the brute force succeeded. Right click on this response and click &quot;Show Response&quot;.<br/><br/>
+
+<img src="lesson_solutions/WeakSessionID_files/image006.jpg"><br/>
+<font size="2"><b>This WEAKID worked! We hijacked this session.</b></font><br/><br/>
+
+Refreshing the lesson should show it is complete.<br/><br/>
+
+
+
+</body>
+</html>

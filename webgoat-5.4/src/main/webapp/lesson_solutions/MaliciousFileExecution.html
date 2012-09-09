@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution: Malicious File Execution</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Malicious File Execution</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+Many sites allow the user to upload files, such as images or videos. Without the proper security, files containing malicious commands can be and then executed on the server.
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+The form below allows you to upload an image which will be displayed on this page. Features like this are often found on web based discussion boards and social networking sites. This feature is vulnerable to Malicious File Execution.<br/><br/>
+
+In order to pass this lession, upload and run a malicious file. In order to prove that your file can execute, it should create another file named guest.txt<br/><br/>
+
+Once you have created this file, you will pass the lesson.
+</p>
+
+<b>Solution:</b><br/><br/>
+The first step of malicious file execution is to create a file that we can run on the server. In this lesson, our goal is to create the file <b>guest.txt</b> in the directory provided in the lesson (the path is generated based on your system).<br/><br/>
+To do this, we write a .jsp file that uses the java createNewFile() command. The file contents will look like this:<br/>
+
+&lt;HTML&gt;
+&lt;%
+java.io.File file = new java.io.File(&quot;<b>filepath</b>\\guest.txt&quot;);
+file.createNewFile();
+%&gt;
+&lt;/HTML&gt;<br/><br/>
+The <b>&lt;%</b> indicates that the upcoming code is a java servlet, so java code is allowed. Make sure you fill in the filepath correctly - each directory must be separated by <b>\\</b>, not <b>\</b>. The filename of the .jsp doesn't matter, as long as you know what it is.<br/><br/>
+Next, we need to figure out where the files are being uploaded so we can execute them. In this case, since we are shown the image, this is very easy. Upload an image using the form, then right click on it and check its properties.<br/>
+<img src="lesson_solutions/MaliciousFileExecution_files/image001.jpg"><br/>
+<font size="2"><b>Viewing properties of the uploaded image in Firefox.</b></font><br/><br/><br/><br/>
+<img src="lesson_solutions/MaliciousFileExecution_files/image002.jpg"><br/>
+<font size="2"><b>File path for the uploaded image (and our .jsp) in Firefox.</b></font><br/><br/>
+The URL should look something like <b>http://localhost/WebGoat/uploads/image.jpg</b>.<br/>
+The last step is to upload our malicious .jsp and browse to it so it will execute. Upload the file, then type its address into your browser. The address should be something like <b>http://localhost/WebGoat/uploads/yourfile.jsp</b>.<br/><br/>
+A blank page will load. You can then return to the lesson and refresh, completing the lesson.<br/><br/><br/>
+
+
+
+</body>
+</html>

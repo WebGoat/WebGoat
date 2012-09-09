@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insecure Client Storage</title>
+<link rel="stylesheet" type="text/css"
+	href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Insecure Client Storage</p>
+
+<p><b>Concept / Topic To Teach:</b><br />
+It is always a good practice to validate all input
+ on the server side. Leaving the mechanism for validation 
+ on the client side leaves it vulnerable to reverse engineering. 
+ Remember, anything on the client side should not be considered a secret.</p>
+
+
+
+<p><b>General Goal(s):</b><br />
+For this exercise, your mission is to discover a coupon 
+code to receive an unintended discount. Then, exploit the use 
+of client side validation to submit an order with a cost of zero. </p>
+
+<p><b>Solution:</b><br />
+For the solution you need a plugin for your browser, which is capable of debugging
+Javascript. For IE you can use IEWatch. This solution is written for Firebug
+which is a plugin for Firefox.
+</p>
+
+<b>Stage 1</b>
+<p>
+First we want to try to get a coupon code to get something cheaper. Open 
+Firebug and click on the Script Tab. Make sure you choose clientSideValidation.js
+on the dropdown list. Toggle a breakpoint on the line:<br/>
+<code>decrypted = decrypt(coupons[i]);</code></p>
+Now enter a character in the coupon code field. The Javascript gets executed
+but stops at the breakpoint. On the right side you see the parameters
+and there values. Now use the step over symbol or F10. Now you can read
+the clear text of decrypted:
+<br><br>
+<img src="lesson_solutions/ClientSideValidation_files/ClientSideValidation_stage1.png" width=450px alt="Stage 1" />
+<br>
+<b><font size="2">Figure 1 Firebug in action</font></b>
+
+<p>
+Now that you know the coupon name enter it in the coupon field, purchase something
+and you are done.
+</p>
+
+<b>Stage 2</b>
+<p>
+You can not edit the Prices in the Shopping Cart. The reason is that the readonly 
+attribute is set for this field. 
+</p>
+<p>To get rid of this attribute open Firebug. Make sure this time you use
+the HTML View. You can directly in 
+Firebug search for readonly and elemenate this attribute.The field for the total is
+called GRANDTOT. After having deleted the readonly attribute from GRANDTOT
+it is possible to change the price directly in the browser. Select any products
+you like, change the total field to 0 and hit the purchase button.</p>
+
+</body>
+</html>

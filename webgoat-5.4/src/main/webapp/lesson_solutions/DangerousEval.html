@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Dangerous Use of Eval</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Dangerous Use of Eval)</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+It is always a good practice to validate all input on the server side. XSS can occur when unvalidated user input is reflected directly into an HTTP response. In this lesson, unvalidated user-supplied data is used in conjunction with a Javascript eval() call. In a reflected XSS attack, an attacker can craft a URL with the attack script and store it on another website, email it, or otherwise trick a victim into clicking on it. 
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+For this exercise, your mission is to come up with some input which, when run through eval, will execute a malicious script. In order to pass this lesson, you must 'alert()' document.cookie. 
+</p>
+
+<b>Solution:</b><br/>
+The value of the digit access code field is placed in the Javascript eval() function. This is the reason why your attack will not require the "&lt;script&gt;" tags.<br/>
+Enter: 123');alert(document.cookie);('<br/><br/>
+The result on the server is:<br/><br/>
+ eval('<font color="#ff0000">123');<br/>
+alert(document.cookie);<br/>
+('</font>');
+<br><br><br>
+</body>
+</html>

@@ -1,0 +1,53 @@
+
+<!-- Start Instructions -->
+<h1>Useful Tools</h1>
+<p>
+Below is a list of tools we've found useful in solving the WebGoat lessons. You will need WebScarab or Paros to solve most of the lessons. </p>
+<h2>WebScarab:</h2>
+<p>
+Like WebGoat, WebScarab is a part of OWASP. 
+WebScarab is a proxy for analyzing applications that 
+communicate using the HTTP and HTTPS protocols. Because WebScarab 
+operates as an intercepting proxy, we can review and modify requests 
+and responses.<br><br>
+<img src="images/introduction/webscarab.jpg"><br><br>
+Webpage:<a href="http://www.owasp.org/index.php/Category:OWASP_WebScarab_Project">http://www.owasp.org/index.php/Category:OWASP_WebScarab_Project</a>
+<br>The .jar install file can be found at the <a href="http://sourceforge.net/project/showfiles.php?group_id=64424&package_id=61823">OWASP Sourceforge Page</a></p>
+<p>After installing WebScarab and configuring your browser to use it as proxy on localhost we can start. If you are using localhost for your Tomcat server, remember to <a href="https://www.owasp.org/index.php/WebScarab_Getting_Started">put a "." after the hostname when browsing to WebGoat</a>.<br><br>
+<img src="images/introduction/HowToUse_1.jpg"><br><br>
+We have to select "Intercept Request" in the tab "Intercept". If we send a HTTP request we get a new WebScarab window.<br><br>
+<img src="images/introduction/HowToUse_2.jpg"><br><br>
+Here we can read and edit the intercepted parameter. After "Accept changes" the request will be sent to the server.<br><br>
+WebScarab is also used to intercept the request and change cookies values just like parameter data:<br><br>
+<img src="images/introduction/HowToUse_3.jpg"><br><br>
+We get a new window on sending a HTTP request. On the screenshot you see where we can find cookies and how to edit their values.
+</p>
+<h2>Firebug:</h2>
+<p>
+Firebug is an add-on for the Firefox browser. We can use it to inspect, edit and monitor CSS, HTML and JavaScript.<br><br>
+<img src="images/introduction/firebug.jpg"><br><br>
+Webpage:<a href="http://www.getfirebug.com" target="_blank">http://www.getfirebug.com</a>
+<br><br>
+<h2>IEWatch:</h2>
+<p>
+IEWatch is a tool to analyze HTTP and HTML for users of the Internet Explorer.<br><br>
+<img src="images/introduction/iewatch.jpg"><br><br>
+Webpage:<a href="http://www.iewatch.com" target="_blank">http://www.iewatch.com</a>
+</p>
+<h2>Wireshark</h2>
+<p>
+Wireshark is a network protocol analyzer. You can sniff network traffic and gather useful
+informations this way.<br><br>
+<img src="images/introduction/wireshark.png"><br><br>
+Webpage:<a href="http://www.wireshark.org" target="_blank">http://www.wireshark.org</a>
+
+</p>
+
+<h2>Scanner:</h2>
+<p>
+There are many vulnerability scanners for your own web applications. They can find XSS, Injection Flaws and other vulnerabilities. Below are links to two open source scanner. <br><br>
+Nessus:<a href="http://www.nessus.org" target="_blank">http://www.nessus.org</a><br>
+Paros:<a href="http://www.parosproxy.org" target="_blank">http://www.parosproxy.org</a><br>
+</p>
+<!-- Stop Instructions -->
+<br>

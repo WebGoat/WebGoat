@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Multi Level Login 1</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Multi Level Login 1</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+A Multi Level Login should provide a strong authentication. 
+This is archived by adding a second layer. After having logged 
+in with your user name and password you are asked for a 
+'Transaction Authentication Number' (TAN). This is often used by 
+online banking. You get a list with a lots of TANs generated only 
+for you by the bank. Each TAN is used only once. Another method is 
+to provide the TAN by SMS. This has the advantage that an attacker
+ can not get TANs provided by the user.
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+In this Lesson you try to get around the strong authentication. 
+You have to break into another account. The user name, password 
+and a already used TAN is provided. You have to make sure the server 
+accept the TAN even it is already used. 
+</p>
+
+<b>Solution:</b><br/>
+This Lesson has two stages. The first stage is only to show how a multi level login
+works. In the second you have to break the strong authentication.
+<p>
+<b>Stage 1</b><br>
+This stage should be rather straight forward. Give in as name Jane
+and as password tarzan. </p>
+<div align="left"><font size="2">
+<img src="lesson_solutions/MultiLevelLogin1_files/login.png"><br>
+<b>Figure 1: Login Screen</b>
+</font></div><br>
+Afthr clicking on the submit button
+you will be asked for the TAN. <br><br>
+<div align="left"><font size="2">
+<img src="lesson_solutions/MultiLevelLogin1_files/tan.png"><br>
+<b>Figure 2: TAN Screen</b>
+</font></div>
+<br>
+Choose the correct TAN from the
+list provided, click on the submit button and you are done.
+
+<p>
+<b>Stage 2</b><br>
+The first step in this stage is equal to Stage 1. Log in as Jane with tarzan as password.
+Now you will be asked for a TAN. Unfortunately you have only a already
+used TAN from the victim. Fill in the TAN you have and make sure that WebScarab
+will intercept the next request. Hit the submit button and change the hidden_tan
+value to 1. </p>
+<div align="left"><font size="2">
+<img src="lesson_solutions/MultiLevelLogin1_files/webscarab.png"><br>
+<b>Figure 3: Manipulation Of The Hidden Field With WebScarab</b>
+</font></div><br><br>
+Congratulations you are logged in as Jane.<br><br>
+
+<div align="left"><font size="2">
+<img src="lesson_solutions/MultiLevelLogin1_files/success.png"><br>
+<b>Figure 4: Manipulation Of The Hidden Field With WebScarab</b>
+</font></div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+#bottom_ch{
+	color: #999999;
+	clear: both;
+	font-size: 10px;
+	padding-top: 5px;
+}
+
+#top_ch{
+	width: 500px;
+	height:136px;
+	background-image: url(../images/header/header.jpg);
+}
+
+#wrap_ch {
+	width: 500px;
+}
+
+#credits_ch {
+	float: right;
+}
+
+#start_ch {
+	height: 380px;
+	width: 500px;
+	padding: 10px 10px 10px 10px;
+	font-size: 15px;
+}
+#warning_ch {
+	border: 1px solid #666666;
+	padding: 10px;
+	font-size: 10px;
+	color: #FF3300;
+	width: 450px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+#team_ch {
+}
+.style1_ch {
+	font-size: 11px;
+	font-weight: bold;
+}
+.style2_ch {
+	font-size: 10px;
+}

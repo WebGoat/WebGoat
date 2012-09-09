@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+    <!-- General description of your web application -->
+    <display-name>WebGoat</display-name>
+    <description>
+      This web application is designed to demonstrate web
+      application security flaws for the purpose of educating
+      developers and security professionals about web
+      application security problems. Please contact Bruce Mayhew 
+      (webgoat@owasp.org) if you have any questions.
+    </description>
+
+
+
+   <!-- Context initialization parameters that define shared
+         String constants used within your application, which
+         can be customized by the system administrator who is
+         installing your application.  The values actually
+         assigned to these parameters can be retrieved in a
+         servlet or JSP page by calling:
+
+             String value =
+               getServletContext().getInitParameter("name");
+
+         where "name" matches the <param-name> element of
+         one of these initialization parameters.
+
+         You can define any number of context initialization
+         parameters, including zero.
+    -->
+
+    <context-param>
+      <param-name>email</param-name>
+      <param-value>WebGoat@owasp.org</param-value>
+      <description>
+        The EMAIL address of the administrator to whom questions
+        and comments about this application should be addressed.
+      </description>
+    </context-param>
+
+    <!-- Servlet definitions for the servlets that make up
+         your web application, including initialization
+         parameters.  With Tomcat, you can also send requests
+         to servlets not listed here with a request like this:
+
+           http://localhost:8080/{context-path}/servlet/{classname}
+
+         but this usage is not guaranteed to be portable.  It also
+         makes relative references to images and other resources
+         required by your servlet more complicated, so defining
+         all of your servlets (and defining a mapping to them with
+         a servlet-mapping element) is recommended.
+
+         Servlet initialization parameters can be retrieved in a
+         servlet or JSP page by calling:
+
+            String value =
+               getServletConfig().getInitParameter("name");
+
+         where "name" matches the <param-name> element of
+         one of these initialization parameters.
+
+         You can define any number of servlets, including zero.
+    -->
+
+    <servlet>
+      <servlet-name>AxisServlet</servlet-name>
+      <display-name>Apache-Axis Servlet</display-name>
+      <servlet-class>
+          org.apache.axis.transport.http.AxisServlet
+      </servlet-class>
+    </servlet>
+ 
+    <servlet>
+      <servlet-name>AdminServlet</servlet-name>
+      <display-name>Axis Admin Servlet</display-name>
+      <servlet-class>
+          org.apache.axis.transport.http.AdminServlet
+      </servlet-class>
+      <load-on-startup>100</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>SOAPMonitorService</servlet-name>
+      <display-name>SOAPMonitorService</display-name>
+      <servlet-class>
+          org.apache.axis.monitor.SOAPMonitorService
+      </servlet-class>
+      <init-param>
+        <param-name>SOAPMonitorPort</param-name>
+        <param-value>5001</param-value>
+      </init-param>
+      <load-on-startup>100</load-on-startup>
+    </servlet>
+ 
+    <servlet>
+      <servlet-name>WebGoat</servlet-name>
+      <description>
+        This servlet plays the "controller" role in the MVC architecture
+        used in this application.
+
+        The initialization parameter namess for this servlet are the
+        "servlet path" that will be received by this servlet (after the
+        filename extension is removed).  The corresponding value is the
+        name of the action class that will be used to process this request.
+      </description>
+      <servlet-class>org.owasp.webgoat.HammerHead</servlet-class>
+
+ 	  <init-param>
+      		<param-name>email</param-name>
+      		<param-value>WebGoat@owasp.org</param-value>
+      		<description>
+        		The EMAIL address of the administrator to whom questions
+        		and comments about this application should be addressed.
+      		</description>
+      </init-param>
+      
+	  <init-param>
+            <param-name>debug</param-name>
+            <param-value>false</param-value>
+      </init-param>
+
+      <init-param>
+            <param-name>CookieDebug</param-name>
+            <param-value>true</param-value>
+      </init-param>
+
+      <init-param>
+            <param-name>DefuseOSCommands</param-name>
+            <param-value>false</param-value>
+      </init-param>
+      
+      <init-param>
+            <param-name>Enterprise</param-name>
+            <param-value>true</param-value>
+      </init-param>
+      
+      <init-param>
+            <param-name>CodingExercises</param-name>
+            <param-value>true</param-value>
+      </init-param>
+      
+      <init-param>
+      		<!-- Specify an address where you would like comments to be sent.  -->
+      		<!-- This can be any URL or HTML tags, and will appear on the report card and lesson incomplete pages -->
+      		<!-- Use iso8859-1 encoding to represent special characters that might confuse XML parser. For 
+      			 example, replace "<" with "&lt;" and ">" with "&gt;". -->
+            <param-name>FeedbackAddress</param-name>
+            <param-value>
+				&lt;A HREF=mailto:webgoat@owasp.org&gt;webgoat@owasp.org&lt;/A&gt;
+            </param-value>
+      </init-param>
+      
+      <init-param>
+            <param-name>DatabaseDriver</param-name>
+            <param-value>
+		    	org.hsqldb.jdbcDriver
+            </param-value>
+      </init-param>
+
+      <init-param>
+            <param-name>DatabaseConnectionString</param-name>
+            <!-- 
+            The string "${USER}" in the connection string will be replaced by the active username
+            when making a connection.
+             -->
+            <param-value>
+				jdbc:hsqldb:mem:${USER}
+		    </param-value>
+      </init-param>
+
+      <!-- Load this servlet at server startup time -->
+
+      <load-on-startup>5</load-on-startup>
+
+    </servlet>
+
+
+    <servlet>
+      <servlet-name>LessonSource</servlet-name>
+      <description>
+        This servlet returns the Java source of the current lesson. 
+      </description>
+      <servlet-class>org.owasp.webgoat.LessonSource</servlet-class>
+    </servlet>
+
+    <servlet>
+      <servlet-name>Catcher</servlet-name>
+      <description>
+        This servlet catches any posts and marks the appropriate lesson property. 
+      </description>
+      <servlet-class>org.owasp.webgoat.Catcher</servlet-class>
+    </servlet>
+
+    <servlet>
+	 <servlet-name>conf</servlet-name>
+	 <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
+    </servlet>
+    <!-- Define mappings that are used by the servlet container to
+         translate a particular request URI (context-relative) to a
+         particular servlet.  The examples below correspond to the
+         servlet descriptions above.  Thus, a request URI like:
+
+           http://localhost:8080/{contextpath}/graph
+
+         will be mapped to the "graph" servlet, while a request like:
+
+           http://localhost:8080/{contextpath}/saveCustomer.do
+
+         will be mapped to the "controller" servlet.
+
+         You may define any number of servlet mappings, including zero.
+         It is also legal to define more than one mapping for the same
+         servlet, if you wish to.
+    -->
+
+
+    <servlet-mapping>
+      <servlet-name>AxisServlet</servlet-name>
+      <url-pattern>/servlet/AxisServlet</url-pattern>
+    </servlet-mapping>
+ 
+    <servlet-mapping>
+      <servlet-name>AxisServlet</servlet-name>
+      <url-pattern>*.jws</url-pattern>
+    </servlet-mapping>
+ 
+    <servlet-mapping>
+      <servlet-name>AxisServlet</servlet-name>
+      <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+ 
+    <servlet-mapping>
+      <servlet-name>SOAPMonitorService</servlet-name>
+      <url-pattern>/SOAPMonitor</url-pattern>
+    </servlet-mapping>
+ 
+    <!-- uncomment this if you want the admin servlet -->
+    <!--
+    <servlet-mapping>
+      <servlet-name>AdminServlet</servlet-name>
+      <url-pattern>/servlet/AdminServlet</url-pattern>
+    </servlet-mapping>
+     -->
+
+    <servlet-mapping>
+      <servlet-name>WebGoat</servlet-name>
+      <url-pattern>/attack</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+      <servlet-name>LessonSource</servlet-name>
+      <url-pattern>/source</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>Catcher</servlet-name>
+      <url-pattern>/catcher</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>conf</servlet-name>
+      <url-pattern>/conf</url-pattern>
+    </servlet-mapping>
+
+    <!-- Define the default session timeout for your application,
+         in minutes.  From a servlet or JSP page, you can modify
+         the timeout for a particular session dynamically by using
+         HttpSession.getMaxInactiveInterval(). -->
+
+    <session-config>
+    	<!-- 2 days -->
+        <session-timeout>2880</session-timeout>
+    </session-config>
+
+    <mime-mapping>
+        <extension>wmv</extension>
+        <mime-type>video/x-ms-wmv</mime-type>
+    </mime-mapping>
+
+	<!-- Define reference to the user database for looking up roles -->
+	<resource-env-ref>
+	    <description>
+	      Link to the UserDatabase instance from which we request lists of
+	      defined role names.  Typically, this will be connected to the global
+	      user database with a ResourceLink element in server.xml or the context
+	      configuration file for the Manager web application.
+	    </description>
+	    <resource-env-ref-name>users</resource-env-ref-name>
+	    <resource-env-ref-type>
+	      org.apache.catalina.UserDatabase
+	    </resource-env-ref-type>
+	</resource-env-ref>
+	
+
+	<!-- Define a Security Constraint on this Application -->
+	<security-constraint>
+	    <web-resource-collection>
+	      <web-resource-name>WebGoat Application</web-resource-name>
+	      <url-pattern>/*</url-pattern>
+	    </web-resource-collection>
+	    <auth-constraint>
+	       <role-name>webgoat_user</role-name>
+	       <role-name>webgoat_admin</role-name>
+	       <role-name>webgoat_challenge</role-name>
+	    </auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+	    <web-resource-collection>
+	      <web-resource-name>WebGoat Application Source</web-resource-name>
+	      <url-pattern>/JavaSource/*</url-pattern>
+	    </web-resource-collection>
+	    <auth-constraint>
+	       <role-name>server_admin</role-name>
+	    </auth-constraint>
+	</security-constraint>
+	
+	
+	<!-- Login configuration uses BASIC authentication -->
+	<login-config>
+	    <auth-method>BASIC</auth-method>
+	    <realm-name>WebGoat Application</realm-name>
+	</login-config>
+	
+	<!-- Security roles referenced by this web application -->
+	<security-role>
+	    <description>The role that is required to administrate WebGoat</description>
+	    <role-name>webgoat_admin</role-name>
+	</security-role>
+	
+	<security-role>
+	    <description>The role that is required to start the challenge log viewer</description>
+	    <role-name>webgoat_challenge</role-name>
+	</security-role>
+
+	<security-role>
+	    <description>The role that is required to use WebGoat</description>
+	    <role-name>webgoat_user</role-name>
+	</security-role>
+
+	<security-role>
+	    <description>This role is for admins only</description>
+	    <role-name>server_admin</role-name>
+	</security-role>
+
+</web-app>
+

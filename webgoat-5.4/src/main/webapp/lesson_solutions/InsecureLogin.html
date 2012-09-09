@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insecure Login</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b>Insecure Login</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+Sensitive data should never sent in plaintext! 
+Often applications switch to a secure connection after the authorization. 
+An attacker could just sniff the login and use the gathered information 
+to break into an account. A good webapplication always takes care of 
+encrypting sensitive data.
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+See how easy it is to sniff a password in plaintext. <br>
+Understand the advantages of encrypting the login data! 
+</p>
+
+<b>Solution:</b><br/>
+<p>This lesson has two stages. In the first stage you try to sniff a password
+which is sent in plaintext. In the second stage you try the same
+but on a secure connection.</p>
+<p>You need a client server setup for this lesson. Please refer
+to the Tomcat Setup in the Introduction section.</p>
+
+<b>Stage 1</b>
+<p>Start a sniffer. If you do not have one we recommend wireshark, which 
+is free: <a href="http://www.wireshark.org/"> Wireshark</a>. Make sure 
+you are capturing on the right interface. Click on
+the submit button ans stop the capturing. Now analyze the captured data.</p>
+<div align="left">
+<img src="lesson_solutions/InsecureLogin_files/wireshark1.png"><br>
+<font size="2"> <b>Figure 1: Sniffed Traffic</b></font>
+</div>
+<p>As you can see we are interested in the HTTP Post request as
+the password is transmitted there. The field for the password has
+the name clear_pass and has as value sniffy. Of course
+this is also the correct answer and you are done with stage 1.</p>
+
+<b>Stage 2</b>
+<p>
+Now you have to switch to a secure connection. You archive this
+by changing the URL from http://... to https://... Sniff again the traffic
+as you have done in stage 1. As you will see there is not sent the password
+in plaintext. The server communicates with the application over a secure layer
+the so called Transport Layer Security (TLS) also called Secure Socket Layer (SSL).
+TLS is a hybrid encrypting protocol. A master secret is built to communicate.
+This master secret is built by using SHA-1 and MD5. All traffic between 
+the Server and the Cleint is encrypted.</p>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+
+package org.owasp.webgoat.lessons.SQLInjection;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+import java.util.Vector;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.DefaultLessonAction;
+import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
+import org.owasp.webgoat.session.EmployeeStub;
+import org.owasp.webgoat.session.ParameterNotFoundException;
+import org.owasp.webgoat.session.UnauthenticatedException;
+import org.owasp.webgoat.session.UnauthorizedException;
+import org.owasp.webgoat.session.WebSession;
+
+
+/***************************************************************************************************
+ * 
+ * 
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
+ * 
+ * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ * 
+ * Getting Source ==============
+ * 
+ * Source for this application is maintained at code.google.com, a repository for free software
+ * projects.
+ * 
+ * For details, please see http://code.google.com/p/webgoat/
+ */
+public class ListStaff extends DefaultLessonAction
+{
+
+	public ListStaff(GoatHillsFinancial lesson, String lessonName, String actionName)
+	{
+		super(lesson, lessonName, actionName);
+	}
+
+	public void handleRequest(WebSession s) throws ParameterNotFoundException, UnauthenticatedException,
+			UnauthorizedException
+	{
+		getLesson().setCurrentAction(s, getActionName());
+
+		if (isAuthenticated(s))
+		{
+			int userId = getIntSessionAttribute(s, getLessonName() + "." + SQLInjection.USER_ID);
+
+			List employees = getAllEmployees(s, userId);
+			setSessionAttribute(s, getLessonName() + "." + SQLInjection.STAFF_ATTRIBUTE_KEY, employees);
+		}
+		else
+			throw new UnauthenticatedException();
+	}
+
+	public String getNextPage(WebSession s)
+	{
+		return SQLInjection.LISTSTAFF_ACTION;
+	}
+
+	public List getAllEmployees(WebSession s, int userId) throws UnauthorizedException
+	{
+		// Query the database for all employees "owned" by the given employee
+
+		List<EmployeeStub> employees = new Vector<EmployeeStub>();
+
+		try
+		{
+			String query = "SELECT employee.userid,first_name,last_name,role FROM employee,roles WHERE employee.userid=roles.userid and employee.userid in "
+					+ "(SELECT employee_id FROM ownership WHERE employer_id = " + userId + ")";
+
+			try
+			{
+				Statement answer_statement = WebSession.getConnection(s)
+						.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				ResultSet answer_results = answer_statement.executeQuery(query);
+				answer_results.beforeFirst();
+				while (answer_results.next())
+				{
+					int employeeId = answer_results.getInt("userid");
+					String firstName = answer_results.getString("first_name");
+					String lastName = answer_results.getString("last_name");
+					String role = answer_results.getString("role");
+					// System.out.println("Retrieving employee stub for role " + role);
+					EmployeeStub stub = new EmployeeStub(employeeId, firstName, lastName, role);
+					employees.add(stub);
+				}
+			} catch (SQLException sqle)
+			{
+				s.setMessage("Error getting employees");
+				sqle.printStackTrace();
+			}
+		} catch (Exception e)
+		{
+			s.setMessage("Error getting employees");
+			e.printStackTrace();
+		}
+
+		return employees;
+	}
+
+	public List getAllEmployees_BACKUP(WebSession s, int userId) throws UnauthorizedException
+	{
+		// Query the database for all employees "owned" by the given employee
+
+		List<EmployeeStub> employees = new Vector<EmployeeStub>();
+
+		try
+		{
+			String query = "SELECT employee.userid,first_name,last_name,role FROM employee,roles WHERE employee.userid=roles.userid and employee.userid in "
+					+ "(SELECT employee_id FROM ownership WHERE employer_id = " + userId + ")";
+
+			try
+			{
+				Statement answer_statement = WebSession.getConnection(s)
+						.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				ResultSet answer_results = answer_statement.executeQuery(query);
+				answer_results.beforeFirst();
+				while (answer_results.next())
+				{
+					int employeeId = answer_results.getInt("userid");
+					String firstName = answer_results.getString("first_name");
+					String lastName = answer_results.getString("last_name");
+					String role = answer_results.getString("role");
+					// System.out.println("Retrieving employee stub for role " + role);
+					EmployeeStub stub = new EmployeeStub(employeeId, firstName, lastName, role);
+					employees.add(stub);
+				}
+			} catch (SQLException sqle)
+			{
+				s.setMessage("Error getting employees");
+				sqle.printStackTrace();
+			}
+		} catch (Exception e)
+		{
+			s.setMessage("Error getting employees");
+			e.printStackTrace();
+		}
+
+		return employees;
+	}
+
+}

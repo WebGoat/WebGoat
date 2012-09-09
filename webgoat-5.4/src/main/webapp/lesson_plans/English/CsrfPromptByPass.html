@@ -1,0 +1,33 @@
+<div align="Center"> 
+<p><b>Lesson Plan Title:</b>CSRF User Prompt By-Pass</p><br/>
+ </div>
+ 
+<p><b>Concept / Topic To Teach:</b> </p>
+This lesson teaches how to perform CSRF attacks that by-pass user confirmation prompts.
+ <br> 
+<div align="Left"> 
+<p>
+<b>How the attacks works:</b>
+<p>
+Cross-Site Request Forgery (CSRF/XSRF) is an attack that tricks the victim into loading a page 
+that contains a 'forged request' to execute commands with the victim's credentials.  Prompting 
+a user to confirm or cancel the command might sound like a solution, but can be by-passed if 
+the prompt is scriptable.  This lesson shows how to by-pass such a prompt by issuing another 
+forged request.  This can also apply to a series of prompts such as a wizard or issuing multiple 
+unrelated forged requests.</p> 
+
+
+</div>
+<p><b>General Goal(s):</b> </p>
+<!-- Start Instructions -->
+Similar to the CSRF Lesson, your goal is to send an email to a newsgroup that contains multiple 
+malicious requests: the first to transfer funds, and the second a request to confirm the prompt 
+that the first request triggered.  The URL should point to the CSRF lesson with an extra 
+parameter "transferFunds=4000", and "transferFunds=CONFIRM". You can copy the shortcut from the 
+left hand menu by right clicking on the left hand menu and choosing copy shortcut. Whoever 
+receives this email and happens to be authenticated at that time will have his funds transferred. 
+When you think the attack is successful, refresh the page and you will find the green check on 
+the left hand side menu.<br/>
+<b>Note that the "Screen" and "menu" GET variables will vary between WebGoat builds. Copying the menu link on the left will give you the current values.</b>
+<!-- Stop Instructions -->
+

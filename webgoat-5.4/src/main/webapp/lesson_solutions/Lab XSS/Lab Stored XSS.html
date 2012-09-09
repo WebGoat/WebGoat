@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution Lab Block Stored XSS</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> How to Perform Cross Site Scripting (XSS)</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+It is always a good practice to scrub all inputs, especially those inputs that will later be used as parameters to OS commands, scripts, and database queries. It is particularly important for content that will be permanently stored somewhere. Users should not be able to create message content that could cause another user to load an undesirable page or undesirable content when the user's message is retrieved.
+XSS can also occur when unvalidated user input is used in an HTTP response. In a reflected XSS attack, an attacker can craft a URL with the attack script and post it to another website, email it, or otherwise get a victim to click on it.
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+For this exercise, you will perform stored and reflected XSS attacks. You will also implement code changes in the web application to defeat these attacks. 
+</p>
+
+<p><b>Solution:</b><br/>
+First Login as Tom with tom as password. Select Tom from the list and click on the View Profile Button.
+Now should appear Tom's Profile. Click on the 'Edit Profile' Button and try an XSS attack on the street filed.<br/>
+For example: &lt;script&gt;alert("Got Ya");&lt;/script&gt;<br/>
+Click on the UpdateProfile Button and Log out.</p><p>
+<p>
+
+<img src="lesson_solutions/Lab XSS/images/stored_xss.png" width=450px alt="stored_xss.png" />
+
+<p>
+Now log in as Jerry with jerry as password. Select from the the list the profile of tom and hit the 
+ViewProfile Button. Congratulation! You have completed the lesson.
+
+</p>
+
+</body>
+</html>

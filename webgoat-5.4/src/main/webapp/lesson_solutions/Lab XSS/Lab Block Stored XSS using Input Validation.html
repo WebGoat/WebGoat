@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution Lab Block Stored XSS</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> How to Perform Cross Site Scripting (XSS)</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+It is always a good practice to scrub all inputs, especially those inputs that will later be used as parameters to OS commands, scripts, and database queries. It is particularly important for content that will be permanently stored somewhere. Users should not be able to create message content that could cause another user to load an undesirable page or undesirable content when the user's message is retrieved.
+XSS can also occur when unvalidated user input is used in an HTTP response. In a reflected XSS attack, an attacker can craft a URL with the attack script and post it to another website, email it, or otherwise get a victim to click on it.
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+For this exercise, you will perform stored and reflected XSS attacks. You will also implement code changes in the web application to defeat these attacks. 
+</p>
+
+<p><b>Solution:</b><br/>
+You have to alter the method parseEmployeeProfile in the class UpdateProfile.java which is
+placed in the package org.owasp.webgoat.lessons.CrossSiteScripting<br/>
+The place to code is marked! Following code will work:<br/>
+</p>
+<p>
+<code>	
+/**Your code**/<br/>
+String regex = "[\\s\\w-,]*";<br/>
+String stringToValidate = firstName+lastName+ssn+title+phone+address1+address2+<br/>startDate+ccn+disciplinaryActionDate+<br/>disciplinaryActionNotes+personalDescription;<br/>
+Pattern pattern = Pattern.compile(regex);<br/>
+validate(stringToValidate, pattern);<br/>
+/**End of your code**/
+</code>
+</p>
+<p>
+This validation allows following:<br>
+\s = whitspace: \t\n\x0B\f\r<br>
+\w = word: a-zA-Z_0-9<br>
+and the characters - and ,
+</p>
+<p>
+Use of any other character will throw a Validation Exception.
+</p>
+
+</body>
+</html>

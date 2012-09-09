@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Session Fixation</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Session Fixation</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+How to steal a session with a 'Session Fixation' 
+</p> 
+
+<p><b>How the attacks works:</b><br/>
+A user is recognized by the server by an unique 
+Session ID. If a user has logged in and is authorized 
+he does not have to reauthorize when he revisits the 
+application as the user is recognized by the Session ID.
+ In some applications it is possible to deliver the Session 
+ ID in the Get-Request. Here is where the attack starts. 
+</p>
+<p>An attacker can send a hyperlink to a
+ victim with a chosen Session ID. This can be 
+ done for example by a prepared mail which looks like an 
+official mail from the application administrator. If the victim 
+ clicks on the link and logs in he is authorized by the 
+ Session ID the attacker has chosen. The attacker can visit
+  the page with the same ID and is recognized as the victim
+   and gets logged in without authorization.</p>
+
+<p><b>General Goal(s):</b><br/>
+This lesson has several stages. You play the attacker but 
+also the victim. After having done this lesson it should be
+ understood how a Session Fixation in general works. It should 
+ be also understood that it is a bad idea to use the Get-Request 
+ for Session IDs.
+
+</p>
+
+<p>
+<b>Solution:</b><br/>
+This lesson has 4 stages. In stage 1 and 4 you are Hacker Joe
+in lesson 2 and 3 you are the victim Jane. 
+
+<p>
+<b>Stage 1:</b><br>
+You have to send a prepared mail to Jane which looks like a mail from Goat Hills Financial with a link containing a Session ID.
+The mail is already prepared. You only have to alter the link so it includes
+a Session ID (SID). You can archive this by adding &SID=WHATEVER to
+the link. Of course can WHATEVER be replaced by any other string.
+The link should look similar to following:<br>
+&lt;a href=http://localhostattack?Screen=46&menu=320&SID=WHATEVER&gt;
+</p>
+<div align="left"><font size="2">
+<img src='lesson_solutions/SessionFixation_files/sf_stage1.png'><br>
+<b>Figure 1: Prepared Mail</b>
+</font>
+</div>
+
+<p>
+<b>Stage 2:</b><br>
+Now you are Jane which receives the mail you wrote in stage 1.
+Point with the mouse on the link and you will notice the
+SID in the status bar of your browser. This is the easiest
+stage as you have only to click on the link	'Goat Hills Financial'.
+</p>
+<div align="left"><font size="2">
+<img src='lesson_solutions/SessionFixation_files/sf_stage2.png'><br>
+<b>Figure 2: Received Mail</b>
+</font>
+</div>
+
+
+<p>
+<b>Stage 3:</b><br>
+You are on the login screen of Goat Financial Hills now. In
+the URL is the SID visible. All
+you have to do is to log in with your user name Jane
+and your password tarzan.
+</p>
+<div align="left"><font size="2">
+<img src='lesson_solutions/SessionFixation_files/sf_stage3.png'><br>
+<b>Figure 3: Goat Hills Financial Login Screen</b>
+</font>
+</div>
+
+<p>
+<b>Stage 4:</b><br>
+The application switches again to the hacker Joe.
+There is already a prepared link you have to click on
+to reach the Goat Hill Financial. In real life this
+would be different of course. You could directly put the URL
+in the address bar of your browser.<br><br>
+
+
+After having clicked on the provied link you reach 
+Goat Hill Financial. Take a look at the URL and 
+you will see that your SID is NOVALIDSESSION.
+Change this string to the SID you have chosen
+at the beginning of this lesson and hit enter.</p>
+<div align="left"><font size="2">
+<img src='lesson_solutions/SessionFixation_files/sf_stage4_1.png'><br>
+<b>Figure 4: Browser Address Bar Before Changes</b>
+<br><br>
+<img src='lesson_solutions/SessionFixation_files/sf_stage4_2.png'><br>
+<b>Figure 5: Browser Address Bar After Changes</b>
+</font>
+</div>
+<br><br>
+Congratulation! You are logged in as Jane
+and the lesson was successful.
+<div align="left"><font size="2">
+<img src='lesson_solutions/SessionFixation_files/sf_success.png'><br>
+<b>Figure 6: Successful Completion Of The Lesson</b>
+</font>
+</div>
+
+
+</body>
+</html>

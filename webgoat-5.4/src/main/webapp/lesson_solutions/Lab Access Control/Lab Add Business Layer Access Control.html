@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution Lab Role Based Access Control Stage2</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Role Based Access Control: Stage 2</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+In role-based access control scheme, a role represents 
+a set of access permissions and privileges. A user can be 
+assigned one or more roles. A role-based access control 
+normally consists of two parts: role permission management 
+and role assignment. A broken role-based access 
+control scheme might allow a user to perform accesses 
+that are not allowed by his/her assigned roles, or 
+somehow obtain unauthorized roles.
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+Your goal is to explore the access control 
+rules that govern this site. Each role has permission to 
+certain resources (A-F). Each user is assigned one or more roles. 
+Only the user with the [Admin] role should have access 
+to the 'F' resources. In a successful attack, a user doesn't 
+have the [Admin] role can access resource F.
+</p>
+
+<p>
+<b>Solution:</b><br/>
+You have to be sure that the user is AUTHORIZED to do an action! So you have to check for his authorization.
+You have to write some code in the class 
+org.owasp.webgoat.lessons.RoleBasedAccesControl.RoleBasedAccessControl.java.
+Alter the handleRequest method as there is happening the dispatching.
+There is already a method called isAuthorized which you can use:
+</p>
+<pre><code>
+//***************CODE HERE*************************
+if(!isAuthorized(s, getUserId(s), requestedActionName))
+{
+  throw new UnauthorizedException();
+}									
+//*************************************************
+</code></pre>
+Try the attack again and you will see that the authorization fails and the
+lesson is completed.
+</body>
+</html>

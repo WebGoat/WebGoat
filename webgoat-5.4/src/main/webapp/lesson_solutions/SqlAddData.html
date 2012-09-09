@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution: Modify Data with SQL</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Add Data with SQL</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+SQL injection attacks represent a serious threat to any database-driven site. The methods behind an attack are easy to learn and the damage caused can range from considerable to complete system compromise. Despite these risks, an incredible number of systems on the internet are susceptible to this form of attack. 
+<br><br>
+Not only is it a threat easily instigated, it is also a threat that, with a little common-sense and forethought, can easily be prevented.<br>
+<br>
+It is always good practice to sanitize all input data, especially data that will used in OS command, scripts, and database queries, even if the threat of SQL injection has been prevented in some other manner.<br>
+<br>
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+The form below allows a user to view salaries associated with a userid (from the table named salaries). This form is vulnerable to String SQL Injection. In order to pass this lesson, use SQL Injection to add a record to the table.
+</p>
+
+<b>Solution:</b><br/><br/>
+In this lesson, we will use the INSERT query, which uses the format:<br/>
+<b>INSERT INTO table VALUES (value1, value2);</b><br/><br/>
+In this case, the salaries table has two relevant columns: column 1 is userid, and column 2 is salary.
+We will use the command:<br/>
+<b>INSERT INTO salaries VALUES ('rlupin',140000);</b> <br/><br/>
+This, however, will not work correctly. We are inserting this in between two single quotes in the command:<br/>
+SELECT * FROM salaries WHERE userid='<b><font color="blue">userid</font></b>';<br/><br/>
+If we treated this lesson as we have treated the previous one, our command would look like this:<br/>
+SELECT * FROM salaries WHERE userid='<b><font color="blue">whatever'; INSERT INTO salaries VALUES ('rlupin',150000);</font></b>'<br/><br/>
+The statement cannot end with a single quote after the semicolon, so we must comment out the quote using <b>--</b>.<br/>
+To complete this lesson, type the following into the field and press go:<br/>
+<b>whatever'; INSERT INTO salaries VALUES ('rlupin',140000);--</b><br/><br/>
+If you then search for the userid rlupin, you will see there is new record.<br/><br/>
+
+<img src="lesson_solutions/SqlAddData_files/image001.jpg"><br/>
+<font size="2"><b>New employee record after using an INSERT query.</b></font><br/><br/><br/>
+
+</body>
+</html>

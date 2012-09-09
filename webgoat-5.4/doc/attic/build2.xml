@@ -1,0 +1,317 @@
+<!-- A "project" describes a set of targets that may be requested
+     when Ant is executed.  The "default" attribute defines the
+     target which is executed if no specific target is requested,
+     and the "basedir" attribute defines the current working directory
+     from which Ant executes the requested task.  This is normally
+     set to the current working directory.
+-->
+
+<project name="WebGoat" default="compile" basedir=".">
+
+<!-- ===================== Property Definitions =========================== -->
+
+<!--
+  Each of the following properties are used in the build script.
+  Values for these properties are set by the first place they are
+  defined, from the following list:
+
+  * Definitions on the "ant" command line (ant -Dfoo=bar compile).
+  * Definitions from a "build.properties" file in the top level
+    source directory of this application.
+  * Definitions from a "build.properties" file in the developer's
+    home directory.
+  * Default definitions in this build.xml file.
+  You will note below that property values can be composed based on the
+  contents of previously defined properties.  This is a powerful technique
+  that helps you minimize the number of changes required when your development
+  environment is modified.  Note that property composition is allowed within
+  "build.properties" files as well as in the "build.xml" script.
+-->
+
+  <property file="build.properties"/>
+  <property file="${user.home}/build.properties"/>
+
+<!-- ==================== File and Directory Names ======================== -->
+
+<!--
+  These properties generally define file and directory names (or paths) that
+  affect where the build process stores its outputs.
+
+  app.name             Base name of this application, used to
+                       construct filenames and directories.
+                       Defaults to "myapp".
+
+  app.path             Context path to which this application should be
+                       deployed (defaults to "/" plus the value of the
+                       "app.name" property).
+
+  app.version          Version number of this iteration of the application.
+
+  build.home           The directory into which the "prepare" and
+                       "compile" targets will generate their output.
+                       Defaults to "build".
+
+  catalina.home        The directory in which you have installed
+                       a binary distribution of Tomcat 4.  This will
+                       be used by the "deploy" target.
+
+  dist.home            The name of the base directory in which
+                       distribution files are created.
+                       Defaults to "dist".
+
+  manager.password     The login password of a user that is assigned the
+                       "manager" role (so that he or she can execute
+                       commands via the "/manager" web application)
+
+  manager.url          The URL of the "/manager" web application on the
+                       Tomcat installation to which we will deploy web
+                       applications and web services.
+
+  manager.username     The login username of a user that is assigned the
+                       "manager" role (so that he or she can execute
+                       commands via the "/manager" web application)
+-->
+
+  <property name="app.name"      		   value="WebGoat"/>
+  <property name="app.path"      		   value="/${app.name}"/>
+  <property name="app.version"   		   value="5.2"/> <!-- UPDATE THIS! -->
+  <property name="build.home"    		   value="${basedir}/build"/>
+  <property name="catalina.home" 		   value="${basedir}/../tomcat"/> <!-- UPDATE THIS! -->
+  <property name="dist.home"     		   value="${basedir}/dist"/>
+  <property name="web_inf.home"              value="${basedir}/build/WEB-INF"/>
+  <property name="doc.home"      		   value="${basedir}/doc"/>
+  <property name="manager.url"   		   value="http://localhost/manager"/>
+  <property name="manager.username"   	   value="admin"/> 			<!-- UPDATE THIS! -->
+  <property name="manager.password"   	   value="admin"/> 			<!-- UPDATE THIS! -->
+  <property name="src.home"     		   value="${basedir}/java"/>
+  <property name="web.home"      		   value="${basedir}/webapp"/>
+  <property name="zip_distributions.home"  value="${basedir}/zip_distributions"/>
+
+<!-- ==================== External Dependencies =========================== -->
+
+<!--
+  Use property values to define the locations of external JAR files on which
+  your application will depend.  In general, these values will be used for
+  two purposes:
+  * Inclusion on the classpath that is passed to the Javac compiler
+  * Being copied into the "/WEB-INF/lib" directory during execution
+    of the "deploy" target.
+
+  Because we will automatically include all of the Java classes that Tomcat 4
+  exposes to web applications, we will not need to explicitly list any of those
+  dependencies.  You only need to worry about external dependencies for JAR
+  files that you are going to include inside your "/WEB-INF/lib" directory.
+-->
+
+  <property name="jars"      value="${basedir}/webapp/WEB-INF/lib"/>
+
+<!-- ==================== Compilation Classpath =========================== -->
+
+<!--
+  Rather than relying on the CLASSPATH environment variable, Ant includes
+  features that makes it easy to dynamically construct the classpath you
+  need for each compilation.  The example below constructs the compile
+  classpath to include the servlet.jar file, as well as the other components
+  that Tomcat makes available to web applications automatically, plus anything
+  that you explicitly added.
+-->
+
+  <path id="compile.classpath">
+    <!-- Include all JAR files that will be included in /WEB-INF/lib -->
+    <!-- Include all elements that Tomcat exposes to applications -->
+	<fileset dir="${jars}">
+		<include name="*.jar"/>
+	</fileset> 
+    <pathelement location="${catalina.home}/common/classes"/>
+    <fileset dir="${catalina.home}/lib">
+      <include name="*.jar"/>
+    </fileset>
+     <fileset dir="${catalina.home}/lib">
+      <include name="*.jar"/>
+    </fileset>
+ </path>
+
+<!--  ==================== Compilation Control Options ==================== -->
+
+<!--
+  These properties control option settings on the Javac compiler when it
+  is invoked using the <javac> task.
+
+  compile.debug        Should compilation include the debug option?
+  compile.deprecation  Should compilation include the deprecation option?
+  compile.optimize     Should compilation include the optimize option?
+-->
+
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.deprecation" value="false"/>
+  <property name="compile.optimize"    value="true"/>
+
+<!-- ==================== Clean Target ==================================== -->
+
+<!--
+  The "clean" target deletes any previous "build" and "dist" directory,
+  so that you can be ensured the application can be built from scratch.
+-->
+
+  <target name="clean"
+   description="Delete old build and dist directories">
+    <delete file="${web_inf.home}/web.xml"/>
+    <delete dir="${build.home}"/>
+ 	<delete dir="${dist.home}"/>
+	<delete dir="${catalina.home}/logs"/>
+	<delete dir="${catalina.home}/work/Catalina/localhost"/>
+ 	<delete dir="${catalina.home}/webapps/${app.name}"/>
+	<delete file="${catalina.home}/webapps/${app.name}.war"/>
+	<delete dir="${catalina.home}/server/webapps/${app.name}"/>
+  	<!-- 	<delete dir="${doc.home}"/> -->
+    <mkdir dir="${build.home}"/>
+    <mkdir dir="${dist.home}"/>
+ 	<mkdir dir="${doc.home}"/>
+ 	<mkdir dir="${catalina.home}/logs"/>
+ </target>
+
+  <target name="clean_all"
+   description="Delete old build, dist directories and zips">
+ 	<delete dir="${zip_distributions.home}"/>
+ 	<mkdir dir="${zip_distributions.home}"/>
+  </target>
+	
+<!-- ==================== Compile Target ================================== -->
+
+<!--
+  The "compile" target transforms source files (from your "src" directory)
+  into object files in the appropriate location in the build directory.
+  This example assumes that you will be including your classes in an
+  unpacked directory hierarchy under "/WEB-INF/classes".
+-->
+
+  <target name="compile"
+   description="Compile Java sources">
+    <!-- Compile Java classes as necessary -->
+    <mkdir    dir="${build.home}/WEB-INF/classes"/>
+    <javac srcdir="${src.home}"
+          destdir="${build.home}/WEB-INF/classes"
+            debug="${compile.debug}"
+      deprecation="${compile.deprecation}"
+         optimize="${compile.optimize}">
+        <classpath refid="compile.classpath"/>
+    </javac>
+  <copy todir="${build.home}/WEB-INF/classes">
+    <fileset dir="${basedir}/resources" />
+  </copy>
+
+
+  </target>
+
+<!-- ==================== Dist Target ===================================== -->
+
+<!--
+  The "dist" target creates a binary distribution of your application
+  in a directory structure ready to be archived in a tar.gz or zip file.
+  Note that this target depends on two others:
+
+  * "compile" so that the entire web application (including external
+    dependencies) will have been assembled
+-->
+
+  
+  <target name="DeployWar" 
+   	description="Copy existing war to Tomcat - Does not rebuild">
+
+    <!-- Install war to Tomcat -->
+    <delete dir="${catalina.home}/webapps/${app.name}"/>
+    <delete file="${catalina.home}/webapps/${app.name}.war"/>
+    <copy file="${dist.home}/${app.name}-${app.version}.war" tofile="${catalina.home}/webapps/${app.name}.war"/>
+	 
+  </target> 
+  	
+	
+<!-- =================== Internal Tasks to prepare war file  ============ -->
+
+	<!-- Copying the Java source code into the build directory -->
+	<!-- We must also copy the source into webapp, since WTP will overwrite the 
+		app as it was deployed from the WAR. -->
+	<!-- We must also copy the doc dir into webapp, for the "how to create a new lesson" lesson -->
+	<target name="-CopySourceToBuild" depends="prepare" >
+		<delete dir="${build.home}/java"/>
+		<copy todir="${build.home}/java">
+			<fileset dir="${basedir}/java"/>
+		</copy>
+		<delete dir="${web.home}/java"/>
+		<copy todir="${web.home}/java">
+			<fileset dir="${basedir}/java"/>
+		</copy>
+		<delete dir="${web.home}/doc"/>
+		<copy todir="${web.home}/doc">
+			<fileset dir="${basedir}/doc"/>
+		</copy>
+	</target>
+
+	
+	<!-- Copying web.xml to web-inf/web.xml -->
+	<target name="-WebXML">
+		<copy file="${web.home}/WEB-INF/web.xml" todir="${web_inf.home}" overwrite="yes"/>
+	</target>
+
+	<!-- Copying webgoat-owasp.properties to webgoat.properties -->
+	<target name="WebGoatPropertiesOWASP">
+		<attrib file="${web.home}/WEB-INF/webgoat.properties" readonly="false"/>
+		<copy file="${web.home}/WEB-INF/webgoat-owasp.properties" tofile="${web.home}/WEB-INF/webgoat.properties" overwrite="yes"/>
+	</target>
+				
+	<!-- Copying webgoat-class.properties to webgoat.properties -->
+	<target name="WebGoatPropertiesClass">
+		<attrib file="${web.home}/WEB-INF/webgoat.properties" readonly="false"/>
+		<copy file="${web.home}/WEB-INF/webgoat-class.properties" tofile="${web.home}/WEB-INF/webgoat.properties" overwrite="yes"/>
+	</target>
+				
+	<!-- Copying webgoat-lab.properties to webgoat.properties -->
+	<target name="WebGoatPropertiesLAB">
+		<attrib file="${web.home}/WEB-INF/webgoat.properties" readonly="false"/>
+		<copy file="${web.home}/WEB-INF/webgoat-lab.properties" tofile="${web.home}/WEB-INF/webgoat.properties" overwrite="yes"/>
+	</target>
+				
+	<!-- Copying the static content into the build directory -->
+	<target name="-CopyWebToBuild" depends="prepare" >
+		<copy todir="${build.home}">
+			<fileset dir="${web.home}"/>
+		</copy>
+	</target>
+
+	<target name="-WarBuild" >
+	    <jar jarfile="${dist.home}/${app.name}-${app.version}.war"
+	         basedir="${build.home}" />
+	</target>
+	
+<!-- =================== Prepare Distributions ========================== -->
+		
+	<!-- Create WAR file -->
+	<target name="BuildWar" depends="clean, prepare, compile, -WebXML, -CopyWebToBuild, -CopySourceToBuild, -WarBuild"
+			description="Create ${app.name}.war binary distribution">
+	</target> 	
+
+<!-- ==================== Prepare Target ================================== -->
+
+<!--
+  The "prepare" target is used to create the "build" destination directory,
+  and copy the static contents of your web application to it.  If you need
+  to copy static files from external dependencies, you can customize the
+  contents of this task.
+
+  Normally, this task is executed indirectly when needed.
+-->
+
+	<target name="prepare">
+		<!-- Create build directories as needed -->
+		<mkdir  dir="${build.home}/WEB-INF/classes"/>  
+
+		<!-- Copy application resources -->
+		<copy  todir="${build.home}/WEB-INF/classes">
+			<fileset dir="${src.home}" excludes="**/*.java"/>
+		</copy>
+	</target>
+
+</project>
+
+
+

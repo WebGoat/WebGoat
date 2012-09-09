@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>DOM Based Cross Site Scripting (XSS)</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> DOM Based Cross Site Scripting (XSS)</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+The Document Object Model (DOM) presents an interesting problem from a security standpoint. It allows the content of a web page to be dynamically modified, but that can be abused by attackers during a malicious code injection. XSS, a type of malicious code injection, can occur when unvalidated user input is used directly to modify the content of a page on the client side. <br>
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+For this exercise, your mission is to use this vulnerability to inject malicious code into the DOM. Then in the last stage, you will correct the flaws in the code to address the vulnerability. 
+</p>
+
+<b>Solution:</b><br/><br/>
+Stage 1: Enter "&lt;IMG SRC="images/logos/owasp.jpg"/&gt;" and submit the solution.<br/><br/>
+<img src="lesson_solutions/DOMXSS_files/image001.jpg"><br/>
+<font size="2"><b>Stage 1 result</b></font><br/><br/><br/>
+Stage 2: Enter "&lt;img src=x onerror=;;alert('XSS') /&gt;" and submit the solution.<br/><br/>
+<img src="lesson_solutions/DOMXSS_files/image002.jpg"><br/>
+<font size="2"><b>Stage 2 result</b></font><br/><br/><br/>
+Stage 3: Enter "&lt;IFRAME SRC="javascript:alert('XSS');"&gt;&lt;/IFRAME&gt;" and submit the solution.<br/><br/>
+<img src="lesson_solutions/DOMXSS_files/image003.jpg"><br/>
+<font size="2"><b>Stage 3 result</b></font><br/><br/><br/>
+Stage 4: Enter "Please enter your password:&lt;BR&gt;&lt;input type = "password" name="pass"/&gt;&lt;button onClick="javascript:alert('I have your password: ' + pass.value);"&gt;Submit&lt;/button&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt; &lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;" and submit the solution.<br/><br/>
+<img src="lesson_solutions/DOMXSS_files/image004.jpg"><br/>
+<font size="2"><b>Stage 4 result</b></font><br/><br/><br/>
+Stage 5: You have to use the JavaScript escape.js for the input.<br/>
+You will find the JavaScripts in tomcat\webapps\WebGoat\javascript ( Standart Version ) or in WebContent\javascript ( Developer Version ).<br/>
+Open the JavaScript DOMXSS.js<br/><br/><br/>
+<i>function displayGreeting(name) {<br/>
+	if (name != ''){<br/>
+		document.getElementById("greeting").innerHTML="Hello, " + </i><b>name</b><i> + "!";<br/>
+	}<br/>
+}</i><br/>
+<br/>
+You have to change this to:<br/><br/>
+<i>function displayGreeting(name) {<br/>
+	if (name != ''){<br/>
+		document.getElementById("greeting").innerHTML="Hello, " + </i><b>escapeHTML(name);</b><i> + "!";<br/>
+	}<br/>
+}</i><br/>
+<br/>
+The attacks will no longer work.
+<br><br><br>
+</body>
+</html>

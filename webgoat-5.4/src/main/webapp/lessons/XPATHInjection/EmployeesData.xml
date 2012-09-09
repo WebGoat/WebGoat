@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<employees>
+	<employee id="1">
+		<loginID>Mike</loginID>
+		<accountno>11123</accountno>
+		<passwd>test123</passwd>
+		<salary>468100</salary>
+	</employee>
+	<employee id="2">
+		<loginID>John</loginID>
+		<accountno>63458</accountno>
+		<passwd>myownpass</passwd>
+		<salary>559833</salary>
+	</employee>
+	<employee id="3">
+		<loginID>Sarah</loginID>
+		<accountno>23363</accountno>
+		<passwd>secret</passwd>
+		<salary>84000</salary>
+	</employee>
+</employees>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution Lab SQL Injection Stage2</title>
+<link rel="stylesheet" type="text/css"
+	href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> How to Perform a SQLInjection</p>
+
+<p><b>Concept / Topic To Teach:</b><br />
+SQL injection attacks represent a serious threat to any database-driven
+site. The methods behind an attack are easy to learn and the damage
+caused can range from considerable to complete system compromise.
+Despite these risks, an incredible number of systems on the internet are
+susceptible to this form of attack.</p>
+
+<p>Not only is it a threat easily instigated, it is also a threat
+that, with a little common-sense and forethought, can easily be
+prevented.</p>
+
+<p>It is always good practice to sanitize all input data, especially
+data that will used in OS command, scripts, and database queiries, even
+if the threat of SQL injection has been prevented in some other manner.
+</p>
+
+<p><b>General Goal(s):</b><br />
+For this exercise, you will perform SQLInjection attacks. You will also
+implement code changes in the web application to defeat these attacks.</p>
+
+<b>Solution:</b><br />
+To prevent a SQLInjection you can use "Parametreized Queries". This kind of
+query makes it possible to use every input of an user as a parameter.
+In this lesson you have to change org.owasp.webgoat.lessons.SQLInjection.Login.java
+The query execution in the method login looks like this:<pre><code>
+String query = "SELECT * FROM employee WHERE userid = " + userId + " and password = '" + password + "'";
+// System.out.println("Query:" + query);
+try
+{
+  Statement answer_statement = WebSession.getConnection(s)
+      .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+  ResultSet answer_results = answer_statement.executeQuery(query);
+  etc...
+</code></pre>
+<p>
+To paramerize the Query you have to replace the userinput with questionmarks:<br/>
+<code>String query = "SELECT * FROM employee WHERE userid = ? and password = ?";</code><br/>
+</p>
+<p>
+Now follows the try block with the getConnection method:<br/>
+<code>
+try <br/>
+{<br/>
+&nbsp;&nbsp;Connection connection = WebSession.getConnections(s);
+</code></p>
+<p>
+The next step is to do a so called "PrepareStatement":<br/>
+<code>PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+</code><br/></p>
+<p>
+Now that the query is prepared we have to add the parameters to the query:<br/>
+<code>
+statement.setString(1, userId);<br/>
+statement.setString(2, password);<br>
+</code>
+</p>
+<p>
+We are ready to execute the query!<br/>
+<code>
+ResultSet answer_results = statement.executeQuery();</code>
+</p>
+<p>Putting everything together results in:<br/>
+<pre><code>
+String query = "SELECT * FROM employee WHERE userid = ? and password = ?";
+try
+{
+  Connection connection = WebSession.getConnections(s);
+  PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+  statement.setString(1, userId);
+  statement.setString(2, password);
+  ResultSet answer_results = statement.executeQuery();
+  etc...
+</code></pre>
+
+</body>
+</html>

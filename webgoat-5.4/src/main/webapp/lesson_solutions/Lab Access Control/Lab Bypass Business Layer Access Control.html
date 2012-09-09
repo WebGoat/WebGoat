@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution Lab Role Based Access Control Stage1</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Role Based Access Control: Stage 1</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+In role-based access control scheme, a role represents 
+a set of access permissions and privileges. A user can be 
+assigned one or more roles. A role-based access control 
+normally consists of two parts: role permission management 
+and role assignment. A broken role-based access 
+control scheme might allow a user to perform accesses 
+that are not allowed by his/her assigned roles, or 
+somehow obtain unauthorized roles.
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+Your goal is to explore the access control 
+rules that govern this site. Each role has permission to 
+certain resources (A-F). Each user is assigned one or more roles. 
+Only the user with the [Admin] role should have access 
+to the 'F' resources. In a successful attack, a user doesn't 
+have the [Admin] role can access resource F.
+</p>
+
+<p>
+<b>Solution:</b><br/>
+To solve this exercise you have to know the name of the action, which
+deletes employees. Of course you could just guess
+it because it has a really logical name.
+But we will look it up. So your first step is to log in as John with john as 
+password. Use WebScarab to intercept the delete request.
+
+<img src="lesson_solutions/Lab Access Control/images/access_control_stage1.png" width=450px alt="deleteAction" />
+
+As you can see the delete action is called DeleteProfile.
+Now log in as Tom. Click in the list on his name and make sure WebScarab 
+will intercept the next request. Click on a button, for example the 
+'ViewProfile' button. Change in WebScarab the action to DeleteProfile 
+and you are done!
+
+</body>
+</html>

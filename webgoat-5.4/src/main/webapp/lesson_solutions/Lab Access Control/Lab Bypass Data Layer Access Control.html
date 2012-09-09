@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Solution Lab Role Based Access Control Stage3</title>
+<link rel="stylesheet" type="text/css" href="lesson_solutions/formate.css">
+</head>
+<body>
+<p><b>Lesson Plan Title:</b> Role Based Access Control: Stage 3</p>
+
+<p><b>Concept / Topic To Teach:</b><br/>
+In role-based access control scheme, a role represents 
+a set of access permissions and privileges. A user can be 
+assigned one or more roles. A role-based access control 
+normally consists of two parts: role permission management 
+and role assignment. A broken role-based access 
+control scheme might allow a user to perform accesses 
+that are not allowed by his/her assigned roles, or 
+somehow obtain unauthorized roles.
+</p> 
+
+<p><b>General Goal(s):</b><br/>
+Your goal is to explore the access control 
+rules that govern this site. Each role has permission to 
+certain resources (A-F). Each user is assigned one or more roles. 
+Only the user with the [Admin] role should have access 
+to the 'F' resources. In a successful attack, a user doesn't 
+have the [Admin] role can access resource F.
+</p>
+
+<p>
+<b>Solution:</b><br/>
+In stage 1 we tried to use an action we are not authorised to use.
+In this stage we want to view a profile of an other person. We have the permission
+for the action ViewProfile but we should not have the permission to see a profile
+of another employee!
+</p>
+<p>
+Log in as Tom with tom as password. Click on Tom's name in the list and make sure
+webscarab will intercept the next request. Change the employee_id for example to 101.<br><br>
+
+<img src="lesson_solutions/Lab Access Control/images/access_control_stage1.png" width=450px alt="deleteAction" />
+
+
+</body>
+</html>

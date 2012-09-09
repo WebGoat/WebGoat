@@ -1,0 +1,282 @@
+<!-- A "project" describes a set of targets that may be requested
+     when Ant is executed.  The "default" attribute defines the
+     target which is executed if no specific target is requested,
+     and the "basedir" attribute defines the current working directory
+     from which Ant executes the requested task.  This is normally
+     set to the current working directory.
+-->
+
+<project name="WebGoat" default="Build_ALL_OWASP_Releases" basedir=".">
+
+<!-- ===================== Property Definitions =========================== -->
+
+<!--
+  Each of the following properties are used in the build script.
+  Values for these properties are set by the first place they are
+  defined, from the following list:
+
+  * Definitions on the "ant" command line (ant -Dfoo=bar compile).
+  * Definitions from a "build.properties" file in the top level
+    source directory of this application.
+  * Definitions from a "build.properties" file in the developer's
+    home directory.
+  * Default definitions in this build.xml file.
+  You will note below that property values can be composed based on the
+  contents of previously defined properties.  This is a powerful technique
+  that helps you minimize the number of changes required when your development
+  environment is modified.  Note that property composition is allowed within
+  "build.properties" files as well as in the "build.xml" script.
+-->
+
+  <property file="build.properties"/>
+  <property file="${user.home}/build.properties"/>
+
+<!-- ==================== File and Directory Names ======================== -->
+
+<!--
+  These properties generally define file and directory names (or paths) that
+  affect where the build process stores its outputs.
+
+  build.home           The directory into which the "prepare" and
+                       "compile" targets will generate their output.
+                       Defaults to "build".
+
+  catalina.home        The directory in which you have installed
+                       a binary distribution of Tomcat 4.  This will
+                       be used by the "deploy" target.
+
+  dist.home            The name of the base directory in which
+                       distribution files are created.
+                       Defaults to "dist".
+
+  install.home         The absolute path of the directory into which
+			     the installer will copy its files.  The Eclipse
+			     project is bound to this path.
+-->
+
+  <property name="app.home"    		   value="${basedir}/main"/>
+  <property name="app.name"    		   value="WebGoat"/>	<!-- MUST BE CONSISTENT WITH main/build.xml! -->
+  <property name="app.version"    		   value="5.2"/>		<!-- MUST BE CONSISTENT WITH project/build.xml! -->
+  <property name="catalina.home" 		   value="${basedir}/tomcat"/>
+  <property name="dist.home"     		   value="${app.home}/dist"/>
+  <property name="dist.owasp"     		   value="${app.home}/owasp_distributions"/>
+  <property name="install.home"     	   value="WebGoat-${app.version}"/>
+
+<!-- ==================== Clean Target ==================================== -->
+
+<!--
+  The "clean" target deletes any previous "build" and "dist" directory,
+  so that you can be ensured the application can be built from scratch.
+-->
+
+  <target name="clean"
+   description="Delete old build and dist directories">
+    <delete file="${web_inf.home}/web.xml"/>
+ 	<delete dir="${dist.home}"/>
+	<delete dir="${catalina.home}/logs"/>
+	<delete dir="${catalina.home}/work/Catalina/localhost"/>
+ 	<delete dir="${catalina.home}/webapps/${app.name}"/>
+	<delete file="${catalina.home}/webapps/${app.name}.war"/>
+	<delete dir="${catalina.home}/server/webapps/${app.name}"/>
+    <mkdir dir="${dist.home}"/>
+ 	<mkdir dir="${catalina.home}/logs"/>
+ </target>
+
+  <target name="clean_all"
+   description="Delete old build, dist directories and zips">
+ 	<delete dir="${dist.home}"/>
+ 	<delete dir="${dist.owasp}"/>
+ 	<mkdir dir="${dist.home}"/>
+ 	<mkdir dir="${dist.owasp}"/>
+  </target>
+
+<!-- ==================== Compile Target ===================================== -->
+	
+  <target name="compile" depends="Compile-WebGoat"
+	description="Build all dependency applications">
+  </target>
+
+  <target name="Compile-WebGoat"
+	description="Build the WebGoat application">
+		<ant dir="${app.home}" target="BuildWar" inheritAll="false"/>
+  </target>
+
+<!--
+  <target name="DELETE_ME_Compile-WebGoat-Unix"
+	description="Build the WebGoat application">
+		<ant dir="${app.home}" target="BuildUnixWar" inheritAll="false"/>
+  </target>
+-->
+	
+  <target name="Compile-WebGoat-LAB"
+	description="Build the WebGoat application">
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="-WebGoatPropertiesLAB"/>
+			<target name="BuildWar"/>
+		</ant>
+  </target>
+
+  <target name="Compile-WebGoat-Class"
+	description="Build the WebGoat application">
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="-WebGoatPropertiesClass"/>
+			<target name="BuildWar"/>
+		</ant>
+  </target>
+
+  <target name="Compile-WebGoat-OWASP"
+	description="Build the WebGoat application">
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="-WebGoatPropertiesOWASP"/>
+			<target name="BuildWar"/>
+		</ant>
+  </target>
+
+<!-- ==================== Dist Target ===================================== -->
+
+<!--
+  The "dist" target creates a binary distribution of your application
+  in a directory structure ready to be archived in a tar.gz or zip file.
+  Note that this target depends on two others:
+
+  * "compile" so that the entire web application (including external
+    dependencies) will have been assembled
+-->
+
+  
+  <target name="ZipProject"
+   	description="Create a zip archive of all Eclipse project files from C:\WebGoatClassCD">
+
+		<!-- Put a copy of the keystore into the WTP dynamic deployment area -->
+		<copy file="/WebGoatClassCD/tomcat/.keystore" tofile="/WebGoatClassCD/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/.keystore"/>
+
+		<zip destfile="${basedir}/project-student.zip"
+			basedir="/WebGoatClassCD"	
+		   	includes="project/.project, project/.classpath, project/.settings/**, workspace/**"/>		
+  </target> 
+
+
+  <target name="DeployWar" 
+   	description="Copy existing war to Tomcat - Does not rebuild">
+
+    <!-- Install war to Tomcat -->
+    <delete dir="${catalina.home}/webapps/${app.name}"/>
+    <delete file="${catalina.home}/webapps/${app.name}.war"/>
+    <copy file="${app.home}/dist/${app.name}-${app.version}.war" tofile="${catalina.home}/webapps/${app.name}.war"/>
+	 
+  </target> 
+	
+
+	<!--Build patch release -->
+	<target name="BuildPatch_release" depends="clean, compile"
+	   description="Creates patch release of class files for WebGoat"> 
+		<zip destfile="${dist.home}/${app.name}-${app.version}_patch.zip">
+	    		<zipfileset dir="build/WEB-INF/classes" prefix="WEB-INF/classes"/>
+			<zipfileset dir="." includes="readme_patch.txt"/>
+		</zip>
+	</target>
+	
+	<!-- Build J2EE Lab Environment release -->
+	<target name="Build_DeveloperLab_Class_Release" depends="clean"
+			description="Builds J2EE Developer Course release">
+
+		<!-- Build the WebGoat WAR with the desired properties file -->
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="WebGoatPropertiesOWASP"/>
+			<target name="BuildWar"/>
+		</ant>
+
+		<antcall target="DeployWar"> </antcall> 
+
+		<!-- Build the CD image -->
+		<zip destfile="${dist.home}/${ant.project.name}-DeveloperLab-Class-${app.version}.zip">
+			<zipfileset dir="." prefix="${install.home}"
+				includes="eclipse/, java/, project/, FirefoxPortable/, Paros/, tomcat/, webscarab/, 
+				          Read*.txt, HOW*.txt, eclipse.bat, webgoat.sh, webgoat.bat, webgoat_8080.bat, webscarab.bat,
+						  Eclipse-Workspace.zip"
+				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
+		</zip>
+	</target> 	
+	
+	<target name="Build_Class_Release" depends="clean"
+			description="Builds WebGoat Course release">
+
+		<!-- Build the WebGoat WAR with the desired properties file -->
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="WebGoatPropertiesOWASP"/>
+			<target name="BuildWar"/>
+		</ant>
+
+		<antcall target="DeployWar"> </antcall> 
+
+		<!-- Build the CD image -->
+		<zip destfile="${dist.home}/${ant.project.name}-Class-${app.version}.zip">
+			<zipfileset dir="." prefix="${install.home}"
+				includes="java/, tomcat/, FirefoxPortable/, Paros/, webscarab/, webgoat.sh, webgoat.bat, webgoat_8080.bat, webscarab.bat"
+				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
+		</zip>
+	</target> 	
+
+	<!-- Build OWASP Developer Lab Environment release -->
+	<target name="Build_OWASP_DeveloperLab_release" depends="clean"
+			description="Builds OWASP Developer release">
+		<!-- Build the WebGoat WAR with the desired properties file -->
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="WebGoatPropertiesOWASP"/>
+			<target name="BuildWar"/>
+		</ant>
+		<antcall target="DeployWar"> </antcall> 
+		<!-- Build the CD image -->
+		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Developer-${app.version}.zip">
+			<zipfileset dir="." prefix="${install.home}"
+				includes="eclipse/, java/, project/, tomcat/, 
+				          read*.txt, HOW*.txt, eclipse.bat, webgoat.sh, webgoat.bat, webgoat_8080.bat,
+						  Eclipse-Workspace.zip"
+				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
+		</zip>
+	</target> 	
+
+	<target name="Build_OWASP_Standard_Release" depends="clean"
+			description="Builds WebGoat OWASP release">
+		<!-- Build the WebGoat WAR with the desired properties file -->
+		<ant dir="${app.home}" inheritAll="false">
+			<target name="WebGoatPropertiesOWASP"/>
+			<target name="BuildWar"/>
+		</ant>
+		<antcall target="DeployWar"> </antcall> 
+		<!-- Build the CD image -->
+		<zip destfile="${dist.home}/${ant.project.name}-OWASP_Standard-${app.version}.zip">
+			<zipfileset dir="." prefix="${install.home}"
+				includes="java/, tomcat/, read*.txt, webgoat.sh, webgoat.bat, webgoat_8080.bat"
+				excludes="project/.*, project/.settings/**, project/dist/**, project/owasp_distributions/**, project/bin/**, project/build/**"/>
+		</zip>
+	</target> 	
+
+	<!--Build all OWASP release -->
+	<target name="Build_ALL_OWASP_Releases" depends="clean_all"
+		   description="Creates all binary distributions for OWASP">
+		<copy file="${basedir}/readme.txt" tofile="${dist.owasp}/readme.txt"/>
+		<antcall target="Build_OWASP_Standard_Release"> </antcall>
+		<copydir dest="${dist.owasp}" src="${dist.home}"/>
+		<antcall target="Build_OWASP_DeveloperLab_release"> </antcall> 
+		<copydir dest="${dist.owasp}" src="${dist.home}"/>
+	</target> 
+
+	
+<!-- ==================== Prepare Target ================================== -->
+
+<!--
+  The "prepare" target is used to create the "build" destination directory,
+  and copy the static contents of your web application to it.  If you need
+  to copy static files from external dependencies, you can customize the
+  contents of this task.
+
+  Normally, this task is executed indirectly when needed.
+-->
+
+	<target name="prepare">
+	</target>
+	
+</project>
+
+
