@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE web-app 
-    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
-    "http://java.sun.com/dtd/web-app_2_3.dtd">
-
-<web-app>
+<web-app 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    version="2.5">
 
     <!-- General description of your web application -->
     <display-name>WebGoat</display-name>
@@ -42,6 +42,16 @@
         and comments about this application should be addressed.
       </description>
     </context-param>
+    
+    <!-- spring MVC -->
+  	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/mvc-dispatcher-servlet.xml,
+			/WEB-INF/spring-security.xml
+		</param-value>
+  	</context-param>
+  
 
     <!-- Servlet definitions for the servlets that make up
          your web application, including initialization
@@ -201,6 +211,42 @@
 	 <servlet-name>conf</servlet-name>
 	 <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
     </servlet>
+    
+    
+    <!-- spring MVC -->
+  <servlet>
+  	<servlet-name>mvc-dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+ 	<servlet-name>mvc-dispatcher</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <listener>
+    <listener-class>
+      org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+  </listener>
+  <!-- end spring MVC --> 
+
+  <!-- spring security -->
+  <filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- end spring security -->
+   
+
+    
+    
     <!-- Define mappings that are used by the servlet container to
          translate a particular request URI (context-relative) to a
          particular servlet.  The examples below correspond to the
@@ -267,6 +313,8 @@
       <servlet-name>conf</servlet-name>
       <url-pattern>/conf</url-pattern>
     </servlet-mapping>
+    
+    
 
     <!-- Define the default session timeout for your application,
          in minutes.  From a servlet or JSP page, you can modify
@@ -320,7 +368,7 @@
 	       <role-name>server_admin</role-name>
 	    </auth-constraint>
 	</security-constraint>
-	
+   
 	
 	<!-- Login configuration uses BASIC authentication -->
 	<login-config>

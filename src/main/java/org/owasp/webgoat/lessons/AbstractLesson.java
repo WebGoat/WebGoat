@@ -561,6 +561,20 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 		// Solutions are html files
 		return src;
 	}
+	
+	
+	/**
+	 * <p>Returns the default "path" portion of a lesson's URL.</p>
+	 * 
+	 * <p>Legacy webgoat lesson links are of the form "attack?Screen=Xmenu=Ystage=Z".
+	 * This method returns the path portion of the url, i.e., "attack" in the string above.</p>
+	 * 
+	 * <p>Newer, Spring-Controller-based classes will override this method
+	 * to return "*.do"-styled paths.</p>
+	 */
+	protected String getPath() {
+		return "attack";
+	}
 
 	/**
 	 * Get the link that can be used to request this screen.
@@ -571,7 +585,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 	{
 		StringBuffer link = new StringBuffer();
 
-		link.append("attack?");
+		// mvc update:
+		link.append(getPath()).append("?");
 		link.append(WebSession.SCREEN);
 		link.append("=");
 		link.append(getScreenId());

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC 
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" 
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">       
+<tiles-definitions>
+
+    <!-- template for generic lessons -->
+	<definition name="generic-lesson" template="/WEB-INF/pages/layouts/genericLesson.jsp">
+		<put-attribute name="header-content" value="/WEB-INF/pages/sections/header.jsp" />
+		<put-attribute name="title-content" cascade="true" value="" />
+		<put-attribute name="menu-content" value="/WEB-INF/pages/sections/menu.jsp" />
+		<put-attribute name="hints-params-cookies" value="/WEB-INF/pages/sections/hintsParamsAndCookies.jsp" />
+		<put-attribute name="primary-content" value="" />
+		<put-attribute name="footer-content" value="/WEB-INF/pages/sections/footer.jsp" />
+	</definition>
+	
+	<!-- vulnerability-specific lesson pages -->
+	<definition name="http-basics" extends="generic-lesson">
+		<put-attribute name="title-content" cascade="true" value="HTTP Basics"/>
+		<put-attribute name="primary-content" value="/WEB-INF/pages/lessons/httpBasics.jsp" />
+	</definition>	
+	
+</tiles-definitions>

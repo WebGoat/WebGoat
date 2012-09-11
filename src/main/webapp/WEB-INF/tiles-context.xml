@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!--
+	Note: 
+		Spring 3.0 requires Tiles 2.1.2 or above, with explicit support for Tiles 2.2. 
+		Tiles 2.1's EL support will be activated by default when running on JSP 2.1 or above 
+		and when the Tiles EL module is present in the classpath. 
+	
+	See: 
+		JIRA report for TilesViewResolver 2: https://jira.springsource.org/browse/SPR-5689
+		Apache Tiles 2: http://tiles.apache.org/
+	-->
+	
+	<!-- Convenience subclass of UrlBasedViewResolver that supports TilesView (i.e. Tiles definitions) and custom subclasses of it. -->
+	<!-- Don't forget to set the order if you declared other ViewResolvers -->
+	<!-- See http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/web/servlet/view/tiles2/TilesViewResolver.html  -->
+	<bean id="tilesviewResolver" class="org.springframework.web.servlet.view.tiles2.TilesViewResolver" 
+			p:order="0"/>
+	
+	<!-- Helper class to configure Tiles 2.x for the Spring Framework -->
+	<!-- See http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/web/servlet/view/tiles2/TilesConfigurer.html -->
+	<!-- The actual tiles templates are in the tiles-definitions.xml -->
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles-definitions.xml</value>
+			</list>
+		</property>
+	</bean> 
+	
+</beans>

@@ -4,7 +4,7 @@
 	<groupId>WebGoat</groupId>
 	<artifactId>WebGoat</artifactId>
 	<packaging>war</packaging>
-	<version>5.4-SNAPSHOT</version>
+	<version>6.0-SNAPSHOT</version>
 	
 	<repositories>
 		<repository>
@@ -13,7 +13,13 @@
 			<url>http://download.java.net/maven/2</url>
 		</repository>
 	</repositories>
-	
+    	
+  	<!-- Shared version number properties -->
+	<properties>
+    	<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+    	<spring.security.version>3.1.2.RELEASE</spring.security.version>
+    	<tiles.version>2.2.2</tiles.version>
+	</properties>	
 
 	<build>
 		<resources>
@@ -149,14 +155,7 @@
 			<groupId>net.sourceforge.jtds</groupId>
 			<artifactId>jtds</artifactId>
 			<version>1.2.2</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.3</version>
-			<scope>provided</scope>
-		</dependency>
+		</dependency>	
  		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-catalina</artifactId>
@@ -164,5 +163,139 @@
 			<scope>provided</scope>
 		</dependency>
 
+
+		<!-- ************* spring MVC and related dependencies ************** -->
+
+		<!-- servlet API -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+
+	    <!-- Spring MVC framework --> 
+	    <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework.version}</version>
+			<type>jar</type>			
+	    </dependency>
+	    
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		
+		<dependency>
+        	<groupId>org.springframework.security</groupId>
+        	<artifactId>spring-security-config</artifactId>
+        	<version>${spring.security.version}</version>
+    	</dependency>
+    	
+		<dependency>
+        	<groupId>org.springframework.security</groupId>
+        	<artifactId>spring-security-web</artifactId>
+        	<version>${spring.security.version}</version>
+    	</dependency>    	
+
+		<!-- Apache Commons Upload --> 
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<!-- Apache Commons Upload --> 
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<!-- JSTL --> 
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<exclusions>
+			    <exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+		    	</exclusion>
+		    	<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+		    	</exclusion>
+		    	<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+		    	</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<type>jar</type>
+		</dependency>
+	    <dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-core</artifactId>
+			<version>${tiles.version}</version>
+			<type>jar</type>			
+	    </dependency>
+	    <dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-template</artifactId>
+			<version>${tiles.version}</version>
+			<type>jar</type>			
+	    </dependency>
+	    <dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-servlet</artifactId>
+			<version>${tiles.version}</version>
+			<type>jar</type>
+	    </dependency>
+	    <dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>${tiles.version}</version>
+			<type>jar</type>
+	    </dependency>    
+	    <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.8</version>
+			<type>jar</type>
+	    </dependency>        
+	    <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.8</version>
+			<type>jar</type>
+	    </dependency>		
+		
+		<!-- ************* END spring MVC and related dependencies ************** -->
+		
 	</dependencies>
 </project>

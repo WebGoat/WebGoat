@@ -60,8 +60,8 @@
   	<property name="dist.home"     		   value="${app.home}/dist"/>
   	<property name="dist.owasp"     		   value="${app.home}/owasp_distributions"/>
   	<property name="install.home"     	   value="WebGoat-${app.version}"/>
-  	<property name="maven.war"     	   value="${basedir}/target/WebGoat-5.4-SNAPSHOT.war"/> <!-- UPDATE THIS! -->
-	<property name="maven.target"     	   value="${basedir}/target/WebGoat-5.4-SNAPSHOT"/> <!-- UPDATE THIS! -->
+  	<property name="maven.war"     	   value="${basedir}/target/WebGoat-6.0-SNAPSHOT.war"/> <!-- UPDATE THIS! -->
+	<property name="maven.target"     	   value="${basedir}/target/WebGoat-6.0-SNAPSHOT"/> <!-- UPDATE THIS! -->
 	<property name="maven.home"     	   value="C:/Program Files (x86)/apache/apache-maven-3.0.3"/> <!-- UPDATE THIS! -->
 	 <property name="java32.home"     	   value="C:/Program Files (x86)/Java/jre7"/> <!-- UPDATE THIS! -->
 	 <property name="java32.ubuntu.home"     	   value="C:/RTC/WebGoat/ubuntu_openjava_6_32"/> <!-- UPDATE THIS! -->
