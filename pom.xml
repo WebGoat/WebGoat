@@ -24,10 +24,10 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>src/main/java</directory>
+				<directory>java</directory>
 			</resource>
 			<resource>
-				<directory>${basedir}/src/main/resources</directory>
+				<directory>${basedir}resources</directory>
 			</resource>
 		</resources>
 		<plugins>
