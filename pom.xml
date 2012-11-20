@@ -45,6 +45,9 @@
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<configuration>
 					<wtpversion>1.5</wtpversion>
+					<sourceIncludes>
+            			<sourceInclude>${basedir}/java/**/*.java</sourceInclude>
+          			</sourceIncludes>					
 				</configuration>
 			</plugin>
 			<plugin>
