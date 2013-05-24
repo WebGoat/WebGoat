@@ -21,5 +21,5 @@ call "%CATALINA_HOME%\bin\startup.bat" start
 
 echo 
 echo If the Tomcat DOS shell quit immediately, it is likely that 
-echo there is another service listening on port 80.
+echo there is another service listening on port 8080.
 echo
