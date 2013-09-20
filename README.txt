@@ -194,6 +194,3 @@ Ubuntu:
     - see the FAQ for directions 
 6. Start the tomcat server (default is usually port 8080)
 7. Browse to http://localhost:8080/WebGoat/attack
-
----
-testing commit
