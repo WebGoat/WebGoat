@@ -1,28 +1,45 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<!--
-		PCS 8/27/2012
-		NOTE: Without Spring security, HttpServletRequest.getUserPrincipal() returns null when called from pages under Spring's control.
-		That method is used extensively in legacy webgoat code.  Integrating Spring security into the application resolves this issue.
-	-->  
-    <http auto-config='true'>    	
-        <intercept-url pattern="/**" access="ROLE_USER" />
-        <http-basic/>
+    <!--
+            PCS 8/27/2012
+            NOTE: Without Spring security, HttpServletRequest.getUserPrincipal() returns null when called from pages under Spring's control.
+            That method is used extensively in legacy webgoat code.  Integrating Spring security into the application resolves this issue.
+    -->  
+    <http>     
+        <intercept-url pattern="/servlet/AdminServlet/**" access="ROLE_WEBGOAT_ADMIN" />
+        <intercept-url pattern="/JavaSource/**" access="ROLE_SERVER_ADMIN" />          	
+        <intercept-url pattern="/**" access="ROLE_WEBGOAT_USER" />
+        <http-basic />
     </http>
 
     <!-- Authentication Manager -->
     <authentication-manager alias="authenticationManager">
         <authentication-provider>
-        	<user-service>
-        		<!-- TODO: credentials in the config - this isn't something I'm proud of - get rid of this ASAP --> 
-            	<user name="guest" password="guest" authorities="ROLE_USER" />
-        	</user-service>
-    	</authentication-provider>
+            <user-service>
+                <!-- TODO: credentials in the config - this isn't something I'm proud of - get rid of this ASAP --> 
+                <user name="guest" password="guest" authorities="ROLE_WEBGOAT_USER" />
+                <user name="webgoat" password="webgoat" authorities="ROLE_WEBGOAT_ADMIN" />
+                <user name="server" password="server" authorities="ROLE_SERVER_ADMIN" />
+            </user-service>
+        </authentication-provider>
     </authentication-manager>  
     
+    <!-- Role hierarchy -->
+    <!--
+    <beans:bean id="roleHierarchy"
+          class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+        <beans:property name="hierarchy">
+            <beans:value>
+                server_admin > webgoat_admin
+                webgoat_admin > webgoat_challenge
+                webgoat_challenge > webgoat_user
+            </beans:value>
+        </beans:property>
+    </beans:bean>
+    -->
 </beans:beans>

@@ -287,12 +287,10 @@
     </servlet-mapping>
  
     <!-- uncomment this if you want the admin servlet -->
-    <!--
     <servlet-mapping>
       <servlet-name>AdminServlet</servlet-name>
       <url-pattern>/servlet/AdminServlet</url-pattern>
     </servlet-mapping>
-     -->
 
     <servlet-mapping>
       <servlet-name>WebGoat</servlet-name>
@@ -332,6 +330,7 @@
     </mime-mapping>
 
 	<!-- Define reference to the user database for looking up roles -->
+        <!--
 	<resource-env-ref>
 	    <description>
 	      Link to the UserDatabase instance from which we request lists of
@@ -344,9 +343,10 @@
 	      org.apache.catalina.UserDatabase
 	    </resource-env-ref-type>
 	</resource-env-ref>
-	
+	-->
 
 	<!-- Define a Security Constraint on this Application -->
+        <!--
 	<security-constraint>
 	    <web-resource-collection>
 	      <web-resource-name>WebGoat Application</web-resource-name>
@@ -368,15 +368,17 @@
 	       <role-name>server_admin</role-name>
 	    </auth-constraint>
 	</security-constraint>
-   
+   -->
 	
 	<!-- Login configuration uses BASIC authentication -->
+        <!--
 	<login-config>
 	    <auth-method>BASIC</auth-method>
 	    <realm-name>WebGoat Application</realm-name>
 	</login-config>
-	
+	-->
 	<!-- Security roles referenced by this web application -->
+        <!--
 	<security-role>
 	    <description>The role that is required to administrate WebGoat</description>
 	    <role-name>webgoat_admin</role-name>
@@ -392,10 +394,10 @@
 	    <role-name>webgoat_user</role-name>
 	</security-role>
 
-	<security-role>
-	    <description>This role is for admins only</description>
-	    <role-name>server_admin</role-name>
-	</security-role>
-
+            <security-role>
+                <description>This role is for admins only</description>
+                <role-name>server_admin</role-name>
+            </security-role>
+    -->
 </web-app>
 
