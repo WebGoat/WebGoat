@@ -4,7 +4,8 @@
 	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
-
+    
+    <global-method-security pre-post-annotations="enabled" />
     <!--
             PCS 8/27/2012
             NOTE: Without Spring security, HttpServletRequest.getUserPrincipal() returns null when called from pages under Spring's control.
@@ -13,9 +14,9 @@
     <http auto-config="true"  use-expressions="true">  
         <intercept-url pattern="/login.do" access="permitAll" />
         <intercept-url pattern="/logout.do" access="permitAll" />   
-        <intercept-url pattern="/servlet/AdminServlet/**" access="hasRole('ROLE_WEBGOAT_ADMIN')" />
+        <intercept-url pattern="/servlet/AdminServlet/**" access="hasAnyRole('ROLE_WEBGOAT_ADMIN','ROLE_SERVER_ADMIN')" />
         <intercept-url pattern="/JavaSource/**" access="hasRole('ROLE_SERVER_ADMIN')" />          	
-        <intercept-url pattern="/**" access="hasRole('ROLE_WEBGOAT_USER')" />
+        <intercept-url pattern="/**" access="hasAnyRole('ROLE_WEBGOAT_USER','ROLE_WEBGOAT_ADMIN','ROLE_SERVER_ADMIN')" />
         <form-login 
             login-page="/login.do" 
             default-target-url="/attack" 
@@ -39,17 +40,4 @@
         </authentication-provider>
     </authentication-manager>  
     
-    <!-- Role hierarchy -->
-    <!--
-    <beans:bean id="roleHierarchy"
-          class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
-        <beans:property name="hierarchy">
-            <beans:value>
-                server_admin > webgoat_admin
-                webgoat_admin > webgoat_challenge
-                webgoat_challenge > webgoat_user
-            </beans:value>
-        </beans:property>
-    </beans:bean>
-    -->
 </beans:beans>
