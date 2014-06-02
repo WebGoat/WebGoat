@@ -11,7 +11,7 @@
 			http://www.springframework.org/schema/mvc 
 			http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-	<context:component-scan base-package="org.owasp.webgoat.lessons" />
+    	<context:component-scan base-package="org.owasp.webgoat.controller, org.owasp.webgoat.lessons" />
 	
 	<!--
 	put custom validators here.  E.g.:
@@ -25,7 +25,7 @@
 	<mvc:annotation-driven /> 
 	
 	<!-- Import Tiles-related configuration -->
-	<import resource="tiles-context.xml" />
+	<!--import resource="tiles-context.xml" /-->
 	
 		
 	<!-- Declare a view resolver -->

@@ -10,11 +10,21 @@
             NOTE: Without Spring security, HttpServletRequest.getUserPrincipal() returns null when called from pages under Spring's control.
             That method is used extensively in legacy webgoat code.  Integrating Spring security into the application resolves this issue.
     -->  
-    <http>     
-        <intercept-url pattern="/servlet/AdminServlet/**" access="ROLE_WEBGOAT_ADMIN" />
-        <intercept-url pattern="/JavaSource/**" access="ROLE_SERVER_ADMIN" />          	
-        <intercept-url pattern="/**" access="ROLE_WEBGOAT_USER" />
-        <http-basic />
+    <http auto-config="true"  use-expressions="true">  
+        <intercept-url pattern="/login.do" access="permitAll" />
+        <intercept-url pattern="/logout.do" access="permitAll" />   
+        <intercept-url pattern="/servlet/AdminServlet/**" access="hasRole('ROLE_WEBGOAT_ADMIN')" />
+        <intercept-url pattern="/JavaSource/**" access="hasRole('ROLE_SERVER_ADMIN')" />          	
+        <intercept-url pattern="/**" access="hasRole('ROLE_WEBGOAT_USER')" />
+        <form-login 
+            login-page="/login.do" 
+            default-target-url="/attack" 
+            authentication-failure-url="/login.do?error" 
+            username-parameter="username"
+            password-parameter="password" />
+        <logout logout-success-url="/logout.do" />
+        <!-- enable csrf protection -->
+        <csrf/>
     </http>
 
     <!-- Authentication Manager -->
