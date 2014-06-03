@@ -328,6 +328,10 @@
         <extension>wmv</extension>
         <mime-type>video/x-ms-wmv</mime-type>
     </mime-mapping>
+    
+    <welcome-file-list>
+        <welcome-file>login.do</welcome-file>
+    </welcome-file-list>
 
 	<!-- Define reference to the user database for looking up roles -->
         <!--
