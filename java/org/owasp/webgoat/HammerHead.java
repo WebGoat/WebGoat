@@ -64,7 +64,6 @@ public class HammerHead extends HttpServlet {
 
     final Logger logger = LoggerFactory.getLogger(HammerHead.class);
 
-    
     private static final String WELCOMED = "welcomed";
 
     /**
@@ -82,7 +81,7 @@ public class HammerHead extends HttpServlet {
      */
     private final static int sessionTimeoutSeconds = 60 * 60 * 24 * 2;
 
-	// private final static int sessionTimeoutSeconds = 1;
+    // private final static int sessionTimeoutSeconds = 1;
     /**
      * Properties file path
      */
@@ -121,10 +120,9 @@ public class HammerHead extends HttpServlet {
 
         WebSession mySession = null;
         try {
-            // System.out.println( "HH Entering doPost: " );
-            // System.out.println( " - HH request " + request);
-            // System.out.println( " - HH principle: " +
-            // request.getUserPrincipal() );
+            logger.debug("Entering doPost");
+            logger.debug("request: " + request);
+            logger.debug("principle: " + request.getUserPrincipal());
             // setCacheHeaders(response, 0);
             ServletContext context = getServletContext();
 
@@ -132,6 +130,7 @@ public class HammerHead extends HttpServlet {
             // call makeScreen() and writeScreen()
             mySession = updateSession(request, response, context);
             if (response.isCommitted()) {
+                logger.debug("Response already committed, exiting");
                 return;
             }
 
@@ -142,7 +141,8 @@ public class HammerHead extends HttpServlet {
             // where the lesson "knows" what has happened. To track it at a
             // latter point would
             // require the lesson to have memory.
-            screen = makeScreen(mySession); // This calls the lesson's
+            screen = makeScreen(mySession);
+            // This calls the lesson's
             // handleRequest()
             if (response.isCommitted()) {
                 return;
@@ -178,21 +178,20 @@ public class HammerHead extends HttpServlet {
             request.setAttribute("client.browser", clientBrowser);
             request.getSession().setAttribute("websession", mySession);
             request.getSession().setAttribute("course", mySession.getCourse());
-
-            request.getRequestDispatcher(getViewPage(mySession)).forward(request, response);
+            String viewPage = getViewPage(mySession);
+            logger.debug("Forwarding to view: " + viewPage);
+            request.getRequestDispatcher(viewPage).forward(request, response);
         } catch (Throwable t) {
-            t.printStackTrace();
-            log("ERROR: " + t);
+            logger.error("Error handling request", t);
             screen = new ErrorScreen(mySession, t);
         } finally {
             try {
                 this.writeScreen(mySession, screen, response);
             } catch (Throwable thr) {
-                thr.printStackTrace();
-                log(request, "Could not write error screen: " + thr.getMessage());
+                logger.error("Could not write error screen", thr);
             }
             WebSession.returnConnection(mySession);
-            // System.out.println( "HH Leaving doPost: " );
+            logger.debug("Leaving doPost: ");
         }
     }
 
@@ -240,6 +239,7 @@ public class HammerHead extends HttpServlet {
      */
     @Override
     public void init() throws ServletException {
+        logger.info("Initializing main webgoat servlet");
         httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyyy HH:mm:ss z", Locale.US);
         httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         propertiesPath = getServletContext().getRealPath("./WEB-INF/webgoat.properties");
@@ -280,7 +280,7 @@ public class HammerHead extends HttpServlet {
             } else {
                 AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
                 if (lesson == null && s.isHackedAdmin()) {
-					// If admin was hacked, let the user see some of the
+                    // If admin was hacked, let the user see some of the
                     // admin screens
                     lesson = course.getLesson(s, scr, AbstractLesson.HACKED_ADMIN_ROLE);
                 }
@@ -288,7 +288,7 @@ public class HammerHead extends HttpServlet {
                 if (lesson != null) {
                     screen = lesson;
 
-					// We need to do some bookkeeping for the hackable admin
+                    // We need to do some bookkeeping for the hackable admin
                     // interface.
                     // This is the only place we can tell if the user
                     // successfully hacked the hackable
@@ -307,7 +307,7 @@ public class HammerHead extends HttpServlet {
             if (scr == WebSession.WELCOME) {
                 screen = new WelcomeAdminScreen(s);
             } else {
-				// Admin can see all roles.
+                // Admin can see all roles.
                 // FIXME: should be able to pass a list of roles.
                 AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.ADMIN_ROLE);
                 if (lesson == null) {
@@ -320,7 +320,7 @@ public class HammerHead extends HttpServlet {
                 if (lesson != null) {
                     screen = lesson;
 
-					// We need to do some bookkeeping for the hackable admin
+                    // We need to do some bookkeeping for the hackable admin
                     // interface.
                     // This is the only place we can tell if the user
                     // successfully hacked the hackable
@@ -374,7 +374,7 @@ public class HammerHead extends HttpServlet {
         HttpSession hs;
         hs = request.getSession(true);
 
-		// System.out.println( "HH Entering Session_id: " + hs.getId() );
+        // System.out.println( "HH Entering Session_id: " + hs.getId() );
         // dumpSession( hs );
         // Get our session object out of the HTTP session
         WebSession session = null;
@@ -383,7 +383,7 @@ public class HammerHead extends HttpServlet {
         if ((o != null) && o instanceof WebSession) {
             session = (WebSession) o;
         } else {
-			// Create new custom session and save it in the HTTP session
+            // Create new custom session and save it in the HTTP session
             // System.out.println( "HH Creating new WebSession: " );
             session = new WebSession(webgoatContext, context);
             // Ensure splash screen shows on any restart
@@ -396,7 +396,7 @@ public class HammerHead extends HttpServlet {
 
         session.update(request, response, this.getServletName());
 
-		// to authenticate
+        // to authenticate
         // System.out.println( "HH Leaving Session_id: " + hs.getId() );
         // dumpSession( hs );
         return (session);
@@ -419,7 +419,7 @@ public class HammerHead extends HttpServlet {
             screen = new ErrorScreen(s, "Page to display was null");
         }
 
-	// set the content-length of the response.
+        // set the content-length of the response.
         // Trying to avoid chunked-encoding. (Aspect required)
         response.setContentLength(screen.getContentLength());
         response.setHeader("Content-Length", screen.getContentLength() + "");

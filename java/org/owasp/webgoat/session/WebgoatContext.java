@@ -1,248 +1,231 @@
-
 package org.owasp.webgoat.session;
 
-import java.util.Iterator;
 import javax.servlet.http.HttpServlet;
 
 import org.owasp.webgoat.util.WebGoatI18N;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class WebgoatContext {
 
-public class WebgoatContext
-{
+    final Logger logger = LoggerFactory.getLogger(WebgoatContext.class);
 
-	public final static String DATABASE_CONNECTION_STRING = "DatabaseConnectionString";
+    public final static String DATABASE_CONNECTION_STRING = "DatabaseConnectionString";
 
-	public final static String DATABASE_DRIVER = "DatabaseDriver";
+    public final static String DATABASE_DRIVER = "DatabaseDriver";
 
-	public final static String DATABASE_USER = "DatabaseUser";
+    public final static String DATABASE_USER = "DatabaseUser";
 
-	public final static String DATABASE_PASSWORD = "DatabasePassword";
+    public final static String DATABASE_PASSWORD = "DatabasePassword";
 
-	public final static String ENTERPRISE = "Enterprise";
+    public final static String ENTERPRISE = "Enterprise";
 
-	public final static String CODING_EXERCISES = "CodingExercises";
+    public final static String CODING_EXERCISES = "CodingExercises";
 
-	public final static String SHOWCOOKIES = "ShowCookies";
+    public final static String SHOWCOOKIES = "ShowCookies";
 
-	public final static String SHOWPARAMS = "ShowParams";
+    public final static String SHOWPARAMS = "ShowParams";
 
-	public final static String SHOWREQUEST = "ShowRequest";
+    public final static String SHOWREQUEST = "ShowRequest";
 
-	public final static String SHOWSOURCE = "ShowSource";
+    public final static String SHOWSOURCE = "ShowSource";
 
-	public final static String SHOWSOLUTION = "ShowSolution";
+    public final static String SHOWSOLUTION = "ShowSolution";
 
-	public final static String SHOWHINTS = "ShowHints";
+    public final static String SHOWHINTS = "ShowHints";
 
-	public final static String DEFUSEOSCOMMANDS = "DefuseOSCommands";
+    public final static String DEFUSEOSCOMMANDS = "DefuseOSCommands";
 
-	public final static String FEEDBACK_ADDRESS_HTML = "FeedbackAddressHTML";
+    public final static String FEEDBACK_ADDRESS_HTML = "FeedbackAddressHTML";
 
-	public final static String FEEDBACK_ADDRESS = "email";
+    public final static String FEEDBACK_ADDRESS = "email";
 
-	public final static String DEBUG = "debug";
-	
-	public final static String DEFAULTLANGUAGE = "DefaultLanguage";
+    public final static String DEBUG = "debug";
 
-	private String databaseConnectionString;
+    public final static String DEFAULTLANGUAGE = "DefaultLanguage";
 
-	private String realConnectionString = null;
+    private String databaseConnectionString;
 
-	private String databaseDriver;
+    private String realConnectionString = null;
 
-	private String databaseUser;
+    private String databaseDriver;
 
-	private String databasePassword;
+    private String databaseUser;
 
-	private boolean showCookies = false;
+    private String databasePassword;
 
-	private boolean showParams = false;
+    private boolean showCookies = false;
 
-	private boolean showRequest = false;
+    private boolean showParams = false;
 
-	private boolean showSource = false;
+    private boolean showRequest = false;
 
-	private boolean showSolution = false;
+    private boolean showSource = false;
 
-	private boolean defuseOSCommands = false;
+    private boolean showSolution = false;
 
-	private boolean enterprise = false;
+    private boolean defuseOSCommands = false;
 
-	private boolean codingExercises = false;
+    private boolean enterprise = false;
 
-	private String feedbackAddress = "webgoat@owasp.org";
+    private boolean codingExercises = false;
 
-	private String feedbackAddressHTML = "<A HREF=mailto:webgoat@owasp.org>webgoat@owasp.org</A>";
+    private String feedbackAddress = "webgoat@owasp.org";
 
-	private boolean isDebug = false;
+    private String feedbackAddressHTML = "<A HREF=mailto:webgoat@owasp.org>webgoat@owasp.org</A>";
 
-	private String servletName;
+    private boolean isDebug = false;
 
-	private HttpServlet servlet;
-	
-	private String defaultLanguage;
-	
-	private WebGoatI18N webgoati18n = null;
+    private String servletName;
 
-	public WebgoatContext(HttpServlet servlet)
-	{
-		this.servlet = servlet;
-		databaseConnectionString = getParameter(servlet, DATABASE_CONNECTION_STRING);
-		databaseDriver = getParameter(servlet, DATABASE_DRIVER);
-		databaseUser = getParameter(servlet, DATABASE_USER);
-		databasePassword = getParameter(servlet, DATABASE_PASSWORD);
+    private HttpServlet servlet;
 
-		// initialize from web.xml
-		showParams = "true".equals(getParameter(servlet, SHOWPARAMS));
-		showCookies = "true".equals(getParameter(servlet, SHOWCOOKIES));
-		showSource = "true".equals(getParameter(servlet, SHOWSOURCE));
-		showSolution = "true".equals(getParameter(servlet, SHOWSOLUTION));
-		defuseOSCommands = "true".equals(getParameter(servlet, DEFUSEOSCOMMANDS));
-		enterprise = "true".equals(getParameter(servlet, ENTERPRISE));
-		codingExercises = "true".equals(getParameter(servlet, CODING_EXERCISES));
-		feedbackAddressHTML = getParameter(servlet, FEEDBACK_ADDRESS_HTML) != null ? getParameter(servlet,
-																									FEEDBACK_ADDRESS_HTML)
-				: feedbackAddressHTML;
-		feedbackAddress = getParameter(servlet, FEEDBACK_ADDRESS) != null ? getParameter(servlet, FEEDBACK_ADDRESS)
-				: feedbackAddress;
-		showRequest = "true".equals(getParameter(servlet, SHOWREQUEST));
-		isDebug = "true".equals(getParameter(servlet, DEBUG));
-		servletName = servlet.getServletName();
-		defaultLanguage = getParameter(servlet,DEFAULTLANGUAGE)!=null ? new String(getParameter(servlet, DEFAULTLANGUAGE)): new String("English");
-		
-		webgoati18n = new WebGoatI18N(this);
-		
-	}
+    private String defaultLanguage;
 
-	private String getParameter(HttpServlet servlet, String key)
-	{
-		String value = System.getenv().get(key);
-		if (value == null) value = servlet.getInitParameter(key);
-		return value;
-	}
+    private WebGoatI18N webgoati18n = null;
 
-	/**
-	 * returns the connection string with the real path to the database directory inserted at the
-	 * word PATH
-	 * 
-	 * @return The databaseConnectionString value
-	 */
-	public String getDatabaseConnectionString()
-	{
-		if (realConnectionString == null) try
-		{
-			String path = servlet.getServletContext().getRealPath("/database").replace('\\', '/');
-			System.out.println("PATH: " + path);
-			realConnectionString = databaseConnectionString.replaceAll("PATH", path);
-			System.out.println("Database Connection String: " + realConnectionString);
-		} catch (Exception e)
-		{
-			System.out.println("Couldn't open database: check web.xml database parameters");
-			e.printStackTrace();
-		}
-		return realConnectionString;
-	}
+    public WebgoatContext(HttpServlet servlet) {
+        this.servlet = servlet;
+        databaseConnectionString = getParameter(servlet, DATABASE_CONNECTION_STRING);
+        databaseDriver = getParameter(servlet, DATABASE_DRIVER);
+        databaseUser = getParameter(servlet, DATABASE_USER);
+        databasePassword = getParameter(servlet, DATABASE_PASSWORD);
 
-	/**
-	 * Gets the databaseDriver attribute of the WebSession object
-	 * 
-	 * @return The databaseDriver value
-	 */
-	public String getDatabaseDriver()
-	{
-		return (databaseDriver);
-	}
+        // initialize from web.xml
+        showParams = "true".equals(getParameter(servlet, SHOWPARAMS));
+        showCookies = "true".equals(getParameter(servlet, SHOWCOOKIES));
+        showSource = "true".equals(getParameter(servlet, SHOWSOURCE));
+        showSolution = "true".equals(getParameter(servlet, SHOWSOLUTION));
+        defuseOSCommands = "true".equals(getParameter(servlet, DEFUSEOSCOMMANDS));
+        enterprise = "true".equals(getParameter(servlet, ENTERPRISE));
+        codingExercises = "true".equals(getParameter(servlet, CODING_EXERCISES));
+        feedbackAddressHTML = getParameter(servlet, FEEDBACK_ADDRESS_HTML) != null ? getParameter(servlet,
+                FEEDBACK_ADDRESS_HTML)
+                : feedbackAddressHTML;
+        feedbackAddress = getParameter(servlet, FEEDBACK_ADDRESS) != null ? getParameter(servlet, FEEDBACK_ADDRESS)
+                : feedbackAddress;
+        showRequest = "true".equals(getParameter(servlet, SHOWREQUEST));
+        isDebug = "true".equals(getParameter(servlet, DEBUG));
+        servletName = servlet.getServletName();
+        defaultLanguage = getParameter(servlet, DEFAULTLANGUAGE) != null ? new String(getParameter(servlet, DEFAULTLANGUAGE)) : new String("English");
 
-	/**
-	 * Gets the databaseUser attribute of the WebSession object
-	 * 
-	 * @return The databaseUser value
-	 */
-	public String getDatabaseUser()
-	{
-		return (databaseUser);
-	}
+        webgoati18n = new WebGoatI18N(this);
 
-	/**
-	 * Gets the databasePassword attribute of the WebSession object
-	 * 
-	 * @return The databasePassword value
-	 */
-	public String getDatabasePassword()
-	{
-		return (databasePassword);
-	}
+    }
 
-	public boolean isDefuseOSCommands()
-	{
-		return defuseOSCommands;
-	}
+    private String getParameter(HttpServlet servlet, String key) {
+        String value = System.getenv().get(key);
+        if (value == null) {
+            value = servlet.getInitParameter(key);
+        }
+        return value;
+    }
 
-	public boolean isEnterprise()
-	{
-		return enterprise;
-	}
+    /**
+     * returns the connection string with the real path to the database
+     * directory inserted at the word PATH
+     *
+     * @return The databaseConnectionString value
+     */
+    public String getDatabaseConnectionString() {
+        if (realConnectionString == null) {
+            try {
+                String path = servlet.getServletContext().getRealPath("/database").replace('\\', '/');
+                System.out.println("PATH: " + path);
+                realConnectionString = databaseConnectionString.replaceAll("PATH", path);
+                System.out.println("Database Connection String: " + realConnectionString);
+            } catch (Exception e) {
+                logger.error("Couldn't open database: check web.xml database parameters", e);
+            }
+        }
+        return realConnectionString;
+    }
 
-	public boolean isCodingExercises()
-	{
-		return codingExercises;
-	}
+    /**
+     * Gets the databaseDriver attribute of the WebSession object
+     *
+     * @return The databaseDriver value
+     */
+    public String getDatabaseDriver() {
+        return (databaseDriver);
+    }
 
-	public String getFeedbackAddress()
-	{
-		return feedbackAddress;
-	}
+    /**
+     * Gets the databaseUser attribute of the WebSession object
+     *
+     * @return The databaseUser value
+     */
+    public String getDatabaseUser() {
+        return (databaseUser);
+    }
 
-	public String getFeedbackAddressHTML()
-	{
-		return feedbackAddressHTML;
-	}
+    /**
+     * Gets the databasePassword attribute of the WebSession object
+     *
+     * @return The databasePassword value
+     */
+    public String getDatabasePassword() {
+        return (databasePassword);
+    }
 
-	public boolean isDebug()
-	{
-		return isDebug;
-	}
+    public boolean isDefuseOSCommands() {
+        return defuseOSCommands;
+    }
 
-	public String getServletName()
-	{
-		return servletName;
-	}
+    public boolean isEnterprise() {
+        return enterprise;
+    }
 
-	public boolean isShowCookies()
-	{
-		return showCookies;
-	}
+    public boolean isCodingExercises() {
+        return codingExercises;
+    }
 
-	public boolean isShowParams()
-	{
-		return showParams;
-	}
+    public String getFeedbackAddress() {
+        return feedbackAddress;
+    }
 
-	public boolean isShowRequest()
-	{
-		return showRequest;
-	}
+    public String getFeedbackAddressHTML() {
+        return feedbackAddressHTML;
+    }
 
-	public boolean isShowSource()
-	{
-		return showSource;
-	}
+    public boolean isDebug() {
+        return isDebug;
+    }
 
-	public boolean isShowSolution()
-	{
-		return showSolution;
-	}
+    public String getServletName() {
+        return servletName;
+    }
 
-	public String getDefaultLanguage() {
-		return defaultLanguage;
-	}
+    public boolean isShowCookies() {
+        return showCookies;
+    }
 
-	public void setWebgoatiI18N(WebGoatI18N webgoati18n) {
-		this.webgoati18n = webgoati18n;
-	}
+    public boolean isShowParams() {
+        return showParams;
+    }
 
-	public WebGoatI18N getWebgoatI18N() {
-		return webgoati18n;
-	}
-	
+    public boolean isShowRequest() {
+        return showRequest;
+    }
+
+    public boolean isShowSource() {
+        return showSource;
+    }
+
+    public boolean isShowSolution() {
+        return showSolution;
+    }
+
+    public String getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    public void setWebgoatiI18N(WebGoatI18N webgoati18n) {
+        this.webgoati18n = webgoati18n;
+    }
+
+    public WebGoatI18N getWebgoatI18N() {
+        return webgoati18n;
+    }
+
 }
