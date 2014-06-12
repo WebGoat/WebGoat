@@ -180,7 +180,8 @@ public class HammerHead extends HttpServlet {
             request.getSession().setAttribute("course", mySession.getCourse());
             String viewPage = getViewPage(mySession);
             logger.debug("Forwarding to view: " + viewPage);
-            request.getRequestDispatcher(viewPage).forward(request, response);
+            logger.debug("Screen: " + screen);
+            request.getRequestDispatcher(viewPage).forward(request, response);              
         } catch (Throwable t) {
             logger.error("Error handling request", t);
             screen = new ErrorScreen(mySession, t);
