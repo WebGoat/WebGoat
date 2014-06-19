@@ -181,13 +181,15 @@ public class HammerHead extends HttpServlet {
             String viewPage = getViewPage(mySession);
             logger.debug("Forwarding to view: " + viewPage);
             logger.debug("Screen: " + screen);
-            request.getRequestDispatcher(viewPage).forward(request, response);              
+            request.getRequestDispatcher(viewPage).forward(request, response);
         } catch (Throwable t) {
             logger.error("Error handling request", t);
             screen = new ErrorScreen(mySession, t);
         } finally {
             try {
-                this.writeScreen(mySession, screen, response);
+                if (screen instanceof ErrorScreen) {
+                    this.writeScreen(mySession, screen, response);
+                }
             } catch (Throwable thr) {
                 logger.error("Could not write error screen", thr);
             }
@@ -426,6 +428,7 @@ public class HammerHead extends HttpServlet {
         response.setHeader("Content-Length", screen.getContentLength() + "");
 
         screen.output(out);
+        out.flush();
         out.close();
     }
 }

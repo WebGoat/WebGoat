@@ -2,7 +2,7 @@
          errorPage=""%>
 <%@page import="org.owasp.webgoat.session.WebSession"%>
 <%
-    WebSession webSession = ((WebSession) session.getAttribute("websession"));
+    //WebSession webSession = ((WebSession) session.getAttribute("websession"));
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -22,7 +22,7 @@
                     The exercises are intended to provide hands on experience with
                     application penetration testing techniques. </p>
                 <p>The WebGoat project is led
-                    by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatContext().getFeedbackAddress()%>.</p>
+                    by Bruce Mayhew. Please send all comments to Bruce at [TODO, session was blowing up here for some reason].</p>
 
                 <div id="team">
                     <table border="0" align="center" class="lessonText">
