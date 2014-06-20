@@ -767,7 +767,7 @@ public class WebSession {
             WebGoatI18N.setCurrentLanguage(this.currentLanguage);
         }
 
-		// System.out.println("Current Screen 1: " + currentScreen );
+        // System.out.println("Current Screen 1: " + currentScreen );
         // System.out.println("Previous Screen 1: " + previousScreen );
         // FIXME: requires ?Logout=true
         // FIXME: doesn't work right -- no reauthentication
@@ -779,7 +779,7 @@ public class WebSession {
             previousScreen = ERROR;
         }
 
-		// There are several scenarios where we want the first lesson to be loaded
+        // There are several scenarios where we want the first lesson to be loaded
         // 1) Previous screen is Welcome - Start of the course
         // 2) After a logout and after the session has been reinitialized
         if ((this.getPreviousScreen() == WebSession.WELCOME) || (getRequest().getSession(false) != null
@@ -789,13 +789,13 @@ public class WebSession {
             hintNum = -1;
         }
 
-		// System.out.println("Current Screen 2: " + currentScreen );
+        // System.out.println("Current Screen 2: " + currentScreen );
         // System.out.println("Previous Screen 2: " + previousScreen );
         // update the screen variables
         previousScreen = currentScreen;
 
         try {
-			// If the request is new there should be no parameters.
+            // If the request is new there should be no parameters.
             // This can occur from a session timeout or a the starting of a new course.
             if (!request.getSession().isNew()) {
                 currentScreen = myParser.getIntParameter(SCREEN, currentScreen);
@@ -880,7 +880,7 @@ public class WebSession {
         isColor = myParser.getBooleanParameter(COLOR, isColor);
         isDebug = myParser.getBooleanParameter(DEBUG, isDebug);
 
-		// System.out.println( "showParams:" + showParams );
+        // System.out.println( "showParams:" + showParams );
         // System.out.println( "showSource:" + showSource );
         // System.out.println( "showSolution:" + showSolution );
         // System.out.println( "showCookies:" + showCookies );

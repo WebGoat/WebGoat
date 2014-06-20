@@ -170,7 +170,7 @@ public class Course {
     public AbstractLesson getFirstLesson() {
         List<String> roles = new ArrayList<String>();
         roles.add(AbstractLesson.USER_ROLE);
-		// Category 0 is the admin function. We want the first real category
+        // Category 0 is the admin function. We want the first real category
         // to be returned. This is noramally the General category and the Http Basics lesson
         return ((AbstractLesson) getLessons((Category) getCategories().get(0), roles).get(0));
     }
@@ -269,6 +269,15 @@ public class Course {
         return getLessons(category, roles);
     }
 
+    public AbstractLesson getLesson(int lessonId) {
+        for (AbstractLesson l : lessons) {
+            if (l.getScreenId() == lessonId) {
+                return l;
+            }
+        }
+        return null;
+    }
+
     /**
      * Load all of the filenames into a temporary cache
      *
@@ -357,7 +366,7 @@ public class Course {
 
                 if (absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html")
                         && className.endsWith(fileName)) {
-					// System.out.println("DEBUG: setting lesson plan file " + absoluteFile + " for
+                    // System.out.println("DEBUG: setting lesson plan file " + absoluteFile + " for
                     // lesson " +
                     // lesson.getClass().getName());
                     // System.out.println("fileName: " + fileName + " == className: " + className );
@@ -367,7 +376,7 @@ public class Course {
                 }
                 if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html")
                         && className.endsWith(fileName)) {
-					// System.out.println("DEBUG: setting lesson solution file " + absoluteFile + "
+                    // System.out.println("DEBUG: setting lesson solution file " + absoluteFile + "
                     // for lesson " +
                     // lesson.getClass().getName());
                     // System.out.println("fileName: " + fileName + " == className: " + className );
