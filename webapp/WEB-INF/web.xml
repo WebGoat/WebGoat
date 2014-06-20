@@ -215,13 +215,13 @@
     
     <!-- spring MVC -->
   <servlet>
-  	<servlet-name>mvc-dispatcher</servlet-name>
+    <servlet-name>mvc-dispatcher</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
- 	<servlet-name>mvc-dispatcher</servlet-name>
+    <servlet-name>mvc-dispatcher</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
   
