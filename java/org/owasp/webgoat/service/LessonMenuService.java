@@ -47,7 +47,7 @@ public class LessonMenuService extends BaseService {
         // Get the categories, these are the main menu items
         Course course = ((Course) session.getAttribute("course"));
         List<Category> categories = course.getCategories();
-        
+
         for (Category category : categories) {
             LessonMenuItem categoryItem = new LessonMenuItem();
             categoryItem.setName(category.getName());
@@ -56,7 +56,8 @@ public class LessonMenuService extends BaseService {
             List<AbstractLesson> lessons = ws.getLessons(category);
             for (AbstractLesson lesson : lessons) {
                 LessonMenuItem lessonItem = new LessonMenuItem();
-                lessonItem.setName(lesson.getName());
+                lessonItem.setName(lesson.getTitle());
+                lessonItem.setLink(lesson.getLink());
                 lessonItem.setType(LessonMenuItemType.LESSON);
                 if (lesson.isCompleted(ws)) {
                     lessonItem.setComplete(true);
@@ -67,14 +68,20 @@ public class LessonMenuService extends BaseService {
                     RandomLessonAdapter rla = (RandomLessonAdapter) lesson;
                     String[] stages = rla.getStages();
                     if (stages != null) {
+                        String lessonLink = lesson.getLink();
+                        int stageIdx = 1;
                         for (String stage : stages) {
                             LessonMenuItem stageItem = new LessonMenuItem();
-                            stageItem.setName(stage);
+                            stageItem.setName("Stage " + stageIdx + ": " + stage);
+                            // build the link for the stage
+                            String stageLink = lessonLink + "&stage=" + stageIdx;
+                            stageItem.setLink(stageLink);
                             stageItem.setType(LessonMenuItemType.STAGE);
                             if (rla.isStageComplete(ws, stage)) {
                                 stageItem.setComplete(true);
                             }
                             lessonItem.addChild(stageItem);
+                            stageIdx++;
                         }
                     }
                 }
@@ -82,6 +89,6 @@ public class LessonMenuService extends BaseService {
             menu.add(categoryItem);
         }
         return menu;
-        
+
     }
 }

@@ -57,7 +57,26 @@
                        value="${_csrf.token}" />
                 <button class="btn btn-large btn-primary" type="submit">Sign in</button>
             </form>
+            <div class="panel panel-info" style="max-width: 300px; margin: 0 auto 20px;">
+                <div class="panel-heading">
+                    Logon with one of the following accounts
+                </div>
+                <div class="panel-body">
+                    <!-- Table -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr><td>Account</td><td>User</td><td>Password</td></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Webgoat User</td><td>guest</td><td>guest</td></tr>
+                            <tr><td>Webgoat Admin</td><td>webgoat</td><td>webgoat</td></tr>
+                            <tr><td>Server Admin</td><td>server</td><td>server</td></tr>
+                        </tbody>
+                    </table>
 
+
+                </div>
+            </div>
         </div> <!-- /container -->
 
 
