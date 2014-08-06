@@ -49,7 +49,7 @@
             </c:if>
             You have logged out successfully
             <hr/>
-            Click here to <a href="<c:url value="login.do" />" > Login</a>
+            Click here to <a href="<c:url value="login.mvc" />" > Login</a>
 
         </div> <!-- /container -->
 
