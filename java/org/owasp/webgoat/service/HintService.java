@@ -28,7 +28,7 @@ public class HintService extends BaseService {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/hint.do", produces = "application/json")
+    @RequestMapping(value = "/hint.mvc", produces = "application/json")
     public @ResponseBody
     List<Hint> showHint(HttpSession session) {
         List<Hint> listHints = new ArrayList<Hint>();

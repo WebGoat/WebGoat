@@ -222,7 +222,7 @@
 
   <servlet-mapping>
     <servlet-name>mvc-dispatcher</servlet-name>
-    <url-pattern>*.do</url-pattern>
+    <url-pattern>*.mvc</url-pattern>
   </servlet-mapping>
   
   <listener>

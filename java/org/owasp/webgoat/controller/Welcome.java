@@ -5,8 +5,8 @@
  */
 package org.owasp.webgoat.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,26 +18,25 @@ import org.springframework.web.servlet.ModelAndView;
  * @author rlawson
  */
 @Controller
-public class Logout {
+public class Welcome {
 
-    final Logger logger = LoggerFactory.getLogger(Logout.class);
+    private static final String WELCOMED = "welcomed";
 
-    @RequestMapping(value = "logout.mvc", method = RequestMethod.GET)
-    public ModelAndView logout(
+    @RequestMapping(value = "welcome.mvc", method = RequestMethod.GET)
+    public ModelAndView welcome(HttpServletRequest request,
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "logout", required = false) String logout) {
-        
-        logger.info("Logging user out");
 
+        // set the welcome attribute
+        // this is so the attack servlet does not also 
+        // send them to the welcome page
+        HttpSession session = request.getSession();
+        if (session.getAttribute(WELCOMED) == null) {
+            session.setAttribute(WELCOMED, "true");
+        }
+        //@TODO put stuff here the welcome page needs to access
         ModelAndView model = new ModelAndView();
-        if (error != null) {
-            model.addObject("error", "Invalid username and password!");
-        }
-
-        if (logout != null) {
-            model.addObject("msg", "You've been logged out successfully.");
-        }
-        model.setViewName("logout");
+        model.setViewName("welcome");
 
         return model;
 

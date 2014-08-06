@@ -32,7 +32,7 @@ public class LessonMenuService extends BaseService {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/lessonmenu.do", produces = "application/json")
+    @RequestMapping(value = "/lessonmenu.mvc", produces = "application/json")
     public @ResponseBody
     List<LessonMenuItem> showLeftNav(HttpSession session) {
         //TODO - need Links, rank, title

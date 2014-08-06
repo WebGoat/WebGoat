@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class DummyService extends BaseService{
 
-    @RequestMapping(value = "/first.do", produces = "application/json")
+    @RequestMapping(value = "/first.mvc", produces = "application/json")
     public @ResponseBody
     List<String> firstNames() {
         List<String> test = new ArrayList<String>();

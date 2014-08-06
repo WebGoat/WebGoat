@@ -16,18 +16,18 @@
     <http pattern="/javascript/**" security="none"/>
     <http pattern="/favicon.ico" security="none"/>    
     <http use-expressions="true">  
-        <intercept-url pattern="/login.do" access="permitAll" />
-        <intercept-url pattern="/logout.do" access="permitAll" />   
+        <intercept-url pattern="/login.mvc" access="permitAll" />
+        <intercept-url pattern="/logout.mvc" access="permitAll" />   
         <intercept-url pattern="/servlet/AdminServlet/**" access="hasAnyRole('ROLE_WEBGOAT_ADMIN','ROLE_SERVER_ADMIN')" />
         <intercept-url pattern="/JavaSource/**" access="hasRole('ROLE_SERVER_ADMIN')" />          	
         <intercept-url pattern="/**" access="hasAnyRole('ROLE_WEBGOAT_USER','ROLE_WEBGOAT_ADMIN','ROLE_SERVER_ADMIN')" />
         <form-login 
-            login-page="/login.do" 
-            default-target-url="/attack" 
-            authentication-failure-url="/login.do?error" 
+            login-page="/login.mvc" 
+            default-target-url="/welcome.mvc" 
+            authentication-failure-url="/login.mvc?error" 
             username-parameter="username"
             password-parameter="password" />
-        <logout logout-url="/j_spring_security_logout" logout-success-url="/logout.do" />
+        <logout logout-url="/j_spring_security_logout" logout-success-url="/logout.mvc" />
         <!-- enable csrf protection -->
         <!--csrf/-->
     </http>

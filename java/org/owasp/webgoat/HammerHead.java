@@ -390,7 +390,8 @@ public class HammerHead extends HttpServlet {
             // System.out.println( "HH Creating new WebSession: " );
             session = new WebSession(webgoatContext, context);
             // Ensure splash screen shows on any restart
-            hs.removeAttribute(WELCOMED);
+            // rlawson - removed this since we show splash screen at login now
+            //hs.removeAttribute(WELCOMED);
             hs.setAttribute(WebSession.SESSION, session);
             // reset timeout
             hs.setMaxInactiveInterval(sessionTimeoutSeconds);

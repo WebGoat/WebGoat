@@ -59,7 +59,7 @@
             </form>
             <div class="panel panel-info" style="max-width: 300px; margin: 0 auto 20px;">
                 <div class="panel-heading">
-                    Logon with one of the following accounts
+                    Login with one of the following accounts
                 </div>
                 <div class="panel-body">
                     <!-- Table -->
