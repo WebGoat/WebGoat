@@ -191,6 +191,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script>
+            // set this to true if you want to see form submissions
+            // set to false once we get all the kinks worked out
+            var DEBUG_FORM_SUBMISSION = false;
+
             $(document).ready(function() {
                 // bind to click events on menu links
                 $('.menu-link').bind('click', function(event) {
@@ -199,24 +203,27 @@
                         $("#lesson_content").html(reply);
                     }, "html");
                 });
-                // make all forms ajax forms
-                var options = {
-                    target: '#lesson_content', // target element(s) to be updated with server response                     
-                    beforeSubmit: showRequest, // pre-submit callback, comment out after debugging 
-                    success: showResponse  // post-submit callback, comment out after debugging 
 
-                            // other available options: 
-                            //url:       url         // override for form's 'action' attribute 
-                            //type:      type        // 'get' or 'post', override for form's 'method' attribute 
-                            //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-                            //clearForm: true        // clear all form fields after successful submit 
-                            //resetForm: true        // reset the form after successful submit 
+            });
+            // make all forms ajax forms
+            var options = {
+                target: '#lesson_content', // target element(s) to be updated with server response                     
+                beforeSubmit: showRequest, // pre-submit callback, comment out after debugging 
+                success: showResponse  // post-submit callback, comment out after debugging 
 
-                            // $.ajax options can be used here too, for example: 
-                            //timeout:   3000 
-                };
-                // pre-submit callback 
-                function showRequest(formData, jqForm, options) {
+                        // other available options: 
+                        //url:       url         // override for form's 'action' attribute 
+                        //type:      type        // 'get' or 'post', override for form's 'method' attribute 
+                        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
+                        //clearForm: true        // clear all form fields after successful submit 
+                        //resetForm: true        // reset the form after successful submit 
+
+                        // $.ajax options can be used here too, for example: 
+                        //timeout:   3000 
+            };
+            // pre-submit callback 
+            function showRequest(formData, jqForm, options) {
+                if (DEBUG_FORM_SUBMISSION) {
                     // formData is an array; here we use $.param to convert it to a string to display it 
                     // but the form plugin does this for you automatically when it submits the data 
                     var queryString = $.param(formData);
@@ -226,31 +233,33 @@
                     // var formElement = jqForm[0]; 
 
                     alert('About to submit: \n\n' + queryString);
-
-                    // here we could return false to prevent the form from being submitted; 
-                    // returning anything other than false will allow the form submit to continue 
-                    return true;
                 }
 
-                // post-submit callback 
-                function showResponse(responseText, statusText, xhr, $form) {
-                    // for normal html responses, the first argument to the success callback 
-                    // is the XMLHttpRequest object's responseText property 
+                // here we could return false to prevent the form from being submitted; 
+                // returning anything other than false will allow the form submit to continue 
+                return true;
+            }
 
-                    // if the ajaxForm method was passed an Options Object with the dataType 
-                    // property set to 'xml' then the first argument to the success callback 
-                    // is the XMLHttpRequest object's responseXML property 
+            // post-submit callback 
+            function showResponse(responseText, statusText, xhr, $form) {
+                // for normal html responses, the first argument to the success callback 
+                // is the XMLHttpRequest object's responseText property 
 
-                    // if the ajaxForm method was passed an Options Object with the dataType 
-                    // property set to 'json' then the first argument to the success callback 
-                    // is the json data object returned by the server 
+                // if the ajaxForm method was passed an Options Object with the dataType 
+                // property set to 'xml' then the first argument to the success callback 
+                // is the XMLHttpRequest object's responseXML property 
 
+                // if the ajaxForm method was passed an Options Object with the dataType 
+                // property set to 'json' then the first argument to the success callback 
+                // is the json data object returned by the server 
+                if (DEBUG_FORM_SUBMISSION) {
                     alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
                             '\n\nThe output div should have already been updated with the responseText.');
                 }
-                // bind form using 'ajaxForm' 
-                $("form[name='form']").ajaxForm(options);
-            });
+            }
+            function makeFormsAjax() {
+                $("form").ajaxForm(options);
+            }
         </script>
     </body>
 </html>

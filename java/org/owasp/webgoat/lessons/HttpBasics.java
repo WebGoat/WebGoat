@@ -63,7 +63,7 @@ public class HttpBasics extends LessonAdapter {
             person = new StringBuffer(s.getParser().getStringParameter(PERSON, ""));
             person.reverse();
 
-            Input input = new Input(Input.TEXT, PERSON, person.toString()+"RICK");
+            Input input = new Input(Input.TEXT, PERSON, person.toString());
             ec.addElement(input);
 
             Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));

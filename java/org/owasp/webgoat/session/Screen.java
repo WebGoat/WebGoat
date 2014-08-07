@@ -204,7 +204,8 @@ public abstract class Screen {
 
     // TODO we could hook all forms here with javascript call to ajax forms plugin
     public String getContent() {
-        return (content == null) ? "" : content.toString();
+        String makeFormsAjax = "<script>  $(document).ready(function() { makeFormsAjax(); });</script>";
+        return (content == null) ? "" : content.toString() + makeFormsAjax;
     }
 
     /**
