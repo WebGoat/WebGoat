@@ -196,12 +196,13 @@ public abstract class Screen {
      */
     public void output(PrintWriter out) {
 
-		// format output -- then send to printwriter
+        // format output -- then send to printwriter
         // otherwise we're doing way too much SSL encryption work
         out.print(getContent());
 
     }
 
+    // TODO we could hook all forms here with javascript call to ajax forms plugin
     public String getContent() {
         return (content == null) ? "" : content.toString();
     }

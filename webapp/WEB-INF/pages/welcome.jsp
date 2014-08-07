@@ -109,7 +109,7 @@
                         <tr>
                             <td colspan="2">
                                 <div align="center" class="style2">
-                                    <form id="form" name="form" method="post" action="attack"><input
+                                    <form id="form" name="form" method="get" action="start.mvc"><input
                                             type="submit" name="start" value="Start WebGoat" /></form>
                                 </div>
                             </td>
