@@ -121,6 +121,8 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	private String pass = "goodbye";
 
 	private String user = "youaretheweakestlink";
+	
+	private String instructions = "";
 
 	/**
 	 * Description of the Method
@@ -145,6 +147,9 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	 */
 	protected Element doStage1(WebSession s) throws Exception
 	{
+		
+		instructions = "Your mission is to get the username and password from the WebGoat source code in order to authenticate.";
+
 		setStage(s, 1);
 
 		String username = s.getParser().getRawParameter(USERNAME, "");
@@ -189,6 +194,9 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	 */
 	protected Element doStage2(WebSession s) throws Exception
 	{
+
+		instructions = "Your mission is to steal all the credit cards from the database. ";
+				
 		// <START_OMIT_SOURCE>
 
 		Cookie newCookie = new Cookie(USER_COOKIE, Encoding.base64Encode(user));
@@ -290,6 +298,10 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	 */
 	protected Element doStage3(WebSession s) throws Exception
 	{
+		instructions = "Your mission is to deface this website. Your main website jsp, which is rendered below, is contained in "
+				+ "'webgoat_challenge_" + s.getUserName() + JSP + "'. To overwrite 'webgoat_challenge_" + s.getUserName() + JSP
+				+ "' you will need to use many of the techniques you have learned in the other lessons. ";
+		
 		// <START_OMIT_SOURCE>
 
 		ElementContainer ec = new ElementContainer();
@@ -326,7 +338,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			// Setup the screen content
 			try
 			{
-				ec.addElement(new H1("Current Network Status:"));
+				ec.addElement(new H1("Current Network Status (limited to 10 rows):"));
 				ec.addElement(netstatResults);
 
 				Table t = new Table().setCellSpacing(0).setCellPadding(2).setWidth("90%").setAlign("center");
@@ -334,11 +346,12 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				{
 					t.setBorder(1);
 				}
-				String[] list = { "tcp", "tcpv6", "ip", "ipv6", "udp", "udpv6" };
-
+				String[] list = { "tcp",  "udp" };
+				//String[] list = { "inet", "inet6", "ax25", "netrom", "ipx", "ddp", "x25" };
+			    
 				TR tr = new TR();
 				tr.addElement(new TD().addElement(ECSFactory.makeButton("View Network")));
-				tr.addElement(new TD().setWidth("35%").addElement(ECSFactory.makePulldown(PROTOCOL, list, "", 5)));
+				tr.addElement(new TD().setWidth("35%").addElement(ECSFactory.makePulldown(PROTOCOL, list, "", 2)));
 				t.addElement(tr);
 
 				ec.addElement(t);
@@ -404,7 +417,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	{
 		try
 		{
-			// get current text and compare to the new text
+			// get current text and overwrite the potential defaced file
 			String defacedpath = s.getContext().getRealPath(WEBGOAT_CHALLENGE + "_" + s.getUserName() + JSP);
 			String masterFilePath = s.getContext().getRealPath(WEBGOAT_CHALLENGE_JSP);
 
@@ -415,6 +428,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			fw.close();
 			// System.out.println("webgoat_guest replaced: " + getFileText( new
 			// BufferedReader( new FileReader( defacedpath ) ), false ) );
+						
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -554,10 +568,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
 	 */
 	public String getInstructions(WebSession s)
 	{
-		String instructions = "Your mission is to break the authentication scheme, "
-				+ "steal all the credit cards from the database, and then deface the website. "
-				+ "You will have to use many of the techniques you have learned in the other lessons. "
-				+ "The main webpage to deface for this site is 'webgoat_challenge_" + s.getUserName() + ".jsp'";
+		// each stage will load it's instructions
 
 		return (instructions);
 	}
@@ -629,27 +640,49 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			t.setBorder(1);
 		}
 
-		String[] colWidths = new String[] { "55", "110", "260", "70", "50" };
+		String[] colWidths = new String[] { "55", "110", "260", "70" };
 		TR tr = new TR();
 		tr.addElement(new TH().addElement("Protocol").setWidth(colWidths[0]));
 		tr.addElement(new TH().addElement("Local Address").setWidth(colWidths[1]));
 		tr.addElement(new TH().addElement("Foreign Address").setWidth(colWidths[2]));
 		tr.addElement(new TH().addElement("State").setWidth(colWidths[3]));
-		tr.addElement(new TH().addElement("Offload State").setWidth(colWidths[4]));
 		t.addElement(tr);
 
 		String protocol = s.getParser().getRawParameter(PROTOCOL, "tcp");
 
 		String osName = System.getProperty("os.name");
+		// System.out.println("os.name= " + osName);
+		
+		if (protocol.indexOf("rm") != -1 || protocol.indexOf("webgoat_challenge.jsp") != -1)
+		{
+			s.setMessage("Play nice - please don't try to hack the environment");
+			protocol = "tcp";
+		}
+		
 		ExecResults er = null;
 		if (osName.indexOf("Windows") != -1)
 		{
 			String cmd = "cmd.exe /c netstat -ant -p " + protocol;
 			er = Exec.execSimple(cmd);
 		}
+		else if (osName.indexOf("Mac OS X") != -1)
+		{
+			String[] macCmd = { "/bin/sh", "-c", "netstat -an -p " + protocol  };			
+			er = Exec.execSimple(macCmd);
+		}
 		else
 		{
-			String[] cmd = { "/bin/sh", "-c", "netstat -ant -p " + protocol };
+			// allows for command injection by defaulting to user input
+			if ( protocol.startsWith("tcp"))
+			{ 
+				protocol = protocol.replace("tcp", "-t");
+			}
+			else if (protocol.startsWith("udp"))
+			{
+				protocol = protocol.replace("udp", "-u");
+			}
+			
+			String[] cmd = { "/bin/sh", "-c", "netstat -an " + protocol };
 			er = Exec.execSimple(cmd);
 		}
 
@@ -669,7 +702,16 @@ public class Challenge2Screen extends SequentialLessonAdapter
 				line = lines.nextToken();
 			}
 		}
-		while (start > 0 && lines.hasMoreTokens())
+		
+		// This is what is being parsed
+		//
+		// Active Internet connections (servers and established)
+		// Proto Recv-Q Send-Q Local Address               Foreign Address             State      
+		// tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      
+		// tcp        0      0 127.0.0.1:25                0.0.0.0:*                   LISTEN      
+
+		int read10 = 10;
+		while (start > 0 && lines.hasMoreTokens() && read10-- > 0)
 		{
 			// in order to avoid a ill-rendered screen when the user performs
 			// command injection, we will wrap the screen at 4 columns
@@ -681,6 +723,12 @@ public class Challenge2Screen extends SequentialLessonAdapter
 			{
 				td = new TD().setWidth(colWidths[columnCount++]);
 				tr.addElement(td.addElement(tokens.nextToken()));
+				// throw away token 1 and 2
+				if (columnCount == 1)
+				{
+					if (tokens.hasMoreTokens() ) tokens.nextToken();
+					if (tokens.hasMoreTokens() ) tokens.nextToken();
+				}
 			}
 			t.addElement(tr);
 		}
