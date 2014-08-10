@@ -32,12 +32,7 @@ public class HintService extends BaseService {
     public @ResponseBody
     List<Hint> showHint(HttpSession session) {
         List<Hint> listHints = new ArrayList<Hint>();
-        WebSession ws;
-        Object o = session.getAttribute(WebSession.SESSION);
-        if (o == null || !(o instanceof WebSession)) {
-            throw new IllegalArgumentException("No valid session object found, has session timed out?");
-        }
-        ws = (WebSession) o;
+        WebSession ws = getWebSesion(session);
         AbstractLesson l = ws.getCurrentLesson();
         if (l == null) {
             return listHints;

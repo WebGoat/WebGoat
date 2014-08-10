@@ -205,6 +205,8 @@ public class WebSession {
 
     private String currentLanguage = null;
 
+    private List<Cookie> cookiesOnLastRequest;
+
     /**
      * Constructor for the WebSession object
      *
@@ -894,6 +896,17 @@ public class WebSession {
         }
     }
 
+    public void updateLastAttackRequestInfo(HttpServletRequest request) {
+        // store cookies
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            this.cookiesOnLastRequest = new ArrayList<Cookie>();
+        } else {
+            this.cookiesOnLastRequest = Arrays.asList(cookies);
+        }
+
+    }
+
     private void restartLesson(int lessonId) {
         AbstractLesson al = getLesson(lessonId);
         System.out.println("Restarting lesson: " + al);
@@ -980,6 +993,20 @@ public class WebSession {
 
     public String getCurrrentLanguage() {
         return currentLanguage;
+    }
+
+    /**
+     * @return the cookiesOnLastRequest
+     */
+    public List<Cookie> getCookiesOnLastRequest() {
+        return cookiesOnLastRequest;
+    }
+
+    /**
+     * @param cookiesOnLastRequest the cookiesOnLastRequest to set
+     */
+    public void setCookiesOnLastRequest(List<Cookie> cookiesOnLastRequest) {
+        this.cookiesOnLastRequest = cookiesOnLastRequest;
     }
 
 }

@@ -207,8 +207,8 @@ public class HammerHead extends HttpServlet {
             session.setAttribute(WELCOMED, "true");
             page = "/webgoat.jsp";
         } else {
-            //page = "/main.jsp";
-            page = "/lesson_content.jsp";
+            page = "/main.jsp";
+            //page = "/lesson_content.jsp";
         }
 
         return page;
@@ -400,6 +400,9 @@ public class HammerHead extends HttpServlet {
         }
 
         session.update(request, response, this.getServletName());
+        // update last attack request info (cookies, parms)
+        // this is so the REST services can have access to them via the session 
+        session.updateLastAttackRequestInfo(request);
 
         // to authenticate
         // System.out.println( "HH Leaving Session_id: " + hs.getId() );
