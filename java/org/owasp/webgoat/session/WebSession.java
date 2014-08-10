@@ -920,15 +920,15 @@ public class WebSession {
             this.parmsOnLastRequest = new ArrayList<RequestParameter>();
             for (String name : parmMap.keySet()) {
                 String[] values = parmMap.get(name);
-                String value = "";
+                String delim = "";
+                StringBuffer sb = new StringBuffer();
                 if (values != null && values.length > 0) {
-                    if (values.length > 1) {
-                        value = String.join(",", values);
-                    } else {
-                        value = values[0];
+                    for (String parm : values) {
+                        sb.append(delim).append(parm);
+                        delim = ",";
                     }
                 }
-                RequestParameter parm = new RequestParameter(name, value);
+                RequestParameter parm = new RequestParameter(name, sb.toString());
                 this.parmsOnLastRequest.add(parm);
             }
         }
