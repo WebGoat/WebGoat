@@ -399,10 +399,10 @@ public class HammerHead extends HttpServlet {
 
         }
 
-        session.update(request, response, this.getServletName());
         // update last attack request info (cookies, parms)
         // this is so the REST services can have access to them via the session 
         session.updateLastAttackRequestInfo(request);
+        session.update(request, response, this.getServletName());
 
         // to authenticate
         // System.out.println( "HH Leaving Session_id: " + hs.getId() );

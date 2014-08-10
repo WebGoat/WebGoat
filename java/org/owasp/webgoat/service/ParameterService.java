@@ -31,12 +31,14 @@
 package org.owasp.webgoat.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import javax.servlet.http.Cookie;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.model.Hint;
+import org.owasp.webgoat.lessons.model.RequestParameter;
 import org.owasp.webgoat.session.WebSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,19 +48,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author rlawson
  */
 @Controller
-public class CookieService extends BaseService {
+public class ParameterService extends BaseService {
+
+    final Logger logger = LoggerFactory.getLogger(ParameterService.class);
 
     /**
-     * Returns cookies for last attack
+     * Returns request parameters for last attack
      *
      * @param session
      * @return
      */
-    @RequestMapping(value = "/cookie.mvc", produces = "application/json")
+    @RequestMapping(value = "/parameter.mvc", produces = "application/json")
     public @ResponseBody
-    List<Cookie> showCookies(HttpSession session) {
+    List<RequestParameter> showParameters(HttpSession session) {
+        List<RequestParameter> listParms = new ArrayList<RequestParameter>();
         WebSession ws = getWebSesion(session);
-        List<Cookie> cookies = ws.getCookiesOnLastRequest();
-        return cookies;
+        listParms = ws.getParmsOnLastRequest();
+        Collections.sort(listParms);
+        return listParms;
     }
 }

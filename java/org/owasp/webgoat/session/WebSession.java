@@ -22,7 +22,10 @@ import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
 import org.owasp.webgoat.lessons.SequentialLessonAdapter;
+import org.owasp.webgoat.lessons.model.RequestParameter;
 import org.owasp.webgoat.util.WebGoatI18N;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * *************************************************************************************************
@@ -61,6 +64,8 @@ import org.owasp.webgoat.util.WebGoatI18N;
  * @created October 28, 2003
  */
 public class WebSession {
+
+    final Logger logger = LoggerFactory.getLogger(WebSession.class);
 
     /**
      * Description of the Field
@@ -206,6 +211,8 @@ public class WebSession {
     private String currentLanguage = null;
 
     private List<Cookie> cookiesOnLastRequest;
+
+    private List<RequestParameter> parmsOnLastRequest;
 
     /**
      * Constructor for the WebSession object
@@ -904,7 +911,27 @@ public class WebSession {
         } else {
             this.cookiesOnLastRequest = Arrays.asList(cookies);
         }
-
+        // store parameters
+        Map<String, String[]> parmMap = request.getParameterMap();
+        logger.info("PARM MAP: " + parmMap);
+        if (parmMap == null) {
+            this.parmsOnLastRequest = new ArrayList<RequestParameter>();
+        } else {
+            this.parmsOnLastRequest = new ArrayList<RequestParameter>();
+            for (String name : parmMap.keySet()) {
+                String[] values = parmMap.get(name);
+                String value = "";
+                if (values != null && values.length > 0) {
+                    if (values.length > 1) {
+                        value = String.join(",", values);
+                    } else {
+                        value = values[0];
+                    }
+                }
+                RequestParameter parm = new RequestParameter(name, value);
+                this.parmsOnLastRequest.add(parm);
+            }
+        }
     }
 
     private void restartLesson(int lessonId) {
@@ -1003,10 +1030,10 @@ public class WebSession {
     }
 
     /**
-     * @param cookiesOnLastRequest the cookiesOnLastRequest to set
+     * @return the parmsOnLastRequest
      */
-    public void setCookiesOnLastRequest(List<Cookie> cookiesOnLastRequest) {
-        this.cookiesOnLastRequest = cookiesOnLastRequest;
+    public List<RequestParameter> getParmsOnLastRequest() {
+        return parmsOnLastRequest;
     }
 
 }
