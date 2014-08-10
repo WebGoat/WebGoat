@@ -35,7 +35,7 @@ public class HintService extends BaseService {
         WebSession ws;
         Object o = session.getAttribute(WebSession.SESSION);
         if (o == null || !(o instanceof WebSession)) {
-            return null;
+            throw new IllegalArgumentException("No valid session object found, has session timed out?");
         }
         ws = (WebSession) o;
         AbstractLesson l = ws.getCurrentLesson();

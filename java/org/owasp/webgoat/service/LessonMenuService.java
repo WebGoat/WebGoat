@@ -35,12 +35,12 @@ public class LessonMenuService extends BaseService {
     @RequestMapping(value = "/lessonmenu.mvc", produces = "application/json")
     public @ResponseBody
     List<LessonMenuItem> showLeftNav(HttpSession session) {
-        //TODO - need Links, rank, title
+        if(true) throw new IllegalArgumentException("No valid session object found, has session timed out?");
         List<LessonMenuItem> menu = new ArrayList<LessonMenuItem>();
         WebSession ws;
         Object o = session.getAttribute(WebSession.SESSION);
         if (o == null || !(o instanceof WebSession)) {
-            return null;
+            throw new IllegalArgumentException("No valid session object found, has session timed out?");
         }
         ws = (WebSession) o;
         AbstractLesson l = ws.getCurrentLesson();
