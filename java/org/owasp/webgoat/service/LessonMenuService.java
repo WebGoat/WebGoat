@@ -35,7 +35,6 @@ public class LessonMenuService extends BaseService {
     @RequestMapping(value = "/lessonmenu.mvc", produces = "application/json")
     public @ResponseBody
     List<LessonMenuItem> showLeftNav(HttpSession session) {
-        if(true) throw new IllegalArgumentException("No valid session object found, has session timed out?");
         List<LessonMenuItem> menu = new ArrayList<LessonMenuItem>();
         WebSession ws;
         Object o = session.getAttribute(WebSession.SESSION);
