@@ -1,6 +1,7 @@
 package org.owasp.webgoat.lessons;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -313,10 +314,10 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     }
 
     protected abstract List<String> getHints(WebSession s);
-    
+
     // @TODO we need to restrict access at the service layer
     // rather than passing session object around
-    public List<String> getHintsPublic(WebSession s){
+    public List<String> getHintsPublic(WebSession s) {
         List<String> hints = getHints(s);
         return hints;
     }
@@ -489,6 +490,25 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         source = html.toString();
 
         return source;
+    }
+
+    public String getRawSource(WebSession s) {
+        String src;
+
+        try {
+            // System.out.println("Loading source file: " +
+            // getSourceFileName());
+            src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getSourceFileName()))), true);
+
+        } catch (FileNotFoundException e) {
+            s.setMessage("Could not find source file");
+            src = ("Could not find the source file or source file does not exist.<br/>"
+                    + "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress()
+                    + "?subject=Source " + getSourceFileName() + " not found. Lesson: "
+                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext().getFeedbackAddress() + "</a>");
+        }
+
+        return src;
     }
 
     public String getSolution(WebSession s) {

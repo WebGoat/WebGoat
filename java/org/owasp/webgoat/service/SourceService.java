@@ -30,9 +30,11 @@
  */
 package org.owasp.webgoat.service;
 
-import java.util.List;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+import static org.owasp.webgoat.LessonSource.END_SOURCE_SKIP;
+import static org.owasp.webgoat.LessonSource.START_SOURCE_SKIP;
+import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,19 +45,47 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author rlawson
  */
 @Controller
-public class CookieService extends BaseService {
+public class SourceService extends BaseService {
 
     /**
-     * Returns cookies for last attack
+     * Returns source for current attack
      *
      * @param session
      * @return
      */
-    @RequestMapping(value = "/cookie.mvc", produces = "application/json")
+    @RequestMapping(value = "/source.mvc", produces = "application/json")
     public @ResponseBody
-    List<Cookie> showCookies(HttpSession session) {
+    String showSource(HttpSession session) {
         WebSession ws = getWebSesion(session);
-        List<Cookie> cookies = ws.getCookiesOnLastRequest();
-        return cookies;
+        String source = getSource(ws);
+        return source;
+    }
+
+    /**
+     * Description of the Method
+     *
+     * @param s Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected String getSource(WebSession s) {
+
+        String source = null;
+        int scr = s.getCurrentScreen();
+        Course course = s.getCourse();
+
+        if (s.isUser() || s.isChallenge()) {
+
+            AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
+
+            if (lesson != null) {
+                source = lesson.getRawSource(s);
+            }
+        }
+        if (source == null) {
+            return "Source code is not available. Contact "
+                    + s.getWebgoatContext().getFeedbackAddressHTML();
+        }
+        return (source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*" + END_SOURCE_SKIP,
+                "Code Section Deliberately Omitted"));
     }
 }
