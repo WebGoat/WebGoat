@@ -34,6 +34,7 @@ import javax.servlet.http.HttpSession;
 import static org.owasp.webgoat.LessonSource.END_SOURCE_SKIP;
 import static org.owasp.webgoat.LessonSource.START_SOURCE_SKIP;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.model.SourceListing;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
@@ -55,10 +56,12 @@ public class SourceService extends BaseService {
      */
     @RequestMapping(value = "/source.mvc", produces = "application/json")
     public @ResponseBody
-    String showSource(HttpSession session) {
+    SourceListing showSource(HttpSession session) {
         WebSession ws = getWebSesion(session);
         String source = getSource(ws);
-        return source;
+        SourceListing sl = new SourceListing();
+        sl.setSource(source);
+        return sl;
     }
 
     /**
