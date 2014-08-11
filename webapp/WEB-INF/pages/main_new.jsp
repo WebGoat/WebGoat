@@ -2,195 +2,127 @@
          errorPage=""%>
 <%@page import="org.owasp.webgoat.session.WebSession"%>
 <%
-    //WebSession webSession = ((WebSession) session.getAttribute("websession"));
+    WebSession webSession = ((WebSession) session.getAttribute("websession"));
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+	    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+		<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+		<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+		<!--[if gt IE 8]><!-->
+		
+		<!-- IMPORT -->
+				<!-- Favicon -->
+		<!--  CSS -->
+		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+		<!-- Fonts from Font Awsome -->
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<!-- CSS Animate -->
+		<link rel="stylesheet" href="css/animate.css">
+		<!-- Custom styles for this theme -->
+		<link rel="stylesheet" href="css/main.css">
+		<!-- removed unused items, see index.html in newDesign folder to diff -->
+		<!-- JS -->
+		<script src="js/angular/angular.min.js"></script>
+		<script src="js/angular/angular-animate.min.js"></script>
+		<!-- Feature detection -->
+		<script src="js/modernizr-2.6.2.min.js"></script>
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+		<script src="js/respond.min.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+			var goat=angular.module("goatApp",['ngAnimate']);
+		</script>
+		<script type="text/javascript" src="js/goat.js"></script>		
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat V6.0</title>
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
-        <style>
-            /*
-            * Base structure
-            */
-
-            /* Move down content because we have a fixed navbar that is 50px tall */
-            body {
-                padding-top: 50px;
-            }
-
-
-            /*
-             * Global add-ons
-             */
-
-            .sub-header {
-                padding-bottom: 10px;
-                border-bottom: 1px solid #eee;
-            }
-
-            /*
-             * Top navigation
-             * Hide default border to remove 1px line.
-             */
-            .navbar-fixed-top {
-                border: 0;
-            }
-
-            /*
-             * Sidebar
-             */
-
-            /* Hide for mobile, show later */
-            .sidebar {
-                display: none;
-            }
-            @media (min-width: 768px) {
-                .sidebar {
-                    position: fixed;
-                    top: 51px;
-                    bottom: 0;
-                    left: 0;
-                    z-index: 1000;
-                    display: block;
-                    padding: 20px;
-                    overflow-x: hidden;
-                    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-                    background-color: #f5f5f5;
-                    border-right: 1px solid #eee;
-                }
-            }
-
-            /* Sidebar navigation */
-            .nav-sidebar {
-                margin-right: -21px; /* 20px padding + 1px border */
-                margin-bottom: 20px;
-                margin-left: -20px;
-            }
-            .nav-sidebar > li > a {
-                padding-right: 20px;
-                padding-left: 20px;
-            }
-            .nav-sidebar > .active > a,
-            .nav-sidebar > .active > a:hover,
-            .nav-sidebar > .active > a:focus {
-                color: #fff;
-                background-color: #428bca;
-            }
-
-
-            /*
-             * Main content
-             */
-
-            .main {
-                padding: 20px;
-            }
-            @media (min-width: 768px) {
-                .main {
-                    padding-right: 40px;
-                    padding-left: 40px;
-                }
-            }
-            .main .page-header {
-                margin-top: 0;
-            }
-
-
-            /*
-             * Placeholder dashboard ideas
-             */
-
-            .placeholders {
-                margin-bottom: 30px;
-                text-align: center;
-            }
-            .placeholders h4 {
-                margin-bottom: 0;
-            }
-            .placeholder {
-                margin-bottom: 20px;
-            }
-            .placeholder img {
-                display: inline-block;
-                border-radius: 50%;
-            }
-        </style>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/> 
 
     </head>
 
-    <body>
-
-        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Webgoat 6.0</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-
-                        <li><a href="#">Settings</a></li>
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="j_spring_security_logout">Logout</a></li>
-                    </ul>
-                    <!--
-                    <form class="navbar-form navbar-right">
-                        <input type="text" class="form-control" placeholder="Search...">
-                    </form>
-                    -->
-                </div>
+    <body class="animated fadeIn" ng-app="goatApp">
+       <section id="container">
+        <header id="header">
+            <!--logo start-->
+            <div class="brand">
+                <a href="index.html" class="logo"><span>Web</span>Goat</a>
             </div>
-        </div>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
-                    <ul class="nav nav-sidebar">
-                        <li>This should be built from service</li>
-                        <li class="active"><a href="#">General</a></li>
-                        <li><a href="attack?Screen=4&amp;menu=100" target="lesson" class="menu-link">HTTP Basics</a></li>
-                        <li><a href="attack?Screen=58&menu=100" class="menu-link">HTTP Splitting</a></li>
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li><a href="">Nav item</a></li>
-                        <li><a href="">Nav item again</a></li>
-                        <li><a href="">One more nav</a></li>
-                        <li><a href="">Another nav item</a></li>
-                        <li><a href="">More navigation</a></li>
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li><a href="">Nav item again</a></li>
-                        <li><a href="">One more nav</a></li>
-                        <li><a href="">Another nav item</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <h1 class="page-header">Lesson Content</h1>
-
-                    <div class="" id="lesson_content">
-                        Lesson content goes here
-                    </div>
-
-
-                </div>
+            <!--logo end-->
+            <div class="toggle-navigation toggle-left">
+                <button type="button" class="btn btn-default" id="toggle-left" data-toggle="tooltip" data-placement="right" title="Toggle Navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div><!--toggle navigation end-->
+        </header>
+		
+		        <!--sidebar left start-->
+        <aside class="sidebar">
+            <div id="leftside-navigation" class="nano" ng-controller="goatMenu">
+                <ul class="nano-content">                
+					<li class="sub-menu" ng-repeat="item in menuTopics">
+					<!--//TODO: implement conditional rendering -->
+						<a href="javascript:void(0)"><span>{{item.name}}</span><i class="fa"> </i></a>
+						<ul class=><!-- javascript:void(0); -->
+							<li ng-repeat="child in item.children">
+								<a href="{{child.link}}">{{child.name}}</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+						
             </div>
-        </div>
+
+        </aside>
+        <!--sidebar left end-->
+        <!--main content start-->
+        <section class="main-content-wrapper">
+            <section id="main-content">
+                <div class="row">
+               		<div class="col-md-12">
+               			<div class="panel">
+                            <div class="panel-body" id="lesson_content">                            
+                            
+               					<h1>About WebGoat</h1>
+               					<hr />
+               					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque volutpat feugiat nunc, non vulputate urna dictum ut. Nam consectetur porttitor diam ut ultricies. Aenean dolor dolor, congue sed ornare non, elementum in mauris. Phasellus orci sem, rhoncus eu laoreet eu, aliquam nec ante. Suspendisse sit amet justo eget eros tempor tincidunt vel quis justo. Sed pulvinar enim id neque pellentesque, eu rhoncus lorem eleifend. Morbi congue tortor sit amet pulvinar posuere.</p>
+              					<p>Integer rhoncus gravida arcu, at bibendum magna feugiat sit amet. Vivamus id lacinia massa. Praesent eu quam ullamcorper, tempor elit nec, lobortis massa. In in eros eu augue rhoncus semper. Vestibulum ornare purus vitae bibendum vulputate. Cras eleifend commodo lectus, eget pharetra justo mollis quis. Donec tempor magna lectus, vitae suscipit turpis venenatis et. Nulla facilisi.</p>
+              					<p>Nam placerat magna in massa euismod fringilla. Pellentesque in cursus risus, eu hendrerit ligula. Quisque ultrices eget tortor ut eleifend. Praesent auctor libero nec quam fringilla faucibus. Curabitur cursus risus eu faucibus rutrum. Morbi dapibus nulla risus, et euismod eros posuere volutpat. Quisque ut diam diam. Quisque sed enim tortor. Suspendisse commodo magna nec felis ultricies laoreet. Donec sit amet vehicula eros. Phasellus at dapibus enim. Sed massa quam, aliquet eu mattis at, porttitor a nisi.</p>
+              					<hr />
+              					<p>Nam placerat magna in massa euismod fringilla. Pellentesque in cursus risus, eu hendrerit ligula. Quisque ultrices eget tortor ut eleifend. Praesent auctor libero nec quam fringilla faucibus. Curabitur cursus risus eu faucibus rutrum. Morbi dapibus nulla risus, et euismod eros posuere volutpat. Quisque ut diam diam. Quisque sed enim tortor. Suspendisse commodo magna nec felis ultricies laoreet. Donec sit amet vehicula eros. Phasellus at dapibus enim. Sed massa quam, aliquet eu mattis at, porttitor a nisi.</p>
+               				</div>
+               			</div>
+               		</div>
+				</div>
+            </section>
+        </section>
+        <!--main content end-->
+        
+    </section>
+    
+
+    <!--Global JS-->
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+<!--     <script src="plugins/waypoints/waypoints.min.js"></script> -->
+    <script src="js/application.js"></script> 
 
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="http://malsup.github.com/jquery.form.js"></script> 
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+        <script src="http://malsup.github.com/jquery.form.js"></script>  
         <script>
+        //Load global functions
+			$(document).ready(function() {
+				app.init();
+			});
+			
             // set this to true if you want to see form submissions
             // set to false once we get all the kinks worked out
             var DEBUG_FORM_SUBMISSION = false;
