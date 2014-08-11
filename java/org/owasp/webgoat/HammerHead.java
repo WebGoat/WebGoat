@@ -207,8 +207,8 @@ public class HammerHead extends HttpServlet {
             session.setAttribute(WELCOMED, "true");
             page = "/webgoat.jsp";
         } else {
-            page = "/main.jsp";
-            //page = "/lesson_content.jsp";
+            //page = "/main.jsp";
+            page = "/lesson_content.jsp";
         }
 
         return page;
