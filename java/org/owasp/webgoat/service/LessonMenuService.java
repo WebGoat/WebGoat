@@ -58,9 +58,9 @@ public class LessonMenuService extends BaseService {
     public @ResponseBody
     List<LessonMenuItem> showLeftNav(HttpSession session) {
         List<LessonMenuItem> menu = new ArrayList<LessonMenuItem>();
-        WebSession ws = getWebSesion(session);
+        WebSession ws = getWebSession(session);
         // Get the categories, these are the main menu items
-        Course course = ((Course) session.getAttribute("course"));
+        Course course = ws.getCourse();
         List<Category> categories = course.getCategories();
 
         for (Category category : categories) {

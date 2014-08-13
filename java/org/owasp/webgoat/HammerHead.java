@@ -134,6 +134,12 @@ public class HammerHead extends HttpServlet {
                 return;
             }
 
+            if ("true".equals(request.getParameter("start"))) {
+                logger.warn("Redirecting to start controller");
+                response.sendRedirect("start.mvc");
+                return;
+            }
+
             // Note: For the lesson to track the status, we need to update
             // the lesson tracker object
             // from the screen.createContent() method. The create content is
@@ -176,8 +182,9 @@ public class HammerHead extends HttpServlet {
                 clientBrowser = userAgent;
             }
             request.setAttribute("client.browser", clientBrowser);
-            request.getSession().setAttribute("websession", mySession);
-            request.getSession().setAttribute("course", mySession.getCourse());
+            request.getSession().setAttribute(WebSession.SESSION, mySession);
+            // not sure why this is being set in the session?
+            request.getSession().setAttribute(WebSession.COURSE, mySession.getCourse());
             String viewPage = getViewPage(mySession);
             logger.debug("Forwarding to view: " + viewPage);
             logger.debug("Screen: " + screen);
@@ -199,18 +206,9 @@ public class HammerHead extends HttpServlet {
     }
 
     private String getViewPage(WebSession webSession) {
-        String page;
-
-        // If this session has not seen the landing page yet, go there instead.
-        HttpSession session = webSession.getRequest().getSession();
-        if (session.getAttribute(WELCOMED) == null) {
-            session.setAttribute(WELCOMED, "true");
-            page = "/webgoat.jsp";
-        } else {
-            //page = "/main.jsp";
-            page = "/lesson_content.jsp";
-        }
-
+        // now always display the lesson content
+        String page = "/lesson_content.jsp";
+        //page = "/main.jsp";
         return page;
     }
 
@@ -378,7 +376,7 @@ public class HammerHead extends HttpServlet {
         HttpSession hs;
         hs = request.getSession(true);
 
-        // System.out.println( "HH Entering Session_id: " + hs.getId() );
+        logger.debug("HH Entering Session_id: " + hs.getId());
         // dumpSession( hs );
         // Get our session object out of the HTTP session
         WebSession session = null;
@@ -388,7 +386,7 @@ public class HammerHead extends HttpServlet {
             session = (WebSession) o;
         } else {
             // Create new custom session and save it in the HTTP session
-            // System.out.println( "HH Creating new WebSession: " );
+            logger.warn("HH Creating new WebSession");
             session = new WebSession(webgoatContext, context);
             // Ensure splash screen shows on any restart
             // rlawson - removed this since we show splash screen at login now
@@ -405,8 +403,8 @@ public class HammerHead extends HttpServlet {
         session.update(request, response, this.getServletName());
 
         // to authenticate
-        // System.out.println( "HH Leaving Session_id: " + hs.getId() );
-        // dumpSession( hs );
+        logger.debug("HH Leaving Session_id: " + hs.getId());
+        //dumpSession( hs );
         return (session);
     }
 

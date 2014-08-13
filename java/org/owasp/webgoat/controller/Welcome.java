@@ -7,6 +7,8 @@ package org.owasp.webgoat.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,9 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class Welcome {
-
+    
+    final Logger logger = LoggerFactory.getLogger(Welcome.class);
     private static final String WELCOMED = "welcomed";
-
+    
     @RequestMapping(value = "welcome.mvc", method = RequestMethod.GET)
     public ModelAndView welcome(HttpServletRequest request,
             @RequestParam(value = "error", required = false) String error,
@@ -34,11 +37,13 @@ public class Welcome {
         if (session.getAttribute(WELCOMED) == null) {
             session.setAttribute(WELCOMED, "true");
         }
-        //@TODO put stuff here the welcome page needs to access
+        
+        //go ahead and send them to webgoat (skip the welcome page)
         ModelAndView model = new ModelAndView();
-        model.setViewName("welcome");
-
+        //model.setViewName("welcome");
+        //model.setViewName("main_new");
+        model.setViewName("forward:/attack?start=true");
         return model;
-
     }
+    
 }

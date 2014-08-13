@@ -1,35 +1,41 @@
-/***************************************************************************************************
- * 
- * 
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
- * please see http://www.owasp.org/
- * 
+/**
+ * *************************************************************************************************
+ *
+ *
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ *
  * Copyright (c) 2002 - 2007 Bruce Mayhew
- * 
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- * 
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
  * Getting Source ==============
- * 
- * Source for this application is maintained at code.google.com, a repository for free software
- * projects.
- * 
+ *
+ * Source for this application is maintained at code.google.com, a repository
+ * for free software projects.
+ *
  * For details, please see http://code.google.com/p/webgoat/
  */
 package org.owasp.webgoat.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.owasp.webgoat.controller.Welcome;
 import org.owasp.webgoat.session.WebSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,23 +49,26 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping("/service")
 public abstract class BaseService {
 
+    final Logger logger = LoggerFactory.getLogger(BaseService.class);
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.I_AM_A_TEAPOT)
     public @ResponseBody
     ExceptionInfo handleException(HttpServletRequest request, Exception ex) {
-
+        String url = request.getRequestURL().toString();
+        logger.error("Exception handler for service caught exception when processing: " + url, ex);
         ExceptionInfo response = new ExceptionInfo();
-        response.setUrl(request.getRequestURL().toString());
-        response.setMessage(ex.getMessage());
+        response.setUrl(url);
+        response.setMessage(ex.toString());
 
         return response;
     }
 
-    public WebSession getWebSesion(HttpSession session) {
+    public WebSession getWebSession(HttpSession session) {
         WebSession ws;
         Object o = session.getAttribute(WebSession.SESSION);
         if (o == null || !(o instanceof WebSession)) {
-            throw new IllegalArgumentException("No valid session object found, has session timed out?");
+            throw new IllegalArgumentException("No valid session object found, has session timed out? [" + session.getId() + "]");
         }
         ws = (WebSession) o;
         return ws;

@@ -54,7 +54,7 @@ public class CookieService extends BaseService {
     @RequestMapping(value = "/cookie.mvc", produces = "application/json")
     public @ResponseBody
     List<Cookie> showCookies(HttpSession session) {
-        WebSession ws = getWebSesion(session);
+        WebSession ws = getWebSession(session);
         List<Cookie> cookies = ws.getCookiesOnLastRequest();
         return cookies;
     }

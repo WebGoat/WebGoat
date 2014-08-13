@@ -92,6 +92,8 @@ public class WebSession {
      */
     public final static String COLOR = "color";
 
+    public final static String COURSE = "course";
+
     /**
      * Description of the Field
      */

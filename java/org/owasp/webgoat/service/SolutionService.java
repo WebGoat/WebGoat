@@ -30,15 +30,13 @@
  */
 package org.owasp.webgoat.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpSession;
-import org.owasp.webgoat.lessons.model.RequestParameter;
+import static org.owasp.webgoat.LessonSource.END_SOURCE_SKIP;
+import static org.owasp.webgoat.LessonSource.START_SOURCE_SKIP;
+import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.model.SourceListing;
+import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,23 +46,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author rlawson
  */
 @Controller
-public class ParameterService extends BaseService {
-
-    final Logger logger = LoggerFactory.getLogger(ParameterService.class);
+public class SolutionService extends BaseService {
 
     /**
-     * Returns request parameters for last attack
+     * Returns solution for current attack
      *
      * @param session
      * @return
      */
-    @RequestMapping(value = "/parameter.mvc", produces = "application/json")
+    @RequestMapping(value = "/solution.mvc", produces = "text/html")
     public @ResponseBody
-    List<RequestParameter> showParameters(HttpSession session) {
-        List<RequestParameter> listParms = new ArrayList<RequestParameter>();
+    String showSolution(HttpSession session) {
         WebSession ws = getWebSession(session);
-        listParms = ws.getParmsOnLastRequest();
-        Collections.sort(listParms);
-        return listParms;
+        String source = getSolution(ws);
+        return source;
+    }
+
+    protected String getSolution(WebSession s) {
+
+        String source = null;
+        int scr = s.getCurrentScreen();
+        Course course = s.getCourse();
+
+        if (s.isUser() || s.isChallenge()) {
+
+            AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
+
+            if (lesson != null) {
+                source = lesson.getSolution(s);
+            }
+        }
+        if (source == null) {
+            return "Solution  is not available. Contact "
+                    + s.getWebgoatContext().getFeedbackAddressHTML();
+        }
+        return (source);
     }
 }

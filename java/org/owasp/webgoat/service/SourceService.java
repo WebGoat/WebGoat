@@ -57,7 +57,7 @@ public class SourceService extends BaseService {
     @RequestMapping(value = "/source.mvc", produces = "application/json")
     public @ResponseBody
     SourceListing showSource(HttpSession session) {
-        WebSession ws = getWebSesion(session);
+        WebSession ws = getWebSession(session);
         String source = getSource(ws);
         SourceListing sl = new SourceListing();
         sl.setSource(source);

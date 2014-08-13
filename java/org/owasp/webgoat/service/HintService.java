@@ -32,7 +32,7 @@ public class HintService extends BaseService {
     public @ResponseBody
     List<Hint> showHint(HttpSession session) {
         List<Hint> listHints = new ArrayList<Hint>();
-        WebSession ws = getWebSesion(session);
+        WebSession ws = getWebSession(session);
         AbstractLesson l = ws.getCurrentLesson();
         if (l == null) {
             return listHints;
