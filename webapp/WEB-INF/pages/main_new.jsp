@@ -13,8 +13,6 @@
 		<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 		<!--[if gt IE 8]><!-->
 		
-		<!-- IMPORT -->
-				<!-- Favicon -->
 		<!--  CSS -->
 		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
 		<!-- Bootstrap core CSS -->
@@ -25,7 +23,7 @@
 		<link rel="stylesheet" href="css/animate.css">
 		<!-- Custom styles for this theme -->
 		<link rel="stylesheet" href="css/main.css">
-		<!-- removed unused items, see index.html in newDesign folder to diff -->
+		
 		<!-- JS -->
 		<script src="js/angular/angular.min.js"></script>
 		<script src="js/angular/angular-animate.min.js"></script>
@@ -40,6 +38,7 @@
 			var goat=angular.module("goatApp",['ngAnimate']);
 		</script>
 		<script type="text/javascript" src="js/goat.js"></script>		
+		<script type="text/javascript" src="js/goatConstants.js"></script>		
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat V6.0</title>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/> 
@@ -66,11 +65,11 @@
             <div id="leftside-navigation" class="nano" ng-controller="goatMenu">
                 <ul class="nano-content">                
 					<li class="sub-menu" ng-repeat="item in menuTopics">
-					<!--//TODO: implement conditional rendering -->
-						<a href="javascript:void(0)"><span>{{item.name}}</span><i class="fa"> </i></a>
-						<ul class=><!-- javascript:void(0); -->
+					<!-- TODO: implement conditional rendering -->
+						<a ng-click="expanded = !expanded" href="#"><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
+						<ul ng-class="{slideDown: expanded}">
 							<li ng-repeat="child in item.children">
-								<a href="{{child.link}}">{{child.name}}</a>
+								<a ng-click="renderLesson(child.link)" title="link to {{child.name}}">{{child.name}}</a>
 							</li>
 						</ul>
 					</li>
@@ -110,7 +109,7 @@
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 <!--     <script src="plugins/waypoints/waypoints.min.js"></script> -->
-    <script src="js/application.js"></script> 
+<!--     <script src="js/application.js"></script> -->
 
         <!-- Bootstrap core JavaScript
         ================================================== -->
@@ -119,9 +118,6 @@
         <script src="http://malsup.github.com/jquery.form.js"></script>  
         <script>
         //Load global functions
-			$(document).ready(function() {
-				app.init();
-			});
 			
             // set this to true if you want to see form submissions
             // set to false once we get all the kinks worked out
