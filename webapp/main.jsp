@@ -2,8 +2,8 @@
          import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.Category, org.owasp.webgoat.lessons.AbstractLesson, org.owasp.webgoat.util.*, java.util.*" 
          errorPage=""  %>
 <%
-    Course course = ((Course) session.getAttribute("course"));
-    WebSession webSession = ((WebSession) session.getAttribute("websession"));
+    WebSession webSession = ((WebSession) session.getAttribute(WebSession.SESSION));
+    Course course = webSession.getCourse();
     AbstractLesson currentLesson = webSession.getCurrentLesson();
 %>
 
