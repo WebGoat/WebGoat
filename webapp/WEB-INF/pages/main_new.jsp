@@ -67,9 +67,9 @@
                     <li class="sub-menu" ng-repeat="item in menuTopics">
                     <!-- TODO: implement conditional rendering -->
                             <a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
-                            <ul class="slideDown" ng-show="expanded" style="display:block;">
+                            <ul class="slideDown" ng-show="expanded">
                                     <li ng-repeat="child in item.children">
-                                            <a ng-click="renderLesson(child.link)" title="link to {{child.name}}">{{child.name}}</a>
+                                            <a ng-click="renderLesson(child.link)" title="link to {{child.name}}" href="">{{child.name}}</a>
                                     </li>
                             </ul>
                     </li>

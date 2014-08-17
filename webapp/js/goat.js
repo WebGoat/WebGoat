@@ -41,7 +41,7 @@ goat.controller('goatMenu', function($scope, $http) {
 goat.addMenuClasses = function(arr) {
     for (var i = 0; i < arr.length; i++) {
         var menuItem = arr[i];
-        console.log(menuItem);
+        //console.log(menuItem);
         if (arr[i].type && arr[i].type === 'CATEGORY') {
             arr[i].class = 'fa-angle-right pull-right';
         }
