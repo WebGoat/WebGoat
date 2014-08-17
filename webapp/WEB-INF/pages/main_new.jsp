@@ -35,7 +35,7 @@
 		<script src="js/respond.min.js"></script>
 		<![endif]-->
 		<script type="text/javascript">
-			var goat=angular.module("goatApp",['ngAnimate']);
+			var goat=angular.module("goatApp", ['ngAnimate']);
 		</script>
 		<script type="text/javascript" src="js/goat.js"></script>		
 		<script type="text/javascript" src="js/goatConstants.js"></script>		
@@ -64,16 +64,16 @@
         <aside class="sidebar">
             <div id="leftside-navigation" class="nano" ng-controller="goatMenu">
                 <ul class="nano-content">                
-					<li class="sub-menu" ng-repeat="item in menuTopics">
-					<!-- TODO: implement conditional rendering -->
-						<a ng-click="expanded = !expanded" href="#"><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
-						<ul ng-class="{slideDown: expanded}">
-							<li ng-repeat="child in item.children">
-								<a ng-click="renderLesson(child.link)" title="link to {{child.name}}">{{child.name}}</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
+                    <li class="sub-menu" ng-repeat="item in menuTopics">
+                    <!-- TODO: implement conditional rendering -->
+                            <a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
+                            <ul class="slideDown" ng-show="expanded" style="display:block;">
+                                    <li ng-repeat="child in item.children">
+                                            <a ng-click="renderLesson(child.link)" title="link to {{child.name}}">{{child.name}}</a>
+                                    </li>
+                            </ul>
+                    </li>
+		</ul>
 						
             </div>
 
