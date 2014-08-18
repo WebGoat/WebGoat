@@ -2,7 +2,7 @@
          errorPage=""%>
 <%@page import="org.owasp.webgoat.session.WebSession"%>
 <%
-    WebSession webSession = ((WebSession) session.getAttribute("websession"));
+    WebSession webSession = ((WebSession) session.getAttribute(WebSession.SESSION));
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -84,9 +84,9 @@
             <section id="main-content">
                 <div class="row">
                		<div class="col-md-12">
-               			<div class="panel">
-                            <div class="panel-body" id="lesson_content">                            
-                            
+               			<div class="panel" >
+                                    <div class="panel-body" id="lesson_content" ng-controller="goatMenu">                            
+                                        <p  ng-model="lessonUrl">    {{lessonUrl}}</p>
                					<h1>About WebGoat</h1>
                					<hr />
                					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque volutpat feugiat nunc, non vulputate urna dictum ut. Nam consectetur porttitor diam ut ultricies. Aenean dolor dolor, congue sed ornare non, elementum in mauris. Phasellus orci sem, rhoncus eu laoreet eu, aliquam nec ante. Suspendisse sit amet justo eget eros tempor tincidunt vel quis justo. Sed pulvinar enim id neque pellentesque, eu rhoncus lorem eleifend. Morbi congue tortor sit amet pulvinar posuere.</p>
@@ -184,8 +184,10 @@
                     alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
                             '\n\nThe output div should have already been updated with the responseText.');
                 }
+                makeFormsAjax();
             }
             function makeFormsAjax() {
+                //console.log("Hooking any lesson forms to make them ajax");
                 $("form").ajaxForm(options);
             }
         </script>

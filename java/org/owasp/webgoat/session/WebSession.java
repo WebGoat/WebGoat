@@ -129,7 +129,7 @@ public class WebSession {
     /**
      * Description of the Field
      */
-    public final static String SESSION = "Session";
+    public final static String SESSION = "websession";
 
     public final static String SHOWSOURCE = "ShowSource";
 

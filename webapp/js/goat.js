@@ -7,34 +7,47 @@
  *  prepares and updates menu topic items for the view
  */
 goat.controller('goatMenu', function($scope, $http) {
-    //TODO: implment via separate promise and use config for menu
+    //TODO: implement via separate promise and use config for menu
     $http({method: 'GET', url: 'service/lessonmenu.mvc'}).then(
             function(menuData) {
                 var menuItems = goat.addMenuClasses(goatConstants.menuPrefix.concat(menuData.data));
                 $scope.menuTopics = menuItems;
-            }, function(error) {
-        var foo = error;
-    }
+            },
+            function(error) {
+                // TODO - handle this some way other than an alert
+                alert("Error rendering menu: " + error);
+            }
     );
+    $scope.lessonUrl = "hi!";
     $scope.renderLesson = function(url) {
         console.log(url + ' was passed in');
+        // use jquery to render lesson content to div
+        jQuery.get(url,
+                {},
+                function(reply) {
+                    jQuery("#lesson_content").html(reply);
+                    // hook any forms
+                    makeFormsAjax();
+                },
+                "html");
     };
 })
-.animation('.slideDown', function() {
-    var NgHideClassName = 'ng-hide';
-    return {
-            beforeAddClass: function(element, className, done) {
-                    if(className === NgHideClassName) {
-                            jQuery(element).slideUp(done);
+        .animation('.slideDown', function() {
+            var NgHideClassName = 'ng-hide';
+            return {
+                beforeAddClass: function(element, className, done) {
+                    if (className === NgHideClassName) {
+                        jQuery(element).slideUp(done);
                     }
-            },
-            removeClass: function(element, className, done) {
-                    if(className === NgHideClassName) {
-                            jQuery(element).hide().slideDown(done);
+                },
+                removeClass: function(element, className, done) {
+                    if (className === NgHideClassName) {
+                        jQuery(element).hide().slideDown(done);
                     }
+                }
             }
-    }
-});
+        });
+
 
 //TODO add recursion to handle arr[i].children objects
 // ... in case lower-level's need classes as well ... don't right now
@@ -42,8 +55,8 @@ goat.addMenuClasses = function(arr) {
     for (var i = 0; i < arr.length; i++) {
         var menuItem = arr[i];
         //console.log(menuItem);
-        if (arr[i].type && arr[i].type === 'CATEGORY') {
-            arr[i].class = 'fa-angle-right pull-right';
+        if (menuItem.type && menuItem.type === 'CATEGORY') {
+            menuItem.class = 'fa-angle-right pull-right';
         }
     }
     return arr;

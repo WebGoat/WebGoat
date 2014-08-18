@@ -2,7 +2,7 @@
 	import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial"
 	errorPage="" %>
 <%
-	WebSession webSession = ((WebSession)session.getAttribute("websession"));
+	WebSession webSession = ((WebSession)session.getAttribute(WebSession.SESSION));
 //	int myUserId = getIntSessionAttribute(webSession, "GoatHillsFinancial." + GoatHillsFinancial.USER_ID);
 %>
 <br><br><br>An error has occurred.
