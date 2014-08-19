@@ -5,7 +5,8 @@ var app = function() {
         tooltips();
         toggleMenuLeft();
         toggleMenuRight();
-        menu();
+        // menu is handled by angular
+        //menu();
         togglePanel();
         closePanel();
     };

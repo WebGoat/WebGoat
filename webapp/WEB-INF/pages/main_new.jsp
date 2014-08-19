@@ -34,11 +34,13 @@
 		<script src="js/html5shiv.js"></script>
 		<script src="js/respond.min.js"></script>
 		<![endif]-->
-		<script type="text/javascript">
+                <script src="js/application.js"></script>
+                <script type="text/javascript">
 			var goat=angular.module("goatApp", ['ngAnimate']);
 		</script>
 		<script type="text/javascript" src="js/goat.js"></script>		
-		<script type="text/javascript" src="js/goatConstants.js"></script>		
+		<script type="text/javascript" src="js/goatConstants.js"></script>
+
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat V6.0</title>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/> 
@@ -85,19 +87,12 @@
                 <div class="row">
                		<div class="col-md-12">
                			<div class="panel" >
-                                    <div class="panel-body" id="lesson_content" ng-controller="goatMenu">                            
-                                        <p  ng-model="lessonUrl">    {{lessonUrl}}</p>
-               					<h1>About WebGoat</h1>
-               					<hr />
-               					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque volutpat feugiat nunc, non vulputate urna dictum ut. Nam consectetur porttitor diam ut ultricies. Aenean dolor dolor, congue sed ornare non, elementum in mauris. Phasellus orci sem, rhoncus eu laoreet eu, aliquam nec ante. Suspendisse sit amet justo eget eros tempor tincidunt vel quis justo. Sed pulvinar enim id neque pellentesque, eu rhoncus lorem eleifend. Morbi congue tortor sit amet pulvinar posuere.</p>
-              					<p>Integer rhoncus gravida arcu, at bibendum magna feugiat sit amet. Vivamus id lacinia massa. Praesent eu quam ullamcorper, tempor elit nec, lobortis massa. In in eros eu augue rhoncus semper. Vestibulum ornare purus vitae bibendum vulputate. Cras eleifend commodo lectus, eget pharetra justo mollis quis. Donec tempor magna lectus, vitae suscipit turpis venenatis et. Nulla facilisi.</p>
-              					<p>Nam placerat magna in massa euismod fringilla. Pellentesque in cursus risus, eu hendrerit ligula. Quisque ultrices eget tortor ut eleifend. Praesent auctor libero nec quam fringilla faucibus. Curabitur cursus risus eu faucibus rutrum. Morbi dapibus nulla risus, et euismod eros posuere volutpat. Quisque ut diam diam. Quisque sed enim tortor. Suspendisse commodo magna nec felis ultricies laoreet. Donec sit amet vehicula eros. Phasellus at dapibus enim. Sed massa quam, aliquet eu mattis at, porttitor a nisi.</p>
-              					<hr />
-              					<p>Nam placerat magna in massa euismod fringilla. Pellentesque in cursus risus, eu hendrerit ligula. Quisque ultrices eget tortor ut eleifend. Praesent auctor libero nec quam fringilla faucibus. Curabitur cursus risus eu faucibus rutrum. Morbi dapibus nulla risus, et euismod eros posuere volutpat. Quisque ut diam diam. Quisque sed enim tortor. Suspendisse commodo magna nec felis ultricies laoreet. Donec sit amet vehicula eros. Phasellus at dapibus enim. Sed massa quam, aliquet eu mattis at, porttitor a nisi.</p>
-               				</div>
+                                    <div class="panel-body" id="lesson_content">    
+                                        <b>This should default to the "How to Work with Webgoat" lesson</b>
+                                    </div>
                			</div>
                		</div>
-				</div>
+                </div>
             </section>
         </section>
         <!--main content end-->
@@ -131,7 +126,7 @@
                         $("#lesson_content").html(reply);
                     }, "html");
                 });
-
+                app.init();
             });
             // make all forms ajax forms
             var options = {
