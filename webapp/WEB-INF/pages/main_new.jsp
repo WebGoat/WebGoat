@@ -70,8 +70,11 @@
                     <!-- TODO: implement conditional rendering -->
                             <a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
                             <ul class="slideDown" ng-show="expanded">
-                                    <li ng-repeat="child in item.children">
-                                            <a ng-click="renderLesson(child.link)" title="link to {{child.name}}" href="">{{child.name}}</a>
+                                    <li ng-repeat="lesson in item.children">
+                                            <a ng-click="renderLesson(lesson.link)" title="link to {{lesson.name}}" href="">{{lesson.name}}</a>
+                                            <span ng-repeat="stage in lesson.children">
+                                                <a ng-click="renderLesson(stage.link)" title="link to {{stage.name}}" href="">&nbsp;&nbsp;{{stage.name}}</a>
+                                            </span>
                                     </li>
                             </ul>
                     </li>
