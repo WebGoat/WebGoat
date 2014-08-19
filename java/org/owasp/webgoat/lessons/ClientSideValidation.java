@@ -102,7 +102,7 @@ public class ClientSideValidation extends SequentialLessonAdapter
 		try
 		{
 
-			ec.addElement(new Script().setSrc("javascript/clientSideValidation.js"));
+			ec.addElement(new Script().setSrc("lessonJS/clientSideValidation.js"));
 
 			ec.addElement(new HR().setWidth("90%"));
 			ec.addElement(new Center().addElement(new H1().addElement("Shopping Cart")));
@@ -129,7 +129,7 @@ public class ClientSideValidation extends SequentialLessonAdapter
 		try
 		{
 
-			ec.addElement(new Script().setSrc("javascript/clientSideValidation.js"));
+			ec.addElement(new Script().setSrc("lessonJS/clientSideValidation.js"));
 
 			ec.addElement(new HR().setWidth("90%"));
 			ec.addElement(new Center().addElement(new H1().addElement("Shopping Cart")));
@@ -323,7 +323,7 @@ public class ClientSideValidation extends SequentialLessonAdapter
 
 		t.addElement(tr);
 		tr = new TR();
-		tr.addElement(new TD().addElement("Hewlett-Packard - Pavilion Notebook with Intel® Centrino™"));
+		tr.addElement(new TD().addElement("Hewlett-Packard - Pavilion Notebook with Intelï¿½ Centrinoï¿½"));
 
 		tr.addElement(new TD()
 				.addElement(

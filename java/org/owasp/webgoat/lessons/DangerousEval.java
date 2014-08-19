@@ -86,7 +86,7 @@ public class DangerousEval extends LessonAdapter
 			float runningTotal = 0.0f;
 
 			// FIXME: encode output of field2, then s.setMessage( field2 );
-			ec.addElement("<script src='javascript/eval.js'> </script>");
+			ec.addElement("<script src='lessonJS/eval.js'> </script>");
 			// <script src='javascript/sameOrigin.js' language='JavaScript'></script>
 			ec.addElement(new HR().setWidth("90%"));
 			ec.addElement(new Center().addElement(new H1().addElement("Shopping Cart ")));
@@ -123,7 +123,7 @@ public class DangerousEval extends LessonAdapter
 			tr.addElement(new TD().addElement("$" + total));
 			t.addElement(tr);
 			tr = new TR();
-			tr.addElement(new TD().addElement("Hewlett-Packard - Pavilion Notebook with Intel® Centrino™"));
+			tr.addElement(new TD().addElement("Hewlett-Packard - Pavilion Notebook with Intelï¿½ Centrinoï¿½"));
 			tr.addElement(new TD().addElement("1599.99").setAlign("right"));
 		    tr.addElement(new TD().addElement(new Input(Input.TEXT, "QTY3", s.getParser().getStringParameter("QTY3", "1"))).setAlign("right"));
 			quantity = s.getParser().getFloatParameter("QTY3", 0.0f);

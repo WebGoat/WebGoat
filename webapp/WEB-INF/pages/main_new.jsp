@@ -101,7 +101,7 @@
     
 
     <!--Global JS-->
-    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery/jquery-1.10.2.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 <!--     <script src="plugins/waypoints/waypoints.min.js"></script> -->
 <!--     <script src="js/application.js"></script> -->

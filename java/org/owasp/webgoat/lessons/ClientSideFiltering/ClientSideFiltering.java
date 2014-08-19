@@ -51,7 +51,7 @@ public class ClientSideFiltering extends SequentialLessonAdapter
 		try
 		{
 
-			ec.addElement(new Script().setSrc("javascript/clientSideFiltering.js"));
+			ec.addElement(new Script().setSrc("lessonJS/clientSideFiltering.js"));
 
 			Input input = new Input(Input.HIDDEN, "userID", 102);
 

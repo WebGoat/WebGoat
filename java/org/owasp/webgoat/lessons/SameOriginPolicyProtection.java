@@ -38,7 +38,7 @@ public class SameOriginPolicyProtection extends LessonAdapter
 		try
 		{
 
-			ec.addElement(new Script().setSrc("javascript/sameOrigin.js"));
+			ec.addElement(new Script().setSrc("lessonJS/sameOrigin.js"));
 
 			Input hiddenWGStatus = new Input(Input.HIDDEN, "hiddenWGStatus", 0);
 			hiddenWGStatus.setID("hiddenWGStatus");
