@@ -78,17 +78,22 @@ only discussed the whitebox approach. You have to add following lines to the Hos
 </pre>
 <p>In this case only localhost, ip1 and ip2 are permitted to connect.</p>
 
-<h2>WebGoat Default Users and Roles for Tomcat</h2>
+<h2>Configuring new WebGoat users</h2>
 <p>
-WebGoat requires the following users and roles to be configured in order for the application to run.
+WebGoat uses spring-security.xml to configure users.
 <br/>
   <pre>
-  &gt;role rolename="webgoat_basic"/&lt;
-  &gt;role rolename="webgoat_admin"/&lt;
-  &gt;role rolename="webgoat_user"/&lt;
-  &gt;user username="webgoat" password="webgoat" roles="webgoat_admin"/&lt;
-  &gt;user username="basic" password="basic" roles="webgoat_user,webgoat_basic"/&lt;
-  &gt;user username="guest" password="guest" roles="webgoat_user"/&lt;
+    &lt;!-- Authentication Manager --&gt;
+    &lt;authentication-manager alias="authenticationManager"&gt;
+        &lt;authentication-provider&gt;
+            &lt;user-service&gt;
+                &lt;!-- TODO: credentials in the config - this isn't something I'm proud of - get rid of this ASAP --&gt; 
+                &lt;user name="guest" password="guest" authorities="ROLE_WEBGOAT_USER" /&gt;
+                &lt;user name="webgoat" password="webgoat" authorities="ROLE_WEBGOAT_ADMIN" /&gt;
+                &lt;user name="server" password="server" authorities="ROLE_SERVER_ADMIN" /&gt;
+            &lt;/user-service&gt;
+        &lt;/authentication-provider&gt;
+    &lt;/authentication-manager&gt;  
   </pre>
 </p>
 <h2>Adding Users</h2>
@@ -96,18 +101,17 @@ WebGoat requires the following users and roles to be configured in order for the
 Usually using WebGoat you just use the user guest with the password guest.
 But maybe in laboratory you have made a setup with one server and a lot of
 clients. In this case you might want to have a user for every client
- and you have to alter tomcat-users.xml 
-in tomcat/conf as the users are stored there. <b>We recommend not to use real passwords 
+ and you have to alter /WEB-INF/spring-security.xml as the users are stored there. <b>We recommend not to use real passwords 
 as the passwords are stored in plain text in this file!</b>
 </p>
 <h3>Add User</h3>
 <p>
 Adding a user is straight forward. You can use the guest entry as an example. The added
-users should have the same role as the guest user. Add lines like this to the file:
+users should have the same role as the guest user. The new user/password will not show on the login page. 
+Add lines like this to the file:
 </p>
 <pre>
-	&lt;user name=&quot;student1&quot; password=&quot;password1&quot; roles=&quot;webgoat_user&quot;/&gt;
-	&lt;user name=&quot;student2&quot; password=&quot;password2&quot; roles=&quot;webgoat_user&quot;/&gt;
+                &lt;user name="guest2" password="guest2" authorities="ROLE_WEBGOAT_USER" /&gt;
 	...
 </pre>
 
