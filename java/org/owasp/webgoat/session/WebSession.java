@@ -782,6 +782,8 @@ public class WebSession {
         // System.out.println("Previous Screen 1: " + previousScreen );
         // FIXME: requires ?Logout=true
         // FIXME: doesn't work right -- no reauthentication
+        // REMOVED - we have explicit logout now via spriing security
+        /*
         if (myParser.getRawParameter(LOGOUT, null) != null) {
             System.out.println("Logout " + request.getUserPrincipal());
             eatCookies();
@@ -789,6 +791,7 @@ public class WebSession {
             currentScreen = WELCOME;
             previousScreen = ERROR;
         }
+        */
 
         // There are several scenarios where we want the first lesson to be loaded
         // 1) Previous screen is Welcome - Start of the course

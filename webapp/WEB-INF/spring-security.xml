@@ -14,6 +14,9 @@
     <http pattern="/css/**" security="none"/>
     <http pattern="/images/**" security="none"/>
     <http pattern="/javascript/**" security="none"/>
+    <http pattern="/js/**" security="none"/>
+    <http pattern="/fonts/**" security="none"/>
+    <http pattern="/plugins/**" security="none"/>    
     <http pattern="/favicon.ico" security="none"/>    
     <http use-expressions="true">  
         <intercept-url pattern="/login.mvc" access="permitAll" />
@@ -26,7 +29,8 @@
             default-target-url="/welcome.mvc" 
             authentication-failure-url="/login.mvc?error" 
             username-parameter="username"
-            password-parameter="password" />
+            password-parameter="password"
+            always-use-default-target="true"/>
         <logout logout-url="/j_spring_security_logout" logout-success-url="/logout.mvc" />
         <!-- enable csrf protection -->
         <!--csrf/-->

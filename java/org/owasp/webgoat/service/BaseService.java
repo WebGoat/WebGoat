@@ -67,8 +67,11 @@ public abstract class BaseService {
     public WebSession getWebSession(HttpSession session) {
         WebSession ws;
         Object o = session.getAttribute(WebSession.SESSION);
-        if (o == null || !(o instanceof WebSession)) {
-            throw new IllegalArgumentException("No valid session object found, has session timed out? [" + session.getId() + "]");
+        if (o == null) {
+            throw new IllegalArgumentException("No valid WebSession object found, has session timed out? [" + session.getId() + "]");
+        }
+        if (!(o instanceof WebSession)) {
+            throw new IllegalArgumentException("Invalid WebSession object found, this is probably a bug! [" + o.getClass() + " | " + session.getId() + "]");
         }
         ws = (WebSession) o;
         return ws;

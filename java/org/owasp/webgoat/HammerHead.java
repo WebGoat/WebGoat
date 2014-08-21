@@ -182,9 +182,10 @@ public class HammerHead extends HttpServlet {
                 clientBrowser = userAgent;
             }
             request.setAttribute("client.browser", clientBrowser);
-            request.getSession().setAttribute(WebSession.SESSION, mySession);
+            // removed - this is being done in updateSession call
+            //request.getSession().setAttribute(WebSession.SESSION, mySession);
             // not sure why this is being set in the session?
-            request.getSession().setAttribute(WebSession.COURSE, mySession.getCourse());
+            //request.getSession().setAttribute(WebSession.COURSE, mySession.getCourse());
             String viewPage = getViewPage(mySession);
             logger.debug("Forwarding to view: " + viewPage);
             logger.debug("Screen: " + screen);
@@ -374,7 +375,8 @@ public class HammerHead extends HttpServlet {
     protected WebSession updateSession(HttpServletRequest request, HttpServletResponse response, ServletContext context)
             throws IOException {
         HttpSession hs;
-        hs = request.getSession(true);
+        // session should already be created by spring security
+        hs = request.getSession(false);
 
         logger.debug("HH Entering Session_id: " + hs.getId());
         // dumpSession( hs );
@@ -384,6 +386,7 @@ public class HammerHead extends HttpServlet {
 
         if ((o != null) && o instanceof WebSession) {
             session = (WebSession) o;
+            hs.setAttribute(WebSession.COURSE, session.getCourse());
         } else {
             // Create new custom session and save it in the HTTP session
             logger.warn("HH Creating new WebSession");
@@ -394,13 +397,12 @@ public class HammerHead extends HttpServlet {
             hs.setAttribute(WebSession.SESSION, session);
             // reset timeout
             hs.setMaxInactiveInterval(sessionTimeoutSeconds);
-
         }
 
+        session.update(request, response, this.getServletName());
         // update last attack request info (cookies, parms)
         // this is so the REST services can have access to them via the session 
         session.updateLastAttackRequestInfo(request);
-        session.update(request, response, this.getServletName());
 
         // to authenticate
         logger.debug("HH Leaving Session_id: " + hs.getId());
