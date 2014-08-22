@@ -7,12 +7,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 import java.util.LinkedList;
 import javax.servlet.ServletContext;
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
+import org.owasp.webgoat.util.WebGoatI18N;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,15 +51,15 @@ import org.slf4j.LoggerFactory;
  */
 public class Course {
 
-    final Logger logger = LoggerFactory.getLogger(WebgoatProperties.class);
+    final Logger logger = LoggerFactory.getLogger(Course.class);
 
-    private List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
+    private final List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
 
     private final static String PROPERTIES_FILENAME = HammerHead.propertiesPath;
 
     private WebgoatProperties properties = null;
 
-    private List<String> files = new LinkedList<String>();
+    private final List<String> files = new LinkedList<String>();
 
     private WebgoatContext webgoatContext;
 
@@ -82,11 +82,11 @@ public class Course {
     private static String getFileName(String s) {
         String fileName = new File(s).getName();
 
-        if (fileName.indexOf("/") != -1) {
+        if (fileName.contains("/")) {
             fileName = fileName.substring(fileName.lastIndexOf("/"), fileName.length());
         }
 
-        if (fileName.indexOf(".") != -1) {
+        if (fileName.contains(".")) {
             fileName = fileName.substring(0, fileName.indexOf("."));
         }
 
@@ -102,7 +102,7 @@ public class Course {
      * @return
      */
     private static String getSourceFile(String className) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append(className.replace(".", "/"));
         sb.append(".java");
@@ -150,11 +150,7 @@ public class Course {
      */
     public List getCategories() {
         List<Category> categories = new ArrayList<Category>();
-        Iterator iter = lessons.iterator();
-
-        while (iter.hasNext()) {
-            AbstractLesson lesson = (AbstractLesson) iter.next();
-
+        for (AbstractLesson lesson : lessons) {
             if (!categories.contains(lesson.getCategory())) {
                 categories.add(lesson.getCategory());
             }
@@ -181,8 +177,9 @@ public class Course {
     /**
      * Gets the lesson attribute of the Course object
      *
+     * @param s
      * @param lessonId Description of the Parameter
-     * @param role Description of the Parameter
+     * @param roles
      * @return The lesson value
      */
     public AbstractLesson getLesson(WebSession s, int lessonId, List<String> roles) {
@@ -205,13 +202,13 @@ public class Course {
     }
 
     public AbstractLesson getLesson(WebSession s, int lessonId, String role) {
-        List<String> roles = new Vector<String>();
+        List<String> roles = new ArrayList<String>();
         roles.add(role);
         return getLesson(s, lessonId, roles);
     }
 
     public List getLessons(WebSession s, String role) {
-        List<String> roles = new Vector<String>();
+        List<String> roles = new ArrayList<String>();
         roles.add(role);
         return getLessons(s, roles);
     }
@@ -219,7 +216,8 @@ public class Course {
     /**
      * Gets the lessons attribute of the Course object
      *
-     * @param role Description of the Parameter
+     * @param s
+     * @param roles
      * @return The lessons value
      */
     public List<AbstractLesson> getLessons(WebSession s, List<String> roles) {
@@ -245,10 +243,7 @@ public class Course {
     private List<AbstractLesson> getLessons(Category category, List roles) {
         List<AbstractLesson> lessonList = new ArrayList<AbstractLesson>();
 
-        Iterator iter = lessons.iterator();
-        while (iter.hasNext()) {
-            AbstractLesson lesson = (AbstractLesson) iter.next();
-
+        for (AbstractLesson lesson : lessons) {
             if (lesson.getCategory().equals(category) && roles.contains(lesson.getRole())) {
                 lessonList.add(lesson);
             }
@@ -260,7 +255,7 @@ public class Course {
     }
 
     public List getLessons(WebSession s, Category category, String role) {
-        List<String> roles = new Vector<String>();
+        List<String> roles = new ArrayList<String>();
         roles.add(role);
         return getLessons(s, category, roles);
     }
@@ -288,7 +283,12 @@ public class Course {
      * @param path
      */
     private void loadFiles(ServletContext context, String path) {
+        logger.debug("Loading files into cache, path: " + path);
         Set resourcePaths = context.getResourcePaths(path);
+        if (resourcePaths == null) {
+            logger.error("Unable to load file cache for courses, this is probably a bug or configuration issue");
+            return;
+        }
         Iterator itr = resourcePaths.iterator();
 
         while (itr.hasNext()) {
@@ -308,10 +308,7 @@ public class Course {
      * @param path
      */
     private void loadLessons(String path) {
-        Iterator itr = files.iterator();
-
-        while (itr.hasNext()) {
-            String file = (String) itr.next();
+        for (String file : files) {
             String className = getClassFile(file, path);
 
             if (className != null && !className.endsWith("_i")) {
@@ -330,7 +327,7 @@ public class Course {
                         }
                     }
                 } catch (Exception e) {
-                    // System.out.println("Warning: " + e.getMessage());
+                    logger.error("Error in loadLessons: ", e);
                 }
             }
         }
@@ -341,26 +338,20 @@ public class Course {
         int p2 = absoluteFile.indexOf("/", p1 + 1);
         String langStr = absoluteFile.substring(p1 + 1, p2);
 
-        return new String(langStr);
+        return langStr;
     }
 
     /**
      * For each lesson, set the source file and lesson file
      */
     private void loadResources() {
-        Iterator lessonItr = lessons.iterator();
-
-        while (lessonItr.hasNext()) {
-            AbstractLesson lesson = (AbstractLesson) lessonItr.next();
+        for (AbstractLesson lesson : lessons) {
             String className = lesson.getClass().getName();
             String classFile = getSourceFile(className);
 
-            Iterator fileItr = files.iterator();
-
-            while (fileItr.hasNext()) {
-                String absoluteFile = (String) fileItr.next();
+            for (String absoluteFile : files) {
                 String fileName = getFileName(absoluteFile);
-                // System.out.println("Course: looking at file: " + absoluteFile);
+                logger.debug("Course: looking at file: " + absoluteFile);
 
                 if (absoluteFile.endsWith(classFile)) {
                     // System.out.println("Set source file for " + classFile);
@@ -369,20 +360,18 @@ public class Course {
 
                 if (absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html")
                         && className.endsWith(fileName)) {
-                    // System.out.println("DEBUG: setting lesson plan file " + absoluteFile + " for
-                    // lesson " +
-                    // lesson.getClass().getName());
-                    // System.out.println("fileName: " + fileName + " == className: " + className );
+                    logger.debug("DEBUG: setting lesson plan file " + absoluteFile + " for lesson "
+                            + lesson.getClass().getName());
+                    logger.debug("fileName: " + fileName + " == className: " + className);
                     String language = getLanguageFromFileName("/lesson_plans", absoluteFile);
                     lesson.setLessonPlanFileName(language, absoluteFile);
-                    this.webgoatContext.getWebgoatI18N().loadLanguage(language);
+                    WebGoatI18N.loadLanguage(language);
                 }
                 if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html")
                         && className.endsWith(fileName)) {
-                    // System.out.println("DEBUG: setting lesson solution file " + absoluteFile + "
-                    // for lesson " +
-                    // lesson.getClass().getName());
-                    // System.out.println("fileName: " + fileName + " == className: " + className );
+                    logger.debug("DEBUG: setting lesson solution file " + absoluteFile + " for lesson "
+                            + lesson.getClass().getName());
+                    logger.debug("fileName: " + fileName + " == className: " + className);
                     lesson.setLessonSolutionFileName(absoluteFile);
                 }
             }
@@ -392,10 +381,12 @@ public class Course {
     /**
      * Description of the Method
      *
+     * @param webgoatContext
      * @param path Description of the Parameter
      * @param context Description of the Parameter
      */
     public void loadCourses(WebgoatContext webgoatContext, ServletContext context, String path) {
+        logger.info("Loading courses: " + path);
         this.webgoatContext = webgoatContext;
         loadFiles(context, path);
         loadLessons(path);
