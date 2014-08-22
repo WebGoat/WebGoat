@@ -13,6 +13,8 @@ import javax.servlet.ServletContext;
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * *************************************************************************************************
@@ -49,6 +51,8 @@ import org.owasp.webgoat.lessons.Category;
  */
 public class Course {
 
+    final Logger logger = LoggerFactory.getLogger(WebgoatProperties.class);
+
     private List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
 
     private final static String PROPERTIES_FILENAME = HammerHead.propertiesPath;
@@ -63,8 +67,7 @@ public class Course {
         try {
             properties = new WebgoatProperties(PROPERTIES_FILENAME);
         } catch (IOException e) {
-            System.out.println("Error loading WebGoat properties");
-            e.printStackTrace();
+            logger.error("Error loading webgoat properties", e);
         }
     }
 

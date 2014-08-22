@@ -245,7 +245,7 @@ public class HammerHead extends HttpServlet {
         logger.info("Initializing main webgoat servlet");
         httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyyy HH:mm:ss z", Locale.US);
         httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        propertiesPath = getServletContext().getRealPath("./WEB-INF/webgoat.properties");
+        propertiesPath = getServletContext().getRealPath("/WEB-INF/webgoat.properties");
         webgoatContext = new WebgoatContext(this);
     }
 
