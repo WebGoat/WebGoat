@@ -1,6 +1,6 @@
 **********
-**********          WebGoat 5.4
-**********          April/27/2012
+**********          WebGoat 6.0
+**********          August 23, 2014
 **********
 **
 **  Home Page:    http://code.google.com/p/webgoat
@@ -36,27 +36,43 @@ doing security research will not work as that is the first thing
 that all hackers claim.
 
 You can find more information about WebGoat at:
-http://code.google.com/p/webgoat
-
+https://github.com/WebGoat/
 
 ----------------------------------------------------------------------------------------
-Prerequisites for Developers (Skip to Option 3 for unzip and click to run configruation) 
+Easy Run Instructions ( For non-developers )
 ----------------------------------------------------------------------------------------
+Follow these instructions if you simply wish to run WebGoat
 
-These tools must be installed independent of the webgoat download.
-- Java 1.6
-    Java can ne downloaded at http://java.sun.com/javase/downloads/index.jsp
-	You only need to download and install the "Java SE Development Kit (JDK)"
-- Maven > 2.0.9
-	Maven can be downloaded at: http://maven.apache.org/
-	In Ubuntu it can be installed with:
-	> apt-get install maven2
-- WebGoat source code
-    WebGoat source code can be downloaded at: 
-          http://code.google.com/p/webgoat/source/checkout
-    Use an svn client (ex: Tortoise svn) to checkout the code in the trunk.
-    
+    Prerequisites:  Java VM >= 1.6 installed ( JDK 1.7 recommended)
+    Download the executable jar file to any location of your choice from:
+        http://github.com/path/to/download/WebGoat-6.0-exec-war.jar
 
+    Run it using java:
+        java -jar WebGoat-6.0-exec-war.jar
+
+    Then navigate in your browser to:
+    http://localhost:8080/WebGoat
+
+    If you would like to change the port or other options, use:
+    java -jar WebGoat-6.0-exec-war.jar --help
+
+----------------------------------------------------------------------------------------
+For Developers 
+----------------------------------------------------------------------------------------
+Follow These instructions if you wish to run Webgoat and modify the source code as well.
+
+    Prerequisites:
+        * Java >= 1.6 ( JDK 1.7 recommended )
+        * Maven > 2.0.9
+        *Your favorite IDE, with Maven awareness: Netbeans/IntelliJ/Eclipse with m2e installed
+        * Git, or Git support in your IDE
+        
+        WebGoat source code
+            WebGoat source code can be downloaded at: 
+                  https://github.com/WebGoat/WebGoat
+
+        If you are setting up an IDE, Netbeans 8.0 contains the Maven and Git support you need:
+            https://netbeans.org/downloads/
 	
 ---------------------------------
 Building the project (Developers)
@@ -65,132 +81,15 @@ Building the project (Developers)
 Using a command shell/window:
 
 > cd webgoat
-> mvn compile
+> mvn clean package
 
-copy it to the local repository
-> mvn install
+After opening the project in Netbeans or Eclipse, you can easily run the project using maven:
 
-delete artifacts from previous build:
-> mvn clean
+> mvn tomcat:run-war
 
+Maven will run the project in an embedded tomcat.
 
------------------------------------------------
-Building the Eclipse project files (Developers)
------------------------------------------------
-
-> mvn eclipse:clean
-> mvn eclipse:eclipse
-
-Afterward the project can be imported within Eclipse:
-File -> Import -> General -> Existing Projects into Workspace
-and select the webgoat directory as the "root directory." A webgoat should appear in the Projects section of your dialogue window.
-
-Don't forget to declare a classpath variable named M2_REPO, pointing to ~/.m2/repository, otherwise many links to existing jars will be broken.
-This folder is located in your username root folder, the same folder where "my documents" and "my pictures" are located.
-You can declare new variables in Eclipse in Windows -> Preferences... and selecting Java -> Build Path -> Classpath Variables
-
-
--------------------------------------------------------------------
-Option 1: (Developers) Run the project on Tomcat within Eclipse
--------------------------------------------------------------------
-
-Install a local Tomcat server (We use Tomcat 7)
-1. Download and unzip Apache Tomcat from http://tomcat.apache.org. 
-2. Adapt the conf/tomcat-users.xml file of your Tomcat server:
-<?xml version="1.0" encoding="UTF-8"?>
-    <tomcat-users>
-      <role rolename="webgoat_basic"/>
-      <role rolename="webgoat_admin"/>
-      <role rolename="webgoat_user"/>
-      <role rolename="tomcat"/>
-      <user password="webgoat" roles="webgoat_admin" username="webgoat"/>
-      <user password="basic" roles="webgoat_user,webgoat_basic" username="basic"/>
-      <user password="tomcat" roles="tomcat" username="tomcat"/>
-      <user password="guest" roles="webgoat_user" username="guest"/>
-    </tomcat-users>
-3. Open Eclipse (WTP version) -> File -> New -> Other -> Server -> Apache
-4. Choose your Tomcat version
--> Click next "browse" to your tomcat install.
--> Make sure the "JRE" dropdown is pointing to your jdk. If it isn't listed, press
-"Installed JREs" and add it.
--> Click next and add "webgoat" to the list of configured applications
--> Finish
-
-
-3. Right Click on the webgoat project within eclipse -> Run As -> Run on server 
-
-Point your browser to http://localhost:8080/webgoat/attack
-** Note - When running in eclipse, the default url will be lowercase "webgoat"
-
-
------------------------------------------------------------
-Option 2: (Developers) Run the project on Tomcat with Maven
------------------------------------------------------------
-
-1. mvn tomcat:run-war
-2. http://localhost:8080/WebGoat/attack
-
-
-------------------------------------------------------------------
-Option 3: Run from the WebGoat 5.X Standard distribution (Windows)
-------------------------------------------------------------------
-
-1. Download the WebGoat-5.X-OWASP_Standard_Win32.zip file from:
-        - http://code.google.com/p/webgoat/downloads/list
-2. Unzip the file
-3. Double click webgoat.bat
-4. Browse to http://localhost/WebGoat/attack
-
-** Note: if you receive a bind address error use:
-
-3. Double click webgoat8080.bat
-4. Browse to http://localhost:8080/WebGoat/attack
-
-
-------------------------------------------------------------------
-Option 4: Run from the WebGoat 5.X Standard distribution (Ubuntu)
-------------------------------------------------------------------
-
-1. Download the WebGoat-5.X-OWASP_Standard_Ubuntu32.zip file from:
-        - http://code.google.com/p/webgoat/downloads/list
-2. Unzip the file
-3. run sudu ./webgoat.sh start80
-4. Browse to http://localhost/WebGoat/attack
-
-** Note: if you receive a bind address or privilege error:
-
-3. run ./webgoat.sh start8080
-4. Browse to http://localhost:8080/WebGoat/attack
-
-shutdown the server with:
-./webgoat.sh stop
-
-------------------------------------------------------------------
-Option 5: Using the  WebgGoat-5.X.war
-------------------------------------------------------------------
-
-Windows:
-
-1. Download and install Java 1.6 and Tomcat 7 if needed
-2. Download the WebgGoat-5.X.war and README-5.X file from:
-    - http://code.google.com/p/webgoat/downloads/list
-3. Rename WebgGoat-5.X.war to WebgGoat.war
-4. Copy WebGoat.war to <tomcat>/webapps/WebGoat.war
-5. Modify the <tomcat>/conf/tomcat-users.xml to add in WebGoat users and roles
-    - see the FAQ for directions 
-6. Start the tomcat server (default is usually port 8080)
-7. Browse to http://localhost:8080/WebGoat/attack
-
-Ubuntu:
-
-1. Install Java 1.6 and Tomcat 7 if needed
-    - Install java using: sudo apt-get install openjdk-7-jre
-    - Download Tomcat 7 from http://tomcat.apache.org/download-70.cgi (core tar.gz)
-2. Download the WebgGoat-5.X.war and README-5.X file from:
-    - http://code.google.com/p/webgoat/downloads/list
-3. Rename WebgGoat-5.X.war to WebgGoat.war
-4. Copy WebGoat.war to <tomcat>/webapps/WebGoat.war
-5. Modify the <tomcat>/conf/tomcat-users.xml to add in WebGoat users and roles
-    - see the FAQ for directions 
-6. Start the tomcat server (default is usually port 8080)
-7. Browse to http://localhost:8080/WebGoat/attack
+the package phase also builds an executable jar file. You can run it using:
+cd target
+java -jar WebGoat-6.0-exec-war.jar
+http://localhost:8080/WebGoat
