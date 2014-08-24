@@ -23,6 +23,8 @@
 		<link rel="stylesheet" href="css/animate.css">
 		<!-- Custom styles for this theme -->
 		<link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/> 
+        <!--  end of CSS -->
 		
 		<!-- JS -->
 		<script src="js/angular/angular.min.js"></script>
@@ -48,12 +50,10 @@
 		<script type="text/javascript" src="js/ui-util.js"></script>
 		<script type="text/javascript" src="js/goat.js"></script>		
 		<script type="text/javascript" src="js/goatConstants.js"></script>
-		
+	    <!-- end of JS -->
 
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat V6.0</title>
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/> 
-
     </head>
 
     <body class="animated fadeIn" ng-app="goatApp">
@@ -81,8 +81,8 @@
                             <ul class="slideDown" ng-show="expanded">
                                     <li ng-repeat="lesson in item.children">
                                             <a ng-click="renderLesson(lesson.link)" title="link to {{lesson.name}}" href="">{{lesson.name}}</a>
-                                            <span ng-repeat="stage in lesson.children">
-                                                <a ng-click="renderLesson(stage.link)" title="link to {{stage.name}}" href="">&nbsp;&nbsp;{{stage.name}}</a>
+                                            <span ng-repeat="stage in lesson.children" >
+                                                <a ng-click="renderLesson(stage.link)" title="link to {{stage.name}}" href="">{{stage.name}}</a>
                                             </span>
                                     </li>
                             </ul>
