@@ -3,7 +3,7 @@
 **********          August 23, 2014
 **********
 **
-**  Home Page:              https://github.com/WebGoat/WebGoat
+**  Home Page:              http://webgoat.github.io
 **  Home Page:              http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project
 **  Source Code:            https://github.com/WebGoat/WebGoat
 **  Easy-Run Download:      https://webgoat.atlassian.net/builds/browse/WEB-DAIL/latestSuccessful/artifact/JOB1/WebGoat-Embedded-Tomcat/WebGoat-6.0-SNAPSHOT-war-exec.jar  
