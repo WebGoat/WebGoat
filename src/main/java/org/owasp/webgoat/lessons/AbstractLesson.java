@@ -30,6 +30,8 @@ import org.owasp.webgoat.session.Screen;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.owasp.webgoat.session.WebgoatProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * *************************************************************************************************
@@ -65,6 +67,8 @@ import org.owasp.webgoat.session.WebgoatProperties;
  * @created October 28, 2003
  */
 public abstract class AbstractLesson extends Screen implements Comparable<Object> {
+
+    final Logger logger = LoggerFactory.getLogger(AbstractLesson.class);
 
     /**
      * Description of the Field
@@ -496,8 +500,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         String src;
 
         try {
-            // System.out.println("Loading source file: " +
-            // getSourceFileName());
+            logger.debug("Loading source file: " + getSourceFileName());
             src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getSourceFileName()))), true);
 
         } catch (FileNotFoundException e) {
@@ -782,8 +785,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     }
 
     public void setSourceFileName(String sourceFileName) {
-        // System.out.println("Setting source file of lesson " + this + " to: "
-        // + sourceFileName);
+        logger.debug("Setting source file of lesson " + this + " to: " + sourceFileName);
         this.sourceFileName = sourceFileName;
     }
 
