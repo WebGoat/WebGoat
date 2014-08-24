@@ -33,6 +33,7 @@
 		<script src="js/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
 		<!-- Feature detection -->
 		<script src="js/modernizr-2.6.2.min.js"></script>
+                <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
 		<script src="js/html5shiv.js"></script>
@@ -52,6 +53,8 @@
 		<script type="text/javascript" src="js/goatConstants.js"></script>
 	    <!-- end of JS -->
 
+           
+            
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat V6.0</title>
     </head>
@@ -114,7 +117,7 @@
                             <h4>Lesson Source Code</h4>
                			<div class="panel" >
                                     <div class="panel-body">
-                                        <p>{{lessonSource}}</p>
+                                        {{lessonSource}}
                                     </div>                                    
                			</div>
                		</div>
@@ -151,6 +154,10 @@
                     }, "html");
                 });
                 app.init();
+                
+                var editor = ace.edit("editor");
+                //editor.setTheme("ace/theme/monokai");
+                editor.getSession().setMode("ace/mode/javascript");
             });
             // make all forms ajax forms
             var options = {
