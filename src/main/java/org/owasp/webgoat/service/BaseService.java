@@ -30,6 +30,8 @@
  */
 package org.owasp.webgoat.service;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.controller.Welcome;
@@ -59,7 +61,8 @@ public abstract class BaseService {
         logger.error("Exception handler for service caught exception when processing: " + url, ex);
         ExceptionInfo response = new ExceptionInfo();
         response.setUrl(url);
-        response.setMessage(ex.toString());
+        
+        response.setMessage(getStringStackTrace(ex));
 
         return response;
     }
@@ -77,4 +80,10 @@ public abstract class BaseService {
         return ws;
     }
 
+    public String getStringStackTrace(Throwable t){
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        t.printStackTrace(pw);
+        return sw.toString();
+    }
 }
