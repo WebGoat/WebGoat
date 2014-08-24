@@ -33,7 +33,6 @@
 		<script src="js/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
 		<!-- Feature detection -->
 		<script src="js/modernizr-2.6.2.min.js"></script>
-                <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
 		<script src="js/html5shiv.js"></script>
