@@ -35,7 +35,7 @@ goat.controller('goatLesson', function($scope, $http) {
 
         console.log("Updating Lesson Source...");
         $http.get('service/source.mvc').success( function(data){
-            $scope.lessonSource = data.message;
+            $scope.lessonSource = data.source;
         }).error( function(data){
             $scope.lessonSource = data.message;
             console.log("LessonSource = '" + data.message + "'");
