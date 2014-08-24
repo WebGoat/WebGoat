@@ -116,7 +116,7 @@
                             <h4>Lesson Source Code</h4>
                			<div class="panel" >
                                     <div class="panel-body">
-                                        {{lessonSource}}
+<pre>{{lessonSource}}</pre>
                                     </div>                                    
                			</div>
                		</div>
