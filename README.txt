@@ -45,7 +45,7 @@ Follow these instructions if you simply wish to run WebGoat
 
     Prerequisites:  Java VM >= 1.6 installed ( JDK 1.7 recommended)
     Download the executable jar file to any location of your choice from:
-        http://github.com/path/to/download/WebGoat-6.0-exec-war.jar
+        https://webgoat.atlassian.net/builds/browse/WEB-DAIL/latestSuccessful/artifact/JOB1/WebGoat-Embedded-Tomcat/WebGoat-6.0-SNAPSHOT-war-exec.jar
 
     Run it using java:
         java -jar WebGoat-6.0-exec-war.jar
