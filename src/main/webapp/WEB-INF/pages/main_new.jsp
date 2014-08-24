@@ -52,11 +52,13 @@
 		<script type="text/javascript" src="js/goatConstants.js"></script>
 	    <!-- end of JS -->
 
+           
+            
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat V6.0</title>
     </head>
 
-    <body class="animated fadeIn" ng-app="goatApp">
+    <body class="animated fadeIn" ng-app="goatApp" ng-controller="goatLesson">
        <section id="container">
         <header id="header">
             <!--logo start-->
@@ -73,7 +75,7 @@
 		
 		        <!--sidebar left start-->
         <aside class="sidebar">
-            <div id="leftside-navigation" class="nano" ng-controller="goatMenu">
+            <div id="leftside-navigation" class="nano" >
                 <ul class="nano-content">                
                     <li class="sub-menu" ng-repeat="item in menuTopics">
                     <!-- TODO: implement conditional rendering -->
@@ -95,6 +97,7 @@
         <!--sidebar left end-->
         <!--main content start-->
         <section class="main-content-wrapper">
+            
             <section id="main-content">
                 <div class="row">
                		<div class="col-md-12">
@@ -102,11 +105,25 @@
                                     <div class="panel-body" id="lesson_content">    
                                         <b>This should default to the "How to Work with Webgoat" lesson</b>
                                     </div>
+                                    
                			</div>
                		</div>
                 </div>
+            
+               
+                <div class="row">
+               		<div class="col-md-12">
+                            <h4>Lesson Source Code</h4>
+               			<div class="panel" >
+                                    <div class="panel-body">
+                                        {{lessonSource}}
+                                    </div>                                    
+               			</div>
+               		</div>
+                </div> 
             </section>
         </section>
+
         <!--main content end-->
         
     </section>
@@ -136,6 +153,7 @@
                     }, "html");
                 });
                 app.init();
+                
             });
             // make all forms ajax forms
             var options = {

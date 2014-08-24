@@ -6,7 +6,7 @@
 /** Menu Controller
  *  prepares and updates menu topic items for the view
  */
-goat.controller('goatMenu', function($scope, $http) {
+goat.controller('goatLesson', function($scope, $http) {
     //TODO: implement via separate promise and use config for menu
     $http({method: 'GET', url: 'service/lessonmenu.mvc'}).then(
             function(menuData) {
@@ -32,6 +32,14 @@ goat.controller('goatMenu', function($scope, $http) {
 				}
 			}
         );
+
+        console.log("Updating Lesson Source...");
+        $http.get('service/source.mvc').success( function(data){
+            $scope.lessonSource = data.message;
+        }).error( function(data){
+            $scope.lessonSource = data.message;
+            console.log("LessonSource = '" + data.message + "'");
+        })
     };
 })
         .animation('.slideDown', function() {
