@@ -501,7 +501,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
         try {
             logger.debug("Loading source file: " + getSourceFileName());
-            src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getSourceFileName()))), true);
+            src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getSourceFileName()))), false);
 
         } catch (FileNotFoundException e) {
             s.setMessage("Could not find source file");
