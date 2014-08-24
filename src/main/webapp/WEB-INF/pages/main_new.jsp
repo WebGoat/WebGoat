@@ -26,7 +26,9 @@
 		
 		<!-- JS -->
 		<script src="js/angular/angular.min.js"></script>
+		<!-- angular modules -->
 		<script src="js/angular/angular-animate.min.js"></script>
+		<script src="js/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
 		<!-- Feature detection -->
 		<script src="js/modernizr-2.6.2.min.js"></script>
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -34,12 +36,19 @@
 		<script src="js/html5shiv.js"></script>
 		<script src="js/respond.min.js"></script>
 		<![endif]-->
+		
+		<!--Global JS-->
+		<script src="js/jquery/jquery-1.10.2.min.js"></script>
+		<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    
                 <script src="js/application.js"></script>
                 <script type="text/javascript">
-			var goat=angular.module("goatApp", ['ngAnimate']);
+			var goat=angular.module("goatApp", ['ngAnimate','ui.bootstrap']);
 		</script>
+		<script type="text/javascript" src="js/ui-util.js"></script>
 		<script type="text/javascript" src="js/goat.js"></script>		
 		<script type="text/javascript" src="js/goatConstants.js"></script>
+		
 
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat V6.0</title>
@@ -52,7 +61,7 @@
         <header id="header">
             <!--logo start-->
             <div class="brand">
-                <a href="index.html" class="logo"><span>Web</span>Goat</a>
+                <a href="/webgoat/start.mvc" class="logo"><span>Web</span>Goat</a>
             </div>
             <!--logo end-->
             <div class="toggle-navigation toggle-left">
@@ -103,9 +112,6 @@
     </section>
     
 
-    <!--Global JS-->
-    <script src="js/jquery/jquery-1.10.2.min.js"></script>
-    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 <!--     <script src="plugins/waypoints/waypoints.min.js"></script> -->
 <!--     <script src="js/application.js"></script> -->
 

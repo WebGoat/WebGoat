@@ -26,6 +26,10 @@ goat.controller('goatMenu', function($scope, $http) {
 				$("#lesson_content").html(reply);
 				// hook forms
 				makeFormsAjax();
+				// adjust menu to lessonContent size if necssary
+				if ($('div.panel-body').height() > 400) {
+				    $('#leftside-navigation').height($(window).height());
+				}
 			}
         );
     };
@@ -59,6 +63,9 @@ goat.addMenuClasses = function(arr) {
     }
     return arr;
 };
+
+
+/* ### GOAT DATA/PROMISES ### */
 
 
 function loadLessonContent(_url) {
