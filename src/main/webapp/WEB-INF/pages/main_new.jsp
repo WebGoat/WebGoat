@@ -155,9 +155,6 @@
                 });
                 app.init();
                 
-                var editor = ace.edit("editor");
-                //editor.setTheme("ace/theme/monokai");
-                editor.getSession().setMode("ace/mode/javascript");
             });
             // make all forms ajax forms
             var options = {
