@@ -346,32 +346,35 @@ public class Course {
      */
     private void loadResources() {
         for (AbstractLesson lesson : lessons) {
+            logger.info("Loading resources for lesson -> " + lesson.getName());
             String className = lesson.getClass().getName();
             String classFile = getSourceFile(className);
+            logger.info("Lesson classname: " + className);
+            logger.info("Lesson java file: " + classFile);
 
             for (String absoluteFile : files) {
                 String fileName = getFileName(absoluteFile);
-                logger.debug("Course: looking at file: " + absoluteFile);
+                //logger.debug("Course: looking at file: " + absoluteFile);
 
                 if (absoluteFile.endsWith(classFile)) {
-                    // System.out.println("Set source file for " + classFile);
+                    logger.info("Set source file for " + classFile);
                     lesson.setSourceFileName(absoluteFile);
                 }
 
                 if (absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html")
                         && className.endsWith(fileName)) {
-                    logger.debug("DEBUG: setting lesson plan file " + absoluteFile + " for lesson "
+                    logger.info("setting lesson plan file " + absoluteFile + " for lesson "
                             + lesson.getClass().getName());
-                    logger.debug("fileName: " + fileName + " == className: " + className);
+                    logger.info("fileName: " + fileName + " == className: " + className);
                     String language = getLanguageFromFileName("/lesson_plans", absoluteFile);
                     lesson.setLessonPlanFileName(language, absoluteFile);
                     WebGoatI18N.loadLanguage(language);
                 }
                 if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html")
                         && className.endsWith(fileName)) {
-                    logger.debug("DEBUG: setting lesson solution file " + absoluteFile + " for lesson "
+                    logger.info("setting lesson solution file " + absoluteFile + " for lesson "
                             + lesson.getClass().getName());
-                    logger.debug("fileName: " + fileName + " == className: " + className);
+                    logger.info("fileName: " + fileName + " == className: " + className);
                     lesson.setLessonSolutionFileName(absoluteFile);
                 }
             }

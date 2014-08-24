@@ -219,7 +219,7 @@ public class WebSession {
     /**
      * Constructor for the WebSession object
      *
-     * @param servlet Description of the Parameter
+     * @param webgoatContext
      * @param context Description of the Parameter
      */
     public WebSession(WebgoatContext webgoatContext, ServletContext context) {
