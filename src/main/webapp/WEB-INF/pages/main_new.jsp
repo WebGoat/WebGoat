@@ -102,6 +102,7 @@
                                     <div class="panel-body" id="lesson_content">    
                                         <b>This should default to the "How to Work with Webgoat" lesson</b>
                                     </div>
+                                    <div class="panel-body" id="lesson_source"></div>
                			</div>
                		</div>
                 </div>
