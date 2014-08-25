@@ -74,7 +74,7 @@
 		<button type="button" class="btn btn-primary btn-sm">Params/Cookies</button>
 		<button type="button" class="btn btn-primary btn-sm">Hints</button>
 		<button type="button" class="btn btn-primary btn-sm">Lesson Plan</button>
-		<button type="button" class="btn btn-primary btn-sm">Java [Source]</button>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="showSource('lg')">Java [Source]</button>
 		<button type="button" class="btn btn-primary btn-sm">Solution</button>
             </div><!--toggle navigation end-->
         </header>
@@ -115,7 +115,7 @@
                		</div>
                 </div>
             
-               
+               <!--
                 <div class="row">
                		<div class="col-md-12">
                             <h4>Lesson Source Code</h4>
@@ -126,6 +126,7 @@
                			</div>
                		</div>
                 </div> 
+               -->
             </section>
         </section>
 
@@ -133,7 +134,6 @@
         
     </section>
     
-
 <!--     <script src="plugins/waypoints/waypoints.min.js"></script> -->
 <!--     <script src="js/application.js"></script> -->
 
@@ -216,4 +216,21 @@
 
         </script>
     </body>
+        <!-- Modals -->        
+        <script type="text/ng-template" id="showSource.html">
+            <div class="modal-header">
+                <button class="btn btn-primary pull-right" ng-click="ok()">Close</button>            
+                <h3 class="modal-title">Lesson Source</h3>
+                
+            </div>
+            <div class="modal-body">
+                <pre>{{lessonSource}}</pre>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">Close</button>                
+            </div>
+        </script>
+
+
+
 </html>
