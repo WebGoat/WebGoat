@@ -70,26 +70,31 @@
                 <button type="button" class="btn btn-default" id="toggle-left" data-toggle="tooltip" data-placement="right" title="Toggle Navigation">
                     <i class="fa fa-bars"></i>
                 </button>
+		<span id="lessonTitle">Welcome To WebGoat</span>
+		<button type="button" class="btn btn-primary btn-sm">Params/Cookies</button>
+		<button type="button" class="btn btn-primary btn-sm">Hints</button>
+		<button type="button" class="btn btn-primary btn-sm">Lesson Plan</button>
+		<button type="button" class="btn btn-primary btn-sm">Java [Source]</button>
+		<button type="button" class="btn btn-primary btn-sm">Solution</button>
             </div><!--toggle navigation end-->
         </header>
 		
 		        <!--sidebar left start-->
         <aside class="sidebar">
             <div id="leftside-navigation" class="nano" >
-                <ul class="nano-content">                
-                    <li class="sub-menu" ng-repeat="item in menuTopics">
-                    <!-- TODO: implement conditional rendering -->
-                            <a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
-                            <ul class="slideDown" ng-show="expanded">
-                                    <li ng-repeat="lesson in item.children">
-                                            <a ng-click="renderLesson(lesson.link)" title="link to {{lesson.name}}" href="">{{lesson.name}}</a>
-                                            <span ng-repeat="stage in lesson.children" >
-                                                <a ng-click="renderLesson(stage.link)" title="link to {{stage.name}}" href="">{{stage.name}}</a>
-                                            </span>
-                                    </li>
-                            </ul>
-                    </li>
-		</ul>
+                <ul class="nano-content">
+		    <li class="sub-menu" ng-repeat="item in menuTopics">
+			<a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
+			<ul class="slideDown" ng-show="expanded">
+			    <li ng-repeat="lesson in item.children">
+				<a ng-click="renderLesson(lesson.link)" title="link to {{lesson.name}}" href="">{{lesson.name}}</a>
+				<span ng-repeat="stage in lesson.children" >
+				    <a ng-click="renderLesson(stage.link)" title="link to {{stage.name}}" href="">{{stage.name}}</a>
+				</span>
+			    </li>
+		    	</ul>
+		    </li>
+		</ul> 
 						
             </div>
 
@@ -116,7 +121,7 @@
                             <h4>Lesson Source Code</h4>
                			<div class="panel" >
                                     <div class="panel-body">
-<pre>{{lessonSource}}</pre>
+					<pre>{{lessonSource}}</pre>
                                     </div>                                    
                			</div>
                		</div>
@@ -208,10 +213,7 @@
                 }
                 makeFormsAjax();
             }
-            function makeFormsAjax() {
-                //console.log("Hooking any lesson forms to make them ajax");
-                $("form").ajaxForm(options);
-            }
+
         </script>
     </body>
 </html>

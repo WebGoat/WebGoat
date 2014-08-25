@@ -26,6 +26,7 @@ goat.controller('goatLesson', function($scope, $http) {
 				$("#lesson_content").html(reply);
 				// hook forms
 				makeFormsAjax();
+				$('#lessonTitle').text(extractLessonTitle($(reply)));
 				// adjust menu to lessonContent size if necssary
 				if ($('div.panel-body').height() > 400) {
 				    $('#leftside-navigation').height($(window).height());
@@ -47,12 +48,12 @@ goat.controller('goatLesson', function($scope, $http) {
             return {
                 beforeAddClass: function(element, className, done) {
                     if (className === NgHideClassName) {
-                        jQuery(element).slideUp(done);
+                        $(element).slideUp(done);
                     }
                 },
                 removeClass: function(element, className, done) {
                     if (className === NgHideClassName) {
-                        jQuery(element).hide().slideDown(done);
+                        $(element).hide().slideDown(done);
                     }
                 }
             }
@@ -77,8 +78,10 @@ goat.addMenuClasses = function(arr) {
 
 
 function loadLessonContent(_url) {
-	//TODO: switch to $http (angular)
-	return $.get(_url,{},null,"html");
+    //TODO: switch to $http (angular) later
+    //return $http({method:'GET', url: _url});
+    return $.get(_url,{},null,"html");
+    
 }
 
 function loadMenuData() {
