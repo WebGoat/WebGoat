@@ -76,7 +76,7 @@
 		<button type="button" class="btn btn-primary btn-sm">Hints</button>
 		<button type="button" class="btn btn-primary btn-sm">Lesson Plan</button>
                 <button type="button" class="btn btn-primary btn-sm" ng-click="showSource('lg')">Java [Source]</button>
-		<button type="button" class="btn btn-primary btn-sm">Solution</button>
+		<button type="button" class="btn btn-primary btn-sm" ng-click="showSolution('lg')">Solution</button>
             </div><!--toggle navigation end-->
         </header>
 		
@@ -114,20 +114,7 @@
                                     
                			</div>
                		</div>
-                </div>
-            
-               <!--
-                <div class="row">
-               		<div class="col-md-12">
-                            <h4>Lesson Source Code</h4>
-               			<div class="panel" >
-                                    <div class="panel-body">
-					<pre>{{lessonSource}}</pre>
-                                    </div>                                    
-               			</div>
-               		</div>
-                </div> 
-               -->
+                </div>            
             </section>
         </section>
 
@@ -135,13 +122,7 @@
         
     </section>
     
-<!--     <script src="plugins/waypoints/waypoints.min.js"></script> -->
-<!--     <script src="js/application.js"></script> -->
-
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+        <!-- TODO pull source into project instead of loading from external -->
         <script src="http://malsup.github.com/jquery.form.js"></script>  
         <script>
         //Load global functions
@@ -226,6 +207,20 @@
             </div>
             <div class="modal-body">
                 <pre>{{lessonSource}}</pre>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">Close</button>                
+            </div>
+        </script>
+        
+        <script type="text/ng-template" id="showSolution.html">
+            <div class="modal-header">
+                <button class="btn btn-primary pull-right" ng-click="ok()">Close</button>            
+                <h3 class="modal-title">Lesson Solution</h3>
+                
+            </div>
+            <div class="modal-body" ng-include="lessonSolutionUrl">
+            
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-click="ok()">Close</button>                
