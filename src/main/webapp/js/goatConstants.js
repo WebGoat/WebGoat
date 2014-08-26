@@ -1,9 +1,8 @@
 //goatConstants
 
-var goatConstants = {};
-
-goatConstants.CATEGORYCLASS = 'fa-angle-right pull-right';
-goatConstants.menuPrefix = [
+var goatConstants = {
+	CATEGORYCLASS:'fa-angle-right pull-right',
+	menuPrefix : [
 		{
 		name:'LESSONS',
 		type:'STATIC',
@@ -11,5 +10,7 @@ goatConstants.menuPrefix = [
 		link:'',
 		children:null,
 		class:'fa-bars static'
-	}
-];	
+	}],
+	lessonService: 'service/lessonmenu.mvc'
+};
+

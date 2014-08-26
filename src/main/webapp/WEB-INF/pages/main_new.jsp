@@ -47,9 +47,10 @@
                 <script type="text/javascript">
 			var goat=angular.module("goatApp", ['ngAnimate','ui.bootstrap']);
 		</script>
-		<script type="text/javascript" src="js/ui-util.js"></script>
-		<script type="text/javascript" src="js/goat.js"></script>		
 		<script type="text/javascript" src="js/goatConstants.js"></script>
+		<script type="text/javascript" src="js/goatUtil.js"></script>
+		<script type="text/javascript" src="js/goatData.js"></script>
+		<script type="text/javascript" src="js/goatControllers.js"></script>
 	    <!-- end of JS -->
 
            
@@ -211,7 +212,7 @@
                     alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
                             '\n\nThe output div should have already been updated with the responseText.');
                 }
-                makeFormsAjax();
+                goat.utils.makeFormsAjax();
             }
 
         </script>
