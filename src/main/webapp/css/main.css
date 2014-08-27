@@ -743,3 +743,8 @@ fieldset[disabled] .btn-warning.active {
     display: none;
   }
 }
+
+#buttonPanel {
+  padding:3px;
+  width:auto;
+}

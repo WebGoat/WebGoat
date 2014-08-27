@@ -72,11 +72,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
 		<span id="lessonTitle">Welcome To WebGoat</span>
-		<button type="button" class="btn btn-primary btn-sm">Params/Cookies</button>
-		<button type="button" class="btn btn-primary btn-sm">Hints</button>
-		<button type="button" class="btn btn-primary btn-sm">Lesson Plan</button>
-                <button type="button" class="btn btn-primary btn-sm" ng-click="showSource('lg')">Java [Source]</button>
-		<button type="button" class="btn btn-primary btn-sm" ng-click="showSolution('lg')">Solution</button>
+
             </div><!--toggle navigation end-->
         </header>
 		
@@ -107,12 +103,19 @@
             <section id="main-content">
                 <div class="row">
                		<div class="col-md-12">
-               			<div class="panel" >
-                                    <div class="panel-body" id="lesson_content">    
-                                        <b>This should default to the "How to Work with Webgoat" lesson</b>
-                                    </div>
-                                    
-               			</div>
+			    <div class="panel" id="buttonPanel">
+				<button type="button" class="btn btn-primary btn-xs">Params/Cookies</button>
+				<button type="button" class="btn btn-primary btn-xs">Hints</button>
+				<button type="button" class="btn btn-primary btn-xs">Lesson Plan</button>
+				<button type="button" class="btn btn-primary btn-xs" ng-click="showSource('lg')">Java [Source]</button>
+				<button type="button" class="btn btn-primary btn-xs" ng-click="showSolution('lg')">Solution</button>
+			    </div>
+			    <div class="panel" >
+				<div class="panel-body" id="lesson_content">    
+				    <b>This should default to the "How to Work with Webgoat" lesson</b>
+				</div>
+				
+			    </div>
                		</div>
                 </div>            
             </section>
