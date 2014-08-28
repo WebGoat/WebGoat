@@ -34,7 +34,6 @@ import javax.servlet.http.HttpSession;
 import static org.owasp.webgoat.LessonSource.END_SOURCE_SKIP;
 import static org.owasp.webgoat.LessonSource.START_SOURCE_SKIP;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.model.SourceListing;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
@@ -54,14 +53,18 @@ public class SourceService extends BaseService {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/source.mvc", produces = "application/json")
+    @RequestMapping(value = "/source.mvc", produces = "application/text")
     public @ResponseBody
-    SourceListing showSource(HttpSession session) {
+    String showSource(HttpSession session) {
         WebSession ws = getWebSession(session);
         String source = getSource(ws);
-        SourceListing sl = new SourceListing();
-        sl.setSource(source);
-        return sl;
+        if (source == null) {
+            source = "No source listing found";
+        }
+        return source;
+        //SourceListing sl = new SourceListing();
+        //sl.setSource(source);
+        //return sl;
     }
 
     /**
@@ -85,8 +88,7 @@ public class SourceService extends BaseService {
             }
         }
         if (source == null) {
-            return "Source code is not available. Contact "
-                    + s.getWebgoatContext().getFeedbackAddressHTML();
+            return "Source code is not available for this lesson.";
         }
         return (source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*" + END_SOURCE_SKIP,
                 "Code Section Deliberately Omitted"));

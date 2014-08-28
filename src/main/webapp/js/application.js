@@ -62,6 +62,7 @@ var app = function() {
 
     }
 
+    /*
     var menu = function() {
         $("#leftside-navigation .sub-menu a").click(function(e) {
             $("#leftside-navigation ul ul").slideUp();
@@ -71,6 +72,7 @@ var app = function() {
               e.stopPropagation();
         });
     };
+    */
     //End functions
 
     //Dashboard functions

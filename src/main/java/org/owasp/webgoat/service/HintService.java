@@ -14,6 +14,7 @@ import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -52,5 +53,34 @@ public class HintService extends BaseService {
             idx++;
         }
         return listHints;
+    }
+
+    @RequestMapping(value = "/hint_widget.mvc", produces = "text/html")
+    public
+            ModelAndView showHintsAsHtml(HttpSession session) {
+        ModelAndView model = new ModelAndView();
+        List<Hint> listHints = new ArrayList<Hint>();
+        model.addObject("hints", listHints);
+        WebSession ws = getWebSession(session);
+        AbstractLesson l = ws.getCurrentLesson();
+        if (l == null) {            
+            return model;
+        }
+        List<String> hints;
+        hints = l.getHintsPublic(ws);
+        if (hints == null) {
+            return model;
+        }
+        int idx = 0;
+        for (String h : hints) {
+            Hint hint = new Hint();
+            hint.setHint(h);
+            hint.setLesson(l.getName());
+            hint.setNumber(idx);
+            listHints.add(hint);
+            idx++;
+        }
+        model.setViewName("widgets/hints");
+        return model;
     }
 }

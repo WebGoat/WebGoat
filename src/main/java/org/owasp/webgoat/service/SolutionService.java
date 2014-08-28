@@ -31,10 +31,7 @@
 package org.owasp.webgoat.service;
 
 import javax.servlet.http.HttpSession;
-import static org.owasp.webgoat.LessonSource.END_SOURCE_SKIP;
-import static org.owasp.webgoat.LessonSource.START_SOURCE_SKIP;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.model.SourceListing;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;

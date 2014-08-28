@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
          import="org.owasp.webgoat.session.*, org.owasp.webgoat.lessons.Category, org.owasp.webgoat.lessons.AbstractLesson, org.owasp.webgoat.util.*, java.util.*" 
          errorPage=""  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     WebSession webSession = ((WebSession) session.getAttribute(WebSession.SESSION));
     Course course = webSession.getCourse();
@@ -10,19 +11,6 @@
 
 <!-- HTML fragment correpsonding to the lesson content -->
 <%@page import="org.owasp.webgoat.lessons.RandomLessonAdapter"%>
-
-<!--
-<link rel="stylesheet" href="css/webgoat.css" type="text/css" />
-<link rel="stylesheet" href="css/lesson.css" type="text/css" />
-<link rel="stylesheet" href="css/menu.css" type="text/css" />
-<link rel="stylesheet" href="css/layers.css" type="text/css" />
-<script language="JavaScript1.2" src="javascript/javascript.js" type="text/javascript"></script>
-<script language="JavaScript1.2" src="javascript/menu_system.js" type="text/javascript"></script>
-<script language="JavaScript1.2" src="javascript/lessonNav.js" type="text/javascript"></script>
-<script language="JavaScript1.2" src="javascript/makeWindow.js" type="text/javascript"></script>
-<script language="JavaScript1.2" src="javascript/toggle.js" type="text/javascript"></script>
--->
-
 
 <div id="lessonContent">
     <%

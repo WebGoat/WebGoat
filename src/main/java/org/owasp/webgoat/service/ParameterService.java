@@ -33,7 +33,6 @@ package org.owasp.webgoat.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.lessons.model.RequestParameter;
 import org.owasp.webgoat.session.WebSession;
@@ -61,9 +60,8 @@ public class ParameterService extends BaseService {
     @RequestMapping(value = "/parameter.mvc", produces = "application/json")
     public @ResponseBody
     List<RequestParameter> showParameters(HttpSession session) {
-        List<RequestParameter> listParms = new ArrayList<RequestParameter>();
         WebSession ws = getWebSession(session);
-        listParms = ws.getParmsOnLastRequest();
+        List<RequestParameter> listParms = ws.getParmsOnLastRequest();
         Collections.sort(listParms);
         return listParms;
     }

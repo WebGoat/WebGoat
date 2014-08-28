@@ -122,7 +122,6 @@ img {
 /* Sidebar */
 .sidebar {
   width: 240px;
-  height: auto;
   background: #222;
   position: absolute;
   -webkit-transition: all 0.3s ease-in-out;
@@ -132,6 +131,19 @@ img {
   transition: all 0.3s ease-in-out;
   z-index: 100;
 }
+
+#leftside-navigation {
+  height:400px;
+  overflow-y:scroll;
+  overflow-x:hidden;
+}
+
+#sidebar {
+  /*background-color:#333;*/
+  background-color:blue;
+}
+
+  
 .sidebar-toggle {
   margin-left: -240px;
 }
@@ -211,8 +223,9 @@ img {
   -ms-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   background: #f1f2f7;
-  min-height: 1000px;
+  min-height: 400px;
 }
+
 .main-content-wrapper #main-content {
   background: url('img/webBg.png') no-repeat top left;
   border-top: solid thin #e7e8ec;
@@ -729,4 +742,9 @@ fieldset[disabled] .btn-warning.active {
   #header .dropdown.messages {
     display: none;
   }
+}
+
+#buttonPanel {
+  padding:3px;
+  width:auto;
 }
