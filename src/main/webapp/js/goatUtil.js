@@ -35,7 +35,7 @@ goat.utils = {
     },
     showLessonSource: function() {
         $.get("service/source.mvc", {}, function(reply) {
-            $("#lesson_source").html(reply);
+            $("#lesson_source").html("<pre>"+reply+"</pre>");
         }, "html");
     },
     showLessonSolution: function() {

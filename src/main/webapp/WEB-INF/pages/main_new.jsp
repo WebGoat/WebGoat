@@ -161,7 +161,7 @@
                		<div class="col-md-12">
                             <h4>Lesson Source Code</h4>
                			<div class="panel" >
-                                    <div class="panel-body" id="lesson_source">				
+                                    <div class="panel-body" id="lesson_source">	                                        
                                     </div>                                    
                			</div>
                		</div>
