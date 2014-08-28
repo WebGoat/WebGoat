@@ -129,6 +129,7 @@ public class HammerHead extends HttpServlet {
             // FIXME: If a response is written by updateSession(), do not
             // call makeScreen() and writeScreen()
             mySession = updateSession(request, response, context);
+            
             if (response.isCommitted()) {
                 logger.debug("Response already committed, exiting");
                 return;

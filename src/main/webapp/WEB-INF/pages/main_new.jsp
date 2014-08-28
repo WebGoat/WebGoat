@@ -117,7 +117,55 @@
 				
 			    </div>
                		</div>
-                </div>            
+                </div> 
+                <div class="row" id="lesson_cookies_row">
+               		<div class="col-md-12">
+                            <h4>Lesson Parameters and Cookies</h4>
+               			<div class="panel" >
+                                    <div class="panel-body" id="lesson_cookies">	
+
+                                    </div>                                    
+               			</div>
+               		</div>
+                </div>   
+                <div class="row" id="lesson_hint_row">
+               		<div class="col-md-12">
+                            <h4>Lesson Hints</h4>
+               			<div class="panel" >
+                                    <div class="panel-body" id="lesson_hint">	
+
+                                    </div>                                    
+               			</div>
+               		</div>
+                </div>                 
+                <div class="row" id="lesson_plan_row">
+               		<div class="col-md-12">
+                            <h4>Lesson Plan</h4>
+               			<div class="panel" >
+                                    <div class="panel-body" id="lesson_plan">	
+
+                                    </div>                                    
+               			</div>
+               		</div>
+                </div> 
+                <div class="row" id="lesson_solution_row">
+               		<div class="col-md-12">
+                            <h4>Lesson Solution</h4>
+               			<div class="panel" >
+                                    <div class="panel-body" id="lesson_solution">				
+                                    </div>                                    
+               			</div>
+               		</div>
+                </div> 
+                <div class="row" id="lesson_source_row">
+               		<div class="col-md-12">
+                            <h4>Lesson Source Code</h4>
+               			<div class="panel" >
+                                    <div class="panel-body" id="lesson_source">				
+                                    </div>                                    
+               			</div>
+               		</div>
+                </div> 
             </section>
         </section>
 
@@ -140,6 +188,7 @@
                     event.preventDefault();
                     $.get(this.href, {}, function(reply) {
                         $("#lesson_content").html(reply);
+                        goat.utils.showLessonSource();
                     }, "html");
                 });
                 app.init();
@@ -196,40 +245,13 @@
                     alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
                             '\n\nThe output div should have already been updated with the responseText.');
                 }
+                // JASON - SEE THIS HOOK
+                // update lesson cookies and params
+                // make any embedded forms ajaxy
+                goat.utils.showLessonCookiesAndParams();
                 goat.utils.makeFormsAjax();
             }
 
         </script>
     </body>
-        <!-- Modals -->        
-        <script type="text/ng-template" id="showSource.html">
-            <div class="modal-header">
-                <button class="btn btn-primary pull-right" ng-click="ok()">Close</button>            
-                <h3 class="modal-title">Lesson Source</h3>
-                
-            </div>
-            <div class="modal-body">
-                <pre>{{lessonSource}}</pre>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="ok()">Close</button>                
-            </div>
-        </script>
-        
-        <script type="text/ng-template" id="showSolution.html">
-            <div class="modal-header">
-                <button class="btn btn-primary pull-right" ng-click="ok()">Close</button>            
-                <h3 class="modal-title">Lesson Solution</h3>
-                
-            </div>
-            <div class="modal-body" ng-include="lessonSolutionUrl">
-            
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="ok()">Close</button>                
-            </div>
-        </script>
-
-
-
 </html>

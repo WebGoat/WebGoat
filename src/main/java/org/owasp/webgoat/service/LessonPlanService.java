@@ -54,14 +54,15 @@ public class LessonPlanService extends BaseService {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/lessonplan.mvc", produces = "application/json")
+    @RequestMapping(value = "/lessonplan.mvc", produces = "application/html")
     public @ResponseBody
-    SourceListing showSource(HttpSession session) {
+    String showPlan(HttpSession session) {
         WebSession ws = getWebSession(session);
-        String source = getSource(ws);
-        SourceListing sl = new SourceListing();
-        sl.setSource(source);
-        return sl;
+        String plan = getPlan(ws);
+        return plan;
+        //SourceListing sl = new SourceListing();
+        //sl.setSource(source);
+        //return sl;
     }
 
     /**
@@ -70,9 +71,9 @@ public class LessonPlanService extends BaseService {
      * @param s Description of the Parameter
      * @return Description of the Return Value
      */
-    protected String getSource(WebSession s) {
+    protected String getPlan(WebSession s) {
 
-        String source = null;
+        String plan = null;
         int scr = s.getCurrentScreen();
         Course course = s.getCourse();
 
@@ -81,14 +82,12 @@ public class LessonPlanService extends BaseService {
             AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
 
             if (lesson != null) {
-                source = lesson.getRawSource(s);
+                plan = lesson.getLessonPlan(s);
             }
         }
-        if (source == null) {
-            return "Source code is not available. Contact "
-                    + s.getWebgoatContext().getFeedbackAddressHTML();
+        if (plan == null) {
+            plan = "Plan is not available for this lesson.";
         }
-        return (source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*" + END_SOURCE_SKIP,
-                "Code Section Deliberately Omitted"));
+        return plan;
     }
 }

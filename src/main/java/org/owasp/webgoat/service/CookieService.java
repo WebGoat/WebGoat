@@ -30,13 +30,16 @@
  */
 package org.owasp.webgoat.service;
 
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+import org.owasp.webgoat.lessons.model.RequestParameter;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -57,5 +60,24 @@ public class CookieService extends BaseService {
         WebSession ws = getWebSession(session);
         List<Cookie> cookies = ws.getCookiesOnLastRequest();
         return cookies;
+    }
+
+    /**
+     * Returns cookies and params for current lesson
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/cookies_widget.mvc", produces = "text/html")
+    public ModelAndView showCookiesAndParamsAsHtml(HttpSession session) {
+        ModelAndView model = new ModelAndView();
+        WebSession ws = getWebSession(session);
+        List<Cookie> cookies = ws.getCookiesOnLastRequest();
+        List<RequestParameter> listParms = ws.getParmsOnLastRequest();
+        Collections.sort(listParms);
+        model.addObject("wgcookies", cookies);
+        model.addObject("wgparams", listParms);
+        model.setViewName("widgets/cookies_and_params");
+        return model;
     }
 }

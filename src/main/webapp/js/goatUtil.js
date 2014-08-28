@@ -18,11 +18,36 @@ goat.utils = {
     /**goatApp.extractLessonTitle
      *pulls lesson title from html fragment returned (looks for it in h1 element)
      *@param - html rendered to object passed in
-    */
-    extractLessonTitle:function (el) {
-        var title = $('h1',el).text();
+     */
+    extractLessonTitle: function(el) {
+        var title = $('h1', el).text();
         return title;
     },
+    showLessonCookiesAndParams: function() {
+        $.get("service/cookies_widget.mvc", {}, function(reply) {
+            $("#lesson_cookies").html(reply);
+        }, "html");
+    },
+    showLessonHint: function() {
+        $.get("service/hint_widget.mvc", {}, function(reply) {
+            $("#lesson_hint").html(reply);
+        }, "html");
+    },
+    showLessonSource: function() {
+        $.get("service/source.mvc", {}, function(reply) {
+            $("#lesson_source").html(reply);
+        }, "html");
+    },
+    showLessonSolution: function() {
+        $.get("service/solution.mvc", {}, function(reply) {
+            $("#lesson_solution").html(reply);
+        }, "html");
+    },
+    showLessonPlan: function() {
+        $.get("service/lessonplan.mvc", {}, function(reply) {
+            $("#lesson_plan").html(reply);
+        }, "html");
+    }
 };
 
 // ### GLOBAL FUNCTIONS ## //

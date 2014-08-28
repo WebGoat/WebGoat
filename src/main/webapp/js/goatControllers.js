@@ -31,65 +31,21 @@ goat.controller('goatLesson', function($scope, $http, $modal, $log, $templateCac
                     if ($('div.panel-body').height() > 400) {
                         $('#leftside-navigation').height($(window).height());
                     }
+                    // hook into our pseudo service calls
+                    // @TODO make these real services during phase 2
+                    // show cookies and params
+                    goat.utils.showLessonCookiesAndParams();
+                    // show hints
+                    goat.utils.showLessonHint();
+                    // show plan
+                    goat.utils.showLessonPlan();
+                    // show solution
+                    goat.utils.showLessonSolution();
+                    // show source
+                    goat.utils.showLessonSource();                    
                 }
         );
     };
-    //TODO: Move show Source into it's own angular controller
-    /*
-     * Function to load lesson source
-     * @returns {undefined}
-     */
-    $scope.showSource = function(size) {
-        // fetch source from web service
-        $http.get('service/source.mvc').success(function(data) {
-            $scope.lessonSource = data.source;
-            $scope.openSourceModal(size);
-        }).error(function(data) {
-            $scope.lessonSource = data.message;
-            console.log("LessonSource = '" + data.message + "'");
-            $scope.openSourceModal(size);
-        });
-    };
-
-    $scope.openSourceModal = function(size) {
-        var modalInstance = $modal.open({
-            templateUrl: 'showSource.html',
-            controller: showSourceController,
-            size: size,
-            resolve: {
-                lessonSource: function() {
-                    return $scope.lessonSource;
-                }
-            }
-        });
-        modalInstance.result.then(function() {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    };
-
-    /*
-     * Function to load lesson solution
-     * @returns {undefined}
-     */
-    $scope.showSolution = function(size) {
-        $scope.lessonSolutionUrl = "service/solution.mvc";
-        // clear the template cache otherwise we display stale lesson solutions
-        $templateCache.remove($scope.lessonSolutionUrl);
-        var modalInstance = $modal.open({
-            templateUrl: 'showSolution.html',
-            controller: showSolutionController,
-            size: size,
-            resolve: {
-                lessonSolutionUrl: function() {
-                    return $scope.lessonSolutionUrl;
-                }
-            }
-        });
-        modalInstance.result.then(function() {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    };
-
 }).animation('.slideDown', function() {
     var NgHideClassName = 'ng-hide';
     return {
