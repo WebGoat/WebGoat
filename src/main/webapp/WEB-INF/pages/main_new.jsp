@@ -64,7 +64,7 @@
         <header id="header">
             <!--logo start-->
             <div class="brand">
-                <a href="/webgoat/start.mvc" class="logo"><span>Web</span>Goat</a>
+                <a href="${pageContext.request.contextPath}/start.mvc" class="logo"><span>Web</span>Goat</a>
             </div>
             <!--logo end-->
             <div class="toggle-navigation toggle-left">
@@ -74,6 +74,11 @@
 		<span id="lessonTitle">Welcome To WebGoat</span>
 
             </div><!--toggle navigation end-->
+	    <div id="topLinks">
+		<span><a href="#">About</a></span><br/>
+		<span><a href="#">Contact</a></span><br/>
+		<span><a href="${pageContext.request.contextPath}/j_spring_security_logout">Log out</a></span><br/>
+	    </div>
         </header>
 		
 		        <!--sidebar left start-->

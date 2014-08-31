@@ -748,3 +748,9 @@ fieldset[disabled] .btn-warning.active {
   padding:3px;
   width:auto;
 }
+
+#topLinks {
+  float:right;
+  margin-right:5px;
+  margin-top:3px;
+}

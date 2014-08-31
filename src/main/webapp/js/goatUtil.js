@@ -24,27 +24,27 @@ goat.utils = {
         return title;
     },
     showLessonCookiesAndParams: function() {
-        $.get("service/cookies_widget.mvc", {}, function(reply) {
+        $.get(goatConstants.cookieService, {}, function(reply) {
             $("#lesson_cookies").html(reply);
         }, "html");
     },
     showLessonHint: function() {
-        $.get("service/hint_widget.mvc", {}, function(reply) {
+        $.get(goatConstants.hintService, {}, function(reply) {
             $("#lesson_hint").html(reply);
         }, "html");
     },
     showLessonSource: function() {
-        $.get("service/source.mvc", {}, function(reply) {
+        $.get(goatConstants.sourceService, {}, function(reply) {
             $("#lesson_source").html("<pre>"+reply+"</pre>");
         }, "html");
     },
     showLessonSolution: function() {
-        $.get("service/solution.mvc", {}, function(reply) {
+        $.get(goatConstants.solutionService, {}, function(reply) {
             $("#lesson_solution").html(reply);
         }, "html");
     },
     showLessonPlan: function() {
-        $.get("service/lessonplan.mvc", {}, function(reply) {
+        $.get(goatConstants.lessonPlanService, {}, function(reply) {
             $("#lesson_plan").html(reply);
         }, "html");
     }
