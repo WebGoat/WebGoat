@@ -57,11 +57,14 @@ goat.controller('goatLessonMenu', function($scope, $http, $modal, $log, $templat
 goat.controller('lessonHelpController', function($scope) {
     $scope.cookies=[];
     $scope.params=[];
-    $scope.viewCookiesAndParams = function($scope) {
-	$scope.cookies=goat.lesson.lessonInfo.cookies;
-	$scope.params=goat.lesson.lessonInfo.params;
+    $scope.viewCookiesAndParams = function() {
+	    $scope.cookies=goat.lesson.lessonInfo.cookies;
+	    console.log($scope.cookies);
+	    $scope.params=goat.lesson.lessonInfo.params;
+	
 	//@TODO: issue callback to track view
-    }
+    };
+    //$scope.watch()
 });
 
 /*

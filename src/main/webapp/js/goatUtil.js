@@ -77,9 +77,9 @@ goat.utils = {
             return;
         }
         var params = url.split('?')[1].split('&');
-        var paramObj = {};
         var paramsArr = [];
         for (var i=0;i< params.length;i++) {
+            var paramObj = {};
             paramObj.name = params[i].split('=')[0];
             paramObj.value = params[i].split('=')[1];
             paramsArr.push(paramObj);
