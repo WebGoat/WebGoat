@@ -11,11 +11,17 @@ var goatConstants = {
 		children:null,
 		class:'fa-bars static'
 	}],
+	//services
 	lessonService: 'service/lessonmenu.mvc',
-	cookieService: 'service/cookies_widget.mvc',
-	hintService:'service/hint_widget.mvc',
+	cookieService: 'service/cookie.mvc', //cookies_widget.mvc
+	hintService:'service/hint.mvc',
 	sourceService:'service/source.mvc',
 	solutionService:'service/solution.mvc',
-	lessonPlanService:'service/lessonplan.mvc'
+	lessonPlanService:'service/lessonplan.mvc',
+	menuService: 'service/lessonmenu.mvc',
+	paramService: 'service/parms.mvc', //this is a stub .. need to discuss this
+	// literals
+	notFound: 'Could not find'
 };
+
 

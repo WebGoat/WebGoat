@@ -50,6 +50,7 @@
 		<script type="text/javascript" src="js/goatConstants.js"></script>
 		<script type="text/javascript" src="js/goatUtil.js"></script>
 		<script type="text/javascript" src="js/goatData.js"></script>
+		<script type="text/javascript" src="js/goatLesson.js"></script>
 		<script type="text/javascript" src="js/goatControllers.js"></script>
 	    <!-- end of JS -->
 
@@ -59,7 +60,7 @@
         <title>WebGoat V6.0</title>
     </head>
 
-    <body class="animated fadeIn" ng-app="goatApp" ng-controller="goatLesson">
+    <body class="animated fadeIn" ng-app="goatApp">
        <section id="container">
         <header id="header">
             <!--logo start-->
@@ -83,7 +84,7 @@
 		
 		        <!--sidebar left start-->
         <aside class="sidebar">
-            <div id="leftside-navigation" class="nano" >
+            <div id="leftside-navigation" class="nano" ng-controller="goatLessonMenu">
                 <ul class="nano-content">
 		    <li class="sub-menu" ng-repeat="item in menuTopics">
 			<a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
@@ -105,15 +106,29 @@
         <!--main content start-->
         <section class="main-content-wrapper">
             
-            <section id="main-content">
+            <section id="main-content" ng-controller="lessonHelpController">
                 <div class="row">
                		<div class="col-md-12">
 			    <div class="panel" id="buttonPanel">
-				<button type="button" class="btn btn-primary btn-xs">Params/Cookies</button>
-				<button type="button" class="btn btn-primary btn-xs">Hints</button>
-				<button type="button" class="btn btn-primary btn-xs">Lesson Plan</button>
-				<button type="button" class="btn btn-primary btn-xs" ng-click="showSource('lg')">Java [Source]</button>
-				<button type="button" class="btn btn-primary btn-xs" ng-click="showSolution('lg')">Solution</button>
+				<button type="button" id="showParamsCookiesBtn" class="btn btn-primary btn-xs" ng-click="viewCookiesAndParams()">Params/Cookies</button>
+				<button type="button" id="showHintsBtn" class="btn btn-primary btn-xs lessonHelpBtn">Hints</button>
+				<button type="button" id="showPlanBtn" class="btn btn-primary btn-xs lessonHelpBtn">Lesson Plan</button>
+				<button type="button" id="showSourceBtn" class="btn btn-primary btn-xs lessonHelpBtn">Java [Source]</button> <!-- ng-click="showSource('lg') -->
+				<button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs lessonHelpBtn">Solution</button> <!-- ng-click="showSolution('lg') -->
+			    </div>
+			    
+			    <div class="panel" id="cookiesAndParams">
+				<div class="cookiesView">
+				    -- COOKIES GO HERE --
+				</div>
+				<div> <!--class="paramsView"-->
+				    -- PARAMS GO HERE -- <br/>
+				    <ul>
+					<li ng-repeat="param in params">
+					    {{param.name}} = {{param.value}}
+					</li>
+				    </ul>
+				</div>
 			    </div>
 			    <div class="panel" >
 				<div class="panel-body" id="lesson_content">    
@@ -122,55 +137,57 @@
 				
 			    </div>
                		</div>
-                </div> 
-                <div class="row" id="lesson_cookies_row">
-               		<div class="col-md-12">
-                            <h4>Lesson Parameters and Cookies</h4>
-               			<div class="panel" >
-                                    <div class="panel-body" id="lesson_cookies">	
-
-                                    </div>                                    
-               			</div>
-               		</div>
-                </div>   
-                <div class="row" id="lesson_hint_row">
-               		<div class="col-md-12">
-                            <h4>Lesson Hints</h4>
-               			<div class="panel" >
-                                    <div class="panel-body" id="lesson_hint">	
-
-                                    </div>                                    
-               			</div>
-               		</div>
-                </div>                 
-                <div class="row" id="lesson_plan_row">
-               		<div class="col-md-12">
-                            <h4>Lesson Plan</h4>
-               			<div class="panel" >
-                                    <div class="panel-body" id="lesson_plan">	
-
-                                    </div>                                    
-               			</div>
-               		</div>
-                </div> 
-                <div class="row" id="lesson_solution_row">
-               		<div class="col-md-12">
-                            <h4>Lesson Solution</h4>
-               			<div class="panel" >
-                                    <div class="panel-body" id="lesson_solution">				
-                                    </div>                                    
-               			</div>
-               		</div>
-                </div> 
-                <div class="row" id="lesson_source_row">
-               		<div class="col-md-12">
-                            <h4>Lesson Source Code</h4>
-               			<div class="panel" >
-                                    <div class="panel-body" id="lesson_source">	                                        
-                                    </div>                                    
-               			</div>
-               		</div>
-                </div> 
+                </div>
+		<div id="lessonHelpsWrapper">
+		    <div class="row lessonHelp" id="lesson_cookies_row">
+			    <div class="col-md-12">
+				<h4>Lesson Parameters and Cookies</h4>
+				    <div class="panel" >
+					<div class="panel-body" id="lesson_cookies">	
+    
+					</div>                                    
+				    </div>
+			    </div>
+		    </div>   
+		    <div class="row lessonHelp" id="lesson_hint_row">
+			    <div class="col-md-12">
+				<h4>Lesson Hints</h4>
+				    <div class="panel" >
+					<div class="panel-body" id="lesson_hint">	
+    
+					</div>                                    
+				    </div>
+			    </div>
+		    </div>                 
+		    <div class="row lessonHelp" id="lesson_plan_row">
+			    <div class="col-md-12">
+				<h4>Lesson Plan</h4>
+				    <div class="panel" >
+					<div class="panel-body" id="lesson_plan">	
+    
+					</div>                                    
+				    </div>
+			    </div>
+		    </div> 
+		    <div class="row lessonHelp" id="lesson_solution_row">
+			    <div class="col-md-12">
+				<h4>Lesson Solution</h4>
+				    <div class="panel" >
+					<div class="panel-body" id="lesson_solution">				
+					</div>                                    
+				    </div>
+			    </div>
+		    </div> 
+		    <div class="row lessonHelp" id="lesson_source_row">
+			    <div class="col-md-12">
+				<h4>Lesson Source Code</h4>
+				    <div class="panel" >
+					<div class="panel-body" id="lesson_source">	                                        
+					</div>                                    
+				    </div>
+			    </div>
+		    </div>
+		</div>
             </section>
         </section>
 
@@ -186,16 +203,17 @@
             // set this to true if you want to see form submissions
             // set to false once we get all the kinks worked out
             var DEBUG_FORM_SUBMISSION = false;
-
+	    
             $(document).ready(function() {
                 // bind to click events on menu links
-                $('.menu-link').bind('click', function(event) {
+                /*$('.menu-link').bind('click', function(event) {
                     event.preventDefault();
                     $.get(this.href, {}, function(reply) {
                         $("#lesson_content").html(reply);
                         goat.utils.showLessonSource();
                     }, "html");
-                });
+                });*/
+		
                 app.init();
                 
             });

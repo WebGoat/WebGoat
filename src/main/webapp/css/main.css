@@ -751,6 +751,17 @@ fieldset[disabled] .btn-warning.active {
 
 #topLinks {
   float:right;
-  margin-right:5px;
+  margin-right:5px;s
   margin-top:3px;
+}
+
+.lessonHelp, .lessonHelpBtn {
+  display: none;
+}
+
+.paramsView {
+  float:right;
+  width 50%;
+  margin-right:10px;
+  border-left:2px solid #333;
 }
