@@ -758,10 +758,11 @@ fieldset[disabled] .btn-warning.active {
 .lessonHelp, .lessonHelpBtn {
   display: none;
 }
-
+/*
 .paramsView {
   float:right;
   width 50%;
   margin-right:10px;
   border-left:2px solid #333;
 }
+*/

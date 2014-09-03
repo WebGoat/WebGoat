@@ -119,10 +119,13 @@
 			    
 			    <div class="panel" id="cookiesAndParams">
 				<div class="cookiesView">
-				    -- COOKIES GO HERE --
+				    cookies:
+				    <ul ng-repeat="cookie in cookies">
+					<li ng-repeat="(key, value) in cookie">{{key}} :: {{ value }} </td>
+				    </ul>
 				</div>
 				<div> <!--class="paramsView"-->
-				    -- PARAMS GO HERE -- <br/>
+				    params:<br/>
 				    <ul>
 					<li ng-repeat="param in params">
 					    {{param.name}} = {{param.value}}
