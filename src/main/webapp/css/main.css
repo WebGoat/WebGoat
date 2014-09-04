@@ -100,7 +100,8 @@ img {
   color: #F6F6F6;
 }
 #header .toggle-navigation.toggle-left {
-  margin: 23px 0 0 20px;
+  margin-top: 5px;
+  margin-left: 20px;
   display: inline-block;
 }
 #header .btn-default {
@@ -119,9 +120,31 @@ img {
   cursor: pointer;
   color: #797979;
 }
+#header .btn-default .fa-info,
+#header .btn-default .fa-envelope,
+#header .btn-default .fa-user {
+  color: #797979;	
+}
+#header .user-nav button:hover,
+#header .user-nav button:active {
+  background: #e84c3d;
+}
+#header .user-nav button:hover i {
+  color: #F6F6F6;
+}
+#header .lessonTitle {
+	display: inline-block;
+	margin:0 0 0 20px;	
+}
+#header .pull-right {
+  float: right !important;
+  margin-top:25px;
+  margin-right:20px;
+}
 /* Sidebar */
 .sidebar {
   width: 240px;
+  /*height: 100%;*/
   background: #222;
   position: absolute;
   -webkit-transition: all 0.3s ease-in-out;
@@ -341,8 +364,8 @@ a.btn-primary:visited {
 a.btn-primary:hover,
 a.btn-primary:active {
   color: #ffffff;
-  background-color: #1dd2af;
-  border-color: #1dd2af;
+  background-color: #C62F28;
+  border-color: #C62F28;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -350,8 +373,8 @@ a.btn-primary:active {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #1dd2af;
-  border-color: #1dd2af;
+  background-color: #C62F28;
+  border-color: #C62F28;
 }
 .btn-primary:active,
 .btn-primary.active,
