@@ -46,6 +46,7 @@ goat.utils = {
         $('.lessonHelp').hide();
         $('#lesson_source').html("<pre>"+goat.lesson.lessonInfo.source+"</pre>");
         $('#lesson_source_row').show();
+        goat.utils.scrollToHelp();
     },
     showLessonSolution: function() {
         $('.lessonHelp').hide();

@@ -19,7 +19,6 @@ var goatConstants = {
 	solutionService:'service/solution.mvc',
 	lessonPlanService:'service/lessonplan.mvc',
 	menuService: 'service/lessonmenu.mvc',
-	paramService: 'service/parms.mvc', //this is a stub .. need to discuss this
 	// literals
 	notFound: 'Could not find'
 };

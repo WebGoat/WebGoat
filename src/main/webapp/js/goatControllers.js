@@ -29,6 +29,7 @@ goat.controller('goatLessonMenu', function($scope, $http, $modal, $log, $templat
 		    //render lesson title
                     $('#lessonTitle').text(goat.utils.extractLessonTitle($(reply)));
                     // adjust menu to lessonContent size if necssary
+		    //@TODO: this is still clunky ... needs some TLC
                     if ($('div.panel-body').height() > 400) {
                         $('#leftside-navigation').height($(window).height());
                     }

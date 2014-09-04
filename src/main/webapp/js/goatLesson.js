@@ -33,6 +33,8 @@ goat.lesson = {
                         scope.hints = resp;
                         if (scope.hints.length > 0) {
                             goat.utils.displayButton('showHintsBtn',true);
+                        } else {
+                            goat.utils.displayButton('showHintsBtn',false);
                         }
                         return scope;
                     },
