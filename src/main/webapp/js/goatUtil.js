@@ -23,34 +23,71 @@ goat.utils = {
         var title = $('h1', el).text();
         return title;
     },
+    displayButton: function(id,show) {
+        if ($('#'+id)) {
+            if (show) {
+                $('#'+id).show();
+            } else {
+                $('#'+id).hide();
+            }
+        }
+    },
     showLessonCookiesAndParams: function() {
-        $.get("service/cookies_widget.mvc", {}, function(reply) {
+        $.get(goatConstants.cookieService, {}, function(reply) {
             $("#lesson_cookies").html(reply);
         }, "html");
     },
-    showLessonHint: function() {
-        $.get("service/hint_widget.mvc", {}, function(reply) {
-            $("#lesson_hint").html(reply);
-        }, "html");
+    showLessonHints: function() {
+        $('.lessonHelp').hide();
+        $('#lesson_hint').html();
+        $('#lesson_hint_row').show();
     },
-    showLessonSource: function() {
-        $.get("service/source.mvc", {}, function(reply) {
-            $("#lesson_source").html("<pre>"+reply+"</pre>");
-        }, "html");
+    showLessonSource: function(source) {
+        $('.lessonHelp').hide();
+        $('#lesson_source').html("<pre>"+goat.lesson.lessonInfo.source+"</pre>");
+        $('#lesson_source_row').show();
+        goat.utils.scrollToHelp();
     },
     showLessonSolution: function() {
-        $.get("service/solution.mvc", {}, function(reply) {
-            $("#lesson_solution").html(reply);
-        }, "html");
+        $('.lessonHelp').hide();
+        $('#lesson_solution').html(goat.lesson.lessonInfo.solution);
+        $('#lesson_solution_row').show();
+        goat.utils.scrollToHelp();
     },
-    showLessonPlan: function() {
-        $.get("service/lessonplan.mvc", {}, function(reply) {
-            $("#lesson_plan").html(reply);
-        }, "html");
+    showLessonPlan: function(plan) {
+        $('.lessonHelp').hide();
+        $("#lesson_plan").html(goat.lesson.lessonInfo.plan);
+        $('#lesson_plan_row').show();
+        goat.utils.scrollToHelp();
+    },
+    scrollToHelp:function() {
+        var target = $('#lessonHelpsWrapper');
+        goat.utils.scrollEasy(target);
+    },
+    scrollToTop: function() {
+        var target= $('#container');
+        goat.utils.scrollEasy(target);
+    },
+    scrollEasy:function(target) {
+        $('html,body').animate({
+            scrollTop: target.offset().top
+        }, 1000);
+    },
+    scrapeParams: function(url) {
+        if (!url) {
+            return;
+        }
+        var params = url.split('?')[1].split('&');
+        var paramsArr = [];
+        for (var i=0;i< params.length;i++) {
+            var paramObj = {};
+            paramObj.name = params[i].split('=')[0];
+            paramObj.value = params[i].split('=')[1];
+            paramsArr.push(paramObj);
+        }
+        return paramsArr;
     }
 };
-
-// ### GLOBAL FUNCTIONS ## //
 
 
 $(window).resize(function() {

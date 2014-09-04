@@ -6,7 +6,7 @@
 /** Menu Controller
  *  prepares and updates menu topic items for the view
  */
-goat.controller('goatLesson', function($scope, $http, $modal, $log, $templateCache) {
+goat.controller('goatLessonMenu', function($scope, $http, $modal, $log, $templateCache) {
     //TODO: implement via separate promise and use config for menu (goat.data.loadMenuData())
     $http({method: 'GET', url: goatConstants.lessonService}).then(
             function(menuData) {
@@ -19,51 +19,58 @@ goat.controller('goatLesson', function($scope, $http, $modal, $log, $templateCac
             }
     );
     $scope.renderLesson = function(url) {
-        console.log(url + ' was passed in');
+        //console.log(url + ' was passed in');
         // use jquery to render lesson content to div
         goat.data.loadLessonContent(url).then(
                 function(reply) {
                     $("#lesson_content").html(reply);
                     // hook forms
                     goat.utils.makeFormsAjax();
+		    //render lesson title
                     $('#lessonTitle').text(goat.utils.extractLessonTitle($(reply)));
                     // adjust menu to lessonContent size if necssary
+		    //@TODO: this is still clunky ... needs some TLC
                     if ($('div.panel-body').height() > 400) {
                         $('#leftside-navigation').height($(window).height());
                     }
-                    // hook into our pseudo service calls
-                    // @TODO make these real services during phase 2
-                    // show cookies and params
-                    goat.utils.showLessonCookiesAndParams();
-                    // show hints
-                    goat.utils.showLessonHint();
-                    // show plan
-                    goat.utils.showLessonPlan();
-                    // show solution
-                    goat.utils.showLessonSolution();
-                    // show source
-                    goat.utils.showLessonSource();                    
+		    goat.lesson.lessonInfo = new goat.lesson.CurLesson(url);
+		    goat.lesson.lessonInfo.loadInfo(); //uses pseudo and actual service calls
+		    // @TODO: convert to real services (and more angularjs, likely ... in phase 2)
                 }
-        );
+	    );
+	};
+    }).animation('.slideDown', function() {
+	var NgHideClassName = 'ng-hide';
+	return {
+	    beforeAddClass: function(element, className, done) {
+		if (className === NgHideClassName) {
+		    $(element).slideUp(done);
+		}
+	    },
+	    removeClass: function(element, className, done) {
+		if (className === NgHideClassName) {
+		    $(element).hide().slideDown(done);
+		}
+	    }
+	};
+    });
+
+goat.controller('lessonHelpController', function($scope) {
+    $scope.cookies=[];
+    $scope.params=[];
+    $scope.viewCookiesAndParams = function() {
+	    $scope.cookies=goat.lesson.lessonInfo.cookies;
+	    console.log($scope.cookies);
+	    $scope.params=goat.lesson.lessonInfo.params;
+	
+	//@TODO: issue callback to track view
     };
-}).animation('.slideDown', function() {
-    var NgHideClassName = 'ng-hide';
-    return {
-        beforeAddClass: function(element, className, done) {
-            if (className === NgHideClassName) {
-                $(element).slideUp(done);
-            }
-        },
-        removeClass: function(element, className, done) {
-            if (className === NgHideClassName) {
-                $(element).hide().slideDown(done);
-            }
-        }
-    };
+    //$scope.watch()
 });
 
-
-/* Controllers for modal instances */
+/*
+ *DEPRECATED
+//Controllers for modal instances 
 var showSourceController = function($scope, $modalInstance, lessonSource) {
 
     $scope.lessonSource = lessonSource;
@@ -89,7 +96,7 @@ var showSolutionController = function($scope, $modalInstance, lessonSolutionUrl)
         $modalInstance.dismiss('cancel');
     };
 };
-
+*/
 
 
 

@@ -7,8 +7,8 @@ function submitXHR(){
    	
    	document.getElementById("responseArea").innerHTML=""; 
 
-	alert("creating XHR request for: " + document.getElementById("requestedURL").value);
-	
+	//alert("creating XHR request for: " + document.getElementById("requestedURL").value);
+	console.log("creating XHR request for: " + document.getElementById("requestedURL").value);
 
 	
 	try{

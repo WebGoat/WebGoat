@@ -11,6 +11,16 @@ var goatConstants = {
 		children:null,
 		class:'fa-bars static'
 	}],
-	lessonService: 'service/lessonmenu.mvc'
+	//services
+	lessonService: 'service/lessonmenu.mvc',
+	cookieService: 'service/cookie.mvc', //cookies_widget.mvc
+	hintService:'service/hint.mvc',
+	sourceService:'service/source.mvc',
+	solutionService:'service/solution.mvc',
+	lessonPlanService:'service/lessonplan.mvc',
+	menuService: 'service/lessonmenu.mvc',
+	// literals
+	notFound: 'Could not find'
 };
+
 
