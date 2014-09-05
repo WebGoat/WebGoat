@@ -59,10 +59,13 @@ goat.controller('lessonHelpController', function($scope) {
     $scope.cookies=[];
     $scope.params=[];
     $scope.viewCookiesAndParams = function() {
-	    $scope.cookies=goat.lesson.lessonInfo.cookies;
-	    console.log($scope.cookies);
-	    $scope.params=goat.lesson.lessonInfo.params;
-	
+	    $('#hintsView').hide();
+	    if (goat.lesson.lessonInfo.cookies && goat.lesson.lessonInfo.cookies.length > 0) {
+		$scope.cookies=goat.lesson.lessonInfo.cookies;
+		console.log($scope.cookies);
+		$scope.params=goat.lesson.lessonInfo.params;
+	    }
+	    $('#cookiesAndParamsView').show();
 	//@TODO: issue callback to track view
     };
     //$scope.watch()

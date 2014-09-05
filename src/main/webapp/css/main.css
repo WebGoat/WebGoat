@@ -781,11 +781,17 @@ fieldset[disabled] .btn-warning.active {
 .lessonHelp, .lessonHelpBtn {
   display: none;
 }
-/*
-.paramsView {
-  float:right;
-  width 50%;
-  margin-right:10px;
-  border-left:2px solid #333;
+
+#hintsView, #cookiesAndParamsView {
+  display:none;
 }
-*/
+
+.table-nonfluid {
+  width:auto;
+}
+
+.cookieTable tr td, .paramsTable tr td {
+  padding: 3px;
+  max-width: 200px;
+  font-size: x-small;
+}

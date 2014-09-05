@@ -118,36 +118,21 @@
                             <div class="col-md-12" align="left">
                                 <div class="panel">
                                     <div class="panel-body">
-                                        <button type="button" id="showSourceBtn" class="btn btn-primary">Java [Source]</button>
-                                        <button type="button" id="showSolutionBtn" class="btn btn-primary">Solution</button>
+                                        <button type="button" id="showSourceBtn" class="btn btn-primary btn-xs">Java [Source]</button>
+                                        <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs">Solution</button>
+					<button type="button" id="showPlanBtn" class="btn btn-primary btn-xs">Lesson Plan</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="panel" id="buttonPanel">
-                                    <button type="button" id="showParamsCookiesBtn" class="btn btn-primary btn-xs" ng-click="viewCookiesAndParams()">Params/Cookies</button>
-                                    <button type="button" id="showHintsBtn" class="btn btn-primary btn-xs lessonHelpBtn">Hints</button>
-                                    <button type="button" id="showPlanBtn" class="btn btn-primary btn-xs lessonHelpBtn">Lesson Plan</button>
-                                    <button type="button" id="showSourceBtn" class="btn btn-primary btn-xs lessonHelpBtn">Java [Source]</button> <!-- ng-click="showSource('lg') -->
-                                    <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs lessonHelpBtn">Solution</button> <!-- ng-click="showSolution('lg') -->
-                                </div>
-
-                                <div class="panel" id="cookiesAndParams">
-                                    <div class="cookiesView">
-                                        cookies:
-                                        <ul ng-repeat="cookie in cookies">
-                                            <li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>
-                                        </ul>
-                                    </div>
-                                    <div> <!--class="paramsView"-->
-                                        params:<br/>
-                                        <ul>
-                                            <li ng-repeat="param in params">
-                                                {{param.name}} = {{param.value}}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <!--<div class="panel" id="buttonPanel">-->
+                                    <!--<button type="button" id="showParamsCookiesBtn" class="btn btn-primary btn-xs">Params/Cookies</button>-->
+                                    <!--<button type="button" id="showHintsBtn" class="btn btn-primary btn-xs lessonHelpBtn">Hints</button>-->
+                                    <!--<button type="button" id="showPlanBtn" class="btn btn-primary btn-xs lessonHelpBtn">Lesson Plan</button>-->
+                                    <!--<button type="button" id="showSourceBtn" class="btn btn-primary btn-xs lessonHelpBtn">Java [Source]</button> <!-- ng-click="showSource('lg') -->
+                                    <!--<button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs lessonHelpBtn">Solution</button>-->
+				    <!-- ng-click="showSolution('lg') -->
+                                <!--</div> -->
                                 <div class="panel" >
                                     <div class="panel-body" id="lesson_content">    
                                         <b>This should default to the "How to Work with Webgoat" lesson</b>
@@ -161,13 +146,48 @@
                                 <div class="panel">
                                     <div class="panel-body">
                                         <div align="left">
-                                            <button id="showParamsCookiesBtn" type="button" class="btn btn-default">Params / Cookies</button>
-                                            <button id="showHintsBtn" type="button" class="btn btn-default">Hints</button>
-                                            <button id="showPlanBtn" type="button" class="btn btn-default">Lesson Plan</button>
+                                            <button id="tshowParamsCookiesBtn" type="button" class="btn btn-xs" ng-click="viewCookiesAndParams()">Params / Cookies</button>
+                                            <button id="showHintsBtn" type="button" class="btn btn-xs">Hints</button>
+                                            
                                         </div>
                                         <hr />
-                                        <h3>Hints</h3>
-                                        <p>Nam placerat magna in massa euismod fringilla. Pellentesque in cursus risus, eu hendrerit ligula. Quisque ultrices eget tortor ut eleifend. Praesent auctor libero nec quam fringilla faucibus. Curabitur cursus risus eu faucibus rutrum. Morbi dapibus nulla risus, et euismod eros posuere volutpat. Quisque ut diam diam. Quisque sed enim tortor. Suspendisse commodo magna nec felis ultricies laoreet. Donec sit amet vehicula eros. Phasellus at dapibus enim. Sed massa quam, aliquet eu mattis at, porttitor a nisi.</p>
+					<div id="hintsView">
+				            <h3>Hints</h3>
+				            <p>{{scope.hints}}</p>
+					</div>
+					<div id="cookiesAndParamsView">
+					    <div class="cookiesView">
+						<h4>Cookies</h4>
+					    <table class="cookieTable table-striped table-nonfluid" ng-repeat="cookie in cookies">
+						<thead>
+						    <tr><th>Field</th><th>Value</th></tr>
+						</thead>
+						<tbody>
+						    <tr ng-repeat="(key, value) in cookie">
+							<td>{{key}}</td>
+							<td>{{value}}</td>
+						    </tr>
+						</tbody>
+					        <!--<li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>-->
+					    <!--</ul>-->
+					    </table>
+					</div>
+				        <div id="paramsView"> <!--class="paramsView"-->
+					<h4>Params</h4>
+                                        <table class="paramsTable table-striped table-nonfluid" id="paramsTable">
+					    <thead>
+						<tr><th>Param</th><th>Value</th></tr>
+					    </thead>
+					    <tbody>
+						<tr ng-repeat="param in params">
+						    <td>{{param.name}}</td>
+						    <td>{{param.value}}</td>
+						</tr>						
+					    </tbody>
+					</table>
+                                        </ul>
+					</div>
+				    </div>
                                     </div>
                                 </div>
                             </div>
