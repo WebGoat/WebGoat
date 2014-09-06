@@ -795,3 +795,8 @@ fieldset[disabled] .btn-warning.active {
   max-width: 200px;
   font-size: x-small;
 }
+
+.info {
+	color:#e84c3d;
+	font-weight: bold; 
+}
