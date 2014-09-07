@@ -19,7 +19,9 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.Body;
+import org.apache.ecs.html.Center;
 import org.apache.ecs.html.Form;
+import org.apache.ecs.html.H1;
 import org.apache.ecs.html.Head;
 import org.apache.ecs.html.Html;
 import org.apache.ecs.html.IMG;
@@ -732,7 +734,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
         Form form = new Form(getFormAction(), Form.POST).setName("form").setEncType("");
 
-        form.addElement(createContent(s));
+		// Added this hack for WebGoat 6 to include screen titles in each lesson for Jason to screen scrape
+		ElementContainer ec = new ElementContainer();
+
+		ec.addElement(new Center(new H1(getTitle())));
+		ec.addElement(createContent(s));
+        form.addElement(ec);
 
         setContent(form);
     }
