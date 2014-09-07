@@ -60,7 +60,7 @@
     </head>
 
     <body class="animated fadeIn" ng-app="goatApp">
-        <section id="container">
+        <section id="container" ng-controller="goatLesson">
             <header id="header">
                 <!--logo start-->
                 <div class="brand">
@@ -72,8 +72,8 @@
                         <i class="fa fa-bars"></i>
                     </button>
                 </div><!--toggle navigation end-->
-                <div class="lessonTitle">
-                    <h1>Lesson Title in here</h1>
+                <div class="lessonTitle" >
+                    <h1 id="lessonTitle">Lesson Title in here</h1>
                 </div><!--lesson title end-->
                 <div class="user-nav pull-right">
                     <button type="button" class="btn btn-default">
@@ -90,7 +90,7 @@
 
             <!--sidebar left start-->
             <aside class="sidebar">
-                <div id="leftside-navigation" class="nano" ng-controller="goatLessonMenu">
+                <div id="leftside-navigation" class="nano">
                     <ul class="nano-content">
                         <li class="sub-menu" ng-repeat="item in menuTopics">
                             <a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
@@ -112,27 +112,21 @@
             <!--main content start-->
             <section class="main-content-wrapper">
 
-                <section id="main-content" ng-controller="lessonHelpController">
+                <section id="main-content" > <!-- ng-controller="lessonController" -->
                     <div class="row">
                         <div class="col-md-8">
                             <div class="col-md-12" align="left">
                                 <div class="panel">
                                     <div class="panel-body">
-                                        <button type="button" id="showSourceBtn" class="btn btn-primary btn-xs">Java [Source]</button>
-                                        <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs">Solution</button>
-					<button type="button" id="showPlanBtn" class="btn btn-primary btn-xs">Lesson Plan</button>
+                                        <button type="button" id="showSourceBtn" class="btn btn-primary btn-xs" ng-click="showLessonSource()">Java [Source]</button>
+                                        <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs" ng-click="showLessonSolution()">Solution</button>
+					<button type="button" id="showPlanBtn" class="btn btn-primary btn-xs" ng-click="showLessonPlan()">Lesson Plan</button>
+					<button type="button" id="showHintsBtn" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
                                     </div>
                                 </div>
+				
                             </div>
                             <div class="col-md-12">
-                                <!--<div class="panel" id="buttonPanel">-->
-                                    <!--<button type="button" id="showParamsCookiesBtn" class="btn btn-primary btn-xs">Params/Cookies</button>-->
-                                    <!--<button type="button" id="showHintsBtn" class="btn btn-primary btn-xs lessonHelpBtn">Hints</button>-->
-                                    <!--<button type="button" id="showPlanBtn" class="btn btn-primary btn-xs lessonHelpBtn">Lesson Plan</button>-->
-                                    <!--<button type="button" id="showSourceBtn" class="btn btn-primary btn-xs lessonHelpBtn">Java [Source]</button> <!-- ng-click="showSource('lg') -->
-                                    <!--<button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs lessonHelpBtn">Solution</button>-->
-				    <!-- ng-click="showSolution('lg') -->
-                                <!--</div> -->
                                 <div class="panel" >
                                     <div class="panel-body" id="lesson_content">    
                                         <b>This should default to the "How to Work with Webgoat" lesson</b>
@@ -146,15 +140,9 @@
                                 <div class="panel">
                                     <div class="panel-body">
                                         <div align="left">
-                                            <button id="tshowParamsCookiesBtn" type="button" class="btn btn-xs" ng-click="viewCookiesAndParams()">Params / Cookies</button>
-                                            <button id="showHintsBtn" type="button" class="btn btn-xs">Hints</button>
-                                            
+					    <h3>Cookies / Parameters</h3>
                                         </div>
                                         <hr />
-					<div id="hintsView">
-				            <h3>Hints</h3>
-				            <p>{{scope.hints}}</p>
-					</div>
 					<div id="cookiesAndParamsView">
 					    <div class="cookiesView">
 						<h4>Cookies</h4>
@@ -179,7 +167,7 @@
 						<tr><th>Param</th><th>Value</th></tr>
 					    </thead>
 					    <tbody>
-						<tr ng-repeat="param in params">
+						<tr ng-repeat="param in parameters">
 						    <td>{{param.name}}</td>
 						    <td>{{param.value}}</td>
 						</tr>						
@@ -194,6 +182,19 @@
                         </div><!--col-md-4 end-->         
                     </div>
                     <div id="lessonHelpsWrapper">
+			<div class="row lessonHelp" id="lesson_hint_row">
+                            <div class="col-md-12">
+                                <h4>Hints</h4>
+                                <div class="panel" >
+                                    <div class="panel-body" id="lesson_hint">
+					<span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" ng-click="viewPrevHint()"></span>
+					<span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" ng-click="viewNextHint()"></span>
+					<br/>
+					{{curHint}}
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
                         <div class="row lessonHelp" id="lesson_cookies_row">
                             <div class="col-md-12">
                                 <h4>Lesson Parameters and Cookies</h4>
@@ -218,8 +219,8 @@
                             <div class="col-md-12">
                                 <h4>Lesson Plan</h4>
                                 <div class="panel" >
-                                    <div class="panel-body" id="lesson_plan">	
-
+                                    <div class="panel-body" id="lesson_plan">
+					<!-- allowing jQuery to handle this one -->
                                     </div>                                    
                                 </div>
                             </div>
@@ -227,8 +228,8 @@
                         <div class="row lessonHelp" id="lesson_solution_row">
                             <div class="col-md-12">
                                 <h4>Lesson Solution</h4>
-                                <div class="panel" >
-                                    <div class="panel-body" id="lesson_solution">				
+                                <div class="panel">
+                                    <div class="panel-body" id="lesson_solution">
                                     </div>                                    
                                 </div>
                             </div>
@@ -236,8 +237,9 @@
                         <div class="row lessonHelp" id="lesson_source_row">
                             <div class="col-md-12">
                                 <h4>Lesson Source Code</h4>
-                                <div class="panel" >
-                                    <div class="panel-body" id="lesson_source">	                                        
+                                <div class="panel">
+                                    <div class="panel-body" id="lesson_source">
+					<pre>{{source}}</pre>
                                     </div>                                    
                                 </div>
                             </div>
@@ -260,17 +262,10 @@
                                                     var DEBUG_FORM_SUBMISSION = false;
 
                                                     $(document).ready(function() {
-                                                        // bind to click events on menu links
-                                                        /*$('.menu-link').bind('click', function(event) {
-                                                         event.preventDefault();
-                                                         $.get(this.href, {}, function(reply) {
-                                                         $("#lesson_content").html(reply);
-                                                         goat.utils.showLessonSource();
-                                                         }, "html");
-                                                         });*/
-
                                                         app.init();
-
+							//can be augmented later to 'resume' for a given user ... currently kluged to start at fixed lesson
+							var url = 'attack?Screen=32&menu=5';
+							angular.element($('#leftside-navigation')).scope().renderLesson(url);
                                                     });
                                                     // make all forms ajax forms
                                                     var options = {

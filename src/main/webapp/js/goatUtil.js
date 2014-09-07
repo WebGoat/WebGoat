@@ -21,6 +21,7 @@ goat.utils = {
      */
     extractLessonTitle: function(el) {
         var title = $('h1', el).text();
+        // remove title
         return title;
     },
     displayButton: function(id,show) {
@@ -44,7 +45,7 @@ goat.utils = {
     },
     showLessonSource: function(source) {
         $('.lessonHelp').hide();
-        $('#lesson_source').html("<pre>"+goat.lesson.lessonInfo.source+"</pre>");
+        //$('#lesson_source').html("<pre>"+goat.lesson.lessonInfo.source+"</pre>");
         $('#lesson_source_row').show();
         goat.utils.scrollToHelp();
     },
@@ -65,6 +66,7 @@ goat.utils = {
         goat.utils.scrollEasy(target);
     },
     scrollToTop: function() {
+        $('.lessonHelp').hide();
         var target= $('#container');
         goat.utils.scrollEasy(target);
     },

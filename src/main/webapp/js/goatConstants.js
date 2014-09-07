@@ -20,7 +20,9 @@ var goatConstants = {
 	lessonPlanService:'service/lessonplan.mvc',
 	menuService: 'service/lessonmenu.mvc',
 	// literals
-	notFound: 'Could not find'
+	notFound: 'Could not find',
+	noHints: 'There are no hints defined.'
+	
 };
 
 

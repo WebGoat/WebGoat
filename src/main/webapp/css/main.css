@@ -250,7 +250,7 @@ img {
 }
 
 .main-content-wrapper #main-content {
-  background: url('img/webBg.png') no-repeat top left;
+  /*background: url('img/webBg.png') no-repeat top left;*/
   border-top: solid thin #e7e8ec;
   display: inline-block;
   padding: 15px 15px 0 15px;
@@ -782,10 +782,6 @@ fieldset[disabled] .btn-warning.active {
   display: none;
 }
 
-#hintsView, #cookiesAndParamsView {
-  display:none;
-}
-
 .table-nonfluid {
   width:auto;
 }
@@ -796,6 +792,11 @@ fieldset[disabled] .btn-warning.active {
   font-size: x-small;
 }
 
+/* HINTS */
+#hintsViewTop{
+  display: none;
+  background-color: #eee;
+}
 .info {
 	color:#e84c3d;
 	font-weight: bold; 
