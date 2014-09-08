@@ -76,7 +76,7 @@
                     <h1 id="lessonTitle">Lesson Title in here</h1>
                 </div><!--lesson title end-->
                 <div class="user-nav pull-right">
-                    <button type="button" class="btn btn-default">
+                    <button type="button" class="btn btn-default" ng-click="showAbout()">
                         <i class="fa fa-info"></i>
                     </button>
                     <button type="button" class="btn btn-default">
@@ -120,11 +120,11 @@
                                     <div class="panel-body">
                                         <button type="button" id="showSourceBtn" class="btn btn-primary btn-xs" ng-click="showLessonSource()">Java [Source]</button>
                                         <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs" ng-click="showLessonSolution()">Solution</button>
-					<button type="button" id="showPlanBtn" class="btn btn-primary btn-xs" ng-click="showLessonPlan()">Lesson Plan</button>
-					<button type="button" id="showHintsBtn" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
+                                        <button type="button" id="showPlanBtn" class="btn btn-primary btn-xs" ng-click="showLessonPlan()">Lesson Plan</button>
+                                        <button type="button" id="showHintsBtn" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
                                     </div>
                                 </div>
-				
+
                             </div>
                             <div class="col-md-12">
                                 <div class="panel" >
@@ -140,57 +140,57 @@
                                 <div class="panel">
                                     <div class="panel-body">
                                         <div align="left">
-					    <h3>Cookies / Parameters</h3>
+                                            <h3>Cookies / Parameters</h3>
                                         </div>
                                         <hr />
-					<div id="cookiesAndParamsView">
-					    <div class="cookiesView">
-						<h4>Cookies</h4>
-					    <table class="cookieTable table-striped table-nonfluid" ng-repeat="cookie in cookies">
-						<thead>
-						    <tr><th>Field</th><th>Value</th></tr>
-						</thead>
-						<tbody>
-						    <tr ng-repeat="(key, value) in cookie">
-							<td>{{key}}</td>
-							<td>{{value}}</td>
-						    </tr>
-						</tbody>
-					        <!--<li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>-->
-					    <!--</ul>-->
-					    </table>
-					</div>
-				        <div id="paramsView"> <!--class="paramsView"-->
-					<h4>Params</h4>
-                                        <table class="paramsTable table-striped table-nonfluid" id="paramsTable">
-					    <thead>
-						<tr><th>Param</th><th>Value</th></tr>
-					    </thead>
-					    <tbody>
-						<tr ng-repeat="param in parameters">
-						    <td>{{param.name}}</td>
-						    <td>{{param.value}}</td>
-						</tr>						
-					    </tbody>
-					</table>
-                                        </ul>
-					</div>
-				    </div>
+                                        <div id="cookiesAndParamsView">
+                                            <div class="cookiesView">
+                                                <h4>Cookies</h4>
+                                                <table class="cookieTable table-striped table-nonfluid" ng-repeat="cookie in cookies">
+                                                    <thead>
+                                                        <tr><th>Field</th><th>Value</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="(key, value) in cookie">
+                                                            <td>{{key}}</td>
+                                                            <td>{{value}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <!--<li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>-->
+                                                    <!--</ul>-->
+                                                </table>
+                                            </div>
+                                            <div id="paramsView"> <!--class="paramsView"-->
+                                                <h4>Params</h4>
+                                                <table class="paramsTable table-striped table-nonfluid" id="paramsTable">
+                                                    <thead>
+                                                        <tr><th>Param</th><th>Value</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="param in parameters">
+                                                            <td>{{param.name}}</td>
+                                                            <td>{{param.value}}</td>
+                                                        </tr>						
+                                                    </tbody>
+                                                </table>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div><!--col-md-4 end-->         
                     </div>
                     <div id="lessonHelpsWrapper">
-			<div class="row lessonHelp" id="lesson_hint_row">
+                        <div class="row lessonHelp" id="lesson_hint_row">
                             <div class="col-md-12">
                                 <h4>Hints</h4>
                                 <div class="panel" >
                                     <div class="panel-body" id="lesson_hint">
-					<span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" ng-click="viewPrevHint()"></span>
-					<span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" ng-click="viewNextHint()"></span>
-					<br/>
-					{{curHint}}
+                                        <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" ng-click="viewPrevHint()"></span>
+                                        <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" ng-click="viewNextHint()"></span>
+                                        <br/>
+                                        {{curHint}}
                                     </div>                                    
                                 </div>
                             </div>
@@ -220,7 +220,7 @@
                                 <h4>Lesson Plan</h4>
                                 <div class="panel" >
                                     <div class="panel-body" id="lesson_plan">
-					<!-- allowing jQuery to handle this one -->
+                                        <!-- allowing jQuery to handle this one -->
                                     </div>                                    
                                 </div>
                             </div>
@@ -239,7 +239,7 @@
                                 <h4>Lesson Source Code</h4>
                                 <div class="panel">
                                     <div class="panel-body" id="lesson_source">
-					<pre>{{source}}</pre>
+                                        <pre>{{source}}</pre>
                                     </div>                                    
                                 </div>
                             </div>
@@ -255,76 +255,83 @@
         <!-- TODO pull source into project instead of loading from external -->
         <script src="http://malsup.github.com/jquery.form.js"></script>  
         <script>
-                                                    //Load global functions
+                                            //Load global functions
 
-                                                    // set this to true if you want to see form submissions
-                                                    // set to false once we get all the kinks worked out
-                                                    var DEBUG_FORM_SUBMISSION = false;
+                                            // set this to true if you want to see form submissions
+                                            // set to false once we get all the kinks worked out
+                                            var DEBUG_FORM_SUBMISSION = false;
 
-                                                    $(document).ready(function() {
-                                                        app.init();
-							//can be augmented later to 'resume' for a given user ... currently kluged to start at fixed lesson
-							var url = 'attack?Screen=32&menu=5';
-							angular.element($('#leftside-navigation')).scope().renderLesson(url);
-                                                    });
-                                                    // make all forms ajax forms
-                                                    var options = {
-                                                        target: '#lesson_content', // target element(s) to be updated with server response                     
-                                                        beforeSubmit: showRequest, // pre-submit callback, comment out after debugging 
-                                                        success: showResponse  // post-submit callback, comment out after debugging 
+                                            $(document).ready(function() {
+                                                app.init();
+                                                //can be augmented later to 'resume' for a given user ... currently kluged to start at fixed lesson
+                                                var url = 'attack?Screen=32&menu=5';
+                                                angular.element($('#leftside-navigation')).scope().renderLesson(url);
+                                            });
+                                            // make all forms ajax forms
+                                            var options = {
+                                                target: '#lesson_content', // target element(s) to be updated with server response                     
+                                                beforeSubmit: showRequest, // pre-submit callback, comment out after debugging 
+                                                success: showResponse  // post-submit callback, comment out after debugging 
 
-                                                                // other available options: 
-                                                                //url:       url         // override for form's 'action' attribute 
-                                                                //type:      type        // 'get' or 'post', override for form's 'method' attribute 
-                                                                //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-                                                                //clearForm: true        // clear all form fields after successful submit 
-                                                                //resetForm: true        // reset the form after successful submit 
+                                                        // other available options: 
+                                                        //url:       url         // override for form's 'action' attribute 
+                                                        //type:      type        // 'get' or 'post', override for form's 'method' attribute 
+                                                        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
+                                                        //clearForm: true        // clear all form fields after successful submit 
+                                                        //resetForm: true        // reset the form after successful submit 
 
-                                                                // $.ajax options can be used here too, for example: 
-                                                                //timeout:   3000 
-                                                    };
-                                                    // pre-submit callback 
-                                                    function showRequest(formData, jqForm, options) {
-                                                        if (DEBUG_FORM_SUBMISSION) {
-                                                            // formData is an array; here we use $.param to convert it to a string to display it 
-                                                            // but the form plugin does this for you automatically when it submits the data 
-                                                            var queryString = $.param(formData);
+                                                        // $.ajax options can be used here too, for example: 
+                                                        //timeout:   3000 
+                                            };
+                                            // pre-submit callback 
+                                            function showRequest(formData, jqForm, options) {
+                                                if (DEBUG_FORM_SUBMISSION) {
+                                                    // formData is an array; here we use $.param to convert it to a string to display it 
+                                                    // but the form plugin does this for you automatically when it submits the data 
+                                                    var queryString = $.param(formData);
 
-                                                            // jqForm is a jQuery object encapsulating the form element.  To access the 
-                                                            // DOM element for the form do this: 
-                                                            // var formElement = jqForm[0]; 
+                                                    // jqForm is a jQuery object encapsulating the form element.  To access the 
+                                                    // DOM element for the form do this: 
+                                                    // var formElement = jqForm[0]; 
 
-                                                            alert('About to submit: \n\n' + queryString);
-                                                        }
+                                                    alert('About to submit: \n\n' + queryString);
+                                                }
 
-                                                        // here we could return false to prevent the form from being submitted; 
-                                                        // returning anything other than false will allow the form submit to continue 
-                                                        return true;
-                                                    }
+                                                // here we could return false to prevent the form from being submitted; 
+                                                // returning anything other than false will allow the form submit to continue 
+                                                return true;
+                                            }
 
-                                                    // post-submit callback 
-                                                    function showResponse(responseText, statusText, xhr, $form) {
-                                                        // for normal html responses, the first argument to the success callback 
-                                                        // is the XMLHttpRequest object's responseText property 
+                                            // post-submit callback 
+                                            function showResponse(responseText, statusText, xhr, $form) {
+                                                // for normal html responses, the first argument to the success callback 
+                                                // is the XMLHttpRequest object's responseText property 
 
-                                                        // if the ajaxForm method was passed an Options Object with the dataType 
-                                                        // property set to 'xml' then the first argument to the success callback 
-                                                        // is the XMLHttpRequest object's responseXML property 
+                                                // if the ajaxForm method was passed an Options Object with the dataType 
+                                                // property set to 'xml' then the first argument to the success callback 
+                                                // is the XMLHttpRequest object's responseXML property 
 
-                                                        // if the ajaxForm method was passed an Options Object with the dataType 
-                                                        // property set to 'json' then the first argument to the success callback 
-                                                        // is the json data object returned by the server 
-                                                        if (DEBUG_FORM_SUBMISSION) {
-                                                            alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
-                                                                    '\n\nThe output div should have already been updated with the responseText.');
-                                                        }
-                                                        // JASON - SEE THIS HOOK
-                                                        // update lesson cookies and params
-                                                        // make any embedded forms ajaxy
-                                                        goat.utils.showLessonCookiesAndParams();
-                                                        goat.utils.makeFormsAjax();
-                                                    }
+                                                // if the ajaxForm method was passed an Options Object with the dataType 
+                                                // property set to 'json' then the first argument to the success callback 
+                                                // is the json data object returned by the server 
+                                                if (DEBUG_FORM_SUBMISSION) {
+                                                    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
+                                                            '\n\nThe output div should have already been updated with the responseText.');
+                                                }
+                                                // JASON - SEE THIS HOOK
+                                                // update lesson cookies and params
+                                                // make any embedded forms ajaxy
+                                                goat.utils.showLessonCookiesAndParams();
+                                                goat.utils.makeFormsAjax();
+                                            }
 
         </script>
+        <!-- Modal -->
+        <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
     </body>
 </html>
