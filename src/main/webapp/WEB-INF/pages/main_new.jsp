@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java"
          errorPage=""%>
 <%@page import="org.owasp.webgoat.session.WebSession"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     WebSession webSession = ((WebSession) session.getAttribute(WebSession.SESSION));
 %>
@@ -75,16 +76,28 @@
                 <div class="lessonTitle" >
                     <h1 id="lessonTitle">Lesson Title in here</h1>
                 </div><!--lesson title end-->
-                <div class="user-nav pull-right">
-                    <button type="button" class="btn btn-default" ng-click="showAbout()">
+                <div class="user-nav pull-right" style="margin-right: 50px;">
+                    <div class="dropdown" style="display:inline">
+                        <button type="button" class="btn btn-default  dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                            <i class="fa fa-user"></i> <span class="caret"></span>
+                        </button>                   
+                        <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: TODO</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: TODO</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="<c:url value="j_spring_security_logout" />">Logout</a></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-default right_nav_button" ng-click="showAbout()" data-toggle="tooltip" title="About WebGoat">
                         <i class="fa fa-info"></i>
                     </button>
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-envelope"></i>
-                    </button>
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-user"></i>
-                    </button>
+                    <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">
+                        <button type="button" class="btn btn-default right_nav_button"data-toggle="tooltip" title="Contact Us">
+                            <i class="fa fa-envelope"></i>
+                        </button>
+                    </a>
+
+
                 </div>
             </header>
 
