@@ -15,15 +15,6 @@ goat.utils = {
         //console.log("Hooking any lesson forms to make them ajax");
         $("form").ajaxForm(options);
     },
-    /**goatApp.extractLessonTitle
-     *pulls lesson title from html fragment returned (looks for it in h1 element)
-     *@param - html rendered to object passed in
-     */
-    extractLessonTitle: function(el) {
-        var title = $('h1', el).text();
-        // remove title
-        return title;
-    },
     displayButton: function(id,show) {
         if ($('#'+id)) {
             if (show) {

@@ -731,16 +731,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      */
     public void handleRequest(WebSession s) {
         // call createContent first so messages will go somewhere
-
         Form form = new Form(getFormAction(), Form.POST).setName("form").setEncType("");
-
-		// Added this hack for WebGoat 6 to include screen titles in each lesson for Jason to screen scrape
-		ElementContainer ec = new ElementContainer();
-
-		ec.addElement(new Center(new H1(getTitle())));
-		ec.addElement(createContent(s));
-        form.addElement(ec);
-
+        form.addElement(createContent(s));
         setContent(form);
     }
 

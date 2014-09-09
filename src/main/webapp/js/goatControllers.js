@@ -27,19 +27,20 @@ goat.controller('goatLesson', function($scope, $http, $modal, $log, $templateCac
         $scope.hintIndex = 0;
 
         var curScope = $scope;
-
-
+      
         curScope.parameters = goat.utils.scrapeParams(url);
         goat.data.loadLessonContent(url).then(
                 function(reply) {
                     $("#lesson_content").html(reply);
+                    goat.data.loadLessonTitle().then(
+                    		function(reply) {
+                    			$("#lessonTitle").text(reply);
+                    		}
+                    );
+
                     //hook forms
                     goat.utils.makeFormsAjax();
                     $('#hintsView').hide();
-                    //render lesson title
-                    $('#lessonTitle').text(goat.utils.extractLessonTitle($(reply)));
-                    //@KLUGE to remove h1 after extracting and moving it to top
-                    $('#lesson_content h1').remove()
                     // adjust menu to lessonContent size if necssary
                     //@TODO: this is still clunky ... needs some TLC
                     if ($('div.panel-body').height() > 400) {
