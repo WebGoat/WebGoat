@@ -1,7 +1,6 @@
 
 package org.owasp.webgoat.lessons;
 
-import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -54,7 +53,8 @@ public class HttpSplitting extends SequentialLessonAdapter
 	private static String STAGE = "stage";
 
     public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
-	/**
+
+    /**
 	 * Description of the Method
 	 * 
 	 * @param s
