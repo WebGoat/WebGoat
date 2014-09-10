@@ -2,3 +2,14 @@
 /nbactions.xml
 .project
 /target
+.classpath
+.idea/
+.settings/
+src/main/main.iml
+*.BACKUP.*.jsp
+*.BASE.*.jsp
+*.LOCAL.*.jsp
+*.REMOTE.*.jsp
+
+
+
