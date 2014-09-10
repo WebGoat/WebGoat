@@ -176,7 +176,7 @@ public class RoleBasedAccessControl extends GoatHillsFinancial
 	{
 		String solutionFileName = null;
 		String stage = getStage(s);
-		solutionFileName = "/lesson_solutions/Lab Access Control/Lab " + stage + ".html";
+		solutionFileName = "/lesson_solutions_1/Lab Access Control/Lab " + stage + ".html";
 		return solutionFileName;
 	}
 

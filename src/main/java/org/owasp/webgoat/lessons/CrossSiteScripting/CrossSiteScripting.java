@@ -103,7 +103,7 @@ public class CrossSiteScripting extends GoatHillsFinancial
 	{
 		String solutionFileName = null;
 		String stage = getStage(s);
-		solutionFileName = "/lesson_solutions/Lab XSS/Lab " + stage + ".html";
+		solutionFileName = "/lesson_solutions_1/Lab XSS/Lab " + stage + ".html";
 		return solutionFileName;
 	}
 

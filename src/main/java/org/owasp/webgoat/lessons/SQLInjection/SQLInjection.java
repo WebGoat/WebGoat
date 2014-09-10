@@ -272,7 +272,7 @@ public class SQLInjection extends GoatHillsFinancial
 	{
 		String solutionFileName = null;
 		String stage = getStage(s);
-		solutionFileName = "/lesson_solutions/Lab SQL Injection/Lab " + stage + ".html";
+		solutionFileName = "/lesson_solutions_1/Lab SQL Injection/Lab " + stage + ".html";
 		return solutionFileName;
 	}
 }
