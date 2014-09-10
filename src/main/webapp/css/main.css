@@ -250,7 +250,7 @@ img {
 }
 
 .main-content-wrapper #main-content {
-  background: url('img/webBg.png') no-repeat top left;
+  /*background: url('img/webBg.png') no-repeat top left;*/
   border-top: solid thin #e7e8ec;
   display: inline-block;
   padding: 15px 15px 0 15px;
@@ -781,11 +781,23 @@ fieldset[disabled] .btn-warning.active {
 .lessonHelp, .lessonHelpBtn {
   display: none;
 }
-/*
-.paramsView {
-  float:right;
-  width 50%;
-  margin-right:10px;
-  border-left:2px solid #333;
+
+.table-nonfluid {
+  width:auto;
 }
-*/
+
+.cookieTable tr td, .paramsTable tr td {
+  padding: 3px;
+  max-width: 200px;
+  font-size: x-small;
+}
+
+/* HINTS */
+#hintsViewTop{
+  display: none;
+  background-color: #eee;
+}
+.info {
+	color:#e84c3d;
+	font-weight: bold; 
+}

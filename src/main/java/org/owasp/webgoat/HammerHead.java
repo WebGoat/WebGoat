@@ -134,8 +134,8 @@ public class HammerHead extends HttpServlet {
                 logger.debug("Response already committed, exiting");
                 return;
             }
-
-            if ("true".equals(request.getParameter("start"))) {
+            
+            if ("true".equals(request.getParameter("start")) || request.getQueryString() == null) {
                 logger.warn("Redirecting to start controller");
                 response.sendRedirect("start.mvc");
                 return;

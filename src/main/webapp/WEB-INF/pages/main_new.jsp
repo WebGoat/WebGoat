@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java"
          errorPage=""%>
 <%@page import="org.owasp.webgoat.session.WebSession"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     WebSession webSession = ((WebSession) session.getAttribute(WebSession.SESSION));
 %>
@@ -60,7 +61,7 @@
     </head>
 
     <body class="animated fadeIn" ng-app="goatApp">
-        <section id="container">
+        <section id="container" ng-controller="goatLesson">
             <header id="header">
                 <!--logo start-->
                 <div class="brand">
@@ -72,25 +73,37 @@
                         <i class="fa fa-bars"></i>
                     </button>
                 </div><!--toggle navigation end-->
-                <div class="lessonTitle">
-                    <h1>Lesson Title in here</h1>
+                <div class="lessonTitle" >
+                    <h1 id="lessonTitle">Lesson Title in here</h1>
                 </div><!--lesson title end-->
-                <div class="user-nav pull-right">
-                    <button type="button" class="btn btn-default">
+                <div class="user-nav pull-right" style="margin-right: 50px;">
+                    <div class="dropdown" style="display:inline">
+                        <button type="button" class="btn btn-default  dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                            <i class="fa fa-user"></i> <span class="caret"></span>
+                        </button>                   
+                        <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: TODO</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: TODO</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="<c:url value="j_spring_security_logout" />">Logout</a></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-default right_nav_button" ng-click="showAbout()" data-toggle="tooltip" title="About WebGoat">
                         <i class="fa fa-info"></i>
                     </button>
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-envelope"></i>
-                    </button>
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-user"></i>
-                    </button>
+                    <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">
+                        <button type="button" class="btn btn-default right_nav_button"data-toggle="tooltip" title="Contact Us">
+                            <i class="fa fa-envelope"></i>
+                        </button>
+                    </a>
+
+
                 </div>
             </header>
 
             <!--sidebar left start-->
             <aside class="sidebar">
-                <div id="leftside-navigation" class="nano" ng-controller="goatLessonMenu">
+                <div id="leftside-navigation" class="nano">
                     <ul class="nano-content">
                         <li class="sub-menu" ng-repeat="item in menuTopics">
                             <a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
@@ -112,42 +125,21 @@
             <!--main content start-->
             <section class="main-content-wrapper">
 
-                <section id="main-content" ng-controller="lessonHelpController">
+                <section id="main-content" > <!-- ng-controller="lessonController" -->
                     <div class="row">
                         <div class="col-md-8">
                             <div class="col-md-12" align="left">
                                 <div class="panel">
                                     <div class="panel-body">
-                                        <button type="button" id="showSourceBtn" class="btn btn-primary">Java [Source]</button>
-                                        <button type="button" id="showSolutionBtn" class="btn btn-primary">Solution</button>
+                                        <button type="button" id="showSourceBtn" class="btn btn-primary btn-xs" ng-click="showLessonSource()">Java [Source]</button>
+                                        <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs" ng-click="showLessonSolution()">Solution</button>
+                                        <button type="button" id="showPlanBtn" class="btn btn-primary btn-xs" ng-click="showLessonPlan()">Lesson Plan</button>
+                                        <button type="button" id="showHintsBtn" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="panel" id="buttonPanel">
-                                    <button type="button" id="showParamsCookiesBtn" class="btn btn-primary btn-xs" ng-click="viewCookiesAndParams()">Params/Cookies</button>
-                                    <button type="button" id="showHintsBtn" class="btn btn-primary btn-xs lessonHelpBtn">Hints</button>
-                                    <button type="button" id="showPlanBtn" class="btn btn-primary btn-xs lessonHelpBtn">Lesson Plan</button>
-                                    <button type="button" id="showSourceBtn" class="btn btn-primary btn-xs lessonHelpBtn">Java [Source]</button> <!-- ng-click="showSource('lg') -->
-                                    <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs lessonHelpBtn">Solution</button> <!-- ng-click="showSolution('lg') -->
                                 </div>
 
-                                <div class="panel" id="cookiesAndParams">
-                                    <div class="cookiesView">
-                                        cookies:
-                                        <ul ng-repeat="cookie in cookies">
-                                            <li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>
-                                        </ul>
-                                    </div>
-                                    <div> <!--class="paramsView"-->
-                                        params:<br/>
-                                        <ul>
-                                            <li ng-repeat="param in params">
-                                                {{param.name}} = {{param.value}}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="col-md-12">
                                 <div class="panel" >
                                     <div class="panel-body" id="lesson_content">    
                                         <b>This should default to the "How to Work with Webgoat" lesson</b>
@@ -161,19 +153,61 @@
                                 <div class="panel">
                                     <div class="panel-body">
                                         <div align="left">
-                                            <button id="showParamsCookiesBtn" type="button" class="btn btn-default">Params / Cookies</button>
-                                            <button id="showHintsBtn" type="button" class="btn btn-default">Hints</button>
-                                            <button id="showPlanBtn" type="button" class="btn btn-default">Lesson Plan</button>
+                                            <h3>Cookies / Parameters</h3>
                                         </div>
                                         <hr />
-                                        <h3>Hints</h3>
-                                        <p>Nam placerat magna in massa euismod fringilla. Pellentesque in cursus risus, eu hendrerit ligula. Quisque ultrices eget tortor ut eleifend. Praesent auctor libero nec quam fringilla faucibus. Curabitur cursus risus eu faucibus rutrum. Morbi dapibus nulla risus, et euismod eros posuere volutpat. Quisque ut diam diam. Quisque sed enim tortor. Suspendisse commodo magna nec felis ultricies laoreet. Donec sit amet vehicula eros. Phasellus at dapibus enim. Sed massa quam, aliquet eu mattis at, porttitor a nisi.</p>
+                                        <div id="cookiesAndParamsView">
+                                            <div class="cookiesView">
+                                                <h4>Cookies</h4>
+                                                <table class="cookieTable table-striped table-nonfluid" ng-repeat="cookie in cookies">
+                                                    <thead>
+                                                        <tr><th>Field</th><th>Value</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="(key, value) in cookie">
+                                                            <td>{{key}}</td>
+                                                            <td>{{value}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <!--<li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>-->
+                                                    <!--</ul>-->
+                                                </table>
+                                            </div>
+                                            <div id="paramsView"> <!--class="paramsView"-->
+                                                <h4>Params</h4>
+                                                <table class="paramsTable table-striped table-nonfluid" id="paramsTable">
+                                                    <thead>
+                                                        <tr><th>Param</th><th>Value</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="param in parameters">
+                                                            <td>{{param.name}}</td>
+                                                            <td>{{param.value}}</td>
+                                                        </tr>						
+                                                    </tbody>
+                                                </table>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div><!--col-md-4 end-->         
                     </div>
                     <div id="lessonHelpsWrapper">
+                        <div class="row lessonHelp" id="lesson_hint_row">
+                            <div class="col-md-12">
+                                <h4>Hints</h4>
+                                <div class="panel" >
+                                    <div class="panel-body" id="lesson_hint">
+                                        <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" ng-click="viewPrevHint()"></span>
+                                        <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" ng-click="viewNextHint()"></span>
+                                        <br/>
+                                        {{curHint}}
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
                         <div class="row lessonHelp" id="lesson_cookies_row">
                             <div class="col-md-12">
                                 <h4>Lesson Parameters and Cookies</h4>
@@ -198,8 +232,8 @@
                             <div class="col-md-12">
                                 <h4>Lesson Plan</h4>
                                 <div class="panel" >
-                                    <div class="panel-body" id="lesson_plan">	
-
+                                    <div class="panel-body" id="lesson_plan">
+                                        <!-- allowing jQuery to handle this one -->
                                     </div>                                    
                                 </div>
                             </div>
@@ -207,8 +241,8 @@
                         <div class="row lessonHelp" id="lesson_solution_row">
                             <div class="col-md-12">
                                 <h4>Lesson Solution</h4>
-                                <div class="panel" >
-                                    <div class="panel-body" id="lesson_solution">				
+                                <div class="panel">
+                                    <div class="panel-body" id="lesson_solution">
                                     </div>                                    
                                 </div>
                             </div>
@@ -216,8 +250,9 @@
                         <div class="row lessonHelp" id="lesson_source_row">
                             <div class="col-md-12">
                                 <h4>Lesson Source Code</h4>
-                                <div class="panel" >
-                                    <div class="panel-body" id="lesson_source">	                                        
+                                <div class="panel">
+                                    <div class="panel-body" id="lesson_source">
+                                        <pre>{{source}}</pre>
                                     </div>                                    
                                 </div>
                             </div>
@@ -237,83 +272,83 @@
         <!-- TODO pull source into project instead of loading from external -->
         <script src="http://malsup.github.com/jquery.form.js"></script>  
         <script>
-                                                    //Load global functions
+                                            //Load global functions
 
-                                                    // set this to true if you want to see form submissions
-                                                    // set to false once we get all the kinks worked out
-                                                    var DEBUG_FORM_SUBMISSION = false;
+                                            // set this to true if you want to see form submissions
+                                            // set to false once we get all the kinks worked out
+                                            var DEBUG_FORM_SUBMISSION = false;
 
-                                                    $(document).ready(function() {
-                                                        // bind to click events on menu links
-                                                        /*$('.menu-link').bind('click', function(event) {
-                                                         event.preventDefault();
-                                                         $.get(this.href, {}, function(reply) {
-                                                         $("#lesson_content").html(reply);
-                                                         goat.utils.showLessonSource();
-                                                         }, "html");
-                                                         });*/
+                                            $(document).ready(function() {
+                                                app.init();
+                                                //can be augmented later to 'resume' for a given user ... currently kluged to start at fixed lesson
+                                                var url = 'attack?Screen=32&menu=5';
+                                                angular.element($('#leftside-navigation')).scope().renderLesson(url);
+                                            });
+                                            // make all forms ajax forms
+                                            var options = {
+                                                target: '#lesson_content', // target element(s) to be updated with server response                     
+                                                beforeSubmit: showRequest, // pre-submit callback, comment out after debugging 
+                                                success: showResponse  // post-submit callback, comment out after debugging 
 
-                                                        app.init();
+                                                        // other available options: 
+                                                        //url:       url         // override for form's 'action' attribute 
+                                                        //type:      type        // 'get' or 'post', override for form's 'method' attribute 
+                                                        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
+                                                        //clearForm: true        // clear all form fields after successful submit 
+                                                        //resetForm: true        // reset the form after successful submit 
 
-                                                    });
-                                                    // make all forms ajax forms
-                                                    var options = {
-                                                        target: '#lesson_content', // target element(s) to be updated with server response                     
-                                                        beforeSubmit: showRequest, // pre-submit callback, comment out after debugging 
-                                                        success: showResponse  // post-submit callback, comment out after debugging 
+                                                        // $.ajax options can be used here too, for example: 
+                                                        //timeout:   3000 
+                                            };
+                                            // pre-submit callback 
+                                            function showRequest(formData, jqForm, options) {
+                                                if (DEBUG_FORM_SUBMISSION) {
+                                                    // formData is an array; here we use $.param to convert it to a string to display it 
+                                                    // but the form plugin does this for you automatically when it submits the data 
+                                                    var queryString = $.param(formData);
 
-                                                                // other available options: 
-                                                                //url:       url         // override for form's 'action' attribute 
-                                                                //type:      type        // 'get' or 'post', override for form's 'method' attribute 
-                                                                //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-                                                                //clearForm: true        // clear all form fields after successful submit 
-                                                                //resetForm: true        // reset the form after successful submit 
+                                                    // jqForm is a jQuery object encapsulating the form element.  To access the 
+                                                    // DOM element for the form do this: 
+                                                    // var formElement = jqForm[0]; 
 
-                                                                // $.ajax options can be used here too, for example: 
-                                                                //timeout:   3000 
-                                                    };
-                                                    // pre-submit callback 
-                                                    function showRequest(formData, jqForm, options) {
-                                                        if (DEBUG_FORM_SUBMISSION) {
-                                                            // formData is an array; here we use $.param to convert it to a string to display it 
-                                                            // but the form plugin does this for you automatically when it submits the data 
-                                                            var queryString = $.param(formData);
+                                                    alert('About to submit: \n\n' + queryString);
+                                                }
 
-                                                            // jqForm is a jQuery object encapsulating the form element.  To access the 
-                                                            // DOM element for the form do this: 
-                                                            // var formElement = jqForm[0]; 
+                                                // here we could return false to prevent the form from being submitted; 
+                                                // returning anything other than false will allow the form submit to continue 
+                                                return true;
+                                            }
 
-                                                            alert('About to submit: \n\n' + queryString);
-                                                        }
+                                            // post-submit callback 
+                                            function showResponse(responseText, statusText, xhr, $form) {
+                                                // for normal html responses, the first argument to the success callback 
+                                                // is the XMLHttpRequest object's responseText property 
 
-                                                        // here we could return false to prevent the form from being submitted; 
-                                                        // returning anything other than false will allow the form submit to continue 
-                                                        return true;
-                                                    }
+                                                // if the ajaxForm method was passed an Options Object with the dataType 
+                                                // property set to 'xml' then the first argument to the success callback 
+                                                // is the XMLHttpRequest object's responseXML property 
 
-                                                    // post-submit callback 
-                                                    function showResponse(responseText, statusText, xhr, $form) {
-                                                        // for normal html responses, the first argument to the success callback 
-                                                        // is the XMLHttpRequest object's responseText property 
-
-                                                        // if the ajaxForm method was passed an Options Object with the dataType 
-                                                        // property set to 'xml' then the first argument to the success callback 
-                                                        // is the XMLHttpRequest object's responseXML property 
-
-                                                        // if the ajaxForm method was passed an Options Object with the dataType 
-                                                        // property set to 'json' then the first argument to the success callback 
-                                                        // is the json data object returned by the server 
-                                                        if (DEBUG_FORM_SUBMISSION) {
-                                                            alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
-                                                                    '\n\nThe output div should have already been updated with the responseText.');
-                                                        }
-                                                        // JASON - SEE THIS HOOK
-                                                        // update lesson cookies and params
-                                                        // make any embedded forms ajaxy
-                                                        goat.utils.showLessonCookiesAndParams();
-                                                        goat.utils.makeFormsAjax();
-                                                    }
+                                                // if the ajaxForm method was passed an Options Object with the dataType 
+                                                // property set to 'json' then the first argument to the success callback 
+                                                // is the json data object returned by the server 
+                                                if (DEBUG_FORM_SUBMISSION) {
+                                                    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
+                                                            '\n\nThe output div should have already been updated with the responseText.');
+                                                }
+                                                // JASON - SEE THIS HOOK
+                                                // update lesson cookies and params
+                                                // make any embedded forms ajaxy
+                                                goat.utils.showLessonCookiesAndParams();
+                                                goat.utils.makeFormsAjax();
+                                            }
 
         </script>
+        <!-- Modal -->
+        <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
     </body>
 </html>

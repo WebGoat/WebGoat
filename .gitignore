@@ -1,5 +1,18 @@
 /nb-configuration.xml
 /nbactions.xml
+/target/
+/.classpath
+/.project
+/.settings/.jsdtscope
+/.settings/org.eclipse.jdt.core.prefs
+/.settings/org.eclipse.m2e.core.prefs
+/.settings/org.eclipse.wst.common.component
+/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml
+/.settings/org.eclipse.wst.common.project.facet.core.xml
+/.settings/org.eclipse.wst.jsdt.ui.superType.container
+/.settings/org.eclipse.wst.jsdt.ui.superType.name
+/.settings/org.eclipse.wst.validation.prefs
+/.externalToolBuilders/
 .project
 /target
 .classpath
@@ -10,6 +23,4 @@ src/main/main.iml
 *.BASE.*.jsp
 *.LOCAL.*.jsp
 *.REMOTE.*.jsp
-
-
 

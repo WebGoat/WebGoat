@@ -2,9 +2,11 @@ package org.owasp.webgoat.lessons;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
+import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Input;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
@@ -58,6 +60,7 @@ public class HttpBasics extends LessonAdapter {
 
         StringBuffer person = null;
         try {
+        	ec.addElement(new BR());
             ec.addElement(new StringElement(WebGoatI18N.get("EnterYourName") + ": "));
 
             person = new StringBuffer(s.getParser().getStringParameter(PERSON, ""));

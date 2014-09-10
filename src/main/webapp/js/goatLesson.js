@@ -31,7 +31,7 @@ goat.lesson = {
                 goat.data.loadHints().then(
                     function(resp) {
                         scope.hints = resp;
-                        if (scope.hints.length > 0) {
+                        if (scope.hints.length > 0 && scope.hints[0].hint.indexOf(goatConstants.noHints) === -1) {
                             goat.utils.displayButton('showHintsBtn',true);
                         } else {
                             goat.utils.displayButton('showHintsBtn',false);
@@ -103,7 +103,7 @@ goat.lesson = {
                 );
             },
             getParams: function() {
-                this.params = goat.utils.scrapeParams(this.lessonUrl)
+                this.params = goat.utils.scrapeParams(this.lessonUrl);
             }
         }
     }

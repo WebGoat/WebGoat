@@ -19,7 +19,9 @@ import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
 import org.apache.ecs.html.Body;
+import org.apache.ecs.html.Center;
 import org.apache.ecs.html.Form;
+import org.apache.ecs.html.H1;
 import org.apache.ecs.html.Head;
 import org.apache.ecs.html.Html;
 import org.apache.ecs.html.IMG;
@@ -729,11 +731,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      */
     public void handleRequest(WebSession s) {
         // call createContent first so messages will go somewhere
-
         Form form = new Form(getFormAction(), Form.POST).setName("form").setEncType("");
-
         form.addElement(createContent(s));
-
         setContent(form);
     }
 

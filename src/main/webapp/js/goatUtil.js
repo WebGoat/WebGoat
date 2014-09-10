@@ -15,14 +15,6 @@ goat.utils = {
         //console.log("Hooking any lesson forms to make them ajax");
         $("form").ajaxForm(options);
     },
-    /**goatApp.extractLessonTitle
-     *pulls lesson title from html fragment returned (looks for it in h1 element)
-     *@param - html rendered to object passed in
-     */
-    extractLessonTitle: function(el) {
-        var title = $('h1', el).text();
-        return title;
-    },
     displayButton: function(id,show) {
         if ($('#'+id)) {
             if (show) {
@@ -44,7 +36,7 @@ goat.utils = {
     },
     showLessonSource: function(source) {
         $('.lessonHelp').hide();
-        $('#lesson_source').html("<pre>"+goat.lesson.lessonInfo.source+"</pre>");
+        //$('#lesson_source').html("<pre>"+goat.lesson.lessonInfo.source+"</pre>");
         $('#lesson_source_row').show();
         goat.utils.scrollToHelp();
     },
@@ -65,6 +57,7 @@ goat.utils = {
         goat.utils.scrollEasy(target);
     },
     scrollToTop: function() {
+        $('.lessonHelp').hide();
         var target= $('#container');
         goat.utils.scrollEasy(target);
     },

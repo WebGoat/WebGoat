@@ -18,7 +18,7 @@ goat.data = {
         return $.get(goatConstants.sourceService, {});
     },
     loadSolution: function () {
-        return $.get(goatConstants.solutionService, {})
+        return $.get(goatConstants.solutionService, {});
     },
     loadPlan: function () {
         return $.get(goatConstants.lessonPlanService, {});
@@ -30,5 +30,8 @@ goat.data = {
     loadMenuData: function() {
         //TODO use goatConstants var for url
         return $http({method: 'GET', url: goatConstants.menuService});
+    },
+    loadLessonTitle: function () {
+        return $.get(goatConstants.lessonTitleService, {});
     }
 };
