@@ -4,7 +4,7 @@
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * 
- * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * Copyright (c) 2002 - 20014 Bruce Mayhew
  * 
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
@@ -20,10 +20,10 @@
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository for free software
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  * 
- * For details, please see http://code.google.com/p/webgoat/
+ * For details, please see http://webgoat.github.io
  */
 package org.owasp.webgoat.lessons.model;
 

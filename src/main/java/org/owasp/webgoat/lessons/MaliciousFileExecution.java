@@ -30,7 +30,7 @@ import org.apache.commons.fileupload.servlet.*;
  * This file is part of WebGoat, an Open Web Application Security Project
  * utility. For details, please see http://www.owasp.org/
  * 
- * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * Copyright (c) 2002 - 20014 Bruce Mayhew
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -48,10 +48,10 @@ import org.apache.commons.fileupload.servlet.*;
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
  * for free software projects.
  * 
- * For details, please see http://code.google.com/p/webgoat/
+ * For details, please see http://webgoat.github.io
  * 
  * @author Chuck Willis of <a href="http://www.mandiant.com">MANDIANT</a> 
  * @created July 11, 2008
