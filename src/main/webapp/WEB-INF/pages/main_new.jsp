@@ -82,8 +82,8 @@
                             <i class="fa fa-user"></i> <span class="caret"></span>
                         </button>                   
                         <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: TODO</a></li>
-                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: TODO</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: ${user}</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: ${role}</a></li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="<c:url value="j_spring_security_logout" />">Logout</a></li>
                         </ul>
