@@ -6,12 +6,14 @@
 package org.owasp.webgoat.controller;
 
 import java.util.Collection;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.session.WebSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,9 @@ public class Start {
 
     private static final String WELCOMED = "welcomed";
 
+    @Autowired
+    private ServletContext servletContext;
+
     @RequestMapping(value = "start.mvc", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView start(HttpServletRequest request,
             @RequestParam(value = "error", required = false) String error,
@@ -48,7 +53,7 @@ public class Start {
         model.addObject("role", role);
         model.addObject("user", user);
 
-        String contactEmail = request.getServletContext().getInitParameter("email");
+        String contactEmail = servletContext.getInitParameter("email");
         model.addObject("contactEmail", contactEmail);
 
         // if everything ok then go to webgoat UI
