@@ -91,7 +91,7 @@
                     <button type="button" class="btn btn-default right_nav_button" ng-click="showAbout()" data-toggle="tooltip" title="About WebGoat">
                         <i class="fa fa-info"></i>
                     </button>
-                    <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">
+                    <a href="mailto:${contactEmail}?Subject=Webgoat%20feedback" target="_top">
                         <button type="button" class="btn btn-default right_nav_button"data-toggle="tooltip" title="Contact Us">
                             <i class="fa fa-envelope"></i>
                         </button>

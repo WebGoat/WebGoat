@@ -48,6 +48,9 @@ public class Start {
         model.addObject("role", role);
         model.addObject("user", user);
 
+        String contactEmail = request.getServletContext().getInitParameter("email");
+        model.addObject("contactEmail", contactEmail);
+
         // if everything ok then go to webgoat UI
         model.setViewName("main_new");
         return model;
