@@ -58,6 +58,7 @@
                     <li>Nanne Baars (Developer)</li>
                     <li>Dave Cowden (Everything)</li>
                     <li>Keith Gasser (Survey/Security)</li>
+                    <li>Devin Mayhew (Setup/Admin)</li>
                     <li>Li Simon (Developer)</li>
                 </ul>
                 </p>
