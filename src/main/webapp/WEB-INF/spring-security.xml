@@ -21,6 +21,7 @@
     <http use-expressions="true">  
         <intercept-url pattern="/login.mvc" access="permitAll" />
         <intercept-url pattern="/logout.mvc" access="permitAll" />   
+        <intercept-url pattern="/index.jsp" access="permitAll" />          
         <intercept-url pattern="/servlet/AdminServlet/**" access="hasAnyRole('ROLE_WEBGOAT_ADMIN','ROLE_SERVER_ADMIN')" />
         <intercept-url pattern="/JavaSource/**" access="hasRole('ROLE_SERVER_ADMIN')" />          	
         <intercept-url pattern="/**" access="hasAnyRole('ROLE_WEBGOAT_USER','ROLE_WEBGOAT_ADMIN','ROLE_SERVER_ADMIN')" />

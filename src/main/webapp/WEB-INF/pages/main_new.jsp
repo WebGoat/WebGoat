@@ -57,7 +57,7 @@
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-        <title>WebGoat V6.0</title>
+        <title>WebGoat</title>
     </head>
 
     <body class="animated fadeIn" ng-app="goatApp">
@@ -354,10 +354,11 @@
                                             }
 
         </script>
-        <!-- Modal -->
+        <!-- About WebGoat Modal -->
         <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
+                    <jsp:include page="../pages/about.jsp"/> 
                 </div>
             </div>
         </div>
