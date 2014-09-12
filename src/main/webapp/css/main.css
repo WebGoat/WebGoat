@@ -230,6 +230,10 @@ img {
   background-color: #16a086;
 }
 
+.sidebar > div > ul > li > ul > li > a {
+    float:left; margin-left:1em;
+}
+
 .sidebar > div > ul > li > ul > li > span {
     float:left; margin-left:1.5em;
 }
