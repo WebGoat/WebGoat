@@ -57,7 +57,7 @@
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-        <title>WebGoat V6.0</title>
+        <title>WebGoat</title>
     </head>
 
     <body class="animated fadeIn" ng-app="goatApp">

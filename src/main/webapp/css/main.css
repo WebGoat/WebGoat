@@ -74,16 +74,16 @@ img {
 #header .brand {
   float: left;
   width: 240px;
-  min-height: 80px;
-  padding: 0 0 0 10px;
+  height: 80px;
+  padding: 0;
   position: relative;
-  background: #e84c3d url('img/logo.png') no-repeat 25px 26px;
+  background: url('img/logoBG.jpg') no-repeat 0px 0px;
 }
 #header .logo {
   color: #fff;
   font-size: 1.7em;
   text-transform: uppercase;
-  padding: 23px 0 0 57px;
+  padding: 23px 0 0 75px;
   display: inline-block;
 }
 #header .logo span {
