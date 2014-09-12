@@ -350,10 +350,11 @@
                                             }
 
         </script>
-        <!-- Modal -->
+        <!-- About WebGoat Modal -->
         <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
+                    <jsp:include page="../pages/about.jsp"/> 
                 </div>
             </div>
         </div>

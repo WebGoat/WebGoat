@@ -714,6 +714,17 @@ fieldset[disabled] .btn-warning.active {
   color: #fff;
   border: none;
 }
+
+/* ==========================================================================
+  Modal
+   ========================================================================== */
+.modal-footer .btn + .btn {
+  margin-bottom: 5px;
+}
+.modal .modal-body.modal-scroll {
+  max-height: 350px;
+  overflow-y: auto;
+}
 /* ==========================================================================
    Media Queries
    ========================================================================== */
@@ -774,7 +785,7 @@ fieldset[disabled] .btn-warning.active {
 
 #topLinks {
   float:right;
-  margin-right:5px;s
+  margin-right:5px;
   margin-top:3px;
 }
 

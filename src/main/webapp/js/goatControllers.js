@@ -151,7 +151,7 @@ goat.controller('goatLesson', function($scope, $http, $modal, $log, $templateCac
 
     $scope.showAbout = function() {
         $('#aboutModal').modal({
-            remote: 'about.mvc'
+            //remote: 'about.mvc'
         });
     };
 
