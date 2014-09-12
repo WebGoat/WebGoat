@@ -17,9 +17,7 @@
 		<p>From the entire WebGoat team, we appreciate your interest and efforts
         in making applications not just better, but safer and more secure for
         everyone. We, as well as our sacrificial goat, thank you.</p>
-        <p>Version: 6.0</p>public void testName() throws Exception {
-        	
-        }
+        <p>Version: 6.0</p>
         <div class="row">
           <div class="col-md-6">
               <p>Contact us:
