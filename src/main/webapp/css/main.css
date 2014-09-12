@@ -722,7 +722,7 @@ fieldset[disabled] .btn-warning.active {
   margin-bottom: 5px;
 }
 .modal .modal-body.modal-scroll {
-  max-height: 350px;
+  max-height: 375px;
   overflow-y: auto;
 }
 /* ==========================================================================
