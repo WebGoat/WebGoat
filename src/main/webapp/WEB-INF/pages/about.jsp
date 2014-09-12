@@ -9,9 +9,17 @@
         <h3 class="modal-title" id="myModalLabel">About WebGoat - Provided by the OWASP Foundation</h3>
     </div>
     <div class="modal-body modal-scroll">
-        <p>Thank you for using WebGoat!  This program is a demonstration of common web application flaws.  The exercises
-        are intended to provide hands on experience with application penetration testing techniques.</p>
-        <p>Version: 6.0</p>
+        <p>Thanks for hacking The Goat!</p> 
+		<p>WebGoat is a demonstration of common web application flaws. The
+        associated exercises are intended to provide hands-on experience with
+        techniques aimed at demonstrating and testing application penetration.
+        </p>
+		<p>From the entire WebGoat team, we appreciate your interest and efforts
+        in making applications not just better, but safer and more secure for
+        everyone. We, as well as our sacrificial goat, thank you.</p>
+        <p>Version: 6.0</p>public void testName() throws Exception {
+        	
+        }
         <div class="row">
           <div class="col-md-6">
               <p>Contact us:
@@ -40,7 +48,7 @@
                     <li>Bruce Mayhew</li>
                     <li>Jason White</li>
                     <li>Ali Looney (User Interface)</li>
-                    <li>Jeff Weyman (Website and Docs)</li>
+                    <li>Jeff Wayman (Website and Docs)</li>
                 </ul>
                 </p>
             </div>
@@ -78,7 +86,10 @@
                     <li>Marcel Wirth (Lessons)</li>
                 </ul>
                 </p>
-                <p>There have been many contributors over the years.  If your name does not appear on the lists above, please send me a note.</p>
+                <p>Did we miss you? Our sincere apologies, as we know there have
+                been many contributors over the years. If your name does not
+                appear in any of the lists above, please send us a note. We'll
+                get you added with no further sacrifices required.</p>
             </div>
         </div>
     </div>
