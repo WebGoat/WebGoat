@@ -57,7 +57,7 @@
             	<h1>Lesson Title in here</h1>
             </div><!--lesson title end-->
             <div class="user-nav pull-right">
-            	<button type="button" class="btn btn-default">
+            	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#aboutModal">
                 	<i class="fa fa-info"></i>
                 </button>
                 <button type="button" class="btn btn-default">
@@ -72,16 +72,7 @@
         <aside class="sidebar">
             <div id="leftside-navigation" class="nano">
                 <ul class="nano-content">
-                	<li class="active">
-                        <a href="index.html"><i class="fa fa-home"></i><span>Home</span></a>
-                    </li>
-                    <li>
-                        <a href="about.html"><i class="fa fa-users"></i><span>About</span></a>
-                    </li>
-                    <li>
-                        <a href="contact.html"><i class="fa fa-envelope-o"></i><span>Contact</span></a>
-                    </li>
-                    <li class="sub-menu">
+                	<li class="sub-menu">
                         <a href=""><i class="fa fa-bars"></i><span>LESSONS</span></a>
                     </li>
                     <li class="sub-menu">
@@ -203,9 +194,9 @@
             			<div class="panel">
             				<div class="panel-body">
             					<div align="left">
-            						<button type="button" class="btn btn-default">Params</button>
-            						<button type="button" class="btn btn-default">Hints</button>
-            						<button type="button" class="btn btn-default">Cookies</button>
+            						<button type="button" class="btn btn-default btn-sm">Params</button>
+            						<button type="button" class="btn btn-default btn-sm">Hints</button>
+            						<button type="button" class="btn btn-default btn-sm">Cookies</button>
             					</div>
             					<hr />
             					<h3>Hints</h3>
@@ -218,6 +209,100 @@
             </section>
         </section>
         <!--main content end-->
+        
+  	<!-- Basic Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="myModalLabel">About WebGoat</h3>
+                </div>
+                <div class="modal-body modal-scroll">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean quis posuere sapien, at ornare neque. Curabitur commodo efficitur ante, at finibus ex faucibus ut. Vivamus id diam blandit, convallis justo sed, vehicula sem. Cras a semper ex. Etiam dignissim tempus metus, sit amet blandit arcu pulvinar ac. Mauris dignissim rutrum ante sit amet posuere. Proin mollis sapien augue, at tempor metus iaculis eu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras elementum finibus tincidunt.</p>
+                    <p>Version</p>
+                    <p>OWASP Reference - probably text and image</p>
+                    <div class="row">
+                    	<div class="col-md-6">
+                  		  <p>WebGoat Authors
+                    			<ul>
+                    				<li>name...</li>
+                    				<li>name...</li>
+                    				<li>name...</li>
+                    			</ul>
+                  		  	</p>
+                    	</div>
+                    	<div class="col-md-6">
+							<p>WebGoat Design Team
+								<ul>
+									<li>name...</li>
+									<li>name...</li>
+									<li>name...</li>
+								</ul>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+                    	<div class="col-md-6">
+							<p>Active Contributors
+								<ul>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+								</ul>
+							</p>
+						</div>
+						<div class="col-md-6">
+							<p>Past Contributors
+								<ul>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+									<li>name... (Role)</li>
+								</ul>
+							</p>
+						</div>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Basic Modal -->
         
     </section>
     <!--Global JS-->

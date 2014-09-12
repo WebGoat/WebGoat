@@ -39,10 +39,10 @@ import org.owasp.webgoat.util.HtmlEncoder;
  * 
  * Getting Source ==============
  * 
- * Source for this application is maintained at code.google.com, a repository for free software
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  * 
- * For details, please see http://code.google.com/p/webgoat/
+ * For details, please see http://webgoat.github.io
  * 
  * @author Contributed by <a href="http://www.partnet.com">PartNet.</a>
  * 

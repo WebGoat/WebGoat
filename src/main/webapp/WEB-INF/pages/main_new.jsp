@@ -82,8 +82,8 @@
                             <i class="fa fa-user"></i> <span class="caret"></span>
                         </button>                   
                         <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: TODO</a></li>
-                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: TODO</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: ${user}</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: ${role}</a></li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="<c:url value="j_spring_security_logout" />">Logout</a></li>
                         </ul>
@@ -91,7 +91,7 @@
                     <button type="button" class="btn btn-default right_nav_button" ng-click="showAbout()" data-toggle="tooltip" title="About WebGoat">
                         <i class="fa fa-info"></i>
                     </button>
-                    <a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">
+                    <a href="mailto:${contactEmail}?Subject=Webgoat%20feedback" target="_top">
                         <button type="button" class="btn btn-default right_nav_button"data-toggle="tooltip" title="Contact Us">
                             <i class="fa fa-envelope"></i>
                         </button>
@@ -137,8 +137,19 @@
                                         <button type="button" id="showHintsBtn" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
                                     </div>
                                 </div>
-
+                                <div class="lessonHelp" id="lesson_hint_row">
+                                    <h4>Hints</h4>
+                                    <div class="panel" >
+                                        <div class="panel-body" id="lesson_hint">
+                                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" ng-click="viewPrevHint()"></span>
+                                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" ng-click="viewNextHint()"></span>
+                                            <br/>
+                                            {{curHint}}
+                                        </div>                                    
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="col-md-12">
                                 <div class="panel" >
                                     <div class="panel-body" id="lesson_content">    
@@ -195,7 +206,7 @@
                         </div><!--col-md-4 end-->         
                     </div>
                     <div id="lessonHelpsWrapper">
-                        <div class="row lessonHelp" id="lesson_hint_row">
+                        <!--div class="row lessonHelp" id="lesson_hint_row">
                             <div class="col-md-12">
                                 <h4>Hints</h4>
                                 <div class="panel" >
@@ -207,7 +218,7 @@
                                     </div>                                    
                                 </div>
                             </div>
-                        </div>
+                        </div-->
                         <div class="row lessonHelp" id="lesson_cookies_row">
                             <div class="col-md-12">
                                 <h4>Lesson Parameters and Cookies</h4>

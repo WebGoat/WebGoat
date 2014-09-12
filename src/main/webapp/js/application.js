@@ -8,11 +8,12 @@ var app = function() {
         // menu is handled by angular
         //menu();
         togglePanel();
-        closePanel();
+        closePanel();        
     };
 
     var tooltips = function() {
         $('#toggle-left').tooltip();
+        $('.right_nav_button').tooltip({'placement': 'bottom'});
     };
 
     var togglePanel = function() {

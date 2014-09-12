@@ -19,7 +19,7 @@ import org.owasp.webgoat.util.WebGoatI18N;
  * This file is part of WebGoat, an Open Web Application Security Project
  * utility. For details, please see http://www.owasp.org/
  *
- * Copyright (c) 2002 - 2007 Bruce Mayhew
+ * Copyright (c) 2002 - 20014 Bruce Mayhew
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -37,10 +37,10 @@ import org.owasp.webgoat.util.WebGoatI18N;
  *
  * Getting Source ==============
  *
- * Source for this application is maintained at code.google.com, a repository
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
  * for free software projects.
  *
- * For details, please see http://code.google.com/p/webgoat/
+ * For details, please see http://webgoat.github.io
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003

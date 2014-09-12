@@ -5,12 +5,17 @@
  */
 package org.owasp.webgoat.controller;
 
+import java.util.Collection;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.owasp.webgoat.session.Course;
+import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.session.WebSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +33,9 @@ public class Start {
 
     private static final String WELCOMED = "welcomed";
 
+    @Autowired
+    private ServletContext servletContext;
+
     @RequestMapping(value = "start.mvc", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView start(HttpServletRequest request,
             @RequestParam(value = "error", required = false) String error,
@@ -40,10 +48,30 @@ public class Start {
             model.setViewName("redirect:/login.mvc");
             return model;
         }
+        String role = getRole();
+        String user = request.getUserPrincipal().getName();
+        model.addObject("role", role);
+        model.addObject("user", user);
+
+        String contactEmail = servletContext.getInitParameter("email");
+        model.addObject("contactEmail", contactEmail);
 
         // if everything ok then go to webgoat UI
         model.setViewName("main_new");
         return model;
+    }
+
+    private String getRole() {
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        String role = "N/A";
+        for (GrantedAuthority authority : authorities) {
+            authority.getAuthority();
+            role = authority.getAuthority();
+            role = StringUtils.lowerCase(role);
+            role = StringUtils.remove(role, "role_");
+            break;
+        }
+        return role;
     }
 
     public boolean checkWebSession(HttpSession session) {
