@@ -11,7 +11,7 @@ var app = function() {
         sideBarLeftInit();
         window.onresize = function(){
             sideBarLeftInit();    
-        };
+        }
         closePanel();        
     };
 
@@ -221,7 +221,6 @@ var app = function() {
         morrisPie: morrisPie,
         sideBarLeftInit:sideBarLeftInit
     };
-    
-    
 }();
+
 
