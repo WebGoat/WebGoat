@@ -11,7 +11,7 @@ var app = function() {
         sideBarLeftInit();
         window.onresize = function(){
             sideBarLeftInit();    
-        }
+        };
         closePanel();        
     };
 
