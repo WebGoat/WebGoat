@@ -8,6 +8,10 @@ var app = function() {
         // menu is handled by angular
         //menu();
         togglePanel();
+        sideBarLeftInit();
+        window.onresize = function(){
+            sideBarLeftInit();    
+        }
         closePanel();        
     };
 
@@ -203,6 +207,9 @@ var app = function() {
         $('.slider-span').slider()
     };
 
+    var sideBarLeftInit = function(){
+        $("#leftside-navigation").css("height", (window.innerHeight-80)+"px");
+    };
 
     //return functions
     return {
@@ -211,9 +218,10 @@ var app = function() {
         map: map,
         sliders: sliders,
         weather: weather,
-        morrisPie: morrisPie
-
+        morrisPie: morrisPie,
+        sideBarLeftInit:sideBarLeftInit
     };
+    
+    
 }();
-
 
