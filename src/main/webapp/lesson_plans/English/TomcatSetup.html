@@ -78,41 +78,6 @@ only discussed the whitebox approach. You have to add following lines to the Hos
 </pre>
 <p>In this case only localhost, ip1 and ip2 are permitted to connect.</p>
 
-<h2>Configuring new WebGoat users</h2>
-<p>
-WebGoat uses spring-security.xml to configure users.
-<br/>
-  <pre>
-    &lt;!-- Authentication Manager --&gt;
-    &lt;authentication-manager alias="authenticationManager"&gt;
-        &lt;authentication-provider&gt;
-            &lt;user-service&gt;
-                &lt;!-- TODO: credentials in the config - this isn't something I'm proud of - get rid of this ASAP --&gt; 
-                &lt;user name="guest" password="guest" authorities="ROLE_WEBGOAT_USER" /&gt;
-                &lt;user name="webgoat" password="webgoat" authorities="ROLE_WEBGOAT_ADMIN" /&gt;
-                &lt;user name="server" password="server" authorities="ROLE_SERVER_ADMIN" /&gt;
-            &lt;/user-service&gt;
-        &lt;/authentication-provider&gt;
-    &lt;/authentication-manager&gt;  
-  </pre>
-</p>
-<h2>Adding Users</h2>
-<p>
-Usually using WebGoat you just use the user guest with the password guest.
-But maybe in laboratory you have made a setup with one server and a lot of
-clients. In this case you might want to have a user for every client
- and you have to alter /WEB-INF/spring-security.xml as the users are stored there. <b>We recommend not to use real passwords 
-as the passwords are stored in plain text in this file!</b>
-</p>
-<h3>Add User</h3>
-<p>
-Adding a user is straight forward. You can use the guest entry as an example. The added
-users should have the same role as the guest user. The new user/password will not show on the login page. 
-Add lines like this to the file:
-</p>
-<pre>
-                &lt;user name="guest2" password="guest2" authorities="ROLE_WEBGOAT_USER" /&gt;
-	...
-</pre>
+
 
 <!-- Stop Instructions -->
