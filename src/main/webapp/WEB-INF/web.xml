@@ -187,12 +187,12 @@
         <url-pattern>*.mvc</url-pattern>
     </servlet-mapping>
     <listener>
-        <description>WebGoat application init</description>
-        <listener-class>org.owasp.webgoat.application.WebGoatServletListener</listener-class>
-    </listener>
-    <listener>
         <description>Spring context init</description>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <description>WebGoat application init</description>
+        <listener-class>org.owasp.webgoat.application.WebGoatServletListener</listener-class>
     </listener>
     <!-- end spring MVC -->
     <!-- spring security -->
