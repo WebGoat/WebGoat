@@ -89,7 +89,7 @@
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: ${role}</a></li>
                             <li role="presentation" class="divider"></li>   
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">${version}</a></li>
-                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">${build}</a></li>                            
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Build: ${build}</a></li>                            
 
                         </ul>
                     </div>

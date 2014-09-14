@@ -25,7 +25,7 @@ public class Application {
         return INSTANCE;
     }
 
-    private String version = "local";
+    private String version = "SNAPSHOT";
     private String build = "local";
     private String name = "WebGoat";
 
