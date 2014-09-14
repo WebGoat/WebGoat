@@ -279,9 +279,7 @@
         <!--main content end-->
         
     </section>
-    
-        <!-- TODO pull source into project instead of loading from external -->
-        <script src="http://malsup.github.com/jquery.form.js"></script>  
+        <script src="js/jquery_form/jquery.form.js"></script>  
         <script>
                                             //Load global functions
 
