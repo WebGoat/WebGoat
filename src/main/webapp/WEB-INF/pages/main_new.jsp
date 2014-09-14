@@ -106,7 +106,7 @@
                 <div id="leftside-navigation" class="nano">
                     <ul class="nano-content">
                         <li class="sub-menu" ng-repeat="item in menuTopics">
-                            <a ng-click="expanded = !expanded" href=""><span>{{item.name}}</span><i class="fa {{item.class}}"></i></a>
+                            <a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
                             <ul class="slideDown" ng-show="expanded">
                                 <li ng-repeat="lesson in item.children">
                                     <a ng-click="renderLesson(lesson.link)" title="link to {{lesson.name}}" href="">{{lesson.name}}</a>
