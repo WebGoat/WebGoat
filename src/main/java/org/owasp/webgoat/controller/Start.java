@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.owasp.webgoat.application.Application;
 import org.owasp.webgoat.session.WebSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +56,10 @@ public class Start {
 
         String contactEmail = servletContext.getInitParameter("email");
         model.addObject("contactEmail", contactEmail);
+        Application app = Application.getInstance();
+        logger.info("Setting application properties: " + app);
+        model.addObject("version", app.getVersion());
+        model.addObject("build", app.getBuild());
 
         // if everything ok then go to webgoat UI
         model.setViewName("main_new");
