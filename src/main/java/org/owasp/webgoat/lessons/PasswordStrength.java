@@ -73,13 +73,13 @@ public class PasswordStrength extends LessonAdapter
 		String password;
 		String timeUnit;
 		String answer;
-		private String explaination;
+		private String explanation;
 		
-		public Password(String password, String timeUnit, String answer, String explaination) {
+		public Password(String password, String timeUnit, String answer, String explanation) {
 			this.password = password;
 			this.timeUnit = timeUnit;
 			this.answer = answer;
-			this.explaination = explaination;
+			this.explanation = explanation;
 		}
 	}
 	
@@ -115,7 +115,7 @@ public class PasswordStrength extends LessonAdapter
 				ec.addElement(new BR());
 				OL ol = new OL();
 				for ( Password password : passwords.values()) {
-					ol.addElement(new LI(String.format("%s - %s %s (%s)", password.password, password.answer, password.timeUnit, password.explaination)));
+					ol.addElement(new LI(String.format("%s - %s %s (%s)", password.password, password.answer, password.timeUnit, password.explanation)));
 				}
 				ec.addElement(ol);
 			} else
