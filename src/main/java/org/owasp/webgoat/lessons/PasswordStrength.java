@@ -84,10 +84,10 @@ public class PasswordStrength extends LessonAdapter
 	}
 	
 	private boolean checkSolution(WebSession s) throws ParameterNotFoundException {
-		boolean allCorrect = false;
-		for ( int i = 0; i < passwords.size(); i++ ) {
+		boolean allCorrect = true;
+		for ( int i = 1; i <= passwords.size(); i++ ) {
 			String key = "pass" + i;
-			allCorrect = allCorrect && s.getParser().getStringParameter(key, "").equals(passwords.get(key));
+			allCorrect = allCorrect && s.getParser().getStringParameter(key, "").equals(passwords.get(key).answer);
 		}
 		return allCorrect;
 	}
@@ -108,6 +108,7 @@ public class PasswordStrength extends LessonAdapter
 			if (checkSolution(s))
 			{
 				makeSuccess(s);
+				ec.addElement(new BR());
 				ec.addElement(new StringElement("As a guideline not bound to a single solution."));
 				ec.addElement(new BR());
 				ec.addElement(new StringElement("Assuming the calculations per second 4 billion: "));
