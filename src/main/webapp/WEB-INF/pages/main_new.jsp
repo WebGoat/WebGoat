@@ -41,6 +41,7 @@
 
         <!--Global JS-->
         <script src="js/jquery/jquery-1.10.2.min.js"></script>
+        <script src="js/jquery_form/jquery.form.js"></script>  
         <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 
         <script src="js/application.js"></script>
@@ -76,16 +77,20 @@
                 <div class="lessonTitle" >
                     <h1 id="lessonTitle">Lesson Title in here</h1>
                 </div><!--lesson title end-->
-                <div class="user-nav pull-right" style="margin-right: 50px;">
+                <div class="user-nav pull-right" style="margin-right: 75px;">
                     <div class="dropdown" style="display:inline">
                         <button type="button" class="btn btn-default  dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
                             <i class="fa fa-user"></i> <span class="caret"></span>
                         </button>                   
                         <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="<c:url value="j_spring_security_logout" />">Logout</a></li>
+                            <li role="presentation" class="divider"></li>     
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: ${user}</a></li>
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: ${role}</a></li>
-                            <li role="presentation" class="divider"></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="<c:url value="j_spring_security_logout" />">Logout</a></li>
+                            <li role="presentation" class="divider"></li>   
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">${version}</a></li>
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Build: ${build}</a></li>                            
+
                         </ul>
                     </div>
                     <button type="button" class="btn btn-default right_nav_button" ng-click="showAbout()" data-toggle="tooltip" title="About WebGoat">
@@ -106,7 +111,7 @@
                 <div id="leftside-navigation" class="nano">
                     <ul class="nano-content">
                         <li class="sub-menu" ng-repeat="item in menuTopics">
-                            <a ng-click="expanded = !expanded" href=""><span>{{item.name}}</span><i class="fa {{item.class}}"></i></a>
+                            <a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
                             <ul class="slideDown" ng-show="expanded">
                                 <li ng-repeat="lesson in item.children">
                                     <a ng-click="renderLesson(lesson.link)" title="link to {{lesson.name}}" href="">{{lesson.name}}</a>
@@ -277,81 +282,78 @@
         </section>
 
         <!--main content end-->
-        
-    </section>
-    
-        <!-- TODO pull source into project instead of loading from external -->
-        <script src="http://malsup.github.com/jquery.form.js"></script>  
+
+        </section>
         <script>
-                                            //Load global functions
+            //Load global functions
 
-                                            // set this to true if you want to see form submissions
-                                            // set to false once we get all the kinks worked out
-                                            var DEBUG_FORM_SUBMISSION = false;
+            // set this to true if you want to see form submissions
+            // set to false once we get all the kinks worked out
+            var DEBUG_FORM_SUBMISSION = false;
 
-                                            $(document).ready(function() {
-                                                app.init();
-                                                //can be augmented later to 'resume' for a given user ... currently kluged to start at fixed lesson
-                                                var url = 'attack?Screen=32&menu=5';
-                                                angular.element($('#leftside-navigation')).scope().renderLesson(url);
-                                            });
-                                            // make all forms ajax forms
-                                            var options = {
-                                                target: '#lesson_content', // target element(s) to be updated with server response                     
-                                                beforeSubmit: showRequest, // pre-submit callback, comment out after debugging 
-                                                success: showResponse  // post-submit callback, comment out after debugging 
+            $(document).ready(function() {
+                app.init();
+                //can be augmented later to 'resume' for a given user ... currently kluged to start at fixed lesson
+                var url = 'attack?Screen=32&menu=5';
+                angular.element($('#leftside-navigation')).scope().renderLesson(url);
+            });
+            // make all forms ajax forms
+            var options = {
+                target: '#lesson_content', // target element(s) to be updated with server response                     
+                beforeSubmit: showRequest, // pre-submit callback, comment out after debugging 
+                success: showResponse  // post-submit callback, comment out after debugging 
 
-                                                        // other available options: 
-                                                        //url:       url         // override for form's 'action' attribute 
-                                                        //type:      type        // 'get' or 'post', override for form's 'method' attribute 
-                                                        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-                                                        //clearForm: true        // clear all form fields after successful submit 
-                                                        //resetForm: true        // reset the form after successful submit 
+                        // other available options: 
+                        //url:       url         // override for form's 'action' attribute 
+                        //type:      type        // 'get' or 'post', override for form's 'method' attribute 
+                        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
+                        //clearForm: true        // clear all form fields after successful submit 
+                        //resetForm: true        // reset the form after successful submit 
 
-                                                        // $.ajax options can be used here too, for example: 
-                                                        //timeout:   3000 
-                                            };
-                                            // pre-submit callback 
-                                            function showRequest(formData, jqForm, options) {
-                                                if (DEBUG_FORM_SUBMISSION) {
-                                                    // formData is an array; here we use $.param to convert it to a string to display it 
-                                                    // but the form plugin does this for you automatically when it submits the data 
-                                                    var queryString = $.param(formData);
+                        // $.ajax options can be used here too, for example: 
+                        //timeout:   3000 
+            };
+            // pre-submit callback 
+            function showRequest(formData, jqForm, options) {
+                if (DEBUG_FORM_SUBMISSION) {
+                    // formData is an array; here we use $.param to convert it to a string to display it 
+                    // but the form plugin does this for you automatically when it submits the data 
+                    var queryString = $.param(formData);
 
-                                                    // jqForm is a jQuery object encapsulating the form element.  To access the 
-                                                    // DOM element for the form do this: 
-                                                    // var formElement = jqForm[0]; 
+                    // jqForm is a jQuery object encapsulating the form element.  To access the 
+                    // DOM element for the form do this: 
+                    // var formElement = jqForm[0]; 
 
-                                                    alert('About to submit: \n\n' + queryString);
-                                                }
+                    alert('About to submit: \n\n' + queryString);
+                }
 
-                                                // here we could return false to prevent the form from being submitted; 
-                                                // returning anything other than false will allow the form submit to continue 
-                                                return true;
-                                            }
+                // here we could return false to prevent the form from being submitted; 
+                // returning anything other than false will allow the form submit to continue 
+                return true;
+            }
 
-                                            // post-submit callback 
-                                            function showResponse(responseText, statusText, xhr, $form) {
-                                                // for normal html responses, the first argument to the success callback 
-                                                // is the XMLHttpRequest object's responseText property 
+            // post-submit callback 
+            function showResponse(responseText, statusText, xhr, $form) {
+                // for normal html responses, the first argument to the success callback 
+                // is the XMLHttpRequest object's responseText property 
 
-                                                // if the ajaxForm method was passed an Options Object with the dataType 
-                                                // property set to 'xml' then the first argument to the success callback 
-                                                // is the XMLHttpRequest object's responseXML property 
+                // if the ajaxForm method was passed an Options Object with the dataType 
+                // property set to 'xml' then the first argument to the success callback 
+                // is the XMLHttpRequest object's responseXML property 
 
-                                                // if the ajaxForm method was passed an Options Object with the dataType 
-                                                // property set to 'json' then the first argument to the success callback 
-                                                // is the json data object returned by the server 
-                                                if (DEBUG_FORM_SUBMISSION) {
-                                                    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
-                                                            '\n\nThe output div should have already been updated with the responseText.');
-                                                }
-                                                // JASON - SEE THIS HOOK
-                                                // update lesson cookies and params
-                                                // make any embedded forms ajaxy
-                                                goat.utils.showLessonCookiesAndParams();
-                                                goat.utils.makeFormsAjax();
-                                            }
+                // if the ajaxForm method was passed an Options Object with the dataType 
+                // property set to 'json' then the first argument to the success callback 
+                // is the json data object returned by the server 
+                if (DEBUG_FORM_SUBMISSION) {
+                    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
+                            '\n\nThe output div should have already been updated with the responseText.');
+                }
+                // JASON - SEE THIS HOOK
+                // update lesson cookies and params
+                // make any embedded forms ajaxy
+                goat.utils.showLessonCookiesAndParams();
+                goat.utils.makeFormsAjax();
+            }
 
         </script>
         <!-- About WebGoat Modal -->

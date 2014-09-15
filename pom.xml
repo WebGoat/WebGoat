@@ -1,5 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <name>WebGoat</name>
     <modelVersion>4.0.0</modelVersion>
     <groupId>WebGoat</groupId>
     <artifactId>WebGoat</artifactId>
@@ -19,6 +20,8 @@
         <org.springframework.version>3.2.4.RELEASE</org.springframework.version>
         <spring.security.version>3.2.4.RELEASE</spring.security.version>
         <tiles.version>2.2.2</tiles.version>
+        <!-- If run from Bamboo this will be replaced with the bamboo build number -->
+        <build.number>local</build.number>
     </properties>
 
     <build>
@@ -38,6 +41,22 @@
                     <source>1.6</source>
                     <target>1.6</target>
                     <encoding>ISO-8859-1</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <manifest>
+                        <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                    </manifest>
+                    <archive>
+                        <manifestEntries>
+                            <Specification-Title>${project.name}</Specification-Title>
+                            <Specification-Version>${project.version}</Specification-Version>
+                            <Implementation-Version>${build.number}</Implementation-Version>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>

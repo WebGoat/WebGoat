@@ -1,10 +1,5 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<web-app 
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    version="2.5">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <!-- General description of your web application -->
     <display-name>WebGoat</display-name>
     <description>
@@ -14,10 +9,7 @@
       application security problems. Please contact Bruce Mayhew 
       (webgoat@owasp.org) if you have any questions.
     </description>
-
-
-
-   <!-- Context initialization parameters that define shared
+    <!-- Context initialization parameters that define shared
          String constants used within your application, which
          can be customized by the system administrator who is
          installing your application.  The values actually
@@ -33,26 +25,29 @@
          You can define any number of context initialization
          parameters, including zero.
     -->
-
     <context-param>
-      <param-name>email</param-name>
-      <param-value>WebGoat@owasp.org</param-value>
-      <description>
-        The EMAIL address of the administrator to whom questions
-        and comments about this application should be addressed.
-      </description>
+        <param-name>email</param-name>
+        <param-value>webgoat@owasp.org</param-value>
+        <description>
+            The EMAIL address of the administrator to whom questions
+            and comments about this application should be addressed.
+        </description>
     </context-param>
-    
+    <context-param>
+         <param-name>emaillist</param-name>
+        <param-value>owasp-webgoat@lists.owasp.org</param-value>
+        <description>
+            The EMAIL address of the webgoat email list
+        </description>
+    </context-param>
     <!-- spring MVC -->
-  	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
 			/WEB-INF/mvc-dispatcher-servlet.xml,
 			/WEB-INF/spring-security.xml
 		</param-value>
-  	</context-param>
-  
-
+    </context-param>
     <!-- Servlet definitions for the servlets that make up
          your web application, including initialization
          parameters.  With Tomcat, you can also send requests
@@ -77,40 +72,36 @@
 
          You can define any number of servlets, including zero.
     -->
-
     <servlet>
-      <servlet-name>AxisServlet</servlet-name>
-      <display-name>Apache-Axis Servlet</display-name>
-      <servlet-class>
+        <servlet-name>AxisServlet</servlet-name>
+        <display-name>Apache-Axis Servlet</display-name>
+        <servlet-class>
           org.apache.axis.transport.http.AxisServlet
       </servlet-class>
     </servlet>
- 
     <servlet>
-      <servlet-name>AdminServlet</servlet-name>
-      <display-name>Axis Admin Servlet</display-name>
-      <servlet-class>
+        <servlet-name>AdminServlet</servlet-name>
+        <display-name>Axis Admin Servlet</display-name>
+        <servlet-class>
           org.apache.axis.transport.http.AdminServlet
       </servlet-class>
-      <load-on-startup>100</load-on-startup>
+        <load-on-startup>100</load-on-startup>
     </servlet>
-
     <servlet>
-      <servlet-name>SOAPMonitorService</servlet-name>
-      <display-name>SOAPMonitorService</display-name>
-      <servlet-class>
+        <servlet-name>SOAPMonitorService</servlet-name>
+        <display-name>SOAPMonitorService</display-name>
+        <servlet-class>
           org.apache.axis.monitor.SOAPMonitorService
       </servlet-class>
-      <init-param>
-        <param-name>SOAPMonitorPort</param-name>
-        <param-value>5001</param-value>
-      </init-param>
-      <load-on-startup>100</load-on-startup>
+        <init-param>
+            <param-name>SOAPMonitorPort</param-name>
+            <param-value>5001</param-value>
+        </init-param>
+        <load-on-startup>100</load-on-startup>
     </servlet>
- 
     <servlet>
-      <servlet-name>WebGoat</servlet-name>
-      <description>
+        <servlet-name>WebGoat</servlet-name>
+        <description>
         This servlet plays the "controller" role in the MVC architecture
         used in this application.
 
@@ -119,43 +110,35 @@
         filename extension is removed).  The corresponding value is the
         name of the action class that will be used to process this request.
       </description>
-      <servlet-class>org.owasp.webgoat.HammerHead</servlet-class>
-
- 	  <init-param>
-      		<param-name>email</param-name>
-      		<param-value>WebGoat@owasp.org</param-value>
-      		<description>
-        		The EMAIL address of the administrator to whom questions
+        <servlet-class>org.owasp.webgoat.HammerHead</servlet-class>
+        <init-param>
+            <param-name>email</param-name>
+            <param-value>WebGoat@owasp.org</param-value>
+            <description>The EMAIL address of the administrator to whom questions
         		and comments about this application should be addressed.
       		</description>
-      </init-param>
-      
-	  <init-param>
+        </init-param>
+        <init-param>
             <param-name>debug</param-name>
             <param-value>false</param-value>
-      </init-param>
-
-      <init-param>
+        </init-param>
+        <init-param>
             <param-name>CookieDebug</param-name>
             <param-value>true</param-value>
-      </init-param>
-
-      <init-param>
+        </init-param>
+        <init-param>
             <param-name>DefuseOSCommands</param-name>
             <param-value>false</param-value>
-      </init-param>
-      
-      <init-param>
+        </init-param>
+        <init-param>
             <param-name>Enterprise</param-name>
             <param-value>true</param-value>
-      </init-param>
-      
-      <init-param>
+        </init-param>
+        <init-param>
             <param-name>CodingExercises</param-name>
             <param-value>true</param-value>
-      </init-param>
-      
-      <init-param>
+        </init-param>
+        <init-param>
             <!-- Specify an address where you would like comments to be sent.  -->
             <!-- This can be any URL or HTML tags, and will appear on the report card and lesson incomplete pages -->
             <!-- Use iso8859-1 encoding to represent special characters that might confuse XML parser. For 
@@ -164,83 +147,71 @@
             <param-value>
 		&lt;A HREF=mailto:webgoat@owasp.org&gt;webgoat@owasp.org&lt;/A&gt;
             </param-value>
-      </init-param>
-      
-      <init-param>
+        </init-param>
+        <init-param>
             <param-name>DatabaseDriver</param-name>
             <param-value>
 		    	org.hsqldb.jdbcDriver
             </param-value>
-      </init-param>
-
-      <init-param>
+        </init-param>
+        <init-param>
             <param-name>DatabaseConnectionString</param-name>
             <!-- 
             The string "${USER}" in the connection string will be replaced by the active username
             when making a connection.
              -->
             <param-value>jdbc:hsqldb:mem:${USER}</param-value>
-      </init-param>
-
-      <!-- Load this servlet at server startup time -->
-      <load-on-startup>5</load-on-startup>
+        </init-param>
+        <!-- Load this servlet at server startup time -->
+        <load-on-startup>5</load-on-startup>
     </servlet>
-
-
     <servlet>
-      <servlet-name>LessonSource</servlet-name>
-      <description>
+        <servlet-name>LessonSource</servlet-name>
+        <description>
         This servlet returns the Java source of the current lesson. 
       </description>
-      <servlet-class>org.owasp.webgoat.LessonSource</servlet-class>
+        <servlet-class>org.owasp.webgoat.LessonSource</servlet-class>
     </servlet>
-
     <servlet>
-      <servlet-name>Catcher</servlet-name>
-      <description>
+        <servlet-name>Catcher</servlet-name>
+        <description>
         This servlet catches any posts and marks the appropriate lesson property. 
       </description>
-      <servlet-class>org.owasp.webgoat.Catcher</servlet-class>
+        <servlet-class>org.owasp.webgoat.Catcher</servlet-class>
     </servlet>
-
     <servlet>
-	 <servlet-name>conf</servlet-name>
-	 <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
+        <servlet-name>conf</servlet-name>
+        <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
     </servlet>
-    
-    
     <!-- spring MVC -->
-  <servlet>
-    <servlet-name>mvc-dispatcher</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>mvc-dispatcher</servlet-name>
-    <url-pattern>*.mvc</url-pattern>
-  </servlet-mapping>
-  
-  <listener>
-    <listener-class>
-      org.springframework.web.context.ContextLoaderListener
-    </listener-class>
-  </listener>
-  <!-- end spring MVC --> 
-
-  <!-- spring security -->
-  <filter>
-    <filter-name>springSecurityFilterChain</filter-name>
-    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-  </filter>
-
-  <filter-mapping>
-    <filter-name>springSecurityFilterChain</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <!-- end spring security -->
-   
-
+    <servlet>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>*.mvc</url-pattern>
+    </servlet-mapping>
+    <listener>
+        <description>Spring context init</description>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <description>WebGoat application init</description>
+        <listener-class>org.owasp.webgoat.application.WebGoatServletListener</listener-class>
+    </listener>
+    <!-- end spring MVC -->
+    <!-- spring security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- end spring security -->
     <!-- Define mappings that are used by the servlet container to
          translate a particular request URI (context-relative) to a
          particular servlet.  The examples below correspond to the
@@ -258,73 +229,56 @@
          It is also legal to define more than one mapping for the same
          servlet, if you wish to.
     -->
-
-
     <servlet-mapping>
-      <servlet-name>AxisServlet</servlet-name>
-      <url-pattern>/servlet/AxisServlet</url-pattern>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/servlet/AxisServlet</url-pattern>
     </servlet-mapping>
- 
     <servlet-mapping>
-      <servlet-name>AxisServlet</servlet-name>
-      <url-pattern>*.jws</url-pattern>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>*.jws</url-pattern>
     </servlet-mapping>
- 
     <servlet-mapping>
-      <servlet-name>AxisServlet</servlet-name>
-      <url-pattern>/services/*</url-pattern>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
- 
     <servlet-mapping>
-      <servlet-name>SOAPMonitorService</servlet-name>
-      <url-pattern>/SOAPMonitor</url-pattern>
+        <servlet-name>SOAPMonitorService</servlet-name>
+        <url-pattern>/SOAPMonitor</url-pattern>
     </servlet-mapping>
- 
     <!-- uncomment this if you want the admin servlet -->
     <servlet-mapping>
-      <servlet-name>AdminServlet</servlet-name>
-      <url-pattern>/servlet/AdminServlet</url-pattern>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/servlet/AdminServlet</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
-      <servlet-name>WebGoat</servlet-name>
-      <url-pattern>/attack</url-pattern>
+        <servlet-name>WebGoat</servlet-name>
+        <url-pattern>/attack</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
-      <servlet-name>LessonSource</servlet-name>
-      <url-pattern>/source</url-pattern>
+        <servlet-name>LessonSource</servlet-name>
+        <url-pattern>/source</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
-      <servlet-name>Catcher</servlet-name>
-      <url-pattern>/catcher</url-pattern>
+        <servlet-name>Catcher</servlet-name>
+        <url-pattern>/catcher</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
-      <servlet-name>conf</servlet-name>
-      <url-pattern>/conf</url-pattern>
+        <servlet-name>conf</servlet-name>
+        <url-pattern>/conf</url-pattern>
     </servlet-mapping>
-    
-    
-
     <!-- Define the default session timeout for your application,
-         in minutes.  From a servlet or JSP page, you can modify
-         the timeout for a particular session dynamically by using
-         HttpSession.getMaxInactiveInterval(). -->
+    in minutes.  From a servlet or JSP page, you can modify
+    the timeout for a particular session dynamically by using
+    HttpSession.getMaxInactiveInterval(). -->
     <session-config>
-    	<!-- 2 days -->
+        <!-- 2 days -->
         <session-timeout>2880</session-timeout>
     </session-config>
-
     <mime-mapping>
         <extension>wmv</extension>
         <mime-type>video/x-ms-wmv</mime-type>
     </mime-mapping>
-    
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-
 </web-app>
-

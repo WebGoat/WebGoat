@@ -10,24 +10,27 @@
     </div>
     <div class="modal-body modal-scroll">
         <p>Thanks for hacking The Goat!</p> 
-		<p>WebGoat is a demonstration of common web application flaws. The
-        associated exercises are intended to provide hands-on experience with
-        techniques aimed at demonstrating and testing application penetration.
+        <p>WebGoat is a demonstration of common web application flaws. The
+            associated exercises are intended to provide hands-on experience with
+            techniques aimed at demonstrating and testing application penetration.
         </p>
-		<p>From the entire WebGoat team, we appreciate your interest and efforts
-        in making applications not just better, but safer and more secure for
-        everyone. We, as well as our sacrificial goat, thank you.</p>
-        <p>Version: 6.0</p>
+        <p>From the entire WebGoat team, we appreciate your interest and efforts
+            in making applications not just better, but safer and more secure for
+            everyone. We, as well as our sacrificial goat, thank you.</p>
+        <p>
+            Version: ${version},&nbsp;Build: ${build}
+        </p>
+
         <div class="row">
-          <div class="col-md-6">
-              <p>Contact us:
-              <ul>
-                  <li>WebGoat mailing list: owasp-webgoat@lists.owasp.org</li>
-                  <li>Bruce Mayhew:  webgoat@owasp.org</li>
-              </ul>
-              </p>
-          </div>
- 		</div>       
+            <div class="col-md-6">
+                <p>Contact us:
+                <ul>
+                    <li>WebGoat mailing list: ${emailList}</li>
+                    <li>Bruce Mayhew:  ${contactEmail}</li>
+                </ul>
+                </p>
+            </div>
+        </div>       
         <div class="row">
             <div class="col-md-6">
                 <p>WebGoat Authors
@@ -86,9 +89,9 @@
                 </ul>
                 </p>
                 <p>Did we miss you? Our sincere apologies, as we know there have
-                been many contributors over the years. If your name does not
-                appear in any of the lists above, please send us a note. We'll
-                get you added with no further sacrifices required.</p>
+                    been many contributors over the years. If your name does not
+                    appear in any of the lists above, please send us a note. We'll
+                    get you added with no further sacrifices required.</p>
             </div>
         </div>
     </div>
