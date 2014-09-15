@@ -807,6 +807,12 @@ fieldset[disabled] .btn-warning.active {
   display: none;
   background-color: #eee;
 }
+
+#showPrevHintBtn, #showNextHintBtn {
+  cursor: pointer;
+}
+
+
 .info {
 	color:#e84c3d;
 	font-weight: bold; 

@@ -30,7 +30,7 @@ goat.lesson = {
                 var scope = this;
                 goat.data.loadHints().then(
                     function(resp) {
-                        scope.hints = resp;
+                        scope.hints = resp.data;
                         if (scope.hints.length > 0 && scope.hints[0].hint.indexOf(goatConstants.noHints) === -1) {
                             goat.utils.displayButton('showHintsBtn',true);
                         } else {
@@ -48,7 +48,7 @@ goat.lesson = {
                 var scope = this;
                 goat.data.loadSolution().then(
                     function(resp) {
-                        scope.solution = resp;
+                        scope.solution = resp.data;
                         goat.utils.displayButton('showSolutionBtn',true);
                         $('#showSolutionBtn').unbind().click(goat.utils.showLessonSolution);
                         return scope;
@@ -64,7 +64,7 @@ goat.lesson = {
                 var scope = this;
                 goat.data.loadPlan().then(
                     function(resp) {
-                        scope.plan = resp;
+                        scope.plan = resp.data;
                         goat.utils.displayButton('showPlanBtn',true);
                         $('#showPlanBtn').unbind().click(goat.utils.showLessonPlan);
                         return scope;
@@ -79,7 +79,7 @@ goat.lesson = {
                 var scope = this;
                 goat.data.loadSource().then(
                     function(resp) {
-                        scope.source = resp;
+                        scope.source = resp.data;
                         goat.utils.displayButton('showSourceBtn',true);
                         $('#showSourceBtn').unbind().click(goat.utils.showLessonSource);
                         return scope;
@@ -94,7 +94,7 @@ goat.lesson = {
                 var scope = this;
                 goat.data.loadCookies().then(
                     function(resp) {
-                        scope.cookies = resp;
+                        scope.cookies = resp.data;
                         return scope;
                     },
                     function(err){
