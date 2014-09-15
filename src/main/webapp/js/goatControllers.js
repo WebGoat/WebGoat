@@ -6,7 +6,7 @@
 /** Lesson Controller (includes menu stuff)
  *  prepares and updates menu topic items for the view
  */
-goat.controller('goatLesson', function($scope, $http, $modal, $log, $templateCache) {
+goat.controller('goatLesson', function($scope, $http, $modal, $log, $sce) { //$templateCache
     $scope.cookies = [];
     $scope.params = [];
     //TODO: implement via separate promise and use config for menu (goat.data.loadMenuData())
@@ -128,22 +128,32 @@ goat.controller('goatLesson', function($scope, $http, $modal, $log, $templateCac
 
         $('.lessonHelp').hide();
         $('#lesson_hint_row').show();
-        goat.utils.scrollToHelp();
+        //goat.utils.scrollToHelp();
+	//TODO
         $scope.curHint = $scope.hints[$scope.hintIndex].hint;
+	//$scope.curHint = $sce.trustAsHtml($scope.hints[$scope.hintIndex].hint);
+	//TODO get html binding workin in the UI ... in the meantime ...
+	$scope.renderCurHint();
         $scope.manageHintButtons();
     };
 
     $scope.viewNextHint = function() {
         $scope.hintIndex++;
         $scope.curHint = $scope.hints[$scope.hintIndex].hint;
+	$scope.renderCurHint();
         $scope.manageHintButtons();
     };
 
     $scope.viewPrevHint = function() {
         $scope.hintIndex--;
         $scope.curHint = $scope.hints[$scope.hintIndex].hint;
+	$scope.renderCurHint();
         $scope.manageHintButtons();
     };
+    
+    $scope.renderCurHint = function() {
+	$('#curHintContainer').html($scope.curHint);
+    }
 
     $scope.hideHints = function() {
 
