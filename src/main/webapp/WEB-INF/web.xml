@@ -27,10 +27,17 @@
     -->
     <context-param>
         <param-name>email</param-name>
-        <param-value>WebGoat@owasp.org</param-value>
+        <param-value>webgoat@owasp.org</param-value>
         <description>
             The EMAIL address of the administrator to whom questions
             and comments about this application should be addressed.
+        </description>
+    </context-param>
+    <context-param>
+         <param-name>emaillist</param-name>
+        <param-value>owasp-webgoat@lists.owasp.org</param-value>
+        <description>
+            The EMAIL address of the webgoat email list
         </description>
     </context-param>
     <!-- spring MVC -->

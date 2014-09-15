@@ -56,6 +56,9 @@ public class Start {
 
         String contactEmail = servletContext.getInitParameter("email");
         model.addObject("contactEmail", contactEmail);
+        String emailList = servletContext.getInitParameter("emaillist");
+        model.addObject("emailList", emailList);
+
         Application app = Application.getInstance();
         logger.info("Setting application properties: " + app);
         model.addObject("version", app.getVersion());
