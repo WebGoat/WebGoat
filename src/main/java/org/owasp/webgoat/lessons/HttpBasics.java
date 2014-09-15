@@ -60,7 +60,7 @@ public class HttpBasics extends LessonAdapter {
 
         StringBuffer person = null;
         try {
-        	ec.addElement(new BR());
+            ec.addElement(new BR());
             ec.addElement(new StringElement(WebGoatI18N.get("EnterYourName") + ": "));
 
             person = new StringBuffer(s.getParser().getStringParameter(PERSON, ""));

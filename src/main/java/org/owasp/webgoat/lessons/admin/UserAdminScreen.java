@@ -46,76 +46,76 @@ import org.owasp.webgoat.session.WebSession;
 public class UserAdminScreen extends LessonAdapter
 {
 
-	private final static String QUERY = "SELECT * FROM user_system_data";
+    private final static String QUERY = "SELECT * FROM user_system_data";
 
-	/**
-	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 */
-	protected Element createContent(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
+    /**
+     * Description of the Method
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
 
-		try
-		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+        try
+        {
+            Connection connection = DatabaseUtilities.getConnection(s);
 
-			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-																ResultSet.CONCUR_READ_ONLY);
-			ResultSet results = statement.executeQuery(QUERY);
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                ResultSet.CONCUR_READ_ONLY);
+            ResultSet results = statement.executeQuery(QUERY);
 
-			if (results != null)
-			{
-				makeSuccess(s);
-				ResultSetMetaData resultsMetaData = results.getMetaData();
-				ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
-			}
-		} catch (Exception e)
-		{
-			s.setMessage("Error generating " + this.getClass().getName());
-			e.printStackTrace();
-		}
+            if (results != null)
+            {
+                makeSuccess(s);
+                ResultSetMetaData resultsMetaData = results.getMetaData();
+                ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
+            }
+        } catch (Exception e)
+        {
+            s.setMessage("Error generating " + this.getClass().getName());
+            e.printStackTrace();
+        }
 
-		return (ec);
-	}
+        return (ec);
+    }
 
-	/**
-	 * Gets the category attribute of the UserAdminScreen object
-	 * 
-	 * @return The category value
-	 */
-	protected Category getDefaultCategory()
-	{
-		return Category.ADMIN_FUNCTIONS;
-	}
+    /**
+     * Gets the category attribute of the UserAdminScreen object
+     * 
+     * @return The category value
+     */
+    protected Category getDefaultCategory()
+    {
+        return Category.ADMIN_FUNCTIONS;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(1000);
+    private final static Integer DEFAULT_RANKING = new Integer(1000);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
+    protected Integer getDefaultRanking()
+    {
+        return DEFAULT_RANKING;
+    }
 
-	/**
-	 * Gets the role attribute of the UserAdminScreen object
-	 * 
-	 * @return The role value
-	 */
-	public String getRole()
-	{
-		return HACKED_ADMIN_ROLE;
-	}
+    /**
+     * Gets the role attribute of the UserAdminScreen object
+     * 
+     * @return The role value
+     */
+    public String getRole()
+    {
+        return HACKED_ADMIN_ROLE;
+    }
 
-	/**
-	 * Gets the title attribute of the UserAdminScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("User Information");
-	}
+    /**
+     * Gets the title attribute of the UserAdminScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("User Information");
+    }
 }

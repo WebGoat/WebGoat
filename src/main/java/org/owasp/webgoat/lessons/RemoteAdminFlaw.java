@@ -42,67 +42,67 @@ import org.owasp.webgoat.util.WebGoatI18N;
 public class RemoteAdminFlaw extends LessonAdapter
 {
 
-	/**
-	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 */
-	protected Element createContent(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
+    /**
+     * Description of the Method
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
 
-		if (s.completedHackableAdmin())
-		{
-			makeSuccess(s);
-		}
-		return ec;
+        if (s.completedHackableAdmin())
+        {
+            makeSuccess(s);
+        }
+        return ec;
 
-	}
+    }
 
-	/**
-	 * Gets the category attribute of the ForgotPassword object
-	 * 
-	 * @return The category value
-	 */
-	protected Category getDefaultCategory()
-	{
-		return Category.ACCESS_CONTROL;
-	}
+    /**
+     * Gets the category attribute of the ForgotPassword object
+     * 
+     * @return The category value
+     */
+    protected Category getDefaultCategory()
+    {
+        return Category.ACCESS_CONTROL;
+    }
 
-	/**
-	 * Gets the hints attribute of the HelloScreen object
-	 * 
-	 * @return The hints value
-	 */
-	public List<String> getHints(WebSession s)
-	{
-		List<String> hints = new ArrayList<String>();
-		hints.add(WebGoatI18N.get("RemoteAdminFlawHint1"));
-		hints.add(WebGoatI18N.get("RemoteAdminFlawHint2"));
-		hints.add(WebGoatI18N.get("RemoteAdminFlawHint3"));
-		hints.add(WebGoatI18N.get("RemoteAdminFlawHint4"));
-		hints.add(WebGoatI18N.get("RemoteAdminFlawHint5"));
+    /**
+     * Gets the hints attribute of the HelloScreen object
+     * 
+     * @return The hints value
+     */
+    public List<String> getHints(WebSession s)
+    {
+        List<String> hints = new ArrayList<String>();
+        hints.add(WebGoatI18N.get("RemoteAdminFlawHint1"));
+        hints.add(WebGoatI18N.get("RemoteAdminFlawHint2"));
+        hints.add(WebGoatI18N.get("RemoteAdminFlawHint3"));
+        hints.add(WebGoatI18N.get("RemoteAdminFlawHint4"));
+        hints.add(WebGoatI18N.get("RemoteAdminFlawHint5"));
 
-		return hints;
-	}
+        return hints;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(160);
+    private final static Integer DEFAULT_RANKING = new Integer(160);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
+    protected Integer getDefaultRanking()
+    {
+        return DEFAULT_RANKING;
+    }
 
-	/**
-	 * Gets the title attribute of the HelloScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("Remote Admin Access");
-	}
+    /**
+     * Gets the title attribute of the HelloScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("Remote Admin Access");
+    }
 
 }

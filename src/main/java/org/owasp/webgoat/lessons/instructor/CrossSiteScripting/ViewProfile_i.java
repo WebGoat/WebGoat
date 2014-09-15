@@ -15,8 +15,8 @@ import org.owasp.webgoat.lessons.GoatHillsFinancial.GoatHillsFinancial;
 
 public class ViewProfile_i extends ViewProfile
 {
-	public ViewProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName)
-	{
-		super(lesson, lessonName, actionName);
-	}
+    public ViewProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName)
+    {
+        super(lesson, lessonName, actionName);
+    }
 }

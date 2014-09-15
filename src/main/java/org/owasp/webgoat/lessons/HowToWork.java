@@ -39,51 +39,51 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class HowToWork extends LessonAdapter
 {
-	/**
-	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 */
-	protected Element createContent(WebSession s)
-	{
-		makeSuccess(s);
-		ElementContainer ec = new ElementContainer();
-		ec.addElement(new StringElement("Welcome to WebGoat !!"));
-		return (ec);
-	}
+    /**
+     * Description of the Method
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+        makeSuccess(s);
+        ElementContainer ec = new ElementContainer();
+        ec.addElement(new StringElement("Welcome to WebGoat !!"));
+        return (ec);
+    }
 
-	/**
-	 * Gets the category attribute of the HowToWork object
-	 * 
-	 * @return The category value
-	 */
-	protected Category getDefaultCategory()
-	{
-		return Category.INTRODUCTION;
-	}
+    /**
+     * Gets the category attribute of the HowToWork object
+     * 
+     * @return The category value
+     */
+    protected Category getDefaultCategory()
+    {
+        return Category.INTRODUCTION;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(10);
+    private final static Integer DEFAULT_RANKING = new Integer(10);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
+    protected Integer getDefaultRanking()
+    {
+        return DEFAULT_RANKING;
+    }
 
-	/**
-	 * Gets the title attribute of the DirectoryScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("How to work with WebGoat");
-	}
+    /**
+     * Gets the title attribute of the DirectoryScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("How to work with WebGoat");
+    }
 
-	public Element getCredits()
-	{
-		return super.getCustomCredits("Created by: Reto Lippuner, Marcel Wirth", new StringElement(""));
-	}
+    public Element getCredits()
+    {
+        return super.getCustomCredits("Created by: Reto Lippuner, Marcel Wirth", new StringElement(""));
+    }
 
 }

@@ -42,289 +42,289 @@ import org.owasp.webgoat.session.WebSession;
  */
 public abstract class DefaultLessonAction implements LessonAction
 {
-	// FIXME: We could parse this class name to get defaults for these fields.
-	private String lessonName;
-	private String actionName;
+    // FIXME: We could parse this class name to get defaults for these fields.
+    private String lessonName;
+    private String actionName;
 
-	private GoatHillsFinancial lesson;
+    private GoatHillsFinancial lesson;
 
-	public DefaultLessonAction(GoatHillsFinancial lesson, String lessonName, String actionName)
-	{
-		this.lesson = lesson;
-		this.lessonName = lessonName;
-		this.actionName = actionName;
-	}
+    public DefaultLessonAction(GoatHillsFinancial lesson, String lessonName, String actionName)
+    {
+        this.lesson = lesson;
+        this.lessonName = lessonName;
+        this.actionName = actionName;
+    }
 
-	public void handleRequest(WebSession s) throws ParameterNotFoundException, UnauthenticatedException,
-			UnauthorizedException, ValidationException
-	{
-		getLesson().setCurrentAction(s, getActionName());
+    public void handleRequest(WebSession s) throws ParameterNotFoundException, UnauthenticatedException,
+            UnauthorizedException, ValidationException
+    {
+        getLesson().setCurrentAction(s, getActionName());
 
-		if (isAuthenticated(s))
-		{
-		}
-		else
-			throw new UnauthenticatedException();
-	}
+        if (isAuthenticated(s))
+        {
+        }
+        else
+            throw new UnauthenticatedException();
+    }
 
-	public abstract String getNextPage(WebSession s);
+    public abstract String getNextPage(WebSession s);
 
-	public GoatHillsFinancial getLesson()
-	{
-		return lesson;
-	}
+    public GoatHillsFinancial getLesson()
+    {
+        return lesson;
+    }
 
-	public String getLessonName()
-	{
-		return lessonName;
-	}
+    public String getLessonName()
+    {
+        return lessonName;
+    }
 
-	public String getActionName()
-	{
-		return actionName;
-	}
+    public String getActionName()
+    {
+        return actionName;
+    }
 
-	public void setSessionAttribute(WebSession s, String name, Object value)
-	{
-		s.getRequest().getSession().setAttribute(name, value);
-	}
+    public void setSessionAttribute(WebSession s, String name, Object value)
+    {
+        s.getRequest().getSession().setAttribute(name, value);
+    }
 
-	public void setRequestAttribute(WebSession s, String name, Object value)
-	{
-		s.getRequest().setAttribute(name, value);
-	}
+    public void setRequestAttribute(WebSession s, String name, Object value)
+    {
+        s.getRequest().setAttribute(name, value);
+    }
 
-	public void removeSessionAttribute(WebSession s, String name)
-	{
-		s.getRequest().getSession().removeAttribute(name);
-	}
+    public void removeSessionAttribute(WebSession s, String name)
+    {
+        s.getRequest().getSession().removeAttribute(name);
+    }
 
-	protected String getSessionAttribute(WebSession s, String name) throws ParameterNotFoundException
-	{
-		String value = (String) s.getRequest().getSession().getAttribute(name);
-		if (value == null) { throw new ParameterNotFoundException(); }
+    protected String getSessionAttribute(WebSession s, String name) throws ParameterNotFoundException
+    {
+        String value = (String) s.getRequest().getSession().getAttribute(name);
+        if (value == null) { throw new ParameterNotFoundException(); }
 
-		return value;
-	}
+        return value;
+    }
 
-	protected boolean getBooleanSessionAttribute(WebSession s, String name) throws ParameterNotFoundException
-	{
-		boolean value = false;
+    protected boolean getBooleanSessionAttribute(WebSession s, String name) throws ParameterNotFoundException
+    {
+        boolean value = false;
 
-		Object attribute = s.getRequest().getSession().getAttribute(name);
-		if (attribute == null)
-		{
-			throw new ParameterNotFoundException();
-		}
-		else
-		{
-			// System.out.println("Attribute " + name + " is of type " +
-			// s.getRequest().getSession().getAttribute(name).getClass().getName());
-			// System.out.println("Attribute value: " +
-			// s.getRequest().getSession().getAttribute(name));
-			value = ((Boolean) attribute).booleanValue();
-		}
-		return value;
-	}
+        Object attribute = s.getRequest().getSession().getAttribute(name);
+        if (attribute == null)
+        {
+            throw new ParameterNotFoundException();
+        }
+        else
+        {
+            // System.out.println("Attribute " + name + " is of type " +
+            // s.getRequest().getSession().getAttribute(name).getClass().getName());
+            // System.out.println("Attribute value: " +
+            // s.getRequest().getSession().getAttribute(name));
+            value = ((Boolean) attribute).booleanValue();
+        }
+        return value;
+    }
 
-	protected int getIntSessionAttribute(WebSession s, String name) throws ParameterNotFoundException
-	{
-		int value = -1;
-		String ss = (String) s.getRequest().getSession().getAttribute(name);
-		if (ss == null)
-		{
-			throw new ParameterNotFoundException();
-		}
-		else
-		{
-			try
-			{
-				value = Integer.parseInt(ss);
-			} catch (NumberFormatException nfe)
-			{
-			}
-		}
+    protected int getIntSessionAttribute(WebSession s, String name) throws ParameterNotFoundException
+    {
+        int value = -1;
+        String ss = (String) s.getRequest().getSession().getAttribute(name);
+        if (ss == null)
+        {
+            throw new ParameterNotFoundException();
+        }
+        else
+        {
+            try
+            {
+                value = Integer.parseInt(ss);
+            } catch (NumberFormatException nfe)
+            {
+            }
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	protected String getRequestAttribute(WebSession s, String name) throws ParameterNotFoundException
-	{
-		String value = (String) s.getRequest().getAttribute(name);
-		if (value == null) { throw new ParameterNotFoundException(); }
+    protected String getRequestAttribute(WebSession s, String name) throws ParameterNotFoundException
+    {
+        String value = (String) s.getRequest().getAttribute(name);
+        if (value == null) { throw new ParameterNotFoundException(); }
 
-		return value;
-	}
+        return value;
+    }
 
-	protected int getIntRequestAttribute(WebSession s, String name) throws ParameterNotFoundException
-	{
-		int value = -1;
-		String ss = (String) s.getRequest().getAttribute(name);
-		if (ss == null)
-		{
-			throw new ParameterNotFoundException();
-		}
-		else
-		{
-			try
-			{
-				value = Integer.parseInt(ss);
-			} catch (NumberFormatException nfe)
-			{
-			}
-		}
+    protected int getIntRequestAttribute(WebSession s, String name) throws ParameterNotFoundException
+    {
+        int value = -1;
+        String ss = (String) s.getRequest().getAttribute(name);
+        if (ss == null)
+        {
+            throw new ParameterNotFoundException();
+        }
+        else
+        {
+            try
+            {
+                value = Integer.parseInt(ss);
+            } catch (NumberFormatException nfe)
+            {
+            }
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	public int getUserId(WebSession s) throws ParameterNotFoundException
-	{
-		return getIntSessionAttribute(s, getLessonName() + "." + RoleBasedAccessControl.USER_ID);
-	}
+    public int getUserId(WebSession s) throws ParameterNotFoundException
+    {
+        return getIntSessionAttribute(s, getLessonName() + "." + RoleBasedAccessControl.USER_ID);
+    }
 
-	public String getUserName(WebSession s) throws ParameterNotFoundException
-	{
-		String name = null;
+    public String getUserName(WebSession s) throws ParameterNotFoundException
+    {
+        String name = null;
 
-		int employeeId = getUserId(s);
-		try
-		{
-			String query = "SELECT first_name FROM employee WHERE userid = " + employeeId;
+        int employeeId = getUserId(s);
+        try
+        {
+            String query = "SELECT first_name FROM employee WHERE userid = " + employeeId;
 
-			try
-			{
-				Statement answer_statement = WebSession.getConnection(s)
-						.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-				ResultSet answer_results = answer_statement.executeQuery(query);
-				if (answer_results.next()) name = answer_results.getString("first_name");
-			} catch (SQLException sqle)
-			{
-				s.setMessage("Error getting user name");
-				sqle.printStackTrace();
-			}
-		} catch (Exception e)
-		{
-			s.setMessage("Error getting user name");
-			e.printStackTrace();
-		}
+            try
+            {
+                Statement answer_statement = WebSession.getConnection(s)
+                        .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                ResultSet answer_results = answer_statement.executeQuery(query);
+                if (answer_results.next()) name = answer_results.getString("first_name");
+            } catch (SQLException sqle)
+            {
+                s.setMessage("Error getting user name");
+                sqle.printStackTrace();
+            }
+        } catch (Exception e)
+        {
+            s.setMessage("Error getting user name");
+            e.printStackTrace();
+        }
 
-		return name;
-	}
+        return name;
+    }
 
-	public boolean requiresAuthentication()
-	{
-		// Default to true
-		return true;
-	}
+    public boolean requiresAuthentication()
+    {
+        // Default to true
+        return true;
+    }
 
-	public boolean isAuthenticated(WebSession s)
-	{
-		boolean authenticated = false;
+    public boolean isAuthenticated(WebSession s)
+    {
+        boolean authenticated = false;
 
-		try
-		{
-			authenticated = getBooleanSessionAttribute(s, getLessonName() + ".isAuthenticated");
-		} catch (ParameterNotFoundException e)
-		{
-		}
+        try
+        {
+            authenticated = getBooleanSessionAttribute(s, getLessonName() + ".isAuthenticated");
+        } catch (ParameterNotFoundException e)
+        {
+        }
 
-		return authenticated;
-	}
+        return authenticated;
+    }
 
-	public boolean isAuthorized(WebSession s, int employeeId, String functionId)
-	{
-		String employer_id = (String) s.getRequest().getSession()
-				.getAttribute(getLessonName() + "." + RoleBasedAccessControl.USER_ID);
-		// System.out.println("Authorizing " + employeeId + " for use of function: " + functionId +
-		// " having USER_ID = "
-		// + employer_id );
-		boolean authorized = false;
+    public boolean isAuthorized(WebSession s, int employeeId, String functionId)
+    {
+        String employer_id = (String) s.getRequest().getSession()
+                .getAttribute(getLessonName() + "." + RoleBasedAccessControl.USER_ID);
+        // System.out.println("Authorizing " + employeeId + " for use of function: " + functionId +
+        // " having USER_ID = "
+        // + employer_id );
+        boolean authorized = false;
 
-		try
-		{
-			String query = "SELECT * FROM auth WHERE auth.role in (SELECT roles.role FROM roles WHERE userid = "
-					+ employeeId + ") and functionid = '" + functionId + "'";
+        try
+        {
+            String query = "SELECT * FROM auth WHERE auth.role in (SELECT roles.role FROM roles WHERE userid = "
+                    + employeeId + ") and functionid = '" + functionId + "'";
 
-			try
-			{
-				Statement answer_statement = WebSession.getConnection(s)
-						.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-				ResultSet answer_results = answer_statement.executeQuery(query);
-				authorized = answer_results.first();
+            try
+            {
+                Statement answer_statement = WebSession.getConnection(s)
+                        .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                ResultSet answer_results = answer_statement.executeQuery(query);
+                authorized = answer_results.first();
 
-				/*
-				 * User is validated for function, but can the user perform that function on the
-				 * specified user?
-				 */
-				if (authorized)
-				{
-					authorized = isAuthorizedForEmployee(s, Integer.parseInt(employer_id), employeeId);
-				}
-			} catch (SQLException sqle)
-			{
-				s.setMessage("Error authorizing");
-				sqle.printStackTrace();
-			}
-		} catch (Exception e)
-		{
-			s.setMessage("Error authorizing");
-			e.printStackTrace();
-		}
+                /*
+                 * User is validated for function, but can the user perform that function on the
+                 * specified user?
+                 */
+                if (authorized)
+                {
+                    authorized = isAuthorizedForEmployee(s, Integer.parseInt(employer_id), employeeId);
+                }
+            } catch (SQLException sqle)
+            {
+                s.setMessage("Error authorizing");
+                sqle.printStackTrace();
+            }
+        } catch (Exception e)
+        {
+            s.setMessage("Error authorizing");
+            e.printStackTrace();
+        }
 
-		// System.out.println("Authorized? " + authorized);
-		return authorized;
-	}
+        // System.out.println("Authorized? " + authorized);
+        return authorized;
+    }
 
-	public boolean isAuthorizedForEmployee(WebSession s, int userId, int employeeId)
-	{
-		// System.out.println("Authorizing " + userId + " for access to employee: " + employeeId);
-		boolean authorized = false;
+    public boolean isAuthorizedForEmployee(WebSession s, int userId, int employeeId)
+    {
+        // System.out.println("Authorizing " + userId + " for access to employee: " + employeeId);
+        boolean authorized = false;
 
-		try
-		{
-			String query = "SELECT * FROM ownership WHERE employer_id = ? AND employee_id = ?";
+        try
+        {
+            String query = "SELECT * FROM ownership WHERE employer_id = ? AND employee_id = ?";
 
-			try
-			{
+            try
+            {
 
-				PreparedStatement answer_statement = WebSession.getConnection(s)
-						.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-				answer_statement.setInt(1, userId);
-				answer_statement.setInt(2, employeeId);
-				ResultSet answer_results = answer_statement.executeQuery();
-				authorized = answer_results.first();
-			} catch (SQLException sqle)
-			{
-				s.setMessage("Error authorizing");
-				sqle.printStackTrace();
-			}
-		} catch (Exception e)
-		{
-			s.setMessage("Error authorizing");
-			e.printStackTrace();
-		}
+                PreparedStatement answer_statement = WebSession.getConnection(s)
+                        .prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                answer_statement.setInt(1, userId);
+                answer_statement.setInt(2, employeeId);
+                ResultSet answer_results = answer_statement.executeQuery();
+                authorized = answer_results.first();
+            } catch (SQLException sqle)
+            {
+                s.setMessage("Error authorizing");
+                sqle.printStackTrace();
+            }
+        } catch (Exception e)
+        {
+            s.setMessage("Error authorizing");
+            e.printStackTrace();
+        }
 
-		return authorized;
-	}
+        return authorized;
+    }
 
-	protected void setStage(WebSession s, String stage)
-	{
-		getLesson().setStage(s, stage);
-	}
+    protected void setStage(WebSession s, String stage)
+    {
+        getLesson().setStage(s, stage);
+    }
 
-	protected void setStageComplete(WebSession s, String stage)
-	{
-		getLesson().setStageComplete(s, stage);
-	}
+    protected void setStageComplete(WebSession s, String stage)
+    {
+        getLesson().setStageComplete(s, stage);
+    }
 
-	protected String getStage(WebSession s)
-	{
-		return getLesson().getStage(s);
-	}
+    protected String getStage(WebSession s)
+    {
+        return getLesson().getStage(s);
+    }
 
-	public String toString()
-	{
-		return getActionName();
-	}
+    public String toString()
+    {
+        return getActionName();
+    }
 
 }

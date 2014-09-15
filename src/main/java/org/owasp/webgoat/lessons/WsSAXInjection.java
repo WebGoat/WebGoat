@@ -62,166 +62,166 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class WsSAXInjection extends LessonAdapter
 {
 
-	private final static String PASSWORD = "password";
+    private final static String PASSWORD = "password";
 
-	private String password;
+    private String password;
 
-	private static String template1 = "<?xml version='1.0' encoding='UTF-8'?>\n" + "<wsns0:Envelope\n"
-			+ "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n"
-			+ "  xmlns:xsd='http://www.w3.org/2001/XMLSchema'\n"
-			+ "  xmlns:wsns0='http://schemas.xmlsoap.org/soap/envelope/'\n"
-			+ "  xmlns:wsns1='http://lessons.webgoat.owasp.org'>\n" + "  <wsns0:Body>\n"
-			+ "    <wsns1:changePassword>\n" + "      <id xsi:type='xsd:int'>101</id>\n"
-			+ "      <password xsi:type='xsd:string'>";
+    private static String template1 = "<?xml version='1.0' encoding='UTF-8'?>\n" + "<wsns0:Envelope\n"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n"
+            + "  xmlns:xsd='http://www.w3.org/2001/XMLSchema'\n"
+            + "  xmlns:wsns0='http://schemas.xmlsoap.org/soap/envelope/'\n"
+            + "  xmlns:wsns1='http://lessons.webgoat.owasp.org'>\n" + "  <wsns0:Body>\n"
+            + "    <wsns1:changePassword>\n" + "      <id xsi:type='xsd:int'>101</id>\n"
+            + "      <password xsi:type='xsd:string'>";
 
-	private static String template2 = "</password>\n" + "    </wsns1:changePassword>\n" + "  </wsns0:Body>\n"
-			+ "</wsns0:Envelope>";
+    private static String template2 = "</password>\n" + "    </wsns1:changePassword>\n" + "  </wsns0:Body>\n"
+            + "</wsns0:Envelope>";
 
-	static boolean completed;
+    static boolean completed;
 
-	protected Category getDefaultCategory()
-	{
-		return Category.WEB_SERVICES;
-	}
+    protected Category getDefaultCategory()
+    {
+        return Category.WEB_SERVICES;
+    }
 
-	protected List<String> getHints(WebSession s)
-	{
-		List<String> hints = new ArrayList<String>();
+    protected List<String> getHints(WebSession s)
+    {
+        List<String> hints = new ArrayList<String>();
 
-		hints.add("The backend parses the XML received using a SAX parser.");
-		hints.add("SAX parsers often don't care if an element is repeated.");
-		hints.add("If there are repeated elements, the last one is the one that is effective");
-		hints.add("Try injecting matching 'close' tags, and creating your own XML elements");
+        hints.add("The backend parses the XML received using a SAX parser.");
+        hints.add("SAX parsers often don't care if an element is repeated.");
+        hints.add("If there are repeated elements, the last one is the one that is effective");
+        hints.add("Try injecting matching 'close' tags, and creating your own XML elements");
 
-		return hints;
-	}
+        return hints;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(150);
+    private final static Integer DEFAULT_RANKING = new Integer(150);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
+    protected Integer getDefaultRanking()
+    {
+        return DEFAULT_RANKING;
+    }
 
-	public String getTitle()
-	{
-		return "Web Service SAX Injection";
-	}
+    public String getTitle()
+    {
+        return "Web Service SAX Injection";
+    }
 
-	protected Element makeInputLine(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
+    protected Element makeInputLine(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
 
-		ec.addElement(new P().addElement("Please change your password: "));
+        ec.addElement(new P().addElement("Please change your password: "));
 
-		Input input = new Input(Input.TEXT, PASSWORD);
-		ec.addElement(input);
+        Input input = new Input(Input.TEXT, PASSWORD);
+        ec.addElement(input);
 
-		Element b = ECSFactory.makeButton("Go!");
-		ec.addElement(b);
+        Element b = ECSFactory.makeButton("Go!");
+        ec.addElement(b);
 
-		return ec;
-	}
+        return ec;
+    }
 
-	protected Element createContent(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
-		try
-		{
-			ec.addElement(makeInputLine(s));
+    protected Element createContent(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
+        try
+        {
+            ec.addElement(makeInputLine(s));
 
-			password = s.getParser().getRawParameter(PASSWORD, null);
+            password = s.getParser().getRawParameter(PASSWORD, null);
 
-			PRE pre = new PRE();
-			String xml = template1;
-			xml = xml + (password == null ? "[password]" : password);
-			xml = xml + template2;
-			pre.addElement(HtmlEncoder.encode(xml));
-			ec.addElement(pre);
+            PRE pre = new PRE();
+            String xml = template1;
+            xml = xml + (password == null ? "[password]" : password);
+            xml = xml + template2;
+            pre.addElement(HtmlEncoder.encode(xml));
+            ec.addElement(pre);
 
-			if (password != null)
-			{
-				ec.addElement(checkXML(s, xml));
-			}
-		} catch (Exception e)
-		{
-			s.setMessage("Error generating " + this.getClass().getName());
-			e.printStackTrace();
-		}
-		return (ec);
-	}
+            if (password != null)
+            {
+                ec.addElement(checkXML(s, xml));
+            }
+        } catch (Exception e)
+        {
+            s.setMessage("Error generating " + this.getClass().getName());
+            e.printStackTrace();
+        }
+        return (ec);
+    }
 
-	private Element checkXML(WebSession s, String xml)
-	{
-		try
-		{
-			XMLReader reader = XMLReaderFactory.createXMLReader();
-			PasswordChanger changer = new PasswordChanger();
-			reader.setContentHandler(changer);
-			reader.parse(new InputSource(new StringReader(xml)));
-			if (!"101".equals(changer.getId()))
-			{
-				makeSuccess(s);
-				return new B(HtmlEncoder.encode("You have changed the passsword for userid " + changer.getId()
-						+ " to '" + changer.getPassword() + "'"));
-			}
-			else
-			{
-				return new StringElement("You changed the password for userid 101. Try again.");
-			}
-		} catch (SAXException saxe)
-		{
-			return new StringElement("The XML was not well formed: " + saxe.getLocalizedMessage());
-		} catch (IOException ioe)
-		{
-			return new StringElement(ioe.getLocalizedMessage());
-		}
-	}
+    private Element checkXML(WebSession s, String xml)
+    {
+        try
+        {
+            XMLReader reader = XMLReaderFactory.createXMLReader();
+            PasswordChanger changer = new PasswordChanger();
+            reader.setContentHandler(changer);
+            reader.parse(new InputSource(new StringReader(xml)));
+            if (!"101".equals(changer.getId()))
+            {
+                makeSuccess(s);
+                return new B(HtmlEncoder.encode("You have changed the passsword for userid " + changer.getId()
+                        + " to '" + changer.getPassword() + "'"));
+            }
+            else
+            {
+                return new StringElement("You changed the password for userid 101. Try again.");
+            }
+        } catch (SAXException saxe)
+        {
+            return new StringElement("The XML was not well formed: " + saxe.getLocalizedMessage());
+        } catch (IOException ioe)
+        {
+            return new StringElement(ioe.getLocalizedMessage());
+        }
+    }
 
-	private static class PasswordChanger extends DefaultHandler
-	{
+    private static class PasswordChanger extends DefaultHandler
+    {
 
-		private static String PASSWORD_TAG = "password";
+        private static String PASSWORD_TAG = "password";
 
-		private static String ID_TAG = "id";
+        private static String ID_TAG = "id";
 
-		private String id = null;
+        private String id = null;
 
-		private String password = null;
+        private String password = null;
 
-		private StringBuffer text = new StringBuffer();
+        private StringBuffer text = new StringBuffer();
 
-		public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
-		{
-			text.delete(0, text.length());
-		}
+        public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
+        {
+            text.delete(0, text.length());
+        }
 
-		public void characters(char[] ch, int start, int length) throws SAXException
-		{
-			text.append(ch, start, length);
-		}
+        public void characters(char[] ch, int start, int length) throws SAXException
+        {
+            text.append(ch, start, length);
+        }
 
-		public void endElement(String uri, String localName, String qName) throws SAXException
-		{
-			if (localName.equals(ID_TAG)) id = text.toString();
-			if (localName.equals(PASSWORD_TAG)) password = text.toString();
-			text.delete(0, text.length());
-		}
+        public void endElement(String uri, String localName, String qName) throws SAXException
+        {
+            if (localName.equals(ID_TAG)) id = text.toString();
+            if (localName.equals(PASSWORD_TAG)) password = text.toString();
+            text.delete(0, text.length());
+        }
 
-		public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException
-		{
-			text.append(ch, start, length);
-		}
+        public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException
+        {
+            text.append(ch, start, length);
+        }
 
-		public String getId()
-		{
-			return id;
-		}
+        public String getId()
+        {
+            return id;
+        }
 
-		public String getPassword()
-		{
-			return password;
-		}
+        public String getPassword()
+        {
+            return password;
+        }
 
-	}
+    }
 }
