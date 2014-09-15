@@ -55,134 +55,134 @@ import org.owasp.webgoat.util.WebGoatI18N;
  */
 public class SqlModifyData extends SequentialLessonAdapter
 {
-	public final static A MANDIANT_LOGO = new A().setHref("http://www.mandiant.com").addElement(new IMG("images/logos/mandiant.png").setAlt("MANDIANT").setBorder(0).setHspace(0).setVspace(0));
-	
-	private final static String USERID = "userid";
+    public final static A MANDIANT_LOGO = new A().setHref("http://www.mandiant.com").addElement(new IMG("images/logos/mandiant.png").setAlt("MANDIANT").setBorder(0).setHspace(0).setVspace(0));
+    
+    private final static String USERID = "userid";
 
     private final static String TARGET_USERID = "jsmith";
     private final static String NONTARGET_USERID = "lsmith";
 
-	private String userid;
+    private String userid;
 
-	/**
-	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 */
-	protected Element createContent(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
+    /**
+     * Description of the Method
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
 
-		try
-		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+        try
+        {
+            Connection connection = DatabaseUtilities.getConnection(s);
 
-			ec.addElement(makeAccountLine(s));
+            ec.addElement(makeAccountLine(s));
 
-			String query = "SELECT * FROM salaries WHERE userid = '" + userid + "'";
-			//ec.addElement(new PRE(query));
+            String query = "SELECT * FROM salaries WHERE userid = '" + userid + "'";
+            //ec.addElement(new PRE(query));
 
-			try
-			{
-				// check target data
-				Statement target_statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-						ResultSet.CONCUR_READ_ONLY);
-				ResultSet target_results = target_statement.executeQuery("SELECT salary from salaries where userid='"+TARGET_USERID+"'");
-				target_results.first();
-				String before_salary_target_salary = target_results.getString(1);
-				
-				System.out.println("Before running query, salary for target userid " + TARGET_USERID + " = " + before_salary_target_salary );
-					
-				target_results = target_statement.executeQuery("SELECT salary from salaries where userid='"+NONTARGET_USERID+"'");
-				target_results.first();
-				String before_salary_nontarget_salary = target_results.getString(1);
-				
-				System.out.println("Before running query, salary for nontarget userid " + NONTARGET_USERID + " = " + before_salary_nontarget_salary );
-				
-				// execute query
-				Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-																	ResultSet.CONCUR_READ_ONLY);
-				//
-				statement.execute(query);
-				
-				ResultSet results = statement.getResultSet();
+            try
+            {
+                // check target data
+                Statement target_statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                ResultSet target_results = target_statement.executeQuery("SELECT salary from salaries where userid='"+TARGET_USERID+"'");
+                target_results.first();
+                String before_salary_target_salary = target_results.getString(1);
+                
+                System.out.println("Before running query, salary for target userid " + TARGET_USERID + " = " + before_salary_target_salary );
+                    
+                target_results = target_statement.executeQuery("SELECT salary from salaries where userid='"+NONTARGET_USERID+"'");
+                target_results.first();
+                String before_salary_nontarget_salary = target_results.getString(1);
+                
+                System.out.println("Before running query, salary for nontarget userid " + NONTARGET_USERID + " = " + before_salary_nontarget_salary );
+                
+                // execute query
+                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                    ResultSet.CONCUR_READ_ONLY);
+                //
+                statement.execute(query);
+                
+                ResultSet results = statement.getResultSet();
 
-				if ((results != null) && (results.first() == true))
-				{
-					ResultSetMetaData resultsMetaData = results.getMetaData();
-					ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
-					results.last();
-				}
-				else
-				{
-					ec.addElement(WebGoatI18N.get("NoResultsMatched"));
-				}
-				
-				// see if target data was modified
-			    target_results = target_statement.executeQuery("SELECT salary from salaries where userid='"+TARGET_USERID+"'");
-				target_results.first();
-				String after_salary_target_salary = target_results.getString(1);
-				
-				System.out.println("After running query, salary for target userid " + TARGET_USERID + " = " + before_salary_target_salary );
-					
-				target_results = target_statement.executeQuery("SELECT salary from salaries where userid='"+NONTARGET_USERID+"'");
-				target_results.first();
-				String after_salary_nontarget_salary = target_results.getString(1);
-				
-				System.out.println("After running query, salary for nontarget userid " + NONTARGET_USERID + " = " + before_salary_nontarget_salary );
-				
-				if(!after_salary_nontarget_salary.equals(before_salary_nontarget_salary)) {
-					s.setMessage("You modified the salary for another userid, in order to succeed you must modify the salary of only userid " 
-							+ TARGET_USERID + ".");
-				} else {
-					if(!after_salary_target_salary.equals(before_salary_target_salary)) {
-						makeSuccess(s);
-					}
-				}
-				
-			} catch (SQLException sqle)
-			{
-				ec.addElement(new P().addElement(sqle.getMessage()));
-				sqle.printStackTrace();
-			}
-		} catch (Exception e)
-		{
-			s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
-			e.printStackTrace();
-		}
+                if ((results != null) && (results.first() == true))
+                {
+                    ResultSetMetaData resultsMetaData = results.getMetaData();
+                    ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
+                    results.last();
+                }
+                else
+                {
+                    ec.addElement(WebGoatI18N.get("NoResultsMatched"));
+                }
+                
+                // see if target data was modified
+                target_results = target_statement.executeQuery("SELECT salary from salaries where userid='"+TARGET_USERID+"'");
+                target_results.first();
+                String after_salary_target_salary = target_results.getString(1);
+                
+                System.out.println("After running query, salary for target userid " + TARGET_USERID + " = " + before_salary_target_salary );
+                    
+                target_results = target_statement.executeQuery("SELECT salary from salaries where userid='"+NONTARGET_USERID+"'");
+                target_results.first();
+                String after_salary_nontarget_salary = target_results.getString(1);
+                
+                System.out.println("After running query, salary for nontarget userid " + NONTARGET_USERID + " = " + before_salary_nontarget_salary );
+                
+                if(!after_salary_nontarget_salary.equals(before_salary_nontarget_salary)) {
+                    s.setMessage("You modified the salary for another userid, in order to succeed you must modify the salary of only userid " 
+                            + TARGET_USERID + ".");
+                } else {
+                    if(!after_salary_target_salary.equals(before_salary_target_salary)) {
+                        makeSuccess(s);
+                    }
+                }
+                
+            } catch (SQLException sqle)
+            {
+                ec.addElement(new P().addElement(sqle.getMessage()));
+                sqle.printStackTrace();
+            }
+        } catch (Exception e)
+        {
+            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            e.printStackTrace();
+        }
 
-		return (ec);
-	}
+        return (ec);
+    }
 
-	
+    
 
-	protected Element makeAccountLine(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
-		ec.addElement(new P().addElement(WebGoatI18N.get("EnterUserid")));
+    protected Element makeAccountLine(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
+        ec.addElement(new P().addElement(WebGoatI18N.get("EnterUserid")));
 
-		userid = s.getParser().getRawParameter(USERID, "jsmith");
-		Input input = new Input(Input.TEXT, USERID, userid.toString());
-		ec.addElement(input);
+        userid = s.getParser().getRawParameter(USERID, "jsmith");
+        Input input = new Input(Input.TEXT, USERID, userid.toString());
+        ec.addElement(input);
 
-		Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
-		ec.addElement(b);
+        Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
+        ec.addElement(b);
 
-		return ec;
+        return ec;
 
-	}
+    }
 
-	/**
-	 * Gets the category attribute of the SqNumericInjection object
-	 * 
-	 * @return The category value
-	 */
-	protected Category getDefaultCategory()
-	{
-		return Category.INJECTION;
-	}
+    /**
+     * Gets the category attribute of the SqNumericInjection object
+     * 
+     * @return The category value
+     */
+    protected Category getDefaultCategory()
+    {
+        return Category.INJECTION;
+    }
 
     /**
      * Gets the credits attribute of the AbstractLesson object
@@ -191,43 +191,43 @@ public class SqlModifyData extends SequentialLessonAdapter
      */
     public Element getCredits()
     {
-    	return super.getCustomCredits("Created by Chuck Willis&nbsp;", MANDIANT_LOGO);
+        return super.getCustomCredits("Created by Chuck Willis&nbsp;", MANDIANT_LOGO);
     }
-	
-	/**
-	 * Gets the hints attribute of the DatabaseFieldScreen object
-	 * 
-	 * @return The hints value
-	 */
-	protected List<String> getHints(WebSession s)
-	{
-		List<String> hints = new ArrayList<String>();
-		
-		hints.add(WebGoatI18N.get("SqlModifyDataHint1"));
-		hints.add(WebGoatI18N.get("SqlModifyDataHint2"));
-		hints.add(WebGoatI18N.get("SqlModifyDataHint3"));
-		hints.add(WebGoatI18N.get("SqlModifyDataHint4"));
-		hints.add(WebGoatI18N.get("SqlModifyDataHint5"));
+    
+    /**
+     * Gets the hints attribute of the DatabaseFieldScreen object
+     * 
+     * @return The hints value
+     */
+    protected List<String> getHints(WebSession s)
+    {
+        List<String> hints = new ArrayList<String>();
+        
+        hints.add(WebGoatI18N.get("SqlModifyDataHint1"));
+        hints.add(WebGoatI18N.get("SqlModifyDataHint2"));
+        hints.add(WebGoatI18N.get("SqlModifyDataHint3"));
+        hints.add(WebGoatI18N.get("SqlModifyDataHint4"));
+        hints.add(WebGoatI18N.get("SqlModifyDataHint5"));
 
-		return hints;
-	}
+        return hints;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(77);
+    private final static Integer DEFAULT_RANKING = new Integer(77);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
+    protected Integer getDefaultRanking()
+    {
+        return DEFAULT_RANKING;
+    }
 
-	/**
-	 * Gets the title attribute of the DatabaseFieldScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("Modify Data with SQL Injection");
-	}
+    /**
+     * Gets the title attribute of the DatabaseFieldScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("Modify Data with SQL Injection");
+    }
 
     /**
      * Gets the instructions attribute of the SqlInjection object
@@ -236,31 +236,31 @@ public class SqlModifyData extends SequentialLessonAdapter
      */
     public String getInstructions(WebSession s)
     {
-	String instructions = "The form below allows a user to view salaries associated with a userid "
-		+ "(from the table named <b>salaries</b>).  This form" 
-		+ " is vulnerable to String SQL Injection.  In order to pass this lesson, use SQL Injection to "
-		+ "modify the salary for userid <b>"
-		+ TARGET_USERID + "</b>.";
+    String instructions = "The form below allows a user to view salaries associated with a userid "
+        + "(from the table named <b>salaries</b>).  This form" 
+        + " is vulnerable to String SQL Injection.  In order to pass this lesson, use SQL Injection to "
+        + "modify the salary for userid <b>"
+        + TARGET_USERID + "</b>.";
 
-	return (instructions);
+    return (instructions);
     }
-	
-	/**
-	 * Constructor for the DatabaseFieldScreen object
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 */
-	public void handleRequest(WebSession s)
-	{
-		try
-		{
-			super.handleRequest(s);
-		} catch (Exception e)
-		{
-			// System.out.println("Exception caught: " + e);
-			e.printStackTrace(System.out);
-		}
-	}
+    
+    /**
+     * Constructor for the DatabaseFieldScreen object
+     * 
+     * @param s
+     *            Description of the Parameter
+     */
+    public void handleRequest(WebSession s)
+    {
+        try
+        {
+            super.handleRequest(s);
+        } catch (Exception e)
+        {
+            // System.out.println("Exception caught: " + e);
+            e.printStackTrace(System.out);
+        }
+    }
 
 }

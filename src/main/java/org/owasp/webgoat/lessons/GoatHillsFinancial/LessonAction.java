@@ -10,20 +10,20 @@ import org.owasp.webgoat.session.WebSession;
 
 public interface LessonAction
 {
-	public void handleRequest(WebSession s) throws ParameterNotFoundException, UnauthenticatedException,
-			UnauthorizedException, ValidationException;
+    public void handleRequest(WebSession s) throws ParameterNotFoundException, UnauthenticatedException,
+            UnauthorizedException, ValidationException;
 
-	public String getNextPage(WebSession s);
+    public String getNextPage(WebSession s);
 
-	public String getActionName();
+    public String getActionName();
 
-	public boolean requiresAuthentication();
+    public boolean requiresAuthentication();
 
-	public boolean isAuthenticated(WebSession s);
+    public boolean isAuthenticated(WebSession s);
 
-	public boolean isAuthorized(WebSession s, int employeeId, String functionId);
+    public boolean isAuthorized(WebSession s, int employeeId, String functionId);
 
-	public int getUserId(WebSession s) throws ParameterNotFoundException;
+    public int getUserId(WebSession s) throws ParameterNotFoundException;
 
-	public String getUserName(WebSession s) throws ParameterNotFoundException;
+    public String getUserName(WebSession s) throws ParameterNotFoundException;
 }

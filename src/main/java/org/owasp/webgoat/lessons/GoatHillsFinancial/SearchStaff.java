@@ -34,14 +34,14 @@ import org.owasp.webgoat.session.WebSession;
 public class SearchStaff extends DefaultLessonAction
 {
 
-	public SearchStaff(GoatHillsFinancial lesson, String lessonName, String actionName)
-	{
-		super(lesson, lessonName, actionName);
-	}
+    public SearchStaff(GoatHillsFinancial lesson, String lessonName, String actionName)
+    {
+        super(lesson, lessonName, actionName);
+    }
 
-	public String getNextPage(WebSession s)
-	{
-		return GoatHillsFinancial.SEARCHSTAFF_ACTION;
-	}
+    public String getNextPage(WebSession s)
+    {
+        return GoatHillsFinancial.SEARCHSTAFF_ACTION;
+    }
 
 }

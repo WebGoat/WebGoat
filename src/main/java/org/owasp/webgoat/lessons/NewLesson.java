@@ -38,51 +38,51 @@ import org.owasp.webgoat.session.WebSession;
  */
 public class NewLesson extends LessonAdapter
 {
-	/**
-	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 */
-	protected Element createContent(WebSession s)
-	{
-		return super.createContent(s);
-		// makeSuccess(s);
-		// ec.addElement(new StringElement("Welcome to the WebGoat hall of fame !!"));
-		// return (ec);
-	}
+    /**
+     * Description of the Method
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+        return super.createContent(s);
+        // makeSuccess(s);
+        // ec.addElement(new StringElement("Welcome to the WebGoat hall of fame !!"));
+        // return (ec);
+    }
 
-	/**
-	 * Gets the category attribute of the NEW_LESSON object
-	 * 
-	 * @return The category value
-	 */
-	protected Category getDefaultCategory()
-	{
-		return Category.INTRODUCTION;
-	}
+    /**
+     * Gets the category attribute of the NEW_LESSON object
+     * 
+     * @return The category value
+     */
+    protected Category getDefaultCategory()
+    {
+        return Category.INTRODUCTION;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(85);
+    private final static Integer DEFAULT_RANKING = new Integer(85);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
+    protected Integer getDefaultRanking()
+    {
+        return DEFAULT_RANKING;
+    }
 
-	/**
-	 * Gets the title attribute of the DirectoryScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("How to create a Lesson");
-	}
+    /**
+     * Gets the title attribute of the DirectoryScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("How to create a Lesson");
+    }
 
-	public Element getCredits()
-	{
-		return super.getCustomCredits("Created by: Your name goes here!", new StringElement(""));
-	}
+    public Element getCredits()
+    {
+        return super.getCustomCredits("Created by: Your name goes here!", new StringElement(""));
+    }
 
 }

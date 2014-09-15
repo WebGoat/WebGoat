@@ -51,100 +51,100 @@ import org.owasp.webgoat.session.WebSession;
 public class ForcedBrowsing extends LessonAdapter
 {
 
-	private final static String SUCCEEDED = "succeeded";
+    private final static String SUCCEEDED = "succeeded";
 
-	public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
-	
-	/**
-	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 */
-	protected Element createContent(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
-		String success = new String(s.getParser().getStringParameter(SUCCEEDED, ""));
+    public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
+    
+    /**
+     * Description of the Method
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
+        String success = new String(s.getParser().getStringParameter(SUCCEEDED, ""));
 
-		if (success.length() != 0 && success.equals("yes"))
-		{
-			ec.addElement(new BR().addElement(new H1().addElement("Welcome to WebGoat Configuration Page")));
-			ec.addElement(new BR());
-			Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("center");
+        if (success.length() != 0 && success.equals("yes"))
+        {
+            ec.addElement(new BR().addElement(new H1().addElement("Welcome to WebGoat Configuration Page")));
+            ec.addElement(new BR());
+            Table t1 = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("center");
 
-			TR tr = new TR();
-			tr.addElement(new TD(new StringElement("Set Admin Privileges for: ")));
+            TR tr = new TR();
+            tr.addElement(new TD(new StringElement("Set Admin Privileges for: ")));
 
-			Input input1 = new Input(Input.TEXT, "", "");
-			tr.addElement(new TD(input1));
-			t1.addElement(tr);
+            Input input1 = new Input(Input.TEXT, "", "");
+            tr.addElement(new TD(input1));
+            t1.addElement(tr);
 
-			tr = new TR();
-			tr.addElement(new TD(new StringElement("Set Admin Password:")));
+            tr = new TR();
+            tr.addElement(new TD(new StringElement("Set Admin Password:")));
 
-			input1 = new Input(Input.PASSWORD, "", "");
-			tr.addElement(new TD(input1));
-			t1.addElement(tr);
+            input1 = new Input(Input.PASSWORD, "", "");
+            tr.addElement(new TD(input1));
+            t1.addElement(tr);
 
-			Element b = ECSFactory.makeButton("Submit");
-			t1.addElement(new TR(new TD(b).setColSpan(2).setAlign("right")));
-			ec.addElement(t1);
+            Element b = ECSFactory.makeButton("Submit");
+            t1.addElement(new TR(new TD(b).setColSpan(2).setAlign("right")));
+            ec.addElement(t1);
 
-			makeSuccess(s);
-		}
-		else
-		{
-			ec
-					.addElement("Can you try to force browse to the config page which should only be accessed by maintenance personnel.");
-		}
-		return ec;
-	}
+            makeSuccess(s);
+        }
+        else
+        {
+            ec
+                    .addElement("Can you try to force browse to the config page which should only be accessed by maintenance personnel.");
+        }
+        return ec;
+    }
 
-	/**
-	 * Gets the category attribute of the ForgotPassword object
-	 * 
-	 * @return The category value
-	 */
-	protected Category getDefaultCategory()
-	{
-		return Category.INSECURE_CONFIGURATION;
-	}
+    /**
+     * Gets the category attribute of the ForgotPassword object
+     * 
+     * @return The category value
+     */
+    protected Category getDefaultCategory()
+    {
+        return Category.INSECURE_CONFIGURATION;
+    }
 
-	/**
-	 * Gets the hints attribute of the HelloScreen object
-	 * 
-	 * @return The hints value
-	 */
-	public List<String> getHints(WebSession s)
-	{
-		List<String> hints = new ArrayList<String>();
-		hints.add("Try to guess the URL for the config page");
-		hints.add("The config page is guessable and hackable");
-		hints.add("Play with the URL and try to guess what you can replace 'attack' with.");
-		hints.add("Try to navigate to http://localhost/WebGoat/conf");
-		return hints;
-	}
+    /**
+     * Gets the hints attribute of the HelloScreen object
+     * 
+     * @return The hints value
+     */
+    public List<String> getHints(WebSession s)
+    {
+        List<String> hints = new ArrayList<String>();
+        hints.add("Try to guess the URL for the config page");
+        hints.add("The config page is guessable and hackable");
+        hints.add("Play with the URL and try to guess what you can replace 'attack' with.");
+        hints.add("Try to navigate to http://localhost/WebGoat/conf");
+        return hints;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(15);
+    private final static Integer DEFAULT_RANKING = new Integer(15);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
+    protected Integer getDefaultRanking()
+    {
+        return DEFAULT_RANKING;
+    }
 
-	/**
-	 * Gets the title attribute of the HelloScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("Forced Browsing");
-	}
+    /**
+     * Gets the title attribute of the HelloScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("Forced Browsing");
+    }
 
-	public Element getCredits()
-	{
-		return super.getCustomCredits("Created by Sherif Koussa&nbsp;", MAC_LOGO);
-	}
+    public Element getCredits()
+    {
+        return super.getCustomCredits("Created by Sherif Koussa&nbsp;", MAC_LOGO);
+    }
 }

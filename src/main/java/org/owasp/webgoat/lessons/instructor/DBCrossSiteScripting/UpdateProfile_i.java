@@ -13,11 +13,11 @@ Solution Summary (1. or 2.)
 
 Solution Steps: 
 1. Talk about the different database approaches.
-	a. Apply validation in the UPDATE stored proc
-		- Possible to bypass by not using that stored proc
+    a. Apply validation in the UPDATE stored proc
+        - Possible to bypass by not using that stored proc
 
-	b. Apply a table column constraint 
-		- Cannot be bypassed. The DB enforces the constraint under all conditions
+    b. Apply a table column constraint 
+        - Cannot be bypassed. The DB enforces the constraint under all conditions
 
 2. Fix the stored proc
 
@@ -72,9 +72,9 @@ END;
 /
 
 3. Apply a table column constraint
-   	ALTER TABLE EMPLOYEE
-		ADD CONSTRAINT address1_ck CHECK (REGEXP_LIKE(address1, '^[a-zA-Z0-9,\. ]{0,80}$'));
-		
+    ALTER TABLE EMPLOYEE
+        ADD CONSTRAINT address1_ck CHECK (REGEXP_LIKE(address1, '^[a-zA-Z0-9,\. ]{0,80}$'));
+        
 
 FOR SQL SERVER, the following is required:
 
@@ -130,9 +130,9 @@ GO
 
 public class UpdateProfile_i extends UpdateProfile
 {
-	public UpdateProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
-	{
-		super(lesson, lessonName, actionName, chainedAction);
-	}
+    public UpdateProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
+    {
+        super(lesson, lessonName, actionName, chainedAction);
+    }
 
 }

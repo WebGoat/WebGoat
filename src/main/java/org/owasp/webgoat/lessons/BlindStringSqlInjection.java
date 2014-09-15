@@ -54,8 +54,8 @@ import org.owasp.webgoat.session.WebSession;
 public class BlindStringSqlInjection extends LessonAdapter
 {
 
-	public final static A MANDIANT_LOGO = new A().setHref("http://www.mandiant.com").addElement(new IMG("images/logos/mandiant.png").setAlt("MANDIANT").setBorder(0).setHspace(0).setVspace(0));
-	
+    public final static A MANDIANT_LOGO = new A().setHref("http://www.mandiant.com").addElement(new IMG("images/logos/mandiant.png").setAlt("MANDIANT").setBorder(0).setHspace(0).setVspace(0));
+    
     private final static String ACCT_NUM = "account_number";
 
     private final static String TARGET_CC_NUM = "4321432143214321";
@@ -69,76 +69,76 @@ public class BlindStringSqlInjection extends LessonAdapter
      */
     protected Element createContent(WebSession s)
     {
-	ElementContainer ec = new ElementContainer();
+    ElementContainer ec = new ElementContainer();
 
-	try
-	{
-	    Connection connection = DatabaseUtilities.getConnection(s);
+    try
+    {
+        Connection connection = DatabaseUtilities.getConnection(s);
 
-	    ec.addElement(new P().addElement("Enter your Account Number: "));
+        ec.addElement(new P().addElement("Enter your Account Number: "));
 
-	    String accountNumber = s.getParser().getRawParameter(ACCT_NUM, "101");
-	    Input input = new Input(Input.TEXT, ACCT_NUM, accountNumber.toString());
-	    ec.addElement(input);
+        String accountNumber = s.getParser().getRawParameter(ACCT_NUM, "101");
+        Input input = new Input(Input.TEXT, ACCT_NUM, accountNumber.toString());
+        ec.addElement(input);
 
-	    Element b = ECSFactory.makeButton("Go!");
-	    ec.addElement(b);
+        Element b = ECSFactory.makeButton("Go!");
+        ec.addElement(b);
 
-	    String query = "SELECT * FROM user_data WHERE userid = " + accountNumber;
-	    String answer_query;
-//	    if (runningOnWindows())
-//	    {
-//		answer_query = "SELECT TOP 1 first_name FROM user_data WHERE userid = "
-//			+ TARGET_CC_NUM;
-//	    } else
-//	    {
-		answer_query = "SELECT name FROM pins WHERE cc_number = '" + TARGET_CC_NUM +"'";
-//	    }
+        String query = "SELECT * FROM user_data WHERE userid = " + accountNumber;
+        String answer_query;
+//      if (runningOnWindows())
+//      {
+//      answer_query = "SELECT TOP 1 first_name FROM user_data WHERE userid = "
+//          + TARGET_CC_NUM;
+//      } else
+//      {
+        answer_query = "SELECT name FROM pins WHERE cc_number = '" + TARGET_CC_NUM +"'";
+//      }
 
-	    try
-	    {
-		Statement answer_statement = connection.createStatement(
-			ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		ResultSet answer_results = answer_statement.executeQuery(answer_query);
-		answer_results.first();
-		System.out.println("Account: " + accountNumber );
-		System.out.println("Answer : " + answer_results.getString(1));
-		if (accountNumber.toString().equals(answer_results.getString(1)))
-		{
-		    makeSuccess(s);
-		} else
-		{
+        try
+        {
+        Statement answer_statement = connection.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet answer_results = answer_statement.executeQuery(answer_query);
+        answer_results.first();
+        System.out.println("Account: " + accountNumber );
+        System.out.println("Answer : " + answer_results.getString(1));
+        if (accountNumber.toString().equals(answer_results.getString(1)))
+        {
+            makeSuccess(s);
+        } else
+        {
 
-		    Statement statement = connection.createStatement(
-			    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		    ResultSet results = statement.executeQuery(query);
+            Statement statement = connection.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet results = statement.executeQuery(query);
 
-		    if ((results != null) && (results.first() == true))
-		    {
-			ec.addElement(new P().addElement("Account number is valid"));
-		    } else
-		    {
-			ec.addElement(new P().addElement("Invalid account number"));
-		    }
-		}
-	    }
-	    catch (SQLException sqle)
-	    {
-		ec.addElement(new P().addElement("An error occurred, please try again."));
-		
-		// comment out two lines below
-		ec.addElement(new P().addElement(sqle.getMessage()));
-		sqle.printStackTrace();
-	    
-	    }
-	}
-	catch (Exception e)
-	{
-	    s.setMessage("Error generating " + this.getClass().getName());
-	    e.printStackTrace();
-	}
+            if ((results != null) && (results.first() == true))
+            {
+            ec.addElement(new P().addElement("Account number is valid"));
+            } else
+            {
+            ec.addElement(new P().addElement("Invalid account number"));
+            }
+        }
+        }
+        catch (SQLException sqle)
+        {
+        ec.addElement(new P().addElement("An error occurred, please try again."));
+        
+        // comment out two lines below
+        ec.addElement(new P().addElement(sqle.getMessage()));
+        sqle.printStackTrace();
+        
+        }
+    }
+    catch (Exception e)
+    {
+        s.setMessage("Error generating " + this.getClass().getName());
+        e.printStackTrace();
+    }
 
-	return (ec);
+    return (ec);
     }
 
     /**
@@ -148,7 +148,7 @@ public class BlindStringSqlInjection extends LessonAdapter
      */
     protected Category getDefaultCategory()
     {
-	return Category.INJECTION;
+    return Category.INJECTION;
     }
 
     /**
@@ -158,7 +158,7 @@ public class BlindStringSqlInjection extends LessonAdapter
      */
     public Element getCredits()
     {
-    	return super.getCustomCredits("Created by Chuck Willis&nbsp;", MANDIANT_LOGO);
+        return super.getCustomCredits("Created by Chuck Willis&nbsp;", MANDIANT_LOGO);
     }
 
     /**
@@ -171,14 +171,14 @@ public class BlindStringSqlInjection extends LessonAdapter
      */
 //    private boolean runningOnWindows()
 //    {
-//	String os = System.getProperty("os.name", "Windows");
-//	if (os.toLowerCase().indexOf("window") != -1)
-//	{
-//	    return true;
-//	} else
-//	{
-//	    return false;
-//	}
+//  String os = System.getProperty("os.name", "Windows");
+//  if (os.toLowerCase().indexOf("window") != -1)
+//  {
+//      return true;
+//  } else
+//  {
+//      return false;
+//  }
 //    }
 
     /**
@@ -188,80 +188,80 @@ public class BlindStringSqlInjection extends LessonAdapter
      */
     protected List<String> getHints(WebSession s)
     {
-	List<String> hints = new ArrayList<String>();
-//	if (runningOnWindows())
-//	{
-	    hints
-		    .add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. "
-			    + "Create a SQL statement that you can use as a true/false test and then "
-			    + "select the first character of the target element and do a start narrowing "
-			    + "down the character using > and <"
-			    + "<br><br>The backend database is HSQLDB.  Keep that in mind if you research SQL functions "
-			    + "on the Internet since different databases use some different functions and syntax."
-			    
-			    + "<br><br>You can find more about HSQLDB's SQL Syntax at "
-			    + "<a href='http://hsqldb.org/doc/guide/ch09.html'>http://hsqldb.org/doc/guide/ch09.html</a>.  "
-			    + "Pay attention to the section titled \"String built-in Functions / Stored Procedures\".");
+    List<String> hints = new ArrayList<String>();
+//  if (runningOnWindows())
+//  {
+        hints
+            .add("Compound SQL statements can be made by joining multiple tests with keywords like AND and OR. "
+                + "Create a SQL statement that you can use as a true/false test and then "
+                + "select the first character of the target element and do a start narrowing "
+                + "down the character using > and <"
+                + "<br><br>The backend database is HSQLDB.  Keep that in mind if you research SQL functions "
+                + "on the Internet since different databases use some different functions and syntax."
+                
+                + "<br><br>You can find more about HSQLDB's SQL Syntax at "
+                + "<a href='http://hsqldb.org/doc/guide/ch09.html'>http://hsqldb.org/doc/guide/ch09.html</a>.  "
+                + "Pay attention to the section titled \"String built-in Functions / Stored Procedures\".");
 
-	    hints
-		    .add("The application is taking your input and inserting it at the end of a pre-formed SQL command. "
-			    + "You will need to make use of the following SQL contstructs: "
-			    
-			    + "<br><br>AND - combine the logic of the normal query with a boolean result"		
-			    + "<br><br>( and ) - group subexpressions so they evaluate properly"
-			    + "<br><br>SELECT - make a subquery for your target data and get a string "
-			    + "<br><br>SUBSTRING(string, start, length) - returns a "
-			    + "substring of string starting at the start character and going for length characters "
-			    + "<br><br>&gt and = and &lt - once you have a character's value, compare it to a choosen one"
-			    + "<br><br>You can find more about HSQLDB's SQL Syntax at "
-			    + "<a href='http://hsqldb.org/doc/guide/ch09.html'>http://hsqldb.org/doc/guide/ch09.html</a>");
-			
-	    hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
-			    + "\"SELECT * FROM user_data WHERE userid = \" + accountNumber ");
-	    
-	    hints
-	    	.add("Here is an example for another table:"
-	    		+ "<br><br>In the table <i>user_data</i>, is the first character of the <i>first_name</i> for the record with a <i>cc_number</i> of "
-			    + "<i>333498703333</i>"
-			    + " greater than 'M'? "
-			    + "<br><br>101 AND (SUBSTRING((SELECT first_name FROM user_data WHERE cc_number='"
-			    + "333498703333"
-			    + "'), 1, 1) &gt 'M' ); "
-			    + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
-			    + "invalid then answer is no.");
-	    hints
-		    .add("Partial Solution for First Character:"
-		    	+ "<br><br>Is the first character of the <i>name</i> of the record with a <i>cc_number</i> of <i>"
-			    + TARGET_CC_NUM
-			    + "</i> less than 'M'? "
-			    + "<br><br>101 AND (SUBSTRING((SELECT name FROM pins WHERE cc_number='"
-			    + TARGET_CC_NUM
-			    + "'), 1, 1) &lt 'M' ); "
-			    + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
-			    + "invalid then answer is no.");
-	    hints
-		    .add("Another Part of Solution for First Character:"
-		    	+ "<br><br>Is the first character of the <i>name</i> of the record with a <i>cc_number</i> of <i>"
-			    + TARGET_CC_NUM
-			    + "</i> less than 'H'? "
-			    + "<br><br>101 AND (SUBSTRING((SELECT name FROM pins WHERE cc_number='"
-			    + TARGET_CC_NUM
-			    + "'), 1, 1) &lt 'H' ); "
-			    + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
-			    + "invalid then answer is no.");
-	    hints
-	    	.add("Partial Solution for Second Character:"
-	    		+ "<br><br>Is the second character of the <i>name</i> of the record with a <i>cc_number</i> of <i>"
-			    + TARGET_CC_NUM
-			    + "</i> greater than 'k'? "
-			    + "<br><br>101 AND (SUBSTRING((SELECT name FROM pins WHERE cc_number='"
-			    + TARGET_CC_NUM
-			    + "'), 2, 1) &gt 'k' ); "
-			    + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
-			    + "invalid then answer is no.");
-	    
+        hints
+            .add("The application is taking your input and inserting it at the end of a pre-formed SQL command. "
+                + "You will need to make use of the following SQL contstructs: "
+                
+                + "<br><br>AND - combine the logic of the normal query with a boolean result"       
+                + "<br><br>( and ) - group subexpressions so they evaluate properly"
+                + "<br><br>SELECT - make a subquery for your target data and get a string "
+                + "<br><br>SUBSTRING(string, start, length) - returns a "
+                + "substring of string starting at the start character and going for length characters "
+                + "<br><br>&gt and = and &lt - once you have a character's value, compare it to a choosen one"
+                + "<br><br>You can find more about HSQLDB's SQL Syntax at "
+                + "<a href='http://hsqldb.org/doc/guide/ch09.html'>http://hsqldb.org/doc/guide/ch09.html</a>");
+            
+        hints.add("This is the code for the query being built and issued by WebGoat:<br><br> "
+                + "\"SELECT * FROM user_data WHERE userid = \" + accountNumber ");
+        
+        hints
+            .add("Here is an example for another table:"
+                + "<br><br>In the table <i>user_data</i>, is the first character of the <i>first_name</i> for the record with a <i>cc_number</i> of "
+                + "<i>333498703333</i>"
+                + " greater than 'M'? "
+                + "<br><br>101 AND (SUBSTRING((SELECT first_name FROM user_data WHERE cc_number='"
+                + "333498703333"
+                + "'), 1, 1) &gt 'M' ); "
+                + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
+                + "invalid then answer is no.");
+        hints
+            .add("Partial Solution for First Character:"
+                + "<br><br>Is the first character of the <i>name</i> of the record with a <i>cc_number</i> of <i>"
+                + TARGET_CC_NUM
+                + "</i> less than 'M'? "
+                + "<br><br>101 AND (SUBSTRING((SELECT name FROM pins WHERE cc_number='"
+                + TARGET_CC_NUM
+                + "'), 1, 1) &lt 'M' ); "
+                + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
+                + "invalid then answer is no.");
+        hints
+            .add("Another Part of Solution for First Character:"
+                + "<br><br>Is the first character of the <i>name</i> of the record with a <i>cc_number</i> of <i>"
+                + TARGET_CC_NUM
+                + "</i> less than 'H'? "
+                + "<br><br>101 AND (SUBSTRING((SELECT name FROM pins WHERE cc_number='"
+                + TARGET_CC_NUM
+                + "'), 1, 1) &lt 'H' ); "
+                + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
+                + "invalid then answer is no.");
+        hints
+            .add("Partial Solution for Second Character:"
+                + "<br><br>Is the second character of the <i>name</i> of the record with a <i>cc_number</i> of <i>"
+                + TARGET_CC_NUM
+                + "</i> greater than 'k'? "
+                + "<br><br>101 AND (SUBSTRING((SELECT name FROM pins WHERE cc_number='"
+                + TARGET_CC_NUM
+                + "'), 2, 1) &gt 'k' ); "
+                + "<br><br>If you get back that account number is valid, then yes.  If get back that the number is "
+                + "invalid then answer is no.");
+        
 
-	return hints;
+    return hints;
     }
 
     /**
@@ -271,24 +271,24 @@ public class BlindStringSqlInjection extends LessonAdapter
      */
     public String getInstructions(WebSession s)
     {
-	String instructions = "The form below allows a user to enter an account number and determine if "
-		+ "it is valid or not.  Use this form to develop a true / false test check other entries in the database.  "
-		+ "<br><br>Reference Ascii Values: 'A' = 65   'Z' = 90   'a' = 97   'z' = 122 "
-		+ "<br><br>The goal is to find the value of "
-		+ "the field <b>name</b> in table <b>pins</b> for the row with the <b>cc_number</b> of <b>"
-		+ TARGET_CC_NUM
-		+ "</b>.  The field is of type varchar, which is a string." 
-		+ "<br><br>Put the discovered name in the form to pass the lesson.  Only the discovered name "
-		+ "should be put into the form field, paying close attention to the spelling and capitalization.";
+    String instructions = "The form below allows a user to enter an account number and determine if "
+        + "it is valid or not.  Use this form to develop a true / false test check other entries in the database.  "
+        + "<br><br>Reference Ascii Values: 'A' = 65   'Z' = 90   'a' = 97   'z' = 122 "
+        + "<br><br>The goal is to find the value of "
+        + "the field <b>name</b> in table <b>pins</b> for the row with the <b>cc_number</b> of <b>"
+        + TARGET_CC_NUM
+        + "</b>.  The field is of type varchar, which is a string." 
+        + "<br><br>Put the discovered name in the form to pass the lesson.  Only the discovered name "
+        + "should be put into the form field, paying close attention to the spelling and capitalization.";
 
-	return (instructions);
+    return (instructions);
     }
 
     private final static Integer DEFAULT_RANKING = new Integer(95);
 
     protected Integer getDefaultRanking()
     {
-	return DEFAULT_RANKING;
+    return DEFAULT_RANKING;
     }
 
     /**
@@ -298,7 +298,7 @@ public class BlindStringSqlInjection extends LessonAdapter
      */
     public String getTitle()
     {
-	return ("Blind String SQL Injection");
+    return ("Blind String SQL Injection");
     }
 
     /**
@@ -309,14 +309,14 @@ public class BlindStringSqlInjection extends LessonAdapter
      */
     public void handleRequest(WebSession s)
     {
-	try
-	{
-	    super.handleRequest(s);
-	}
-	catch (Exception e)
-	{
-	    System.out.println("Exception caught: " + e);
-	    e.printStackTrace(System.out);
-	}
+    try
+    {
+        super.handleRequest(s);
+    }
+    catch (Exception e)
+    {
+        System.out.println("Exception caught: " + e);
+        e.printStackTrace(System.out);
+    }
     }
 }
