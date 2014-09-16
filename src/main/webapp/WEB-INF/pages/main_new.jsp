@@ -62,7 +62,7 @@
     </head>
 
     <body class="animated fadeIn" ng-app="goatApp">
-        <section id="container">
+        <section id="container" ng-controller="goatLesson">
             <header id="header">
                 <!--logo start-->
                 <div class="brand">
@@ -128,7 +128,7 @@
             <!--sidebar left end-->
             <!--main content start-->
             <section class="main-content-wrapper">
-                <section id="main-content" ng-controller="goatLesson">
+                <section id="main-content" > <!--ng-controller="goatLesson"-->
                     <div class="row">
                         <div class="col-md-8">
                             <div class="col-md-12" align="left">

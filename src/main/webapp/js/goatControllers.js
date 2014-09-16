@@ -3,12 +3,7 @@
 
 /* ### GOAT CONTROLLERS ### */
 
-/** Lesson Controller (includes menu stuff)
- *  prepares and updates menu topic items for the view
- */
-//<<<<<<< Updated upstream
-//goat.controller('goatLesson', function($scope, $http, $modal, $log, $sce) { //$templateCache
-//=======
+/* menu controller */
 var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
     $scope.cookies = [];
     $scope.params = [];
@@ -36,7 +31,7 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
         // use jquery to render lesson content to div
         $scope.hintIndex = 0;
         var curScope = $scope;
-      
+	$('.lessonHelp').hide();
         curScope.parameters = goat.utils.scrapeParams(url);
         goat.data.loadLessonContent($http,url).then(
 	    function(reply) {
@@ -47,6 +42,7 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		);
 		$("#lesson_content").html(reply.data);
 		$('#leftside-navigation').height($('#main-content').height()+15)
+		$scope.$emit('lessonUpdate',{params:curScope.parameters});
 	    }
     )};
     $scope.accordionMenu = function(id) {
@@ -86,53 +82,55 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 
 });*/
 
+/* lesson controller */
 var goatLesson = function($scope,$http,$log) {
     //hook forms
 
     $('#hintsView').hide();
 	// adjust menu to lessonContent size if necssary
-	//@TODO: this is still clunky ... needs some TLC
-	if ($('div.panel-body').height() > 400) {
-		    $('#leftside-navigation').height($(window).height());
+	//cookies
+	
+	$scope.$on('lessonUpdate',function(params){
+	    $scope.parameters = arguments[1];
+	    curScope = $scope; //TODO .. update below, this curScope is probably not needed
+	    goat.data.loadCookies($http).then(
+		function(resp) {
+		    curScope.cookies = resp.data;
 		}
-		//cookies
-		goat.data.loadCookies($http).then(
-			function(resp) {
-			    curScope.cookies = resp.data;
-			}
-		);
-		//hints
-		curScope = $scope; //TODO .. update below, this curScope is probably not needed
-		curScope.hintIndex = 0;
-		goat.data.loadHints($http).then(
-			function(resp) {
-			    curScope.hints = resp.data;
-			    if (curScope.hints.length > 0 && curScope.hints[0].hint.indexOf(goatConstants.noHints) === -1) {
-				goat.utils.displayButton('showHintsBtn', true);
-			    } else {
-				goat.utils.displayButton('showHintsBtn', false);
-			    }
-			}
-		);
-		//source
-		goat.data.loadSource($http).then(
-			function(resp) {
-			    curScope.source = resp.data;
-			}
-		);
-		//plan
-		goat.data.loadPlan($http).then(
-			function(resp) {
-			    curScope.plan = resp.data;
-			}
-		);
-		//solution
-		goat.data.loadSolution($http).then(
-			function(resp) {
-			    curScope.solution = resp.data;
-			}
-		);
-		goat.utils.scrollToTop();
+	    );
+	    //hints
+	    curScope.hintIndex = 0;
+	    goat.data.loadHints($http).then(
+		function(resp) {
+		    curScope.hints = resp.data;
+		    if (curScope.hints.length > 0 && curScope.hints[0].hint.indexOf(goatConstants.noHints) === -1) {
+			goat.utils.displayButton('showHintsBtn', true);
+		    } else {
+			goat.utils.displayButton('showHintsBtn', false);
+		    }
+		}
+	    );
+	    //source
+	    goat.data.loadSource($http).then(
+		    function(resp) {
+			curScope.source = resp.data;
+		    }
+	    );
+	    //plan
+	    goat.data.loadPlan($http).then(
+		    function(resp) {
+			curScope.plan = resp.data;
+		    }
+	    );
+	    //solution
+	    goat.data.loadSolution($http).then(
+		    function(resp) {
+			curScope.solution = resp.data;
+		    }
+	    );
+	});
+		
+	//goat.utils.scrollToTop();
 
 
     $scope.showLessonSource = function() {

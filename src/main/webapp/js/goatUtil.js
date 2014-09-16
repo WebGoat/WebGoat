@@ -53,6 +53,7 @@ goat.utils = {
         goat.utils.scrollToHelp();
     },
     scrollToHelp:function() {
+        $('#leftside-navigation').height($('#main-content').height()+15)
         var target = $('#lessonHelpsWrapper');
         goat.utils.scrollEasy(target);
     },
