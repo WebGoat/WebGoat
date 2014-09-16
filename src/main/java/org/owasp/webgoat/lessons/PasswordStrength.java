@@ -1,8 +1,14 @@
 
 package org.owasp.webgoat.lessons;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -15,6 +21,7 @@ import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
+import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.WebSession;
 
 
@@ -52,6 +59,38 @@ import org.owasp.webgoat.session.WebSession;
 
 public class PasswordStrength extends LessonAdapter
 {
+    private Map<String, Password> passwords = new TreeMap<String, Password>() {{
+        put("pass1", new Password("123456", "seconds", "0", "dictionary based, in top 10 most used passwords"));
+        put("pass2", new Password("abzfezd", "seconds", "2", "26 chars on 7 positions, 8 billion possible combinations"));
+        put("pass3", new Password("a9z1ezd", "seconds", "19", "26 + 10 chars on 7 positions = 78 billion possible combinations"));
+        put("pass4", new Password("aB8fEzDq", "hours", "15", "26 + 26 + 10 chars on 8 positions = 218 trillion possible combinations"));
+        put("pass5", new Password("z8!E?7D$", "days", "20", "96 chars on 8 positions = 66 quintillion possible combinations"));
+        put("pass6", new Password("My1stPassword!:Redd", "quintillion years", "364", "96 chars on 19 positions = 46 undecillion possible combinations"));
+    }};
+    
+    private class Password {
+        
+        String password;
+        String timeUnit;
+        String answer;
+        private String explanation;
+        
+        public Password(String password, String timeUnit, String answer, String explanation) {
+            this.password = password;
+            this.timeUnit = timeUnit;
+            this.answer = answer;
+            this.explanation = explanation;
+        }
+    }
+    
+    private boolean checkSolution(WebSession s) throws ParameterNotFoundException {
+        boolean allCorrect = true;
+        for ( int i = 1; i <= passwords.size(); i++ ) {
+            String key = "pass" + i;
+            allCorrect = allCorrect && s.getParser().getStringParameter(key, "").equals(passwords.get(key).answer);
+        }
+        return allCorrect;
+    }
 
     /**
      * Description of the Method
@@ -66,87 +105,39 @@ public class PasswordStrength extends LessonAdapter
 
         try
         {
-            if (s.getParser().getStringParameter("pass1", "").equals("0")
-                    && s.getParser().getStringParameter("pass2", "").equals("1394")
-                    && s.getParser().getStringParameter("pass3", "").equals("5")
-                    && s.getParser().getStringParameter("pass4", "").equals("2")
-                    && s.getParser().getStringParameter("pass5", "").equals("41"))
+            if (checkSolution(s))
             {
                 makeSuccess(s);
+                ec.addElement(new BR());
                 ec.addElement(new StringElement("As a guideline not bound to a single solution."));
                 ec.addElement(new BR());
-                ec.addElement(new StringElement("Assuming the brute-force power of 1,000,000 hash/second: "));
+                ec.addElement(new StringElement("Assuming the calculations per second 4 billion: "));
                 ec.addElement(new BR());
                 OL ol = new OL();
-                ol.addElement(new LI("123456 - 0 seconds        (dictionary based, one of top 100)"));
-                ol.addElement(new LI("abzfez - up to 5 minutes  ( 26 chars on 6 positions = 26^6 seconds)"));
-                ol.addElement(new LI("a9z1ez - up to 40 minutes ( 26+10 chars on 6 positions = 36^6 seconds)"));
-                ol.addElement(new LI("aB8fEz - up to 16 hours   ( 26+26+10 chars on 6 positions = 62^6 seconds)"));
-                ol.addElement(new LI("z8!E?7 - up to 50 days    ( 127 chars on 6 positions = 127^6 seconds)"));
+                for ( Password password : passwords.values()) {
+                    ol.addElement(new LI(String.format("%s - %s %s (%s)", password.password, password.answer, password.timeUnit, password.explanation)));
+                }
                 ec.addElement(ol);
             } else
             {
-
-                ec.addElement(new StringElement("How much time you need for these passwords? "));
                 ec.addElement(new BR());
+                ec.addElement(new StringElement("How much time would a desktop PC take to crack these passwords?"));
                 ec.addElement(new BR());
                 ec.addElement(new BR());
                 Table table = new Table();
-                table.addAttribute("align='center'", 0);
-                TR tr1 = new TR();
-                TD td1 = new TD();
-                TD td2 = new TD();
-                Input input1 = new Input(Input.TEXT, "pass1", "");
-                td1.addElement(new StringElement("Password = 123456"));
-                td2.addElement(input1);
-                td2.addElement(new StringElement("seconds"));
-                tr1.addElement(td1);
-                tr1.addElement(td2);
-    
-                TR tr2 = new TR();
-                TD td3 = new TD();
-                TD td4 = new TD();
-                Input input2 = new Input(Input.TEXT, "pass2", "");
-                td3.addElement(new StringElement("Password = abzfez"));
-                td4.addElement(input2);
-                td4.addElement(new StringElement("seconds"));
-                tr2.addElement(td3);
-                tr2.addElement(td4);
-    
-                TR tr3 = new TR();
-                TD td5 = new TD();
-                TD td6 = new TD();
-                Input input3 = new Input(Input.TEXT, "pass3", "");
-                td5.addElement(new StringElement("Password = a9z1ez"));
-                td6.addElement(input3);
-                td6.addElement(new StringElement("hours"));
-                tr3.addElement(td5);
-                tr3.addElement(td6);
-    
-                TR tr4 = new TR();
-                TD td7 = new TD();
-                TD td8 = new TD();
-                Input input4 = new Input(Input.TEXT, "pass4", "");
-                td7.addElement(new StringElement("Password = aB8fEz"));
-                td8.addElement(input4);
-                td8.addElement(new StringElement("days"));
-                tr4.addElement(td7);
-                tr4.addElement(td8);
-    
-                TR tr5 = new TR();
-                TD td9 = new TD();
-                TD td10 = new TD();
-                Input input5 = new Input(Input.TEXT, "pass5", "");
-                td9.addElement(new StringElement("Password = z8!E?7"));
-                td10.addElement(input5);
-                td10.addElement(new StringElement("days"));
-                tr5.addElement(td9);
-                tr5.addElement(td10);
-                table.addElement(tr1);
-                table.addElement(tr2);
-                table.addElement(tr3);
-                table.addElement(tr4);
-                table.addElement(tr5);
+                for ( Entry<String, Password> entry : passwords.entrySet()) {
+                    TR tr = new TR();
+                    TD td1 = new TD();
+                    TD td2 = new TD();
+                    Input input1 = new Input(Input.TEXT, entry.getKey(), "");
+                    td1.addElement(new StringElement("Password = " + entry.getValue().password));
+                    td1.setWidth("50%");
+                    td2.addElement(input1);
+                    td2.addElement(new StringElement("  " + entry.getValue().timeUnit));
+                    tr.addElement(td1);
+                    tr.addElement(td2);
+                    table.addElement(tr);
+                }
                 ec.addElement(table);
                 ec.addElement(new BR());
                 ec.addElement(new BR());
@@ -197,9 +188,9 @@ public class PasswordStrength extends LessonAdapter
 
     public String getInstructions(WebSession s)
     {
-        String instructions = "The Accounts of your Webapplication are only as save as the passwords. "
-                + "For this exercise, your job is to test several passwords on <a href=\"https://www.cnlab.ch/codecheck\" target=\"_blank\">https://www.cnlab.ch/codecheck</a>. "
-                + " You must test all 5 passwords at the same time...<br>"
+        String instructions = "The accounts of your web application are only as save as the passwords. "
+                + "For this exercise, your job is to test several passwords on <a href=\"https://howsecureismypassword.net\" target=\"_blank\">https://howsecureismypassword.net</a>. "
+                + " You must test all 6 passwords at the same time...<br>"
                 + "<b> On your applications you should set good password requirements! </b>";
         return (instructions);
     }
