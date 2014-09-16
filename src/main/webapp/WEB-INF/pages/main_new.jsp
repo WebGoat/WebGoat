@@ -62,7 +62,7 @@
     </head>
 
     <body class="animated fadeIn" ng-app="goatApp">
-        <section id="container" ng-controller="goatLesson">
+        <section id="container">
             <header id="header">
                 <!--logo start-->
                 <div class="brand">
@@ -75,7 +75,7 @@
                     </button>
                 </div><!--toggle navigation end-->
                 <div class="lessonTitle" >
-                    <h1 id="lessonTitle">Lesson Title in here</h1>
+                    <h1 id="lessonTitle"></h1>
                 </div><!--lesson title end-->
                 <div class="user-nav pull-right" style="margin-right: 75px;">
                     <div class="dropdown" style="display:inline">
@@ -107,12 +107,12 @@
             </header>
 
             <!--sidebar left start-->
-            <aside class="sidebar">
-                <div id="leftside-navigation" class="nano">
+            <aside class="sidebar" >
+                <div id="leftside-navigation" ng-controller="goatMenu" class="nano">
                     <ul class="nano-content">
                         <li class="sub-menu" ng-repeat="item in menuTopics">
-                            <a ng-click="expanded = !expanded" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a>
-                            <ul class="slideDown" ng-show="expanded">
+                            <a ng-click="accordionMenu(item.id)" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a><!-- expanded = !expanded-->
+                            <ul class="slideDown lessonsAndStages" id="{{item.id}}" isOpen=0>
                                 <li ng-repeat="lesson in item.children">
                                     <a ng-click="renderLesson(lesson.link)" title="link to {{lesson.name}}" href="">{{lesson.name}}</a>
                                     <span ng-repeat="stage in lesson.children" >
@@ -122,15 +122,13 @@
                             </ul>
                         </li>
                     </ul> 
-
                 </div>
 
             </aside>
             <!--sidebar left end-->
             <!--main content start-->
             <section class="main-content-wrapper">
-
-                <section id="main-content" > <!-- ng-controller="lessonController" -->
+                <section id="main-content" ng-controller="goatLesson">
                     <div class="row">
                         <div class="col-md-8">
                             <div class="col-md-12" align="left">
@@ -149,7 +147,8 @@
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" ng-click="viewPrevHint()"></span>
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" ng-click="viewNextHint()"></span>
                                             <br/>
-                                            {{curHint}}
+                                            
+                                            <span id="curHintContainer"></span><!--{{curHint}}-->
                                         </div>                                    
                                     </div>
                                 </div>
@@ -292,10 +291,10 @@
             var DEBUG_FORM_SUBMISSION = false;
 
             $(document).ready(function() {
+                //TODO merge appliction.js code into other js files
                 app.init();
-                //can be augmented later to 'resume' for a given user ... currently kluged to start at fixed lesson
-                var url = 'attack?Screen=32&menu=5';
-                angular.element($('#leftside-navigation')).scope().renderLesson(url);
+                
+                
             });
             // make all forms ajax forms
             var options = {

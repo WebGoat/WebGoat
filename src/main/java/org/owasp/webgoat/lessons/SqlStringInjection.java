@@ -53,224 +53,224 @@ import org.owasp.webgoat.util.WebGoatI18N;
  */
 public class SqlStringInjection extends SequentialLessonAdapter
 {
-	private final static String ACCT_NAME = "account_name";
+    private final static String ACCT_NAME = "account_name";
 
-	private static String STAGE = "stage";
+    private static String STAGE = "stage";
 
-	private String accountName;
+    private String accountName;
 
-	/**
-	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 */
-	protected Element createContent(WebSession s)
-	{
-		return super.createStagedContent(s);
-	}
+    /**
+     * Description of the Method
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+        return super.createStagedContent(s);
+    }
 
-	protected Element doStage1(WebSession s) throws Exception
-	{
-		return injectableQuery(s);
-	}
+    protected Element doStage1(WebSession s) throws Exception
+    {
+        return injectableQuery(s);
+    }
 
-	protected Element doStage2(WebSession s) throws Exception
-	{
-		return parameterizedQuery(s);
-	}
+    protected Element doStage2(WebSession s) throws Exception
+    {
+        return parameterizedQuery(s);
+    }
 
-	protected Element injectableQuery(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
+    protected Element injectableQuery(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
 
-		try
-		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+        try
+        {
+            Connection connection = DatabaseUtilities.getConnection(s);
 
-			ec.addElement(makeAccountLine(s));
+            ec.addElement(makeAccountLine(s));
 
-			String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
-			ec.addElement(new PRE(query));
+            String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
+            ec.addElement(new PRE(query));
 
-			try
-			{
-				Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-																	ResultSet.CONCUR_READ_ONLY);
-				ResultSet results = statement.executeQuery(query);
+            try
+            {
+                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                    ResultSet.CONCUR_READ_ONLY);
+                ResultSet results = statement.executeQuery(query);
 
-				if ((results != null) && (results.first() == true))
-				{
-					ResultSetMetaData resultsMetaData = results.getMetaData();
-					ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
-					results.last();
+                if ((results != null) && (results.first() == true))
+                {
+                    ResultSetMetaData resultsMetaData = results.getMetaData();
+                    ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
+                    results.last();
 
-					// If they get back more than one user they succeeded
-					if (results.getRow() >= 6)
-					{
-						makeSuccess(s);
-						getLessonTracker(s).setStage(2);
+                    // If they get back more than one user they succeeded
+                    if (results.getRow() >= 6)
+                    {
+                        makeSuccess(s);
+                        getLessonTracker(s).setStage(2);
 
-						StringBuffer msg = new StringBuffer();
+                        StringBuffer msg = new StringBuffer();
 
-						msg.append(WebGoatI18N.get("StringSqlInjectionSecondStage"));
+                        msg.append(WebGoatI18N.get("StringSqlInjectionSecondStage"));
 
-						s.setMessage(msg.toString());
-					}
-				}
-				else
-				{
-					ec.addElement(WebGoatI18N.get("NoResultsMatched"));
-				}
-			} catch (SQLException sqle)
-			{
-				ec.addElement(new P().addElement(sqle.getMessage()));
-				sqle.printStackTrace();
-			}
-		} catch (Exception e)
-		{
-			s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
-			e.printStackTrace();
-		}
+                        s.setMessage(msg.toString());
+                    }
+                }
+                else
+                {
+                    ec.addElement(WebGoatI18N.get("NoResultsMatched"));
+                }
+            } catch (SQLException sqle)
+            {
+                ec.addElement(new P().addElement(sqle.getMessage()));
+                sqle.printStackTrace();
+            }
+        } catch (Exception e)
+        {
+            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            e.printStackTrace();
+        }
 
-		return (ec);
-	}
+        return (ec);
+    }
 
-	protected Element parameterizedQuery(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
+    protected Element parameterizedQuery(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
 
-		ec.addElement(WebGoatI18N.get("StringSqlInjectionSecondStage"));
-		if (s.getParser().getRawParameter(ACCT_NAME, "YOUR_NAME").equals("restart"))
-		{
-			getLessonTracker(s).getLessonProperties().setProperty(STAGE, "1");
-			return (injectableQuery(s));
-		}
+        ec.addElement(WebGoatI18N.get("StringSqlInjectionSecondStage"));
+        if (s.getParser().getRawParameter(ACCT_NAME, "YOUR_NAME").equals("restart"))
+        {
+            getLessonTracker(s).getLessonProperties().setProperty(STAGE, "1");
+            return (injectableQuery(s));
+        }
 
-		ec.addElement(new BR());
+        ec.addElement(new BR());
 
-		try
-		{
-			Connection connection = DatabaseUtilities.getConnection(s);
+        try
+        {
+            Connection connection = DatabaseUtilities.getConnection(s);
 
-			ec.addElement(makeAccountLine(s));
+            ec.addElement(makeAccountLine(s));
 
-			String query = "SELECT * FROM user_data WHERE last_name = ?";
-			ec.addElement(new PRE(query));
+            String query = "SELECT * FROM user_data WHERE last_name = ?";
+            ec.addElement(new PRE(query));
 
-			try
-			{
-				PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
-																			ResultSet.CONCUR_READ_ONLY);
-				statement.setString(1, accountName);
-				ResultSet results = statement.executeQuery();
+            try
+            {
+                PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                            ResultSet.CONCUR_READ_ONLY);
+                statement.setString(1, accountName);
+                ResultSet results = statement.executeQuery();
 
-				if ((results != null) && (results.first() == true))
-				{
-					ResultSetMetaData resultsMetaData = results.getMetaData();
-					ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
-					results.last();
+                if ((results != null) && (results.first() == true))
+                {
+                    ResultSetMetaData resultsMetaData = results.getMetaData();
+                    ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
+                    results.last();
 
-					// If they get back more than one user they succeeded
-					if (results.getRow() >= 6)
-					{
-						makeSuccess(s);
-					}
-				}
-				else
-				{
-					ec.addElement(WebGoatI18N.get("NoResultsMatched"));
-				}
-			} catch (SQLException sqle)
-			{
-				ec.addElement(new P().addElement(sqle.getMessage()));
-			}
-		} catch (Exception e)
-		{
-			s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
-			e.printStackTrace();
-		}
+                    // If they get back more than one user they succeeded
+                    if (results.getRow() >= 6)
+                    {
+                        makeSuccess(s);
+                    }
+                }
+                else
+                {
+                    ec.addElement(WebGoatI18N.get("NoResultsMatched"));
+                }
+            } catch (SQLException sqle)
+            {
+                ec.addElement(new P().addElement(sqle.getMessage()));
+            }
+        } catch (Exception e)
+        {
+            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            e.printStackTrace();
+        }
 
-		return (ec);
-	}
+        return (ec);
+    }
 
-	protected Element makeAccountLine(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
-		ec.addElement(new P().addElement(WebGoatI18N.get("EnterLastName")));
+    protected Element makeAccountLine(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
+        ec.addElement(new P().addElement(WebGoatI18N.get("EnterLastName")));
 
-		accountName = s.getParser().getRawParameter(ACCT_NAME, "Your Name");
-		Input input = new Input(Input.TEXT, ACCT_NAME, accountName.toString());
-		ec.addElement(input);
+        accountName = s.getParser().getRawParameter(ACCT_NAME, "Your Name");
+        Input input = new Input(Input.TEXT, ACCT_NAME, accountName.toString());
+        ec.addElement(input);
 
-		Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
-		ec.addElement(b);
+        Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
+        ec.addElement(b);
 
-		return ec;
+        return ec;
 
-	}
+    }
 
-	/**
-	 * Gets the category attribute of the SqNumericInjection object
-	 * 
-	 * @return The category value
-	 */
-	protected Category getDefaultCategory()
-	{
-		return Category.INJECTION;
-	}
+    /**
+     * Gets the category attribute of the SqNumericInjection object
+     * 
+     * @return The category value
+     */
+    protected Category getDefaultCategory()
+    {
+        return Category.INJECTION;
+    }
 
-	/**
-	 * Gets the hints attribute of the DatabaseFieldScreen object
-	 * 
-	 * @return The hints value
-	 */
-	protected List<String> getHints(WebSession s)
-	{
-		List<String> hints = new ArrayList<String>();
-		
-		hints.add(WebGoatI18N.get("SqlStringInjectionHint1"));
-		hints.add(WebGoatI18N.get("SqlStringInjectionHint2"));
-		hints.add(WebGoatI18N.get("SqlStringInjectionHint3"));
-		hints.add(WebGoatI18N.get("SqlStringInjectionHint4"));
+    /**
+     * Gets the hints attribute of the DatabaseFieldScreen object
+     * 
+     * @return The hints value
+     */
+    protected List<String> getHints(WebSession s)
+    {
+        List<String> hints = new ArrayList<String>();
+        
+        hints.add(WebGoatI18N.get("SqlStringInjectionHint1"));
+        hints.add(WebGoatI18N.get("SqlStringInjectionHint2"));
+        hints.add(WebGoatI18N.get("SqlStringInjectionHint3"));
+        hints.add(WebGoatI18N.get("SqlStringInjectionHint4"));
 
-		return hints;
-	}
+        return hints;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(75);
+    private final static Integer DEFAULT_RANKING = new Integer(75);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
+    protected Integer getDefaultRanking()
+    {
+        return DEFAULT_RANKING;
+    }
 
-	/**
-	 * Gets the title attribute of the DatabaseFieldScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("String SQL Injection");
-	}
+    /**
+     * Gets the title attribute of the DatabaseFieldScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("String SQL Injection");
+    }
 
-	/**
-	 * Constructor for the DatabaseFieldScreen object
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 */
-	public void handleRequest(WebSession s)
-	{
-		try
-		{
-			super.handleRequest(s);
-		} catch (Exception e)
-		{
-			// System.out.println("Exception caught: " + e);
-			e.printStackTrace(System.out);
-		}
-	}
+    /**
+     * Constructor for the DatabaseFieldScreen object
+     * 
+     * @param s
+     *            Description of the Parameter
+     */
+    public void handleRequest(WebSession s)
+    {
+        try
+        {
+            super.handleRequest(s);
+        } catch (Exception e)
+        {
+            // System.out.println("Exception caught: " + e);
+            e.printStackTrace(System.out);
+        }
+    }
 
 }

@@ -42,48 +42,48 @@ import org.owasp.webgoat.session.WebSession;
 public class WelcomeAdminScreen extends WelcomeScreen
 {
 
-	/**
-	 * Constructor for the WelcomeAdminScreen object
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 */
-	public WelcomeAdminScreen(WebSession s)
-	{
-		super(s);
-	}
+    /**
+     * Constructor for the WelcomeAdminScreen object
+     * 
+     * @param s
+     *            Description of the Parameter
+     */
+    public WelcomeAdminScreen(WebSession s)
+    {
+        super(s);
+    }
 
-	/**
-	 * Constructor for the WelcomeAdminScreen object
-	 */
-	public WelcomeAdminScreen()
-	{
-	}
+    /**
+     * Constructor for the WelcomeAdminScreen object
+     */
+    public WelcomeAdminScreen()
+    {
+    }
 
-	/**
-	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 */
-	protected Element createContent(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
+    /**
+     * Description of the Method
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
 
-		ec.addElement(new Center(new H1("You are logged on as an administrator")));
-		ec.addElement(super.createContent(s));
+        ec.addElement(new Center(new H1("You are logged on as an administrator")));
+        ec.addElement(super.createContent(s));
 
-		return (ec);
-	}
+        return (ec);
+    }
 
-	/**
-	 * Gets the title attribute of the WelcomeAdminScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("Admin Welcome");
-	}
+    /**
+     * Gets the title attribute of the WelcomeAdminScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("Admin Welcome");
+    }
 }

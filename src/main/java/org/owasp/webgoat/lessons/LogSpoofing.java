@@ -55,106 +55,106 @@ import org.owasp.webgoat.util.WebGoatI18N;
 public class LogSpoofing extends LessonAdapter
 {
 
-	private static final String USERNAME = "username";
+    private static final String USERNAME = "username";
 
-	private static final String PASSWORD = "password";
-	
+    private static final String PASSWORD = "password";
+    
 
-	public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
-	
-	protected Element createContent(WebSession s)
-	{
+    public final static A MAC_LOGO = new A().setHref("http://www.softwaresecured.com").addElement(new IMG("images/logos/softwaresecured.gif").setAlt("Software Secured").setBorder(0).setHspace(0).setVspace(0));
+    
+    protected Element createContent(WebSession s)
+    {
 
-		ElementContainer ec = null;
-		String inputUsername = null;
-		try
-		{
+        ElementContainer ec = null;
+        String inputUsername = null;
+        try
+        {
 
-			Table t = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
-			TR row1 = new TR();
-			TR row2 = new TR();
-			TR row3 = new TR();
+            Table t = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
+            TR row1 = new TR();
+            TR row2 = new TR();
+            TR row3 = new TR();
 
-			row1.addElement(new TD(new StringElement(WebGoatI18N.get("UserName")+":")));
-			Input username = new Input(Input.TEXT, USERNAME, "");
-			row1.addElement(new TD(username));
+            row1.addElement(new TD(new StringElement(WebGoatI18N.get("UserName")+":")));
+            Input username = new Input(Input.TEXT, USERNAME, "");
+            row1.addElement(new TD(username));
 
-			row2.addElement(new TD(new StringElement(WebGoatI18N.get("Password")+": ")));
-			Input password = new Input(Input.PASSWORD, PASSWORD, "");
-			row2.addElement(new TD(password));
+            row2.addElement(new TD(new StringElement(WebGoatI18N.get("Password")+": ")));
+            Input password = new Input(Input.PASSWORD, PASSWORD, "");
+            row2.addElement(new TD(password));
 
-			Element b = ECSFactory.makeButton(WebGoatI18N.get("Login"));
-			row3.addElement(new TD(new StringElement("&nbsp; ")));
-			row3.addElement(new TD(b)).setAlign("right");
+            Element b = ECSFactory.makeButton(WebGoatI18N.get("Login"));
+            row3.addElement(new TD(new StringElement("&nbsp; ")));
+            row3.addElement(new TD(b)).setAlign("right");
 
-			t.addElement(row1);
-			t.addElement(row2);
-			t.addElement(row3);
+            t.addElement(row1);
+            t.addElement(row2);
+            t.addElement(row3);
 
-			ec = new ElementContainer();
-			ec.addElement(t);
+            ec = new ElementContainer();
+            ec.addElement(t);
 
-			inputUsername = new String(s.getParser().getRawParameter(USERNAME, ""));
-			
-			if (inputUsername.length() != 0)
-			{
-				inputUsername = URLDecoder.decode(inputUsername, "UTF-8");
-			}
+            inputUsername = new String(s.getParser().getRawParameter(USERNAME, ""));
+            
+            if (inputUsername.length() != 0)
+            {
+                inputUsername = URLDecoder.decode(inputUsername, "UTF-8");
+            }
 
-			ec.addElement(new PRE(" "));
+            ec.addElement(new PRE(" "));
 
-			Table t2 = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
-			TR row4 = new TR();
-			row4.addElement(new TD(new PRE(WebGoatI18N.get("LoginFailedForUserName")+": " + inputUsername))).setBgColor(HtmlColor.GRAY);
+            Table t2 = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
+            TR row4 = new TR();
+            row4.addElement(new TD(new PRE(WebGoatI18N.get("LoginFailedForUserName")+": " + inputUsername))).setBgColor(HtmlColor.GRAY);
 
-			t2.addElement(row4);
+            t2.addElement(row4);
 
-			ec.addElement(t2);			
-					
-			if (inputUsername.length() > 0 && inputUsername.indexOf('\n') >= 0 && inputUsername.indexOf('\n') >= 0)
-			{				
-				makeSuccess(s);
-			}
-		} catch (UnsupportedEncodingException e)
-		{
-			s.setMessage("Error generating " + this.getClass().getName());
-			e.printStackTrace();
-		}
-		return ec;
-	}
+            ec.addElement(t2);          
+                    
+            if (inputUsername.length() > 0 && inputUsername.indexOf('\n') >= 0 && inputUsername.indexOf('\n') >= 0)
+            {               
+                makeSuccess(s);
+            }
+        } catch (UnsupportedEncodingException e)
+        {
+            s.setMessage("Error generating " + this.getClass().getName());
+            e.printStackTrace();
+        }
+        return ec;
+    }
 
-	private final static Integer DEFAULT_RANKING = new Integer(72);
+    private final static Integer DEFAULT_RANKING = new Integer(72);
 
-	protected Integer getDefaultRanking()
-	{
-		return DEFAULT_RANKING;
-	}
+    protected Integer getDefaultRanking()
+    {
+        return DEFAULT_RANKING;
+    }
 
-	@Override
-	protected List<String> getHints(WebSession s)
-	{
-		List<String> hints = new ArrayList<String>();
-		hints.add(WebGoatI18N.get("LogSpoofingHint1"));
-		hints.add(WebGoatI18N.get("LogSpoofingHint2"));
-		hints.add(WebGoatI18N.get("LogSpoofingHint3"));
-		hints.add(WebGoatI18N.get("LogSpoofingHint4"));
-		return hints;
-	}
+    @Override
+    protected List<String> getHints(WebSession s)
+    {
+        List<String> hints = new ArrayList<String>();
+        hints.add(WebGoatI18N.get("LogSpoofingHint1"));
+        hints.add(WebGoatI18N.get("LogSpoofingHint2"));
+        hints.add(WebGoatI18N.get("LogSpoofingHint3"));
+        hints.add(WebGoatI18N.get("LogSpoofingHint4"));
+        return hints;
+    }
 
-	@Override
-	public String getTitle()
-	{
-		return "Log Spoofing";
-	}
+    @Override
+    public String getTitle()
+    {
+        return "Log Spoofing";
+    }
 
-	@Override
-	protected Category getDefaultCategory()
-	{
-		return Category.INJECTION;
-	}
+    @Override
+    protected Category getDefaultCategory()
+    {
+        return Category.INJECTION;
+    }
 
-	public Element getCredits()
-	{
-		return super.getCustomCredits("Created by Sherif Koussa&nbsp;", MAC_LOGO);
-	}
+    public Element getCredits()
+    {
+        return super.getCustomCredits("Created by Sherif Koussa&nbsp;", MAC_LOGO);
+    }
 }

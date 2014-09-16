@@ -41,71 +41,71 @@ import org.owasp.webgoat.session.WebSession;
 public class DeleteProfile extends DefaultLessonAction
 {
 
-	private LessonAction chainedAction;
+    private LessonAction chainedAction;
 
-	public DeleteProfile(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
-	{
-		super(lesson, lessonName, actionName);
-		this.chainedAction = chainedAction;
-	}
+    public DeleteProfile(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
+    {
+        super(lesson, lessonName, actionName);
+        this.chainedAction = chainedAction;
+    }
 
-	public void handleRequest(WebSession s) throws ParameterNotFoundException, UnauthenticatedException,
-			UnauthorizedException, ValidationException
-	{
-		getLesson().setCurrentAction(s, getActionName());
+    public void handleRequest(WebSession s) throws ParameterNotFoundException, UnauthenticatedException,
+            UnauthorizedException, ValidationException
+    {
+        getLesson().setCurrentAction(s, getActionName());
 
-		int userId = getIntSessionAttribute(s, getLessonName() + "." + GoatHillsFinancial.USER_ID);
-		int employeeId = s.getParser().getIntParameter(GoatHillsFinancial.EMPLOYEE_ID);
+        int userId = getIntSessionAttribute(s, getLessonName() + "." + GoatHillsFinancial.USER_ID);
+        int employeeId = s.getParser().getIntParameter(GoatHillsFinancial.EMPLOYEE_ID);
 
-		if (isAuthenticated(s))
-		{
-			deleteEmployeeProfile(s, userId, employeeId);
+        if (isAuthenticated(s))
+        {
+            deleteEmployeeProfile(s, userId, employeeId);
 
-			try
-			{
-				chainedAction.handleRequest(s);
-			} catch (UnauthenticatedException ue1)
-			{
-				// System.out.println("Internal server error");
-				ue1.printStackTrace();
-			} catch (UnauthorizedException ue2)
-			{
-				// System.out.println("Internal server error");
-				ue2.printStackTrace();
-			}
-		}
-		else
-			throw new UnauthenticatedException();
+            try
+            {
+                chainedAction.handleRequest(s);
+            } catch (UnauthenticatedException ue1)
+            {
+                // System.out.println("Internal server error");
+                ue1.printStackTrace();
+            } catch (UnauthorizedException ue2)
+            {
+                // System.out.println("Internal server error");
+                ue2.printStackTrace();
+            }
+        }
+        else
+            throw new UnauthenticatedException();
 
-	}
+    }
 
-	public String getNextPage(WebSession s)
-	{
-		return GoatHillsFinancial.LISTSTAFF_ACTION;
-	}
+    public String getNextPage(WebSession s)
+    {
+        return GoatHillsFinancial.LISTSTAFF_ACTION;
+    }
 
-	public void deleteEmployeeProfile(WebSession s, int userId, int employeeId) throws UnauthorizedException
-	{
-		try
-		{
-			// Note: The password field is ONLY set by ChangePassword
-			String query = "DELETE FROM employee WHERE userid = " + employeeId;
-			// System.out.println("Query: " + query);
-			try
-			{
-				Statement statement = WebSession.getConnection(s).createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-																					ResultSet.CONCUR_READ_ONLY);
-				statement.executeUpdate(query);
-			} catch (SQLException sqle)
-			{
-				s.setMessage("Error deleting employee profile");
-				sqle.printStackTrace();
-			}
-		} catch (Exception e)
-		{
-			s.setMessage("Error deleting employee profile");
-			e.printStackTrace();
-		}
-	}
+    public void deleteEmployeeProfile(WebSession s, int userId, int employeeId) throws UnauthorizedException
+    {
+        try
+        {
+            // Note: The password field is ONLY set by ChangePassword
+            String query = "DELETE FROM employee WHERE userid = " + employeeId;
+            // System.out.println("Query: " + query);
+            try
+            {
+                Statement statement = WebSession.getConnection(s).createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                                    ResultSet.CONCUR_READ_ONLY);
+                statement.executeUpdate(query);
+            } catch (SQLException sqle)
+            {
+                s.setMessage("Error deleting employee profile");
+                sqle.printStackTrace();
+            }
+        } catch (Exception e)
+        {
+            s.setMessage("Error deleting employee profile");
+            e.printStackTrace();
+        }
+    }
 
 }

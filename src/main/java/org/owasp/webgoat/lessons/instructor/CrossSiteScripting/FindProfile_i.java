@@ -31,27 +31,27 @@ import org.owasp.webgoat.session.WebSession;
 
 public class FindProfile_i extends FindProfile
 {
-	public FindProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
-	{
-		super(lesson, lessonName, actionName, chainedAction);
-	}
+    public FindProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
+    {
+        super(lesson, lessonName, actionName, chainedAction);
+    }
 
-	protected String getRequestParameter(WebSession s, String name) throws ParameterNotFoundException,
-			ValidationException
-	{
-		// NOTE:
-		//
-		// In order for this to work generically, the name of the parameter and the name
-		// of the regular expression validation patter must be the same.
-		// 
-		// Another way this could be done is to use the reguler expression method in the
-		// ParameterParser class
+    protected String getRequestParameter(WebSession s, String name) throws ParameterNotFoundException,
+            ValidationException
+    {
+        // NOTE:
+        //
+        // In order for this to work generically, the name of the parameter and the name
+        // of the regular expression validation patter must be the same.
+        // 
+        // Another way this could be done is to use the reguler expression method in the
+        // ParameterParser class
 
-		// STAGE 5 - FIX
-		return validate(s.getParser().getRawParameter(name), (Pattern) patterns.get(name));
+        // STAGE 5 - FIX
+        return validate(s.getParser().getRawParameter(name), (Pattern) patterns.get(name));
 
-		// Note the design goal here...
-		// return s.getParser().getStringParameter(name), (Pattern) patterns.get(name));
-	}
+        // Note the design goal here...
+        // return s.getParser().getStringParameter(name), (Pattern) patterns.get(name));
+    }
 
 }

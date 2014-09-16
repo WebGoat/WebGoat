@@ -46,105 +46,105 @@ import org.owasp.webgoat.session.*;
 public class WelcomeScreen extends Screen
 {
 
-	/**
-	 * Constructor for the WelcomeScreen object
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 */
-	public WelcomeScreen(WebSession s)
-	{
-		setup(s);
-	}
+    /**
+     * Constructor for the WelcomeScreen object
+     * 
+     * @param s
+     *            Description of the Parameter
+     */
+    public WelcomeScreen(WebSession s)
+    {
+        setup(s);
+    }
 
-	/**
-	 * Constructor for the WelcomeScreen object
-	 */
-	public WelcomeScreen()
-	{
-	}
+    /**
+     * Constructor for the WelcomeScreen object
+     */
+    public WelcomeScreen()
+    {
+    }
 
-	public void setup(WebSession s)
-	{
-		// call createContent first so messages will go somewhere
+    public void setup(WebSession s)
+    {
+        // call createContent first so messages will go somewhere
 
-		Form form = new Form("attack", Form.POST).setName("form").setEncType("");
+        Form form = new Form("attack", Form.POST).setName("form").setEncType("");
 
-		form.addElement(wrapForm(s));
+        form.addElement(wrapForm(s));
 
-		TD lowerright = new TD().setHeight("100%").setVAlign("top").setAlign("left").addElement(form);
-		TR row = new TR().addElement(lowerright);
-		Table layout = new Table().setBgColor(HtmlColor.WHITE).setCellSpacing(0).setCellPadding(0).setBorder(0);
+        TD lowerright = new TD().setHeight("100%").setVAlign("top").setAlign("left").addElement(form);
+        TR row = new TR().addElement(lowerright);
+        Table layout = new Table().setBgColor(HtmlColor.WHITE).setCellSpacing(0).setCellPadding(0).setBorder(0);
 
-		layout.addElement(row);
+        layout.addElement(row);
 
-		setContent(layout);
-	}
+        setContent(layout);
+    }
 
-	protected Element wrapForm(WebSession s)
-	{
-		if (s == null) { return new StringElement("Invalid Session"); }
+    protected Element wrapForm(WebSession s)
+    {
+        if (s == null) { return new StringElement("Invalid Session"); }
 
-		Table container = new Table().setWidth("100%").setCellSpacing(10).setCellPadding(0).setBorder(0);
+        Table container = new Table().setWidth("100%").setCellSpacing(10).setCellPadding(0).setBorder(0);
 
-		// CreateContent can generate error messages so you MUST call it before makeMessages()
-		Element content = createContent(s);
-		container.addElement(new TR().addElement(new TD().setColSpan(2).setVAlign("TOP").addElement(makeMessages(s))));
-		container.addElement(new TR().addElement(new TD().setColSpan(2).addElement(content)));
-		container.addElement(new TR());
+        // CreateContent can generate error messages so you MUST call it before makeMessages()
+        Element content = createContent(s);
+        container.addElement(new TR().addElement(new TD().setColSpan(2).setVAlign("TOP").addElement(makeMessages(s))));
+        container.addElement(new TR().addElement(new TD().setColSpan(2).addElement(content)));
+        container.addElement(new TR());
 
-		return (container);
-	}
+        return (container);
+    }
 
-	/**
-	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 */
-	protected Element createContent(WebSession s)
-	{
-		ElementContainer ec = new ElementContainer();
-		Element b = ECSFactory.makeButton("Start the Course!");
-		ec.addElement(new Center(b));
+    /**
+     * Description of the Method
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @return Description of the Return Value
+     */
+    protected Element createContent(WebSession s)
+    {
+        ElementContainer ec = new ElementContainer();
+        Element b = ECSFactory.makeButton("Start the Course!");
+        ec.addElement(new Center(b));
 
-		return (ec);
-	}
+        return (ec);
+    }
 
-	public Element getCredits()
-	{
-		return new ElementContainer();
-	}
+    public Element getCredits()
+    {
+        return new ElementContainer();
+    }
 
-	/**
-	 * Gets the instructions attribute of the WelcomeScreen object
-	 * 
-	 * @return The instructions value
-	 */
-	protected String getInstructions()
-	{
-		String instructions = "Enter your name and learn how HTTP really works!";
+    /**
+     * Gets the instructions attribute of the WelcomeScreen object
+     * 
+     * @return The instructions value
+     */
+    protected String getInstructions()
+    {
+        String instructions = "Enter your name and learn how HTTP really works!";
 
-		return (instructions);
-	}
+        return (instructions);
+    }
 
-	/**
-	 * Gets the title attribute of the WelcomeScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("Welcome to the Penetration Testing Course");
-	}
+    /**
+     * Gets the title attribute of the WelcomeScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("Welcome to the Penetration Testing Course");
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see session.Screen#getRole()
-	 */
-	public String getRole()
-	{
-		return AbstractLesson.USER_ROLE;
-	}
+    /*
+     * (non-Javadoc)
+     * @see session.Screen#getRole()
+     */
+    public String getRole()
+    {
+        return AbstractLesson.USER_ROLE;
+    }
 }

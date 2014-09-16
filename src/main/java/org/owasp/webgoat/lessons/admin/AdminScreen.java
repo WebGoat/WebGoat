@@ -39,66 +39,66 @@ import org.owasp.webgoat.session.WebSession;
 public abstract class AdminScreen extends Screen
 {
 
-	/**
-	 * Description of the Field
-	 */
-	protected String query = null;
+    /**
+     * Description of the Field
+     */
+    protected String query = null;
 
-	/**
-	 * Constructor for the AdminScreen object
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @param q
-	 *            Description of the Parameter
-	 */
-	public AdminScreen(WebSession s, String q)
-	{
-		setQuery(q);
+    /**
+     * Constructor for the AdminScreen object
+     * 
+     * @param s
+     *            Description of the Parameter
+     * @param q
+     *            Description of the Parameter
+     */
+    public AdminScreen(WebSession s, String q)
+    {
+        setQuery(q);
 
-		// setupAdmin(s); FIXME: what was this supposed to do?
-	}
+        // setupAdmin(s); FIXME: what was this supposed to do?
+    }
 
-	/**
-	 * Constructor for the AdminScreen object
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 */
-	public AdminScreen(WebSession s)
-	{
-	}
+    /**
+     * Constructor for the AdminScreen object
+     * 
+     * @param s
+     *            Description of the Parameter
+     */
+    public AdminScreen(WebSession s)
+    {
+    }
 
-	/**
-	 * Constructor for the AdminScreen object
-	 */
-	public AdminScreen()
-	{
-	}
+    /**
+     * Constructor for the AdminScreen object
+     */
+    public AdminScreen()
+    {
+    }
 
-	/**
-	 * Gets the title attribute of the AdminScreen object
-	 * 
-	 * @return The title value
-	 */
-	public String getTitle()
-	{
-		return ("Admin Information");
-	}
+    /**
+     * Gets the title attribute of the AdminScreen object
+     * 
+     * @return The title value
+     */
+    public String getTitle()
+    {
+        return ("Admin Information");
+    }
 
-	public String getRole()
-	{
-		return AbstractLesson.ADMIN_ROLE;
-	}
+    public String getRole()
+    {
+        return AbstractLesson.ADMIN_ROLE;
+    }
 
-	/**
-	 * Sets the query attribute of the AdminScreen object
-	 * 
-	 * @param q
-	 *            The new query value
-	 */
-	public void setQuery(String q)
-	{
-		query = q;
-	}
+    /**
+     * Sets the query attribute of the AdminScreen object
+     * 
+     * @param q
+     *            The new query value
+     */
+    public void setQuery(String q)
+    {
+        query = q;
+    }
 }
