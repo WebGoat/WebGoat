@@ -91,7 +91,7 @@ var goatLesson = function($scope,$http,$log) {
 	//cookies
 	
 	$scope.$on('lessonUpdate',function(params){
-	    $scope.parameters = arguments[1];
+	    $scope.parameters = arguments[1].params;
 	    curScope = $scope; //TODO .. update below, this curScope is probably not needed
 	    goat.data.loadCookies($http).then(
 		function(resp) {
