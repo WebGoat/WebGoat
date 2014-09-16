@@ -23,113 +23,113 @@ import org.owasp.webgoat.session.WebSession;
  */
 
 /*************************************************/
-/*												 */
+/*                                               */
 /* This file is not currently used in the course */
-/*												 */
+/*                                               */
 /*************************************************/
 
 public class UpdateProfile_i extends UpdateProfile
 {
-	public UpdateProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
-	{
-		super(lesson, lessonName, actionName, chainedAction);
-	}
+    public UpdateProfile_i(GoatHillsFinancial lesson, String lessonName, String actionName, LessonAction chainedAction)
+    {
+        super(lesson, lessonName, actionName, chainedAction);
+    }
 
-	public void changeEmployeeProfile(WebSession s, int userId, int subjectId, Employee employee)
-			throws UnauthorizedException
-	{
-		if (s.isAuthorizedInLesson(userId, RoleBasedAccessControl.UPDATEPROFILE_ACTION)) // FIX
-		{
-			try
-			{
-				// Note: The password field is ONLY set by ChangePassword
-				String query = "UPDATE employee SET first_name = ?, last_name = ?, ssn = ?, title = ?, phone = ?, address1 = ?, address2 = ?,"
-						+ " manager = ?, start_date = ?, ccn = ?, ccn_limit = ?,"
-						+ " personal_description = ? WHERE userid = ?;";
-				try
-				{
-					PreparedStatement ps = WebSession.getConnection(s)
-							.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+    public void changeEmployeeProfile(WebSession s, int userId, int subjectId, Employee employee)
+            throws UnauthorizedException
+    {
+        if (s.isAuthorizedInLesson(userId, RoleBasedAccessControl.UPDATEPROFILE_ACTION)) // FIX
+        {
+            try
+            {
+                // Note: The password field is ONLY set by ChangePassword
+                String query = "UPDATE employee SET first_name = ?, last_name = ?, ssn = ?, title = ?, phone = ?, address1 = ?, address2 = ?,"
+                        + " manager = ?, start_date = ?, ccn = ?, ccn_limit = ?,"
+                        + " personal_description = ? WHERE userid = ?;";
+                try
+                {
+                    PreparedStatement ps = WebSession.getConnection(s)
+                            .prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-					ps.setString(1, employee.getFirstName());
-					ps.setString(2, employee.getLastName());
-					ps.setString(3, employee.getSsn());
-					ps.setString(4, employee.getTitle());
-					ps.setString(5, employee.getPhoneNumber());
-					ps.setString(6, employee.getAddress1());
-					ps.setString(7, employee.getAddress2());
-					ps.setInt(8, employee.getManager());
-					ps.setString(9, employee.getStartDate());
-					ps.setString(10, employee.getCcn());
-					ps.setInt(11, employee.getCcnLimit());
-					ps.setString(12, employee.getPersonalDescription());
-					ps.setInt(13, subjectId);
-					ps.execute();
-				} catch (SQLException sqle)
-				{
-					s.setMessage("Error updating employee profile");
-					sqle.printStackTrace();
-				}
+                    ps.setString(1, employee.getFirstName());
+                    ps.setString(2, employee.getLastName());
+                    ps.setString(3, employee.getSsn());
+                    ps.setString(4, employee.getTitle());
+                    ps.setString(5, employee.getPhoneNumber());
+                    ps.setString(6, employee.getAddress1());
+                    ps.setString(7, employee.getAddress2());
+                    ps.setInt(8, employee.getManager());
+                    ps.setString(9, employee.getStartDate());
+                    ps.setString(10, employee.getCcn());
+                    ps.setInt(11, employee.getCcnLimit());
+                    ps.setString(12, employee.getPersonalDescription());
+                    ps.setInt(13, subjectId);
+                    ps.execute();
+                } catch (SQLException sqle)
+                {
+                    s.setMessage("Error updating employee profile");
+                    sqle.printStackTrace();
+                }
 
-			} catch (Exception e)
-			{
-				s.setMessage("Error updating employee profile");
-				e.printStackTrace();
-			}
-		}
-		else
-		{
-			throw new UnauthorizedException(); // FIX
-		}
-	}
+            } catch (Exception e)
+            {
+                s.setMessage("Error updating employee profile");
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            throw new UnauthorizedException(); // FIX
+        }
+    }
 
-	public void createEmployeeProfile(WebSession s, int userId, Employee employee) throws UnauthorizedException
-	{
-		if (s.isAuthorizedInLesson(userId, RoleBasedAccessControl.UPDATEPROFILE_ACTION)) // FIX
-		{
-			try
-			{
-				// FIXME: Cannot choose the id because we cannot guarantee uniqueness
-				int nextId = getNextUID(s);
-				String query = "INSERT INTO employee VALUES ( " + nextId + ", ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public void createEmployeeProfile(WebSession s, int userId, Employee employee) throws UnauthorizedException
+    {
+        if (s.isAuthorizedInLesson(userId, RoleBasedAccessControl.UPDATEPROFILE_ACTION)) // FIX
+        {
+            try
+            {
+                // FIXME: Cannot choose the id because we cannot guarantee uniqueness
+                int nextId = getNextUID(s);
+                String query = "INSERT INTO employee VALUES ( " + nextId + ", ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-				// System.out.println("Query:  " + query);
+                // System.out.println("Query:  " + query);
 
-				try
-				{
-					PreparedStatement ps = WebSession.getConnection(s).prepareStatement(query);
+                try
+                {
+                    PreparedStatement ps = WebSession.getConnection(s).prepareStatement(query);
 
-					ps.setString(1, employee.getFirstName().toLowerCase());
-					ps.setString(2, employee.getLastName());
-					ps.setString(3, employee.getSsn());
-					ps.setString(4, employee.getTitle());
-					ps.setString(5, employee.getPhoneNumber());
-					ps.setString(6, employee.getAddress1());
-					ps.setString(7, employee.getAddress2());
-					ps.setInt(8, employee.getManager());
-					ps.setString(9, employee.getStartDate());
-					ps.setString(10, employee.getCcn());
-					ps.setInt(11, employee.getCcnLimit());
-					ps.setString(12, employee.getDisciplinaryActionDate());
-					ps.setString(13, employee.getDisciplinaryActionNotes());
-					ps.setString(14, employee.getPersonalDescription());
+                    ps.setString(1, employee.getFirstName().toLowerCase());
+                    ps.setString(2, employee.getLastName());
+                    ps.setString(3, employee.getSsn());
+                    ps.setString(4, employee.getTitle());
+                    ps.setString(5, employee.getPhoneNumber());
+                    ps.setString(6, employee.getAddress1());
+                    ps.setString(7, employee.getAddress2());
+                    ps.setInt(8, employee.getManager());
+                    ps.setString(9, employee.getStartDate());
+                    ps.setString(10, employee.getCcn());
+                    ps.setInt(11, employee.getCcnLimit());
+                    ps.setString(12, employee.getDisciplinaryActionDate());
+                    ps.setString(13, employee.getDisciplinaryActionNotes());
+                    ps.setString(14, employee.getPersonalDescription());
 
-					ps.execute();
-				} catch (SQLException sqle)
-				{
-					s.setMessage("Error updating employee profile");
-					sqle.printStackTrace();
-				}
-			} catch (Exception e)
-			{
-				s.setMessage("Error updating employee profile");
-				e.printStackTrace();
-			}
-		}
-		else
-		{
-			throw new UnauthorizedException(); // FIX
-		}
-	}
+                    ps.execute();
+                } catch (SQLException sqle)
+                {
+                    s.setMessage("Error updating employee profile");
+                    sqle.printStackTrace();
+                }
+            } catch (Exception e)
+            {
+                s.setMessage("Error updating employee profile");
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            throw new UnauthorizedException(); // FIX
+        }
+    }
 
 }

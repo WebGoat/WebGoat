@@ -2,36 +2,39 @@
 
 goat.data = {
     /**** jQuery loads ... ****/
-    loadLessonContent: function (_url) {
+    loadLessonContent: function ($http,_url) {
     //TODO: switch to $http (angular) later
-    //return $http({method:'GET', url: _url});
-    
-    return $.get(_url, {}, null, "html");
+        return $http({method:'GET', url: _url});
+    //return $.get(_url, {}, null, "html");
     },
-    loadCookies: function() {
-        return $.get(goatConstants.cookieService, {});
+    loadCookies: function($http) {
+        return $http({method: 'GET', url: goatConstants.cookieService});
+        //return $.get(goatConstants.cookieService, {});
     },
-    loadHints: function () {
-        return $.get(goatConstants.hintService, {});
+    loadHints: function ($http) {
+        return $http({method: 'GET', url: goatConstants.hintService});
+        //return $.get(goatConstants.hintService, {});
     },
-    loadSource: function() {
-        return $.get(goatConstants.sourceService, {});
+    loadSource: function($http) {
+        return $http({method: 'GET', url: goatConstants.sourceService});
+        //return $.get(goatConstants.sourceService, {});
     },
-    loadSolution: function () {
-        return $.get(goatConstants.solutionService, {});
+    loadSolution: function ($http) {
+        return $http({method: 'GET', url: goatConstants.solutionService});
+        //return $.get(goatConstants.solutionService, {});
     },
-    loadPlan: function () {
-        return $.get(goatConstants.lessonPlanService, {});
+    loadPlan: function ($http) {
+        return $http({method: 'GET', url: goatConstants.lessonPlanService});
+        //return $.get(goatConstants.lessonPlanService, {});
     },
-    loadParams: function() {
-        return $.get(goatConstants.paramsService,{});
+    loadParams: function($http) {
+        return $http({method: 'GET', url: goatConstants.paramsService});
+        //return $.get(goatConstants.paramsService,{});
     },
-    /*** angular data grabs ***/
-    loadMenuData: function() {
-        //TODO use goatConstants var for url
-        return $http({method: 'GET', url: goatConstants.menuService});
+    loadMenu: function($http) {
+        return $http({method: 'GET', url: goatConstants.lessonService});
     },
-    loadLessonTitle: function () {
-        return $.get(goatConstants.lessonTitleService, {});
+    loadLessonTitle: function ($http) {
+        return $http({method: 'GET', url: goatConstants.lessonTitleService});
     }
 };

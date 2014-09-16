@@ -36,13 +36,13 @@ package org.owasp.webgoat.lessons.model;
  */
 public class HttpBasicsModel {
 
-	private String personName;
+    private String personName;
 
-	public String getPersonName() {
-		return personName;
-	}
+    public String getPersonName() {
+        return personName;
+    }
 
-	public void setPersonName(String personName) {
-		this.personName = personName;
-	}
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
 }

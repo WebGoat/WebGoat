@@ -60,7 +60,7 @@ public class HttpBasics extends LessonAdapter {
 
         StringBuffer person = null;
         try {
-        	ec.addElement(new BR());
+            ec.addElement(new BR());
             ec.addElement(new StringElement(WebGoatI18N.get("EnterYourName") + ": "));
 
             person = new StringBuffer(s.getParser().getStringParameter(PERSON, ""));
@@ -92,7 +92,7 @@ public class HttpBasics extends LessonAdapter {
         List<String> hints = new ArrayList<String>();
         hints.add("Type in your name and press 'go'");
         hints.add("Turn on Show Parameters or other features");
-        hints.add("Try to intercept the request with WebScarab");
+        hints.add("Try to intercept the request with OWASP ZAP");
         hints.add("Press the Show Lesson Plan button to view a lesson summary");
         hints.add("Press the Show Solution button to view a lesson solution");
 
