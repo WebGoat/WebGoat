@@ -105,7 +105,7 @@ public class DBSQLInjection extends GoatHillsFinancial
 						+ "Remember: You need to end up with a SQL statement that only returns one row, since we are using an INTO clause");
 
 		// Stage 1
-		hints.add("You may need to use WebScarab to remove a field length limit to fit your attack.");
+		hints.add("You may need to use OWASP ZAP to remove a field length limit to fit your attack.");
 		hints.add("Try entering a password of [ ' OR userid=112 OR password=' ].");
 
 		// Stage 2

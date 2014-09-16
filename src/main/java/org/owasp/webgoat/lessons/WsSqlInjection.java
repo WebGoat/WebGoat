@@ -124,7 +124,7 @@ public class WsSqlInjection extends LessonAdapter
 						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ns1:getCreditCard&gt; <br>"
 						+ "&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SOAP-ENV:Body&gt; <br>"
 						+ "&nbsp;&nbsp;&lt;/SOAP-ENV:Envelope&gt; <br>" + "");
-		hints.add("Use the \"Webservices\" Functions in WebScarab.");
+		hints.add("Use the \"Webservices\" Functions in OWASP ZAP.");
 		/*
 		 * "&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt; <br>" + " &lt;SOAP-ENV:Envelope
 		 * xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" <br>" + "

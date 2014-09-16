@@ -107,7 +107,7 @@ public class SQLInjection extends GoatHillsFinancial
 				+ "Try appending a SQL statement that always resolves to true");
 
 		// Stage 1
-		hints.add("You may need to use WebScarab to remove a field length limit to fit your attack.");
+		hints.add("You may need to use OWASP ZAP to remove a field length limit to fit your attack.");
 		hints.add("Try entering a password of [ smith' OR '1' = '1 ].");
 
 		// Stage 2
