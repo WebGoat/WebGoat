@@ -80,7 +80,7 @@
                 </div><!--lesson title end-->
                 <div class="user-nav pull-right" style="margin-right: 75px;">
                     <div class="dropdown" style="display:inline">
-                        <button type="button" class="btn btn-default  dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                        <button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu1" ng-disabled="disabled">
                             <i class="fa fa-user"></i> <span class="caret"></span>
                         </button>                   
                         <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenu1">
