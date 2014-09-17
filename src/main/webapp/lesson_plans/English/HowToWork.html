@@ -6,33 +6,28 @@ Welcome to a brief overview of WebGoat.<br>
 <h2>Environment Information</h2>
 <p>
 WebGoat uses the Apache Tomcat server but can run in any application server. It is configured to run on 
-localhost although this can be easily changed. </p>
+localhost although this can be easily changed, see the ""Tomcat Configuration"" section in the Introduction. </p>
 
 <h2>The WebGoat Interface</h2>
 <p>
 <img src="images/introduction/interface.png"><br><br>
-1. These are Lesson Categories in WebGoat. Click on a Category to see all Lessons in it.<br>
+1. Lesson Categories in WebGoat. Click on a Category to see specific Lessons.<br>
 2. This will show the underlying Java source code.<br>
 3. This will show the complete solution of the selected lesson.<br>
 4. This will show goals and objectives of the lesson.<br>
 5. This will show technical hints to solve the lesson.<br>
-6. This will show the HTTP request data<br>
+6. This shows the HTTP request data<br>
 7. If you want to restart a lesson you can use this link.</p>
 <h2>Solve The Lesson</h2>
 <p>
-Always start with the lessons plan. Then try to solve the lesson and if necessary, 
+Always start with the lesson plan. Then try to solve the lesson and if necessary, 
 use the hints. The last hint is the solution text if applicable.  If you cannot solve the lesson using the hints, you may view the 
 solution for complete details.</p>
-<h2>Read And Edit Parameters</h2>
-<p>
-To read and edit Parameters you need a local proxy to intercept the HTTP request. 
-Here we use OWASP ZAP. More information on ZAP can be found in the "Useful Tools" Chapter.
-</p>
-<h2>Read And Edit Cookies</h2>
-<p>
-Often it is not only necessary to change the value of the parameters but to change the value of cookies.
-OWASP ZAP has functionality for this as well.
 
+<h2>Read And Edit Parameters/Cookies</h2>
+<p>
+To read and edit parameters and cookies you need a local proxy like OWASP ZAP to intercept the HTTP request.
+ More information on ZAP can be found in the "Useful Tools" section in the Introduction.
 </p>
 
 <h2>Configuring new WebGoat users</h2>
@@ -54,17 +49,17 @@ WebGoat uses spring-security.xml to configure users.
 </p>
 <h2>Adding Users</h2>
 <p>
-Usually using WebGoat you just use the user guest with the password guest.
-But maybe in laboratory you have made a setup with one server and a lot of
-clients. In this case you might want to have a user for every client
- and you have to alter /WEB-INF/spring-security.xml as the users are stored there. <b>We recommend not to use real passwords 
+Usually WebGoat only requires logging in with the user:guest and password:guest.
+ But maybe in laboratory you have made a setup with one server and a lot of
+clients. In this case you might want to have a user for every client,
+ you will have to alter /WEB-INF/spring-security.xml to add additional users. <b>We recommend not to use real passwords 
 as the passwords are stored in plain text in this file!</b>
 </p>
-<h3>Add User</h3>
+<h3>Adding a new User</h3>
 <p>
 Adding a user is straight forward. You can use the guest entry as an example. The added
 users should have the same role as the guest user. The new user/password will not show on the login page. 
-Add lines like this to the file:
+Add lines like this to the /WEB-INF/spring-security.xml file:
 </p>
 <pre>
 &lt;user name="guest2" password="guest2" authorities="ROLE_WEBGOAT_USER" /&gt;
