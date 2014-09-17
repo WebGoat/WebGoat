@@ -229,8 +229,11 @@ img {
   background-color: #16a086;
 }
 
-.sidebar > div > ul > li > ul > li > span {
-    float:left; margin-left:1.5em;
+.sidebar > div > ul > li > ul > li > span.lessonComplete {
+    float: right;
+    margin-left: 1.5em;
+    margin-right: 5px;
+    margin-top: -25px;
 }
 
 /* ==========================================================================
