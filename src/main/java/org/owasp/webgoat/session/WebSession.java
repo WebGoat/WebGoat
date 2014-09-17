@@ -939,7 +939,7 @@ public class WebSession {
         }
     }
 
-    private void restartLesson(int lessonId) {
+    public void restartLesson(int lessonId) {
         AbstractLesson al = getLesson(lessonId);
         System.out.println("Restarting lesson: " + al);
         al.getLessonTracker(this).setCompleted(false);
