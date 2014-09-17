@@ -11,12 +11,31 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 	goat.data.loadMenu($http).then( //$http({method: 'GET', url: goatConstants.lessonService})
 	    function(menuData) {
 		var menuItems = goat.utils.addMenuClasses(goatConstants.menuPrefix.concat(menuData.data));
+		//top-tier 'categories'
 		for (var i=0;i<menuItems.length;i++) {
-		    if (menuItems[i].name) {
-			menuItems[i].id = menuItems[i].name.replace(/\s|\(|\)/g,'');
+		    menuItems[i].id = menuItems[i].name.replace(/\s|\(|\)/g,'');
+		    if (menuItems[i].children) {
+			for (var j=0;j<menuItems[i].children.length;j++){
+			    menuItems[i].children[j].id = menuItems[i].children[j].name.replace(/\s|\(|\)/g,'');
+			    if (menuItems[i].children[j].complete) {
+				menuItems[i].children[j].completeClass = goatConstants.lessonCompleteClass;
+			    } else {
+				menuItems[i].children[j].completeClass ='';
+			    }
+			    if (menuItems[i].children[j].children) {
+				for (var k=0;k < menuItems[i].children[j].children.length;k++) {
+				    //TODO make utility function for name >> id
+				    menuItems[i].children[j].children[k].id = menuItems[i].children[j].children[k].name.replace(/\s|\(|\)/g,'');
+				    if (menuItems[i].children[j].children[k].complete) {
+					menuItems[i].children[j].children[k].completeClass= goatConstants.lessonCompleteClass;
+				    } else {
+					menuItems[i].children[j].children[k].completeClass= ''
+				    }
+				}
+			    }
+			}		    
 		    }
 		}
-
 		$scope.menuTopics = menuItems;
 	    },
 	    function(error) {
@@ -26,13 +45,20 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 	);
     };
 
-    $scope.renderLesson = function(url) {
+    $scope.renderLesson = function(id,url) {
         //console.log(url + ' was passed in');
         // use jquery to render lesson content to div
         $scope.hintIndex = 0;
         var curScope = $scope;
 	$('.lessonHelp').hide();
+	// clean up menus, mark selected
+	$('ul li.selected').removeClass(goatConstants.selectedMenuClass)
+	$('ul li.selected a.selected').removeClass(goatConstants.selectedMenuClass)
+	$('#'+id).addClass(goatConstants.selectedMenuClass);
+	$('#'+id).parent().addClass(goatConstants.selectedMenuClass);
+	//
         curScope.parameters = goat.utils.scrapeParams(url);
+	// lesson content
         goat.data.loadLessonContent($http,url).then(
 	    function(reply) {
 		goat.data.loadLessonTitle($http).then(
@@ -41,6 +67,8 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		    }
 		);
 		$("#lesson_content").html(reply.data);
+		//hook forms
+		goat.utils.makeFormsAjax();
 		$('#leftside-navigation').height($('#main-content').height()+15)
 		$scope.$emit('lessonUpdate',{params:curScope.parameters});
 	    }
@@ -56,35 +84,16 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 	if ($scope.expandMe) {
 	    $('ul#'+id).slideDown(300).attr('isOpen',1);
 	}
-	console.log('accordion for ' + id);
     }
     $scope.renderMenu();
-    //can be augmented later to 'resume' for a given user ... currently kluged to start at fixed lesson
+    // runs on first loadcan be augmented later to '
+    // resume' for a given user ... currently kluged to start at fixed lesson
     var url = 'attack?Screen=32&menu=5';
-    angular.element($('#leftside-navigation')).scope().renderLesson(url);
+    angular.element($('#leftside-navigation')).scope().renderLesson(null,url);
 }
-
-/*goatMenu.animation('.slideDown', function() {
-    var NgHideClassName = 'ng-hide';
-    return {
-        beforeAddClass: function(element, className, done) {
-            if (className === NgHideClassName) {
-                $(element).slideUp(done);
-            }
-        },
-        removeClass: function(element, className, done) {
-            if (className === NgHideClassName) {
-                $(element).hide().slideDown(done);
-            }
-        }
-    };
-
-
-});*/
 
 /* lesson controller */
 var goatLesson = function($scope,$http,$log) {
-    //hook forms
 
     $('#hintsView').hide();
 	// adjust menu to lessonContent size if necssary

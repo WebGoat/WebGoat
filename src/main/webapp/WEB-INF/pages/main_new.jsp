@@ -27,6 +27,7 @@
         <!--  end of CSS -->
 
         <!-- JS -->
+        <script src="js/jquery/jquery-1.10.2.min.js"></script>
         <script src="js/angular/angular.min.js"></script>
         <!-- angular modules -->
         <script src="js/angular/angular-animate.min.js"></script>
@@ -40,7 +41,7 @@
         <![endif]-->
 
         <!--Global JS-->
-        <script src="js/jquery/jquery-1.10.2.min.js"></script>
+        
         <script src="js/jquery_form/jquery.form.js"></script>  
         <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 
@@ -114,9 +115,9 @@
                             <a ng-click="accordionMenu(item.id)" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a><!-- expanded = !expanded-->
                             <ul class="slideDown lessonsAndStages" id="{{item.id}}" isOpen=0>
                                 <li ng-repeat="lesson in item.children">
-                                    <a ng-click="renderLesson(lesson.link)" title="link to {{lesson.name}}" href="">{{lesson.name}}</a>
+                                    <a ng-click="renderLesson(lesson.id,lesson.link)" id="{{lesson.id}}" title="link to {{lesson.name}}" href="">{{lesson.name}}</a><span class="{{lesson.completeClass}}"></span>
                                     <span ng-repeat="stage in lesson.children" >
-                                        <a ng-click="renderLesson(stage.link)" title="link to {{stage.name}}" href="">{{stage.name}}</a>
+                                        <a ng-click="renderLesson(lesson.id,stage.link)" id="{{stage.id}}"  title="link to {{stage.name}}" href="">{{stage.name}}</a><span class="{{stage.completeClass}}"></span>
                                     </span>
                                 </li>
                             </ul>

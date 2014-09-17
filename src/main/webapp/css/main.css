@@ -801,6 +801,22 @@ fieldset[disabled] .btn-warning.active {
   max-width: 200px;
   font-size: x-small;
 }
+/* MENU */
+.sidebar ul span.lessonComplete {
+    float: right;
+    margin-left: -5px;
+    /*margin-right: 5px;*/
+    padding-top: 15px;
+}
+
+#leftside-navigation ul li.selected {
+    background-color: #555;
+}
+
+#leftside-navigation ul li.selected a.selected {
+  color:white;
+}
+
 
 /* HINTS */
 #hintsViewTop{

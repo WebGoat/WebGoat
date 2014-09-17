@@ -2,6 +2,8 @@
 
 var goatConstants = {
 	CATEGORYCLASS:'fa-angle-right pull-right',
+	lessonCompleteClass:'glyphicon glyphicon-check lessonComplete',
+	selectedMenuClass:'selected',
 	menuPrefix : [
 		{
 		name:'LESSONS',
