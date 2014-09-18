@@ -107,7 +107,7 @@ public class WebgoatContext {
         showRequest = "true".equals(getParameter(servlet, SHOWREQUEST));
         isDebug = "true".equals(getParameter(servlet, DEBUG));
         servletName = servlet.getServletName();
-        defaultLanguage = getParameter(servlet, DEFAULTLANGUAGE) != null ? new String(getParameter(servlet, DEFAULTLANGUAGE)) : new String("English");
+        defaultLanguage = getParameter(servlet, DEFAULTLANGUAGE) != null ? new String(getParameter(servlet, DEFAULTLANGUAGE)) : new String("en");
 
         webgoati18n = new WebGoatI18N(this);
 
