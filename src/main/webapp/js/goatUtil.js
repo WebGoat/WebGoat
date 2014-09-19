@@ -90,6 +90,9 @@ goat.utils = {
     },
     makeId: function (lessonName) {
         return lessonName.replace(/\s|\(|\)|\!|\:|\;|\@|\#|\$|\%|\^|\&|\*/g,'');//TODO move the replace routine into util function
+    },
+    ajaxifyAttackHREF: function () {
+        // stub for dealing with CSRF lesson link issues and other similar issues
     }
 };
 

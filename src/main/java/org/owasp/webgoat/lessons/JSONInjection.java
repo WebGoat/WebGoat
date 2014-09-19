@@ -106,7 +106,7 @@ public class JSONInjection extends LessonAdapter
     protected Element createContent(WebSession s)
     {
         ElementContainer ec = new ElementContainer();
-        String lineSep = System.getProperty("line.separator");
+        String lineSep = System.getProperty("line.separator"); 
         String script = "<script>"
                 + lineSep
                 + "function getFlights() {"
@@ -192,11 +192,11 @@ public class JSONInjection extends LessonAdapter
 
                 "function check(){"
                 + lineSep
-                + " if ( document.getElementById('radio0').checked  )"
+                + " if ( document.getElementById('radio0') && document.getElementById('radio0').checked  )"
                 + lineSep
                 + " { document.getElementById('price2Submit').value = document.getElementById('priceID0').innerHTML; return true;}"
                 + lineSep
-                + " else if ( document.getElementById('radio1').checked  )"
+                + " else if ( document.getElementById('radio1') && document.getElementById('radio1').checked  )"
                 + lineSep
                 + " { document.getElementById('price2Submit').value = document.getElementById('priceID1').innerHTML; return true;}"
                 + lineSep + " else " + lineSep + " { alert('Please choose one flight'); return false;}" + lineSep + "}"

@@ -148,8 +148,8 @@
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" ng-click="viewPrevHint()"></span>
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" ng-click="viewNextHint()"></span>
                                             <br/>
-                                            
-                                            <span id="curHintContainer"></span><!--{{curHint}}-->
+                                            <span bind-html-unsafe="curHint"></span>
+                                            <!--<span id="curHintContainer"></span>-->
                                         </div>                                    
                                     </div>
                                 </div>

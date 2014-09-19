@@ -82,10 +82,12 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 			    $("#lessonTitle").text(reply.data);
 		    }
 		);
+		//TODO encode html or get angular js portion working
 		$("#lesson_content").html(reply.data);
 		//hook forms
 		goat.utils.makeFormsAjax();
 		$('#leftside-navigation').height($('#main-content').height()+15)//TODO: get ride of fixed value (15)here
+		//notifies goatLesson Controller of the less change
 		$scope.$emit('lessonUpdate',{params:curScope.parameters});
 	    }
 	)
@@ -207,7 +209,7 @@ var goatLesson = function($scope,$http,$log) {
         $scope.curHint = $scope.hints[$scope.hintIndex].hint;
 	//$scope.curHint = $sce.trustAsHtml($scope.hints[$scope.hintIndex].hint);
 	//TODO get html binding workin in the UI ... in the meantime ...
-	$scope.renderCurHint();
+	//$scope.renderCurHint();
         $scope.manageHintButtons();
     };
 
