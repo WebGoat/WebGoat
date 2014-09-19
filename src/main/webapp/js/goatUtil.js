@@ -80,6 +80,13 @@ goat.utils = {
             paramsArr.push(paramObj);
         }
         return paramsArr;
+    },
+    highlightCurrentLessonMenu: function(id) {
+        //TODO: move selectors in first two lines into goatConstants
+        $('ul li.selected').removeClass(goatConstants.selectedMenuClass)
+	$('ul li.selected a.selected').removeClass(goatConstants.selectedMenuClass)
+	$('#'+id).addClass(goatConstants.selectedMenuClass);
+	$('#'+id).parent().addClass(goatConstants.selectedMenuClass);
     }
 };
 

@@ -113,11 +113,11 @@
                     <ul class="nano-content">
                         <li class="sub-menu" ng-repeat="item in menuTopics">
                             <a ng-click="accordionMenu(item.id)" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a><!-- expanded = !expanded-->
-                            <ul class="slideDown lessonsAndStages" id="{{item.id}}" isOpen=0>
-                                <li ng-repeat="lesson in item.children">
-                                    <a ng-click="renderLesson(lesson.id,lesson.link)" id="{{lesson.id}}" title="link to {{lesson.name}}" href="">{{lesson.name}}</a><span class="{{lesson.completeClass}}"></span>
-                                    <span ng-repeat="stage in lesson.children" >
-                                        <a ng-click="renderLesson(lesson.id,stage.link)" id="{{stage.id}}"  title="link to {{stage.name}}" href="">{{stage.name}}</a><span class="{{stage.completeClass}}"></span>
+                            <ul class="slideDown lessonsAndStages {{item.displayClass}}" id="{{item.id}}" isOpen=0>
+                                <li ng-repeat="lesson in item.children" class="{{lesson.selectedClass}}">
+                                    <a ng-click="renderLesson(lesson.id,lesson.link)" id="{{lesson.id}}" class="{{lesson.selectedClass}}" title="link to {{lesson.name}}" href="">{{lesson.name}}</a><span class="{{lesson.completeClass}}"></span>
+                                    <span ng-repeat="stage in lesson.children">
+                                        <a ng-click="renderLesson(lesson.id,stage.link)" class="selectedClass" id="{{stage.id}}"  title="link to {{stage.name}}" href="">{{stage.name}}</a><span class="{{stage.completeClass}}"></span>
                                     </span>
                                 </li>
                             </ul>
@@ -177,7 +177,7 @@
                                                 <h4>Cookies</h4>
                                                 <table class="cookieTable table-striped table-nonfluid" ng-repeat="cookie in cookies">
                                                     <thead>
-                                                        <tr><th>Field</th><th>Value</th></tr>
+                                                        <tr><th class="col-sm-1">Field</th><th class="col-sm-1">Value</th></tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr ng-repeat="(key, value) in cookie">
@@ -293,9 +293,7 @@
 
             $(document).ready(function() {
                 //TODO merge appliction.js code into other js files
-                app.init();
-                
-                
+                app.init();               
             });
             // make all forms ajax forms
             var options = {
@@ -353,6 +351,8 @@
                 // make any embedded forms ajaxy
                 goat.utils.showLessonCookiesAndParams();
                 goat.utils.makeFormsAjax();
+                //refresh menu
+                angular.element($('#leftside-navigation')).scope().renderMenu();
             }
 
         </script>

@@ -13,10 +13,17 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		var menuItems = goat.utils.addMenuClasses(goatConstants.menuPrefix.concat(menuData.data));
 		//top-tier 'categories'
 		for (var i=0;i<menuItems.length;i++) {
-		    menuItems[i].id = menuItems[i].name.replace(/\s|\(|\)/g,'');
+		    menuItems[i].id = menuItems[i].name.replace(/\s|\(|\)/g,'');//TODO move the replace routine into util function
+		    menuItems[i].displayClass= ($scope.openMenu === menuItems[i].id) ? goatConstants.keepOpenClass : '';
 		    if (menuItems[i].children) {
 			for (var j=0;j<menuItems[i].children.length;j++){
 			    menuItems[i].children[j].id = menuItems[i].children[j].name.replace(/\s|\(|\)/g,'');
+			    //handle selected Menu state
+			    if (menuItems[i].children[j].id === $scope.curMenuItemSelected) {
+				menuItems[i].children[j].selectedClass = goatConstants.selectedMenuClass;
+				menuItems[i].selectedClass = goatConstants.selectedMenuClass;
+			    }
+			    //handle complete state
 			    if (menuItems[i].children[j].complete) {
 				menuItems[i].children[j].completeClass = goatConstants.lessonCompleteClass;
 			    } else {
@@ -26,6 +33,12 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 				for (var k=0;k < menuItems[i].children[j].children.length;k++) {
 				    //TODO make utility function for name >> id
 				    menuItems[i].children[j].children[k].id = menuItems[i].children[j].children[k].name.replace(/\s|\(|\)/g,'');
+				    //handle selected Menu state
+				    if (menuItems[i].children[j].children[k].id === $scope.curMenuItemSelected) {
+					menuItems[i].children[j].children[k].selectedClass = goatConstants.selectedMenuClass;
+					menuItems[i].children[j].selectedClass = goatConstants.selectedMenuClass;
+				    }
+				    //handle complete state
 				    if (menuItems[i].children[j].children[k].complete) {
 					menuItems[i].children[j].children[k].completeClass= goatConstants.lessonCompleteClass;
 				    } else {
@@ -37,6 +50,11 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		    }
 		}
 		$scope.menuTopics = menuItems;
+		//
+		if ($scope.openMenu) {
+		    $('ul'+$scope.openMenu).show();
+		}
+		
 	    },
 	    function(error) {
 		// TODO - handle this some way other than an alert
@@ -52,11 +70,8 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
         var curScope = $scope;
 	$('.lessonHelp').hide();
 	// clean up menus, mark selected
-	$('ul li.selected').removeClass(goatConstants.selectedMenuClass)
-	$('ul li.selected a.selected').removeClass(goatConstants.selectedMenuClass)
-	$('#'+id).addClass(goatConstants.selectedMenuClass);
-	$('#'+id).parent().addClass(goatConstants.selectedMenuClass);
-	//
+	$scope.curMenuItemSelected = id;
+	goat.utils.highlightCurrentLessonMenu(id);
         curScope.parameters = goat.utils.scrapeParams(url);
 	// lesson content
         goat.data.loadLessonContent($http,url).then(
@@ -69,10 +84,12 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		$("#lesson_content").html(reply.data);
 		//hook forms
 		goat.utils.makeFormsAjax();
-		$('#leftside-navigation').height($('#main-content').height()+15)
+		$('#leftside-navigation').height($('#main-content').height()+15)//TODO: get ride of fixed value (15)here
 		$scope.$emit('lessonUpdate',{params:curScope.parameters});
 	    }
-    )};
+	)
+	$scope.renderMenu();	
+    };
     $scope.accordionMenu = function(id) {
 	if ($('ul#'+id).attr('isOpen') == 0) {
 	    $scope.expandMe = true;    
@@ -80,6 +97,7 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 	    $('ul#'+id).slideUp(300).attr('isOpen',0);
 	    return;
 	}
+	$scope.openMenu = id;
 	$('.lessonsAndStages').not('ul#'+id).slideUp(300).attr('isOpen',0);
 	if ($scope.expandMe) {
 	    $('ul#'+id).slideDown(300).attr('isOpen',1);
