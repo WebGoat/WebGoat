@@ -13,11 +13,11 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		var menuItems = goat.utils.addMenuClasses(goatConstants.menuPrefix.concat(menuData.data));
 		//top-tier 'categories'
 		for (var i=0;i<menuItems.length;i++) {
-		    menuItems[i].id = menuItems[i].name.replace(/\s|\(|\)/g,'');//TODO move the replace routine into util function
+		    menuItems[i].id = goat.utils.makeId(menuItems[i].name);//TODO move the replace routine into util function
 		    menuItems[i].displayClass= ($scope.openMenu === menuItems[i].id) ? goatConstants.keepOpenClass : '';
 		    if (menuItems[i].children) {
 			for (var j=0;j<menuItems[i].children.length;j++){
-			    menuItems[i].children[j].id = menuItems[i].children[j].name.replace(/\s|\(|\)/g,'');
+			    menuItems[i].children[j].id = goat.utils.makeId(menuItems[i].children[j].name);
 			    //handle selected Menu state
 			    if (menuItems[i].children[j].id === $scope.curMenuItemSelected) {
 				menuItems[i].children[j].selectedClass = goatConstants.selectedMenuClass;
@@ -32,7 +32,8 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 			    if (menuItems[i].children[j].children) {
 				for (var k=0;k < menuItems[i].children[j].children.length;k++) {
 				    //TODO make utility function for name >> id
-				    menuItems[i].children[j].children[k].id = menuItems[i].children[j].children[k].name.replace(/\s|\(|\)/g,'');
+				    menuItems[i].children[j].children[k].id = goat.utils.makeId(menuItems[i].children[j].children[k].name);
+				    //menuItems[i].children[j].children[k].id = menuItems[i].children[j].children[k].name.replace(/\s|\(|\)/g,'');
 				    //handle selected Menu state
 				    if (menuItems[i].children[j].children[k].id === $scope.curMenuItemSelected) {
 					menuItems[i].children[j].children[k].selectedClass = goatConstants.selectedMenuClass;

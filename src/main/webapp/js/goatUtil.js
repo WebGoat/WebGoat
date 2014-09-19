@@ -87,6 +87,9 @@ goat.utils = {
 	$('ul li.selected a.selected').removeClass(goatConstants.selectedMenuClass)
 	$('#'+id).addClass(goatConstants.selectedMenuClass);
 	$('#'+id).parent().addClass(goatConstants.selectedMenuClass);
+    },
+    makeId: function (lessonName) {
+        return lessonName.replace(/\s|\(|\)|\!|\:|\;|\@|\#|\$|\%|\^|\&|\*/g,'');//TODO move the replace routine into util function
     }
 };
 
