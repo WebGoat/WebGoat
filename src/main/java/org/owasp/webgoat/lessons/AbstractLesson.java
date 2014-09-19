@@ -114,7 +114,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     private LinkedList<String> availableLanguages = new LinkedList<String>();
 
-    private String defaultLanguage = "English";
+    private String defaultLanguage = "en";
 
     /**
      * Constructor for the Lesson object
