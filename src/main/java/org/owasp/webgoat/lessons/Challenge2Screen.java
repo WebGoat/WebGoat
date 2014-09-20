@@ -611,7 +611,7 @@ public class Challenge2Screen extends SequentialLessonAdapter
      */
     public String getTitle()
     {
-        return ("The CHALLENGE!");
+        return ("The CHALLENGE");
     }
 
     /**
