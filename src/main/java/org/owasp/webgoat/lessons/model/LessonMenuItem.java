@@ -1,28 +1,31 @@
-/***************************************************************************************************
- * 
- * 
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
- * please see http://www.owasp.org/
- * 
+/**
+ * *************************************************************************************************
+ *
+ *
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * 
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- * 
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
  * Getting Source ==============
- * 
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
- * projects.
- * 
+ *
+ * Source for this application is maintained at
+ * https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ *
  * For details, please see http://webgoat.github.io
  */
 package org.owasp.webgoat.lessons.model;
@@ -40,7 +43,9 @@ public class LessonMenuItem {
     private LessonMenuItemType type;
     private List<LessonMenuItem> children = new ArrayList<LessonMenuItem>();
     private boolean complete;
-    private String link;   
+    private String link;
+    private boolean showSource;
+    private boolean showHints;
 
     /**
      * @return the name
@@ -122,6 +127,34 @@ public class LessonMenuItem {
      */
     public void setLink(String link) {
         this.link = link;
+    }
+
+    /**
+     * @return the showSource
+     */
+    public boolean isShowSource() {
+        return showSource;
+    }
+
+    /**
+     * @param showSource the showSource to set
+     */
+    public void setShowSource(boolean showSource) {
+        this.showSource = showSource;
+    }
+
+    /**
+     * @return the showHints
+     */
+    public boolean isShowHints() {
+        return showHints;
+    }
+
+    /**
+     * @param showHints the showHints to set
+     */
+    public void setShowHints(boolean showHints) {
+        this.showHints = showHints;
     }
 
 }
