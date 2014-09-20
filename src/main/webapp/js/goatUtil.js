@@ -91,8 +91,23 @@ goat.utils = {
     makeId: function (lessonName) {
         return lessonName.replace(/\s|\(|\)|\!|\:|\;|\@|\#|\$|\%|\^|\&|\*/g,'');//TODO move the replace routine into util function
     },
-    ajaxifyAttackHREF: function () {
-        // stub for dealing with CSRF lesson link issues and other similar issues
+    ajaxifyAttackHref: function () {
+        $.each($('a[href^="attack?"]'),
+            function(i,el) {
+                var url = $(el).attr('href');
+                $(el).attr('href','#');
+                $(el).attr('link',url);
+                //TODO pull currentMenuId
+                $(el).click(
+                    function() {
+                        var _url = $(el).attr('link');
+                        $.get(_url, {success:showResponse});
+                        //return $.get(_url, {}, null, "html");
+                        //angular.element($('#leftside-navigation')).scope().renderLesson(curMenuItem,url);
+                    }
+                )
+            }
+        );
     }
 };
 

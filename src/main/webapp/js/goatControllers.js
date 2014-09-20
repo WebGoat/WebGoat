@@ -85,7 +85,8 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		//TODO encode html or get angular js portion working
 		$("#lesson_content").html(reply.data);
 		//hook forms
-		goat.utils.makeFormsAjax();
+		goat.utils.makeFormsAjax();// inject form?
+		goat.utils.ajaxifyAttackHref();
 		$('#leftside-navigation').height($('#main-content').height()+15)//TODO: get ride of fixed value (15)here
 		//notifies goatLesson Controller of the less change
 		$scope.$emit('lessonUpdate',{params:curScope.parameters});
@@ -234,6 +235,14 @@ var goatLesson = function($scope,$http,$log) {
     $scope.hideHints = function() {
 
     };
+    
+    $scope.restartLesson = function () {
+	goat.data.loadRestart($http).then(
+	    function(resp) {
+		angular.element($('#leftside-navigation')).scope().renderLesson(null,resp.data);
+	    }
+	)
+    }
 
     $scope.showAbout = function() {
         $('#aboutModal').modal({

@@ -139,6 +139,7 @@
                                         <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs" ng-click="showLessonSolution()">Solution</button>
                                         <button type="button" id="showPlanBtn" class="btn btn-primary btn-xs" ng-click="showLessonPlan()">Lesson Plan</button>
                                         <button type="button" id="showHintsBtn" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
+                                        <button type="button" id="restartLessonBtn" class="btn btn-xs"  ng-click="restartLesson()">Restart Lesson</button>
                                     </div>
                                 </div>
                                 <div class="lessonHelp" id="lesson_hint_row">
@@ -351,6 +352,7 @@
                 // make any embedded forms ajaxy
                 goat.utils.showLessonCookiesAndParams();
                 goat.utils.makeFormsAjax();
+                goat.utils.ajaxifyAttackHref(); //TODO find some way to hook scope for current menu. Likely needs larger refactor which is already started/stashed
                 //refresh menu
                 angular.element($('#leftside-navigation')).scope().renderMenu();
             }
