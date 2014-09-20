@@ -44,8 +44,8 @@ public class LessonMenuItem {
     private List<LessonMenuItem> children = new ArrayList<LessonMenuItem>();
     private boolean complete;
     private String link;
-    private boolean showSource;
-    private boolean showHints;
+    private boolean showSource = true;
+    private boolean showHints = true;
 
     /**
      * @return the name

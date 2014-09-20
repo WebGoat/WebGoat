@@ -86,16 +86,16 @@ public class LessonMenuService extends BaseService {
                 if (lesson.isCompleted(ws)) {
                     lessonItem.setComplete(true);
                 }
+                /* @TODO - do this in a more efficient way 
+                 if (lesson.isAuthorized(ws, role, WebSession.SHOWHINTS)) {
+                 lessonItem.setShowHints(true);
+                 }
 
-                if (lesson.isAuthorized(ws, role, WebSession.SHOWHINTS)) {
-                    lessonItem.setShowHints(true);
-                }
-
-                if (lesson.isAuthorized(ws, role, WebSession.SHOWSOURCE)) {
-                    lessonItem.setShowSource(true);
-                }
-
-                // special handling for challenge role 
+                 if (lesson.isAuthorized(ws, role, WebSession.SHOWSOURCE)) {
+                 lessonItem.setShowSource(true);
+                 }
+                 */
+                // special handling for challenge role
                 if (Category.CHALLENGE.equals(lesson.getCategory())) {
                     lessonItem.setShowHints(lesson.isAuthorized(ws, AbstractLesson.CHALLENGE_ROLE, WebSession.SHOWHINTS));
                     lessonItem.setShowSource(lesson.isAuthorized(ws, AbstractLesson.CHALLENGE_ROLE, WebSession.SHOWHINTS));
