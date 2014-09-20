@@ -210,7 +210,12 @@ public class Challenge2Screen extends SequentialLessonAdapter
                 .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
         // pull the USER_COOKIE from the cookies
-        String cookie = URLDecoder.decode(getCookie(s),"utf-8");
+        String cookie = getCookie(s);
+        if (null == cookie) {
+        	cookie = "";
+        } else {
+        	cookie = URLDecoder.decode(cookie,"utf-8");
+        }
         
         String user = Encoding.base64Decode(cookie);
         String query = "SELECT * FROM user_data WHERE last_name = '" + user + "'";
