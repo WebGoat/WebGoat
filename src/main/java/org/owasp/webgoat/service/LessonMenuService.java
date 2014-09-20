@@ -40,6 +40,8 @@ import org.owasp.webgoat.lessons.model.LessonMenuItem;
 import org.owasp.webgoat.lessons.model.LessonMenuItemType;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,6 +52,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class LessonMenuService extends BaseService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LessonMenuService.class);
 
     /**
      * Returns the lesson menu which is used to build the left nav
@@ -72,6 +76,8 @@ public class LessonMenuService extends BaseService {
             categoryItem.setType(LessonMenuItemType.CATEGORY);
             // check for any lessons for this category
             List<AbstractLesson> lessons = ws.getLessons(category);
+            String role = ws.getRole();
+            logger.info("Role: " + role);
             for (AbstractLesson lesson : lessons) {
                 LessonMenuItem lessonItem = new LessonMenuItem();
                 lessonItem.setName(lesson.getTitle());
@@ -80,13 +86,21 @@ public class LessonMenuService extends BaseService {
                 if (lesson.isCompleted(ws)) {
                     lessonItem.setComplete(true);
                 }
-                if (ws.isAuthorizedInLesson(ws.getRole(), WebSession.SHOWHINTS)) {
+
+                if (lesson.isAuthorized(ws, role, WebSession.SHOWHINTS)) {
                     lessonItem.setShowHints(true);
                 }
 
-                if (ws.isAuthorizedInLesson(ws.getRole(), WebSession.SHOWSOURCE)) {
+                if (lesson.isAuthorized(ws, role, WebSession.SHOWSOURCE)) {
                     lessonItem.setShowSource(true);
                 }
+
+                // special handling for challenge role 
+                if (Category.CHALLENGE.equals(lesson.getCategory())) {
+                    lessonItem.setShowHints(lesson.isAuthorized(ws, AbstractLesson.CHALLENGE_ROLE, WebSession.SHOWHINTS));
+                    lessonItem.setShowSource(lesson.isAuthorized(ws, AbstractLesson.CHALLENGE_ROLE, WebSession.SHOWHINTS));
+                }
+
                 categoryItem.addChild(lessonItem);
                 // Does the lesson have stages
                 if (lesson instanceof RandomLessonAdapter) {
