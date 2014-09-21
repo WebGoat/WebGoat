@@ -64,9 +64,7 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 	);
     };
 
-    $scope.renderLesson = function(id,url) {
-        //console.log(url + ' was passed in');
-        // use jquery to render lesson content to div
+    $scope.renderLesson = function(id,url,showControls) {//TODO convert to single object parameter
         $scope.hintIndex = 0;
         var curScope = $scope;
 	$('.lessonHelp').hide();
@@ -89,7 +87,7 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		goat.utils.ajaxifyAttackHref();
 		$('#leftside-navigation').height($('#main-content').height()+15)//TODO: get ride of fixed value (15)here
 		//notifies goatLesson Controller of the less change
-		$scope.$emit('lessonUpdate',{params:curScope.parameters});
+		$scope.$emit('lessonUpdate',{params:curScope.parameters,'showControls':showControls});
 	    }
 	)
 	$scope.renderMenu();	
@@ -123,6 +121,8 @@ var goatLesson = function($scope,$http,$log) {
 	
 	$scope.$on('lessonUpdate',function(params){
 	    $scope.parameters = arguments[1].params;
+	    $scope.showHints = (arguments[1].showControls && arguments[1].showControls.showHints);
+	    $scope.showSource = (arguments[1].showControls && arguments[1].showControls.showSource);
 	    curScope = $scope; //TODO .. update below, this curScope is probably not needed
 	    goat.data.loadCookies($http).then(
 		function(resp) {
@@ -131,22 +131,32 @@ var goatLesson = function($scope,$http,$log) {
 	    );
 	    //hints
 	    curScope.hintIndex = 0;
-	    goat.data.loadHints($http).then(
-		function(resp) {
-		    curScope.hints = resp.data;
-		    if (curScope.hints.length > 0 && curScope.hints[0].hint.indexOf(goatConstants.noHints) === -1) {
-			goat.utils.displayButton('showHintsBtn', true);
-		    } else {
-			goat.utils.displayButton('showHintsBtn', false);
+	    if ($scope.showHints) {
+		goat.data.loadHints($http).then(
+		    function(resp) {
+			curScope.hints = resp.data;
+			if (curScope.hints.length > 0 && curScope.hints[0].hint.indexOf(goatConstants.noHints) === -1) {
+			    goat.utils.displayButton('showHintsBtn', true);
+			} else {
+			    goat.utils.displayButton('showHintsBtn', false);
+			}
 		    }
-		}
-	    );
+		);
+	    } else {
+		$scope.hints = null;
+		goat.utils.displayButton('showHintsBtn', false);
+	    }
 	    //source
-	    goat.data.loadSource($http).then(
+	    if ($scope.showSource) {
+		goat.data.loadSource($http).then(
 		    function(resp) {
 			curScope.source = resp.data;
 		    }
-	    );
+		);
+	    } else {
+		$scope.source = goatConstants.noSourcePulled;
+	    }
+	    
 	    //plan
 	    goat.data.loadPlan($http).then(
 		    function(resp) {
@@ -239,7 +249,7 @@ var goatLesson = function($scope,$http,$log) {
     $scope.restartLesson = function () {
 	goat.data.loadRestart($http).then(
 	    function(resp) {
-		angular.element($('#leftside-navigation')).scope().renderLesson(null,resp.data);
+		angular.element($('#leftside-navigation')).scope().renderLesson(null,resp.data,{showSource:$scope.showSource,showHints:$scope.showHints});
 	    }
 	)
     }

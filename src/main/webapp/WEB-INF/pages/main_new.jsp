@@ -115,9 +115,9 @@
                             <a ng-click="accordionMenu(item.id)" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a><!-- expanded = !expanded-->
                             <ul class="slideDown lessonsAndStages {{item.displayClass}}" id="{{item.id}}" isOpen=0>
                                 <li ng-repeat="lesson in item.children" class="{{lesson.selectedClass}}">
-                                    <a ng-click="renderLesson(lesson.id,lesson.link)" id="{{lesson.id}}" class="{{lesson.selectedClass}}" title="link to {{lesson.name}}" href="">{{lesson.name}}</a><span class="{{lesson.completeClass}}"></span>
+                                    <a ng-click="renderLesson(lesson.id,lesson.link,{showSource:lesson.showSource,showHints:lesson.showHints})" id="{{lesson.id}}" class="{{lesson.selectedClass}}" title="link to {{lesson.name}}" href="">{{lesson.name}}</a><span class="{{lesson.completeClass}}"></span>
                                     <span ng-repeat="stage in lesson.children">
-                                        <a ng-click="renderLesson(lesson.id,stage.link)" class="selectedClass" id="{{stage.id}}"  title="link to {{stage.name}}" href="">{{stage.name}}</a><span class="{{stage.completeClass}}"></span>
+                                        <a ng-click="renderLesson(stage.id,stage.link,{showSource:stage.showSource,showHints:stage.showHints})" class="selectedClass" id="{{stage.id}}"  title="link to {{stage.name}}" href="">{{stage.name}}</a><span class="{{stage.completeClass}}"></span>
                                     </span>
                                 </li>
                             </ul>
@@ -135,11 +135,11 @@
                             <div class="col-md-12" align="left">
                                 <div class="panel">
                                     <div class="panel-body">
-                                        <button type="button" id="showSourceBtn" class="btn btn-primary btn-xs" ng-click="showLessonSource()">Java [Source]</button>
+                                        <button type="button" id="showSourceBtn" ng-show="showSource" class="btn btn-primary btn-xs" ng-click="showLessonSource()">Java [Source]</button>
                                         <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs" ng-click="showLessonSolution()">Solution</button>
                                         <button type="button" id="showPlanBtn" class="btn btn-primary btn-xs" ng-click="showLessonPlan()">Lesson Plan</button>
-                                        <button type="button" id="showHintsBtn" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
-                                        <button type="button" id="restartLessonBtn" class="btn btn-xs"  ng-click="restartLesson()">Restart Lesson</button>
+                                        <button type="button" id="showHintsBtn" ng-show="showHints" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
+                                        <button type="button" id="restartLessonBtn"  class="btn btn-xs"  ng-click="restartLesson()">Restart Lesson</button>
                                     </div>
                                 </div>
                                 <div class="lessonHelp" id="lesson_hint_row">
@@ -149,7 +149,7 @@
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" ng-click="viewPrevHint()"></span>
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" ng-click="viewNextHint()"></span>
                                             <br/>
-                                            <span bind-html-unsafe="curHint"></span>
+                                            <span ng-show="showHints" bind-html-unsafe="curHint"></span>
                                             <!--<span id="curHintContainer"></span>-->
                                         </div>                                    
                                     </div>
