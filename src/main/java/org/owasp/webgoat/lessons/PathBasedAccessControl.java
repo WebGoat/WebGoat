@@ -67,7 +67,7 @@ public class PathBasedAccessControl extends LessonAdapter
 
         try
         {
-            String dir = s.getContext().getRealPath("/lesson_plans/English");
+            String dir = s.getContext().getRealPath("/lesson_plans/en");
             File d = new File(dir);
 
             Table t = new Table().setCellSpacing(0).setCellPadding(2).setWidth("90%").setAlign("center");

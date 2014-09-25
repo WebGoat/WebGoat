@@ -123,7 +123,7 @@ public class CommandInjection extends LessonAdapter
                     illegalCommand = false;
                 }
             }
-            File safeDir = new File(s.getContext().getRealPath("/lesson_plans/English"));
+            File safeDir = new File(s.getContext().getRealPath("/lesson_plans/en"));
 
             ec.addElement(new StringElement(WebGoatI18N.get("YouAreCurrentlyViewing")+"<b>"
                     + (helpFile.toString().length() == 0 ? "&lt;"+WebGoatI18N.get("SelectFileFromListBelow")+"&gt;" : helpFile.toString())

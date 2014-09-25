@@ -75,12 +75,12 @@ public class WebSession {
     /**
      * Tomcat role for a webgoat user
      */
-    public final static String WEBGOAT_USER = "webgoat_user";
+    public final static String WEBGOAT_USER = "ROLE_WEBGOAT_USER";
 
     /**
      * Tomcat role for a webgoat admin
      */
-    public final static String WEBGOAT_ADMIN = "webgoat_admin";
+    public final static String WEBGOAT_ADMIN = "ROLE_WEBGOAT_ADMIN";
 
     /**
      * Description of the Field

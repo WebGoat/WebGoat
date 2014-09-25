@@ -1,139 +1,100 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java"
-	errorPage=""%>
-<%@page import="org.owasp.webgoat.session.WebSession"%>
-<%
-WebSession webSession = ((WebSession) session.getAttribute("websession"));
-%>
+         errorPage=""%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>WebGoat V5.4</title>
-<link rel="stylesheet" href="css/webgoat.css" type="text/css" />
-<link rel="stylesheet" href="css/webgoat_challenge.css" type="text/css" />
-</head>
+<!-- This modal content is included into the main_new.jsp -->
 
-<body>
+<div class="modal-content">
+    <div class="modal-header">       
+        <h3 class="modal-title" id="myModalLabel">About WebGoat - Provided by the OWASP Foundation</h3>
+    </div>
+    <div class="modal-body modal-scroll">
+        <p>Thanks for hacking The Goat!</p> 
+        <p>WebGoat is a demonstration of common web application flaws. The
+            associated exercises are intended to provide hands-on experience with
+            techniques aimed at demonstrating and testing application penetration.
+        </p>
+        <p>From the entire WebGoat team, we appreciate your interest and efforts
+            in making applications not just better, but safer and more secure for
+            everyone. We, as well as our sacrificial goat, thank you.</p>
+        <p>
+            Version: ${version},&nbsp;Build: ${build}
+        </p>
 
-<div id="wrap_ch">
-<div id="top_ch"></div>
-<div id="start_ch">
-<p>Thank you for using WebGoat! This program is a demonstration of common web application flaws.
-The exercises are intended to provide hands on experience with
-application penetration testing techniques. </p>
-<p>The WebGoat project is led
-by Bruce Mayhew. Please send all comments to Bruce at <%=webSession.getWebgoatContext().getFeedbackAddress()%>.</p>
-
-<div id="team_ch">
-<table border="0" align="center" class="lessonText">
-	<tr>
-		<td width="50%">
-		<div align="center"><a href="http://www.owasp.org"><img
-			border="0" src="images/logos/owasp.jpg" alt="OWASP Foundation"
-			longdesc="http://www.owasp.org" /></a></div>
-		</td>
-		<td width="50%">
-		<div align="center"><a href="http://www.aspectsecurity.com"><img
-			border="0" src="images/logos/aspect.jpg" alt="Aspect Security"
-			longdesc="http://www.aspectsecurity.com" /></a></div>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-		<div align="center"><span class="style1">
-		WebGoat Authors </span></div>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-		<div align="center"><span class="style2">
-		Bruce Mayhew </span></div>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-		<div align="center"><span class="style2">
-		Jeff Williams </span></div>
-		</td>
-	</tr>
-	<tr>
-		<td width="50%">
-		<div align="center"><span class="style1"><br />
-		WebGoat Design Team </span></div>
-		</td>
-		<td width="50%">
-		<div align="center"><span class="style1"><br />
-		V5.4 Lesson Contributers </span></div>
-		</td>
-	</tr>
-	<tr>
-		<td valign="top">
-		<div align="center" class="style2">David Anderson</div>
-		<div align="center" class="style2">Laurence Casey (Graphics)</div>
-		<div align="center" class="style2">Rogan Dawes</div>
-		<div align="center" class="style2">Bruce Mayhew</div>
-		</td>
-		<td valign="top">
-		<div align="center" class="style2">Sherif Koussa</div>
-		<div align="center" class="style2">Yiannis Pavlosoglou</div>
-		<div align="center" class="style2"></div>
-
-		</td>
-	</tr>
-	<tr>
-		<td height="25" valign="bottom">
-		<div align="center"><span class="style1">Special Thanks
-		for V5.4</span></div>
-		</td>
-		<td height="25" valign="bottom">
-		<div align="center"><span class="style1">Documentation
-		Contributers</span></div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		<div align="center" class="style2">Brian Ciomei (Multitude of bug fixes)</div>
-		<div align="center" class="style2">To all who have sent comments</div>
-		
-		</td>
-		<td>
-		<div align="center" class="style2">
-		<a href="http://www.zionsecurity.com/" target="_blank">Erwin Geirnaert</a></div>
-		<div align="center" class="style2">
-		<a href="http://yehg.org/" target="_blank">Aung Khant</a></div>
-		<div align="center" class="style2">
-			<a href="http://www.softwaresecured.com" target="blank">Sherif Koussa</a>
-		</div>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-		<div align="center" class="style2">
-		<form id="form" name="form" method="post" action="attack"><input
-			type="submit" name="start" value="Start WebGoat" /></form>
-		</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		<div align="center" class="style2">&nbsp;</div>
-		</td>
-	</tr>
-</table>
+        <div class="row">
+            <div class="col-md-6">
+                <p>Contact us:
+                <ul>
+                    <li>WebGoat mailing list: ${emailList}</li>
+                    <li>Bruce Mayhew:  ${contactEmail}</li>
+                </ul>
+                </p>
+            </div>
+        </div>       
+        <div class="row">
+            <div class="col-md-6">
+                <p>WebGoat Authors
+                <ul>
+                    <li>Bruce Mayhew (Project Lead)</li>
+                    <li>Jeff Williams (Original Idea)</li>
+                    <li>Richard Lawson (Architect)</li>
+                    <li>Jason White (Architect)</li>
+                </ul>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>WebGoat Design Team
+                <ul>
+                    <li>Richard Lawson</li>
+                    <li>Bruce Mayhew</li>
+                    <li>Jason White</li>
+                    <li>Ali Looney (User Interface)</li>
+                    <li>Jeff Wayman (Website and Docs)</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p>Active Contributors
+                <ul>
+                    <li>Nanne Baars (Developer)</li>
+                    <li>Dave Cowden (Everything)</li>
+                    <li>Keith Gasser (Survey/Security)</li>
+                    <li>Devin Mayhew (Setup/Admin)</li>
+                    <li>Li Simon (Developer)</li>
+                </ul>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>Past Contributors
+                <ul>
+                    <li>David Anderson (Developer/Design)</li>
+                    <li>Christopher Blum (Lessons)</li>
+                    <li>Laurence Casey (Graphics)</li>
+                    <li>Brian Ciomei (Bug fixes)</li>
+                    <li>Rogan Dawes (Lessons)</li>
+                    <li>Erwin Geirnaert (Solutions)</li>
+                    <li>Aung Knant (Documentation)</li>
+                    <li>Ryan Knell (Lessons)</li>
+                    <li>Christine Koppeit (Build)</li>
+                    <li>Sherif Kousa (Lessons/Documentation)</li>
+                    <li>Reto Lippuner (Lessons)</li>
+                    <li>PartNet (Lessons)</li>
+                    <li>Yiannis Pavlosoglou (Lessons)</li>
+                    <li>Eric Sheridan (Lessons)</li>
+                    <li>Alex Smolen (Lessons)</li>
+                    <li>Chuck Willis (Lessons)</li>
+                    <li>Marcel Wirth (Lessons)</li>
+                </ul>
+                </p>
+                <p>Did we miss you? Our sincere apologies, as we know there have
+                    been many contributors over the years. If your name does not
+                    appear in any of the lists above, please send us a note. We'll
+                    get you added with no further sacrifices required.</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
 </div>
-</div>
-<div align="center" class="style2">&nbsp;</div>
-<div align="center" class="style2">&nbsp;</div>
-<div align="center" class="style2">&nbsp;</div>
-<div id="warning_ch">WARNING<br />
-While running this program, your machine is extremely vulnerable to
-attack if you are not running on localhost. If you are NOT running on localhost (default configuration), You should disconnect from the network while using this program.
-<br />
-<br />
-This program is for educational purposes only. Use of these techniques
-without permission could lead to job termination, financial liability,
-and/or criminal penalties.</div>
-</div>
-</body>
-</html>

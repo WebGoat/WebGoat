@@ -36,5 +36,9 @@ goat.data = {
     },
     loadLessonTitle: function ($http) {
         return $http({method: 'GET', url: goatConstants.lessonTitleService});
+    },
+    loadRestart: function ($http) {
+        return $http({method: 'GET', url:goatConstants.restartLessonService})
     }
+    
 };

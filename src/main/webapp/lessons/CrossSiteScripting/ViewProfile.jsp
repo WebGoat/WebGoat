@@ -151,7 +151,7 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
 					</td>
                       <td width="190">&nbsp;</td>
                       <td width="76">
-						<form method="POST">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="submit" name="action" value="<%=CrossSiteScripting.LOGOUT_ACTION%>"/>
 						</form>
 					</td>

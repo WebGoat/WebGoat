@@ -162,6 +162,10 @@
              -->
             <param-value>jdbc:hsqldb:mem:${USER}</param-value>
         </init-param>
+        <init-param>
+            <param-name>DefaultLanguage</param-name>
+            <param-value>en</param-value>
+        </init-param>
         <!-- Load this servlet at server startup time -->
         <load-on-startup>5</load-on-startup>
     </servlet>

@@ -34,7 +34,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.owasp.webgoat.controller.Welcome;
 import org.owasp.webgoat.session.WebSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +50,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping("/service")
 public abstract class BaseService {
 
-    final Logger logger = LoggerFactory.getLogger(BaseService.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseService.class);
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.I_AM_A_TEAPOT)

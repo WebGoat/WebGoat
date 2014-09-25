@@ -113,11 +113,11 @@
                     <ul class="nano-content">
                         <li class="sub-menu" ng-repeat="item in menuTopics">
                             <a ng-click="accordionMenu(item.id)" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a><!-- expanded = !expanded-->
-                            <ul class="slideDown lessonsAndStages" id="{{item.id}}" isOpen=0>
-                                <li ng-repeat="lesson in item.children">
-                                    <a ng-click="renderLesson(lesson.id,lesson.link)" id="{{lesson.id}}" title="link to {{lesson.name}}" href="">{{lesson.name}}</a><span class="{{lesson.completeClass}}"></span>
-                                    <span ng-repeat="stage in lesson.children" >
-                                        <a ng-click="renderLesson(lesson.id,stage.link)" id="{{stage.id}}"  title="link to {{stage.name}}" href="">{{stage.name}}</a><span class="{{stage.completeClass}}"></span>
+                            <ul class="slideDown lessonsAndStages {{item.displayClass}}" id="{{item.id}}" isOpen=0>
+                                <li ng-repeat="lesson in item.children" class="{{lesson.selectedClass}}">
+                                    <a ng-click="renderLesson(lesson.id,lesson.link,{showSource:lesson.showSource,showHints:lesson.showHints})" id="{{lesson.id}}" class="{{lesson.selectedClass}}" title="link to {{lesson.name}}" href="">{{lesson.name}}</a><span class="{{lesson.completeClass}}"></span>
+                                    <span ng-repeat="stage in lesson.children">
+                                        <a ng-click="renderLesson(stage.id,stage.link,{showSource:stage.showSource,showHints:stage.showHints})" class="selectedClass" id="{{stage.id}}"  title="link to {{stage.name}}" href="">{{stage.name}}</a><span class="{{stage.completeClass}}"></span>
                                     </span>
                                 </li>
                             </ul>
@@ -135,10 +135,11 @@
                             <div class="col-md-12" align="left">
                                 <div class="panel">
                                     <div class="panel-body">
-                                        <button type="button" id="showSourceBtn" class="btn btn-primary btn-xs" ng-click="showLessonSource()">Java [Source]</button>
+                                        <button type="button" id="showSourceBtn" ng-show="showSource" class="btn btn-primary btn-xs" ng-click="showLessonSource()">Java [Source]</button>
                                         <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs" ng-click="showLessonSolution()">Solution</button>
                                         <button type="button" id="showPlanBtn" class="btn btn-primary btn-xs" ng-click="showLessonPlan()">Lesson Plan</button>
-                                        <button type="button" id="showHintsBtn" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
+                                        <button type="button" id="showHintsBtn" ng-show="showHints" class="btn btn-primary btn-xs"  ng-click="viewHints()">Hints</button>
+                                        <button type="button" id="restartLessonBtn"  class="btn btn-xs"  ng-click="restartLesson()">Restart Lesson</button>
                                     </div>
                                 </div>
                                 <div class="lessonHelp" id="lesson_hint_row">
@@ -148,8 +149,8 @@
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" ng-click="viewPrevHint()"></span>
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" ng-click="viewNextHint()"></span>
                                             <br/>
-                                            
-                                            <span id="curHintContainer"></span><!--{{curHint}}-->
+                                            <span ng-show="showHints" bind-html-unsafe="curHint"></span>
+                                            <!--<span id="curHintContainer"></span>-->
                                         </div>                                    
                                     </div>
                                 </div>
@@ -175,9 +176,10 @@
                                         <div id="cookiesAndParamsView">
                                             <div class="cookiesView">
                                                 <h4>Cookies</h4>
-                                                <table class="cookieTable table-striped table-nonfluid" ng-repeat="cookie in cookies">
+                                                <div class="cookieContainer" ng-repeat="cookie in cookies">
+                                                <table class="cookieTable table-striped table-nonfluid" >
                                                     <thead>
-                                                        <tr><th>Field</th><th>Value</th></tr>
+                                                        <tr><th class="col-sm-1"></th><th class="col-sm-1"></th></tr> <!-- Field / Value -->
                                                     </thead>
                                                     <tbody>
                                                         <tr ng-repeat="(key, value) in cookie">
@@ -188,6 +190,7 @@
                                                     <!--<li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>-->
                                                     <!--</ul>-->
                                                 </table>
+                                                </div>
                                             </div>
                                             <div id="paramsView"> <!--class="paramsView"-->
                                                 <h4>Params</h4>
@@ -293,9 +296,7 @@
 
             $(document).ready(function() {
                 //TODO merge appliction.js code into other js files
-                app.init();
-                
-                
+                app.init();               
             });
             // make all forms ajax forms
             var options = {
@@ -353,6 +354,9 @@
                 // make any embedded forms ajaxy
                 goat.utils.showLessonCookiesAndParams();
                 goat.utils.makeFormsAjax();
+                goat.utils.ajaxifyAttackHref(); //TODO find some way to hook scope for current menu. Likely needs larger refactor which is already started/stashed
+                //refresh menu
+                angular.element($('#leftside-navigation')).scope().renderMenu();
             }
 
         </script>

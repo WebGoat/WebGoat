@@ -60,8 +60,8 @@ import org.slf4j.LoggerFactory;
  *
  * Getting Source ==============
  *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
- * for free software projects.
+ * Source for this application is maintained at
+ * https://github.com/WebGoat/WebGoat, a repository for free software projects.
  *
  * For details, please see http://webgoat.github.io
  *
@@ -70,7 +70,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractLesson extends Screen implements Comparable<Object> {
 
-    final Logger logger = LoggerFactory.getLogger(AbstractLesson.class);
+    private static final Logger logger = LoggerFactory.getLogger(AbstractLesson.class);
 
     /**
      * Description of the Field
@@ -114,7 +114,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     private LinkedList<String> availableLanguages = new LinkedList<String>();
 
-    private String defaultLanguage = "English";
+    private String defaultLanguage = "en";
 
     /**
      * Constructor for the Lesson object
@@ -612,6 +612,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * @return
      */
     public boolean isAuthorized(WebSession s, String role, String functionId) {
+        logger.info("Checking if " + role + " authorized for: " + functionId);
         boolean authorized = false;
         try {
             String query = "SELECT * FROM auth WHERE role = '" + role + "' and functionid = '" + functionId + "'";
@@ -620,13 +621,14 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
                         .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 ResultSet answer_results = answer_statement.executeQuery(query);
                 authorized = answer_results.first();
+                logger.info("authorized: "+ authorized);
             } catch (SQLException sqle) {
                 s.setMessage("Error authorizing");
-                sqle.printStackTrace();
+                logger.error("Error authorizing", sqle);
             }
         } catch (Exception e) {
             s.setMessage("Error authorizing");
-            e.printStackTrace();
+            logger.error("Error authorizing", e);
         }
         return authorized;
     }

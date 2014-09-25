@@ -80,6 +80,32 @@ goat.utils = {
             paramsArr.push(paramObj);
         }
         return paramsArr;
+    },
+    highlightCurrentLessonMenu: function(id) {
+        //TODO: move selectors in first two lines into goatConstants
+        $('ul li.selected').removeClass(goatConstants.selectedMenuClass)
+	$('ul li.selected a.selected').removeClass(goatConstants.selectedMenuClass)
+	$('#'+id).addClass(goatConstants.selectedMenuClass);
+	$('#'+id).parent().addClass(goatConstants.selectedMenuClass);
+    },
+    makeId: function (lessonName) {
+        return lessonName.replace(/\s|\(|\)|\!|\:|\;|\@|\#|\$|\%|\^|\&|\*/g,'');//TODO move the replace routine into util function
+    },
+    ajaxifyAttackHref: function () {
+        $.each($('a[href^="attack?"]'),
+            function(i,el) {
+                var url = $(el).attr('href');
+                $(el).attr('href','#');
+                $(el).attr('link',url);
+                //TODO pull currentMenuId
+                $(el).click(
+                    function() {
+                        var _url = $(el).attr('link');
+                        $.get(_url, {success:showResponse});
+                    }
+                )
+            }
+        );
     }
 };
 

@@ -13,10 +13,17 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		var menuItems = goat.utils.addMenuClasses(goatConstants.menuPrefix.concat(menuData.data));
 		//top-tier 'categories'
 		for (var i=0;i<menuItems.length;i++) {
-		    menuItems[i].id = menuItems[i].name.replace(/\s|\(|\)/g,'');
+		    menuItems[i].id = goat.utils.makeId(menuItems[i].name);//TODO move the replace routine into util function
+		    menuItems[i].displayClass= ($scope.openMenu === menuItems[i].id) ? goatConstants.keepOpenClass : '';
 		    if (menuItems[i].children) {
 			for (var j=0;j<menuItems[i].children.length;j++){
-			    menuItems[i].children[j].id = menuItems[i].children[j].name.replace(/\s|\(|\)/g,'');
+			    menuItems[i].children[j].id = goat.utils.makeId(menuItems[i].children[j].name);
+			    //handle selected Menu state
+			    if (menuItems[i].children[j].id === $scope.curMenuItemSelected) {
+				menuItems[i].children[j].selectedClass = goatConstants.selectedMenuClass;
+				menuItems[i].selectedClass = goatConstants.selectedMenuClass;
+			    }
+			    //handle complete state
 			    if (menuItems[i].children[j].complete) {
 				menuItems[i].children[j].completeClass = goatConstants.lessonCompleteClass;
 			    } else {
@@ -25,7 +32,14 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 			    if (menuItems[i].children[j].children) {
 				for (var k=0;k < menuItems[i].children[j].children.length;k++) {
 				    //TODO make utility function for name >> id
-				    menuItems[i].children[j].children[k].id = menuItems[i].children[j].children[k].name.replace(/\s|\(|\)/g,'');
+				    menuItems[i].children[j].children[k].id = goat.utils.makeId(menuItems[i].children[j].children[k].name);
+				    //menuItems[i].children[j].children[k].id = menuItems[i].children[j].children[k].name.replace(/\s|\(|\)/g,'');
+				    //handle selected Menu state
+				    if (menuItems[i].children[j].children[k].id === $scope.curMenuItemSelected) {
+					menuItems[i].children[j].children[k].selectedClass = goatConstants.selectedMenuClass;
+					menuItems[i].children[j].selectedClass = goatConstants.selectedMenuClass;
+				    }
+				    //handle complete state
 				    if (menuItems[i].children[j].children[k].complete) {
 					menuItems[i].children[j].children[k].completeClass= goatConstants.lessonCompleteClass;
 				    } else {
@@ -37,6 +51,11 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 		    }
 		}
 		$scope.menuTopics = menuItems;
+		//
+		if ($scope.openMenu) {
+		    $('ul'+$scope.openMenu).show();
+		}
+		
 	    },
 	    function(error) {
 		// TODO - handle this some way other than an alert
@@ -45,18 +64,13 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 	);
     };
 
-    $scope.renderLesson = function(id,url) {
-        //console.log(url + ' was passed in');
-        // use jquery to render lesson content to div
+    $scope.renderLesson = function(id,url,showControls) {//TODO convert to single object parameter
         $scope.hintIndex = 0;
         var curScope = $scope;
 	$('.lessonHelp').hide();
 	// clean up menus, mark selected
-	$('ul li.selected').removeClass(goatConstants.selectedMenuClass)
-	$('ul li.selected a.selected').removeClass(goatConstants.selectedMenuClass)
-	$('#'+id).addClass(goatConstants.selectedMenuClass);
-	$('#'+id).parent().addClass(goatConstants.selectedMenuClass);
-	//
+	$scope.curMenuItemSelected = id;
+	goat.utils.highlightCurrentLessonMenu(id);
         curScope.parameters = goat.utils.scrapeParams(url);
 	// lesson content
         goat.data.loadLessonContent($http,url).then(
@@ -66,13 +80,18 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 			    $("#lessonTitle").text(reply.data);
 		    }
 		);
+		//TODO encode html or get angular js portion working
 		$("#lesson_content").html(reply.data);
 		//hook forms
-		goat.utils.makeFormsAjax();
-		$('#leftside-navigation').height($('#main-content').height()+15)
-		$scope.$emit('lessonUpdate',{params:curScope.parameters});
+		goat.utils.makeFormsAjax();// inject form?
+		goat.utils.ajaxifyAttackHref();
+		$('#leftside-navigation').height($('#main-content').height()+15)//TODO: get ride of fixed value (15)here
+		//notifies goatLesson Controller of the less change
+		$scope.$emit('lessonUpdate',{params:curScope.parameters,'showControls':showControls});
 	    }
-    )};
+	)
+	$scope.renderMenu();	
+    };
     $scope.accordionMenu = function(id) {
 	if ($('ul#'+id).attr('isOpen') == 0) {
 	    $scope.expandMe = true;    
@@ -80,6 +99,7 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
 	    $('ul#'+id).slideUp(300).attr('isOpen',0);
 	    return;
 	}
+	$scope.openMenu = id;
 	$('.lessonsAndStages').not('ul#'+id).slideUp(300).attr('isOpen',0);
 	if ($scope.expandMe) {
 	    $('ul#'+id).slideDown(300).attr('isOpen',1);
@@ -101,6 +121,8 @@ var goatLesson = function($scope,$http,$log) {
 	
 	$scope.$on('lessonUpdate',function(params){
 	    $scope.parameters = arguments[1].params;
+	    $scope.showHints = (arguments[1].showControls && arguments[1].showControls.showHints);
+	    $scope.showSource = (arguments[1].showControls && arguments[1].showControls.showSource);
 	    curScope = $scope; //TODO .. update below, this curScope is probably not needed
 	    goat.data.loadCookies($http).then(
 		function(resp) {
@@ -109,22 +131,32 @@ var goatLesson = function($scope,$http,$log) {
 	    );
 	    //hints
 	    curScope.hintIndex = 0;
-	    goat.data.loadHints($http).then(
-		function(resp) {
-		    curScope.hints = resp.data;
-		    if (curScope.hints.length > 0 && curScope.hints[0].hint.indexOf(goatConstants.noHints) === -1) {
-			goat.utils.displayButton('showHintsBtn', true);
-		    } else {
-			goat.utils.displayButton('showHintsBtn', false);
+	    if ($scope.showHints) {
+		goat.data.loadHints($http).then(
+		    function(resp) {
+			curScope.hints = resp.data;
+			if (curScope.hints.length > 0 && curScope.hints[0].hint.indexOf(goatConstants.noHints) === -1) {
+			    goat.utils.displayButton('showHintsBtn', true);
+			} else {
+			    goat.utils.displayButton('showHintsBtn', false);
+			}
 		    }
-		}
-	    );
+		);
+	    } else {
+		$scope.hints = null;
+		goat.utils.displayButton('showHintsBtn', false);
+	    }
 	    //source
-	    goat.data.loadSource($http).then(
+	    if ($scope.showSource) {
+		goat.data.loadSource($http).then(
 		    function(resp) {
 			curScope.source = resp.data;
 		    }
-	    );
+		);
+	    } else {
+		$scope.source = goatConstants.noSourcePulled;
+	    }
+	    
 	    //plan
 	    goat.data.loadPlan($http).then(
 		    function(resp) {
@@ -188,7 +220,7 @@ var goatLesson = function($scope,$http,$log) {
         $scope.curHint = $scope.hints[$scope.hintIndex].hint;
 	//$scope.curHint = $sce.trustAsHtml($scope.hints[$scope.hintIndex].hint);
 	//TODO get html binding workin in the UI ... in the meantime ...
-	$scope.renderCurHint();
+	//$scope.renderCurHint();
         $scope.manageHintButtons();
     };
 
@@ -213,6 +245,14 @@ var goatLesson = function($scope,$http,$log) {
     $scope.hideHints = function() {
 
     };
+    
+    $scope.restartLesson = function () {
+	goat.data.loadRestart($http).then(
+	    function(resp) {
+		angular.element($('#leftside-navigation')).scope().renderLesson(null,resp.data,{showSource:$scope.showSource,showHints:$scope.showHints});
+	    }
+	)
+    }
 
     $scope.showAbout = function() {
         $('#aboutModal').modal({

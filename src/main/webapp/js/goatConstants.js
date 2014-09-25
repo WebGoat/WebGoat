@@ -4,6 +4,7 @@ var goatConstants = {
 	CATEGORYCLASS:'fa-angle-right pull-right',
 	lessonCompleteClass:'glyphicon glyphicon-check lessonComplete',
 	selectedMenuClass:'selected',
+	keepOpenClass:'keepOpen',
 	menuPrefix : [
 		{
 		name:'LESSONS',
@@ -22,9 +23,12 @@ var goatConstants = {
 	lessonPlanService:'service/lessonplan.mvc',
 	menuService: 'service/lessonmenu.mvc',
 	lessonTitleService: 'service/lessontitle.mvc',
-	// literals
+	restartLessonService: 'service/restartlesson.mvc',
+	
+	// literal messages
 	notFound: 'Could not find',
-	noHints: 'There are no hints defined.'
+	noHints: 'There are no hints defined.',
+	noSourcePulled: 'No source was retrieved for this lesson'
 	
 };
 
