@@ -716,10 +716,11 @@ fieldset[disabled] .btn-warning.active {
 
 .table-nonfluid {
   width:auto;
-  
+ margin-bottom:15px; 
 }
-.table-nonfluid {
- 
+
+cookieContainer {
+	margin-bottom:4px;
 }
 
 .cookieTable tr td, .paramsTable tr td {

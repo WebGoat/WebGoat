@@ -176,9 +176,10 @@
                                         <div id="cookiesAndParamsView">
                                             <div class="cookiesView">
                                                 <h4>Cookies</h4>
-                                                <table class="cookieTable table-striped table-nonfluid" ng-repeat="cookie in cookies">
+                                                <div class="cookieContainer" ng-repeat="cookie in cookies">
+                                                <table class="cookieTable table-striped table-nonfluid" >
                                                     <thead>
-                                                        <tr><th class="col-sm-1">Field</th><th class="col-sm-1">Value</th></tr>
+                                                        <tr><th class="col-sm-1"></th><th class="col-sm-1"></th></tr> <!-- Field / Value -->
                                                     </thead>
                                                     <tbody>
                                                         <tr ng-repeat="(key, value) in cookie">
@@ -189,6 +190,7 @@
                                                     <!--<li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>-->
                                                     <!--</ul>-->
                                                 </table>
+                                                </div>
                                             </div>
                                             <div id="paramsView"> <!--class="paramsView"-->
                                                 <h4>Params</h4>

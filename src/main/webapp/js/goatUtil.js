@@ -102,8 +102,6 @@ goat.utils = {
                     function() {
                         var _url = $(el).attr('link');
                         $.get(_url, {success:showResponse});
-                        //return $.get(_url, {}, null, "html");
-                        //angular.element($('#leftside-navigation')).scope().renderLesson(curMenuItem,url);
                     }
                 )
             }
