@@ -35,8 +35,8 @@ import org.owasp.webgoat.lessons.AbstractLesson;
  *
  * Getting Source ==============
  *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
- * for free software projects.
+ * Source for this application is maintained at
+ * https://github.com/WebGoat/WebGoat, a repository for free software projects.
  *
  * For details, please see http://webgoat.github.io
  *
@@ -202,12 +202,11 @@ public abstract class Screen {
 
     }
 
-    // TODO we could hook all forms here with javascript call to ajax forms plugin
+    // hook all the links
     public String getContent() {
-        String makeFormsAjax = "<script>  $(document).ready(function() { makeFormsAjax(); });</script>";
-        // handle this on the page with js
-        makeFormsAjax = "";
-        return (content == null) ? "" : content.toString() + makeFormsAjax;
+        String makeAllAjax = "<script>goat.utils.makeFormsAjax();goat.utils.ajaxifyAttackHref();</script>";
+        // need to do this here as some of the lessons render forms after submission of an ajax form
+        return (content == null) ? "" : content.toString() + makeAllAjax;
     }
 
     /**

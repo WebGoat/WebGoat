@@ -41,7 +41,7 @@
         <![endif]-->
 
         <!--Global JS-->
-        
+
         <script src="js/jquery_form/jquery.form.js"></script>  
         <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 
@@ -115,9 +115,9 @@
                             <a ng-click="accordionMenu(item.id)" href=""><i class="fa {{item.class}}"></i><span>{{item.name}}</span></a><!-- expanded = !expanded-->
                             <ul class="slideDown lessonsAndStages {{item.displayClass}}" id="{{item.id}}" isOpen=0>
                                 <li ng-repeat="lesson in item.children" class="{{lesson.selectedClass}}">
-                                    <a ng-click="renderLesson(lesson.id,lesson.link,{showSource:lesson.showSource,showHints:lesson.showHints})" id="{{lesson.id}}" class="{{lesson.selectedClass}}" title="link to {{lesson.name}}" href="">{{lesson.name}}</a><span class="{{lesson.completeClass}}"></span>
+                                    <a ng-click="renderLesson(lesson.id, lesson.link, {showSource: lesson.showSource, showHints: lesson.showHints})" id="{{lesson.id}}" class="{{lesson.selectedClass}}" title="link to {{lesson.name}}" href="">{{lesson.name}}</a><span class="{{lesson.completeClass}}"></span>
                                     <span ng-repeat="stage in lesson.children">
-                                        <a ng-click="renderLesson(stage.id,stage.link,{showSource:stage.showSource,showHints:stage.showHints})" class="selectedClass" id="{{stage.id}}"  title="link to {{stage.name}}" href="">{{stage.name}}</a><span class="{{stage.completeClass}}"></span>
+                                        <a ng-click="renderLesson(stage.id, stage.link, {showSource: stage.showSource, showHints: stage.showHints})" class="selectedClass" id="{{stage.id}}"  title="link to {{stage.name}}" href="">{{stage.name}}</a><span class="{{stage.completeClass}}"></span>
                                     </span>
                                 </li>
                             </ul>
@@ -177,19 +177,19 @@
                                             <div class="cookiesView">
                                                 <h4>Cookies</h4>
                                                 <div class="cookieContainer" ng-repeat="cookie in cookies">
-                                                <table class="cookieTable table-striped table-nonfluid" >
-                                                    <thead>
-                                                        <tr><th class="col-sm-1"></th><th class="col-sm-1"></th></tr> <!-- Field / Value -->
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ng-repeat="(key, value) in cookie">
-                                                            <td>{{key}}</td>
-                                                            <td>{{value}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <!--<li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>-->
-                                                    <!--</ul>-->
-                                                </table>
+                                                    <table class="cookieTable table-striped table-nonfluid" >
+                                                        <thead>
+                                                            <tr><th class="col-sm-1"></th><th class="col-sm-1"></th></tr> <!-- Field / Value -->
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="(key, value) in cookie">
+                                                                <td>{{key}}</td>
+                                                                <td>{{value}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <!--<li ng-repeat="(key, value) in cookie">{{key}} :: {{ value}} </td>-->
+                                                        <!--</ul>-->
+                                                    </table>
                                                 </div>
                                             </div>
                                             <div id="paramsView"> <!--class="paramsView"-->
@@ -296,7 +296,7 @@
 
             $(document).ready(function() {
                 //TODO merge appliction.js code into other js files
-                app.init();               
+                app.init();
             });
             // make all forms ajax forms
             var options = {
@@ -354,7 +354,8 @@
                 // make any embedded forms ajaxy
                 goat.utils.showLessonCookiesAndParams();
                 goat.utils.makeFormsAjax();
-                goat.utils.ajaxifyAttackHref(); //TODO find some way to hook scope for current menu. Likely needs larger refactor which is already started/stashed
+                // links are hooked with each lesson now (see Java class Screen.getContent())
+                //goat.utils.ajaxifyAttackHref(); //TODO find some way to hook scope for current menu. Likely needs larger refactor which is already started/stashed
                 //refresh menu
                 angular.element($('#leftside-navigation')).scope().renderMenu();
             }
