@@ -287,80 +287,14 @@
         <!--main content end-->
 
         </section>
+
         <script>
-            //Load global functions
-
-            // set this to true if you want to see form submissions
-            // set to false once we get all the kinks worked out
-            var DEBUG_FORM_SUBMISSION = false;
-
             $(document).ready(function() {
                 //TODO merge appliction.js code into other js files
                 app.init();
             });
-            // make all forms ajax forms
-            var options = {
-                target: '#lesson_content', // target element(s) to be updated with server response                     
-                beforeSubmit: showRequest, // pre-submit callback, comment out after debugging 
-                success: showResponse  // post-submit callback, comment out after debugging 
-
-                        // other available options: 
-                        //url:       url         // override for form's 'action' attribute 
-                        //type:      type        // 'get' or 'post', override for form's 'method' attribute 
-                        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-                        //clearForm: true        // clear all form fields after successful submit 
-                        //resetForm: true        // reset the form after successful submit 
-
-                        // $.ajax options can be used here too, for example: 
-                        //timeout:   3000 
-            };
-            // pre-submit callback 
-            function showRequest(formData, jqForm, options) {
-                if (DEBUG_FORM_SUBMISSION) {
-                    // formData is an array; here we use $.param to convert it to a string to display it 
-                    // but the form plugin does this for you automatically when it submits the data 
-                    var queryString = $.param(formData);
-
-                    // jqForm is a jQuery object encapsulating the form element.  To access the 
-                    // DOM element for the form do this: 
-                    // var formElement = jqForm[0]; 
-
-                    alert('About to submit: \n\n' + queryString);
-                }
-
-                // here we could return false to prevent the form from being submitted; 
-                // returning anything other than false will allow the form submit to continue 
-                return true;
-            }
-
-            // post-submit callback 
-            function showResponse(responseText, statusText, xhr, $form) {
-                // for normal html responses, the first argument to the success callback 
-                // is the XMLHttpRequest object's responseText property 
-
-                // if the ajaxForm method was passed an Options Object with the dataType 
-                // property set to 'xml' then the first argument to the success callback 
-                // is the XMLHttpRequest object's responseXML property 
-
-                // if the ajaxForm method was passed an Options Object with the dataType 
-                // property set to 'json' then the first argument to the success callback 
-                // is the json data object returned by the server 
-                if (DEBUG_FORM_SUBMISSION) {
-                    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
-                            '\n\nThe output div should have already been updated with the responseText.');
-                }
-                // JASON - SEE THIS HOOK
-                // update lesson cookies and params
-                // make any embedded forms ajaxy
-                goat.utils.showLessonCookiesAndParams();
-                goat.utils.makeFormsAjax();
-                // links are hooked with each lesson now (see Java class Screen.getContent())
-                //goat.utils.ajaxifyAttackHref(); //TODO find some way to hook scope for current menu. Likely needs larger refactor which is already started/stashed
-                //refresh menu
-                angular.element($('#leftside-navigation')).scope().renderMenu();
-            }
-
         </script>
+
         <!-- About WebGoat Modal -->
         <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">

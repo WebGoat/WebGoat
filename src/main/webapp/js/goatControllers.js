@@ -82,10 +82,10 @@ var goatMenu = function($scope, $http, $modal, $log, $templateCache) {
                     );
                     //TODO encode html or get angular js portion working
                     $("#lesson_content").html(reply.data);
-                    //hook forms
-                    goat.utils.makeFormsAjax();// inject form?
+                    //hook forms and links (safe to call twice)
                     // links are hooked with each lesson now (see Java class Screen.getContent())
-                    //goat.utils.ajaxifyAttackHref();
+                    goat.utils.makeFormsAjax();// inject form?
+                    goat.utils.ajaxifyAttackHref();
                     $('#leftside-navigation').height($('#main-content').height() + 15)//TODO: get ride of fixed value (15)here
                     //notifies goatLesson Controller of the less change
                     $scope.$emit('lessonUpdate', {params: curScope.parameters, 'showControls': showControls});
