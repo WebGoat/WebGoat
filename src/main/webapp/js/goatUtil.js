@@ -92,6 +92,9 @@ goat.utils = {
         return lessonName.replace(/\s|\(|\)|\!|\:|\;|\@|\#|\$|\%|\^|\&|\*/g,'');//TODO move the replace routine into util function
     },
     ajaxifyAttackHref: function () {
+        /* Jason I commented this implementation out
+         * I think we should show the attack link on the lessons that need it by modifying the lesson
+         * itself or we could add a new button up top for "show lesson link"      
         $.each($('a[href^="attack?"]'),
             function(i,el) {
                 var url = $(el).attr('href');
@@ -106,6 +109,14 @@ goat.utils = {
                 )
             }
         );
+        */
+       // alternate implementation
+        $('#lesson_content a').bind('click', function(event) {
+            event.preventDefault();
+            $.get(this.href, {}, function(response) {
+                $('#lesson_content').html(response);
+            });
+        });
     }
 };
 
