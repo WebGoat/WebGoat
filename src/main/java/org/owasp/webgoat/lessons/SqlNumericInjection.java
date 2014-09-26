@@ -22,7 +22,6 @@ import org.apache.ecs.html.Select;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -131,14 +130,14 @@ public class SqlNumericInjection extends SequentialLessonAdapter
                         getLessonTracker(s).setStage(2);
                         StringBuffer msg = new StringBuffer();
                         
-                        msg.append(WebGoatI18N.get("NumericSqlInjectionSecondStage"));
+                        msg.append(getLabelManager().get("NumericSqlInjectionSecondStage"));
 
                         s.setMessage(msg.toString());
                     }
                 }
                 else
                 {
-                    ec.addElement(WebGoatI18N.get("NoResultsMatched"));
+                    ec.addElement(getLabelManager().get("NoResultsMatched"));
                 }
 
             } catch (SQLException sqle)
@@ -147,7 +146,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
             }
         } catch (Exception e)
         {
-            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
             e.printStackTrace();
         }
 
@@ -158,7 +157,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
     {
         ElementContainer ec = new ElementContainer();
 
-        ec.addElement(WebGoatI18N.get("NumericSqlInjectionSecondStage2"));
+        ec.addElement(getLabelManager().get("NumericSqlInjectionSecondStage2"));
         // if ( s.getParser().getRawParameter( ACCT_NUM, "101" ).equals("restart"))
         // {
         // getLessonTracker(s).setStage(1);
@@ -202,14 +201,14 @@ public class SqlNumericInjection extends SequentialLessonAdapter
                 }
                 else
                 {
-                    ec.addElement(WebGoatI18N.get("NoResultsMatched"));
+                    ec.addElement(getLabelManager().get("NoResultsMatched"));
                 }
             } catch (SQLException sqle)
             {
                 ec.addElement(new P().addElement(sqle.getMessage()));
             } catch (NumberFormatException npe)
             {
-                ec.addElement(new P().addElement(WebGoatI18N.get("ErrorParsingAsNumber") + npe.getMessage()));
+                ec.addElement(new P().addElement(getLabelManager().get("ErrorParsingAsNumber") + npe.getMessage()));
             }
         } catch (Exception e)
         {
@@ -224,7 +223,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
     {
         ElementContainer ec = new ElementContainer();
 
-        ec.addElement(new P().addElement(WebGoatI18N.get("SelectYourStation")));
+        ec.addElement(new P().addElement(getLabelManager().get("SelectYourStation")));
 
         Map<String, String> stations = getStations(s);
         Select select = new Select(STATION_ID);
@@ -237,7 +236,7 @@ public class SqlNumericInjection extends SequentialLessonAdapter
         ec.addElement(select);
         ec.addElement(new P());
 
-        Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
+        Element b = ECSFactory.makeButton(getLabelManager().get("Go!"));
         ec.addElement(b);
 
         return ec;
@@ -307,10 +306,10 @@ public class SqlNumericInjection extends SequentialLessonAdapter
     protected List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add(WebGoatI18N.get("SqlNumericInjectionHint1"));
-        hints.add(WebGoatI18N.get("SqlNumericInjectionHint2"));
-        hints.add(WebGoatI18N.get("SqlNumericInjectionHint3"));
-        hints.add(WebGoatI18N.get("SqlNumericInjectionHint4"));
+        hints.add(getLabelManager().get("SqlNumericInjectionHint1"));
+        hints.add(getLabelManager().get("SqlNumericInjectionHint2"));
+        hints.add(getLabelManager().get("SqlNumericInjectionHint3"));
+        hints.add(getLabelManager().get("SqlNumericInjectionHint4"));
         
         
 

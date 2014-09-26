@@ -16,7 +16,6 @@ import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.util.Exec;
 import org.owasp.webgoat.util.ExecResults;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -79,7 +78,7 @@ public class CommandInjection extends LessonAdapter
                 }
                 index = index + 1;
                 int helpFileLen = helpFile.length() - 1; // subtract 1 for the closing quote
-                System.out.println(WebGoatI18N.get("Command")+" = [" + helpFile.substring(index, helpFileLen).trim().toLowerCase() + "]");
+                System.out.println(getLabelManager().get("Command")+" = [" + helpFile.substring(index, helpFileLen).trim().toLowerCase() + "]");
                 if ((osName.indexOf("Windows") != -1 && (helpFile.substring(index, helpFileLen).trim().toLowerCase()
                         .equals("netstat -a")
                         || helpFile.substring(index, helpFileLen).trim().toLowerCase().equals("dir")
@@ -97,7 +96,7 @@ public class CommandInjection extends LessonAdapter
                 }
                 else
                 {
-                    s.setMessage(WebGoatI18N.get("CommandInjectionRightTrack1"));
+                    s.setMessage(getLabelManager().get("CommandInjectionRightTrack1"));
                             
                 }
             }
@@ -114,7 +113,7 @@ public class CommandInjection extends LessonAdapter
                     }
                     else
                     {
-                        s.setMessage(WebGoatI18N.get("CommandInjectionRightTrack2"));
+                        s.setMessage(getLabelManager().get("CommandInjectionRightTrack2"));
                     }
                 }
                 else
@@ -125,8 +124,8 @@ public class CommandInjection extends LessonAdapter
             }
             File safeDir = new File(s.getContext().getRealPath("/lesson_plans/en"));
 
-            ec.addElement(new StringElement(WebGoatI18N.get("YouAreCurrentlyViewing")+"<b>"
-                    + (helpFile.toString().length() == 0 ? "&lt;"+WebGoatI18N.get("SelectFileFromListBelow")+"&gt;" : helpFile.toString())
+            ec.addElement(new StringElement(getLabelManager().get("YouAreCurrentlyViewing")+"<b>"
+                    + (helpFile.toString().length() == 0 ? "&lt;"+getLabelManager().get("SelectFileFromListBelow")+"&gt;" : helpFile.toString())
                     + "</b>"));
 
             if (!illegalCommand)
@@ -151,11 +150,11 @@ public class CommandInjection extends LessonAdapter
                     fileData = exec(s, cmd2);
                 }
 
-                ec.addElement(new P().addElement(WebGoatI18N.get("SelectLessonPlanToView")));
+                ec.addElement(new P().addElement(getLabelManager().get("SelectLessonPlanToView")));
                 ec.addElement(ECSFactory.makePulldown(HELP_FILE, parseResults(results.replaceAll("(?s)\\.html",
                                                                                                     "\\.help"))));
                 // ec.addElement( results );
-                Element b = ECSFactory.makeButton(WebGoatI18N.get("View"));
+                Element b = ECSFactory.makeButton(getLabelManager().get("View"));
                 ec.addElement(b);
                 // Strip out some of the extra html from the "help" file
                 ec.addElement(new BR());
@@ -271,10 +270,10 @@ public class CommandInjection extends LessonAdapter
     protected List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add(WebGoatI18N.get("CommandInjectionHint1"));
-        hints.add(WebGoatI18N.get("CommandInjectionHint2"));
-        hints.add(WebGoatI18N.get("CommandInjectionHint3"));
-        hints.add(WebGoatI18N.get("CommandInjectionHint4"));
+        hints.add(getLabelManager().get("CommandInjectionHint1"));
+        hints.add(getLabelManager().get("CommandInjectionHint2"));
+        hints.add(getLabelManager().get("CommandInjectionHint3"));
+        hints.add(getLabelManager().get("CommandInjectionHint4"));
 
         return hints;
     }

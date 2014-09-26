@@ -6,36 +6,61 @@ import java.util.ResourceBundle;
 
 import org.owasp.webgoat.session.WebgoatContext;
 
-public class WebGoatI18N {
+@Deprecated
+public class WebGoatI18N
+{
 
-	private static HashMap<String,ResourceBundle> labels= new HashMap<String,ResourceBundle>();
-	private static String defaultLanguage ;
-	private static String currentLanguage;
+	private static HashMap<Locale, ResourceBundle> labels = new HashMap<Locale, ResourceBundle>();
+	private static Locale currentLocale;
+	private static WebGoatResourceBundleController localeController;
 	
-	public WebGoatI18N(WebgoatContext context){
-		Locale l = new Locale(context.getDefaultLanguage());
-		WebGoatI18N.defaultLanguage=context.getDefaultLanguage();
-		labels.put(context.getDefaultLanguage(),ResourceBundle.getBundle("WebGoatLabels_english",l));
+	public WebGoatI18N(WebgoatContext context)
+	{
+		currentLocale = new Locale(context.getDefaultLanguage());
+		localeController = new WebGoatResourceBundleController(currentLocale);
 	}
 	
-	public static void loadLanguage(String language){
-		Locale l = new Locale(language);
-		labels.put(language, ResourceBundle.getBundle("WebGoatLabels_english",l));
+	@Deprecated
+	public static void loadLanguage(String language)
+	{
+		// Do nothing
 	}
 	
-	public static void setCurrentLanguage(String language){
-		WebGoatI18N.currentLanguage=language;
-	}
-	
-	public static String get(String strName) {
-		if(labels.containsKey(WebGoatI18N.currentLanguage)){
-			return labels.get(WebGoatI18N.currentLanguage).getString(strName);	
-		}
-		else {
-			return labels.get(WebGoatI18N.defaultLanguage).getString(strName);
+	public static void setCurrentLocale(Locale locale)
+	{
+		if (!currentLocale.equals(locale))
+		{
+			if (!labels.containsKey(locale))
+			{
+				ResourceBundle resBundle = ResourceBundle.getBundle("WebGoatLabels", locale, localeController);
+				labels.put(locale, resBundle);
+			}
+			WebGoatI18N.currentLocale = locale;
 		}
 	}
 
+	public static String get(String strName)
+	{
+		return labels.get(WebGoatI18N.currentLocale).getString(strName);
+	}
+
+	private static class WebGoatResourceBundleController extends ResourceBundle.Control
+	{
+		private Locale fallbackLocale;
+
+		public WebGoatResourceBundleController(Locale l)
+		{
+			fallbackLocale = l;
+		}
 	
+		@Override
+		public Locale getFallbackLocale(String baseName, Locale locale)
+		{
+			if(! fallbackLocale.equals(locale)) {
+				return fallbackLocale;
+			}
+			return Locale.ROOT;
+		}
+	}
 	
 }

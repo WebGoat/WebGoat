@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -79,11 +78,11 @@ public class RemoteAdminFlaw extends LessonAdapter
     public List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add(WebGoatI18N.get("RemoteAdminFlawHint1"));
-        hints.add(WebGoatI18N.get("RemoteAdminFlawHint2"));
-        hints.add(WebGoatI18N.get("RemoteAdminFlawHint3"));
-        hints.add(WebGoatI18N.get("RemoteAdminFlawHint4"));
-        hints.add(WebGoatI18N.get("RemoteAdminFlawHint5"));
+        hints.add(getLabelManager().get("RemoteAdminFlawHint1"));
+        hints.add(getLabelManager().get("RemoteAdminFlawHint2"));
+        hints.add(getLabelManager().get("RemoteAdminFlawHint3"));
+        hints.add(getLabelManager().get("RemoteAdminFlawHint4"));
+        hints.add(getLabelManager().get("RemoteAdminFlawHint5"));
 
         return hints;
     }

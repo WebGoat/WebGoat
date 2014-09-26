@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -30,6 +29,8 @@ import org.owasp.webgoat.session.Screen;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.owasp.webgoat.session.WebgoatProperties;
+import org.owasp.webgoat.util.BeanProvider;
+import org.owasp.webgoat.util.LabelManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,6 +114,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     private LinkedList<String> availableLanguages = new LinkedList<String>();
 
     private String defaultLanguage = "en";
+
+    private LabelManager labelManager = null;
 
     /**
      * Constructor for the Lesson object
@@ -794,5 +797,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     public void setWebgoatContext(WebgoatContext webgoatContext) {
         this.webgoatContext = webgoatContext;
+    }
+    
+    protected LabelManager getLabelManager() {
+    	if(labelManager == null) {
+    		labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
+    	}
+    	return labelManager;
     }
 }

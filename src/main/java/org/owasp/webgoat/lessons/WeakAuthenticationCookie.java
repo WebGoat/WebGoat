@@ -18,7 +18,6 @@ import org.apache.ecs.html.TH;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.*;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -104,7 +103,7 @@ public class WeakAuthenticationCookie extends LessonAdapter
             }
             else
             {
-                s.setMessage(WebGoatI18N.get("InvalidCookie"));
+                s.setMessage(getLabelManager().get("InvalidCookie"));
                 s.eatCookies();
             }
         }
@@ -142,14 +141,14 @@ public class WeakAuthenticationCookie extends LessonAdapter
             if (loginID != "")
             {
                 Cookie newCookie = new Cookie(AUTHCOOKIE, loginID);
-                s.setMessage(WebGoatI18N.get("IdentityRemembered"));
+                s.setMessage(getLabelManager().get("IdentityRemembered"));
                 s.getResponse().addCookie(newCookie);
 
                 return (username);
             }
             else
             {
-                s.setMessage(WebGoatI18N.get("InvalidUsernameAndPassword"));
+                s.setMessage(getLabelManager().get("InvalidUsernameAndPassword"));
             }
         }
 
@@ -169,7 +168,7 @@ public class WeakAuthenticationCookie extends LessonAdapter
 
         if (logout)
         {
-            s.setMessage(WebGoatI18N.get("PasswordForgotten"));
+            s.setMessage(getLabelManager().get("PasswordForgotten"));
             s.eatCookies();
 
             return (makeLogin(s));
@@ -186,7 +185,7 @@ public class WeakAuthenticationCookie extends LessonAdapter
             if ((user != null) && (user.length() > 0)) { return (makeUser(s, user, "PARAMETERS")); }
         } catch (Exception e)
         {
-            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
             e.printStackTrace();
         }
 
@@ -251,10 +250,10 @@ public class WeakAuthenticationCookie extends LessonAdapter
     protected List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add(WebGoatI18N.get("WeakAuthenticationCookieHints1"));
-        hints.add(WebGoatI18N.get("WeakAuthenticationCookieHints2"));
-        hints.add(WebGoatI18N.get("WeakAuthenticationCookieHints3"));
-        hints.add(WebGoatI18N.get("WeakAuthenticationCookieHints4"));
+        hints.add(getLabelManager().get("WeakAuthenticationCookieHints1"));
+        hints.add(getLabelManager().get("WeakAuthenticationCookieHints2"));
+        hints.add(getLabelManager().get("WeakAuthenticationCookieHints3"));
+        hints.add(getLabelManager().get("WeakAuthenticationCookieHints4"));
         
         
         return hints;
@@ -290,7 +289,7 @@ public class WeakAuthenticationCookie extends LessonAdapter
     {
         ElementContainer ec = new ElementContainer();
 
-        ec.addElement(new H1().addElement(WebGoatI18N.get("SignIn")));
+        ec.addElement(new H1().addElement(getLabelManager().get("SignIn")));
         Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(0).setWidth("90%").setAlign("center");
 
         if (s.isColor())
@@ -300,12 +299,12 @@ public class WeakAuthenticationCookie extends LessonAdapter
 
         TR tr = new TR();
         tr.addElement(new TH()
-                .addElement(WebGoatI18N.get("WeakAuthenticationCookiePleaseSignIn"))
+                .addElement(getLabelManager().get("WeakAuthenticationCookiePleaseSignIn"))
                 .setColSpan(2).setAlign("left"));
         t.addElement(tr);
 
         tr = new TR();
-        tr.addElement(new TD().addElement("*"+WebGoatI18N.get("RequiredFields")).setWidth("30%"));
+        tr.addElement(new TD().addElement("*"+getLabelManager().get("RequiredFields")).setWidth("30%"));
         t.addElement(tr);
 
         tr = new TR();
@@ -314,8 +313,8 @@ public class WeakAuthenticationCookie extends LessonAdapter
 
         TR row1 = new TR();
         TR row2 = new TR();
-        row1.addElement(new TD(new B(new StringElement("*"+WebGoatI18N.get("UserName")))));
-        row2.addElement(new TD(new B(new StringElement("*"+WebGoatI18N.get("Password")))));
+        row1.addElement(new TD(new B(new StringElement("*"+getLabelManager().get("UserName")))));
+        row2.addElement(new TD(new B(new StringElement("*"+getLabelManager().get("Password")))));
 
         Input input1 = new Input(Input.TEXT, USERNAME, "");
         Input input2 = new Input(Input.PASSWORD, PASSWORD, "");
@@ -324,7 +323,7 @@ public class WeakAuthenticationCookie extends LessonAdapter
         t.addElement(row1);
         t.addElement(row2);
 
-        Element b = ECSFactory.makeButton(WebGoatI18N.get("Login"));
+        Element b = ECSFactory.makeButton(getLabelManager().get("Login"));
         t.addElement(new TR(new TD(b)));
         ec.addElement(t);
 
@@ -347,10 +346,10 @@ public class WeakAuthenticationCookie extends LessonAdapter
     protected Element makeUser(WebSession s, String user, String method) throws Exception
     {
         ElementContainer ec = new ElementContainer();
-        ec.addElement(new P().addElement(WebGoatI18N.get("WelcomeUser") + user));
-        ec.addElement(new P().addElement(WebGoatI18N.get("YouHaveBeenAuthenticatedWith") + method));
-        ec.addElement(new P().addElement(ECSFactory.makeLink(WebGoatI18N.get("Logout"), LOGOUT, true)));
-        ec.addElement(new P().addElement(ECSFactory.makeLink(WebGoatI18N.get("Refresh"), "", "")));
+        ec.addElement(new P().addElement(getLabelManager().get("WelcomeUser") + user));
+        ec.addElement(new P().addElement(getLabelManager().get("YouHaveBeenAuthenticatedWith") + method));
+        ec.addElement(new P().addElement(ECSFactory.makeLink(getLabelManager().get("Logout"), LOGOUT, true)));
+        ec.addElement(new P().addElement(ECSFactory.makeLink(getLabelManager().get("Refresh"), "", "")));
 
         return (ec);
     }

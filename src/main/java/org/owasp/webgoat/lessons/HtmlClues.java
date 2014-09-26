@@ -19,7 +19,6 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -108,7 +107,7 @@ public class HtmlClues extends LessonAdapter
             {
                 makeSuccess(s);
 
-                s.setMessage(WebGoatI18N.get("HtmlCluesBINGO"));
+                s.setMessage(getLabelManager().get("HtmlCluesBINGO"));
                 ec.addElement(makeUser(s, "admin", "CREDENTIALS"));
             }
             else
@@ -139,8 +138,8 @@ public class HtmlClues extends LessonAdapter
     protected Element makeUser(WebSession s, String user, String method) throws Exception
     {
         ElementContainer ec = new ElementContainer();
-        ec.addElement(new P().addElement(WebGoatI18N.get("WelcomeUser")+ user));
-        ec.addElement(new P().addElement(WebGoatI18N.get("YouHaveBeenAuthenticatedWith") + method));
+        ec.addElement(new P().addElement(getLabelManager().get("WelcomeUser")+ user));
+        ec.addElement(new P().addElement(getLabelManager().get("YouHaveBeenAuthenticatedWith") + method));
 
         return (ec);
     }
@@ -159,12 +158,12 @@ public class HtmlClues extends LessonAdapter
 
         TR tr = new TR();
         tr.addElement(new TH()
-                .addElement(WebGoatI18N.get("WeakAuthenticationCookiePleaseSignIn"))
+                .addElement(getLabelManager().get("WeakAuthenticationCookiePleaseSignIn"))
                 .setColSpan(2).setAlign("left"));
         t.addElement(tr);
 
         tr = new TR();
-        tr.addElement(new TD().addElement("*"+WebGoatI18N.get("RequiredFields")).setWidth("30%"));
+        tr.addElement(new TD().addElement("*"+getLabelManager().get("RequiredFields")).setWidth("30%"));
         t.addElement(tr);
 
         tr = new TR();
@@ -173,8 +172,8 @@ public class HtmlClues extends LessonAdapter
 
         TR row1 = new TR();
         TR row2 = new TR();
-        row1.addElement(new TD(new B(new StringElement("*"+WebGoatI18N.get("UserName")+": "))));
-        row2.addElement(new TD(new B(new StringElement("*"+WebGoatI18N.get("Password")+": "))));
+        row1.addElement(new TD(new B(new StringElement("*"+getLabelManager().get("UserName")+": "))));
+        row2.addElement(new TD(new B(new StringElement("*"+getLabelManager().get("Password")+": "))));
 
         Input input1 = new Input(Input.TEXT, USERNAME, "");
         Input input2 = new Input(Input.PASSWORD, PASSWORD, "");
@@ -183,7 +182,7 @@ public class HtmlClues extends LessonAdapter
         t.addElement(row1);
         t.addElement(row2);
 
-        Element b = ECSFactory.makeButton(WebGoatI18N.get("Login"));
+        Element b = ECSFactory.makeButton(getLabelManager().get("Login"));
         t.addElement(new TR(new TD(b)));
         ec.addElement(t);
 
@@ -198,9 +197,9 @@ public class HtmlClues extends LessonAdapter
     protected List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add(WebGoatI18N.get("HtmlCluesHint1"));
-        hints.add(WebGoatI18N.get("HtmlCluesHint2"));
-        hints.add(WebGoatI18N.get("HtmlCluesHint3"));
+        hints.add(getLabelManager().get("HtmlCluesHint1"));
+        hints.add(getLabelManager().get("HtmlCluesHint2"));
+        hints.add(getLabelManager().get("HtmlCluesHint3"));
         
         return hints;
     }

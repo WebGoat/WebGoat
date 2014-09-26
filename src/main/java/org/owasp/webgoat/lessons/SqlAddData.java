@@ -19,7 +19,6 @@ import org.apache.ecs.html.PRE;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -109,7 +108,7 @@ public class SqlAddData extends SequentialLessonAdapter
                 }
                 else
                 {
-                    ec.addElement(WebGoatI18N.get("NoResultsMatched"));
+                    ec.addElement(getLabelManager().get("NoResultsMatched"));
                 }
                 
                 // see if the number of rows in the table has changed
@@ -131,7 +130,7 @@ public class SqlAddData extends SequentialLessonAdapter
             }
         } catch (Exception e)
         {
-            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
             e.printStackTrace();
         }
 
@@ -143,13 +142,13 @@ public class SqlAddData extends SequentialLessonAdapter
     protected Element makeAccountLine(WebSession s)
     {
         ElementContainer ec = new ElementContainer();
-        ec.addElement(new P().addElement(WebGoatI18N.get("EnterUserid")));
+        ec.addElement(new P().addElement(getLabelManager().get("EnterUserid")));
 
         userid = s.getParser().getRawParameter(USERID, "jsmith");
         Input input = new Input(Input.TEXT, USERID, userid.toString());
         ec.addElement(input);
 
-        Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
+        Element b = ECSFactory.makeButton(getLabelManager().get("Go!"));
         ec.addElement(b);
 
         return ec;
@@ -185,11 +184,11 @@ public class SqlAddData extends SequentialLessonAdapter
     {
         List<String> hints = new ArrayList<String>();
         
-        hints.add(WebGoatI18N.get("SqlAddDataHint1"));
-        hints.add(WebGoatI18N.get("SqlAddDataHint2"));
-        hints.add(WebGoatI18N.get("SqlAddDataHint3"));
-        hints.add(WebGoatI18N.get("SqlAddDataHint4"));
-        hints.add(WebGoatI18N.get("SqlAddDataHint5"));
+        hints.add(getLabelManager().get("SqlAddDataHint1"));
+        hints.add(getLabelManager().get("SqlAddDataHint2"));
+        hints.add(getLabelManager().get("SqlAddDataHint3"));
+        hints.add(getLabelManager().get("SqlAddDataHint4"));
+        hints.add(getLabelManager().get("SqlAddDataHint5"));
 
         return hints;
     }

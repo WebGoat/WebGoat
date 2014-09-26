@@ -13,7 +13,6 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -102,12 +101,12 @@ public class BasicAuthentication extends SequentialLessonAdapter
             {
                 if (headerName.length() > 0 && !headerName.equalsIgnoreCase(AUTHORIZATION))
                 {
-                    s.setMessage(WebGoatI18N.get("BasicAuthHeaderNameIncorrect"));
+                    s.setMessage(getLabelManager().get("BasicAuthHeaderNameIncorrect"));
                 }
                 if (headerValue.length() > 0
                         && !(headerValue.equals("guest:guest") || headerValue.equals("webgoat:webgoat")))
                 {
-                    s.setMessage(WebGoatI18N.get("BasicAuthHeaderValueIncorrect"));
+                    s.setMessage(getLabelManager().get("BasicAuthHeaderValueIncorrect"));
 
                 }
             }
@@ -121,8 +120,8 @@ public class BasicAuthentication extends SequentialLessonAdapter
 
             TR row1 = new TR();
             TR row2 = new TR();
-            row1.addElement(new TD(new StringElement(WebGoatI18N.get("BasicAuthenticationWhatIsNameOfHeader"))));
-            row2.addElement(new TD(new StringElement(WebGoatI18N.get("BasicAuthenticationWhatIsDecodedValueOfHeader"))));
+            row1.addElement(new TD(new StringElement(getLabelManager().get("BasicAuthenticationWhatIsNameOfHeader"))));
+            row2.addElement(new TD(new StringElement(getLabelManager().get("BasicAuthenticationWhatIsDecodedValueOfHeader"))));
 
             row1.addElement(new TD(new Input(Input.TEXT, HEADER_NAME, headerName.toString())));
             row2.addElement(new TD(new Input(Input.TEXT, HEADER_VALUE, headerValue.toString())));
@@ -133,7 +132,7 @@ public class BasicAuthentication extends SequentialLessonAdapter
             ec.addElement(t);
             ec.addElement(new P());
 
-            Element b = ECSFactory.makeButton(WebGoatI18N.get("Submit"));
+            Element b = ECSFactory.makeButton(getLabelManager().get("Submit"));
             ec.addElement(b);
 
         } catch (Exception e)
@@ -159,7 +158,7 @@ public class BasicAuthentication extends SequentialLessonAdapter
                 getLessonTracker(s, originalUser).setStage(1);
                 getLessonTracker(s, originalUser).store(s, this);
                 makeSuccess(s);
-                s.setMessage(WebGoatI18N.get("BasicAuthenticiationGreenStars1")+ originalUser + WebGoatI18N.get("BasicAuthenticationGreenStars2"));
+                s.setMessage(getLabelManager().get("BasicAuthenticiationGreenStars1")+ originalUser + getLabelManager().get("BasicAuthenticationGreenStars2"));
                 return ec;
             }
             else
@@ -185,7 +184,7 @@ public class BasicAuthentication extends SequentialLessonAdapter
                     getLessonTracker(s, BASIC).store(s, this, BASIC);
                 }
 
-                s.setMessage(WebGoatI18N.get("BasicAuthenticationStage1Completed"));
+                s.setMessage(getLabelManager().get("BasicAuthenticationStage1Completed"));
 
                 // If the auth header is different but still the original user - tell the user
                 // that the original cookie was posted bak and basic auth uses the cookie before the
@@ -193,28 +192,28 @@ public class BasicAuthentication extends SequentialLessonAdapter
                 if (!originalAuth.equals("") && !originalAuth.equals(s.getHeader(AUTHORIZATION)))
                 {
                     ec
-                            .addElement(WebGoatI18N.get("BasicAuthenticationAlmostThere1")
+                            .addElement(getLabelManager().get("BasicAuthenticationAlmostThere1")
                                     + AUTHORIZATION
-                                    + WebGoatI18N.get("BasicAuthenticationAlmostThere2")
+                                    + getLabelManager().get("BasicAuthenticationAlmostThere2")
                                     + s.getUserName()
-                                    + WebGoatI18N.get("BasicAuthenticationAlmostThere3"));
+                                    + getLabelManager().get("BasicAuthenticationAlmostThere3"));
                 }
                 else if (!originalSessionId.equals(s.getCookie(JSESSIONID)))
                 {
                     ec
-                            .addElement(WebGoatI18N.get("BasicAuthenticationReallyClose"));
+                            .addElement(getLabelManager().get("BasicAuthenticationReallyClose"));
                                     
                 }
                 else
                 {
-                    ec.addElement(WebGoatI18N.get("BasicAuthenticationUseTheHints"));
+                    ec.addElement(getLabelManager().get("BasicAuthenticationUseTheHints"));
                 }
 
             }
 
         } catch (Exception e)
         {
-            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
             e.printStackTrace();
         }
 
@@ -245,18 +244,18 @@ public class BasicAuthentication extends SequentialLessonAdapter
         // switch ( stage )
         // {
         // case 1:
-        hints.add(WebGoatI18N.get("BasicAuthenticationHint1"));
-        hints.add(WebGoatI18N.get("BasicAuthenticationHint2"));
-        hints.add(WebGoatI18N.get("BasicAuthenticationHint3"));
-        hints.add(WebGoatI18N.get("BasicAuthenticationHint4"));
+        hints.add(getLabelManager().get("BasicAuthenticationHint1"));
+        hints.add(getLabelManager().get("BasicAuthenticationHint2"));
+        hints.add(getLabelManager().get("BasicAuthenticationHint3"));
+        hints.add(getLabelManager().get("BasicAuthenticationHint4"));
         
         // break;
         // case 2:
-        hints.add(WebGoatI18N.get("BasicAuthenticationHint5"));
-        hints.add(WebGoatI18N.get("BasicAuthenticationHint6"));
-        hints.add(WebGoatI18N.get("BasicAuthenticationHint7"));
-        hints.add(WebGoatI18N.get("BasicAuthenticationHint8"));
-        hints.add(WebGoatI18N.get("BasicAuthenticationHint9"));
+        hints.add(getLabelManager().get("BasicAuthenticationHint5"));
+        hints.add(getLabelManager().get("BasicAuthenticationHint6"));
+        hints.add(getLabelManager().get("BasicAuthenticationHint7"));
+        hints.add(getLabelManager().get("BasicAuthenticationHint8"));
+        hints.add(getLabelManager().get("BasicAuthenticationHint9"));
         
         // break;
         // }

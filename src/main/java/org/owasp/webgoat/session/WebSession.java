@@ -12,6 +12,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 import javax.servlet.ServletContext;
@@ -23,7 +24,8 @@ import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
 import org.owasp.webgoat.lessons.SequentialLessonAdapter;
 import org.owasp.webgoat.lessons.model.RequestParameter;
-import org.owasp.webgoat.util.WebGoatI18N;
+import org.owasp.webgoat.util.BeanProvider;
+import org.owasp.webgoat.util.LabelManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -773,9 +775,10 @@ public class WebSession {
             myParser.update(request);
         }
 
-        if (myParser.getRawParameter(LANGUAGE, null) != null) {
-            this.currentLanguage = new String(myParser.getRawParameter(LANGUAGE, null));
-            WebGoatI18N.setCurrentLanguage(this.currentLanguage);
+        Locale locale = request.getLocale();
+        if(locale != null) {
+        	LabelManager labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
+        	labelManager.setLocale(locale);
         }
 
         // System.out.println("Current Screen 1: " + currentScreen );

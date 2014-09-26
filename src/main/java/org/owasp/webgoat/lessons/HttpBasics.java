@@ -2,7 +2,6 @@ package org.owasp.webgoat.lessons;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -10,7 +9,6 @@ import org.apache.ecs.html.BR;
 import org.apache.ecs.html.Input;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 /**
  * *************************************************************************************************
@@ -61,7 +59,7 @@ public class HttpBasics extends LessonAdapter {
         StringBuffer person = null;
         try {
             ec.addElement(new BR());
-            ec.addElement(new StringElement(WebGoatI18N.get("EnterYourName") + ": "));
+            ec.addElement(new StringElement(getLabelManager().get("EnterYourName") + ": "));
 
             person = new StringBuffer(s.getParser().getStringParameter(PERSON, ""));
             person.reverse();
@@ -69,7 +67,7 @@ public class HttpBasics extends LessonAdapter {
             Input input = new Input(Input.TEXT, PERSON, person.toString());
             ec.addElement(input);
 
-            Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
+            Element b = ECSFactory.makeButton(getLabelManager().get("Go!"));
             ec.addElement(b);
         } catch (Exception e) {
             s.setMessage("Error generating " + this.getClass().getName());

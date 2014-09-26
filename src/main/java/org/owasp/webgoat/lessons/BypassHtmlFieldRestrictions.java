@@ -1,11 +1,6 @@
 
 package org.owasp.webgoat.lessons;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.ecs.Element;
@@ -17,12 +12,9 @@ import org.apache.ecs.html.Div;
 import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
-import org.apache.ecs.html.PRE;
-import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -197,9 +189,9 @@ public class BypassHtmlFieldRestrictions extends SequentialLessonAdapter
     {
         List<String> hints = new ArrayList<String>();
         
-        hints.add(WebGoatI18N.get("BypassHtmlFieldRestrictionsHint1"));
-        hints.add(WebGoatI18N.get("BypassHtmlFieldRestrictionsHint2"));
-        hints.add(WebGoatI18N.get("BypassHtmlFieldRestrictionsHint3"));
+        hints.add(getLabelManager().get("BypassHtmlFieldRestrictionsHint1"));
+        hints.add(getLabelManager().get("BypassHtmlFieldRestrictionsHint2"));
+        hints.add(getLabelManager().get("BypassHtmlFieldRestrictionsHint3"));
 
         return hints;
     }
