@@ -5,7 +5,7 @@
     <groupId>WebGoat</groupId>
     <artifactId>WebGoat</artifactId>
     <packaging>war</packaging>
-    <version>6.0-beta</version>
+    <version>6.0.1</version>
 
     <repositories>
         <repository>
