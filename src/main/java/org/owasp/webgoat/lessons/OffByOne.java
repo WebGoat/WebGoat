@@ -131,7 +131,7 @@ public class OffByOne extends LessonAdapter
         hints.add("Check for hidden form fields during registration");
         hints.add("Typically, web-based buffer overflows occur just above the value of 2 to the power of a number. E.g. 1024 + 1, 2048 + 1, 4096 + 1");
         hints.add("Overflow the room number field with 4096+1 characters and look for hidden fields");
-        hints.add("Enter the VIP name in the first and last naem fields");
+        hints.add("Enter the VIP name in the first and last name fields");
         return hints;
     }
 
