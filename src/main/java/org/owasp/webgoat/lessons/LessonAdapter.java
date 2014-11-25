@@ -15,7 +15,6 @@ import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 /**
  * *************************************************************************************************
@@ -220,7 +219,7 @@ public abstract class LessonAdapter extends AbstractLesson {
     protected Element makeSuccess(WebSession s) {
         getLessonTracker(s).setCompleted(true);
 
-        s.setMessage(WebGoatI18N.get("LessonCompleted"));
+        s.setMessage(getLabelManager().get("LessonCompleted"));
 
         return (null);
     }

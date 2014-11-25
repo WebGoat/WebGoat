@@ -19,7 +19,6 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.util.HtmlEncoder;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -88,13 +87,13 @@ public class ReflectedXSS extends LessonAdapter
                     makeSuccess(s);
                 }
 
-                s.setMessage(WebGoatI18N.get("ReflectedXSSWhoops1")+ param1 + WebGoatI18N.get("ReflectedXSSWhoops2"));
+                s.setMessage(getLabelManager().get("ReflectedXSSWhoops1")+ param1 + getLabelManager().get("ReflectedXSSWhoops2"));
             }
 
             // FIXME: encode output of field2, then s.setMessage( field2 );
 
             ec.addElement(new HR().setWidth("90%"));
-            ec.addElement(new Center().addElement(new H1().addElement(WebGoatI18N.get("ShoppingCart"))));
+            ec.addElement(new Center().addElement(new H1().addElement(getLabelManager().get("ShoppingCart"))));
             Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
 
             if (s.isColor())
@@ -103,10 +102,10 @@ public class ReflectedXSS extends LessonAdapter
             }
 
             TR tr = new TR();
-            tr.addElement(new TH().addElement(WebGoatI18N.get("ShoppingCartItems")).setWidth("80%"));
-            tr.addElement(new TH().addElement(WebGoatI18N.get("Price")).setWidth("10%"));
-            tr.addElement(new TH().addElement(WebGoatI18N.get("Quantity")).setWidth("3%"));
-            tr.addElement(new TH().addElement(WebGoatI18N.get("Total")).setWidth("7%"));
+            tr.addElement(new TH().addElement(getLabelManager().get("ShoppingCartItems")).setWidth("80%"));
+            tr.addElement(new TH().addElement(getLabelManager().get("Price")).setWidth("10%"));
+            tr.addElement(new TH().addElement(getLabelManager().get("Quantity")).setWidth("3%"));
+            tr.addElement(new TH().addElement(getLabelManager().get("Total")).setWidth("7%"));
             t.addElement(tr);
 
             tr = new TR();
@@ -171,24 +170,24 @@ public class ReflectedXSS extends LessonAdapter
             ec.addElement(new BR());
 
             tr = new TR();
-            tr.addElement(new TD().addElement(WebGoatI18N.get("TotalChargedCreditCard")+":"));
+            tr.addElement(new TD().addElement(getLabelManager().get("TotalChargedCreditCard")+":"));
             tr.addElement(new TD().addElement(money.format(runningTotal)));
-            tr.addElement(new TD().addElement(ECSFactory.makeButton(WebGoatI18N.get("UpdateCart"))));
+            tr.addElement(new TD().addElement(ECSFactory.makeButton(getLabelManager().get("UpdateCart"))));
             t.addElement(tr);
             tr = new TR();
             tr.addElement(new TD().addElement("&nbsp;").setColSpan(2));
             t.addElement(tr);
             tr = new TR();
-            tr.addElement(new TD().addElement(WebGoatI18N.get("EnterCreditCard")+":"));
+            tr.addElement(new TD().addElement(getLabelManager().get("EnterCreditCard")+":"));
             tr.addElement(new TD().addElement(new Input(Input.TEXT, "field2", param2)));
             t.addElement(tr);
             tr = new TR();
-            tr.addElement(new TD().addElement(WebGoatI18N.get("Enter3DigitCode")+":"));
+            tr.addElement(new TD().addElement(getLabelManager().get("Enter3DigitCode")+":"));
             tr.addElement(new TD().addElement("<input name='field1' type='TEXT' value='" + param1 + "'>"));
             // tr.addElement(new TD().addElement(new Input(Input.TEXT, "field1",param1)));
             t.addElement(tr);
 
-            Element b = ECSFactory.makeButton(WebGoatI18N.get("Purchase"));
+            Element b = ECSFactory.makeButton(getLabelManager().get("Purchase"));
             tr = new TR();
             tr.addElement(new TD().addElement(b).setColSpan(2).setAlign("center"));
             t.addElement(tr);
@@ -198,7 +197,7 @@ public class ReflectedXSS extends LessonAdapter
             ec.addElement(new HR().setWidth("90%"));
         } catch (Exception e)
         {
-            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
             e.printStackTrace();
         }
         return (ec);
@@ -222,11 +221,11 @@ public class ReflectedXSS extends LessonAdapter
     protected List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add(WebGoatI18N.get("ReflectedXSSHint1"));
-        hints.add(WebGoatI18N.get("ReflectedXSSHint2"));
-        hints.add(WebGoatI18N.get("ReflectedXSSHint3"));
-        hints.add(WebGoatI18N.get("ReflectedXSSHint4"));
-        hints.add(WebGoatI18N.get("ReflectedXSSHint5"));
+        hints.add(getLabelManager().get("ReflectedXSSHint1"));
+        hints.add(getLabelManager().get("ReflectedXSSHint2"));
+        hints.add(getLabelManager().get("ReflectedXSSHint3"));
+        hints.add(getLabelManager().get("ReflectedXSSHint4"));
+        hints.add(getLabelManager().get("ReflectedXSSHint5"));
         
         return hints;
     }

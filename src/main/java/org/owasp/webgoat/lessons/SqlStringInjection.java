@@ -18,7 +18,6 @@ import org.apache.ecs.html.PRE;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -114,14 +113,14 @@ public class SqlStringInjection extends SequentialLessonAdapter
 
                         StringBuffer msg = new StringBuffer();
 
-                        msg.append(WebGoatI18N.get("StringSqlInjectionSecondStage"));
+                        msg.append(getLabelManager().get("StringSqlInjectionSecondStage"));
 
                         s.setMessage(msg.toString());
                     }
                 }
                 else
                 {
-                    ec.addElement(WebGoatI18N.get("NoResultsMatched"));
+                    ec.addElement(getLabelManager().get("NoResultsMatched"));
                 }
             } catch (SQLException sqle)
             {
@@ -130,7 +129,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
             }
         } catch (Exception e)
         {
-            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
             e.printStackTrace();
         }
 
@@ -141,7 +140,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
     {
         ElementContainer ec = new ElementContainer();
 
-        ec.addElement(WebGoatI18N.get("StringSqlInjectionSecondStage"));
+        ec.addElement(getLabelManager().get("StringSqlInjectionSecondStage"));
         if (s.getParser().getRawParameter(ACCT_NAME, "YOUR_NAME").equals("restart"))
         {
             getLessonTracker(s).getLessonProperties().setProperty(STAGE, "1");
@@ -180,7 +179,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
                 }
                 else
                 {
-                    ec.addElement(WebGoatI18N.get("NoResultsMatched"));
+                    ec.addElement(getLabelManager().get("NoResultsMatched"));
                 }
             } catch (SQLException sqle)
             {
@@ -188,7 +187,7 @@ public class SqlStringInjection extends SequentialLessonAdapter
             }
         } catch (Exception e)
         {
-            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
             e.printStackTrace();
         }
 
@@ -198,13 +197,13 @@ public class SqlStringInjection extends SequentialLessonAdapter
     protected Element makeAccountLine(WebSession s)
     {
         ElementContainer ec = new ElementContainer();
-        ec.addElement(new P().addElement(WebGoatI18N.get("EnterLastName")));
+        ec.addElement(new P().addElement(getLabelManager().get("EnterLastName")));
 
         accountName = s.getParser().getRawParameter(ACCT_NAME, "Your Name");
         Input input = new Input(Input.TEXT, ACCT_NAME, accountName.toString());
         ec.addElement(input);
 
-        Element b = ECSFactory.makeButton(WebGoatI18N.get("Go!"));
+        Element b = ECSFactory.makeButton(getLabelManager().get("Go!"));
         ec.addElement(b);
 
         return ec;
@@ -230,10 +229,10 @@ public class SqlStringInjection extends SequentialLessonAdapter
     {
         List<String> hints = new ArrayList<String>();
         
-        hints.add(WebGoatI18N.get("SqlStringInjectionHint1"));
-        hints.add(WebGoatI18N.get("SqlStringInjectionHint2"));
-        hints.add(WebGoatI18N.get("SqlStringInjectionHint3"));
-        hints.add(WebGoatI18N.get("SqlStringInjectionHint4"));
+        hints.add(getLabelManager().get("SqlStringInjectionHint1"));
+        hints.add(getLabelManager().get("SqlStringInjectionHint2"));
+        hints.add(getLabelManager().get("SqlStringInjectionHint3"));
+        hints.add(getLabelManager().get("SqlStringInjectionHint4"));
 
         return hints;
     }

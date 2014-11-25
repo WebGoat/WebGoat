@@ -14,7 +14,6 @@ import org.apache.ecs.html.Input;
 import org.apache.ecs.html.P;
 import org.apache.ecs.html.TextArea;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -125,28 +124,28 @@ public class JavaScriptValidation extends LessonAdapter
             b.setType(Input.BUTTON);
             b.setValue("Submit");
             b.addAttribute("onclick", "validate();");
-            ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("3LowerCase")+"("
+            ec.addElement(new Div().addElement(new StringElement(getLabelManager().get("3LowerCase")+"("
                     + regex1 + ")")));
             ec.addElement(new Div().addElement(input1));
             ec.addElement(new P());
-            ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("Exactly3Digits")+"(" + regex2 + ")")));
+            ec.addElement(new Div().addElement(new StringElement(getLabelManager().get("Exactly3Digits")+"(" + regex2 + ")")));
             ec.addElement(new Div().addElement(input2));
             ec.addElement(new P());
-            ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("LettersNumbersSpaceOnly")+"(" + regex3
+            ec.addElement(new Div().addElement(new StringElement(getLabelManager().get("LettersNumbersSpaceOnly")+"(" + regex3
                     + ")")));
             ec.addElement(new Div().addElement(input3));
             ec.addElement(new P());
-            ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("EnumerationOfNumbers")+" (" + regex4 + ")")));
+            ec.addElement(new Div().addElement(new StringElement(getLabelManager().get("EnumerationOfNumbers")+" (" + regex4 + ")")));
             ec.addElement(new Div().addElement(input4));
             ec.addElement(new P());
-            ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("SimpleZipCode")+ " (" + regex5 + ")")));
+            ec.addElement(new Div().addElement(new StringElement(getLabelManager().get("SimpleZipCode")+ " (" + regex5 + ")")));
             ec.addElement(new Div().addElement(input5));
             ec.addElement(new P());
             ec.addElement(new Div()
-                    .addElement(new StringElement(WebGoatI18N.get("ZIPDashFour")+" (" + regex6 + ")")));
+                    .addElement(new StringElement(getLabelManager().get("ZIPDashFour")+" (" + regex6 + ")")));
             ec.addElement(new Div().addElement(input6));
             ec.addElement(new P());
-            ec.addElement(new Div().addElement(new StringElement(WebGoatI18N.get("USPhoneNumber")+ " ("
+            ec.addElement(new Div().addElement(new StringElement(getLabelManager().get("USPhoneNumber")+ " ("
                     + regex7 + ")")));
             ec.addElement(new Div().addElement(input7));
             ec.addElement(new P());
@@ -161,43 +160,43 @@ public class JavaScriptValidation extends LessonAdapter
             if (!pattern1.matcher(param1).matches())
             {
                 err++;
-                msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+" Field1.";
+                msg += "<BR>"+getLabelManager().get("ServerSideValidationViolation")+" Field1.";
             }
 
             if (!pattern2.matcher(param2).matches())
             {
                 err++;
-                msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+" Field2.";
+                msg += "<BR>"+getLabelManager().get("ServerSideValidationViolation")+" Field2.";
             }
 
             if (!pattern3.matcher(param3).matches())
             {
                 err++;
-                msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field3.";
+                msg += "<BR>"+getLabelManager().get("ServerSideValidationViolation")+"Field3.";
             }
 
             if (!pattern4.matcher(param4).matches())
             {
                 err++;
-                msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field4.";
+                msg += "<BR>"+getLabelManager().get("ServerSideValidationViolation")+"Field4.";
             }
 
             if (!pattern5.matcher(param5).matches())
             {
                 err++;
-                msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field5.";
+                msg += "<BR>"+getLabelManager().get("ServerSideValidationViolation")+"Field5.";
             }
 
             if (!pattern6.matcher(param6).matches())
             {
                 err++;
-                msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field6.";
+                msg += "<BR>"+getLabelManager().get("ServerSideValidationViolation")+"Field6.";
             }
 
             if (!pattern7.matcher(param7).matches())
             {
                 err++;
-                msg += "<BR>"+WebGoatI18N.get("ServerSideValidationViolation")+"Field7.";
+                msg += "<BR>"+getLabelManager().get("ServerSideValidationViolation")+"Field7.";
             }
 
             if (err > 0)
@@ -213,7 +212,7 @@ public class JavaScriptValidation extends LessonAdapter
 
         catch (Exception e)
         {
-            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
             e.printStackTrace();
         }
 
@@ -238,9 +237,9 @@ public class JavaScriptValidation extends LessonAdapter
     protected List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add(WebGoatI18N.get("JavaScriptValidationHint1"));
-        hints.add(WebGoatI18N.get("JavaScriptValidationHint2"));
-        hints.add(WebGoatI18N.get("JavaScriptValidationHint3"));
+        hints.add(getLabelManager().get("JavaScriptValidationHint1"));
+        hints.add(getLabelManager().get("JavaScriptValidationHint2"));
+        hints.add(getLabelManager().get("JavaScriptValidationHint3"));
         
 
         return hints;

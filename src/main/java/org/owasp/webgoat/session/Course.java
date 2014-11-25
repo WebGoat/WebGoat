@@ -368,7 +368,6 @@ public class Course {
                     logger.info("fileName: " + fileName + " == className: " + className);
                     String language = getLanguageFromFileName("/lesson_plans", absoluteFile);
                     lesson.setLessonPlanFileName(language, absoluteFile);
-                    WebGoatI18N.loadLanguage(language);
                 }
                 if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html")
                         && className.endsWith(fileName)) {

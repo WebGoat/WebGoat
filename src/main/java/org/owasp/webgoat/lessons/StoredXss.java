@@ -21,7 +21,6 @@ import org.apache.ecs.html.Table;
 import org.apache.ecs.html.TextArea;
 import org.owasp.webgoat.session.*;
 import org.owasp.webgoat.util.HtmlEncoder;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 /**
  * *************************************************************************************************
@@ -110,7 +109,7 @@ public class StoredXss extends LessonAdapter {
             // that could be trapped here but we will let them try. One error would be something
             // like "Characters found after end of SQL statement."
             if (e.getMessage().indexOf("No ResultSet was produced") == -1) {
-                s.setMessage(WebGoatI18N.get("CouldNotAddMessage"));
+                s.setMessage(getLabelManager().get("CouldNotAddMessage"));
             }
             e.printStackTrace();
         }
@@ -151,10 +150,10 @@ public class StoredXss extends LessonAdapter {
      */
     protected List<String> getHints(WebSession s) {
         List<String> hints = new ArrayList<String>();
-        hints.add(WebGoatI18N.get("StoredXssHint1"));
-        hints.add(WebGoatI18N.get("StoredXssHint2"));
-        hints.add(WebGoatI18N.get("StoredXssHint3"));
-        hints.add(WebGoatI18N.get("StoredXssHint4"));
+        hints.add(getLabelManager().get("StoredXssHint1"));
+        hints.add(getLabelManager().get("StoredXssHint2"));
+        hints.add(getLabelManager().get("StoredXssHint3"));
+        hints.add(getLabelManager().get("StoredXssHint4"));
 
         return hints;
     }
@@ -201,14 +200,14 @@ public class StoredXss extends LessonAdapter {
             ResultSet results = statement.executeQuery();
 
             if ((results != null) && results.first()) {
-                ec.addElement(new H1(WebGoatI18N.get("MessageContentsFor") + ": " + results.getString(TITLE_COL)));
+                ec.addElement(new H1(getLabelManager().get("MessageContentsFor") + ": " + results.getString(TITLE_COL)));
                 Table t = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
-                TR row1 = new TR(new TD(new B(new StringElement(WebGoatI18N.get("Title") + ":"))));
+                TR row1 = new TR(new TD(new B(new StringElement(getLabelManager().get("Title") + ":"))));
                 row1.addElement(new TD(new StringElement(results.getString(TITLE_COL))));
                 t.addElement(row1);
 
                 String messageData = results.getString(MESSAGE_COL);
-                TR row2 = new TR(new TD(new B(new StringElement(WebGoatI18N.get("Message") + ":"))));
+                TR row2 = new TR(new TD(new B(new StringElement(getLabelManager().get("Message") + ":"))));
                 row2.addElement(new TD(new StringElement(messageData)));
                 t.addElement(row2);
 
@@ -217,7 +216,7 @@ public class StoredXss extends LessonAdapter {
                 // if users use a cross site request forgery or XSS to make another user post a
                 // message,
                 // they can see that the message is attributed to that user
-                TR row3 = new TR(new TD(new StringElement(WebGoatI18N.get("PostedBy") + ":")));
+                TR row3 = new TR(new TD(new StringElement(getLabelManager().get("PostedBy") + ":")));
                 row3.addElement(new TD(new StringElement(results.getString(USER_COL))));
                 t.addElement(row3);
 
@@ -232,11 +231,11 @@ public class StoredXss extends LessonAdapter {
 
             } else {
                 if (messageNum != 0) {
-                    ec.addElement(new P().addElement(WebGoatI18N.get("CouldNotFindMessage") + messageNum));
+                    ec.addElement(new P().addElement(getLabelManager().get("CouldNotFindMessage") + messageNum));
                 }
             }
         } catch (Exception e) {
-            s.setMessage(WebGoatI18N.get("ErrorGenerating") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
             e.printStackTrace();
         }
 
@@ -253,14 +252,14 @@ public class StoredXss extends LessonAdapter {
         Table t = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
         TR row1 = new TR();
         TR row2 = new TR();
-        row1.addElement(new TD(new StringElement(WebGoatI18N.get("Title") + ": ")));
+        row1.addElement(new TD(new StringElement(getLabelManager().get("Title") + ": ")));
 
         Input inputTitle = new Input(Input.TEXT, TITLE, "");
         row1.addElement(new TD(inputTitle));
 
         TD item1 = new TD();
         item1.setVAlign("TOP");
-        item1.addElement(new StringElement(WebGoatI18N.get("Message") + ": "));
+        item1.addElement(new StringElement(getLabelManager().get("Message") + ": "));
         row2.addElement(item1);
 
         TD item2 = new TD();
@@ -270,7 +269,7 @@ public class StoredXss extends LessonAdapter {
         t.addElement(row1);
         t.addElement(row2);
 
-        Element b = ECSFactory.makeButton(WebGoatI18N.get("Submit"));
+        Element b = ECSFactory.makeButton(getLabelManager().get("Submit"));
         ElementContainer ec = new ElementContainer();
         ec.addElement(t);
         ec.addElement(new P().addElement(b));
@@ -312,11 +311,11 @@ public class StoredXss extends LessonAdapter {
                 }
             }
         } catch (Exception e) {
-            s.setMessage(WebGoatI18N.get("ErrorGeneratingMessageList"));
+            s.setMessage(getLabelManager().get("ErrorGeneratingMessageList"));
         }
 
         ElementContainer ec = new ElementContainer();
-        ec.addElement(new H1(WebGoatI18N.get("MessageList")));
+        ec.addElement(new H1(getLabelManager().get("MessageList")));
         ec.addElement(t);
 
         return (ec);

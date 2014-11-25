@@ -18,7 +18,6 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -75,15 +74,15 @@ public class LogSpoofing extends LessonAdapter
             TR row2 = new TR();
             TR row3 = new TR();
 
-            row1.addElement(new TD(new StringElement(WebGoatI18N.get("UserName")+":")));
+            row1.addElement(new TD(new StringElement(getLabelManager().get("UserName")+":")));
             Input username = new Input(Input.TEXT, USERNAME, "");
             row1.addElement(new TD(username));
 
-            row2.addElement(new TD(new StringElement(WebGoatI18N.get("Password")+": ")));
+            row2.addElement(new TD(new StringElement(getLabelManager().get("Password")+": ")));
             Input password = new Input(Input.PASSWORD, PASSWORD, "");
             row2.addElement(new TD(password));
 
-            Element b = ECSFactory.makeButton(WebGoatI18N.get("Login"));
+            Element b = ECSFactory.makeButton(getLabelManager().get("Login"));
             row3.addElement(new TD(new StringElement("&nbsp; ")));
             row3.addElement(new TD(b)).setAlign("right");
 
@@ -105,7 +104,7 @@ public class LogSpoofing extends LessonAdapter
 
             Table t2 = new Table(0).setCellSpacing(0).setCellPadding(0).setBorder(0);
             TR row4 = new TR();
-            row4.addElement(new TD(new PRE(WebGoatI18N.get("LoginFailedForUserName")+": " + inputUsername))).setBgColor(HtmlColor.GRAY);
+            row4.addElement(new TD(new PRE(getLabelManager().get("LoginFailedForUserName")+": " + inputUsername))).setBgColor(HtmlColor.GRAY);
 
             t2.addElement(row4);
 
@@ -134,10 +133,10 @@ public class LogSpoofing extends LessonAdapter
     protected List<String> getHints(WebSession s)
     {
         List<String> hints = new ArrayList<String>();
-        hints.add(WebGoatI18N.get("LogSpoofingHint1"));
-        hints.add(WebGoatI18N.get("LogSpoofingHint2"));
-        hints.add(WebGoatI18N.get("LogSpoofingHint3"));
-        hints.add(WebGoatI18N.get("LogSpoofingHint4"));
+        hints.add(getLabelManager().get("LogSpoofingHint1"));
+        hints.add(getLabelManager().get("LogSpoofingHint2"));
+        hints.add(getLabelManager().get("LogSpoofingHint3"));
+        hints.add(getLabelManager().get("LogSpoofingHint4"));
         return hints;
     }
 

@@ -5,6 +5,7 @@
     WebSession webSession = ((WebSession) session.getAttribute(WebSession.SESSION));
     Course course = webSession.getCourse();
     AbstractLesson currentLesson = webSession.getCurrentLesson();
+    LabelManager labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -215,8 +216,8 @@
                         if (currentLesson != null) {
                     %>
                     <div id="training_wrap">
-                        <div id="training" class="info"><a href="http://yehg.net/lab/pr0js/training/webgoat.php" target="_blank"><%=WebGoatI18N.get("SolutionVideos")%></a></div>
-                        <div id="reset" class="info"><a href="<%=webSession.getRestartLink()%>"><%=WebGoatI18N.get("RestartLesson")%></a></div>
+                        <div id="training" class="info"><a href="http://yehg.net/lab/pr0js/training/webgoat.php" target="_blank"><%=labelManager.get("SolutionVideos")%></a></div>
+                        <div id="reset" class="info"><a href="<%=webSession.getRestartLink()%>"><%=labelManager.get("RestartLesson")%></a></div>
                     </div>
                     <%
                         }

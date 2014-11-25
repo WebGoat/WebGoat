@@ -22,7 +22,6 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.ECSFactory;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.WebGoatI18N;
 
 
 /***************************************************************************************************
@@ -107,7 +106,7 @@ public class HiddenFieldTampering extends LessonAdapter
             total = quantity * Float.parseFloat(price);
         } catch (Exception e)
         {
-            s.setMessage(WebGoatI18N.get("Invaild data") + this.getClass().getName());
+            s.setMessage(getLabelManager().get("Invaild data") + this.getClass().getName());
             price = PRICE_TV;
             quantity = 1.0f;
             total = quantity * Float.parseFloat(PRICE_TV);
@@ -116,7 +115,7 @@ public class HiddenFieldTampering extends LessonAdapter
 
         if (price.equals(PRICE_TV))
         {
-            ec.addElement(new Center().addElement(new H1().addElement(WebGoatI18N.get("ShoppingCart"))));
+            ec.addElement(new Center().addElement(new H1().addElement(getLabelManager().get("ShoppingCart"))));
             ec.addElement(new BR());
             Table t = new Table().setCellSpacing(0).setCellPadding(2).setBorder(1).setWidth("90%").setAlign("center");
 
@@ -126,10 +125,10 @@ public class HiddenFieldTampering extends LessonAdapter
             }
 
             TR tr = new TR();
-            tr.addElement(new TH().addElement(WebGoatI18N.get("ShoppingCartItems")).setWidth("80%"));
-            tr.addElement(new TH().addElement(WebGoatI18N.get("Price")).setWidth("10%"));
-            tr.addElement(new TH().addElement(WebGoatI18N.get("Quantity")).setWidth("3%"));
-            tr.addElement(new TH().addElement(WebGoatI18N.get("Total")).setWidth("7%"));
+            tr.addElement(new TH().addElement(getLabelManager().get("ShoppingCartItems")).setWidth("80%"));
+            tr.addElement(new TH().addElement(getLabelManager().get("Price")).setWidth("10%"));
+            tr.addElement(new TH().addElement(getLabelManager().get("Quantity")).setWidth("3%"));
+            tr.addElement(new TH().addElement(getLabelManager().get("Total")).setWidth("7%"));
             t.addElement(tr);
 
             tr = new TR();
@@ -150,10 +149,10 @@ public class HiddenFieldTampering extends LessonAdapter
 
             ec.addElement(new BR());
             tr = new TR();
-            tr.addElement(new TD().addElement(WebGoatI18N.get("TotalChargedCreditCard")+":"));
+            tr.addElement(new TD().addElement(getLabelManager().get("TotalChargedCreditCard")+":"));
             tr.addElement(new TD().addElement(money.format(total)));
-            tr.addElement(new TD().addElement(ECSFactory.makeButton(WebGoatI18N.get("UpdateCart"))));
-            tr.addElement(new TD().addElement(ECSFactory.makeButton(WebGoatI18N.get("Purchase"), "validate()")));
+            tr.addElement(new TD().addElement(ECSFactory.makeButton(getLabelManager().get("UpdateCart"))));
+            tr.addElement(new TD().addElement(ECSFactory.makeButton(getLabelManager().get("Purchase"), "validate()")));
             t.addElement(tr);
 
             ec.addElement(t);
@@ -170,10 +169,10 @@ public class HiddenFieldTampering extends LessonAdapter
                 makeSuccess(s);
             }
 
-            ec.addElement(new P().addElement(WebGoatI18N.get("TotalPriceIs")+":"));
+            ec.addElement(new P().addElement(getLabelManager().get("TotalPriceIs")+":"));
             ec.addElement(new B("$" + total));
             ec.addElement(new BR());
-            ec.addElement(new P().addElement(WebGoatI18N.get("ThisAmountCharged")));
+            ec.addElement(new P().addElement(getLabelManager().get("ThisAmountCharged")));
         }
 
         return (ec);
@@ -198,9 +197,9 @@ public class HiddenFieldTampering extends LessonAdapter
     {
         List<String> hints = new ArrayList<String>();
         
-        hints.add(WebGoatI18N.get("HiddenFieldTamperingHint1"));
-        hints.add(WebGoatI18N.get("HiddenFieldTamperingHint2"));
-        hints.add(WebGoatI18N.get("HiddenFieldTamperingHint3")+ PRICE_TV +WebGoatI18N.get("HiddenFieldTamperingHint32") + PRICE_TV_HACKED );
+        hints.add(getLabelManager().get("HiddenFieldTamperingHint1"));
+        hints.add(getLabelManager().get("HiddenFieldTamperingHint2"));
+        hints.add(getLabelManager().get("HiddenFieldTamperingHint3")+ PRICE_TV +getLabelManager().get("HiddenFieldTamperingHint32") + PRICE_TV_HACKED );
         
         return hints;
     }

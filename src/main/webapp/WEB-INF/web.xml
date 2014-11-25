@@ -162,10 +162,12 @@
              -->
             <param-value>jdbc:hsqldb:mem:${USER}</param-value>
         </init-param>
+        <!--
         <init-param>
             <param-name>DefaultLanguage</param-name>
             <param-value>en</param-value>
         </init-param>
+         -->
         <!-- Load this servlet at server startup time -->
         <load-on-startup>5</load-on-startup>
     </servlet>
@@ -200,6 +202,10 @@
     <listener>
         <description>Spring context init</description>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <description>Spring context init</description>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
     <listener>
         <description>WebGoat application init</description>

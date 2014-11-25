@@ -1,8 +1,6 @@
 package org.owasp.webgoat.session;
 
 import javax.servlet.http.HttpServlet;
-
-import org.owasp.webgoat.util.WebGoatI18N;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,8 +80,6 @@ public class WebgoatContext {
 
     private String defaultLanguage;
 
-    private WebGoatI18N webgoati18n = null;
-
     public WebgoatContext(HttpServlet servlet) {
         this.servlet = servlet;
         databaseConnectionString = getParameter(servlet, DATABASE_CONNECTION_STRING);
@@ -108,9 +104,6 @@ public class WebgoatContext {
         isDebug = "true".equals(getParameter(servlet, DEBUG));
         servletName = servlet.getServletName();
         defaultLanguage = getParameter(servlet, DEFAULTLANGUAGE) != null ? new String(getParameter(servlet, DEFAULTLANGUAGE)) : new String("en");
-
-        webgoati18n = new WebGoatI18N(this);
-
     }
 
     private String getParameter(HttpServlet servlet, String key) {
@@ -218,14 +211,6 @@ public class WebgoatContext {
 
     public String getDefaultLanguage() {
         return defaultLanguage;
-    }
-
-    public void setWebgoatiI18N(WebGoatI18N webgoati18n) {
-        this.webgoati18n = webgoati18n;
-    }
-
-    public WebGoatI18N getWebgoatI18N() {
-        return webgoati18n;
     }
 
 }
