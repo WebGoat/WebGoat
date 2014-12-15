@@ -189,12 +189,12 @@ public class PasswordStrength extends LessonAdapter
     public String getInstructions(WebSession s)
     {
         String instructions = "The accounts of your web application are only as save as the passwords. "
-                + "For this exercise, your job is to test several passwords on <a href=\"https://howsecureismypassword.net\" target=\"_blank\">https://howsecureismypassword.net</a>. "
+                + "For this exercise, your job is to test several passwords on <a onclick=\"window.open(this.href,\'_blank\');return false;\" href=\"https://howsecureismypassword.net\">https://howsecureismypassword.net</a>. "
                 + " You must test all 6 passwords at the same time...<br>"
                 + "<b> On your applications you should set good password requirements! </b>";
         return (instructions);
     }
-
+    
     /**
      * Gets the title attribute of the HelloScreen object
      * 
