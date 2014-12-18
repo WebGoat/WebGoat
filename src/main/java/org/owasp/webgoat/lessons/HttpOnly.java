@@ -61,6 +61,8 @@ public class HttpOnly extends LessonAdapter
 
     private final static String HTTPONLY = "httponly";
 
+    private final static String HTTPONLY_VALUE = "httponly_value";
+
     private final static String ACTION = "action";
 
     private final static String READ = "Read Cookie";
@@ -239,6 +241,7 @@ public class HttpOnly extends LessonAdapter
     {
         ElementContainer ec = new ElementContainer();
         Element r = null;
+        Element hidden_r = null;
         Table t = null;
         TR tr = null;
         Form f = null;
@@ -266,11 +269,12 @@ public class HttpOnly extends LessonAdapter
 
         if (httpOnly == true)
         {
-            r = new Input(Input.RADIO, HTTPONLY, "True").addAttribute("Checked", "true");
+            r = new Input(Input.RADIO, HTTPONLY_VALUE, "True").addAttribute("Checked", "true");
         }
         else
         {
-            r = new Input(Input.RADIO, HTTPONLY, "True").addAttribute("onClick", "document.form.submit()");
+            r = new Input(Input.RADIO, HTTPONLY_VALUE, "True").addAttribute("onClick", "document.form.httponly.click();");
+            hidden_r = new Input(Input.SUBMIT, HTTPONLY, "True").addAttribute("style", "visibility:hidden");
         }
 
         tr.addElement(new TD(r));
@@ -279,14 +283,16 @@ public class HttpOnly extends LessonAdapter
 
         if (httpOnly == false)
         {
-            r = new Input(Input.RADIO, HTTPONLY, "False").addAttribute("Checked", "True");
+            r = new Input(Input.RADIO, HTTPONLY_VALUE, "False").addAttribute("Checked", "false");
         }
         else
         {
-            r = new Input(Input.RADIO, HTTPONLY, "False").addAttribute("onClick", "document.form.submit()");
+            r = new Input(Input.RADIO, HTTPONLY_VALUE, "False").addAttribute("onClick", "document.form.httponly.click();");
+            hidden_r = new Input(Input.SUBMIT, HTTPONLY, "False").addAttribute("style", "visibility:hidden");
         }
 
         tr.addElement(new TD(r));
+        tr.addElement(hidden_r);
 
         r = new Input(Input.HIDDEN, READ_RESULT, "");
         tr.addElement(r);
