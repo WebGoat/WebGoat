@@ -148,7 +148,7 @@
 					</td>
                       <td width="190">&nbsp;</td>
                       <td width="76">
-						<form method="POST">
+						<form method="POST" action="<%=webSession.getCurrentLesson().getFormAction()%>">
 							<input type="submit" name="action" value="<%=RoleBasedAccessControl.LOGOUT_ACTION%>"/>
 						</form>
 					</td>
