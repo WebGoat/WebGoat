@@ -2,6 +2,13 @@ package org.owasp.webgoat.session;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -9,41 +16,45 @@ import java.util.List;
 import java.util.Set;
 import java.util.LinkedList;
 import javax.servlet.ServletContext;
+
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
+import org.owasp.webgoat.plugins.Plugin;
+import org.owasp.webgoat.plugins.PluginExtractor;
+import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.util.WebGoatI18N;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * *************************************************************************************************
- *
- *
+ * <p/>
+ * <p/>
  * This file is part of WebGoat, an Open Web Application Security Project
  * utility. For details, please see http://www.owasp.org/
- *
+ * <p/>
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- *
+ * <p/>
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111-1307, USA.
- *
+ * <p/>
  * Getting Source ==============
- *
+ * <p/>
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
  * for free software projects.
- *
+ * <p/>
  * For details, please see http://webgoat.github.io
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
@@ -73,7 +84,7 @@ public class Course {
 
     /**
      * Take an absolute file and return the filename.
-     *
+     * <p/>
      * Ex. /etc/password becomes password
      *
      * @param s
@@ -95,7 +106,7 @@ public class Course {
 
     /**
      * Take a class name and return the equivalent file name
-     *
+     * <p/>
      * Ex. org.owasp.webgoat becomes org/owasp/webgoat.java
      *
      * @param className
@@ -114,7 +125,7 @@ public class Course {
      * Takes a file name and builds the class file name
      *
      * @param fileName Description of the Parameter
-     * @param path Description of the Parameter
+     * @param path     Description of the Parameter
      * @return Description of the Return Value
      */
     private static String getClassFile(String fileName, String path) {
@@ -237,7 +248,7 @@ public class Course {
      * Gets the lessons attribute of the Course object
      *
      * @param category Description of the Parameter
-     * @param role Description of the Parameter
+     * @param role     Description of the Parameter
      * @return The lessons value
      */
     private List<AbstractLesson> getLessons(Category category, List roles) {
@@ -302,6 +313,34 @@ public class Course {
         }
     }
 
+    private void loadLessionFromPlugin(ServletContext context) {
+        logger.debug("Loading plugins into cache");
+        String path = context.getRealPath("plugin_lessons");
+        if (path == null) {
+            logger.error("Plugins directory {} not found", path);
+            return;
+        }
+        List<Plugin> plugins = new PluginsLoader(Paths.get(path)).loadPlugins();
+        for (Plugin plugin : plugins) {
+            try {
+                Class<AbstractLesson> c = plugin.getLesson();
+                Object o = c.newInstance();
+
+                AbstractLesson lesson = (AbstractLesson) o;
+                lesson.setWebgoatContext(webgoatContext);
+
+                lesson.update(properties);
+
+                if (lesson.getHidden() == false) {
+                    lessons.add(lesson);
+                }
+
+            } catch (Exception e) {
+                logger.error("Error in loadLessons: ", e);
+            }
+        }
+    }
+
     /**
      * Instantiate all the lesson objects into a cache
      *
@@ -361,18 +400,18 @@ public class Course {
                     lesson.setSourceFileName(absoluteFile);
                 }
 
-                if (absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html")
-                        && className.endsWith(fileName)) {
-                    logger.info("setting lesson plan file " + absoluteFile + " for lesson "
-                            + lesson.getClass().getName());
+                if (absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html") && className
+                    .endsWith(fileName)) {
+                    logger.info(
+                        "setting lesson plan file " + absoluteFile + " for lesson " + lesson.getClass().getName());
                     logger.info("fileName: " + fileName + " == className: " + className);
                     String language = getLanguageFromFileName("/lesson_plans", absoluteFile);
                     lesson.setLessonPlanFileName(language, absoluteFile);
                 }
-                if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html")
-                        && className.endsWith(fileName)) {
-                    logger.info("setting lesson solution file " + absoluteFile + " for lesson "
-                            + lesson.getClass().getName());
+                if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html") && className
+                    .endsWith(fileName)) {
+                    logger.info(
+                        "setting lesson solution file " + absoluteFile + " for lesson " + lesson.getClass().getName());
                     logger.info("fileName: " + fileName + " == className: " + className);
                     lesson.setLessonSolutionFileName(absoluteFile);
                 }
@@ -384,8 +423,8 @@ public class Course {
      * Description of the Method
      *
      * @param webgoatContext
-     * @param path Description of the Parameter
-     * @param context Description of the Parameter
+     * @param path           Description of the Parameter
+     * @param context        Description of the Parameter
      */
     public void loadCourses(WebgoatContext webgoatContext, ServletContext context, String path) {
         logger.info("Loading courses: " + path);
@@ -393,5 +432,6 @@ public class Course {
         loadFiles(context, path);
         loadLessons(path);
         loadResources();
+        loadLessionFromPlugin(context);
     }
 }
