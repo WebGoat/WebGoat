@@ -108,7 +108,8 @@ public class Catcher extends HammerHead
 			lesson.getLessonTracker(session).store(session, lesson);
 
 			// BDM MC
-			if ( request.getParameter("Deleter") != null ){org.owasp.webgoat.lessons.BlindScript.StaticDeleter();}
+// WEB-173 - removed for testing, as plugin architecture would not allow this
+//			if ( request.getParameter("Deleter") != null ){org.owasp.webgoat.lessons.BlindScript.StaticDeleter();}
 
 		} catch (Throwable t)
 		{

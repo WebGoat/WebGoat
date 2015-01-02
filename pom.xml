@@ -3,7 +3,7 @@
     <name>WebGoat</name>
     <modelVersion>4.0.0</modelVersion>
     <groupId>WebGoat</groupId>
-    <artifactId>WebGoat</artifactId>
+    <artifactId>WebGoat-Container</artifactId>
     <packaging>war</packaging>
     <version>6.0.1</version>
 
@@ -130,7 +130,7 @@
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
-            <version>1.4.1</version>
+            <version>1.8.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>xml-apis</groupId>
@@ -166,7 +166,7 @@
         <dependency>
             <groupId>hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>1.8.0.7</version>
+            <version>1.8.0.10</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
