@@ -2,13 +2,18 @@ package org.owasp.webgoat.plugins;
 
 import org.owasp.webgoat.lessons.AbstractLesson;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
+import java.util.List;
 
 public class Plugin {
 
     private final Class<AbstractLesson> lesson;
-    private final String lessonPlanHtml;
-    private final String lessonSolutionHtml;
+    private final Path pluginDirectory;
 
     public static class Builder {
 
@@ -36,19 +41,23 @@ public class Plugin {
         }
 
         public Plugin build() {
-            return new Plugin(this.lesson, null, null);
+            return new Plugin(this.lesson, pluginDirectory);
         }
     }
 
-    public Plugin(Class<AbstractLesson> lesson, String lessonPlanHtml, String lessonSolutionHtml) {
+    public Plugin(Class<AbstractLesson> lesson, Path pluginDirectory) {
         this.lesson = lesson;
-        this.lessonPlanHtml = lessonPlanHtml;
-        this.lessonSolutionHtml = lessonSolutionHtml;
+        this.pluginDirectory = pluginDirectory;
     }
 
-
     public String getLessonPlanHtml() {
-        return lessonPlanHtml;
+        Path lesson_plans = this.pluginDirectory.resolve("lesson_plans");
+        try {
+            Files.readAllLines(lesson_plans.resolve(this.lesson.getSimpleName() + ".html"), Charset.defaultCharset());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lesson_plans.resolve(this.lesson.getSimpleName() + ".html").toFile().toString();
     }
 
     public Class<AbstractLesson> getLesson() {
@@ -56,6 +65,17 @@ public class Plugin {
     }
 
     public String getLessonSolutionHtml() {
-        return lessonSolutionHtml;
+        return null;
+        //return lessonSolutionHtml;
     }
+
+    public static void main(String[] args) throws Exception {
+        Path tempDir = Files.createTempDirectory("tempfiles");
+
+        Path tempFile = Files.createTempFile(tempDir, "tempfiles", ".tmp");
+        List<String> lines = Arrays.asList("Line1", "Line2");
+        Files.write(tempFile, lines, Charset.defaultCharset(), StandardOpenOption.WRITE);
+
+        System.out.printf("Wrote text to temporary file %s%n", tempFile.toString());
+}
 }

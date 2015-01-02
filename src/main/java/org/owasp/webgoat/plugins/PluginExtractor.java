@@ -12,12 +12,15 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 
 /**
  * Extract the zip file and place the files in a temp directory
+ *
+ * TODO: should only do the extraction of the zip file return should be the base directory of the extracted
+ * plugin. The PluginLoader should take care of the loading
+ *
  */
 public class PluginExtractor {
 
@@ -46,7 +49,7 @@ public class PluginExtractor {
                         Files.copy(file, bos);
                         pluginBuilder.loadClass(file.toString(), bos.toByteArray());
                     }
-                    Files.copy(file, tempDirectory, StandardCopyOption.REPLACE_EXISTING);
+                   // Files.copy(file, tempDirectory.resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
                     return FileVisitResult.CONTINUE;
                 }
             });

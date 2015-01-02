@@ -1,31 +1,23 @@
 package org.owasp.webgoat.session;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.LinkedList;
-import javax.servlet.ServletContext;
-
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.plugins.Plugin;
-import org.owasp.webgoat.plugins.PluginExtractor;
 import org.owasp.webgoat.plugins.PluginsLoader;
-import org.owasp.webgoat.util.WebGoatI18N;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * *************************************************************************************************
@@ -334,7 +326,7 @@ public class Course {
                 if (lesson.getHidden() == false) {
                     lessons.add(lesson);
                 }
-
+                lesson.setLessonSolutionFileName(plugin.getLessonPlanHtml());
             } catch (Exception e) {
                 logger.error("Error in loadLessons: ", e);
             }
@@ -342,8 +334,48 @@ public class Course {
     }
 
     /**
+     * For each lesson, set the source file and lesson file
+     */
+    private void loadResourcesFromPlugin() {
+        for (AbstractLesson lesson : lessons) {
+            logger.info("Loading resources for lesson -> " + lesson.getName());
+            String className = lesson.getClass().getName();
+            String classFile = getSourceFile(className);
+            logger.info("Lesson classname: " + className);
+            logger.info("Lesson java file: " + classFile);
+
+            for (String absoluteFile : files) {
+                String fileName = getFileName(absoluteFile);
+                //logger.debug("Course: looking at file: " + absoluteFile);
+
+                if (absoluteFile.endsWith(classFile)) {
+                    logger.info("Set source file for " + classFile);
+                    lesson.setSourceFileName(absoluteFile);
+                }
+
+                if (absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html") && className
+                    .endsWith(fileName)) {
+                    logger.info(
+                        "setting lesson plan file " + absoluteFile + " for lesson " + lesson.getClass().getName());
+                    logger.info("fileName: " + fileName + " == className: " + className);
+                    String language = getLanguageFromFileName("/lesson_plans", absoluteFile);
+                    lesson.setLessonPlanFileName(language, absoluteFile);
+                }
+                if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html") && className
+                    .endsWith(fileName)) {
+                    logger.info(
+                        "setting lesson solution file " + absoluteFile + " for lesson " + lesson.getClass().getName());
+                    logger.info("fileName: " + fileName + " == className: " + className);
+                    lesson.setLessonSolutionFileName(absoluteFile);
+                }
+            }
+        }
+    }
+
+    /**
      * Instantiate all the lesson objects into a cache
      *
+     * @deprecated should be removed if everything is loaded with plugins
      * @param path
      */
     private void loadLessons(String path) {
