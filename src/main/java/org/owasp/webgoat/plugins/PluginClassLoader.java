@@ -13,6 +13,10 @@ public class PluginClassLoader extends ClassLoader {
         return defineClass(name, classFile, 0, classFile.length);
     }
 
+    public static void main(String[] args) {
+
+    }
+
 
 }
 

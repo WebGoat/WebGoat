@@ -11,9 +11,13 @@ import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Extract the zip file and place the files in a temp directory
@@ -24,9 +28,10 @@ import java.util.HashMap;
  */
 public class PluginExtractor {
 
-    private static final String DIRECTORY = "plugins";
+    private static final String DIRECTORY = "webgoat";
     private final Path pluginArchive;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final List<byte[]> classes = new ArrayList<byte[]>();
 
     public PluginExtractor(Path pluginArchive) {
         this.pluginArchive = pluginArchive;
@@ -39,8 +44,8 @@ public class PluginExtractor {
         try {
             zip = createZipFileSystem();
             final Path root = zip.getPath("/");
-            final Path tempDirectory = Files.createTempDirectory(DIRECTORY);
-            pluginBuilder.setBaseDirectory(tempDirectory);
+            final Path tmpDir = Paths.get(System.getProperty("java.io.tmpdir"), DIRECTORY);
+            pluginBuilder.setBaseDirectory(tmpDir);
             Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -49,7 +54,8 @@ public class PluginExtractor {
                         Files.copy(file, bos);
                         pluginBuilder.loadClass(file.toString(), bos.toByteArray());
                     }
-                   // Files.copy(file, tempDirectory.resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+
+                    Files.copy(file, Paths.get(tmpDir.toString(), file.toString()), StandardCopyOption.REPLACE_EXISTING);
                     return FileVisitResult.CONTINUE;
                 }
             });

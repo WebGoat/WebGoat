@@ -461,9 +461,10 @@ public class Course {
     public void loadCourses(WebgoatContext webgoatContext, ServletContext context, String path) {
         logger.info("Loading courses: " + path);
         this.webgoatContext = webgoatContext;
+        loadLessionFromPlugin(context);
         loadFiles(context, path);
         loadLessons(path);
         loadResources();
-        loadLessionFromPlugin(context);
+
     }
 }
