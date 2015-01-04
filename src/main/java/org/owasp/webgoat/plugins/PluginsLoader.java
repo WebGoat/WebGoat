@@ -1,5 +1,8 @@
 package org.owasp.webgoat.plugins;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -11,6 +14,7 @@ import java.util.List;
 
 public class PluginsLoader {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Path path;
 
     public PluginsLoader(Path path) {
@@ -24,13 +28,22 @@ public class PluginsLoader {
 
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    plugins.add(new PluginExtractor(file).extract());
+                    try {
+                        PluginExtractor extractor = new PluginExtractor(file);
+                        extractor.extract();
+                        Plugin.Builder builder = new Plugin.Builder();
+                        builder.loadClasses(extractor.getClasses());
+                        builder.setBaseDirectory(extractor.getBaseDirectory());
+                        plugins.add(builder.build());
+                    } catch (Plugin.PluginLoadingFailure e) {
+                       logger.error("Unable to load plugin, continue reading others...");
+                    }
                     return FileVisitResult.CONTINUE;
                 }
 
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Loading plugins failed", e);
         }
         return plugins;
     }
