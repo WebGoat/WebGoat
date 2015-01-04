@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.List;
 
 public class Plugin {
 
@@ -68,14 +65,4 @@ public class Plugin {
         return null;
         //return lessonSolutionHtml;
     }
-
-    public static void main(String[] args) throws Exception {
-        Path tempDir = Files.createTempDirectory("tempfiles");
-
-        Path tempFile = Files.createTempFile(tempDir, "tempfiles", ".tmp");
-        List<String> lines = Arrays.asList("Line1", "Line2");
-        Files.write(tempFile, lines, Charset.defaultCharset(), StandardOpenOption.WRITE);
-
-        System.out.printf("Wrote text to temporary file %s%n", tempFile.toString());
-}
 }
