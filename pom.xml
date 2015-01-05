@@ -63,6 +63,11 @@
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.1</version>
+                <configuration>
+                    <url>http://localhost:8080/manager</url>
+                    <path>/WebGoat</path>
+                    <attachArtifactClassifier>exec</attachArtifactClassifier>
+                </configuration>
                 <executions>
                     <execution>
                         <id>tomcat-run</id>
@@ -70,11 +75,6 @@
                             <goal>exec-war-only</goal>
                         </goals>
                         <phase>package</phase>
-                        <configuration>
-                            <url>http://localhost:8080/manager</url>
-                            <path>/WebGoat</path>
-                            <attachArtifactClassifier>exec</attachArtifactClassifier>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>            
