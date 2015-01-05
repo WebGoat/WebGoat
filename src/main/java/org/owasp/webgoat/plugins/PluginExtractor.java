@@ -36,9 +36,7 @@ public class PluginExtractor {
     }
 
     public void extract() {
-        FileSystem zip = null;
-        try {
-            zip = createZipFileSystem();
+        try (FileSystem zip = createZipFileSystem()) {
             final Path root = zip.getPath("/");
             baseDirectory = Paths.get(System.getProperty("java.io.tmpdir"), DIRECTORY);
             Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
@@ -55,8 +53,6 @@ public class PluginExtractor {
             });
         } catch (IOException io) {
             logger.error(String.format("Unable to extract: %s", pluginArchive.getFileName()), io);
-        } finally {
-            closeZipFileSystem(zip);
         }
     }
 
