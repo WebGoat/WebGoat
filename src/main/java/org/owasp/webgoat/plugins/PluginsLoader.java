@@ -12,7 +12,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PluginsLoader {
+public class PluginsLoader implements Runnable {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Path path;
@@ -49,4 +49,8 @@ public class PluginsLoader {
     }
 
 
+    @Override
+    public void run() {
+        loadPlugins();
+    }
 }
