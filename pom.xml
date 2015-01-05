@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.owasp.webgoat</groupId>
     <artifactId>WebGoat-Container</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <version>6.1.0</version>
 
     <repositories>
@@ -46,7 +46,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+
                 <configuration>
+                    <archiveClasses>true</archiveClasses>
                     <manifest>
                         <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                     </manifest>
