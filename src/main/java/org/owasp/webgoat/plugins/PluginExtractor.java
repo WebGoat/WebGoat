@@ -14,14 +14,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
- * Extract the wpf file and collect the classes to load and remember the base directory in which we extracted
- * the files (lesson plans etc)
+ * Extract the wpf file and collect the classes to load and files(lesson plans etc)
  */
 public class PluginExtractor {
 
@@ -29,16 +30,21 @@ public class PluginExtractor {
     private final Path pluginArchive;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Map<String, byte[]> classes = new HashMap<String, byte[]>();
+    private final List<Path> files = new ArrayList<>();
     private Path baseDirectory;
 
     public PluginExtractor(Path pluginArchive) {
         this.pluginArchive = pluginArchive;
+        try {
+            baseDirectory = createDirsIfNotExists(Paths.get(System.getProperty("java.io.tmpdir"), DIRECTORY));
+        } catch (IOException io) {
+            logger.error(String.format("Unable to create base directory: {}", pluginArchive.getFileName()), io);
+        }
     }
 
     public void extract() {
         try (FileSystem zip = createZipFileSystem()) {
             final Path root = zip.getPath("/");
-            baseDirectory = Paths.get(System.getProperty("java.io.tmpdir"), DIRECTORY);
             Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -47,7 +53,7 @@ public class PluginExtractor {
                         Files.copy(file, bos);
                         classes.put(file.toString(), bos.toByteArray());
                     }
-                    Files.copy(file, Paths.get(baseDirectory.toString(), file.toString()), REPLACE_EXISTING);
+                    files.add(Files.copy(file, createDirsIfNotExists(Paths.get(baseDirectory.toString(), file.toString())), REPLACE_EXISTING));
                     return FileVisitResult.CONTINUE;
                 }
             });
@@ -60,6 +66,10 @@ public class PluginExtractor {
         return this.classes;
     }
 
+    public List<Path> getFiles() {
+        return this.files;
+    }
+
     public Path getBaseDirectory() {
         return this.baseDirectory;
     }
@@ -69,15 +79,10 @@ public class PluginExtractor {
         return FileSystems.newFileSystem(uri, new HashMap<String, Object>());
     }
 
-    private void closeZipFileSystem(FileSystem zip) {
-        if (zip != null) {
-            try {
-                zip.close();
-            } catch (IOException e) {
-                //ignore
-            }
+    public Path createDirsIfNotExists(Path p) throws IOException {
+        if ( Files.notExists(p)) {
+            Files.createDirectories(p);
         }
+        return p;
     }
-
-
 }

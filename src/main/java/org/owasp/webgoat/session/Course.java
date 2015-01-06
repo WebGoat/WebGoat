@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -326,7 +327,9 @@ public class Course {
                 if (lesson.getHidden() == false) {
                     lessons.add(lesson);
                 }
-                lesson.setLessonSolutionFileName(plugin.getLessonPlanHtml());
+                for(Map.Entry<String, File> lessonPlan : plugin.getLessonPlans().entrySet()) {
+                    lesson.setLessonPlanFileName(lessonPlan.getKey(), lessonPlan.getValue().toString());
+                }
             } catch (Exception e) {
                 logger.error("Error in loadLessons: ", e);
             }

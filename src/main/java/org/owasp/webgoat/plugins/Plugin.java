@@ -5,11 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
+import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +17,8 @@ public class Plugin {
     private static final Logger logger = LoggerFactory.getLogger(Plugin.class);
     private final Class<AbstractLesson> lesson;
     private final Path pluginDirectory;
+    private final Map<String, File> solutionLanguageFiles;
+    private final Map<String, File> lessonPlansLanguageFiles;
 
     public static class PluginLoadingFailure extends RuntimeException {
 
@@ -31,6 +32,8 @@ public class Plugin {
         private Path pluginDirectory;
         private Class lesson;
         private final List<String> loadedClasses = new ArrayList<String>();
+        private final Map<String, File> solutionLanguageFiles = new HashMap<>();
+        private final Map<String, File> lessonPlansLanguageFiles = new HashMap<>();
 
         public Builder loadClasses(Map<String, byte[]> classes) {
             for (Map.Entry<String, byte[]> clazz : classes.entrySet() ) {
@@ -43,7 +46,8 @@ public class Plugin {
             ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
             PluginClassLoader pluginClassLoader = new PluginClassLoader(contextClassLoader, classFile);
             try {
-                String realClassName = name.replace("/lesson_plans/", "").replaceAll("/", ".").replaceAll(".class", "");
+                //TODO the plugin part is extra because the packaging is not correct in WEB-173
+                String realClassName = name.replace("/lesson_plans/", "").replace("/plugin", "").replaceAll("/", ".").replaceAll(".class", "");
                 Class clazz = pluginClassLoader.loadClass(realClassName);
                 if (AbstractLesson.class.isAssignableFrom(clazz)) {
                     this.lesson = clazz;
@@ -57,7 +61,6 @@ public class Plugin {
 
         public Builder setBaseDirectory(Path pluginDirectory) {
             this.pluginDirectory = pluginDirectory;
-            //Find necessary files flag if something went wrong plugin should complain
             return this;
         }
 
@@ -66,32 +69,40 @@ public class Plugin {
                 throw new PluginLoadingFailure(String.format("Lesson class not found, following classes were detected in the plugin: %s",
                     StringUtils.collectionToCommaDelimitedString(loadedClasses)));
             }
-            return new Plugin(this.lesson, pluginDirectory);
+            return new Plugin(this.lesson, pluginDirectory, lessonPlansLanguageFiles, solutionLanguageFiles);
         }
 
+        public void loadFiles(List<Path> files) {
+            for (Path file : files) {
+                if (file.getFileName().endsWith(".html") && file.getParent().getParent().getFileName()
+                    .endsWith("lessonSolutions")) {
+                    solutionLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
+                }
+                if (file.getFileName().endsWith(".html") && file.getParent().getParent().getFileName()
+                    .endsWith("lessonPlans")) {
+                    lessonPlansLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
+                }
+            }
+        }
     }
 
-    public Plugin(Class<AbstractLesson> lesson, Path pluginDirectory) {
+    public Plugin(Class<AbstractLesson> lesson, Path pluginDirectory, Map<String, File> lessonPlansLanguageFiles,
+        Map<String, File> solutionLanguageFiles) {
         this.lesson = lesson;
         this.pluginDirectory = pluginDirectory;
-    }
-
-    public String getLessonPlanHtml() {
-        Path lesson_plans = this.pluginDirectory.resolve("lesson_plans");
-        try {
-            Files.readAllLines(lesson_plans.resolve(this.lesson.getSimpleName() + ".html"), Charset.defaultCharset());
-        } catch (IOException e) {
-            logger.error("No html found in directory {}", lesson_plans.toString());
-        }
-        return "";
+        this.lessonPlansLanguageFiles = lessonPlansLanguageFiles;
+        this.solutionLanguageFiles = solutionLanguageFiles;
     }
 
     public Class<AbstractLesson> getLesson() {
         return lesson;
     }
 
-    public String getLessonSolutionHtml() {
-        return null;
-        //return lessonSolutionHtml;
+    public Map<String, File> getLessonSolutions() {
+        return this.solutionLanguageFiles;
+    }
+
+    public Map<String, File> getLessonPlans() {
+        return this.lessonPlansLanguageFiles;
     }
 }

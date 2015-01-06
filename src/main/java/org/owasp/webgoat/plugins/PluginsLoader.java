@@ -33,6 +33,7 @@ public class PluginsLoader implements Runnable {
                         extractor.extract();
                         Plugin.Builder builder = new Plugin.Builder();
                         builder.loadClasses(extractor.getClasses());
+                        builder.loadFiles(extractor.getFiles());
                         builder.setBaseDirectory(extractor.getBaseDirectory());
                         plugins.add(builder.build());
                     } catch (Plugin.PluginLoadingFailure e) {
