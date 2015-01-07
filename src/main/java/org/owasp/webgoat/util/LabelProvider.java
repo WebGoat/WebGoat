@@ -1,10 +1,11 @@
 
 package org.owasp.webgoat.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import org.springframework.stereotype.Component;
 
 
 /***************************************************************************************************
@@ -50,6 +51,10 @@ public class LabelProvider
 			labels.put(locale, resBundle);
 		}
 		return labels.get(locale).getString(strName);
+	}
+
+	public void addLabels() {
+
 	}
 
 	private class WebGoatResourceBundleController extends ResourceBundle.Control
