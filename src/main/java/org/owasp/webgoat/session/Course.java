@@ -330,47 +330,10 @@ public class Course {
                 for(Map.Entry<String, File> lessonPlan : plugin.getLessonPlans().entrySet()) {
                     lesson.setLessonPlanFileName(lessonPlan.getKey(), lessonPlan.getValue().toString());
                 }
+                lesson.setLessonSolutionFileName(plugin.getLessonPlans().get("en").toString());
+                lesson.setSourceFileName(plugin.getLessonSource().toString());
             } catch (Exception e) {
                 logger.error("Error in loadLessons: ", e);
-            }
-        }
-    }
-
-    /**
-     * For each lesson, set the source file and lesson file
-     */
-    private void loadResourcesFromPlugin() {
-        for (AbstractLesson lesson : lessons) {
-            logger.info("Loading resources for lesson -> " + lesson.getName());
-            String className = lesson.getClass().getName();
-            String classFile = getSourceFile(className);
-            logger.info("Lesson classname: " + className);
-            logger.info("Lesson java file: " + classFile);
-
-            for (String absoluteFile : files) {
-                String fileName = getFileName(absoluteFile);
-                //logger.debug("Course: looking at file: " + absoluteFile);
-
-                if (absoluteFile.endsWith(classFile)) {
-                    logger.info("Set source file for " + classFile);
-                    lesson.setSourceFileName(absoluteFile);
-                }
-
-                if (absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html") && className
-                    .endsWith(fileName)) {
-                    logger.info(
-                        "setting lesson plan file " + absoluteFile + " for lesson " + lesson.getClass().getName());
-                    logger.info("fileName: " + fileName + " == className: " + className);
-                    String language = getLanguageFromFileName("/lesson_plans", absoluteFile);
-                    lesson.setLessonPlanFileName(language, absoluteFile);
-                }
-                if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html") && className
-                    .endsWith(fileName)) {
-                    logger.info(
-                        "setting lesson solution file " + absoluteFile + " for lesson " + lesson.getClass().getName());
-                    logger.info("fileName: " + fileName + " == className: " + className);
-                    lesson.setLessonSolutionFileName(absoluteFile);
-                }
             }
         }
     }
@@ -465,9 +428,9 @@ public class Course {
         logger.info("Loading courses: " + path);
         this.webgoatContext = webgoatContext;
         loadLessionFromPlugin(context);
-        loadFiles(context, path);
-        loadLessons(path);
-        loadResources();
+        //loadFiles(context, path);
+        //loadLessons(path);
+        //loadResources();
 
     }
 }

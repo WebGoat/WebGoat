@@ -19,6 +19,7 @@ public class Plugin {
     private final Path pluginDirectory;
     private final Map<String, File> solutionLanguageFiles;
     private final Map<String, File> lessonPlansLanguageFiles;
+    private final File lessonSourceFile;
 
     public static class PluginLoadingFailure extends RuntimeException {
 
@@ -34,6 +35,7 @@ public class Plugin {
         private final List<String> loadedClasses = new ArrayList<String>();
         private final Map<String, File> solutionLanguageFiles = new HashMap<>();
         private final Map<String, File> lessonPlansLanguageFiles = new HashMap<>();
+        private File javaSource;
 
         public Builder loadClasses(Map<String, byte[]> classes) {
             for (Map.Entry<String, byte[]> clazz : classes.entrySet() ) {
@@ -46,8 +48,7 @@ public class Plugin {
             ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
             PluginClassLoader pluginClassLoader = new PluginClassLoader(contextClassLoader, classFile);
             try {
-                //TODO the plugin part is extra because the packaging is not correct in WEB-173
-                String realClassName = name.replace("/lesson_plans/", "").replace("/plugin", "").replaceAll("/", ".").replaceAll(".class", "");
+                String realClassName = name.replaceFirst("/", "").replaceAll("/", ".").replaceAll(".class", "");
                 Class clazz = pluginClassLoader.loadClass(realClassName);
                 if (AbstractLesson.class.isAssignableFrom(clazz)) {
                     this.lesson = clazz;
@@ -69,29 +70,33 @@ public class Plugin {
                 throw new PluginLoadingFailure(String.format("Lesson class not found, following classes were detected in the plugin: %s",
                     StringUtils.collectionToCommaDelimitedString(loadedClasses)));
             }
-            return new Plugin(this.lesson, pluginDirectory, lessonPlansLanguageFiles, solutionLanguageFiles);
+            return new Plugin(this.lesson, pluginDirectory, lessonPlansLanguageFiles, solutionLanguageFiles, javaSource);
         }
 
         public void loadFiles(List<Path> files) {
             for (Path file : files) {
-                if (file.getFileName().endsWith(".html") && file.getParent().getParent().getFileName()
+                if (file.getFileName().toString().endsWith(".html") && file.getParent().getParent().getFileName().toString()
                     .endsWith("lessonSolutions")) {
                     solutionLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
                 }
-                if (file.getFileName().endsWith(".html") && file.getParent().getParent().getFileName()
+                if (file.getFileName().toString().endsWith(".html") && file.getParent().getParent().getFileName().toString()
                     .endsWith("lessonPlans")) {
                     lessonPlansLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
+                }
+                if ( file.getFileName().toString().endsWith(".java")) {
+                    javaSource = file.toFile();
                 }
             }
         }
     }
 
     public Plugin(Class<AbstractLesson> lesson, Path pluginDirectory, Map<String, File> lessonPlansLanguageFiles,
-        Map<String, File> solutionLanguageFiles) {
+        Map<String, File> solutionLanguageFiles, File lessonSourceFile) {
         this.lesson = lesson;
         this.pluginDirectory = pluginDirectory;
         this.lessonPlansLanguageFiles = lessonPlansLanguageFiles;
         this.solutionLanguageFiles = solutionLanguageFiles;
+        this.lessonSourceFile = lessonSourceFile;
     }
 
     public Class<AbstractLesson> getLesson() {
@@ -101,6 +106,8 @@ public class Plugin {
     public Map<String, File> getLessonSolutions() {
         return this.solutionLanguageFiles;
     }
+
+    public File getLessonSource() { return lessonSourceFile; }
 
     public Map<String, File> getLessonPlans() {
         return this.lessonPlansLanguageFiles;
