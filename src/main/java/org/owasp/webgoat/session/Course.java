@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -313,7 +314,9 @@ public class Course {
             logger.error("Plugins directory {} not found", path);
             return;
         }
-        List<Plugin> plugins = new PluginsLoader(Paths.get(path)).loadPlugins();
+        Path pluginDirectory = Paths.get(path);
+        webgoatContext.setPluginDirectory(pluginDirectory);
+        List<Plugin> plugins = new PluginsLoader(pluginDirectory).loadPlugins();
         for (Plugin plugin : plugins) {
             try {
                 Class<AbstractLesson> c = plugin.getLesson();
@@ -330,7 +333,7 @@ public class Course {
                 for(Map.Entry<String, File> lessonPlan : plugin.getLessonPlans().entrySet()) {
                     lesson.setLessonPlanFileName(lessonPlan.getKey(), lessonPlan.getValue().toString());
                 }
-                lesson.setLessonSolutionFileName(plugin.getLessonPlans().get("en").toString());
+                lesson.setLessonSolutionFileName(plugin.getLessonSolutions().get("en").toString());
                 lesson.setSourceFileName(plugin.getLessonSource().toString());
             } catch (Exception e) {
                 logger.error("Error in loadLessons: ", e);
@@ -433,4 +436,5 @@ public class Course {
         //loadResources();
 
     }
+
 }

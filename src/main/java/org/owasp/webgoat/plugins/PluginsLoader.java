@@ -31,11 +31,10 @@ public class PluginsLoader implements Runnable {
                     try {
                         PluginExtractor extractor = new PluginExtractor(file);
                         extractor.extract();
-                        Plugin.Builder builder = new Plugin.Builder();
-                        builder.loadClasses(extractor.getClasses());
-                        builder.loadFiles(extractor.getFiles());
-                        builder.setBaseDirectory(extractor.getBaseDirectory());
-                        plugins.add(builder.build());
+                        Plugin plugin = new Plugin(extractor.getBaseDirectory());
+                        plugin.loadClasses(extractor.getClasses());
+                        plugin.loadFiles(extractor.getFiles());
+                        plugins.add(plugin);
                     } catch (Plugin.PluginLoadingFailure e) {
                        logger.error("Unable to load plugin, continue reading others...");
                     }
