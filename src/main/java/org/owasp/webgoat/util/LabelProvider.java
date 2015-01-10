@@ -49,7 +49,7 @@ public class LabelProvider
 		if (!labels.containsKey(locale))
 		{
 			ClassLoader classLoader = ResourceBundleClassLoader.createPropertyFilesClassLoader(ResourceBundle.class.getClassLoader());
-			ResourceBundle resBundle = ResourceBundle.getBundle("WebGoatLabels", new Locale(DEFAULT_LANGUAGE), classLoader);
+			ResourceBundle resBundle = ResourceBundle.getBundle("WebGoatLabels", locale, classLoader, localeController);
 			labels.put(locale, resBundle);
 		}
 		return labels.get(locale).getString(strName);
