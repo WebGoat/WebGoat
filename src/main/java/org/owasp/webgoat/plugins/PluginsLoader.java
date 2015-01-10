@@ -21,7 +21,7 @@ public class PluginsLoader implements Runnable {
         this.path = path;
     }
 
-    public List<Plugin> loadPlugins() {
+    public List<Plugin> loadPlugins(final boolean reload) {
         final List<Plugin> plugins = new ArrayList<Plugin>();
         try {
             Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
@@ -33,7 +33,7 @@ public class PluginsLoader implements Runnable {
                         extractor.extract();
                         Plugin plugin = new Plugin(extractor.getBaseDirectory());
                         plugin.loadClasses(extractor.getClasses());
-                        plugin.loadFiles(extractor.getFiles());
+                        plugin.loadFiles(extractor.getFiles(), reload);
                         plugins.add(plugin);
                     } catch (Plugin.PluginLoadingFailure e) {
                        logger.error("Unable to load plugin, continue reading others...");
@@ -51,6 +51,6 @@ public class PluginsLoader implements Runnable {
 
     @Override
     public void run() {
-        loadPlugins();
+        loadPlugins(true);
     }
 }

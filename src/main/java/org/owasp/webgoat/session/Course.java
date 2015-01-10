@@ -316,7 +316,7 @@ public class Course {
         }
         Path pluginDirectory = Paths.get(path);
         webgoatContext.setPluginDirectory(pluginDirectory);
-        List<Plugin> plugins = new PluginsLoader(pluginDirectory).loadPlugins();
+        List<Plugin> plugins = new PluginsLoader(pluginDirectory).loadPlugins(false);
         for (Plugin plugin : plugins) {
             try {
                 Class<AbstractLesson> c = plugin.getLesson();

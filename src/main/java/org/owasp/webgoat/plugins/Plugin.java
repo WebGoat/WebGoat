@@ -71,7 +71,7 @@ public class Plugin {
         }
     }
 
-    public void loadFiles(List<Path> files) {
+    public void loadFiles(List<Path> files, boolean reload) {
         for (Path file : files) {
             if (fileEndsWith(file, ".html") && hasParentDirectoryWithName(file, NAME_LESSON_SOLUTION_DIRECTORY)) {
                 solutionLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
@@ -83,17 +83,24 @@ public class Plugin {
                 lessonSourceFile = file.toFile();
             }
             if (fileEndsWith(file, ".properties") && hasParentDirectoryWithName(file, NAME_LESSON_I18N_DIRECTORY)) {
-                try {
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    Files.copy(file, bos);
-                    Path propertiesPath = createPropertiesDirectory();
-                    ResourceBundleClassLoader.setPropertiesPath(propertiesPath);
-                    Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(),
-                        StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                } catch (IOException io) {
-                    throw new PluginLoadingFailure("Property file detected, but unable to copy the properties", io);
-                }
+                copyProperties(reload, file);
             }
+        }
+    }
+
+    private void copyProperties(boolean reload, Path file) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            Files.copy(file, bos);
+            Path propertiesPath = createPropertiesDirectory();
+            ResourceBundleClassLoader.setPropertiesPath(propertiesPath);
+            if ( reload ) {
+                Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            } else {
+                Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            }
+        } catch (IOException io) {
+            throw new PluginLoadingFailure("Property file detected, but unable to copy the properties", io);
         }
     }
 
