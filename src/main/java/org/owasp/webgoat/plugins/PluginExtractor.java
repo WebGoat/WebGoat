@@ -1,8 +1,5 @@
 package org.owasp.webgoat.plugins;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -19,16 +16,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.String.format;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static org.owasp.webgoat.plugins.PluginFileUtils.createDirsIfNotExists;
 
 /**
- * Extract the wpf file and collect the classes to load and files(lesson plans etc)
+ * Extract the wpf file and place them in the system temp directory in the folder webgoat and collect the files
+ * and classes.
  */
 public class PluginExtractor {
 
     private static final String DIRECTORY = "webgoat";
     private final Path pluginArchive;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Map<String, byte[]> classes = new HashMap<String, byte[]>();
     private final List<Path> files = new ArrayList<>();
     private Path baseDirectory;
@@ -38,7 +37,7 @@ public class PluginExtractor {
         try {
             baseDirectory = createDirsIfNotExists(Paths.get(System.getProperty("java.io.tmpdir"), DIRECTORY));
         } catch (IOException io) {
-            logger.error(String.format("Unable to create base directory: {}", pluginArchive.getFileName()), io);
+            new Plugin.PluginLoadingFailure(format("Unable to create base directory: {}", pluginArchive.getFileName()), io);
         }
     }
 
@@ -58,7 +57,7 @@ public class PluginExtractor {
                 }
             });
         } catch (IOException io) {
-            logger.error(String.format("Unable to extract: %s", pluginArchive.getFileName()), io);
+            new Plugin.PluginLoadingFailure(format("Unable to extract: %s", pluginArchive.getFileName()), io);
         }
     }
 
@@ -79,10 +78,5 @@ public class PluginExtractor {
         return FileSystems.newFileSystem(uri, new HashMap<String, Object>());
     }
 
-    public Path createDirsIfNotExists(Path p) throws IOException {
-        if ( Files.notExists(p)) {
-            Files.createDirectories(p);
-        }
-        return p;
-    }
+
 }

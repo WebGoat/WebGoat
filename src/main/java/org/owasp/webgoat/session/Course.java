@@ -431,9 +431,9 @@ public class Course {
         logger.info("Loading courses: " + path);
         this.webgoatContext = webgoatContext;
         loadLessionFromPlugin(context);
-        //loadFiles(context, path);
+        loadFiles(context, path);
         //loadLessons(path);
-        //loadResources();
+        loadResources();
 
     }
 

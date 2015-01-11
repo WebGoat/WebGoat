@@ -36,7 +36,7 @@ public class PluginsLoader implements Runnable {
                         plugin.loadFiles(extractor.getFiles(), reload);
                         plugins.add(plugin);
                     } catch (Plugin.PluginLoadingFailure e) {
-                       logger.error("Unable to load plugin, continue reading others...");
+                       logger.error("Unable to load plugin, continue loading others...");
                     }
                     return FileVisitResult.CONTINUE;
                 }

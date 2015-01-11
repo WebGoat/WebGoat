@@ -1,6 +1,8 @@
 package org.owasp.webgoat.plugins;
 
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class PluginFileUtils {
@@ -17,6 +19,13 @@ public class PluginFileUtils {
             return true;
         }
         return hasParentDirectoryWithName(p.getParent(), s);
+    }
+
+    public static Path createDirsIfNotExists(Path p) throws IOException {
+        if ( Files.notExists(p)) {
+            Files.createDirectories(p);
+        }
+        return p;
     }
 
 }
