@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.List;
@@ -111,6 +112,21 @@ public class Plugin {
             return Files.createDirectory(pluginDirectory.resolve(NAME_LESSON_I18N_DIRECTORY));
         }
     }
+
+    public void rewritePaths(Path pluginTarget) {
+        try {
+            for (Map.Entry<String, File> html : solutionLanguageFiles.entrySet()) {
+                byte[] htmlFileAsBytes = Files.readAllBytes(Paths.get(html.getValue().toURI()));
+                String htmlFile = new String(htmlFileAsBytes);
+                htmlFile = htmlFile.replaceAll(this.lesson.getSimpleName() + "_files", pluginTarget.getFileName().toString() + "/lessons/plugin/SqlStringInjection/lessonSolutions/en/" + this.lesson.getSimpleName() + "_files");
+                Files.write(Paths.get(html.getValue().toURI()), htmlFile.getBytes(), StandardOpenOption.CREATE,
+                    StandardOpenOption.TRUNCATE_EXISTING);
+            }
+        } catch (IOException e) {
+            throw new PluginLoadingFailure("Unable to rewrite the paths in the solutions", e);
+        }
+    }
+
 
     public Class<AbstractLesson> getLesson() {
         return lesson;

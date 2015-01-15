@@ -26,22 +26,15 @@ import static org.owasp.webgoat.plugins.PluginFileUtils.createDirsIfNotExists;
  */
 public class PluginExtractor {
 
-    private static final String DIRECTORY = "webgoat";
     private final Path pluginArchive;
-    private final Map<String, byte[]> classes = new HashMap<String, byte[]>();
+    private final Map<String, byte[]> classes = new HashMap<>();
     private final List<Path> files = new ArrayList<>();
-    private Path baseDirectory;
 
     public PluginExtractor(Path pluginArchive) {
         this.pluginArchive = pluginArchive;
-        try {
-            baseDirectory = createDirsIfNotExists(Paths.get(System.getProperty("java.io.tmpdir"), DIRECTORY));
-        } catch (IOException io) {
-            new Plugin.PluginLoadingFailure(format("Unable to create base directory: {}", pluginArchive.getFileName()), io);
-        }
     }
 
-    public void extract() {
+    public void extract(final Path target) {
         try (FileSystem zip = createZipFileSystem()) {
             final Path root = zip.getPath("/");
             Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
@@ -52,7 +45,7 @@ public class PluginExtractor {
                         Files.copy(file, bos);
                         classes.put(file.toString(), bos.toByteArray());
                     }
-                    files.add(Files.copy(file, createDirsIfNotExists(Paths.get(baseDirectory.toString(), file.toString())), REPLACE_EXISTING));
+                    files.add(Files.copy(file, createDirsIfNotExists(Paths.get(target.toString(), file.toString())), REPLACE_EXISTING));
                     return FileVisitResult.CONTINUE;
                 }
             });
@@ -67,10 +60,6 @@ public class PluginExtractor {
 
     public List<Path> getFiles() {
         return this.files;
-    }
-
-    public Path getBaseDirectory() {
-        return this.baseDirectory;
     }
 
     private FileSystem createZipFileSystem() throws IOException {

@@ -15,25 +15,29 @@ import java.util.List;
 public class PluginsLoader implements Runnable {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final Path path;
+    private final Path pluginSource;
+    private Path pluginTarget;
 
-    public PluginsLoader(Path path) {
-        this.path = path;
+    public PluginsLoader(Path pluginSource, Path pluginTarget) {
+        this.pluginSource = pluginSource;
+        this.pluginTarget = pluginTarget;
     }
 
     public List<Plugin> loadPlugins(final boolean reload) {
         final List<Plugin> plugins = new ArrayList<Plugin>();
         try {
-            Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+            Files.walkFileTree(pluginSource, new SimpleFileVisitor<Path>() {
 
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     try {
+                        PluginFileUtils.createDirsIfNotExists(pluginTarget);
                         PluginExtractor extractor = new PluginExtractor(file);
-                        extractor.extract();
-                        Plugin plugin = new Plugin(extractor.getBaseDirectory());
+                        extractor.extract(pluginTarget);
+                        Plugin plugin = new Plugin(pluginTarget);
                         plugin.loadClasses(extractor.getClasses());
                         plugin.loadFiles(extractor.getFiles(), reload);
+                        plugin.rewritePaths(pluginTarget);
                         plugins.add(plugin);
                     } catch (Plugin.PluginLoadingFailure e) {
                        logger.error("Unable to load plugin, continue loading others...");

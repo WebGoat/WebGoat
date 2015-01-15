@@ -55,10 +55,6 @@ public class LabelProvider
 		return labels.get(locale).getString(strName);
 	}
 
-	public void addLabels() {
-
-	}
-
 	private class WebGoatResourceBundleController extends ResourceBundle.Control
 	{
 		private final Locale fallbackLocale = new Locale(DEFAULT_LANGUAGE);

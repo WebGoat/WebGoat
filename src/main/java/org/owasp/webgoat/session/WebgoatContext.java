@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
-import java.nio.file.Path;
 
 public class WebgoatContext {
 
@@ -216,13 +215,4 @@ public class WebgoatContext {
     public String getDefaultLanguage() {
         return defaultLanguage;
     }
-
-    public Path getPluginDirectory() {
-        return pluginDirectory;
-    }
-
-    public void setPluginDirectory(Path pluginDirectory) {
-        this.pluginDirectory = pluginDirectory;
-    }
-
 }

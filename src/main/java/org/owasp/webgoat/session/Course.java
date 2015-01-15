@@ -281,42 +281,17 @@ public class Course {
         return null;
     }
 
-    /**
-     * Load all of the filenames into a temporary cache
-     *
-     * @param context
-     * @param path
-     */
-    private void loadFiles(ServletContext context, String path) {
-        logger.debug("Loading files into cache, path: " + path);
-        Set resourcePaths = context.getResourcePaths(path);
-        if (resourcePaths == null) {
-            logger.error("Unable to load file cache for courses, this is probably a bug or configuration issue");
-            return;
-        }
-        Iterator itr = resourcePaths.iterator();
-
-        while (itr.hasNext()) {
-            String file = (String) itr.next();
-
-            if (file.length() != 1 && file.endsWith("/")) {
-                loadFiles(context, file);
-            } else {
-                files.add(file);
-            }
-        }
-    }
-
     private void loadLessionFromPlugin(ServletContext context) {
+        context.getContextPath();
         logger.debug("Loading plugins into cache");
-        String path = context.getRealPath("plugin_lessons");
-        if (path == null) {
-            logger.error("Plugins directory {} not found", path);
+        String pluginPath = context.getRealPath("plugin_lessons");
+        String targetPath = context.getRealPath("plugin_extracted");
+        if (pluginPath == null) {
+            logger.error("Plugins directory {} not found", pluginPath);
             return;
         }
-        Path pluginDirectory = Paths.get(path);
-        webgoatContext.setPluginDirectory(pluginDirectory);
-        List<Plugin> plugins = new PluginsLoader(pluginDirectory).loadPlugins(false);
+        Path pluginDirectory = Paths.get(pluginPath);
+        List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(false);
         for (Plugin plugin : plugins) {
             try {
                 Class<AbstractLesson> c = plugin.getLesson();
@@ -342,85 +317,6 @@ public class Course {
     }
 
     /**
-     * Instantiate all the lesson objects into a cache
-     *
-     * @deprecated should be removed if everything is loaded with plugins
-     * @param path
-     */
-    private void loadLessons(String path) {
-        for (String file : files) {
-            String className = getClassFile(file, path);
-
-            if (className != null && !className.endsWith("_i")) {
-                try {
-                    Class c = Class.forName(className);
-                    Object o = c.newInstance();
-
-                    if (o instanceof AbstractLesson) {
-                        AbstractLesson lesson = (AbstractLesson) o;
-                        lesson.setWebgoatContext(webgoatContext);
-
-                        lesson.update(properties);
-
-                        if (lesson.getHidden() == false) {
-                            lessons.add(lesson);
-                        }
-                    }
-                } catch (Exception e) {
-                    logger.error("Error in loadLessons: ", e);
-                }
-            }
-        }
-    }
-
-    private String getLanguageFromFileName(String first, String absoluteFile) {
-        int p1 = absoluteFile.indexOf("/", absoluteFile.indexOf(first) + 1);
-        int p2 = absoluteFile.indexOf("/", p1 + 1);
-        String langStr = absoluteFile.substring(p1 + 1, p2);
-
-        return langStr;
-    }
-
-    /**
-     * For each lesson, set the source file and lesson file
-     */
-    private void loadResources() {
-        for (AbstractLesson lesson : lessons) {
-            logger.info("Loading resources for lesson -> " + lesson.getName());
-            String className = lesson.getClass().getName();
-            String classFile = getSourceFile(className);
-            logger.info("Lesson classname: " + className);
-            logger.info("Lesson java file: " + classFile);
-
-            for (String absoluteFile : files) {
-                String fileName = getFileName(absoluteFile);
-                //logger.debug("Course: looking at file: " + absoluteFile);
-
-                if (absoluteFile.endsWith(classFile)) {
-                    logger.info("Set source file for " + classFile);
-                    lesson.setSourceFileName(absoluteFile);
-                }
-
-                if (absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html") && className
-                    .endsWith(fileName)) {
-                    logger.info(
-                        "setting lesson plan file " + absoluteFile + " for lesson " + lesson.getClass().getName());
-                    logger.info("fileName: " + fileName + " == className: " + className);
-                    String language = getLanguageFromFileName("/lesson_plans", absoluteFile);
-                    lesson.setLessonPlanFileName(language, absoluteFile);
-                }
-                if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html") && className
-                    .endsWith(fileName)) {
-                    logger.info(
-                        "setting lesson solution file " + absoluteFile + " for lesson " + lesson.getClass().getName());
-                    logger.info("fileName: " + fileName + " == className: " + className);
-                    lesson.setLessonSolutionFileName(absoluteFile);
-                }
-            }
-        }
-    }
-
-    /**
      * Description of the Method
      *
      * @param webgoatContext
@@ -431,10 +327,6 @@ public class Course {
         logger.info("Loading courses: " + path);
         this.webgoatContext = webgoatContext;
         loadLessionFromPlugin(context);
-        loadFiles(context, path);
-        //loadLessons(path);
-        loadResources();
-
     }
 
 }
