@@ -1,10 +1,12 @@
 
 package org.owasp.webgoat.util;
 
+import org.owasp.webgoat.plugins.ResourceBundleClassLoader;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import org.springframework.stereotype.Component;
 
 
 /***************************************************************************************************
@@ -37,7 +39,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LabelProvider
 {
-	public final static String DEFAULT_LANGUAGE = "en";
+	public final static String DEFAULT_LANGUAGE = Locale.ENGLISH.getLanguage();
 
 	private final HashMap<Locale, ResourceBundle> labels = new HashMap<Locale, ResourceBundle>();
 	private final WebGoatResourceBundleController localeController = new WebGoatResourceBundleController();
@@ -46,7 +48,8 @@ public class LabelProvider
 	{
 		if (!labels.containsKey(locale))
 		{
-			ResourceBundle resBundle = ResourceBundle.getBundle("WebGoatLabels", locale, localeController);
+			ClassLoader classLoader = ResourceBundleClassLoader.createPropertyFilesClassLoader(ResourceBundle.class.getClassLoader());
+			ResourceBundle resBundle = ResourceBundle.getBundle("WebGoatLabels", locale, classLoader, localeController);
 			labels.put(locale, resBundle);
 		}
 		return labels.get(locale).getString(strName);
