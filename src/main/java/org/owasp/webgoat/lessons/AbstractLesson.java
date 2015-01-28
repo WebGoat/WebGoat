@@ -385,7 +385,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
             }
 
-            src.append(readFromFile(new BufferedReader(new FileReader(s.getWebResource(filename))), false));
+            src.append(readFromFile(new BufferedReader(new FileReader(filename)), false));
 
         } catch (Exception e) {
             // s.setMessage( "Could not find lesson plan for " +
@@ -467,8 +467,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         try {
             // System.out.println("Loading source file: " +
             // getSourceFileName());
-            src = convertMetacharsJavaCode(readFromFile(new BufferedReader(new FileReader(s
-                    .getWebResource(getSourceFileName()))), true));
+            src = convertMetacharsJavaCode(readFromFile(new BufferedReader(new FileReader(getSourceFileName())), true));
 
             // TODO: For styled line numbers and better memory efficiency,
             // use a custom FilterReader
@@ -504,7 +503,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
         try {
             logger.debug("Loading source file: " + getSourceFileName());
-            src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getSourceFileName()))), false);
+            src = readFromFile(new BufferedReader(new FileReader(getSourceFileName())), false);
 
         } catch (FileNotFoundException e) {
             s.setMessage("Could not find source file");
@@ -522,7 +521,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
         try {
             // System.out.println("Solution: " + getLessonSolutionFileName());
-            src = readFromFile(new BufferedReader(new FileReader(s.getWebResource(getLessonSolutionFileName()))), false);
+            src = readFromFile(new BufferedReader(new FileReader(getLessonSolutionFileName())), false);
         } catch (Exception e) {
             s.setMessage("Could not find the solution file");
             src = ("Could not find the solution file or solution file does not exist.<br/>"
