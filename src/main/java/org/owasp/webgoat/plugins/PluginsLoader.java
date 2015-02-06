@@ -14,7 +14,8 @@ import java.util.List;
 
 public class PluginsLoader implements Runnable {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected static final String WEBGOAT_PLUGIN_EXTENSION = "jar";
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Path pluginSource;
     private Path pluginTarget;
 
@@ -31,14 +32,16 @@ public class PluginsLoader implements Runnable {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     try {
-                        PluginFileUtils.createDirsIfNotExists(pluginTarget);
-                        PluginExtractor extractor = new PluginExtractor(file);
-                        extractor.extract(pluginTarget);
-                        Plugin plugin = new Plugin(pluginTarget);
-                        plugin.loadClasses(extractor.getClasses());
-                        plugin.loadFiles(extractor.getFiles(), reload);
-                        plugin.rewritePaths(pluginTarget);
-                        plugins.add(plugin);
+                    	if (PluginFileUtils.fileEndsWith(file, WEBGOAT_PLUGIN_EXTENSION)) {
+                            PluginFileUtils.createDirsIfNotExists(pluginTarget);
+                            PluginExtractor extractor = new PluginExtractor(file);
+                            extractor.extract(pluginTarget);
+                            Plugin plugin = new Plugin(pluginTarget);
+                            plugin.loadClasses(extractor.getClasses());
+                            plugin.loadFiles(extractor.getFiles(), reload);
+                            plugin.rewritePaths(pluginTarget);
+                            plugins.add(plugin);                 		
+                    	}
                     } catch (Plugin.PluginLoadingFailure e) {
                        logger.error("Unable to load plugin, continue loading others...");
                     }

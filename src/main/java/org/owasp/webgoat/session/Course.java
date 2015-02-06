@@ -4,11 +4,13 @@ import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.plugins.Plugin;
+import org.owasp.webgoat.plugins.PluginFileUtils;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -175,7 +177,7 @@ public class Course {
         List<String> roles = new ArrayList<String>();
         roles.add(AbstractLesson.USER_ROLE);
         // Category 0 is the admin function. We want the first real category
-        // to be returned. This is noramally the General category and the Http Basics lesson
+        // to be returned. This is normally the General category and the Http Basics lesson
         return ((AbstractLesson) getLessons((Category) getCategories().get(0), roles).get(0));
     }
 
@@ -281,7 +283,7 @@ public class Course {
         return null;
     }
 
-    private void loadLessionFromPlugin(ServletContext context) {
+    private void loadLessonFromPlugin(ServletContext context) {
         context.getContextPath();
         logger.debug("Loading plugins into cache");
         String pluginPath = context.getRealPath("plugin_lessons");
@@ -290,8 +292,18 @@ public class Course {
             logger.error("Plugins directory {} not found", pluginPath);
             return;
         }
+        
+        // Do a one time load of the container properties
+        String containerPath = context.getRealPath("container//i18n");
+        Plugin theContainer = new Plugin(Paths.get(targetPath));
+        try {
+			theContainer.loadFiles(PluginFileUtils.getFilesInDirectory(Paths.get(containerPath)), false);
+		} catch (IOException io) {
+            logger.error("Error loading container properties: ", io);
+		}
+        
         Path pluginDirectory = Paths.get(pluginPath);
-        List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(false);
+        List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(true);
         for (Plugin plugin : plugins) {
             try {
                 Class<AbstractLesson> c = plugin.getLesson();
@@ -326,7 +338,7 @@ public class Course {
     public void loadCourses(WebgoatContext webgoatContext, ServletContext context, String path) {
         logger.info("Loading courses: " + path);
         this.webgoatContext = webgoatContext;
-        loadLessionFromPlugin(context);
+        loadLessonFromPlugin(context);
     }
 
 }

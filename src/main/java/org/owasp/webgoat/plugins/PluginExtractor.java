@@ -49,8 +49,8 @@ public class PluginExtractor {
                     return FileVisitResult.CONTINUE;
                 }
             });
-        } catch (IOException io) {
-            new Plugin.PluginLoadingFailure(format("Unable to extract: %s", pluginArchive.getFileName()), io);
+        } catch (Exception e) {
+            new Plugin.PluginLoadingFailure(format("Unable to extract: %s", pluginArchive.getFileName()), e);
         }
     }
 
@@ -62,7 +62,7 @@ public class PluginExtractor {
         return this.files;
     }
 
-    private FileSystem createZipFileSystem() throws IOException {
+    private FileSystem createZipFileSystem() throws Exception {
         final URI uri = URI.create("jar:file:" + pluginArchive.toUri().getPath());
         return FileSystems.newFileSystem(uri, new HashMap<String, Object>());
     }
