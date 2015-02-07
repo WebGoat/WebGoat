@@ -15,7 +15,7 @@ public class PluginFileUtils {
     }
 
     public static boolean hasParentDirectoryWithName(Path p, String s) {
-        if (p == null || p.getParent() == null || p.getRoot().equals(p.getParent())) {
+        if (p == null || p.getParent() == null || p.getParent().equals(p.getRoot())) {
             return false;
         }
         if (p.getParent().getFileName().toString().equals(s)) {
@@ -31,8 +31,7 @@ public class PluginFileUtils {
         return p;
     }
     
-    public static List<Path> getFilesInDirectory( Path directory) throws IOException
-    {
+    public static List<Path> getFilesInDirectory( Path directory) throws IOException {
     	List<Path> files = new ArrayList<>();
     	DirectoryStream<Path> dirStream;
     	dirStream = Files.newDirectoryStream(directory);
