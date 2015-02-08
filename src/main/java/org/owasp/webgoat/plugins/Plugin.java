@@ -11,11 +11,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static org.owasp.webgoat.plugins.PluginFileUtils.fileEndsWith;
 import static org.owasp.webgoat.plugins.PluginFileUtils.hasParentDirectoryWithName;
 
@@ -96,9 +98,9 @@ public class Plugin {
             Path propertiesPath = createPropertiesDirectory();
             ResourceBundleClassLoader.setPropertiesPath(propertiesPath);
             if ( reload ) {
-                Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), CREATE, APPEND);
             } else {
-                Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+                Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), CREATE, TRUNCATE_EXISTING);
             }
         } catch (IOException io) {
             throw new PluginLoadingFailure("Property file detected, but unable to copy the properties", io);
@@ -118,9 +120,9 @@ public class Plugin {
             for (Map.Entry<String, File> html : solutionLanguageFiles.entrySet()) {
                 byte[] htmlFileAsBytes = Files.readAllBytes(Paths.get(html.getValue().toURI()));
                 String htmlFile = new String(htmlFileAsBytes);
-                htmlFile = htmlFile.replaceAll(this.lesson.getSimpleName() + "_files", pluginTarget.getFileName().toString() + "/lessons/plugin/SqlStringInjection/lessonSolutions/en/" + this.lesson.getSimpleName() + "_files");
-                Files.write(Paths.get(html.getValue().toURI()), htmlFile.getBytes(), StandardOpenOption.CREATE,
-                    StandardOpenOption.TRUNCATE_EXISTING);
+                htmlFile = htmlFile.replaceAll("lesson_solutions/" + this.lesson.getSimpleName() + "_files", pluginTarget.getFileName().toString() + "/lessons/plugin/" + this.lesson.getSimpleName() + "/lessonSolutions/en/" + this.lesson.getSimpleName() + "_files");
+                Files.write(Paths.get(html.getValue().toURI()), htmlFile.getBytes(), CREATE,
+                    TRUNCATE_EXISTING);
             }
         } catch (IOException e) {
             throw new PluginLoadingFailure("Unable to rewrite the paths in the solutions", e);
@@ -143,4 +145,5 @@ public class Plugin {
     public Map<String, File> getLessonPlans() {
         return this.lessonPlansLanguageFiles;
     }
+
 }

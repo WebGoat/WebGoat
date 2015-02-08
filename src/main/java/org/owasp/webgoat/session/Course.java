@@ -3,6 +3,7 @@ package org.owasp.webgoat.session;
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
+import org.owasp.webgoat.plugins.GlobalProperties;
 import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginFileUtils;
 import org.owasp.webgoat.plugins.PluginsLoader;
@@ -284,7 +285,6 @@ public class Course {
     }
 
     private void loadLessonFromPlugin(ServletContext context) {
-        context.getContextPath();
         logger.debug("Loading plugins into cache");
         String pluginPath = context.getRealPath("plugin_lessons");
         String targetPath = context.getRealPath("plugin_extracted");
@@ -292,17 +292,8 @@ public class Course {
             logger.error("Plugins directory {} not found", pluginPath);
             return;
         }
-        
-        // Do a one time load of the container properties
-        String containerPath = context.getRealPath("container//i18n");
-        Plugin theContainer = new Plugin(Paths.get(targetPath));
-        try {
-			theContainer.loadFiles(PluginFileUtils.getFilesInDirectory(Paths.get(containerPath)), false);
-		} catch (IOException io) {
-            logger.error("Error loading container properties: ", io);
-		}
-        
-        Path pluginDirectory = Paths.get(pluginPath);
+        new GlobalProperties(Paths.get(targetPath)).loadProperties(Paths.get(context.getRealPath("container//i18n")));
+
         List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(true);
         for (Plugin plugin : plugins) {
             try {
@@ -314,7 +305,7 @@ public class Course {
 
                 lesson.update(properties);
 
-                if (lesson.getHidden() == false) {
+                if (!lesson.getHidden()) {
                     lessons.add(lesson);
                 }
                 for(Map.Entry<String, File> lessonPlan : plugin.getLessonPlans().entrySet()) {
