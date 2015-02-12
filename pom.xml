@@ -48,7 +48,9 @@
                 <artifactId>maven-war-plugin</artifactId>
 
                 <configuration>
-                    <archiveClasses>true</archiveClasses>
+                    <!--  archiving the classes breaks the admin screen loads in course.java
+                          the legacy lesson loader does not look in jar files for lessons  -->
+                    <archiveClasses>false</archiveClasses>
                     <manifest>
                         <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                     </manifest>
