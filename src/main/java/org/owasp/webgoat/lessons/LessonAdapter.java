@@ -1,9 +1,5 @@
 package org.owasp.webgoat.lessons;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -15,6 +11,11 @@ import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.WebSession;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * *************************************************************************************************
@@ -157,7 +158,7 @@ public abstract class LessonAdapter extends AbstractLesson {
         StringBuffer buff = new StringBuffer();
         String lang = s.getCurrrentLanguage();
         try {
-            String fileName = s.getWebResource(getLessonPlanFileName(lang));
+            String fileName = getLessonPlanFileName(lang);
             if (fileName != null) {
                 BufferedReader in = new BufferedReader(new FileReader(fileName));
                 String line = null;
