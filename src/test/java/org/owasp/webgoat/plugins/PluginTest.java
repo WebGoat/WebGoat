@@ -26,11 +26,11 @@ public class PluginTest {
         List<String> allLines = Files.readAllLines(htmlFile, StandardCharsets.UTF_8);
 
         assertThat(allLines,
-            hasItem(containsString("lessons/plugin/TestPlugin/lessonSolutions/en/TestPlugin_files/image001.png")));
+            hasItem(containsString("plugin/TestPlugin/lessonSolutions/en/TestPlugin_files/image001.png")));
     }
 
     @Test
-    public void shouldNotRewriteOtherLinksStartingWithLesson_solutions() throws Exception {
+    public void shouldNotRewriteOtherLinks() throws Exception {
         Path tmpDir = PluginTestHelper.createTmpDir();
         Path pluginSourcePath = PluginTestHelper.pathForLoading();
         Plugin plugin = PluginTestHelper.createPluginFor(TestPlugin.class);
@@ -40,6 +40,6 @@ public class PluginTest {
         List<String> allLines = Files.readAllLines(htmlFile, StandardCharsets.UTF_8);
 
         assertThat(allLines,
-            hasItem(containsString("lesson_solutions/Unknown_files/image001.png")));
+            hasItem(containsString("Unknown_files/image001.png")));
     }
 }

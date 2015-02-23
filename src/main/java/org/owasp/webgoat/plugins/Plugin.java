@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,13 +116,8 @@ public class Plugin {
 
     public void rewritePaths(Path pluginTarget) {
         try {
-            for (Map.Entry<String, File> html : solutionLanguageFiles.entrySet()) {
-                byte[] htmlFileAsBytes = Files.readAllBytes(Paths.get(html.getValue().toURI()));
-                String htmlFile = new String(htmlFileAsBytes);
-                htmlFile = htmlFile.replaceAll("lesson_solutions/" + this.lesson.getSimpleName() + "_files", pluginTarget.getFileName().toString() + "/lessons/plugin/" + this.lesson.getSimpleName() + "/lessonSolutions/en/" + this.lesson.getSimpleName() + "_files");
-                Files.write(Paths.get(html.getValue().toURI()), htmlFile.getBytes(), CREATE,
-                    TRUNCATE_EXISTING);
-            }
+            PluginFileUtils.replaceInFiles(this.lesson.getSimpleName() + "_files", pluginTarget.getFileName().toString() + "/plugin/" + this.lesson.getSimpleName() + "/lessonSolutions/en/" + this.lesson.getSimpleName() + "_files", solutionLanguageFiles.values());
+            PluginFileUtils.replaceInFiles(this.lesson.getSimpleName() + "_files", pluginTarget.getFileName().toString() + "/plugin/" + this.lesson.getSimpleName() + "/lessonPlans/en/" + this.lesson.getSimpleName() + "_files", lessonPlansLanguageFiles.values());
         } catch (IOException e) {
             throw new PluginLoadingFailure("Unable to rewrite the paths in the solutions", e);
         }
