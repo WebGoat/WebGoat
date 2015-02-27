@@ -23,4 +23,6 @@ src/main/main.iml
 *.BASE.*.jsp
 *.LOCAL.*.jsp
 *.REMOTE.*.jsp
+src/main/webapp/plugin_extracted/*
 
+/*.iml
