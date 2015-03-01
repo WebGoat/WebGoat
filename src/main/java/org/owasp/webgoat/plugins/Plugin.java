@@ -1,5 +1,6 @@
 package org.owasp.webgoat.plugins;
 
+import com.google.common.base.Optional;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +62,7 @@ public class Plugin {
 
     private void loadClass(String name, byte[] classFile) {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-        PluginClassLoader pluginClassLoader = new PluginClassLoader(contextClassLoader, classFile);
+        PluginClassLoader pluginClassLoader = new PluginClassLoader(contextClassLoader, name, classFile);
         try {
             String realClassName = name.replaceFirst("/", "").replaceAll("/", ".").replaceAll(".class", "");
             Class clazz = pluginClassLoader.loadClass(realClassName);
@@ -128,12 +129,16 @@ public class Plugin {
         return lesson;
     }
 
+    public Optional<File> getLessonSolution(String language) {
+        return Optional.fromNullable(this.solutionLanguageFiles.get(language));
+    }
+
     public Map<String, File> getLessonSolutions() {
         return this.solutionLanguageFiles;
     }
 
-    public File getLessonSource() {
-        return lessonSourceFile;
+    public Optional<File> getLessonSource() {
+        return Optional.fromNullable(lessonSourceFile);
     }
 
     public Map<String, File> getLessonPlans() {

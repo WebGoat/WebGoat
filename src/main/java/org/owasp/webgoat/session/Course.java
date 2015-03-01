@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map
+import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.owasp.webgoat.HammerHead;
@@ -318,8 +318,12 @@ public class Course {
                 for(Map.Entry<String, File> lessonPlan : plugin.getLessonPlans().entrySet()) {
                     lesson.setLessonPlanFileName(lessonPlan.getKey(), lessonPlan.getValue().toString());
                 }
-                lesson.setLessonSolutionFileName(plugin.getLessonSolutions().get("en").toString());
-                lesson.setSourceFileName(plugin.getLessonSource().toString());
+                if (plugin.getLessonSolution("en").isPresent()) {
+                    lesson.setLessonSolutionFileName(plugin.getLessonSolution("en").toString());
+                }
+                if (plugin.getLessonSource().isPresent()) {
+                    lesson.setSourceFileName(plugin.getLessonSource().get().toString());
+                }
             } catch (Exception e) {
                 logger.error("Error in loadLessons: ", e);
             }
