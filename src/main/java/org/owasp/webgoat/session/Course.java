@@ -304,12 +304,8 @@ public class Course {
         List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(true);
         for (Plugin plugin : plugins) {
             try {
-                Class<AbstractLesson> c = plugin.getLesson();
-                Object o = c.newInstance();
-
-                AbstractLesson lesson = (AbstractLesson) o;
+                AbstractLesson lesson = plugin.getLesson();
                 lesson.setWebgoatContext(webgoatContext);
-
                 lesson.update(properties);
 
                 if (!lesson.getHidden()) {

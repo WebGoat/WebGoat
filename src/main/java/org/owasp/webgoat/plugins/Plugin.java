@@ -124,9 +124,12 @@ public class Plugin {
         }
     }
 
-
-    public Class<AbstractLesson> getLesson() {
-        return lesson;
+    public AbstractLesson getLesson() {
+        try {
+            return lesson.newInstance();
+        } catch (IllegalAccessException | InstantiationException e) {
+            throw new PluginLoadingFailure("Unable to instantiate the lesson " + lesson.getName(), e);
+        }
     }
 
     public Optional<File> getLessonSolution(String language) {
