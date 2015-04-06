@@ -315,7 +315,7 @@ public class Course {
                     lesson.setLessonPlanFileName(lessonPlan.getKey(), lessonPlan.getValue().toString());
                 }
                 if (plugin.getLessonSolution("en").isPresent()) {
-                    lesson.setLessonSolutionFileName(plugin.getLessonSolution("en").toString());
+                    lesson.setLessonSolutionFileName(plugin.getLessonSolution("en").get().toString());
                 }
                 if (plugin.getLessonSource().isPresent()) {
                     lesson.setSourceFileName(plugin.getLessonSource().get().toString());
