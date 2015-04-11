@@ -37,6 +37,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -46,15 +47,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-
+                <version>2.4</version>
                 <configuration>
                     <!--  archiving the classes breaks the admin screen loads in course.java
                           the legacy lesson loader does not look in jar files for lessons  -->
                     <archiveClasses>false</archiveClasses>
-                    <manifest>
-                        <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                    </manifest>
                     <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
                         <manifestEntries>
                             <Specification-Title>${project.name}</Specification-Title>
                             <Specification-Version>${project.version}</Specification-Version>
@@ -66,6 +67,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
                 <executions>
                     <execution>
                         <id>create-jar</id>
@@ -94,7 +96,7 @@
                         <phase>package</phase>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>
         </plugins>
     </build>
 
@@ -354,8 +356,9 @@
             <version>1.7.7</version>
             <type>jar</type>
         </dependency>
+        </dependencies>
+
 
         <!-- ************* END spring MVC and related dependencies ************** -->
 
-    </dependencies>
 </project>
