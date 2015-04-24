@@ -13,7 +13,7 @@ penetration testing techniques.
 * [User Guide:](http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents)
 * [Wiki:](http://code.google.com/p/webgoat/w/list)
 * [FAQ:](http://code.google.com/p/webgoat/wiki/FAQ)
-* [Contact Info - Direct to Bruce Mayhew:](webgoat@owasp.org 
+* [Contact Info - Direct to Bruce Mayhew:](webgoat@owasp.org)
 * [Mailing List - WebGoat Community - For most questions:](owasp-webgoat@lists.owasp.org) 
 
 **WARNING 1:** *While running this program your machine will be extremely
