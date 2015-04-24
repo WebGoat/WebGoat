@@ -6,15 +6,14 @@ This program is a demonstration of common server-side application flaws. The
 exercises are intended to be used by people to learn about application
 penetration testing techniques.
 
-* [Home Page:](http://webgoat.github.io)
-* [OWASP Project Home Page:](http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project)
-* [Source Code:](https://github.com/WebGoat/WebGoat)
-* [Easy-Run Download:](https://webgoat.atlassian.net/builds/browse/WEB-DAIL/latestSuccessful/artifact/JOB1/WebGoat-Embedded-Tomcat/WebGoat-6.0-SNAPSHOT-war-exec.jar  )      
-* [User Guide:](http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents)
-* [Wiki:](http://code.google.com/p/webgoat/w/list)
+* [Home Page](http://webgoat.github.io)
+* [OWASP Project Home Page](http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project)
+* [Source Code](https://github.com/WebGoat/WebGoat)
+* [Easy-Run Download](https://webgoat.atlassian.net/builds/browse/WEB-DAIL/latestSuccessful/artifact/JOB1/WebGoat-Embedded-Tomcat/WebGoat-6.0-SNAPSHOT-war-exec.jar  )      
+* [User Guide](http://code.google.com/p/webgoat/w/list)
 * [FAQ:](http://code.google.com/p/webgoat/wiki/FAQ)
-* [Contact Info - Direct to Bruce Mayhew:](webgoat@owasp.org)
-* [Mailing List - WebGoat Community - For most questions:](owasp-webgoat@lists.owasp.org) 
+* [Contact Info - Direct to Bruce Mayhew](webgoat@owasp.org)
+* [Mailing List - WebGoat Community - For most questions](owasp-webgoat@lists.owasp.org) 
 
 **WARNING 1:** *While running this program your machine will be extremely
 vulnerable to attack. You should to disconnect from the Internet while using
