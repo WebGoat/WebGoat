@@ -523,6 +523,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
             // System.out.println("Solution: " + getLessonSolutionFileName());
             src = readFromFile(new BufferedReader(new FileReader(getLessonSolutionFileName())), false);
         } catch (Exception e) {
+            logger.error("Could not find solution for {}", getLessonSolutionFileName());
             s.setMessage("Could not find the solution file");
             src = ("Could not find the solution file or solution file does not exist.<br/>"
                     + "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress()
