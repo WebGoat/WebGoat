@@ -1,40 +1,38 @@
 define(['jquery',
 	'underscore',
 	'libs/backbone',
-	'goatApp/model/LessonData'
+	'goatApp/model/LessonContentData',
+	'goatApp/view/LessonContentView'
 	], 
-	function($,_,Backbone,LessonData) {
+	function($,_,Backbone,LessonContent) {
 		'use strict'
-		//private vars
+		
+		
+		var Controller = function(options) {
+			this.lessonView = options.lessonView;
+			this.lessonContent = new LessonContentData();
 
-		var controller = function() {
+			_.extend(this,Backbone.Events);
+			this.start = function() {
+				this.listenTo(this.lessonContent,'contentLoaded',this.onContentLoaded);
+			}
+
+			//load View, which can pull data
 			this.loadLesson = function(scr,menu) {
-				var curLessonData = new LessonData({
+				this.lessonContent.loadContent({
 					'screen': encodeURIComponent(scr),
 					'menu': encodeURIComponent(menu),
 				});
+
+				//this.registerListeners();
+			};
+
+			this.onContentLoaded = function() {
+				//this.lessonView  = new LessonContentView({content:LessonContent.content});
+				//this.lessonView.render();
+				console.debug('loading other stuff');
 			}
+			
 		};
-
-		return controller;
-
-	//var curScreen,curMenu;
-
-	//return { 
-	//	'screen':curScreen
-		// loadLesson called from the router to load the given lesson
-		/*loadLesson: function (src,curMenu) {
-			var curLesson = new LessonData({
-				'screen': encodeURIComponent(scr),
-				'menu': encodeURIComponent(curMenu),
-			});
-
-			//set listeners
-
-		},
-		restartLesson: function () {
-
-		}
-		//getters & setters*/
-	//};
+		return Controller;
 });

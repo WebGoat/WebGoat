@@ -1,4 +1,4 @@
-define(['jquery','underscore','backbone','goatApp/model/goatMenu'], function($,_,Backbone,MenuData) {
+define(['jquery','underscore','backbone','goatApp/model/MenuData'], function($,_,Backbone,MenuData) {
 
 	return  Backbone.View.extend({
 		el:'#menuContainer',
