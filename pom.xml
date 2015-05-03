@@ -3,7 +3,7 @@
     <name>WebGoat</name>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.owasp.webgoat</groupId>
-    <artifactId>WebGoat-Container</artifactId>
+    <artifactId>webgoat-container</artifactId>
     <packaging>war</packaging>
     <version>6.1.0</version>
 
