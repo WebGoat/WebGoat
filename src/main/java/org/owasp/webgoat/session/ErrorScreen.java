@@ -209,11 +209,6 @@ public class ErrorScreen extends Screen
 		return (new Small().addElement(list));
 	}
 
-	public Element getCredits()
-	{
-		return new ElementContainer();
-	}
-
 	/**
 	 * Description of the Method
 	 * 

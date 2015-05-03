@@ -79,12 +79,6 @@ public abstract class Screen {
      */
     protected abstract Element createContent(WebSession s);
 
-    /**
-     * Gets the credits attribute of the Screen object
-     *
-     * @return The credits value
-     */
-    public abstract Element getCredits();
 
     /**
      * Creates a new lessonTracker object.
