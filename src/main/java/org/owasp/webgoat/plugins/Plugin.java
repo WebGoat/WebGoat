@@ -70,7 +70,7 @@ public class Plugin {
                 this.lesson = clazz;
             }
         } catch (ClassNotFoundException e) {
-            logger.error("Unable to load class {}", name);
+            logger.error("Unable to load class {}", name, e);
         }
     }
 
