@@ -1,22 +1,42 @@
 package org.owasp.webgoat.plugins;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PluginClassLoader extends ClassLoader {
 
+    private final List<Class<?>> classes = new ArrayList<>();
     private final Logger logger = LoggerFactory.getLogger(Plugin.class);
-    private final byte[] classFile;
 
-    public PluginClassLoader(ClassLoader parent, String nameOfClass, byte[] classFile) {
-        super(parent);
-        logger.debug("Creating class loader for {}", nameOfClass);
-        this.classFile = classFile;
+    public Class<?> loadClass(String nameOfClass, byte[] classFile) {
+        Class<?> clazz = defineClass(nameOfClass, classFile, 0, classFile.length);
+        classes.add(clazz);
+        return clazz;
     }
 
-    public Class findClass(String name) {
+    public PluginClassLoader(ClassLoader contextClassLoader) {
+        super(contextClassLoader);
+    }
+
+    public Class findClass(final String name) throws ClassNotFoundException {
         logger.debug("Finding class " + name);
-        return defineClass(name, classFile, 0, classFile.length);
+        Optional<Class<?>> foundClass = FluentIterable.from(classes)
+                .firstMatch(new Predicate<Class<?>>() {
+                    @Override
+                    public boolean apply(Class<?> clazz) {
+                        return clazz.getName().equals(name);
+                    }
+                });
+        if (foundClass.isPresent()) {
+            return foundClass.get();
+        }
+        throw new ClassNotFoundException("Class " + name + " not found");
     }
 
 }
