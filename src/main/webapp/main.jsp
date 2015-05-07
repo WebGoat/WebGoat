@@ -278,9 +278,6 @@
                     <%
                         }
                     %>
-                    <div id="credits">
-                        <% out.println(currentLesson.getCredits());%>
-                    </div>
                 </div>
             </div>
 

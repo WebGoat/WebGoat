@@ -50,27 +50,24 @@ public class Plugin {
     }
 
     public void loadClasses(Map<String, byte[]> classes) {
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        PluginClassLoader pluginClassLoader = new PluginClassLoader(contextClassLoader);
         for (Map.Entry<String, byte[]> clazz : classes.entrySet()) {
-            loadClass(clazz.getKey(), clazz.getValue());
+            loadClass(pluginClassLoader, clazz.getKey(), clazz.getValue());
         }
         if (lesson == null) {
             throw new PluginLoadingFailure(String
-                .format("Lesson class not found, following classes were detected in the plugin: %s",
-                    StringUtils.collectionToCommaDelimitedString(classes.keySet())));
+                    .format("Lesson class not found, following classes were detected in the plugin: %s",
+                            StringUtils.collectionToCommaDelimitedString(classes.keySet())));
         }
     }
 
-    private void loadClass(String name, byte[] classFile) {
-        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-        PluginClassLoader pluginClassLoader = new PluginClassLoader(contextClassLoader, name, classFile);
-        try {
-            String realClassName = name.replaceFirst("/", "").replaceAll("/", ".").replaceAll(".class", "");
-            Class clazz = pluginClassLoader.loadClass(realClassName);
-            if (AbstractLesson.class.isAssignableFrom(clazz)) {
-                this.lesson = clazz;
-            }
-        } catch (ClassNotFoundException e) {
-            logger.error("Unable to load class {}", name);
+    private void loadClass(PluginClassLoader pluginClassLoader, String name, byte[] classFile) {
+        String realClassName = name.replaceFirst("/", "").replaceAll("/", ".").replaceAll(".class", "");
+
+        Class clazz = pluginClassLoader.loadClass(realClassName, classFile);
+        if (AbstractLesson.class.isAssignableFrom(clazz)) {
+            this.lesson = clazz;
         }
     }
 
@@ -97,7 +94,7 @@ public class Plugin {
             Files.copy(file, bos);
             Path propertiesPath = createPropertiesDirectory();
             ResourceBundleClassLoader.setPropertiesPath(propertiesPath);
-            if ( reload ) {
+            if (reload) {
                 Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), CREATE, APPEND);
             } else {
                 Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), CREATE, TRUNCATE_EXISTING);
@@ -117,8 +114,14 @@ public class Plugin {
 
     public void rewritePaths(Path pluginTarget) {
         try {
-            PluginFileUtils.replaceInFiles(this.lesson.getSimpleName() + "_files", pluginTarget.getFileName().toString() + "/plugin/" + this.lesson.getSimpleName() + "/lessonSolutions/en/" + this.lesson.getSimpleName() + "_files", solutionLanguageFiles.values());
-            PluginFileUtils.replaceInFiles(this.lesson.getSimpleName() + "_files", pluginTarget.getFileName().toString() + "/plugin/" + this.lesson.getSimpleName() + "/lessonPlans/en/" + this.lesson.getSimpleName() + "_files", lessonPlansLanguageFiles.values());
+            PluginFileUtils.replaceInFiles(this.lesson.getSimpleName() + "_files",
+                    pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
+                            .getSimpleName() + "/lessonSolutions/en/" + this.lesson.getSimpleName() + "_files",
+                    solutionLanguageFiles.values());
+            PluginFileUtils.replaceInFiles(this.lesson.getSimpleName() + "_files",
+                    pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
+                            .getSimpleName() + "/lessonPlans/en/" + this.lesson.getSimpleName() + "_files",
+                    lessonPlansLanguageFiles.values());
         } catch (IOException e) {
             throw new PluginLoadingFailure("Unable to rewrite the paths in the solutions", e);
         }

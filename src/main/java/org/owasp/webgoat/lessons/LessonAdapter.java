@@ -140,6 +140,8 @@ public abstract class LessonAdapter extends AbstractLesson {
     /**
      * Gets the credits attribute of the AbstractLesson object
      *
+     * @deprecated Credits are in the about page.  This method s no
+     *             longer called from WebGoat
      * @return The credits value
      */
     public Element getCredits() {

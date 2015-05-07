@@ -112,11 +112,6 @@ public class WelcomeScreen extends Screen
         return (ec);
     }
 
-    public Element getCredits()
-    {
-        return new ElementContainer();
-    }
-
     /**
      * Gets the instructions attribute of the WelcomeScreen object
      * 

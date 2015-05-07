@@ -43,7 +43,7 @@ public class PluginsLoader implements Runnable {
                             plugins.add(plugin);                 		
                     	}
                     } catch (Plugin.PluginLoadingFailure e) {
-                       logger.error("Unable to load plugin, continue loading others...");
+                       logger.error("Unable to load plugin, continue loading others...", e);
                     }
                     return FileVisitResult.CONTINUE;
                 }
