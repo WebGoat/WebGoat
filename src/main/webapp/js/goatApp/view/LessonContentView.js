@@ -20,4 +20,6 @@ function($,_,Backbone,LessonData) {
 			this.$el.html(this.content);
 		}
 	});
+
+	return contentView;
 });

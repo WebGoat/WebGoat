@@ -15,7 +15,7 @@ require.config({
   paths: {
     jquery: 'libs/jquery-1.10.2.min',
     underscore: 'libs/underscore-min',
-    backbone: 'libs/backbone-min'//,
+    backbone: 'libs/backbone-min'
   }
 ,
   shim: {
@@ -30,8 +30,5 @@ require.config({
 });
 
 require(['jquery','underscore','backbone','goatApp/goatApp'], function($,_,Backbone,Goat){
-  
   Goat.initApp();
-  //var lessonController = new LessonController();
-
 });
