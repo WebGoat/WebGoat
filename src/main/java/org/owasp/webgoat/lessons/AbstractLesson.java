@@ -550,7 +550,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * return "*.do"-styled paths.</p>
      */
     protected String getPath() {
-        return "attack";
+        return "#attack";
     }
 
     /**
@@ -562,13 +562,13 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         StringBuffer link = new StringBuffer();
 
         // mvc update:
-        link.append(getPath()).append("?");
-        link.append(WebSession.SCREEN);
-        link.append("=");
+        link.append(getPath()).append("/");
+        //link.append(WebSession.SCREEN);
+        //link.append("=");
         link.append(getScreenId());
-        link.append("&");
-        link.append(WebSession.MENU);
-        link.append("=");
+        link.append("/");
+        //link.append(WebSession.MENU);
+        //link.append("=");
         link.append(getCategory().getRanking());
         return link.toString();
     }
