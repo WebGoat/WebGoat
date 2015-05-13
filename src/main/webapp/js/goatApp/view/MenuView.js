@@ -1,12 +1,19 @@
-define(['jquery','underscore','backbone','goatApp/model/MenuData'], function($,_,Backbone,MenuData) {
+define(['jquery',
+	'underscore',
+	'backbone',
+	'goatApp/model/MenuItemCollection'], 
+	function($,_,Backbone,MenuItemCollection) {
 
 	return  Backbone.View.extend({
 		el:'#menuContainer',
 		//TODO: set template
-
+		initialize: function() {
+			this.collection = new MenuItemCollection();
+			this.listenTo(this.collection,'menuData:loaded',this.render);
+		},
 		render: function (model){
 			//TODO: implement own HTML Encoder
-			this.$el.html(buildMenu(items));
+			this.$el.html('render ' + this.collection.length + ' items');//buildMenu(items)
 		},
 		buildMenu: function(items) {
 
@@ -44,6 +51,7 @@ define(['jquery','underscore','backbone','goatApp/model/MenuData'], function($,_
 				$(goatConstants.getDOMContainers().lessonMenu).html('').append($wholeMenu);
 			};
 			
-		}
+		},
+
 	});
 });

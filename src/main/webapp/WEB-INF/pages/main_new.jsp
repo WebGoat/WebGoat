@@ -117,9 +117,10 @@
                                             <!--<span id="curHintContainer"></span>-->
                                         </div>                                    
                                     </div>
-                                    <div class="panel-body" id="lesson_content">    
-                                        <b>This should default to the "How to Work with Webgoat" lesson</b>
-                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" align="left">
+                                <div id="lessonContentWrapper" class="panel">
 
                                 </div>
                             </div>

@@ -4,22 +4,16 @@ define(['jquery',
 	'backbone',
 	'goatApp/model/LessonContentData'], 
 function($,_,Backbone,LessonData) {
-	var contentView = Backbone.View.extend({
-		el:'#lessonContent',
+	return Backbone.View.extend({
+		el:'#lessonContentWrapper', //TODO << get this fixed up in DOM
 		initialize: function(options) {
-			//this.content = options.content;
-			this.lessonData = {};
-			this.listenTo(this.lessonData,'sync',this.render);
-		},
-		loadLesson: function(options) {
-			this.lessonData = new LessonData(options.screen,options.menu);
-			
+			options = options || {};
 		},
 		render: function() {
-			alert('render');
-			this.$el.html(this.content);
+			//alert('render');
+			this.$el.html(this.model.get('content'));
 		}
 	});
 
-	return contentView;
+	
 });

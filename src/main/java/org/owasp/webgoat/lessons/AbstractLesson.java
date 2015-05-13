@@ -563,12 +563,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
         // mvc update:
         link.append(getPath()).append("/");
-        //link.append(WebSession.SCREEN);
-        //link.append("=");
         link.append(getScreenId());
         link.append("/");
-        //link.append(WebSession.MENU);
-        //link.append("=");
         link.append(getCategory().getRanking());
         return link.toString();
     }
