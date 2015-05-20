@@ -2,10 +2,10 @@ define(['jquery',
 	'underscore',
 	'backbone',
 	'goatApp/model/MenuItemModel'], 
-	function($,_,Backbone,MenuItemModel) {
+	function($,_,Backbone,MenuModel) {
 
 	return Backbone.Collection.extend({
-		model: MenuItemModel,
+		model: MenuModel,
 		url:'service/lessonmenu.mvc',
 		initialize: function () {
 			var self = this;
