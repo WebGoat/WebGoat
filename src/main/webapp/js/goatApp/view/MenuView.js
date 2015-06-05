@@ -46,7 +46,7 @@ define(['jquery',
 						lessonItem.append(lessonLink);
 						//check for lab/stages
 						categoryLessonList.append(lessonLink);
-						var stages = lessons[j].get('children');
+						var stages = lessons[j].children;
 						for (k=0; k < stages.length; k++) {
 							var stageSpan = $('<span>');
 							var stageLink = $('<a>',{href:stages[k].link,text:stages[k].name,id:GoatUtils.makeId(stages[k].name)});
