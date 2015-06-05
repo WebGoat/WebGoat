@@ -1,6 +1,6 @@
 # Important Information
 
-Thank you for downloading WebGoat!
+Thank you for downloading WebGoat!  This is the WebGoat Legacy version which is essentially the WebGoat 5 with a new UI. 
 
 This program is a demonstration of common server-side application flaws. The
 exercises are intended to be used by people to learn about application
@@ -8,10 +8,10 @@ penetration testing techniques.
 
 * [Home Page](http://webgoat.github.io)
 * [OWASP Project Home Page](http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project)
-* [Source Code](https://github.com/WebGoat/WebGoat)
-* [Easy-Run Download](https://webgoat.atlassian.net/builds/browse/WEB-DAIL/latestSuccessful/artifact/JOB1/WebGoat-Embedded-Tomcat/WebGoat-6.0-SNAPSHOT-war-exec.jar  )      
-* [User Guide](http://code.google.com/p/webgoat/w/list)
-* [FAQ:](http://code.google.com/p/webgoat/wiki/FAQ)
+* [Source Code](https://github.com/WebGoat/WebGoat-Legacy)
+* [Easy-Run Download](https://webgoat.atlassian.net/builds/browse/WEB-WGM/latestSuccessful/artifact/JOB1/WebGoat-Embedded-Tomcat/WebGoat-6.0-SNAPSHOT-war-exec.jar  )      
+* [Wiki](https://github.com/WebGoat/WebGoat-Legacy/wiki)
+* [FAQ (old info):](http://code.google.com/p/webgoat/wiki/FAQ)
 * [Contact Info - Direct to Bruce Mayhew](webgoat@owasp.org)
 * [Mailing List - WebGoat Community - For most questions](owasp-webgoat@lists.owasp.org) 
 
@@ -66,7 +66,7 @@ as well.
   Git support you need: (https://netbeans.org/downloads/)
 * Git, or Git support in your IDE
         
-**Note:** WebGoat source code can be downloaded at: (https://github.com/WebGoat/WebGoat). 
+**Note:** WebGoat source code can be downloaded at: (https://github.com/WebGoat/WebGoat-Legacy). 
 	
 
 1. Building the project (Developers) using a command shell/window:
