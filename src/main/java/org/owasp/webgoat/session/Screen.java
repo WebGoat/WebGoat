@@ -198,9 +198,9 @@ public abstract class Screen {
 
     // hook all the links
     public String getContent() {
-        String makeAllAjax = "<script>goat.utils.makeFormsAjax();goat.utils.ajaxifyAttackHref();</script>";
+        //String makeAllAjax = "<script>goat.utils.makeFormsAjax();goat.utils.ajaxifyAttackHref();</script>";
         // need to do this here as some of the lessons render forms after submission of an ajax form
-        return (content == null) ? "" : content.toString() + makeAllAjax;
+        return (content == null) ? "" : content.toString();// + makeAllAjax;
     }
 
     /**

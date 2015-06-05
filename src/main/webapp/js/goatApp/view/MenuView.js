@@ -6,7 +6,7 @@ define(['jquery',
 	'goatApp/support/GoatUtils'], 
 	function(
 		$,
-		_,t
+		_,
 		Backbone,
 		MenuCollection,
 		MenuItemView,
@@ -17,6 +17,7 @@ define(['jquery',
 		initialize: function() {
 			this.collection = new MenuCollection();
 			this.listenTo(this.collection,'menuData:loaded',this.render);
+			this.listenTo(this,'menu:click',this.accordionMenu);
 		},
 		// rendering top level menu
 		render: function (model){
@@ -27,25 +28,31 @@ define(['jquery',
 			var menuMarkup = '';
 			var menuUl = $('<ul>',{class:'nano-content'});
 			for(var i=0;i<items.length;i++) { //CATEGORY LEVEL
-				var category = $('<li>',{class:'sub-menu ng-scope'});
-				var catLink = $('<a>');
-				var catArrow = $('<i>',{class:'fa fa-angle-right pull-right'});
-				var catLinkText = $('<span>',{text:items[i].get('name')});
+				var catId, category, catLink, catArrow, catLinkText;
+				catId = GoatUtils.makeId(items[i].get('name'));
+				category = $('<li>',{class:'sub-menu ng-scope'});
+				catLink = $('<a>',{'category':catId});
+				catArrow = $('<i>',{class:'fa fa-angle-right pull-right'});
+				catLinkText = $('<span>',{text:items[i].get('name')});
+
 				catLink.append(catArrow);
 				catLink.append(catLinkText);
+				//TODO: refactor this along with sub-views/components
+				var self = this;
+				catLink.click(_.bind(this.expandCategory,this,catId));
 				//TODO: bind catLink to accordion and selection method
 				category.append(catLink);
 				// lesson level (first children level)
 				//var lessons = new MenuItemView({items:items[i].get('children')}).render();
 				var lessons=items[i].get('children');
 				if (lessons) {
-					var categoryLessonList = $('<ul>',{class:'slideDown lessonsAndStages'}); //keepOpen
+					var categoryLessonList = $('<ul>',{class:'slideDown lessonsAndStages',id:catId}); //keepOpen
 					for (var j=0; j < lessons.length;j++) {
 						var lessonItem = $('<li>');
 						var lessonLink = $('<a>',{href:lessons[j].link,text:lessons[j].name,id:GoatUtils.makeId(lessons[j].name)});
 						lessonItem.append(lessonLink);
 						//check for lab/stages
-						categoryLessonList.append(lessonLink);
+						categoryLessonList.append(lessonItem);
 						var stages = lessons[j].children;
 						for (k=0; k < stages.length; k++) {
 							var stageSpan = $('<span>');
@@ -56,11 +63,35 @@ define(['jquery',
 					}
 					category.append(categoryLessonList);
 				}
+
 				
 				menuUl.append(category);
 			}
 			this.$el.append(menuUl);
-
+			//if we need to keep a menu open
+			if (this.openMenu) {
+				this.accordionMenu(this.openMenu);
+			}
+		},
+		expandCategory: function (id) {
+			if (id) {
+				this.accordionMenu(id);
+			}
+		},
+		accordionMenu: function(id) {
+	        if (this.openMenu !== id) {
+	        	this.$el.find('#' + id).slideDown(300);
+	        } else { //it's open
+	            this.$el.find('#' + id).slideUp(300).attr('isOpen', 0);
+	            return;
+	        }
+	        this.openMenu = id;
+	        this.$el.find('.lessonsAndStages').not('ul#' + id).slideUp(300);
+	        /* //legacy angular code that may be usefl 
+	        if ($scope.expandMe) {
+	            $('ul#' + id).slideDown(300).attr('isOpen', 1);
+	        }
+	        */
 		}
 	});
 });
