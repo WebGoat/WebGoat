@@ -10,25 +10,19 @@ define(['jquery',
 			selectedItem:null
 		},
 		initialize: function (options) {
+			this.screenParam = null;
+			this.menuParam = null;
 			this.baseUrlRoot = 'attack?Screen=';//
 		},
 		loadData: function(options) {
 			this.urlRoot = this.baseUrlRoot + +options.screen + '&menu=' + options.menu;
+			this.set('menuParam',options.menu);
+			this.set('screenParam',options.screen);
+
 			var self=this;
 			this.fetch().then(function(data) {
 				self.setContent(data);
 			});
-			// 	success: function(content) {
-			// 		console.log("content:" + content);
-			// 	},
-			// 	error: function(err) {
-			// 		console.log("error:" + err);
-			// 	},
-			// 	done: function(a,b) {
-			// 		console.log(a);
-			// 		console.log(b);
-			// 	}
-			// });
 		},
 		setContent: function(content) {
 			this.set('content',content);

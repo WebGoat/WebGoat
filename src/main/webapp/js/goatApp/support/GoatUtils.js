@@ -1,9 +1,12 @@
 define(['jquery',
     'underscore',
-    'backbone'], 
+    'backbone',
+    'libs/jquery.form'
+    ], 
     function($,
         _,
-        Backbone) {
+        Backbone,
+        JQueryForm) {
             var goatUtils = {
                 makeId: function(lessonName) {
                     //var id =
