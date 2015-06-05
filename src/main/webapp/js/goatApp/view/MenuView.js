@@ -6,13 +6,13 @@ define(['jquery',
 	'goatApp/support/GoatUtils'], 
 	function(
 		$,
-		_,
+		_,t
 		Backbone,
 		MenuCollection,
 		MenuItemView,
 		GoatUtils) {
 	return  Backbone.View.extend({
-		el:'#menuContainer',
+		el:'#menu-container',
 		//TODO: set template
 		initialize: function() {
 			this.collection = new MenuCollection();

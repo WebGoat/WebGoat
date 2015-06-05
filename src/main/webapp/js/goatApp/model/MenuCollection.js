@@ -1,7 +1,7 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/MenuItemModel'], 
+	'goatApp/model/MenuModel'], 
 	function($,_,Backbone,MenuModel) {
 
 	return Backbone.Collection.extend({
@@ -18,4 +18,4 @@ define(['jquery',
 			this.trigger('menuData:loaded');
 		}
 	});
-});
+})

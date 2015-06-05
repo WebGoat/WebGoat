@@ -22,7 +22,7 @@ define(['jquery',
 //                debugFormSubmission: false,
                 // pre-submit callback 
                 showRequest: function(formData, jqForm, options) {
-                    if (goat.utils.debugFormSubmission) {
+                    if (GoatUtils.debugFormSubmission) {
                         // formData is an array; here we use $.param to convert it to a string to display it 
                         // but the form plugin does this for you automatically when it submits the data 
                         var queryString = $.param(formData);
@@ -49,17 +49,17 @@ define(['jquery',
                     // if the ajaxForm method was passed an Options Object with the dataType 
                     // property set to 'json' then the first argument to the success callback 
                     // is the json data object returned by the server 
-                    if (goat.utils.debugFormSubmission) {
+                    if (GoatUtils.debugFormSubmission) {
                         alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
                                 '\n\nThe output div should have already been updated with the responseText.');
                     }
                     // update lesson cookies and params
                     // make any embedded forms ajaxy
-                    goat.utils.showLessonCookiesAndParams();
+                    GoatUtils.showLessonCookiesAndParams();
                     // forms and links are now hooked with each standard lesson render (see Java class Screen.getContent())
                     // but these are safe to call twice
-                    goat.utils.makeFormsAjax();
-                    goat.utils.ajaxifyAttackHref(); //TODO find some way to hook scope for current menu. Likely needs larger refactor which is already started/stashed
+                    GoatUtils.makeFormsAjax();
+                    GoatUtils.ajaxifyAttackHref(); //TODO find some way to hook scope for current menu. Likely needs larger refactor which is already started/stashed
                     //refresh menu
                     angular.element($('#leftside-navigation')).scope().renderMenu();
                 },
@@ -67,8 +67,8 @@ define(['jquery',
                     // make all forms ajax forms
                     var options = {
                         target: '#lesson_content', // target element(s) to be updated with server response                     
-                        beforeSubmit: goat.utils.showRequest, // pre-submit callback, comment out after debugging 
-                        success: goat.utils.showResponse  // post-submit callback, comment out after debugging 
+                        beforeSubmit: GoatUtils.showRequest, // pre-submit callback, comment out after debugging 
+                        success: GoatUtils.showResponse  // post-submit callback, comment out after debugging 
 
                                 // other available options: 
                                 //url:       url         // override for form's 'action' attribute 
@@ -106,29 +106,29 @@ define(['jquery',
                     $('.lessonHelp').hide();
                     //$('#lesson_source').html("<pre>"+goat.lesson.lessonInfo.source+"</pre>");
                     $('#lesson_source_row').show();
-                    goat.utils.scrollToHelp();
+                    GoatUtils.scrollToHelp();
                 },
                 showLessonSolution: function() {
                     $('.lessonHelp').hide();
                     $('#lesson_solution').html(goat.lesson.lessonInfo.solution);
                     $('#lesson_solution_row').show();
-                    goat.utils.scrollToHelp();
+                    GoatUtils.scrollToHelp();
                 },
                 showLessonPlan: function(plan) {
                     $('.lessonHelp').hide();
                     $("#lesson_plan").html(goat.lesson.lessonInfo.plan);
                     $('#lesson_plan_row').show();
-                    goat.utils.scrollToHelp();
+                    GoatUtils.scrollToHelp();
                 },
                 scrollToHelp: function() {
                     $('#leftside-navigation').height($('#main-content').height() + 15)
                     var target = $('#lessonHelpsWrapper');
-                    goat.utils.scrollEasy(target);
+                    GoatUtils.scrollEasy(target);
                 },
                 scrollToTop: function() {
                     $('.lessonHelp').hide();
                     var target = $('#container');
-                    goat.utils.scrollEasy(target);
+                    GoatUtils.scrollEasy(target);
                 },
                 scrollEasy: function(target) {
                     $('html,body').animate({

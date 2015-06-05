@@ -87,7 +87,7 @@
             </header>
 
             <aside class="sidebar" >
-                <div id="menuContainer"></div>
+                <div id="menu-container"></div>
             </aside>
             <!--sidebar left end-->
 

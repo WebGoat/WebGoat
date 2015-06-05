@@ -31,7 +31,7 @@ var goatConstants = {
 	},
 	getDOMContainers:function() {
 		return {
-			lessonMenu: '#menuContainer'
+			lessonMenu: '#menu-container'
 		}
 	}
 };
