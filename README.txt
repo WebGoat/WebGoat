@@ -1,4 +1,23 @@
 **********
+* June 9 2015
+* #####  WebGoat Container Migration from AngularJS to Backbone #####
+* Why: AngularJS is a little heavy (and acutally a little too secure, imagine tha) for the purposes of WebGoat ... IMO
+* When: Now
+* How: If you'd like to help.  Fork this repository and contact me (jason.white@owasp.org) as to the current priorities/needs. Once you fork it,
+* After forking and cloning this repo, you should also fork/clone the lessons repository (https://github.com/WebGoat/WebGoat-Lessons). More on that in a second
+* in the core/container WebGoat (this) project
+* $ mvn clean install
+* Then either package and put the package in a local tomcat OR ...
+* $ mvn tomcat:run
+* Then you'll need to switch to the lessons directory and
+* $ mvn clean packa
+* Then copy some of the lesson jars into your $TOMCAT_HOME/webapps/{webgoat-container}/plugin_lessons
+* Now you should have something to work against.
+**********
+
+##### Original WebGoat ReadMe follows #####
+
+**********
 **********          WebGoat 6.0
 **********          August 23, 2014
 **********
