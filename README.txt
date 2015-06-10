@@ -12,7 +12,7 @@
 * Then you'll need to switch to the lessons directory and
 * $ mvn clean packa
 * Then copy some of the lesson jars into your $TOMCAT_HOME/webapps/{webgoat-container}/plugin_lessons
-* Now you should have something to work against.
+* Now you should have something to work against for the UI work
 **********
 
 ##### Original WebGoat ReadMe follows #####
