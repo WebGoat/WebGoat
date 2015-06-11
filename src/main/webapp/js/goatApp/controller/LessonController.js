@@ -33,16 +33,16 @@ define(['jquery',
 				this.lessonView.model = this.lessonContent;
 				this.lessonView.render();
 				//load cookies/parameters view
-				
-				//load help view
 
-				//load title
+				//load title view (initially hidden)
 
-				//plan
+				//plan view (initially hidden)
 
-				//solution
+				//solution view (initially hidden)
 
-				//source
+				//source (initially hidden)
+
+				//load help controls view (contextul to what helps are available)
 			}
 			
 		};
