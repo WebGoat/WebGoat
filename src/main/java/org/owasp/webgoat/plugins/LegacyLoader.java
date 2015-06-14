@@ -1,20 +1,17 @@
 package org.owasp.webgoat.plugins;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.ServletContext;
-
-import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.owasp.webgoat.session.WebgoatProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * *************************************************************************************************
@@ -178,7 +175,7 @@ public class LegacyLoader {
         for (String file : files) {
             String className = getClassFile(file, path);
 
-            if (className != null && !className.endsWith("_i")) {
+            if (className != null && !className.endsWith("_i") && className.startsWith("org.owasp.webgoat.lessons.admin")) {
                 try {
                 	Class c = Class.forName(className);
                     Object o = c.newInstance();
