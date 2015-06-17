@@ -76,18 +76,30 @@ Follow These instructions if you wish to run Webgoat and modify the source code 
 Building the project (Developers)
 ---------------------------------
 
-Using a command shell/window:
-
 > cd webgoat
 > mvn clean package
 
-After opening the project in Netbeans or Eclipse, you can easily run the project using maven:
+After opening the project in Netbeans or Eclipse, you can easily run the project using: 
+
+1. Maven-Tomcat Plugin
+Using a command shell/window:
 
 > mvn tomcat:run-war
 
 Maven will run the project in an embedded tomcat.
 
+
+2. Java JAR
 the package phase also builds an executable jar file. You can run it using:
 cd target
 java -jar WebGoat-6.0-exec-war.jar
 http://localhost:8080/WebGoat
+
+
+3. Tomcat
+the package phase also builds a war file. You can deploy it using:
+cp target/WebGoat-6.0-exec-war.war <tomcat>/webapps/
+Then also clone https://github.com/WebGoat/WebGoat-Lessons run:
+cd WebGoat-Lessons
+mvn package
+cp plugins/* <tomcat>/webapps/WebGoat-6.0-exec-war/plugin_lessons/
