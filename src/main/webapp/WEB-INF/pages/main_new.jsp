@@ -54,8 +54,8 @@
                         <i class="fa fa-bars"></i>
                     </button>
                 </div><!--toggle navigation end-->
-                <div class="lessonTitle" >
-                    <h1 id="lessonTitle"></h1>
+                <div id="lessonTitleWrapper" >
+                    <h1 class="lessonTitle"></h1>
                 </div><!--lesson title end-->
                 <div class="user-nav pull-right" style="margin-right: 75px;">
                     <div class="dropdown" style="display:inline">

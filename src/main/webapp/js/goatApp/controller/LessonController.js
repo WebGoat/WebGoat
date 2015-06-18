@@ -32,6 +32,7 @@ define(['jquery',
 				//this.lessonView  = new LessonContentView({content:LessonContent.content});
 				this.lessonView.model = this.lessonContent;
 				this.lessonView.render();
+
 				//load cookies/parameters view
 
 				//load title view (initially hidden)
@@ -43,6 +44,7 @@ define(['jquery',
 				//source (initially hidden)
 
 				//load help controls view (contextul to what helps are available)
+
 			}
 			
 		};

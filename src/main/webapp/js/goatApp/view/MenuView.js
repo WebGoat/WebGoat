@@ -28,7 +28,7 @@ define(['jquery',
 			var menuMarkup = '';
 			var menuUl = $('<ul>',{class:'nano-content'});
 			for(var i=0;i<items.length;i++) { //CATEGORY LEVEL
-				var catId, category, catLink, catArrow, catLinkText;
+				var catId, category, catLink, catArrow, catLinkText, lessonName, stageName;
 				catId = GoatUtils.makeId(items[i].get('name'));
 				category = $('<li>',{class:'sub-menu ng-scope'});
 				catLink = $('<a>',{'category':catId});
@@ -40,7 +40,6 @@ define(['jquery',
 				//TODO: refactor this along with sub-views/components
 				var self = this;
 				catLink.click(_.bind(this.expandCategory,this,catId));
-				//TODO: bind catLink to accordion and selection method
 				category.append(catLink);
 				// lesson level (first children level)
 				//var lessons = new MenuItemView({items:items[i].get('children')}).render();
@@ -49,14 +48,17 @@ define(['jquery',
 					var categoryLessonList = $('<ul>',{class:'slideDown lessonsAndStages',id:catId}); //keepOpen
 					for (var j=0; j < lessons.length;j++) {
 						var lessonItem = $('<li>');
-						var lessonLink = $('<a>',{href:lessons[j].link,text:lessons[j].name,id:GoatUtils.makeId(lessons[j].name)});
+						lessonName = lessons[j].name;
+						var lessonLink = $('<a>',{href:lessons[j].link,text:lessonName,id:lessonName});
+						lessonLink.click(_.bind(this.triggerTitleRender,this,lessonName));
 						lessonItem.append(lessonLink);
 						//check for lab/stages
 						categoryLessonList.append(lessonItem);
 						var stages = lessons[j].children;
 						for (k=0; k < stages.length; k++) {
+							var stageName = stages[k].name;
 							var stageSpan = $('<span>');
-							var stageLink = $('<a>',{href:stages[k].link,text:stages[k].name,id:GoatUtils.makeId(stages[k].name)});
+							var stageLink = $('<a>',{href:stages[k].link,text:stageName,id:GoatUtils.makeId(stageName)});
 							stageSpan.append(stageLink);
 							categoryLessonList.append(stageSpan);
 						}
@@ -64,7 +66,6 @@ define(['jquery',
 					category.append(categoryLessonList);
 				}
 
-				
 				menuUl.append(category);
 			}
 			this.$el.append(menuUl);
@@ -72,6 +73,10 @@ define(['jquery',
 			if (this.openMenu) {
 				this.accordionMenu(this.openMenu);
 			}
+		},
+		triggerTitleRender: function (title) {
+			console.debug('title:'+title);
+			this.trigger('lesson:click',title);
 		},
 		expandCategory: function (id) {
 			if (id) {
