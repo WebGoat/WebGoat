@@ -1,0 +1,4 @@
+<Context antiJARLocking="true" reloadable="true" antiResourceLocking="true">
+    <!-- <Loader className= "org.owasp.webgoat.plugins.JspCompilerClassLoader" delegate="true" /> -->
+    <JarScanner scanAllDirectories="true"/>
+</Context>
