@@ -17,6 +17,7 @@ public class PluginBackgroundLoader implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event) {
         String pluginPath = event.getServletContext().getRealPath("plugin_lessons");
         String targetPath = event.getServletContext().getRealPath("plugin_extracted");
+
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)), 0, 5, TimeUnit.MINUTES);
     }

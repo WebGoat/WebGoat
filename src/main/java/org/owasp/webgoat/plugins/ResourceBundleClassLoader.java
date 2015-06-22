@@ -19,13 +19,13 @@ public class ResourceBundleClassLoader {
         classLoader.propertiesPath = path;
     }
 
-    public static ClassLoader createPropertyFilesClassLoader(ClassLoader parentClassLoader) {
+    public static ClassLoader createPropertyFilesClassLoader() {
         final List<URL> urls = new ArrayList<>();
 
         try {
             urls.add(classLoader.propertiesPath.toUri().toURL());
         } catch (IOException e) {
-            throw new Plugin.PluginLoadingFailure("Unable to load the properties for the classloader", e);
+            throw new PluginLoadingFailure("Unable to load the properties for the classloader", e);
         }
         return new URLClassLoader(urls.toArray(new URL[urls.size()]), Thread.currentThread().getContextClassLoader());
     }

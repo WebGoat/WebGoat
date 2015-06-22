@@ -46,6 +46,19 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-jar</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
@@ -63,38 +76,6 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <attachClasses>true</attachClasses>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>${project.artifactId}</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>jar</type>
-                                    <classifier>classes</classifier>
-                                    <outputDirectory>${project.build.directory}</outputDirectory>
-                                    <destFileName>webgoat-container-${project.version}.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -125,7 +106,24 @@
                     <url>http://localhost:8080/manager</url>
                     <path>/WebGoat</path>
                     <attachArtifactClassifier>exec</attachArtifactClassifier>
+                    <contextReloadable>true</contextReloadable>
+                    <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
+                    <contextFile>${project.basedir}/src/main/webapp/WEB-INF/context.xml</contextFile>
+                    <extraDependencies>
+                        <extraDependency>
+                            <groupId>org.owasp.webgoat</groupId>
+                            <artifactId>webgoat-classloader</artifactId>
+                            <version>${project.version}</version>
+                        </extraDependency>
+                    </extraDependencies>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.owasp.webgoat</groupId>
+                        <artifactId>webgoat-container</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>tomcat-run</id>
@@ -140,6 +138,11 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>org.owasp.webgoat</groupId>
+            <artifactId>webgoat-classloader</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>

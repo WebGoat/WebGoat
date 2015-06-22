@@ -23,7 +23,7 @@ public class GlobalPropertiesTest {
         new GlobalProperties(pluginDirectory).loadProperties(directory);
 
         ClassLoader propertyFilesClassLoader =
-            ResourceBundleClassLoader.createPropertyFilesClassLoader(this.getClass().getClassLoader());
+            ResourceBundleClassLoader.createPropertyFilesClassLoader();
         assertNotNull(propertyFilesClassLoader.getResourceAsStream("global.properties"));
     }
 

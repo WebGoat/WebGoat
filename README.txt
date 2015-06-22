@@ -76,9 +76,14 @@ Follow These instructions if you wish to run Webgoat and modify the source code 
 Building the project (Developers)
 ---------------------------------
 
-> cd webgoat
+Using a command shell/window:
+
+> cd webgoat-classloader
+> mvn clean install
+> cd ..
 > mvn clean package
 
+Building the webgoat-classloader is only necessary once, the classloader needs to be present in your local repository.
 After opening the project in Netbeans or Eclipse, you can easily run the project using: 
 
 1. Maven-Tomcat Plugin

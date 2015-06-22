@@ -48,7 +48,7 @@ public class LabelProvider
 	{
 		if (!labels.containsKey(locale))
 		{
-			ClassLoader classLoader = ResourceBundleClassLoader.createPropertyFilesClassLoader(ResourceBundle.class.getClassLoader());
+			ClassLoader classLoader = ResourceBundleClassLoader.createPropertyFilesClassLoader();
 			ResourceBundle resBundle = ResourceBundle.getBundle("WebGoatLabels", locale, classLoader, localeController);
 			labels.put(locale, resBundle);
 		}
