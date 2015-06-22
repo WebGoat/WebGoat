@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,6 +120,8 @@ public class Plugin {
                     pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
                             .getSimpleName() + "/lessonPlans/en/" + this.lesson.getSimpleName() + "_files",
                     lessonPlansLanguageFiles.values());
+            replaceInFiles("setSrc\\(\"js\\/", "setSrc\\(\"" + pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
+                    .getSimpleName() + "/js/", Arrays.asList(lessonSourceFile));
             replaceInFiles("url\\(images", "url\\(" + pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
                     .getSimpleName() + "/jsp/images", cssFiles);
         } catch (IOException e) {
