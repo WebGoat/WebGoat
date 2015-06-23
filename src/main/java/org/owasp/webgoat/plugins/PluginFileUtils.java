@@ -21,6 +21,15 @@ public class PluginFileUtils {
         return p.getFileName().toString().endsWith(s);
     }
 
+    public static boolean fileEndsWith(Path p, String... suffixes) {
+        for (String suffix : suffixes) {
+            if (fileEndsWith(p, suffix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean hasParentDirectoryWithName(Path p, String s) {
         if (p == null || p.getParent() == null || p.getParent().equals(p.getRoot())) {
             return false;

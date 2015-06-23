@@ -32,7 +32,7 @@ public class Plugin {
     private Class<AbstractLesson> lesson;
     private Map<String, File> solutionLanguageFiles = new HashMap<>();
     private Map<String, File> lessonPlansLanguageFiles = new HashMap<>();
-    private List<File> cssFiles = Lists.newArrayList();
+    private List<File> pluginFiles = Lists.newArrayList();
     private File lessonSourceFile;
 
     public Plugin(Path pluginDirectory) {
@@ -79,8 +79,8 @@ public class Plugin {
             if (fileEndsWith(file, ".properties") && hasParentDirectoryWithName(file, NAME_LESSON_I18N_DIRECTORY)) {
                 copyProperties(reload, file);
             }
-            if (fileEndsWith(file, ".css")) {
-                cssFiles.add(file.toFile());
+            if (fileEndsWith(file, ".css", ".jsp", ".js")) {
+                pluginFiles.add(file.toFile());
             }
         }
     }
@@ -120,10 +120,23 @@ public class Plugin {
                     pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
                             .getSimpleName() + "/lessonPlans/en/" + this.lesson.getSimpleName() + "_files",
                     lessonPlansLanguageFiles.values());
-            replaceInFiles("setSrc\\(\"js\\/", "setSrc\\(\"" + pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
-                    .getSimpleName() + "/js/", Arrays.asList(lessonSourceFile));
-            replaceInFiles("url\\(images", "url\\(" + pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
-                    .getSimpleName() + "/jsp/images", cssFiles);
+
+            String[] replacements = {"jsp", "js"};
+            for ( String replacement : replacements ) {
+                String s = String.format("plugin/%s/%s/", this.lesson.getSimpleName(), replacement);
+                String r = String.format("%s/plugin/%s/%s/", pluginTarget.getFileName().toString(),
+                        this.lesson.getSimpleName(), replacement);
+                replaceInFiles(s,r, pluginFiles);
+                replaceInFiles(s,r, Arrays.asList(lessonSourceFile));
+            }
+
+            //CSS with url('/plugin/images') should not begin with / otherwise image cannot be found
+            String s = String.format("/plugin/%s/images/", this.lesson.getSimpleName());
+            String r = String.format("%s/plugin/%s/images/", pluginTarget.getFileName().toString(), this.lesson.getSimpleName());
+            replaceInFiles(s,r, pluginFiles);
+            replaceInFiles(s,r, Arrays.asList(lessonSourceFile));
+
+
         } catch (IOException e) {
             throw new PluginLoadingFailure("Unable to rewrite the paths in the solutions", e);
         }
