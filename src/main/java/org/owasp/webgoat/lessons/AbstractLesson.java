@@ -1,19 +1,5 @@
 package org.owasp.webgoat.lessons;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -33,6 +19,22 @@ import org.owasp.webgoat.util.BeanProvider;
 import org.owasp.webgoat.util.LabelManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * *************************************************************************************************
@@ -817,6 +819,10 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     protected final String buildJsPath(WebSession w, String jsResourceName) {
         return w.getRequest().getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/js/" +  jsResourceName;
+    }
+
+    protected final File getLessonDirectory(WebSession w) {
+        return new File(w.getContext().getRealPath("/plugin_extracted/plugin/" + getLessonName() + "/"));
     }
 
 }
