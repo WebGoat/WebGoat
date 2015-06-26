@@ -75,7 +75,6 @@ define(['jquery',
 			}
 		},
 		triggerTitleRender: function (title) {
-			console.debug('title:'+title);
 			this.trigger('lesson:click',title);
 		},
 		expandCategory: function (id) {
@@ -86,17 +85,12 @@ define(['jquery',
 		accordionMenu: function(id) {
 	        if (this.openMenu !== id) {
 	        	this.$el.find('#' + id).slideDown(300);
+	        	this.openMenu = id;
 	        } else { //it's open
 	            this.$el.find('#' + id).slideUp(300).attr('isOpen', 0);
+	            this.openMenu = null;
 	            return;
 	        }
-	        this.openMenu = id;
-	        this.$el.find('.lessonsAndStages').not('ul#' + id).slideUp(300);
-	        /* //legacy angular code that may be usefl 
-	        if ($scope.expandMe) {
-	            $('ul#' + id).slideDown(300).attr('isOpen', 1);
-	        }
-	        */
 		}
 	});
 });

@@ -11,7 +11,6 @@ function($,_,Backbone,JQueryForm,LessonData) {
 			options = options || {};
 		},
 		render: function() {
-			//alert('render');
 			this.$el.html(this.model.get('content'));
 			this.makeFormsAjax();
 		},

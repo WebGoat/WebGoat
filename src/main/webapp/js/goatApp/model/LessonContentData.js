@@ -1,9 +1,13 @@
 define(['jquery',
 	'underscore',
-	'backbone'],
-	 function($,_,Backbone){
+	'backbone',
+	'goatApp/model/HTMLContentModel'],
+	 function($,
+	 	_,
+	 	Backbone,
+	 	HTMLContentModel){
 
-	return Backbone.Model.extend({
+	return HTMLContentModel.extend({
 		urlRoot:null,
 		defaults: {
 			items:null,
@@ -15,7 +19,7 @@ define(['jquery',
 			this.baseUrlRoot = 'attack?Screen=';//
 		},
 		loadData: function(options) {
-			this.urlRoot = this.baseUrlRoot + +options.screen + '&menu=' + options.menu;
+			this.urlRoot = this.baseUrlRoot  +options.screen + '&menu=' + options.menu;
 			this.set('menuParam',options.menu);
 			this.set('screenParam',options.screen);
 
@@ -31,13 +35,6 @@ define(['jquery',
 		fetch: function (options) {
 			options = options || {};
 			return Backbone.Model.prototype.fetch.call(this, _.extend({ dataType: "html"}, options));
-			// var self=this;
-			// Backbone.Model.prototype.fetch.apply(this, arguments).then(
-			// 	function(content){
-			// 		self.setContent(content);
-			// 	});
-
-			// //override with prototype
 		}
 	});
 });
