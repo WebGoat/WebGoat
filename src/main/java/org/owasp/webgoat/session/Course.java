@@ -265,7 +265,6 @@ public class Course {
         }
 
         Collections.sort(lessonList);
-        // System.out.println(java.util.Arrays.asList(lessonList));
         return lessonList;
     }
 
@@ -295,6 +294,7 @@ public class Course {
         logger.debug("Loading plugins into cache");
         String pluginPath = context.getRealPath("plugin_lessons");
         String targetPath = context.getRealPath("plugin_extracted");
+
         if (pluginPath == null) {
             logger.error("Plugins directory {} not found", pluginPath);
             return;
@@ -304,7 +304,7 @@ public class Course {
         List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(true);
         for (Plugin plugin : plugins) {
             try {
-                AbstractLesson lesson = plugin.getLesson();
+                AbstractLesson lesson = plugin.getLesson().get();
                 lesson.setWebgoatContext(webgoatContext);
                 lesson.update(properties);
 

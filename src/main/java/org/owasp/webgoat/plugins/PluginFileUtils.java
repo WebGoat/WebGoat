@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -18,6 +19,15 @@ public class PluginFileUtils {
 
     public static boolean fileEndsWith(Path p, String s) {
         return p.getFileName().toString().endsWith(s);
+    }
+
+    public static boolean fileEndsWith(Path p, String... suffixes) {
+        for (String suffix : suffixes) {
+            if (fileEndsWith(p, suffix)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean hasParentDirectoryWithName(Path p, String s) {
@@ -67,6 +77,14 @@ public class PluginFileUtils {
         String fileAsString = new String(fileAsBytes);
         fileAsString = fileAsString.replaceAll(replace, with);
         Files.write(file, fileAsString.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+    }
+
+    public static void writeFile(Path targetFile, byte[] bytes, OpenOption... options) throws IOException {
+        createDirsIfNotExists(targetFile.getParent());
+        if (!Files.exists(targetFile)) {
+            Files.createFile(targetFile);
+        }
+        Files.write(targetFile, bytes, options);
     }
 
 }

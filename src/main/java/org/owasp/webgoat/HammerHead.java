@@ -1,17 +1,5 @@
 package org.owasp.webgoat;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.WelcomeScreen;
 import org.owasp.webgoat.lessons.admin.WelcomeAdminScreen;
@@ -23,6 +11,19 @@ import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * *************************************************************************************************
@@ -192,8 +193,7 @@ public class HammerHead extends HttpServlet {
             logger.debug("Screen: " + screen);
             request.getRequestDispatcher(viewPage).forward(request, response);
         } catch (Throwable t) {
-            logger.error("Error handling request", t);
-            screen = new ErrorScreen(mySession, t);
+            logger.error("Error handling request", t); screen = new ErrorScreen(mySession, t);
         } finally {
             try {
                 if (screen instanceof ErrorScreen) {
