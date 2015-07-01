@@ -6,6 +6,7 @@ define(['jquery',
 	'goatApp/view/PlanView',
 	'goatApp/view/SourceView',
 	'goatApp/view/SolutionView',
+	'goatApp/view/LessonHintView'
 	], 
 	function($,
 		_,
@@ -14,7 +15,8 @@ define(['jquery',
 		LessonContentView,
 		PlanView,
 		SourceView,
-		SolutionView
+		SolutionView,
+		LessonHintView
 	) {
 		'use strict'
 		
@@ -22,6 +24,7 @@ define(['jquery',
 		var Controller = function(options) {
 			this.lessonContent = new LessonContentData();
 			this.lessonView = options.lessonView;
+
 			/*this.planView = new PlanView();
 			this.solutionView = new SolutionView();
 			this.sourceView = new SourceView();
@@ -34,12 +37,17 @@ define(['jquery',
 
 			//load View, which can pull data
 			this.loadLesson = function(scr,menu) {
+				this.helpsLoaded = {};
 				this.lessonContent.loadData({
 					'screen': encodeURIComponent(scr),
 					'menu': encodeURIComponent(menu),
 				});
-
-				//this.registerListeners();
+				this.planView = {};
+				this.solutionView = {};
+				this.sourceView = {};
+				this.lessonHintView = {};
+				//
+				
 			};
 
 			this.onContentLoaded = function() {
@@ -57,7 +65,12 @@ define(['jquery',
 				//source (initially hidden)
 				this.sourceView = new SourceView();
 				//load help controls view (contextul to what helps are available)
-
+				this.lessonHintView = new LessonHintView();
+				this.listenTo(this.lessonHintView,'hints:loaded',this.areHelpsReady);
+			},
+			this.areHelpsReady = function (curHelp) {
+				this.helpsLoaded[curHelp.helpElement] = curHelp.value;
+				// check if all are ready
 			}
 			
 		};

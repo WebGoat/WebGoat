@@ -97,7 +97,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="col-md-12" align="left">
-                                <div class="panel">
+                                <div class="panel" id="help-controls">
                                     <div id="help-buttons" class="panel-body">
                                         <!-- <button type="button" id="showSourceBtn" ng-show="showSource" class="btn btn-primary btn-xs" onclick="showLessonSource()">Java [Source]</button>
                                         <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs" onclick="showLessonSolution()">Solution</button>

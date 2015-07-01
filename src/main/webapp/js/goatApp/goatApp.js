@@ -5,7 +5,6 @@ define(['jquery','underscore','backbone','goatApp/view/GoatRouter'],
 		return {
 			initApp: function() {
 				//TODO: add query/ability to load from where they left off 
-				console.log('initApp')
 				var goatRouter = new Router();
 				goatRouter.init();
 			}

@@ -6,7 +6,6 @@ define(['jquery',
 		_,
 		Backbone,
 		HTMLContentModel) {
-	//TODO: make a base class to extend for items with 'traditional data' (e.g. LessonContentData, this ... others?)
 	return HTMLContentModel.extend({
 		url:'service/lessonplan.mvc',
 		checkNullModel: function() {
