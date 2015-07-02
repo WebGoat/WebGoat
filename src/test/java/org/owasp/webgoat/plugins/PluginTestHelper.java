@@ -5,8 +5,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PluginTestHelper {
 
@@ -23,12 +21,11 @@ public class PluginTestHelper {
         return Paths.get(path.toString(), "org/owasp/webgoat/plugins");
     }
 
-    public static Plugin createPluginFor(Class pluginClass) throws Exception {
-        Path pluginTargetPath = Files.createDirectory(Paths.get(tempDirectory.toString(), "pluginTargetPath"));
-        Plugin plugin = new Plugin(pluginTargetPath);
-        Map<String, byte[]> classes = new HashMap<>();
-        classes.put(pluginClass.getName(), Files.readAllBytes(Paths.get(pathForLoading().toString(), pluginClass.getSimpleName() + ".class")));
-        plugin.loadClasses(classes);
-        return plugin;
-    }
+//    public static Plugin createPluginFor(Class pluginClass) throws Exception {
+//        Path pluginTargetPath = Files.createDirectory(Paths.get(tempDirectory.toString(), "pluginTargetPath"));
+//        Map<String, byte[]> classes = new HashMap<>();
+//        classes.put(pluginClass.getName(), Files.readAllBytes(Paths.get(pathForLoading().toString(), pluginClass.getSimpleName() + ".class")));
+//        Plugin plugin = new Plugin(pluginTargetPath, classes);
+//        return plugin;
+//    }
 }

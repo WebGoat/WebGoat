@@ -355,8 +355,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * @return The lessonPlan value
      */
     protected String getLessonName() {
-        int index = this.getClass().getName().indexOf("lessons.");
-        return this.getClass().getName().substring(index + "lessons.".length());
+        return this.getClass().getSimpleName();
     }
 
     /**
@@ -734,6 +733,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         Form form = new Form(getFormAction(), Form.POST).setName("form").setEncType("");
         form.addElement(createContent(s));
         setContent(form);
+        s.getRequest().getRequestURL();
     }
 
     public String getFormAction() {
@@ -802,4 +802,17 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     	}
     	return labelManager;
     }
+
+    protected final String buildImagePath(WebSession w, String imgResourceName) {
+        return w.getRequest().getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/images/" + imgResourceName;
+    }
+
+    protected final String buildJspPath(WebSession w, String jspResourceName) {
+        return w.getRequest().getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/jsp/" + jspResourceName;
+    }
+
+    protected final String buildJsPath(WebSession w, String jsResourceName) {
+        return w.getRequest().getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/js/" +  jsResourceName;
+    }
+
 }
