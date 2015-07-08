@@ -6,7 +6,8 @@ define(['jquery',
 	'goatApp/view/PlanView',
 	'goatApp/view/SourceView',
 	'goatApp/view/SolutionView',
-	'goatApp/view/LessonHintView'
+	'goatApp/view/LessonHintView',
+	'goatApp/view/HelpControlsView'
 	], 
 	function($,
 		_,
@@ -16,7 +17,8 @@ define(['jquery',
 		PlanView,
 		SourceView,
 		SolutionView,
-		LessonHintView
+		LessonHintView,
+		HelpControlsView
 	) {
 		'use strict'
 		
@@ -33,7 +35,7 @@ define(['jquery',
 			_.extend(Controller.prototype,Backbone.Events);
 			this.start = function() {
 				this.listenTo(this.lessonContent,'contentLoaded',this.onContentLoaded);
-			}
+			};
 
 			//load View, which can pull data
 			this.loadLesson = function(scr,menu) {
@@ -60,19 +62,37 @@ define(['jquery',
 				//load title view (initially hidden) << currently handled via menu click but need to be able to handle via routed request
 				//plan view (initially hidden)
 				this.planView = new PlanView();
+				this.listenTo(this.planView,'plan:loaded',this.areHelpsReady);
 				//solution view (initially hidden)
 				this.solutionView = new SolutionView();
+				this.listenTo(this.solutionView,'solution:loaded',this.areHelpsReady);
 				//source (initially hidden)
 				this.sourceView = new SourceView();
+				this.listenTo(this.sourceView,'source:loaded',this.areHelpsReady);
 				//load help controls view (contextul to what helps are available)
 				this.lessonHintView = new LessonHintView();
 				this.listenTo(this.lessonHintView,'hints:loaded',this.areHelpsReady);
-			},
+				
+			};
+
 			this.areHelpsReady = function (curHelp) {
-				this.helpsLoaded[curHelp.helpElement] = curHelp.value;
+				this.addCurHelpState(curHelp);
 				// check if all are ready
-			}
-			
+				if (this.helpsLoaded['hints'] && this.helpsLoaded['plan'] && this.helpsLoaded['solution'] && this.helpsLoaded['source']) {
+					//
+					this.helpControlsView = new HelpControlsView({
+						hasPlan:(this.planView.model.get('content') !== null),
+						hasSolution:(this.solutionView.model.get('content') !== null),
+						hasSource:(this.sourceView.model.get('content') !== null),
+						hasHints:(this.lessonHintView.collection.length > 0),
+					});
+					this.helpControlsView.render();
+				}
+			};
+
+			this.addCurHelpState = function (curHelp) {
+				this.helpsLoaded[curHelp.helpElement] = curHelp.value;
+			};			
 		};
 		return Controller;
 });

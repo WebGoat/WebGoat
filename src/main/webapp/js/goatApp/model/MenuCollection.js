@@ -18,4 +18,4 @@ define(['jquery',
 			this.trigger('menuData:loaded');
 		}
 	});
-})
+});

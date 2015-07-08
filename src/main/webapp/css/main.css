@@ -132,7 +132,7 @@ img {
 #header .user-nav button:hover i {
   color: #F6F6F6;
 }
-#header .lessonTitle {
+#header #lesson-title-wrapper {
 	display: inline-block;
 	margin:0 0 0 20px;	
 }
@@ -849,8 +849,16 @@ cookieContainer {
   cursor: pointer;
 }
 
-
 .info {
 	color:#e84c3d;
 	font-weight: bold; 
+}
+
+#help-controls {
+  padding-left: 4px;
+  padding-top: 4px
+}
+
+.help-button {
+  margin-right:4px;
 }

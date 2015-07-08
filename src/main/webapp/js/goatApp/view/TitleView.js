@@ -3,9 +3,11 @@ define(['jquery',
 	'backbone'],
 function($,_,Backbone) {
 	return Backbone.View.extend({
-		el:'#lessonTitleWrapper',
+		el:'#header #lesson-title-wrapper',
 		render:function(title) {
-			this.$el.find('.lessonTitle').html(title);
+			var lessonTitleEl = $('<h1>',{id:'lesson-title',text:title});
+			this.$el.html(lessonTitleEl);
+			//this.$el.append(lessonTitleEl);
 		}
 	});
 });

@@ -54,8 +54,8 @@
                         <i class="fa fa-bars"></i>
                     </button>
                 </div><!--toggle navigation end-->
-                <div id="lessonTitleWrapper" >
-                    <h1 class="lessonTitle"></h1>
+                <div id="lesson-title-wrapper" >
+                    
                 </div><!--lesson title end-->
                 <div class="user-nav pull-right" style="margin-right: 75px;">
                     <div class="dropdown" style="display:inline">
@@ -98,13 +98,13 @@
                         <div class="col-md-8">
                             <div class="col-md-12" align="left">
                                 <div class="panel" id="help-controls">
-                                    <div id="help-buttons" class="panel-body">
+                                    <!-- <div id="help-buttons" class="panel-body"> -->
                                         <!-- <button type="button" id="showSourceBtn" ng-show="showSource" class="btn btn-primary btn-xs" onclick="showLessonSource()">Java [Source]</button>
                                         <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs" onclick="showLessonSolution()">Solution</button>
                                         <button type="button" id="showPlanBtn" class="btn btn-primary btn-xs" onclick="showLessonPlan()">Lesson Plan</button>
                                         <button type="button" id="showHintsBtn" ng-show="showHints" class="btn btn-primary btn-xs"  onclick="viewHints()">Hints</button>
                                         <button type="button" id="restartLessonBtn"  class="btn btn-xs"  onclick="restartLesson()">Restart Lesson</button> -->
-                                    </div>
+                                    <!-- </div> -->
                                 </div>
                                 <div class="lessonHelp" id="lesson-hint-row">
                                     <h4>Hints</h4>

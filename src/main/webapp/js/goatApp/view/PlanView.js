@@ -17,7 +17,7 @@ function($,
 			
 		},
 		onModelLoaded: function() {
-			// ???
+			this.trigger('plan:loaded',{'helpElement':'plan','value':true});
 		}
 	});
 });
