@@ -1,19 +1,5 @@
 package org.owasp.webgoat.lessons;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -34,34 +20,50 @@ import org.owasp.webgoat.util.LabelManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * *************************************************************************************************
- *
- *
+ * <p>
+ * <p>
  * This file is part of WebGoat, an Open Web Application Security Project
  * utility. For details, please see http://www.owasp.org/
- *
+ * <p>
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- *
+ * <p>
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111-1307, USA.
- *
+ * <p>
  * Getting Source ==============
- *
+ * <p>
  * Source for this application is maintained at
  * https://github.com/WebGoat/WebGoat, a repository for free software projects.
- *
+ * <p>
  * For details, please see http://webgoat.github.io
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
@@ -161,8 +163,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Gets the credits attribute of the AbstractLesson object
      *
-     * @deprecated - Credits have moved to the about page
      * @return The credits value
+     * @deprecated - Credits have moved to the about page
      */
     public abstract Element getCredits();
 
@@ -204,9 +206,9 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Gets the fileMethod attribute of the Lesson class
      *
-     * @param reader Description of the Parameter
+     * @param reader     Description of the Parameter
      * @param methodName Description of the Parameter
-     * @param numbers Description of the Parameter
+     * @param numbers    Description of the Parameter
      * @return The fileMethod value
      */
     public static String getFileMethod(BufferedReader reader, String methodName, boolean numbers) {
@@ -263,7 +265,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * represented in the ElementContainer by a StringElement. Each
      * StringElement is appended with a new-line character.
      *
-     * @param reader Description of the Parameter
+     * @param reader  Description of the Parameter
      * @param numbers Description of the Parameter
      * @return Description of the Return Value
      */
@@ -274,7 +276,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Gets the fileText attribute of the Screen class
      *
-     * @param reader Description of the Parameter
+     * @param reader  Description of the Parameter
      * @param numbers Description of the Parameter
      * @return The fileText value
      */
@@ -314,7 +316,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * Gets the hintCount attribute of the Lesson object
      *
      * @param s The user's WebSession
-     *
      * @return The hintCount value
      */
     public int getHintCount(WebSession s) {
@@ -335,7 +336,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * stuck on somthing silly.
      *
      * @param s The users WebSession
-     *
      * @return The hint1 value
      */
     public String getHint(WebSession s, int hintNumber) {
@@ -369,7 +369,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * Gets the content of lessonPlanURL
      *
      * @param s The user's WebSession
-     *
      * @return The HTML content of the current lesson plan
      */
     public String getLessonPlan(WebSession s) {
@@ -479,7 +478,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
             src = ("Could not find the source file or source file does not exist.<br/>"
                     + "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress()
                     + "?subject=Source " + getSourceFileName() + " not found. Lesson: "
-                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext().getFeedbackAddress() + "</a>");
+                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext()
+                    .getFeedbackAddress() + "</a>");
         }
 
         Html html = new Html();
@@ -510,7 +510,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
             src = ("Could not find the source file or source file does not exist.<br/>"
                     + "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress()
                     + "?subject=Source " + getSourceFileName() + " not found. Lesson: "
-                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext().getFeedbackAddress() + "</a>");
+                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext()
+                    .getFeedbackAddress() + "</a>");
         }
 
         return src;
@@ -528,7 +529,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
             src = ("Could not find the solution file or solution file does not exist.<br/>"
                     + "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress()
                     + "?subject=Solution " + getLessonSolutionFileName() + " not found. Lesson: "
-                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext().getFeedbackAddress() + "</a>");
+                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext()
+                    .getFeedbackAddress() + "</a>");
         }
 
         // Solutions are html files
@@ -538,12 +540,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * <p>
      * Returns the default "path" portion of a lesson's URL.</p>
-     *
+     * <p>
      * <p>
      * Legacy webgoat lesson links are of the form
      * "attack?Screen=Xmenu=Ystage=Z". This method returns the path portion of
      * the url, i.e., "attack" in the string above.</p>
-     *
+     * <p>
      * <p>
      * Newer, Spring-Controller-based classes will override this method to
      * return "*.do"-styled paths.</p>
@@ -622,7 +624,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
                         .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 ResultSet answer_results = answer_statement.executeQuery(query);
                 authorized = answer_results.first();
-                logger.info("authorized: "+ authorized);
+                logger.info("authorized: " + authorized);
             } catch (SQLException sqle) {
                 s.setMessage("Error authorizing");
                 logger.error("Error authorizing", sqle);
@@ -716,8 +718,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Description of the Method
      *
-     * @param reader Description of the Parameter
-     * @param numbers Description of the Parameter
+     * @param reader     Description of the Parameter
+     * @param numbers    Description of the Parameter
      * @param methodName Description of the Parameter
      * @return Description of the Return Value
      */
@@ -799,24 +801,39 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     public void setWebgoatContext(WebgoatContext webgoatContext) {
         this.webgoatContext = webgoatContext;
     }
-    
+
     protected LabelManager getLabelManager() {
-    	if(labelManager == null) {
-    		labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
-    	}
-    	return labelManager;
+        if (labelManager == null) {
+            labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
+        }
+        return labelManager;
     }
 
+    /**
+     * A reference from an image, script and link tag must include the context path.
+     * <p>
+     * A reference in include directives are made from within the web application on the server.
+     * However, img tags (and the like) make references from the client browser.
+     * In such external references, the context path must be included.
+     */
     protected final String buildImagePath(WebSession w, String imgResourceName) {
-        return w.getRequest().getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/images/" + imgResourceName;
+        return w.getRequest()
+                .getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/images/" + imgResourceName;
     }
 
-    protected final String buildJspPath(WebSession w, String jspResourceName) {
-        return w.getRequest().getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/jsp/" + jspResourceName;
+
+    protected final String buildJspPath(WebSession w, String jspResourceName, boolean includeContextPath) {
+        String path = includeContextPath ? w.getContext().getContextPath() : "";
+        return path + "/plugin_extracted/plugin/" + getLessonName() + "/jsp/" + jspResourceName;
     }
 
     protected final String buildJsPath(WebSession w, String jsResourceName) {
-        return w.getRequest().getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/js/" +  jsResourceName;
+        return w.getRequest()
+                .getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/js/" + jsResourceName;
+    }
+
+    protected final File getLessonDirectory(WebSession w) {
+        return new File(w.getContext().getRealPath("/plugin_extracted/plugin/" + getLessonName() + "/"));
     }
 
 }
