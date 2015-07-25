@@ -6,9 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.catalina.Role;
-import org.apache.catalina.User;
-import org.apache.catalina.users.MemoryUserDatabase;
 
 
 /***************************************************************************************************
@@ -51,7 +48,7 @@ public class UserTracker
 
 	private static HashMap<String, HashMap<String, LessonTracker>> storage = new HashMap<String, HashMap<String, LessonTracker>>();
 
-	private static MemoryUserDatabase usersDB = new MemoryUserDatabase();
+	private static UserDatabase usersDB = new UserDatabase();
 
 	/**
 	 * Constructor for the UserTracker object
