@@ -141,6 +141,11 @@
             <version>1.1</version>
         </dependency>
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.187</version>
+            </dependency>
+        <dependency>
             <groupId>axis</groupId>
             <artifactId>axis</artifactId>
             <version>1.2</version>
