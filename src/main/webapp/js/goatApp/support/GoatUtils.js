@@ -95,63 +95,31 @@ define(['jquery',
                         }
                     }
                 },
+ 
                 showLessonCookiesAndParams: function() {
                     $.get(goatConstants.cookieService, {}, function(reply) {
                         $("#lesson_cookies").html(reply);
                     }, "html");
                 },
-                showLessonHints: function() {
-                    $('.lessonHelp').hide();
-                    $('#lesson_hint').html();
-                    $('#lesson_hint_row').show();
-                },
-                showLessonSource: function(source) {
-                    $('.lessonHelp').hide();
-                    //$('#lesson_source').html("<pre>"+goat.lesson.lessonInfo.source+"</pre>");
-                    $('#lesson_source_row').show();
-                    GoatUtils.scrollToHelp();
-                },
-                showLessonSolution: function() {
-                    $('.lessonHelp').hide();
-                    $('#lesson_solution').html(goat.lesson.lessonInfo.solution);
-                    $('#lesson_solution_row').show();
-                    GoatUtils.scrollToHelp();
-                },
-                showLessonPlan: function(plan) {
-                    $('.lessonHelp').hide();
-                    $("#lesson_plan").html(goat.lesson.lessonInfo.plan);
-                    $('#lesson_plan_row').show();
-                    GoatUtils.scrollToHelp();
-                },
+ 
                 scrollToHelp: function() {
                     $('#leftside-navigation').height($('#main-content').height() + 15)
-                    var target = $('#lessonHelpsWrapper');
-                    GoatUtils.scrollEasy(target);
+                    var target = $('#lesson-helps-wrapper');
+                    this.scrollEasy(target);
                 },
+ 
                 scrollToTop: function() {
                     $('.lessonHelp').hide();
                     var target = $('#container');
-                    GoatUtils.scrollEasy(target);
+                    this.scrollEasy(target);
                 },
+ 
                 scrollEasy: function(target) {
                     $('html,body').animate({
                         scrollTop: target.offset().top
                     }, 1000);
                 },
-                scrapeParams: function(url) {
-                    if (!url) {
-                        return;
-                    }
-                    var params = url.split('?')[1].split('&');
-                    var paramsArr = [];
-                    for (var i = 0; i < params.length; i++) {
-                        var paramObj = {};
-                        paramObj.name = params[i].split('=')[0];
-                        paramObj.value = params[i].split('=')[1];
-                        paramsArr.push(paramObj);
-                    }
-                    return paramsArr;
-                },
+
                 highlightCurrentLessonMenu: function(id) {
                     //TODO: move selectors in first two lines into goatConstants
                     $('ul li.selected').removeClass(goatConstants.selectedMenuClass)
@@ -159,6 +127,7 @@ define(['jquery',
                     $('#' + id).addClass(goatConstants.selectedMenuClass);
                     $('#' + id).parent().addClass(goatConstants.selectedMenuClass);
                 },
+                
                 ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
                  $.each($('a[href^="attack?"]'),
         			function(i,el) {

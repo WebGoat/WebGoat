@@ -106,10 +106,10 @@
                                         <button type="button" id="restartLessonBtn"  class="btn btn-xs"  onclick="restartLesson()">Restart Lesson</button> -->
                                     <!-- </div> -->
                                 </div>
-                                <div class="lessonHelp" id="lesson-hint-row">
+                                <div class="lesson-hint" id="lesson-hint-row">
                                     <h4>Hints</h4>
                                     <div class="panel" >
-                                        <div class="panel-body" id="lesson_hint">
+                                        <div class="panel-body" id="lesson-hint">
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" onclick="viewPrevHint()"></span>
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" onclick="viewNextHint()"></span>
                                             <br/>
@@ -159,15 +159,8 @@
                             </div>
                         </div><!--col-md-4 end-->         
                     </div>
-                    <div id="lessonHelpsWrapper">
-                        <div class="row lessonHelp" id="lesson-cookies-row">
-                            <div class="col-md-12">
-                                <h4>Lesson Parameters and Cookies</h4>
-                                
-                            </div>
-                        </div>   
-
-                        <div class="row lessonHelp" id="lesson-plan-row">
+                    <div id="lesson-helps-wrapper" class="panel">
+                        <div class="row lesson-help" id="lesson-plan-row">
                             <div class="col-md-12">
                                 <h4>Lesson Plan</h4>
                                 <div class="panel" >
@@ -177,21 +170,20 @@
                                 </div>
                             </div>
                         </div> 
-                        <div class="row lessonHelp" id="lesson_solution_row">
+                        <div class="row lesson-help" id="lesson-solution-row">
                             <div class="col-md-12">
                                 <h4>Lesson Solution</h4>
                                 <div class="panel">
-                                    <div class="panel-body" id="lesson_solution">
+                                    <div class="panel-body" id="lesson-solution">
                                     </div>                                    
                                 </div>
                             </div>
                         </div> 
-                        <div class="row lessonHelp" id="lesson_source_row">
+                        <div class="row lesson-help" id="lesson-source-row">
                             <div class="col-md-12">
                                 <h4>Lesson Source Code</h4>
                                 <div class="panel">
-                                    <div class="panel-body" id="lesson_source">
-                                        <!-- <pre>{{source}}</pre> -->
+                                    <div class="panel-body" id="lesson-source">
                                     </div>                                    
                                 </div>
                             </div>

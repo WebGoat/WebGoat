@@ -7,7 +7,8 @@ define(['jquery',
 	'goatApp/view/SourceView',
 	'goatApp/view/SolutionView',
 	'goatApp/view/LessonHintView',
-	'goatApp/view/HelpControlsView'
+	'goatApp/view/HelpControlsView',
+	'goatApp/support/GoatUtils'
 	], 
 	function($,
 		_,
@@ -18,7 +19,8 @@ define(['jquery',
 		SourceView,
 		SolutionView,
 		LessonHintView,
-		HelpControlsView
+		HelpControlsView,
+		GoatUtils
 	) {
 		'use strict'
 		
@@ -59,7 +61,7 @@ define(['jquery',
 
 				//load cookies/parameters view
 
-				//load title view (initially hidden) << currently handled via menu click but need to be able to handle via routed request
+				//load title view (initially hidden) << //TODO: currently handled via menu click but need to be able to handle via routed request
 				//plan view (initially hidden)
 				this.planView = new PlanView();
 				this.listenTo(this.planView,'plan:loaded',this.areHelpsReady);
@@ -72,7 +74,6 @@ define(['jquery',
 				//load help controls view (contextul to what helps are available)
 				this.lessonHintView = new LessonHintView();
 				this.listenTo(this.lessonHintView,'hints:loaded',this.areHelpsReady);
-				
 			};
 
 			this.areHelpsReady = function (curHelp) {
@@ -87,12 +88,44 @@ define(['jquery',
 						hasHints:(this.lessonHintView.collection.length > 0),
 					});
 					this.helpControlsView.render();
+					//
+					this.listenTo(this.helpControlsView,'plan:show',this.hideShowHelps);
+					this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);	
+					this.listenTo(this.helpControlsView,'hints:show',this.showHints)
+					this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
+					this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
 				}
 			};
 
 			this.addCurHelpState = function (curHelp) {
 				this.helpsLoaded[curHelp.helpElement] = curHelp.value;
-			};			
+			};
+
+			this.hideShowHelps = function(showHelp) {
+				var showId = '#lesson-' + showHelp + '-row';
+				$('.lesson-help').not(showId).hide();
+				switch(showHelp) {
+					case 'plan':
+						$(showId).html(this.planView.model.get('content')).show();
+						break;
+					case 'solution':
+						$(showId).html(this.solutionView.model.get('content')).show();
+						break;
+					case 'source':
+						$(showId).html(this.sourceView.model.get('content')).show();
+						break;
+				}
+				GoatUtils.scrollToHelp()
+			};;
+
+			this.showHints = function() {
+				console.log('show Hints');
+			};
+
+			this.restartLesson = function() {
+				console.log('restart lesson');
+			};
+
 		};
 		return Controller;
 });
