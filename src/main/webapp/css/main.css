@@ -710,7 +710,7 @@ fieldset[disabled] .btn-warning.active {
   margin-top:3px;
 }
 
-.lessonHelp, .lessonHelpBtn {
+.lesson-help, .lesson-help-button {
   display: none;
 }
 
