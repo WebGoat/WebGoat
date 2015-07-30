@@ -32,3 +32,4 @@ classes/*
 
 /*.iml
 .extract/*
+UserDatabase.mv.db
