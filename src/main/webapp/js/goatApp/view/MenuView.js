@@ -49,18 +49,24 @@ define(['jquery',
 					for (var j=0; j < lessons.length;j++) {
 						var lessonItem = $('<li>');
 						lessonName = lessons[j].name;
+						
 						var lessonLink = $('<a>',{href:lessons[j].link,text:lessonName,id:lessonName});
-						lessonLink.click(_.bind(this.triggerTitleRender,this,lessonName));
+						lessonLink.click(_.bind(this.titleRender,this,lessonName));
 						lessonItem.append(lessonLink);
 						//check for lab/stages
 						categoryLessonList.append(lessonItem);
+						if (lessons[j].complete) { 
+							lessonItem.append($('<span>',{class:'glyphicon glyphicon-check lesson-complete'}));
+						}
 						var stages = lessons[j].children;
 						for (k=0; k < stages.length; k++) {
 							var stageName = stages[k].name;
-							var stageSpan = $('<span>');
 							var stageLink = $('<a>',{href:stages[k].link,text:stageName,id:GoatUtils.makeId(stageName)});
 							stageSpan.append(stageLink);
 							categoryLessonList.append(stageSpan);
+							if (stages[j].complete) {
+								stageSpan.append($('<span>',{class:'glyphicon glyphicon-check lesson-complete'}));
+							}
 						}
 					}
 					category.append(categoryLessonList);
@@ -74,14 +80,17 @@ define(['jquery',
 				this.accordionMenu(this.openMenu);
 			}
 		},
-		triggerTitleRender: function (title) {
+
+		titleRender: function (title) {
 			this.trigger('lesson:click',title);
 		},
+
 		expandCategory: function (id) {
 			if (id) {
 				this.accordionMenu(id);
 			}
 		},
+
 		accordionMenu: function(id) {
 	        if (this.openMenu !== id) {
 	        	this.$el.find('#' + id).slideDown(300);

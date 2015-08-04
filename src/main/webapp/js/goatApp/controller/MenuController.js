@@ -10,7 +10,7 @@ define(['jquery','underscore','backbone','goatApp/view/MenuView'],
 		 		this.listenTo(this.menuView,'lesson:click',this.renderTitle);
 		 	}
 
-		 	this.updateMenu = function() {
+		 	this.updateMenu = function(curLesson) {
 		 		
 		 	},
 

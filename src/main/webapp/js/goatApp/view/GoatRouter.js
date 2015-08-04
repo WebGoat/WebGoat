@@ -18,9 +18,11 @@ define(['jquery',
             'welcome':'welcomeRoute',
             'attack/:scr/:menu':'attackRoute' //
         },
+
         lessonController: new LessonController({
             lessonView:lessonView
         }),
+
         menuController: new MenuController({
             menuView:menuView,
             titleView:titleView
@@ -32,7 +34,6 @@ define(['jquery',
             this.menuController.initMenu();
 
             goatRouter.on('route:attackRoute', function(scr,menu) {
-                console.log('attack route');
                 this.lessonController.loadLesson(scr,menu);
                 this.menuController.updateMenu(scr,menu);
                 //update menu
@@ -42,7 +43,14 @@ define(['jquery',
             });
 
             Backbone.history.start();
+            this.listenTo('menu:reload',this.reloadMenu)
+        },
+
+        reloadMenu: function (curLesson) {
+            this.menuController.updateMenu(curLesson);
         }
+
+
     });
 
     return GoatAppRouter;
