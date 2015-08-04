@@ -1,6 +1,7 @@
 package org.owasp.webgoat.plugins;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.classloader.PluginClassLoader;
 import org.owasp.webgoat.lessons.AbstractLesson;
@@ -36,11 +37,13 @@ public class Plugin {
     private File lessonSourceFile;
 
     public Plugin(Path pluginDirectory) {
+        Preconditions.checkNotNull(pluginDirectory, "plugin directory cannot be null");
+        Preconditions.checkArgument(Files.exists(pluginDirectory), "directory %s does not exists", pluginDirectory);
         this.pluginDirectory = pluginDirectory;
     }
 
     public Plugin(Path pluginDirectory, List<String> classes) {
-        this.pluginDirectory = pluginDirectory;
+        this(pluginDirectory);
         findLesson(classes);
     }
 

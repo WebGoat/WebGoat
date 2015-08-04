@@ -38,6 +38,7 @@ public class PluginsLoader implements Runnable {
         List<Plugin> plugins = Lists.newArrayList();
 
         try {
+            PluginFileUtils.createDirsIfNotExists(pluginTarget);
             List<URL> jars = listJars();
             cl.addURL(jars);
             plugins = processPlugins(jars, reload);
