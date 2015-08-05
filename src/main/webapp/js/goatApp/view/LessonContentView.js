@@ -6,7 +6,7 @@ define(['jquery',
 	'goatApp/model/LessonContentData'], 
 function($,_,Backbone,JQueryForm,LessonData) {
 	return Backbone.View.extend({
-		el:'#lessonContentWrapper', //TODO << get this fixed up in DOM
+		el:'#lesson-content-wrapper', //TODO << get this fixed up in DOM
 		initialize: function(options) {
 			options = options || {};
 		},

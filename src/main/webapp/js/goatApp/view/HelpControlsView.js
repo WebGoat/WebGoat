@@ -22,6 +22,8 @@ function($,_,Backbone) {
 			this.hasHints = options.hasHints;
 		},
 		render:function(title) {
+			this.$el.html();
+			
 			if (this.hasSource) {
 				this.helpButtons.showSource.unbind().on('click',_.bind(this.showSource,this));
 				this.$el.append(this.helpButtons.showSource);
@@ -38,7 +40,8 @@ function($,_,Backbone) {
 				this.helpButtons.showHints.unbind().on('click',_.bind(this.showHints,this));
 				this.$el.append(this.helpButtons.showHints);
 			}
-			//
+			
+			this.helpButtons.restartLesson.unbind().on('click',_.bind(this.restartLesson,this));
 			this.$el.append(this.helpButtons.restartLesson);
 		},
 
@@ -56,6 +59,9 @@ function($,_,Backbone) {
 
 		showHints: function() {
 			this.trigger('hints:show','hints');
+		},
+		restartLesson: function() {
+			this.trigger('lesson:restart');
 		}
 	});
 });

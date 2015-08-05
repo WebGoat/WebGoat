@@ -98,29 +98,21 @@
                         <div class="col-md-8">
                             <div class="col-md-12" align="left">
                                 <div class="panel" id="help-controls">
-                                    <!-- <div id="help-buttons" class="panel-body"> -->
-                                        <!-- <button type="button" id="showSourceBtn" ng-show="showSource" class="btn btn-primary btn-xs" onclick="showLessonSource()">Java [Source]</button>
-                                        <button type="button" id="showSolutionBtn" class="btn btn-primary btn-xs" onclick="showLessonSolution()">Solution</button>
-                                        <button type="button" id="showPlanBtn" class="btn btn-primary btn-xs" onclick="showLessonPlan()">Lesson Plan</button>
-                                        <button type="button" id="showHintsBtn" ng-show="showHints" class="btn btn-primary btn-xs"  onclick="viewHints()">Hints</button>
-                                        <button type="button" id="restartLessonBtn"  class="btn btn-xs"  onclick="restartLesson()">Restart Lesson</button> -->
-                                    <!-- </div> -->
                                 </div>
-                                <div class="lesson-hint" id="lesson-hint-row">
+                                <div class="lesson-hint" id="lesson-hint-container">
                                     <h4>Hints</h4>
                                     <div class="panel" >
                                         <div class="panel-body" id="lesson-hint">
-                                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="showPrevHintBtn" onclick="viewPrevHint()"></span>
-                                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="showNextHintBtn" onclick="viewNextHint()"></span>
+                                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="show-prev-hint"></span>
+                                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="show-next-hint"></span>
                                             <br/>
-                                            <span ng-show="showHints" bind-html-unsafe="curHint"></span>
-                                            <!--<span id="curHintContainer"></span>-->
+                                            <span id="lesson-hint-content"></span>
                                         </div>                                    
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12" align="left">
-                                <div id="lessonContentWrapper" class="panel">
+                                <div id="lesson-content-wrapper" class="panel">
 
                                 </div>
                             </div>
@@ -133,8 +125,8 @@
                                             <h3>Cookies / Parameters</h3>
                                         </div>
                                         <hr />
-                                        <div id="cookiesAndParamsView">
-                                            <div class="cookiesView">
+                                        <div id="cookies-and-params">
+                                            <div class="cookies-view">
                                                 <h4>Cookies</h4>
                                                 <!-- <div class="cookieContainer" ng-repeat="cookie in cookies">
                                                     <table class="cookieTable table-striped table-nonfluid" >
@@ -160,30 +152,30 @@
                         </div><!--col-md-4 end-->         
                     </div>
                     <div id="lesson-helps-wrapper" class="panel">
-                        <div class="row lesson-help" id="lesson-plan-row">
+                        <div class="lesson-help" id="lesson-plan-row">
                             <div class="col-md-12">
                                 <h4>Lesson Plan</h4>
                                 <div class="panel" >
-                                    <div class="panel-body" id="lesson-plan">
+                                    <div class="panel-body" id="lesson-plan-content">
                                         <!-- allowing jQuery to handle this one -->
                                     </div>                                    
                                 </div>
                             </div>
                         </div> 
-                        <div class="row lesson-help" id="lesson-solution-row">
+                        <div class="lesson-help" id="lesson-solution-row">
                             <div class="col-md-12">
                                 <h4>Lesson Solution</h4>
                                 <div class="panel">
-                                    <div class="panel-body" id="lesson-solution">
+                                    <div class="panel-body" id="lesson-solution-content">
                                     </div>                                    
                                 </div>
                             </div>
                         </div> 
-                        <div class="row lesson-help" id="lesson-source-row">
+                        <div class="lesson-help" id="lesson-source-row">
                             <div class="col-md-12">
                                 <h4>Lesson Source Code</h4>
                                 <div class="panel">
-                                    <div class="panel-body" id="lesson-source">
+                                    <div class="panel-body" id="lesson-source-content">
                                     </div>                                    
                                 </div>
                             </div>

@@ -9,10 +9,9 @@ define(['jquery',
 	return HTMLContentModel.extend({
 		url:'service/lessonplan.mvc',
 		checkNullModel: function() {
-			if (this.get('content').indexOf('Plan is not available for this lesson.') > -1) {
+			if (this.get('content').indexOf('Could not find lesson plan for') > -1) {
 				this.set('content',null);
 			}
 		}
-		
 	});
 });

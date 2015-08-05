@@ -50,12 +50,14 @@ define(['jquery',
 				this.solutionView = {};
 				this.sourceView = {};
 				this.lessonHintView = {};
+				this.screen = scr;
+				this.menu = menu;
 				//
 				
 			};
 
 			this.onContentLoaded = function() {
-				//this.lessonView  = new LessonContentView({content:LessonContent.content});
+				this.helpControlsView = null;
 				this.lessonView.model = this.lessonContent;
 				this.lessonView.render();
 
@@ -64,22 +66,24 @@ define(['jquery',
 				//load title view (initially hidden) << //TODO: currently handled via menu click but need to be able to handle via routed request
 				//plan view (initially hidden)
 				this.planView = new PlanView();
-				this.listenTo(this.planView,'plan:loaded',this.areHelpsReady);
+				this.listenToOnce(this.planView,'plan:loaded',this.areHelpsReady);
 				//solution view (initially hidden)
 				this.solutionView = new SolutionView();
-				this.listenTo(this.solutionView,'solution:loaded',this.areHelpsReady);
+				this.listenToOnce(this.solutionView,'solution:loaded',this.areHelpsReady);
 				//source (initially hidden)
 				this.sourceView = new SourceView();
-				this.listenTo(this.sourceView,'source:loaded',this.areHelpsReady);
+				this.listenToOnce(this.sourceView,'source:loaded',this.areHelpsReady);
 				//load help controls view (contextul to what helps are available)
 				this.lessonHintView = new LessonHintView();
-				this.listenTo(this.lessonHintView,'hints:loaded',this.areHelpsReady);
+				this.listenToOnce(this.lessonHintView,'hints:loaded',this.areHelpsReady);
+				//
+				this.hideShowHelps(null);
 			};
 
 			this.areHelpsReady = function (curHelp) {
 				this.addCurHelpState(curHelp);
 				// check if all are ready
-				if (this.helpsLoaded['hints'] && this.helpsLoaded['plan'] && this.helpsLoaded['solution'] && this.helpsLoaded['source']) {
+				if (this.helpsLoaded['hints'] && this.helpsLoaded['plan'] && this.helpsLoaded['solution'] && this.helpsLoaded['source'] && !this.helpControlsView) {
 					//
 					this.helpControlsView = new HelpControlsView({
 						hasPlan:(this.planView.model.get('content') !== null),
@@ -91,7 +95,7 @@ define(['jquery',
 					//
 					this.listenTo(this.helpControlsView,'plan:show',this.hideShowHelps);
 					this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);	
-					this.listenTo(this.helpControlsView,'hints:show',this.showHints)
+					this.listenTo(this.helpControlsView,'hints:show',this.onShowHints)
 					this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
 					this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
 				}
@@ -103,27 +107,38 @@ define(['jquery',
 
 			this.hideShowHelps = function(showHelp) {
 				var showId = '#lesson-' + showHelp + '-row';
+				var contentId = '#lesson-' + showHelp + '-content';
 				$('.lesson-help').not(showId).hide();
+				if (!showId) { 
+					return;
+				}
 				switch(showHelp) {
 					case 'plan':
-						$(showId).html(this.planView.model.get('content')).show();
+						$(contentId).html(this.planView.model.get('content'));
 						break;
 					case 'solution':
-						$(showId).html(this.solutionView.model.get('content')).show();
+						$(showId).html(this.solutionView.model.get('content'));
 						break;
 					case 'source':
-						$(showId).html(this.sourceView.model.get('content')).show();
+						$(contentId).html('<pre>' + this.sourceView.model.get('content') + '</pre>');
 						break;
 				}
+				$(showId).show();
 				GoatUtils.scrollToHelp()
-			};;
+			};
 
-			this.showHints = function() {
-				console.log('show Hints');
+			this.onShowHints = function() {
+				this.lessonHintView.render();
 			};
 
 			this.restartLesson = function() {
-				console.log('restart lesson');
+				self=this;
+				$.ajax({
+					url:'service/restartlesson.mvc',
+					method:'GET'
+				}).then(function() {
+					self.loadLesson(self.screen,self.menu);
+				});
 			};
 
 		};
