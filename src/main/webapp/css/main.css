@@ -147,7 +147,7 @@ img {
   background-color: #16a086;
 }
 
-.sidebar > div > ul > li > ul > li > span.lessonComplete {
+.sidebar > div > ul > li > ul > li > span.lesson-complete {
     /*float: right;
     margin-left: 1.5em;*/
     margin-right: 5px;
@@ -192,6 +192,19 @@ img {
 .main-content-toggle-right {
   margin-right: 240px;
 }
+
+/*==========================================================================
+ lesson content / wrapper
+ ========================================================================= */
+
+#lesson-content-wrapper {
+  padding:5px;
+}
+
+#lesson-content-wrapper table td, #lesson-content-wrapper table th {
+  padding:3px !important;
+}
+
 /* ==========================================================================
   Buttons
    ========================================================================== */
@@ -719,11 +732,11 @@ fieldset[disabled] .btn-warning.active {
  margin-bottom:15px; 
 }
 
-cookieContainer {
+cookie-container {
 	margin-bottom:4px;
 }
 
-.cookieTable tr td, .paramsTable tr td {
+.cookie-table tr td, .params-table tr td {
   padding: 3px;
   max-width: 200px;
   font-size: x-small;
@@ -820,11 +833,12 @@ cookieContainer {
   color: #e84c3d;
 }
 
-.sidebar ul span.lessonComplete {
+.sidebar ul span.lesson-complete {
     float: right;
     margin-left: -5px;
     /*margin-right: 5px;*/
     padding-top: 15px;
+    display:inline-block;
 }
 
 #menu-container ul li.selected {
@@ -840,12 +854,15 @@ cookieContainer {
 }
 
 /* HINTS */
+#lesson-hint-container {
+  display: none;
+}
 #hintsViewTop{
   display: none;
   background-color: #eee;
 }
 
-#showPrevHintBtn, #showNextHintBtn {
+#show-prev-hint, #show-next-hint {
   cursor: pointer;
 }
 

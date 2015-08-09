@@ -9,7 +9,7 @@ define(['jquery',
 	return HTMLContentModel.extend({
 		url:'service/solution.mvc',
 		checkNullModel: function() {
-			if (this.get('content').indexOf('Solution  is not available. Contact') === 0) {
+			if (this.get('content').indexOf('Could not find the solution file or solution file does not exist') === 0) {
 				this.set('content',null);
 			}
 		}
