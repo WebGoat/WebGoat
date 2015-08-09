@@ -1,0 +1,4 @@
+language: java
+script:
+  - mvn -f webgoat-classloader
+  - mvn install
