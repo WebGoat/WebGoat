@@ -15,6 +15,6 @@
     <modules>
 	<module>webgoat-container</module>
 	<module>webgoat-classloader</module>
-	<module>webgoat-release</module>
+	<!-- <module>webgoat-release</module> -->
 	</modules>
 </project>
