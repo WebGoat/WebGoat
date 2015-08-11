@@ -101,15 +101,13 @@
                     <contextReloadable>true</contextReloadable>
                     <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
                     <contextFile>${project.basedir}/src/main/webapp/WEB-INF/context.xml</contextFile>
-                    <extraDependencies>
-                        <extraDependency>
-                            <groupId>org.owasp.webgoat</groupId>
-                            <artifactId>webgoat-classloader</artifactId>
-                            <version>${project.version}</version>
-                        </extraDependency>
-                    </extraDependencies>
                 </configuration>
                 <dependencies>
+                    <dependency>
+                        <groupId>org.owasp.webgoat</groupId>
+                        <artifactId>webgoat-classloader</artifactId>
+                        <version>6.1.0</version>
+                    </dependency>
                     <dependency>
                         <groupId>org.owasp.webgoat</groupId>
                         <artifactId>webgoat-container</artifactId>
@@ -123,6 +121,15 @@
                             <goal>exec-war-only</goal>
                         </goals>
                         <phase>package</phase>
+                        <configuration>
+                            <extraDependencies>
+                                <extraDependency>
+                                    <groupId>org.owasp.webgoat</groupId>
+                                    <artifactId>webgoat-classloader</artifactId>
+                                    <version>${project.version}</version>
+                                </extraDependency>
+                            </extraDependencies>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

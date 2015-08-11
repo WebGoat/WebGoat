@@ -83,7 +83,7 @@ After opening the project in Netbeans/IntelliJ/Eclipse, you can easily run the p
 1. Maven-Tomcat Plugin
    using a command shell/window:
 
-   > mvn tomcat:run-war
+   > mvn tomcat7:run-war
 
 
 Maven will run the project in an embedded tomcat.
