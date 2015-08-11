@@ -70,20 +70,22 @@ Follow these instructions if you wish to run Webgoat and modify the source code 
 
 Using a command shell/window:
 
-```
-    $ cd webgoat-classloader
-    $ mvn clean install
-    $ cd ..
-    $ mvn clean package
-```
+   > mvn clean package
 
-Building the webgoat-classloader is only necessary once, the classloader needs to be present in your local repository.
-After opening the project in Netbeans/IntelliJ/Eclipse, you can easily run the project using:
+Before you can run the project you need to build some lessons first clone https://github.com/WebGoat/WebGoat-Lessons and run:
+
+    ```
+    $ cd WebGoat-Lessons
+    $ mvn package
+    $ cp plugins/* <tomcat>/webapps/WebGoat-6.0-exec-war/plugin_lessons/
+    ```
+
+Then you can run the project with one of the steps below:
 
 1. Maven-Tomcat Plugin
    using a command shell/window:
 
-   > mvn tomcat7:run-war
+   > mvn -pl webgoat-container tomcat7:run-war
 
 
 Maven will run the project in an embedded tomcat.
@@ -99,11 +101,3 @@ Maven will run the project in an embedded tomcat.
 3. Tomcat the package phase also builds a war file. You can deploy it using:
 
     > cp target/WebGoat-6.0-exec-war.war <tomcat>/webapps/
-
-Then also clone https://github.com/WebGoat/WebGoat-Lessons run:
-
-```
-    $ cd WebGoat-Lessons
-    $ mvn package
-    $ cp plugins/* <tomcat>/webapps/WebGoat-6.0-exec-war/plugin_lessons/
-```

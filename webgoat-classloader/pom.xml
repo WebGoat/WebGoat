@@ -1,14 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <name>WebGoat</name>
+    <name>webgoat-classloader</name>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.owasp.webgoat</groupId>
     <artifactId>webgoat-classloader</artifactId>
     <packaging>jar</packaging>
-    <version>6.1.0</version>
+    <parent>
+        <groupId>org.owasp.webgoat</groupId>
+        <artifactId>webgoat-parent</artifactId>
+        <version>6.1.0</version>
+    </parent>
 
-     <build>
-<plugins>
+    <build>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -19,8 +22,8 @@
                     <encoding>ISO-8859-1</encoding>
                 </configuration>
             </plugin>
-</plugins>
-</build>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -30,6 +33,5 @@
         </dependency>
     </dependencies>
 
- 
 
 </project>
