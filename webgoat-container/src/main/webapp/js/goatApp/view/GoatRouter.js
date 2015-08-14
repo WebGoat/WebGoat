@@ -5,9 +5,8 @@ define(['jquery',
     'goatApp/controller/MenuController',
     'goatApp/view/LessonContentView',
     'goatApp/view/MenuView',
-    'goatApp/view/TitleView',
-    'goatApp/model/MenuData'
-], function ($,_,Backbone,LessonController,MenuController,LessonContentView,MenuView,TitleView, MenuModel) {
+    'goatApp/view/TitleView'
+], function ($,_,Backbone,LessonController,MenuController,LessonContentView,MenuView,TitleView) {
 
     var lessonView = new LessonContentView();
     var menuView = new MenuView();
