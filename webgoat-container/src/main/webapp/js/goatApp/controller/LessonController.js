@@ -8,6 +8,7 @@ define(['jquery',
 	'goatApp/view/SolutionView',
 	'goatApp/view/LessonHintView',
 	'goatApp/view/HelpControlsView',
+	'goatApp/view/CookieView',
 	'goatApp/support/GoatUtils'
 	], 
 	function($,
@@ -20,6 +21,7 @@ define(['jquery',
 		SolutionView,
 		LessonHintView,
 		HelpControlsView,
+		CookieView,
 		GoatUtils
 	) {
 		'use strict'
@@ -77,6 +79,7 @@ define(['jquery',
 				this.lessonHintView = new LessonHintView();
 				this.listenToOnce(this.lessonHintView,'hints:loaded',this.areHelpsReady);
 				//
+				this.cookieView = new CookieView();
 				this.hideShowHelps(null);
 			};
 

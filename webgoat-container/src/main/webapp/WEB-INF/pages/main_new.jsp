@@ -126,23 +126,10 @@
                                         </div>
                                         <hr />
                                         <div id="cookies-and-params">
-                                            <div class="cookies-view">
+                                            <div id="cookies-view">
                                                 <h4>Cookies</h4>
-                                                <!-- <div class="cookieContainer" ng-repeat="cookie in cookies">
-                                                    <table class="cookieTable table-striped table-nonfluid" >
-                                                        <thead>
-                                                            <tr><th class="col-sm-1"></th><th class="col-sm-1"></th></tr> 
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr ng-repeat="(key, value) in cookie">
-                                                                <td>{{key}}</td>
-                                                                <td>{{value}}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div> -->
                                             </div>
-                                            <div id="paramsView"> <!--class="paramsView"-->
+                                            <div id="params-view"> <!--class="paramsView"-->
                                                 <h4>Params</h4>
                                             </div>
                                         </div>

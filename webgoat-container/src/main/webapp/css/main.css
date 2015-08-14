@@ -738,7 +738,7 @@ cookie-container {
 
 .cookie-table tr td, .params-table tr td {
   padding: 3px;
-  max-width: 200px;
+  max-width: 220px;
   font-size: x-small;
   word-wrap: break-word;
 }
