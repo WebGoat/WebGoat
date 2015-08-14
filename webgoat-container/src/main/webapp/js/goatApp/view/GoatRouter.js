@@ -5,8 +5,9 @@ define(['jquery',
     'goatApp/controller/MenuController',
     'goatApp/view/LessonContentView',
     'goatApp/view/MenuView',
-    'goatApp/view/TitleView'
-], function ($,_,Backbone,LessonController,MenuController,LessonContentView,MenuView,TitleView) {
+    'goatApp/view/TitleView',
+    'goatApp/model/MenuData'
+], function ($,_,Backbone,LessonController,MenuController,LessonContentView,MenuView,TitleView, MenuModel) {
 
     var lessonView = new LessonContentView();
     var menuView = new MenuView();
@@ -43,7 +44,7 @@ define(['jquery',
             });
 
             Backbone.history.start();
-            this.listenTo('menu:reload',this.reloadMenu)
+            this.listenTo(this.menuController, 'menu:reload',this.reloadMenu)
         },
 
         reloadMenu: function (curLesson) {
