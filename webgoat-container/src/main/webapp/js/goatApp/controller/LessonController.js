@@ -135,7 +135,7 @@ define(['jquery',
 			};
 
 			this.restartLesson = function() {
-				self=this;
+				var self=this;
 				$.ajax({
 					url:'service/restartlesson.mvc',
 					method:'GET'

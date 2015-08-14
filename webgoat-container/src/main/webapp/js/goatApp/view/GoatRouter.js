@@ -43,7 +43,7 @@ define(['jquery',
             });
 
             Backbone.history.start();
-            this.listenTo('menu:reload',this.reloadMenu)
+            this.listenTo(this.menuController, 'menu:reload',this.reloadMenu)
         },
 
         reloadMenu: function (curLesson) {
