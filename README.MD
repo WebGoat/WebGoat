@@ -1,6 +1,8 @@
 # Important Information
 
-Thank you for downloading WebGoat! This is the WebGoat Lesson Server version.  The lessons need to be installed separately.
+Thank you for downloading WebGoat! This is the WebGoat Lesson Server version.  
+The lessons need to be installed separately by following the instructions in the For
+Developers section below.
 
 This program is a demonstration of common server-side application flaws. The
 exercises are intended to be used by people to learn about application security and
