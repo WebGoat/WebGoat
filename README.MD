@@ -74,15 +74,19 @@ Follow these instructions if you wish to run Webgoat and modify the source code 
 
 Using a command shell/window:
 
-   > mvn clean package
-
+    ```
+    mvn clean package
+	```
+	
 Before you can run the project you need to build some lessons. First clone https://github.com/WebGoat/WebGoat-Lessons and run:
+
     ```
     $ cd WebGoat-Lessons
     $ mvn package
     ```
     
-Now copy the lessons into the WebGoat plugin_lessons folder
+Now copy the lessons into the WebGoat plugin_lessons folder:
+
 	```
     $ cp target/plugins/*.jar WebGoat/webgoat-container/target/webgoat-container-6.1.0/plugin_lessons/
     ```
@@ -92,7 +96,9 @@ Then you can run the project with one of the steps below (From the WebGoat folde
 1. Maven-Tomcat Plugin
    using a command shell/window:
 
-   > mvn -pl webgoat-container tomcat7:run-war
+   ```
+   mvn -pl webgoat-container tomcat7:run-war
+   ```
    
    Browse to http://localhost:8080/WebGoat
 
@@ -112,4 +118,6 @@ Maven will run the project in an embedded tomcat.
 
 3. The package phase also builds a war file. You can deploy it using:
 
-    > cp target/WebGoat-6.0-exec-war.war <tomcat>/webapps/
+    ```
+    cp target/WebGoat-6.0-exec-war.war <tomcat>/webapps/
+	```
