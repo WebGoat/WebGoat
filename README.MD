@@ -9,7 +9,7 @@ penetration testing techniques.
 * [Home Page](http://webgoat.github.io)
 * [OWASP Project Home Page](http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project)
 * [Source Code](https://github.com/WebGoat/WebGoat)
-* [Easy-Run Download](https://github.com/WebGoat/WebGoat/releases/**TBD**)
+* [Easy-Run Download **TBD**](https://github.com/WebGoat/WebGoat/releases/**TBD**)
 * [Wiki](https://github.com/WebGoat/WebGoat/wiki)
 * [Contact Info - Direct to Bruce Mayhew](webgoat@owasp.org)
 * [Mailing List - WebGoat Community - For most questions](owasp-webgoat@lists.owasp.org) 
@@ -31,7 +31,7 @@ You can find more information about WebGoat at:
 
 # Easy Run Instructions ( For non-developers )
 
-** Note - Use WebGoat-Legacy for a stable build **
+**Note - Use WebGoat-Legacy for a stable build**
 
 Follow these instructions if you simply wish to run WebGoat
 
@@ -41,7 +41,7 @@ Java VM >= 1.6 installed ( JDK 1.7 recommended)
 
 1. Download the executable jar file which contains all the lessons:
 
-    (https://github.com/WebGoat/WebGoat/releases/**TBD**WebGoat-6.0.1-war-exec.jar)
+    (https://github.com/WebGoat/WebGoat/releases/**TBD**/WebGoat-6.0.1-war-exec.jar)
 
 2. Run it using java:
 
