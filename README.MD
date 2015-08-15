@@ -1,23 +1,25 @@
 # Important Information
 
-Thank you for downloading WebGoat! This is the WebGoat Lesson Server version which is currently under development.
+Thank you for downloading WebGoat! This is the WebGoat Lesson Server version.  
+The lessons need to be installed separately by following the instructions in the For
+Developers section below.
 
 This program is a demonstration of common server-side application flaws. The
-exercises are intended to be used by people to learn about application
+exercises are intended to be used by people to learn about application security and
 penetration testing techniques.
 
 * [Home Page](http://webgoat.github.io)
 * [OWASP Project Home Page](http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project)
 * [Source Code](https://github.com/WebGoat/WebGoat)
-* [Easy-Run Download](https://webgoat.atlassian.net/builds/browse/WEB-CNTNR)
+* [Easy-Run Download **TBD**](https://github.com/WebGoat/WebGoat/releases/**TBD**)
 * [Wiki](https://github.com/WebGoat/WebGoat/wiki)
-* [FAQ (old info):](http://code.google.com/p/webgoat/wiki/FAQ)
 * [Contact Info - Direct to Bruce Mayhew](webgoat@owasp.org)
 * [Mailing List - WebGoat Community - For most questions](owasp-webgoat@lists.owasp.org) 
 
 **WARNING 1:** *While running this program your machine will be extremely
 vulnerable to attack. You should to disconnect from the Internet while using
-this program.*
+this program.*  WebGoat's default configuration binds to localhost to minimize 
+the exposure.
 
 **WARNING 2:** *This program is for educational purposes only. If you attempt
 these techniques without authorization, you are very likely to get caught. If
@@ -31,15 +33,17 @@ You can find more information about WebGoat at:
 
 # Easy Run Instructions ( For non-developers )
 
+**Note - Use WebGoat-Legacy for a stable build**
+
 Follow these instructions if you simply wish to run WebGoat
 
 **Prerequisites:** 
 
 Java VM >= 1.6 installed ( JDK 1.7 recommended)
 
-1. Download the executable jar file to any location of your choice:
+1. Download the executable jar file which contains all the lessons:
 
-    (https://webgoat.atlassian.net/builds/browse/WEB-CNTNR/latestSuccessful/artifact/shared/WebGoat-Embedded-Tomcat/WebGoat-6.0.1-war-exec.jar)
+    (https://github.com/WebGoat/WebGoat/releases/**TBD**/WebGoat-6.0.1-war-exec.jar)
 
 2. Run it using java:
 
@@ -71,21 +75,24 @@ Follow these instructions if you wish to run Webgoat and modify the source code 
 Using a command shell/window:
 
    > mvn clean package
+	
+Before you can run the project you need to build some lessons. First clone https://github.com/WebGoat/WebGoat-Lessons and run:
 
-Before you can run the project you need to build some lessons first clone https://github.com/WebGoat/WebGoat-Lessons and run:
+    > cd WebGoat-Lessons
+    > mvn package
+    
+Now copy the lessons into the WebGoat plugin_lessons folder:
 
-    ```
-    $ cd WebGoat-Lessons
-    $ mvn package
-    $ cp plugins/* <tomcat>/webapps/WebGoat-6.0-exec-war/plugin_lessons/
-    ```
+    > cp target/plugins/*.jar WebGoat/webgoat-container/target/webgoat-container-6.1.0/plugin_lessons/
 
-Then you can run the project with one of the steps below:
+Then you can run the project with one of the steps below (From the WebGoat folder not WebGoat-Lessons):
 
 1. Maven-Tomcat Plugin
    using a command shell/window:
 
    > mvn -pl webgoat-container tomcat7:run-war
+   
+   Browse to http://localhost:8080/WebGoat
 
 
 Maven will run the project in an embedded tomcat.
@@ -93,11 +100,12 @@ Maven will run the project in an embedded tomcat.
 2. Java JAR
    the package phase also builds an executable jar file. You can run it using:
 
-```
-   $ cd target
-   $ java -jar WebGoat-6.0-exec-war.jar http://localhost:8080/WebGoat
-```
+   > cd webgoat-container/target
+   > java -jar WebGoat-6.0-exec-war.jar 
 
-3. Tomcat the package phase also builds a war file. You can deploy it using:
+   Browse to http://localhost:8080/WebGoat
+    
+
+3. The package phase also builds a war file. You can deploy it using:
 
     > cp target/WebGoat-6.0-exec-war.war <tomcat>/webapps/
