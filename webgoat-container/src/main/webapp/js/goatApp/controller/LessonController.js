@@ -9,6 +9,8 @@ define(['jquery',
 	'goatApp/view/LessonHintView',
 	'goatApp/view/HelpControlsView',
 	'goatApp/view/CookieView',
+	'goatApp/view/ParamView',
+	'goatApp/model/ParamModel',
 	'goatApp/support/GoatUtils'
 	], 
 	function($,
@@ -22,6 +24,8 @@ define(['jquery',
 		LessonHintView,
 		HelpControlsView,
 		CookieView,
+		ParamView,
+		ParamModel,
 		GoatUtils
 	) {
 		'use strict'
@@ -38,7 +42,7 @@ define(['jquery',
 
 			_.extend(Controller.prototype,Backbone.Events);
 			this.start = function() {
-				this.listenTo(this.lessonContent,'contentLoaded',this.onContentLoaded);
+				this.listenToOnce(this.lessonContent,'contentLoaded',this.onContentLoaded);
 			};
 
 			//load View, which can pull data
@@ -52,7 +56,7 @@ define(['jquery',
 				this.solutionView = {};
 				this.sourceView = {};
 				this.lessonHintView = {};
-				this.screen = scr;
+				this.screen = scr; //needed anymore?
 				this.menu = menu;
 				//
 				
@@ -62,9 +66,6 @@ define(['jquery',
 				this.helpControlsView = null;
 				this.lessonView.model = this.lessonContent;
 				this.lessonView.render();
-
-				//load cookies/parameters view
-
 				//load title view (initially hidden) << //TODO: currently handled via menu click but need to be able to handle via routed request
 				//plan view (initially hidden)
 				this.planView = new PlanView();
@@ -80,6 +81,13 @@ define(['jquery',
 				this.listenToOnce(this.lessonHintView,'hints:loaded',this.areHelpsReady);
 				//
 				this.cookieView = new CookieView();
+				// parameter model & view
+				//TODO: instantiate model with values at once (not sure why was not working before)
+				var paramModel = new ParamModel({
+				});
+				paramModel.set('screenParam',this.lessonContent.get('screenParam'));
+				paramModel.set('menuParam',this.lessonContent.get('screenParam'));
+				this.paramView = new ParamView({model:paramModel});
 				this.hideShowHelps(null);
 			};
 
