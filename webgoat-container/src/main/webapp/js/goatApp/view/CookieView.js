@@ -27,6 +27,7 @@ function($,
     				cookieTable.append(newRow);
     			});
 			});
+			this.$el.append($('<h4>',{text:'Cookie/s'}));
 			this.$el.append(cookieTable);
 		}
 	});
