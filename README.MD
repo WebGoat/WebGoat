@@ -1,7 +1,7 @@
 # WebGoat: A deliberately insecure Web Application
 
 [![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg)](https://travis-ci.org/WebGoat/WebGoat)
-[![Join the OWASP conversation on Slack](https://owasp.herokuapp.com/badge.svg)](https://owasp.herokuapp.com/)
+[![OWASP Slack](https://owasp.herokuapp.com/badge.svg)](https://owasp.herokuapp.com/)
 
 
 # Important Information
@@ -57,7 +57,7 @@ Java VM >= 1.6 installed ( JDK 1.7 recommended)
 2. Run it using java:
 
 ```Shell
-$ java -jar WebGoat-6.0-exec-war.jar
+$ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
 ```
 
 3. Then navigate in your browser to: (http://localhost:8080/WebGoat)
@@ -65,7 +65,7 @@ $ java -jar WebGoat-6.0-exec-war.jar
 4. If you would like to change the port or other options, use:
 
 ```Shell
-$ java -jar WebGoat-6.0-exec-war.jar --help
+$ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar --help
 ```
 
 # For Developers
@@ -95,7 +95,7 @@ Before you can run the project you need to build some lessons first clone https:
 ```Shell
   $ cd WebGoat-Lessons
   $ mvn package
-  $ cp target/plugins/*.jar WebGoat/webgoat-container/target/webgoat-container-6.1.0/plugin_lessons/
+  $ cp target/plugins/*.jar WebGoat/webgoat-container/target/webgoat-container-7.0-SNAPSHOT/plugin_lessons/
 ```
 
 Then you can run the project with one of the steps below (From the WebGoat folder not WebGoat-Lessons):
@@ -114,8 +114,8 @@ Maven will run the project in an embedded tomcat.
    the package phase also builds an executable jar file. You can run it using:
 
 ```Shell
-$ cd target
-$ java -jar WebGoat-6.0-exec-war.jar http://localhost:8080/WebGoat
+$ cd webgoat-container/target
+$ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
 ```
 
 Browse to http://localhost:8080/WebGoat
@@ -123,5 +123,5 @@ Browse to http://localhost:8080/WebGoat
 3. Tomcat the package phase also builds a war file. You can deploy it using:
 
 ```Shell
-$ cp target/WebGoat-6.0-exec-war.war <tomcat>/webapps/
+$ cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <tomcat>/webapps/
 ```
