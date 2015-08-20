@@ -1,10 +1,14 @@
 language: java
+
 jdk:
-- oraclejdk7
-- oraclejdk8
+  - oraclejdk7
+  - oraclejdk8
+
 install: "/bin/true"
+
 script:
-- mvn clean package install
+  - mvn clean package install
+
 deploy:
   provider: s3
   access_key_id: AKIAJQLKPGHXRH2AH5QA
@@ -13,7 +17,7 @@ deploy:
   bucket: "webgoat-war"
   skip_cleanup: true
   acl: public_read
-  local_dir: - ./WebGoat/webgoat-container/target/
+  local_dir: build/dougmorato/WebGoat/webgoat-container/target/
   on:
     repo: dougmorato/WebGoat
     branch: docs
