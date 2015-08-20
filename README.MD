@@ -1,6 +1,8 @@
 # WebGoat: A deliberately insecure Web Application
 
 [![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg)](https://travis-ci.org/WebGoat/WebGoat)
+[![Join the OWASP conversation on Slack](https://owasp.herokuapp.com/badge.svg)](https://owasp.herokuapp.com/)
+
 
 # Important Information
 
