@@ -52,7 +52,7 @@ Java VM >= 1.6 installed ( JDK 1.7 recommended)
 
 1. Download the executable jar file which contains all the lessons:
 
-    (https://github.com/WebGoat/WebGoat/releases/**TBD**/WebGoat-6.0.1-war-exec.jar)
+  https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0-SNAPSHOT-war-exec.jar
 
 2. Run it using java:
 
