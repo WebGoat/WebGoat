@@ -5,18 +5,15 @@ jdk:
 install: "/bin/true"
 script:
 - mvn clean package install
-addons:
-  artifacts: true
-  paths:
-  - "$HOME/build/dougmorato/WebGoat/webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar"
-  debug: true
 deploy:
   provider: s3
   access_key_id: AKIAJQLKPGHXRH2AH5QA
   secret_access_key:
     secure: Ru994ZN5RNxO3VgKWP1tudOrjhoTl8KoanG7+xgfJF2n/pq8JKz0A8y2CmPKwrm0d5Dr0x3MNev6GUQK25c9IZCjB6ePdlMD+IR102NU8TC9rjnei0nWj8R/TYVNZRxJvrJnHzrR11Vst5cIJUu8Z5LC0XW3FK+NWivobgSEd5/QbMVt/37JRjjOrNqUjGGlsZwvauCOBh5yO0fvS13Msrz1fMFgG/jza537VytcWGgcYY6e2dvSKr8JddSxdqx+PUb8vzi3mKO/NHVDlmCuzTBHzeTTIifEBOhvyZHSrj9jPqVtK/RF94dH9ALG4h15ca6jMc6x9UIclekP7gy+NeOpQYEDquPfY28Rendx952AzS0uVZFOOG34OGafVm3v4mpJ4YJjJP52cJ2XzkgO7CCOT3BfqE1qfnrXDVJ9myazoCM3vQIyLVZzFlxt3mRb39d5ucGzrWMOfJIU6igzDvwuedRjJUQhuBcoR+aRJBEjsLb55vAcHsI8uR4olVFTJtDWs8o/5/ocI53jTvG8GDIgjbBexoid9EZdz62dvQdj/P1MGS21Xt9Z218mbMmiNayAY3dX+5soBpMKXd2sHQPwWjwKkRg0OqNiYcXBD31qs8aHmdQsqE6lHPQ7nWXIkEmvDsEz8hdTgjcteJPMTNGCAD86ntav7KCJ+QVLpCQ=
-  bucket: webgoat-war
+  bucket: "webgoat-war"
+  skip_cleanup: true
   acl: public_read
+  local_dir: - ./WebGoat/webgoat-container/target/
   on:
     repo: dougmorato/WebGoat
     branch: docs
