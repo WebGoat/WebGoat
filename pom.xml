@@ -1,20 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <name>webgoat-parent</name>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.owasp.webgoat</groupId>  
-    <artifactId>webgoat-parent</artifactId>
-    <packaging>pom</packaging>
-    <version>6.1.0</version>
-
-    <!-- Shared version number properties -->
-    <properties>
-        <!-- If run from Bamboo this will be replaced with the bamboo build number -->
-        <build.number>local</build.number>
-    </properties>
-    <modules>
-	<module>webgoat-container</module>
-	<module>webgoat-classloader</module>
-	<!-- <module>webgoat-release</module> -->
-	</modules>
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <name>webgoat-parent</name>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.owasp.webgoat</groupId>
+  <artifactId>webgoat-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>7.0-SNAPSHOT</version>
+  <!-- Shared version number properties -->
+  <properties>
+    <!-- If run from Bamboo this will be replaced with the bamboo build number -->
+    <build.number>local</build.number>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <modules>
+    <module>webgoat-container</module>
+    <module>webgoat-classloader</module>
+    <!-- <module>webgoat-release</module> -->
+  </modules>
 </project>
