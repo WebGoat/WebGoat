@@ -10,6 +10,7 @@
   <properties>
     <!-- If run from Bamboo this will be replaced with the bamboo build number -->
     <build.number>local</build.number>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <modules>
     <module>webgoat-container</module>
