@@ -42,13 +42,13 @@ You can find more information about WebGoat at:
 
 # Easy Run Instructions ( For non-developers )
 
-**Note - Use WebGoat-Legacy for a stable build**
+**Note - Use [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy) for a stable build**
 
 Follow these instructions if you simply wish to run WebGoat
 
-**Prerequisites:**
+## Prerequisites:
 
-Java VM >= 1.6 installed ( JDK 1.7 recommended)
+* Java VM >= 1.6 installed ( JDK 1.7 recommended)
 
 1. Download the executable jar file which contains all the lessons:
 
@@ -62,7 +62,7 @@ $ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
 
 3. Then navigate in your browser to: (http://localhost:8080/WebGoat)
 
-4. If you would like to change the port or other options, use:
+4.(Optional) If you would like to change the port or other options, use:
 
 ```Shell
 $ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar --help
@@ -72,56 +72,72 @@ $ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar --help
 
 Follow these instructions if you wish to run Webgoat and modify the source code as well.
 
-**Prerequisites:**
-/
+## Prerequisites:
+
 * Java >= 1.6 ( JDK 1.7 recommended )
 * Maven > 2.0.9
 * Your favorite IDE, with Maven awareness: Netbeans/IntelliJ/Eclipse with m2e installed.
 * Git, or Git support in your IDE
 
-**Note:** WebGoat source code can be downloaded at: (https://github.com/WebGoat/WebGoat).
+## Cloning the Lesson Server and the Lessons project:
 
-
-**Building the project (Developers)**
-
-Using a command shell/window:
+Open a command shell/window, navigate to where you wish to download the source and type:
 
 ```Shell
-$ mvn clean package
+$ git clone git@github.com:WebGoat/WebGoat.git
+$ git clone git@github.com:WebGoat/WebGoat-Lessons.git
 ```
 
-Before you can run the project you need to build some lessons first clone https://github.com/WebGoat/WebGoat-Lessons and run:
+### Now let's start by compiling the WebGoat Lessons server.
 
 ```Shell
-  $ cd WebGoat-Lessons
-  $ mvn package
-  $ cp target/plugins/*.jar WebGoat/webgoat-container/target/webgoat-container-7.0-SNAPSHOT/plugin_lessons/
+$ cd WebGoat
+$ mvn clean compile
+$ cd ..
 ```
+
+### Before you can run the project, we need to compile the lessons and copy them over:
+
+```Shell
+$ cd WebGoat-Lessons
+$ mvn package
+$ cp target/plugins/*.jar ../WebGoat/webgoat-container/target/webgoat-container-7.0-SNAPSHOT/plugin_lessons/
+$ cd ..
+```
+
+## Now we are ready to run the project. There are 3 options you can choose from to run the project:
 
 Then you can run the project with one of the steps below (From the WebGoat folder not WebGoat-Lessons):
 
-1. Maven-Tomcat Plugin
-   using a command shell/window:
+### Option #1: Using the Maven-Tomcat Plugin 
+Maven will run the project in an embedded tomcat: 
 
 ```Shell
+$ cd WebGoat
 $ mvn -pl webgoat-container tomcat7:run-war
 ```
-Browse to http://localhost:8080/WebGoat
 
-Maven will run the project in an embedded tomcat.
+Browse to (http://localhost:8080/WebGoat) and happy hacking !
 
-2. Java JAR
-   the package phase also builds an executable jar file. You can run it using:
+### Option #2: Java executable JAR
+Call the maven package goal which will build an executable jar file: 
 
 ```Shell
+$ cd WebGoat
+$ mvn package
 $ cd webgoat-container/target
 $ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
 ```
 
-Browse to http://localhost:8080/WebGoat
+Browse to (http://localhost:8080/WebGoat) and happy hacking !
 
-3. Tomcat the package phase also builds a war file. You can deploy it using:
+### Option #3: Deploy the WebGoat WAR file in yout local Tomcat or other Application Serve:
+The _maven package_ goal generates a .war file that can deployed into an Application Server, such as Tomcat
 
 ```Shell
-$ cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <tomcat>/webapps/
+$ cd WebGoat
+$ mvn package 
+$ cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <your_tomcat_directory>/webapps/
 ```
+
+Browse to (http://localhost:8080/WebGoat) and happy hacking !
