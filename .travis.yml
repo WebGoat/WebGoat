@@ -11,10 +11,12 @@ script:
 
 before_deploy:
   - export WEBGOAT_ARTIFACT_VERSION=$(grep "<version>" $HOME/build/$TRAVIS_REPO_SLUG/pom.xml | cut -d ">" -f 2 | cut -d "<" -f 1)
-  - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION-war-exec.jar
+  - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.jar
+  - export WEBGOAT_JAR_EXEC_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION-war-exec.jar
   - export WEBGOAT_WAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.war
   - export WEBGOAT_ARTIFACTS_FOLDER=$HOME/build/$TRAVIS_REPO_SLUG/Deployable_Artifacts/
   - mkdir $WEBGOAT_ARTIFACTS_FOLDER
+  - mv $WEBGOAT_JAR_EXEC_FILE $WEBGOAT_ARTIFACTS_FOLDER
   - mv $WEBGOAT_JAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
   - mv $WEBGOAT_WAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
   - echo "Contents of artifcts folder:"
@@ -32,3 +34,4 @@ deploy:
   on:
     repo: dougmorato/WebGoat
     branch: docs
+    jdk: oraclejdk8
