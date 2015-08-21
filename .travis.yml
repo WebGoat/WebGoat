@@ -8,9 +8,11 @@ install: "/bin/true"
 
 script:
   - mvn clean compile install
-  - git clone git@github.com:WebGoat/WebGoat-Lessons.git
-  - mvn -file ./WebGoat/WebGoat-Lessons/pom.xml package
-  - cp -fa ./WebGoat/WebGoat-Lessons/target/plugins/*.jar ./WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+  - echo "######################## Clone and Package Lessons ########################"
+  - git clone https://github.com/WebGoat/WebGoat-Lessons.git
+  - mvn -file $HOME/build/WebGoat/WebGoat-Lessons/pom.xml package
+  - cp -fa $HOME/build/WebGoat/WebGoat-Lessons/target/plugins/*.jar ./WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+  - echo "######################## END: Clone and Package Lessons ########################"
   - mvn package
 
 before_deploy:
