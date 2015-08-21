@@ -1,7 +1,6 @@
 # WebGoat: A deliberately insecure Web Application
 
 [![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg)](https://travis-ci.org/WebGoat/WebGoat)
-[![OWASP Slack](https://owasp.herokuapp.com/badge.svg)](https://owasp.herokuapp.com/)
 
 # Important Information
 
@@ -105,7 +104,7 @@ $ cd ..
 
 Then you can run the project with one of the steps below (From the WebGoat folder not WebGoat-Lessons):
 
-##### Option #1: Using the Maven-Tomcat Plugin
+#### Option #1: Using the Maven-Tomcat Plugin
 The __maven tomcat7:run-war__ goal runs the project in an embedded tomcat:
 
 ```Shell
@@ -115,7 +114,7 @@ $ mvn -pl webgoat-container tomcat7:run-war
 
 Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
 
-##### Option #2: Java executable JAR
+#### Option #2: Java executable JAR
 The __maven package__ goal generates an executable .jar file:
 
 ```Shell
@@ -127,7 +126,7 @@ $ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar http://localhost:8080/We
 
 Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
 
-##### Option #3: Deploy the WebGoat WAR file in yout local Tomcat or other Application Serve:
+#### Option #3: Deploy the WebGoat WAR file in yout local Tomcat or other Application Serve:
 The _maven package_ goal generates a .war file that can deployed into an Application Server, such as Tomcat
 
 ```Shell
