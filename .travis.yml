@@ -1,27 +1,30 @@
 language: java
+
 jdk:
-- oraclejdk7
-- oraclejdk8
+  - oraclejdk7
+  - oraclejdk8
 install: "/bin/true"
+
 script:
-- mvn clean compile install
-- git clone https://github.com/WebGoat/WebGoat-Lessons.git
-- mvn -file $HOME/build/WebGoat-Lessons/pom.xml package
-- cp -fa $HOME/build/WebGoat-Lessons/target/plugins/*.jar ./WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
-- mvn package
+  - mvn clean compile install
+  - git clone https://github.com/WebGoat/WebGoat-Lessons.git
+  - mvn -file ./WebGoat-Lessons/pom.xml package
+  - cp -fa WebGoat-Lessons/target/plugins/*.jar ./WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+  - mvn package
+
 before_deploy:
-- export WEBGOAT_ARTIFACT_VERSION=$(grep "<version>" $HOME/build/$TRAVIS_REPO_SLUG/pom.xml
-  | cut -d ">" -f 2 | cut -d "<" -f 1)
-- export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.jar
-- export WEBGOAT_JAR_EXEC_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION-war-exec.jar
-- export WEBGOAT_WAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.war
-- export WEBGOAT_ARTIFACTS_FOLDER=$HOME/build/$TRAVIS_REPO_SLUG/Deployable_Artifacts/
-- mkdir $WEBGOAT_ARTIFACTS_FOLDER
-- mv $WEBGOAT_JAR_EXEC_FILE $WEBGOAT_ARTIFACTS_FOLDER
-- mv $WEBGOAT_JAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
-- mv $WEBGOAT_WAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
-- echo "Contents of artifcts folder:"
-- ls $WEBGOAT_ARTIFACTS_FOLDER
+  - export WEBGOAT_ARTIFACT_VERSION=$(grep "<version>" $HOME/build/$TRAVIS_REPO_SLUG/pom.xml | cut -d ">" -f 2 | cut -d "<" -f 1)
+  - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.jar
+  - export WEBGOAT_JAR_EXEC_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION-war-exec.jar
+  - export WEBGOAT_WAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.war
+  - export WEBGOAT_ARTIFACTS_FOLDER=$HOME/build/$TRAVIS_REPO_SLUG/Deployable_Artifacts/
+  - mkdir $WEBGOAT_ARTIFACTS_FOLDER
+  - mv $WEBGOAT_JAR_EXEC_FILE $WEBGOAT_ARTIFACTS_FOLDER
+  - mv $WEBGOAT_JAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
+  - mv $WEBGOAT_WAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
+  - echo "Contents of artifcts folder:"
+  - ls $WEBGOAT_ARTIFACTS_FOLDER
+
 deploy:
   provider: s3
   access_key_id: AKIAJQLKPGHXRH2AH5QA
