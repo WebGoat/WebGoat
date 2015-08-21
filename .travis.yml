@@ -9,9 +9,7 @@ script:
   - mvn clean compile install
   - git clone https://github.com/WebGoat/WebGoat-Lessons.git
   - mvn -file ./WebGoat-Lessons/pom.xml package
-  - pwd
-  - ls -lart
-  - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+  - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./webgoat-container/src/main/webapp/plugin_lessons/
   - mvn package
 
 before_deploy:
@@ -31,7 +29,7 @@ deploy:
   provider: s3
   access_key_id: AKIAJQLKPGHXRH2AH5QA
   secret_access_key:
-    secure: Ru994ZN5RNxO3VgKWP1tudOrjhoTl8KoanG7+xgfJF2n/pq8JKz0A8y2CmPKwrm0d5Dr0x3MNev6GUQK25c9IZCjB6ePdlMD+IR102NU8TC9rjnei0nWj8R/TYVNZRxJvrJnHzrR11Vst5cIJUu8Z5LC0XW3FK+NWivobgSEd5/QbMVt/37JRjjOrNqUjGGlsZwvauCOBh5yO0fvS13Msrz1fMFgG/jza537VytcWGgcYY6e2dvSKr8JddSxdqx+PUb8vzi3mKO/NHVDlmCuzTBHzeTTIifEBOhvyZHSrj9jPqVtK/RF94dH9ALG4h15ca6jMc6x9UIclekP7gy+NeOpQYEDquPfY28Rendx952AzS0uVZFOOG34OGafVm3v4mpJ4YJjJP52cJ2XzkgO7CCOT3BfqE1qfnrXDVJ9myazoCM3vQIyLVZzFlxt3mRb39d5ucGzrWMOfJIU6igzDvwuedRjJUQhuBcoR+aRJBEjsLb55vAcHsI8uR4olVFTJtDWs8o/5/ocI53jTvG8GDIgjbBexoid9EZdz62dvQdj/P1MGS21Xt9Z218mbMmiNayAY3dX+5soBpMKXd2sHQPwWjwKkRg0OqNiYcXBD31qs8aHmdQsqE6lHPQ7nWXIkEmvDsEz8hdTgjcteJPMTNGCAD86ntav7KCJ+QVLpCQ=
+    secure: "45+SwWlPFujD9FOOFLA9Lz0CaePVrn/SEsAhAn0Ve9sYpI0VsijZNymh6D29t93jBXgZoGhu/v0QJkcAA/71fQM+nGMBJjB5wmVFJ1c2A4k7tfWCVbBRI0aHGpJu12j+7BLuSfPCmCAFQGoVo7dWzfqeODe5j9Qpe9fsiQVnrKI="
   bucket: webgoat-war
   skip_cleanup: true
   acl: public_read
@@ -44,4 +42,4 @@ deploy:
 notifications:
   slack:
     rooms:
-      secure: YePp82zEjD9S1AxXULnO5o6fTdKy23WEPwO54AFtfbafmEzH2l9LeZd7cdjX7HGcs5Ktw1Lu9Cq2glqyJTbnHkUyFOYSTahnXKz6ezO7+U80Aym/UPB0C1u4hz+LCPU2bLyNvglHvDw4V09Ljl7AaAV+4FQlluSJdqIYkiU12listDAv/0xgRuEisAgRMVNypSROMVGyD22XpaYN+pEa8NLRaRKenXAr+pdx6II8mDV0qT4D8WTtydIgSwPIdNNsaEI5nDkuZxdxZ2OzldgtQJ5zQETGFoNKMRC3niRaUuhesxVvnBUjBr/P3FAAupMdPJsWOu5KaB9J5iMxD4QFTAVWeRRD71bR7npYohI4nIRt+LwonaZUG7OLleVjbFmJ7qY0n1tZcptJJWP2at3K9mAbbZqnNTLew0SHaHFHuG1TYdLzJb+r1hRaTNMXhv4R5YWv+FMxvkhyE2c0bdyB8ttYkJOMI34PdXcQCsOt7Uijb0V0c1hHBpPJWsNMb8v7vkYT7X6ePa4wE4DZKl2e839VnUH5NWgoeEV1Y5pA7YmDMUFRWVsuCajaWB+BhiGrNyIhdSQcako92szHeb9O57Z3BAwTyz0f7DPI1S63OCalcAaazN4i6Ptw3DDI5Zt5NSAdUwTJcze5UScK4QMkx9UrQMD4rwnSZfNIwrj+/cY=
+      secure: "neH9u/VMnwh214CvS2QAsbohqQpcoi7dDM0djTqHe0gpBjtOhEeqBJV3mQYLTvgOBvHuKXVLSVufSb/sqh8KzmpblGpcXp6XSvGqBuXgIIZ3MhkGCIU8QtDfzOuYKS80cmB4EHh1EfvlqJQeLD+FCIql5IZfKmZysEekBuuXqBA="
