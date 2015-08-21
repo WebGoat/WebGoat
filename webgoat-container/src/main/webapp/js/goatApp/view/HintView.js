@@ -1,11 +1,11 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/LessonHintCollection'],
+	'goatApp/model/HintCollection'],
 function($,
 	_,
 	Backbone,
-	LessonHintCollection) {
+	HintCollection) {
 	return Backbone.View.extend({
 		el:'#lesson-hint-container',
 		events: {
@@ -14,7 +14,7 @@ function($,
 		},
 		initialize: function() {
 			this.curHint=0;
-			this.collection = new LessonHintCollection();
+			this.collection = new HintCollection();
 			this.listenTo(this.collection,'loaded',this.onModelLoaded);
 			
 		},

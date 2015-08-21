@@ -62,6 +62,7 @@ define(['jquery',
 						for (k=0; k < stages.length; k++) {
 							var stageName = stages[k].name;
 							var stageLink = $('<a>',{href:stages[k].link,text:stageName,id:GoatUtils.makeId(stageName)});
+							var stageSpan = $('<span>');
 							stageSpan.append(stageLink);
 							categoryLessonList.append(stageSpan);
 							if (stages[j].complete) {

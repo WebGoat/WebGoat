@@ -1,15 +1,15 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/LessonSourceModel'],
+	'goatApp/model/SourceModel'],
 function($,
 	_,
 	Backbone,
-	LessonSourceModel) {
+	SourceModel) {
 	return Backbone.View.extend({
 		el:'#lessonHelpWrapper .lessonHelp.lessonPlan', //Check this
 		initialize: function() {
-			this.model = new LessonSourceModel();
+			this.model = new SourceModel();
 			this.listenTo(this.model,'loaded',this.onModelLoaded);
 			this.model.loadData();
 		},

@@ -1,11 +1,11 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/ParamsModel'],
+	'goatApp/model/ParamModel'],
 function($,
 	_,
 	Backbone,
-	LessonCookieCollection) {
+	ParamModel) {
 	return Backbone.View.extend({
 		el:'#params-view',
 

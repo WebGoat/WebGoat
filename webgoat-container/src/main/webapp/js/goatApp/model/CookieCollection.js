@@ -1,13 +1,13 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/LessonCookieModel'],
+	'goatApp/model/CookieModel'],
 	function($,
 		_,
 		Backbone,
-		LessonCookieModel) {
+		CookieModel) {
 	return Backbone.Collection.extend({
 		url:'service/cookie.mvc',
-		model:LessonCookieModel
+		model:CookieModel
 	});
 });
