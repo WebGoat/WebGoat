@@ -10,9 +10,9 @@ script:
   - mvn clean package install
 
 before_deploy:
-  - export WEBGOAT_RELEASE_FILES=$(ls build/webgoat-container/target/webgoat-container-*.*ar)
-  - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container*-war-exec.jar
-  - export WEBGOAT_WAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container*.war
+  - export WEBGOAT_ARTIFACT_VERSION=$(grep "<version>" $HOME/build/$TRAVIS_REPO_SLUG/pom.xml | cut -d ">" -f 2 | cut -d "<" -f 1)
+  - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION-war-exec.jar
+  - export WEBGOAT_WAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.war
   - echo "Webgoat JAR file $WEBGOAT_JAR_FILE"
   - echo "Webgoat WAR file $WEBGOAT_WAR_FILE"
 
