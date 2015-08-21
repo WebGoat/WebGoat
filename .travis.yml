@@ -11,7 +11,10 @@ script:
 
 before_deploy:
   - export WEBGOAT_RELEASE_FILES=$(ls build/webgoat-container/target/webgoat-container-*.*ar)
-  - echo "Webgoat release files $WEBGOAT_RELEASE_FILES"
+  - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container*-war-exec.jar
+  - export WEBGOAT_WAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container*.war
+  - echo "Webgoat JAR file $WEBGOAT_JAR_FILE"
+  - echo "Webgoat WAR file $WEBGOAT_WAR_FILE"
 
 deploy:
   provider: s3
@@ -22,7 +25,9 @@ deploy:
   skip_cleanup: true
   acl: public_read
   file_glob: true
-  file: "${WEBGOAT_RELEASE_FILES}"
+  file:
+    - ${WEBGOAT_JAR_FILE}
+    - ${WEBGOAT_WAR_FILE}
   on:
     repo: dougmorato/WebGoat
     branch: docs
