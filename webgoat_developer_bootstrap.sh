@@ -5,10 +5,10 @@
 # Happy hacking !
 
 # Clone WebGoat and WebGoat-lessons from GitHub if they don't exist
-if [ ! -d "Webgoat" ]; then
+if [ ! -d "WebGoat" ]; then
   git clone https://github.com/WebGoat/WebGoat.git
 fi
-if [ ! -d "Webgoat-Lessons" ]; then
+if [ ! -d "WebGoat-Lessons" ]; then
   git clone https://github.com/WebGoat/WebGoat-Lessons.git
 fi
 
