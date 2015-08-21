@@ -9,7 +9,9 @@ script:
   - mvn clean compile install
   - git clone https://github.com/WebGoat/WebGoat-Lessons.git
   - mvn -file ./WebGoat-Lessons/pom.xml package
-  - cp -fa WebGoat-Lessons/target/plugins/*.jar ./WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+  - pwd
+  - ls -lart
+  - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
   - mvn package
 
 before_deploy:
