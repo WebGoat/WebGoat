@@ -32,6 +32,6 @@ deploy:
   acl: public_read
   local_dir: $WEBGOAT_ARTIFACTS_FOLDER
   on:
-    repo: dougmorato/WebGoat
-    branch: docs
+    repo: WebGoat/WebGoat
+    branch: master
     jdk: oraclejdk8
