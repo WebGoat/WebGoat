@@ -9,6 +9,10 @@ install: "/bin/true"
 script:
   - mvn clean package install
 
+before_deploy:
+  - export WEBGOAT_RELEASE_FILES=$(ls build/webgoat-container/target/webgoat-container-*.*ar)
+  - echo "Webgoat release files $WEBGOAT_RELEASE_FILES"
+
 deploy:
   provider: s3
   access_key_id: AKIAJQLKPGHXRH2AH5QA
@@ -17,7 +21,8 @@ deploy:
   bucket: "webgoat-war"
   skip_cleanup: true
   acl: public_read
-  local_dir: $HOME/build/dougmorato/WebGoat/webgoat-container/target/
+  file_glob: true
+  file: "${WEBGOAT_RELEASE_FILES}"
   on:
     repo: dougmorato/WebGoat
     branch: docs
