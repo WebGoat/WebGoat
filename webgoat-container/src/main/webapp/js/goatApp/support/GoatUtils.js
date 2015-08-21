@@ -40,59 +40,13 @@ define(['jquery',
                     // returning anything other than false will allow the form submit to continue 
                     return true;
                 },
-                // post-submit callback 
-                showResponse: function(responseText, statusText, xhr, $form) {
-                    // for normal html responses, the first argument to the success callback 
-                    // is the XMLHttpRequest object's responseText property 
 
-                    // if the ajaxForm method was passed an Options Object with the dataType 
-                    // property set to 'xml' then the first argument to the success callback 
-                    // is the XMLHttpRequest object's responseXML property 
-
-                    // if the ajaxForm method was passed an Options Object with the dataType 
-                    // property set to 'json' then the first argument to the success callback 
-                    // is the json data object returned by the server 
-                    if (GoatUtils.debugFormSubmission) {
-                        alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
-                                '\n\nThe output div should have already been updated with the responseText.');
-                    }
-                    // update lesson cookies and params
-                    // make any embedded forms ajaxy
-                    GoatUtils.showLessonCookiesAndParams();
-                    // forms and links are now hooked with each standard lesson render (see Java class Screen.getContent())
-                    // but these are safe to call twice
-                    GoatUtils.makeFormsAjax();
-                    GoatUtils.ajaxifyAttackHref(); //TODO find some way to hook scope for current menu. Likely needs larger refactor which is already started/stashed
-                    //refresh menu
-                    angular.element($('#leftside-navigation')).scope().renderMenu();
-                },
-                makeFormsAjax: function() {
-                    // make all forms ajax forms
-                    var options = {
-                        target: '#lesson_content', // target element(s) to be updated with server response                     
-                        beforeSubmit: GoatUtils.showRequest, // pre-submit callback, comment out after debugging 
-                        success: GoatUtils.showResponse  // post-submit callback, comment out after debugging 
-
-                                // other available options: 
-                                //url:       url         // override for form's 'action' attribute 
-                                //type:      type        // 'get' or 'post', override for form's 'method' attribute 
-                                //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-                                //clearForm: true        // clear all form fields after successful submit 
-                                //resetForm: true        // reset the form after successful submit 
-
-                                // $.ajax options can be used here too, for example: 
-                                //timeout:   3000 
-                    };
-                    //console.log("Hooking any lesson forms to make them ajax");
-                    $("form").ajaxForm(options);
-                },
                 displayButton: function(id, show) {
                     if ($('#' + id)) {
                         if (show) {
                             $('#' + id).show();
                         } else {
-                            $('#' + id).hide();
-                        }
+a                        }
                     }
                 },
  
@@ -128,19 +82,6 @@ define(['jquery',
                     $('#' + id).parent().addClass(goatConstants.selectedMenuClass);
                 },
                 
-                ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
-                 $.each($('a[href^="attack?"]'),
-        			function(i,el) {
-        				var url = $(el).attr('href');
-        				$(el).unbind('click').attr('href','#').attr('link',url);
-        				//TODO pull currentMenuId
-        				$(el).click(function() {
-        					event.preventDefault();
-        					var _url = $(el).attr('link');
-        					$.get(_url, {success:showResponse});
-        				});
-                    });
-        		}
         };
     
         return goatUtils;

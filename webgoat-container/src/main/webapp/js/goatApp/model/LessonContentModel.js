@@ -16,7 +16,7 @@ define(['jquery',
 		initialize: function (options) {
 			this.screenParam = null;
 			this.menuParam = null;
-			this.baseUrlRoot = 'attack?Screen=';//
+			this.baseUrlRoot = 'attack?Screen=';
 		},
 		loadData: function(options) {
 			this.urlRoot = this.baseUrlRoot  +options.screen + '&menu=' + options.menu;

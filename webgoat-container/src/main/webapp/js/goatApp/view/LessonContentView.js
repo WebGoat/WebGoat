@@ -3,8 +3,13 @@ define(['jquery',
 	'underscore',
 	'backbone',
 	'libs/jquery.form',
-	'goatApp/model/LessonContentData'], 
-function($,_,Backbone,JQueryForm,LessonData) {
+	'goatApp/model/LessonContent'], 
+	function(
+		$,
+		_,
+		Backbone,
+		JQueryForm,
+		LessonContent) {
 	return Backbone.View.extend({
 		el:'#lesson-content-wrapper', //TODO << get this fixed up in DOM
 		initialize: function(options) {
@@ -13,13 +18,11 @@ function($,_,Backbone,JQueryForm,LessonData) {
 		render: function() {
 			this.$el.html(this.model.get('content'));
 			this.makeFormsAjax();
+			this.ajaxifyAttackHref();
 		},
 		//TODO: reimplement this in custom fashion maybe?
 		makeFormsAjax: function () {
 			var options = {
-			    //target: '#lesson_content', // target element(s) to be updated with server response                     
-			    //beforeSubmit: GoatUtils.showRequest, // pre-submit callback, comment out after debugging 
-			    //success: GoatUtils.showResponse  // post-submit callback, comment out after debugging 
 			    success:this.reLoadView.bind(this),
 			    url:'attack?Screen=' + this.model.get('screenParam') + '&menu=' + this.model.get('menuParam'),
 			    type:'GET'
@@ -29,6 +32,21 @@ function($,_,Backbone,JQueryForm,LessonData) {
 			//hook forms //TODO: clarify form selectors later
 		    $("form").ajaxForm(options);
         },
+
+        ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
+        var self = this;
+        	$.each($('a[href^="attack?"]'),function(i,el) {
+        		var url = $(el).attr('href');
+        		$(el).unbind('click').attr('href','#').attr('link',url);
+        		//TODO pull currentMenuId
+        		$(el).click(function() {
+        			event.preventDefault();
+        			var _url = $(el).attr('link');
+        			$.get(_url, {success:self.reloadView.bind(self)});
+        		});
+        	});
+		},
+
         reLoadView: function(content) {
         	this.model.setContent(content);
         	this.render();

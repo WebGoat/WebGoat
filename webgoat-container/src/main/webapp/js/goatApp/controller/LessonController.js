@@ -1,12 +1,12 @@
 define(['jquery',
 	'underscore',
 	'libs/backbone',
-	'goatApp/model/LessonContentData',
+	'goatApp/model/LessonContentModel',
 	'goatApp/view/LessonContentView',
 	'goatApp/view/PlanView',
 	'goatApp/view/SourceView',
 	'goatApp/view/SolutionView',
-	'goatApp/view/LessonHintView',
+	'goatApp/view/HintView',
 	'goatApp/view/HelpControlsView',
 	'goatApp/view/CookieView',
 	'goatApp/view/ParamView',
@@ -16,12 +16,12 @@ define(['jquery',
 	function($,
 		_,
 		Backbone,
-		LessonContentData,
+		LessonContentModel,
 		LessonContentView,
 		PlanView,
 		SourceView,
 		SolutionView,
-		LessonHintView,
+		HintView,
 		HelpControlsView,
 		CookieView,
 		ParamView,
@@ -32,17 +32,12 @@ define(['jquery',
 		
 		
 		var Controller = function(options) {
-			this.lessonContent = new LessonContentData();
+			this.lessonContent = new LessonContentModel();
 			this.lessonView = options.lessonView;
-
-			/*this.planView = new PlanView();
-			this.solutionView = new SolutionView();
-			this.sourceView = new SourceView();
-			*/
 
 			_.extend(Controller.prototype,Backbone.Events);
 			this.start = function() {
-				this.listenToOnce(this.lessonContent,'contentLoaded',this.onContentLoaded);
+				this.listenTo(this.lessonContent,'contentLoaded',this.onContentLoaded);
 			};
 
 			//load View, which can pull data
@@ -77,7 +72,7 @@ define(['jquery',
 				this.sourceView = new SourceView();
 				this.listenToOnce(this.sourceView,'source:loaded',this.areHelpsReady);
 				//load help controls view (contextul to what helps are available)
-				this.lessonHintView = new LessonHintView();
+				this.lessonHintView = new HintView();
 				this.listenToOnce(this.lessonHintView,'hints:loaded',this.areHelpsReady);
 				//
 				this.cookieView = new CookieView();
@@ -86,7 +81,7 @@ define(['jquery',
 				var paramModel = new ParamModel({
 				});
 				paramModel.set('screenParam',this.lessonContent.get('screenParam'));
-				paramModel.set('menuParam',this.lessonContent.get('screenParam'));
+				paramModel.set('menuParam',this.lessonContent.get('menuParam'));
 				this.paramView = new ParamView({model:paramModel});
 				this.hideShowHelps(null);
 			};

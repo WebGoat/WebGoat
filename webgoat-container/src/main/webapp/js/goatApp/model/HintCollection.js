@@ -1,14 +1,14 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/LessonHintModel'], 
+	'goatApp/model/HintModel'], 
 	
 	function($,
 	_,
 	Backbone,
-	LessonHintModel) {
+	HintModel) {
 		return Backbone.Collection.extend({
-			model: LessonHintModel,
+			model: HintModel,
 			url:'service/hint.mvc',
 			initialize: function () {
 				var self = this;
