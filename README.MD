@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg)](https://travis-ci.org/WebGoat/WebGoat)
 [![OWASP Slack](https://owasp.herokuapp.com/badge.svg)](https://owasp.herokuapp.com/)
 
-
 # Important Information
 
 ### This is a work in progress of the WebGoat Lesson Server, which is currently **UNDER MAJOR DEVELOMENT**
@@ -36,17 +35,13 @@ you are caught engaging in unauthorized hacking, most companies will fire you.
 Claiming that you were doing security research will not work as that is the
 first thing that all hackers claim.*
 
-You can find more information about WebGoat at:
-(https://github.com/WebGoat/)
-
-
 # Easy Run Instructions ( For non-developers )
 
 **Note - Use [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy) for a stable build**
 
 Follow these instructions if you simply wish to run WebGoat
 
-## Prerequisites:
+### Prerequisites:
 
 * Java VM >= 1.6 installed ( JDK 1.7 recommended)
 
@@ -72,14 +67,14 @@ $ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar --help
 
 Follow these instructions if you wish to run Webgoat and modify the source code as well.
 
-## Prerequisites:
+### Prerequisites:
 
 * Java >= 1.6 ( JDK 1.7 recommended )
 * Maven > 2.0.9
 * Your favorite IDE, with Maven awareness: Netbeans/IntelliJ/Eclipse with m2e installed.
 * Git, or Git support in your IDE
 
-## Cloning the Lesson Server and the Lessons project:
+#### Cloning the Lesson Server and the Lessons project:
 
 Open a command shell/window, navigate to where you wish to download the source and type:
 
@@ -88,7 +83,7 @@ $ git clone git@github.com:WebGoat/WebGoat.git
 $ git clone git@github.com:WebGoat/WebGoat-Lessons.git
 ```
 
-### Now let's start by compiling the WebGoat Lessons server.
+#### Now let's start by compiling the WebGoat Lessons server.
 
 ```Shell
 $ cd WebGoat
@@ -96,7 +91,8 @@ $ mvn clean compile
 $ cd ..
 ```
 
-### Before you can run the project, we need to compile the lessons and copy them over:
+#### Before you can run the project, we need to compile the lessons and copy them over:
+** If you don't run this step, you will not have any Lessons to work with!**
 
 ```Shell
 $ cd WebGoat-Lessons
@@ -105,22 +101,22 @@ $ cp target/plugins/*.jar ../WebGoat/webgoat-container/target/webgoat-container-
 $ cd ..
 ```
 
-## Now we are ready to run the project. There are 3 options you can choose from to run the project:
+#### Now we are ready to run the project. There are 3 options you can choose from to run the project:
 
 Then you can run the project with one of the steps below (From the WebGoat folder not WebGoat-Lessons):
 
-### Option #1: Using the Maven-Tomcat Plugin 
-Maven will run the project in an embedded tomcat: 
+##### Option #1: Using the Maven-Tomcat Plugin
+The __maven tomcat7:run-war__ goal runs the project in an embedded tomcat:
 
 ```Shell
 $ cd WebGoat
 $ mvn -pl webgoat-container tomcat7:run-war
 ```
 
-Browse to (http://localhost:8080/WebGoat) and happy hacking !
+Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
 
-### Option #2: Java executable JAR
-Call the maven package goal which will build an executable jar file: 
+##### Option #2: Java executable JAR
+The __maven package__ goal generates an executable .jar file:
 
 ```Shell
 $ cd WebGoat
@@ -129,9 +125,9 @@ $ cd webgoat-container/target
 $ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
 ```
 
-Browse to (http://localhost:8080/WebGoat) and happy hacking !
+Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
 
-### Option #3: Deploy the WebGoat WAR file in yout local Tomcat or other Application Serve:
+##### Option #3: Deploy the WebGoat WAR file in yout local Tomcat or other Application Serve:
 The _maven package_ goal generates a .war file that can deployed into an Application Server, such as Tomcat
 
 ```Shell
@@ -140,4 +136,4 @@ $ mvn package
 $ cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <your_tomcat_directory>/webapps/
 ```
 
-Browse to (http://localhost:8080/WebGoat) and happy hacking !
+Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
