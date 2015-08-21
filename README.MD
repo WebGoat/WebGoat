@@ -51,7 +51,7 @@ Follow these instructions if you simply wish to run WebGoat
 2. Run it using java:
 
 ```Shell
-$ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
+java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
 ```
 
 3. Then navigate in your browser to: (http://localhost:8080/WebGoat)
@@ -59,7 +59,7 @@ $ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
 4.(Optional) If you would like to change the port or other options, use:
 
 ```Shell
-$ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar --help
+java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar --help
 ```
 
 # For Developers
@@ -73,31 +73,44 @@ Follow these instructions if you wish to run Webgoat and modify the source code 
 * Your favorite IDE, with Maven awareness: Netbeans/IntelliJ/Eclipse with m2e installed.
 * Git, or Git support in your IDE
 
+## The Easy Way: Developer Edition run using Linux or Mac
+The __webgoat_developer_bootstrap.sh__ script will clone the necessary repositories, call the maven goals in order
+launch Tomcat listening on localhost:8080
+
+```Shell
+mkdir WebGoat-Workspace
+cd WebGoat-Workspace
+curl -o webgoat_developer_bootstrap.sh https://raw.githubusercontent.com/WebGoat/WebGoat/master/webgoat_developer_bootstrap.sh
+sh webgoat_developer_bootstrap.sh
+```
+
+## The Manual Way: Developer Edition!
+
 #### Cloning the Lesson Server and the Lessons project:
 
 Open a command shell/window, navigate to where you wish to download the source and type:
 
 ```Shell
-$ git clone git@github.com:WebGoat/WebGoat.git
-$ git clone git@github.com:WebGoat/WebGoat-Lessons.git
+git clone https://github.com/WebGoat/WebGoat.git
+git clone https://github.com/WebGoat/WebGoat-Lessons.git
 ```
 
 #### Now let's start by compiling the WebGoat Lessons server.
 
 ```Shell
-$ cd WebGoat
-$ mvn clean compile
-$ cd ..
+cd WebGoat
+mvn clean compile install
+cd ..
 ```
 
 #### Before you can run the project, we need to compile the lessons and copy them over:
 ** If you don't run this step, you will not have any Lessons to work with!**
 
 ```Shell
-$ cd WebGoat-Lessons
-$ mvn package
-$ cp target/plugins/*.jar ../WebGoat/webgoat-container/target/webgoat-container-7.0-SNAPSHOT/plugin_lessons/
-$ cd ..
+cd WebGoat-Lessons
+mvn package
+cp target/plugins/*.jar ../WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+cd ..
 ```
 
 #### Now we are ready to run the project. There are 3 options you can choose from to run the project:
@@ -108,8 +121,8 @@ Then you can run the project with one of the steps below (From the WebGoat folde
 The __maven tomcat7:run-war__ goal runs the project in an embedded tomcat:
 
 ```Shell
-$ cd WebGoat
-$ mvn -pl webgoat-container tomcat7:run-war
+cd WebGoat
+mvn -pl webgoat-container tomcat7:run-war
 ```
 
 Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
@@ -118,21 +131,21 @@ Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacki
 The __maven package__ goal generates an executable .jar file:
 
 ```Shell
-$ cd WebGoat
-$ mvn package
-$ cd webgoat-container/target
-$ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
+cd WebGoat
+mvn package
+cd webgoat-container/target
+java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
 ```
 
 Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
 
 #### Option #3: Deploy the WebGoat WAR file in yout local Tomcat or other Application Serve:
-The _maven package_ goal generates a .war file that can deployed into an Application Server, such as Tomcat
+The __maven package__ goal generates a .war file that can deployed into an Application Server, such as Tomcat
 
 ```Shell
-$ cd WebGoat
-$ mvn package 
-$ cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <your_tomcat_directory>/webapps/
+cd WebGoat
+mvn package 
+cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <your_tomcat_directory>/webapps/
 ```
 
 Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
