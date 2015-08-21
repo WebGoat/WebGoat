@@ -3,11 +3,14 @@ language: java
 jdk:
   - oraclejdk7
   - oraclejdk8
-
 install: "/bin/true"
 
 script:
-  - mvn clean package install
+  - mvn clean compile install
+  - git clone https://github.com/WebGoat/WebGoat-Lessons.git
+  - mvn -file ./WebGoat-Lessons/pom.xml package
+  - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./webgoat-container/src/main/webapp/plugin_lessons/
+  - mvn package
 
 before_deploy:
   - export WEBGOAT_ARTIFACT_VERSION=$(grep "<version>" $HOME/build/$TRAVIS_REPO_SLUG/pom.xml | cut -d ">" -f 2 | cut -d "<" -f 1)
@@ -26,12 +29,17 @@ deploy:
   provider: s3
   access_key_id: AKIAJQLKPGHXRH2AH5QA
   secret_access_key:
-    secure: Ru994ZN5RNxO3VgKWP1tudOrjhoTl8KoanG7+xgfJF2n/pq8JKz0A8y2CmPKwrm0d5Dr0x3MNev6GUQK25c9IZCjB6ePdlMD+IR102NU8TC9rjnei0nWj8R/TYVNZRxJvrJnHzrR11Vst5cIJUu8Z5LC0XW3FK+NWivobgSEd5/QbMVt/37JRjjOrNqUjGGlsZwvauCOBh5yO0fvS13Msrz1fMFgG/jza537VytcWGgcYY6e2dvSKr8JddSxdqx+PUb8vzi3mKO/NHVDlmCuzTBHzeTTIifEBOhvyZHSrj9jPqVtK/RF94dH9ALG4h15ca6jMc6x9UIclekP7gy+NeOpQYEDquPfY28Rendx952AzS0uVZFOOG34OGafVm3v4mpJ4YJjJP52cJ2XzkgO7CCOT3BfqE1qfnrXDVJ9myazoCM3vQIyLVZzFlxt3mRb39d5ucGzrWMOfJIU6igzDvwuedRjJUQhuBcoR+aRJBEjsLb55vAcHsI8uR4olVFTJtDWs8o/5/ocI53jTvG8GDIgjbBexoid9EZdz62dvQdj/P1MGS21Xt9Z218mbMmiNayAY3dX+5soBpMKXd2sHQPwWjwKkRg0OqNiYcXBD31qs8aHmdQsqE6lHPQ7nWXIkEmvDsEz8hdTgjcteJPMTNGCAD86ntav7KCJ+QVLpCQ=
-  bucket: "webgoat-war"
+    secure: "45+SwWlPFujD9FOOFLA9Lz0CaePVrn/SEsAhAn0Ve9sYpI0VsijZNymh6D29t93jBXgZoGhu/v0QJkcAA/71fQM+nGMBJjB5wmVFJ1c2A4k7tfWCVbBRI0aHGpJu12j+7BLuSfPCmCAFQGoVo7dWzfqeODe5j9Qpe9fsiQVnrKI="
+  bucket: webgoat-war
   skip_cleanup: true
   acl: public_read
-  local_dir: $WEBGOAT_ARTIFACTS_FOLDER
+  local_dir: "$WEBGOAT_ARTIFACTS_FOLDER"
   on:
     repo: WebGoat/WebGoat
     branch: master
     jdk: oraclejdk8
+
+notifications:
+  slack:
+    rooms:
+      secure: "neH9u/VMnwh214CvS2QAsbohqQpcoi7dDM0djTqHe0gpBjtOhEeqBJV3mQYLTvgOBvHuKXVLSVufSb/sqh8KzmpblGpcXp6XSvGqBuXgIIZ3MhkGCIU8QtDfzOuYKS80cmB4EHh1EfvlqJQeLD+FCIql5IZfKmZysEekBuuXqBA="
