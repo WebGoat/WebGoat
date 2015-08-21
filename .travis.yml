@@ -26,8 +26,8 @@ deploy:
   acl: public_read
   file_glob: true
   file:
-    - ${WEBGOAT_JAR_FILE}
-    - ${WEBGOAT_WAR_FILE}
+    - $WEBGOAT_JAR_FILE
+    - $WEBGOAT_WAR_FILE
   on:
     repo: dougmorato/WebGoat
     branch: docs
