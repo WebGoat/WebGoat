@@ -1,16 +1,16 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/LessonCookieCollection'],
+	'goatApp/model/CookieCollection'],
 function($,
 	_,
 	Backbone,
-	LessonCookieCollection) {
+	CookieCollection) {
 	return Backbone.View.extend({
 		el:'#cookies-view',
 
 		initialize: function() {
-			this.collection = new LessonCookieCollection();
+			this.collection = new CookieCollection();
 			this.listenTo(this.collection,'reset',this.render)
 			this.collection.fetch({reset:true});
 		},

@@ -65,7 +65,7 @@ define(['jquery',
 							var stageSpan = $('<span>');
 							stageSpan.append(stageLink);
 							categoryLessonList.append(stageSpan);
-							if (stages[j].complete) {
+							if (stages[k].complete) {
 								stageSpan.append($('<span>',{class:'glyphicon glyphicon-check lesson-complete'}));
 							}
 						}

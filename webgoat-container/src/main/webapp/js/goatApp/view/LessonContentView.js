@@ -2,14 +2,12 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'libs/jquery.form',
-	'goatApp/model/LessonContent'], 
+	'libs/jquery.form'], 
 	function(
 		$,
 		_,
 		Backbone,
-		JQueryForm,
-		LessonContent) {
+		JQueryForm) {
 	return Backbone.View.extend({
 		el:'#lesson-content-wrapper', //TODO << get this fixed up in DOM
 		initialize: function(options) {
