@@ -1,11 +1,13 @@
 
 package org.owasp.webgoat.util;
 
-import java.util.Locale;
-import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
+import java.io.Serializable;
+import java.util.Locale;
 
 
 /***************************************************************************************************
@@ -37,13 +39,19 @@ import org.springframework.stereotype.Component;
  */
 @Component("labelManager")
 @Scope(value="session", proxyMode=ScopedProxyMode.INTERFACES)
-public class LabelManagerImpl implements LabelManager
+public class LabelManagerImpl implements LabelManager, Serializable
 {
-	@Resource
-	private LabelProvider labelProvider;
+	private transient LabelProvider labelProvider;
 
 	/** Locale mapped with current session. */
 	private Locale locale = new Locale(LabelProvider.DEFAULT_LANGUAGE);
+
+	protected LabelManagerImpl() {}
+
+	@Inject
+	public LabelManagerImpl(LabelProvider labelProvider) {
+		this.labelProvider = labelProvider;
+	}
 
 	public void setLocale(Locale locale)
 	{
