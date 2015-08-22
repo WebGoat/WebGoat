@@ -96,10 +96,10 @@
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.2</version>
                 <configuration>
                   <server>local_tomcat</server>
-                  <url>http://localhost:8080/manager/text</url>
+                  <url>http://localhost:8080/manager</url>
                     <path>/WebGoat</path>
                     <attachArtifactClassifier>exec</attachArtifactClassifier>
                     <contextReloadable>true</contextReloadable>
@@ -134,6 +134,98 @@
                                 </extraDependency>
                             </extraDependencies>
                         </configuration>
+                    </execution>
+                    <execution>
+                        <id>start-tomcat</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>run-war-only</goal>
+                        </goals>
+                        <configuration>
+                            <port>8080</port>
+                            <fork>true</fork>
+                            <extraDependencies>
+                                <extraDependency>
+                                    <groupId>org.owasp.webgoat</groupId>
+                                    <artifactId>webgoat-classloader</artifactId>
+                                    <version>${project.version}</version>
+                                </extraDependency>
+                            </extraDependencies>
+                        </configuration>
+                    </execution>
+                    <!-- At post-integration-test phase, stop the embedded Tomcat server. -->
+                    <execution>
+                        <id>stop-tomcat</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>shutdown</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--<plugin>
+                <groupId>com.github.klieber</groupId>
+                <artifactId>phantomjs-maven-plugin</artifactId>
+                <version>0.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <version>1.9.7</version>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.searls</groupId>
+                <artifactId>jasmine-maven-plugin</artifactId>
+                <version>2.0-beta-02</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
+                    <webDriverCapabilities>
+                        <phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
+                    </webDriverCapabilities>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <phantomjs.binary>${phantomjs.binary}</phantomjs.binary>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*IT.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.18.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -387,6 +479,16 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.7</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.github.klieber</groupId>
+            <artifactId>phantomjs-maven-plugin</artifactId>
+            <version>0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.47.1</version>
         </dependency>
     </dependencies>
 
