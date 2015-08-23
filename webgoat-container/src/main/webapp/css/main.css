@@ -851,7 +851,7 @@ cookie-container {
   color: #e84c3d;
 }
 
-.sidebar ul span.lesson-complete {
+#menu-container ul span.lesson-complete {
     float: right;
     margin-left: -5px;
     /*margin-right: 5px;*/
@@ -859,11 +859,15 @@ cookie-container {
     display:inline-block;
 }
 
-#menu-container ul li.selected {
+#menu-container ul li.selected, #menu-container li a.selected {
     background-color: #555;
 }
 
-#menu-container ul li.selected a.selected {
+#menu-container ul li.stage {
+  padding-left:3px;
+}
+
+#menu-container li.selected, #menu-container a.selected {
   color:white;
 }
 

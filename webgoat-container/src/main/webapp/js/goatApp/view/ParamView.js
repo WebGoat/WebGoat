@@ -22,8 +22,9 @@ function($,
 			var paramsTable = $('<table>',{'class':'param-table table-striped table-nonfluid'});
 			var self = this;
 			_.each(this.model.keys(), function(attribute) {
+				var attributeLabel = attribute.replace(/Param/,'');
 				var newRow = $('<tr>');
-				newRow.append($('<th>',{text:_.escape(attribute)}))
+				newRow.append($('<th>',{text:_.escape(attributeLabel)}))
 				newRow.append($('<td>',{text:_.escape(self.model.get(attribute))}));
 				paramsTable.append(newRow);
 			});

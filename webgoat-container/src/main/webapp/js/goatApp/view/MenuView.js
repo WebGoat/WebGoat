@@ -17,10 +17,11 @@ define(['jquery',
 		initialize: function() {
 			this.collection = new MenuCollection();
 			this.listenTo(this.collection,'menuData:loaded',this.render);
-			this.listenTo(this,'menu:click',this.accordionMenu);
+			// this.listenTo(this,'menu:click',this.accordionMenu);
+			this.curLessonLinkId = '';
 		},
 		// rendering top level menu
-		render: function (model){
+		render: function (){
 			//for now, just brute force
 			//TODO: refactor into sub-views/components
 			var items, catItems, stages;
@@ -47,11 +48,14 @@ define(['jquery',
 				if (lessons) {
 					var categoryLessonList = $('<ul>',{class:'slideDown lessonsAndStages',id:catId}); //keepOpen
 					for (var j=0; j < lessons.length;j++) {
-						var lessonItem = $('<li>');
-						lessonName = lessons[j].name;
-						
-						var lessonLink = $('<a>',{href:lessons[j].link,text:lessonName,id:lessonName});
-						lessonLink.click(_.bind(this.titleRender,this,lessonName));
+						var lessonItem = $('<li>',{class:'lesson'});
+						var lessonName = lessons[j].name;
+						var lessonId = GoatUtils.makeId(lessonName);
+						if (this.curLessonLinkId === lessonId) {
+							lessonItem.addClass('selected');
+						}
+						var lessonLink = $('<a>',{href:lessons[j].link,text:lessonName,id:lessonId});
+						lessonLink.click(_.bind(this.onLessonClick,this,lessonName));
 						lessonItem.append(lessonLink);
 						//check for lab/stages
 						categoryLessonList.append(lessonItem);
@@ -60,13 +64,18 @@ define(['jquery',
 						}
 						var stages = lessons[j].children;
 						for (k=0; k < stages.length; k++) {
+							var stageItem = $('<li>',{class:'stage'});
 							var stageName = stages[k].name;
-							var stageLink = $('<a>',{href:stages[k].link,text:stageName,id:GoatUtils.makeId(stageName)});
-							var stageSpan = $('<span>');
-							stageSpan.append(stageLink);
-							categoryLessonList.append(stageSpan);
+							var stageId = GoatUtils.makeId(stageName);
+							if (this.curLessonLinkId === stageId) {
+								stageItem.addClass('selected');
+							}
+							var stageLink = $('<a>',{href:stages[k].link,text:stageName,id:stageId});
+							stageLink.click(_.bind(this.onLessonClick,this,stageName));
+							stageItem.append(stageLink);
+							categoryLessonList.append(stageItem);
 							if (stages[k].complete) {
-								stageSpan.append($('<span>',{class:'glyphicon glyphicon-check lesson-complete'}));
+								stageItem.append($('<span>',{class:'glyphicon glyphicon-check lesson-complete'}));
 							}
 						}
 					}
@@ -75,15 +84,26 @@ define(['jquery',
 
 				menuUl.append(category);
 			}
-			this.$el.append(menuUl);
+			this.$el.html(menuUl);
 			//if we need to keep a menu open
 			if (this.openMenu) {
-				this.accordionMenu(this.openMenu);
+				$('#'+this.openMenu).show();
 			}
 		},
 
-		titleRender: function (title) {
-			this.trigger('lesson:click',title);
+		updateMenu: function() {
+			//for now ...
+			this.collection.fetch();
+		},
+
+		onLessonClick: function (title) {
+			var oldLinkId = GoatUtils.makeId(this.curLessonLinkId);
+			$('#'+oldLinkId).removeClass('selected');
+			//update
+			this.curLessonLinkId = GoatUtils.makeId(title);
+			var newLinkId = GoatUtils.makeId(this.curLessonLinkId)
+			$('#'+newLinkId).addClass('selected');
+			this.trigger('lesson:click', title); // will cause menu reload
 		},
 
 		expandCategory: function (id) {
@@ -94,6 +114,7 @@ define(['jquery',
 
 		accordionMenu: function(id) {
 	        if (this.openMenu !== id) {
+	        	this.$el.find('#' + this.openMenu).slideUp(200);
 	        	this.$el.find('#' + id).slideDown(300);
 	        	this.openMenu = id;
 	        } else { //it's open
