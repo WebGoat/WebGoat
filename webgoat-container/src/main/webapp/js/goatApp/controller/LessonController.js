@@ -77,20 +77,24 @@ define(['jquery',
 				//
 				this.cookieView = new CookieView();
 				// parameter model & view
-				//TODO: instantiate model with values at once (not sure why was not working before)
+				//TODO: instantiate model with values (not sure why was not working before)
 				var paramModel = new ParamModel({
 				});
 				paramModel.set('screenParam',this.lessonContent.get('screenParam'));
 				paramModel.set('menuParam',this.lessonContent.get('menuParam'));
+				paramModel.set('stageParam',this.lessonContent.get('stageParam'));
 				this.paramView = new ParamView({model:paramModel});
+
 				this.hideShowHelps(null);
+				this.trigger('menu:reload');
 			};
 
 			this.areHelpsReady = function (curHelp) {
+				//TODO: significantly refactor (remove) this once LessonInfoService can be used to support lazy loading
 				this.addCurHelpState(curHelp);
 				// check if all are ready
 				if (this.helpsLoaded['hints'] && this.helpsLoaded['plan'] && this.helpsLoaded['solution'] && this.helpsLoaded['source'] && !this.helpControlsView) {
-					//
+					
 					this.helpControlsView = new HelpControlsView({
 						hasPlan:(this.planView.model.get('content') !== null),
 						hasSolution:(this.solutionView.model.get('content') !== null),
@@ -98,7 +102,7 @@ define(['jquery',
 						hasHints:(this.lessonHintView.collection.length > 0),
 					});
 					this.helpControlsView.render();
-					//
+					
 					this.listenTo(this.helpControlsView,'plan:show',this.hideShowHelps);
 					this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);	
 					this.listenTo(this.helpControlsView,'hints:show',this.onShowHints)

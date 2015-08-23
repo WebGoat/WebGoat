@@ -1,5 +1,12 @@
-define(['jquery','underscore','backbone','goatApp/view/MenuView'], 
-	function($,_,Backbone,MenuView) {
+define(['jquery',
+	'underscore',
+	'backbone',
+	'goatApp/view/MenuView'
+	], 
+	function($,
+		_,
+		Backbone,
+		MenuView) {
 		 Controller = function(options){
 		 	_.extend(Controller.prototype,Backbone.Events);
 			options = options || {};
@@ -10,14 +17,15 @@ define(['jquery','underscore','backbone','goatApp/view/MenuView'],
 		 		this.listenTo(this.menuView,'lesson:click',this.renderTitle);
 		 	}
 
-		 	this.updateMenu = function(curLesson) {
-		 		
+		 	this.updateMenu = function(){
+		 		this.menuView.updateMenu();
 		 	},
 
 		 	//TODO: move title rendering into lessonContent/View pipeline once data can support it
 		 	this.renderTitle = function(title) {
 		 		this.titleView.render(title);
 		 	}
+
 
 		 };
 

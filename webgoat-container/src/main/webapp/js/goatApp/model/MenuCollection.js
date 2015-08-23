@@ -9,13 +9,21 @@ define(['jquery',
 		url:'service/lessonmenu.mvc',
 		initialize: function () {
 			var self = this;
-			this.fetch().then(function (data) {
-				this.models = data;
-				self.onDataLoaded();
-			});
+			this.fetch();
 		},
-		onDataLoaded:function() {
+
+		onDataLoaded: function() {
 			this.trigger('menuData:loaded');
+		},
+
+		fetch: function() {
+			var self=this;
+			Backbone.Collection.prototype.fetch.apply(this,arguments).then(
+				function(data) {
+					this.models = data;
+					self.onDataLoaded();
+				}
+			);
 		}
 	});
 });
