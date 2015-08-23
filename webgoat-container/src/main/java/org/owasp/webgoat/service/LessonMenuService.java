@@ -113,7 +113,7 @@ public class LessonMenuService extends BaseService {
                             LessonMenuItem stageItem = new LessonMenuItem();
                             stageItem.setName("Stage " + stageIdx + ": " + stage);
                             // build the link for the stage
-                            String stageLink = lessonLink + "&stage=" + stageIdx;
+                            String stageLink = lessonLink + "/" + stageIdx;
                             stageItem.setLink(stageLink);
                             stageItem.setType(LessonMenuItemType.STAGE);
                             if (rla.isStageComplete(ws, stage)) {

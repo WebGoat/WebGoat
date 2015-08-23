@@ -16,7 +16,7 @@ define(['jquery',
         routes: {
             //#....
             'welcome':'welcomeRoute',
-            'attack/:scr/:menu':'attackRoute' //
+            'attack/:scr/:menu(/:stage)':'attackRoute' //
         },
 
         lessonController: new LessonController({
@@ -33,8 +33,8 @@ define(['jquery',
             this.lessonController.start();
             this.menuController.initMenu();
 
-            goatRouter.on('route:attackRoute', function(scr,menu) {
-                this.lessonController.loadLesson(scr,menu);
+            goatRouter.on('route:attackRoute', function(scr,menu,stage) {
+                this.lessonController.loadLesson(scr,menu,stage);
                 this.menuController.updateMenu(scr,menu);
                 //update menu
             });

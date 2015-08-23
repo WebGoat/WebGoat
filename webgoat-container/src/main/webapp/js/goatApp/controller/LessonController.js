@@ -39,13 +39,13 @@ define(['jquery',
 			this.start = function() {
 				this.listenTo(this.lessonContent,'contentLoaded',this.onContentLoaded);
 			};
-
 			//load View, which can pull data
-			this.loadLesson = function(scr,menu) {
+			this.loadLesson = function(scr,menu,stage) {
 				this.helpsLoaded = {};
 				this.lessonContent.loadData({
-					'screen': encodeURIComponent(scr),
-					'menu': encodeURIComponent(menu),
+					'screen': scr,
+					'menu': menu,
+					'stage': stage
 				});
 				this.planView = {};
 				this.solutionView = {};
