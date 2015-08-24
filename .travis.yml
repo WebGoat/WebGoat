@@ -39,8 +39,4 @@ notifications:
     rooms:
       secure: "RS/QCVjDAt8y7c816d8UIJUl2OLaRRU6gjh//7Kb4f9TyKRACtP0Qa9NVNhSXuvb2kzUTOFb76Lz8utnt2a3iZ+elZMvnQu8+HioKr9wWJPKml8TLC+tCclQnSAz7orsQ0ubgUlsVycs7bsaQ79aKw1C9YdH+QNDgMKDxvfrEKk="
 addons:
-    sauce_connect: true
-env:
-  global:
-  - secure: 4PRDc1Dvpz8S9HanULlAR1UOSATKDEzAq3q/zfAOXdrNyBi88mZwyDiX5MXBh6zX4f7FV+fIkg3fLIHpoWOe+DtOpDYi8C70fRhfJy5YQO0h0aGzgnNyn5nvPPeLwbeXvg9DqbPVe8R3spz27n1IHMEJYtCAYvdUil3CdtFEJJc=
-  - secure: ZzCLAgv9p/KD0iD9jc8bmiYcmoiKuErEFxnComxnNTGKmvNBE7FlfsS+LLznfimGJFh3q7wlDrYGmYVggn8y9yPxXOIT86J7VpduVcGq+55fZkvP9anXVuW7R+2gkuKUD0NCj7KF6jKn0EAkGqjYhJ+ioawzya/muy6xwVwXc6I=
+  sauce_connect: true
