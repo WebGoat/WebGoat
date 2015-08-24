@@ -1,17 +1,14 @@
 language: java
-
 jdk:
   - oraclejdk7
   - oraclejdk8
 install: "/bin/true"
-
 script:
   - mvn clean compile install
   - git clone https://github.com/WebGoat/WebGoat-Lessons.git
   - mvn -file ./WebGoat-Lessons/pom.xml package
   - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./webgoat-container/src/main/webapp/plugin_lessons/
-  - mvn package
-
+  - mvn -Prun-integration-tests package
 before_deploy:
   - export WEBGOAT_ARTIFACT_VERSION=$(grep "<version>" $HOME/build/$TRAVIS_REPO_SLUG/pom.xml | cut -d ">" -f 2 | cut -d "<" -f 1)
   - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.jar
@@ -24,12 +21,11 @@ before_deploy:
   - mv $WEBGOAT_WAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
   - echo "Contents of artifcts folder:"
   - ls $WEBGOAT_ARTIFACTS_FOLDER
-
 deploy:
   provider: s3
   access_key_id: AKIAJQLKPGHXRH2AH5QA
   secret_access_key:
-    secure: "45+SwWlPFujD9FOOFLA9Lz0CaePVrn/SEsAhAn0Ve9sYpI0VsijZNymh6D29t93jBXgZoGhu/v0QJkcAA/71fQM+nGMBJjB5wmVFJ1c2A4k7tfWCVbBRI0aHGpJu12j+7BLuSfPCmCAFQGoVo7dWzfqeODe5j9Qpe9fsiQVnrKI="
+    secure: 45+SwWlPFujD9FOOFLA9Lz0CaePVrn/SEsAhAn0Ve9sYpI0VsijZNymh6D29t93jBXgZoGhu/v0QJkcAA/71fQM+nGMBJjB5wmVFJ1c2A4k7tfWCVbBRI0aHGpJu12j+7BLuSfPCmCAFQGoVo7dWzfqeODe5j9Qpe9fsiQVnrKI=
   bucket: webgoat-war
   skip_cleanup: true
   acl: public_read
@@ -38,8 +34,13 @@ deploy:
     repo: WebGoat/WebGoat
     branch: master
     jdk: oraclejdk8
-
 notifications:
   slack:
     rooms:
-      secure: "neH9u/VMnwh214CvS2QAsbohqQpcoi7dDM0djTqHe0gpBjtOhEeqBJV3mQYLTvgOBvHuKXVLSVufSb/sqh8KzmpblGpcXp6XSvGqBuXgIIZ3MhkGCIU8QtDfzOuYKS80cmB4EHh1EfvlqJQeLD+FCIql5IZfKmZysEekBuuXqBA="
+      secure: "RS/QCVjDAt8y7c816d8UIJUl2OLaRRU6gjh//7Kb4f9TyKRACtP0Qa9NVNhSXuvb2kzUTOFb76Lz8utnt2a3iZ+elZMvnQu8+HioKr9wWJPKml8TLC+tCclQnSAz7orsQ0ubgUlsVycs7bsaQ79aKw1C9YdH+QNDgMKDxvfrEKk="
+addons:
+    sauce_connect: true
+env:
+  global:
+  - secure: 4PRDc1Dvpz8S9HanULlAR1UOSATKDEzAq3q/zfAOXdrNyBi88mZwyDiX5MXBh6zX4f7FV+fIkg3fLIHpoWOe+DtOpDYi8C70fRhfJy5YQO0h0aGzgnNyn5nvPPeLwbeXvg9DqbPVe8R3spz27n1IHMEJYtCAYvdUil3CdtFEJJc=
+  - secure: ZzCLAgv9p/KD0iD9jc8bmiYcmoiKuErEFxnComxnNTGKmvNBE7FlfsS+LLznfimGJFh3q7wlDrYGmYVggn8y9yPxXOIT86J7VpduVcGq+55fZkvP9anXVuW7R+2gkuKUD0NCj7KF6jKn0EAkGqjYhJ+ioawzya/muy6xwVwXc6I=
