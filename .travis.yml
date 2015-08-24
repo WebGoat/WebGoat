@@ -8,7 +8,7 @@ script:
   - git clone https://github.com/WebGoat/WebGoat-Lessons.git
   - mvn -file ./WebGoat-Lessons/pom.xml package
   - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./webgoat-container/src/main/webapp/plugin_lessons/
-  - mvn -Prun-integration-tests package
+  - mvn -Prun-integration-tests package verify install
 before_deploy:
   - export WEBGOAT_ARTIFACT_VERSION=$(grep "<version>" $HOME/build/$TRAVIS_REPO_SLUG/pom.xml | cut -d ">" -f 2 | cut -d "<" -f 1)
   - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.jar
