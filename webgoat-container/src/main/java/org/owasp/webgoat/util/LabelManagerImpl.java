@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Locale;
 
@@ -41,6 +41,7 @@ import java.util.Locale;
 @Scope(value="session", proxyMode=ScopedProxyMode.INTERFACES)
 public class LabelManagerImpl implements LabelManager, Serializable
 {
+	@Resource
 	private transient LabelProvider labelProvider;
 
 	/** Locale mapped with current session. */
@@ -48,8 +49,7 @@ public class LabelManagerImpl implements LabelManager, Serializable
 
 	protected LabelManagerImpl() {}
 
-	@Inject
-	public LabelManagerImpl(LabelProvider labelProvider) {
+	protected LabelManagerImpl(LabelProvider labelProvider) {
 		this.labelProvider = labelProvider;
 	}
 
