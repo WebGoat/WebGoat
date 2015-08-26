@@ -41,6 +41,8 @@ import java.util.Locale;
 @Scope(value="session", proxyMode=ScopedProxyMode.INTERFACES)
 public class LabelManagerImpl implements LabelManager, Serializable
 {
+    private static final long serialVersionUID = 1L;
+
 	@Resource
 	private transient LabelProvider labelProvider;
 
