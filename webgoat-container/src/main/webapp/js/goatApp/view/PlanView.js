@@ -13,9 +13,11 @@ function($,
 			this.listenTo(this.model,'loaded',this.onModelLoaded);
 			this.model.loadData();
 		},
+		
 		render:function(title) {
 			
 		},
+
 		onModelLoaded: function() {
 			this.trigger('plan:loaded',{'helpElement':'plan','value':true});
 		}

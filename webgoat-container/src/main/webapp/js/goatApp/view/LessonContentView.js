@@ -17,6 +17,7 @@ define(['jquery',
 			this.$el.html(this.model.get('content'));
 			this.makeFormsAjax();
 			this.ajaxifyAttackHref();
+			$(window).scrollTop(0); //work-around til we get the scroll down sorted out
 		},
 		//TODO: reimplement this in custom fashion maybe?
 		makeFormsAjax: function () {
