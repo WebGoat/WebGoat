@@ -18,6 +18,99 @@
         <tiles.version>2.2.2</tiles.version>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>run-integration-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>run-integration</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.2</version>
+                        <configuration>
+                            <server>local_tomcat</server>
+                            <url>http://localhost:8080/manager</url>
+                            <path>/WebGoat</path>
+                            <attachArtifactClassifier>exec</attachArtifactClassifier>
+                            <contextReloadable>true</contextReloadable>
+                            <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
+                            <contextFile>${project.basedir}/src/main/webapp/WEB-INF/context.xml</contextFile>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.owasp.webgoat</groupId>
+                                <artifactId>webgoat-classloader</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.owasp.webgoat</groupId>
+                                <artifactId>webgoat-container</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>tomcat-run</id>
+                                <goals>
+                                    <goal>exec-war-only</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <extraDependencies>
+                                        <extraDependency>
+                                            <groupId>org.owasp.webgoat</groupId>
+                                            <artifactId>webgoat-classloader</artifactId>
+                                            <version>${project.version}</version>
+                                        </extraDependency>
+                                    </extraDependencies>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>start-tomcat</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>run-war-only</goal>
+                                </goals>
+                                <configuration>
+                                    <port>8888</port>
+                                    <fork>true</fork>
+                                </configuration>
+                            </execution>
+                            <!-- At post-integration-test phase, stop the embedded Tomcat server. -->
+                            <execution>
+                                <id>stop-tomcat</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>shutdown</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.18.1</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <resources>
             <resource>
@@ -96,10 +189,10 @@
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.2</version>
                 <configuration>
                   <server>local_tomcat</server>
-                  <url>http://localhost:8080/manager/text</url>
+                  <url>http://localhost:8080/manager</url>
                     <path>/WebGoat</path>
                     <attachArtifactClassifier>exec</attachArtifactClassifier>
                     <contextReloadable>true</contextReloadable>
@@ -136,6 +229,16 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*IT.java</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -260,7 +363,7 @@
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-catalina</artifactId>
-            <version>7.0.27</version>
+            <version>7.0.63</version>
             <scope>provided</scope>
         </dependency>
 
@@ -365,12 +468,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.1</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
             <groupId>org.apache.tiles</groupId>
             <artifactId>tiles-core</artifactId>
             <version>${tiles.version}</version>
@@ -388,9 +485,26 @@
             <version>1.7.7</version>
             <type>jar</type>
         </dependency>
+        <!-- ************* END spring MVC and related dependencies ************** -->
+        <!-- ************* START: Dependencies for Unit and Integration Testing ************** -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.47.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.saucelabs</groupId>
+            <artifactId>sauce_junit</artifactId>
+            <version>2.1.18</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- ************* END: Dependencies for Unit and Integration Testing ************** -->
+    <!-- ************* END: <dependencies> ************** -->
     </dependencies>
-
-
-    <!-- ************* END spring MVC and related dependencies ************** -->
-
 </project>
