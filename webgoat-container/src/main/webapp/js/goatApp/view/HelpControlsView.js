@@ -6,9 +6,9 @@ function($,_,Backbone) {
 		el:'#help-controls', //Check this
 		helpButtons: {
 			//TODO: move this into a template
-			showSource:$('<button>',{id:'show-source-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Java [Source]'}),
+			showSource:$('<button>',{id:'show-source-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Java Source'}),
 			showSolution:$('<button>',{id:'show-solution-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Solution'}),
-			showPlan:$('<button>',{id:'show-plan-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Lesson Plan]'}),
+			showPlan:$('<button>',{id:'show-plan-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Lesson Plan'}),
 			showHints:$('<button>',{id:'show-hints-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Hints'}),
 			restartLesson:$('<button>',{id:'restart-lesson-button','class':'btn btn-xs help-button',type:'button',text:'Restart Lesson'})
 		},

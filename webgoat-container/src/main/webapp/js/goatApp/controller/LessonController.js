@@ -85,7 +85,7 @@ define(['jquery',
 				paramModel.set('stageParam',this.lessonContent.get('stageParam'));
 				this.paramView = new ParamView({model:paramModel});
 
-				this.hideShowHelps(null);
+				$('.lesson-help').hide();
 				this.trigger('menu:reload');
 			};
 
@@ -122,19 +122,26 @@ define(['jquery',
 				if (!showId) { 
 					return;
 				}
-				switch(showHelp) {
-					case 'plan':
-						$(contentId).html(this.planView.model.get('content'));
-						break;
-					case 'solution':
-						$(showId).html(this.solutionView.model.get('content'));
-						break;
-					case 'source':
-						$(contentId).html('<pre>' + this.sourceView.model.get('content') + '</pre>');
-						break;
+
+				if ($(showId).is(':visible')) {
+					$(showId).hide();
+					return;
+				} else {
+					//TODO: move individual .html operations into individual help views
+					switch(showHelp) {
+						case 'plan':
+							$(contentId).html(this.planView.model.get('content'));
+							break;
+						case 'solution':
+							$(showId).html(this.solutionView.model.get('content'));
+							break;
+						case 'source':
+							$(contentId).html('<pre>' + this.sourceView.model.get('content') + '</pre>');
+							break;
+					}
+					$(showId).show();
+					GoatUtils.scrollToHelp()
 				}
-				$(showId).show();
-				GoatUtils.scrollToHelp()
 			};
 
 			this.onShowHints = function() {
