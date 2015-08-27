@@ -5,8 +5,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.classloader.PluginClassLoader;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.util.LabelProvider;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -90,16 +90,11 @@ public class Plugin {
 
     private void copyProperties(boolean reload, Path file) {
         try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            Files.copy(file, bos);
+            byte[] lines = Files.readAllBytes(file);
             Path propertiesPath = createPropertiesDirectory();
-            ResourceBundleClassLoader.setPropertiesPath(propertiesPath);
+            LabelProvider.updatePluginResources(propertiesPath);
             PluginFileUtils.createDirsIfNotExists(file.getParent());
-            if (reload) {
-                Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), CREATE, APPEND);
-            } else {
-                Files.write(propertiesPath.resolve(file.getFileName()), bos.toByteArray(), CREATE, TRUNCATE_EXISTING);
-            }
+            Files.write(propertiesPath.resolve(file.getFileName()), lines, CREATE, (reload ? APPEND : TRUNCATE_EXISTING));
         } catch (IOException io) {
             throw new PluginLoadingFailure("Property file detected, but unable to copy the properties", io);
         }

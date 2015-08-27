@@ -3,7 +3,6 @@ package org.owasp.webgoat.session;
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.plugins.GlobalProperties;
 import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.slf4j.Logger;
@@ -24,7 +23,6 @@ import javax.servlet.ServletContext;
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.plugins.GlobalProperties;
 import org.owasp.webgoat.plugins.LegacyLoader;
 import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginsLoader;
@@ -299,7 +297,6 @@ public class Course {
             logger.error("Plugins directory {} not found", pluginPath);
             return;
         }
-        new GlobalProperties(Paths.get(targetPath)).loadProperties(Paths.get(context.getRealPath("container//i18n")));
 
         List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(true);
         for (Plugin plugin : plugins) {

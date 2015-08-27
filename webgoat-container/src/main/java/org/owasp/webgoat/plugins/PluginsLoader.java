@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugins;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.classloader.PluginClassLoader;
+import org.owasp.webgoat.util.LabelProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,6 +79,7 @@ public class PluginsLoader implements Runnable {
                 plugins.add(plugin);
             }
         }
+        LabelProvider.refresh();
         return plugins;
     }
 
