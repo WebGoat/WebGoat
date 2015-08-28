@@ -842,13 +842,17 @@ public class WebSession {
             } else if (al instanceof RandomLessonAdapter) {
                 try {
                     RandomLessonAdapter rla = (RandomLessonAdapter) al;
-                    int stage = myParser.getIntParameter(STAGE) - 1;
-                    String[] stages = rla.getStages();
-                    if (stages == null) {
-                        stages = new String[0];
-                    }
-                    if (stage >= 0 && stage < stages.length) {
-                        rla.setStage(this, stages[stage]);
+                    if (!myParser.getRawParameter(STAGE).equals("null")) {
+                        int stage = myParser.getIntParameter(STAGE) - 1;
+                        String[] stages = rla.getStages();
+                        if (stages == null) {
+                            stages = new String[0];
+                        }
+                        if (stage >= 0 && stage < stages.length) {
+                            rla.setStage(this, stages[stage]);
+                        }
+                    } else {
+                        rla.setStage(this, null);
                     }
                 } catch (ParameterNotFoundException pnfe) {
                 }
