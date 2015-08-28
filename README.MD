@@ -125,7 +125,7 @@ cd WebGoat
 mvn -pl webgoat-container tomcat7:run-war
 ```
 
-Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
+Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
 #### Option #2: Java executable JAR
 The __maven package__ goal generates an executable .jar file:
@@ -137,7 +137,7 @@ cd webgoat-container/target
 java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
 ```
 
-Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
+Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
 #### Option #3: Deploy the WebGoat WAR file in yout local Tomcat or other Application Serve:
 The __maven package__ goal generates a .war file that can deployed into an Application Server, such as Tomcat
@@ -148,4 +148,4 @@ mvn package
 cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <your_tomcat_directory>/webapps/
 ```
 
-Browse to [http://localhost:8080](http://localhost:8080/WebGoat) and happy hacking !
+Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
