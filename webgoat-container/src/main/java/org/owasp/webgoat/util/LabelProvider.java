@@ -2,12 +2,13 @@
 package org.owasp.webgoat.util;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Singleton;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +67,11 @@ public class LabelProvider {
         pluginLabels.setResourceLoader(new ResourceLoader() {
             @Override
             public Resource getResource(String location) {
-                return new FileSystemResource(propertyFile.toFile());
+                try {
+                    return new UrlResource(propertyFile.toUri());
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             @Override
