@@ -4,11 +4,11 @@ jdk:
   - oraclejdk8
 install: "/bin/true"
 script:
-  - mvn clean compile install
+  - mvn clean install
   - git clone https://github.com/WebGoat/WebGoat-Lessons.git
   - mvn -file ./WebGoat-Lessons/pom.xml package
   - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./webgoat-container/src/main/webapp/plugin_lessons/
-  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then mvn -Prun-integration-tests package verify install; else mvn package install; fi
+  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then mvn -Prun-integration-tests clean install; else mvn clean install; fi
 before_deploy:
   - export WEBGOAT_ARTIFACT_VERSION=$(grep "<version>" $HOME/build/$TRAVIS_REPO_SLUG/pom.xml | cut -d ">" -f 2 | cut -d "<" -f 1)
   - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.jar
