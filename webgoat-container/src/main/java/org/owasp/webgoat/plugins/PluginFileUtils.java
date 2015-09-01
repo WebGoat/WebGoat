@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -76,7 +75,7 @@ public class PluginFileUtils {
         byte[] fileAsBytes = Files.readAllBytes(file);
         String fileAsString = new String(fileAsBytes);
         fileAsString = fileAsString.replaceAll(replace, with);
-        Files.write(file, fileAsString.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(file, fileAsString.getBytes());
     }
 
     public static void writeFile(Path targetFile, byte[] bytes, OpenOption... options) throws IOException {
