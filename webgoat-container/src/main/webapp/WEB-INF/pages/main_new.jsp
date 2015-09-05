@@ -76,7 +76,7 @@
 
                         </ul>
                     </div>
-                    <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip" title="About WebGoat">
+                    <button type="button" data-toggle="modal" data-target="#aboutModal" class="btn btn-default right_nav_button" title="About WebGoat">
                         <i class="fa fa-info"></i>
                     </button>
                     <a href="mailto:${contactEmail}?Subject=Webgoat%20feedback" target="_top">
