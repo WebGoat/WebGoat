@@ -39,6 +39,9 @@
         <script src="js/libs/require.min.js" data-main="js/main.js"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+        <script src="js/jquery/jquery-1.10.2.min.js"></script>
+        <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
         <title>WebGoat</title>
     </head>
     <body>
@@ -59,10 +62,10 @@
                 </div><!--lesson title end-->
                 <div class="user-nav pull-right" style="margin-right: 75px;">
                     <div class="dropdown" style="display:inline">
-                        <button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu1" >
+                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="dropdownMenu1" >
                             <i class="fa fa-user"></i> <span class="caret"></span>
                         </button>                   
-                        <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenu1">
+                        <ul class="dropdown-menu dropdown-menu-left">
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="<c:url value="j_spring_security_logout" />">Logout</a></li>
                             <li role="presentation" class="divider"></li>     
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: ${user}</a></li>
