@@ -37,11 +37,9 @@
 
         <!-- Require.js used to load js asynchronously -->
         <script src="js/libs/require.min.js" data-main="js/main.js"></script>
-
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-        <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
         <script src="js/jquery/jquery-1.10.2.min.js"></script>
         <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat</title>
     </head>
     <body>
