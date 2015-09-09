@@ -37,8 +37,8 @@
 
         <!-- Require.js used to load js asynchronously -->
         <script src="js/libs/require.min.js" data-main="js/main.js"></script>
-        <script src="js/jquery/jquery-1.10.2.min.js"></script>
-        <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+        <!--<script src="js/jquery/jquery-1.10.2.min.js"></script>
+        <script src="plugins/bootstrap/js/bootstrap.min.js"></script>-->
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat</title>
     </head>
@@ -58,9 +58,9 @@
                 <div id="lesson-title-wrapper" >
                     
                 </div><!--lesson title end-->
-                <div class="user-nav pull-right" style="margin-right: 75px;">
+                <div class="user-nav pull-right" id="user-and-info-nav" style="margin-right: 75px;">
                     <div class="dropdown" style="display:inline">
-                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="dropdownMenu1" >
+                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="user-menu" >
                             <i class="fa fa-user"></i> <span class="caret"></span>
                         </button>                   
                         <ul class="dropdown-menu dropdown-menu-left">
@@ -74,7 +74,7 @@
 
                         </ul>
                     </div>
-                    <button type="button" data-toggle="modal" data-target="#aboutModal" class="btn btn-default right_nav_button" title="About WebGoat">
+                    <button type="button" id="about-button"  class="btn btn-default right_nav_button" title="About WebGoat" data-toggle="modal" data-target="#about-modal"> 
                         <i class="fa fa-info"></i>
                     </button>
                     <a href="mailto:${contactEmail}?Subject=Webgoat%20feedback" target="_top">
@@ -176,7 +176,7 @@
 
 
         <!-- About WebGoat Modal -->
-        <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <jsp:include page="../pages/about.jsp"/> 
