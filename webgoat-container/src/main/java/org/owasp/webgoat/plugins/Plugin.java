@@ -16,9 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.nio.file.StandardOpenOption.APPEND;
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static org.owasp.webgoat.plugins.PluginFileUtils.fileEndsWith;
 import static org.owasp.webgoat.plugins.PluginFileUtils.hasParentDirectoryWithName;
 import static org.owasp.webgoat.plugins.PluginFileUtils.replaceInFiles;
@@ -94,7 +91,7 @@ public class Plugin {
             Path propertiesPath = createPropertiesDirectory();
             LabelProvider.updatePluginResources(propertiesPath);
             PluginFileUtils.createDirsIfNotExists(file.getParent());
-            Files.write(propertiesPath.resolve(file.getFileName()), lines, CREATE, (reload ? APPEND : TRUNCATE_EXISTING));
+            Files.write(propertiesPath.resolve(file.getFileName()), lines);
         } catch (IOException io) {
             throw new PluginLoadingFailure("Property file detected, but unable to copy the properties", io);
         }

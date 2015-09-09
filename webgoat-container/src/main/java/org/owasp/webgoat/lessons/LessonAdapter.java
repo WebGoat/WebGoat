@@ -1,5 +1,7 @@
 package org.owasp.webgoat.lessons;
 
+import com.google.common.base.Joiner;
+import org.apache.commons.io.IOUtils;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -14,37 +16,39 @@ import org.owasp.webgoat.session.WebSession;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * *************************************************************************************************
- *
- *
+ * <p>
+ * <p>
  * This file is part of WebGoat, an Open Web Application Security Project
  * utility. For details, please see http://www.owasp.org/
- *
+ * <p>
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- *
+ * <p>
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111-1307, USA.
- *
+ * <p>
  * Getting Source ==============
- *
+ * <p>
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
  * for free software projects.
- *
+ * <p>
  * For details, please see http://webgoat.github.io
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
@@ -69,25 +73,21 @@ public abstract class LessonAdapter extends AbstractLesson {
         ec.addElement(new P());
         ec
                 .addElement(new StringElement(
-                                "Lesson are simple to create and very little coding is required. &nbsp;&nbsp;"
+                        "Lesson are simple to create and very little coding is required. &nbsp;&nbsp;"
                                 + "In fact, most lessons can be created by following the easy to use instructions in the "
                                 + "<A HREF=http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents>WebGoat User Guide.</A>&nbsp;&nbsp;"
                                 + "If you would prefer, send your lesson ideas to "
                                 + getWebgoatContext().getFeedbackAddressHTML()));
 
-        String fileName = s.getContext().getRealPath("WEB-INF/classes/New Lesson Instructions.txt");
-        if (fileName != null) {
-            try {
+        try (InputStream is = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("New Lesson Instructions.txt")) {
+            if (is != null) {
                 PRE pre = new PRE();
-                BufferedReader in = new BufferedReader(new FileReader(fileName));
-                String line = null;
-                while ((line = in.readLine()) != null) {
-                    pre.addElement(line + "\n");
-                }
+                pre.addElement(Joiner.on("\n").join(IOUtils.readLines(is)));
                 ec.addElement(pre);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return (ec);
     }
@@ -140,9 +140,9 @@ public abstract class LessonAdapter extends AbstractLesson {
     /**
      * Gets the credits attribute of the AbstractLesson object
      *
-     * @deprecated Credits are in the about page.  This method s no
-     *             longer called from WebGoat
      * @return The credits value
+     * @deprecated Credits are in the about page.  This method s no
+     * longer called from WebGoat
      */
     public Element getCredits() {
         return new StringElement();

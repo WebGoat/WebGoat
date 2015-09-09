@@ -37,7 +37,8 @@
 
         <!-- Require.js used to load js asynchronously -->
         <script src="js/libs/require.min.js" data-main="js/main.js"></script>
-
+        <script src="js/jquery/jquery-1.10.2.min.js"></script>
+        <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat</title>
     </head>
@@ -59,10 +60,10 @@
                 </div><!--lesson title end-->
                 <div class="user-nav pull-right" style="margin-right: 75px;">
                     <div class="dropdown" style="display:inline">
-                        <button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu1" >
+                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="dropdownMenu1" >
                             <i class="fa fa-user"></i> <span class="caret"></span>
                         </button>                   
-                        <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenu1">
+                        <ul class="dropdown-menu dropdown-menu-left">
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="<c:url value="j_spring_security_logout" />">Logout</a></li>
                             <li role="presentation" class="divider"></li>     
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: ${user}</a></li>
@@ -73,7 +74,7 @@
 
                         </ul>
                     </div>
-                    <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip" title="About WebGoat">
+                    <button type="button" data-toggle="modal" data-target="#aboutModal" class="btn btn-default right_nav_button" title="About WebGoat">
                         <i class="fa fa-info"></i>
                     </button>
                     <a href="mailto:${contactEmail}?Subject=Webgoat%20feedback" target="_top">
