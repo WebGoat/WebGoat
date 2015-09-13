@@ -12,7 +12,8 @@ define(['jquery',
 	'goatApp/view/ParamView',
 	'goatApp/model/ParamModel',
 	'goatApp/support/GoatUtils',
-	'goatApp/view/UserAndInfoView'
+	'goatApp/view/UserAndInfoView',
+	'goatApp/view/MenuButtonView'
 	], 
 	function($,
 		_,
@@ -28,7 +29,8 @@ define(['jquery',
 		ParamView,
 		ParamModel,
 		GoatUtils,
-		UserAndInfoView
+		UserAndInfoView,
+		MenuButtonView
 	) {
 		'use strict'
 		
@@ -43,6 +45,7 @@ define(['jquery',
 				this.listenTo(this.lessonContent,'contentLoaded',this.onContentLoaded);
 				//'static' elements of page/app
 				this.userAndInfoView = new UserAndInfoView();
+				this.menuButtonView = new MenuButtonView();
 			};
 			//load View, which can pull data
 			this.loadLesson = function(scr,menu,stage) {

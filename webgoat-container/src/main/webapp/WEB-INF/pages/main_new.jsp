@@ -37,8 +37,6 @@
 
         <!-- Require.js used to load js asynchronously -->
         <script src="js/libs/require.min.js" data-main="js/main.js"></script>
-        <!--<script src="js/jquery/jquery-1.10.2.min.js"></script>
-        <script src="plugins/bootstrap/js/bootstrap.min.js"></script>-->
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
         <title>WebGoat</title>
     </head>
@@ -51,7 +49,7 @@
                 </div>
                 <!--logo end-->
                 <div class="toggle-navigation toggle-left">
-                    <button type="button" class="btn btn-default" id="toggle-left" data-toggle="tooltip" data-placement="right" title="Toggle Navigation">
+                    <button type="button" class="btn btn-default" id="toggle-menu" data-toggle="tooltip" data-placement="right" title="Toggle Navigation">
                         <i class="fa fa-bars"></i>
                     </button>
                 </div><!--toggle navigation end-->
