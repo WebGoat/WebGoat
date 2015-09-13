@@ -11,7 +11,9 @@ define(['jquery',
 	'goatApp/view/CookieView',
 	'goatApp/view/ParamView',
 	'goatApp/model/ParamModel',
-	'goatApp/support/GoatUtils'
+	'goatApp/support/GoatUtils',
+	'goatApp/view/UserAndInfoView',
+	'goatApp/view/MenuButtonView'
 	], 
 	function($,
 		_,
@@ -26,7 +28,9 @@ define(['jquery',
 		CookieView,
 		ParamView,
 		ParamModel,
-		GoatUtils
+		GoatUtils,
+		UserAndInfoView,
+		MenuButtonView
 	) {
 		'use strict'
 		
@@ -36,8 +40,12 @@ define(['jquery',
 			this.lessonView = options.lessonView;
 
 			_.extend(Controller.prototype,Backbone.Events);
+
 			this.start = function() {
 				this.listenTo(this.lessonContent,'contentLoaded',this.onContentLoaded);
+				//'static' elements of page/app
+				this.userAndInfoView = new UserAndInfoView();
+				this.menuButtonView = new MenuButtonView();
 			};
 			//load View, which can pull data
 			this.loadLesson = function(scr,menu,stage) {
