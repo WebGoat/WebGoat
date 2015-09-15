@@ -1,7 +1,9 @@
 package org.owasp.webgoat.plugins;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
-
+import com.saucelabs.common.SauceOnDemandSessionIdProvider;
+import com.saucelabs.junit.ConcurrentParameterized;
+import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,19 +16,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-import com.saucelabs.junit.ConcurrentParameterized;
-import com.saucelabs.junit.SauceOnDemandTestWatcher;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 import java.util.LinkedList;
 
-import static org.junit.Assert.*;
-
-import com.saucelabs.common.SauceOnDemandSessionIdProvider;
-
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -249,7 +246,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         String pageSource = driver.getPageSource();
 
-        assertTrue("Page source should contain lessons: Test 1", pageSource.contains("Bypass a Path Based Access Control Scheme"));
+        assertTrue("Page source should contain lessons: Test 1", pageSource.contains("Reflected XSS"));
         assertTrue("Page source should contain lessons: Test 2", pageSource.contains("Access Control Flaws"));
         assertTrue("Page source should contain lessons: Test 3", pageSource.contains("Improper Error Handling"));
         assertTrue("Page source should contain lessons: Test 34", pageSource.contains("Fail Open Authentication Scheme"));

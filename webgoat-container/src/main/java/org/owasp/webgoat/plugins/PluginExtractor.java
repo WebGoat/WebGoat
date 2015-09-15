@@ -19,6 +19,8 @@ import java.util.List;
 import static java.lang.String.format;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.owasp.webgoat.plugins.PluginFileUtils.createDirsIfNotExists;
+import static org.owasp.webgoat.plugins.PluginFileUtils.fileEndsWith;
+import static org.owasp.webgoat.plugins.PluginFileUtils.hasParentDirectoryWithName;
 
 /**
  * Extract the jar file and place them in the system temp directory in the folder webgoat and collect the files
@@ -26,9 +28,11 @@ import static org.owasp.webgoat.plugins.PluginFileUtils.createDirsIfNotExists;
  */
 public class PluginExtractor {
 
+    private static final String NAME_LESSON_I18N_DIRECTORY = "i18n";
     private final Path pluginArchive;
     private final List<String> classes = Lists.newArrayList();
     private final List<Path> files = new ArrayList<>();
+    private final List<Path> properties = new ArrayList<>();
 
     public PluginExtractor(Path pluginArchive) {
         this.pluginArchive = pluginArchive;
@@ -43,7 +47,14 @@ public class PluginExtractor {
                     if (file.toString().endsWith(".class")) {
                         classes.add(file.toString());
                     }
-                    files.add(Files.copy(file, createDirsIfNotExists(Paths.get(target.toString(), file.toString())), REPLACE_EXISTING));
+                    if (fileEndsWith(file, ".properties") && hasParentDirectoryWithName(file,
+                            NAME_LESSON_I18N_DIRECTORY)) {
+                        properties.add(Files
+                                .copy(file, createDirsIfNotExists(Paths.get(target.toString(), file.toString())),
+                                        REPLACE_EXISTING));
+                    }
+                    files.add(Files.copy(file, createDirsIfNotExists(Paths.get(target.toString(), file.toString())),
+                            REPLACE_EXISTING));
                     return FileVisitResult.CONTINUE;
                 }
             });
@@ -60,10 +71,12 @@ public class PluginExtractor {
         return this.files;
     }
 
+    public List<Path> getProperties() {
+        return this.properties;
+    }
+
     private FileSystem createZipFileSystem() throws Exception {
         final URI uri = URI.create("jar:file:" + pluginArchive.toUri().getPath());
         return FileSystems.newFileSystem(uri, new HashMap<String, Object>());
     }
-
-
 }
