@@ -68,6 +68,7 @@ public class Plugin {
     public void loadProperties(List<Path> properties) {
         for (Path propertyFile : properties) {
             LabelProvider.updatePluginResources(propertyFile);
+            LabelProvider.refresh();
         }
     }
 
