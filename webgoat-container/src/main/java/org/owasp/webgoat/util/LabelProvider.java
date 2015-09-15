@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DefaultPropertiesPersister;
 
 import javax.inject.Singleton;
 import java.net.MalformedURLException;
@@ -58,6 +59,9 @@ public class LabelProvider {
         labels.setFallbackToSystemLocale(false);
         labels.setUseCodeAsDefaultMessage(true);
         pluginLabels.setParentMessageSource(labels);
+        pluginLabels.setPropertiesPersister(new DefaultPropertiesPersister() {
+
+        });
     }
 
     public static void updatePluginResources(final Path propertyFile) {

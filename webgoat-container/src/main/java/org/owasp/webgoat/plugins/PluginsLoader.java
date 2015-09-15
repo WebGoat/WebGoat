@@ -84,6 +84,7 @@ public class PluginsLoader implements Runnable {
             if (plugin.getLesson().isPresent()) {
                 PluginFileUtils.createDirsIfNotExists(pluginTarget);
                 plugin.loadFiles(extractor.getFiles(), reload);
+                plugin.loadProperties(extractor.getProperties());
                 plugin.rewritePaths(pluginTarget);
                 plugins.add(plugin);
             }

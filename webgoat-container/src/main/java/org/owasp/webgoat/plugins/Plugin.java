@@ -24,7 +24,6 @@ public class Plugin {
 
     private static final String NAME_LESSON_SOLUTION_DIRECTORY = "lessonSolutions";
     private static final String NAME_LESSON_PLANS_DIRECTORY = "lessonPlans";
-    private static final String NAME_LESSON_I18N_DIRECTORY = "i18n";
     private final Path pluginDirectory;
 
     private Class<AbstractLesson> lesson;
@@ -61,7 +60,15 @@ public class Plugin {
                 this.lesson = clazz;
             }
         } catch (ClassNotFoundException ce) {
-            throw new PluginLoadingFailure("Class " + realClassName + " listed in jar but unable to load the class.", ce);
+            throw new PluginLoadingFailure("Class " + realClassName + " listed in jar but unable to load the class.",
+                    ce);
+        }
+    }
+
+    public void loadProperties(List<Path> properties) {
+        for (Path propertyFile : properties) {
+            LabelProvider.updatePluginResources(propertyFile);
+            LabelProvider.refresh();
         }
     }
 
@@ -76,32 +83,10 @@ public class Plugin {
             if (fileEndsWith(file, ".java")) {
                 lessonSourceFile = file.toFile();
             }
-            if (fileEndsWith(file, ".properties") && hasParentDirectoryWithName(file, NAME_LESSON_I18N_DIRECTORY)) {
-                copyProperties(reload, file);
-            }
+
             if (fileEndsWith(file, ".css", ".jsp", ".js")) {
                 pluginFiles.add(file.toFile());
             }
-        }
-    }
-
-    private void copyProperties(boolean reload, Path file) {
-        try {
-            byte[] lines = Files.readAllBytes(file);
-            Path propertiesPath = createPropertiesDirectory();
-            LabelProvider.updatePluginResources(propertiesPath);
-            PluginFileUtils.createDirsIfNotExists(file.getParent());
-            Files.write(propertiesPath.resolve(file.getFileName()), lines);
-        } catch (IOException io) {
-            throw new PluginLoadingFailure("Property file detected, but unable to copy the properties", io);
-        }
-    }
-
-    private Path createPropertiesDirectory() throws IOException {
-        if (Files.exists(pluginDirectory.resolve(NAME_LESSON_I18N_DIRECTORY))) {
-            return pluginDirectory.resolve(NAME_LESSON_I18N_DIRECTORY);
-        } else {
-            return Files.createDirectory(pluginDirectory.resolve(NAME_LESSON_I18N_DIRECTORY));
         }
     }
 
@@ -117,19 +102,20 @@ public class Plugin {
                     lessonPlansLanguageFiles.values());
 
             String[] replacements = {"jsp", "js"};
-            for ( String replacement : replacements ) {
+            for (String replacement : replacements) {
                 String s = String.format("plugin/%s/%s/", this.lesson.getSimpleName(), replacement);
                 String r = String.format("%s/plugin/%s/%s/", pluginTarget.getFileName().toString(),
                         this.lesson.getSimpleName(), replacement);
-                replaceInFiles(s,r, pluginFiles);
-                replaceInFiles(s,r, Arrays.asList(lessonSourceFile));
+                replaceInFiles(s, r, pluginFiles);
+                replaceInFiles(s, r, Arrays.asList(lessonSourceFile));
             }
 
             //CSS with url('/plugin/images') should not begin with / otherwise image cannot be found
             String s = String.format("/plugin/%s/images/", this.lesson.getSimpleName());
-            String r = String.format("%s/plugin/%s/images/", pluginTarget.getFileName().toString(), this.lesson.getSimpleName());
-            replaceInFiles(s,r, pluginFiles);
-            replaceInFiles(s,r, Arrays.asList(lessonSourceFile));
+            String r = String
+                    .format("%s/plugin/%s/images/", pluginTarget.getFileName().toString(), this.lesson.getSimpleName());
+            replaceInFiles(s, r, pluginFiles);
+            replaceInFiles(s, r, Arrays.asList(lessonSourceFile));
 
 
         } catch (IOException e) {
