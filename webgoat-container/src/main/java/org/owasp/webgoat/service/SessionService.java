@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * <p>SessionService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class SessionService extends BaseService {
@@ -26,8 +28,9 @@ public class SessionService extends BaseService {
     /**
      * Returns hints for current lesson
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a {@link java.lang.String} object.
      */
     @RequestMapping(value = "/session.mvc", produces = "application/json")
     public @ResponseBody

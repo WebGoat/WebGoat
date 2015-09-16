@@ -9,10 +9,16 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @WebListener
+/**
+ * <p>PluginBackgroundLoader class.</p>
+ *
+ * @version $Id: $Id
+ */
 public class PluginBackgroundLoader implements ServletContextListener {
 
     private ScheduledExecutorService scheduler;
 
+    /** {@inheritDoc} */
     @Override
     public void contextInitialized(ServletContextEvent event) {
         String pluginPath = event.getServletContext().getRealPath("plugin_lessons");
@@ -22,6 +28,7 @@ public class PluginBackgroundLoader implements ServletContextListener {
         scheduler.scheduleAtFixedRate(new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)), 0, 5, TimeUnit.MINUTES);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void contextDestroyed(ServletContextEvent event) {
         scheduler.shutdownNow();

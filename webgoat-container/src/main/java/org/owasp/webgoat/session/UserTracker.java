@@ -8,37 +8,38 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-/***************************************************************************************************
- * 
- * 
+/**
+ *************************************************************************************************
+ *
+ *
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- * 
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- * 
+ *
  * Getting Source ==============
- * 
+ *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
- * 
+ *
  * For details, please see http://webgoat.github.io
- * 
+ *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @created October 29, 2003
+ * @since October 29, 2003
+ * @version $Id: $Id
  */
-
 public class UserTracker
 {
 
@@ -59,7 +60,7 @@ public class UserTracker
 
 	/**
 	 * Gets the completed attribute of the UserTracker object
-	 * 
+	 *
 	 * @param userName
 	 *            Description of the Parameter
 	 * @return The completed value
@@ -92,7 +93,7 @@ public class UserTracker
 
 	/**
 	 * Gets the users attribute of the UserTracker object
-	 * 
+	 *
 	 * @return The users value
 	 */
 	public Collection getUsers()
@@ -100,6 +101,12 @@ public class UserTracker
 		return storage.keySet();
 	}
 
+	/**
+	 * <p>getAllUsers.</p>
+	 *
+	 * @param roleName a {@link java.lang.String} object.
+	 * @return a {@link java.util.Collection} object.
+	 */
 	public Collection<String> getAllUsers(String roleName)
 	{
 		synchronized (usersDB)
@@ -130,6 +137,11 @@ public class UserTracker
 		}
 	}
 
+	/**
+	 * <p>deleteUser.</p>
+	 *
+	 * @param user a {@link java.lang.String} object.
+	 */
 	public void deleteUser(String user)
 	{
 		synchronized (usersDB)
@@ -158,18 +170,25 @@ public class UserTracker
 
 	/**
 	 * Gets the lessonTracker attribute of the UserTracker object
-	 * 
+	 *
 	 * @param screen
 	 *            Description of the Parameter
-	 * @param userName
-	 *            Description of the Parameter
 	 * @return The lessonTracker value
+	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
 	 */
 	public LessonTracker getLessonTracker(WebSession s, Screen screen)
 	{
 		return getLessonTracker(s, s.getUserName(), screen);
 	}
 
+	/**
+	 * <p>getLessonTracker.</p>
+	 *
+	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+	 * @param user a {@link java.lang.String} object.
+	 * @param screen a {@link org.owasp.webgoat.session.Screen} object.
+	 * @return a {@link org.owasp.webgoat.session.LessonTracker} object.
+	 */
 	public LessonTracker getLessonTracker(WebSession s, String user, Screen screen)
 	{
 		HashMap<String, LessonTracker> usermap = getUserMap(user);
@@ -187,12 +206,11 @@ public class UserTracker
 
 	/**
 	 * Gets the status attribute of the UserTracker object
-	 * 
+	 *
 	 * @param screen
 	 *            Description of the Parameter
-	 * @param userName
-	 *            Description of the Parameter
 	 * @return The status value
+	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
 	 */
 	public String getStatus(WebSession s, Screen screen)
 	{
@@ -228,7 +246,7 @@ public class UserTracker
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @return Description of the Return Value
 	 */
 	public static synchronized UserTracker instance()
@@ -246,7 +264,9 @@ public class UserTracker
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
+	 * @param screen
+	 *            Description of the Parameter
 	 * @param screen
 	 *            Description of the Parameter
 	 * @param s

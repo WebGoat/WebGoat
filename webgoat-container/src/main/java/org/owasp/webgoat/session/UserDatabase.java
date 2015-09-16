@@ -23,6 +23,9 @@ class UserDatabase {
     private final String DELETE_ALL_ROLES_FOR_USER = "DELETE FROM user_roles WHERE user_id IN (SELECT id FROM users WHERE username = ?);";
     private final String DELETE_USER = "DELETE FROM users WHERE username = ?;";
 
+    /**
+     * <p>Constructor for UserDatabase.</p>
+     */
     public UserDatabase() {
         createDefaultTables();
         if (getTableCount("users") <= 0) {
@@ -36,6 +39,11 @@ class UserDatabase {
         }
     }
 
+    /**
+     * <p>open.</p>
+     *
+     * @return a boolean.
+     */
     public boolean open() {
         try {
             if (userDB == null || userDB.isClosed()) {
@@ -52,6 +60,11 @@ class UserDatabase {
         return true;
     }
 
+    /**
+     * <p>close.</p>
+     *
+     * @return a boolean.
+     */
     public boolean close() {
         try {
             if (userDB != null && !userDB.isClosed())
@@ -63,6 +76,12 @@ class UserDatabase {
         return true;
     }
 
+    /**
+     * <p>getTableCount.</p>
+     *
+     * @param tableName a {@link java.lang.String} object.
+     * @return a int.
+     */
     public int getTableCount(String tableName) {
         int count = 0;
         try {
@@ -82,6 +101,11 @@ class UserDatabase {
         return count;
     }
 
+    /**
+     * <p>getUsers.</p>
+     *
+     * @return a {@link java.util.Iterator} object.
+     */
     public Iterator<User> getUsers() {
         ArrayList<User> users = new ArrayList<User>();
         User currentUser;
@@ -113,6 +137,13 @@ class UserDatabase {
         return users.iterator();
     }
 
+    /**
+     * <p>addRoleToUser.</p>
+     *
+     * @param username a {@link java.lang.String} object.
+     * @param rolename a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public boolean addRoleToUser(String username, String rolename) {
         try {
             open();
@@ -129,10 +160,22 @@ class UserDatabase {
         return true;
     }
 
+    /**
+     * <p>removeUser.</p>
+     *
+     * @param user a {@link org.owasp.webgoat.session.User} object.
+     * @return a boolean.
+     */
     public boolean removeUser(User user) {
         return removeUser(user.getUsername());
     }
 
+    /**
+     * <p>removeUser.</p>
+     *
+     * @param username a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public boolean removeUser(String username) {
         try {
             open();

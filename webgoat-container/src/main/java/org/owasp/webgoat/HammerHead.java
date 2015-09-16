@@ -55,11 +55,11 @@ import java.util.TimeZone;
  *
  * For details, please see http://webgoat.github.io
  *
- *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect
  * Security</a>
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @created October 28, 2003
+ * @since October 28, 2003
+ * @version $Id: $Id
  */
 public class HammerHead extends HttpServlet {
 
@@ -95,10 +95,9 @@ public class HammerHead extends HttpServlet {
     private WebgoatContext webgoatContext = null;
 
     /**
-     * Description of the Method
+     * {@inheritDoc}
      *
-     * @param request Description of the Parameter
-     * @param response Description of the Parameter
+     * Description of the Method
      * @exception IOException Description of the Exception
      * @exception ServletException Description of the Exception
      */
@@ -108,10 +107,9 @@ public class HammerHead extends HttpServlet {
     }
 
     /**
-     * Description of the Method
+     * {@inheritDoc}
      *
-     * @param request Description of the Parameter
-     * @param response Description of the Parameter
+     * Description of the Method
      * @exception IOException Description of the Exception
      * @exception ServletException Description of the Exception
      */
@@ -227,9 +225,9 @@ public class HammerHead extends HttpServlet {
     }
 
     /**
-     * Return information about this servlet
+     * {@inheritDoc}
      *
-     * @return The servletInfo value
+     * Return information about this servlet
      */
     @Override
     public String getServletInfo() {
@@ -237,9 +235,9 @@ public class HammerHead extends HttpServlet {
     }
 
     /**
-     * Return properties path
+     * {@inheritDoc}
      *
-     * @throws javax.servlet.ServletException
+     * Return properties path
      */
     @Override
     public void init() throws ServletException {
@@ -371,7 +369,7 @@ public class HammerHead extends HttpServlet {
      * @param response Description of the Parameter
      * @param context Description of the Parameter
      * @return Description of the Return Value
-     * @throws java.io.IOException
+     * @throws java.io.IOException if any.
      */
     protected WebSession updateSession(HttpServletRequest request, HttpServletResponse response, ServletContext context)
             throws IOException {
@@ -415,9 +413,10 @@ public class HammerHead extends HttpServlet {
      * Description of the Method
      *
      * @param s Description of the Parameter
-     * @param screen
+     * @param screen a {@link org.owasp.webgoat.session.Screen} object.
      * @param response Description of the Parameter
      * @exception IOException Description of the Exception
+     * @throws java.io.IOException if any.
      */
     protected void writeScreen(WebSession s, Screen screen, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");

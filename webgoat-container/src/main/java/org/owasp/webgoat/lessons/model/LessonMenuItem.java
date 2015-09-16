@@ -34,8 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * <p>LessonMenuItem class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 public class LessonMenuItem {
 
@@ -48,6 +50,8 @@ public class LessonMenuItem {
     private boolean showHints = true;
 
     /**
+     * <p>Getter for the field <code>name</code>.</p>
+     *
      * @return the name
      */
     public String getName() {
@@ -55,6 +59,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Setter for the field <code>name</code>.</p>
+     *
      * @param name the name to set
      */
     public void setName(String name) {
@@ -62,6 +68,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Getter for the field <code>children</code>.</p>
+     *
      * @return the children
      */
     public List<LessonMenuItem> getChildren() {
@@ -69,6 +77,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Setter for the field <code>children</code>.</p>
+     *
      * @param children the children to set
      */
     public void setChildren(List<LessonMenuItem> children) {
@@ -76,6 +86,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Getter for the field <code>type</code>.</p>
+     *
      * @return the type
      */
     public LessonMenuItemType getType() {
@@ -83,16 +95,24 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Setter for the field <code>type</code>.</p>
+     *
      * @param type the type to set
      */
     public void setType(LessonMenuItemType type) {
         this.type = type;
     }
 
+    /**
+     * <p>addChild.</p>
+     *
+     * @param child a {@link org.owasp.webgoat.lessons.model.LessonMenuItem} object.
+     */
     public void addChild(LessonMenuItem child) {
         children.add(child);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder bldr = new StringBuilder();
@@ -102,6 +122,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>isComplete.</p>
+     *
      * @return the complete
      */
     public boolean isComplete() {
@@ -109,6 +131,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Setter for the field <code>complete</code>.</p>
+     *
      * @param complete the complete to set
      */
     public void setComplete(boolean complete) {
@@ -116,6 +140,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Getter for the field <code>link</code>.</p>
+     *
      * @return the link
      */
     public String getLink() {
@@ -123,6 +149,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Setter for the field <code>link</code>.</p>
+     *
      * @param link the link to set
      */
     public void setLink(String link) {
@@ -130,6 +158,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>isShowSource.</p>
+     *
      * @return the showSource
      */
     public boolean isShowSource() {
@@ -137,6 +167,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Setter for the field <code>showSource</code>.</p>
+     *
      * @param showSource the showSource to set
      */
     public void setShowSource(boolean showSource) {
@@ -144,6 +176,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>isShowHints.</p>
+     *
      * @return the showHints
      */
     public boolean isShowHints() {
@@ -151,6 +185,8 @@ public class LessonMenuItem {
     }
 
     /**
+     * <p>Setter for the field <code>showHints</code>.</p>
+     *
      * @param showHints the showHints to set
      */
     public void setShowHints(boolean showHints) {

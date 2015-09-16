@@ -44,14 +44,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
+ * <p>Abstract BaseService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @RequestMapping("/service")
 public abstract class BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(BaseService.class);
 
+    /**
+     * <p>handleException.</p>
+     *
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @param ex a {@link java.lang.Exception} object.
+     * @return a {@link org.owasp.webgoat.service.ExceptionInfo} object.
+     */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.I_AM_A_TEAPOT)
     public @ResponseBody
@@ -66,6 +75,12 @@ public abstract class BaseService {
         return response;
     }
 
+    /**
+     * <p>getWebSession.</p>
+     *
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link org.owasp.webgoat.session.WebSession} object.
+     */
     public WebSession getWebSession(HttpSession session) {
         WebSession ws;
         Object o = session.getAttribute(WebSession.SESSION);
@@ -79,6 +94,12 @@ public abstract class BaseService {
         return ws;
     }
 
+    /**
+     * <p>getStringStackTrace.</p>
+     *
+     * @param t a {@link java.lang.Throwable} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String getStringStackTrace(Throwable t){
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);

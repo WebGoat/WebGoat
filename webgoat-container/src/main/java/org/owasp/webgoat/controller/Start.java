@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * <p>Start class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class Start {
@@ -37,6 +39,14 @@ public class Start {
     @Autowired
     private ServletContext servletContext;
 
+    /**
+     * <p>start.</p>
+     *
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @param error a {@link java.lang.String} object.
+     * @param logout a {@link java.lang.String} object.
+     * @return a {@link org.springframework.web.servlet.ModelAndView} object.
+     */
     @RequestMapping(value = "start.mvc", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView start(HttpServletRequest request,
             @RequestParam(value = "error", required = false) String error,
@@ -82,6 +92,12 @@ public class Start {
         return role;
     }
 
+    /**
+     * <p>checkWebSession.</p>
+     *
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a boolean.
+     */
     public boolean checkWebSession(HttpSession session) {
         Object o = session.getAttribute(WebSession.SESSION);
         if (o == null) {

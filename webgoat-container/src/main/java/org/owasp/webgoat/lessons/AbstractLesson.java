@@ -37,37 +37,36 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * *************************************************************************************************
- * <p>
- * <p>
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
- * <p>
+ *************************************************************************************************
+ *
+ *
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * <p>
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- * <p>
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- * <p>
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
- * <p>
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
  * Getting Source ==============
- * <p>
- * Source for this application is maintained at
- * https://github.com/WebGoat/WebGoat, a repository for free software projects.
- * <p>
+ *
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
+ * projects.
+ *
  * For details, please see http://webgoat.github.io
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @created October 28, 2003
+ * @since October 28, 2003
+ * @version $Id: $Id
  */
 public abstract class AbstractLesson extends Screen implements Comparable<Object> {
 
@@ -78,6 +77,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      */
     public final static String ADMIN_ROLE = "admin";
 
+    /** Constant <code>CHALLENGE_ROLE="challenge"</code> */
     public final static String CHALLENGE_ROLE = "challenge";
 
     /**
@@ -126,19 +126,39 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         id = new Integer(++count);
     }
 
+    /**
+     * <p>getName.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getName() {
         String className = getClass().getName();
         return className.substring(className.lastIndexOf('.') + 1);
     }
 
+    /**
+     * <p>Setter for the field <code>ranking</code>.</p>
+     *
+     * @param ranking a {@link java.lang.Integer} object.
+     */
     public void setRanking(Integer ranking) {
         this.ranking = ranking;
     }
 
+    /**
+     * <p>Setter for the field <code>hidden</code>.</p>
+     *
+     * @param hidden a boolean.
+     */
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
     }
 
+    /**
+     * <p>update.</p>
+     *
+     * @param properties a {@link org.owasp.webgoat.session.WebgoatProperties} object.
+     */
     public void update(WebgoatProperties properties) {
         String className = getClass().getName();
         className = className.substring(className.lastIndexOf(".") + 1);
@@ -156,6 +176,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         // " + getRanking() + ", hidden:" + hidden +")");
     }
 
+    /**
+     * <p>isCompleted.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a boolean.
+     */
     public boolean isCompleted(WebSession s) {
         return getLessonTracker(s, this).getCompleted();
     }
@@ -169,20 +195,18 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     public abstract Element getCredits();
 
     /**
-     * Description of the Method
+     * {@inheritDoc}
      *
-     * @param obj Description of the Parameter
-     * @return Description of the Return Value
+     * Description of the Method
      */
     public int compareTo(Object obj) {
         return this.getRanking().compareTo(((AbstractLesson) obj).getRanking());
     }
 
     /**
-     * Description of the Method
+     * {@inheritDoc}
      *
-     * @param obj Description of the Parameter
-     * @return Description of the Return Value
+     * Description of the Method
      */
     public boolean equals(Object obj) {
         return this.getScreenId() == ((AbstractLesson) obj).getScreenId();
@@ -197,10 +221,25 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return category;
     }
 
+    /**
+     * <p>getDefaultRanking.</p>
+     *
+     * @return a {@link java.lang.Integer} object.
+     */
     protected abstract Integer getDefaultRanking();
 
+    /**
+     * <p>getDefaultCategory.</p>
+     *
+     * @return a {@link org.owasp.webgoat.lessons.Category} object.
+     */
     protected abstract Category getDefaultCategory();
 
+    /**
+     * <p>getDefaultHidden.</p>
+     *
+     * @return a boolean.
+     */
     protected abstract boolean getDefaultHidden();
 
     /**
@@ -322,10 +361,22 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return getHints(s).size();
     }
 
+    /**
+     * <p>getHints.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.util.List} object.
+     */
     protected abstract List<String> getHints(WebSession s);
 
     // @TODO we need to restrict access at the service layer
     // rather than passing session object around
+    /**
+     * <p>getHintsPublic.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.util.List} object.
+     */
     public List<String> getHintsPublic(WebSession s) {
         List<String> hints = getHints(s);
         return hints;
@@ -337,6 +388,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      *
      * @param s The users WebSession
      * @return The hint1 value
+     * @param hintNumber a int.
      */
     public String getHint(WebSession s, int hintNumber) {
         return "Hint: " + getHints(s).get(hintNumber);
@@ -346,6 +398,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * Gets the instructions attribute of the AbstractLesson object
      *
      * @return The instructions value
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
      */
     public abstract String getInstructions(WebSession s);
 
@@ -444,6 +497,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return id.intValue();
     }
 
+    /**
+     * <p>getHtml_DELETE_ME.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String getHtml_DELETE_ME(WebSession s) {
         String html = null;
 
@@ -459,6 +518,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return html;
     }
 
+    /**
+     * <p>getSource.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String getSource(WebSession s) {
         String source = null;
         String src = null;
@@ -498,6 +563,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return source;
     }
 
+    /**
+     * <p>getRawSource.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String getRawSource(WebSession s) {
         String src;
 
@@ -517,6 +588,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return src;
     }
 
+    /**
+     * <p>getSolution.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String getSolution(WebSession s) {
         String src = null;
 
@@ -538,17 +615,17 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     }
 
     /**
-     * <p>
-     * Returns the default "path" portion of a lesson's URL.</p>
-     * <p>
-     * <p>
+     * <p>Returns the default "path" portion of a lesson's URL.</p>
+     *
+     *
      * Legacy webgoat lesson links are of the form
      * "attack?Screen=Xmenu=Ystage=Z". This method returns the path portion of
-     * the url, i.e., "attack" in the string above.</p>
-     * <p>
-     * <p>
+     * the url, i.e., "attack" in the string above.
+     *
      * Newer, Spring-Controller-based classes will override this method to
-     * return "*.do"-styled paths.</p>
+     * return "*.do"-styled paths.
+     *
+     * @return a {@link java.lang.String} object.
      */
     protected String getPath() {
         return "#attack";
@@ -557,7 +634,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Get the link that can be used to request this screen.
      *
-     * @return
+     * @return a {@link java.lang.String} object.
      */
     public String getLink() {
         StringBuffer link = new StringBuffer();
@@ -574,7 +651,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Get the link to the jsp page used to render this screen.
      *
-     * @return
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
      */
     public String getPage(WebSession s) {
         return null;
@@ -583,22 +661,36 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Get the link to the jsp template page used to render this screen.
      *
-     * @return
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
      */
     public String getTemplatePage(WebSession s) {
         return null;
     }
 
+    /**
+     * <p>getCurrentAction.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
+     */
     public abstract String getCurrentAction(WebSession s);
 
+    /**
+     * <p>setCurrentAction.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param lessonScreen a {@link java.lang.String} object.
+     */
     public abstract void setCurrentAction(WebSession s, String lessonScreen);
 
     /**
      * Override this method to implement accesss control in a lesson.
      *
-     * @param s
-     * @param functionId
-     * @return
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param functionId a {@link java.lang.String} object.
+     * @param employeeId a int.
+     * @return a boolean.
      */
     public boolean isAuthorized(WebSession s, int employeeId, String functionId) {
         return false;
@@ -607,9 +699,10 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Override this method to implement accesss control in a lesson.
      *
-     * @param s
-     * @param functionId
-     * @return
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param functionId a {@link java.lang.String} object.
+     * @param role a {@link java.lang.String} object.
+     * @return a boolean.
      */
     public boolean isAuthorized(WebSession s, String role, String functionId) {
         logger.info("Checking if " + role + " authorized for: " + functionId);
@@ -633,10 +726,24 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return authorized;
     }
 
+    /**
+     * <p>getUserId.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a int.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     */
     public int getUserId(WebSession s) throws ParameterNotFoundException {
         return -1;
     }
 
+    /**
+     * <p>getUserName.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     */
     public String getUserName(WebSession s) throws ParameterNotFoundException {
         return null;
     }
@@ -739,6 +846,11 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         s.getRequest().getRequestURL();
     }
 
+    /**
+     * <p>getFormAction.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getFormAction() {
         return getLink();
     }
@@ -746,17 +858,27 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Description of the Method
      *
-     * @param s Description of the Parameter
      * @return Description of the Return Value
      */
     public String toString() {
         return getTitle();
     }
 
+    /**
+     * <p>Getter for the field <code>defaultLanguage</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getDefaultLanguage() {
         return this.defaultLanguage;
     }
 
+    /**
+     * <p>Getter for the field <code>lessonPlanFileName</code>.</p>
+     *
+     * @param lang a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String getLessonPlanFileName(String lang) {
         String ret = lessonPlanFileName.get(lang);
         if (ret == null) {
@@ -765,40 +887,86 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return ret;
     }
 
+    /**
+     * <p>Setter for the field <code>lessonPlanFileName</code>.</p>
+     *
+     * @param lang a {@link java.lang.String} object.
+     * @param lessonPlanFileName a {@link java.lang.String} object.
+     */
     public void setLessonPlanFileName(String lang, String lessonPlanFileName) {
         this.lessonPlanFileName.put(lang, lessonPlanFileName);
         this.availableLanguages.add(lang);
     }
 
+    /**
+     * <p>Getter for the field <code>availableLanguages</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<String> getAvailableLanguages() {
         return this.availableLanguages;
     }
 
+    /**
+     * <p>Getter for the field <code>lessonSolutionFileName</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getLessonSolutionFileName() {
         return lessonSolutionFileName;
     }
 
+    /**
+     * <p>Setter for the field <code>lessonSolutionFileName</code>.</p>
+     *
+     * @param lessonSolutionFileName a {@link java.lang.String} object.
+     */
     public void setLessonSolutionFileName(String lessonSolutionFileName) {
         this.lessonSolutionFileName = lessonSolutionFileName;
     }
 
+    /**
+     * <p>Getter for the field <code>sourceFileName</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getSourceFileName() {
         return sourceFileName;
     }
 
+    /**
+     * <p>Setter for the field <code>sourceFileName</code>.</p>
+     *
+     * @param sourceFileName a {@link java.lang.String} object.
+     */
     public void setSourceFileName(String sourceFileName) {
         logger.debug("Setting source file of lesson " + this + " to: " + sourceFileName);
         this.sourceFileName = sourceFileName;
     }
 
+    /**
+     * <p>Getter for the field <code>webgoatContext</code>.</p>
+     *
+     * @return a {@link org.owasp.webgoat.session.WebgoatContext} object.
+     */
     public WebgoatContext getWebgoatContext() {
         return webgoatContext;
     }
 
+    /**
+     * <p>Setter for the field <code>webgoatContext</code>.</p>
+     *
+     * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
+     */
     public void setWebgoatContext(WebgoatContext webgoatContext) {
         this.webgoatContext = webgoatContext;
     }
 
+    /**
+     * <p>Getter for the field <code>labelManager</code>.</p>
+     *
+     * @return a {@link org.owasp.webgoat.util.LabelManager} object.
+     */
     protected LabelManager getLabelManager() {
         if (labelManager == null) {
             labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
@@ -812,6 +980,10 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * A reference in include directives are made from within the web application on the server.
      * However, img tags (and the like) make references from the client browser.
      * In such external references, the context path must be included.
+     *
+     * @param w a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param imgResourceName a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
      */
     protected final String buildImagePath(WebSession w, String imgResourceName) {
         return w.getRequest()
@@ -819,16 +991,37 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     }
 
 
+    /**
+     * <p>buildJspPath.</p>
+     *
+     * @param w a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param jspResourceName a {@link java.lang.String} object.
+     * @param includeContextPath a boolean.
+     * @return a {@link java.lang.String} object.
+     */
     protected final String buildJspPath(WebSession w, String jspResourceName, boolean includeContextPath) {
         String path = includeContextPath ? w.getContext().getContextPath() : "";
         return path + "/plugin_extracted/plugin/" + getLessonName() + "/jsp/" + jspResourceName;
     }
 
+    /**
+     * <p>buildJsPath.</p>
+     *
+     * @param w a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param jsResourceName a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     protected final String buildJsPath(WebSession w, String jsResourceName) {
         return w.getRequest()
                 .getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/js/" + jsResourceName;
     }
 
+    /**
+     * <p>getLessonDirectory.</p>
+     *
+     * @param w a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.io.File} object.
+     */
     protected final File getLessonDirectory(WebSession w) {
         return new File(w.getContext().getRealPath("/plugin_extracted/plugin/" + getLessonName() + "/"));
     }

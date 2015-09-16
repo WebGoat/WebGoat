@@ -37,6 +37,8 @@ import org.slf4j.LoggerFactory;
  * for free software projects.
  *
  * For details, please see http://webgoat.github.io
+ *
+ * @version $Id: $Id
  */
 public class WebgoatProperties extends Properties {
 
@@ -46,6 +48,12 @@ public class WebgoatProperties extends Properties {
     private static final long serialVersionUID = 4351681705558227918L;
     final Logger logger = LoggerFactory.getLogger(WebgoatProperties.class);
 
+    /**
+     * <p>Constructor for WebgoatProperties.</p>
+     *
+     * @param propertiesFileName a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public WebgoatProperties(String propertiesFileName) throws IOException {
         if (propertiesFileName == null) {
             throw new IOException("Path to webgoat.properties is null, initialization must have failed");
@@ -58,6 +66,13 @@ public class WebgoatProperties extends Properties {
         load(in);
     }
 
+    /**
+     * <p>getIntProperty.</p>
+     *
+     * @param key a {@link java.lang.String} object.
+     * @param defaultValue a int.
+     * @return a int.
+     */
     public int getIntProperty(String key, int defaultValue) {
         int value = defaultValue;
 
@@ -69,6 +84,13 @@ public class WebgoatProperties extends Properties {
         return value;
     }
 
+    /**
+     * <p>getBooleanProperty.</p>
+     *
+     * @param key a {@link java.lang.String} object.
+     * @param defaultValue a boolean.
+     * @return a boolean.
+     */
     public boolean getBooleanProperty(String key, boolean defaultValue) {
         boolean value = defaultValue;
         key = this.trimLesson(key);
@@ -105,6 +127,11 @@ public class WebgoatProperties extends Properties {
         return result;
     }
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     */
     public static void main(String[] args) {
         WebgoatProperties properties = null;
         try {

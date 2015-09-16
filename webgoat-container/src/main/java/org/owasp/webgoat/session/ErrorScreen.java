@@ -19,35 +19,37 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 
 
-/***************************************************************************************************
- * 
- * 
+/**
+ *************************************************************************************************
+ *
+ *
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- * 
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- * 
+ *
  * Getting Source ==============
- * 
+ *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
- * 
+ *
  * For details, please see http://webgoat.github.io
- * 
+ *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
- * @created November 4, 2003
+ * @since November 4, 2003
+ * @version $Id: $Id
  */
 public class ErrorScreen extends Screen
 {
@@ -63,7 +65,7 @@ public class ErrorScreen extends Screen
 
 	/**
 	 * Constructor for the ErrorScreen object
-	 * 
+	 *
 	 * @param s
 	 *            Description of the Parameter
 	 * @param t
@@ -78,7 +80,7 @@ public class ErrorScreen extends Screen
 
 	/**
 	 * Constructor for the ErrorScreen object
-	 * 
+	 *
 	 * @param s
 	 *            Description of the Parameter
 	 * @param msg
@@ -91,6 +93,11 @@ public class ErrorScreen extends Screen
 		setup(s);
 	}
 
+	/**
+	 * <p>fixCurrentScreen.</p>
+	 *
+	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+	 */
 	public void fixCurrentScreen(WebSession s)
 	{
 		// So the user can't get stuck on the error screen, reset the
@@ -107,6 +114,11 @@ public class ErrorScreen extends Screen
 		}
 	}
 
+	/**
+	 * <p>setup.</p>
+	 *
+	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+	 */
 	public void setup(WebSession s)
 	{
 		// call createContent first so messages will go somewhere
@@ -124,6 +136,12 @@ public class ErrorScreen extends Screen
 		setContent(layout);
 	}
 
+	/**
+	 * <p>wrapForm.</p>
+	 *
+	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+	 * @return a {@link org.apache.ecs.Element} object.
+	 */
 	protected Element wrapForm(WebSession s)
 	{
 		if (s == null) { return new StringElement("Invalid Session"); }
@@ -140,11 +158,9 @@ public class ErrorScreen extends Screen
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
 	 * Description of the Method
-	 * 
-	 * @param s
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
 	 */
 	protected Element createContent(WebSession s)
 	{
@@ -170,7 +186,7 @@ public class ErrorScreen extends Screen
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param s
 	 *            Description of the Parameter
 	 * @return Description of the Return Value
@@ -184,7 +200,7 @@ public class ErrorScreen extends Screen
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param t
 	 *            Description of the Parameter
 	 * @return Description of the Return Value
@@ -211,7 +227,7 @@ public class ErrorScreen extends Screen
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param t
 	 *            Description of the Parameter
 	 * @return Description of the Return Value
@@ -233,7 +249,7 @@ public class ErrorScreen extends Screen
 
 	/**
 	 * Gets the stackTrace attribute of the ErrorScreen class
-	 * 
+	 *
 	 * @param t
 	 *            Description of the Parameter
 	 * @return The stackTrace value
@@ -249,7 +265,7 @@ public class ErrorScreen extends Screen
 
 	/**
 	 * Gets the title attribute of the ErrorScreen object
-	 * 
+	 *
 	 * @return The title value
 	 */
 	public String getTitle()
@@ -257,6 +273,11 @@ public class ErrorScreen extends Screen
 		return ("Error");
 	}
 
+	/**
+	 * <p>getRole.</p>
+	 *
+	 * @return a {@link java.lang.String} object.
+	 */
 	public String getRole()
 	{
 		return AbstractLesson.USER_ROLE;

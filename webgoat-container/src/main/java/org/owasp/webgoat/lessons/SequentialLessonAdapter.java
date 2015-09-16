@@ -9,9 +9,20 @@ import org.owasp.webgoat.session.SequentialLessonTracker;
 import org.owasp.webgoat.session.WebSession;
 
 
+/**
+ * <p>Abstract SequentialLessonAdapter class.</p>
+ *
+ * @version $Id: $Id
+ */
 public abstract class SequentialLessonAdapter extends LessonAdapter
 {
 
+    /**
+     * <p>setStage.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param stage a int.
+     */
     public void setStage(WebSession s, int stage)
     {
         // System.out.println("Changed to stage " + stage);
@@ -21,11 +32,22 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
     /*
      * By default returns 1 stage. (non-Javadoc)
      */
+    /**
+     * <p>getStageCount.</p>
+     *
+     * @return a int.
+     */
     public int getStageCount()
     {
         return 1;
     }
 
+    /**
+     * <p>getStage.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a int.
+     */
     public int getStage(WebSession s)
     {
         int stage = getLessonTracker(s).getStage();
@@ -34,30 +56,40 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
         return stage;
     }
 
+    /** {@inheritDoc} */
     @Override
     public SequentialLessonTracker getLessonTracker(WebSession s)
     {
         return (SequentialLessonTracker) super.getLessonTracker(s);
     }
 
+    /** {@inheritDoc} */
     @Override
     public SequentialLessonTracker getLessonTracker(WebSession s, AbstractLesson lesson)
     {
         return (SequentialLessonTracker) super.getLessonTracker(s, lesson);
     }
 
+    /** {@inheritDoc} */
     @Override
     public SequentialLessonTracker getLessonTracker(WebSession s, String userNameOverride)
     {
         return (SequentialLessonTracker) super.getLessonTracker(s, userNameOverride);
     }
 
+    /** {@inheritDoc} */
     @Override
     public LessonTracker createLessonTracker()
     {
         return new SequentialLessonTracker();
     }
 
+    /**
+     * <p>createStagedContent.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link org.apache.ecs.Element} object.
+     */
     protected Element createStagedContent(WebSession s)
     {
         try
@@ -93,6 +125,13 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
         return (new StringElement(""));
     }
 
+    /**
+     * <p>doStage1.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link org.apache.ecs.Element} object.
+     * @throws java.lang.Exception if any.
+     */
     protected Element doStage1(WebSession s) throws Exception
     {
         ElementContainer ec = new ElementContainer();
@@ -100,6 +139,13 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
         return ec;
     }
 
+    /**
+     * <p>doStage2.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link org.apache.ecs.Element} object.
+     * @throws java.lang.Exception if any.
+     */
     protected Element doStage2(WebSession s) throws Exception
     {
         ElementContainer ec = new ElementContainer();
@@ -107,6 +153,13 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
         return ec;
     }
 
+    /**
+     * <p>doStage3.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link org.apache.ecs.Element} object.
+     * @throws java.lang.Exception if any.
+     */
     protected Element doStage3(WebSession s) throws Exception
     {
         ElementContainer ec = new ElementContainer();
@@ -114,6 +167,13 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
         return ec;
     }
 
+    /**
+     * <p>doStage4.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link org.apache.ecs.Element} object.
+     * @throws java.lang.Exception if any.
+     */
     protected Element doStage4(WebSession s) throws Exception
     {
         ElementContainer ec = new ElementContainer();
@@ -121,6 +181,13 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
         return ec;
     }
 
+    /**
+     * <p>doStage5.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link org.apache.ecs.Element} object.
+     * @throws java.lang.Exception if any.
+     */
     protected Element doStage5(WebSession s) throws Exception
     {
         ElementContainer ec = new ElementContainer();
@@ -128,6 +195,13 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
         return ec;
     }
 
+    /**
+     * <p>doStage6.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link org.apache.ecs.Element} object.
+     * @throws java.lang.Exception if any.
+     */
     protected Element doStage6(WebSession s) throws Exception
     {
         ElementContainer ec = new ElementContainer();

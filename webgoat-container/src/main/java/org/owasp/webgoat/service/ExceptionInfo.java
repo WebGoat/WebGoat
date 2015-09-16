@@ -28,26 +28,48 @@
 package org.owasp.webgoat.service;
 
 /**
+ * <p>ExceptionInfo class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 public class ExceptionInfo {
 
     private String url;
     private String message;
 
+    /**
+     * <p>Getter for the field <code>url</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getUrl() {
         return url;
     }
 
+    /**
+     * <p>Setter for the field <code>url</code>.</p>
+     *
+     * @param url a {@link java.lang.String} object.
+     */
     public void setUrl(String url) {
         this.url = url;
     }
 
+    /**
+     * <p>Getter for the field <code>message</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * <p>Setter for the field <code>message</code>.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     */
     public void setMessage(String message) {
         this.message = message;
     }

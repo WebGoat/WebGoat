@@ -22,14 +22,26 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * <p>PluginsLoader class.</p>
+ *
+ * @version $Id: $Id
+ */
 public class PluginsLoader implements Runnable {
 
+    /** Constant <code>WEBGOAT_PLUGIN_EXTENSION="jar"</code> */
     protected static final String WEBGOAT_PLUGIN_EXTENSION = "jar";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Path pluginSource;
     private Path pluginTarget;
 
 
+    /**
+     * <p>Constructor for PluginsLoader.</p>
+     *
+     * @param pluginSource a {@link java.nio.file.Path} object.
+     * @param pluginTarget a {@link java.nio.file.Path} object.
+     */
     public PluginsLoader(Path pluginSource, Path pluginTarget) {
         Preconditions.checkNotNull(pluginSource, "plugin source cannot be null");
         Preconditions.checkNotNull(pluginTarget, "plugin target cannot be null");
@@ -38,6 +50,12 @@ public class PluginsLoader implements Runnable {
         this.pluginTarget = pluginTarget;
     }
 
+    /**
+     * <p>loadPlugins.</p>
+     *
+     * @param reload a boolean.
+     * @return a {@link java.util.List} object.
+     */
     public List<Plugin> loadPlugins(final boolean reload) {
         final PluginClassLoader cl = (PluginClassLoader) Thread.currentThread().getContextClassLoader();
         List<Plugin> plugins = Lists.newArrayList();
@@ -109,6 +127,7 @@ public class PluginsLoader implements Runnable {
         return extractorCallables;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void run() {
         loadPlugins(true);

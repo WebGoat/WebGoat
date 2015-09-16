@@ -16,34 +16,36 @@ import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
 
 
-/***************************************************************************************************
- * 
- * 
+/**
+ *************************************************************************************************
+ *
+ *
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- * 
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- * 
+ *
  * Getting Source ==============
- * 
+ *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
- * 
+ *
  * For details, please see http://webgoat.github.io
- * 
+ *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @version $Id: $Id
  */
 public class DatabaseUtilities
 {
@@ -51,11 +53,26 @@ public class DatabaseUtilities
 	private static Map<String, Connection> connections = new HashMap<String, Connection>();
 	private static Map<String, Boolean> dbBuilt = new HashMap<String, Boolean>();
 
+	/**
+	 * <p>getConnection.</p>
+	 *
+	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+	 * @return a {@link java.sql.Connection} object.
+	 * @throws java.sql.SQLException if any.
+	 */
 	public static Connection getConnection(WebSession s) throws SQLException
 	{
 		return getConnection(s.getUserName(), s.getWebgoatContext());
 	}
 
+	/**
+	 * <p>getConnection.</p>
+	 *
+	 * @param user a {@link java.lang.String} object.
+	 * @param context a {@link org.owasp.webgoat.session.WebgoatContext} object.
+	 * @return a {@link java.sql.Connection} object.
+	 * @throws java.sql.SQLException if any.
+	 */
 	public static synchronized Connection getConnection(String user, WebgoatContext context) throws SQLException
 	{
 		Connection conn = connections.get(user);
@@ -72,6 +89,11 @@ public class DatabaseUtilities
 		return conn;
 	}
 
+	/**
+	 * <p>returnConnection.</p>
+	 *
+	 * @param user a {@link java.lang.String} object.
+	 */
 	public static synchronized void returnConnection(String user)
 	{
 		try
@@ -114,18 +136,20 @@ public class DatabaseUtilities
 
 	/**
 	 * Description of the Method
-	 * 
+	 *
 	 * @param results
 	 *            Description of the Parameter
 	 * @param resultsMetaData
 	 *            Description of the Parameter
-	 * 
+	 * @param resultsMetaData
+	 *            Description of the Parameter
 	 * @return Description of the Return Value
-	 * 
 	 * @exception IOException
 	 *                Description of the Exception
 	 * @exception SQLException
 	 *                Description of the Exception
+	 * @throws java.io.IOException if any.
+	 * @throws java.sql.SQLException if any.
 	 */
 	public static MultiPartElement writeTable(ResultSet results, ResultSetMetaData resultsMetaData) throws IOException,
 			SQLException

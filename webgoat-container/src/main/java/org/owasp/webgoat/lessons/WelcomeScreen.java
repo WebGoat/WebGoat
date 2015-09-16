@@ -13,42 +13,44 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.session.*;
 
 
-/***************************************************************************************************
- * 
- * 
+/**
+ *************************************************************************************************
+ *
+ *
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- * 
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- * 
+ *
  * Getting Source ==============
- * 
+ *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
- * 
+ *
  * For details, please see http://webgoat.github.io
- * 
+ *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
- * @created October 28, 2003
+ * @since October 28, 2003
+ * @version $Id: $Id
  */
 public class WelcomeScreen extends Screen
 {
 
     /**
      * Constructor for the WelcomeScreen object
-     * 
+     *
      * @param s
      *            Description of the Parameter
      */
@@ -64,6 +66,11 @@ public class WelcomeScreen extends Screen
     {
     }
 
+    /**
+     * <p>setup.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     */
     public void setup(WebSession s)
     {
         // call createContent first so messages will go somewhere
@@ -81,6 +88,12 @@ public class WelcomeScreen extends Screen
         setContent(layout);
     }
 
+    /**
+     * <p>wrapForm.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link org.apache.ecs.Element} object.
+     */
     protected Element wrapForm(WebSession s)
     {
         if (s == null) { return new StringElement("Invalid Session"); }
@@ -97,11 +110,9 @@ public class WelcomeScreen extends Screen
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Description of the Method
-     * 
-     * @param s
-     *            Description of the Parameter
-     * @return Description of the Return Value
      */
     protected Element createContent(WebSession s)
     {
@@ -114,7 +125,7 @@ public class WelcomeScreen extends Screen
 
     /**
      * Gets the instructions attribute of the WelcomeScreen object
-     * 
+     *
      * @return The instructions value
      */
     protected String getInstructions()
@@ -126,7 +137,7 @@ public class WelcomeScreen extends Screen
 
     /**
      * Gets the title attribute of the WelcomeScreen object
-     * 
+     *
      * @return The title value
      */
     public String getTitle()
@@ -137,6 +148,11 @@ public class WelcomeScreen extends Screen
     /*
      * (non-Javadoc)
      * @see session.Screen#getRole()
+     */
+    /**
+     * <p>getRole.</p>
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getRole()
     {

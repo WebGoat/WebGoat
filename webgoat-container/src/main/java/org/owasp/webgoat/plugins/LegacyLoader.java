@@ -14,37 +14,36 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * *************************************************************************************************
- * <p/>
- * <p/>
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
- * <p/>
+ *************************************************************************************************
+ *
+ *
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * <p/>
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- * <p/>
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- * <p/>
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
- * <p/>
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
  * Getting Source ==============
- * <p/>
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
- * for free software projects.
- * <p/>
+ *
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
+ * projects.
+ *
  * For details, please see http://webgoat.github.io
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @created October 28, 2003
+ * @since October 28, 2003
+ * @version $Id: $Id
  */
 public class LegacyLoader {
 
@@ -52,12 +51,15 @@ public class LegacyLoader {
 
     private final List<String> files = new LinkedList<String>();
 
+    /**
+     * <p>Constructor for LegacyLoader.</p>
+     */
     public LegacyLoader() {
     }
 
     /**
      * Take an absolute file and return the filename.
-     * <p/>
+     *
      * Ex. /etc/password becomes password
      *
      * @param s
@@ -79,7 +81,7 @@ public class LegacyLoader {
 
     /**
      * Take a class name and return the equivalent file name
-     * <p/>
+     *
      * Ex. org.owasp.webgoat becomes org/owasp/webgoat.java
      *
      * @param className
@@ -137,8 +139,8 @@ public class LegacyLoader {
     /**
      * Load all of the filenames into a temporary cache
      *
-     * @param context
-     * @param path
+     * @param context a {@link javax.servlet.ServletContext} object.
+     * @param path a {@link java.lang.String} object.
      */
     public void loadFiles(ServletContext context, String path) {
         logger.debug("Loading files into cache, path: " + path);
@@ -163,8 +165,11 @@ public class LegacyLoader {
     /**
      * Instantiate all the lesson objects into a cache
      *
-     * @param path
-     * @param context 
+     * @param path a {@link java.lang.String} object.
+     * @param context a {@link javax.servlet.ServletContext} object.
+     * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
+     * @param properties a {@link org.owasp.webgoat.session.WebgoatProperties} object.
+     * @return a {@link java.util.List} object.
      */
     public List<AbstractLesson> loadLessons(WebgoatContext webgoatContext, ServletContext context, String path, WebgoatProperties properties ) {
 
@@ -214,7 +219,8 @@ public class LegacyLoader {
 
     /**
      * For each lesson, set the source file and lesson file
-     * @param lessons 
+     *
+     * @param lessons a {@link java.util.List} object.
      */
     public void loadResources(List<AbstractLesson> lessons ) {
         for (AbstractLesson lesson : lessons) {

@@ -11,35 +11,37 @@ import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 
 
-/***************************************************************************************************
- * 
- * 
+/**
+ *************************************************************************************************
+ *
+ *
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- * 
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- * 
+ *
  * Getting Source ==============
- * 
+ *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
- * 
+ *
  * For details, please see http://webgoat.github.io
- * 
+ *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @created March 13, 2007
+ * @since March 13, 2007
+ * @version $Id: $Id
  */
 public class Catcher extends HammerHead
 {
@@ -54,19 +56,19 @@ public class Catcher extends HammerHead
 	 */
 	public final static String START_SOURCE_SKIP = "START_OMIT_SOURCE";
 
+	/** Constant <code>END_SOURCE_SKIP="END_OMIT_SOURCE"</code> */
 	public final static String END_SOURCE_SKIP = "END_OMIT_SOURCE";
 
+	/** Constant <code>PROPERTY="PROPERTY"</code> */
 	public static final String PROPERTY = "PROPERTY";
 
+	/** Constant <code>EMPTY_STRING=""</code> */
 	public static final String EMPTY_STRING = "";
 
 	/**
+	 * {@inheritDoc}
+	 *
 	 * Description of the Method
-	 * 
-	 * @param request
-	 *            Description of the Parameter
-	 * @param response
-	 *            Description of the Parameter
 	 * @exception IOException
 	 *                Description of the Exception
 	 * @exception ServletException

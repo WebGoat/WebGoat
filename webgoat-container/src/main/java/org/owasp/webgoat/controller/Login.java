@@ -12,12 +12,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * <p>Login class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class Login {
 
+    /**
+     * <p>login.</p>
+     *
+     * @param error a {@link java.lang.String} object.
+     * @param logout a {@link java.lang.String} object.
+     * @return a {@link org.springframework.web.servlet.ModelAndView} object.
+     */
     @RequestMapping(value = "login.mvc", method = RequestMethod.GET)
     public ModelAndView login(
             @RequestParam(value = "error", required = false) String error,

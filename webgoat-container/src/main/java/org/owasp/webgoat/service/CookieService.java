@@ -42,8 +42,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * <p>CookieService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class CookieService extends BaseService {
@@ -51,8 +53,8 @@ public class CookieService extends BaseService {
     /**
      * Returns cookies for last attack
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link java.util.List} object.
      */
     @RequestMapping(value = "/cookie.mvc", produces = "application/json")
     public @ResponseBody
@@ -65,8 +67,8 @@ public class CookieService extends BaseService {
     /**
      * Returns cookies and params for current lesson
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link org.springframework.web.servlet.ModelAndView} object.
      */
     @RequestMapping(value = "/cookies_widget.mvc", produces = "text/html")
     public ModelAndView showCookiesAndParamsAsHtml(HttpSession session) {
