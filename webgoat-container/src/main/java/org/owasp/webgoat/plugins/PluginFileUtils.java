@@ -2,17 +2,15 @@ package org.owasp.webgoat.plugins;
 
 
 import com.google.common.base.Preconditions;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class PluginFileUtils {
 
@@ -46,44 +44,26 @@ public class PluginFileUtils {
         return p;
     }
 
-    public static List<Path> getFilesInDirectory(Path directory) throws IOException {
-        List<Path> files = new ArrayList<>();
-        DirectoryStream<Path> dirStream;
-        dirStream = Files.newDirectoryStream(directory);
-        for (Path entry : dirStream) {
-            files.add(entry);
-        }
-        dirStream.close();
-        return files;
-    }
-
     public static void replaceInFiles(String replace, String with, Collection<File> files) throws IOException {
         Preconditions.checkNotNull(replace);
         Preconditions.checkNotNull(with);
         Preconditions.checkNotNull(files);
 
         for (File file : files) {
-            replaceInFile(replace, with, Paths.get(file.toURI()));
+            replaceInFile(replace, with, file);
         }
     }
 
-    public static void replaceInFile(String replace, String with, Path file) throws IOException {
+    public static void replaceInFile(String replace, String with, File file) throws IOException {
         Preconditions.checkNotNull(replace);
         Preconditions.checkNotNull(with);
         Preconditions.checkNotNull(file);
 
-        byte[] fileAsBytes = Files.readAllBytes(file);
-        String fileAsString = new String(fileAsBytes);
-        fileAsString = fileAsString.replaceAll(replace, with);
-        Files.write(file, fileAsString.getBytes());
-    }
-
-    public static void writeFile(Path targetFile, byte[] bytes, OpenOption... options) throws IOException {
-        createDirsIfNotExists(targetFile.getParent());
-        if (!Files.exists(targetFile)) {
-            Files.createFile(targetFile);
+        String fileAsString = "";
+        try (FileInputStream fis = new FileInputStream(file);) {
+            fileAsString = IOUtils.toString(fis, StandardCharsets.UTF_8.name());
+            fileAsString = fileAsString.replaceAll(replace, with);
         }
-        Files.write(targetFile, bytes, options);
+        Files.write(file.toPath(), fileAsString.getBytes());
     }
-
 }

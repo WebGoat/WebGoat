@@ -6,13 +6,13 @@ import org.owasp.webgoat.classloader.PluginClassLoader;
 import org.owasp.webgoat.util.LabelProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ResourceUtils;
 
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
@@ -70,39 +70,33 @@ public class PluginsLoader implements Runnable {
 
     private List<Plugin> processPlugins(List<URL> jars, boolean reload) throws Exception {
         final List<Plugin> plugins = Lists.newArrayList();
-        final ExecutorService executorService = Executors.newFixedThreadPool(20);
-        final CompletionService<PluginExtractor> completionService = new ExecutorCompletionService<>(executorService);
-        final List<Callable<PluginExtractor>> callables = extractJars(jars);
+        final ExecutorService executorService = Executors.newFixedThreadPool(10);
+        final CompletionService<Plugin> completionService = new ExecutorCompletionService<>(executorService);
+        final List<Callable<Plugin>> callables = extractJars(jars);
 
-        for (Callable<PluginExtractor> s : callables) {
+        for (Callable<Plugin> s : callables) {
             completionService.submit(s);
         }
         int n = callables.size();
         for (int i = 0; i < n; i++) {
-            PluginExtractor extractor = completionService.take().get();
-            Plugin plugin = new Plugin(pluginTarget, extractor.getClasses());
+            Plugin plugin = completionService.take().get();
             if (plugin.getLesson().isPresent()) {
-                PluginFileUtils.createDirsIfNotExists(pluginTarget);
-                plugin.loadFiles(extractor.getFiles(), reload);
-                plugin.loadProperties(extractor.getProperties());
-                plugin.rewritePaths(pluginTarget);
                 plugins.add(plugin);
             }
         }
-        LabelProvider.refresh();
+        LabelProvider.updatePluginResources(pluginTarget.resolve("plugin/i18n/WebGoatLabels.properties"));
         return plugins;
     }
 
-    private List<Callable<PluginExtractor>> extractJars(List<URL> jars) {
-        List<Callable<PluginExtractor>> extractorCallables = Lists.newArrayList();
+    private List<Callable<Plugin>> extractJars(List<URL> jars) {
+        List<Callable<Plugin>> extractorCallables = Lists.newArrayList();
         for (final URL jar : jars) {
-            extractorCallables.add(new Callable<PluginExtractor>() {
+            extractorCallables.add(new Callable<Plugin>() {
 
                 @Override
-                public PluginExtractor call() throws Exception {
-                    PluginExtractor extractor = new PluginExtractor(Paths.get(jar.toURI()));
-                    extractor.extract(pluginTarget);
-                    return extractor;
+                public Plugin call() throws Exception {
+                    PluginExtractor extractor = new PluginExtractor();
+                    return extractor.extractJarFile(ResourceUtils.getFile(jar), pluginTarget.toFile());
                 }
             });
         }
