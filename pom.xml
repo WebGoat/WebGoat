@@ -34,9 +34,11 @@
             <organizationUrl>https://github.com/WebGoat/WebGoat</organizationUrl>
         </developer>
         <developer>
-            <id>nnbaars</id>
+            <id>nbaars</id>
             <name>Nanne Baars</name>
-            <email></email>
+            <email>nbaars@xebia.com</email>
+			<organizationUrl>https://github.com/nbaars</organizationUrl>
+			<timezone>Europe/Amsterdam</timezone>
         </developer>
         <developer>
             <id>misfir3</id>
