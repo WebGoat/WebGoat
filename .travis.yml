@@ -37,5 +37,17 @@ deploy:
 notifications:
   slack:
     secure: S9VFew5NSE8WDzYD1VDBUULKKT0fzgblQACznwQ85699b2yeX9TX58N3RZvRS1JVagVP1wu2xOrwN2g+AWx4Ro3UBZD5XG86uTJWpCLD4cRWHBoGMH2TfvI7/IzsWmgxH4MBxFRvZr/eEhlVAux+N9H4EoEdS4CKsJXEqV37PlA=
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "ZLZKz6lGt8YZ+NhkZPBAlI235+lEmu37Tcf+yTwh5yXuHAlnvvF6hPui7rANA/stbYGOIqIdhGOXbdrwyTU4Pvg78VwJOwsa9RtHJfou3pg4Ud9i0/dEeVl8aakmg2HDaWYGcFox8X1ViVc5UWjuBLztfJKQUEx0buJoWdMSf2E="
 addons:
   sauce_connect: true
+  coverity_scan:
+    project:
+      name: "WebGoat/WebGoat"
+      description: "Travis CI Build Automation"
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true install"
+
