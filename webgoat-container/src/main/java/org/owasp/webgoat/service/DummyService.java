@@ -34,12 +34,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * <p>DummyService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class DummyService extends BaseService{
 
+    /**
+     * <p>firstNames.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     @RequestMapping(value = "/first.mvc", produces = "application/json")
     public @ResponseBody
     List<String> firstNames() {

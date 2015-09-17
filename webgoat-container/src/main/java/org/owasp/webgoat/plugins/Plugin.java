@@ -20,6 +20,11 @@ import static org.owasp.webgoat.plugins.PluginFileUtils.fileEndsWith;
 import static org.owasp.webgoat.plugins.PluginFileUtils.hasParentDirectoryWithName;
 import static org.owasp.webgoat.plugins.PluginFileUtils.replaceInFiles;
 
+/**
+ * <p>Plugin class.</p>
+ *
+ * @version $Id: $Id
+ */
 public class Plugin {
 
     private static final String NAME_LESSON_SOLUTION_DIRECTORY = "lessonSolutions";
@@ -32,12 +37,23 @@ public class Plugin {
     private List<File> pluginFiles = Lists.newArrayList();
     private File lessonSourceFile;
 
+    /**
+     * <p>Constructor for Plugin.</p>
+     *
+     * @param pluginDirectory a {@link java.nio.file.Path} object.
+     */
     public Plugin(Path pluginDirectory) {
         Preconditions.checkNotNull(pluginDirectory, "plugin directory cannot be null");
         Preconditions.checkArgument(Files.exists(pluginDirectory), "directory %s does not exists", pluginDirectory);
         this.pluginDirectory = pluginDirectory;
     }
 
+    /**
+     * <p>Constructor for Plugin.</p>
+     *
+     * @param pluginDirectory a {@link java.nio.file.Path} object.
+     * @param classes a {@link java.util.List} object.
+     */
     public Plugin(Path pluginDirectory, List<String> classes) {
         this(pluginDirectory);
         findLesson(classes);
@@ -65,6 +81,11 @@ public class Plugin {
         }
     }
 
+    /**
+     * <p>loadProperties.</p>
+     *
+     * @param properties a {@link java.util.List} object.
+     */
     public void loadProperties(List<Path> properties) {
         for (Path propertyFile : properties) {
             LabelProvider.updatePluginResources(propertyFile);
@@ -72,6 +93,12 @@ public class Plugin {
         }
     }
 
+    /**
+     * <p>loadFiles.</p>
+     *
+     * @param files a {@link java.util.List} object.
+     * @param reload a boolean.
+     */
     public void loadFiles(List<Path> files, boolean reload) {
         for (Path file : files) {
             if (fileEndsWith(file, ".html") && hasParentDirectoryWithName(file, NAME_LESSON_SOLUTION_DIRECTORY)) {
@@ -90,6 +117,11 @@ public class Plugin {
         }
     }
 
+    /**
+     * <p>rewritePaths.</p>
+     *
+     * @param pluginTarget a {@link java.nio.file.Path} object.
+     */
     public void rewritePaths(Path pluginTarget) {
         try {
             replaceInFiles(this.lesson.getSimpleName() + "_files",
@@ -125,6 +157,8 @@ public class Plugin {
 
     /**
      * Lesson is optional, it is also possible that the supplied jar contains only helper classes.
+     *
+     * @return a {@link com.google.common.base.Optional} object.
      */
     public Optional<AbstractLesson> getLesson() {
         try {
@@ -137,18 +171,39 @@ public class Plugin {
         return Optional.absent();
     }
 
+    /**
+     * <p>getLessonSolution.</p>
+     *
+     * @param language a {@link java.lang.String} object.
+     * @return a {@link com.google.common.base.Optional} object.
+     */
     public Optional<File> getLessonSolution(String language) {
         return Optional.fromNullable(this.solutionLanguageFiles.get(language));
     }
 
+    /**
+     * <p>getLessonSolutions.</p>
+     *
+     * @return a {@link java.util.Map} object.
+     */
     public Map<String, File> getLessonSolutions() {
         return this.solutionLanguageFiles;
     }
 
+    /**
+     * <p>getLessonSource.</p>
+     *
+     * @return a {@link com.google.common.base.Optional} object.
+     */
     public Optional<File> getLessonSource() {
         return Optional.fromNullable(lessonSourceFile);
     }
 
+    /**
+     * <p>getLessonPlans.</p>
+     *
+     * @return a {@link java.util.Map} object.
+     */
     public Map<String, File> getLessonPlans() {
         return this.lessonPlansLanguageFiles;
     }

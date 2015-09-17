@@ -31,20 +31,30 @@
 package org.owasp.webgoat.lessons.model;
 
 /**
+ * <p>RequestParameter class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 public class RequestParameter implements Comparable<RequestParameter> {
 
     private final String name;
     private final String value;
 
+    /**
+     * <p>Constructor for RequestParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @param value a {@link java.lang.String} object.
+     */
     public RequestParameter(String name, String value) {
         this.name = name;
         this.value = value;
     }
 
     /**
+     * <p>Getter for the field <code>name</code>.</p>
+     *
      * @return the name
      */
     public String getName() {
@@ -52,12 +62,15 @@ public class RequestParameter implements Comparable<RequestParameter> {
     }
 
     /**
+     * <p>Getter for the field <code>value</code>.</p>
+     *
      * @return the values
      */
     public String getValue() {
         return value;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int compareTo(RequestParameter o) {
         return this.name.compareTo(o.getName());

@@ -6,6 +6,11 @@ import java.util.Map;
 import java.util.Properties;
 
 
+/**
+ * <p>RandomLessonTracker class.</p>
+ *
+ * @version $Id: $Id
+ */
 public class RandomLessonTracker extends LessonTracker
 {
 
@@ -15,23 +20,44 @@ public class RandomLessonTracker extends LessonTracker
 
 	private Map<String, Boolean> completed = new HashMap<String, Boolean>();
 
+	/**
+	 * <p>Constructor for RandomLessonTracker.</p>
+	 *
+	 * @param stages an array of {@link java.lang.String} objects.
+	 */
 	public RandomLessonTracker(String[] stages)
 	{
 		if (stages == null) stages = new String[0];
 		this.stages = stages;
 	}
 
+	/**
+	 * <p>Setter for the field <code>stage</code>.</p>
+	 *
+	 * @param stage a {@link java.lang.String} object.
+	 */
 	public void setStage(String stage)
 	{
 		this.stage = stage;
 	}
 
+	/**
+	 * <p>Getter for the field <code>stage</code>.</p>
+	 *
+	 * @return a {@link java.lang.String} object.
+	 */
 	public String getStage()
 	{
 		if (this.stage == null && stages.length > 0) return stages[0];
 		return this.stage;
 	}
 
+	/**
+	 * <p>setStageComplete.</p>
+	 *
+	 * @param stage a {@link java.lang.String} object.
+	 * @param complete a boolean.
+	 */
 	public void setStageComplete(String stage, boolean complete)
 	{
 		completed.put(stage, Boolean.valueOf(complete));
@@ -40,6 +66,12 @@ public class RandomLessonTracker extends LessonTracker
 		if (i < stages.length - 1) setStage(stages[i + 1]);
 	}
 
+	/**
+	 * <p>getStageNumber.</p>
+	 *
+	 * @param stage a {@link java.lang.String} object.
+	 * @return a int.
+	 */
 	public int getStageNumber(String stage)
 	{
 		for (int i = 0; i < stages.length; i++)
@@ -47,12 +79,19 @@ public class RandomLessonTracker extends LessonTracker
 		return -1;
 	}
 
+	/**
+	 * <p>hasCompleted.</p>
+	 *
+	 * @param stage a {@link java.lang.String} object.
+	 * @return a boolean.
+	 */
 	public boolean hasCompleted(String stage)
 	{
 		Boolean complete = completed.get(stage);
 		return complete == null ? false : complete.booleanValue();
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean getCompleted()
 	{
@@ -61,6 +100,7 @@ public class RandomLessonTracker extends LessonTracker
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setCompleted(boolean complete)
 	{
@@ -70,6 +110,7 @@ public class RandomLessonTracker extends LessonTracker
 		setStage(stages[0]);
 	}
 
+	/** {@inheritDoc} */
 	protected void setProperties(Properties props, Screen screen)
 	{
 		super.setProperties(props, screen);
@@ -84,6 +125,7 @@ public class RandomLessonTracker extends LessonTracker
 		setStage(props.getProperty(screen.getTitle() + ".stage"));
 	}
 
+	/** {@inheritDoc} */
 	public void store(WebSession s, Screen screen, String user)
 	{
 		for (int i = 0; i < stages.length; i++)
@@ -102,6 +144,11 @@ public class RandomLessonTracker extends LessonTracker
 		super.store(s, screen, user);
 	}
 
+	/**
+	 * <p>toString.</p>
+	 *
+	 * @return a {@link java.lang.String} object.
+	 */
 	public String toString()
 	{
 		StringBuffer buff = new StringBuffer();

@@ -40,7 +40,8 @@ import org.owasp.webgoat.session.WebSession;
  * For details, please see http://webgoat.github.io
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @created October 28, 2003
+ * @since October 28, 2003
+ * @version $Id: $Id
  */
 public class LessonSource extends HammerHead {
 
@@ -54,13 +55,13 @@ public class LessonSource extends HammerHead {
      */
     public final static String START_SOURCE_SKIP = "START_OMIT_SOURCE";
 
+    /** Constant <code>END_SOURCE_SKIP="END_OMIT_SOURCE"</code> */
     public final static String END_SOURCE_SKIP = "END_OMIT_SOURCE";
 
     /**
-     * Description of the Method
+     * {@inheritDoc}
      *
-     * @param request Description of the Parameter
-     * @param response Description of the Parameter
+     * Description of the Method
      * @exception IOException Description of the Exception
      * @exception ServletException Description of the Exception
      */
@@ -142,6 +143,12 @@ public class LessonSource extends HammerHead {
                 "Code Section Deliberately Omitted"));
     }
 
+    /**
+     * <p>getSolution.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
+     */
     protected String getSolution(WebSession s) {
 
         String source = null;
@@ -169,6 +176,7 @@ public class LessonSource extends HammerHead {
      * @param s Description of the Parameter
      * @param response Description of the Parameter
      * @exception IOException Description of the Exception
+     * @throws java.io.IOException if any.
      */
     protected void writeSource(String s, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");

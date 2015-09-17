@@ -42,8 +42,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * <p>LessonPlanService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class LessonPlanService extends BaseService {
@@ -51,8 +53,8 @@ public class LessonPlanService extends BaseService {
     /**
      * Returns source for current attack
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link java.lang.String} object.
      */
     @RequestMapping(value = "/lessonplan.mvc", produces = "application/html")
     public @ResponseBody

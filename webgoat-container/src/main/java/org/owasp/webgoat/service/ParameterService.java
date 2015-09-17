@@ -43,8 +43,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * <p>ParameterService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class ParameterService extends BaseService {
@@ -54,8 +56,8 @@ public class ParameterService extends BaseService {
     /**
      * Returns request parameters for last attack
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link java.util.List} object.
      */
     @RequestMapping(value = "/parameter.mvc", produces = "application/json")
     public @ResponseBody

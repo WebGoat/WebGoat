@@ -62,8 +62,8 @@ import org.slf4j.LoggerFactory;
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect
  * Security</a>
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- *
- * @created October 28, 2003
+ * @since October 28, 2003
+ * @version $Id: $Id
  */
 public class WebSession {
 
@@ -94,6 +94,7 @@ public class WebSession {
      */
     public final static String COLOR = "color";
 
+    /** Constant <code>COURSE="course"</code> */
     public final static String COURSE = "course";
 
     /**
@@ -101,6 +102,7 @@ public class WebSession {
      */
     public final static int ERROR = 0;
 
+    /** Constant <code>STAGE="stage"</code> */
     public static final String STAGE = "stage";
 
     /**
@@ -133,28 +135,40 @@ public class WebSession {
      */
     public final static String SESSION = "websession";
 
+    /** Constant <code>SHOWSOURCE="ShowSource"</code> */
     public final static String SHOWSOURCE = "ShowSource";
 
+    /** Constant <code>SHOWSOLUTION="ShowSolution"</code> */
     public final static String SHOWSOLUTION = "ShowSolution";
 
+    /** Constant <code>SHOWHINTS="ShowHints"</code> */
     public final static String SHOWHINTS = "ShowHints";
 
+    /** Constant <code>SHOW="show"</code> */
     public final static String SHOW = "show";
 
+    /** Constant <code>SHOW_NEXTHINT="NextHint"</code> */
     public final static String SHOW_NEXTHINT = "NextHint";
 
+    /** Constant <code>SHOW_PREVIOUSHINT="PreviousHint"</code> */
     public final static String SHOW_PREVIOUSHINT = "PreviousHint";
 
+    /** Constant <code>SHOW_PARAMS="Params"</code> */
     public final static String SHOW_PARAMS = "Params";
 
+    /** Constant <code>SHOW_COOKIES="Cookies"</code> */
     public final static String SHOW_COOKIES = "Cookies";
 
+    /** Constant <code>SHOW_SOURCE="Source"</code> */
     public final static String SHOW_SOURCE = "Source";
 
+    /** Constant <code>SHOW_SOLUTION="Solution"</code> */
     public final static String SHOW_SOLUTION = "Solution";
 
+    /** Constant <code>DEBUG="debug"</code> */
     public final static String DEBUG = "debug";
 
+    /** Constant <code>LANGUAGE="language"</code> */
     public final static String LANGUAGE = "language";
 
     /**
@@ -221,7 +235,7 @@ public class WebSession {
     /**
      * Constructor for the WebSession object
      *
-     * @param webgoatContext
+     * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
      * @param context Description of the Parameter
      */
     public WebSession(WebgoatContext webgoatContext, ServletContext context) {
@@ -239,10 +253,22 @@ public class WebSession {
         course.loadCourses(webgoatContext, context, "/");
     }
 
+    /**
+     * <p>getConnection.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.sql.Connection} object.
+     * @throws java.sql.SQLException if any.
+     */
     public static synchronized Connection getConnection(WebSession s) throws SQLException {
         return DatabaseUtilities.getConnection(s);
     }
 
+    /**
+     * <p>returnConnection.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     */
     public static void returnConnection(WebSession s) {
         DatabaseUtilities.returnConnection(s.getUserName());
     }
@@ -297,6 +323,11 @@ public class WebSession {
         return context;
     }
 
+    /**
+     * <p>getRoles.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<String> getRoles() {
         List<String> roles = new ArrayList<String>();
 
@@ -315,13 +346,18 @@ public class WebSession {
      * This is also used by the WebSession to set the admin, but the method
      * should be private
      *
-     * @param state
+     * @param state a boolean.
      */
     public void setAdmin(boolean state) {
         isAdmin = state;
 
     }
 
+    /**
+     * <p>getRole.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getRole() {
 
         String role = "";
@@ -347,6 +383,11 @@ public class WebSession {
         return course;
     }
 
+    /**
+     * <p>Setter for the field <code>course</code>.</p>
+     *
+     * @param course a {@link org.owasp.webgoat.session.Course} object.
+     */
     public void setCourse(Course course) {
         this.course = course;
     }
@@ -360,14 +401,29 @@ public class WebSession {
         return (currentScreen);
     }
 
+    /**
+     * <p>Setter for the field <code>currentScreen</code>.</p>
+     *
+     * @param screen a int.
+     */
     public void setCurrentScreen(int screen) {
         currentScreen = screen;
     }
 
+    /**
+     * <p>getRestartLink.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getRestartLink() {
         return getCurrentLesson().getLink() + "&" + RESTART + "=" + getCurrentScreen();
     }
 
+    /**
+     * <p>getCurrentLink.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getCurrentLink() {
         String thisLink = "attack";
         Enumeration<String> e = request.getParameterNames();
@@ -386,14 +442,31 @@ public class WebSession {
         return thisLink;
     }
 
+    /**
+     * <p>getCurrentLesson.</p>
+     *
+     * @return a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     */
     public AbstractLesson getCurrentLesson() {
         return getCourse().getLesson(this, getCurrentScreen(), getRoles());
     }
 
+    /**
+     * <p>getLesson.</p>
+     *
+     * @param id a int.
+     * @return a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     */
     public AbstractLesson getLesson(int id) {
         return getCourse().getLesson(this, id, getRoles());
     }
 
+    /**
+     * <p>getLessons.</p>
+     *
+     * @param category a {@link org.owasp.webgoat.lessons.Category} object.
+     * @return a {@link java.util.List} object.
+     */
     public List<AbstractLesson> getLessons(Category category) {
         return getCourse().getLessons(this, category, getRoles());
     }
@@ -407,6 +480,11 @@ public class WebSession {
         return (hintNum);
     }
 
+    /**
+     * <p>getHint.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getHint() {
         String hint = null;
         int hints = getCurrentLesson().getHintCount(this);
@@ -421,6 +499,11 @@ public class WebSession {
         return hint;
     }
 
+    /**
+     * <p>getParams.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<Parameter> getParams() {
         Vector<Parameter> params = null;
 
@@ -445,6 +528,11 @@ public class WebSession {
         return params;
     }
 
+    /**
+     * <p>getCookies.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<Cookie> getCookies() {
         List<Cookie> cookies = null;
 
@@ -465,8 +553,8 @@ public class WebSession {
     /**
      * Gets the cookie attribute of the CookieScreen object
      *
-     * @param s Description of the Parameter
      * @return The cookie value
+     * @param cookieName a {@link java.lang.String} object.
      */
     public String getCookie(String cookieName) {
         Cookie[] cookies = getRequest().getCookies();
@@ -480,16 +568,31 @@ public class WebSession {
         return (null);
     }
 
+    /**
+     * <p>getSource.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getSource() {
         return "Sorry.  No Java Source viewing available.";
         // return getCurrentLesson().getSource(this);
     }
 
+    /**
+     * <p>getSolution.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getSolution() {
         return "Sorry.  No solution is available.";
         // return getCurrentLesson().getSolution(this);
     }
 
+    /**
+     * <p>getInstructions.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getInstructions() {
         return getCurrentLesson().getInstructions(this);
     }
@@ -530,6 +633,11 @@ public class WebSession {
         return request;
     }
 
+    /**
+     * <p>Setter for the field <code>request</code>.</p>
+     *
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     */
     public void setRequest(HttpServletRequest request) {
         this.request = request;
     }
@@ -555,8 +663,8 @@ public class WebSession {
     /**
      * Gets the sourceFile attribute of the WebSession object
      *
-     * @param screen Description of the Parameter
      * @return The sourceFile value
+     * @param fileName a {@link java.lang.String} object.
      */
     public String getWebResource(String fileName) {
         // Note: doesn't work for admin path! Maybe with a ../ attack
@@ -601,6 +709,12 @@ public class WebSession {
 
     private Map<AbstractLesson, LessonSession> lessonSessions = new Hashtable<AbstractLesson, LessonSession>();
 
+    /**
+     * <p>isAuthenticatedInLesson.</p>
+     *
+     * @param lesson a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     * @return a boolean.
+     */
     public boolean isAuthenticatedInLesson(AbstractLesson lesson) {
         boolean authenticated = false;
 
@@ -613,32 +727,74 @@ public class WebSession {
         return authenticated;
     }
 
+    /**
+     * <p>isAuthorizedInLesson.</p>
+     *
+     * @param employeeId a int.
+     * @param functionId a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public boolean isAuthorizedInLesson(int employeeId, String functionId) {
         return getCurrentLesson().isAuthorized(this, employeeId, functionId);
     }
 
+    /**
+     * <p>isAuthorizedInLesson.</p>
+     *
+     * @param role a {@link java.lang.String} object.
+     * @param functionId a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public boolean isAuthorizedInLesson(String role, String functionId) {
         return getCurrentLesson().isAuthorized(this, role, functionId);
     }
 
+    /**
+     * <p>getUserIdInLesson.</p>
+     *
+     * @return a int.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     */
     public int getUserIdInLesson() throws ParameterNotFoundException {
         return getCurrentLesson().getUserId(this);
     }
 
+    /**
+     * <p>getUserNameInLesson.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     */
     public String getUserNameInLesson() throws ParameterNotFoundException {
         return getCurrentLesson().getUserName(this);
     }
 
+    /**
+     * <p>openLessonSession.</p>
+     *
+     * @param lesson a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     */
     public void openLessonSession(AbstractLesson lesson) {
         System.out.println("Opening new lesson session for lesson " + lesson);
         LessonSession lessonSession = new LessonSession();
         lessonSessions.put(lesson, lessonSession);
     }
 
+    /**
+     * <p>closeLessonSession.</p>
+     *
+     * @param lesson a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     */
     public void closeLessonSession(AbstractLesson lesson) {
         lessonSessions.remove(lesson);
     }
 
+    /**
+     * <p>getLessonSession.</p>
+     *
+     * @param lesson a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     * @return a {@link org.owasp.webgoat.session.LessonSession} object.
+     */
     public LessonSession getLessonSession(AbstractLesson lesson) {
         return lessonSessions.get(lesson);
     }
@@ -692,6 +848,11 @@ public class WebSession {
         message.append("<BR>" + " * " + text);
     }
 
+    /**
+     * <p>setLineBreak.</p>
+     *
+     * @param text a {@link java.lang.String} object.
+     */
     public void setLineBreak(String text) {
         message.append("<BR><BR>" + text);
     }
@@ -732,6 +893,11 @@ public class WebSession {
         return (showSource);
     }
 
+    /**
+     * <p>showSolution.</p>
+     *
+     * @return a boolean.
+     */
     public boolean showSolution() {
         return (showSolution);
     }
@@ -760,6 +926,7 @@ public class WebSession {
      * @param request Description of the Parameter
      * @param response Description of the Parameter
      * @param name Description of the Parameter
+     * @throws java.io.IOException if any.
      */
     public void update(HttpServletRequest request, HttpServletResponse response, String name) throws IOException {
         String content = null;
@@ -915,6 +1082,11 @@ public class WebSession {
         }
     }
 
+    /**
+     * <p>updateLastAttackRequestInfo.</p>
+     *
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     */
     public void updateLastAttackRequestInfo(HttpServletRequest request) {
         // store cookies
         Cookie[] cookies = request.getCookies();
@@ -946,6 +1118,11 @@ public class WebSession {
         }
     }
 
+    /**
+     * <p>restartLesson.</p>
+     *
+     * @param lessonId a int.
+     */
     public void restartLesson(int lessonId) {
         AbstractLesson al = getLesson(lessonId);
         System.out.println("Restarting lesson: " + al);
@@ -960,7 +1137,9 @@ public class WebSession {
     }
 
     /**
-     * @param string
+     * <p>setHasHackableAdmin.</p>
+     *
+     * @param role a {@link java.lang.String} object.
      */
     public void setHasHackableAdmin(String role) {
         hasHackedHackableAdmin = (AbstractLesson.HACKED_ADMIN_ROLE.equals(role) & hasHackedHackableAdmin);
@@ -972,6 +1151,8 @@ public class WebSession {
     }
 
     /**
+     * <p>isDebug.</p>
+     *
      * @return Returns the isDebug.
      */
     public boolean isDebug() {
@@ -979,13 +1160,20 @@ public class WebSession {
     }
 
     /**
+     * <p>getHeader.</p>
+     *
      * @param header - request header value to return
-     * @return
+     * @return a {@link java.lang.String} object.
      */
     public String getHeader(String header) {
         return getRequest().getHeader(header);
     }
 
+    /**
+     * <p>getNextHint.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getNextHint() {
         String hint = null;
 
@@ -1003,6 +1191,11 @@ public class WebSession {
         return hint;
     }
 
+    /**
+     * <p>getPreviousHint.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getPreviousHint() {
         String hint = null;
 
@@ -1018,23 +1211,45 @@ public class WebSession {
         return hint;
     }
 
+    /**
+     * <p>Setter for the field <code>currentMenu</code>.</p>
+     *
+     * @param ranking a {@link java.lang.Integer} object.
+     */
     public void setCurrentMenu(Integer ranking) {
         currentMenu = ranking.intValue();
     }
 
+    /**
+     * <p>Getter for the field <code>currentMenu</code>.</p>
+     *
+     * @return a int.
+     */
     public int getCurrentMenu() {
         return currentMenu;
     }
 
+    /**
+     * <p>Getter for the field <code>webgoatContext</code>.</p>
+     *
+     * @return a {@link org.owasp.webgoat.session.WebgoatContext} object.
+     */
     public WebgoatContext getWebgoatContext() {
         return webgoatContext;
     }
 
+    /**
+     * <p>getCurrrentLanguage.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getCurrrentLanguage() {
         return currentLanguage;
     }
 
     /**
+     * <p>Getter for the field <code>cookiesOnLastRequest</code>.</p>
+     *
      * @return the cookiesOnLastRequest
      */
     public List<Cookie> getCookiesOnLastRequest() {
@@ -1042,6 +1257,8 @@ public class WebSession {
     }
 
     /**
+     * <p>Getter for the field <code>parmsOnLastRequest</code>.</p>
+     *
      * @return the parmsOnLastRequest
      */
     public List<RequestParameter> getParmsOnLastRequest() {

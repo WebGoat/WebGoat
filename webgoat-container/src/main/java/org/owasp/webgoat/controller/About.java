@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * <p>About class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class About {
@@ -25,6 +27,14 @@ public class About {
     final Logger logger = LoggerFactory.getLogger(About.class);
     private static final String WELCOMED = "welcomed";
     
+    /**
+     * <p>welcome.</p>
+     *
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @param error a {@link java.lang.String} object.
+     * @param logout a {@link java.lang.String} object.
+     * @return a {@link org.springframework.web.servlet.ModelAndView} object.
+     */
     @RequestMapping(value = "about.mvc", method = RequestMethod.GET)
     public ModelAndView welcome(HttpServletRequest request,
             @RequestParam(value = "error", required = false) String error,

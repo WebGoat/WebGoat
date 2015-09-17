@@ -30,37 +30,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * *************************************************************************************************
- * <p/>
- * <p/>
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
- * <p/>
+ *************************************************************************************************
+ *
+ *
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * <p/>
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- * <p/>
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- * <p/>
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
- * <p/>
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
  * Getting Source ==============
- * <p/>
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
- * for free software projects.
- * <p/>
+ *
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
+ * projects.
+ *
  * For details, please see http://webgoat.github.io
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @created October 28, 2003
+ * @since October 28, 2003
+ * @version $Id: $Id
  */
 public class Course {
 
@@ -76,6 +75,9 @@ public class Course {
 
     private WebgoatContext webgoatContext;
 
+    /**
+     * <p>Constructor for Course.</p>
+     */
     public Course() {
         try {
             properties = new WebgoatProperties(PROPERTIES_FILENAME);
@@ -86,7 +88,7 @@ public class Course {
 
     /**
      * Take an absolute file and return the filename.
-     * <p/>
+     *
      * Ex. /etc/password becomes password
      *
      * @param s
@@ -108,7 +110,7 @@ public class Course {
 
     /**
      * Take a class name and return the equivalent file name
-     * <p/>
+     *
      * Ex. org.owasp.webgoat becomes org/owasp/webgoat.java
      *
      * @param className
@@ -190,9 +192,9 @@ public class Course {
     /**
      * Gets the lesson attribute of the Course object
      *
-     * @param s
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
      * @param lessonId Description of the Parameter
-     * @param roles
+     * @param roles a {@link java.util.List} object.
      * @return The lesson value
      */
     public AbstractLesson getLesson(WebSession s, int lessonId, List<String> roles) {
@@ -214,12 +216,27 @@ public class Course {
         return null;
     }
 
+    /**
+     * <p>getLesson.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param lessonId a int.
+     * @param role a {@link java.lang.String} object.
+     * @return a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     */
     public AbstractLesson getLesson(WebSession s, int lessonId, String role) {
         List<String> roles = new ArrayList<String>();
         roles.add(role);
         return getLesson(s, lessonId, roles);
     }
 
+    /**
+     * <p>Getter for the field <code>lessons</code>.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param role a {@link java.lang.String} object.
+     * @return a {@link java.util.List} object.
+     */
     public List getLessons(WebSession s, String role) {
         List<String> roles = new ArrayList<String>();
         roles.add(role);
@@ -229,8 +246,8 @@ public class Course {
     /**
      * Gets the lessons attribute of the Course object
      *
-     * @param s
-     * @param roles
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param roles a {@link java.util.List} object.
      * @return The lessons value
      */
     public List<AbstractLesson> getLessons(WebSession s, List<String> roles) {
@@ -266,12 +283,28 @@ public class Course {
         return lessonList;
     }
 
+    /**
+     * <p>Getter for the field <code>lessons</code>.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param category a {@link org.owasp.webgoat.lessons.Category} object.
+     * @param role a {@link java.lang.String} object.
+     * @return a {@link java.util.List} object.
+     */
     public List getLessons(WebSession s, Category category, String role) {
         List<String> roles = new ArrayList<String>();
         roles.add(role);
         return getLessons(s, category, roles);
     }
 
+    /**
+     * <p>Getter for the field <code>lessons</code>.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param category a {@link org.owasp.webgoat.lessons.Category} object.
+     * @param roles a {@link java.util.List} object.
+     * @return a {@link java.util.List} object.
+     */
     public List<AbstractLesson> getLessons(WebSession s, Category category, List<String> roles) {
         if (s.isHackedAdmin()) {
             roles.add(AbstractLesson.HACKED_ADMIN_ROLE);
@@ -279,6 +312,12 @@ public class Course {
         return getLessons(category, roles);
     }
 
+    /**
+     * <p>getLesson.</p>
+     *
+     * @param lessonId a int.
+     * @return a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     */
     public AbstractLesson getLesson(int lessonId) {
         for (AbstractLesson l : lessons) {
             if (l.getScreenId() == lessonId) {
@@ -326,7 +365,7 @@ public class Course {
     /**
      * Description of the Method
      *
-     * @param webgoatContext
+     * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
      * @param path           Description of the Parameter
      * @param context        Description of the Parameter
      */

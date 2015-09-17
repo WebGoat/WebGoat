@@ -1,22 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <name>webgoat-container</name>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>webgoat-container</artifactId>
     <packaging>war</packaging>
+
     <parent>
         <groupId>org.owasp.webgoat</groupId>
         <artifactId>webgoat-parent</artifactId>
         <version>7.0-SNAPSHOT</version>
     </parent>
-
-
-    <!-- Shared version number properties -->
-    <properties>
-        <org.springframework.version>3.2.4.RELEASE</org.springframework.version>
-        <spring.security.version>3.2.4.RELEASE</spring.security.version>
-        <tiles.version>2.2.2</tiles.version>
-    </properties>
 
     <profiles>
         <profile>
@@ -33,7 +28,7 @@
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
                         <artifactId>tomcat7-maven-plugin</artifactId>
-                        <version>2.2</version>
+                        <version>${tomcat7-maven-plugin.version}</version>
                         <configuration>
                             <server>local_tomcat</server>
                             <url>http://localhost:8080/manager</url>
@@ -73,7 +68,7 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>start-tomcat</id>
+                                <id>tomcat-startup</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>run-war-only</goal>
@@ -85,7 +80,7 @@
                             </execution>
                             <!-- At post-integration-test phase, stop the embedded Tomcat server. -->
                             <execution>
-                                <id>stop-tomcat</id>
+                                <id>tomcat-shutdown</id>
                                 <phase>post-integration-test</phase>
                                 <goals>
                                     <goal>shutdown</goal>
@@ -96,7 +91,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.18.1</version>
+                        <version>${maven-failsafe-plugin.version}</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -124,7 +119,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -134,7 +129,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
+                <version>${maven-jar-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>create-jar</id>
@@ -148,7 +143,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.4</version>
+                <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <!--  archiving the classes breaks the admin screen loads in course.java
                           the legacy lesson loader does not look in jar files for lessons  -->
@@ -168,7 +163,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.7</version>
+                <version>${build-helper-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-artifacts</id>
@@ -189,10 +184,10 @@
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <version>${tomcat7-maven-plugin.version}</version>
                 <configuration>
-                  <server>local_tomcat</server>
-                  <url>http://localhost:8080/manager</url>
+                    <server>local_tomcat</server>
+                    <url>http://localhost:8080/manager</url>
                     <path>/WebGoat</path>
                     <attachArtifactClassifier>exec</attachArtifactClassifier>
                     <contextReloadable>true</contextReloadable>
@@ -233,7 +228,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>**/*IT.java</exclude>
@@ -252,52 +247,52 @@
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
-            <version>1.1</version>
+            <version>${activation.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.187</version>
+            <version>${h2.version}</version>
         </dependency>
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis</artifactId>
-            <version>1.2</version>
+            <version>${axis.version}</version>
         </dependency>
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-saaj</artifactId>
-            <version>1.2</version>
+            <version>${axis-saaj.version}</version>
         </dependency>
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-jaxrpc</artifactId>
-            <version>1.2</version>
+            <version>${axis-jaxrpc.version}</version>
         </dependency>
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-ant</artifactId>
-            <version>1.2</version>
+            <version>${axis-ant.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.3.2</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>1.4</version>
+            <version>${commons-io.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.1</version>
+            <version>${commons-collections.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
-            <version>1.8.1</version>
+            <version>${commons-digester.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>xml-apis</groupId>
@@ -308,62 +303,62 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.1.3</version>
+            <version>${commons-logging.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.7.7</version>
+            <version>${jcl-over-slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-discovery</groupId>
             <artifactId>commons-discovery</artifactId>
-            <version>0.2</version>
+            <version>${commons-discovery.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1.4.2</version>
+            <version>${mail.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mailapi</artifactId>
-            <version>1.4.2</version>
+            <version>${mail.version}</version>
         </dependency>
         <dependency>
             <groupId>hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>1.8.0.10</version>
+            <version>${hsqldb.version}</version>
         </dependency>
         <dependency>
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
-            <version>1.5.1</version>
+            <version>${wsdl4j.version}</version>
         </dependency>
         <dependency>
             <groupId>java2html</groupId>
             <artifactId>j2h</artifactId>
-            <version>1.3.1</version>
+            <version>${j2h.version}</version>
         </dependency>
         <dependency>
             <groupId>ecs</groupId>
             <artifactId>ecs</artifactId>
-            <version>1.4.2</version>
+            <version>${ecs.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
-            <version>1.2</version>
+            <version>${javax.transaction-api.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jtds</groupId>
             <artifactId>jtds</artifactId>
-            <version>1.2.2</version>
+            <version>${jtds.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-catalina</artifactId>
-            <version>7.0.63</version>
+            <version>${tomcat-catalina.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -374,7 +369,7 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>6.0</version>
+            <version>${javaee-api.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -388,12 +383,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.0.4</version>
+            <version>${jackson-core.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.0.4</version>
+            <version>${jackson-databind.version}</version>
         </dependency>
 
         <!-- Spring MVC framework -->
@@ -426,32 +421,32 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.2.2</version>
+            <version>${commons-fileupload.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>18.0</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <!-- JSTL -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl.version}</version>
         </dependency>
 
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
-            <version>1.1.2</version>
+            <version>${standard.version}</version>
         </dependency>
 
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <version>${log4j.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>javax.jms</groupId>
@@ -476,13 +471,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.7</version>
+            <version>${slf4j-api.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.7</version>
+            <version>${slf4j-log4j12.version}</version>
             <type>jar</type>
         </dependency>
         <!-- ************* END spring MVC and related dependencies ************** -->
@@ -490,21 +485,22 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>2.47.1</version>
+            <version>${selenium-java.version}</version>
         </dependency>
         <dependency>
             <groupId>com.saucelabs</groupId>
             <artifactId>sauce_junit</artifactId>
-            <version>2.1.18</version>
+            <version>${sauce_junit.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- ************* END: Dependencies for Unit and Integration Testing ************** -->
-    <!-- ************* END: <dependencies> ************** -->
+        <!-- ************* END: <dependencies> ************** -->
     </dependencies>
+
 </project>

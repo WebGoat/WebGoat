@@ -30,18 +30,29 @@ package org.owasp.webgoat.lessons.model;
 /**
  * Model component for the Http Basics lesson.  Using a model
  * for that simple lesson is architectural overkill.  We do it anyway
- * for illustrative purposes - to demonstrate the pattern that we will 
+ * for illustrative purposes - to demonstrate the pattern that we will
  * use for more complex lessons.
- * 
+ *
+ * @version $Id: $Id
  */
 public class HttpBasicsModel {
 
     private String personName;
 
+    /**
+     * <p>Getter for the field <code>personName</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getPersonName() {
         return personName;
     }
 
+    /**
+     * <p>Setter for the field <code>personName</code>.</p>
+     *
+     * @param personName a {@link java.lang.String} object.
+     */
     public void setPersonName(String personName) {
         this.personName = personName;
     }

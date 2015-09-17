@@ -47,8 +47,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * <p>LessonMenuService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class LessonMenuService extends BaseService {
@@ -58,8 +60,8 @@ public class LessonMenuService extends BaseService {
     /**
      * Returns the lesson menu which is used to build the left nav
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link java.util.List} object.
      */
     @RequestMapping(value = "/lessonmenu.mvc", produces = "application/json")
     public @ResponseBody

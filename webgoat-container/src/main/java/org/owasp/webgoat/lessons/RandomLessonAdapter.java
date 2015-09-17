@@ -10,11 +10,27 @@ import org.owasp.webgoat.session.RandomLessonTracker;
 import org.owasp.webgoat.session.WebSession;
 
 
+/**
+ * <p>Abstract RandomLessonAdapter class.</p>
+ *
+ * @version $Id: $Id
+ */
 public abstract class RandomLessonAdapter extends LessonAdapter
 {
 
+    /**
+     * <p>getStages.</p>
+     *
+     * @return an array of {@link java.lang.String} objects.
+     */
     public abstract String[] getStages();
 
+    /**
+     * <p>setStage.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param stage a {@link java.lang.String} object.
+     */
     public void setStage(WebSession s, String stage)
     {
         getLessonTracker(s).setStage(stage);
@@ -33,11 +49,23 @@ public abstract class RandomLessonAdapter extends LessonAdapter
         }
     }
 
+    /**
+     * <p>getStage.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String getStage(WebSession s)
     {
         return getLessonTracker(s).getStage();
     }
 
+    /**
+     * <p>setStageComplete.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param stage a {@link java.lang.String} object.
+     */
     public void setStageComplete(WebSession s, String stage)
     {
         RandomLessonTracker lt = getLessonTracker(s);
@@ -67,29 +95,40 @@ public abstract class RandomLessonAdapter extends LessonAdapter
         }
     }
 
+    /**
+     * <p>isStageComplete.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param stage a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public boolean isStageComplete(WebSession s, String stage)
     {
         return getLessonTracker(s).hasCompleted(stage);
     }
 
+    /** {@inheritDoc} */
     @Override
     public RandomLessonTracker getLessonTracker(WebSession s)
     {
         return (RandomLessonTracker) super.getLessonTracker(s);
     }
 
+    /** {@inheritDoc} */
     @Override
     public RandomLessonTracker getLessonTracker(WebSession s, AbstractLesson lesson)
     {
         return (RandomLessonTracker) super.getLessonTracker(s, lesson);
     }
 
+    /** {@inheritDoc} */
     @Override
     public RandomLessonTracker getLessonTracker(WebSession s, String userNameOverride)
     {
         return (RandomLessonTracker) super.getLessonTracker(s, userNameOverride);
     }
 
+    /** {@inheritDoc} */
     @Override
     public LessonTracker createLessonTracker()
     {

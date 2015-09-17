@@ -14,12 +14,31 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * <p>PluginFileUtils class.</p>
+ *
+ * @version $Id: $Id
+ */
 public class PluginFileUtils {
 
+    /**
+     * <p>fileEndsWith.</p>
+     *
+     * @param p a {@link java.nio.file.Path} object.
+     * @param s a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public static boolean fileEndsWith(Path p, String s) {
         return p.getFileName().toString().endsWith(s);
     }
 
+    /**
+     * <p>fileEndsWith.</p>
+     *
+     * @param p a {@link java.nio.file.Path} object.
+     * @param suffixes a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public static boolean fileEndsWith(Path p, String... suffixes) {
         for (String suffix : suffixes) {
             if (fileEndsWith(p, suffix)) {
@@ -29,6 +48,13 @@ public class PluginFileUtils {
         return false;
     }
 
+    /**
+     * <p>hasParentDirectoryWithName.</p>
+     *
+     * @param p a {@link java.nio.file.Path} object.
+     * @param s a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public static boolean hasParentDirectoryWithName(Path p, String s) {
         if (p == null || p.getParent() == null || p.getParent().equals(p.getRoot())) {
             return false;
@@ -39,6 +65,13 @@ public class PluginFileUtils {
         return hasParentDirectoryWithName(p.getParent(), s);
     }
 
+    /**
+     * <p>createDirsIfNotExists.</p>
+     *
+     * @param p a {@link java.nio.file.Path} object.
+     * @return a {@link java.nio.file.Path} object.
+     * @throws java.io.IOException if any.
+     */
     public static Path createDirsIfNotExists(Path p) throws IOException {
         if (Files.notExists(p)) {
             Files.createDirectories(p);
@@ -46,6 +79,13 @@ public class PluginFileUtils {
         return p;
     }
 
+    /**
+     * <p>getFilesInDirectory.</p>
+     *
+     * @param directory a {@link java.nio.file.Path} object.
+     * @return a {@link java.util.List} object.
+     * @throws java.io.IOException if any.
+     */
     public static List<Path> getFilesInDirectory(Path directory) throws IOException {
         List<Path> files = new ArrayList<>();
         DirectoryStream<Path> dirStream;
@@ -57,6 +97,14 @@ public class PluginFileUtils {
         return files;
     }
 
+    /**
+     * <p>replaceInFiles.</p>
+     *
+     * @param replace a {@link java.lang.String} object.
+     * @param with a {@link java.lang.String} object.
+     * @param files a {@link java.util.Collection} object.
+     * @throws java.io.IOException if any.
+     */
     public static void replaceInFiles(String replace, String with, Collection<File> files) throws IOException {
         Preconditions.checkNotNull(replace);
         Preconditions.checkNotNull(with);
@@ -67,6 +115,14 @@ public class PluginFileUtils {
         }
     }
 
+    /**
+     * <p>replaceInFile.</p>
+     *
+     * @param replace a {@link java.lang.String} object.
+     * @param with a {@link java.lang.String} object.
+     * @param file a {@link java.nio.file.Path} object.
+     * @throws java.io.IOException if any.
+     */
     public static void replaceInFile(String replace, String with, Path file) throws IOException {
         Preconditions.checkNotNull(replace);
         Preconditions.checkNotNull(with);
@@ -78,6 +134,14 @@ public class PluginFileUtils {
         Files.write(file, fileAsString.getBytes());
     }
 
+    /**
+     * <p>writeFile.</p>
+     *
+     * @param targetFile a {@link java.nio.file.Path} object.
+     * @param bytes an array of byte.
+     * @param options a {@link java.nio.file.OpenOption} object.
+     * @throws java.io.IOException if any.
+     */
     public static void writeFile(Path targetFile, byte[] bytes, OpenOption... options) throws IOException {
         createDirsIfNotExists(targetFile.getParent());
         if (!Files.exists(targetFile)) {

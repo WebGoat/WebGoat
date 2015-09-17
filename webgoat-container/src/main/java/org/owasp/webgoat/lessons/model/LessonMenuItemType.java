@@ -29,8 +29,10 @@
 package org.owasp.webgoat.lessons.model;
 
 /**
+ * <p>LessonMenuItemType class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 public enum LessonMenuItemType {
     CATEGORY,

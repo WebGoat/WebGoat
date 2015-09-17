@@ -34,8 +34,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * <p>RestartLessonService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class RestartLessonService extends BaseService {
@@ -43,8 +45,8 @@ public class RestartLessonService extends BaseService {
     /**
      * Returns current lesson
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link java.lang.String} object.
      */
     @RequestMapping(value = "/restartlesson.mvc", produces = "text/text")
     public @ResponseBody

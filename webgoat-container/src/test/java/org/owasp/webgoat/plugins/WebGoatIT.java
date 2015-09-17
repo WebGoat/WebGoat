@@ -55,10 +55,11 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
     @Rule
     public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(this, authentication);
 
-    @Rule public TestName name = new TestName() {
+    @Rule
+    public TestName name = new TestName() {
         public String getMethodName() {
             return String.format("%s : (%s %s %s)", super.getMethodName(), os, browser, version);
-        };
+        }
     };
 
     /**
@@ -120,8 +121,8 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
     public static LinkedList browsersStrings() {
         LinkedList browsers = new LinkedList();
 
-        // windows 7, Chrome 41
-        browsers.add(new String[]{"Windows 7", "41", "chrome", null, null});
+        // windows 7, Chrome 45
+        browsers.add(new String[]{"Windows 7", "45", "chrome", null, null});
 
         // windows 7, IE 9
         //browsers.add(new String[]{"Windows 7", "9", "internet explorer", null, null});
@@ -132,14 +133,20 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         // windows 8.1, IE 11
         //browsers.add(new String[]{"Windows 8.1", "11", "internet explorer", null, null});
 
+        // windows 10, Microsoft Edge Browser
+        //browsers.add(new String[]{"Windows 10", "20.10240", "microsoftedge", null, null});
+
         // OS X 10.9, Safari 7
         //browsers.add(new String[]{"OSX 10.9", "7", "safari", null, null});
 
-        // OS X 10.10, Safari 7
+        // OS X 10.10, Safari
         //browsers.add(new String[]{"OSX 10.10", "8", "safari", null, null});
 
+        // OS X 10.11, Safari
+        //browsers.add(new String[]{"OSX 10.11", "8.1", "safari", null, null});
+
         // Linux, Firefox 37
-        //browsers.add(new String[]{"Linux", "37", "firefox", null, null});
+        browsers.add(new String[]{"Linux", "37", "firefox", null, null});
 
         return browsers;
     }
@@ -159,6 +166,11 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         if (version != null) capabilities.setCapability(CapabilityType.VERSION, version);
         if (deviceName != null) capabilities.setCapability("deviceName", deviceName);
         if (deviceOrientation != null) capabilities.setCapability("device-orientation", deviceOrientation);
+
+        // Additional settings to help debugging and improve job perf
+        capabilities.setCapability("public", "share");
+        capabilities.setCapability("wwebdriverRemoteQuietExceptions", false);
+        capabilities.setCapability("captureHtml", true);
 
         if ( System.getenv("CI") != null && System.getenv("TRAVIS").equals("true")) {
             capabilities.setCapability("tunnelIdentifier", System.getenv("TRAVIS_JOB_NUMBER"));
@@ -184,17 +196,18 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
     public void doLoginWebgoatUser() {
 
         driver.get(baseWebGoatUrl + "/login.mvc");
+        driver.navigate().refresh();
 
-        WebDriverWait wait = new WebDriverWait(driver, 10); // wait for a maximum of 5 seconds
+        WebDriverWait wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("exampleInputEmail1")));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("exampleInputPassword1")));
-
 
         WebElement usernameElement     = driver.findElement(By.name("username"));
         WebElement passwordElement     = driver.findElement(By.name("password"));
         usernameElement.sendKeys(loginUser);
         passwordElement.sendKeys(loginPassword);
         passwordElement.submit();
+        driver.get(baseWebGoatUrl + "/start.mvc");
     }
 
     /**
@@ -204,7 +217,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
     @Test
     public void verifyWebGoatLoginPage() throws Exception {
         driver.get(baseWebGoatUrl + "/login.mvc");
-        WebDriverWait wait = new WebDriverWait(driver, 10); // wait for a maximum of 5 seconds
+        WebDriverWait wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("exampleInputEmail1")));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("exampleInputPassword1")));
 
@@ -222,7 +235,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         driver.get(baseWebGoatUrl + "/start.mvc");
 
-        WebDriverWait wait = new WebDriverWait(driver, 10); // wait for a maximum of 5 seconds
+        WebDriverWait wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
         wait.until(ExpectedConditions.presenceOfElementLocated(By.name("username")));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.name("password")));
     }
@@ -232,7 +245,10 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         doLoginWebgoatUser();
 
-        assertTrue("user: webgoat is not in the page source", driver.getPageSource().contains("User: webgoat"));
+        driver.get(baseWebGoatUrl + "/start.mvc");
+        String pageSource = driver.getPageSource();
+
+        assertTrue("user: webgoat is not in the page source", pageSource.contains("Role: webgoat_admin"));
         WebElement cookieParameters = driver.findElement(By.id("cookies-and-params"));
         assertNotNull("element id=cookieParameters should be displayed to user upon successful login", cookieParameters);
     }

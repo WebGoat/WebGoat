@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+/**
+ * <p>LessonTitleService class.</p>
+ *
+ * @version $Id: $Id
+ */
 public class LessonTitleService extends BaseService {
 	
-	 /**
+    /**
      * Returns the title for the current attack
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link java.lang.String} object.
      */
     @RequestMapping(value = "/lessontitle.mvc", produces = "application/html")
     public @ResponseBody

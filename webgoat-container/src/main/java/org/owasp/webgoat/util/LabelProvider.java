@@ -17,36 +17,41 @@ import java.util.Locale;
 
 
 /**
- * ************************************************************************************************
- * <p>
- * <p>
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
- * please see http://www.owasp.org/
- * <p>
+ * *************************************************************************************************
+ *
+ *
+ * This file is part of WebGoat, an Open Web Application Security Project
+ * utility. For details, please see http://www.owasp.org/
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * <p>
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- * <p>
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
  * Getting Source ==============
- * <p>
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for
- * free software projects.
- * <p>
+ *
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
+ * for free software projects.
+ *
  * For details, please see http://webgoat.github.io
+ *
+ * @version $Id: $Id
  */
 @Component
 @Singleton
 public class LabelProvider {
+    /** Constant <code>DEFAULT_LANGUAGE="Locale.ENGLISH.getLanguage()"</code> */
     public final static String DEFAULT_LANGUAGE = Locale.ENGLISH.getLanguage();
 
     private static final List<Locale> SUPPORTED = Arrays.asList(Locale.GERMAN, Locale.FRENCH, Locale.ENGLISH,
@@ -54,6 +59,9 @@ public class LabelProvider {
     private final ReloadableResourceBundleMessageSource labels = new ReloadableResourceBundleMessageSource();
     private static final ReloadableResourceBundleMessageSource pluginLabels = new ReloadableResourceBundleMessageSource();
 
+    /**
+     * <p>Constructor for LabelProvider.</p>
+     */
     public LabelProvider() {
         labels.setBasename("classpath:/i18n/WebGoatLabels");
         labels.setFallbackToSystemLocale(false);
@@ -64,6 +72,11 @@ public class LabelProvider {
         });
     }
 
+    /**
+     * <p>updatePluginResources.</p>
+     *
+     * @param propertyFile a {@link java.nio.file.Path} object.
+     */
     public static void updatePluginResources(final Path propertyFile) {
         pluginLabels.setBasename("WebGoatLabels");
         pluginLabels.setFallbackToSystemLocale(false);
@@ -85,10 +98,20 @@ public class LabelProvider {
         });
     }
 
+    /**
+     * <p>refresh.</p>
+     */
     public static void refresh() {
         pluginLabels.clearCache();
     }
 
+    /**
+     * <p>get.</p>
+     *
+     * @param locale a {@link java.util.Locale} object.
+     * @param strName a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String get(Locale locale, String strName) {
         return pluginLabels.getMessage(strName, null, useLocaleOrFallbackToEnglish(locale));
     }

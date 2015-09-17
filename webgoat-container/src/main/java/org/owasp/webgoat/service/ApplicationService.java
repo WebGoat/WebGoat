@@ -37,8 +37,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * <p>ApplicationService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class ApplicationService extends BaseService {
@@ -46,8 +48,8 @@ public class ApplicationService extends BaseService {
     /**
      * Returns global application info
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link org.owasp.webgoat.application.Application} object.
      */
     @RequestMapping(value = "/application.mvc", produces = "application/json")
     public @ResponseBody

@@ -7,14 +7,18 @@
 package org.owasp.webgoat.lessons.model;
 
 /**
+ * <p>SourceListing class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 public class SourceListing {
     
     private String source;
 
     /**
+     * <p>Getter for the field <code>source</code>.</p>
+     *
      * @return the source
      */
     public String getSource() {
@@ -22,6 +26,8 @@ public class SourceListing {
     }
 
     /**
+     * <p>Setter for the field <code>source</code>.</p>
+     *
      * @param source the source to set
      */
     public void setSource(String source) {

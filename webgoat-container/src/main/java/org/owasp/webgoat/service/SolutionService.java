@@ -39,8 +39,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * <p>SolutionService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class SolutionService extends BaseService {
@@ -48,8 +50,8 @@ public class SolutionService extends BaseService {
     /**
      * Returns solution for current attack
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link java.lang.String} object.
      */
     @RequestMapping(value = "/solution.mvc", produces = "text/html")
     public @ResponseBody
@@ -59,6 +61,12 @@ public class SolutionService extends BaseService {
         return source;
     }
 
+    /**
+     * <p>getSolution.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link java.lang.String} object.
+     */
     protected String getSolution(WebSession s) {
 
         String source = null;

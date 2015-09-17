@@ -12,6 +12,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * Singleton which is created on context startup
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 public class Application {
 
@@ -21,6 +22,11 @@ public class Application {
 
     }
 
+    /**
+     * <p>getInstance.</p>
+     *
+     * @return a {@link org.owasp.webgoat.application.Application} object.
+     */
     public static final Application getInstance() {
         return INSTANCE;
     }
@@ -30,6 +36,8 @@ public class Application {
     private String name = "WebGoat";
 
     /**
+     * <p>Getter for the field <code>version</code>.</p>
+     *
      * @return the version
      */
     public String getVersion() {
@@ -37,6 +45,8 @@ public class Application {
     }
 
     /**
+     * <p>Setter for the field <code>version</code>.</p>
+     *
      * @param version the version to set
      */
     public void setVersion(String version) {
@@ -46,6 +56,8 @@ public class Application {
     }
 
     /**
+     * <p>Getter for the field <code>build</code>.</p>
+     *
      * @return the build
      */
     public String getBuild() {
@@ -53,6 +65,8 @@ public class Application {
     }
 
     /**
+     * <p>Setter for the field <code>build</code>.</p>
+     *
      * @param build the build to set
      */
     public void setBuild(String build) {
@@ -62,6 +76,8 @@ public class Application {
     }
 
     /**
+     * <p>Getter for the field <code>name</code>.</p>
+     *
      * @return the name
      */
     public String getName() {
@@ -69,6 +85,8 @@ public class Application {
     }
 
     /**
+     * <p>Setter for the field <code>name</code>.</p>
+     *
      * @param name the name to set
      */
     public void setName(String name) {
@@ -77,6 +95,7 @@ public class Application {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return new ToStringBuilder(this).

@@ -44,8 +44,10 @@ import static org.owasp.webgoat.LessonSource.END_SOURCE_SKIP;
 import static org.owasp.webgoat.LessonSource.START_SOURCE_SKIP;
 
 /**
+ * <p>SourceService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class SourceService extends BaseService {
@@ -53,8 +55,8 @@ public class SourceService extends BaseService {
     /**
      * Returns source for current attack
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link java.lang.String} object.
      */
     @RequestMapping(value = "/source.mvc", produces = "application/text")
     public @ResponseBody

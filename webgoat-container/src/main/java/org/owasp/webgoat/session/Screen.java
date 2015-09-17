@@ -42,7 +42,8 @@ import org.owasp.webgoat.lessons.AbstractLesson;
  *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect
  * Security</a>
- * @created October 28, 2003
+ * @since October 28, 2003
+ * @version $Id: $Id
  */
 public abstract class Screen {
 
@@ -69,6 +70,11 @@ public abstract class Screen {
     // will be stored in the internal database. The user will be able to hack
     // into the database and change their role. This will allow the user to
     // see the admin screens, once they figure out how to turn the admin switch on.
+    /**
+     * <p>getRole.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public abstract String getRole();
 
     /**
@@ -106,19 +112,33 @@ public abstract class Screen {
     /**
      * Gets the lessonTracker attribute of the AbstractLesson object
      *
-     * @param userName Description of the Parameter
      * @return The lessonTracker value
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
      */
     public LessonTracker getLessonTracker(WebSession s) {
         UserTracker userTracker = UserTracker.instance();
         return userTracker.getLessonTracker(s, this);
     }
 
+    /**
+     * <p>getLessonTracker.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param userNameOverride a {@link java.lang.String} object.
+     * @return a {@link org.owasp.webgoat.session.LessonTracker} object.
+     */
     public LessonTracker getLessonTracker(WebSession s, String userNameOverride) {
         UserTracker userTracker = UserTracker.instance();
         return userTracker.getLessonTracker(s, userNameOverride, this);
     }
 
+    /**
+     * <p>getLessonTracker.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param lesson a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     * @return a {@link org.owasp.webgoat.session.LessonTracker} object.
+     */
     public LessonTracker getLessonTracker(WebSession s, AbstractLesson lesson) {
         UserTracker userTracker = UserTracker.instance();
         return userTracker.getLessonTracker(s, lesson);
@@ -131,6 +151,11 @@ public abstract class Screen {
      */
     public abstract String getTitle();
 
+    /**
+     * <p>Setter for the field <code>content</code>.</p>
+     *
+     * @param content a {@link org.apache.ecs.Element} object.
+     */
     protected void setContent(Element content) {
         this.content = content;
     }
@@ -145,10 +170,20 @@ public abstract class Screen {
         return new A("http://www.aspectsecurity.com/webgoat.html", logo);
     }
 
+    /**
+     * <p>getSponsor.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getSponsor() {
         return "Aspect Security";
     }
 
+    /**
+     * <p>getSponsorLogoResource.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getSponsorLogoResource() {
         return "images/aspectlogo-horizontal-small.jpg";
     }
@@ -178,6 +213,7 @@ public abstract class Screen {
     /**
      * Returns the content length of the the html.
      *
+     * @return a int.
      */
     public int getContentLength() {
         return getContent().length();
@@ -197,6 +233,11 @@ public abstract class Screen {
     }
 
     // hook all the links
+    /**
+     * <p>Getter for the field <code>content</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getContent() {
         //String makeAllAjax = "<script>goat.utils.makeFormsAjax();goat.utils.ajaxifyAttackHref();</script>";
         // need to do this here as some of the lessons render forms after submission of an ajax form

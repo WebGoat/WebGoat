@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * <p>HintService class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 @Controller
 public class HintService extends BaseService {
@@ -26,8 +28,8 @@ public class HintService extends BaseService {
     /**
      * Returns hints for current lesson
      *
-     * @param session
-     * @return
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link java.util.List} object.
      */
     @RequestMapping(value = "/hint.mvc", produces = "application/json")
     public @ResponseBody
@@ -55,6 +57,12 @@ public class HintService extends BaseService {
         return listHints;
     }
 
+    /**
+     * <p>showHintsAsHtml.</p>
+     *
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link org.springframework.web.servlet.ModelAndView} object.
+     */
     @RequestMapping(value = "/hint_widget.mvc", produces = "text/html")
     public
             ModelAndView showHintsAsHtml(HttpSession session) {

@@ -17,9 +17,11 @@ import java.util.jar.Manifest;
  * Web application lifecycle listener.
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 public class WebGoatServletListener implements ServletContextListener {
 
+    /** {@inheritDoc} */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
@@ -27,6 +29,7 @@ public class WebGoatServletListener implements ServletContextListener {
         setApplicationVariables(context);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();

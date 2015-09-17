@@ -37,8 +37,8 @@ import org.owasp.webgoat.util.HtmlEncoder;
  *
  * For details, please see http://webgoat.github.io
  *
- * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect
- * Security</a>
+ * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @version $Id: $Id
  */
 public class ParameterParser {
 
@@ -87,6 +87,7 @@ public class ParameterParser {
      * @param name the parameter name
      * @return the parameter value as a boolean
      * @exception ParameterNotFoundException if the parameter was not found
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
      */
     public boolean getBooleanParameter(String name) throws ParameterNotFoundException {
         return new Boolean(getStringParameter(name)).booleanValue();
@@ -132,6 +133,8 @@ public class ParameterParser {
      * @exception ParameterNotFoundException if the parameter was not found
      * @exception NumberFormatException if the parameter value could not be
      * converted to a byte
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws java.lang.NumberFormatException if any.
      */
     public byte getByteParameter(String name) throws ParameterNotFoundException, NumberFormatException {
         return Byte.parseByte(getStringParameter(name));
@@ -161,6 +164,7 @@ public class ParameterParser {
      * @return the parameter value as a char
      * @exception ParameterNotFoundException if the parameter was not found or
      * was the empty string
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
      */
     public char getCharParameter(String name) throws ParameterNotFoundException {
         String param = getStringParameter(name);
@@ -193,6 +197,7 @@ public class ParameterParser {
      *
      * @param name Description of the Parameter
      * @return The classNameParameter value
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
      */
     public String getClassNameParameter(String name) throws ParameterNotFoundException {
         String p = getStringParameter(name);
@@ -225,6 +230,8 @@ public class ParameterParser {
      * @exception ParameterNotFoundException if the parameter was not found
      * @exception NumberFormatException if the parameter could not be converted
      * to a double
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws java.lang.NumberFormatException if any.
      */
     public double getDoubleParameter(String name) throws ParameterNotFoundException, NumberFormatException {
         return new Double(getStringParameter(name)).doubleValue();
@@ -254,6 +261,8 @@ public class ParameterParser {
      * @exception ParameterNotFoundException if the parameter was not found
      * @exception NumberFormatException if the parameter could not be converted
      * to a float
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws java.lang.NumberFormatException if any.
      */
     public float getFloatParameter(String name) throws ParameterNotFoundException, NumberFormatException {
         return new Float(getStringParameter(name)).floatValue();
@@ -299,6 +308,7 @@ public class ParameterParser {
      * invalid
      * @exception ParameterNotFoundException if the parameter was not found or
      * was the empty string
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
      */
     public String getIPParameter(String name) throws ParameterNotFoundException {
         boolean valid = true;
@@ -372,6 +382,8 @@ public class ParameterParser {
      * @exception ParameterNotFoundException if the parameter was not found
      * @exception NumberFormatException if the parameter could not be converted
      * to a int
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws java.lang.NumberFormatException if any.
      */
     public int getIntParameter(String name) throws ParameterNotFoundException, NumberFormatException {
         return Integer.parseInt(getStringParameter(name));
@@ -401,6 +413,8 @@ public class ParameterParser {
      * @exception ParameterNotFoundException if the parameter was not found
      * @exception NumberFormatException if the parameter could not be converted
      * to a long
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws java.lang.NumberFormatException if any.
      */
     public long getLongParameter(String name) throws ParameterNotFoundException, NumberFormatException {
         return Long.parseLong(getStringParameter(name));
@@ -498,6 +512,7 @@ public class ParameterParser {
      * @param name Description of the Parameter
      * @return The rawParameter value
      * @exception ParameterNotFoundException Description of the Exception
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
      */
     public String getRawParameter(String name) throws ParameterNotFoundException {
         String[] values = request.getParameterValues(name);
@@ -519,6 +534,8 @@ public class ParameterParser {
      * @exception ParameterNotFoundException if the parameter was not found
      * @exception NumberFormatException if the parameter could not be converted
      * to a short
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws java.lang.NumberFormatException if any.
      */
     public short getShortParameter(String name) throws ParameterNotFoundException, NumberFormatException {
         return Short.parseShort(getStringParameter(name));
@@ -547,6 +564,7 @@ public class ParameterParser {
      * @return the parameter value as a String
      * @exception ParameterNotFoundException if the parameter was not found or
      * was the empty string
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
      */
     public String getStringParameter(String name) throws ParameterNotFoundException {
         String[] values = request.getParameterValues(name);
@@ -603,12 +621,13 @@ public class ParameterParser {
 
     /**
      * Gets the parameter named 'next' following the parameter 'first'. Presumes
-     * the structure: first=firstvalue&next=nextValue
+     * the structure: first=firstvalue&amp;next=nextValue
      *
      * @param first Description of the Parameter
      * @param next Description of the Parameter
      * @return The subParameter value
      * @exception ParameterNotFoundException Description of the Exception
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
      */
     public String getSubParameter(String first, String next) throws ParameterNotFoundException {
         String[] values = request.getParameterValues(first);
@@ -664,6 +683,7 @@ public class ParameterParser {
      *
      * @param name Description of the Parameter
      * @return The wordParameter value
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
      */
     public String getWordParameter(String name) throws ParameterNotFoundException {
         String p = getStringParameter(name);
@@ -734,6 +754,15 @@ public class ParameterParser {
         }
     }
 
+    /**
+     * <p>getStrictAlphaParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @param maxLength a int.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getStrictAlphaParameter(String name, int maxLength) throws ParameterNotFoundException,
             ValidationException {
         String alphaRegEx = "^[a-zA-Z\\s]{0," + maxLength + "}$";
@@ -742,6 +771,15 @@ public class ParameterParser {
         return getRegexParameter(name, alphaPattern);
     }
 
+    /**
+     * <p>getStrictNumericParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @param maxLength a int.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getStrictNumericParameter(String name, int maxLength) throws ParameterNotFoundException,
             ValidationException {
         String numericRegEx = "^\\d{0," + maxLength + "}$";
@@ -754,6 +792,14 @@ public class ParameterParser {
 
     private static final Pattern Ssnpattern = Pattern.compile(SSNREGEX);
 
+    /**
+     * <p>getSsnParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getSsnParameter(String name) throws ParameterNotFoundException, ValidationException {
         return getRegexParameter(name, Ssnpattern);
     }
@@ -767,6 +813,14 @@ public class ParameterParser {
 
     private static final Pattern Ccnpattern = Pattern.compile(CCNREGEX);
 
+    /**
+     * <p>getCcnParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getCcnParameter(String name) throws ParameterNotFoundException, ValidationException {
         return getRegexParameter(name, Ccnpattern);
     }
@@ -775,10 +829,26 @@ public class ParameterParser {
 
     private static final Pattern Zippattern = Pattern.compile(ZIPREGEX);
 
+    /**
+     * <p>getZipParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getZipParameter(String name) throws ParameterNotFoundException, ValidationException {
         return getZipParameter(name, null);
     }
 
+    /**
+     * <p>getZipParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @param def a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getZipParameter(String name, String def) throws ValidationException {
         return getRegexParameter(name, def, Zippattern);
     }
@@ -789,10 +859,26 @@ public class ParameterParser {
     // private static final String PHONEREGEX = "^([\\-()+ 0-9x])+$";
     private static final Pattern phonepattern = Pattern.compile(PHONEREGEX);
 
+    /**
+     * <p>getPhoneParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getPhoneParameter(String name) throws ParameterNotFoundException, ValidationException {
         return getPhoneParameter(name, null);
     }
 
+    /**
+     * <p>getPhoneParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @param def a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getPhoneParameter(String name, String def) throws ValidationException {
         return getRegexParameter(name, def, phonepattern);
     }
@@ -801,10 +887,26 @@ public class ParameterParser {
 
     private static final Pattern emailpattern = Pattern.compile(EMAILREGEX);
 
+    /**
+     * <p>getEMailParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getEMailParameter(String name) throws ParameterNotFoundException, ValidationException {
         return getEMailParameter(name, null);
     }
 
+    /**
+     * <p>getEMailParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @param def a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getEMailParameter(String name, String def) throws ValidationException {
         return getRegexParameter(name, def, emailpattern);
     }
@@ -813,10 +915,26 @@ public class ParameterParser {
 
     private static final Pattern datepattern = Pattern.compile(DATEREGEX);
 
+    /**
+     * <p>getDateParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getDateParameter(String name) throws ParameterNotFoundException, ValidationException {
         return getDateParameter(name, null);
     }
 
+    /**
+     * <p>getDateParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @param def a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getDateParameter(String name, String def) throws ValidationException {
         return getRegexParameter(name, def, datepattern);
     }
@@ -825,14 +943,36 @@ public class ParameterParser {
 
     private static final Pattern URLpattern = Pattern.compile(URLREGEX);
 
+    /**
+     * <p>getURLParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getURLParameter(String name) throws ParameterNotFoundException, ValidationException {
         return getURLParameter(name, null);
     }
 
+    /**
+     * <p>getURLParameter.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     * @param def a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws org.owasp.webgoat.session.ValidationException if any.
+     */
     public String getURLParameter(String name, String def) throws ValidationException {
         return getRegexParameter(name, def, URLpattern);
     }
 
+    /**
+     * <p>htmlEncode.</p>
+     *
+     * @param s a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     protected static String htmlEncode(String s) {
         return HtmlEncoder.encode(s);
     }

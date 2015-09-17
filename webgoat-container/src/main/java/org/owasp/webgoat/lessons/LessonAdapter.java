@@ -22,45 +22,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * *************************************************************************************************
- * <p>
- * <p>
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
- * <p>
+ *************************************************************************************************
+ *
+ *
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
+ * please see http://www.owasp.org/
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * <p>
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- * <p>
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- * <p>
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
- * <p>
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
  * Getting Source ==============
- * <p>
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
- * for free software projects.
- * <p>
+ *
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
+ * projects.
+ *
  * For details, please see http://webgoat.github.io
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @created October 28, 2003
+ * @since October 28, 2003
+ * @version $Id: $Id
  */
 public abstract class LessonAdapter extends AbstractLesson {
 
     /**
-     * Description of the Method
+     * {@inheritDoc}
      *
-     * @param s Description of the Parameter
-     * @return Description of the Return Value
+     * Description of the Method
      */
     protected Element createContent(WebSession s) {
         // Mark this lesson as completed.
@@ -104,32 +102,42 @@ public abstract class LessonAdapter extends AbstractLesson {
         return Category.GENERAL;
     }
 
+    /**
+     * <p>getDefaultHidden.</p>
+     *
+     * @return a boolean.
+     */
     protected boolean getDefaultHidden() {
         return false;
     }
 
     private final static Integer DEFAULT_RANKING = new Integer(1000);
 
+    /**
+     * <p>getDefaultRanking.</p>
+     *
+     * @return a {@link java.lang.Integer} object.
+     */
     protected Integer getDefaultRanking() {
         return DEFAULT_RANKING;
     }
 
     /**
-     * Gets the hintCount attribute of the LessonAdapter object
+     * {@inheritDoc}
      *
-     * @return The hintCount value
+     * Gets the hintCount attribute of the LessonAdapter object
      */
     public int getHintCount(WebSession s) {
         return getHints(s).size();
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Fill in a minor hint that will help people who basically get it, but are
      * stuck on somthing silly. Hints will be returned to the user in the order
      * they appear below. The user must click on the "next hint" button before
      * the hint will be displayed.
-     *
-     * @return The hint1 value
      */
     protected List<String> getHints(WebSession s) {
         List<String> hints = new ArrayList<String>();
@@ -149,12 +157,12 @@ public abstract class LessonAdapter extends AbstractLesson {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Gets the instructions attribute of the LessonAdapter object. Instructions
      * will rendered as html and will appear below the control area and above
      * the actual lesson area. Instructions should provide the user with the
      * general setup and goal of the lesson.
-     *
-     * @return The instructions value
      */
     public String getInstructions(WebSession s) {
         StringBuffer buff = new StringBuffer();
@@ -197,18 +205,34 @@ public abstract class LessonAdapter extends AbstractLesson {
         return "Untitled Lesson " + getScreenId();
     }
 
+    /** {@inheritDoc} */
     public String getCurrentAction(WebSession s) {
         return s.getLessonSession(this).getCurrentLessonScreen();
     }
 
+    /** {@inheritDoc} */
     public void setCurrentAction(WebSession s, String lessonScreen) {
         s.getLessonSession(this).setCurrentLessonScreen(lessonScreen);
     }
 
+    /**
+     * <p>getSessionAttribute.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param key a {@link java.lang.String} object.
+     * @return a {@link java.lang.Object} object.
+     */
     public Object getSessionAttribute(WebSession s, String key) {
         return s.getRequest().getSession().getAttribute(key);
     }
 
+    /**
+     * <p>setSessionAttribute.</p>
+     *
+     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param key a {@link java.lang.String} object.
+     * @param value a {@link java.lang.Object} object.
+     */
     public void setSessionAttribute(WebSession s, String key, Object value) {
         s.getRequest().getSession().setAttribute(key, value);
     }
@@ -231,6 +255,8 @@ public abstract class LessonAdapter extends AbstractLesson {
      * Gets the credits attribute of the AbstractLesson object
      *
      * @return The credits value
+     * @param text a {@link java.lang.String} object.
+     * @param e a {@link org.apache.ecs.Element} object.
      */
     protected Element getCustomCredits(String text, Element e) {
         Table t = new Table().setCellSpacing(0).setCellPadding(0).setBorder(0).setWidth("90%").setAlign("RIGHT");

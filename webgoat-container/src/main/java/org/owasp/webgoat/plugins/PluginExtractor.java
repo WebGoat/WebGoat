@@ -25,6 +25,8 @@ import static org.owasp.webgoat.plugins.PluginFileUtils.hasParentDirectoryWithNa
 /**
  * Extract the jar file and place them in the system temp directory in the folder webgoat and collect the files
  * and classes.
+ *
+ * @version $Id: $Id
  */
 public class PluginExtractor {
 
@@ -34,10 +36,20 @@ public class PluginExtractor {
     private final List<Path> files = new ArrayList<>();
     private final List<Path> properties = new ArrayList<>();
 
+    /**
+     * <p>Constructor for PluginExtractor.</p>
+     *
+     * @param pluginArchive a {@link java.nio.file.Path} object.
+     */
     public PluginExtractor(Path pluginArchive) {
         this.pluginArchive = pluginArchive;
     }
 
+    /**
+     * <p>extract.</p>
+     *
+     * @param target a {@link java.nio.file.Path} object.
+     */
     public void extract(final Path target) {
         try (FileSystem zip = createZipFileSystem()) {
             final Path root = zip.getPath("/");
@@ -63,14 +75,29 @@ public class PluginExtractor {
         }
     }
 
+    /**
+     * <p>Getter for the field <code>classes</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<String> getClasses() {
         return this.classes;
     }
 
+    /**
+     * <p>Getter for the field <code>files</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<Path> getFiles() {
         return this.files;
     }
 
+    /**
+     * <p>Getter for the field <code>properties</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<Path> getProperties() {
         return this.properties;
     }

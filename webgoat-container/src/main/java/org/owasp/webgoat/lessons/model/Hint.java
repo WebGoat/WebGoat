@@ -28,8 +28,10 @@
 package org.owasp.webgoat.lessons.model;
 
 /**
+ * <p>Hint class.</p>
  *
  * @author rlawson
+ * @version $Id: $Id
  */
 public class Hint {
 
@@ -38,6 +40,8 @@ public class Hint {
     private int number;
 
     /**
+     * <p>Getter for the field <code>hint</code>.</p>
+     *
      * @return the hint
      */
     public String getHint() {
@@ -45,6 +49,8 @@ public class Hint {
     }
 
     /**
+     * <p>Setter for the field <code>hint</code>.</p>
+     *
      * @param hint the hint to set
      */
     public void setHint(String hint) {
@@ -52,6 +58,8 @@ public class Hint {
     }
 
     /**
+     * <p>Getter for the field <code>lesson</code>.</p>
+     *
      * @return the lesson
      */
     public String getLesson() {
@@ -59,6 +67,8 @@ public class Hint {
     }
 
     /**
+     * <p>Setter for the field <code>lesson</code>.</p>
+     *
      * @param lesson the lesson to set
      */
     public void setLesson(String lesson) {
@@ -66,6 +76,8 @@ public class Hint {
     }
 
     /**
+     * <p>Getter for the field <code>number</code>.</p>
+     *
      * @return the number
      */
     public int getNumber() {
@@ -73,6 +85,8 @@ public class Hint {
     }
 
     /**
+     * <p>Setter for the field <code>number</code>.</p>
+     *
      * @param number the number to set
      */
     public void setNumber(int number) {
