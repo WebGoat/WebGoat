@@ -68,7 +68,7 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>start-tomcat</id>
+                                <id>tomcat-startup</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>run-war-only</goal>
@@ -80,7 +80,7 @@
                             </execution>
                             <!-- At post-integration-test phase, stop the embedded Tomcat server. -->
                             <execution>
-                                <id>stop-tomcat</id>
+                                <id>tomcat-shutdown</id>
                                 <phase>post-integration-test</phase>
                                 <goals>
                                     <goal>shutdown</goal>
