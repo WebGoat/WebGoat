@@ -17,8 +17,6 @@ import java.util.zip.ZipFile;
 /**
  * Extract the jar file and place them in the system temp directory in the folder webgoat and collect the files
  * and classes.
- *
- * @version $Id: $Id
  */
 public class PluginExtractor {
 
@@ -36,10 +34,6 @@ public class PluginExtractor {
                     boolean processed = processClassFile(zipEntry);
 
                     if (!processed) {
-     * @param target a {@link java.nio.file.Path} object.
-     */
-    public void extract(final Path target) {
-        try (FileSystem zip = createZipFileSystem()) {
                         processed = processPropertyFile(zipFile, zipEntry, targetDirectory);
                     }
                     if (!processed) {
@@ -94,20 +88,10 @@ public class PluginExtractor {
         return targetFile;
     }
 
-    /**
-     * <p>Getter for the field <code>classes</code>.</p>
-     *
-     * @return a {@link java.util.List} object.
-     */
     public List<String> getClasses() {
         return this.classes;
     }
 
-    /**
-     * <p>Getter for the field <code>files</code>.</p>
-     *
-     * @return a {@link java.util.List} object.
-     */
     public List<Path> getFiles() {
         return this.files;
     }
