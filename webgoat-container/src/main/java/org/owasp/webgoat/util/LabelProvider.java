@@ -92,11 +92,6 @@ public class LabelProvider {
                 return Thread.currentThread().getContextClassLoader();
             }
         });
-
-    /**
-     * <p>refresh.</p>
-     */
-    public static void refresh() {
         pluginLabels.clearCache();
     }
 
