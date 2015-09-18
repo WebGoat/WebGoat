@@ -2,17 +2,15 @@ package org.owasp.webgoat.plugins;
 
 
 import com.google.common.base.Preconditions;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * <p>PluginFileUtils class.</p>
@@ -80,24 +78,6 @@ public class PluginFileUtils {
     }
 
     /**
-     * <p>getFilesInDirectory.</p>
-     *
-     * @param directory a {@link java.nio.file.Path} object.
-     * @return a {@link java.util.List} object.
-     * @throws java.io.IOException if any.
-     */
-    public static List<Path> getFilesInDirectory(Path directory) throws IOException {
-        List<Path> files = new ArrayList<>();
-        DirectoryStream<Path> dirStream;
-        dirStream = Files.newDirectoryStream(directory);
-        for (Path entry : dirStream) {
-            files.add(entry);
-        }
-        dirStream.close();
-        return files;
-    }
-
-    /**
      * <p>replaceInFiles.</p>
      *
      * @param replace a {@link java.lang.String} object.
@@ -111,7 +91,7 @@ public class PluginFileUtils {
         Preconditions.checkNotNull(files);
 
         for (File file : files) {
-            replaceInFile(replace, with, Paths.get(file.toURI()));
+            replaceInFile(replace, with, file);
         }
     }
 
@@ -123,31 +103,16 @@ public class PluginFileUtils {
      * @param file a {@link java.nio.file.Path} object.
      * @throws java.io.IOException if any.
      */
-    public static void replaceInFile(String replace, String with, Path file) throws IOException {
+    public static void replaceInFile(String replace, String with, File file) throws IOException {
         Preconditions.checkNotNull(replace);
         Preconditions.checkNotNull(with);
         Preconditions.checkNotNull(file);
 
-        byte[] fileAsBytes = Files.readAllBytes(file);
-        String fileAsString = new String(fileAsBytes);
-        fileAsString = fileAsString.replaceAll(replace, with);
-        Files.write(file, fileAsString.getBytes());
-    }
-
-    /**
-     * <p>writeFile.</p>
-     *
-     * @param targetFile a {@link java.nio.file.Path} object.
-     * @param bytes an array of byte.
-     * @param options a {@link java.nio.file.OpenOption} object.
-     * @throws java.io.IOException if any.
-     */
-    public static void writeFile(Path targetFile, byte[] bytes, OpenOption... options) throws IOException {
-        createDirsIfNotExists(targetFile.getParent());
-        if (!Files.exists(targetFile)) {
-            Files.createFile(targetFile);
+        String fileAsString = "";
+        try (FileInputStream fis = new FileInputStream(file);) {
+            fileAsString = IOUtils.toString(fis, StandardCharsets.UTF_8.name());
+            fileAsString = fileAsString.replaceAll(replace, with);
         }
-        Files.write(targetFile, bytes, options);
+        Files.write(file.toPath(), fileAsString.getBytes());
     }
-
 }

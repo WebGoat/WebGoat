@@ -22,7 +22,6 @@ public class LabelProviderTest  {
     public void loadingPluginLabels() throws IOException {
         LabelProvider labelProvider = new LabelProvider();
         labelProvider.updatePluginResources(new ClassPathResource("log4j.properties").getFile().toPath());
-        LabelProvider.refresh();
         assertThat(labelProvider.get(Locale.ENGLISH, "LessonCompleted"), CoreMatchers.equalTo(
                 "Congratulations. You have successfully completed this lesson."));
         assertThat(labelProvider.get(Locale.ENGLISH, "log4j.appender.CONSOLE.Target"), CoreMatchers.equalTo(
