@@ -137,8 +137,8 @@ public class HammerHead extends HttpServlet {
             }
             
             if ("true".equals(request.getParameter("start")) || request.getQueryString() == null) {
-                logger.warn("Redirecting to start controller");
-                response.sendRedirect("start.mvc");
+                logger.warn("Redirecting to first lesson");
+                response.sendRedirect("start.mvc" + mySession.getCourse().getFirstLesson().getLink());
                 return;
             }
 
