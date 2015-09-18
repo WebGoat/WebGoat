@@ -676,6 +676,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      */
     public abstract String getCurrentAction(WebSession s);
 
+   /**
+    * Initiates lesson restart functionality
+    */
+   public abstract void restartLesson();
+
+    
     /**
      * <p>setCurrentAction.</p>
      *
