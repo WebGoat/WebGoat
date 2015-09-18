@@ -201,6 +201,11 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     protected abstract Category getDefaultCategory();
 
+    /**
+     * Initiates lesson restart functionality
+     */
+    public abstract void restartLesson();
+
     protected abstract boolean getDefaultHidden();
 
     /**
