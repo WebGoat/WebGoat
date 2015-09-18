@@ -35,40 +35,57 @@
             <div class="col-md-6">
                 <p>WebGoat Authors
                 <ul>
-                    <li>Bruce Mayhew (Project Lead)</li>
-                    <li>Jeff Williams (Original Idea)</li>
+                    <li>Bruce Mayhew   (Author & Project Lead)</li>
+                    <li>Jeff Williams  (Author & Original Idea)</li>
+                    <li>Jason White    (Architect)</li>
+                    <li>Nanne Baars    (Plugin Architecture)</li>
                     <li>Richard Lawson (Architect)</li>
-                    <li>Jason White (Architect)</li>
                 </ul>
                 </p>
             </div>
             <div class="col-md-6">
-                <p>WebGoat Design Team
+                <p>Active Contributors
                 <ul>
-                    <li>Richard Lawson</li>
-                    <li>Bruce Mayhew</li>
-                    <li>Jason White</li>
-                    <li>Ali Looney (User Interface)</li>
-                    <li>Jeff Wayman (Website and Docs)</li>
+                    <li>Nanne Baars   (Developer)</li>
+                    <li>Jason White   (Developer)</li>
+                    <li>Doug Morato   (Developer & CI)</li>
+                    <li>Jeff Wayman   (Docs)</li>
+                    <li>Bruce Mayhew  (Developer)</li>
+                    <li>Michael Dever (Developer)</li>
                 </ul>
                 </p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <p>Active Contributors
+                <p>WebGoat Design Team (Active)
                 <ul>
-                    <li>Nanne Baars (Developer)</li>
-                    <li>Dave Cowden (Everything)</li>
-                    <li>Keith Gasser (Survey/Security)</li>
-                    <li>Devin Mayhew (Setup/Admin)</li>
-                    <li>Li Simon (Developer)</li>
+                    <li>Nanne Baars    (Plugin Architecture)</li>
+                    <li>Bruce Mayhew   (Goat Herder)</li>
+                    <li>Jeff Wayman    (Website and Docs)</li>
+                    <li>Jason White    (User Interface)</li>
                 </ul>
-                </p>
+                </p><br></br>
+                <p>Corporate Sponsorship - Companies that have donated significant time to WebGoat development
+                <ul>
+                    <li>Aspect Security</li>
+                    <li>Ounce Labs</li>
+                </ul>
+                </p><br></br>
+                <p>Did we miss you? Our sincere apologies, as we know there have
+                    been many contributors over the years. If your name does not
+                    appear in any of the lists above, please send us a note. We'll
+                    get you added with no further sacrifices required.</p>
             </div>
             <div class="col-md-6">
                 <p>Past Contributors
                 <ul>
+                    <li>Dave Cowden (Everything)</li>
+                    <li>Richard Lawson (Service Layer)</li>
+                    <li>Keith Gasser (Survey/Security)</li>
+                    <li>Devin Mayhew (Setup/Admin)</li>
+                    <li>Li Simon (Developer)</li>
+                    <li>Ali Looney (UI Design)</li>
                     <li>David Anderson (Developer/Design)</li>
                     <li>Christopher Blum (Lessons)</li>
                     <li>Laurence Casey (Graphics)</li>
@@ -88,10 +105,6 @@
                     <li>Marcel Wirth (Lessons)</li>
                 </ul>
                 </p>
-                <p>Did we miss you? Our sincere apologies, as we know there have
-                    been many contributors over the years. If your name does not
-                    appear in any of the lists above, please send us a note. We'll
-                    get you added with no further sacrifices required.</p>
             </div>
         </div>
     </div>
