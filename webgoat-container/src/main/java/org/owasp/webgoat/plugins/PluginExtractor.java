@@ -1,26 +1,18 @@
 package org.owasp.webgoat.plugins;
 
 import com.google.common.collect.Lists;
+import com.google.common.io.Files;
+import org.apache.commons.fileupload.util.Streams;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Enumeration;
 import java.util.List;
-
-import static java.lang.String.format;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.owasp.webgoat.plugins.PluginFileUtils.createDirsIfNotExists;
-import static org.owasp.webgoat.plugins.PluginFileUtils.fileEndsWith;
-import static org.owasp.webgoat.plugins.PluginFileUtils.hasParentDirectoryWithName;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * Extract the jar file and place them in the system temp directory in the folder webgoat and collect the files
@@ -30,49 +22,76 @@ import static org.owasp.webgoat.plugins.PluginFileUtils.hasParentDirectoryWithNa
  */
 public class PluginExtractor {
 
-    private static final String NAME_LESSON_I18N_DIRECTORY = "i18n";
-    private final Path pluginArchive;
     private final List<String> classes = Lists.newArrayList();
     private final List<Path> files = new ArrayList<>();
-    private final List<Path> properties = new ArrayList<>();
 
-    /**
-     * <p>Constructor for PluginExtractor.</p>
-     *
-     * @param pluginArchive a {@link java.nio.file.Path} object.
-     */
-    public PluginExtractor(Path pluginArchive) {
-        this.pluginArchive = pluginArchive;
-    }
+    public Plugin extractJarFile(final File archive, final File targetDirectory) throws IOException {
+        ZipFile zipFile = new ZipFile(archive);
+        Plugin plugin = new Plugin();
+        try {
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            while (entries.hasMoreElements()) {
+                final ZipEntry zipEntry = entries.nextElement();
+                if (shouldProcessFile(zipEntry)) {
+                    boolean processed = processClassFile(zipEntry);
 
-    /**
-     * <p>extract.</p>
-     *
+                    if (!processed) {
      * @param target a {@link java.nio.file.Path} object.
      */
     public void extract(final Path target) {
         try (FileSystem zip = createZipFileSystem()) {
-            final Path root = zip.getPath("/");
-            Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    if (file.toString().endsWith(".class")) {
-                        classes.add(file.toString());
+                        processed = processPropertyFile(zipFile, zipEntry, targetDirectory);
                     }
-                    if (fileEndsWith(file, ".properties") && hasParentDirectoryWithName(file,
-                            NAME_LESSON_I18N_DIRECTORY)) {
-                        properties.add(Files
-                                .copy(file, createDirsIfNotExists(Paths.get(target.toString(), file.toString())),
-                                        REPLACE_EXISTING));
+                    if (!processed) {
+                        processFile(plugin, zipFile, zipEntry, targetDirectory);
                     }
-                    files.add(Files.copy(file, createDirsIfNotExists(Paths.get(target.toString(), file.toString())),
-                            REPLACE_EXISTING));
-                    return FileVisitResult.CONTINUE;
                 }
-            });
-        } catch (Exception e) {
-            new PluginLoadingFailure(format("Unable to extract: %s", pluginArchive.getFileName()), e);
+            }
+        } finally {
+            plugin.findLesson(this.classes);
+            if (plugin.getLesson().isPresent()) {
+                plugin.rewritePaths(targetDirectory.toPath());
+            }
+            zipFile.close();
         }
+        return plugin;
+    }
+
+    private void processFile(Plugin plugin, ZipFile zipFile, ZipEntry zipEntry, File targetDirectory)
+            throws IOException {
+        final File targetFile = new File(targetDirectory, zipEntry.getName());
+        copyFile(zipFile, zipEntry, targetFile, false);
+        plugin.loadFiles(targetFile.toPath(), true);
+    }
+
+    private boolean processPropertyFile(ZipFile zipFile, ZipEntry zipEntry, File targetDirectory)
+            throws IOException {
+        if (zipEntry.getName().endsWith(".properties")) {
+            final File targetFile = new File(targetDirectory, zipEntry.getName());
+            copyFile(zipFile, zipEntry, targetFile, true);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean processClassFile(ZipEntry zipEntry) {
+        if (zipEntry.getName().endsWith(".class")) {
+            classes.add(zipEntry.getName());
+            return true;
+        }
+        return false;
+    }
+
+    private boolean shouldProcessFile(ZipEntry zipEntry) {
+        return !zipEntry.isDirectory() && !zipEntry.getName().startsWith("META-INF");
+    }
+
+    private File copyFile(ZipFile zipFile, ZipEntry zipEntry, File targetFile, boolean append) throws IOException {
+        Files.createParentDirs(targetFile);
+        try (FileOutputStream fos = new FileOutputStream(targetFile, append)) {
+            Streams.copy(zipFile.getInputStream(zipEntry), fos, true);
+        }
+        return targetFile;
     }
 
     /**
@@ -91,19 +110,5 @@ public class PluginExtractor {
      */
     public List<Path> getFiles() {
         return this.files;
-    }
-
-    /**
-     * <p>Getter for the field <code>properties</code>.</p>
-     *
-     * @return a {@link java.util.List} object.
-     */
-    public List<Path> getProperties() {
-        return this.properties;
-    }
-
-    private FileSystem createZipFileSystem() throws Exception {
-        final URI uri = URI.create("jar:file:" + pluginArchive.toUri().getPath());
-        return FileSystems.newFileSystem(uri, new HashMap<String, Object>());
     }
 }

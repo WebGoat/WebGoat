@@ -1,15 +1,13 @@
 package org.owasp.webgoat.plugins;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.classloader.PluginClassLoader;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.util.LabelProvider;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,7 +27,6 @@ public class Plugin {
 
     private static final String NAME_LESSON_SOLUTION_DIRECTORY = "lessonSolutions";
     private static final String NAME_LESSON_PLANS_DIRECTORY = "lessonPlans";
-    private final Path pluginDirectory;
 
     private Class<AbstractLesson> lesson;
     private Map<String, File> solutionLanguageFiles = new HashMap<>();
@@ -37,36 +34,14 @@ public class Plugin {
     private List<File> pluginFiles = Lists.newArrayList();
     private File lessonSourceFile;
 
-    /**
-     * <p>Constructor for Plugin.</p>
-     *
-     * @param pluginDirectory a {@link java.nio.file.Path} object.
-     */
-    public Plugin(Path pluginDirectory) {
-        Preconditions.checkNotNull(pluginDirectory, "plugin directory cannot be null");
-        Preconditions.checkArgument(Files.exists(pluginDirectory), "directory %s does not exists", pluginDirectory);
-        this.pluginDirectory = pluginDirectory;
-    }
-
-    /**
-     * <p>Constructor for Plugin.</p>
-     *
-     * @param pluginDirectory a {@link java.nio.file.Path} object.
-     * @param classes a {@link java.util.List} object.
-     */
-    public Plugin(Path pluginDirectory, List<String> classes) {
-        this(pluginDirectory);
-        findLesson(classes);
-    }
-
-    private void findLesson(List<String> classes) {
+    public void findLesson(List<String> classes) {
         for (String clazzName : classes) {
             findLesson(clazzName);
         }
     }
 
     private void findLesson(String name) {
-        String realClassName = name.replaceFirst("/", "").replaceAll("/", ".").replaceAll(".class", "");
+        String realClassName = StringUtils.trimLeadingCharacter(name, '/').replaceAll("/", ".").replaceAll(".class", "");
         PluginClassLoader cl = (PluginClassLoader) Thread.currentThread().getContextClassLoader();
 
         try {
@@ -76,44 +51,23 @@ public class Plugin {
                 this.lesson = clazz;
             }
         } catch (ClassNotFoundException ce) {
-            throw new PluginLoadingFailure("Class " + realClassName + " listed in jar but unable to load the class.",
-                    ce);
+            throw new PluginLoadingFailure("Class " + realClassName + " listed in jar but unable to load the class.", ce);
         }
     }
 
-    /**
-     * <p>loadProperties.</p>
-     *
-     * @param properties a {@link java.util.List} object.
-     */
-    public void loadProperties(List<Path> properties) {
-        for (Path propertyFile : properties) {
-            LabelProvider.updatePluginResources(propertyFile);
-            LabelProvider.refresh();
+    public void loadFiles(Path file, boolean reload) {
+        if (fileEndsWith(file, ".html") && hasParentDirectoryWithName(file, NAME_LESSON_SOLUTION_DIRECTORY)) {
+            solutionLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
         }
-    }
+        if (fileEndsWith(file, ".html") && hasParentDirectoryWithName(file, NAME_LESSON_PLANS_DIRECTORY)) {
+            lessonPlansLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
+        }
+        if (fileEndsWith(file, ".java")) {
+            lessonSourceFile = file.toFile();
+        }
 
-    /**
-     * <p>loadFiles.</p>
-     *
-     * @param files a {@link java.util.List} object.
-     * @param reload a boolean.
-     */
-    public void loadFiles(List<Path> files, boolean reload) {
-        for (Path file : files) {
-            if (fileEndsWith(file, ".html") && hasParentDirectoryWithName(file, NAME_LESSON_SOLUTION_DIRECTORY)) {
-                solutionLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
-            }
-            if (fileEndsWith(file, ".html") && hasParentDirectoryWithName(file, NAME_LESSON_PLANS_DIRECTORY)) {
-                lessonPlansLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
-            }
-            if (fileEndsWith(file, ".java")) {
-                lessonSourceFile = file.toFile();
-            }
-
-            if (fileEndsWith(file, ".css", ".jsp", ".js")) {
-                pluginFiles.add(file.toFile());
-            }
+        if (fileEndsWith(file, ".css", ".jsp", ".js")) {
+            pluginFiles.add(file.toFile());
         }
     }
 
@@ -148,8 +102,6 @@ public class Plugin {
                     .format("%s/plugin/%s/images/", pluginTarget.getFileName().toString(), this.lesson.getSimpleName());
             replaceInFiles(s, r, pluginFiles);
             replaceInFiles(s, r, Arrays.asList(lessonSourceFile));
-
-
         } catch (IOException e) {
             throw new PluginLoadingFailure("Unable to rewrite the paths in the solutions", e);
         }
@@ -207,5 +159,6 @@ public class Plugin {
     public Map<String, File> getLessonPlans() {
         return this.lessonPlansLanguageFiles;
     }
+
 
 }

@@ -232,7 +232,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
     @Test
     public void testStartMvc() {
-
         driver.get(baseWebGoatUrl + "/start.mvc");
 
         WebDriverWait wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
