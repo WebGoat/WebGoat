@@ -949,7 +949,6 @@ public class WebSession {
     public void restartLesson(int lessonId) {
         AbstractLesson al = getLesson(lessonId);
         System.out.println("Restarting lesson: " + al);
-        al.restartLesson();
         al.getLessonTracker(this).setCompleted(false);
         if (al instanceof SequentialLessonAdapter) {
             SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
