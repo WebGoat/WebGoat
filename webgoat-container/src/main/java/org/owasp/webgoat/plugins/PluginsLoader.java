@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugins;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import org.apache.commons.io.FileUtils;
 import org.owasp.webgoat.classloader.PluginClassLoader;
 import org.owasp.webgoat.util.LabelProvider;
 import org.slf4j.Logger;
@@ -62,6 +63,7 @@ public class PluginsLoader implements Runnable {
 
         try {
             PluginFileUtils.createDirsIfNotExists(pluginTarget);
+            cleanupExtractedPluginsDirectory();
             List<URL> jars = listJars();
             cl.addURL(jars);
             plugins = processPlugins(jars, reload);
@@ -69,6 +71,11 @@ public class PluginsLoader implements Runnable {
             logger.error("Loading plugins failed", e);
         }
         return plugins;
+    }
+
+    private void cleanupExtractedPluginsDirectory() {
+        Path i18nDirectory = pluginTarget.resolve("plugin/i18n/");
+        FileUtils.deleteQuietly(i18nDirectory.toFile());
     }
 
     private List<URL> listJars() throws IOException {
