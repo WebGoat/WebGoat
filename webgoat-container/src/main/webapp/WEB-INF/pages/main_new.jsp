@@ -9,6 +9,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+        <meta http-equiv="Expires" CONTENT="0">
+        <meta http-equiv="Pragma" CONTENT="no-cache">
+        <meta http-equiv="Cache-Control" CONTENT="no-cache">
+        <meta http-equiv="Cache-Control" CONTENT="no-store">
+
         <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
         <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
         <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
