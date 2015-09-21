@@ -29,10 +29,15 @@ define(['jquery',
 				self.setContent(data);
 			});
 		},
-		setContent: function(content) {
+
+		setContent: function(content, loadHelps) {
+			if (typeof loadHelps === 'undefined') {
+				loadHelps = true;
+			}
 			this.set('content',content);
-			this.trigger('contentLoaded');
+			this.trigger('content:loaded',this,loadHelps);
 		},
+
 		fetch: function (options) {
 			options = options || {};
 			return Backbone.Model.prototype.fetch.call(this, _.extend({ dataType: "html"}, options));

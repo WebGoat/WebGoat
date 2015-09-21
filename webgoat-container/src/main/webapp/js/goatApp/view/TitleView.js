@@ -7,7 +7,6 @@ function($,_,Backbone) {
 		render:function(title) {
 			var lessonTitleEl = $('<h1>',{id:'lesson-title',text:title});
 			this.$el.html(lessonTitleEl);
-			//this.$el.append(lessonTitleEl);
 		}
 	});
 });
