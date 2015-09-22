@@ -154,4 +154,4 @@ Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and hap
 ## Reloading plugins
 
 If you want to reload all the plugin visit the following url: `http://localhost:8080/WebGoat/service/reloadplugins.mvc`
-After you receive a 200/OK the page can be reloaded.
+in a new browser tab. After reloading a message will appear and you can refresh the WebGoat browser tab.
