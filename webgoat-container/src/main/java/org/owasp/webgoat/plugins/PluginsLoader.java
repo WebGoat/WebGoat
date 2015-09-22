@@ -1,9 +1,9 @@
 package org.owasp.webgoat.plugins;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
-import org.owasp.webgoat.classloader.PluginClassLoader;
+import org.owasp.webgoat.plugins.classloader.PluginClassLoaderFactory;
+import org.owasp.webgoat.plugins.classloader.PluginClassLoaderRepository;
 import org.owasp.webgoat.util.LabelProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +11,14 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutorCompletionService;
@@ -30,12 +32,11 @@ import java.util.concurrent.Executors;
  */
 public class PluginsLoader implements Runnable {
 
-    /** Constant <code>WEBGOAT_PLUGIN_EXTENSION="jar"</code> */
-    protected static final String WEBGOAT_PLUGIN_EXTENSION = "jar";
+    private static final String WEBGOAT_PLUGIN_EXTENSION = "jar";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Path pluginSource;
+    private final PluginClassLoaderRepository repository;
     private Path pluginTarget;
-
 
     /**
      * <p>Constructor for PluginsLoader.</p>
@@ -43,12 +44,10 @@ public class PluginsLoader implements Runnable {
      * @param pluginSource a {@link java.nio.file.Path} object.
      * @param pluginTarget a {@link java.nio.file.Path} object.
      */
-    public PluginsLoader(Path pluginSource, Path pluginTarget) {
-        Preconditions.checkNotNull(pluginSource, "plugin source cannot be null");
-        Preconditions.checkNotNull(pluginTarget, "plugin target cannot be null");
-
-        this.pluginSource = pluginSource;
-        this.pluginTarget = pluginTarget;
+    public PluginsLoader(PluginClassLoaderRepository repository, Path pluginSource, Path pluginTarget) {
+        this.pluginSource = Objects.requireNonNull(pluginSource, "plugin source cannot be null");
+        this.pluginTarget = Objects.requireNonNull(pluginTarget, "plugin target cannot be null");
+        this.repository = Objects.requireNonNull(repository, "repository cannot be null");
     }
 
     /**
@@ -58,19 +57,24 @@ public class PluginsLoader implements Runnable {
      * @return a {@link java.util.List} object.
      */
     public List<Plugin> loadPlugins(final boolean reload) {
-        final PluginClassLoader cl = (PluginClassLoader) Thread.currentThread().getContextClassLoader();
         List<Plugin> plugins = Lists.newArrayList();
 
         try {
             PluginFileUtils.createDirsIfNotExists(pluginTarget);
             cleanupExtractedPluginsDirectory();
             List<URL> jars = listJars();
-            cl.addURL(jars);
-            plugins = processPlugins(jars, reload);
+            initClassLoader(jars);
+            plugins = processPlugins(jars);
         } catch (Exception e) {
             logger.error("Loading plugins failed", e);
         }
         return plugins;
+    }
+
+    private void initClassLoader(List<URL> jars) {
+        URLClassLoader classLoader = PluginClassLoaderFactory.createClassLoader(jars);
+        this.repository.replaceClassLoader(classLoader);
+        Thread.currentThread().setContextClassLoader(classLoader);
     }
 
     private void cleanupExtractedPluginsDirectory() {
@@ -93,7 +97,7 @@ public class PluginsLoader implements Runnable {
         return jars;
     }
 
-    private List<Plugin> processPlugins(List<URL> jars, boolean reload) throws Exception {
+    private List<Plugin> processPlugins(List<URL> jars) throws Exception {
         final List<Plugin> plugins = Lists.newArrayList();
         final ExecutorService executorService = Executors.newFixedThreadPool(10);
         final CompletionService<Plugin> completionService = new ExecutorCompletionService<>(executorService);

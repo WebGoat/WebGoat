@@ -55,7 +55,7 @@ public class PluginExtractor {
             throws IOException {
         final File targetFile = new File(targetDirectory, zipEntry.getName());
         copyFile(zipFile, zipEntry, targetFile, false);
-        plugin.loadFiles(targetFile.toPath(), true);
+        plugin.loadFiles(targetFile.toPath());
     }
 
     private boolean processPropertyFile(ZipFile zipFile, ZipEntry zipEntry, File targetDirectory)

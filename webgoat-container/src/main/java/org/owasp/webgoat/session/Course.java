@@ -5,6 +5,7 @@ import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginsLoader;
+import org.owasp.webgoat.plugins.classloader.PluginClassLoaderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,13 +66,12 @@ public class Course {
 
     final Logger logger = LoggerFactory.getLogger(Course.class);
 
+    private final PluginClassLoaderRepository repository = new PluginClassLoaderRepository();
     private final List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
 
     private final static String PROPERTIES_FILENAME = HammerHead.propertiesPath;
 
     private WebgoatProperties properties = null;
-
-    private final List<String> files = new LinkedList<String>();
 
     private WebgoatContext webgoatContext;
 
@@ -327,7 +327,7 @@ public class Course {
         return null;
     }
 
-    private void loadLessonFromPlugin(ServletContext context) {
+    public void loadLessonFromPlugin(ServletContext context) {
         logger.debug("Loading plugins into cache");
         String pluginPath = context.getRealPath("plugin_lessons");
         String targetPath = context.getRealPath("plugin_extracted");
@@ -336,8 +336,8 @@ public class Course {
             logger.error("Plugins directory {} not found", pluginPath);
             return;
         }
-
-        List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(true);
+        lessons.clear();
+        List<Plugin> plugins = new PluginsLoader(repository, Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(true);
         for (Plugin plugin : plugins) {
             try {
                 AbstractLesson lesson = plugin.getLesson().get();
@@ -376,5 +376,4 @@ public class Course {
         LegacyLoader loader = new LegacyLoader();
         lessons.addAll(loader.loadLessons(webgoatContext, context, path, properties));        
     }
-
 }
