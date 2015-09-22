@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.model.Hint;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
@@ -40,11 +41,12 @@ public class HintService extends BaseService {
         if (l == null) {
             return listHints;
         }
-        List<String> hints;
-        hints = l.getHintsPublic(ws);
+        List<String> hints = (l.getCategory().equals(Category.CHALLENGE)) ? null : l.getHintsPublic(ws);
+
         if (hints == null) {
             return listHints;
         }
+
         int idx = 0;
         for (String h : hints) {
             Hint hint = new Hint();
