@@ -59,9 +59,9 @@ public class PluginReloadService extends BaseService {
      */
     @RequestMapping(value = "/reloadplugins.mvc")
     public @ResponseBody
-    ResponseEntity<Object> reloadPlugins(HttpSession session) {
+    ResponseEntity<String> reloadPlugins(HttpSession session) {
         WebSession webSession = (WebSession) session.getAttribute(WebSession.SESSION);
         webSession.getCourse().loadLessonFromPlugin(session.getServletContext());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity("Plugins reload refresh the WebGoat page!",HttpStatus.OK);
     }
 }
