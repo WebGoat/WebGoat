@@ -15,7 +15,8 @@ require.config({
   paths: {
     jquery: 'libs/jquery-1.10.2.min',
     underscore: 'libs/underscore-min',
-    backbone: 'libs/backbone-min'
+    backbone: 'libs/backbone-min',
+    templates: 'goatApp/templates'
   }
 ,
   shim: {

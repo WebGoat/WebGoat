@@ -13,7 +13,9 @@ define(['jquery',
 	'goatApp/model/ParamModel',
 	'goatApp/support/GoatUtils',
 	'goatApp/view/UserAndInfoView',
-	'goatApp/view/MenuButtonView'
+	'goatApp/view/MenuButtonView',
+	'goatApp/model/LessonInfoModel',
+	'goatApp/view/TitleView'
 	], 
 	function($,
 		_,
@@ -30,7 +32,9 @@ define(['jquery',
 		ParamModel,
 		GoatUtils,
 		UserAndInfoView,
-		MenuButtonView
+		MenuButtonView,
+		LessonInfoModel,
+		TitleView
 	) {
 		'use strict'
 		
@@ -42,13 +46,13 @@ define(['jquery',
 			_.extend(Controller.prototype,Backbone.Events);
 
 			this.start = function() {
-				this.listenTo(this.lessonContent,'contentLoaded',this.onContentLoaded);
-				//'static' elements of page/app
+				this.listenTo(this.lessonContent,'content:loaded',this.onContentLoaded);
 				this.userAndInfoView = new UserAndInfoView();
 				this.menuButtonView = new MenuButtonView();
 			};
-			//load View, which can pull data
+
 			this.loadLesson = function(scr,menu,stage) {
+				this.titleView = new TitleView();
 				this.helpsLoaded = {};
 				this.lessonContent.loadData({
 					'screen': scr,
@@ -59,64 +63,54 @@ define(['jquery',
 				this.solutionView = {};
 				this.sourceView = {};
 				this.lessonHintView = {};
-				this.screen = scr; //needed anymore?
+				this.screen = scr;
 				this.menu = menu;
-				//
-				
 			};
 
-			this.onContentLoaded = function() {
-				this.helpControlsView = null;
-				this.lessonView.model = this.lessonContent;
-				this.lessonView.render();
-				//load title view (initially hidden) << //TODO: currently handled via menu click but need to be able to handle via routed request
-				//plan view (initially hidden)
-				this.planView = new PlanView();
-				this.listenToOnce(this.planView,'plan:loaded',this.areHelpsReady);
-				//solution view (initially hidden)
-				this.solutionView = new SolutionView();
-				this.listenToOnce(this.solutionView,'solution:loaded',this.areHelpsReady);
-				//source (initially hidden)
-				this.sourceView = new SourceView();
-				this.listenToOnce(this.sourceView,'source:loaded',this.areHelpsReady);
-				//load help controls view (contextul to what helps are available)
-				this.lessonHintView = new HintView();
-				this.listenToOnce(this.lessonHintView,'hints:loaded',this.areHelpsReady);
-				//
-				this.cookieView = new CookieView();
-				// parameter model & view
-				//TODO: instantiate model with values (not sure why was not working before)
-				var paramModel = new ParamModel({
+			this.onInfoLoaded = function() {
+				this.helpControlsView = new HelpControlsView({
+					hasPlan:this.lessonInfoModel.get('hasPlan'),
+					hasSolution:this.lessonInfoModel.get('hasSolution'),
+					hasSource:this.lessonInfoModel.get('hasSource'),
+					hasHints:(this.lessonInfoModel.get('numberHints') > 0),
 				});
-				paramModel.set('screenParam',this.lessonContent.get('screenParam'));
-				paramModel.set('menuParam',this.lessonContent.get('menuParam'));
-				paramModel.set('stageParam',this.lessonContent.get('stageParam'));
-				this.paramView = new ParamView({model:paramModel});
 
-				$('.lesson-help').hide();
-				this.trigger('menu:reload');
+				this.listenTo(this.helpControlsView,'plan:show',this.hideShowHelps);
+				this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);	
+				this.listenTo(this.helpControlsView,'hints:show',this.onShowHints)
+				this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
+				this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
+
+				this.helpControlsView.render();
+
+				this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
 			};
 
-			this.areHelpsReady = function (curHelp) {
-				//TODO: significantly refactor (remove) this once LessonInfoService can be used to support lazy loading
-				this.addCurHelpState(curHelp);
-				// check if all are ready
-				if (this.helpsLoaded['hints'] && this.helpsLoaded['plan'] && this.helpsLoaded['solution'] && this.helpsLoaded['source'] && !this.helpControlsView) {
-					
-					this.helpControlsView = new HelpControlsView({
-						hasPlan:(this.planView.model.get('content') !== null),
-						hasSolution:(this.solutionView.model.get('content') !== null),
-						hasSource:(this.sourceView.model.get('content') !== null),
-						hasHints:(this.lessonHintView.collection.length > 0),
-					});
-					this.helpControlsView.render();
-					
-					this.listenTo(this.helpControlsView,'plan:show',this.hideShowHelps);
-					this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);	
-					this.listenTo(this.helpControlsView,'hints:show',this.onShowHints)
-					this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
-					this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
-				}
+			this.onContentLoaded = function(loadHelps) {
+				this.lessonInfoModel = new LessonInfoModel();
+				this.listenTo(this.lessonInfoModel,'info:loaded',this.onInfoLoaded); //TODO onInfoLoaded function to handle title view and helpview
+
+				if (loadHelps) {
+					this.helpControlsView = null;
+					this.lessonView.model = this.lessonContent;
+					this.lessonView.render();
+					//load title view (initially hidden) << //TODO: currently handled via menu click but need to be able to handle via routed request
+					this.planView = new PlanView();
+					this.solutionView = new SolutionView();
+					this.sourceView = new SourceView();
+					this.lessonHintView = new HintView();
+					this.cookieView = new CookieView();
+					// parameter model & view
+					//TODO: instantiate model with values (not sure why was not working before)
+					var paramModel = new ParamModel({});
+					paramModel.set('screenParam',this.lessonContent.get('screenParam'));
+					paramModel.set('menuParam',this.lessonContent.get('menuParam'));
+					paramModel.set('stageParam',this.lessonContent.get('stageParam'));
+					this.paramView = new ParamView({model:paramModel});
+
+					$('.lesson-help').hide();
+					}
+				this.trigger('menu:reload');
 			};
 
 			this.addCurHelpState = function (curHelp) {

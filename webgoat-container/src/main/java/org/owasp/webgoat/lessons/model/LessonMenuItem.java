@@ -46,8 +46,8 @@ public class LessonMenuItem {
     private List<LessonMenuItem> children = new ArrayList<LessonMenuItem>();
     private boolean complete;
     private String link;
-    private boolean showSource = true;
-    private boolean showHints = true;
+//    private boolean showSource = true;
+//    private boolean showHints = true;
 
     /**
      * <p>Getter for the field <code>name</code>.</p>
@@ -157,40 +157,6 @@ public class LessonMenuItem {
         this.link = link;
     }
 
-    /**
-     * <p>isShowSource.</p>
-     *
-     * @return the showSource
-     */
-    public boolean isShowSource() {
-        return showSource;
-    }
 
-    /**
-     * <p>Setter for the field <code>showSource</code>.</p>
-     *
-     * @param showSource the showSource to set
-     */
-    public void setShowSource(boolean showSource) {
-        this.showSource = showSource;
-    }
-
-    /**
-     * <p>isShowHints.</p>
-     *
-     * @return the showHints
-     */
-    public boolean isShowHints() {
-        return showHints;
-    }
-
-    /**
-     * <p>Setter for the field <code>showHints</code>.</p>
-     *
-     * @param showHints the showHints to set
-     */
-    public void setShowHints(boolean showHints) {
-        this.showHints = showHints;
-    }
 
 }

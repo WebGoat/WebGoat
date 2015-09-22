@@ -4,19 +4,22 @@ define(['jquery',
     'goatApp/controller/LessonController',
     'goatApp/controller/MenuController',
     'goatApp/view/LessonContentView',
-    'goatApp/view/MenuView',
-    'goatApp/view/TitleView'
-], function ($,_,Backbone,LessonController,MenuController,LessonContentView,MenuView,TitleView) {
-
+    'goatApp/view/MenuView'
+    ], function ($,
+    _,
+    Backbone,
+    LessonController,
+    MenuController,
+    LessonContentView,
+    MenuView) {
+    
     var lessonView = new LessonContentView();
     var menuView = new MenuView();
-    var titleView = new TitleView();
 
     var GoatAppRouter = Backbone.Router.extend({
         routes: {
-            //#....
             'welcome':'welcomeRoute',
-            'attack/:scr/:menu(/:stage)':'attackRoute' //
+            'attack/:scr/:menu(/:stage)':'attackRoute',
         },
 
         lessonController: new LessonController({
@@ -24,8 +27,7 @@ define(['jquery',
         }),
 
         menuController: new MenuController({
-            menuView:menuView,
-            titleView:titleView
+            menuView:menuView
         }),
 
         init:function() {
@@ -39,7 +41,7 @@ define(['jquery',
                 //update menu
             });
             goatRouter.on('route:welcomeRoute', function() {
-                alert('welcome route');
+                this.lessonController.loadWelcome();
             });
 
             Backbone.history.start();
