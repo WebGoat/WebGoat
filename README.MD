@@ -149,3 +149,9 @@ cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <your_to
 ```
 
 Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
+
+
+## Reloading plugins
+
+If you want to reload all the plugin visit the following url: `http://localhost:8080/WebGoat/service/reloadplugins.mvc`
+in a new browser tab. After reloading a message will appear and you can refresh the WebGoat browser tab.

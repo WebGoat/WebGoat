@@ -2,12 +2,12 @@ package org.owasp.webgoat.plugins;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import org.owasp.webgoat.classloader.PluginClassLoader;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,10 +42,11 @@ public class Plugin {
 
     private void findLesson(String name) {
         String realClassName = StringUtils.trimLeadingCharacter(name, '/').replaceAll("/", ".").replaceAll(".class", "");
-        PluginClassLoader cl = (PluginClassLoader) Thread.currentThread().getContextClassLoader();
+        //TODO should be passed in (refactor)
+        URLClassLoader cl = (URLClassLoader) Thread.currentThread().getContextClassLoader();
 
         try {
-            Class clazz = cl.loadClass(realClassName, true);
+            Class clazz = cl.loadClass(realClassName);
 
             if (AbstractLesson.class.isAssignableFrom(clazz)) {
                 this.lesson = clazz;
@@ -55,7 +56,7 @@ public class Plugin {
         }
     }
 
-    public void loadFiles(Path file, boolean reload) {
+    public void loadFiles(Path file) {
         if (fileEndsWith(file, ".html") && hasParentDirectoryWithName(file, NAME_LESSON_SOLUTION_DIRECTORY)) {
             solutionLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());
         }

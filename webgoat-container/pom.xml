@@ -41,11 +41,6 @@
                         <dependencies>
                             <dependency>
                                 <groupId>org.owasp.webgoat</groupId>
-                                <artifactId>webgoat-classloader</artifactId>
-                                <version>${project.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.owasp.webgoat</groupId>
                                 <artifactId>webgoat-container</artifactId>
                                 <version>${project.version}</version>
                             </dependency>
@@ -57,15 +52,6 @@
                                     <goal>exec-war-only</goal>
                                 </goals>
                                 <phase>package</phase>
-                                <configuration>
-                                    <extraDependencies>
-                                        <extraDependency>
-                                            <groupId>org.owasp.webgoat</groupId>
-                                            <artifactId>webgoat-classloader</artifactId>
-                                            <version>${project.version}</version>
-                                        </extraDependency>
-                                    </extraDependencies>
-                                </configuration>
                             </execution>
                             <execution>
                                 <id>tomcat-startup</id>
@@ -197,11 +183,6 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.owasp.webgoat</groupId>
-                        <artifactId>webgoat-classloader</artifactId>
-                        <version>${project.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.owasp.webgoat</groupId>
                         <artifactId>webgoat-container</artifactId>
                         <version>${project.version}</version>
                     </dependency>
@@ -213,15 +194,6 @@
                             <goal>exec-war-only</goal>
                         </goals>
                         <phase>package</phase>
-                        <configuration>
-                            <extraDependencies>
-                                <extraDependency>
-                                    <groupId>org.owasp.webgoat</groupId>
-                                    <artifactId>webgoat-classloader</artifactId>
-                                    <version>${project.version}</version>
-                                </extraDependency>
-                            </extraDependencies>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -239,11 +211,6 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>org.owasp.webgoat</groupId>
-            <artifactId>webgoat-classloader</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>

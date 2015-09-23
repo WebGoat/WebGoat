@@ -1032,4 +1032,5 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return new File(w.getContext().getRealPath("/plugin_extracted/plugin/" + getLessonName() + "/"));
     }
 
+
 }
