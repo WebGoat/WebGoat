@@ -155,3 +155,9 @@ Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and hap
 
 If you want to reload all the plugin visit the following url: `http://localhost:8080/WebGoat/service/reloadplugins.mvc`
 in a new browser tab. After reloading a message will appear and you can refresh the WebGoat browser tab.
+
+## Debugging label properties
+
+To be able to see which labels are loaded through a property file you first need to visit the following url:
+`http://localhost:8080/WebGoat/service/debug/labels.mvc` in a new browser tab. Switch back to the WebGoat page and
+reload this page. After this labels which load label from the property file will marked green.

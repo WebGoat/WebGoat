@@ -1,6 +1,7 @@
 
 package org.owasp.webgoat.util;
 
+import org.owasp.webgoat.session.LabelDebugger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,8 @@ public class LabelManagerImpl implements LabelManager, Serializable
 
 	@Autowired
 	private transient LabelProvider labelProvider;
+	@Autowired
+	private transient LabelDebugger labelDebugger;
 
 	/** Locale mapped with current session. */
 	private Locale locale = new Locale(LabelProvider.DEFAULT_LANGUAGE);
@@ -75,7 +78,11 @@ public class LabelManagerImpl implements LabelManager, Serializable
 	/** {@inheritDoc} */
 	public String get(String labelKey)
 	{
-		return labelProvider.get(locale, labelKey);
+		String label = labelProvider.get(locale, labelKey);
+		if (labelDebugger.isEnabled()) {
+			label = "<font color=\"#00CD00\">" + label + "</font>";
+		}
+		return label;
 	}
 
 }
