@@ -5,7 +5,6 @@ import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginsLoader;
-import org.owasp.webgoat.plugins.classloader.PluginClassLoaderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,7 +65,6 @@ public class Course {
 
     final Logger logger = LoggerFactory.getLogger(Course.class);
 
-    private final PluginClassLoaderRepository repository = new PluginClassLoaderRepository();
     private final List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
 
     private final static String PROPERTIES_FILENAME = HammerHead.propertiesPath;
@@ -337,7 +335,7 @@ public class Course {
             return;
         }
         lessons.clear();
-        List<Plugin> plugins = new PluginsLoader(repository, Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins(true);
+        List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins();
         for (Plugin plugin : plugins) {
             try {
                 AbstractLesson lesson = plugin.getLesson().get();
