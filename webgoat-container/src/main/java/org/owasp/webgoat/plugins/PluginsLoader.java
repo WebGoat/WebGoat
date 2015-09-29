@@ -13,7 +13,9 @@ import java.net.URL;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.Objects;
@@ -46,6 +48,25 @@ public class PluginsLoader implements Runnable {
         this.pluginTarget = Objects.requireNonNull(pluginTarget, "plugin target cannot be null");
     }
 
+    public void copyJars() {
+        try {
+            WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
+            cl.setAntiJARLocking(true);
+
+            List<URL> jars = listJars();
+
+            cl.closeJARs(true);
+            Path webInfLib = pluginTarget.getParent().resolve(cl.getJarPath().replaceFirst("\\/", ""));
+            for (URL jar : jars) {
+                Path sourceJarFile = Paths.get(jar.toURI());
+                Files.copy(sourceJarFile, webInfLib.resolve(sourceJarFile.getFileName()),
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (Exception e) {
+            logger.error("Loading plugins failed", e);
+        }
+    }
+
     /**
      * <p>loadPlugins.</p>
      *
@@ -59,9 +80,6 @@ public class PluginsLoader implements Runnable {
             PluginFileUtils.createDirsIfNotExists(pluginTarget);
             cleanupExtractedPluginsDirectory();
             List<URL> jars = listJars();
-            for (URL url : jars) {
-                cl.addRepository(url.toString());
-            }
 
             plugins = processPlugins(jars);
         } catch (Exception e) {
@@ -71,13 +89,12 @@ public class PluginsLoader implements Runnable {
     }
 
 
-
     private void cleanupExtractedPluginsDirectory() {
         Path i18nDirectory = pluginTarget.resolve("plugin/i18n/");
         FileUtils.deleteQuietly(i18nDirectory.toFile());
     }
 
-    private List<URL> listJars() throws IOException {
+    public List<URL> listJars() throws IOException {
         final List<URL> jars = Lists.newArrayList();
         Files.walkFileTree(pluginSource, new SimpleFileVisitor<Path>() {
 
@@ -127,7 +144,9 @@ public class PluginsLoader implements Runnable {
         return extractorCallables;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void run() {
         loadPlugins();
