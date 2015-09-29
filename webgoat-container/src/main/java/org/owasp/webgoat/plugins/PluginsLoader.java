@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +29,7 @@ import java.util.concurrent.Executors;
  *
  * @version $Id: $Id
  */
-public class PluginsLoader implements Runnable {
+public class PluginsLoader {
 
     private static final String WEBGOAT_PLUGIN_EXTENSION = "jar";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -48,6 +47,9 @@ public class PluginsLoader implements Runnable {
         this.pluginTarget = Objects.requireNonNull(pluginTarget, "plugin target cannot be null");
     }
 
+    /**
+     * Copy jars to the lib directory
+     */
     public void copyJars() {
         try {
             WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
@@ -55,12 +57,10 @@ public class PluginsLoader implements Runnable {
 
             List<URL> jars = listJars();
 
-            cl.closeJARs(true);
             Path webInfLib = pluginTarget.getParent().resolve(cl.getJarPath().replaceFirst("\\/", ""));
             for (URL jar : jars) {
                 Path sourceJarFile = Paths.get(jar.toURI());
-                Files.copy(sourceJarFile, webInfLib.resolve(sourceJarFile.getFileName()),
-                        StandardCopyOption.REPLACE_EXISTING);
+                FileUtils.copyFileToDirectory(sourceJarFile.toFile(), webInfLib.toFile());
             }
         } catch (Exception e) {
             logger.error("Loading plugins failed", e);
@@ -74,7 +74,6 @@ public class PluginsLoader implements Runnable {
      */
     public List<Plugin> loadPlugins() {
         List<Plugin> plugins = Lists.newArrayList();
-        WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
 
         try {
             PluginFileUtils.createDirsIfNotExists(pluginTarget);
@@ -88,13 +87,12 @@ public class PluginsLoader implements Runnable {
         return plugins;
     }
 
-
     private void cleanupExtractedPluginsDirectory() {
         Path i18nDirectory = pluginTarget.resolve("plugin/i18n/");
         FileUtils.deleteQuietly(i18nDirectory.toFile());
     }
 
-    public List<URL> listJars() throws IOException {
+    private List<URL> listJars() throws IOException {
         final List<URL> jars = Lists.newArrayList();
         Files.walkFileTree(pluginSource, new SimpleFileVisitor<Path>() {
 
@@ -142,13 +140,5 @@ public class PluginsLoader implements Runnable {
             });
         }
         return extractorCallables;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void run() {
-        loadPlugins();
     }
 }
