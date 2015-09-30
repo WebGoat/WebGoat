@@ -32,6 +32,7 @@ import java.util.concurrent.Executors;
 public class PluginsLoader {
 
     private static final String WEBGOAT_PLUGIN_EXTENSION = "jar";
+    private static boolean alreadyLoaded = false;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Path pluginSource;
     private Path pluginTarget;
@@ -52,18 +53,21 @@ public class PluginsLoader {
      */
     public void copyJars() {
         try {
-            WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
-            cl.setAntiJARLocking(true);
+            if (!alreadyLoaded) {
+                WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
+                cl.setAntiJARLocking(true);
 
-            List<URL> jars = listJars();
+                List<URL> jars = listJars();
 
-            Path webInfLib = pluginTarget.getParent().resolve(cl.getJarPath().replaceFirst("\\/", ""));
-            for (URL jar : jars) {
-                Path sourceJarFile = Paths.get(jar.toURI());
-                FileUtils.copyFileToDirectory(sourceJarFile.toFile(), webInfLib.toFile());
+                Path webInfLib = pluginTarget.getParent().resolve(cl.getJarPath().replaceFirst("\\/", ""));
+                for (URL jar : jars) {
+                    Path sourceJarFile = Paths.get(jar.toURI());
+                    FileUtils.copyFileToDirectory(sourceJarFile.toFile(), webInfLib.toFile());
+                }
+                alreadyLoaded = true;
             }
         } catch (Exception e) {
-            logger.error("Loading plugins failed", e);
+            logger.error("Copying plugins failed", e);
         }
     }
 
@@ -73,6 +77,7 @@ public class PluginsLoader {
      * @return a {@link java.util.List} object.
      */
     public List<Plugin> loadPlugins() {
+        copyJars();
         List<Plugin> plugins = Lists.newArrayList();
 
         try {
