@@ -2,12 +2,12 @@ package org.owasp.webgoat.plugins;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
+import org.apache.catalina.loader.WebappClassLoader;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,10 +43,10 @@ public class Plugin {
     private void findLesson(String name) {
         String realClassName = StringUtils.trimLeadingCharacter(name, '/').replaceAll("/", ".").replaceAll(".class", "");
         //TODO should be passed in (refactor)
-        URLClassLoader cl = (URLClassLoader) Thread.currentThread().getContextClassLoader();
+        WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
 
         try {
-            Class clazz = cl.loadClass(realClassName);
+            Class clazz = cl.loadClass(realClassName, true);
 
             if (AbstractLesson.class.isAssignableFrom(clazz)) {
                 this.lesson = clazz;

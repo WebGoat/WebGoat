@@ -1,9 +1,8 @@
 package org.owasp.webgoat.plugins;
 
 import com.google.common.collect.Lists;
+import org.apache.catalina.loader.WebappClassLoader;
 import org.apache.commons.io.FileUtils;
-import org.owasp.webgoat.plugins.classloader.PluginClassLoaderFactory;
-import org.owasp.webgoat.plugins.classloader.PluginClassLoaderRepository;
 import org.owasp.webgoat.util.LabelProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +10,10 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
@@ -30,12 +29,12 @@ import java.util.concurrent.Executors;
  *
  * @version $Id: $Id
  */
-public class PluginsLoader implements Runnable {
+public class PluginsLoader {
 
     private static final String WEBGOAT_PLUGIN_EXTENSION = "jar";
+    private static boolean alreadyLoaded = false;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Path pluginSource;
-    private final PluginClassLoaderRepository repository;
     private Path pluginTarget;
 
     /**
@@ -44,37 +43,53 @@ public class PluginsLoader implements Runnable {
      * @param pluginSource a {@link java.nio.file.Path} object.
      * @param pluginTarget a {@link java.nio.file.Path} object.
      */
-    public PluginsLoader(PluginClassLoaderRepository repository, Path pluginSource, Path pluginTarget) {
+    public PluginsLoader(Path pluginSource, Path pluginTarget) {
         this.pluginSource = Objects.requireNonNull(pluginSource, "plugin source cannot be null");
         this.pluginTarget = Objects.requireNonNull(pluginTarget, "plugin target cannot be null");
-        this.repository = Objects.requireNonNull(repository, "repository cannot be null");
+    }
+
+    /**
+     * Copy jars to the lib directory
+     */
+    public void copyJars() {
+        try {
+            if (!alreadyLoaded) {
+                WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
+                cl.setAntiJARLocking(true);
+
+                List<URL> jars = listJars();
+
+                Path webInfLib = pluginTarget.getParent().resolve(cl.getJarPath().replaceFirst("\\/", ""));
+                for (URL jar : jars) {
+                    Path sourceJarFile = Paths.get(jar.toURI());
+                    FileUtils.copyFileToDirectory(sourceJarFile.toFile(), webInfLib.toFile());
+                }
+                alreadyLoaded = true;
+            }
+        } catch (Exception e) {
+            logger.error("Copying plugins failed", e);
+        }
     }
 
     /**
      * <p>loadPlugins.</p>
      *
-     * @param reload a boolean.
      * @return a {@link java.util.List} object.
      */
-    public List<Plugin> loadPlugins(final boolean reload) {
+    public List<Plugin> loadPlugins() {
+        copyJars();
         List<Plugin> plugins = Lists.newArrayList();
 
         try {
             PluginFileUtils.createDirsIfNotExists(pluginTarget);
             cleanupExtractedPluginsDirectory();
             List<URL> jars = listJars();
-            initClassLoader(jars);
+
             plugins = processPlugins(jars);
         } catch (Exception e) {
             logger.error("Loading plugins failed", e);
         }
         return plugins;
-    }
-
-    private void initClassLoader(List<URL> jars) {
-        URLClassLoader classLoader = PluginClassLoaderFactory.createClassLoader(jars);
-        this.repository.replaceClassLoader(classLoader);
-        Thread.currentThread().setContextClassLoader(classLoader);
     }
 
     private void cleanupExtractedPluginsDirectory() {
@@ -130,11 +145,5 @@ public class PluginsLoader implements Runnable {
             });
         }
         return extractorCallables;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void run() {
-        loadPlugins(true);
     }
 }
