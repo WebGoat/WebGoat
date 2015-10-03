@@ -187,14 +187,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     }
 
     /**
-     * Gets the credits attribute of the AbstractLesson object
-     *
-     * @return The credits value
-     * @deprecated - Credits have moved to the about page
-     */
-    public abstract Element getCredits();
-
-    /**
      * {@inheritDoc}
      *
      * Description of the Method

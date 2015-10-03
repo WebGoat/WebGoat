@@ -154,17 +154,6 @@ public abstract class LessonAdapter extends AbstractLesson {
     }
 
     /**
-     * Gets the credits attribute of the AbstractLesson object
-     *
-     * @return The credits value
-     * @deprecated Credits are in the about page.  This method s no
-     * longer called from WebGoat
-     */
-    public Element getCredits() {
-        return new StringElement();
-    }
-
-    /**
      * {@inheritDoc}
      *
      * Gets the instructions attribute of the LessonAdapter object. Instructions
