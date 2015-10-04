@@ -235,7 +235,7 @@ public class Course {
      * @param role a {@link java.lang.String} object.
      * @return a {@link java.util.List} object.
      */
-    public List getLessons(WebSession s, String role) {
+    public List<AbstractLesson> getLessons(WebSession s, String role) {
         List<String> roles = new ArrayList<String>();
         roles.add(role);
         return getLessons(s, roles);
