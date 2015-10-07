@@ -154,7 +154,7 @@
         <spring.security.version>3.2.4.RELEASE</spring.security.version>
         <standard.version>1.1.2</standard.version>
         <tiles.version>2.2.2</tiles.version>
-        <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
+        <tomcat7-maven-plugin.version>2.1</tomcat7-maven-plugin.version>
         <wsdl4j.version>1.5.1</wsdl4j.version>
         <tomcat-catalina.version>7.0.63</tomcat-catalina.version>
     </properties>
