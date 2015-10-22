@@ -35,7 +35,7 @@ function($,
 
 		showAboutModal: function() {
 			$('#about-modal').show(400);
-			$('#about-modal div.modal-header button.close').unbind('click').on('click', function() {
+			$('#about-modal div.modal-header button.close, #about-modal div.modal-footer button').unbind('click').on('click', function() {
 				$('#about-modal').hide(200);
 			});
 		}
