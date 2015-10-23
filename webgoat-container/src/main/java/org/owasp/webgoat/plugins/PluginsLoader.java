@@ -13,7 +13,6 @@ import java.net.URL;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
@@ -56,13 +55,9 @@ public class PluginsLoader {
             if (!alreadyLoaded) {
                 WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
                 cl.setAntiJARLocking(true);
-
                 List<URL> jars = listJars();
-
-                Path webInfLib = pluginTarget.getParent().resolve(cl.getJarPath().replaceFirst("\\/", ""));
                 for (URL jar : jars) {
-                    Path sourceJarFile = Paths.get(jar.toURI());
-                    FileUtils.copyFileToDirectory(sourceJarFile.toFile(), webInfLib.toFile());
+                    cl.addRepository(jar.toString());
                 }
                 alreadyLoaded = true;
             }
