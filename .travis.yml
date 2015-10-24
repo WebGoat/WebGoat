@@ -14,11 +14,13 @@ before_deploy:
   - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.jar
   - export WEBGOAT_JAR_EXEC_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION-war-exec.jar
   - export WEBGOAT_WAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.war
+  - export WEBGOAT_CONTAINTER_TARGET_DIR=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target
   - export WEBGOAT_ARTIFACTS_FOLDER=$HOME/build/$TRAVIS_REPO_SLUG/Deployable_Artifacts/
   - mkdir $WEBGOAT_ARTIFACTS_FOLDER
-  - mv $WEBGOAT_JAR_EXEC_FILE $WEBGOAT_ARTIFACTS_FOLDER
-  - mv $WEBGOAT_JAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
-  - mv $WEBGOAT_WAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
+  - cp -fa $WEBGOAT_JAR_EXEC_FILE $WEBGOAT_ARTIFACTS_FOLDER
+  - cp -fa $WEBGOAT_JAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
+  - cp -fa $WEBGOAT_WAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
+  - cp -fa $WEBGOAT_CONTAINTER_TARGET_DIR/* $WEBGOAT_ARTIFACTS_FOLDER
   - echo "Contents of artifcts folder:"
   - ls $WEBGOAT_ARTIFACTS_FOLDER
 deploy:
@@ -39,8 +41,6 @@ notifications:
     secure: S9VFew5NSE8WDzYD1VDBUULKKT0fzgblQACznwQ85699b2yeX9TX58N3RZvRS1JVagVP1wu2xOrwN2g+AWx4Ro3UBZD5XG86uTJWpCLD4cRWHBoGMH2TfvI7/IzsWmgxH4MBxFRvZr/eEhlVAux+N9H4EoEdS4CKsJXEqV37PlA=
 env:
   global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
    - secure: "ZLZKz6lGt8YZ+NhkZPBAlI235+lEmu37Tcf+yTwh5yXuHAlnvvF6hPui7rANA/stbYGOIqIdhGOXbdrwyTU4Pvg78VwJOwsa9RtHJfou3pg4Ud9i0/dEeVl8aakmg2HDaWYGcFox8X1ViVc5UWjuBLztfJKQUEx0buJoWdMSf2E="
 addons:
   sauce_connect: true
