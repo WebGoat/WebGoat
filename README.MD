@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg)](https://travis-ci.org/WebGoat/WebGoat)
 [![Coverity Scan Build Status](https://img.shields.io/coverity/scan/6101.svg)](https://scan.coverity.com/projects/webgoat-webgoat)
+[![Coverage Status](https://coveralls.io/repos/WebGoat/WebGoat/badge.svg?branch=master&service=github)](https://coveralls.io/github/WebGoat/WebGoat?branch=master)
 
 # Important Information
 
