@@ -51,9 +51,7 @@ wish to simply try/test/run the current development version of WebGoat
 ### Prerequisites:
 * Java VM >= 1.6 installed ( JDK 1.7 recommended)
 
-Easy Run Instructions:
-----------------------
-
+## Easy Run Instructions:
 
 #### 1. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
 
@@ -68,7 +66,6 @@ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
 ```
 
 #### 3. Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
-
 
 #### (Optional) If you would like to change the port or other options, use the help command for guidance:
 
@@ -118,7 +115,7 @@ cd ..
 ```
 
 #### Before you can run the project, we need to compile the lessons and copy them over:
-** If you don't run this step, you will not have any Lessons to work with!**
+**If you don't run this step, you will not have any Lessons to work with!**
 
 ```Shell
 cd WebGoat-Lessons
@@ -158,20 +155,28 @@ The __maven package__ goal generates a .war file that can deployed into an Appli
 
 ```Shell
 cd WebGoat
-mvn package 
-cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <your_tomcat_directory>/webapps/
+mvn package
+cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT.war <your_tomcat_directory>/webapps/
 ```
 
 Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
+# Debugging and Troubleshooting
 
-## Reloading plugins
+## Reloading plugins and lessons
 
-If you want to reload all the plugin visit the following url: `http://localhost:8080/WebGoat/service/reloadplugins.mvc`
-in a new browser tab. After reloading a message will appear and you can refresh the WebGoat browser tab.
+If you want to __reload all the plugin and lessons__, open a new browser tab and visit the following url:
+
+[http://localhost:8080/WebGoat/service/reloadplugins.mvc](http://localhost:8080/WebGoat/service/reloadplugins.mvc)
+
+After the plugin reload is complete, _reloading a message_ will appear and you can refresh the __main WebGoat browser tab__.
 
 ## Debugging label properties
 
-To be able to see which labels are loaded through a property file you first need to visit the following url:
-`http://localhost:8080/WebGoat/service/debug/labels.mvc` in a new browser tab. Switch back to the WebGoat page and
-reload this page. After this labels which load label from the property file will marked green.
+To be able to see which labels are loaded through a property file, open a new browser tab and visit the following url:
+
+[http://localhost:8080/WebGoat/service/debug/labels.mvc](http://localhost:8080/WebGoat/service/debug/labels.mvc)
+
+Switch back to the main WebGoat broswer tab and __reload the main WebGoat browser tab__.
+
+After the reload is complete, all labels which where loaded from a property file will be __marked green__.
