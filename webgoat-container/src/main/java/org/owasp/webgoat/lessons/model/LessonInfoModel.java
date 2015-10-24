@@ -34,7 +34,8 @@ public class LessonInfoModel {
         if (lesson.getCategory().equals(Category.CHALLENGE)) {
             this.numberHints = (lesson.isAuthorized(webSession, AbstractLesson.CHALLENGE_ROLE, WebSession.SHOWHINTS)) ? lesson.getHintCount(webSession) : 0;
             this.hasSource = (lesson.isAuthorized(webSession, AbstractLesson.CHALLENGE_ROLE, WebSession.SHOWHINTS));
-            this.hasSolution = (lesson.isAuthorized(webSession, AbstractLesson.CHALLENGE_ROLE, WebSession.SHOWHINTS)); //assuming we want this as well
+            this.hasSolution = (lesson.isAuthorized(webSession, AbstractLesson.CHALLENGE_ROLE, WebSession.SHOWHINTS)); //assuming we want this to fall in line with source and solution
+            this.hasPlan = (lesson.isAuthorized(webSession, AbstractLesson.CHALLENGE_ROLE, WebSession.SHOWHINTS)); //assuming we want this to fall in line with source and solutionn
         }
     }
 
