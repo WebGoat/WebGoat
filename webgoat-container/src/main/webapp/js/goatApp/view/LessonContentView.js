@@ -10,15 +10,18 @@ define(['jquery',
 		JQueryForm) {
 	return Backbone.View.extend({
 		el:'#lesson-content-wrapper', //TODO << get this fixed up in DOM
+
 		initialize: function(options) {
 			options = options || {};
 		},
+
 		render: function() {
 			this.$el.html(this.model.get('content'));
 			this.makeFormsAjax();
 			this.ajaxifyAttackHref();
 			$(window).scrollTop(0); //work-around til we get the scroll down sorted out
 		},
+		
 		//TODO: reimplement this in custom fashion maybe?
 		makeFormsAjax: function () {
 			var options = {
