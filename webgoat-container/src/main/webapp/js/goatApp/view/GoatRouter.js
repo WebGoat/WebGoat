@@ -33,7 +33,7 @@ define(['jquery',
         init:function() {
             goatRouter =  new GoatAppRouter();
             this.lessonController.start();
-            this.menuController.initMenu();
+            // this.menuController.initMenu();
 
             goatRouter.on('route:attackRoute', function(scr,menu,stage) {
                 this.lessonController.loadLesson(scr,menu,stage);
