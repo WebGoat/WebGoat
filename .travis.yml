@@ -40,7 +40,9 @@ addons:
   coverity_scan:
     project:
       name: "WebGoat/WebGoat"
-      description: "Travis CI Build Automation"
+      description: "Coverity Scan from Travis CI Build Automation"
+    notification_email: doug.morato@owasp.org
     build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true install"
+    build_command: "mvn -DskipTests=true install"
+    branch_pattern: master
 
