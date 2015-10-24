@@ -4,11 +4,13 @@
 
 # Important Information
 
-### This is a work in progress of the WebGoat Lesson Server, which is currently **UNDER MAJOR DEVELOMENT**
+### This is a work in progress of the WebGoat Lesson Server, which is currently **UNDER MAJOR DEVELOMENT**.
+As of October 2015, this version "7.0-SNAPSHOT" is stable enough for testing.
 
-#### Current stable version and instructions can be found at:  [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy)
+#### Current stable version and instructions can be found at: [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy)
 
-WebGoat is a deliberately insecure web application maintained by [OWASP](http://www.owasp.org/) designed to teach web application security lessons.
+WebGoat is a deliberately insecure web application maintained by [OWASP](http://www.owasp.org/) designed to teach web
+application security lessons.
 
 This program is a demonstration of common server-side application flaws. The
 exercises are intended to be used by people to learn about application security and
@@ -17,11 +19,13 @@ penetration testing techniques.
 * [Home Page](http://webgoat.github.io)
 * [OWASP Project Home Page](http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project)
 * [Source Code](https://github.com/WebGoat/WebGoat)
-* [Easy-Run Download **TBD**](https://github.com/WebGoat/WebGoat/releases/**TBD**)
+* [Easy-Run Download](https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0-SNAPSHOT-war-exec.jar)
 * [Wiki](https://github.com/WebGoat/WebGoat/wiki)
 * [FAQ (old info):](http://code.google.com/p/webgoat/wiki/FAQ)
 * [Project Leader - Direct to Bruce Mayhew](mailto:webgoat@owasp.org)
 * [Mailing List - WebGoat Community - For most questions](mailto:owasp-webgoat@lists.owasp.org)
+* [Artifacts generated from Continuous Integration](http://webgoat-war.s3-website-us-east-1.amazonaws.com/)
+* [Output from our Travis.CI Build server](https://travis-ci.org/WebGoat/WebGoat)
 
 **WARNING 1:** *While running this program your machine will be extremely
 vulnerable to attack. You should to disconnect from the Internet while using
@@ -34,29 +38,39 @@ you are caught engaging in unauthorized hacking, most companies will fire you.
 Claiming that you were doing security research will not work as that is the
 first thing that all hackers claim.*
 
-# Easy Run Instructions ( For non-developers )
+# Easy Run ( For non-developers )
 
-**Note - Use [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy) for a stable build**
+Every successful build of the WebGoat Lessons Container and the WebGoat Lessons in our Continuous Integration Server
+creates an "Easy Run" Executable JAR file, which contains the WebGoat Lessons Server, the lessons and a embedded Tomcat server.
 
-Follow these instructions if you simply wish to run WebGoat
+You can check for the "Last Modified" date of our "Easy Run" jar file [HERE](http://webgoat-war.s3-website-us-east-1.amazonaws.com/)
+
+The "Easy Run" JAR file offers a no hassle approach to testing and running WebGoat. Follow these instructions if you
+wish to simply try/test/run the current development version of WebGoat
 
 ### Prerequisites:
-
 * Java VM >= 1.6 installed ( JDK 1.7 recommended)
 
-1. Download the executable jar file which contains all the lessons:
+Easy Run Instructions:
+----------------------
 
-  https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0-SNAPSHOT-war-exec.jar
 
-2. Run it using java:
+#### 1. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
+
+https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0-SNAPSHOT-war-exec.jar
+
+#### 2. Run it using java:
+
+Open a command shell/window, browse to where you downloaded the easy run jar and type:
 
 ```Shell
 java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
 ```
 
-3. Then navigate in your browser to: (http://localhost:8080/WebGoat)
+#### 3. Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
-4.(Optional) If you would like to change the port or other options, use:
+
+#### (Optional) If you would like to change the port or other options, use the help command for guidance:
 
 ```Shell
 java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar --help
