@@ -4,11 +4,13 @@
 
 # Important Information
 
-### This is a work in progress of the WebGoat Lesson Server, which is currently **UNDER MAJOR DEVELOMENT**
+### This is a work in progress of the WebGoat Lesson Server, which is currently **UNDER MAJOR DEVELOMENT**.
+As of October 2015, this version "7.0-SNAPSHOT" is stable enough for testing.
 
-#### Current stable version and instructions can be found at:  [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy)
+#### Current stable version and instructions can be found at: [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy)
 
-WebGoat is a deliberately insecure web application maintained by [OWASP](http://www.owasp.org/) designed to teach web application security lessons.
+WebGoat is a deliberately insecure web application maintained by [OWASP](http://www.owasp.org/) designed to teach web
+application security lessons.
 
 This program is a demonstration of common server-side application flaws. The
 exercises are intended to be used by people to learn about application security and
@@ -17,11 +19,13 @@ penetration testing techniques.
 * [Home Page](http://webgoat.github.io)
 * [OWASP Project Home Page](http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project)
 * [Source Code](https://github.com/WebGoat/WebGoat)
-* [Easy-Run Download **TBD**](https://github.com/WebGoat/WebGoat/releases/**TBD**)
+* [Easy-Run Download](https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0-SNAPSHOT-war-exec.jar)
 * [Wiki](https://github.com/WebGoat/WebGoat/wiki)
 * [FAQ (old info):](http://code.google.com/p/webgoat/wiki/FAQ)
 * [Project Leader - Direct to Bruce Mayhew](mailto:webgoat@owasp.org)
 * [Mailing List - WebGoat Community - For most questions](mailto:owasp-webgoat@lists.owasp.org)
+* [Artifacts generated from Continuous Integration](http://webgoat-war.s3-website-us-east-1.amazonaws.com/)
+* [Output from our Travis.CI Build server](https://travis-ci.org/WebGoat/WebGoat)
 
 **WARNING 1:** *While running this program your machine will be extremely
 vulnerable to attack. You should to disconnect from the Internet while using
@@ -34,29 +38,36 @@ you are caught engaging in unauthorized hacking, most companies will fire you.
 Claiming that you were doing security research will not work as that is the
 first thing that all hackers claim.*
 
-# Easy Run Instructions ( For non-developers )
+# Easy Run ( For non-developers )
 
-**Note - Use [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy) for a stable build**
+Every successful build of the WebGoat Lessons Container and the WebGoat Lessons in our Continuous Integration Server
+creates an "Easy Run" Executable JAR file, which contains the WebGoat Lessons Server, the lessons and a embedded Tomcat server.
 
-Follow these instructions if you simply wish to run WebGoat
+You can check for the "Last Modified" date of our "Easy Run" jar file [HERE](http://webgoat-war.s3-website-us-east-1.amazonaws.com/)
+
+The "Easy Run" JAR file offers a no hassle approach to testing and running WebGoat. Follow these instructions if you
+wish to simply try/test/run the current development version of WebGoat
 
 ### Prerequisites:
-
 * Java VM >= 1.6 installed ( JDK 1.7 recommended)
 
-1. Download the executable jar file which contains all the lessons:
+## Easy Run Instructions:
 
-  https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0-SNAPSHOT-war-exec.jar
+#### 1. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
 
-2. Run it using java:
+https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0-SNAPSHOT-war-exec.jar
+
+#### 2. Run it using java:
+
+Open a command shell/window, browse to where you downloaded the easy run jar and type:
 
 ```Shell
 java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
 ```
 
-3. Then navigate in your browser to: (http://localhost:8080/WebGoat)
+#### 3. Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
-4.(Optional) If you would like to change the port or other options, use:
+#### (Optional) If you would like to change the port or other options, use the help command for guidance:
 
 ```Shell
 java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar --help
@@ -104,7 +115,7 @@ cd ..
 ```
 
 #### Before you can run the project, we need to compile the lessons and copy them over:
-** If you don't run this step, you will not have any Lessons to work with!**
+**If you don't run this step, you will not have any Lessons to work with!**
 
 ```Shell
 cd WebGoat-Lessons
@@ -144,20 +155,28 @@ The __maven package__ goal generates a .war file that can deployed into an Appli
 
 ```Shell
 cd WebGoat
-mvn package 
-cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT-war-exec.jar <your_tomcat_directory>/webapps/
+mvn package
+cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT.war <your_tomcat_directory>/webapps/
 ```
 
 Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
+# Debugging and Troubleshooting
 
-## Reloading plugins
+## Reloading plugins and lessons
 
-If you want to reload all the plugin visit the following url: `http://localhost:8080/WebGoat/service/reloadplugins.mvc`
-in a new browser tab. After reloading a message will appear and you can refresh the WebGoat browser tab.
+If you want to __reload all the plugin and lessons__, open a new browser tab and visit the following url:
+
+[http://localhost:8080/WebGoat/service/reloadplugins.mvc](http://localhost:8080/WebGoat/service/reloadplugins.mvc)
+
+After the plugin reload is complete, _reloading a message_ will appear and you can refresh the __main WebGoat browser tab__.
 
 ## Debugging label properties
 
-To be able to see which labels are loaded through a property file you first need to visit the following url:
-`http://localhost:8080/WebGoat/service/debug/labels.mvc` in a new browser tab. Switch back to the WebGoat page and
-reload this page. After this labels which load label from the property file will marked green.
+To be able to see which labels are loaded through a property file, open a new browser tab and visit the following url:
+
+[http://localhost:8080/WebGoat/service/debug/labels.mvc](http://localhost:8080/WebGoat/service/debug/labels.mvc)
+
+Switch back to the main WebGoat broswer tab and __reload the main WebGoat browser tab__.
+
+After the reload is complete, all labels which where loaded from a property file will be __marked green__.
