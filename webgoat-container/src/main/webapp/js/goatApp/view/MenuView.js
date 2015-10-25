@@ -16,14 +16,26 @@ define(['jquery',
 		//TODO: set template
 		initialize: function() {
 			this.collection = new MenuCollection();
+			this.addSpinner();
 			this.listenTo(this.collection,'menuData:loaded',this.render);
 			// this.listenTo(this,'menu:click',this.accordionMenu);
 			this.curLessonLinkId = '';
 		},
+
+		addSpinner: function() {
+			//<i class="fa fa-spinner fa-spin"></i>
+			this.$el.append($('<i>',{class:'fa fa-3x fa-spinner fa-spin'}));
+		},
+
+		removeSpinner: function() {
+			this.$el.find('i.fa-spinner').remove();
+		},
+
 		// rendering top level menu
 		render: function (){
 			//for now, just brute force
 			//TODO: refactor into sub-views/components
+			this.removeSpinner();
 			var items, catItems, stages;
 			items = this.collection.models; // top level items
 			var menuMarkup = '';

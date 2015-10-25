@@ -205,7 +205,6 @@ public class Course {
         while (iter.hasNext()) {
             AbstractLesson lesson = iter.next();
 
-            // System.out.println("getLesson() at role: " + lesson.getRole());
             if (lesson.getScreenId() == lessonId && roles.contains(lesson.getRole())) {
                 return lesson;
             }

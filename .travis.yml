@@ -10,17 +10,10 @@ script:
   - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./webgoat-container/src/main/webapp/plugin_lessons/
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then mvn -Prun-integration-tests clean install; else mvn clean install; fi
 before_deploy:
-  - export WEBGOAT_ARTIFACT_VERSION=$(grep "<version>" $HOME/build/$TRAVIS_REPO_SLUG/pom.xml | cut -d ">" -f 2 | cut -d "<" -f 1)
-  - export WEBGOAT_JAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.jar
-  - export WEBGOAT_JAR_EXEC_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION-war-exec.jar
-  - export WEBGOAT_WAR_FILE=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target/webgoat-container-$WEBGOAT_ARTIFACT_VERSION.war
   - export WEBGOAT_CONTAINTER_TARGET_DIR=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target
   - export WEBGOAT_ARTIFACTS_FOLDER=$HOME/build/$TRAVIS_REPO_SLUG/Deployable_Artifacts/
   - mkdir $WEBGOAT_ARTIFACTS_FOLDER
-  - cp -fa $WEBGOAT_JAR_EXEC_FILE $WEBGOAT_ARTIFACTS_FOLDER
-  - cp -fa $WEBGOAT_JAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
-  - cp -fa $WEBGOAT_WAR_FILE $WEBGOAT_ARTIFACTS_FOLDER
-  - cp -fa $WEBGOAT_CONTAINTER_TARGET_DIR/* $WEBGOAT_ARTIFACTS_FOLDER
+  - cp -fa $WEBGOAT_CONTAINTER_TARGET_DIR/* $WEBGOAT_ARTIFACTS_FOLDER/
   - echo "Contents of artifcts folder:"
   - ls $WEBGOAT_ARTIFACTS_FOLDER
 deploy:
@@ -36,6 +29,8 @@ deploy:
     repo: WebGoat/WebGoat
     branch: master
     jdk: oraclejdk8
+after_success:
+  - mvn clean cobertura:cobertura org.eluder.coveralls:coveralls-maven-plugin:report
 notifications:
   slack:
     secure: S9VFew5NSE8WDzYD1VDBUULKKT0fzgblQACznwQ85699b2yeX9TX58N3RZvRS1JVagVP1wu2xOrwN2g+AWx4Ro3UBZD5XG86uTJWpCLD4cRWHBoGMH2TfvI7/IzsWmgxH4MBxFRvZr/eEhlVAux+N9H4EoEdS4CKsJXEqV37PlA=
@@ -47,7 +42,9 @@ addons:
   coverity_scan:
     project:
       name: "WebGoat/WebGoat"
-      description: "Travis CI Build Automation"
+      description: "Coverity Scan from Travis CI Build Automation"
+    notification_email: doug.morato@owasp.org
     build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true install"
+    build_command: "mvn -DskipTests=true install"
+    branch_pattern: coverity_scan
 
