@@ -88,19 +88,18 @@ define(['jquery',
 
 			this.onContentLoaded = function(loadHelps) {
 				this.lessonInfoModel = new LessonInfoModel();
-				this.listenTo(this.lessonInfoModel,'info:loaded',this.onInfoLoaded); //TODO onInfoLoaded function to handle title view and helpview
+				this.listenTo(this.lessonInfoModel,'info:loaded',this.onInfoLoaded);
 
 				if (loadHelps) {
 					this.helpControlsView = null;
 					this.lessonView.model = this.lessonContent;
 					this.lessonView.render();
-					//load title view (initially hidden) << //TODO: currently handled via menu click but need to be able to handle via routed request
+					
 					this.planView = new PlanView();
 					this.solutionView = new SolutionView();
 					this.sourceView = new SourceView();
 					this.lessonHintView = new HintView();
 					this.cookieView = new CookieView();
-					// parameter model & view
 					//TODO: instantiate model with values (not sure why was not working before)
 					var paramModel = new ParamModel({});
 					paramModel.set('screenParam',this.lessonContent.get('screenParam'));
@@ -109,7 +108,7 @@ define(['jquery',
 					this.paramView = new ParamView({model:paramModel});
 
 					$('.lesson-help').hide();
-					}
+				}
 				this.trigger('menu:reload');
 			};
 

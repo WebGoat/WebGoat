@@ -13,9 +13,8 @@ define(['jquery',
 		},
 
 		infoLoaded: function(data) {
-			console.log (data);
 			this.trigger('info:loaded',this,data);
 		}
 
 	});
-});
+});6
