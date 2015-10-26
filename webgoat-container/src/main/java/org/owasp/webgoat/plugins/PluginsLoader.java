@@ -108,23 +108,27 @@ public class PluginsLoader {
     }
 
     private List<Plugin> processPlugins(List<URL> jars) throws Exception {
-        final List<Plugin> plugins = Lists.newArrayList();
         final ExecutorService executorService = Executors.newFixedThreadPool(10);
-        final CompletionService<Plugin> completionService = new ExecutorCompletionService<>(executorService);
-        final List<Callable<Plugin>> callables = extractJars(jars);
+        try {
+            final List<Plugin> plugins = Lists.newArrayList();
+            final CompletionService<Plugin> completionService = new ExecutorCompletionService<>(executorService);
+            final List<Callable<Plugin>> callables = extractJars(jars);
 
-        for (Callable<Plugin> s : callables) {
-            completionService.submit(s);
-        }
-        int n = callables.size();
-        for (int i = 0; i < n; i++) {
-            Plugin plugin = completionService.take().get();
-            if (plugin.getLesson().isPresent()) {
-                plugins.add(plugin);
+            for (Callable<Plugin> s : callables) {
+                completionService.submit(s);
             }
+            int n = callables.size();
+            for (int i = 0; i < n; i++) {
+                Plugin plugin = completionService.take().get();
+                if (plugin.getLesson().isPresent()) {
+                    plugins.add(plugin);
+                }
+            }
+            LabelProvider.updatePluginResources(pluginTarget.resolve("plugin/i18n/WebGoatLabels.properties"));
+            return plugins;
+        } finally {
+            executorService.shutdown();
         }
-        LabelProvider.updatePluginResources(pluginTarget.resolve("plugin/i18n/WebGoatLabels.properties"));
-        return plugins;
     }
 
     private List<Callable<Plugin>> extractJars(List<URL> jars) {
