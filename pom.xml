@@ -159,6 +159,7 @@
         <tomcat7-maven-plugin.version>2.3-SNAPSHOT</tomcat7-maven-plugin.version>
         <wsdl4j.version>1.5.1</wsdl4j.version>
         <tomcat-catalina.version>7.0.63</tomcat-catalina.version>
+        <versioneye-maven-plugin.version>3.5.1</versioneye-maven-plugin.version>
     </properties>
 
     <modules>
@@ -280,6 +281,15 @@
                     <maxmem>256m</maxmem>
                     <!-- aggregated reports for multi-module projects -->
                     <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.versioneye</groupId>
+                <artifactId>versioneye-maven-plugin</artifactId>
+                <version>${versioneye-maven-plugin.version}</version>
+                <configuration>
+                    <apiKey>a1e4a9da4ed34ee44cab</apiKey>
+                    <projectId>562da95be346d7000e0369ac</projectId>
                 </configuration>
             </plugin>
         </plugins>

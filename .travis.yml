@@ -30,6 +30,7 @@ deploy:
     branch: master
     jdk: oraclejdk8
 after_success:
+  - mvn versioneye:update
   - mvn clean cobertura:cobertura coveralls:report
 notifications:
   slack:
