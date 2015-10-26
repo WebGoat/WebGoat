@@ -173,7 +173,7 @@
                 <version>${tomcat7-maven-plugin.version}</version>
                 <configuration>
                     <server>local_tomcat</server>
-                    <url>http://localhost:8080/manager</url>
+                    <url>http://localhost:8080/manager/text</url>
                     <path>/WebGoat</path>
                     <attachArtifactClassifier>exec</attachArtifactClassifier>
                     <contextReloadable>true</contextReloadable>
