@@ -108,58 +108,58 @@
         <build.number>build</build.number>
 
         <!-- Shared properties with plugins and version numbers across submodules-->
-        <activation.version>1.1</activation.version>
-        <axis-ant.version>1.2</axis-ant.version>
-        <axis-jaxrpc.version>1.2</axis-jaxrpc.version>
-        <axis-saaj.version>1.2</axis-saaj.version>
-        <axis.version>1.2</axis.version>
-        <build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
+        <activation.version>1.1.1</activation.version>
+        <axis-ant.version>1.4</axis-ant.version>
+        <axis-jaxrpc.version>1.4</axis-jaxrpc.version>
+        <axis-saaj.version>1.4</axis-saaj.version>
+        <axis.version>1.4</axis.version>
+        <build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
-        <commons-collections.version>3.1</commons-collections.version>
-        <commons-digester.version>1.8.1</commons-digester.version>
+        <commons-collections.version>3.2.1</commons-collections.version>
+        <commons-digester.version>2.1</commons-digester.version>
         <commons-discovery.version>0.2</commons-discovery.version>
-        <commons-fileupload.version>1.2.2</commons-fileupload.version>
-        <commons-io.version>1.4</commons-io.version>
-        <commons-lang3.version>3.3.2</commons-lang3.version>
-        <commons-logging.version>1.1.3</commons-logging.version>
+        <commons-fileupload.version>1.3.1</commons-fileupload.version>
+        <commons-io.version>2.4</commons-io.version>
+        <commons-lang3.version>3.4</commons-lang3.version>
+        <commons-logging.version>1.2</commons-logging.version>
         <coveralls-maven-plugin.version>4.0.0</coveralls-maven-plugin.version>
         <ecs.version>1.4.2</ecs.version>
         <guava.version>18.0</guava.version>
-        <h2.version>1.4.187</h2.version>
+        <h2.version>1.4.190</h2.version>
         <hsqldb.version>1.8.0.10</hsqldb.version>
         <j2h.version>1.3.1</j2h.version>
-        <jackson-core.version>2.0.4</jackson-core.version>
-        <jackson-databind.version>2.0.4</jackson-databind.version>
+        <jackson-core.version>2.6.3</jackson-core.version>
+        <jackson-databind.version>2.6.3</jackson-databind.version>
         <javaee-api.version>6.0</javaee-api.version>
         <javax.transaction-api.version>1.2</javax.transaction-api.version>
         <jcl-over-slf4j.version>1.7.7</jcl-over-slf4j.version>
         <jstl.version>1.2</jstl.version>
-        <jtds.version>1.2.2</jtds.version>
+        <jtds.version>1.3.1</jtds.version>
         <junit.version>4.12</junit.version>
         <log4j.version>1.2.17</log4j.version>
-        <mail.version>1.4.2</mail.version>
-        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <mail.version>1.4.3</mail.version>
+        <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.19</maven-failsafe-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
         <maven-release-plugin.version>2.5.2</maven-release-plugin.version>
         <maven-source-plugin.version>2.4</maven-source-plugin.version>
-        <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
-        <maven-war-plugin.version>2.4</maven-war-plugin.version>
+        <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
+        <maven-war-plugin.version>2.6</maven-war-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.6</nexus-staging-maven-plugin.version>
         <org.springframework.version>3.2.4.RELEASE</org.springframework.version>
-        <sauce_junit.version>2.1.18</sauce_junit.version>
-        <selenium-java.version>2.47.1</selenium-java.version>
-        <slf4j-api.version>1.7.7</slf4j-api.version>
-        <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
+        <sauce_junit.version>2.1.20</sauce_junit.version>
+        <selenium-java.version>2.48.2</selenium-java.version>
+        <slf4j-api.version>1.7.12</slf4j-api.version>
+        <slf4j-log4j12.version>1.7.12</slf4j-log4j12.version>
         <spring.security.version>3.2.4.RELEASE</spring.security.version>
         <standard.version>1.1.2</standard.version>
-        <tiles.version>2.2.2</tiles.version>
+        <tiles.version>3.0.5</tiles.version>
+        <tomcat-catalina.version>7.0.65</tomcat-catalina.version>
         <tomcat7-maven-plugin.version>2.3-SNAPSHOT</tomcat7-maven-plugin.version>
-        <wsdl4j.version>1.5.1</wsdl4j.version>
-        <tomcat-catalina.version>7.0.63</tomcat-catalina.version>
         <versioneye-maven-plugin.version>3.5.1</versioneye-maven-plugin.version>
+        <wsdl4j.version>1.6.3</wsdl4j.version>
     </properties>
 
     <modules>
