@@ -156,7 +156,7 @@
         <spring.security.version>3.2.4.RELEASE</spring.security.version>
         <standard.version>1.1.2</standard.version>
         <tiles.version>2.2.2</tiles.version>
-        <tomcat7-maven-plugin.version>2.1</tomcat7-maven-plugin.version>
+        <tomcat7-maven-plugin.version>2.3-SNAPSHOT</tomcat7-maven-plugin.version>
         <wsdl4j.version>1.5.1</wsdl4j.version>
         <tomcat-catalina.version>7.0.63</tomcat-catalina.version>
     </properties>
@@ -171,6 +171,21 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>http://repository.apache.org/snapshots/</url>
+            <!-- The releases element here is due to an issue in Maven 2.0 that will be
+                 fixed in future releases. This should be able to be disabled altogether. -->
+            <releases>
+                <updatePolicy>daily</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
     <profiles>
         <profile>
