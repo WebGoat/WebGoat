@@ -47,7 +47,7 @@ public class LabelManagerImpl implements LabelManager, Serializable
 	@Autowired
 	private transient LabelProvider labelProvider;
 	@Autowired
-	private transient LabelDebugger labelDebugger;
+	private LabelDebugger labelDebugger;
 
 	/** Locale mapped with current session. */
 	private Locale locale = new Locale(LabelProvider.DEFAULT_LANGUAGE);
