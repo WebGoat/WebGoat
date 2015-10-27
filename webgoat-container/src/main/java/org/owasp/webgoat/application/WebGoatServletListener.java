@@ -10,6 +10,10 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
@@ -34,6 +38,27 @@ public class WebGoatServletListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
         context.log("WebGoat is stopping");
+
+        // Unregister JDBC drivers in this context's ClassLoader:
+        // Get the webapp's ClassLoader
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        // Loop through all drivers
+        Enumeration<Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            java.sql.Driver driver = drivers.nextElement();
+            if (driver.getClass().getClassLoader() == cl) {
+                // This driver was registered by the webapp's ClassLoader, so deregister it:
+                try {
+                    context.log("Unregister JDBC driver {}");
+                    DriverManager.deregisterDriver(driver);
+                } catch (SQLException ex) {
+                    context.log("Error unregistering JDBC driver {}");
+                }
+            } else {
+                // driver was not registered by the webapp's ClassLoader and may be in use elsewhere
+                context.log("Not unregistering JDBC driver {} as it does not belong to this webapp's ClassLoader");
+            }
+        }
     }
 
     private void setApplicationVariables(ServletContext context) {
