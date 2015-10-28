@@ -284,13 +284,8 @@
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>${mail.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mailapi</artifactId>
-            <version>${mail.version}</version>
+            <artifactId>javax.mail-api</artifactId>
+            <version>${mail-api.version}</version>
         </dependency>
         <dependency>
             <groupId>hsqldb</groupId>
