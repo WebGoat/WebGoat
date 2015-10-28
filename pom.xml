@@ -117,7 +117,7 @@
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <commons-collections.version>3.2.1</commons-collections.version>
         <commons-digester.version>2.1</commons-digester.version>
-        <commons-discovery.version>0.2</commons-discovery.version>
+        <commons-discovery.version>0.5</commons-discovery.version>
         <commons-fileupload.version>1.3.1</commons-fileupload.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang3.version>3.4</commons-lang3.version>
@@ -132,12 +132,12 @@
         <jackson-databind.version>2.6.3</jackson-databind.version>
         <javaee-api.version>6.0</javaee-api.version>
         <javax.transaction-api.version>1.2</javax.transaction-api.version>
-        <jcl-over-slf4j.version>1.7.7</jcl-over-slf4j.version>
+        <jcl-over-slf4j.version>1.7.12</jcl-over-slf4j.version>
         <jstl.version>1.2</jstl.version>
         <jtds.version>1.3.1</jtds.version>
         <junit.version>4.12</junit.version>
         <log4j.version>1.2.17</log4j.version>
-        <mail.version>1.4.3</mail.version>
+        <mail-api.version>1.5.4</mail-api.version>
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.19</maven-failsafe-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
