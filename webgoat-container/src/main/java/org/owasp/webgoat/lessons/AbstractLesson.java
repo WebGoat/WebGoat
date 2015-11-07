@@ -626,18 +626,37 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Get the link that can be used to request this screen.
      *
+     * Rendering the link in the browser may result in Javascript sending
+     * additional requests to perform necessary actions or to obtain data
+     * relevant to the lesson or the element of the lesson selected by the
+     * user.  Thanks to using the hash mark "#" and Javascript handling the
+     * clicks, the user will experience less waiting as the pages do not have
+     * to reload entirely.
+     *
      * @return a {@link java.lang.String} object.
      */
     public String getLink() {
-        StringBuffer link = new StringBuffer();
+        StringBuffer link = new StringBuffer(getPath());
 
         // mvc update:
-        link.append(getPath()).append("/");
-        link.append(getScreenId());
-        link.append("/");
-        link.append(getCategory().getRanking());
+        return link
+            .append("/").append(getScreenId())
+            .append("/").append(getCategory().getRanking()).toString();
+    }
 
-        return link.toString();
+    /**
+     * Get the link to the target servlet.
+     *
+     * Unlike getLink() this method does not require rendering the output of
+     * the request to the link in order to execute the servlet's method with
+     * conventional HTTP query parameters.
+     */
+    public String getServletLink() {
+        StringBuffer link = new StringBuffer("attack");
+
+        return link
+            .append("?Screen=").append(getScreenId())
+            .append("&menu=").append(getCategory().getRanking()).toString();
     }
 
     /**
