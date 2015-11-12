@@ -119,7 +119,7 @@
                 <executions>
                     <execution>
                         <id>create-jar</id>
-                        <phase>compile</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
