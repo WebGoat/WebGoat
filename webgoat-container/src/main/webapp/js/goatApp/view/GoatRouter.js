@@ -19,7 +19,9 @@ define(['jquery',
     var GoatAppRouter = Backbone.Router.extend({
         routes: {
             'welcome':'welcomeRoute',
-            'attack/:scr/:menu(/:stage)':'attackRoute',
+            'attack/:scr/:menu':'attackRoute',
+            'attack/:scr/:menu/:stage':'attackRoute',
+            'attack/:scr/:menu/*stage/:num':'attackRoute',
         },
 
         lessonController: new LessonController({
@@ -35,13 +37,16 @@ define(['jquery',
             this.lessonController.start();
             // this.menuController.initMenu();
 
-            goatRouter.on('route:attackRoute', function(scr,menu,stage) {
-                this.lessonController.loadLesson(scr,menu,stage);
+            goatRouter.on('route:attackRoute', function(scr,menu,stage,num) {
+                this.lessonController.loadLesson(scr,menu,stage,num);
                 this.menuController.updateMenu(scr,menu);
                 //update menu
             });
             goatRouter.on('route:welcomeRoute', function() {
                 this.lessonController.loadWelcome();
+            });
+            goatRouter.on("route", function(route, params) {
+                console.log("Got a route event: " + route + ", params: " + params);
             });
 
             Backbone.history.start();
