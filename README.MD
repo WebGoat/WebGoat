@@ -8,7 +8,7 @@
 
 # Important Information
 
-### The WebGoat Lesson Server,is currently **UNDER MAJOR DEVELOMENT**.
+### The WebGoat Lesson Server, is currently **UNDER MAJOR DEVELOMENT**.
 As of October 2015, this version "7.0-SNAPSHOT" is stable enough for testing.
 
 #### An older stable version and instructions can be found at: [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy)
