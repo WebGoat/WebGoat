@@ -50,7 +50,6 @@ define(['jquery',
 
 				catLink.append(catArrow);
 				catLink.append(catLinkText);
-				//TODO: refactor this along with sub-views/components
 				var self = this;
 				catLink.click(_.bind(this.expandCategory,this,catId));
 				category.append(catLink);
@@ -62,12 +61,12 @@ define(['jquery',
 					for (var j=0; j < lessons.length;j++) {
 						var lessonItem = $('<li>',{class:'lesson'});
 						var lessonName = lessons[j].name;
-						var lessonId = GoatUtils.makeId(lessonName);
+						var lessonId = catId + '-' + GoatUtils.makeId(lessonName);
 						if (this.curLessonLinkId === lessonId) {
 							lessonItem.addClass('selected');
 						}
 						var lessonLink = $('<a>',{href:lessons[j].link,text:lessonName,id:lessonId});
-						lessonLink.click(_.bind(this.onLessonClick,this,lessonName));
+						lessonLink.click(_.bind(this.onLessonClick,this,lessonId));
 						lessonItem.append(lessonLink);
 						//check for lab/stages
 						categoryLessonList.append(lessonItem);
@@ -78,12 +77,12 @@ define(['jquery',
 						for (k=0; k < stages.length; k++) {
 							var stageItem = $('<li>',{class:'stage'});
 							var stageName = stages[k].name;
-							var stageId = GoatUtils.makeId(stageName);
+							var stageId = lessonId +  '-stage' + k;
 							if (this.curLessonLinkId === stageId) {
 								stageItem.addClass('selected');
 							}
 							var stageLink = $('<a>',{href:stages[k].link,text:stageName,id:stageId});
-							stageLink.click(_.bind(this.onLessonClick,this,stageName));
+							stageLink.click(_.bind(this.onLessonClick,this,stageId));
 							stageItem.append(stageLink);
 							categoryLessonList.append(stageItem);
 							if (stages[k].complete) {
@@ -108,14 +107,11 @@ define(['jquery',
 			this.collection.fetch();
 		},
 
-		onLessonClick: function (title) {
-			var oldLinkId = GoatUtils.makeId(this.curLessonLinkId);
-			$('#'+oldLinkId).removeClass('selected');
+		onLessonClick: function (elementId) {
+			$('#'+this.curLessonLinkId).removeClass('selected');
 			//update
-			this.curLessonLinkId = GoatUtils.makeId(title);
-			var newLinkId = GoatUtils.makeId(this.curLessonLinkId)
-			$('#'+newLinkId).addClass('selected');
-			this.trigger('lesson:click', title); // will cause menu reload
+			$('#'+elementId).addClass('selected');
+			this.curLessonLinkId = elementId;
 		},
 
 		expandCategory: function (id) {
