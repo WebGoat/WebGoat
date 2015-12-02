@@ -52,7 +52,6 @@ define(['jquery',
             };
 
             this.loadLesson = function(scr,menu,stage,num) {
-                console.log("Loading a lesson, scr: " + scr + ", menu: " + menu + ", stage: " + stage + ", num: " + num);
                 this.titleView = new TitleView();
                 this.helpsLoaded = {};
                 if (typeof(scr) == "undefined") {
@@ -85,7 +84,6 @@ define(['jquery',
             };
 
             this.onInfoLoaded = function() {
-                console.log("Lesson info loaded")
                 this.helpControlsView = new HelpControlsView({
                     hasPlan:this.lessonInfoModel.get('hasPlan'),
                     hasSolution:this.lessonInfoModel.get('hasSolution'),
@@ -105,7 +103,6 @@ define(['jquery',
             };
 
             this.onContentLoaded = function(loadHelps) {
-                console.log("Lesson content loaded")
                 this.lessonInfoModel = new LessonInfoModel();
                 this.listenTo(this.lessonInfoModel,'info:loaded',this.onInfoLoaded);
 
