@@ -12,6 +12,7 @@ define(['jquery',
                     //var id =
                     return  lessonName.replace(/\s|\(|\)|\!|\:|\;|\@|\#|\$|\%|\^|\&|\*/g, '');
                 },
+                
                 addMenuClasses: function(arr) {
                     for (var i = 0; i < arr.length; i++) {
                         var menuItem = arr[i];
@@ -46,7 +47,8 @@ define(['jquery',
                         if (show) {
                             $('#' + id).show();
                         } else {
-a                        }
+
+                        }
                     }
                 },
  

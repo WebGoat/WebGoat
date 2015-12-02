@@ -16,7 +16,7 @@ function($,
 			this.curHint=0;
 			this.collection = new HintCollection();
 			this.listenTo(this.collection,'loaded',this.onModelLoaded);
-			
+			this.hideHints();
 		},
 
 		render:function() {
@@ -36,6 +36,12 @@ function($,
 		onModelLoaded: function() {
 			this.trigger('hints:loaded',{'helpElement':'hints','value':true})
 		},
+
+		hideHints: function() {
+			if (this.$el.is(':visible')) {
+				this.$el.hide(350);
+			}
+		},			
 
 		showNextHint: function() {
 			this.curHint = (this.curHint < this.collection.length -1) ? this.curHint+1 : this.curHint;

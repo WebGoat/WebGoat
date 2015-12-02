@@ -40,13 +40,12 @@ define(['jquery',
             goatRouter.on('route:attackRoute', function(scr,menu,stage,num) {
                 this.lessonController.loadLesson(scr,menu,stage,num);
                 this.menuController.updateMenu(scr,menu);
-                //update menu
             });
             goatRouter.on('route:welcomeRoute', function() {
                 this.lessonController.loadWelcome();
             });
             goatRouter.on("route", function(route, params) {
-                console.log("Got a route event: " + route + ", params: " + params);
+
             });
 
             Backbone.history.start();
