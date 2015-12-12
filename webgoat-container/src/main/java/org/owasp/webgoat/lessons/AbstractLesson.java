@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -399,7 +398,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      *
      * @return The lessonPlan value
      */
-    protected String getLessonName() {
+    public String getLessonName() {
         return this.getClass().getSimpleName();
     }
 
@@ -991,57 +990,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return labelManager;
     }
 
-    /**
-     * A reference from an image, script and link tag must include the context path.
-     * <p>
-     * A reference in include directives are made from within the web application on the server.
-     * However, img tags (and the like) make references from the client browser.
-     * In such external references, the context path must be included.
-     *
-     * @param w a {@link org.owasp.webgoat.session.WebSession} object.
-     * @param imgResourceName a {@link java.lang.String} object.
-     * @return a {@link java.lang.String} object.
-     */
-    protected final String buildImagePath(WebSession w, String imgResourceName) {
-        return w.getRequest()
-                .getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/images/" + imgResourceName;
-    }
 
-
-    /**
-     * <p>buildJspPath.</p>
-     *
-     * @param w a {@link org.owasp.webgoat.session.WebSession} object.
-     * @param jspResourceName a {@link java.lang.String} object.
-     * @param includeContextPath a boolean.
-     * @return a {@link java.lang.String} object.
-     */
-    protected final String buildJspPath(WebSession w, String jspResourceName, boolean includeContextPath) {
-        String path = includeContextPath ? w.getContext().getContextPath() : "";
-        return path + "/plugin_extracted/plugin/" + getLessonName() + "/jsp/" + jspResourceName;
-    }
-
-    /**
-     * <p>buildJsPath.</p>
-     *
-     * @param w a {@link org.owasp.webgoat.session.WebSession} object.
-     * @param jsResourceName a {@link java.lang.String} object.
-     * @return a {@link java.lang.String} object.
-     */
-    protected final String buildJsPath(WebSession w, String jsResourceName) {
-        return w.getRequest()
-                .getContextPath() + "/plugin_extracted/plugin/" + getLessonName() + "/js/" + jsResourceName;
-    }
-
-    /**
-     * <p>getLessonDirectory.</p>
-     *
-     * @param w a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.io.File} object.
-     */
-    protected final File getLessonDirectory(WebSession w) {
-        return new File(w.getContext().getRealPath("/plugin_extracted/plugin/" + getLessonName() + "/"));
-    }
 
 
 }
