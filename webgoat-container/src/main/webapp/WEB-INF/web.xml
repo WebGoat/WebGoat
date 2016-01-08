@@ -185,10 +185,6 @@
         <servlet-name>Catcher</servlet-name>
         <servlet-class>org.owasp.webgoat.Catcher</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>conf</servlet-name>
-        <jsp-file>/lessons/ConfManagement/config.jsp</jsp-file>
-    </servlet>
     <!-- spring MVC -->
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
@@ -271,10 +267,6 @@
     <servlet-mapping>
         <servlet-name>Catcher</servlet-name>
         <url-pattern>/catcher</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>conf</servlet-name>
-        <url-pattern>/conf</url-pattern>
     </servlet-mapping>
     <!-- Define the default session timeout for your application,
     in minutes.  From a servlet or JSP page, you can modify

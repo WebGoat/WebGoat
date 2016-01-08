@@ -14,6 +14,6 @@ WebSession webSession = ((WebSession)session.getAttribute("websession"));
 <% response.sendRedirect(webSession.getCurrentLesson().getLink() +
 		        "&succeeded=yes"); 
 %>
-
+<!-- http://localhost:8080/WebGoat/start.mvc#attack/12/1400&succeeded=yes -->
 </body>
 </html>
