@@ -4,9 +4,6 @@ import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.session.WebSession;
 
-/**
- * Created by jason on 9/18/15.
- */
 public class LessonInfoModel {
 
     private String lessonTitle;
@@ -14,9 +11,7 @@ public class LessonInfoModel {
     private boolean hasSource;
     private boolean hasSolution;
     private boolean hasPlan;
-    private String source;
-    private String solution;
-    private String plan;
+    private String submitMethod;
 
     public LessonInfoModel(WebSession webSession) {
         AbstractLesson lesson = webSession.getCurrentLesson();
@@ -26,6 +21,7 @@ public class LessonInfoModel {
         this.hasSolution = !lesson.getSolution(webSession).contains("Could not find the solution file or solution file does not exist");
         this.lessonTitle = lesson.getTitle();
         this.numberHints = lesson.getHintCount(webSession);
+        this.submitMethod = lesson.getSubmitMethod();
 
         if ( this.numberHints < 1 || lesson.getHint(webSession,0).equals("Hint: There are no hints defined.")) {
             this.numberHints = 0;
@@ -60,16 +56,8 @@ public class LessonInfoModel {
         return hasPlan;
     }
 
-    public String getSource() {
-        return source;
-    }
-
-    public String getSolution() {
-        return solution;
-    }
-
-    public String getPlan() {
-        return plan;
+    public String getSubmitMethod() {
+        return submitMethod;
     }
 
 }

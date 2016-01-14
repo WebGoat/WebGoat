@@ -9,6 +9,7 @@ import org.owasp.webgoat.session.WebSession;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class AbstractLessonTest  {
@@ -41,6 +42,7 @@ public class AbstractLessonTest  {
         public String getCurrentAction(WebSession s) {
             return "an action";
         }
+        public String getSubmitMethod() { return "GET";}
         public void restartLesson() {
         }
         public void setCurrentAction(WebSession s, String lessonScreen) {
@@ -56,6 +58,7 @@ public class AbstractLessonTest  {
         String srvLink = lesson.getServletLink();
         assertThat(srvLink, CoreMatchers.startsWith("attack?Screen="));
         assertThat(srvLink, CoreMatchers.endsWith("&menu=900"));
+        assertEquals(lesson.getSubmitMethod(),"GET");
     }
 }
 
