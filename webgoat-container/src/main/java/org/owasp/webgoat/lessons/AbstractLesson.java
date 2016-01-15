@@ -234,6 +234,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     protected abstract boolean getDefaultHidden();
 
     /**
+     * <p>getSubmitMethod</p>
+     */
+    public abstract String getSubmitMethod();
+
+
+    /**
      * Gets the fileMethod attribute of the Lesson class
      *
      * @param reader     Description of the Parameter
@@ -643,7 +649,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
             .append("/").append(getCategory().getRanking()).toString();
     }
 
-    /**
+     /**
      * Get the link to the target servlet.
      *
      * Unlike getLink() this method does not require rendering the output of

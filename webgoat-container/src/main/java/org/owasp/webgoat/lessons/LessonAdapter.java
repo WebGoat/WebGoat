@@ -154,6 +154,13 @@ public abstract class LessonAdapter extends AbstractLesson {
     }
 
     /**
+     * provide a default submitMethod of lesson does not implement
+     */
+    public String getSubmitMethod() {
+        return "GET";
+    }
+
+    /**
      * {@inheritDoc}
      *
      * Gets the instructions attribute of the LessonAdapter object. Instructions
