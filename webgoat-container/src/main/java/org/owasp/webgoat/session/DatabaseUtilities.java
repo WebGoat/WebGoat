@@ -42,8 +42,6 @@ import org.apache.ecs.html.Table;
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  *
- * For details, please see http://webgoat.github.io
- *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  * @version $Id: $Id
  */

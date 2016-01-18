@@ -26,8 +26,6 @@ import java.lang.annotation.RetentionPolicy;
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  * <p>
- * For details, please see http://webgoat.github.io
- *
  * @author Nanne Baars
  * @created December 12, 2015
  */

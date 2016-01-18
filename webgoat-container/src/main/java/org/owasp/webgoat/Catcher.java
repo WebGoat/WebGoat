@@ -37,8 +37,6 @@ import org.owasp.webgoat.session.WebSession;
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  *
- * For details, please see http://webgoat.github.io
- *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @since March 13, 2007
  * @version $Id: $Id
