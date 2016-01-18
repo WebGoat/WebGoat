@@ -55,8 +55,6 @@ import org.slf4j.LoggerFactory;
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  *
- * For details, please see http://webgoat.github.io
- *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @since October 28, 2003
  * @version $Id: $Id

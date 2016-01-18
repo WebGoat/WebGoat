@@ -36,8 +36,6 @@ import java.util.Properties;
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
  * for free software projects.
  *
- * For details, please see http://webgoat.github.io
- *
  * @version $Id: $Id
  */
 public class WebgoatProperties extends Properties {

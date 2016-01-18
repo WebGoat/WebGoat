@@ -48,8 +48,6 @@ import org.apache.ecs.html.U;
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  *
- * For details, please see http://webgoat.github.io
- *
  * @author Jeff Williams (jeff.williams@aspectsecurity.com)
  * @since October 29, 2003
  * @version $Id: $Id
