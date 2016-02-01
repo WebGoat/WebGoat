@@ -412,6 +412,7 @@ public class HammerHead extends HttpServlet {
      *
      * @param s Description of the Parameter
      * @param screen a {@link org.owasp.webgoat.session.Screen} object.
+     * @param screen a {@link org.owasp.webgoat.session.Screen} object.
      * @param response Description of the Parameter
      * @exception IOException Description of the Exception
      * @throws java.io.IOException if any.

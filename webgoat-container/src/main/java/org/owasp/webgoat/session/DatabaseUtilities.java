@@ -141,6 +141,14 @@ public class DatabaseUtilities
 	 *            Description of the Parameter
 	 * @param resultsMetaData
 	 *            Description of the Parameter
+	 * @param resultsMetaData
+	 *            Description of the Parameter
+	 * @param resultsMetaData
+	 *            Description of the Parameter
+	 * @param resultsMetaData
+	 *            Description of the Parameter
+	 * @param resultsMetaData
+	 *            Description of the Parameter
 	 * @return Description of the Return Value
 	 * @exception IOException
 	 *                Description of the Exception

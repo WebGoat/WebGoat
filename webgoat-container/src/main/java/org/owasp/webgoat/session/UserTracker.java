@@ -172,6 +172,8 @@ public class UserTracker
 	 * @param screen
 	 *            Description of the Parameter
 	 * @return The lessonTracker value
+	 * @param screen
+	 *            Description of the Parameter
 	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
 	 */
 	public LessonTracker getLessonTracker(WebSession s, Screen screen)
@@ -183,6 +185,7 @@ public class UserTracker
 	 * <p>getLessonTracker.</p>
 	 *
 	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+	 * @param screen a {@link org.owasp.webgoat.session.Screen} object.
 	 * @param user a {@link java.lang.String} object.
 	 * @param screen a {@link org.owasp.webgoat.session.Screen} object.
 	 * @return a {@link org.owasp.webgoat.session.LessonTracker} object.
@@ -208,6 +211,8 @@ public class UserTracker
 	 * @param screen
 	 *            Description of the Parameter
 	 * @return The status value
+	 * @param screen
+	 *            Description of the Parameter
 	 * @param s a {@link org.owasp.webgoat.session.WebSession} object.
 	 */
 	public String getStatus(WebSession s, Screen screen)
@@ -263,6 +268,14 @@ public class UserTracker
 	/**
 	 * Description of the Method
 	 *
+	 * @param screen
+	 *            Description of the Parameter
+	 * @param screen
+	 *            Description of the Parameter
+	 * @param screen
+	 *            Description of the Parameter
+	 * @param screen
+	 *            Description of the Parameter
 	 * @param screen
 	 *            Description of the Parameter
 	 * @param screen

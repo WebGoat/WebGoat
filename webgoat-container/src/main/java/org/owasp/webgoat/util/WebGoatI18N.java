@@ -11,6 +11,7 @@ import org.owasp.webgoat.session.WebgoatContext;
  * <p>WebGoatI18N class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class WebGoatI18N
 {

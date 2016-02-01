@@ -27,6 +27,7 @@ import java.util.concurrent.Executors;
  * <p>PluginsLoader class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class PluginsLoader {
 

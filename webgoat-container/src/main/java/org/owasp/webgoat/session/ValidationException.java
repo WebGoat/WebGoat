@@ -28,6 +28,7 @@ package org.owasp.webgoat.session;
  * projects.
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class ValidationException extends Exception
 {

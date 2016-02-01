@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
  * for free software projects.
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class Controller extends HttpServlet {
 

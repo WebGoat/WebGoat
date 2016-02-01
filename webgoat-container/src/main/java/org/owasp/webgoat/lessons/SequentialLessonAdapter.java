@@ -13,6 +13,7 @@ import org.owasp.webgoat.session.WebSession;
  * <p>Abstract SequentialLessonAdapter class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public abstract class SequentialLessonAdapter extends LessonAdapter
 {
@@ -21,6 +22,7 @@ public abstract class SequentialLessonAdapter extends LessonAdapter
      * <p>setStage.</p>
      *
      * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param stage a int.
      * @param stage a int.
      */
     public void setStage(WebSession s, int stage)

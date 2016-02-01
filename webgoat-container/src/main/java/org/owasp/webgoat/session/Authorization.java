@@ -32,6 +32,9 @@ import java.util.Map;
  * projects.
  *
  * * @version $Id: $Id
+ *
+ * @author dm
+ * @version $Id: $Id
  */
 public class Authorization
 {

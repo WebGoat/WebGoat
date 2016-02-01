@@ -16,6 +16,7 @@ import java.util.Collection;
  * <p>PluginFileUtils class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class PluginFileUtils {
 

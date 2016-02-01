@@ -32,6 +32,7 @@ import java.util.Map;
  * projects.
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class HtmlEncoder
 {

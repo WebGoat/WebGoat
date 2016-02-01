@@ -41,9 +41,7 @@ public class WebGoatServletListener implements ServletContextListener {
 
     private static final Logger logger = LoggerFactory.getLogger(HammerHead.class);
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
@@ -80,9 +78,7 @@ public class WebGoatServletListener implements ServletContextListener {
         new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
