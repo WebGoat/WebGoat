@@ -5,7 +5,7 @@
     <groupId>org.owasp.webgoat</groupId>
     <artifactId>webgoat-parent</artifactId>
     <packaging>pom</packaging>
-    <version>7.0</version>
+    <version>7.1-SNAPSHOT</version>
 
     <name>WebGoat Parent Pom</name>
     <description>Parent Pom for the WebGoat Project. A deliberately insecure Web Application</description>
@@ -86,7 +86,7 @@
         <url>https://github.com/WebGoat/WebGoat</url>
         <connection>scm:git:git@github.com:WebGoat/WebGoat.git</connection>
         <developerConnection>scm:git:git@github.com:WebGoat/WebGoat.git</developerConnection>
-      <tag>7.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <issueManagement>
