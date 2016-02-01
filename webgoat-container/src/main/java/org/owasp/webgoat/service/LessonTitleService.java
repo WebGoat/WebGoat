@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * <p>LessonTitleService class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class LessonTitleService extends BaseService {
 	

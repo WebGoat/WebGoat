@@ -233,6 +233,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     /**
      * <p>getSubmitMethod</p>
+     *
+     * @return a {@link java.lang.String} object.
      */
     public abstract String getSubmitMethod();
 
@@ -647,12 +649,14 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
             .append("/").append(getCategory().getRanking()).toString();
     }
 
-     /**
+    /**
      * Get the link to the target servlet.
      *
      * Unlike getLink() this method does not require rendering the output of
      * the request to the link in order to execute the servlet's method with
      * conventional HTTP query parameters.
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getServletLink() {
         StringBuffer link = new StringBuffer("attack");

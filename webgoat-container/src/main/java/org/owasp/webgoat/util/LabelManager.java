@@ -31,6 +31,7 @@ import java.util.Locale;
  * free software projects.
  *
  * @version $Id: $Id
+ * @author dm
  */
 public interface LabelManager
 {

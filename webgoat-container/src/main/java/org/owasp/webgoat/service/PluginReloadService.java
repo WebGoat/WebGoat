@@ -56,7 +56,8 @@ public class PluginReloadService extends BaseService {
     /**
      * Reload all the plugins
      *
-     * @param session a {@link HttpSession} object.
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link org.springframework.http.ResponseEntity} object.
      */
     @RequestMapping(value = "/reloadplugins.mvc")
     public @ResponseBody

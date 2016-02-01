@@ -16,10 +16,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.servlet.http.HttpSession;
 
 @Controller
+/**
+ * <p>LessonInfoService class.</p>
+ *
+ * @author dm
+ * @version $Id: $Id
+ */
 public class LessonInfoService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(LessonMenuService.class);
 
+    /**
+     * <p>getLessonInfo.</p>
+     *
+     * @param session a {@link javax.servlet.http.HttpSession} object.
+     * @return a {@link org.owasp.webgoat.lessons.model.LessonInfoModel} object.
+     */
     @RequestMapping(value = "/lessoninfo.mvc", produces = "application/json")
     public @ResponseBody
     LessonInfoModel getLessonInfo(HttpSession session) {
@@ -27,6 +39,12 @@ public class LessonInfoService extends BaseService {
         return new LessonInfoModel(webSession);
     }
 
+    /**
+     * <p>handleException.</p>
+     *
+     * @param ex a {@link java.lang.Exception} object.
+     * @return a {@link java.lang.String} object.
+     */
     @ExceptionHandler(Exception.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
@@ -34,6 +52,12 @@ public class LessonInfoService extends BaseService {
         return "An error occurred retrieving the LessonInfoModel:" + ex.getMessage();
     }
 
+    /**
+     * <p>getLessonInfoModel.</p>
+     *
+     * @param webSession a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return a {@link org.owasp.webgoat.lessons.model.LessonInfoModel} object.
+     */
     protected LessonInfoModel getLessonInfoModel(WebSession webSession) {
       return new LessonInfoModel(webSession);
     }

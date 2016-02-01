@@ -36,6 +36,7 @@ import java.util.Locale;
  * free software projects.
  *
  * @version $Id: $Id
+ * @author dm
  */
 @Component("labelManager")
 public class LabelManagerImpl implements LabelManager, Serializable

@@ -33,6 +33,7 @@ package org.owasp.webgoat.lessons.model;
  * use for more complex lessons.
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class HttpBasicsModel {
 

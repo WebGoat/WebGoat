@@ -110,8 +110,8 @@ public abstract class LessonAdapter extends AbstractLesson {
     }
 
     /**
-     * Initiates lesson restart functionality. Lessons should override this for 
-     * lesson specific actions 
+     * Initiates lesson restart functionality. Lessons should override this for
+     * lesson specific actions
      */
     public void restartLesson() {
         // Do Nothing - called when restart lesson is pressed. Each lesson can do something
@@ -153,6 +153,8 @@ public abstract class LessonAdapter extends AbstractLesson {
 
     /**
      * provide a default submitMethod of lesson does not implement
+     *
+     * @return a {@link java.lang.String} object.
      */
     public String getSubmitMethod() {
         return "GET";

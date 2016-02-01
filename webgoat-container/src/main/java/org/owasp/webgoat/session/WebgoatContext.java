@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
  * <p>WebgoatContext class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class WebgoatContext {
 

@@ -14,6 +14,7 @@ import org.owasp.webgoat.session.WebSession;
  * <p>Abstract RandomLessonAdapter class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public abstract class RandomLessonAdapter extends LessonAdapter
 {
@@ -29,6 +30,7 @@ public abstract class RandomLessonAdapter extends LessonAdapter
      * <p>setStage.</p>
      *
      * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param stage a {@link java.lang.String} object.
      * @param stage a {@link java.lang.String} object.
      */
     public void setStage(WebSession s, String stage)
@@ -65,6 +67,7 @@ public abstract class RandomLessonAdapter extends LessonAdapter
      *
      * @param s a {@link org.owasp.webgoat.session.WebSession} object.
      * @param stage a {@link java.lang.String} object.
+     * @param stage a {@link java.lang.String} object.
      */
     public void setStageComplete(WebSession s, String stage)
     {
@@ -99,6 +102,7 @@ public abstract class RandomLessonAdapter extends LessonAdapter
      * <p>isStageComplete.</p>
      *
      * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param stage a {@link java.lang.String} object.
      * @param stage a {@link java.lang.String} object.
      * @return a boolean.
      */

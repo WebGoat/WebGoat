@@ -17,12 +17,23 @@ import java.util.zip.ZipFile;
 /**
  * Extract the jar file and place them in the system temp directory in the folder webgoat and collect the files
  * and classes.
+ *
+ * @author dm
+ * @version $Id: $Id
  */
 public class PluginExtractor {
 
     private final List<String> classes = Lists.newArrayList();
     private final List<Path> files = new ArrayList<>();
 
+    /**
+     * <p>extractJarFile.</p>
+     *
+     * @param archive a {@link java.io.File} object.
+     * @param targetDirectory a {@link java.io.File} object.
+     * @return a {@link org.owasp.webgoat.plugins.Plugin} object.
+     * @throws java.io.IOException if any.
+     */
     public Plugin extractJarFile(final File archive, final File targetDirectory) throws IOException {
         ZipFile zipFile = new ZipFile(archive);
         Plugin plugin = new Plugin();
@@ -88,10 +99,20 @@ public class PluginExtractor {
         return targetFile;
     }
 
+    /**
+     * <p>Getter for the field <code>classes</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<String> getClasses() {
         return this.classes;
     }
 
+    /**
+     * <p>Getter for the field <code>files</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<Path> getFiles() {
         return this.files;
     }

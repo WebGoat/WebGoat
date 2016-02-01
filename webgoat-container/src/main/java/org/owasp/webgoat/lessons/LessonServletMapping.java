@@ -3,7 +3,8 @@ package org.owasp.webgoat.lessons;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-/***************************************************************************************************
+/**
+ *************************************************************************************************
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
@@ -26,8 +27,10 @@ import java.lang.annotation.RetentionPolicy;
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  * <p>
+ *
  * @author Nanne Baars
- * @created December 12, 2015
+ * @since  December 12, 2015
+ * @version $Id: $Id
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LessonServletMapping {

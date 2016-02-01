@@ -7,6 +7,7 @@ import java.util.Iterator;
  * <p>User class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class User {
     private String username;

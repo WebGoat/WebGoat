@@ -4,6 +4,7 @@ package org.owasp.webgoat.session;
  * <p>Role class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class Role {
     private String rolename;

@@ -200,6 +200,14 @@ public class LessonTracker
 	 *            Description of the Parameter
 	 * @param screen
 	 *            Description of the Parameter
+	 * @param screen
+	 *            Description of the Parameter
+	 * @param screen
+	 *            Description of the Parameter
+	 * @param screen
+	 *            Description of the Parameter
+	 * @param screen
+	 *            Description of the Parameter
 	 * @param s
 	 *            Description of the Parameter
 	 * @return Description of the Return Value
@@ -335,6 +343,7 @@ public class LessonTracker
 	 * @param s
 	 *            Description of the Parameter
 	 * @param screen a {@link org.owasp.webgoat.session.Screen} object.
+	 * @param screen a {@link org.owasp.webgoat.session.Screen} object.
 	 */
 	public void store(WebSession s, Screen screen)
 	{
@@ -346,6 +355,7 @@ public class LessonTracker
 	 *
 	 * @param s
 	 *            Description of the Parameter
+	 * @param screen a {@link org.owasp.webgoat.session.Screen} object.
 	 * @param screen a {@link org.owasp.webgoat.session.Screen} object.
 	 * @param user a {@link java.lang.String} object.
 	 */

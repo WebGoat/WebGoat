@@ -34,6 +34,7 @@ import org.springframework.stereotype.Component;
  * free software projects.
  *
  * @version $Id: $Id
+ * @author dm
  */
 @Component
 public class BeanProvider implements ApplicationContextAware

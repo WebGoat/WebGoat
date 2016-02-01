@@ -37,6 +37,7 @@ import java.util.Properties;
  * for free software projects.
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class WebgoatProperties extends Properties {
 

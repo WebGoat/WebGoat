@@ -8,6 +8,7 @@ import java.util.Properties;
  * <p>SequentialLessonTracker class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class SequentialLessonTracker extends LessonTracker
 {

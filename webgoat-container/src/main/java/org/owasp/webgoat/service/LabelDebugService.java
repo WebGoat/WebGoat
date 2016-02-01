@@ -55,6 +55,8 @@ public class LabelDebugService extends BaseService {
 
     /**
      * Reload all the plugins
+     *
+     * @return a {@link org.springframework.http.ResponseEntity} object.
      */
     @RequestMapping(value = "/debug/labels.mvc")
     public @ResponseBody

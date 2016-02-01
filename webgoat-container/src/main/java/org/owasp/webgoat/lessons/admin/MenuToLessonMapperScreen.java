@@ -84,7 +84,7 @@ public class MenuToLessonMapperScreen extends LessonAdapter
     /**
      * <p>getDefaultRanking.</p>
      *
-     * @return a {@link Integer} object.
+     * @return a {@link java.lang.Integer} object.
      */
     protected Integer getDefaultRanking()
     {

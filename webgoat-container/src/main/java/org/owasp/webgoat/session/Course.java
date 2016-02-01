@@ -322,6 +322,11 @@ public class Course {
         return null;
     }
 
+    /**
+     * <p>loadLessonFromPlugin.</p>
+     *
+     * @param context a {@link javax.servlet.ServletContext} object.
+     */
     public void loadLessonFromPlugin(ServletContext context) {
         logger.debug("Loading plugins into cache");
         String pluginPath = context.getRealPath("plugin_lessons");

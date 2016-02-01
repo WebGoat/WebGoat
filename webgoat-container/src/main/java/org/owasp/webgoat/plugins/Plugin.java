@@ -22,6 +22,7 @@ import static org.owasp.webgoat.plugins.PluginFileUtils.replaceInFiles;
  * <p>Plugin class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class Plugin {
 
@@ -34,6 +35,11 @@ public class Plugin {
     private List<File> pluginFiles = Lists.newArrayList();
     private File lessonSourceFile;
 
+    /**
+     * <p>findLesson.</p>
+     *
+     * @param classes a {@link java.util.List} object.
+     */
     public void findLesson(List<String> classes) {
         for (String clazzName : classes) {
             findLesson(clazzName);
@@ -56,6 +62,11 @@ public class Plugin {
         }
     }
 
+    /**
+     * <p>loadFiles.</p>
+     *
+     * @param file a {@link java.nio.file.Path} object.
+     */
     public void loadFiles(Path file) {
         if (fileEndsWith(file, ".html") && hasParentDirectoryWithName(file, NAME_LESSON_SOLUTION_DIRECTORY)) {
             solutionLanguageFiles.put(file.getParent().getFileName().toString(), file.toFile());

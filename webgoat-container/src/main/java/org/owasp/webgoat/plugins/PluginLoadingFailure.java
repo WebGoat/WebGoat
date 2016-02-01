@@ -4,6 +4,7 @@ package org.owasp.webgoat.plugins;
  * <p>PluginLoadingFailure class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class PluginLoadingFailure extends RuntimeException {
 

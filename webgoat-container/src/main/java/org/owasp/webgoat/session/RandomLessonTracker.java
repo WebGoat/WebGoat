@@ -10,6 +10,7 @@ import java.util.Properties;
  * <p>RandomLessonTracker class.</p>
  *
  * @version $Id: $Id
+ * @author dm
  */
 public class RandomLessonTracker extends LessonTracker
 {
