@@ -8,9 +8,9 @@
 # Important Information
 
 ### The WebGoat Lesson Server, is currently **UNDER MAJOR DEVELOMENT**.
-As of October 2015, this version "7.0-SNAPSHOT" is stable enough for testing.
+As of February 1st 2016, the version "7.0.1" is considered the first **STABLE** version of a major architecture and UI changes.
 
-#### An older stable version and instructions can be found at: [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy)
+#### Older/Legacy version of WebGoat an be found at: [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy)
 
 WebGoat is a deliberately insecure web application maintained by [OWASP](http://www.owasp.org/) designed to teach web
 application security lessons.
