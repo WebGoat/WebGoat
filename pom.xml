@@ -37,8 +37,8 @@
             <id>nbaars</id>
             <name>Nanne Baars</name>
             <email>nbaars@xebia.com</email>
-			<organizationUrl>https://github.com/nbaars</organizationUrl>
-			<timezone>Europe/Amsterdam</timezone>
+            <organizationUrl>https://github.com/nbaars</organizationUrl>
+            <timezone>Europe/Amsterdam</timezone>
         </developer>
         <developer>
             <id>misfir3</id>
@@ -171,6 +171,10 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
 
     <pluginRepositories>
