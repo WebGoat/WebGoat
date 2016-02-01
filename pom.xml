@@ -241,6 +241,9 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <keyname>WebGoat</keyname>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
