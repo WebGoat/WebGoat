@@ -929,7 +929,6 @@ public class WebSession {
 
         clearMessage();
         updateParser(request);
-        updateLocale(request);
 
         // System.out.println("Current Screen 1: " + currentScreen );
         // System.out.println("Previous Screen 1: " + previousScreen );
