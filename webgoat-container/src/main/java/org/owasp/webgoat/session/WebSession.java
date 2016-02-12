@@ -940,12 +940,6 @@ public class WebSession {
             myParser.update(request);
         }
 
-        Locale locale = request.getLocale();
-        if(locale != null) {
-        	LabelManager labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
-        	labelManager.setLocale(locale);
-        }
-
         // System.out.println("Current Screen 1: " + currentScreen );
         // System.out.println("Previous Screen 1: " + previousScreen );
         // FIXME: requires ?Logout=true
