@@ -119,14 +119,13 @@ public class HtmlEncoder
 	};
 
 	/**
-	 * <p>Constructor for HtmlEncoder.</p>
+	 * Initialises the mappings between entities and characters
 	 */
-	public HtmlEncoder()
-	{
-		for (int i = 0; i < entities.length; i++)
-			e2i.put((String) entities[i][0], (Integer) entities[i][1]);
-		for (int i = 0; i < entities.length; i++)
-			i2e.put((Integer) entities[i][1], (String) entities[i][0]);
+	static {
+	    for (int i = 0; i < entities.length; i++)
+            e2i.put((String) entities[i][0], (Integer) entities[i][1]);
+        for (int i = 0; i < entities.length; i++)
+            i2e.put((Integer) entities[i][1], (String) entities[i][0]);
 	}
 
 	/**
