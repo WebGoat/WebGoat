@@ -4,14 +4,7 @@ define(['jquery',
 function($,_,Backbone) {
 	return Backbone.View.extend({
 		el:'#help-controls', //Check this
-//		helpButtons: {
-//			//TODO: move this into a template
-//			showSource:,
-//			showSolution:,
-//			showPlan:,
-//			showHints:,
-//			restartLesson:
-//		},
+
 		initialize: function (options) {
 			if (!options) {
 				return;
@@ -21,6 +14,7 @@ function($,_,Backbone) {
 			this.hasSource = options.hasSource;
 			this.hasHints = options.hasHints;
 		},
+		    
 		render:function(title) {
 			//this.$el.html();
 			// if still showing, hide
