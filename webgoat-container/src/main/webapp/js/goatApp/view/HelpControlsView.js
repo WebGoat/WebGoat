@@ -4,14 +4,7 @@ define(['jquery',
 function($,_,Backbone) {
 	return Backbone.View.extend({
 		el:'#help-controls', //Check this
-		helpButtons: {
-			//TODO: move this into a template
-			showSource:$('<button>',{id:'show-source-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Java Source'}),
-			showSolution:$('<button>',{id:'show-solution-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Solution'}),
-			showPlan:$('<button>',{id:'show-plan-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Lesson Plan'}),
-			showHints:$('<button>',{id:'show-hints-button','class':'btn btn-primary btn-xs help-button',type:'button',text:'Hints'}),
-			restartLesson:$('<button>',{id:'restart-lesson-button','class':'btn btn-xs help-button',type:'button',text:'Restart Lesson'})
-		},
+
 		initialize: function (options) {
 			if (!options) {
 				return;
@@ -21,28 +14,30 @@ function($,_,Backbone) {
 			this.hasSource = options.hasSource;
 			this.hasHints = options.hasHints;
 		},
+		    
 		render:function(title) {
-			this.$el.html();
-			
+			//this.$el.html();
+			// if still showing, hide
+			$('#show-source-button').hide();
+			$('#show-solution-button').hide();
+			$('#show-plan-button').hide();
+			$('#show-hints-button').hide();
+
 			if (this.hasSource) {
-				this.helpButtons.showSource.unbind().on('click',_.bind(this.showSource,this));
-				this.$el.append(this.helpButtons.showSource);
+				this.$el.find('#show-source-button').unbind().on('click',_.bind(this.showSource,this)).show();
 			}
 			if (this.hasSolution) {
-				this.helpButtons.showSolution.unbind().on('click',_.bind(this.showSolution,this));
-				this.$el.append(this.helpButtons.showSolution);
+				this.$el.find('#show-solution-button').unbind().on('click',_.bind(this.showSolution,this)).show();
 			}
 			if (this.hasPlan) {
-				this.helpButtons.showPlan.unbind().on('click',_.bind(this.showPlan,this));
-				this.$el.append(this.helpButtons.showPlan);
+				this.$el.find('#show-plan-button').unbind().on('click',_.bind(this.showPlan,this)).show();
 			}
 			if (this.hasHints) {
-				this.helpButtons.showHints.unbind().on('click',_.bind(this.showHints,this));
-				this.$el.append(this.helpButtons.showHints);
+				this.$el.find('#show-hints-button').unbind().on('click',_.bind(this.showHints,this)).show();
 			}
 			
-			this.helpButtons.restartLesson.unbind().on('click',_.bind(this.restartLesson,this));
-			this.$el.append(this.helpButtons.restartLesson);
+			this.$el.find('#restart-lesson-button').unbind().on('click',_.bind(this.restartLesson,this)).show();
+			//this.$el.append(this.helpButtons.restartLesson);
 		},
 
 		showSource: function() {
