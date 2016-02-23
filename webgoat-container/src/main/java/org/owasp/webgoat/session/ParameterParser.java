@@ -467,7 +467,7 @@ public class ParameterParser {
      *
      * @return The parameterNames value
      */
-    public Enumeration getParameterNames() {
+    public Enumeration<String> getParameterNames() {
         if (request == null) {
             return (null);
         }

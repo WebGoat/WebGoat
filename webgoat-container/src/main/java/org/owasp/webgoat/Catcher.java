@@ -96,7 +96,7 @@ public class Catcher extends HammerHead
 			// property file. No other control parameters are supported at this time.
 			if (!property.equals(EMPTY_STRING))
 			{
-				Enumeration e = session.getParser().getParameterNames();
+				Enumeration<String> e = session.getParser().getParameterNames();
 
 				while (e.hasMoreElements())
 				{
