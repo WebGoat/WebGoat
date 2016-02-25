@@ -63,7 +63,6 @@ public class HammerHead extends HttpServlet {
 
     final Logger logger = LoggerFactory.getLogger(HammerHead.class);
 
-    private static final String WELCOMED = "welcomed";
 
     /**
      *
