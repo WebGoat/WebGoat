@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Bootstrap the setup of WebGoat for developer use in Linux and Mac machines
 # This script will clone the necessary git repositories, call the maven goals
