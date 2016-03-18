@@ -106,7 +106,7 @@
                                     <button class="btn btn-primary btn-xs help-button" id="show-solution-button">Show Solution</button>
                                     <button class="btn btn-primary btn-xs help-button" id="show-plan-button">Show Plan</button>
                                     <button class="btn btn-primary btn-xs help-button" id="show-hints-button">Show Hints</button>
-                                    <button class="btn btn-xs help-button" id="show-hints-button">Restart Lesson</button>
+                                    <button class="btn btn-xs help-button" id="restart-lesson-button">Restart Lesson</button>
                                 </div>
                                 <div class="lesson-hint" id="lesson-hint-container">
                                     <h4>Hints</h4>
