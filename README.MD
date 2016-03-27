@@ -153,7 +153,7 @@ java -jar webgoat-container-7.1-SNAPSHOT-war-exec.jar http://localhost:8080/WebG
 
 Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
-#### Option #3: Deploy the WebGoat WAR file in your local Tomcat or other Application Serve:
+#### Option #3: Deploy the WebGoat WAR file in your local Tomcat or other Application Server:
 The __maven package__ goal generates a .war file that can deployed into an Application Server, such as Tomcat
 
 ```Shell
