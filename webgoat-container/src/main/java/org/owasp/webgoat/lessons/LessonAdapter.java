@@ -250,7 +250,7 @@ public abstract class LessonAdapter extends AbstractLesson {
     protected Element makeSuccess(WebSession s) {
         getLessonTracker(s).setCompleted(true);
 
-        s.setMessage(getLabelManager().get("LessonCompleted"));
+        //s.setMessage(getLabelManager().get("LessonCompleted"));
 
         return (null);
     }
