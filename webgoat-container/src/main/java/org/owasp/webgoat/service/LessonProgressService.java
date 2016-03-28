@@ -18,27 +18,27 @@ import java.util.Map;
 
 @Controller
 /**
- * <p>LessonCompletedService class.</p>
+ * <p>LessonProgressService class.</p>
  *
  * @author webgoat
  */
-public class LessonCompletedService extends BaseService {
+public class LessonProgressService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(LessonMenuService.class);
     private LabelManager labelManager;
 
     @Autowired
-    public LessonCompletedService(final LabelManager labelManager) {
+    public LessonProgressService(final LabelManager labelManager) {
         this.labelManager = labelManager;
     }
 
     /**
-     * <p>getLessonCompletedService.</p>
+     * <p>LessonProgressService.</p>
      *
      * @param session a {@link HttpSession} object.
      * @return a {@link LessonInfoModel} object.
      */
-    @RequestMapping(value = "/lessoncompleted.mvc", produces = "application/json")
+    @RequestMapping(value = "/lessonprogress.mvc", produces = "application/json")
     @ResponseBody
     public Map getLessonInfo(HttpSession session) {
         WebSession webSession = getWebSession(session);

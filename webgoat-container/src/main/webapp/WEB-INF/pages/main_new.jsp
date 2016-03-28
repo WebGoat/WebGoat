@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12" align="left">
-                                <div id="completedMessage" class="info"></div>
+                                <div id="lesson-progress" class="info"></div>
                                 <div id="lesson-content-wrapper" class="panel">
 
                                 </div>
