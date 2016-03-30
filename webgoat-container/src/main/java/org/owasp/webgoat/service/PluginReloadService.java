@@ -29,18 +29,22 @@
  */
 package org.owasp.webgoat.service;
 
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.session.WebSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpSession;
-import java.nio.file.Paths;
 
 /**
  * <p>PluginReloadService class.</p>
@@ -59,16 +63,20 @@ public class PluginReloadService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link org.springframework.http.ResponseEntity} object.
      */
-    @RequestMapping(value = "/reloadplugins.mvc")
+    @RequestMapping(value = "/reloadplugins.mvc", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    ResponseEntity<String> reloadPlugins(HttpSession session) {
+    ResponseEntity<Map<String, Object>> reloadPlugins(HttpSession session) {
         WebSession webSession = (WebSession) session.getAttribute(WebSession.SESSION);
+
         logger.debug("Loading plugins into cache");
         String pluginPath = session.getServletContext().getRealPath("plugin_lessons");
         String targetPath = session.getServletContext().getRealPath("plugin_extracted");
         new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).copyJars();
-
         webSession.getCourse().loadLessonFromPlugin(session.getServletContext());
-        return new ResponseEntity("Plugins reload refresh the WebGoat page!",HttpStatus.OK);
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", true);
+        result.put("message", "Plugins reloaded");
+        return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
     }
 }

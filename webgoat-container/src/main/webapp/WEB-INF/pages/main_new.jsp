@@ -142,6 +142,13 @@
                                                 <h4>Params</h4>
                                             </div>
                                         </div>
+                                        <div align="left">
+                                            <h3>Developer controls</h3>
+                                        </div>
+                                        <hr />
+                                        <div id="developer-controls">
+                                        
+                                        </div>
                                     </div>
                                 </div>
                             </div>

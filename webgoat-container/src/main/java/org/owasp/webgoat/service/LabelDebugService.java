@@ -29,18 +29,23 @@
  */
 package org.owasp.webgoat.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.owasp.webgoat.session.LabelDebugger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * <p>PluginReloadService class.</p>
+ * <p>LabelDebugService class.</p>
  *
  * @author nbaars
  * @version $Id: $Id
@@ -48,21 +53,52 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LabelDebugService extends BaseService {
 
+    private static final String URL_DEBUG_LABELS_MVC = "/debug/labels.mvc";
+    private static final String KEY_ENABLED = "enabled";
+    private static final String KEY_SUCCESS = "success";
+
     private static final Logger logger = LoggerFactory.getLogger(LabelDebugService.class);
 
     @Autowired
     private LabelDebugger labelDebugger;
 
+
     /**
-     * Reload all the plugins
+     * Checks if debugging of labels is enabled or disabled
      *
      * @return a {@link org.springframework.http.ResponseEntity} object.
      */
-    @RequestMapping(value = "/debug/labels.mvc")
+    @RequestMapping(value = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    //todo parse params to add enable / disable
-    ResponseEntity<String> reloadPlugins() {
-        labelDebugger.enable();
-        return new ResponseEntity("Label debugger enabled refresh the WebGoat page!",HttpStatus.OK);
+    ResponseEntity<Map<String, Object>> checkDebuggingStatus() {
+        logger.debug("Checking label debugging, it is " + labelDebugger.isEnabled()); // FIXME parameterize
+        Map<String, Object> result = createResponse(labelDebugger.isEnabled());
+        return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+    }
+
+      /**
+      * Sets the enabled flag on the label debugger to the given parameter
+      *
+      * @return a {@link org.springframework.http.ResponseEntity} object.
+     * @throws Exception
+      */
+     @RequestMapping(value = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE, params = KEY_ENABLED)
+     public @ResponseBody
+     ResponseEntity<Map<String, Object>> setDebuggingStatus(@RequestParam("enabled") Boolean enabled) throws Exception {
+         logger.debug("Setting label debugging to " + labelDebugger.isEnabled()); // FIXME parameterize
+         Map<String, Object> result = createResponse(enabled);
+         labelDebugger.setEnabled(enabled);
+         return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+     }
+
+    /**
+     * @param enabled
+     * @return a {@link java.util.Map} object.
+     */
+    private Map<String, Object> createResponse(Boolean enabled) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(KEY_SUCCESS, Boolean.TRUE);
+        result.put(KEY_ENABLED, enabled);
+        return result;
     }
 }

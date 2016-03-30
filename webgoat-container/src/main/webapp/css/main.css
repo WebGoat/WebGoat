@@ -765,6 +765,24 @@ cookie-container {
   padding-left:3px;
 }
 
+.developer-controls-table {
+	width: 100%;
+}
+
+.developer-controls-table td {
+    text-align: right;
+}
+
+.developer-controls-table a {
+    color: #e84c3d
+}
+
+
+#menu-container a,
+.developer-controls-table a {
+    cursor: pointer;	
+}
+
 /* ==========================================================================
    MENU / Sidebar
    ========================================================================== */
