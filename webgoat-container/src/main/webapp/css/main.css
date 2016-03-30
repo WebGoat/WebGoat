@@ -777,6 +777,9 @@ cookie-container {
     color: #e84c3d
 }
 
+#developer-control-container {
+	display: none;
+}
 
 #menu-container a,
 .developer-controls-table a {

@@ -28,10 +28,27 @@ function(
 	    },
 
 		initialize: function(options) {
+			this.addMenuListener();
 			this.models = [new PluginReloadModel(), new LabelDebugModel()];
 			this.listenTo(this.models[0], 'plugins:loaded', this.onPluginsLoaded);
 			this.listenTo(this.models[1], 'plugins:loaded', this.onLabelsLoaded);
 			this.render();
+		},
+		
+		addMenuListener: function() {
+			var showHandler = function(e) {
+				e.preventDefault();
+				$('#developer-control-container').show();
+				$(this).text('Hide developer controls').off().on('click', hideHandler);
+			};
+			
+			var hideHandler = function(e) {
+				e.preventDefault();
+				$('#developer-control-container').hide();
+				$(this).text('Show developer controls').off().on('click', showHandler);
+			};
+			
+			$('a[href="#developer-controls"]').click(showHandler);
 		},
 
 		render: function() {

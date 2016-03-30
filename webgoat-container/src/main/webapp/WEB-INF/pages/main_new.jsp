@@ -71,10 +71,10 @@
                             <li role="presentation" class="divider"></li>     
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: ${user}</a></li>
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: ${role}</a></li>
-                            <li role="presentation" class="divider"></li>   
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#developer-controls">Show developer controls</a></li>      
                             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">${version}</a></li>
-                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Build: ${build}</a></li>                            
-
+                            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Build: ${build}</a></li>
                         </ul>
                     </div>
                     <button type="button" id="about-button"  class="btn btn-default right_nav_button" title="About WebGoat" data-toggle="modal" data-target="#about-modal"> 
@@ -142,12 +142,14 @@
                                                 <h4>Params</h4>
                                             </div>
                                         </div>
-                                        <div align="left">
-                                            <h3>Developer controls</h3>
-                                        </div>
-                                        <hr />
-                                        <div id="developer-controls">
-                                        
+                                        <div id="developer-control-container">
+	                                        <div align="left">
+	                                            <h3>Developer controls</h3>
+	                                        </div>
+	                                        <hr />
+	                                        <div id="developer-controls">
+	                                        
+	                                        </div>
                                         </div>
                                     </div>
                                 </div>
