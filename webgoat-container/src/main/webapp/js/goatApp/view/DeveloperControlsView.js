@@ -22,9 +22,9 @@ function(
 	    },
 	    
 	    onLabelsLoaded: function(model) {
-	    	$('#' + model.id).find('td').text('Enabled: ' + model.enabled);
 	    	this.models[1] = model;
 	    	this.render();
+	        Backbone.history.loadUrl(Backbone.history.getFragment());
 	    },
 
 		initialize: function(options) {
