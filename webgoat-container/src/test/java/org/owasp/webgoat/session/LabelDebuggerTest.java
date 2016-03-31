@@ -24,7 +24,7 @@ public class LabelDebuggerTest {
     public void testSetEnabledNullThrowsException() {
         LabelDebugger ld = new LabelDebugger();
         try {
-            ld.setEnabled(true);
+            ld.setEnabled(null);
         } catch (Exception e) {
             // We want to end up here
             return;
