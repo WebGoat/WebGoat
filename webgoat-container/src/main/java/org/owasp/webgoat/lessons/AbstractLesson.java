@@ -259,7 +259,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
             while ((line = reader.readLine()) != null) {
                 if ((line.indexOf(methodName) != -1)
-                        && ((line.indexOf("public") != -1) || (line.indexOf("protected") != -1) || (line
+                        && ((line.indexOf("static") != -1) || (line.indexOf("protected") != -1) || (line
                         .indexOf("private") != -1))) {
                     echo = true;
                     startCount = true;

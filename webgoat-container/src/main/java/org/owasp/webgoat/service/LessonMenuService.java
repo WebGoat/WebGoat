@@ -29,9 +29,6 @@
  */
 package org.owasp.webgoat.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
@@ -44,6 +41,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>LessonMenuService class.</p>
@@ -62,7 +63,7 @@ public class LessonMenuService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(value = "/lessonmenu.mvc", produces = "application/json")
+    @RequestMapping(path = "/lessonmenu.mvc", produces = "application/json")
     public @ResponseBody
     List<LessonMenuItem> showLeftNav(HttpSession session) {
         List<LessonMenuItem> menu = new ArrayList<LessonMenuItem>();

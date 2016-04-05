@@ -3,10 +3,13 @@ package org.owasp.webgoat.session;
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
+import org.owasp.webgoat.plugins.LegacyLoader;
 import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import javax.servlet.ServletContext;
 import java.io.File;
@@ -18,16 +21,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.ServletContext;
-
-import org.owasp.webgoat.HammerHead;
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.plugins.LegacyLoader;
-import org.owasp.webgoat.plugins.Plugin;
-import org.owasp.webgoat.plugins.PluginsLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *************************************************************************************************
@@ -63,7 +56,7 @@ public class Course {
 
     final Logger logger = LoggerFactory.getLogger(Course.class);
 
-    private final List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
+    private List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
 
     private final static String PROPERTIES_FILENAME = HammerHead.propertiesPath;
 
@@ -262,7 +255,7 @@ public class Course {
      * Gets the lessons attribute of the Course object
      *
      * @param category Description of the Parameter
-     * @param role     Description of the Parameter
+     * @param roles     Description of the Parameter
      * @return The lessons value
      */
     private List<AbstractLesson> getLessons(Category category, List roles) {
@@ -322,15 +315,30 @@ public class Course {
         return null;
     }
 
+    public void setLessons(List<AbstractLesson> lessons) {
+        this.lessons = lessons;
+    }
+
     /**
      * <p>loadLessonFromPlugin.</p>
      *
      * @param context a {@link javax.servlet.ServletContext} object.
      */
     public void loadLessonFromPlugin(ServletContext context) {
+        Resource resource = new ClassPathResource("/plugin_lessons/plugin_lessons_marker.txt");
+        String pluginPath = null;
+        String targetPath = null;
+        try {
+            pluginPath = resource.getFile().getParent();
+            targetPath = pluginPath;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         logger.debug("Loading plugins into cache");
-        String pluginPath = context.getRealPath("plugin_lessons");
-        String targetPath = context.getRealPath("plugin_extracted");
+        //String pluginPath = context.getRealPath("plugin_lessons");
+        //String targetPath = context.getRealPath("plugin_extracted");
 
         if (pluginPath == null) {
             logger.error("Plugins directory {} not found", pluginPath);

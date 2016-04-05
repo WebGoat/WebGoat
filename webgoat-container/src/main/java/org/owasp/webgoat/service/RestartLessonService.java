@@ -47,7 +47,7 @@ public class RestartLessonService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(value = "/restartlesson.mvc", produces = "text/text")
+    @RequestMapping(path = "/restartlesson.mvc", produces = "text/text")
     public @ResponseBody
     String restartLesson(HttpSession session) {
         WebSession ws = getWebSession(session);

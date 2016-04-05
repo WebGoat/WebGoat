@@ -1,7 +1,6 @@
 package org.owasp.webgoat.plugins;
 
 import com.google.common.collect.Lists;
-import org.apache.catalina.loader.WebappClassLoader;
 import org.apache.commons.io.FileUtils;
 import org.owasp.webgoat.util.LabelProvider;
 import org.slf4j.Logger;
@@ -48,24 +47,25 @@ public class PluginsLoader {
         this.pluginTarget = Objects.requireNonNull(pluginTarget, "plugin target cannot be null");
     }
 
-    /**
-     * Copy jars to the lib directory
-     */
-    public void copyJars() {
-        try {
-            if (!alreadyLoaded) {
-                WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
-                cl.setAntiJARLocking(true);
-                List<URL> jars = listJars();
-                for (URL jar : jars) {
-                    cl.addRepository(jar.toString());
-                }
-                alreadyLoaded = true;
-            }
-        } catch (Exception e) {
-            logger.error("Copying plugins failed", e);
-        }
-    }
+//    /**
+//     * Copy jars to the lib directory
+//     */
+//    public void copyJars() {
+//        try {
+//            if (!alreadyLoaded) {
+//                WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
+//               // cl.setAntiJARLocking(true);
+//                List<URL> jars = listJars();
+//                for (URL jar : jars) {
+//                  //  cl.setResources();
+//                   // cl.addRepository(jar.toString());
+//                }
+//                alreadyLoaded = true;
+//            }
+//        } catch (Exception e) {
+//            logger.error("Copying plugins failed", e);
+//        }
+//    }
 
     /**
      * <p>loadPlugins.</p>
@@ -73,7 +73,7 @@ public class PluginsLoader {
      * @return a {@link java.util.List} object.
      */
     public List<Plugin> loadPlugins() {
-        copyJars();
+       // copyJars();
         List<Plugin> plugins = Lists.newArrayList();
 
         try {
@@ -134,13 +134,17 @@ public class PluginsLoader {
 
     private List<Callable<Plugin>> extractJars(List<URL> jars) {
         List<Callable<Plugin>> extractorCallables = Lists.newArrayList();
+        ClassLoader parentClassLoader = PluginClassLoader.class.getClassLoader();
+        final PluginClassLoader classLoader = new PluginClassLoader(parentClassLoader);
+
         for (final URL jar : jars) {
+            classLoader.addURL(jar);
             extractorCallables.add(new Callable<Plugin>() {
 
                 @Override
                 public Plugin call() throws Exception {
                     PluginExtractor extractor = new PluginExtractor();
-                    return extractor.extractJarFile(ResourceUtils.getFile(jar), pluginTarget.toFile());
+                    return extractor.extractJarFile(ResourceUtils.getFile(jar), pluginTarget.toFile(), classLoader);
                 }
             });
         }

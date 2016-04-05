@@ -5,10 +5,6 @@
  */
 package org.owasp.webgoat.controller;
 
-import java.util.Collection;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.application.Application;
 import org.owasp.webgoat.session.WebSession;
@@ -20,8 +16,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Collection;
 
 /**
  * <p>Start class.</p>
@@ -43,14 +43,10 @@ public class Start {
      * <p>start.</p>
      *
      * @param request a {@link javax.servlet.http.HttpServletRequest} object.
-     * @param error a {@link java.lang.String} object.
-     * @param logout a {@link java.lang.String} object.
      * @return a {@link org.springframework.web.servlet.ModelAndView} object.
      */
-    @RequestMapping(value = "start.mvc", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView start(HttpServletRequest request,
-            @RequestParam(value = "error", required = false) String error,
-            @RequestParam(value = "logout", required = false) String logout) {
+    @RequestMapping(path = "start.mvc", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView start(HttpServletRequest request) {
 
         ModelAndView model = new ModelAndView();
         // make sure session is set up correctly

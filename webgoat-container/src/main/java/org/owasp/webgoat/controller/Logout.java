@@ -31,7 +31,7 @@ public class Logout {
      * @param logout a {@link java.lang.String} object.
      * @return a {@link org.springframework.web.servlet.ModelAndView} object.
      */
-    @RequestMapping(value = "logout.mvc", method = RequestMethod.GET)
+    @RequestMapping(path = "logout.mvc", method = RequestMethod.GET)
     public ModelAndView logout(
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "logout", required = false) String logout) {

@@ -29,16 +29,17 @@
  */
 package org.owasp.webgoat.service;
 
-import java.util.Collections;
-import java.util.List;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.lessons.model.RequestParameter;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>CookieService class.</p>
@@ -55,7 +56,7 @@ public class CookieService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(value = "/cookie.mvc", produces = "application/json")
+    @RequestMapping(path = "/cookie.mvc", produces = "application/json")
     public @ResponseBody
     List<Cookie> showCookies(HttpSession session) {
         WebSession ws = getWebSession(session);

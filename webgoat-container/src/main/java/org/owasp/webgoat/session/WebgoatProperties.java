@@ -2,9 +2,9 @@ package org.owasp.webgoat.session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -57,12 +57,14 @@ public class WebgoatProperties extends Properties {
         if (propertiesFileName == null) {
             throw new IOException("Path to webgoat.properties is null, initialization must have failed");
         }
-        File propertiesFile = new File(propertiesFileName);
-        if (propertiesFile.exists() == false) {
-            throw new IOException("Unable to locate webgoat.properties at: " + propertiesFileName);
-        }
-        FileInputStream in = new FileInputStream(propertiesFile);
-        load(in);
+
+//        File propertiesFile = new File(propertiesFileName);
+//        if (propertiesFile.exists() == false) {
+//            throw new IOException("Unable to locate webgoat.properties at: " + propertiesFileName);
+//        }
+        Resource resource = new ClassPathResource("/webgoat.properties");
+        //FileInputStream in = new FileInputStream(propertiesFile);
+        load(resource.getInputStream());
     }
 
     /**

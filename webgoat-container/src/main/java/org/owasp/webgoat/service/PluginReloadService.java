@@ -63,7 +63,7 @@ public class PluginReloadService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link org.springframework.http.ResponseEntity} object.
      */
-    @RequestMapping(value = "/reloadplugins.mvc", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/reloadplugins.mvc", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseEntity<Map<String, Object>> reloadPlugins(HttpSession session) {
         WebSession webSession = (WebSession) session.getAttribute(WebSession.SESSION);

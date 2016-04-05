@@ -57,7 +57,7 @@ public class SourceService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(value = "/source.mvc", produces = "application/text")
+    @RequestMapping(path = "/source.mvc", produces = "application/text")
     public @ResponseBody
     String showSource(HttpSession session) {
         WebSession ws = getWebSession(session);

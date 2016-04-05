@@ -29,11 +29,12 @@
  */
 package org.owasp.webgoat.service;
 
-import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.application.Application;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>ApplicationService class.</p>
@@ -50,7 +51,7 @@ public class ApplicationService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link org.owasp.webgoat.application.Application} object.
      */
-    @RequestMapping(value = "/application.mvc", produces = "application/json")
+    @RequestMapping(path = "/application.mvc", produces = "application/json")
     public @ResponseBody
     Application showApplication(HttpSession session) {
         Application app = Application.getInstance();

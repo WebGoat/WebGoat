@@ -32,7 +32,7 @@ public class LessonInfoService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link org.owasp.webgoat.lessons.model.LessonInfoModel} object.
      */
-    @RequestMapping(value = "/lessoninfo.mvc", produces = "application/json")
+    @RequestMapping(path = "/lessoninfo.mvc", produces = "application/json")
     public @ResponseBody
     LessonInfoModel getLessonInfo(HttpSession session) {
         WebSession webSession = getWebSession(session);

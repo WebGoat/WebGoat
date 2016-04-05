@@ -58,7 +58,7 @@ public class ParameterService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(value = "/parameter.mvc", produces = "application/json")
+    @RequestMapping(path = "/parameter.mvc", produces = "application/json")
     public @ResponseBody
     List<RequestParameter> showParameters(HttpSession session) {
         WebSession ws = getWebSession(session);

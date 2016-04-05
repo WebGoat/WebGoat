@@ -2,7 +2,6 @@ package org.owasp.webgoat.plugins;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import org.apache.catalina.loader.WebappClassLoader;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.springframework.util.StringUtils;
 
@@ -28,12 +27,17 @@ public class Plugin {
 
     private static final String NAME_LESSON_SOLUTION_DIRECTORY = "lessonSolutions";
     private static final String NAME_LESSON_PLANS_DIRECTORY = "lessonPlans";
+    private final PluginClassLoader classLoader;
 
     private Class<AbstractLesson> lesson;
     private Map<String, File> solutionLanguageFiles = new HashMap<>();
     private Map<String, File> lessonPlansLanguageFiles = new HashMap<>();
     private List<File> pluginFiles = Lists.newArrayList();
     private File lessonSourceFile;
+
+    public Plugin(PluginClassLoader classLoader) {
+        this.classLoader = classLoader;
+    }
 
     /**
      * <p>findLesson.</p>
@@ -49,10 +53,10 @@ public class Plugin {
     private void findLesson(String name) {
         String realClassName = StringUtils.trimLeadingCharacter(name, '/').replaceAll("/", ".").replaceAll(".class", "");
         //TODO should be passed in (refactor)
-        WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
+        //TomcatEmbeddedWebappClassLoader cl = (TomcatEmbeddedWebappClassLoader) Thread.currentThread().getContextClassLoader();
 
         try {
-            Class clazz = cl.loadClass(realClassName, true);
+            Class clazz = classLoader.loadClass(realClassName);
 
             if (AbstractLesson.class.isAssignableFrom(clazz)) {
                 this.lesson = clazz;

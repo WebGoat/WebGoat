@@ -53,7 +53,7 @@ public class LessonPlanService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(value = "/lessonplan.mvc", produces = "application/html")
+    @RequestMapping(path = "/lessonplan.mvc", produces = "application/html")
     public @ResponseBody
     String showPlan(HttpSession session) {
         WebSession ws = getWebSession(session);

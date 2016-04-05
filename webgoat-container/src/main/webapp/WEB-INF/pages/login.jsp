@@ -6,21 +6,17 @@
         <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
         <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
         <!--[if gt IE 8]><!-->
-
         <!--  CSS -->
-        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon"/>
+        <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
         <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
         <!-- Fonts from Font Awsome -->
-        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="/css/font-awesome.min.css"/>
         <!-- CSS Animate -->
-        <link rel="stylesheet" href="css/animate.css"/>
+        <link rel="stylesheet" href="/css/animate.css"/>
         <!-- Custom styles for this theme -->
-        <link rel="stylesheet" href="css/main.css"/>
+        <link rel="stylesheet" href="/css/main.css"/>
         <!--  end of CSS -->
-
-
-    </style>
 </head>
 <body onload='document.loginForm.username.focus();'>
     <section id="container" ng-controller="goatLesson">

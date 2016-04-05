@@ -204,7 +204,7 @@ public class HammerHead extends HttpServlet {
 
     private String getViewPage(WebSession webSession) {
         // now always display the lesson content
-        String page = "/lesson_content.jsp";
+        String page = "lesson_content";
         //page = "/main.jsp";
         return page;
     }

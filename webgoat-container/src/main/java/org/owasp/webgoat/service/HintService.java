@@ -32,7 +32,7 @@ public class HintService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(value = "/hint.mvc", produces = "application/json")
+    @RequestMapping(path = "/hint.mvc", produces = "application/json")
     public @ResponseBody
     List<Hint> showHint(HttpSession session) {
         List<Hint> listHints = new ArrayList<Hint>();

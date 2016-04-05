@@ -68,7 +68,7 @@ public class LabelDebugService extends BaseService {
      *
      * @return a {@link org.springframework.http.ResponseEntity} object.
      */
-    @RequestMapping(value = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseEntity<Map<String, Object>> checkDebuggingStatus() {
         logger.debug("Checking label debugging, it is " + labelDebugger.isEnabled()); // FIXME parameterize

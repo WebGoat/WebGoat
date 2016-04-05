@@ -53,7 +53,7 @@ public class SolutionService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(value = "/solution.mvc", produces = "text/html")
+    @RequestMapping(path = "/solution.mvc", produces = "text/html")
     public @ResponseBody
     String showSolution(HttpSession session) {
         WebSession ws = getWebSession(session);

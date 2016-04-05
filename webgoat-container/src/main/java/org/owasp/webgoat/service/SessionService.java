@@ -32,7 +32,7 @@ public class SessionService extends BaseService {
      * @param request a {@link javax.servlet.http.HttpServletRequest} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(value = "/session.mvc", produces = "application/json")
+    @RequestMapping(path = "/session.mvc", produces = "application/json")
     public @ResponseBody
     String showSession(HttpServletRequest request, HttpSession session) {
         StringBuilder sb = new StringBuilder();

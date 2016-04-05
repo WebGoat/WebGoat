@@ -168,7 +168,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         if (deviceOrientation != null) capabilities.setCapability("device-orientation", deviceOrientation);
 
         // Additional settings to help debugging and improve job perf
-        capabilities.setCapability("public", "share");
+        capabilities.setCapability("static", "share");
         capabilities.setCapability("wwebdriverRemoteQuietExceptions", false);
         capabilities.setCapability("captureHtml", true);
 

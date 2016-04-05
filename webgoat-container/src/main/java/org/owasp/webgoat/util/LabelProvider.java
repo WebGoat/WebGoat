@@ -7,7 +7,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Singleton;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -47,7 +46,6 @@ import java.util.Locale;
  * @author dm
  */
 @Component
-@Singleton
 public class LabelProvider {
     /** Constant <code>DEFAULT_LANGUAGE="Locale.ENGLISH.getLanguage()"</code> */
     public final static String DEFAULT_LANGUAGE = Locale.ENGLISH.getLanguage();
