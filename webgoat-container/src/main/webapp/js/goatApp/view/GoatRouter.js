@@ -4,17 +4,20 @@ define(['jquery',
     'goatApp/controller/LessonController',
     'goatApp/controller/MenuController',
     'goatApp/view/LessonContentView',
-    'goatApp/view/MenuView'
+    'goatApp/view/MenuView',
+    'goatApp/view/DeveloperControlsView'
     ], function ($,
     _,
     Backbone,
     LessonController,
     MenuController,
     LessonContentView,
-    MenuView) {
+    MenuView,
+    DeveloperControlsView) {
     
     var lessonView = new LessonContentView();
     var menuView = new MenuView();
+    var developerControlsView = new DeveloperControlsView();
 
     var GoatAppRouter = Backbone.Router.extend({
         routes: {
@@ -25,11 +28,11 @@ define(['jquery',
         },
 
         lessonController: new LessonController({
-            lessonView:lessonView
+            lessonView: lessonView
         }),
 
         menuController: new MenuController({
-            menuView:menuView
+            menuView: menuView
         }),
 
         init:function() {

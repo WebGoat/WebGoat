@@ -123,6 +123,7 @@ define(['jquery',
                     this.sourceView = new SourceView();
                     this.lessonHintView = new HintView();
                     this.cookieView = new CookieView();
+
                     //TODO: instantiate model with values (not sure why was not working before)
                     var paramModel = new ParamModel({});
                     paramModel.set('scrParam',this.lessonContent.get('scrParam'));
