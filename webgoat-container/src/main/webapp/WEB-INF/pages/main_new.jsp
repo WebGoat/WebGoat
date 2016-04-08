@@ -50,7 +50,7 @@
             <header id="header">
                 <!--logo start-->
                 <div class="brand">
-                    <a href="${pageContext.request.contextPath}/start.mvc" class="logo"><span>Web</span>Goat</a>
+                    <a href="${pageContext.request.contextPath}/welcome.mvc" class="logo"><span>Web</span>Goat</a>
                 </div>
                 <!--logo end-->
                 <div class="toggle-navigation toggle-left">
