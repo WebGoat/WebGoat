@@ -99,12 +99,17 @@
                 <div class="col-md-8">
                     <div class="col-md-12" align="left">
                         <div class="panel" id="help-controls">
-                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-source-button">Show Source
+                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-source-button">Show
+                                Source
                             </button>
-                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-solution-button">Show Solution
+                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-solution-button">Show
+                                Solution
                             </button>
-                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-plan-button">Show Plan</button>
-                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-hints-button">Show Hints
+                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-plan-button">Show
+                                Plan
+                            </button>
+                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-hints-button">Show
+                                Hints
                             </button>
                             <button class="btn btn-xs help-button" id="restart-lesson-button">Restart Lesson</button>
                         </div>
@@ -192,10 +197,7 @@
 <!-- About WebGoat Modal -->
 <div class="modal" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- TODO@NB
-            <jsp:include page="../pages/about.jsp"/> -->
-        </div>
+        <div class="modal-content" th:replace="about :: about"></div>
     </div>
 </div>
 </body>

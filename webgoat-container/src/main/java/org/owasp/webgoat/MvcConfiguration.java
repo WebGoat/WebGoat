@@ -1,6 +1,7 @@
 package org.owasp.webgoat;
 
 import org.owasp.webgoat.session.LabelDebugger;
+import org.owasp.webgoat.session.WebgoatContext;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
@@ -21,8 +21,13 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public ServletRegistrationBean servletRegistrationBean() {
-        return new ServletRegistrationBean(new HammerHead(), "/attack/*");
+    public ServletRegistrationBean servletRegistrationBean(HammerHead hammerHead) {
+        return new ServletRegistrationBean(hammerHead, "/attack/*");
+    }
+
+    @Bean
+    public HammerHead hammerHead(WebgoatContext context) {
+        return new HammerHead(context);
     }
 
     @Bean

@@ -1,10 +1,17 @@
 package org.owasp.webgoat.plugins;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.WebgoatContext;
+import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.WebgoatProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
+import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.type.filter.AssignableTypeFilter;
+import org.springframework.core.type.filter.TypeFilter;
 
 import javax.servlet.ServletContext;
 import java.io.File;
@@ -142,7 +149,9 @@ public class LegacyLoader {
      */
     public void loadFiles(ServletContext context, String path) {
         logger.debug("Loading files into cache, path: " + path);
-        Set resourcePaths = context.getResourcePaths(path);
+        Resource resource = new ClassPathResource("/");
+
+        Set resourcePaths = null;
         if (resourcePaths == null) {
             logger.error("Unable to load file cache for courses, this is probably a bug or configuration issue");
             return;
@@ -170,15 +179,20 @@ public class LegacyLoader {
      * @return a {@link java.util.List} object.
      */
     public List<AbstractLesson> loadLessons(WebgoatContext webgoatContext, ServletContext context, String path, WebgoatProperties properties ) {
+        BeanDefinitionRegistry bdr = new SimpleBeanDefinitionRegistry();
+        ClassPathBeanDefinitionScanner s = new ClassPathBeanDefinitionScanner(bdr);
 
-    	loadFiles(context, path);
+        TypeFilter tf = new AssignableTypeFilter(AbstractLesson.class);
+        s.addIncludeFilter(tf);
+        s.setIncludeAnnotationConfig(false);
+        s.scan("org.owasp.webgoat.lessons.admin");
+        String[] beanDefinitionNames = bdr.getBeanDefinitionNames();
 
         List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
 
-        for (String file : files) {
-            String className = getClassFile(file, path);
+        for (String file : beanDefinitionNames) {
+            String className = bdr.getBeanDefinition(file).getBeanClassName();
 
-            if (className != null && !className.endsWith("_i") && className.startsWith("org.owasp.webgoat.lessons.admin")) {
                 try {
                 	Class c = Class.forName(className);
                     Object o = c.newInstance();
@@ -201,9 +215,8 @@ public class LegacyLoader {
                 	// can't tell that because it threw the exception.  Catch 22
                    // logger.error("Error in loadLessons: ", e);
                 }
-            }
         }
-        loadResources(lessons);
+      //  loadResources(lessons);
         return lessons;
     }
 

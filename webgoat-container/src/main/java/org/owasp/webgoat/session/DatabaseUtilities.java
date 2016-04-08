@@ -1,6 +1,12 @@
 
 package org.owasp.webgoat.session;
 
+import org.apache.ecs.MultiPartElement;
+import org.apache.ecs.html.B;
+import org.apache.ecs.html.TD;
+import org.apache.ecs.html.TR;
+import org.apache.ecs.html.Table;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,11 +15,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.ecs.MultiPartElement;
-import org.apache.ecs.html.B;
-import org.apache.ecs.html.TD;
-import org.apache.ecs.html.TR;
-import org.apache.ecs.html.Table;
 
 
 /**

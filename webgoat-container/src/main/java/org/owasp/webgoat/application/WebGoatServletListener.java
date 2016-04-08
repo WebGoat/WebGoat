@@ -5,6 +5,18 @@
  */
 package org.owasp.webgoat.application;
 
+import org.owasp.webgoat.lessons.LessonServletMapping;
+import org.owasp.webgoat.plugins.PluginsLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.ServletRegistration;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
@@ -16,20 +28,6 @@ import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRegistration;
-
-import org.owasp.webgoat.HammerHead;
-import org.owasp.webgoat.lessons.LessonServletMapping;
-import org.owasp.webgoat.plugins.PluginsLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
-
 /**
  * Web application lifecycle listener.
  *
@@ -38,7 +36,7 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
  */
 public class WebGoatServletListener implements ServletContextListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(HammerHead.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebGoatServletListener.class);
 
     /** {@inheritDoc} */
     @Override

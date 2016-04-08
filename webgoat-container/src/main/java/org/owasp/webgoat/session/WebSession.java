@@ -1,5 +1,19 @@
 package org.owasp.webgoat.session;
 
+import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Category;
+import org.owasp.webgoat.lessons.RandomLessonAdapter;
+import org.owasp.webgoat.lessons.SequentialLessonAdapter;
+import org.owasp.webgoat.lessons.model.RequestParameter;
+import org.owasp.webgoat.util.BeanProvider;
+import org.owasp.webgoat.util.LabelManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.Principal;
@@ -15,19 +29,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
-import javax.servlet.ServletContext;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.RandomLessonAdapter;
-import org.owasp.webgoat.lessons.SequentialLessonAdapter;
-import org.owasp.webgoat.lessons.model.RequestParameter;
-import org.owasp.webgoat.util.BeanProvider;
-import org.owasp.webgoat.util.LabelManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * *************************************************************************************************
@@ -59,6 +60,10 @@ import org.slf4j.LoggerFactory;
  * @version $Id: $Id
  */
 public class WebSession {
+
+    /**
+     * @TODO_NB Spring can take inject this bean bound to a specific scope no longer necessary to bound it to a HTTP session
+     */
 
     final Logger logger = LoggerFactory.getLogger(WebSession.class);
 
@@ -519,27 +524,6 @@ public class WebSession {
         }
 
         return params;
-    }
-
-    /**
-     * <p> getCookies. </p>
-     *
-     * @return a {@link java.util.List} object.
-     */
-    public List<Cookie> getCookies() {
-        List<Cookie> cookies = null;
-
-        if (showCookies()) {
-            cookies = Arrays.asList(request.getCookies());
-        }
-
-        /*
-         * List cookies = new Vector(); HttpServletRequest request = getRequest(); Cookie[] cookies =
-         * request.getCookies(); if ( cookies.length == 0 ) { list.addElement( new LI( "No Cookies" ) ); } for ( int i =
-         * 0; i < cookies.length; i++ ) { Cookie cookie = cookies[i]; cookies.add(cookie); //list.addElement( new LI(
-         * cookie.getName() + " -> " + cookie.getValue() ) ); }
-         */
-        return cookies;
     }
 
     /**

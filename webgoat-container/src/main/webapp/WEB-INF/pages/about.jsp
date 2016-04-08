@@ -35,9 +35,8 @@
             <div class="col-md-6">
                 <p>WebGoat Authors
                 <ul>
-                    <li>Bruce Mayhew   (Author & Project Lead)</li>
-                    <li>Jeff Williams  (Author & Original Idea)</li>
-                    <li>Jason White    (Architect)</li>
+                    <li>Bruce Mayhew   (Author and Project Lead)</li>
+                    <li>Jeff Williams  (Author and Original Idea)</li>
                     <li>Nanne Baars    (Plugin Architecture)</li>
                     <li>Richard Lawson (Architect)</li>
                 </ul>
@@ -48,7 +47,7 @@
                 <ul>
                     <li>Nanne Baars   (Developer)</li>
                     <li>Jason White   (Developer)</li>
-                    <li>Doug Morato   (Developer & CI)</li>
+                    <li>Doug Morato   (Developer and CI)</li>
                     <li>Jeff Wayman   (Docs)</li>
                     <li>Bruce Mayhew  (Developer)</li>
                     <li>Michael Dever (Developer)</li>
@@ -65,13 +64,13 @@
                     <li>Jeff Wayman    (Website and Docs)</li>
                     <li>Jason White    (User Interface)</li>
                 </ul>
-                </p><br></br>
+                </p><br/>
                 <p>Corporate Sponsorship - Companies that have donated significant time to WebGoat development
                 <ul>
                     <li>Aspect Security</li>
                     <li>Ounce Labs</li>
                 </ul>
-                </p><br></br>
+                </p><br/>
                 <p>Did we miss you? Our sincere apologies, as we know there have
                     been many contributors over the years. If your name does not
                     appear in any of the lists above, please send us a note. We'll

@@ -39,9 +39,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
-import static org.owasp.webgoat.LessonSource.END_SOURCE_SKIP;
-import static org.owasp.webgoat.LessonSource.START_SOURCE_SKIP;
-
 /**
  * <p>SourceService class.</p>
  *
@@ -50,6 +47,14 @@ import static org.owasp.webgoat.LessonSource.START_SOURCE_SKIP;
  */
 @Controller
 public class SourceService extends BaseService {
+
+    /**
+     * Description of the Field
+     */
+    public final static String START_SOURCE_SKIP = "START_OMIT_SOURCE";
+
+    /** Constant <code>END_SOURCE_SKIP="END_OMIT_SOURCE"</code> */
+    public final static String END_SOURCE_SKIP = "END_OMIT_SOURCE";
 
     /**
      * Returns source for current attack

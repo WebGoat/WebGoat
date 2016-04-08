@@ -1,10 +1,12 @@
 package org.owasp.webgoat.util;
 
+import org.owasp.webgoat.session.WebgoatContext;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.owasp.webgoat.session.WebgoatContext;
+
 
 @Deprecated
 /**

@@ -1,1 +1,9 @@
-<h1>Lesson content</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div id="lessonInstructions" th:utext="${instructions}"></div>
+<div id="message" class="info" th:text="${message}"></div>
+<br/>
+<div th:utext="${lesson.content}"></div>
+</html>
+

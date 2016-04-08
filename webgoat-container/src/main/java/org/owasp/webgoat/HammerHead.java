@@ -91,6 +91,13 @@ public class HammerHead extends HttpServlet {
      */
     private WebgoatContext webgoatContext = null;
 
+    public HammerHead(WebgoatContext context) {
+        this.webgoatContext = context;
+    }
+
+    //TODO_NB
+    public HammerHead() {}
+
     /**
      * {@inheritDoc}
      *
@@ -186,7 +193,8 @@ public class HammerHead extends HttpServlet {
             String viewPage = getViewPage(mySession);
             logger.debug("Forwarding to view: " + viewPage);
             logger.debug("Screen: " + screen);
-            request.getRequestDispatcher(viewPage).forward(request, response);
+            response.sendRedirect("startlesson.mvc");
+//            request.getRequestDispatcher(viewPage).forward(request, response);
         } catch (Throwable t) {
             logger.error("Error handling request", t); screen = new ErrorScreen(mySession, t);
         } finally {
@@ -242,8 +250,6 @@ public class HammerHead extends HttpServlet {
         httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyyy HH:mm:ss z", Locale.US);
         httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         propertiesPath = getServletContext().getRealPath("/WEB-INF/webgoat.properties");
-        webgoatContext = new WebgoatContext(this);
-        logger.info("Browse to http://localhost:8080/WebGoat and happy hacking!");
     }
 
     /**
