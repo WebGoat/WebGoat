@@ -15,7 +15,9 @@ define(['jquery',
     'goatApp/view/UserAndInfoView',
     'goatApp/view/MenuButtonView',
     'goatApp/model/LessonInfoModel',
-    'goatApp/view/TitleView'
+    'goatApp/view/TitleView',
+    'goatApp/model/LessonProgressModel',
+    'goatApp/view/LessonProgressView'
     ], 
     function($,
         _,
@@ -34,13 +36,18 @@ define(['jquery',
         UserAndInfoView,
         MenuButtonView,
         LessonInfoModel,
-        TitleView
+        TitleView,
+        LessonProgressModel,
+        LessonProgressView
+
     ) {
         'use strict'
         
         
         var Controller = function(options) {
             this.lessonContent = new LessonContentModel();
+            this.lessonProgressModel = new LessonProgressModel();
+            this.lessonProgressView = new LessonProgressView(this.lessonProgressModel);
             this.lessonView = options.lessonView;
 
             _.extend(Controller.prototype,Backbone.Events);
@@ -127,6 +134,7 @@ define(['jquery',
                     $('.lesson-help').hide();
                 }
                 this.trigger('menu:reload');
+                this.lessonProgressModel.completed();
             };
 
             this.addCurHelpState = function (curHelp) {

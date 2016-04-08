@@ -1,13 +1,14 @@
 
 package org.owasp.webgoat.lessons;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import org.owasp.webgoat.session.CreateDB;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.LessonTracker;
 import org.owasp.webgoat.session.RandomLessonTracker;
 import org.owasp.webgoat.session.WebSession;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 
 /**
@@ -75,7 +76,7 @@ public abstract class RandomLessonAdapter extends LessonAdapter
         lt.setStageComplete(stage, true);
         if (lt.getCompleted())
         {
-            s.setMessage("Congratulations, you have completed this lab");
+            //s.setMessage("Congratulations, you have completed this lab");
         }
         else
         {
