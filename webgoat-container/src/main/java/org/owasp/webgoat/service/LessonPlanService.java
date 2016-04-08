@@ -29,16 +29,14 @@
  */
 package org.owasp.webgoat.service;
 
-import javax.servlet.http.HttpSession;
-import static org.owasp.webgoat.LessonSource.END_SOURCE_SKIP;
-import static org.owasp.webgoat.LessonSource.START_SOURCE_SKIP;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.model.SourceListing;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>LessonPlanService class.</p>
@@ -61,9 +59,6 @@ public class LessonPlanService extends BaseService {
         WebSession ws = getWebSession(session);
         String plan = getPlan(ws);
         return plan;
-        //SourceListing sl = new SourceListing();
-        //sl.setSource(source);
-        //return sl;
     }
 
     /**
@@ -73,15 +68,12 @@ public class LessonPlanService extends BaseService {
      * @return Description of the Return Value
      */
     protected String getPlan(WebSession s) {
-
         String plan = null;
         int scr = s.getCurrentScreen();
         Course course = s.getCourse();
 
-        if (s.isUser() || s.isChallenge()) {
-
+        if (s.isUser() || s.isAdmin()) {
             AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
-
             if (lesson != null) {
                 plan = lesson.getLessonPlan(s);
             }

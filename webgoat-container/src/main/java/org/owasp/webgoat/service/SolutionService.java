@@ -29,13 +29,14 @@
  */
 package org.owasp.webgoat.service;
 
-import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>SolutionService class.</p>
@@ -67,23 +68,19 @@ public class SolutionService extends BaseService {
      * @return a {@link java.lang.String} object.
      */
     protected String getSolution(WebSession s) {
-
         String source = null;
         int scr = s.getCurrentScreen();
         Course course = s.getCourse();
 
-        if (s.isUser() || s.isChallenge()) {
-
+        if (s.isUser() || s.isAdmin()) {
             AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
-
             if (lesson != null) {
                 source = lesson.getSolution(s);
             }
         }
         if (source == null) {
-            return "Solution  is not available. Contact "
-                    + s.getWebgoatContext().getFeedbackAddressHTML();
+            return "Solution  is not available. Contact " + s.getWebgoatContext().getFeedbackAddressHTML();
         }
-        return (source);
+        return source;
     }
 }
