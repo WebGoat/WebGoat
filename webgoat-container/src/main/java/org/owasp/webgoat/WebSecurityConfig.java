@@ -17,7 +17,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry security = http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/images/**", "/js/**", "fonts/**", "/plugins/**").permitAll()
+                .antMatchers("/css/**", "/images/**", "/js/**", "fonts/**", "/plugins/**", "plugin_lessons/**").permitAll()
                 .antMatchers("/servlet/AdminServlet/**").hasAnyRole("WEBGOAT_ADMIN", "SERVER_ADMIN") //
                 .antMatchers("/JavaSource/**").hasRole("SERVER_ADMIN") //
                 .anyRequest().hasAnyRole("WEBGOAT_USER", "WEBGOAT_ADMIN", "SERVER_ADMIN");

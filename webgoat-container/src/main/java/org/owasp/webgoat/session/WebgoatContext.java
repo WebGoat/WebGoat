@@ -70,17 +70,19 @@ public class WebgoatContext {
      * @return The databaseConnectionString value
      */
     public String getDatabaseConnectionString() {
-        if (realConnectionString == null) {
-            try {
-                String path = servlet.getServletContext().getRealPath("/database").replace('\\', '/');
-                System.out.println("PATH: " + path);
-                realConnectionString = databaseConnectionString.replaceAll("PATH", path);
-                System.out.println("Database Connection String: " + realConnectionString);
-            } catch (Exception e) {
-                logger.error("Couldn't open database: check web.xml database parameters", e);
-            }
-        }
-        return realConnectionString;
+        return this.databaseConnectionString;
+//
+//        if (realConnectionString == null) {
+//            try {
+//                String path = servlet.getServletContext().getRealPath("/database").replace('\\', '/');
+//                System.out.println("PATH: " + path);
+//                realConnectionString = databaseConnectionString.replaceAll("PATH", path);
+//                System.out.println("Database Connection String: " + realConnectionString);
+//            } catch (Exception e) {
+//                logger.error("Couldn't open database: check web.xml database parameters", e);
+//            }
+//        }
+//        return realConnectionString;
     }
 
     /**

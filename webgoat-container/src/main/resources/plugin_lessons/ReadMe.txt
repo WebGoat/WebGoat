@@ -1,0 +1,1 @@
+Lesson plugins stored under this directory.

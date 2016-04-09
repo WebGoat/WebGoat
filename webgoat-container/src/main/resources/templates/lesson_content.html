@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div id="lessonInstructions" th:utext="${instructions}"></div>
-<div id="message" class="info" th:text="${message}"></div>
+<div id="message" class="info" th:utext="${message}"></div>
 <br/>
 <div th:utext="${lesson.content}"></div>
 </html>
