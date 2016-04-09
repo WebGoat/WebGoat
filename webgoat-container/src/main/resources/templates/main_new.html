@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Expires" CONTENT="0"/>
     <meta http-equiv="Pragma" CONTENT="no-cache"/>
@@ -61,17 +62,22 @@
                 <ul class="dropdown-menu dropdown-menu-left">
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="/login?logout">Logout</a></li>
                     <li role="presentation" class="divider"></li>
-                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: ${user}</a>
+                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: <span
+                            th:text="${#authentication.name}"></span></a>
                     </li>
-                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role: ${role}</a>
+                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Role:
+                        <span sec:authorize="hasRole('WEBGOAT_USER')">User</span>
+                        <span sec:authorize="hasRole('WEBGOAT_ADMIN')">Admin</span>
+                    </a>
                     </li>
                     <li role="presentation" class="divider"></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#developer-controls">Show developer
                         controls</a></li>
-                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">${version}</a>
+                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Version: <span
+                            th:text="${@environment.getProperty('webgoat.build.version')}"></span></a>
                     </li>
                     <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Build:
-                        ${build}</a></li>
+                        <span th:text="${@environment.getProperty('webgoat.build.number')}"></span></a></li>
 
                 </ul>
             </div>
@@ -152,12 +158,14 @@
                                         <h4>Params</h4>
                                     </div>
                                 </div>
-                                <div align="left">
-                                    <h3>Developer controls</h3>
-                                </div>
-                                <hr />
-                                <div id="developer-controls">
+                                <div id="developer-control-container">
+                                    <div align="left">
+                                        <h3>Developer controls</h3>
+                                    </div>
+                                    <hr/>
+                                    <div id="developer-controls">
 
+                                    </div>
                                 </div>
                             </div>
                         </div>

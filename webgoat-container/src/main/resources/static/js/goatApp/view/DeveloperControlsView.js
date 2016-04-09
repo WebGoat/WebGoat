@@ -11,7 +11,7 @@ function(
 	LabelDebugModel) {
 	return Backbone.View.extend({
 		el: '#developer-controls',
-	    
+
 	    onControlClick: function(model) {
 	    	$('#' + model.id).find('td').text('Loading...');
 	    	model.load();

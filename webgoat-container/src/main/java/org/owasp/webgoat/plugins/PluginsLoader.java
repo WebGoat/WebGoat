@@ -139,13 +139,9 @@ public class PluginsLoader {
 
         for (final URL jar : jars) {
             classLoader.addURL(jar);
-            extractorCallables.add(new Callable<Plugin>() {
-
-                @Override
-                public Plugin call() throws Exception {
-                    PluginExtractor extractor = new PluginExtractor();
-                    return extractor.extractJarFile(ResourceUtils.getFile(jar), pluginTarget.toFile(), classLoader);
-                }
+            extractorCallables.add(() -> {
+                PluginExtractor extractor = new PluginExtractor();
+                return extractor.extractJarFile(ResourceUtils.getFile(jar), pluginTarget.toFile(), classLoader);
             });
         }
         return extractorCallables;
