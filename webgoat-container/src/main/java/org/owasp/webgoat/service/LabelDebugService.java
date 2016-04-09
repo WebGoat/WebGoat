@@ -29,9 +29,6 @@
  */
 package org.owasp.webgoat.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.owasp.webgoat.session.LabelDebugger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +40,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>LabelDebugService class.</p>
@@ -73,7 +73,7 @@ public class LabelDebugService extends BaseService {
     ResponseEntity<Map<String, Object>> checkDebuggingStatus() {
         logger.debug("Checking label debugging, it is " + labelDebugger.isEnabled()); // FIXME parameterize
         Map<String, Object> result = createResponse(labelDebugger.isEnabled());
-        return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
       /**
@@ -88,7 +88,7 @@ public class LabelDebugService extends BaseService {
          logger.debug("Setting label debugging to " + labelDebugger.isEnabled()); // FIXME parameterize
          Map<String, Object> result = createResponse(enabled);
          labelDebugger.setEnabled(enabled);
-         return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+         return new ResponseEntity<>(result, HttpStatus.OK);
      }
 
     /**

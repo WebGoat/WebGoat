@@ -11,6 +11,7 @@ import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -249,7 +250,7 @@ public class HammerHead extends HttpServlet {
         logger.info("Initializing main webgoat servlet");
         httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyyy HH:mm:ss z", Locale.US);
         httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        propertiesPath = getServletContext().getRealPath("/WEB-INF/webgoat.properties");
+        propertiesPath = new ClassPathResource("/WEB-INF/webgoat.properties").getPath();
     }
 
     /**

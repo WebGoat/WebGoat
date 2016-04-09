@@ -24,7 +24,7 @@ function(
 	    onLabelsLoaded: function(model) {
 	    	this.models[1] = model;
 	    	this.render();
-	        Backbone.history.loadUrl(Backbone.history.getFragment());
+			this.trigger('dev:labels')
 	    },
 
 		initialize: function(options) {

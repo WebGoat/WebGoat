@@ -11,6 +11,7 @@ define(['jquery',
     'goatApp/view/CookieView',
     'goatApp/view/ParamView',
     'goatApp/model/ParamModel',
+    'goatApp/view/DeveloperControlsView',
     'goatApp/support/GoatUtils',
     'goatApp/view/UserAndInfoView',
     'goatApp/view/MenuButtonView',
@@ -32,6 +33,7 @@ define(['jquery',
         CookieView,
         ParamView,
         ParamModel,
+        DeveloperControlsView,
         GoatUtils,
         UserAndInfoView,
         MenuButtonView,
@@ -49,6 +51,7 @@ define(['jquery',
             this.lessonProgressModel = new LessonProgressModel();
             this.lessonProgressView = new LessonProgressView(this.lessonProgressModel);
             this.lessonView = options.lessonView;
+            this.developerControlsView = new DeveloperControlsView();
 
             _.extend(Controller.prototype,Backbone.Events);
 
@@ -103,6 +106,7 @@ define(['jquery',
                 this.listenTo(this.helpControlsView,'hints:show',this.onShowHints)
                 this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
+                this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
 
                 this.helpControlsView.render();
 
@@ -123,6 +127,7 @@ define(['jquery',
                     this.sourceView = new SourceView();
                     this.lessonHintView = new HintView();
                     this.cookieView = new CookieView();
+
 
                     //TODO: instantiate model with values (not sure why was not working before)
                     var paramModel = new ParamModel({});
