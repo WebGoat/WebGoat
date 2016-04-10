@@ -42,7 +42,7 @@
     <header id="header">
         <!--logo start-->
         <div class="brand">
-            <a href="${pageContext.request.contextPath}/welcome.mvc" class="logo"><span>Web</span>Goat</a>
+            <a th:href="@{/welcome.mvc}" class="logo"><span>Web</span>Goat</a>
         </div>
         <!--logo end-->
         <div class="toggle-navigation toggle-left">
@@ -60,7 +60,7 @@
                     <i class="fa fa-user"></i> <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-left">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/login?logout">Logout</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/login(logout)}">Logout</a></li>
                     <li role="presentation" class="divider"></li>
                     <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: <span
                             th:text="${#authentication.name}"></span></a>

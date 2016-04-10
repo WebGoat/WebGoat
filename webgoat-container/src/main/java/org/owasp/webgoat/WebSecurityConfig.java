@@ -24,13 +24,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         security.and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/welcome.mvc")
+                .defaultSuccessUrl("/welcome.mvc", true)
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll();
         security.and()
                 .logout()
                 .permitAll();
+
     }
 
     @Autowired
