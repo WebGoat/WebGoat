@@ -1,0 +1,365 @@
+!---------------------------------------------------------------------
+!
+! BASIC PROPERTIES
+!
+!---------------------------------------------------------------------
+
+!
+! Path where index tables are held. Can be absolute or relative 
+! to the properties file. Defaults to tablePath.
+!
+indexPath=./indexes
+!
+! Path where system tables are held. Can be absolute or relative to 
+! the properties file. Defaults to tablePath.
+!
+systemPath=./system
+!
+! Path where database tables are held. Can be absolute or relative 
+! to the properties file. Defaults to "current" directory.
+!
+tablePath=./tables
+!
+! Path where results set tables are held. Can be absolute or relative 
+! to the properties file. Defaults to tablePath.
+!
+tmpPath=./tmp
+!
+! Non-zero means paths are relative to the properties file. 
+! Default is absolute paths for files.
+!
+relativeToProperties=1
+!
+! Alternative partitions can be defined so that tables can be placed
+! in multiple locations. Each partition is numbered: 1, 2, 3,... Tables
+! can be created on partitions using the syntax 
+!
+!   CREATE TABLE <name> ON PARTITION <number>...
+!
+! The partition count has to be supplied.
+!
+!partitionCount=2
+!
+! The locations of each partition must be supplied. These are always
+! absolute path names.
+!
+!partition1=d:/petes
+!partition2=c:/temp
+
+
+!---------------------------------------------------------------------
+!
+! TUNING PROPERTIES
+!
+!---------------------------------------------------------------------
+
+!
+! The amount of each column to cache, expressed either as an absolute 
+! number of rows or as a percentage figure. Defaults to 256 or 10 respectively.
+!
+! This value applies only when tables are first created. It has no effect
+! when a table is being re-opened.
+!
+cacheAmount=512
+!
+! CACHE_ROWS Must be one of CACHE_ROWS or CACHE_PERCENT. Determines whether 
+! to cache columns in tables based on an absolute number of rows, or the 
+! percentage number of rows in the table. 
+!
+! This value applies only when tables are first created. It has no effect
+! when a table is being re-opened.
+!
+cacheCondition=CACHE_ROWS
+!
+! The amount of the system tables to be cached. Defaults to 100.
+!
+! This value applies only when tables are first created. It has no effect
+! when a table is being re-opened.
+!
+!systemCacheSize=10
+!
+! Similar to cacheCondition, but applies only to the system tables.
+!
+! This value applies only when tables are first created. It has no effect
+! when a table is being re-opened.
+!
+!systemCacheCondition=CACHE_ROWS
+!
+! The percentage cache hit improvement required in order to move the 
+! cache to a new location in a column. 
+!
+! (Currently not implemented).
+!
+cacheResetPercent=10
+!
+! Non-zero means that database changes do not get written to the 
+! database immediately. See tuning.html. 
+!
+fastUpdate=0
+!
+! Percentage of free space in an index that must be present before 
+! the index reorganises itself. High values means frequent index
+! reorganisation. Low values means slow index inserts.
+!
+indexLoad=5
+!
+! The number of cache misses to include in calculations of the next 
+! base for the cache. 
+!
+! (Currently not implemented).
+!
+missesInCacheStats=100
+!
+! Non-zero means that results sets get instantiated on disk. By default
+! InstantDB holds results sets emtirely in memory (apart from Binary
+! columns). For large results sets this can be a problem. This property
+! forces all results sets to be held on disk.
+!
+resultsOnDisk=0
+!
+! Similar to cacheCondition but applies only to disk based
+! results sets. Default is CACHE_ROWS.
+!
+resultsSetCache=CACHE_ROWS
+!
+! Similar to cacheAmount but applies only to disk based
+! results sets. Default is 100.
+!
+resultsSetCacheAmount=100
+!
+! Number of rows to read into the disk read ahead buffer. 
+! Recommended to be set somewhere around 128 to 256. 
+! Default is 20.
+!
+rowCacheSize=128
+!
+! The read ahead buffer is effective at speeding up full
+! table scans. However for indexed lookups or multiple
+! simultaneous scans it is better to read a single row at
+! a time. Each table holds a small number of single row
+! buffers to improve such operations. Default is 8.
+!
+!singleRowCount=4
+!
+! Sometimes the look ahead buffer can be held by a single
+! thread even though it is not retrieveing many values from it.
+! If too many lookups retrieve data from the single row
+! buffers then it is better to flush the look ahead buffer and
+! make it available for re-use. Default is 128.
+!
+!flushAfterCacheMisses=64
+!
+! Number of rows to read ahead for system tables. By default
+! system tables cache everything, so it is wasteful to have large
+! read ahead buffers since they will very rarely be used. This
+! allows the size of the system read ahead buffers to be reduced
+! if necessary. Defaults to rowCacheSize.
+!
+!systemRows=20
+!
+! The control column in all tables normally has a large cache
+! since this speeds up all operation on that table. This can be
+! varied to either improve performance or to reduce space.
+! default is 8192.
+!
+! This value applies only when tables are first created. It has no effect
+! when a table is being re-opened.
+!
+!controlColCacheSize=512
+!
+! By default, InstantDB only does a cursory search for deleted rows during 
+! UPDATE statements. Setting searchDeletes=1 causes more detailed searches 
+! for deleted rows. This slows down UPDATE executions, but reults in more 
+! compact tables.  Default is 0.
+!
+searchDeletes=0
+!
+! The interval, in milliseconds, between checks for statement execution
+! timeouts. Default is 5000.
+!
+!timerCheck=5000
+!
+! The number of statements between checks on available memory. If set
+! to 100 (say), then every 100 statements, InstantDB will check to
+! see how much memory is still free. If too little is avilable (see
+! below) then java.lang.System.gc() is called.
+!
+! If set to zero (the default) then no memory checking takes place.
+!
+!garbageCollectStatements=100
+!
+! If InstantDB is performing period memory checks (see above) then
+! this is the value in percent of available memory that must be
+! used before System.gc() gets called.
+!
+!garbageCollectPercent=70
+
+!---------------------------------------------------------------------
+!
+! LOGGING AND DEBUGGING PROPERTIES
+!
+!---------------------------------------------------------------------
+
+!
+! Non-zero means include SQL statements in the export file. 
+!
+exportSQL=0
+!
+! Non-zero means trace output also directed to console. 
+! Defaults to 0.
+!
+traceConsole=1
+!
+! Relative or absolute path where exporting and tracing goes.
+!
+! NOTE - A relative path is relative to the current Java
+! runtime directory. It is *not* relative to this properties
+! file. This is regardless of the relativeToProperties
+! setting above.
+!
+traceFile=./trace.log
+!
+! Bitmap of various items that can be traced. See debug.html. 
+! Defaults to 0.
+!
+traceLevel=2
+
+!---------------------------------------------------------------------
+!
+! TRANSACTION AND RECOVERY PROPERTIES
+!
+!---------------------------------------------------------------------
+
+!
+! 0 means do not perform recovery on startup.
+! 1 means perform automatic recovery
+! 2 (default) means prompt the user using standard in 
+!
+recoveryPolicy=1
+!
+! Sets the level of transaction journalling. See trans.html.
+! Defaults to 1.
+!
+! 0 - No journalling takes place.
+! 1 - Normal journalling (default).
+! 2 - Full journalling.
+!
+transLevel=1
+!
+! When doing an import, defines the number of rows imported 
+! before the transaction is committed. Recommended value 8192.
+! defaults to 100.
+!
+transImports=100
+!
+! Sets the default transaction isolation level. This is a complex
+! topic, but basically, the higher the level, the more locking
+! goes on. The allowed values are:
+!
+!   TRANSACTION_READ_UNCOMMITTED = 1
+!   TRANSACTION_READ_COMMITTED   = 2
+!   TRANSACTION_REPEATABLE_READ  = 4
+!   TRANSACTION_SERIALIZABLE     = 8 (default)
+!
+! SERIALIZABLE means that InstantDB takes exclusive access to all
+! tables in a transaction until the transaction completes. Even if
+! the transaction only performs reads.
+!
+! REPEATABLE_READ transactions takes read locks for SELECTs and
+! write locks for everything else. All locks released on transaction
+! completion.
+!
+! READ_COMMITTED transactions are the same as REPEATABLE_READ 
+! except that read locks get freed on statement completion.
+!
+! READ_UNCOMMITTED transactions do not take read locks. A result
+! set can include data being modified by another transaction.
+!
+!defaultIsolationLevel=2
+
+!---------------------------------------------------------------------
+!
+! DATE, TIME AND CURRENCY PROPERTIES
+!
+!---------------------------------------------------------------------
+
+!
+! Number of digits after decimal point in currency outputs. Defaults to 2.
+!
+currencyDecimal=2
+!
+! Currency symbol used in currency outputs. Defaults to $.
+!
+currencySymbol=$
+!
+! Default format for date columns. Defaults to "yyyy-mm-dd".
+!
+!dateFormat=yyyy-mm-dd
+!
+! Default format for timestamp columns. Defaults to "yyyy-mm-dd hh:nn:ss.lll".
+!
+!dateTimeFormat=yyyy-mm-dd hh:nn:ss.lll
+!
+! Default format for time columns. Defaults to "hh:nn:ss.lll".
+!
+!timeFormat=hh:nn:ss.lll
+!
+! If set, then all two digit dates less than its value are interpreted 
+! as 21st century dates. 
+!
+!milleniumBoundary=50
+!
+! Set to 1 causes the date string "now" to store a full timestamp. 
+! Default is to store only the date for fields with now hour in the 
+! format string.
+!
+nowMeansTime=0
+
+!---------------------------------------------------------------------
+!
+! STRING HANDLING PROPERTIES
+!
+!---------------------------------------------------------------------
+
+!
+! If set to 1 then String hashes use the JDK Object.hashCode() function.
+! By default, uses InstantDB's String hashing.
+!
+altStringHashing=0
+!
+! Set to 1 to cause LIKE clauses to always perform case insensitive 
+! comparisons. 
+!
+likeIgnoreCase=0
+!
+! Same as SET LITERAL STRICT_ON. Prevents string literals being interpreted
+! as column names or numbers. Default is 0.
+!
+strictLiterals=0
+!
+! Set this value to 1 (one) if you would like PreparedStatement.setString()
+! to ignore "\" (backslash) characters when proceesing string constants.
+! When set, InstantDB will not attempt to interpret \ as the start of an
+! escape sequence. Default is 0.
+!
+!prepareIgnoresEscapes=1
+
+!---------------------------------------------------------------------
+!
+! MISCELLANEOUS PROPERTIES
+!
+!---------------------------------------------------------------------
+
+!
+! Allows selected InstantDB keywords to be un-reserved. 
+! e.g. ignoreKeywords=url,quote would allow the keywords 
+! url and quote to be used as table or column names. 
+!
+! This faciliy is provided for compatatbility reasons only.
+! It's use is not recommended AND IS NOT SUPPORTED.
+!
+!ignoreKeywords
+!
+! Non-zero means database is opened in read only mode.
+!
+readOnly=0

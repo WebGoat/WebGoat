@@ -44,15 +44,15 @@ first thing that all hackers claim.*
 # Easy Run ( For non-developers )
 
 Every successful build of the WebGoat Lessons Container and the WebGoat Lessons in our Continuous Integration Server
-creates an "Easy Run" Executable JAR file, which contains the WebGoat Lessons Server, the lessons and a embedded Tomcat server.
+creates an "Easy Run" Executable WAR file, which contains the WebGoat Lessons Server, the lessons and a embedded Tomcat server.
 
-You can check for the "Last Modified" date of our "Easy Run" jar file [HERE](http://webgoat-war.s3-website-us-east-1.amazonaws.com/)
+You can check for the "Last Modified" date of our "Easy Run" war file [HERE](http://webgoat-war.s3-website-us-east-1.amazonaws.com/)
 
 The "Easy Run" JAR file offers a no hassle approach to testing and running WebGoat. Follow these instructions if you
 wish to simply try/test/run the current development version of WebGoat
 
 ### Prerequisites:
-* Java VM >= 1.6 installed ( JDK 1.7 recommended)
+* Java VM 1.8 installed
 
 ## Easy Run Instructions:
 
@@ -65,7 +65,7 @@ https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0.1-war-exec.jar
 Open a command shell/window, browse to where you downloaded the easy run jar and type:
 
 ```Shell
-java -jar webgoat-container-7.0.1-war-exec.jar
+java -jar webgoat-container-7.0.1.war
 ```
 
 #### 3. Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
@@ -82,8 +82,8 @@ Follow these instructions if you wish to run Webgoat and modify the source code 
 
 ### Prerequisites:
 
-* Java >= 1.6 ( JDK 1.7 recommended )
-* Maven > 2.0.9
+* Java 8
+* Maven > 3.2.1
 * Your favorite IDE, with Maven awareness: Netbeans/IntelliJ/Eclipse with m2e installed.
 * Git, or Git support in your IDE
 
@@ -136,19 +136,19 @@ The __maven tomcat7:run-war__ goal runs the project in an embedded tomcat:
 
 ```Shell
 cd WebGoat
-mvn -pl webgoat-container tomcat7:run-war
+mvn -pl webgoat-container spring-boot:run
 ```
 
 Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
 #### Option #2: Java executable JAR
-The __maven package__ goal generates an executable .jar file:
+The __maven install__ goal generates an executable .war file:
 
 ```Shell
 cd WebGoat
 mvn package
 cd webgoat-container/target
-java -jar webgoat-container-7.1-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
+java -jar webgoat-container-7.1-SNAPSHOT.war
 ```
 
 Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
@@ -168,18 +168,10 @@ Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and hap
 
 ## Reloading plugins and lessons
 
-If you want to __reload all the plugin and lessons__, open a new browser tab and visit the following url:
-
-[http://localhost:8080/WebGoat/service/reloadplugins.mvc](http://localhost:8080/WebGoat/service/reloadplugins.mvc)
-
-After the plugin reload is complete, _reloading a message_ will appear and you can refresh the __main WebGoat browser tab__.
+If you want to __reload all the plugin and lessons__, open up the developer tools available from the info menu. This will
+show an extra set of links below the cookie overview.
 
 ## Debugging label properties
 
-To be able to see which labels are loaded through a property file, open a new browser tab and visit the following url:
-
-[http://localhost:8080/WebGoat/service/debug/labels.mvc](http://localhost:8080/WebGoat/service/debug/labels.mvc)
-
-Switch back to the main WebGoat broswer tab and __reload the main WebGoat browser tab__.
-
-After the reload is complete, all labels which where loaded from a property file will be __marked green__.
+To be able to see which labels are loaded through a property file, open up the developer tools avalailable from the info menu
+After the reload is complete, all labels which are loaded from a property file will be __marked green__.

@@ -39,7 +39,7 @@
                             <attachArtifactClassifier>exec</attachArtifactClassifier>
                             <contextReloadable>true</contextReloadable>
                             <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
-                            <contextFile>${project.basedir}/src/main/webapp/WEB-INF/context.xml</contextFile>
+                            <contextFile>${project.basedir}/src/main/old/WEB-INF/context.xml</contextFile>
                         </configuration>
                         <dependencies>
                             <dependency>
@@ -149,77 +149,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven-war-plugin.version}</version>
-                <configuration>
-                    <!--  archiving the classes breaks the admin screen loads in course.java
-                          the legacy lesson loader does not look in jar files for lessons  -->
-                    <archiveClasses>false</archiveClasses>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Specification-Title>${project.name}</Specification-Title>
-                            <Specification-Version>${project.version}</Specification-Version>
-                            <Implementation-Version>${build.number}</Implementation-Version>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${build-helper-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>attach-artifacts</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>${project.build.directory}/webgoat-container-${project.version}.jar</file>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.3-SNAPSHOT</version>
-                <configuration>
-                    <server>local_tomcat</server>
-                    <url>http://localhost:8080/manager/text</url>
-                    <path>/WebGoat</path>
-                    <attachArtifactClassifier>exec</attachArtifactClassifier>
-                    <contextReloadable>true</contextReloadable>
-                    <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
-                    <contextFile>${project.basedir}/src/main/webapp/WEB-INF/context.xml</contextFile>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.owasp.webgoat</groupId>
-                        <artifactId>webgoat-container</artifactId>
-                        <version>${project.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>tomcat-run</id>
-                        <goals>
-                            <goal>exec-war-only</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
@@ -277,11 +206,6 @@
             <version>2.1.2.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>org.xeustechnologies</groupId>
-            <artifactId>jcl-core</artifactId>
-            <version>2.7</version>
-        </dependency>
-        <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
             <version>${activation.version}</version>
@@ -312,52 +236,6 @@
             <version>${axis-ant.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons-io.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>${commons-collections.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-digester</groupId>
-            <artifactId>commons-digester</artifactId>
-            <version>${commons-digester.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>xml-apis</groupId>
-                    <artifactId>xml-apis</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>commons-logging</groupId>-->
-            <!--<artifactId>commons-logging</artifactId>-->
-            <!--<version>${commons-logging.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>jcl-over-slf4j</artifactId>-->
-            <!--<version>${jcl-over-slf4j.version}</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>commons-discovery</groupId>
-            <artifactId>commons-discovery</artifactId>
-            <version>${commons-discovery.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>javax.mail-api</artifactId>
-            <version>${mail-api.version}</version>
-        </dependency>
-        <dependency>
             <groupId>hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>${hsqldb.version}</version>
@@ -368,11 +246,6 @@
             <version>${wsdl4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>java2html</groupId>
-            <artifactId>j2h</artifactId>
-            <version>${j2h.version}</version>
-        </dependency>
-        <dependency>
             <groupId>ecs</groupId>
             <artifactId>ecs</artifactId>
             <version>${ecs.version}</version>
@@ -381,39 +254,6 @@
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
             <version>${javax.transaction-api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.jtds</groupId>
-            <artifactId>jtds</artifactId>
-            <version>${jtds.version}</version>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.apache.tomcat</groupId>-->
-            <!--<artifactId>tomcat-catalina</artifactId>-->
-            <!--<version>${tomcat-catalina.version}</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-
-
-        <!-- ************* spring MVC and related dependencies ************** -->
-
-        <!-- servlet API -->
-        <!--<dependency>-->
-            <!--<groupId>javax</groupId>-->
-            <!--<artifactId>javaee-api</artifactId>-->
-            <!--<version>${javaee-api.version}</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-
-
-        <!-- Jackson -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
         </dependency>
 
         <!-- Apache Commons Upload -->
@@ -429,56 +269,7 @@
             <version>${guava.version}</version>
         </dependency>
 
-        <!-- JSTL -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>${jstl.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>${standard.version}</version>
-        </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>log4j</groupId>-->
-            <!--<artifactId>log4j</artifactId>-->
-            <!--<version>${log4j.version}</version>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>javax.jms</groupId>-->
-                    <!--<artifactId>jms</artifactId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<groupId>com.sun.jdmk</groupId>-->
-                    <!--<artifactId>jmxtools</artifactId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<groupId>com.sun.jmx</groupId>-->
-                    <!--<artifactId>jmxri</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>org.apache.tiles</groupId>
-            <artifactId>tiles-core</artifactId>
-            <version>${tiles.version}</version>
-            <type>jar</type>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>slf4j-api</artifactId>-->
-            <!--<version>${slf4j-api.version}</version>-->
-            <!--<type>jar</type>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>slf4j-log4j12</artifactId>-->
-            <!--<version>${slf4j-log4j12.version}</version>-->
-            <!--<type>jar</type>-->
-        <!--</dependency>-->
         <!-- ************* END spring MVC and related dependencies ************** -->
         <!-- ************* START: Dependencies for Unit and Integration Testing ************** -->
         <dependency>

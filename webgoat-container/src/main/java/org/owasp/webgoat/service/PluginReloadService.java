@@ -69,7 +69,7 @@ public class PluginReloadService extends BaseService {
         String pluginPath = session.getServletContext().getRealPath("plugin_lessons");
         String targetPath = session.getServletContext().getRealPath("plugin_extracted");
         //new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).copyJars();
-        webSession.getCourse().loadLessonFromPlugin(session.getServletContext());
+        webSession.getCourse().loadLessonFromPlugin();
 
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", true);

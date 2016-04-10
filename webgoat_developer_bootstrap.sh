@@ -164,7 +164,7 @@ developer_bootstrap() {
     horizontal_rule
     echo "$COL_MAGENTA"
     echo "$COL_CYAN ***** Starting WebGoat using the embedded Tomcat ***** $COL_RESET"
-    echo " Please be patient.... The startup of the server can take from 30s to 3 minutes."
+    echo " Please be patient.... The startup of the server takes about 5 seconds..."
     echo " WebGoat will be ready for you when you see the following message on the command prompt:"
     echo "$COL_YELLOW INFO: Starting ProtocolHandler ["http-bio-8080"] $COL_RESET"
     echo "$COL_CYAN When you see the message above, open a web browser and navigate to http://localhost:8080/WebGoat/ $COL_RESET"
@@ -179,7 +179,7 @@ developer_bootstrap() {
     sleep 5
 
     # Starting WebGoat
-    mvn -q -DskipTests -file WebGoat/pom.xml -pl webgoat-container tomcat7:run-war
+    mvn -q -pl webgoat-container spring-boot:run
 }
 
 # Start main script

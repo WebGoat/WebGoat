@@ -321,10 +321,8 @@ public class Course {
 
     /**
      * <p>loadLessonFromPlugin.</p>
-     *
-     * @param context a {@link javax.servlet.ServletContext} object.
      */
-    public void loadLessonFromPlugin(ServletContext context) {
+    public void loadLessonFromPlugin() {
         Resource resource = new ClassPathResource("/plugin_lessons/plugin_lessons_marker.txt");
         String pluginPath = null;
         String targetPath = null;
@@ -380,7 +378,7 @@ public class Course {
     public void loadCourses(WebgoatContext webgoatContext, ServletContext context, String path) {
         logger.info("Loading courses: " + path);
         this.webgoatContext = webgoatContext;
-        loadLessonFromPlugin(context);
+        loadLessonFromPlugin();
         LegacyLoader loader = new LegacyLoader();
         lessons.addAll(loader.loadLessons(webgoatContext, context, path, properties));        
     }
