@@ -1,20 +1,14 @@
 package org.owasp.webgoat.session;
 
-import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.plugins.LegacyLoader;
 import org.owasp.webgoat.plugins.Plugin;
-import org.owasp.webgoat.plugins.PluginsLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 import javax.servlet.ServletContext;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -56,9 +50,7 @@ public class Course {
 
     final Logger logger = LoggerFactory.getLogger(Course.class);
 
-    private List<AbstractLesson> lessons = new LinkedList<AbstractLesson>();
-
-    private final static String PROPERTIES_FILENAME = HammerHead.propertiesPath;
+    private List<AbstractLesson> lessons = new LinkedList<>();
 
     private WebgoatProperties properties = null;
 
@@ -67,12 +59,8 @@ public class Course {
     /**
      * <p>Constructor for Course.</p>
      */
-    public Course() {
-        try {
-            properties = new WebgoatProperties(PROPERTIES_FILENAME);
-        } catch (IOException e) {
-            logger.error("Error loading webgoat properties", e);
-        }
+    public Course(WebgoatProperties properties) {
+        this.properties = properties;
     }
 
     /**
@@ -322,28 +310,7 @@ public class Course {
     /**
      * <p>loadLessonFromPlugin.</p>
      */
-    public void loadLessonFromPlugin() {
-        Resource resource = new ClassPathResource("/plugin_lessons/plugin_lessons_marker.txt");
-        String pluginPath = null;
-        String targetPath = null;
-        try {
-            pluginPath = resource.getFile().getParent();
-            targetPath = pluginPath;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        logger.debug("Loading plugins into cache");
-        //String pluginPath = context.getRealPath("plugin_lessons");
-        //String targetPath = context.getRealPath("plugin_extracted");
-
-        if (pluginPath == null) {
-            logger.error("Plugins directory {} not found", pluginPath);
-            return;
-        }
-        lessons.clear();
-        List<Plugin> plugins = new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins();
+    public void loadLessonFromPlugin(List<Plugin> plugins) {
         for (Plugin plugin : plugins) {
             try {
                 AbstractLesson lesson = plugin.getLesson().get();
@@ -378,7 +345,6 @@ public class Course {
     public void loadCourses(WebgoatContext webgoatContext, ServletContext context, String path) {
         logger.info("Loading courses: " + path);
         this.webgoatContext = webgoatContext;
-        loadLessonFromPlugin();
         LegacyLoader loader = new LegacyLoader();
         lessons.addAll(loader.loadLessons(webgoatContext, context, path, properties));        
     }

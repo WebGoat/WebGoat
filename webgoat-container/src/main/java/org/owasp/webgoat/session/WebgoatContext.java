@@ -1,11 +1,7 @@
 package org.owasp.webgoat.session;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-
-import javax.servlet.http.HttpServlet;
 
 /**
  * <p>WebgoatContext class.</p>
@@ -15,11 +11,6 @@ import javax.servlet.http.HttpServlet;
  */
 @Configuration
 public class WebgoatContext {
-
-    final Logger logger = LoggerFactory.getLogger(WebgoatContext.class);
-
-    /** Constant <code>DEFAULTLANGUAGE="DefaultLanguage"</code> */
-    public final static String DEFAULTLANGUAGE = "DefaultLanguage";
 
     @Value("${webgoat.database.connection.string}")
     private String databaseConnectionString;
@@ -55,13 +46,8 @@ public class WebgoatContext {
 
     private boolean isDebug = false;
 
-    private String servletName;
-
-    private HttpServlet servlet;
-
+    @Value("${webgoat.default.language}")
     private String defaultLanguage;
-
-    private java.nio.file.Path pluginDirectory;
 
     /**
      * returns the connection string with the real path to the database
@@ -71,18 +57,6 @@ public class WebgoatContext {
      */
     public String getDatabaseConnectionString() {
         return this.databaseConnectionString;
-//
-//        if (realConnectionString == null) {
-//            try {
-//                String path = servlet.getServletContext().getRealPath("/database").replace('\\', '/');
-//                System.out.println("PATH: " + path);
-//                realConnectionString = databaseConnectionString.replaceAll("PATH", path);
-//                System.out.println("Database Connection String: " + realConnectionString);
-//            } catch (Exception e) {
-//                logger.error("Couldn't open database: check web.xml database parameters", e);
-//            }
-//        }
-//        return realConnectionString;
     }
 
     /**
@@ -155,15 +129,6 @@ public class WebgoatContext {
      */
     public boolean isDebug() {
         return isDebug;
-    }
-
-    /**
-     * <p>Getter for the field <code>servletName</code>.</p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String getServletName() {
-        return servletName;
     }
 
     /**

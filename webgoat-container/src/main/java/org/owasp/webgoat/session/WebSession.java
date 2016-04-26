@@ -9,6 +9,7 @@ import org.owasp.webgoat.util.BeanProvider;
 import org.owasp.webgoat.util.LabelManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -238,7 +239,8 @@ public class WebSession {
      * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
      * @param context Description of the Parameter
      */
-    public WebSession(WebgoatContext webgoatContext, ServletContext context) {
+    @Autowired
+    public WebSession(Course course, WebgoatContext webgoatContext, ServletContext context) {
         this.webgoatContext = webgoatContext;
         // initialize from web.xml
         showParams = webgoatContext.isShowParams();
@@ -248,9 +250,8 @@ public class WebSession {
         showRequest = webgoatContext.isShowRequest();
         currentLanguage = webgoatContext.getDefaultLanguage();
         this.context = context;
+        this.course = course;
 
-        course = new Course();
-        course.loadCourses(webgoatContext, context, "/");
     }
 
     /**
@@ -406,15 +407,6 @@ public class WebSession {
      */
     public void setCurrentScreen(int screen) {
         currentScreen = screen;
-    }
-
-    /**
-     * <p> getRestartLink. </p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String getRestartLink() {
-        return getCurrentLesson().getLink() + "&" + RESTART + "=" + getCurrentScreen();
     }
 
     /**
@@ -1035,7 +1027,7 @@ public class WebSession {
     /**
      * Updates the stage for a RandomLessonAdapter
      *
-     * @param al
+     * @param rla
      */
     private void updateRlaStage(RandomLessonAdapter rla) {
         try {
@@ -1062,7 +1054,7 @@ public class WebSession {
     /**
      * Updates the stage for a SequentialLessonAdapter
      *
-     * @param al
+     * @param sla
      */
     private void updateSlaStage(SequentialLessonAdapter sla) {
         int stage = myParser.getIntParameter(STAGE, sla.getStage(this));

@@ -2,11 +2,9 @@ package org.owasp.webgoat.session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-
-import java.io.IOException;
-import java.util.Properties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 /**
  * *************************************************************************************************
@@ -39,7 +37,11 @@ import java.util.Properties;
  * @version $Id: $Id
  * @author dm
  */
-public class WebgoatProperties extends Properties {
+@Component
+public class WebgoatProperties {
+
+    @Autowired
+    private Environment env;
 
     /**
      *
@@ -47,25 +49,6 @@ public class WebgoatProperties extends Properties {
     private static final long serialVersionUID = 4351681705558227918L;
     final Logger logger = LoggerFactory.getLogger(WebgoatProperties.class);
 
-    /**
-     * <p>Constructor for WebgoatProperties.</p>
-     *
-     * @param propertiesFileName a {@link java.lang.String} object.
-     * @throws java.io.IOException if any.
-     */
-    public WebgoatProperties(String propertiesFileName) throws IOException {
-        if (propertiesFileName == null) {
-            throw new IOException("Path to webgoat.properties is null, initialization must have failed");
-        }
-
-//        File propertiesFile = new File(propertiesFileName);
-//        if (propertiesFile.exists() == false) {
-//            throw new IOException("Unable to locate webgoat.properties at: " + propertiesFileName);
-//        }
-        Resource resource = new ClassPathResource("/webgoat.properties");
-        //FileInputStream in = new FileInputStream(propertiesFile);
-        load(resource.getInputStream());
-    }
 
     /**
      * <p>getIntProperty.</p>
@@ -77,7 +60,7 @@ public class WebgoatProperties extends Properties {
     public int getIntProperty(String key, int defaultValue) {
         int value = defaultValue;
 
-        String s = getProperty(key);
+        String s = env.getProperty(key);
         if (s != null) {
             value = Integer.parseInt(s);
         }
@@ -96,7 +79,7 @@ public class WebgoatProperties extends Properties {
         boolean value = defaultValue;
         key = this.trimLesson(key);
 
-        String s = getProperty(key);
+        String s = env.getProperty(key);
         if (s != null) {
             if (s.equalsIgnoreCase("true")) {
                 value = true;
@@ -127,21 +110,4 @@ public class WebgoatProperties extends Properties {
 
         return result;
     }
-
-    /**
-     * <p>main.</p>
-     *
-     * @param args an array of {@link java.lang.String} objects.
-     */
-    public static void main(String[] args) {
-        WebgoatProperties properties = null;
-        try {
-            properties = new WebgoatProperties("C:\\webgoat.properties");
-        } catch (IOException e) {
-            System.out.println("Error loading properties");
-            e.printStackTrace();
-        }
-        System.out.println(properties.getProperty("CommandInjection.category"));
-    }
-
 }

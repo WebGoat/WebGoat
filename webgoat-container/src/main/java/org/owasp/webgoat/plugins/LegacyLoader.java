@@ -150,7 +150,7 @@ public class LegacyLoader {
     public void loadFiles(ServletContext context, String path) {
         logger.debug("Loading files into cache, path: " + path);
         Resource resource = new ClassPathResource("/");
-
+        //resource.get
         Set resourcePaths = null;
         if (resourcePaths == null) {
             logger.error("Unable to load file cache for courses, this is probably a bug or configuration issue");
@@ -216,7 +216,7 @@ public class LegacyLoader {
                    // logger.error("Error in loadLessons: ", e);
                 }
         }
-      //  loadResources(lessons);
+        loadResources(lessons);
         return lessons;
     }
 

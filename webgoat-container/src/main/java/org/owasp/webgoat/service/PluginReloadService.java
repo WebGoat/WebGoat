@@ -68,8 +68,9 @@ public class PluginReloadService extends BaseService {
         logger.debug("Loading plugins into cache");
         String pluginPath = session.getServletContext().getRealPath("plugin_lessons");
         String targetPath = session.getServletContext().getRealPath("plugin_extracted");
+        //TODO fix me
         //new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).copyJars();
-        webSession.getCourse().loadLessonFromPlugin();
+        //webSession.getCourse().loadLessonFromPlugin();
 
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", true);

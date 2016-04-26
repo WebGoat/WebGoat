@@ -164,15 +164,11 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         setRanking(new Integer(properties.getIntProperty("lesson." + className + ".ranking", getDefaultRanking()
                 .intValue())));
         String categoryRankingKey = "category." + getDefaultCategory().getName() + ".ranking";
-        // System.out.println("Category ranking key: " + categoryRankingKey);
         Category tempCategory = Category.getCategory(getDefaultCategory().getName());
         tempCategory.setRanking(new Integer(properties.getIntProperty(categoryRankingKey, getDefaultCategory()
                 .getRanking().intValue())));
         category = tempCategory;
         setHidden(properties.getBooleanProperty("lesson." + className + ".hidden", getDefaultHidden()));
-        // System.out.println(className + " in " + tempCategory.getName() + "
-        // (Category Ranking: " + tempCategory.getRanking() + " Lesson ranking:
-        // " + getRanking() + ", hidden:" + hidden +")");
     }
 
     /**

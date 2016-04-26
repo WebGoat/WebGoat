@@ -52,8 +52,6 @@ public class Plugin {
 
     private void findLesson(String name) {
         String realClassName = StringUtils.trimLeadingCharacter(name, '/').replaceAll("/", ".").replaceAll(".class", "");
-        //TODO should be passed in (refactor)
-        //TomcatEmbeddedWebappClassLoader cl = (TomcatEmbeddedWebappClassLoader) Thread.currentThread().getContextClassLoader();
 
         try {
             Class clazz = classLoader.loadClass(realClassName);
@@ -95,19 +93,18 @@ public class Plugin {
     public void rewritePaths(Path pluginTarget) {
         try {
             replaceInFiles(this.lesson.getSimpleName() + "_files",
-                    pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
+                    "plugin_lessons/plugin/" + this.lesson
                             .getSimpleName() + "/lessonSolutions/en/" + this.lesson.getSimpleName() + "_files",
                     solutionLanguageFiles.values());
             replaceInFiles(this.lesson.getSimpleName() + "_files",
-                    pluginTarget.getFileName().toString() + "/plugin/" + this.lesson
+                    "plugin_lessons/plugin/" + this.lesson
                             .getSimpleName() + "/lessonPlans/en/" + this.lesson.getSimpleName() + "_files",
                     lessonPlansLanguageFiles.values());
 
             String[] replacements = {"jsp", "js"};
             for (String replacement : replacements) {
                 String s = String.format("plugin/%s/%s/", this.lesson.getSimpleName(), replacement);
-                String r = String.format("%s/plugin/%s/%s/", pluginTarget.getFileName().toString(),
-                        this.lesson.getSimpleName(), replacement);
+                String r = String.format("plugin_lessons/plugin/s/%s/", this.lesson.getSimpleName(), replacement);
                 replaceInFiles(s, r, pluginFiles);
                 replaceInFiles(s, r, Arrays.asList(lessonSourceFile));
             }
@@ -115,7 +112,7 @@ public class Plugin {
             //CSS with url('/plugin/images') should not begin with / otherwise image cannot be found
             String s = String.format("/plugin/%s/images/", this.lesson.getSimpleName());
             String r = String
-                    .format("%s/plugin/%s/images/", pluginTarget.getFileName().toString(), this.lesson.getSimpleName());
+                    .format("plugin_lessons/plugin/%s/images/", this.lesson.getSimpleName());
             replaceInFiles(s, r, pluginFiles);
             replaceInFiles(s, r, Arrays.asList(lessonSourceFile));
         } catch (IOException e) {

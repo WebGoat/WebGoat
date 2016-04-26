@@ -6,7 +6,6 @@
 package org.owasp.webgoat.application;
 
 import org.owasp.webgoat.lessons.LessonServletMapping;
-import org.owasp.webgoat.plugins.PluginsLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -17,16 +16,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletRegistration;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Set;
-import java.util.jar.Attributes;
-import java.util.jar.Manifest;
 
 /**
  * Web application lifecycle listener.
@@ -43,10 +37,7 @@ public class WebGoatServletListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
         context.log("WebGoat is starting");
-        setApplicationVariables(context);
         context.log("Adding extra mappings for lessions");
-
-        loadPlugins(sce);
         loadServlets(sce);
     }
 
@@ -66,12 +57,6 @@ public class WebGoatServletListener implements ServletContextListener {
         } catch (Exception e) {
             logger.error("Error", e);
         }
-    }
-
-    private void loadPlugins(ServletContextEvent sce) {
-        String pluginPath = sce.getServletContext().getRealPath("plugin_lessons");
-        String targetPath = sce.getServletContext().getRealPath("plugin_extracted");
-        new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).loadPlugins();
     }
 
     /** {@inheritDoc} */
@@ -99,23 +84,6 @@ public class WebGoatServletListener implements ServletContextListener {
                 // driver was not registered by the webapp's ClassLoader and may be in use elsewhere
                 context.log("Not unregistering JDBC driver {} as it does not belong to this webapp's ClassLoader");
             }
-        }
-    }
-
-    private void setApplicationVariables(ServletContext context) {
-        Application app = Application.getInstance();
-        try {
-            InputStream inputStream = context.getResourceAsStream("/META-INF/MANIFEST.MF");
-            Manifest manifest = new Manifest(inputStream);
-            Attributes attr = manifest.getMainAttributes();
-            String name = attr.getValue("Specification-Title");
-            String version = attr.getValue("Specification-Version");
-            String build = attr.getValue("Implementation-Version");
-            app.setName(name);
-            app.setVersion(version);
-            app.setBuild(build);
-        } catch (IOException ioe) {
-            context.log("Error setting application variables", ioe);
         }
     }
 }

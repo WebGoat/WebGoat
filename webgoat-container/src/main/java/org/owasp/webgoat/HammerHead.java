@@ -8,10 +8,8 @@ import org.owasp.webgoat.session.ErrorScreen;
 import org.owasp.webgoat.session.Screen;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.session.WebgoatContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -62,42 +60,18 @@ import java.util.TimeZone;
  */
 public class HammerHead extends HttpServlet {
 
-    final Logger logger = LoggerFactory.getLogger(HammerHead.class);
-
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 645640331343188020L;
+    private static SimpleDateFormat httpDateFormat;
+    private final Logger logger = LoggerFactory.getLogger(HammerHead.class);
+    private WebSession webSession;
 
-    /**
-     * Description of the Field
-     */
-    protected static SimpleDateFormat httpDateFormat;
-
-    /**
-     * Set the session timeout to be 2 days
-     */
-    private final static int sessionTimeoutSeconds = 60 * 60 * 24 * 2;
-
-    // private final static int sessionTimeoutSeconds = 1;
-    /**
-     * Properties file path
-     */
-    public static String propertiesPath = null;
-
-    /**
-     * provides convenience methods for getting setup information from the
-     * ServletContext
-     */
-    private WebgoatContext webgoatContext = null;
-
-    public HammerHead(WebgoatContext context) {
-        this.webgoatContext = context;
+    public HammerHead() {
+        //for catcher subclass
     }
 
-    //TODO_NB
-    public HammerHead() {}
+    public HammerHead(WebSession webSession) {
+        this.webSession = webSession;
+    }
 
     /**
      * {@inheritDoc}
@@ -250,7 +224,6 @@ public class HammerHead extends HttpServlet {
         logger.info("Initializing main webgoat servlet");
         httpDateFormat = new SimpleDateFormat("EEE, dd MMM yyyyy HH:mm:ss z", Locale.US);
         httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        propertiesPath = new ClassPathResource("/WEB-INF/webgoat.properties").getPath();
     }
 
     /**
@@ -349,25 +322,6 @@ public class HammerHead extends HttpServlet {
     }
 
     /**
-     * This method sets the required expiration headers in the response for a
-     * given RunData object. This method attempts to set all relevant headers,
-     * both for HTTP 1.0 and HTTP 1.1.
-     *
-     * @param response The new cacheHeaders value
-     * @param expiry The new cacheHeaders value
-     */
-    protected static void setCacheHeaders(HttpServletResponse response, int expiry) {
-        if (expiry == 0) {
-            response.setHeader("Pragma", "no-cache");
-            response.setHeader("Cache-Control", "no-cache");
-            response.setHeader("Expires", formatHttpDate(new Date()));
-        } else {
-            Date expiryDate = new Date(System.currentTimeMillis() + expiry);
-            response.setHeader("Expires", formatHttpDate(expiryDate));
-        }
-    }
-
-    /**
      * Description of the Method
      *
      * @param request Description of the Parameter
@@ -382,10 +336,11 @@ public class HammerHead extends HttpServlet {
         // session should already be created by spring security
         hs = request.getSession(false);
 
+        //TODO rewrite this logic
         logger.debug("HH Entering Session_id: " + hs.getId());
         // dumpSession( hs );
         // Get our session object out of the HTTP session
-        WebSession session = null;
+        WebSession session = this.webSession;
         Object o = hs.getAttribute(WebSession.SESSION);
 
         if ((o != null) && o instanceof WebSession) {
@@ -394,13 +349,11 @@ public class HammerHead extends HttpServlet {
         } else {
             // Create new custom session and save it in the HTTP session
             logger.warn("HH Creating new WebSession");
-            session = new WebSession(webgoatContext, context);
             // Ensure splash screen shows on any restart
             // rlawson - removed this since we show splash screen at login now
             //hs.removeAttribute(WELCOMED);
+            //@TODO NO NEED TO PUT IN THE HTTP SESSION, FOCUS WILL FIX LATER
             hs.setAttribute(WebSession.SESSION, session);
-            // reset timeout
-            hs.setMaxInactiveInterval(sessionTimeoutSeconds);
         }
 
         session.update(request, response, this.getServletName());
