@@ -5,22 +5,16 @@
  */
 package org.owasp.webgoat.application;
 
-import org.owasp.webgoat.lessons.LessonServletMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRegistration;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
-import java.util.Set;
 
 /**
  * Web application lifecycle listener.
@@ -37,26 +31,6 @@ public class WebGoatServletListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
         context.log("WebGoat is starting");
-        context.log("Adding extra mappings for lessions");
-        loadServlets(sce);
-    }
-
-    private void loadServlets(ServletContextEvent sce) {
-        final ServletContext servletContext = sce.getServletContext();
-        ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(
-                false);
-        provider.addIncludeFilter(new AnnotationTypeFilter(LessonServletMapping.class));
-        Set<BeanDefinition> candidateComponents = provider.findCandidateComponents("org.owasp.webgoat");
-        try {
-            for (BeanDefinition beanDefinition : candidateComponents) {
-                Class controllerClass = Class.forName(beanDefinition.getBeanClassName());
-                LessonServletMapping pathAnnotation = (LessonServletMapping) controllerClass.getAnnotation(LessonServletMapping.class);
-                final ServletRegistration.Dynamic dynamic = servletContext.addServlet(controllerClass.getSimpleName(), controllerClass);
-                dynamic.addMapping(pathAnnotation.path());
-            }
-        } catch (Exception e) {
-            logger.error("Error", e);
-        }
     }
 
     /** {@inheritDoc} */

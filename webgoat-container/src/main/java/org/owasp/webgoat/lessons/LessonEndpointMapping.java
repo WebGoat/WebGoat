@@ -1,7 +1,11 @@
 package org.owasp.webgoat.lessons;
 
+import org.springframework.stereotype.Component;
+
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *************************************************************************************************
@@ -28,14 +32,13 @@ import java.lang.annotation.RetentionPolicy;
  * projects.
  * <p>
  *
- * @author Nanne Baars
+ * @author WebGoat
  * @since  December 12, 2015
  * @version $Id: $Id
  */
+@Component
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LessonServletMapping {
-
-    String path();
-}
+public @interface LessonEndpointMapping { }
 
 

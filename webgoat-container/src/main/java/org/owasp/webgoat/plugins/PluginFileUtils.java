@@ -65,20 +65,6 @@ public class PluginFileUtils {
     }
 
     /**
-     * <p>createDirsIfNotExists.</p>
-     *
-     * @param p a {@link java.nio.file.Path} object.
-     * @return a {@link java.nio.file.Path} object.
-     * @throws java.io.IOException if any.
-     */
-    public static Path createDirsIfNotExists(Path p) throws IOException {
-        if (Files.notExists(p)) {
-            Files.createDirectories(p);
-        }
-        return p;
-    }
-
-    /**
      * <p>replaceInFiles.</p>
      *
      * @param replace a {@link java.lang.String} object.

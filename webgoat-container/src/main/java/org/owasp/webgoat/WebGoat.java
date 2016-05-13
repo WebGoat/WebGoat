@@ -5,11 +5,13 @@ import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.owasp.webgoat.session.WebgoatProperties;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
@@ -40,22 +42,27 @@ public class WebGoat extends SpringBootServletInitializer {
 
     @Bean
     public PluginsLoader pluginsLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory) {
-        System.out.println("Plugin target directory: " + pluginTargetDirectory.toString());
         return new PluginsLoader(pluginTargetDirectory);
     }
 
     @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public WebSession webSession(Course course, WebgoatContext webgoatContext, ServletContext context) {
+    public WebSession webSession(Course course, WebgoatContext webgoatContext, ServletContext context, ApplicationContext applicationContext ) {
         return new WebSession(course, webgoatContext, context);
     }
 
     @Bean
-    public Course course(PluginsLoader pluginsLoader, WebgoatContext webgoatContext, ServletContext context,
-                         WebgoatProperties webgoatProperties) {
+    public LessonEndpointProvider lessonEndpointProvider(ApplicationContext applicationContext, BeanFactory factory) {
+        LessonEndpointProvider lessonEndpointProvider = new LessonEndpointProvider("org.owasp.webgoat", applicationContext, factory);
+        return lessonEndpointProvider;
+    }
+
+    @Bean
+    public Course course(PluginsLoader pluginsLoader, WebgoatContext webgoatContext, ServletContext context, WebgoatProperties webgoatProperties, LessonEndpointProvider endpointProvider) {
         Course course = new Course(webgoatProperties);
         course.loadCourses(webgoatContext, context, "/");
         course.loadLessonFromPlugin(pluginsLoader.loadPlugins());
+        endpointProvider.registerEndpoints();
         return course;
     }
 }

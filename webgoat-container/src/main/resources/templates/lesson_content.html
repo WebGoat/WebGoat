@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
+
+<!-- Model is setup in the class StartLesson -->
 <div id="lessonInstructions" th:utext="${instructions}"></div>
 <div id="message" class="info" th:utext="${message}"></div>
 <br/>
 <div th:utext="${lesson.content}"></div>
+<div th:replace="lesson:showLesson"></div>
 </html>
 

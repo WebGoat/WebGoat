@@ -44,6 +44,8 @@ public class PluginsLoader {
     private static final int BUFFER_SIZE = 32 * 1024;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final File pluginTargetDirectory;
+    public static PluginClassLoader classLoader = new PluginClassLoader(PluginClassLoader.class.getClassLoader());
+
 
     @Autowired
     public PluginsLoader(File pluginTargetDirectory) {
@@ -153,8 +155,6 @@ public class PluginsLoader {
 
     private List<Callable<Plugin>> extractJars(List<URL> jars) {
         List<Callable<Plugin>> extractorCallables = Lists.newArrayList();
-        ClassLoader parentClassLoader = PluginClassLoader.class.getClassLoader();
-        final PluginClassLoader classLoader = new PluginClassLoader(parentClassLoader);
 
         for (final URL jar : jars) {
             classLoader.addURL(jar);
