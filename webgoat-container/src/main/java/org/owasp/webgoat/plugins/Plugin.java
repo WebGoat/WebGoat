@@ -29,8 +29,8 @@ public class Plugin {
 
     private static final String NAME_LESSON_SOLUTION_DIRECTORY = "lessonSolutions";
     private static final String NAME_LESSON_PLANS_DIRECTORY = "lessonPlans";
-    public static PluginClassLoader classLoader;
 
+    private PluginClassLoader classLoader;
     private Class<AbstractLesson> lesson;
     private Map<String, File> solutionLanguageFiles = new HashMap<>();
     private Map<String, File> lessonPlansLanguageFiles = new HashMap<>();

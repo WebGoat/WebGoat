@@ -1,5 +1,6 @@
 package org.owasp.webgoat;
 
+import org.owasp.webgoat.plugins.PluginClassLoader;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
@@ -41,8 +42,13 @@ public class WebGoat extends SpringBootServletInitializer {
     }
 
     @Bean
-    public PluginsLoader pluginsLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory) {
-        return new PluginsLoader(pluginTargetDirectory);
+    public PluginClassLoader pluginClassLoader() {
+        return new PluginClassLoader(PluginClassLoader.class.getClassLoader());
+    }
+
+    @Bean
+    public PluginsLoader pluginsLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory, PluginClassLoader classLoader) {
+        return new PluginsLoader(pluginTargetDirectory, classLoader);
     }
 
     @Bean
@@ -52,8 +58,8 @@ public class WebGoat extends SpringBootServletInitializer {
     }
 
     @Bean
-    public LessonEndpointProvider lessonEndpointProvider(ApplicationContext applicationContext, BeanFactory factory) {
-        LessonEndpointProvider lessonEndpointProvider = new LessonEndpointProvider("org.owasp.webgoat", applicationContext, factory);
+    public LessonEndpointProvider lessonEndpointProvider(ApplicationContext applicationContext, BeanFactory factory, PluginClassLoader cl) {
+        LessonEndpointProvider lessonEndpointProvider = new LessonEndpointProvider("org.owasp.webgoat", applicationContext, factory, cl);
         return lessonEndpointProvider;
     }
 

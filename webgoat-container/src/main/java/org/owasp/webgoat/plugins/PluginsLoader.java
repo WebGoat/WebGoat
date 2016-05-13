@@ -6,7 +6,6 @@ import org.owasp.webgoat.util.LabelProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -37,18 +36,17 @@ import java.util.zip.ZipEntry;
  * @author dm
  * @version $Id: $Id
  */
-@Component
 public class PluginsLoader {
 
     private static final String WEBGOAT_PLUGIN_EXTENSION = "jar";
     private static final int BUFFER_SIZE = 32 * 1024;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final File pluginTargetDirectory;
-    public static PluginClassLoader classLoader = new PluginClassLoader(PluginClassLoader.class.getClassLoader());
-
+    private final PluginClassLoader classLoader;
 
     @Autowired
-    public PluginsLoader(File pluginTargetDirectory) {
+    public PluginsLoader(File pluginTargetDirectory, PluginClassLoader pluginClassLoader) {
+        this.classLoader = pluginClassLoader;
         this.pluginTargetDirectory = pluginTargetDirectory;
     }
 

@@ -1,7 +1,7 @@
 package org.owasp.webgoat;
 
 import org.owasp.webgoat.lessons.LessonEndpointMapping;
-import org.owasp.webgoat.plugins.PluginsLoader;
+import org.owasp.webgoat.plugins.PluginClassLoader;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -30,23 +30,25 @@ public class LessonEndpointProvider {
 
     private final String pluginBasePackage;
     private final ApplicationContext parentContext;
+    private final PluginClassLoader classLoader;
     private ListableBeanFactory context;
     private DefaultListableBeanFactory providedBeans;
     private BeanFactory beanFactory;
 
 
-    public LessonEndpointProvider(String pluginBasePackage, ApplicationContext parentContext, BeanFactory beanFactory) {
+    public LessonEndpointProvider(String pluginBasePackage, ApplicationContext parentContext, BeanFactory beanFactory, PluginClassLoader cl) {
         this.pluginBasePackage = pluginBasePackage;
         this.parentContext = parentContext;
         this.providedBeans = new DefaultListableBeanFactory(this.parentContext.getParentBeanFactory());
         this.beanFactory = beanFactory;
+        this.classLoader = cl;
     }
 
     public void registerEndpoints() {
         if (context == null) {
             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
             context.setParent(parentContext);
-            context.setClassLoader(PluginsLoader.classLoader);
+            context.setClassLoader(classLoader);
 
             ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(context, false);
             scanner.addIncludeFilter(new AnnotationTypeFilter(LessonEndpointMapping.class));

@@ -33,6 +33,7 @@ public class LessonTemplateResolver extends TemplateResolver {
     @Override
     protected String computeResourceName(TemplateProcessingParameters params) {
         String templateName = params.getTemplateName();
+
         return templateName.substring(PREFIX.length());
     }
 
@@ -46,7 +47,8 @@ public class LessonTemplateResolver extends TemplateResolver {
                 try {
                     return new ByteArrayInputStream(Files.toByteArray(lesson));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    //no html yet
+                    return new ByteArrayInputStream(new byte[0]);
                 }
             }
             return null;
