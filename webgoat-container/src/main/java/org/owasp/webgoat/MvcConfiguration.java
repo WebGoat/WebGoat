@@ -47,8 +47,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public LessonTemplateResolver lessonTemplateResolver(WebSession webSession) {
-        LessonTemplateResolver resolver = new LessonTemplateResolver(pluginTargetDirectory, webSession);
+    public LessonTemplateResolver lessonTemplateResolver() {
+        LessonTemplateResolver resolver = new LessonTemplateResolver(pluginTargetDirectory);
         resolver.setOrder(2);
         return resolver;
     }

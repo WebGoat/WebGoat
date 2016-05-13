@@ -7,6 +7,6 @@
 <div id="message" class="info" th:utext="${message}"></div>
 <br/>
 <div th:utext="${lesson.content}"></div>
-<div th:replace="lesson:__${lesson}__"></div>
+<div th:replace="lesson:__${lesson.class.simpleName}__"></div>  <!-- __lesson__ makes Thymeleaf dynamic and calling the Thymeleaf resolver -->
 </html>
 

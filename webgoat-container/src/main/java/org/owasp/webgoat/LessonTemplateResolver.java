@@ -2,7 +2,6 @@ package org.owasp.webgoat;
 
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
-import org.owasp.webgoat.session.WebSession;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
@@ -20,12 +19,9 @@ public class LessonTemplateResolver extends TemplateResolver {
 
     private final static String PREFIX = "lesson:";
     private final File pluginTargetDirectory;
-    private final WebSession webSession;
 
-
-    public LessonTemplateResolver(File pluginTargetDirectory, WebSession webSession) {
+    public LessonTemplateResolver(File pluginTargetDirectory) {
         this.pluginTargetDirectory = pluginTargetDirectory;
-        this.webSession = webSession;
         setResourceResolver(new LessonResourceResolver());
         setResolvablePatterns(Sets.newHashSet(PREFIX + "*"));
     }
@@ -33,7 +29,6 @@ public class LessonTemplateResolver extends TemplateResolver {
     @Override
     protected String computeResourceName(TemplateProcessingParameters params) {
         String templateName = params.getTemplateName();
-
         return templateName.substring(PREFIX.length());
     }
 
@@ -41,8 +36,7 @@ public class LessonTemplateResolver extends TemplateResolver {
 
         @Override
         public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
-            String lessonName = webSession.getCurrentLesson().getClass().getSimpleName();
-            File lesson = new File(pluginTargetDirectory, "/plugin/" + lessonName + "/html/" + lessonName + ".html");
+            File lesson = new File(pluginTargetDirectory, "/plugin/" + resourceName + "/html/" + resourceName + ".html");
             if (lesson != null) {
                 try {
                     return new ByteArrayInputStream(Files.toByteArray(lesson));
