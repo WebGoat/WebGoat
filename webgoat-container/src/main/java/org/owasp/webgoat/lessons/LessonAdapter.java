@@ -1,26 +1,3 @@
-package org.owasp.webgoat.lessons;
-
-import com.google.common.base.Joiner;
-import org.apache.commons.io.IOUtils;
-import org.apache.ecs.Element;
-import org.apache.ecs.ElementContainer;
-import org.apache.ecs.StringElement;
-import org.apache.ecs.html.Center;
-import org.apache.ecs.html.H3;
-import org.apache.ecs.html.P;
-import org.apache.ecs.html.PRE;
-import org.apache.ecs.html.TD;
-import org.apache.ecs.html.TR;
-import org.apache.ecs.html.Table;
-import org.owasp.webgoat.session.WebSession;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *************************************************************************************************
  *
@@ -51,6 +28,30 @@ import java.util.List;
  * @since October 28, 2003
  * @version $Id: $Id
  */
+package org.owasp.webgoat.lessons;
+
+import com.google.common.base.Joiner;
+import org.apache.commons.io.IOUtils;
+import org.apache.ecs.Element;
+import org.apache.ecs.ElementContainer;
+import org.apache.ecs.StringElement;
+import org.apache.ecs.html.Center;
+import org.apache.ecs.html.H3;
+import org.apache.ecs.html.P;
+import org.apache.ecs.html.PRE;
+import org.apache.ecs.html.TD;
+import org.apache.ecs.html.TR;
+import org.apache.ecs.html.Table;
+import org.owasp.webgoat.session.WebSession;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+
 public abstract class LessonAdapter extends AbstractLesson {
 
     /**

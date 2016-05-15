@@ -1,11 +1,3 @@
-package org.owasp.webgoat.lessons;
-
-import org.springframework.stereotype.Component;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 /**
  *************************************************************************************************
@@ -35,6 +27,19 @@ import java.lang.annotation.Target;
  * @author WebGoat
  * @since  December 12, 2015
  * @version $Id: $Id
+ */
+package org.owasp.webgoat.lessons;
+
+import org.springframework.stereotype.Component;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Annotation as a marker annotation. During the startup we scan the plugins for classes which use this annotation.
+ * @see LessonEndpoint for more information.
  */
 @Component
 @Target(ElementType.TYPE)

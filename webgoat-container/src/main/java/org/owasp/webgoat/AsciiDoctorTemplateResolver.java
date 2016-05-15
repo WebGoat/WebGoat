@@ -1,63 +1,70 @@
+
 /**
  *************************************************************************************************
- *
- *
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- *
+ * <p>
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- *
+ * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- *
+ * <p>
  * Getting Source ==============
- *
+ * <p>
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
+ * <p>
  *
  * @author WebGoat
- * @since October 28, 2003
+ * @since  December 12, 2015
  * @version $Id: $Id
  */
 package org.owasp.webgoat;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.common.io.Files;
+import org.asciidoctor.Asciidoctor;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Optional;
+
+import static org.asciidoctor.Asciidoctor.Factory.create;
 
 /**
- * Dynamically resolve a lesson. In the html file this can be invoked as:
+ * Thymeleaf resolver for AsciiDoc used in the lesson, can be used as follows inside a lesson file:
  *
  * <code>
- *    <div th:case="true" th:replace="lesson:__${lesson.class.simpleName}__"></div>
+ *   <div th:replace="doc:AccessControlMatrix_plan.adoc"></div>
  * </code>
- *
- * Thymeleaf will invoke this resolver based on the prefix and this implementqtion will resolve the html in the plugins directory
  */
-public class LessonTemplateResolver extends TemplateResolver {
+public class AsciiDoctorTemplateResolver extends TemplateResolver {
 
-    private final static String PREFIX = "lesson:";
+    private static final Asciidoctor asciidoctor = create();
+    private static final String PREFIX = "doc:";
     private final File pluginTargetDirectory;
 
-    public LessonTemplateResolver(File pluginTargetDirectory) {
+    public AsciiDoctorTemplateResolver(File pluginTargetDirectory) {
         this.pluginTargetDirectory = pluginTargetDirectory;
-        setResourceResolver(new LessonResourceResolver());
+        setResourceResolver(new AdocResourceResolver());
         setResolvablePatterns(Sets.newHashSet(PREFIX + "*"));
     }
 
@@ -67,25 +74,35 @@ public class LessonTemplateResolver extends TemplateResolver {
         return templateName.substring(PREFIX.length());
     }
 
-    private class LessonResourceResolver implements IResourceResolver {
+    private class AdocResourceResolver implements IResourceResolver {
 
         @Override
         public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
-            File lesson = new File(pluginTargetDirectory, "/plugin/" + resourceName + "/html/" + resourceName + ".html");
-            if (lesson != null) {
-                try {
-                    return new ByteArrayInputStream(Files.toByteArray(lesson));
-                } catch (IOException e) {
-                    //no html yet
-                    return new ByteArrayInputStream(new byte[0]);
+            try {
+                Optional<Path> adocFile = find(pluginTargetDirectory.toPath(), resourceName);
+                if (adocFile.isPresent()) {
+                    try (FileReader reader = new FileReader(adocFile.get().toFile())) {
+                        StringWriter writer = new StringWriter();
+                        asciidoctor.convert(reader, writer, Maps.newHashMap());
+                        return new ByteArrayInputStream(writer.getBuffer().toString().getBytes());
+                    }
                 }
+                return new ByteArrayInputStream(new byte[0]);
+            } catch (IOException e) {
+                //no html yet
+                return new ByteArrayInputStream(new byte[0]);
             }
-            return null;
+        }
+
+        private Optional<Path> find(Path path, String resourceName) throws IOException {
+            return Files.walk(path)
+                    .filter(Files::isRegularFile)
+                    .filter(p -> p.toString().endsWith(resourceName)).findFirst();
         }
 
         @Override
         public String getName() {
-            return "lessonResourceResolver";
+            return "adocResourceResolver";
         }
     }
 }
