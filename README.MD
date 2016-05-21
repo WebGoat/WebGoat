@@ -95,7 +95,7 @@ launch Tomcat listening on localhost:8080
 mkdir WebGoat-Workspace
 cd WebGoat-Workspace
 curl -o webgoat_developer_bootstrap.sh https://raw.githubusercontent.com/WebGoat/WebGoat/master/webgoat_developer_bootstrap.sh
-sh webgoat_developer_bootstrap.sh
+./webgoat_developer_bootstrap.sh
 ```
 
 ## The Manual Way: Developer Edition!
