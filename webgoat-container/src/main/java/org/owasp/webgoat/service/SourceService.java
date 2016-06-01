@@ -75,15 +75,12 @@ public class SourceService extends BaseService {
      * @return Description of the Return Value
      */
     protected String getSource(WebSession s) {
-
         String source = null;
         int scr = s.getCurrentScreen();
         Course course = s.getCourse();
 
-        if (s.isUser() || s.isChallenge()) {
-
+        if (s.isUser() || s.isAdmin()) {
             AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
-
             if (lesson != null) {
                 source = lesson.getRawSource(s);
             }
@@ -91,7 +88,7 @@ public class SourceService extends BaseService {
         if (source == null) {
             return "Source code is not available for this lesson.";
         }
-        return (source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*" + END_SOURCE_SKIP,
-                "Code Section Deliberately Omitted"));
+        return source.replaceAll("(?s)" + START_SOURCE_SKIP + ".*" + END_SOURCE_SKIP,
+                "Code Section Deliberately Omitted");
     }
 }

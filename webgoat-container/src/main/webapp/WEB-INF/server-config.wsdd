@@ -29,11 +29,11 @@
  <handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
  <service name="WSDLScanning" provider="java:RPC">
   <parameter name="allowedMethods" value="getFirstName, getLastName, getCreditCard, getLoginCount"/>
-  <parameter name="className" value="org.owasp.webgoat.lessons.WSDLScanning"/>
+  <parameter name="className" value="org.owasp.webgoat.plugin.WSDLScanning"/>
  </service>
  <service name="SoapRequest" provider="java:RPC">
   <parameter name="allowedMethods" value="getFirstName, getLastName, getCreditCard, getLoginCount"/>
-  <parameter name="className" value="org.owasp.webgoat.lessons.SoapRequest"/>
+  <parameter name="className" value="org.owasp.webgoat.plugin.SoapRequest"/>
  </service>
  <service name="AdminService" provider="java:MSG">
   <parameter name="allowedMethods" value="AdminService"/>
@@ -47,7 +47,7 @@
  </service>
  <service name="WsSqlInjection" provider="java:RPC">
   <parameter name="allowedMethods" value="getCreditCard"/>
-  <parameter name="className" value="org.owasp.webgoat.lessons.WsSqlInjection"/>
+  <parameter name="className" value="org.owasp.webgoat.plugin.WsSqlInjection"/>
  </service>
  <transport name="http">
   <requestFlow>

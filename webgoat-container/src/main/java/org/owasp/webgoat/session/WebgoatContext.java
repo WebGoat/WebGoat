@@ -51,9 +51,6 @@ public class WebgoatContext {
     /** Constant <code>SHOWHINTS="ShowHints"</code> */
     public final static String SHOWHINTS = "ShowHints";
 
-    /** Constant <code>DEFUSEOSCOMMANDS="DefuseOSCommands"</code> */
-    public final static String DEFUSEOSCOMMANDS = "DefuseOSCommands";
-
     /** Constant <code>FEEDBACK_ADDRESS_HTML="FeedbackAddressHTML"</code> */
     public final static String FEEDBACK_ADDRESS_HTML = "FeedbackAddressHTML";
 
@@ -85,8 +82,6 @@ public class WebgoatContext {
     private boolean showSource = false;
 
     private boolean showSolution = false;
-
-    private boolean defuseOSCommands = false;
 
     private boolean enterprise = false;
 
@@ -123,7 +118,6 @@ public class WebgoatContext {
         showCookies = "true".equals(getParameter(servlet, SHOWCOOKIES));
         showSource = "true".equals(getParameter(servlet, SHOWSOURCE));
         showSolution = "true".equals(getParameter(servlet, SHOWSOLUTION));
-        defuseOSCommands = "true".equals(getParameter(servlet, DEFUSEOSCOMMANDS));
         enterprise = "true".equals(getParameter(servlet, ENTERPRISE));
         codingExercises = "true".equals(getParameter(servlet, CODING_EXERCISES));
         feedbackAddressHTML = getParameter(servlet, FEEDBACK_ADDRESS_HTML) != null ? getParameter(servlet,
@@ -190,15 +184,6 @@ public class WebgoatContext {
      */
     public String getDatabasePassword() {
         return (databasePassword);
-    }
-
-    /**
-     * <p>isDefuseOSCommands.</p>
-     *
-     * @return a boolean.
-     */
-    public boolean isDefuseOSCommands() {
-        return defuseOSCommands;
     }
 
     /**

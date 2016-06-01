@@ -22,7 +22,7 @@ penetration testing techniques.
 * [Home Page](http://webgoat.github.io)
 * [OWASP Project Home Page](http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project)
 * [Source Code](https://github.com/WebGoat/WebGoat)
-* [Easy-Run Download](https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0-SNAPSHOT-war-exec.jar)
+* [Easy-Run Download](https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0.1-war-exec.jar)
 * [Wiki](https://github.com/WebGoat/WebGoat/wiki)
 * [FAQ (old info):](http://code.google.com/p/webgoat/wiki/FAQ)
 * [Project Leader - Direct to Bruce Mayhew](mailto:webgoat@owasp.org)
@@ -58,14 +58,14 @@ wish to simply try/test/run the current development version of WebGoat
 
 #### 1. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
 
-https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0-SNAPSHOT-war-exec.jar
+https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0.1-war-exec.jar
 
 #### 2. Run it using java:
 
 Open a command shell/window, browse to where you downloaded the easy run jar and type:
 
 ```Shell
-java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
+java -jar webgoat-container-7.0.1-war-exec.jar
 ```
 
 #### 3. Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
@@ -73,7 +73,7 @@ java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar
 #### (Optional) If you would like to change the port or other options, use the help command for guidance:
 
 ```Shell
-java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar --help
+java -jar webgoat-container-7.0.1-war-exec.jar --help
 ```
 
 # For Developers
@@ -95,7 +95,7 @@ launch Tomcat listening on localhost:8080
 mkdir WebGoat-Workspace
 cd WebGoat-Workspace
 curl -o webgoat_developer_bootstrap.sh https://raw.githubusercontent.com/WebGoat/WebGoat/master/webgoat_developer_bootstrap.sh
-sh webgoat_developer_bootstrap.sh
+./webgoat_developer_bootstrap.sh
 ```
 
 ## The Manual Way: Developer Edition!
@@ -148,18 +148,18 @@ The __maven package__ goal generates an executable .jar file:
 cd WebGoat
 mvn package
 cd webgoat-container/target
-java -jar webgoat-container-7.0-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
+java -jar webgoat-container-7.1-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
 ```
 
 Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
-#### Option #3: Deploy the WebGoat WAR file in your local Tomcat or other Application Serve:
+#### Option #3: Deploy the WebGoat WAR file in your local Tomcat or other Application Server:
 The __maven package__ goal generates a .war file that can deployed into an Application Server, such as Tomcat
 
 ```Shell
 cd WebGoat
 mvn package
-cp webgoat-container/target/webgoat-container-7.0-SNAPSHOT.war <your_tomcat_directory>/webapps/
+cp webgoat-container/target/webgoat-container-7.1-SNAPSHOT.war <your_tomcat_directory>/webapps/
 ```
 
 Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !

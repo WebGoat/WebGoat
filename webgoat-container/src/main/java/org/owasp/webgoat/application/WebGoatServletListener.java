@@ -5,7 +5,22 @@
  */
 package org.owasp.webgoat.application;
 
-import com.google.common.collect.Maps;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.Set;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.ServletRegistration;
+
 import org.owasp.webgoat.HammerHead;
 import org.owasp.webgoat.lessons.LessonServletMapping;
 import org.owasp.webgoat.plugins.PluginsLoader;
@@ -14,22 +29,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRegistration;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Set;
-import java.util.jar.Attributes;
-import java.util.jar.Manifest;
 
 /**
  * Web application lifecycle listener.
@@ -55,7 +54,6 @@ public class WebGoatServletListener implements ServletContextListener {
 
     private void loadServlets(ServletContextEvent sce) {
         final ServletContext servletContext = sce.getServletContext();
-        Map<String, Class> controllers = Maps.newHashMap();
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(
                 false);
         provider.addIncludeFilter(new AnnotationTypeFilter(LessonServletMapping.class));

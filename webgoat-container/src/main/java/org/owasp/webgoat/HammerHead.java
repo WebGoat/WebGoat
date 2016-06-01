@@ -63,7 +63,6 @@ public class HammerHead extends HttpServlet {
 
     final Logger logger = LoggerFactory.getLogger(HammerHead.class);
 
-    private static final String WELCOMED = "welcomed";
 
     /**
      *
@@ -244,6 +243,7 @@ public class HammerHead extends HttpServlet {
         httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         propertiesPath = getServletContext().getRealPath("/WEB-INF/webgoat.properties");
         webgoatContext = new WebgoatContext(this);
+        logger.info("Browse to http://localhost:8080/WebGoat and happy hacking!");
     }
 
     /**

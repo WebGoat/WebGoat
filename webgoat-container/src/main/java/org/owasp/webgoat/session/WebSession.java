@@ -33,32 +33,27 @@ import org.slf4j.LoggerFactory;
  * *************************************************************************************************
  *
  *
- * This file is part of WebGoat, an Open Web Application Security Project
- * utility. For details, please see http://www.owasp.org/
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see
+ * http://www.owasp.org/
  *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later
  * version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * Getting Source ==============
  *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
- * for free software projects.
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
+ * projects.
  *
- * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect
- * Security</a>
+ * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @since October 28, 2003
  * @version $Id: $Id
@@ -96,7 +91,7 @@ public class WebSession {
     public final static String COURSE = "course";
 
     /**
-     * Description of the Field
+     * Error screen number
      */
     public final static int ERROR = 0;
 
@@ -104,27 +99,27 @@ public class WebSession {
     public static final String STAGE = "stage";
 
     /**
-     * Description of the Field
+     * session id string
      */
     public final static String JSESSION_ID = "jsessionid";
 
     /**
-     * Description of the Field
+     * Logout parameter name
      */
     public final static String LOGOUT = "Logout";
 
     /**
-     * Description of the Field
+     * Restart parameter name
      */
     public final static String RESTART = "Restart";
 
     /**
-     * Description of the Field
+     * menu parameter name
      */
     public final static String MENU = "menu";
 
     /**
-     * Description of the Field
+     * Screen parameter name
      */
     public final static String SCREEN = "Screen";
 
@@ -183,6 +178,8 @@ public class WebSession {
     private int currentScreen = WELCOME;
 
     private int previousScreen = ERROR;
+
+    private int previousStage = -1;
 
     private int hintNum = -1;
 
@@ -252,7 +249,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getConnection.</p>
+     * <p> getConnection. </p>
      *
      * @param s a {@link org.owasp.webgoat.session.WebSession} object.
      * @return a {@link java.sql.Connection} object.
@@ -263,7 +260,7 @@ public class WebSession {
     }
 
     /**
-     * <p>returnConnection.</p>
+     * <p> returnConnection. </p>
      *
      * @param s a {@link org.owasp.webgoat.session.WebSession} object.
      */
@@ -289,7 +286,7 @@ public class WebSession {
     }
 
     /**
-     * Description of the Method
+     * Marks all cookies but the JSESSIONID for deletion and adds them to the response.
      */
     public void eatCookies() {
         Cookie[] cookies = request.getCookies();
@@ -322,7 +319,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getRoles.</p>
+     * <p> getRoles. </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -338,11 +335,9 @@ public class WebSession {
     }
 
     /**
-     * Sets the admin flag - this routine is ONLY here to allow someone a
-     * backdoor to setting the user up as an admin.
+     * Sets the admin flag - this routine is ONLY here to allow someone a backdoor to setting the user up as an admin.
      *
-     * This is also used by the WebSession to set the admin, but the method
-     * should be private
+     * This is also used by the WebSession to set the admin, but the method should be private
      *
      * @param state a boolean.
      */
@@ -352,7 +347,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getRole.</p>
+     * <p> getRole. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -382,7 +377,7 @@ public class WebSession {
     }
 
     /**
-     * <p>Setter for the field <code>course</code>.</p>
+     * <p> Setter for the field <code>course</code>. </p>
      *
      * @param course a {@link org.owasp.webgoat.session.Course} object.
      */
@@ -400,7 +395,7 @@ public class WebSession {
     }
 
     /**
-     * <p>Setter for the field <code>currentScreen</code>.</p>
+     * <p> Setter for the field <code>currentScreen</code>. </p>
      *
      * @param screen a int.
      */
@@ -409,7 +404,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getRestartLink.</p>
+     * <p> getRestartLink. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -418,7 +413,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getCurrentLink.</p>
+     * <p> getCurrentLink. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -441,7 +436,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getCurrentLesson.</p>
+     * <p> getCurrentLesson. </p>
      *
      * @return a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
      */
@@ -450,7 +445,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getLesson.</p>
+     * <p> getLesson. </p>
      *
      * @param id a int.
      * @return a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
@@ -460,7 +455,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getLessons.</p>
+     * <p> getLessons. </p>
      *
      * @param category a {@link org.owasp.webgoat.lessons.Category} object.
      * @return a {@link java.util.List} object.
@@ -479,7 +474,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getHint.</p>
+     * <p> getHint. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -498,7 +493,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getParams.</p>
+     * <p> getParams. </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -527,7 +522,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getCookies.</p>
+     * <p> getCookies. </p>
      *
      * @return a {@link java.util.List} object.
      */
@@ -539,11 +534,10 @@ public class WebSession {
         }
 
         /*
-         * List cookies = new Vector(); HttpServletRequest request = getRequest(); Cookie[] cookies
-         * = request.getCookies(); if ( cookies.length == 0 ) { list.addElement( new LI(
-         * "No Cookies" ) ); } for ( int i = 0; i < cookies.length; i++ ) { Cookie cookie =
-         * cookies[i]; cookies.add(cookie); //list.addElement( new LI( cookie.getName() + " -> " +
-         * cookie.getValue() ) ); }
+         * List cookies = new Vector(); HttpServletRequest request = getRequest(); Cookie[] cookies =
+         * request.getCookies(); if ( cookies.length == 0 ) { list.addElement( new LI( "No Cookies" ) ); } for ( int i =
+         * 0; i < cookies.length; i++ ) { Cookie cookie = cookies[i]; cookies.add(cookie); //list.addElement( new LI(
+         * cookie.getName() + " -> " + cookie.getValue() ) ); }
          */
         return cookies;
     }
@@ -567,7 +561,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getSource.</p>
+     * <p> getSource. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -577,7 +571,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getSolution.</p>
+     * <p> getSolution. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -587,7 +581,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getInstructions.</p>
+     * <p> getInstructions. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -632,7 +626,7 @@ public class WebSession {
     }
 
     /**
-     * <p>Setter for the field <code>request</code>.</p>
+     * <p> Setter for the field <code>request</code>. </p>
      *
      * @param request a {@link javax.servlet.http.HttpServletRequest} object.
      */
@@ -708,7 +702,7 @@ public class WebSession {
     private Map<AbstractLesson, LessonSession> lessonSessions = new Hashtable<AbstractLesson, LessonSession>();
 
     /**
-     * <p>isAuthenticatedInLesson.</p>
+     * <p> isAuthenticatedInLesson. </p>
      *
      * @param lesson a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
      * @return a boolean.
@@ -726,7 +720,7 @@ public class WebSession {
     }
 
     /**
-     * <p>isAuthorizedInLesson.</p>
+     * <p> isAuthorizedInLesson. </p>
      *
      * @param employeeId a int.
      * @param functionId a {@link java.lang.String} object.
@@ -737,7 +731,7 @@ public class WebSession {
     }
 
     /**
-     * <p>isAuthorizedInLesson.</p>
+     * <p> isAuthorizedInLesson. </p>
      *
      * @param role a {@link java.lang.String} object.
      * @param functionId a {@link java.lang.String} object.
@@ -748,7 +742,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getUserIdInLesson.</p>
+     * <p> getUserIdInLesson. </p>
      *
      * @return a int.
      * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
@@ -758,7 +752,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getUserNameInLesson.</p>
+     * <p> getUserNameInLesson. </p>
      *
      * @return a {@link java.lang.String} object.
      * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
@@ -768,7 +762,7 @@ public class WebSession {
     }
 
     /**
-     * <p>openLessonSession.</p>
+     * <p> openLessonSession. </p>
      *
      * @param lesson a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
      */
@@ -779,7 +773,7 @@ public class WebSession {
     }
 
     /**
-     * <p>closeLessonSession.</p>
+     * <p> closeLessonSession. </p>
      *
      * @param lesson a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
      */
@@ -788,7 +782,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getLessonSession.</p>
+     * <p> getLessonSession. </p>
      *
      * @param lesson a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
      * @return a {@link org.owasp.webgoat.session.LessonSession} object.
@@ -847,7 +841,7 @@ public class WebSession {
     }
 
     /**
-     * <p>setLineBreak.</p>
+     * <p> setLineBreak. </p>
      *
      * @param text a {@link java.lang.String} object.
      */
@@ -892,7 +886,7 @@ public class WebSession {
     }
 
     /**
-     * <p>showSolution.</p>
+     * <p> showSolution. </p>
      *
      * @return a boolean.
      */
@@ -918,8 +912,8 @@ public class WebSession {
     }
 
     /**
-     * Parse parameters from the given request, handle any servlet commands, and
-     * update this session based on the parameters.
+     * Parse parameters from the given request, handle any servlet commands, and update this session based on the
+     * parameters.
      *
      * @param request Description of the Parameter
      * @param response Description of the Parameter
@@ -929,22 +923,12 @@ public class WebSession {
     public void update(HttpServletRequest request, HttpServletResponse response, String name) throws IOException {
         String content = null;
 
-        clearMessage();
         this.request = request;
         this.response = response;
         this.servletName = name;
 
-        if (myParser == null) {
-            myParser = new ParameterParser(request);
-        } else {
-            myParser.update(request);
-        }
-
-        Locale locale = request.getLocale();
-        if(locale != null) {
-        	LabelManager labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
-        	labelManager.setLocale(locale);
-        }
+        clearMessage();
+        updateParser(request);
 
         // System.out.println("Current Screen 1: " + currentScreen );
         // System.out.println("Previous Screen 1: " + previousScreen );
@@ -952,21 +936,183 @@ public class WebSession {
         // FIXME: doesn't work right -- no reauthentication
         // REMOVED - we have explicit logout now via spriing security
         /*
-        if (myParser.getRawParameter(LOGOUT, null) != null) {
-            System.out.println("Logout " + request.getUserPrincipal());
-            eatCookies();
-            request.getSession().invalidate();
-            currentScreen = WELCOME;
-            previousScreen = ERROR;
-        }
-        */
+         * if (myParser.getRawParameter(LOGOUT, null) != null) { System.out.println("Logout " +
+         * request.getUserPrincipal()); eatCookies(); request.getSession().invalidate(); currentScreen = WELCOME;
+         * previousScreen = ERROR; }
+         */
 
+        updateScreenProperties(request);
+
+        if (this.getCurrentScreen() != this.getPreviousScreen()) {
+            clearScreenProperties();
+        } else if (myParser.getRawParameter(STAGE, null) != null) {
+            updateCurrentScreenStage();
+        } else {
+            content = updateCurrentScreen(content);
+        }
+
+        updateParameters(request);
+        updateContent(response, content);
+    }
+
+    /**
+     * Updates parameters isAdmin, isHackedAdmin, hasHackedHackableAdmin, isColor and isDebug
+     *
+     * @param request
+     */
+    private void updateParameters(HttpServletRequest request) {
+        isAdmin = request.isUserInRole(WEBGOAT_ADMIN);
+        isHackedAdmin = myParser.getBooleanParameter(ADMIN, isAdmin);
+        if (isHackedAdmin) {
+            System.out.println("Hacked admin");
+            hasHackedHackableAdmin = true;
+        }
+        isColor = myParser.getBooleanParameter(COLOR, isColor);
+        isDebug = myParser.getBooleanParameter(DEBUG, isDebug);
+    }
+
+    /**
+     * If the content is not already set we get the response and sends it on its way
+     *
+     * @param response
+     * @param content to send
+     * @throws IOException
+     */
+    private void updateContent(HttpServletResponse response, String content) throws IOException {
+        // System.out.println( "showParams:" + showParams );
+        // System.out.println( "showSource:" + showSource );
+        // System.out.println( "showSolution:" + showSolution );
+        // System.out.println( "showCookies:" + showCookies );
+        // System.out.println( "showRequest:" + showRequest );
+        if (content != null) {
+            response.setContentType("text/html");
+            PrintWriter out = new PrintWriter(response.getOutputStream());
+            out.print(content);
+            out.flush();
+            out.close();
+        }
+    }
+
+    /**
+     * Checks to see if the lesson should be restarted. Also handles parsing of "show" commands for getting hints,
+     * params, cookies, source and solution.
+     *
+     * @param content
+     * @return the updated content
+     */
+    private String updateCurrentScreen(String content) {
+        // else update global variables for the current screen
+        // Handle "restart" commands
+        int lessonId = myParser.getIntParameter(RESTART, -1);
+        if (lessonId != -1) {
+            restartLesson(lessonId);
+        }
+        // if ( myParser.getBooleanParameter( RESTART, false ) )
+        // {
+        // getCurrentLesson().getLessonTracker( this ).getLessonProperties().setProperty(
+        // CHALLENGE_STAGE, "1" );
+        // }
+
+        // Handle "show" commands
+        String showCommand = myParser.getStringParameter(SHOW, null);
+        if (showCommand != null) {
+            if (showCommand.equalsIgnoreCase(SHOW_PARAMS)) {
+                showParams = !showParams;
+            } else if (showCommand.equalsIgnoreCase(SHOW_COOKIES)) {
+                showCookies = !showCookies;
+            } else if (showCommand.equalsIgnoreCase(SHOW_SOURCE)) {
+                content = getSource();
+                // showSource = true;
+            } else if (showCommand.equalsIgnoreCase(SHOW_SOLUTION)) {
+                content = getSolution();
+                // showSource = true;
+            } else if (showCommand.equalsIgnoreCase(SHOW_NEXTHINT)) {
+                getNextHint();
+            } else if (showCommand.equalsIgnoreCase(SHOW_PREVIOUSHINT)) {
+                getPreviousHint();
+            }
+        }
+        return content;
+    }
+
+    /**
+     * Checks to see what kind of lesson we are viewing and parses the "stage" parameter accordingly. Sets the stage for
+     * the lesson using setStage on the lesson object.
+     */
+    private void updateCurrentScreenStage() {
+        AbstractLesson al = getCurrentLesson();
+        if (al instanceof SequentialLessonAdapter) {
+            updateSlaStage((SequentialLessonAdapter) al);
+        } else if (al instanceof RandomLessonAdapter) {
+            updateRlaStage((RandomLessonAdapter) al);
+        }
+    }
+
+    /**
+     * Updates the stage for a RandomLessonAdapter
+     *
+     * @param al
+     */
+    private void updateRlaStage(RandomLessonAdapter rla) {
+        try {
+            if (!myParser.getRawParameter(STAGE).equals("null")) {
+                int currentStage = myParser.getIntParameter(STAGE) - 1;
+                if (previousStage != currentStage) {
+                    previousStage = currentStage;
+                    String[] stages = rla.getStages();
+                    if (stages == null) {
+                        stages = new String[0];
+                    }
+                    if (currentStage >= 0 && currentStage < stages.length) {
+                        rla.setStage(this, stages[currentStage]);
+                    }
+                }
+            } else {
+                rla.setStage(this, null);
+            }
+        } catch (ParameterNotFoundException pnfe) {
+            logger.warn("ParameterNotFoundException when updating stage for RandomLessonAdapter: " + pnfe.getMessage() + " " + pnfe.getCause());
+        }
+    }
+
+    /**
+     * Updates the stage for a SequentialLessonAdapter
+     *
+     * @param al
+     */
+    private void updateSlaStage(SequentialLessonAdapter sla) {
+        int stage = myParser.getIntParameter(STAGE, sla.getStage(this));
+        if (stage > 0 && stage <= sla.getStageCount()) {
+            sla.setStage(this, stage);
+        }
+    }
+
+    /**
+     * Eats all the cookies and resets hintNum and previousStage
+     */
+    private void clearScreenProperties() {
+        if (webgoatContext.isDebug()) {
+            setMessage("Changed to a new screen, clearing cookies and hints");
+        }
+        eatCookies();
+        hintNum = -1;
+        previousStage = -1;
+    }
+
+    /**
+     * Updates the properties currentScreen, previousScreen and hintNum depending on which scenario is being handled.
+     *
+     * @param request
+     */
+    private void updateScreenProperties(HttpServletRequest request) {
         // There are several scenarios where we want the first lesson to be loaded
         // 1) Previous screen is Welcome - Start of the course
         // 2) After a logout and after the session has been reinitialized
-        if ((this.getPreviousScreen() == WebSession.WELCOME) || (getRequest().getSession(false) != null
-                && // getRequest().getSession(false).isNew() &&
-                this.getCurrentScreen() == WebSession.WELCOME && this.getPreviousScreen() == WebSession.ERROR)) {
+        if ((this.getPreviousScreen() == WebSession.WELCOME) || 
+                (getRequest().getSession(false) != null &&
+                // getRequest().getSession(false).isNew() &&
+                this.getCurrentScreen() == WebSession.WELCOME && 
+                this.getPreviousScreen() == WebSession.ERROR)) {
             currentScreen = course.getFirstLesson().getScreenId();
             hintNum = -1;
         }
@@ -987,101 +1133,38 @@ public class WebSession {
                 }
             }
         } catch (Exception e) {
-        }
-
-        // clear variables when switching screens
-        if (this.getCurrentScreen() != this.getPreviousScreen()) {
-            if (webgoatContext.isDebug()) {
-                setMessage("Changed to a new screen, clearing cookies and hints");
-            }
-            eatCookies();
-            hintNum = -1;
-        } else if (myParser.getRawParameter(STAGE, null) != null) {
-            AbstractLesson al = getCurrentLesson();
-            if (al instanceof SequentialLessonAdapter) {
-                SequentialLessonAdapter sla = (SequentialLessonAdapter) al;
-                int stage = myParser.getIntParameter(STAGE, sla.getStage(this));
-                if (stage > 0 && stage <= sla.getStageCount()) {
-                    sla.setStage(this, stage);
-                }
-            } else if (al instanceof RandomLessonAdapter) {
-                try {
-                    RandomLessonAdapter rla = (RandomLessonAdapter) al;
-                    if (!myParser.getRawParameter(STAGE).equals("null")) {
-                        int stage = myParser.getIntParameter(STAGE) - 1;
-                        String[] stages = rla.getStages();
-                        if (stages == null) {
-                            stages = new String[0];
-                        }
-                        if (stage >= 0 && stage < stages.length) {
-                            rla.setStage(this, stages[stage]);
-                        }
-                    } else {
-                        rla.setStage(this, null);
-                    }
-                } catch (ParameterNotFoundException pnfe) {
-                }
-            }
-        } // else update global variables for the current screen
-        else {
-            // Handle "restart" commands
-            int lessonId = myParser.getIntParameter(RESTART, -1);
-            if (lessonId != -1) {
-                restartLesson(lessonId);
-            }
-			// if ( myParser.getBooleanParameter( RESTART, false ) )
-            // {
-            // getCurrentLesson().getLessonTracker( this ).getLessonProperties().setProperty(
-            // CHALLENGE_STAGE, "1" );
-            // }
-
-            // Handle "show" commands
-            String showCommand = myParser.getStringParameter(SHOW, null);
-            if (showCommand != null) {
-                if (showCommand.equalsIgnoreCase(SHOW_PARAMS)) {
-                    showParams = !showParams;
-                } else if (showCommand.equalsIgnoreCase(SHOW_COOKIES)) {
-                    showCookies = !showCookies;
-                } else if (showCommand.equalsIgnoreCase(SHOW_SOURCE)) {
-                    content = getSource();
-                    // showSource = true;
-                } else if (showCommand.equalsIgnoreCase(SHOW_SOLUTION)) {
-                    content = getSolution();
-                    // showSource = true;
-                } else if (showCommand.equalsIgnoreCase(SHOW_NEXTHINT)) {
-                    getNextHint();
-                } else if (showCommand.equalsIgnoreCase(SHOW_PREVIOUSHINT)) {
-                    getPreviousHint();
-                }
-            }
-
-        }
-
-        isAdmin = request.isUserInRole(WEBGOAT_ADMIN);
-        isHackedAdmin = myParser.getBooleanParameter(ADMIN, isAdmin);
-        if (isHackedAdmin) {
-            System.out.println("Hacked admin");
-            hasHackedHackableAdmin = true;
-        }
-        isColor = myParser.getBooleanParameter(COLOR, isColor);
-        isDebug = myParser.getBooleanParameter(DEBUG, isDebug);
-
-        // System.out.println( "showParams:" + showParams );
-        // System.out.println( "showSource:" + showSource );
-        // System.out.println( "showSolution:" + showSolution );
-        // System.out.println( "showCookies:" + showCookies );
-        // System.out.println( "showRequest:" + showRequest );
-        if (content != null) {
-            response.setContentType("text/html");
-            PrintWriter out = new PrintWriter(response.getOutputStream());
-            out.print(content);
-            out.flush();
-            out.close();
+            logger.warn("Exception when updating properties in updateScreenProperties: " + e.getMessage() + " " + e.getCause());
         }
     }
 
     /**
-     * <p>updateLastAttackRequestInfo.</p>
+     * Updates the labelmanager local based on the labelManager bean
+     *
+     * @param request
+     */
+    private void updateLocale(HttpServletRequest request) {
+        Locale locale = request.getLocale();
+        if (locale != null) {
+            LabelManager labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
+            labelManager.setLocale(locale);
+        }
+    }
+
+    /**
+     * Creates a new parser if not created yet. Sets the request on the parser for later use.
+     *
+     * @param request
+     */
+    private void updateParser(HttpServletRequest request) {
+        if (myParser == null) {
+            myParser = new ParameterParser(request);
+        } else {
+            myParser.update(request);
+        }
+    }
+
+    /**
+     * <p> updateLastAttackRequestInfo. </p>
      *
      * @param request a {@link javax.servlet.http.HttpServletRequest} object.
      */
@@ -1117,7 +1200,7 @@ public class WebSession {
     }
 
     /**
-     * <p>restartLesson.</p>
+     * <p> restartLesson. </p>
      *
      * @param lessonId a int.
      */
@@ -1136,7 +1219,7 @@ public class WebSession {
     }
 
     /**
-     * <p>setHasHackableAdmin.</p>
+     * <p> setHasHackableAdmin. </p>
      *
      * @param role a {@link java.lang.String} object.
      */
@@ -1150,7 +1233,7 @@ public class WebSession {
     }
 
     /**
-     * <p>isDebug.</p>
+     * <p> isDebug. </p>
      *
      * @return Returns the isDebug.
      */
@@ -1159,7 +1242,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getHeader.</p>
+     * <p> getHeader. </p>
      *
      * @param header - request header value to return
      * @return a {@link java.lang.String} object.
@@ -1169,7 +1252,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getNextHint.</p>
+     * <p> getNextHint. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -1191,7 +1274,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getPreviousHint.</p>
+     * <p> getPreviousHint. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -1211,7 +1294,7 @@ public class WebSession {
     }
 
     /**
-     * <p>Setter for the field <code>currentMenu</code>.</p>
+     * <p> Setter for the field <code>currentMenu</code>. </p>
      *
      * @param ranking a {@link java.lang.Integer} object.
      */
@@ -1220,7 +1303,7 @@ public class WebSession {
     }
 
     /**
-     * <p>Getter for the field <code>currentMenu</code>.</p>
+     * <p> Getter for the field <code>currentMenu</code>. </p>
      *
      * @return a int.
      */
@@ -1229,7 +1312,7 @@ public class WebSession {
     }
 
     /**
-     * <p>Getter for the field <code>webgoatContext</code>.</p>
+     * <p> Getter for the field <code>webgoatContext</code>. </p>
      *
      * @return a {@link org.owasp.webgoat.session.WebgoatContext} object.
      */
@@ -1238,7 +1321,7 @@ public class WebSession {
     }
 
     /**
-     * <p>getCurrrentLanguage.</p>
+     * <p> getCurrrentLanguage. </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -1247,7 +1330,7 @@ public class WebSession {
     }
 
     /**
-     * <p>Getter for the field <code>cookiesOnLastRequest</code>.</p>
+     * <p> Getter for the field <code>cookiesOnLastRequest</code>. </p>
      *
      * @return the cookiesOnLastRequest
      */
@@ -1256,7 +1339,7 @@ public class WebSession {
     }
 
     /**
-     * <p>Getter for the field <code>parmsOnLastRequest</code>.</p>
+     * <p> Getter for the field <code>parmsOnLastRequest</code>. </p>
      *
      * @return the parmsOnLastRequest
      */
