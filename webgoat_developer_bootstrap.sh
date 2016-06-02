@@ -114,7 +114,7 @@ developer_bootstrap() {
                 echo -e >&2 "$COL_RED *** ERROR: Could not cd into the WebGoat Directory. $COL_RESET"
                 return 1
             }
-            git pull origin master
+            git pull origin develop
         )
     fi
 
@@ -131,7 +131,7 @@ developer_bootstrap() {
                 echo -e >&2 "$COL_RED *** ERROR: Could not cd into the WebGoat-Lessons Directory $COL_RESET"
                 return 1
             }
-            git pull origin master
+            git pull origin develop
         )
     fi
 

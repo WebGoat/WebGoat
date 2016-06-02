@@ -113,6 +113,7 @@ git clone https://github.com/WebGoat/WebGoat-Lessons.git
 
 ```Shell
 cd WebGoat
+git checkout develop
 mvn clean compile install
 cd ..
 ```
@@ -122,6 +123,7 @@ cd ..
 
 ```Shell
 cd WebGoat-Lessons
+git checkout develop
 mvn package
 cp target/plugins/*.jar ../WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
 cd ..
