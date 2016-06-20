@@ -52,7 +52,7 @@ The "Easy Run" JAR file offers a no hassle approach to testing and running WebGo
 wish to simply try/test/run the current development version of WebGoat
 
 ### Prerequisites:
-* Java VM >= 1.6 installed ( JDK 1.7 recommended)
+* Java VM 1.8
 
 ## Easy Run Instructions:
 
@@ -82,7 +82,7 @@ Follow these instructions if you wish to run Webgoat and modify the source code 
 
 ### Prerequisites:
 
-* Java >= 1.6 ( JDK 1.7 recommended )
+* Java 1.8
 * Maven > 2.0.9
 * Your favorite IDE, with Maven awareness: Netbeans/IntelliJ/Eclipse with m2e installed.
 * Git, or Git support in your IDE
