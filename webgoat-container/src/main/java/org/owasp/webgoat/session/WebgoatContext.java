@@ -87,9 +87,9 @@ public class WebgoatContext {
 
     private boolean codingExercises = false;
 
-    private String feedbackAddress = "webgoat@owasp.org";
+    private String feedbackAddress = "owasp-webgoat@list.owasp.org";
 
-    private String feedbackAddressHTML = "<A HREF=mailto:webgoat@owasp.org>webgoat@owasp.org</A>";
+    private String feedbackAddressHTML = "<A HREF=mailto:owasp-webgoat@list.owasp.org>owasp-webgoat@list.owasp.org</A>";
 
     private boolean isDebug = false;
 
