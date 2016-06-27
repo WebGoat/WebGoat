@@ -74,7 +74,7 @@ public abstract class LessonAdapter extends AbstractLesson {
                                 + "<A HREF=https://github.com/WebGoat/WebGoat/wiki>WebGoat Wiki Page</A>&nbsp;&nbsp;"
                                 + "If you would prefer, send your lesson ideas to&nbsp;"
                                 + getWebgoatContext().getFeedbackAddressHTML()  
-                                + " Note: you will need to register at 
+                                + "Note: you will need to register at"
                                 + "the following link to use the feedback tool:&nbsp;"
                                 + "<A HREF=https://lists.owasp.org/mailman/listinfo/owasp-webgoat>List Registration</A>&nbsp;&nbsp;"
                                 + "Finally, OWASP has a slack channel. You can register at the following link:&nbsp;"
