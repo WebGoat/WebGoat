@@ -3,12 +3,10 @@ package org.owasp.webgoat.plugins;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.LessonEndpointMapping;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,7 +34,6 @@ public class Plugin {
     private Map<String, File> lessonPlansLanguageFiles = new HashMap<>();
     private List<File> pluginFiles = Lists.newArrayList();
     private File lessonSourceFile;
-    private List<Class> lessonEndpoints = Lists.newArrayList();
 
     public Plugin(PluginClassLoader classLoader) {
         this.classLoader = classLoader;
@@ -50,22 +47,6 @@ public class Plugin {
     public void findLesson(List<String> classes) {
         for (String clazzName : classes) {
             findLesson(clazzName);
-            findLessonEndpoints(clazzName);
-        }
-    }
-
-    private void findLessonEndpoints(String name) {
-        String realClassName = StringUtils.trimLeadingCharacter(name, '/').replaceAll("/", ".").replaceAll(".class", "");
-        try {
-            Class endpointClass = classLoader.loadClass(realClassName);
-            Annotation annotation = endpointClass.getAnnotation(LessonEndpointMapping.class);
-            if (annotation != null ) {
-                this.lessonEndpoints.add(endpointClass);
-            }
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            //ignore
         }
     }
 
@@ -102,10 +83,6 @@ public class Plugin {
         if (fileEndsWith(file, ".css", ".jsp", ".js")) {
             pluginFiles.add(file.toFile());
         }
-    }
-
-    public List<Class> getLessonEndpoints() {
-        return lessonEndpoints;
     }
 
     /**

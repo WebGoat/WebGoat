@@ -27,8 +27,8 @@ import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * <p>PluginsLoader class.</p>
@@ -58,11 +58,11 @@ public class PluginsLoader {
     public List<Plugin> loadPlugins() {
         List<Plugin> plugins = Lists.newArrayList();
         try {
-            File jarFile = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
-            if (jarFile.isDirectory()) {
-                extractToTempDirectoryFromExplodedDirectory(jarFile);
+            URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
+            if (ResourceUtils.isFileURL(location)) {
+                extractToTempDirectoryFromExplodedDirectory(ResourceUtils.getFile(location));
             } else {
-                extractToTempDirectoryFromJarFile(jarFile);
+                extractToTempDirectoryFromJarFile(ResourceUtils.getFile(ResourceUtils.extractJarFileURL(location)));
             }
             List<URL> jars = listJars();
             plugins = processPlugins(jars);
@@ -73,7 +73,7 @@ public class PluginsLoader {
     }
 
     private void extractToTempDirectoryFromJarFile(File jarFile) throws IOException {
-        JarFile jar = new JarFile(jarFile);
+        ZipFile jar = new ZipFile(jarFile);
         Enumeration<? extends ZipEntry> entries = jar.entries();
         while (entries.hasMoreElements()) {
             ZipEntry zipEntry = entries.nextElement();
@@ -83,7 +83,7 @@ public class PluginsLoader {
         }
     }
 
-    private void unpack(JarFile jar, ZipEntry zipEntry) throws IOException {
+    private void unpack(ZipFile jar, ZipEntry zipEntry) throws IOException {
         try (InputStream inputStream = jar.getInputStream(zipEntry)) {
             String name = zipEntry.getName();
             if (name.lastIndexOf("/") != -1) {
