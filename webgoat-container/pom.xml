@@ -114,6 +114,22 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.10</version>
+                <configuration>
+                    <imageName>webgoat/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.war</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${maven-jar-plugin.version}</version>
@@ -182,21 +198,23 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                        <configuration>
-                            <requiresUnpack>
-                                <dependency>
-                                    <groupId>org.thymeleaf.extra</groupId>
-                                    <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-                                </dependency>
-                            </requiresUnpack>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <!-- See http://docs.spring.io/spring-boot/docs/current/reference/html/howto-build.html#howto-extract-specific-libraries-when-an-executable-jar-runs -->
+                    <requiresUnpack>
+                        <dependency>
+                            <groupId>org.thymeleaf.extra</groupId>
+                            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.asciidoctor</groupId>
+                            <artifactId>asciidoctorj</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.jruby</groupId>
+                            <artifactId>jruby-complete</artifactId>
+                        </dependency>
+                    </requiresUnpack>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -322,7 +340,11 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>0.4.10</version>
+        </dependency>
 
         <!-- ************* END spring MVC and related dependencies ************** -->
         <!-- ************* START: Dependencies for Unit and Integration Testing ************** -->

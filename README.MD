@@ -175,3 +175,23 @@ show an extra set of links below the cookie overview.
 
 To be able to see which labels are loaded through a property file, open up the developer tools avalailable from the info menu
 After the reload is complete, all labels which are loaded from a property file will be __marked green__.
+
+
+## Docker support
+
+WebGoat now has Docker support you can build a container with the following commands:
+
+```Shell
+cd WebGoat
+mvn -pl webgoat-container package docker:build
+```
+
+With the following command you are able to run the Docker container on your local machine:
+
+```Shell
+docker run -p 8080:8080 -t webgoat/webgoat-container
+docker ps
+```
+
+With the last command you are able to determine ip address to connect to.
+At the moment the Docker image is not distributed to a Docker registry.
