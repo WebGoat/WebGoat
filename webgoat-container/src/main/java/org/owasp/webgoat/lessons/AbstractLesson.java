@@ -998,6 +998,4 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         }
         return labelManager;
     }
-
-
 }
