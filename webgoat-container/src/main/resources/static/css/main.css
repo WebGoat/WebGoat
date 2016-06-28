@@ -926,3 +926,9 @@ cookie-container {
 .help-button {
   margin-right:4px;
 }
+
+/* ATTACK DISPLAY */
+
+div.attack-container {
+    display:none;
+}

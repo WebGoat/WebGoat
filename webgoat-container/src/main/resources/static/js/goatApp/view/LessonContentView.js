@@ -25,14 +25,14 @@ define(['jquery',
         //TODO: reimplement this in custom fashion maybe?
         makeFormsAjax: function () {
             var options = {
-                success:this.reLoadView.bind(this),
+                success:this.onAttackExecution.bind(this),
                 url: this.model.urlRoot,
                 type:'GET'
                 // $.ajax options can be used here too, for example: 
                 //timeout:   3000 
             };
             //hook forms //TODO: clarify form selectors later
-            $("form").ajaxForm(options);
+            $("form.attack").ajaxForm(options);
         },
 
         ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
@@ -54,10 +54,15 @@ define(['jquery',
             });
         },
 
-        reLoadView: function(content) {
-            this.model.setContent(content);
-            this.render();
+        onAttackExecution: function(feedback) {
+            console.log('attack executed')
+            this.renderFeedback(feedback);
+        },
+
+        renderFeedback: function(feedback) {
+            this.$el.find('feedback').html(feedback);
         }
+
     });
 
     
