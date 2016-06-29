@@ -98,10 +98,11 @@ define(['jquery',
                     hasPlan:this.lessonInfoModel.get('hasPlan'),
                     hasSolution:this.lessonInfoModel.get('hasSolution'),
                     hasSource:this.lessonInfoModel.get('hasSource'),
-                    hasHints:(this.lessonInfoModel.get('numberHints') > 0),
+                    hasHints:(this.lessonInfoModel.get('numberHints') > 0)
+                    //hasAttack:this.lessonInfo.get('hasAttack') // TODO: add attack options
                 });
 
-                this.listenTo(this.helpControlsView,'plan:show',this.hideShowHelps);
+                this.listenTo(this.helpControlsView,'attack:show',this.hideShowAttack);
                 this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);    
                 this.listenTo(this.helpControlsView,'hints:show',this.onShowHints)
                 this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
@@ -127,7 +128,6 @@ define(['jquery',
                     this.sourceView = new SourceView();
                     this.lessonHintView = new HintView();
                     this.cookieView = new CookieView();
-
 
                     //TODO: instantiate model with values (not sure why was not working before)
                     var paramModel = new ParamModel({});
@@ -178,6 +178,17 @@ define(['jquery',
 
             this.onShowHints = function() {
                 this.lessonHintView.render();
+            };
+
+            this.hideShowAttack = function (options) { // will likely expand this to encompass
+                if (options.show) {
+                    $('div#attack-container').show();
+                    $('div#attack-container div.modal-header button.close, #about-modal div.modal-footer button').unbind('click').on('click', function() {
+                        $('div#attack-container').hide(200);
+                    });
+                    //this.lessonView.makeFormsAjax();
+                    //this.lessonView.ajaxifyAttackHref();
+                }
             };
 
             this.restartLesson = function() {

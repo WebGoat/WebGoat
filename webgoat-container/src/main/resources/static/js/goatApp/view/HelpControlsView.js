@@ -29,8 +29,8 @@ function($,_,Backbone) {
 			if (this.hasSolution) {
 				this.$el.find('#show-solution-button').unbind().on('click',_.bind(this.showSolution,this)).show();
 			}
-			if (this.hasPlan) {
-				this.$el.find('#show-plan-button').unbind().on('click',_.bind(this.showPlan,this)).show();
+			if (true) { //FIXME: change to this.hasAttack
+				this.$el.find('#show-attack-button').unbind().on('click',_.bind(this.showAttack,this)).show();
 			}
 			if (this.hasHints) {
 				this.$el.find('#show-hints-button').unbind().on('click',_.bind(this.showHints,this)).show();
@@ -48,8 +48,8 @@ function($,_,Backbone) {
 			this.trigger('solution:show','solution');
 		},
 
-		showPlan: function() {
-			this.trigger('plan:show','plan');
+		showAttack: function() {
+			this.trigger('attack:show',{show:true});
 		},
 
 		showHints: function() {

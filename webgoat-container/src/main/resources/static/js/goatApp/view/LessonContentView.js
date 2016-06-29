@@ -25,21 +25,21 @@ define(['jquery',
         //TODO: reimplement this in custom fashion maybe?
         makeFormsAjax: function () {
             var options = {
-                success:this.reLoadView.bind(this),
+                success:this.onAttackExecution.bind(this),
                 url: this.model.urlRoot,
                 type:'GET'
                 // $.ajax options can be used here too, for example: 
                 //timeout:   3000 
             };
             //hook forms //TODO: clarify form selectors later
-            $("form").ajaxForm(options);
+            $("form.attack-form").ajaxForm(options);
         },
 
         ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
             var self = this;
             // The current LessonAdapter#getLink() generates a hash-mark link.  It will not match the mask below.
             // Besides, the new MVC code registers an event handler that will reload the lesson according to the route.
-            $.each($('a[href^="attack?"]'),function(i,el) {
+            $.each($('a[href^="attack?"]'),function(i,el) { //FIXME: need to figure out what to do here ...
                 var url = $(el).attr('href');
                 $(el).unbind('click').attr('href','#').attr('link',url);
                 //TODO pull currentMenuId
@@ -54,10 +54,15 @@ define(['jquery',
             });
         },
 
-        reLoadView: function(content) {
-            this.model.setContent(content);
-            this.render();
+        onAttackExecution: function(feedback) {
+            console.log('attack executed')
+            this.renderFeedback(feedback);
+        },
+
+        renderFeedback: function(feedback) {
+            this.$el.find('feedback').html(feedback);
         }
+
     });
 
     
