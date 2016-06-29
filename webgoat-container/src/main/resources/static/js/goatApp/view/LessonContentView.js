@@ -32,14 +32,14 @@ define(['jquery',
                 //timeout:   3000 
             };
             //hook forms //TODO: clarify form selectors later
-            $("form.attack").ajaxForm(options);
+            $("form.attack-form").ajaxForm(options);
         },
 
         ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
             var self = this;
             // The current LessonAdapter#getLink() generates a hash-mark link.  It will not match the mask below.
             // Besides, the new MVC code registers an event handler that will reload the lesson according to the route.
-            $.each($('a[href^="attack?"]'),function(i,el) {
+            $.each($('a[href^="attack?"]'),function(i,el) { //FIXME: need to figure out what to do here ...
                 var url = $(el).attr('href');
                 $(el).unbind('click').attr('href','#').attr('link',url);
                 //TODO pull currentMenuId

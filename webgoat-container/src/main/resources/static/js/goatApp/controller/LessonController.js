@@ -182,7 +182,12 @@ define(['jquery',
 
             this.hideShowAttack = function (options) { // will likely expand this to encompass
                 if (options.show) {
-                    $('div.attack-container').show();
+                    $('div#attack-container').show();
+                    $('div#attack-container div.modal-header button.close, #about-modal div.modal-footer button').unbind('click').on('click', function() {
+                        $('div#attack-container').hide(200);
+                    });
+                    //this.lessonView.makeFormsAjax();
+                    //this.lessonView.ajaxifyAttackHref();
                 }
             };
 
