@@ -80,7 +80,7 @@ public class StartLesson {
     public ModelAndView lessonPage(HttpServletRequest request) {
         // I will set here the thymeleaf fragment location based on the resource requested.
         ModelAndView model = new ModelAndView();
-        SecurityContext context = SecurityContextHolder.getContext();
+        SecurityContext context = SecurityContextHolder.getContext(); //TODO this should work with the security roles of Spring
         GrantedAuthority authority = context.getAuthentication().getAuthorities().iterator().next();
         String path = request.getServletPath(); // we now got /a/b/c/AccessControlMatrix.lesson
         String lessonName = path.substring(path.lastIndexOf('/') + 1, path.indexOf(".lesson"));
@@ -88,8 +88,7 @@ public class StartLesson {
         List<AbstractLesson> lessons = ws.getCourse()
                 .getLessons(ws, AbstractLesson.USER_ROLE);//TODO this should work with the security roles of Spring
         Optional<AbstractLesson> lesson = lessons.stream()
-                .filter(l -> l instanceof YmlBasedLesson)
-                .filter(l -> ((YmlBasedLesson) l).getHtml().equals(lessonName))
+                .filter(l -> l.getHtml().equals(lessonName))
                 .findFirst();
         model.setViewName("lesson_content");
         model.addObject("lesson", lesson.get());

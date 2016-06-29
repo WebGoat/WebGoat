@@ -68,9 +68,7 @@ public class Plugin {
         }
 
         //New code all lessons should work as below
-        if (this.lesson == null) {
-            readYmlLessonConfiguration();
-        }
+        readYmlLessonConfiguration();
     }
 
     private void readYmlLessonConfiguration() {
@@ -87,6 +85,7 @@ public class Plugin {
                 final String title = (String) lessonYml.get("title");
                 final String html = (String) lessonYml.get("html");
                 this.ymlBasedLesson = new YmlBasedLesson(category, hints, title, html);
+                this.lesson = null;
             } catch (IOException e) {
                 throw new PluginLoadingFailure("Unable to read yml file", e);
             }
