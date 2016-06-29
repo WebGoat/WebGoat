@@ -31,6 +31,7 @@
 package org.owasp.webgoat.controller;
 
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
+import org.owasp.webgoat.plugins.YmlBasedLesson;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +64,8 @@ public class StartLesson {
         model.addObject("lesson", ws.getCurrentLesson());
         model.addObject("message", ws.getMessage());
         model.addObject("instructions", ws.getInstructions());
-        model.addObject("migrated", refactored.contains(ws.getCurrentLesson().getClass().getSimpleName())); //remove after ECS removal otherwise you will see the lesson twice
+        boolean isMigrated = ws.getCurrentLesson() instanceof YmlBasedLesson;
+        model.addObject("migrated", isMigrated); //remove after ECS removal otherwise you will see the lesson twice
         model.setViewName("lesson_content");
         return model;
     }
