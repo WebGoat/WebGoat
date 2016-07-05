@@ -14,9 +14,7 @@
 
 <div th:switch="${migrated}">
     <div th:case="false" th:utext="${lesson.content}"></div>
-    <div th:case="true" th:replace="lesson:__${lesson.html}__"></div>
+    <div th:case="true" th:replace="lesson:__${lesson.id}__"></div>
 </div>
 
 </html>
-
-

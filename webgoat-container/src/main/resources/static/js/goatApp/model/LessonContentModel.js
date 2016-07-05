@@ -14,24 +14,25 @@ define(['jquery',
             selectedItem:null
         },
         initialize: function (options) {
-            this.scrParam = null;
-            this.menuParam = null;
-            this.stageParam = null;
-            this.numParam = null;
-            this.baseUrlRoot = 'attack';
+            //this.scrParam = null;
+            //this.menuParam = null;
+            //this.stageParam = null;
+            //this.numParam = null;
+            //this.baseUrlRoot = '';
         },
         loadData: function(options) {
-            this.urlRoot = this.baseUrlRoot + "?Screen=" + options.scr + '&menu=' + options.menu;
-            if (options.stage != null) {
-               this.urlRoot += '&stage=' + options.stage;
-            }
-            if (options.num != null) {
-               this.urlRoot += '&Num=' + options.num;
-            }
-            this.set('menuParam', options.menu);
-            this.set('scrParam', options.scr);
-            this.set('stageParam', options.stage)
-            this.set('numParam', options.num)
+            this.urlRoot = _.escape(encodeURIComponent(options.name)) + '.lesson'
+//            if (options.stage != null) {
+//               this.urlRoot += '&stage=' + options.stage;
+//            }
+//            if (options.num != null) {
+//               this.urlRoot += '&Num=' + options.num;
+//            }
+            //TODO - is below needed anymore?
+//            this.set('menuParam', options.menu);
+//            this.set('scrParam', options.scr);
+//            this.set('stageParam', options.stage);
+//            this.set('numParam', options.num);
             var self = this;
             this.fetch().done(function(data) {
                 self.setContent(data);

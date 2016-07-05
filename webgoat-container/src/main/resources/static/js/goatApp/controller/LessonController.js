@@ -61,36 +61,24 @@ define(['jquery',
                 this.menuButtonView = new MenuButtonView();
             };
 
-            this.loadLesson = function(scr,menu,stage,num) {
+            this.loadLesson = function(name) {
                 this.titleView = new TitleView();
                 this.helpsLoaded = {};
-                if (typeof(scr) == "undefined") {
-                    scr = null;
-                }
-                if (typeof(menu) == "undefined") {
-                    menu = null;
-                }
-                if (typeof(stage) == "undefined") {
-                    stage = null;
-                }
-                if (typeof(num) == "undefined") {
-                    num = null;
+                if (typeof(name) === 'undefined' || name === null) {
+                    //TODO: implement lesson not found or return to welcome page?
                 }
                 this.lessonContent.loadData({
-                    'scr': scr,
-                    'menu': menu,
-                    'stage': stage,
-                    'num': num,
+                    'name':name
+//                    'scr': scr,
+//                    'menu': menu,
+//                    'stage': stage,
+//                    'num': num,
                 });
                 this.planView = {};
                 this.solutionView = {};
                 this.sourceView = {};
                 this.lessonHintView = {};
-                this.scr = scr;
-                this.menu = menu;
-                this.stage = stage;
-                this.num = num;
-                console.log("Lesson loading initiated")
+                this.name = name;
             };
 
             this.onInfoLoaded = function() {
@@ -103,11 +91,12 @@ define(['jquery',
                 });
 
                 this.listenTo(this.helpControlsView,'attack:show',this.hideShowAttack);
-                this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);    
-                this.listenTo(this.helpControlsView,'hints:show',this.onShowHints)
+                this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
                 this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
+
+                this.listenTo(this,'hints:show',this.onShowHints);
 
                 this.helpControlsView.render();
 
@@ -176,18 +165,21 @@ define(['jquery',
                 }
             };
 
-            this.onShowHints = function() {
+            this.showHints = function() {
                 this.lessonHintView.render();
+                this.lessonHintView.
             };
 
             this.hideShowAttack = function (options) { // will likely expand this to encompass
                 if (options.show) {
-                    $('div#attack-container').show();
-                    $('div#attack-container div.modal-header button.close, #about-modal div.modal-footer button').unbind('click').on('click', function() {
-                        $('div#attack-container').hide(200);
+                    $('#attack-container').show();
+                    $('#attack-container div.modal-header button.close, #about-modal div.modal-footer button').unbind('click').on('click', function() {
+                        $('#attack-container').hide(200);
                     });
-                    //this.lessonView.makeFormsAjax();
-                    //this.lessonView.ajaxifyAttackHref();
+                    if (this.lessonInfoModel.get('numberHints') > 0) {
+
+                        this.lessonView.$el.find('#show-hints-button').unbind().on('click',_.bind(this.showHints,this)).show();
+                    }
                 }
             };
 

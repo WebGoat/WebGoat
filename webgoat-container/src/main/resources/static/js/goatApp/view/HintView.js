@@ -19,13 +19,23 @@ function($,
 			this.hideHints();
 		},
 
+        isVisible: function() {
+            return this.$el.is(':visible');
+        },
+
+        toggleLabel: function() {
+            this.$el.text((showing) ? 'Hide hints' : 'Show hints');
+        },
+
 		render:function() {
-			if (this.$el.is(':visible')) {
+			if (this.isVisible()) {
 				this.$el.hide(350);
 			} else {
 				this.$el.show(350);
 			}
-			
+
+            this.toggleLabel()
+
 			if (this.collection.length > 0) {
 				this.hideShowPrevNextButtons();
 			}

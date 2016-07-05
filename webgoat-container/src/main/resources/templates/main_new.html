@@ -8,11 +8,11 @@
     <meta http-equiv="Cache-Control" CONTENT="no-store"/>
 
     <!--[if lt IE 7]>
-    <html class="no-js lt-ie9 lt-ie8 lt-ie7"/> <![endif]-->
+    <id class="no-js lt-ie9 lt-ie8 lt-ie7"/> <![endif]-->
     <!--[if IE 7]>
-    <html class="no-js lt-ie9 lt-ie8"/> <![endif]-->
+    <id class="no-js lt-ie9 lt-ie8"/> <![endif]-->
     <!--[if IE 8]>
-    <html class="no-js lt-ie9"/> <![endif]-->
+    <id class="no-js lt-ie9"/> <![endif]-->
     <!--[if gt IE 8]><!-->
 
     <!--  CSS -->
@@ -34,7 +34,7 @@
 
     <!-- Require.js used to load js asynchronously -->
     <script src="js/libs/require.min.js" data-main="js/main.js"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/id; charset=ISO-8859-1"/>
     <title>WebGoat</title>
 </head>
 <body>
@@ -107,33 +107,17 @@
                 <div class="col-md-8">
                     <div class="col-md-12" align="left">
                         <div class="panel" id="help-controls">
-                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-source-button">Show
-                                Source
+                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-source-button">
+                                <i class="fa fa-code" />
                             </button>
-                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-solution-button">Show
-                                Solution
+                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-attack-button">
+                                Attack It
                             </button>
-                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-hints-button">Show
-                                Hints
+                            <button class="btn btn-xs help-button" id="restart-lesson-button">
+                                Reset Lesson
                             </button>
-                            <button class="btn btn-primary btn-xs btn-danger help-button" id="show-attack-button">Attack It
-                            </button>
-                            <button class="btn btn-xs help-button" id="restart-lesson-button">Reset Lesson</button>
                         </div>
-                        <div class="lesson-hint" id="lesson-hint-container">
-                            <h4>Hints</h4>
-
-                            <div class="panel">
-                                <div class="panel-body" id="lesson-hint">
-                                    <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left"
-                                          id="show-prev-hint"></span>
-                                    <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right"
-                                          id="show-next-hint"></span>
-                                    <br/>
-                                    <span id="lesson-hint-content"></span>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- hints moved into lesson template -->
                     </div>
                     <div class="col-md-12" align="left">
                         <div id="lesson-content-wrapper" class="panel">
@@ -141,35 +125,36 @@
                         </div>
                     </div>
                 </div><!--col-md-8 end-->
-                <div class="col-md-4">
-                    <div class="col-md-12">
-                        <div class="panel">
-                            <div class="panel-body">
-                                <div align="left">
-                                    <h3>Cookies / Parameters</h3>
-                                </div>
-                                <hr/>
-                                <div id="cookies-and-params">
-                                    <div id="cookies-view">
-                                        <h4>Cookies</h4>
-                                    </div>
-                                    <div id="params-view"> <!--class="paramsView"-->
-                                        <h4>Params</h4>
-                                    </div>
-                                </div>
-                                <div id="developer-control-container">
-                                    <div align="left">
-                                        <h3>Developer controls</h3>
-                                    </div>
-                                    <hr/>
-                                    <div id="developer-controls">
+                <!--<div class="col-md-4">-->
+                    <!--<div class="col-md-12">-->
+                        <!--<div class="panel">-->
+                            <!--<div class="panel-body">-->
+                                <!--<div align="left">-->
+                                    <!--<h3>Cookies / Parameters</h3>-->
+                                <!--</div>-->
+                                <!--<hr/>-->
+                                <!--<div id="cookies-and-params">-->
+                                    <!--<div id="cookies-view">-->
+                                        <!--<h4>Cookies</h4>-->
+                                    <!--</div>-->
+                                    <!--<div id="params-view"> &lt;!&ndash;class="paramsView"&ndash;&gt;-->
+                                        <!--<h4>Params</h4>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div id="developer-control-container">-->
+                                    <!--<div align="left">-->
+                                        <!--<h3>Developer controls</h3>-->
+                                    <!--</div>-->
+                                    <!--<hr/>-->
+                                    <!--<div id="developer-controls">-->
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--col-md-4 end-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--col-md-4 end-->
             </div>
             <div id="lesson-helps-wrapper" class="panel">
                 <div class="lesson-help" id="lesson-plan-row">

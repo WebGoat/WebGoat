@@ -22,9 +22,9 @@ define(['jquery',
     var GoatAppRouter = Backbone.Router.extend({
         routes: {
             'welcome':'welcomeRoute',
-            'attack/:scr/:menu':'attackRoute',
-            'attack/:scr/:menu/:stage':'attackRoute',
-            'attack/:scr/:menu/*stage/:num':'attackRoute',
+            'lesson/:name':'lessonRoute'
+            //'attack/:scr/:menu/:stage':'attackRoute',
+            //'attack/:scr/:menu/*stage/:num':'attackRoute',
         },
 
         lessonController: new LessonController({
@@ -40,16 +40,21 @@ define(['jquery',
             this.lessonController.start();
             // this.menuController.initMenu();
 
-            goatRouter.on('route:attackRoute', function(scr,menu,stage,num) {
-                this.lessonController.loadLesson(scr,menu,stage,num);
-                this.menuController.updateMenu(scr,menu);
+//            goatRouter.on('route:attackRoute', function(scr,menu,stage,num) {
+//                this.lessonController.loadLesson(scr,menu,stage,num);
+//                this.menuController.updateMenu(scr,menu);
+//            });
+            goatRouter.on('route:lessonRoute', function(name) {
+                console.log('lesson route initiated');
+                this.lessonController.loadLesson(name);
+                //TODO - update menu code from below
+                this.menuController.updateMenu(name);
             });
+
             goatRouter.on('route:welcomeRoute', function() {
                 this.lessonController.loadWelcome();
             });
-            goatRouter.on("route", function(route, params) {
-
-            });
+            goatRouter.on("route", function(route, params) {});
 
             Backbone.history.start();
             this.listenTo(this.lessonController, 'menu:reload',this.reloadMenu)

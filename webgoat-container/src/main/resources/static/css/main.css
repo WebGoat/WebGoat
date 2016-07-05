@@ -663,6 +663,11 @@ fieldset[disabled] .btn-warning.active {
 #about-modal {
   opacity: 95%;
 }
+
+.modal-header {
+    border-bottom:none !important
+}
+
 /* ==========================================================================
    Media Queries
    ========================================================================== */
@@ -904,6 +909,14 @@ cookie-container {
 #lesson-hint-container {
   display: none;
 }
+
+#lesson-hint {
+    background-color: #ccc;
+    border-radius: 4px;
+    border-color: #999;
+    margin-top:4px;
+}
+
 #hintsViewTop{
   display: none;
   background-color: #eee;
@@ -929,6 +942,6 @@ cookie-container {
 
 /* ATTACK DISPLAY */
 
-div.attack-container {
+#attack-container {
     display:none;
 }
