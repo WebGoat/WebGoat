@@ -41,13 +41,13 @@ public class YmlBasedLesson extends LessonAdapter {
     private final String category;
     private final List<String> hints;
     private final String title;
-    private final String html;
+    private final String id;
 
-    public YmlBasedLesson(String category, List<String> hints, String title, String html) {
+    public YmlBasedLesson(String category, List<String> hints, String title, String id) {
         this.category = category;
         this.hints = hints;
         this.title = title;
-        this.html = html;
+        this.id = id;
     }
 
     @Override
@@ -70,8 +70,8 @@ public class YmlBasedLesson extends LessonAdapter {
         return title;
     }
 
-    public String getHtml() {
-        return html;
+    public String getId() {
+        return id;
     }
 
 

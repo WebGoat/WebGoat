@@ -83,7 +83,7 @@ public class Plugin {
                 final String category = (String) lessonYml.get("category");
                 final List<String> hints = (List<String>) lessonYml.get("hints");
                 final String title = (String) lessonYml.get("title");
-                final String html = (String) lessonYml.get("html");
+                final String html = (String) lessonYml.get("id");
                 this.ymlBasedLesson = new YmlBasedLesson(category, hints, title, html);
                 this.lesson = null;
             } catch (IOException e) {

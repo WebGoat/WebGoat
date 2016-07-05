@@ -88,7 +88,7 @@ public class StartLesson {
         List<AbstractLesson> lessons = ws.getCourse()
                 .getLessons(ws, AbstractLesson.USER_ROLE);//TODO this should work with the security roles of Spring
         Optional<AbstractLesson> lesson = lessons.stream()
-                .filter(l -> l.getHtml().equals(lessonName))
+                .filter(l -> l.getId().equals(lessonName))
                 .findFirst();
         model.setViewName("lesson_content");
         model.addObject("lesson", lesson.get());

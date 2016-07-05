@@ -626,7 +626,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * @return a {@link java.lang.String} object.
      */
     protected String getPath() {
-        return "#attack";
+        return "#lesson/";
     }
 
     /**
@@ -645,9 +645,10 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         StringBuffer link = new StringBuffer(getPath());
 
         // mvc update:
-        return link
-                .append("/").append(getScreenId())
-                .append("/").append(getCategory().getRanking()).toString();
+//        return link
+//                .append("/").append(getScreenId())
+//                .append("/").append(getCategory().getRanking()).toString();
+        return link.append(getId()).toString();
     }
 
     /**
@@ -999,7 +1000,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return labelManager;
     }
 
-    public String getHtml() {
+    public String getId() {
         return "";
     }
 }
