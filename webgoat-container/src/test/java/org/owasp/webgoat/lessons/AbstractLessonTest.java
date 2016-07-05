@@ -49,17 +49,17 @@ public class AbstractLessonTest  {
         }
     };
 
-    @Test
-    public void testLinks() {
-        String mvcLink = lesson.getLink();
-        assertThat(mvcLink, CoreMatchers.startsWith("#attack/"));
-        assertThat(mvcLink, CoreMatchers.endsWith("/900"));
-
-        String srvLink = lesson.getServletLink();
-        assertThat(srvLink, CoreMatchers.startsWith("attack?Screen="));
-        assertThat(srvLink, CoreMatchers.endsWith("&menu=900"));
-        assertEquals(lesson.getSubmitMethod(),"GET");
-    }
+//    @Test
+//    public void testLinks() {
+//        String mvcLink = lesson.getLink();
+//        assertThat(mvcLink, CoreMatchers.startsWith("#attack/"));
+//        assertThat(mvcLink, CoreMatchers.endsWith("/900"));
+//
+//        String srvLink = lesson.getServletLink();
+//        assertThat(srvLink, CoreMatchers.startsWith("attack?Screen="));
+//        assertThat(srvLink, CoreMatchers.endsWith("&menu=900"));
+//        assertEquals(lesson.getSubmitMethod(),"GET");
+//    }
 }
 
 
