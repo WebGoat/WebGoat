@@ -127,6 +127,10 @@
             <param-value>true</param-value>
         </init-param>
         <init-param>
+            <param-name>DefuseOSCommands</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
             <param-name>Enterprise</param-name>
             <param-value>true</param-value>
         </init-param>
