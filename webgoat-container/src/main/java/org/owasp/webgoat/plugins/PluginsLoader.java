@@ -55,7 +55,6 @@ public class PluginsLoader {
         try {
             if (!alreadyLoaded) {
                 WebappClassLoader cl = (WebappClassLoader) Thread.currentThread().getContextClassLoader();
-                cl.setAntiJARLocking(true);
                 List<URL> jars = listJars();
                 for (URL jar : jars) {
                     cl.addRepository(jar.toString());
