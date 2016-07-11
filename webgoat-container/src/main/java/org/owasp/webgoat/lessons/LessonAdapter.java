@@ -70,11 +70,16 @@ public abstract class LessonAdapter extends AbstractLesson {
         ec
                 .addElement(new StringElement(
                         "Lesson are simple to create and very little coding is required. &nbsp;&nbsp;"
-                                + "In fact, most lessons can be created by following the easy to use instructions in the "
-                                + "<A HREF=http://www.owasp.org/index.php/WebGoat_User_and_Install_Guide_Table_of_Contents>WebGoat User Guide.</A>&nbsp;&nbsp;"
-                                + "If you would prefer, send your lesson ideas to "
-                                + getWebgoatContext().getFeedbackAddressHTML()));
-
+                                + "In fact, most lessons can be created by following the easy to use instructions by going to the WebGoat wiki page&nbsp;"
+                                + "<A HREF=https://github.com/WebGoat/WebGoat/wiki>WebGoat Wiki Page</A>&nbsp;&nbsp;"
+                                + "If you would prefer, send your lesson ideas to&nbsp;"
+                                + getWebgoatContext().getFeedbackAddressHTML()  
+                                + "Note: you will need to register at"
+                                + "the following link to use the feedback tool:&nbsp;"
+                                + "<A HREF=https://lists.owasp.org/mailman/listinfo/owasp-webgoat>List Registration</A>&nbsp;&nbsp;"
+                                + "Finally, OWASP has a slack channel. You can register at the following link:&nbsp;"
+                                + "<A HREF=https://owasp.slack.com/>OWASP Slack Channel</A>"));
+        
         try (InputStream is = Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("New Lesson Instructions.txt")) {
             if (is != null) {
