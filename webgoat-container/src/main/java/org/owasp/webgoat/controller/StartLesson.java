@@ -34,6 +34,7 @@ import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
 import org.owasp.webgoat.plugins.YmlBasedLesson;
 import org.owasp.webgoat.session.WebSession;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,6 +61,7 @@ public class StartLesson {
      * @param request a {@link HttpServletRequest} object.
      * @return a {@link ModelAndView} object.
      */
+    @PreAuthorize(hasAnyRole('foo'));
     @RequestMapping(path = "startlesson.mvc", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView start(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
