@@ -61,7 +61,6 @@ public class StartLesson {
      * @param request a {@link HttpServletRequest} object.
      * @return a {@link ModelAndView} object.
      */
-    @PreAuthorize(hasAnyRole('foo'));
     @RequestMapping(path = "startlesson.mvc", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView start(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
