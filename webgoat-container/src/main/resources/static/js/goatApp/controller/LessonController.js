@@ -167,7 +167,7 @@ define(['jquery',
 
             this.showHints = function() {
                 this.lessonHintView.render();
-                this.lessonHintView.
+                //this.lessonHintView.
             };
 
             this.hideShowAttack = function (options) { // will likely expand this to encompass
