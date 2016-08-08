@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
+import com.google.common.reflect.ClassPath;
 import org.apache.commons.io.FileUtils;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.springframework.util.StringUtils;
@@ -84,7 +85,8 @@ public class Plugin {
                 final List<String> hints = (List<String>) lessonYml.get("hints");
                 final String title = (String) lessonYml.get("title");
                 final String html = (String) lessonYml.get("id");
-                this.ymlBasedLesson = new YmlBasedLesson(category, hints, title, html);
+                Class attackClazz = findAttack(html);
+                this.ymlBasedLesson = new YmlBasedLesson(category, hints, title, html, attackClazz);
                 this.lesson = null;
             } catch (IOException e) {
                 throw new PluginLoadingFailure("Unable to read yml file", e);
@@ -92,6 +94,19 @@ public class Plugin {
         }
 
 
+    }
+
+    private Class findAttack(String id) {
+        try {
+            for (final ClassPath.ClassInfo info : ClassPath.from(this.classLoader).getTopLevelClasses()) {
+                if (info.getName().endsWith(id)) {
+                    return info.load();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -152,6 +167,7 @@ public class Plugin {
 
     /**
      * Lesson is optional, it is also possible that the supplied jar contains only helper classes.
+     * Lesson could be a new lesson (adoc based) or still ECS based.
      *
      * @return a {@link com.google.common.base.Optional} object.
      */

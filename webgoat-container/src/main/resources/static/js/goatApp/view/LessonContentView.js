@@ -39,19 +39,29 @@ define(['jquery',
             var self = this;
             // The current LessonAdapter#getLink() generates a hash-mark link.  It will not match the mask below.
             // Besides, the new MVC code registers an event handler that will reload the lesson according to the route.
-            $.each($('a[href^="attack?"]'),function(i,el) { //FIXME: need to figure out what to do here ...
-                var url = $(el).attr('href');
-                $(el).unbind('click').attr('href','#').attr('link',url);
-                //TODO pull currentMenuId
-                $(el).click(function(event) {
-                    event.preventDefault();
-                    var _url = $(el).attr('link');
-                    console.log("About to GET " + _url);
-                    $.get(_url)
-                        .done(self.reLoadView.bind(self))
-                        .fail(function() { alert("failed to GET " + _url); });
-                });
+            $('form').submit(function(event){
+                var url = this.baseURI;
+                url = url.replace('start.mvc#lesson', '');
+                url = url + '.attack';
+                $.get(url)
+                    .done(self.reLoadView.bind(self))
+                    .fail(function() { alert("failed to GET " + url); });
             });
+            //
+            //
+            // $.each($('a[href^="*.attack"]'),function(i,el) { //FIXME: need to figure out what to do here ...
+            //     var url = $(el).attr('href');
+            //     $(el).unbind('click').attr('href','#').attr('link',url);
+            //     //TODO pull currentMenuId
+            //     $(el).click(function(event) {
+            //         event.preventDefault();
+            //         var _url = $(el).attr('link');
+            //         console.log("About to GET " + _url);
+            //         $.get(_url)
+            //             .done(self.reLoadView.bind(self))
+            //             .fail(function() { alert("failed to GET " + _url); });
+            //     });
+            // });
         },
 
         onAttackExecution: function(feedback) {

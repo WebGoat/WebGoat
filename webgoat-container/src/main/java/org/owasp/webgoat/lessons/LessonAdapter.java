@@ -220,6 +220,11 @@ public abstract class LessonAdapter extends AbstractLesson {
         s.getLessonSession(this).setCurrentLessonScreen(lessonScreen);
     }
 
+    @Override
+    protected Element makeMessages(WebSession s) {
+        return super.makeMessages(s);
+    }
+
     /**
      * <p>getSessionAttribute.</p>
      *

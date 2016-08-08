@@ -1,5 +1,6 @@
 package org.owasp.webgoat.plugins;
 
+import org.owasp.webgoat.lessons.Attack;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonAdapter;
 import org.owasp.webgoat.session.WebSession;
@@ -42,12 +43,15 @@ public class YmlBasedLesson extends LessonAdapter {
     private final List<String> hints;
     private final String title;
     private final String id;
+    private Attack attack;
 
-    public YmlBasedLesson(String category, List<String> hints, String title, String id) {
+    public YmlBasedLesson(String category, List<String> hints, String title, String id, Class attack) {
         this.category = category;
         this.hints = hints;
         this.title = title;
         this.id = id;
+        createAttack(attack);
+
     }
 
     @Override
@@ -74,5 +78,16 @@ public class YmlBasedLesson extends LessonAdapter {
         return id;
     }
 
+    public Attack getLessonAttack() {
+        return this.attack;
+    }
+
+    private void createAttack(Class attack) {
+        try {
+            this.attack = (Attack) attack.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
