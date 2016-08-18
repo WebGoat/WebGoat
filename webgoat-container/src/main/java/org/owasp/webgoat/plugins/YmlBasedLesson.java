@@ -50,7 +50,7 @@ public class YmlBasedLesson extends LessonAdapter {
         this.hints = hints;
         this.title = title;
         this.id = id;
-        createAttack(attack);
+      //  createAttack(attack);
 
     }
 

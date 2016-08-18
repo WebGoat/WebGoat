@@ -33,8 +33,6 @@ package org.owasp.webgoat.controller;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
 import org.owasp.webgoat.plugins.YmlBasedLesson;
-import org.owasp.webgoat.session.LessonTracker;
-import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -88,36 +86,8 @@ public class StartLesson {
         Optional<AbstractLesson> lesson = lessons.stream()
                 .filter(l -> l.getId().equals(lessonName))
                 .findFirst();
+        ws.setCurrentScreen(lesson.get().getScreenId());
         model.setViewName("lesson_content");
-        model.addObject("lesson", lesson.get());
-        return model;
-    }
-    
-//// FIXME: 8/8/2016 duplicate code
-    @RequestMapping(value = {"*.attack"}, produces = "text/html")
-    public ModelAndView attack(HttpServletRequest request) {
-        // I will set here the thymeleaf fragment location based on the resource requested.
-        ModelAndView model = new ModelAndView();
-        SecurityContext context = SecurityContextHolder.getContext(); //TODO this should work with the security roles of Spring
-        GrantedAuthority authority = context.getAuthentication().getAuthorities().iterator().next();
-        String path = request.getServletPath(); // we now got /a/b/c/AccessControlMatrix.lesson
-        String lessonName = path.substring(path.lastIndexOf('/') + 1, path.indexOf(".attack"));
-        WebSession ws = (WebSession) request.getSession().getAttribute(WebSession.SESSION);
-        List<AbstractLesson> lessons = ws.getCourse()
-                .getLessons(ws, AbstractLesson.USER_ROLE);//TODO this should work with the security roles of Spring
-        Optional<AbstractLesson> lesson = lessons.stream()
-                .filter(l -> l.getId().equals(lessonName))
-                .findFirst();
-        model.setViewName("lesson_content");
-
-        YmlBasedLesson ymlBasedLesson = (YmlBasedLesson) lesson.get();
-        if (ymlBasedLesson.getLessonAttack().attack()) {
-            UserTracker userTracker = UserTracker.instance();
-            LessonTracker lessonTracker = userTracker.getLessonTracker(ws, lesson.get());
-            lessonTracker.setCompleted(true);
-            model.addObject("message", ws.getMessage());
-        }
-
         model.addObject("lesson", lesson.get());
         return model;
     }

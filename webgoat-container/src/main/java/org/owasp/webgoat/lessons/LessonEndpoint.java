@@ -25,6 +25,9 @@
  */
 package org.owasp.webgoat.lessons;
 
+import org.owasp.webgoat.session.LessonTracker;
+import org.owasp.webgoat.session.UserTracker;
+import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.endpoint.Endpoint;
@@ -47,6 +50,8 @@ public abstract class LessonEndpoint implements MvcEndpoint {
     @Autowired
     @Qualifier("pluginTargetDirectory")
     private File pluginDirectory;
+    @Autowired
+    private WebSession webSession;
 
     /**
      * The directory of the plugin directory in which the lessons resides, so if you want to access the lesson 'ClientSideFiltering' you will
@@ -62,6 +67,12 @@ public abstract class LessonEndpoint implements MvcEndpoint {
      */
     protected File getPluginDirectory() {
         return new File(this.pluginDirectory, "plugin");
+    }
+
+    protected LessonTracker getLessonTracker() {
+        UserTracker userTracker = UserTracker.instance();
+        LessonTracker lessonTracker = userTracker.getLessonTracker(webSession, webSession.getCurrentLesson());
+        return lessonTracker;
     }
 
     @Override

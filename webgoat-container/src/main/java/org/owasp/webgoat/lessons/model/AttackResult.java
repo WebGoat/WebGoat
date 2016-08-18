@@ -1,6 +1,4 @@
-package org.owasp.webgoat.lessons;
-
-import org.owasp.webgoat.lessons.model.AttackResult;
+package org.owasp.webgoat.lessons.model;
 
 /**
  * ************************************************************************************************
@@ -29,9 +27,30 @@ import org.owasp.webgoat.lessons.model.AttackResult;
  *
  * @author WebGoat
  * @version $Id: $Id
- * @since August 08, 2016
+ * @since August 13, 2016
  */
-public interface Attack {
+public class AttackResult {
 
-    AttackResult attack();
+    private boolean lessonCompleted;
+    private String feedback;
+    private String output;
+
+    public static AttackResult success() {
+        AttackResult attackResult = new AttackResult();
+        attackResult.lessonCompleted = true;
+        attackResult.feedback = "Congratulations";
+        return attackResult;
+    }
+
+    public boolean isLessonCompleted() {
+        return lessonCompleted;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public String getOutput() {
+        return output;
+    }
 }
