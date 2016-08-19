@@ -18,6 +18,7 @@ define(['jquery',
         render: function() {
             this.$el.html(this.model.get('content'));
             this.makeFormsAjax();
+            this.initPagination();
             this.ajaxifyAttackHref();
             $(window).scrollTop(0); //work-around til we get the scroll down sorted out
         },
@@ -33,6 +34,16 @@ define(['jquery',
             };
             //hook forms //TODO: clarify form selectors later
             $("form.attack-form").ajaxForm(options);
+        },
+
+        initPagination: function() {
+            //console.log(this.$el.find('.lesson-page-wrapper').length + ' pages of content');
+            this.currentPage = 0;
+            this.$contentPages = this.$el.find('.lesson-page-wrapper');
+            if (this.$contentPages.length > 1) {
+                this.$contentPages.hide();
+                this.$el.find(this.$contentPages[0]).show();
+            }
         },
 
         ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
@@ -53,6 +64,16 @@ define(['jquery',
 
         renderFeedback: function(feedback) {
             this.$el.find('feedback').html(feedback);
+        },
+
+        addPaginationControls: function() {
+//            <div class="panel-body" id="lesson-page-controls">
+//              <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="show-prev-hint"></span>
+//              <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="show-next-hint"></span>
+//              <br/>
+//
+//            </div>
+
         }
 
     });
