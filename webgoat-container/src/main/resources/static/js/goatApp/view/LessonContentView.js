@@ -18,9 +18,9 @@ define(['jquery',
         render: function() {
             this.$el.html(this.model.get('content'));
             this.makeFormsAjax();
-            this.initPagination();
             this.ajaxifyAttackHref();
             $(window).scrollTop(0); //work-around til we get the scroll down sorted out
+            this.initPagination();
         },
         
         //TODO: reimplement this in custom fashion maybe?
@@ -37,12 +37,14 @@ define(['jquery',
         },
 
         initPagination: function() {
-            //console.log(this.$el.find('.lesson-page-wrapper').length + ' pages of content');
+            //get basic pagination info
             this.currentPage = 0;
             this.$contentPages = this.$el.find('.lesson-page-wrapper');
-            if (this.$contentPages.length > 1) {
-                this.$contentPages.hide();
-                this.$el.find(this.$contentPages[0]).show();
+            this.numPages = this.$contentPages.length;
+            //
+            if (this.numPages > 1) {
+                this.showCurContentPage();
+                this.addPaginationControls();
             }
         },
 
@@ -67,14 +69,48 @@ define(['jquery',
         },
 
         addPaginationControls: function() {
-//            <div class="panel-body" id="lesson-page-controls">
-//              <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left" id="show-prev-hint"></span>
-//              <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right" id="show-next-hint"></span>
-//              <br/>
-//
-//            </div>
+            this.$prevPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-left show-prev-page'});
+            this.$prevPageButton.unbind().on('click',this.decrementPageView);
+
+            this.$nextPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-right show-next-page'});
+            this.$nextPageButton.unbind().on('click',this.incrementPageView.bind(this));
+
+            var pagingControlsDiv = $('<div>',{class:'panel-body', id:'lessong-page-controls'});
+            pagingControlsDiv.append(this.$prevPageButton);
+            pagingControlsDiv.append(this.$nextPageButton);
+            this.$el.append(pagingControlsDiv);
+            this.$prevPageButton.hide()
+        },
+
+        incrementPageView: function() {
+            if (this.currentPage < this.numPages -1) {
+               this.currentPage++;
+               this.showCurContentPage();
+            }
+            if (this.currentPage >= this.numPages -1) {
+                //this.hideNextPageButton();
+            }
+        },
+
+        decrementPageView: function() {
+            if (this.currentPage > 0) {
+                this.currentPage--;
+                this.showCurContentPage();
+            }
+            if (this.currentPage == 0) {
+                //this.hidePrevPageButton();
+            }
+        },
+
+        showCurContentPage: function() {
+            this.$contentPages.hide();
+            this.$el.find(this.$contentPages[this.currentPage]).show();
+        },
+
+        hideNextPageButton: function() {
 
         }
+
 
     });
 

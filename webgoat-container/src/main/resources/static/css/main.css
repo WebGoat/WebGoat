@@ -905,6 +905,11 @@ cookie-container {
   display: block
 }
 
+/* General View Controls */
+.show-next-page:hover {
+    cursor:pointer;
+}
+
 /* HINTS */
 #lesson-hint-container {
   display: none;
@@ -943,5 +948,5 @@ cookie-container {
 /* ATTACK DISPLAY */
 
 #attack-container {
-    display:none;
+    border:1px solid red;
 }
