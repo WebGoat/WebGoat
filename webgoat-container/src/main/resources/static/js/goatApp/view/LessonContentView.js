@@ -43,7 +43,9 @@ define(['jquery',
             this.numPages = this.$contentPages.length;
             //
             if (this.numPages > 1) {
-                this.showCurContentPage();
+                //no animation on init
+                this.$contentPages.hide();
+                this.$el.find(this.$contentPages[this.currentPage]).show();
                 this.addPaginationControls();
             }
         },
@@ -70,7 +72,7 @@ define(['jquery',
 
         addPaginationControls: function() {
             this.$prevPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-left show-prev-page'});
-            this.$prevPageButton.unbind().on('click',this.decrementPageView);
+            this.$prevPageButton.unbind().on('click',this.decrementPageView.bind(this));
 
             this.$nextPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-right show-next-page'});
             this.$nextPageButton.unbind().on('click',this.incrementPageView.bind(this));
@@ -85,26 +87,35 @@ define(['jquery',
         incrementPageView: function() {
             if (this.currentPage < this.numPages -1) {
                this.currentPage++;
-               this.showCurContentPage();
+               this.showCurContentPage(true);
             }
+
             if (this.currentPage >= this.numPages -1) {
-                //this.hideNextPageButton();
+                this.$nextPageButton.hide();
+                this.$prevPageButton.show()
             }
         },
 
         decrementPageView: function() {
             if (this.currentPage > 0) {
                 this.currentPage--;
-                this.showCurContentPage();
+                this.showCurContentPage(false);
             }
+
             if (this.currentPage == 0) {
-                //this.hidePrevPageButton();
+                this.$prevPageButton.hide();
+                this.$nextPageButton.show();
             }
+
         },
 
-        showCurContentPage: function() {
+        showCurContentPage: function(isIncrement) {
             this.$contentPages.hide();
-            this.$el.find(this.$contentPages[this.currentPage]).show();
+            if (isIncrement) {
+                this.$el.find(this.$contentPages[this.currentPage]).slideDown(300);
+            } else {
+                this.$el.find(this.$contentPages[this.currentPage]).slideUp(300);
+            }
         },
 
         hideNextPageButton: function() {

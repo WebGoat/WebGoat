@@ -910,6 +910,10 @@ cookie-container {
     cursor:pointer;
 }
 
+.show-prev-page:hover {
+    cursor:pointer;
+}
+
 /* HINTS */
 #lesson-hint-container {
   display: none;
