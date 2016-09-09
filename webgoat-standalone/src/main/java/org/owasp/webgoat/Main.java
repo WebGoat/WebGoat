@@ -43,7 +43,7 @@ import static com.github.ryenus.rop.OptionParser.Command;
  * @version $Id: $Id
  * @since July 24, 2016
  */
-@Command(name = "webgoat", descriptions = "Start the WebGoat")
+@Command(name = "webgoat", descriptions = "Starting WebGoat")
 public class Main {
 
     private final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -72,7 +72,6 @@ public class Main {
         logger.info("Browse to http://{}:{}/WebGoat and happy hacking!", address, port);
         tomcat.getServer().await();
     }
-
 
     public static void main(String[] args) throws Exception {
         OptionParser parser = new OptionParser(Main.class);

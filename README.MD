@@ -59,23 +59,20 @@ wish to simply try/test/run the current development version of WebGoat
 
 #### 1. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
 
-https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0.1-war-exec.jar
+https://s3.amazonaws.com/webgoat-war/webgoat-standalone-7.0.1-exec.jar
 
 #### 2. Run it using java:
 
 Open a command shell/window, browse to where you downloaded the easy run jar and type:
 
 ```Shell
-java -jar webgoat-container-7.0.1-war-exec.jar
+java -jar webgoat-standalone-7.0.1-exec.jar [-p | --p <port>] [-a | --address <address>]
 ```
 
-#### 3. Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
+Using the `--help` option will show the allowed command line arguments.
 
-#### (Optional) If you would like to change the port or other options, use the help command for guidance:
+#### 3. Browse to the url shown in the console and happy hacking !
 
-```Shell
-java -jar webgoat-container-7.0.1-war-exec.jar --help
-```
 
 # For Developers
 
@@ -150,11 +147,11 @@ The __maven package__ goal generates an executable .jar file:
 ```Shell
 cd WebGoat
 mvn package
-cd webgoat-container/target
-java -jar webgoat-container-7.1-SNAPSHOT-war-exec.jar http://localhost:8080/WebGoat
+cd webgoat-standalone/target
+java -jar webgoat-standalone-7.1-SNAPSHOT-exec.jar [-p | --p <port>] [-a | --address <address>]
 ```
 
-Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
+Browse to url shown in the console and happy hacking !
 
 #### Option #3: Deploy the WebGoat WAR file in your local Tomcat or other Application Server:
 The __maven package__ goal generates a .war file that can deployed into an Application Server, such as Tomcat
