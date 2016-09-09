@@ -123,7 +123,8 @@ cd ..
 cd WebGoat-Lessons
 git checkout develop
 mvn package
-cp target/plugins/*.jar ../WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+(linux)   cp target/plugins/*.jar ../WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+(windows) xcopy "target\plugins\*.jar" "..\WebGoat\webgoat-container\src\main\webapp\plugin_lessons\"
 cd ..
 ```
 
