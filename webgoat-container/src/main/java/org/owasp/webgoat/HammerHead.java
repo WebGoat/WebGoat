@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -243,7 +244,10 @@ public class HammerHead extends HttpServlet {
         httpDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         propertiesPath = getServletContext().getRealPath("/WEB-INF/webgoat.properties");
         webgoatContext = new WebgoatContext(this);
-        logger.info("Browse to http://localhost:8080/WebGoat and happy hacking!");
+        URL runningStandalone = Thread.currentThread().getContextClassLoader().getResource("standalone.properties");
+        if (runningStandalone == null) {
+            logger.info("Browse to http://localhost:8080/WebGoat and happy hacking!");
+        }
     }
 
     /**

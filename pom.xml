@@ -164,6 +164,7 @@
 
     <modules>
         <module>webgoat-container</module>
+        <module>webgoat-standalone</module>
     </modules>
 
     <distributionManagement>
