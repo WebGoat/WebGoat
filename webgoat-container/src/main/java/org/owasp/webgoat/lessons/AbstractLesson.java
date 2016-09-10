@@ -35,35 +35,37 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Math.abs;
+
 /**
- *************************************************************************************************
- *
- *
+ * ************************************************************************************************
+ * <p>
+ * <p>
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- *
+ * <p>
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- *
+ * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- *
+ * <p>
  * Getting Source ==============
- *
+ * <p>
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @since October 28, 2003
  * @version $Id: $Id
+ * @since October 28, 2003
  */
 public abstract class AbstractLesson extends Screen implements Comparable<Object> {
 
@@ -74,7 +76,9 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      */
     public final static String ADMIN_ROLE = "admin";
 
-    /** Constant <code>CHALLENGE_ROLE="challenge"</code> */
+    /**
+     * Constant <code>CHALLENGE_ROLE="challenge"</code>
+     */
     public final static String CHALLENGE_ROLE = "challenge";
 
     /**
@@ -120,7 +124,9 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * Constructor for the Lesson object
      */
     public AbstractLesson() {
-        id = new Integer(++count);
+        //based on the class name derive an id so the screenId is fixed, should not give clashes based on
+        //the fact we use the classname and the size is limited
+        id = abs(this.getClass().getSimpleName().hashCode());
     }
 
     /**
@@ -185,7 +191,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     /**
      * {@inheritDoc}
-     *
+     * <p>
      * Description of the Method
      */
     public int compareTo(Object obj) {
@@ -194,7 +200,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     /**
      * {@inheritDoc}
-     *
+     * <p>
      * Description of the Method
      */
     public boolean equals(Object obj) {
@@ -368,6 +374,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     // @TODO we need to restrict access at the service layer
     // rather than passing session object around
+
     /**
      * <p>getHintsPublic.</p>
      *
@@ -383,9 +390,9 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * Fill in a minor hint that will help people who basically get it, but are
      * stuck on somthing silly.
      *
-     * @param s The users WebSession
-     * @return The hint1 value
+     * @param s          The users WebSession
      * @param hintNumber a int.
+     * @return The hint1 value
      */
     public String getHint(WebSession s, int hintNumber) {
         return "Hint: " + getHints(s).get(hintNumber);
@@ -394,8 +401,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Gets the instructions attribute of the AbstractLesson object
      *
-     * @return The instructions value
      * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @return The instructions value
      */
     public abstract String getInstructions(WebSession s);
 
@@ -613,12 +620,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     /**
      * <p>Returns the default "path" portion of a lesson's URL.</p>
-     *
-     *
+     * <p>
+     * <p>
      * Legacy webgoat lesson links are of the form
      * "attack?Screen=Xmenu=Ystage=Z". This method returns the path portion of
      * the url, i.e., "attack" in the string above.
-     *
+     * <p>
      * Newer, Spring-Controller-based classes will override this method to
      * return "*.do"-styled paths.
      *
@@ -630,7 +637,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     /**
      * Get the link that can be used to request this screen.
-     *
+     * <p>
      * Rendering the link in the browser may result in Javascript sending
      * additional requests to perform necessary actions or to obtain data
      * relevant to the lesson or the element of the lesson selected by the
@@ -645,13 +652,13 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
         // mvc update:
         return link
-            .append("/").append(getScreenId())
-            .append("/").append(getCategory().getRanking()).toString();
+                .append("/").append(getScreenId())
+                .append("/").append(getCategory().getRanking()).toString();
     }
 
     /**
      * Get the link to the target servlet.
-     *
+     * <p>
      * Unlike getLink() this method does not require rendering the output of
      * the request to the link in order to execute the servlet's method with
      * conventional HTTP query parameters.
@@ -662,8 +669,8 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         StringBuffer link = new StringBuffer("attack");
 
         return link
-            .append("?Screen=").append(getScreenId())
-            .append("&menu=").append(getCategory().getRanking()).toString();
+                .append("?Screen=").append(getScreenId())
+                .append("&menu=").append(getCategory().getRanking()).toString();
     }
 
     /**
@@ -694,16 +701,16 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      */
     public abstract String getCurrentAction(WebSession s);
 
-   /**
-    * Initiates lesson restart functionality
-    */
-   public abstract void restartLesson();
+    /**
+     * Initiates lesson restart functionality
+     */
+    public abstract void restartLesson();
 
-    
+
     /**
      * <p>setCurrentAction.</p>
      *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param s            a {@link org.owasp.webgoat.session.WebSession} object.
      * @param lessonScreen a {@link java.lang.String} object.
      */
     public abstract void setCurrentAction(WebSession s, String lessonScreen);
@@ -711,7 +718,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Override this method to implement accesss control in a lesson.
      *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param s          a {@link org.owasp.webgoat.session.WebSession} object.
      * @param functionId a {@link java.lang.String} object.
      * @param employeeId a int.
      * @return a boolean.
@@ -723,9 +730,9 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * Override this method to implement accesss control in a lesson.
      *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
+     * @param s          a {@link org.owasp.webgoat.session.WebSession} object.
      * @param functionId a {@link java.lang.String} object.
-     * @param role a {@link java.lang.String} object.
+     * @param role       a {@link java.lang.String} object.
      * @return a boolean.
      */
     public boolean isAuthorized(WebSession s, String role, String functionId) {
@@ -914,7 +921,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     /**
      * <p>Setter for the field <code>lessonPlanFileName</code>.</p>
      *
-     * @param lang a {@link java.lang.String} object.
+     * @param lang               a {@link java.lang.String} object.
      * @param lessonPlanFileName a {@link java.lang.String} object.
      */
     public void setLessonPlanFileName(String lang, String lessonPlanFileName) {
@@ -997,8 +1004,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         }
         return labelManager;
     }
-
-
 
 
 }
