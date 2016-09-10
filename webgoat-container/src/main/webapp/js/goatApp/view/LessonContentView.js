@@ -27,7 +27,7 @@ define(['jquery',
             var options = {
                 success:this.reLoadView.bind(this),
                 url: this.model.urlRoot,
-                type:'GET'
+                type:'POST'
                 // $.ajax options can be used here too, for example: 
                 //timeout:   3000 
             };
@@ -46,10 +46,10 @@ define(['jquery',
                 $(el).click(function(event) {
                     event.preventDefault();
                     var _url = $(el).attr('link');
-                    console.log("About to GET " + _url);
-                    $.get(_url)
+                    console.log("About to POST " + _url);
+                    $.post(_url)
                         .done(self.reLoadView.bind(self))
-                        .fail(function() { alert("failed to GET " + _url); });
+                        .fail(function() { alert("failed to POST " + _url); });
                 });
             });
         },
