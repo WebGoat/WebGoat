@@ -57,7 +57,7 @@ public class Main {
     void run() throws Exception {
         String webappDirLocation = "webgoat-container/src/main/webapp/";
         Tomcat tomcat = new Tomcat();
-        StandardContext ctx = (StandardContext) tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
+        StandardContext ctx = (StandardContext) tomcat.addWebapp("/WebGoat", new File(webappDirLocation).getAbsolutePath());
 
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setPort(port);
