@@ -1,5 +1,6 @@
 package org.owasp.webgoat.plugins;
 
+import com.google.common.base.Predicate;
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.junit.ConcurrentParameterized;
@@ -11,24 +12,29 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 
 /**
  * Created by Doug Morato <dm@corp.io> on 8/21/15.
- *
  */
 @RunWith(ConcurrentParameterized.class)
 public class WebGoatIT implements SauceOnDemandSessionIdProvider {
@@ -97,6 +103,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
      * Constructs a new instance of the test.  The constructor requires three string parameters, which represent the operating
      * system, version and browser to be used when launching a Sauce VM.  The order of the parameters should be the same
      * as that of the elements within the {@link #browsersStrings()} method.
+     *
      * @param os
      * @param version
      * @param browser
@@ -124,6 +131,15 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         // windows 7, Chrome 45
         browsers.add(new String[]{"Windows 7", "45", "chrome", null, null});
 
+        // windows 10, Chrome 46
+        browsers.add(new String[]{"Windows 10", "46", "chrome", null, null});
+
+        // windows 10, Firefox 38
+        browsers.add(new String[]{"Windows 10", "38", "firefox", null, null});
+
+        // Linux, Firefox 37
+        browsers.add(new String[]{"Linux", "37", "firefox", null, null});
+
         // windows 7, IE 9
         //browsers.add(new String[]{"Windows 7", "9", "internet explorer", null, null});
 
@@ -144,9 +160,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         // OS X 10.11, Safari
         //browsers.add(new String[]{"OSX 10.11", "8.1", "safari", null, null});
-
-        // Linux, Firefox 37
-        browsers.add(new String[]{"Linux", "37", "firefox", null, null});
 
         return browsers;
     }
@@ -172,7 +185,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         capabilities.setCapability("wwebdriverRemoteQuietExceptions", false);
         capabilities.setCapability("captureHtml", true);
 
-        if ( System.getenv("CI") != null && System.getenv("TRAVIS").equals("true")) {
+        if (System.getenv("CI") != null && System.getenv("TRAVIS").equals("true")) {
             capabilities.setCapability("tunnelIdentifier", System.getenv("TRAVIS_JOB_NUMBER"));
             capabilities.setCapability("tags", System.getenv("TRAVIS_PULL_REQUEST"));
             capabilities.setCapability("build", System.getenv("TRAVIS_BUILD_NUMBER"));
@@ -187,6 +200,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
                 new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() +
                         "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities);
+        this.driver.manage().timeouts().implicitlyWait(2, SECONDS);
         this.sessionId = (((RemoteWebDriver) driver).getSessionId()).toString();
 
         String message = String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", this.sessionId, methodName);
@@ -202,8 +216,8 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("exampleInputEmail1")));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("exampleInputPassword1")));
 
-        WebElement usernameElement     = driver.findElement(By.name("username"));
-        WebElement passwordElement     = driver.findElement(By.name("password"));
+        WebElement usernameElement = driver.findElement(By.name("username"));
+        WebElement passwordElement = driver.findElement(By.name("password"));
         usernameElement.sendKeys(loginUser);
         passwordElement.sendKeys(loginPassword);
         passwordElement.submit();
@@ -212,6 +226,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
     /**
      * Runs a simple test verifying the UI and title of the WebGoat home page.
+     *
      * @throws Exception
      */
     @Test
@@ -223,8 +238,8 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         assertTrue(driver.getTitle().equals("Login Page"));
 
-        WebElement usernameElement     = driver.findElement(By.name("username"));
-        WebElement passwordElement     = driver.findElement(By.name("password"));
+        WebElement usernameElement = driver.findElement(By.name("username"));
+        WebElement passwordElement = driver.findElement(By.name("password"));
         assertNotNull(usernameElement);
         assertNotNull(passwordElement);
     }
@@ -261,10 +276,79 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         String pageSource = driver.getPageSource();
 
+
         assertTrue("Page source should contain lessons: Test 1", pageSource.contains("Reflected XSS"));
         assertTrue("Page source should contain lessons: Test 2", pageSource.contains("Access Control Flaws"));
-        assertTrue("Page source should contain lessons: Test 3", pageSource.contains("Improper Error Handling"));
         assertTrue("Page source should contain lessons: Test 34", pageSource.contains("Fail Open Authentication Scheme"));
+    }
+
+    @Test
+    public void testAccessControlFlaws() {
+        doLoginWebgoatUser();
+
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1708534694/200");
+        driver.get(baseWebGoatUrl + "/service/restartlesson.mvc");
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1708534694/200");
+
+        FluentWait<WebDriver> wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "Using an Access Control Matrix"));
+
+        WebElement user = driver.findElement(By.name("User"));
+        user.click();
+        user.sendKeys("Larry");
+
+        WebElement resource = driver.findElement(By.name("Resource"));
+        resource.click();
+        resource.sendKeys("A");
+
+        WebElement submit = driver.findElement(By.name("SUBMIT"));
+        submit.click();
+
+        wait = new FluentWait(driver)
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
+
+        wait.until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver driver) {
+                return driver.getPageSource().contains("Congratulations");
+            }
+        });
+    }
+
+    @Test
+    public void testFailOpenAuthenticationScheme() throws IOException {
+        doLoginWebgoatUser();
+
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1075773632/200");
+        driver.get(baseWebGoatUrl + "/service/restartlesson.mvc");
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1075773632/200");
+
+        FluentWait<WebDriver> wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "Fail Open Authentication Scheme"));
+
+        WebElement user = driver.findElement(By.name("Username"));
+        user.click();
+        user.sendKeys("Larry");
+
+        JavascriptExecutor javascript = (JavascriptExecutor) driver;
+        String todisable = "document.getElementsByName('Password')[0].setAttribute('disabled', '');";
+        javascript.executeScript(todisable);
+        assertFalse(driver.findElement(By.name("Password")).isEnabled());
+
+        WebElement submit = driver.findElement(By.name("SUBMIT"));
+        submit.click();
+        wait = new FluentWait(driver)
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
+
+
+        wait.until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver driver) {
+                return driver.getPageSource().contains("Congratulations");
+            }
+        });
     }
 
     @Test
@@ -275,7 +359,8 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         driver.get(baseWebGoatUrl + "/logout.mvc");
 
         assertTrue("Page title should be Logout Page", driver.getTitle().contains("Logout Page"));
-        assertTrue("Logout message should be displayed to user when successful logout", driver.getPageSource().contains("You have logged out successfully"));
+        assertTrue("Logout message should be displayed to user when successful logout",
+                driver.getPageSource().contains("You have logged out successfully"));
     }
 
     /**
@@ -289,7 +374,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
     }
 
     /**
-     *
      * @return the value of the Sauce Job id.
      */
     @Override

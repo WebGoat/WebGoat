@@ -188,8 +188,9 @@ define(['jquery',
                 $.ajax({
                     url:'service/restartlesson.mvc',
                     method:'GET'
-                }).done(function(text) {
-                    console.log("Received a response from the restart servlet: '" + text + "'");
+                }).done(function() {
+                    //Log shows warning, see https://bugzilla.mozilla.org/show_bug.cgi?id=884693
+
                     // Explicitly loading the lesson instead of triggering an
                     // event in goatRouter.navigate().
                     self.loadLesson(self.scr,self.menu);

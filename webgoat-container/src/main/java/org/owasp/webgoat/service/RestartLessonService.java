@@ -26,11 +26,13 @@
  */
 package org.owasp.webgoat.service;
 
-import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.session.WebSession;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>RestartLessonService class.</p>
@@ -47,14 +49,13 @@ public class RestartLessonService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(value = "/restartlesson.mvc", produces = "text/text")
-    public @ResponseBody
-    String restartLesson(HttpSession session) {
+    @RequestMapping(value = "/restartlesson.mvc")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void restartLesson(HttpSession session) {
         WebSession ws = getWebSession(session);
         int currentScreen = ws.getCurrentScreen();
         if(currentScreen > 0){
             ws.restartLesson(currentScreen);
         }
-        return ws.getCurrentLesson().getLink();
     }
 }
