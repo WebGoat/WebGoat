@@ -130,7 +130,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         // windows 7, Chrome 45
         browsers.add(new String[]{"Windows 7", "45", "chrome", null, null});
-
+/*
         // windows 10, Chrome 46
         browsers.add(new String[]{"Windows 10", "46", "chrome", null, null});
 
@@ -139,7 +139,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         // Linux, Firefox 37
         browsers.add(new String[]{"Linux", "37", "firefox", null, null});
-
+*/
         // windows 7, IE 9
         //browsers.add(new String[]{"Windows 7", "9", "internet explorer", null, null});
 
@@ -350,6 +350,43 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
             }
         });
     }
+
+    @Test
+    public void testSqlInjectionLabLessonPlanShouldBePresent() throws IOException {
+        doLoginWebgoatUser();
+
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1537271095/200");
+        driver.get(baseWebGoatUrl + "/service/restartlesson.mvc");
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1537271095/200");
+
+        FluentWait<WebDriver> wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "LAB: SQL Injection"));
+
+        assertFalse(driver.getPageSource().contains("Lesson Plan Title: How to Perform a SQL Injection"));
+        WebElement user = driver.findElement(By.id("show-plan-button"));
+        user.click();
+
+        wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-plan-content"), "Lesson Plan Title: How to Perform a SQL Injection"));
+    }
+
+    @Test
+    public void testSqlInjectionLabLessonSolutionAreNotAvailable() throws IOException {
+        doLoginWebgoatUser();
+
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1537271095/200");
+        driver.get(baseWebGoatUrl + "/service/restartlesson.mvc");
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1537271095/200");
+
+        FluentWait<WebDriver> wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "LAB: SQL Injection"));
+
+        WebElement user = driver.findElement(By.id("show-solution-button"));
+        user.click();
+
+        assertTrue(driver.getPageSource().contains("Could not find the solution file"));
+    }
+
 
     @Test
     public void testLogoutMvc() {
