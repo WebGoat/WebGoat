@@ -47,7 +47,7 @@ hr() {
 ## test if command exists
 ftest() {
   echo -e "$COL_CYAN  info: Checking if ${1} is installed $COL_RESET"
-  if ! type -f "${1}" > /dev/null 2>&1; then
+  if ! type "${1}" > /dev/null 2>&1; then
     return 1
   else
     return 0
