@@ -24,15 +24,16 @@ define(['jquery',
         
         //TODO: reimplement this in custom fashion maybe?
         makeFormsAjax: function () {
+            var $form = $('form');
             var options = {
                 success:this.reLoadView.bind(this),
                 url: this.model.urlRoot,
-                type:'POST'
+                type: $form.attr('method')
                 // $.ajax options can be used here too, for example: 
                 //timeout:   3000 
             };
             //hook forms //TODO: clarify form selectors later
-            $("form").ajaxForm(options);
+            $form.ajaxForm(options);
         },
 
         ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
