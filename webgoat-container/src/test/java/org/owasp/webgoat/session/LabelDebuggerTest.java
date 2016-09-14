@@ -20,7 +20,7 @@ public class LabelDebuggerTest {
     }
 
     @Test(expected = Exception.class)
-    public void testSetEnabledNullThrowsException() {
+    public void testSetEnabledNullThrowsException() throws Exception {
         LabelDebugger ld = new LabelDebugger();
         ld.setEnabled(null);
     }
