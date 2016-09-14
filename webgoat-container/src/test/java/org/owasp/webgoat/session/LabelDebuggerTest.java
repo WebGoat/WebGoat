@@ -19,7 +19,7 @@ public class LabelDebuggerTest {
         Assert.assertFalse(ld.isEnabled());
     }
 
-    @Test(expected = Exception)
+    @Test(expected = Exception.class)
     public void testSetEnabledNullThrowsException() {
         LabelDebugger ld = new LabelDebugger();
         ld.setEnabled(null);
