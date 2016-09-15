@@ -3,7 +3,6 @@ package org.owasp.webgoat.session;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 public class LabelDebuggerTest {
 
     @Test
@@ -20,16 +19,10 @@ public class LabelDebuggerTest {
         Assert.assertFalse(ld.isEnabled());
     }
 
-    @Test
-    public void testSetEnabledNullThrowsException() {
+    @Test(expected = Exception.class)
+    public void testSetEnabledNullThrowsException() throws Exception {
         LabelDebugger ld = new LabelDebugger();
-        try {
-            ld.setEnabled(null);
-        } catch (Exception e) {
-            // We want to end up here
-            return;
-        }
-        Assert.fail();
+        ld.setEnabled(null);
     }
 
     @Test
