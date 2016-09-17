@@ -26,6 +26,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertFalse;
@@ -130,7 +131,8 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         // windows 7, Chrome 45
         browsers.add(new String[]{"Windows 7", "45", "chrome", null, null});
-/*
+
+        /*
         // windows 10, Chrome 46
         browsers.add(new String[]{"Windows 10", "46", "chrome", null, null});
 
@@ -139,7 +141,8 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         // Linux, Firefox 37
         browsers.add(new String[]{"Linux", "37", "firefox", null, null});
-*/
+        */
+
         // windows 7, IE 9
         //browsers.add(new String[]{"Windows 7", "9", "internet explorer", null, null});
 
@@ -343,7 +346,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
                 .pollingEvery(2, SECONDS)
                 .ignoring(NoSuchElementException.class);
 
-
         wait.until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
                 return driver.getPageSource().contains("Congratulations");
@@ -369,6 +371,56 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-plan-content"), "Lesson Plan Title: How to Perform a SQL Injection"));
     }
+
+    @Test
+    public void testClientSideValidation() throws IOException {
+        doLoginWebgoatUser();
+
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1129417221/200");
+        driver.get(baseWebGoatUrl + "/service/restartlesson.mvc");
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1129417221/200");
+
+        FluentWait<WebDriver> wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "Insecure Client Storage"));
+
+        //Stage 1
+        WebElement user = driver.findElement(By.name("field1"));
+        user.click();
+        user.sendKeys("PLATINUM");
+
+        WebElement submit = driver.findElement(By.name("SUBMIT"));
+        submit.click();
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("message"), "Stage 1 completed."));
+
+        //Stage 2
+        WebElement qty = driver.findElement(By.name("QTY1"));
+        qty.click();
+        qty.sendKeys("8");
+        qty = driver.findElement(By.name("QTY1"));
+        qty.click();
+        qty.sendKeys("8");
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+
+        JavascriptExecutor javascript = (JavascriptExecutor) driver;
+        String cmd = "document.getElementsByName('GRANDTOT')[0].value = '$0.00';";
+        javascript.executeScript(cmd);
+
+
+        submit = driver.findElement(By.name("SUBMIT"));
+        submit.click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        wait = new FluentWait(driver)
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
+        wait.until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver driver) {
+                return driver.getPageSource().contains("Congratulations");
+            }
+        });
+    }
+
 
     @Test
     public void testSqlInjectionLabLessonSolutionAreNotAvailable() throws IOException {
