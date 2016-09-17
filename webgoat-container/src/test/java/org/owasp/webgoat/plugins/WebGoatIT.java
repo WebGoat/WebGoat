@@ -142,6 +142,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         // Linux, Firefox 37
         browsers.add(new String[]{"Linux", "37", "firefox", null, null});
 
+
         // windows 7, IE 9
         //browsers.add(new String[]{"Windows 7", "9", "internet explorer", null, null});
 
@@ -295,7 +296,12 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         FluentWait<WebDriver> wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "Using an Access Control Matrix"));
 
-        WebElement user = driver.findElement(By.name("User"));
+        wait = new FluentWait(driver)
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
+        WebElement user = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("User")));
         user.click();
         user.sendKeys("Larry");
 
@@ -334,7 +340,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
                 .pollingEvery(2, SECONDS)
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
-        WebElement user = wait.until(ExpectedConditions.elementToBeClickable(By.name("Username")));
+        WebElement user = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("Username")));
         user.click();
         user.sendKeys("Larry");
 
@@ -397,6 +403,10 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         WebElement submit = driver.findElement(By.name("SUBMIT"));
         submit.click();
+        wait = new FluentWait(driver)
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("message"), "Stage 1 completed."));
 
         //Stage 2
