@@ -421,6 +421,45 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         });
     }
 
+    @Test
+    public void testJavaScriptValidation() throws IOException {
+        doLoginWebgoatUser();
+
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1574219258/1700");
+        driver.get(baseWebGoatUrl + "/service/restartlesson.mvc");
+        driver.get(baseWebGoatUrl + "/start.mvc#attack/1574219258/1700");
+
+        FluentWait<WebDriver> wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "Bypass Client Side JavaScript Validation"));
+
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        for (int i = 1; i <= 7; i++) {
+            WebElement field = driver.findElement(By.name("field" + i));
+            field.click();
+            field.sendKeys("@#@{@#{");
+        }
+
+        JavascriptExecutor javascript = (JavascriptExecutor) driver;
+        String cmd = "document.getElementById('submit_btn').onclick=''";
+        javascript.executeScript(cmd);
+
+        WebElement submit = driver.findElement(By.id("submit_btn"));
+        submit.click();
+
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+
+        wait = new FluentWait(driver)
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
+        wait.until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver driver) {
+                return driver.getPageSource().contains("Congratulations");
+            }
+        });
+    }
 
     @Test
     public void testSqlInjectionLabLessonSolutionAreNotAvailable() throws IOException {
