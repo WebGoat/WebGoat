@@ -133,7 +133,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         // windows 7, Chrome 45
         browsers.add(new String[]{"Windows 7", "45", "chrome", null, null});
 
-        /*
         // windows 10, Chrome 46
         browsers.add(new String[]{"Windows 10", "46", "chrome", null, null});
 
@@ -142,7 +141,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         // Linux, Firefox 37
         browsers.add(new String[]{"Linux", "37", "firefox", null, null});
-        */
 
         // windows 7, IE 9
         //browsers.add(new String[]{"Windows 7", "9", "internet explorer", null, null});
@@ -367,7 +365,10 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         driver.get(baseWebGoatUrl + "/service/restartlesson.mvc");
         driver.get(baseWebGoatUrl + "/start.mvc#attack/1537271095/200");
 
-        FluentWait<WebDriver> wait = new WebDriverWait(driver, 15); // wait for a maximum of 15 seconds
+        FluentWait<WebDriver> wait = new FluentWait(driver)
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "LAB: SQL Injection"));
 
         assertFalse(driver.getPageSource().contains("Lesson Plan Title: How to Perform a SQL Injection"));
