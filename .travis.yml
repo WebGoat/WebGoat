@@ -4,11 +4,14 @@ jdk:
   - oraclejdk8
 install: "/bin/true"
 script:
-  - mvn clean install
+  - mvn clean install -q
   - git clone -b develop https://github.com/WebGoat/WebGoat-Lessons.git
-  - mvn -file ./WebGoat-Lessons/pom.xml clean package
+  - mvn -file ./WebGoat-Lessons/pom.xml clean package -q
   - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./webgoat-container/src/main/webapp/plugin_lessons/
-  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then mvn "-Dbuild.number=$TRAVIS_BUILD_NUMBER" -Prun-integration-tests clean install; else mvn clean install; fi
+  # Start the container this will make sure we do not see the debug logging of the Tomcat 7 Maven plugin
+  # which seems to always be set to DEBUG this will fail the build because we generate too much logging
+  - nohup bash -c "java -jar ./webgoat-standalone/target/webgoat-standalone-7.1-SNAPSHOT-exec.jar --port 8888 2>&1 &"
+  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then mvn "-Dbuild.number=$TRAVIS_BUILD_NUMBER" clean install failsafe:integration-test; else mvn failsafe:integration-test; fi
 cache:
   directories:
   - $HOME/.m2
