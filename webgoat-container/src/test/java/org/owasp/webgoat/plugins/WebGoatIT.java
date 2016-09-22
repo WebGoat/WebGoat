@@ -156,7 +156,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         //browsers.add(new String[]{"Windows 8.1", "11", "internet explorer", null, null});
 
         // windows 10, Microsoft Edge Browser
-        browsers.add(new String[]{"Windows 10", "20.10240", "microsoftedge", null, null});
+        //browsers.add(new String[]{"Windows 10", "20.10240", "microsoftedge", null, null});
 
         // OS X 10.9, Safari 7
         //browsers.add(new String[]{"OSX 10.9", "7", "safari", null, null});
