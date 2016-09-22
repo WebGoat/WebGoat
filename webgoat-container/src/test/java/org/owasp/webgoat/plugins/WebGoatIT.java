@@ -29,6 +29,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
+import static com.github.webdriverextensions.WebDriverExtensionsContext.getDriver;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -325,6 +326,109 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
                 return webDriver.getPageSource().contains("Congratulations");
             }
         });
+    }
+
+    @Test
+    public void testRoleBasedAccessConrol() throws IOException {
+        doLoginWebgoatUser();
+
+        getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/160587164/200");
+        getWebDriver().get(baseWebGoatUrl + "/service/restartlesson.mvc");
+        getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/160587164/200");
+
+        FluentWait<WebDriver> wait = new WebDriverWait(getDriver(), 15); // wait for a maximum of 15 seconds
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "LAB: Role Based Access Control"));
+
+        wait = new FluentWait(getDriver())
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
+        WebElement user = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("employee_id")));
+        user.click();
+        user.sendKeys("T");
+
+        WebElement resource = getDriver().findElement(By.name("password"));
+        resource.click();
+        resource.sendKeys("tom");
+
+        WebElement submit = getDriver().findElement(By.name("action"));
+        submit.click();
+
+        wait = new FluentWait(getDriver())
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
+
+        wait.until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver webDriver) {
+                return webDriver.getPageSource().contains("Welcome Back");
+            }
+        });
+
+        JavascriptExecutor javascript = (JavascriptExecutor) getDriver();
+        String value = "document.getElementsByName('action')[0].value='DeleteProfile';";
+        javascript.executeScript(value);
+
+
+        WebElement viewProfile = getDriver().findElements(By.name("action")).get(0);
+        viewProfile.click();
+        wait = new FluentWait(getDriver())
+                .withTimeout(40, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
+
+        wait.until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver webDriver) {
+                return webDriver.getPageSource().contains("Stage 2");
+            }
+        });
+
+        //
+        // Stage 3
+        //
+        getDriver().get(baseWebGoatUrl + "/start.mvc#attack/160587164/200/3");
+
+        user = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("employee_id")));
+        user.click();
+        user.sendKeys("T");
+
+        resource = getDriver().findElement(By.name("password"));
+        resource.click();
+        resource.sendKeys("tom");
+
+        submit = getDriver().findElement(By.name("action"));
+        submit.click();
+
+        wait = new FluentWait(getDriver())
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
+
+        wait.until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver webDriver) {
+                return webDriver.getPageSource().contains("Welcome Back");
+            }
+        });
+
+        javascript = (JavascriptExecutor) getDriver();
+        value = "var select = document.getElementsByName('employee_id')[0]; select.options[0].value='106'; ";
+        javascript.executeScript(value);
+
+
+        viewProfile = getDriver().findElements(By.name("action")).get(0);
+        viewProfile.click();
+        wait = new FluentWait(getDriver())
+                .withTimeout(10, SECONDS)
+                .pollingEvery(2, SECONDS)
+                .ignoring(NoSuchElementException.class);
+
+        wait.until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver webDriver) {
+                return webDriver.getPageSource().contains("You have completed Stage 3");
+            }
+        });
+
     }
 
     @Test
