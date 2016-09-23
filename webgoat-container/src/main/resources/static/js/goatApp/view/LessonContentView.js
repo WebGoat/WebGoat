@@ -22,18 +22,19 @@ define(['jquery',
             $(window).scrollTop(0); //work-around til we get the scroll down sorted out
             this.initPagination();
         },
-        
-        //TODO: reimplement this in custom fashion maybe?
+
         makeFormsAjax: function () {
-            var options = {
-                success:this.onAttackExecution.bind(this),
-                url: this.model.urlRoot,
-                type:'GET'
-                // $.ajax options can be used here too, for example: 
-                //timeout:   3000 
-            };
-            //hook forms //TODO: clarify form selectors later
-            $("form.attack-form").ajaxForm(options);
+            // will bind all forms with attack-form class
+            var self = this;
+            $("form.attack-form").each(function(form) {
+                var options = {
+                    success:self.onAttackExecution.bind(this),
+                    url: this.action,
+                    type:this.method,
+                    // additional options
+                };
+                $(this).ajaxForm(options);
+            });
         },
 
         initPagination: function() {
@@ -56,7 +57,7 @@ define(['jquery',
             // Besides, the new MVC code registers an event handler that will reload the lesson according to the route.
             $('form').submit(function(event){
                 $.get(this.action, "json")
-                    .done(self.reLoadView.bind(self))
+                    //.done(self.reLoadView.bind(self))
                     .fail(function() { alert("failed to GET " + url); });
             });
         },
@@ -111,11 +112,7 @@ define(['jquery',
 
         showCurContentPage: function(isIncrement) {
             this.$contentPages.hide();
-            if (isIncrement) {
-                this.$el.find(this.$contentPages[this.currentPage]).slideDown(300);
-            } else {
-                this.$el.find(this.$contentPages[this.currentPage]).slideUp(300);
-            }
+            this.$el.find(this.$contentPages[this.currentPage]).show();
         },
 
         hideNextPageButton: function() {
