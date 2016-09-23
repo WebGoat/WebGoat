@@ -55,7 +55,7 @@ wish to simply try/test/run the current development version of WebGoat
 ### Prerequisites:
 * Java VM 1.8
 
-## Easy Run Instructions:
+## Standalone
 
 #### 1. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
 
@@ -73,8 +73,34 @@ Using the `--help` option will show the allowed command line arguments.
 
 #### 3. Browse to the url shown in the console and happy hacking !
 
+## Vagrant
+
+To run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
+
+```shell
+   $ cd WebGoat/webgoat-images/vagrant-users
+   $ vagrant up
+```
+
+Once you see the message 'Browse to http://localhost:9999/WebGoat and happy hacking! you can open a
+browser.
+
 
 # For Developers
+
+## Vagrant
+
+For an easy development experience you can use Vagrant. Note you should have Vagrant and Virtualbox installed on your system.
+
+```shell
+   $ cd WebGoat/webgoat-images/vagrant-developers
+   $ vagrant up
+```
+
+Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
+The source code will be available in the home directory.
+
+## Set up manual
 
 Follow these instructions if you wish to run Webgoat and modify the source code as well.
 

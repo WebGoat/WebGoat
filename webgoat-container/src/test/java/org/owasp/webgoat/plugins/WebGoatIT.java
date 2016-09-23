@@ -14,7 +14,6 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.CapabilityType;
@@ -29,11 +28,12 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
-import static com.github.webdriverextensions.WebDriverExtensionsContext.getDriver;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.owasp.webgoat.plugins.TestUtils.assertTitlePresent;
+import static org.owasp.webgoat.plugins.TestUtils.createDefaultWait;
 
 
 /**
@@ -138,10 +138,10 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         browsers.add(new String[]{"Windows 7", "45", "chrome", null, null});
 
         // windows 10, Chrome 46
-        browsers.add(new String[]{"Windows 10", "46", "chrome", null, null});
+        //browsers.add(new String[]{"Windows 10", "46", "chrome", null, null});
 
         // windows 10, Firefox 38
-        browsers.add(new String[]{"Windows 10", "38", "firefox", null, null});
+      //  browsers.add(new String[]{"Windows 10", "38", "firefox", null, null});
 
         // Linux, Firefox 37
         browsers.add(new String[]{"Linux", "37", "firefox", null, null});
@@ -207,7 +207,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
                 new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() +
                         "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities));
-        this.getWebDriver().manage().timeouts().implicitlyWait(2, SECONDS);
+        this.getWebDriver().manage().timeouts().implicitlyWait(4, SECONDS);
         this.sessionId.set((((RemoteWebDriver) getWebDriver()).getSessionId()).toString());
 
         String message = String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", this.sessionId, methodName);
@@ -283,7 +283,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         String pageSource = getWebDriver().getPageSource();
 
-
         assertTrue("Page source should contain lessons: Test 1", pageSource.contains("Reflected XSS"));
         assertTrue("Page source should contain lessons: Test 2", pageSource.contains("Access Control Flaws"));
         assertTrue("Page source should contain lessons: Test 34", pageSource.contains("Fail Open Authentication Scheme"));
@@ -297,17 +296,12 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         getWebDriver().get(baseWebGoatUrl + "/service/restartlesson.mvc");
         getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/1708534694/200");
 
-        FluentWait<WebDriver> wait = new WebDriverWait(getWebDriver(), 15); // wait for a maximum of 15 seconds
+        FluentWait<WebDriver> wait = createDefaultWait(getWebDriver());
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "Using an Access Control Matrix"));
 
-        wait = new FluentWait(getWebDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class)
-                .ignoring(StaleElementReferenceException.class);
         WebElement user = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("User")));
         user.click();
-        user.sendKeys("Larry");
+        user.sendKeys("L");
 
         WebElement resource = getWebDriver().findElement(By.name("Resource"));
         resource.click();
@@ -315,11 +309,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         WebElement submit = getWebDriver().findElement(By.name("SUBMIT"));
         submit.click();
-
-        wait = new FluentWait(getWebDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class);
 
         wait.until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver webDriver) {
@@ -336,48 +325,35 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         getWebDriver().get(baseWebGoatUrl + "/service/restartlesson.mvc");
         getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/160587164/200");
 
-        FluentWait<WebDriver> wait = new WebDriverWait(getDriver(), 15); // wait for a maximum of 15 seconds
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "LAB: Role Based Access Control"));
+        assertTitlePresent(getWebDriver(), "LAB: Role Based Access Control");
+        this.getWebDriver().manage().timeouts().implicitlyWait(4, SECONDS);
 
-        wait = new FluentWait(getDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class)
-                .ignoring(StaleElementReferenceException.class);
+        FluentWait<WebDriver> wait = createDefaultWait(getWebDriver());
         WebElement user = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("employee_id")));
         user.click();
         user.sendKeys("T");
 
-        WebElement resource = getDriver().findElement(By.name("password"));
+        WebElement resource = getWebDriver().findElement(By.name("password"));
         resource.click();
         resource.sendKeys("tom");
 
-        WebElement submit = getDriver().findElement(By.name("action"));
+        WebElement submit = getWebDriver().findElement(By.name("action"));
         submit.click();
 
-        wait = new FluentWait(getDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class);
 
+        wait = createDefaultWait(getWebDriver());
         wait.until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver webDriver) {
                 return webDriver.getPageSource().contains("Welcome Back");
             }
         });
 
-        JavascriptExecutor javascript = (JavascriptExecutor) getDriver();
+        JavascriptExecutor javascript = (JavascriptExecutor) getWebDriver();
         String value = "document.getElementsByName('action')[0].value='DeleteProfile';";
         javascript.executeScript(value);
 
-
-        WebElement viewProfile = getDriver().findElements(By.name("action")).get(0);
+        WebElement viewProfile = getWebDriver().findElements(By.name("action")).get(0);
         viewProfile.click();
-        wait = new FluentWait(getDriver())
-                .withTimeout(40, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class);
-
         wait.until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver webDriver) {
                 return webDriver.getPageSource().contains("Stage 2");
@@ -387,23 +363,19 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         //
         // Stage 3
         //
-        getDriver().get(baseWebGoatUrl + "/start.mvc#attack/160587164/200/3");
+        getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/160587164/200/3");
+        assertTitlePresent(getWebDriver(), "LAB: Role Based Access Control");
 
         user = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("employee_id")));
         user.click();
         user.sendKeys("T");
 
-        resource = getDriver().findElement(By.name("password"));
+        resource = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("password")));
         resource.click();
         resource.sendKeys("tom");
 
-        submit = getDriver().findElement(By.name("action"));
+        submit =  wait.until(ExpectedConditions.presenceOfElementLocated(By.name("action")));
         submit.click();
-
-        wait = new FluentWait(getDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class);
 
         wait.until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver webDriver) {
@@ -411,24 +383,17 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
             }
         });
 
-        javascript = (JavascriptExecutor) getDriver();
+        javascript = (JavascriptExecutor) getWebDriver();
         value = "var select = document.getElementsByName('employee_id')[0]; select.options[0].value='106'; ";
         javascript.executeScript(value);
 
-
-        viewProfile = getDriver().findElements(By.name("action")).get(0);
+        viewProfile = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.name("action"))).get(0);
         viewProfile.click();
-        wait = new FluentWait(getDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class);
-
         wait.until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver webDriver) {
-                return webDriver.getPageSource().contains("You have completed Stage 3");
+                return webDriver.getPageSource().contains("Stage 4");
             }
         });
-
     }
 
     @Test
@@ -439,14 +404,9 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         getWebDriver().get(baseWebGoatUrl + "/service/restartlesson.mvc");
         getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/1075773632/200");
 
-        FluentWait<WebDriver> wait = new WebDriverWait(getWebDriver(), 15); // wait for a maximum of 15 seconds
+        FluentWait<WebDriver> wait = createDefaultWait(getWebDriver());
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "Fail Open Authentication Scheme"));
 
-        wait = new FluentWait(getWebDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class)
-                .ignoring(StaleElementReferenceException.class);
         WebElement user = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("Username")));
         user.click();
         user.sendKeys("Larry");
@@ -458,11 +418,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         WebElement submit = getWebDriver().findElement(By.name("SUBMIT"));
         submit.click();
-        wait = new FluentWait(getWebDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class);
-
         wait.until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver webDriver) {
                 return webDriver.getPageSource().contains("Congratulations");
@@ -478,17 +433,13 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         getWebDriver().get(baseWebGoatUrl + "/service/restartlesson.mvc");
         getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/1537271095/200");
 
-        FluentWait<WebDriver> wait = new FluentWait(getWebDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class);
+        FluentWait<WebDriver> wait = createDefaultWait(getWebDriver());
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "LAB: SQL Injection"));
 
         assertFalse(getWebDriver().getPageSource().contains("Lesson Plan Title: How to Perform a SQL Injection"));
         WebElement user = getWebDriver().findElement(By.id("show-plan-button"));
         user.click();
 
-        wait = new WebDriverWait(getWebDriver(), 15); // wait for a maximum of 15 seconds
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-plan-content"), "Lesson Plan Title: How to Perform a SQL Injection"));
     }
 
@@ -500,7 +451,7 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         getWebDriver().get(baseWebGoatUrl + "/service/restartlesson.mvc");
         getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/1129417221/200");
 
-        FluentWait<WebDriver> wait = new WebDriverWait(getWebDriver(), 15); // wait for a maximum of 15 seconds
+        FluentWait<WebDriver> wait = createDefaultWait(getWebDriver());
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "Insecure Client Storage"));
 
         getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -512,10 +463,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         WebElement submit = getWebDriver().findElement(By.name("SUBMIT"));
         submit.click();
-        wait = new FluentWait(getWebDriver())
-                .withTimeout(20, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class);
         wait.until(new Predicate<WebDriver>() {
             @Override
             public boolean apply(WebDriver input) {
@@ -524,11 +471,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         });
 
         //Stage 2
-        wait = new FluentWait(getWebDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class)
-                .ignoring(StaleElementReferenceException.class);
         WebElement qty = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("QTY1")));
         qty.click();
         qty.sendKeys("8");
@@ -543,7 +485,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         javascript.executeScript(cmd);
 
         getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
 
         submit = getWebDriver().findElement(By.name("SUBMIT"));
         submit.click();
@@ -566,13 +507,14 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         getWebDriver().get(baseWebGoatUrl + "/service/restartlesson.mvc");
         getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/1574219258/1700");
 
-        FluentWait<WebDriver> wait = new WebDriverWait(getWebDriver(), 15); // wait for a maximum of 15 seconds
+        FluentWait<WebDriver> wait = createDefaultWait(getWebDriver());
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "Bypass Client Side JavaScript Validation"));
 
         getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         for (int i = 1; i <= 7; i++) {
-            WebElement field = getWebDriver().findElement(By.name("field" + i));
+
+            WebElement field = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("field" + i)));
             field.click();
             field.sendKeys("@#@{@#{");
         }
@@ -586,11 +528,6 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
 
         getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-
-        wait = new FluentWait(getWebDriver())
-                .withTimeout(10, SECONDS)
-                .pollingEvery(2, SECONDS)
-                .ignoring(NoSuchElementException.class);
         wait.until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver webDriver) {
                 return webDriver.getPageSource().contains("Congratulations");
@@ -606,15 +543,19 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
         getWebDriver().get(baseWebGoatUrl + "/service/restartlesson.mvc");
         getWebDriver().get(baseWebGoatUrl + "/start.mvc#attack/1537271095/200");
 
-        FluentWait<WebDriver> wait = new WebDriverWait(getWebDriver(), 15); // wait for a maximum of 15 seconds
+        FluentWait<WebDriver> wait = createDefaultWait(getWebDriver());
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("lesson-title"), "LAB: SQL Injection"));
+        this.getWebDriver().manage().timeouts().implicitlyWait(4, SECONDS);
 
-        WebElement user = getWebDriver().findElement(By.id("show-solution-button"));
+        WebElement user =  wait.until(ExpectedConditions.presenceOfElementLocated(By.id("show-solution-button")));
         user.click();
 
-        assertTrue(getWebDriver().getPageSource().contains("Could not find the solution file"));
+        wait.until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver webDriver) {
+                return webDriver.getPageSource().contains("Could not find the solution file");
+            }
+        });
     }
-
 
     @Test
     public void testLogoutMvc() {
