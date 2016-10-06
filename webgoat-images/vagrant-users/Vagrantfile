@@ -12,6 +12,12 @@ Vagrant.configure(2) do |config|
   	vb.name = "WebGoat-Users"
 	vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
   end
+  config.vm.provider "vmware_fusion" do |vf|
+    vf.gui = false
+    vf.vmx["memsize"] = 4096
+    vf.vmx["numvcpus"] = 2
+    vf.vmx["displayname"] = "WebGoat-Users"
+  end
 
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
