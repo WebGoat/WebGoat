@@ -1,13 +1,13 @@
 #For now use the same as for developers but start WebGoat
 #In the future we can add Docker as well and then Vagrant can start the
-#Docker container
+#Docker container or Chef which setups the Tomcat
 
 Vagrant.configure(2) do |config|
   config.vm.box = "boxcutter/ubuntu1604-desktop"
   config.vm.network :forwarded_port, guest: 8080, host: 9999
   config.vm.provider "virtualbox" do |vb|
   	vb.gui = false
-  	vb.memory = "4096"
+  	vb.memory = "2048"
   	vb.cpus = 2
   	vb.name = "WebGoat-Users"
 	vb.customize ["modifyvm", :id, "--nictype1", "virtio"]

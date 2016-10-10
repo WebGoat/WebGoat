@@ -38,7 +38,6 @@ sudo chown -R root:root /usr/lib/jvm/jdk1.8.0_101
 
 echo "export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_101" >> /home/vagrant/.bashrc
 
-
 ## Maven
 echo "Installing Maven.."
 sudo apt-get install -y maven
@@ -51,3 +50,12 @@ cd tools
 wget https://github.com/zaproxy/zaproxy/releases/download/2.5.0/ZAP_2.5.0_Linux.tar.gz
 tar xvfx ZAP_2.5.0_Linux.tar.gz
 rm -rf ZAP_2.5.0_Linux.tar.gz
+
+## IntelliJ
+cd /home/vagrant/tools
+wget https://download.jetbrains.com/idea/ideaIC-2016.2.4.tar.gz
+tar xvfz ideaIC-2016.2.4.tar.gz
+rm -rf ideaIC-2016.2.4.tar.gz
+
+## Eclipse
+sudo apt-get -y install eclipse
