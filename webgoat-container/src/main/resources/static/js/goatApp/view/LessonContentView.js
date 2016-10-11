@@ -16,26 +16,26 @@ define(['jquery',
         },
 
         render: function() {
-            this.$el.html(this.model.get('content'));
+            this.$el.find('.lesson-content').html(this.model.get('content'));
             this.makeFormsAjax();
-            this.ajaxifyAttackHref();
+            //this.ajaxifyAttackHref();
             $(window).scrollTop(0); //work-around til we get the scroll down sorted out
             this.initPagination();
         },
 
-        makeFormsAjax: function () {
-            // will bind all forms with attack-form class
-            var self = this;
-            $("form.attack-form").each(function(form) {
-                var options = {
-                    success:self.onAttackExecution.bind(this),
-                    url: this.action,
-                    type:this.method,
-                    // additional options
-                };
-                $(this).ajaxForm(options);
-            });
-        },
+//        makeFormsAjax: function () {
+//            // will bind all forms with attack-form class
+//            var self = this;
+//            $("form.attack-form").each(function(form) {
+//                var options = {
+//                    success:self.onAttackExecution.bind(this),
+//                    url: this.action,
+//                    type:this.method,
+//                    // additional options
+//                };
+//                $(this).ajaxForm(options);
+//            });
+//        },
 
         initPagination: function() {
             //get basic pagination info
@@ -68,7 +68,7 @@ define(['jquery',
             // turn off standard submit
 
             //set standard options
-            var contentType = (this.$form.attr('contentType')) ? this.$form.attr('contentType') : 'url-form-encoded';
+            var contentType = (this.$form.attr('contentType')) ? this.$form.attr('contentType') : 'application/x-www-form-urlencoded; charset=UTF-8';
             this.formOptions = {
                 //success:this.reLoadView.bind(this),
                 url: this.$form.attr('action'),
@@ -99,35 +99,54 @@ define(['jquery',
                 method:this.formOptions.method,
                 contentType:this.formOptions.contentType,
                 data: submitData
-            }).success(function(data) {
-                //Log shows warning, see https://bugzilla.mozilla.org/show_bug.cgi?id=884693
-                // Explicitly loading the lesson instead of triggering an
-                // event in goatRouter.navigate().
-                self.reLoadView(data);
-            });
+            }).then(self.onSuccessResponse.bind(self), self.onErrorResponse.bind(self)); // {
+//                // Log shows warning, see https://bugzilla.mozilla.org/show_bug.cgi?id=884693
+//                // Explicitly loading the lesson instead of triggering an
+//                // event in goatRouter.navigate().
+//                console.log(data);
+//                //self.reLoadView(data);
+//            }).error(function(data) {
+//                console.log(data);
+//                //test
+//            });
+
             return false;
          },
 
-        ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
+         onSuccessResponse: function(data) {
+            console.log(data);
+            this.renderFeedback(data.feedback);
+            // update menu if lessonCompleted is true
+            this.renderOutput(data.output || "");
+            return false;
+         },
+
+         onErrorResponse: function (a,b,c) {
+            console.error(a);
+            console.error(b);
+            console.error(c);
+            return false;
+         },
+
+        ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs
             var self = this;
-            // The current LessonAdapter#getLink() generates a hash-mark link.  It will not match the mask below.
-            // Besides, the new MVC code registers an event handler that will reload the lesson according to the route.
-
-            $('form').submit(function(event){
-                $.get(this.action, "json")
-                    //.done(self.reLoadView.bind(self))
-                    .fail(function() { alert("failed to GET " + url); });
-            });
-
+            // instruct in template to have links returned with the attack-link class
+            $('a.attack-link').submit(function(event){
+                $.get(this.action, "json").then(self.onSuccessResponse, self.onErrorResponse);
+             });
         },
 
-        onAttackExecution: function(feedback) {
-            console.log('attack executed')
-            this.renderFeedback(feedback);
-        },
+//        onAttackExecution: function(feedback) {
+//            console.log('attack executed')
+//            this.renderFeedback(feedback);
+//        },
 
         renderFeedback: function(feedback) {
-            this.$el.find('feedback').html(feedback);
+            this.$el.find('.attack-feedback').html(feedback);
+        },
+
+        renderOutput: function(output) {
+            this.$el.find('.attack-output').html(output);
         },
 
         addPaginationControls: function() {
