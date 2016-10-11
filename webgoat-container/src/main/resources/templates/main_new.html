@@ -115,12 +115,29 @@
                                 <button class="btn btn-primary btn-xs btn-danger help-button" id="show-source-button">
                                     <i class="fa fa-code" />
                                 </button>
+                                <button class="btn btn-primary btn-xs btn-danger help-button" id="show-hints-button">Show Hints
+                                </button>
                                 <!--<button class="btn btn-primary btn-xs btn-danger help-button" id="show-attack-button">-->
                                 <!--Attack It-->
                                 <!--</button>-->
                                 <button class="btn btn-xs help-button" id="restart-lesson-button">
                                     Reset Lesson
                                 </button>
+                            </div>
+
+                            <div class="lesson-hint" id="lesson-hint-container">
+                                <!--<h4>Hints</h4>-->
+                                <div class="panel">
+                                    <div id="message" class="info" th:utext="${message}"></div>
+                                    <div class="panel-body" id="lesson-hint">
+                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left"
+                                  id="show-prev-hint"></span>
+                                        <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right"
+                                              id="show-next-hint"></span>
+                                        <br/>
+                                        <span id="lesson-hint-content"></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="lesson-content">
 

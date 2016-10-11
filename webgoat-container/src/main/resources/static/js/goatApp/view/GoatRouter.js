@@ -45,7 +45,6 @@ define(['jquery',
 //                this.menuController.updateMenu(scr,menu);
 //            });
             goatRouter.on('route:lessonRoute', function(name) {
-                console.log('lesson route initiated');
                 this.lessonController.loadLesson(name);
                 //TODO - update menu code from below
                 this.menuController.updateMenu(name);

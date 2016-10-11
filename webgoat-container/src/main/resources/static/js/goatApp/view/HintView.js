@@ -24,7 +24,11 @@ function($,
         },
 
         toggleLabel: function() {
-            this.$el.text((showing) ? 'Hide hints' : 'Show hints');
+            if (this.isVisible()) {
+                $('show-hints-button').text('Hide hints');
+            } else {
+                $('show-hints-button').text('Show hints');
+            }
         },
 
 		render:function() {

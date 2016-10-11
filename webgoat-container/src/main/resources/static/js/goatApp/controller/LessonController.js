@@ -90,6 +90,7 @@ define(['jquery',
                     //hasAttack:this.lessonInfo.get('hasAttack') // TODO: add attack options
                 });
 
+                this.listenTo(this.helpControlsView,'hints:show',this.showHints);
                 this.listenTo(this.helpControlsView,'attack:show',this.hideShowAttack);
                 this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);

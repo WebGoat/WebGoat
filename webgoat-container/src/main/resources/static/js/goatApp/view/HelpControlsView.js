@@ -26,6 +26,9 @@ function($,_,Backbone) {
 			if (this.hasSource) {
 				this.$el.find('#show-source-button').unbind().on('click',_.bind(this.showSource,this)).show();
 			}
+			if (this.hasHints) {
+                this.$el.find('#show-hints-button').unbind().on('click',this.showHints.bind(this)).show();
+            }
 			if (this.hasSolution) {
 				this.$el.find('#show-solution-button').unbind().on('click',_.bind(this.showSolution,this)).show();
 			}
@@ -36,6 +39,10 @@ function($,_,Backbone) {
 			
 			this.$el.find('#restart-lesson-button').unbind().on('click',_.bind(this.restartLesson,this)).show();
 			//this.$el.append(this.helpButtons.restartLesson);
+		},
+
+		showHints: function() {
+		    this.trigger('hints:show','hint');
 		},
 
 		showSource: function() {
