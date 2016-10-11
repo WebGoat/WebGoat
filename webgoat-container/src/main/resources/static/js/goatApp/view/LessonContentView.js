@@ -49,18 +49,64 @@ define(['jquery',
                 this.$el.find(this.$contentPages[this.currentPage]).show();
                 this.addPaginationControls();
             }
+         },
 
-        makeFormsAjax: function() {
-            var options = {
-                success:this.onAttackExecution.bind(this),
-                url: this.model.urlRoot.replace('\.lesson','.attack'),
-                type:'GET'
-                // $.ajax options can be used here too, for example: 
-                //timeout:   3000 
+//        makeFormsAjax: function() {
+//            var options = {
+//                success:this.onAttackExecution.bind(this),
+//                url: this.model.urlRoot.replace('\.lesson','.attack'),
+//                type:'GET'
+//                // $.ajax options can be used here too, for example:
+//                //timeout:   3000
+//            };
+//            //hook forms //TODO: clarify form selectors later
+//            $("form.attack-form").ajaxForm(options);
+//        },
+
+        makeFormsAjax: function () {
+            this.$form = $('form.attack-form');
+            // turn off standard submit
+
+            //set standard options
+            var contentType = (this.$form.attr('contentType')) ? this.$form.attr('contentType') : 'url-form-encoded';
+            this.formOptions = {
+                //success:this.reLoadView.bind(this),
+                url: this.$form.attr('action'),
+                method: this.$form.attr('method'),
+                contentType: contentType,
+                timeout: 3000, //usually running locally ... should be plenty faster than this
+
             };
-            //hook forms //TODO: clarify form selectors later
-            $("form.attack-form").ajaxForm(options);
+
+//            if (typeof this.$form.attr('prepareData') === 'string') {
+//                if (typeof this.$form.attr('prepareData') !== 'undefined' && typeof CustomGoat[this.$form.attr('prepareData')] === 'function') { // I'm sure this is dangerous ... but hey, it's WebGoat, right?
+//                    this.formOptions.prepareData = CustomGoat[this.$form.attr('prepareData')];
+//                }
+//            }
+//          set up submit to run via ajax and be handled by the success handler
+            this.$form.submit(this.onFormSubmit.bind(this));
+
         },
+
+         onFormSubmit: function () {
+            var self = this;
+            console.log(this.formOptions);
+            var submitData = (typeof this.formOptions.prepareData === 'function') ? this.formOptions.prepareData() : this.$form.serialize();
+
+            $.ajax({
+                data:submitData,
+                url:this.formOptions.url,
+                method:this.formOptions.method,
+                contentType:this.formOptions.contentType,
+                data: submitData
+            }).success(function(data) {
+                //Log shows warning, see https://bugzilla.mozilla.org/show_bug.cgi?id=884693
+                // Explicitly loading the lesson instead of triggering an
+                // event in goatRouter.navigate().
+                self.reLoadView(data);
+            });
+            return false;
+         },
 
         ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
             var self = this;
@@ -72,7 +118,7 @@ define(['jquery',
                     //.done(self.reLoadView.bind(self))
                     .fail(function() { alert("failed to GET " + url); });
             });
-            
+
         },
 
         onAttackExecution: function(feedback) {
