@@ -49,17 +49,30 @@ define(['jquery',
                 this.$el.find(this.$contentPages[this.currentPage]).show();
                 this.addPaginationControls();
             }
+
+        makeFormsAjax: function() {
+            var options = {
+                success:this.onAttackExecution.bind(this),
+                url: this.model.urlRoot.replace('\.lesson','.attack'),
+                type:'GET'
+                // $.ajax options can be used here too, for example: 
+                //timeout:   3000 
+            };
+            //hook forms //TODO: clarify form selectors later
+            $("form.attack-form").ajaxForm(options);
         },
 
         ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs             
             var self = this;
             // The current LessonAdapter#getLink() generates a hash-mark link.  It will not match the mask below.
             // Besides, the new MVC code registers an event handler that will reload the lesson according to the route.
+
             $('form').submit(function(event){
                 $.get(this.action, "json")
                     //.done(self.reLoadView.bind(self))
                     .fail(function() { alert("failed to GET " + url); });
             });
+            
         },
 
         onAttackExecution: function(feedback) {

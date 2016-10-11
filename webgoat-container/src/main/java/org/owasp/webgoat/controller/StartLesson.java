@@ -30,6 +30,8 @@
  */
 package org.owasp.webgoat.controller;
 
+import com.google.gson.JsonObject;
+import org.json.JSONObject;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
 import org.owasp.webgoat.plugins.YmlBasedLesson;
@@ -44,6 +46,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -91,4 +94,5 @@ public class StartLesson {
         model.addObject("lesson", lesson.get());
         return model;
     }
+
 }

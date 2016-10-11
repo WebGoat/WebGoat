@@ -1,5 +1,6 @@
 package org.owasp.webgoat.lessons;
 
+
 import org.owasp.webgoat.lessons.model.AttackResult;
 
 /**
@@ -34,4 +35,5 @@ import org.owasp.webgoat.lessons.model.AttackResult;
 public interface Attack {
 
     AttackResult attack();
+
 }
