@@ -21,7 +21,7 @@ define(['jquery',
             //this.baseUrlRoot = '';
         },
         loadData: function(options) {
-            // this.urlRoot = _.escape(encodeURIComponent(options.name)) + '.lesson'
+            this.urlRoot = _.escape(encodeURIComponent(options.name)) + '.lesson'
 //            if (options.stage != null) {
 //               this.urlRoot += '&stage=' + options.stage;
 //            }
