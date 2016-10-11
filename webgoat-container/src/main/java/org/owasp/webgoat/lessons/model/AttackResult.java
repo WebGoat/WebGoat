@@ -42,6 +42,13 @@ public class AttackResult {
         return attackResult;
     }
 
+    public static AttackResult failed(String feedback) {
+        AttackResult attackResult = new AttackResult();
+        attackResult.lessonCompleted = false;
+        attackResult.feedback = feedback;
+        return attackResult;
+    }
+
     public boolean isLessonCompleted() {
         return lessonCompleted;
     }
