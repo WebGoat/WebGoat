@@ -36,6 +36,10 @@ public class AttackResult {
     private String output;
 
     public static AttackResult success() {
+        return AttackResult.success("Congratulations");
+    }
+
+    public static AttackResult success(String feedback) {
         AttackResult attackResult = new AttackResult();
         attackResult.lessonCompleted = true;
         attackResult.feedback = "Congratulations";
