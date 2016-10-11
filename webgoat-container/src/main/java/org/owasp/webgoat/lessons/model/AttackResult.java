@@ -39,10 +39,11 @@ public class AttackResult {
         return AttackResult.success("Congratulations");
     }
 
-    public static AttackResult success(String feedback) {
+    public static AttackResult success(String output) {
         AttackResult attackResult = new AttackResult();
         attackResult.lessonCompleted = true;
         attackResult.feedback = "Congratulations";
+        attackResult.output = output;
         return attackResult;
     }
 
