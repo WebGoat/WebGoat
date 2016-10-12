@@ -1,8 +1,8 @@
 package org.owasp.webgoat.plugins;
 
-import org.owasp.webgoat.lessons.Attack;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonAdapter;
+import org.owasp.webgoat.lessons.LessonEndpoint;
 import org.owasp.webgoat.session.WebSession;
 
 import java.util.List;
@@ -43,15 +43,13 @@ public class YmlBasedLesson extends LessonAdapter {
     private final List<String> hints;
     private final String title;
     private final String id;
-    private Attack attack;
+    private List<LessonEndpoint> lessonEndpoints;
 
-    public YmlBasedLesson(String category, List<String> hints, String title, String id, Class attack) {
+    public YmlBasedLesson(String category, List<String> hints, String title, String id) {
         this.category = category;
         this.hints = hints;
         this.title = title;
         this.id = id;
-      //  createAttack(attack);
-
     }
 
     @Override
@@ -76,18 +74,6 @@ public class YmlBasedLesson extends LessonAdapter {
 
     public String getId() {
         return id;
-    }
-
-    public Attack getLessonAttack() {
-        return this.attack;
-    }
-
-    private void createAttack(Class attack) {
-        try {
-            this.attack = (Attack) attack.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 }

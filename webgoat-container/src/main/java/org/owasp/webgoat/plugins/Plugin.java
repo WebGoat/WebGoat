@@ -85,15 +85,12 @@ public class Plugin {
                 final List<String> hints = (List<String>) lessonYml.get("hints");
                 final String title = (String) lessonYml.get("title");
                 final String html = (String) lessonYml.get("id");
-                Class attackClazz = findAttack(html);
-                this.ymlBasedLesson = new YmlBasedLesson(category, hints, title, html, attackClazz);
+                this.ymlBasedLesson = new YmlBasedLesson(category, hints, title, html);
                 this.lesson = null;
             } catch (IOException e) {
                 throw new PluginLoadingFailure("Unable to read yml file", e);
             }
         }
-
-
     }
 
     private Class findAttack(String id) {

@@ -32,7 +32,7 @@ import org.owasp.webgoat.lessons.model.AttackResult;
  * @version $Id: $Id
  * @since August 08, 2016
  */
-public interface Attack {
+    public interface Attack {
 
     AttackResult attack();
 

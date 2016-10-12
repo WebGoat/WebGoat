@@ -25,6 +25,7 @@
  */
 package org.owasp.webgoat.lessons;
 
+import org.owasp.webgoat.lessons.model.AttackResult;
 import org.owasp.webgoat.session.LessonTracker;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
@@ -52,6 +53,7 @@ public abstract class LessonEndpoint implements MvcEndpoint {
     private File pluginDirectory;
     @Autowired
     private WebSession webSession;
+    private boolean solved = false;
 
     /**
      * The directory of the plugin directory in which the lessons resides, so if you want to access the lesson 'ClientSideFiltering' you will
@@ -73,6 +75,12 @@ public abstract class LessonEndpoint implements MvcEndpoint {
         UserTracker userTracker = UserTracker.instance();
         LessonTracker lessonTracker = userTracker.getLessonTracker(webSession, webSession.getCurrentLesson());
         return lessonTracker;
+    }
+
+    protected AttackResult trackProgress(AttackResult attackResult) {
+        this.solved = attackResult.isLessonCompleted();
+        getLessonTracker().setCompleted(solved);
+        return attackResult;
     }
 
     @Override
