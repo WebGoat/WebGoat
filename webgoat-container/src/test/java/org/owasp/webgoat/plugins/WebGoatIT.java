@@ -134,39 +134,23 @@ public class WebGoatIT implements SauceOnDemandSessionIdProvider {
     public static LinkedList browsersStrings() {
         LinkedList browsers = new LinkedList();
 
-        // windows 7, Chrome 45
-        browsers.add(new String[]{"Windows 7", "45", "chrome", null, null});
+        // windows 7, Chrome latest
+        //browsers.add(new String[]{"Windows 7", "", "chrome", null, null});
 
-        // windows 10, Chrome 46
-        //browsers.add(new String[]{"Windows 10", "46", "chrome", null, null});
+        // windows 10, Chrome latest
+        browsers.add(new String[]{"Windows 10", "", "chrome", null, null});
 
-        // windows 10, Firefox 38
-      //  browsers.add(new String[]{"Windows 10", "38", "firefox", null, null});
+        // Linux, Firefox latest
+        browsers.add(new String[]{"Linux", "", "firefox", null, null});
 
-        // Linux, Firefox 37
-        browsers.add(new String[]{"Linux", "37", "firefox", null, null});
+        // windows 10, IE latest
+        //browsers.add(new String[]{"Windows 10", "", "internetExplorer", null, null});
 
+        // windows 10, Microsoft Edge Browser latest
+        //browsers.add(new String[]{"Windows 10", "", "edge", null, null});
 
-        // windows 7, IE 9
-        //browsers.add(new String[]{"Windows 7", "9", "internet explorer", null, null});
-
-        // windows 8, IE 10
-        //browsers.add(new String[]{"Windows 8", "10", "internet explorer", null, null});
-
-        // windows 8.1, IE 11
-        //browsers.add(new String[]{"Windows 8.1", "11", "internet explorer", null, null});
-
-        // windows 10, Microsoft Edge Browser
-        //browsers.add(new String[]{"Windows 10", "20.10240", "microsoftedge", null, null});
-
-        // OS X 10.9, Safari 7
-        //browsers.add(new String[]{"OSX 10.9", "7", "safari", null, null});
-
-        // OS X 10.10, Safari
-        //browsers.add(new String[]{"OSX 10.10", "8", "safari", null, null});
-
-        // OS X 10.11, Safari
-        //browsers.add(new String[]{"OSX 10.11", "8.1", "safari", null, null});
+        // OS X 10.11 El Capitan, Safari
+        //browsers.add(new String[]{"OSX 10.11", "", "safari", null, null});
 
         return browsers;
     }
