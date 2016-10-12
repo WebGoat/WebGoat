@@ -54,9 +54,7 @@ public class PluginExtractor {
             }
         } finally {
             plugin.findLesson(this.classes);
-            if (plugin.getLesson().isPresent()) {
-                plugin.rewritePaths(targetDirectory.toPath());
-            }
+            plugin.findEndpoints(this.classes);
             zipFile.close();
         }
         return plugin;

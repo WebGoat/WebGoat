@@ -1,17 +1,13 @@
 package org.owasp.webgoat.plugins;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import org.apache.commons.io.FileUtils;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.LessonEndpoint;
 import org.owasp.webgoat.lessons.NewLesson;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +31,7 @@ public class Plugin {
     private Class<AbstractLesson> lesson;
     private YmlBasedLesson ymlBasedLesson; //TODO REMOVE!
     private Class<NewLesson> newLesson;
+    private List<Class<LessonEndpoint>> lessonEndpoints = Lists.newArrayList();
     private Map<String, File> solutionLanguageFiles = new HashMap<>();
     private Map<String, File> lessonPlansLanguageFiles = new HashMap<>();
     private List<File> pluginFiles = Lists.newArrayList();
@@ -42,6 +39,10 @@ public class Plugin {
 
     public Plugin(PluginClassLoader classLoader) {
         this.classLoader = classLoader;
+    }
+
+    public List<Class<LessonEndpoint>> getLessonEndpoints() {
+        return this.lessonEndpoints;
     }
 
     /**
@@ -71,28 +72,20 @@ public class Plugin {
         } catch (ClassNotFoundException ce) {
             throw new PluginLoadingFailure("Class " + realClassName + " listed in jar but unable to load the class.", ce);
         }
-
-        //TODO remove
-        readYmlLessonConfiguration();
     }
 
-    private void readYmlLessonConfiguration() {
-        java.util.Optional<File> ymlFile = this.pluginFiles.stream().filter(f -> f.getName().endsWith(".yml")).findFirst();
-        if (ymlFile.isPresent()) {
+    public void findEndpoints(List<String> classes) {
+        for (String clazzName : classes) {
+            String realClassName = StringUtils.trimLeadingCharacter(clazzName, '/').replaceAll("/", ".").replaceAll(".class", "");
+
             try {
-                String ymlStr = FileUtils.readFileToString(ymlFile.get());
-                ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-                Map<String, Object> ymlAsMap = mapper.readValue(ymlStr, new TypeReference<Map<String, Object>>() {
-                });
-                Map<String, Object> lessonYml = (Map<String, Object>) ymlAsMap.get("lesson");
-                final String category = (String) lessonYml.get("category");
-                final List<String> hints = (List<String>) lessonYml.get("hints");
-                final String title = (String) lessonYml.get("title");
-                final String html = (String) lessonYml.get("id");
-                this.ymlBasedLesson = new YmlBasedLesson(category, hints, title, html);
-                this.lesson = null;
-            } catch (IOException e) {
-                throw new PluginLoadingFailure("Unable to read yml file", e);
+                Class clazz = classLoader.loadClass(realClassName);
+
+                if (LessonEndpoint.class.isAssignableFrom(clazz)) {
+                    this.lessonEndpoints.add(clazz);
+                }
+            } catch (ClassNotFoundException ce) {
+                throw new PluginLoadingFailure("Class " + realClassName + " listed in jar but unable to load the class.", ce);
             }
         }
     }
@@ -116,41 +109,6 @@ public class Plugin {
         if (fileEndsWith(file, ".css", ".jsp", ".js", ".yml")) {
             pluginFiles.add(file.toFile());
         }
-    }
-
-    /**
-     * <p>rewritePaths.</p>
-     *
-     * @param pluginTarget a {@link java.nio.file.Path} object.
-     */
-    public void rewritePaths(Path pluginTarget) {
-//        try {
-//            replaceInFiles(this.lesson.getSimpleName() + "_files",
-//                    "plugin_lessons/plugin/" + this.lesson
-//                            .getSimpleName() + "/lessonSolutions/en/" + this.lesson.getSimpleName() + "_files",
-//                    solutionLanguageFiles.values());
-//            replaceInFiles(this.lesson.getSimpleName() + "_files",
-//                    "plugin_lessons/plugin/" + this.lesson
-//                            .getSimpleName() + "/lessonPlans/en/" + this.lesson.getSimpleName() + "_files",
-//                    lessonPlansLanguageFiles.values());
-//
-//            String[] replacements = {"jsp", "js"};
-//            for (String replacement : replacements) {
-//                String s = String.format("plugin/%s/%s/", this.lesson.getSimpleName(), replacement);
-//                String r = String.format("plugin_lessons/plugin/s/%s/", this.lesson.getSimpleName(), replacement);
-//                replaceInFiles(s, r, pluginFiles);
-//                replaceInFiles(s, r, Arrays.asList(lessonSourceFile));
-//            }
-//
-//            //CSS with url('/plugin/images') should not begin with / otherwise image cannot be found
-//            String s = String.format("/plugin/%s/images/", this.lesson.getSimpleName());
-//            String r = String
-//                    .format("plugin_lessons/plugin/%s/images/", this.lesson.getSimpleName());
-//            replaceInFiles(s, r, pluginFiles);
-//            replaceInFiles(s, r, Arrays.asList(lessonSourceFile));
-//        } catch (IOException e) {
-//            throw new PluginLoadingFailure("Unable to rewrite the paths in the solutions", e);
-//        }
     }
 
     /**
