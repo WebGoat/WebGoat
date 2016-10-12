@@ -38,8 +38,8 @@ deploy:
     branch: develop
     jdk: oraclejdk8
 after_success:
-  - mvn versioneye:update
-  - mvn cobertura:cobertura coveralls:report
+  - mvn versioneye:update -q
+  - mvn cobertura:cobertura coveralls:report -q
 notifications:
   slack:
     secure: S9VFew5NSE8WDzYD1VDBUULKKT0fzgblQACznwQ85699b2yeX9TX58N3RZvRS1JVagVP1wu2xOrwN2g+AWx4Ro3UBZD5XG86uTJWpCLD4cRWHBoGMH2TfvI7/IzsWmgxH4MBxFRvZr/eEhlVAux+N9H4EoEdS4CKsJXEqV37PlA=
