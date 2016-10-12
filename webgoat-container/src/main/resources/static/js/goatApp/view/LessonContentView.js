@@ -66,50 +66,32 @@ define(['jquery',
         makeFormsAjax: function () {
             this.$form = $('form.attack-form');
             // turn off standard submit
-
-            //set standard options
-            var contentType = (this.$form.attr('contentType')) ? this.$form.attr('contentType') : 'application/x-www-form-urlencoded; charset=UTF-8';
-            this.formOptions = {
-                //success:this.reLoadView.bind(this),
-                url: this.$form.attr('action'),
-                method: this.$form.attr('method'),
-                contentType: contentType,
-                timeout: 3000, //usually running locally ... should be plenty faster than this
-
-            };
-
-//            if (typeof this.$form.attr('prepareData') === 'string') {
-//                if (typeof this.$form.attr('prepareData') !== 'undefined' && typeof CustomGoat[this.$form.attr('prepareData')] === 'function') { // I'm sure this is dangerous ... but hey, it's WebGoat, right?
-//                    this.formOptions.prepareData = CustomGoat[this.$form.attr('prepareData')];
-//                }
-//            }
-//          set up submit to run via ajax and be handled by the success handler
-            this.$form.submit(this.onFormSubmit.bind(this));
-
+            var self = this;
+            // each submit handled per form
+            this.$form.each( function() {
+                $(this).submit(self.onFormSubmit.bind(self));
+            });
         },
 
-         onFormSubmit: function () {
+         onFormSubmit: function (e) {
+            var curForm = e.currentTarget; // the form from which the
             var self = this;
-            console.log(this.formOptions);
-            var submitData = (typeof this.formOptions.prepareData === 'function') ? this.formOptions.prepareData() : this.$form.serialize();
 
+            var submitData = this.$form.serialize();
+            // TODO custom Data prep for submission
+            // var submitData = (typeof this.formOptions.prepareData === 'function') ? this.formOptions.prepareData() : this.$form.serialize();
+            this.$curFeedback = $(curForm).closest('.lesson-page-wrapper').find('.attack-feedback');
+            this.$curOutput = $(curForm).closest('.lesson-page-wrapper').find('.attack-output');
+            var formUrl = $(curForm).attr('action');
+            var formMethod = $(curForm).attr('method');
+            var contentType = ($(curForm).attr('contentType')) ? $(curForm).attr('contentType') : 'application/x-www-form-urlencoded; charset=UTF-8';
             $.ajax({
-                data:submitData,
-                url:this.formOptions.url,
-                method:this.formOptions.method,
-                contentType:this.formOptions.contentType,
+                //data:submitData,
+                url:formUrl,
+                method:formMethod,
+                contentType:contentType,
                 data: submitData
-            }).then(self.onSuccessResponse.bind(self), self.onErrorResponse.bind(self)); // {
-//                // Log shows warning, see https://bugzilla.mozilla.org/show_bug.cgi?id=884693
-//                // Explicitly loading the lesson instead of triggering an
-//                // event in goatRouter.navigate().
-//                console.log(data);
-//                //self.reLoadView(data);
-//            }).error(function(data) {
-//                console.log(data);
-//                //test
-//            });
-
+            }).then(self.onSuccessResponse.bind(self), self.onErrorResponse.bind(self));
             return false;
          },
 
@@ -136,17 +118,12 @@ define(['jquery',
              });
         },
 
-//        onAttackExecution: function(feedback) {
-//            console.log('attack executed')
-//            this.renderFeedback(feedback);
-//        },
-
         renderFeedback: function(feedback) {
-            this.$el.find('.attack-feedback').html(feedback);
+            this.$curFeedback.html(feedback);
         },
 
         renderOutput: function(output) {
-            this.$el.find('.attack-output').html(output);
+            this.$curOutput.html(feedback);
         },
 
         addPaginationControls: function() {
@@ -196,7 +173,6 @@ define(['jquery',
         hideNextPageButton: function() {
 
         }
-
 
     });
 
