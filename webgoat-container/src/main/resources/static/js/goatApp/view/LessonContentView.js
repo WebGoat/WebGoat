@@ -17,25 +17,13 @@ define(['jquery',
 
         render: function() {
             this.$el.find('.lesson-content').html(this.model.get('content'));
+            this.$el.find('.attack-feedback').hide();
+            this.$el.find('.attack-output').hide();
             this.makeFormsAjax();
             //this.ajaxifyAttackHref();
             $(window).scrollTop(0); //work-around til we get the scroll down sorted out
             this.initPagination();
         },
-
-//        makeFormsAjax: function () {
-//            // will bind all forms with attack-form class
-//            var self = this;
-//            $("form.attack-form").each(function(form) {
-//                var options = {
-//                    success:self.onAttackExecution.bind(this),
-//                    url: this.action,
-//                    type:this.method,
-//                    // additional options
-//                };
-//                $(this).ajaxForm(options);
-//            });
-//        },
 
         initPagination: function() {
             //get basic pagination info
@@ -51,17 +39,6 @@ define(['jquery',
             }
          },
 
-//        makeFormsAjax: function() {
-//            var options = {
-//                success:this.onAttackExecution.bind(this),
-//                url: this.model.urlRoot.replace('\.lesson','.attack'),
-//                type:'GET'
-//                // $.ajax options can be used here too, for example:
-//                //timeout:   3000
-//            };
-//            //hook forms //TODO: clarify form selectors later
-//            $("form.attack-form").ajaxForm(options);
-//        },
 
         makeFormsAjax: function () {
             this.$form = $('form.attack-form');
@@ -76,10 +53,10 @@ define(['jquery',
          onFormSubmit: function (e) {
             var curForm = e.currentTarget; // the form from which the
             var self = this;
-
-            var submitData = this.$form.serialize();
             // TODO custom Data prep for submission
-            // var submitData = (typeof this.formOptions.prepareData === 'function') ? this.formOptions.prepareData() : this.$form.serialize();
+            var prepareDataFunctionName = $(curForm).attr('prepareData');
+            var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : this.$form.serialize();
+            // var submitData = this.$form.serialize();
             this.$curFeedback = $(curForm).closest('.lesson-page-wrapper').find('.attack-feedback');
             this.$curOutput = $(curForm).closest('.lesson-page-wrapper').find('.attack-output');
             var formUrl = $(curForm).attr('action');
@@ -119,11 +96,14 @@ define(['jquery',
         },
 
         renderFeedback: function(feedback) {
-            this.$curFeedback.html(feedback);
+            this.$curFeedback.html(feedback || "");
+            this.$curFeedback.show(400)
+
         },
 
         renderOutput: function(output) {
-            this.$curOutput.html(feedback);
+            this.$curOutput.html(output || "");
+            this.$curOutput.show(400)
         },
 
         addPaginationControls: function() {
