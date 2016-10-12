@@ -59,7 +59,7 @@ wish to simply try/test/run the current development version of WebGoat
 
 #### 1. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
 
-https://s3.amazonaws.com/webgoat-war/webgoat-standalone-7.0.1-exec.jar
+https://s3.amazonaws.com/webgoat-war/webgoat-standalone-7.1-SNAPSHOT-exec.jar
 
 #### 2. Run it using java:
 
