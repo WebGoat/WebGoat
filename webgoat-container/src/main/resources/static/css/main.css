@@ -910,6 +910,10 @@ cookie-container {
     cursor:pointer;
 }
 
+.show-prev-page {
+    margin-right: 10px;
+}
+
 .show-prev-page:hover {
     cursor:pointer;
 }

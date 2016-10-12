@@ -15,7 +15,7 @@ define(['jquery',
     MenuView,
     DeveloperControlsView) {
     
-    var lessonView = new LessonContentView();
+    var lessonContentView = new LessonContentView();
     var menuView = new MenuView();
     var developerControlsView = new DeveloperControlsView();
 
@@ -28,7 +28,7 @@ define(['jquery',
         },
 
         lessonController: new LessonController({
-            lessonView: lessonView
+            lessonContentView: lessonContentView
         }),
 
         menuController: new MenuController({

@@ -50,7 +50,7 @@ define(['jquery',
             this.lessonContent = new LessonContentModel();
             this.lessonProgressModel = new LessonProgressModel();
             this.lessonProgressView = new LessonProgressView(this.lessonProgressModel);
-            this.lessonView = options.lessonView;
+            this.lessonContentView = options.lessonContentView;
             this.developerControlsView = new DeveloperControlsView();
 
             _.extend(Controller.prototype,Backbone.Events);
@@ -69,10 +69,6 @@ define(['jquery',
                 }
                 this.lessonContent.loadData({
                     'name':name
-//                    'scr': scr,
-//                    'menu': menu,
-//                    'stage': stage,
-//                    'num': num,
                 });
                 this.planView = {};
                 this.solutionView = {};
@@ -96,6 +92,7 @@ define(['jquery',
                 this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
                 this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
+                this.listenTo(this.lessonContentView, 'lesson:complete', this.updateMenu)
 
                 this.listenTo(this,'hints:show',this.onShowHints);
 
@@ -104,14 +101,18 @@ define(['jquery',
                 this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
             };
 
+            this.updateMenu = function() {
+                this.trigger('menu:reload')
+            };
+
             this.onContentLoaded = function(loadHelps) {
                 this.lessonInfoModel = new LessonInfoModel();
                 this.listenTo(this.lessonInfoModel,'info:loaded',this.onInfoLoaded);
 
                 if (loadHelps) {
                     this.helpControlsView = null;
-                    this.lessonView.model = this.lessonContent;
-                    this.lessonView.render();
+                    this.lessonContentView.model = this.lessonContent;
+                    this.lessonContentView.render();
                     
                     this.planView = new PlanView();
                     this.solutionView = new SolutionView();
@@ -179,7 +180,7 @@ define(['jquery',
                     });
                     if (this.lessonInfoModel.get('numberHints') > 0) {
 
-                        this.lessonView.$el.find('#show-hints-button').unbind().on('click',_.bind(this.showHints,this)).show();
+                        this.lessonContentView.$el.find('#show-hints-button').unbind().on('click',_.bind(this.showHints,this)).show();
                     }
                 }
             };

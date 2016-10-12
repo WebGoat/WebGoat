@@ -75,8 +75,11 @@ define(['jquery',
          onSuccessResponse: function(data) {
             console.log(data);
             this.renderFeedback(data.feedback);
-            // update menu if lessonCompleted is true
+
             this.renderOutput(data.output || "");
+            if (data.lessonComplete) {
+                this.trigger('lesson:complete');
+            }
             return false;
          },
 
@@ -107,23 +110,36 @@ define(['jquery',
         },
 
         addPaginationControls: function() {
+            var pagingControlsDiv
+            this.$el.html();
             this.$prevPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-left show-prev-page'});
             this.$prevPageButton.unbind().on('click',this.decrementPageView.bind(this));
 
             this.$nextPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-right show-next-page'});
             this.$nextPageButton.unbind().on('click',this.incrementPageView.bind(this));
 
-            var pagingControlsDiv = $('<div>',{class:'panel-body', id:'lessong-page-controls'});
-            pagingControlsDiv.append(this.$prevPageButton);
-            pagingControlsDiv.append(this.$nextPageButton);
-            this.$el.append(pagingControlsDiv);
-            this.$prevPageButton.hide()
+            if (this.$el.find('#lesson-page-controls').length < 1) {
+                pagingControlsDiv = $('<div>',{class:'panel-body', id:'lesson-page-controls'});
+                pagingControlsDiv.append(this.$prevPageButton);
+                pagingControlsDiv.append(this.$nextPageButton);
+                this.$el.append(pagingControlsDiv);
+            }
+            //
+            if (this.numPages > 0 ) {
+                this.$nextPageButton.show();
+            }
+            this.$prevPageButton.hide();
+
         },
 
         incrementPageView: function() {
             if (this.currentPage < this.numPages -1) {
                this.currentPage++;
                this.showCurContentPage(true);
+            }
+
+            if (this.currentPage > 0) {
+                this.$prevPageButton.show();
             }
 
             if (this.currentPage >= this.numPages -1) {
@@ -136,6 +152,10 @@ define(['jquery',
             if (this.currentPage > 0) {
                 this.currentPage--;
                 this.showCurContentPage(false);
+            }
+
+            if (this.currentPage < this.numPages -1) {
+                this.$nextPageButton.show();
             }
 
             if (this.currentPage == 0) {
