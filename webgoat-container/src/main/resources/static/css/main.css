@@ -918,6 +918,14 @@ cookie-container {
     cursor:pointer;
 }
 
+.attack-feedback {
+    font-weight:800;
+}
+
+.attack-output {
+    border-top: 1px solid #ccc;
+}
+
 /* HINTS */
 #lesson-hint-container {
   display: none;
