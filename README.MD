@@ -1,6 +1,6 @@
 # WebGoat: A deliberately insecure Web Application
 
-[![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg)](https://travis-ci.org/WebGoat/WebGoat)
+[![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg?branch=develop)](https://travis-ci.org/WebGoat/WebGoat)
 [![Coverage Status](https://coveralls.io/repos/WebGoat/WebGoat/badge.svg?branch=master&service=github)](https://coveralls.io/github/WebGoat/WebGoat?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/b69ee3a86e3b4afcaf993f210fccfb1d)](https://www.codacy.com/app/dm/WebGoat)
 [![Dependency Status](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa/badge.svg?style=flat)](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa)
