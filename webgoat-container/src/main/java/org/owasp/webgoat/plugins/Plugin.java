@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
-import com.google.common.reflect.ClassPath;
 import org.apache.commons.io.FileUtils;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.NewLesson;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
@@ -33,7 +33,8 @@ public class Plugin {
 
     private PluginClassLoader classLoader;
     private Class<AbstractLesson> lesson;
-    private YmlBasedLesson ymlBasedLesson;
+    private YmlBasedLesson ymlBasedLesson; //TODO REMOVE!
+    private Class<NewLesson> newLesson;
     private Map<String, File> solutionLanguageFiles = new HashMap<>();
     private Map<String, File> lessonPlansLanguageFiles = new HashMap<>();
     private List<File> pluginFiles = Lists.newArrayList();
@@ -64,11 +65,14 @@ public class Plugin {
             if (AbstractLesson.class.isAssignableFrom(clazz)) {
                 this.lesson = clazz;
             }
+            if (NewLesson.class.isAssignableFrom(clazz)) {
+                this.newLesson = clazz;
+            }
         } catch (ClassNotFoundException ce) {
             throw new PluginLoadingFailure("Class " + realClassName + " listed in jar but unable to load the class.", ce);
         }
 
-        //New code all lessons should work as below
+        //TODO remove
         readYmlLessonConfiguration();
     }
 
@@ -91,19 +95,6 @@ public class Plugin {
                 throw new PluginLoadingFailure("Unable to read yml file", e);
             }
         }
-    }
-
-    private Class findAttack(String id) {
-        try {
-            for (final ClassPath.ClassInfo info : ClassPath.from(this.classLoader).getTopLevelClasses()) {
-                if (info.getName().endsWith(id)) {
-                    return info.load();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**
@@ -175,6 +166,9 @@ public class Plugin {
             }
             if (lesson != null) {
                 return Optional.of(lesson.newInstance());
+            }
+            if (newLesson != null) {
+                return Optional.of(newLesson.newInstance());
             }
 
         } catch (IllegalAccessException | InstantiationException e) {
