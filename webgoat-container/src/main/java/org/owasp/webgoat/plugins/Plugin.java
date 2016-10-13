@@ -29,7 +29,6 @@ public class Plugin {
 
     private PluginClassLoader classLoader;
     private Class<AbstractLesson> lesson;
-    private YmlBasedLesson ymlBasedLesson; //TODO REMOVE!
     private Class<NewLesson> newLesson;
     private List<Class<LessonEndpoint>> lessonEndpoints = Lists.newArrayList();
     private Map<String, File> solutionLanguageFiles = new HashMap<>();
@@ -106,7 +105,7 @@ public class Plugin {
             lessonSourceFile = file.toFile();
         }
 
-        if (fileEndsWith(file, ".css", ".jsp", ".js", ".yml")) {
+        if (fileEndsWith(file, ".css", ".jsp", ".js")) {
             pluginFiles.add(file.toFile());
         }
     }
@@ -119,16 +118,12 @@ public class Plugin {
      */
     public Optional<AbstractLesson> getLesson() {
         try {
-            if (ymlBasedLesson != null) {
-                return Optional.of(ymlBasedLesson);
-            }
             if (lesson != null) {
                 return Optional.of(lesson.newInstance());
             }
             if (newLesson != null) {
                 return Optional.of(newLesson.newInstance());
             }
-
         } catch (IllegalAccessException | InstantiationException e) {
             throw new PluginLoadingFailure("Unable to instantiate the lesson " + lesson.getName(), e);
         }
