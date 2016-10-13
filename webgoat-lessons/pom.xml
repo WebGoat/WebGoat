@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <name>webgoat-plugins-parent</name>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.owasp.webgoat.lesson</groupId>
+    <artifactId>webgoat-lessons-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>8.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.owasp.webgoat</groupId>
+        <artifactId>webgoat-parent</artifactId>
+        <version>8.0-SNAPSHOT</version>
+    </parent>
+
+    <modules>
+        <module>client-side-filtering</module>
+        <module>http-basics</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.owasp.webgoat</groupId>
+            <artifactId>webgoat-container</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.owasp.webgoat</groupId>
+                <artifactId>webgoat-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-artifact</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>../../webgoat-container/src/main/resources/plugin_lessons</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,4 @@
+== The Quiz
+
+What type of HTTP command did WebGoat use for this lesson.  A POST or a GET.
+
