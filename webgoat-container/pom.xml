@@ -17,85 +17,6 @@
         <start-class>org.owasp.webgoat.WebGoat</start-class>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>run-integration-tests</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-                <property>
-                    <name>run-integration</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.tomcat.maven</groupId>
-                        <artifactId>tomcat7-maven-plugin</artifactId>
-                        <version>2.3-SNAPSHOT</version>
-                        <configuration>
-                            <server>local_tomcat</server>
-                            <url>http://localhost:8080/manager</url>
-                            <path>/WebGoat</path>
-                            <attachArtifactClassifier>exec</attachArtifactClassifier>
-                            <contextReloadable>true</contextReloadable>
-                            <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
-                            <contextFile>${project.basedir}/src/main/old/WEB-INF/context.xml</contextFile>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.owasp.webgoat</groupId>
-                                <artifactId>webgoat-container</artifactId>
-                                <version>${project.version}</version>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <id>tomcat-run</id>
-                                <goals>
-                                    <goal>exec-war-only</goal>
-                                </goals>
-                                <phase>package</phase>
-                            </execution>
-                            <execution>
-                                <id>tomcat-startup</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run-war-only</goal>
-                                </goals>
-                                <configuration>
-                                    <port>8888</port>
-                                    <fork>true</fork>
-                                </configuration>
-                            </execution>
-                            <!-- At post-integration-test phase, stop the embedded Tomcat server. -->
-                            <execution>
-                                <id>tomcat-shutdown</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>shutdown</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <build>
         <resources>
             <resource>
@@ -217,11 +138,11 @@
                     <fork>true</fork>
                 </configuration>
                 <!--<dependencies>-->
-                    <!--<dependency>-->
-                        <!--<groupId>org.springframework</groupId>-->
-                        <!--<artifactId>springloaded</artifactId>-->
-                        <!--<version>1.2.5.RELEASE</version>-->
-                    <!--</dependency>-->
+                <!--<dependency>-->
+                <!--<groupId>org.springframework</groupId>-->
+                <!--<artifactId>springloaded</artifactId>-->
+                <!--<version>1.2.5.RELEASE</version>-->
+                <!--</dependency>-->
                 <!--</dependencies>-->
             </plugin>
         </plugins>
