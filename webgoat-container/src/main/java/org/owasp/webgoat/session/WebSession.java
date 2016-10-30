@@ -1,5 +1,6 @@
 package org.owasp.webgoat.session;
 
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.RandomLessonAdapter;
@@ -7,8 +8,6 @@ import org.owasp.webgoat.lessons.SequentialLessonAdapter;
 import org.owasp.webgoat.lessons.model.RequestParameter;
 import org.owasp.webgoat.util.BeanProvider;
 import org.owasp.webgoat.util.LabelManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletContext;
@@ -60,13 +59,12 @@ import java.util.Vector;
  * @since October 28, 2003
  * @version $Id: $Id
  */
+@Slf4j
 public class WebSession {
 
     /**
      * @TODO_NB Spring can take inject this bean bound to a specific scope no longer necessary to bound it to a HTTP session
      */
-
-    final Logger logger = LoggerFactory.getLogger(WebSession.class);
 
     /**
      * Description of the Field
@@ -1047,7 +1045,7 @@ public class WebSession {
                 rla.setStage(this, null);
             }
         } catch (ParameterNotFoundException pnfe) {
-            logger.warn("ParameterNotFoundException when updating stage for RandomLessonAdapter: " + pnfe.getMessage() + " " + pnfe.getCause());
+            log.warn("ParameterNotFoundException when updating stage for RandomLessonAdapter: " + pnfe.getMessage() + " " + pnfe.getCause());
         }
     }
 
@@ -1109,7 +1107,7 @@ public class WebSession {
                 }
             }
         } catch (Exception e) {
-            logger.warn("Exception when updating properties in updateScreenProperties: " + e.getMessage() + " " + e.getCause());
+            log.warn("Exception when updating properties in updateScreenProperties: " + e.getMessage() + " " + e.getCause());
         }
     }
 
@@ -1154,7 +1152,7 @@ public class WebSession {
         }
         // store parameters
         Map<String, String[]> parmMap = request.getParameterMap();
-        logger.info("PARM MAP: " + parmMap);
+        log.info("PARM MAP: " + parmMap);
         if (parmMap == null) {
             this.parmsOnLastRequest = new ArrayList<RequestParameter>();
         } else {

@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugins;
 
 
 import com.google.common.base.Preconditions;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import java.util.Collection;
  * @version $Id: $Id
  * @author dm
  */
+@UtilityClass
 public class PluginFileUtils {
 
     /**

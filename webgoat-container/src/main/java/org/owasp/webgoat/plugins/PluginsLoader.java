@@ -1,10 +1,9 @@
 package org.owasp.webgoat.plugins;
 
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.owasp.webgoat.util.LabelProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 
@@ -36,11 +35,11 @@ import java.util.zip.ZipFile;
  * @author dm
  * @version $Id: $Id
  */
+@Slf4j
 public class PluginsLoader {
 
     private static final String WEBGOAT_PLUGIN_EXTENSION = "jar";
     private static final int BUFFER_SIZE = 32 * 1024;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final File pluginTargetDirectory;
     private final PluginClassLoader classLoader;
 
@@ -67,7 +66,7 @@ public class PluginsLoader {
             List<URL> jars = listJars();
             plugins = processPlugins(jars);
         } catch (Exception e) {
-            logger.error("Loading plugins failed", e);
+            log.error("Loading plugins failed", e);
         }
         return plugins;
     }

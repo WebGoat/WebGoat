@@ -32,27 +32,22 @@ package org.owasp.webgoat;
 
 import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginClassLoader;
+import org.owasp.webgoat.plugins.PluginEndpointPublisher;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.owasp.webgoat.session.WebgoatProperties;
-import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
-import org.springframework.context.ApplicationContext;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.context.support.AbstractApplicationContext;
 
 import javax.servlet.ServletContext;
 import java.io.File;
@@ -79,7 +74,7 @@ public class WebGoat extends SpringBootServletInitializer {
     }
 
     @Bean
-    public PluginClassLoader pluginClassLoader() {
+    public PluginClassLoader pluginClassLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory) {
         return new PluginClassLoader(PluginClassLoader.class.getClassLoader());
     }
 
@@ -96,25 +91,14 @@ public class WebGoat extends SpringBootServletInitializer {
 
     @Bean
     public Course course(PluginsLoader pluginsLoader, WebgoatContext webgoatContext, ServletContext context, WebgoatProperties webgoatProperties,
-                         ApplicationContext applicationContext) {
+                         PluginEndpointPublisher pluginEndpointPublisher) {
         Course course = new Course(webgoatProperties);
         course.loadCourses(webgoatContext, context, "/");
         List<Plugin> plugins = pluginsLoader.loadPlugins();
         course.loadLessonFromPlugin(plugins);
-        plugins.forEach(p -> publishEndpointsWithSpring(p, (AbstractApplicationContext)applicationContext));
-        return course;
-    }
+        plugins.forEach(p -> pluginEndpointPublisher.publish(p));
 
-    private void publishEndpointsWithSpring(Plugin plugin, AbstractApplicationContext applicationContext) {
-        plugin.getLessonEndpoints().forEach(e -> {
-            try {
-                BeanDefinition beanDefinition = new RootBeanDefinition(e, Autowire.BY_TYPE.value(), true);
-                DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getBeanFactory();
-                beanFactory.registerBeanDefinition(beanDefinition.getBeanClassName(), beanDefinition);
-            } catch (Exception ex) {
-                logger.warn("Failed to register " + e.getSimpleName() + " as endpoint with Spring, skipping...");
-            }
-        });
+        return course;
     }
 
     @Bean

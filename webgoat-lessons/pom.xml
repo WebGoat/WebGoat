@@ -44,7 +44,7 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-artifact</id>
+                        <id>copy-artifact-src</id>
                         <phase>package</phase>
                         <goals>
                             <goal>copy</goal>
@@ -62,14 +62,9 @@
                             <outputDirectory>../../webgoat-container/src/main/resources/plugin_lessons</outputDirectory>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
+                    <!-- Below is for development this will be picked up automatically by Spring and it will restart the container -->
                     <execution>
-                        <id>copy-artifact</id>
+                        <id>copy-artifact-target</id>
                         <phase>package</phase>
                         <goals>
                             <goal>copy</goal>

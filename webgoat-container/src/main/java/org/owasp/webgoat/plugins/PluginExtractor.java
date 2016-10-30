@@ -42,7 +42,7 @@ public class PluginExtractor {
             while (entries.hasMoreElements()) {
                 final ZipEntry zipEntry = entries.nextElement();
                 if (shouldProcessFile(zipEntry)) {
-                    boolean processed = processClassFile(zipEntry);
+                    boolean processed = processClassFile(zipFile, zipEntry, targetDirectory);
 
                     if (!processed) {
                         processed = processPropertyFile(zipFile, zipEntry, targetDirectory);
@@ -77,9 +77,11 @@ public class PluginExtractor {
         return false;
     }
 
-    private boolean processClassFile(ZipEntry zipEntry) {
+    private boolean processClassFile(ZipFile zipFile, ZipEntry zipEntry, File targetDirectory) throws IOException {
         if (zipEntry.getName().endsWith(".class")) {
             classes.add(zipEntry.getName());
+            final File targetFile = new File(targetDirectory, zipEntry.getName());
+            copyFile(zipFile, zipEntry, targetFile, false);
             return true;
         }
         return false;

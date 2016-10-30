@@ -1,10 +1,9 @@
 package org.owasp.webgoat.plugins;
 
-import org.owasp.webgoat.session.WebgoatContext;
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.session.WebgoatContext;
 import org.owasp.webgoat.session.WebgoatProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
@@ -21,38 +20,37 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *************************************************************************************************
- *
- *
+ * ************************************************************************************************
+ * <p>
+ * <p>
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- *
+ * <p>
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- *
+ * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- *
+ * <p>
  * Getting Source ==============
- *
+ * <p>
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
- * @since October 28, 2003
  * @version $Id: $Id
+ * @since October 28, 2003
  */
+@Slf4j
 public class LegacyLoader {
-
-    final Logger logger = LoggerFactory.getLogger(LegacyLoader.class);
 
     private final List<String> files = new LinkedList<String>();
 
@@ -64,7 +62,7 @@ public class LegacyLoader {
 
     /**
      * Take an absolute file and return the filename.
-     *
+     * <p>
      * Ex. /etc/password becomes password
      *
      * @param s
@@ -86,7 +84,7 @@ public class LegacyLoader {
 
     /**
      * Take a class name and return the equivalent file name
-     *
+     * <p>
      * Ex. org.owasp.webgoat becomes org/owasp/webgoat.java
      *
      * @param className
@@ -121,8 +119,8 @@ public class LegacyLoader {
         }
 
         // skip over plugins and/or extracted plugins
-        if ( fileName.indexOf("lessons/plugin") >= 0  ||  fileName.indexOf("plugin_extracted") >= 0) {
-        	return null;
+        if (fileName.indexOf("lessons/plugin") >= 0 || fileName.indexOf("plugin_extracted") >= 0) {
+            return null;
         }
 
         // if the file is in /WEB-INF/classes strip the dir info off
@@ -140,20 +138,19 @@ public class LegacyLoader {
     }
 
 
- 
     /**
      * Load all of the filenames into a temporary cache
      *
      * @param context a {@link javax.servlet.ServletContext} object.
-     * @param path a {@link java.lang.String} object.
+     * @param path    a {@link java.lang.String} object.
      */
     public void loadFiles(ServletContext context, String path) {
-        logger.debug("Loading files into cache, path: " + path);
+        log.debug("Loading files into cache, path: " + path);
         Resource resource = new ClassPathResource("/");
         //resource.get
         Set resourcePaths = null;
         if (resourcePaths == null) {
-            logger.error("Unable to load file cache for courses, this is probably a bug or configuration issue");
+            log.error("Unable to load file cache for courses, this is probably a bug or configuration issue");
             return;
         }
         Iterator itr = resourcePaths.iterator();
@@ -165,20 +162,20 @@ public class LegacyLoader {
                 loadFiles(context, file);
             } else {
                 files.add(file);
-           }
+            }
         }
     }
 
     /**
      * Instantiate all the lesson objects into a cache
      *
-     * @param path a {@link java.lang.String} object.
-     * @param context a {@link javax.servlet.ServletContext} object.
+     * @param path           a {@link java.lang.String} object.
+     * @param context        a {@link javax.servlet.ServletContext} object.
      * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
-     * @param properties a {@link org.owasp.webgoat.session.WebgoatProperties} object.
+     * @param properties     a {@link org.owasp.webgoat.session.WebgoatProperties} object.
      * @return a {@link java.util.List} object.
      */
-    public List<AbstractLesson> loadLessons(WebgoatContext webgoatContext, ServletContext context, String path, WebgoatProperties properties ) {
+    public List<AbstractLesson> loadLessons(WebgoatContext webgoatContext, ServletContext context, String path, WebgoatProperties properties) {
         BeanDefinitionRegistry bdr = new SimpleBeanDefinitionRegistry();
         ClassPathBeanDefinitionScanner s = new ClassPathBeanDefinitionScanner(bdr);
 
@@ -193,28 +190,28 @@ public class LegacyLoader {
         for (String file : beanDefinitionNames) {
             String className = bdr.getBeanDefinition(file).getBeanClassName();
 
-                try {
-                	Class c = Class.forName(className);
-                    Object o = c.newInstance();
+            try {
+                Class c = Class.forName(className);
+                Object o = c.newInstance();
 
-                    if (o instanceof AbstractLesson) {
-                        AbstractLesson lesson = (AbstractLesson) o;
-                        lesson.setWebgoatContext(webgoatContext);
+                if (o instanceof AbstractLesson) {
+                    AbstractLesson lesson = (AbstractLesson) o;
+                    lesson.setWebgoatContext(webgoatContext);
 
-                        lesson.update(properties);
+                    lesson.update(properties);
 
-                        if (lesson.getHidden() == false) {
-                            lessons.add(lesson);
-                        }
+                    if (lesson.getHidden() == false) {
+                        lessons.add(lesson);
                     }
-                } catch (Exception e) {
-                	// Bruce says:
-                	// I don't think we want to log the exception here. We could
-                	// be potentially showing a lot of exceptions that don't matter.
-                	// We would only care if the lesson extended AbstractLesson and we 
-                	// can't tell that because it threw the exception.  Catch 22
-                   // logger.error("Error in loadLessons: ", e);
                 }
+            } catch (Exception e) {
+                // Bruce says:
+                // I don't think we want to log the exception here. We could
+                // be potentially showing a lot of exceptions that don't matter.
+                // We would only care if the lesson extended AbstractLesson and we
+                // can't tell that because it threw the exception.  Catch 22
+                // logger.error("Error in loadLessons: ", e);
+            }
         }
         loadResources(lessons);
         return lessons;
@@ -233,36 +230,36 @@ public class LegacyLoader {
      *
      * @param lessons a {@link java.util.List} object.
      */
-    public void loadResources(List<AbstractLesson> lessons ) {
+    public void loadResources(List<AbstractLesson> lessons) {
         for (AbstractLesson lesson : lessons) {
-            logger.info("Loading resources for lesson -> " + lesson.getName());
+            log.info("Loading resources for lesson -> " + lesson.getName());
             String className = lesson.getClass().getName();
             String classFile = getSourceFile(className);
-            logger.info("Lesson classname: " + className);
-            logger.info("Lesson java file: " + classFile);
+            log.info("Lesson classname: " + className);
+            log.info("Lesson java file: " + classFile);
 
             for (String absoluteFile : files) {
                 String fileName = getFileName(absoluteFile);
                 //logger.debug("Course: looking at file: " + absoluteFile);
 
                 if (absoluteFile.endsWith(classFile)) {
-                    logger.info("Set source file for " + classFile);
+                    log.info("Set source file for " + classFile);
                     lesson.setSourceFileName(absoluteFile);
                 }
 
                 if (absoluteFile.startsWith("/lesson_plans") && absoluteFile.endsWith(".html")
                         && className.endsWith(fileName)) {
-                    logger.info("setting lesson plan file " + absoluteFile + " for lesson "
+                    log.info("setting lesson plan file " + absoluteFile + " for lesson "
                             + lesson.getClass().getName());
-                    logger.info("fileName: " + fileName + " == className: " + className);
+                    log.info("fileName: " + fileName + " == className: " + className);
                     String language = getLanguageFromFileName("/lesson_plans", absoluteFile);
                     lesson.setLessonPlanFileName(language, absoluteFile);
                 }
                 if (absoluteFile.startsWith("/lesson_solutions") && absoluteFile.endsWith(".html")
                         && className.endsWith(fileName)) {
-                    logger.info("setting lesson solution file " + absoluteFile + " for lesson "
+                    log.info("setting lesson solution file " + absoluteFile + " for lesson "
                             + lesson.getClass().getName());
-                    logger.info("fileName: " + fileName + " == className: " + className);
+                    log.info("fileName: " + fileName + " == className: " + className);
                     lesson.setLessonSolutionFileName(absoluteFile);
                 }
             }
