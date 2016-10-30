@@ -1,13 +1,9 @@
 language: java
 jdk:
-  - oraclejdk7
   - oraclejdk8
 install: "/bin/true"
 script:
   - mvn clean install
-  - git clone https://github.com/WebGoat/WebGoat-Lessons.git
-  - mvn -file ./WebGoat-Lessons/pom.xml clean package
-  - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./webgoat-container/src/main/webapp/plugin_lessons/
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then mvn "-Dbuild.number=$TRAVIS_BUILD_NUMBER" -Prun-integration-tests clean install; else mvn clean install; fi
 cache:
   directories:
