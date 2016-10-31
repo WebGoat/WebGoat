@@ -31,8 +31,7 @@
 package org.owasp.webgoat.controller;
 
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.NewLesson;
-import org.owasp.webgoat.lessons.RandomLessonAdapter;
+import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -50,24 +49,25 @@ import java.util.Optional;
 @Controller
 public class StartLesson {
 
+    private final WebSession ws;
+    private final Course course;
+
+    public StartLesson(final WebSession ws, final Course course) {
+        this.ws = ws;
+        this.course = course;
+    }
+
     /**
      * <p>start.</p>
      *
-     * @param request a {@link HttpServletRequest} object.
      * @return a {@link ModelAndView} object.
      */
     @RequestMapping(path = "startlesson.mvc", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView start(HttpServletRequest request) {
+    public ModelAndView start() {
         ModelAndView model = new ModelAndView();
 
-        WebSession ws = (WebSession) request.getSession().getAttribute(WebSession.SESSION);
-        model.addObject("has_stages", ws.getCurrentLesson() instanceof RandomLessonAdapter);
-        model.addObject("course", ws.getCourse());
+        model.addObject("course", course);
         model.addObject("lesson", ws.getCurrentLesson());
-        model.addObject("message", ws.getMessage());
-        model.addObject("instructions", ws.getInstructions());
-        boolean isMigrated = ws.getCurrentLesson() instanceof NewLesson;
-        model.addObject("migrated", isMigrated); //remove after ECS removal otherwise you will see the lesson twice
         model.setViewName("lesson_content");
         return model;
     }
@@ -80,13 +80,11 @@ public class StartLesson {
         GrantedAuthority authority = context.getAuthentication().getAuthorities().iterator().next();
         String path = request.getServletPath(); // we now got /a/b/c/AccessControlMatrix.lesson
         String lessonName = path.substring(path.lastIndexOf('/') + 1, path.indexOf(".lesson"));
-        WebSession ws = (WebSession) request.getSession().getAttribute(WebSession.SESSION);
-        List<AbstractLesson> lessons = ws.getCourse()
-                .getLessons(ws, AbstractLesson.USER_ROLE);//TODO this should work with the security roles of Spring
+        List<AbstractLesson> lessons = course.getLessons();
         Optional<AbstractLesson> lesson = lessons.stream()
                 .filter(l -> l.getId().equals(lessonName))
                 .findFirst();
-        ws.setCurrentScreen(lesson.get().getScreenId());
+        ws.setCurrentLesson(lesson.get());
         model.setViewName("lesson_content");
         model.addObject("lesson", lesson.get());
         return model;

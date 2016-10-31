@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.owasp.webgoat.lessons.LessonEndpoint;
+import org.owasp.webgoat.lessons.AssignmentEndpoint;
 import org.owasp.webgoat.lessons.LessonEndpointMapping;
 import org.owasp.webgoat.lessons.model.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @LessonEndpointMapping
-public class HttpBasicsQuiz extends LessonEndpoint {
+public class HttpBasicsQuiz extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num, HttpServletRequest request) throws IOException {

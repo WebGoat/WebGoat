@@ -39,7 +39,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation as a marker annotation. During the startup we scan the plugins for classes which use this annotation.
- * @see LessonEndpoint for more information.
+ * @see AssignmentEndpoint for more information.
  */
 @Component
 @Target(ElementType.TYPE)

@@ -3,7 +3,7 @@ package org.owasp.webgoat.plugins;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.LessonEndpoint;
+import org.owasp.webgoat.lessons.AssignmentEndpoint;
 import org.owasp.webgoat.lessons.NewLesson;
 import org.springframework.util.StringUtils;
 
@@ -28,9 +28,8 @@ public class Plugin {
     private static final String NAME_LESSON_PLANS_DIRECTORY = "lessonPlans";
 
     private PluginClassLoader classLoader;
-    private Class<AbstractLesson> lesson;
     private Class<NewLesson> newLesson;
-    private List<Class<LessonEndpoint>> lessonEndpoints = Lists.newArrayList();
+    private List<Class<AssignmentEndpoint>> lessonEndpoints = Lists.newArrayList();
     private Map<String, File> solutionLanguageFiles = new HashMap<>();
     private Map<String, File> lessonPlansLanguageFiles = new HashMap<>();
     private List<File> pluginFiles = Lists.newArrayList();
@@ -40,7 +39,7 @@ public class Plugin {
         this.classLoader = classLoader;
     }
 
-    public List<Class<LessonEndpoint>> getLessonEndpoints() {
+    public List<Class<AssignmentEndpoint>> getLessonEndpoints() {
         return this.lessonEndpoints;
     }
 
@@ -56,15 +55,10 @@ public class Plugin {
     }
 
     private void findLesson(String name) {
-        //Old code remove after we migrated the lessons
         String realClassName = StringUtils.trimLeadingCharacter(name, '/').replaceAll("/", ".").replaceAll(".class", "");
 
         try {
             Class clazz = classLoader.loadClass(realClassName);
-
-            if (AbstractLesson.class.isAssignableFrom(clazz)) {
-                this.lesson = clazz;
-            }
             if (NewLesson.class.isAssignableFrom(clazz)) {
                 this.newLesson = clazz;
             }
@@ -80,7 +74,7 @@ public class Plugin {
             try {
                 Class clazz = classLoader.loadClass(realClassName);
 
-                if (LessonEndpoint.class.isAssignableFrom(clazz)) {
+                if (AssignmentEndpoint.class.isAssignableFrom(clazz)) {
                     this.lessonEndpoints.add(clazz);
                 }
             } catch (ClassNotFoundException ce) {
@@ -118,14 +112,11 @@ public class Plugin {
      */
     public Optional<AbstractLesson> getLesson() {
         try {
-            if (lesson != null) {
-                return Optional.of(lesson.newInstance());
-            }
             if (newLesson != null) {
                 return Optional.of(newLesson.newInstance());
             }
         } catch (IllegalAccessException | InstantiationException e) {
-            throw new PluginLoadingFailure("Unable to instantiate the lesson " + lesson.getName(), e);
+            throw new PluginLoadingFailure("Unable to instantiate the lesson " + newLesson.getName(), e);
         }
         return Optional.absent();
     }

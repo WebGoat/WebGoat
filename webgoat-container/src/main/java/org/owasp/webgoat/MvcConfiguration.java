@@ -31,11 +31,10 @@
 package org.owasp.webgoat;
 
 import com.google.common.collect.Sets;
+import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.LabelDebugger;
-import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -103,12 +102,6 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         return engine;
     }
 
-
-    @Bean
-    public ServletRegistrationBean servletRegistrationBean(HammerHead hammerHead) {
-        return new ServletRegistrationBean(hammerHead, "/attack/*");
-    }
-
     /**
      * This way we expose the plugins target directory as a resource within the web application.
      *
@@ -120,8 +113,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public HammerHead hammerHead(WebSession webSession) {
-        return new HammerHead(webSession);
+    public HammerHead hammerHead(Course course) {
+        return new HammerHead(course);
     }
 
     @Bean

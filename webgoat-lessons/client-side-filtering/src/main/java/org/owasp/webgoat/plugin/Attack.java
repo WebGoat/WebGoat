@@ -1,6 +1,6 @@
 package org.owasp.webgoat.plugin;
 
-import org.owasp.webgoat.lessons.LessonEndpoint;
+import org.owasp.webgoat.lessons.AssignmentEndpoint;
 import org.owasp.webgoat.lessons.LessonEndpointMapping;
 import org.owasp.webgoat.lessons.model.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +40,7 @@ import java.io.IOException;
  * @since August 11, 2016
  */
 @LessonEndpointMapping
-public class Attack extends LessonEndpoint {
+public class Attack extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody AttackResult completed(@RequestParam String answer) throws IOException {

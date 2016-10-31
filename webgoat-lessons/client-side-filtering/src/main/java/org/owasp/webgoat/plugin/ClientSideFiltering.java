@@ -3,7 +3,6 @@ package org.owasp.webgoat.plugin;
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.NewLesson;
-import org.owasp.webgoat.session.WebSession;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class ClientSideFiltering extends NewLesson {
     }
 
     @Override
-    public List<String> getHints(WebSession webSession) {
+    public List<String> getHints() {
         return Lists.newArrayList("Many sites attempt to restrict access to resources by role.",
                 "Developers frequently make mistakes implementing this scheme.",
                 "Attempt combinations of users, roles, and resources.");

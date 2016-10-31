@@ -7,7 +7,7 @@ package org.owasp.webgoat.plugin;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
 import org.apache.ecs.html.Table;
-import org.owasp.webgoat.lessons.LessonEndpoint;
+import org.owasp.webgoat.lessons.AssignmentEndpoint;
 import org.owasp.webgoat.lessons.LessonEndpointMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +27,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 @LessonEndpointMapping
-public class Salaries extends LessonEndpoint {
+public class Salaries extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.GET)
     public void invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,5 +1,5 @@
 
-package org.owasp.webgoat.util;
+package org.owasp.webgoat.i18n;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;

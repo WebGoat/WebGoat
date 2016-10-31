@@ -35,26 +35,21 @@ import org.owasp.webgoat.plugins.PluginClassLoader;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.session.Course;
-import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
-import org.owasp.webgoat.session.WebgoatProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
-import javax.servlet.ServletContext;
 import java.io.File;
 import java.util.List;
 
 @SpringBootApplication
-@PropertySource("classpath:/webgoat.properties")
 public class WebGoat extends SpringBootServletInitializer {
 
     @Override
@@ -68,13 +63,16 @@ public class WebGoat extends SpringBootServletInitializer {
 
     @Bean(name = "pluginTargetDirectory")
     public File pluginTargetDirectory() {
-        File tempDir = com.google.common.io.Files.createTempDir();
-        tempDir.deleteOnExit();
-        return tempDir;
+        return com.google.common.io.Files.createTempDir();
     }
 
+//    @Bean
+//    public ApplicationListener<ContextClosedEvent> closeEvent(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory) {
+//        return e -> pluginTargetDirectory.delete();
+//    }
+
     @Bean
-    public PluginClassLoader pluginClassLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory) {
+    public PluginClassLoader pluginClassLoader() {
         return new PluginClassLoader(PluginClassLoader.class.getClassLoader());
     }
 
@@ -85,25 +83,17 @@ public class WebGoat extends SpringBootServletInitializer {
 
     @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public WebSession webSession(Course course, WebgoatContext webgoatContext, ServletContext context) {
-        return new WebSession(course, webgoatContext, context);
+    public WebSession webSession(WebgoatContext webgoatContext) {
+        return new WebSession(webgoatContext);
     }
 
     @Bean
-    public Course course(PluginsLoader pluginsLoader, WebgoatContext webgoatContext, ServletContext context, WebgoatProperties webgoatProperties,
-                         PluginEndpointPublisher pluginEndpointPublisher) {
-        Course course = new Course(webgoatProperties);
-        course.loadCourses(webgoatContext, context, "/");
+    public Course course(PluginsLoader pluginsLoader, PluginEndpointPublisher pluginEndpointPublisher) {
+        Course course = new Course();
         List<Plugin> plugins = pluginsLoader.loadPlugins();
-        course.loadLessonFromPlugin(plugins);
+        course.createLessonsFromPlugins(plugins);
         plugins.forEach(p -> pluginEndpointPublisher.publish(p));
 
         return course;
-    }
-
-    @Bean
-    public UserTracker userTracker() {
-        UserTracker userTracker = UserTracker.instance();
-        return userTracker;
     }
 }

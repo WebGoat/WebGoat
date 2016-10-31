@@ -1,6 +1,6 @@
 package org.owasp.webgoat.plugin;
 
-import org.owasp.webgoat.lessons.LessonEndpoint;
+import org.owasp.webgoat.lessons.AssignmentEndpoint;
 import org.owasp.webgoat.lessons.LessonEndpointMapping;
 import org.owasp.webgoat.lessons.model.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,14 +46,14 @@ import java.io.IOException;
  */
 
 @LessonEndpointMapping
-public class HttpBasicsLesson extends LessonEndpoint {
+public class HttpBasicsLesson extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String person, HttpServletRequest request) throws IOException {
 	    if (!person.toString().equals("")) {
-	        return AttackResult.success("The server has reversed your name: " + new StringBuffer(person).reverse().toString());
+	        return trackProgress(AttackResult.success("The server has reversed your name: " + new StringBuffer(person).reverse().toString()));
 	    } else {
-	        return AttackResult.failed("You are close, try again");
+	        return trackProgress(AttackResult.failed("You are close, try again"));
 	    }
 	}
 

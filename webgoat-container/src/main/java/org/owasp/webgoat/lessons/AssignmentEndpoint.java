@@ -28,7 +28,6 @@ package org.owasp.webgoat.lessons;
 import org.owasp.webgoat.lessons.model.AttackResult;
 import org.owasp.webgoat.session.LessonTracker;
 import org.owasp.webgoat.session.UserTracker;
-import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.endpoint.Endpoint;
@@ -46,14 +45,13 @@ import java.io.File;
  * Note: each subclass should declare this annotation otherwise the WebGoat framework cannot find your endpoint.
  */
 @LessonEndpointMapping
-public abstract class LessonEndpoint implements MvcEndpoint {
+public abstract class AssignmentEndpoint implements MvcEndpoint {
 
     @Autowired
     @Qualifier("pluginTargetDirectory")
     private File pluginDirectory;
     @Autowired
-    private WebSession webSession;
-    private boolean solved = false;
+    private UserTracker userTracker;
 
     /**
      * The directory of the plugin directory in which the lessons resides, so if you want to access the lesson 'ClientSideFiltering' you will
@@ -71,15 +69,21 @@ public abstract class LessonEndpoint implements MvcEndpoint {
         return new File(this.pluginDirectory, "plugin");
     }
 
+    /**
+     * Get the lesson tracker which is based on the current user and do the
+     * @return
+     */
     protected LessonTracker getLessonTracker() {
-        UserTracker userTracker = UserTracker.instance();
-        LessonTracker lessonTracker = userTracker.getLessonTracker(webSession, webSession.getCurrentLesson());
+        LessonTracker lessonTracker = userTracker.getCurrentLessonTracker();
         return lessonTracker;
     }
 
     protected AttackResult trackProgress(AttackResult attackResult) {
-        this.solved = attackResult.isLessonCompleted();
-        getLessonTracker().setCompleted(solved);
+        //// TODO: 11/5/2016 improve
+        if (attackResult.isLessonCompleted()) {
+            getLessonTracker().incrementNumVisits();
+        }
+        getLessonTracker().setCompleted(attackResult.isLessonCompleted());
         return attackResult;
     }
 

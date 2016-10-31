@@ -3,7 +3,6 @@ package org.owasp.webgoat.plugin;
 import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.NewLesson;
-import org.owasp.webgoat.session.WebSession;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class HttpBasics extends NewLesson {
     }
 
     @Override
-    public List<String> getHints(WebSession webSession) {
+    public List<String> getHints() {
         return Lists.newArrayList("Type in your name and press 'go'",
                 "Turn on Show Parameters or other features",
                 "Try to intercept the request with <a href='https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project' title='Link to ZAP'>OWASP ZAP</a>",

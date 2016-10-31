@@ -3,8 +3,7 @@ package org.owasp.webgoat.plugins;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.owasp.webgoat.util.LabelProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.owasp.webgoat.i18n.LabelProvider;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -43,7 +42,6 @@ public class PluginsLoader {
     private final File pluginTargetDirectory;
     private final PluginClassLoader classLoader;
 
-    @Autowired
     public PluginsLoader(File pluginTargetDirectory, PluginClassLoader pluginClassLoader) {
         this.classLoader = pluginClassLoader;
         this.pluginTargetDirectory = pluginTargetDirectory;

@@ -2,6 +2,7 @@ package org.owasp.webgoat.util;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
+import org.owasp.webgoat.i18n.LabelProvider;
 
 import java.util.Locale;
 

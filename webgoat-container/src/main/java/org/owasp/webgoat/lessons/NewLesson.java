@@ -1,5 +1,7 @@
 package org.owasp.webgoat.lessons;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.owasp.webgoat.session.WebSession;
 
 import java.util.List;
@@ -35,18 +37,28 @@ import java.util.List;
  */
 public abstract class NewLesson extends LessonAdapter {
 
+    @Setter
+    @Getter
+    private int totalNumberOfAssignments = 0;
+
     @Override
     public abstract Category getDefaultCategory();
 
-    @Override
-    public abstract List<String> getHints(WebSession s); //TODO we should probably remove WebSession due to old lessons still here
+    public abstract List<String> getHints();
 
     @Override
-    public abstract  Integer getDefaultRanking();
+    public abstract Integer getDefaultRanking();
 
     @Override
-    public abstract  String getTitle();
+    public abstract String getTitle();
 
     @Override
     public abstract String getId();
+
+    public final List<String> getHints(WebSession w) {
+        throw new IllegalStateException("Do not use");
+    }
+
+
+
 }

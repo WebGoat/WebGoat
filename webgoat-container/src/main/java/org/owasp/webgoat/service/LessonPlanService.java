@@ -29,14 +29,10 @@
  */
 package org.owasp.webgoat.service;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * <p>LessonPlanService class.</p>
@@ -45,42 +41,33 @@ import javax.servlet.http.HttpSession;
  * @version $Id: $Id
  */
 @Controller
-public class LessonPlanService extends BaseService {
+//TODO remove
+public class LessonPlanService {
+
+    private final WebSession webSession;
+
+    public LessonPlanService(WebSession webSession) {
+        this.webSession = webSession;
+    }
 
     /**
      * Returns source for current attack
      *
-     * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(path = "/lessonplan.mvc", produces = "application/html")
+    @RequestMapping(path = "/service/lessonplan.mvc", produces = "application/html")
     public @ResponseBody
-    String showPlan(HttpSession session) {
-        WebSession ws = getWebSession(session);
-        String plan = getPlan(ws);
+    String showPlan() {
+        String plan = getPlan();
         return plan;
     }
 
     /**
      * Description of the Method
      *
-     * @param s Description of the Parameter
      * @return Description of the Return Value
      */
-    protected String getPlan(WebSession s) {
-        String plan = null;
-        int scr = s.getCurrentScreen();
-        Course course = s.getCourse();
-
-        if (s.isUser() || s.isAdmin()) {
-            AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
-            if (lesson != null) {
-                plan = lesson.getLessonPlan(s);
-            }
-        }
-        if (plan == null) {
-            plan = "Plan is not available for this lesson.";
-        }
-        return plan;
+    protected String getPlan() {
+        return "Plan is not available for this lesson.";
     }
 }

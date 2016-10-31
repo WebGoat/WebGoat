@@ -1,8 +1,7 @@
 
-package org.owasp.webgoat.session;
+package org.owasp.webgoat.i18n;
 
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.Locale;
 
 
 /**
@@ -28,46 +27,28 @@ import java.util.Map;
  *
  * Getting Source ==============
  *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
- * projects.
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for
+ * free software projects.
  *
- * * @version $Id: $Id
- *
- * @author dm
  * @version $Id: $Id
+ * @author dm
  */
-public class Authorization
+public interface LabelManager
 {
 
-	Map<Integer, Integer> permissions = new Hashtable<Integer, Integer>();
-
 	/**
-	 * <p>Constructor for Authorization.</p>
-	 */
-	public Authorization()
-	{
-	}
-
-	/**
-	 * <p>setPermission.</p>
+	 * <p>setLocale.</p>
 	 *
-	 * @param userId a int.
-	 * @param functionId a int.
+	 * @param locale a {@link java.util.Locale} object.
 	 */
-	public void setPermission(int userId, int functionId)
-	{
-		permissions.put(new Integer(userId), new Integer(functionId));
-	}
+	public void setLocale(Locale locale);
 
 	/**
-	 * <p>isAllowed.</p>
+	 * <p>get.</p>
 	 *
-	 * @param userId a int.
-	 * @param functionId a int.
-	 * @return a boolean.
+	 * @param labelKey a {@link java.lang.String} object.
+	 * @return a {@link java.lang.String} object.
 	 */
-	public boolean isAllowed(int userId, int functionId)
-	{
-		return (permissions.get(new Integer(userId)) != null);
-	}
+	public String get(String labelKey);
+
 }

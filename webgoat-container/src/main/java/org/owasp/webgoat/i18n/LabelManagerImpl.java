@@ -1,10 +1,11 @@
 
-package org.owasp.webgoat.util;
+package org.owasp.webgoat.i18n;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.owasp.webgoat.session.LabelDebugger;
 import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
+import java.util.Locale;
 
 
 /**
@@ -37,31 +38,41 @@ import org.springframework.stereotype.Component;
  * @author dm
  */
 @Component
-public class BeanProvider implements ApplicationContextAware
+public class LabelManagerImpl implements LabelManager, Serializable
 {
-	private static ApplicationContext ctx;
+	private static final long serialVersionUID = 1L;
 
-	/** {@inheritDoc} */
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
-	{
-		ctx = applicationContext;
-
-	}
+	private LabelProvider labelProvider;
+	private LabelDebugger labelDebugger;
+	private Locale locale = new Locale(LabelProvider.DEFAULT_LANGUAGE);
 
 	/**
-	 * Get access to managed beans from id.
+	 * <p>Constructor for LabelManagerImpl.</p>
 	 *
-	 * @param beanName
-	 *            the id of the searched bean
-	 * @param beanClass
-	 *            the type of tye searched bean
-	 * @param <T> a T object.
-	 * @return a T object.
+	 * @param labelProvider a {@link LabelProvider} object.
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T getBean(final String beanName, final Class<T> beanClass)
-	{
-		return (T) ctx.getBean(beanName);
+	protected LabelManagerImpl(LabelProvider labelProvider, LabelDebugger labelDebugger) {
+		this.labelDebugger = labelDebugger;
+		this.labelProvider = labelProvider;
 	}
+
+	/** {@inheritDoc} */
+	public void setLocale(Locale locale)
+	{
+		if (locale != null)
+		{
+			this.locale = locale;
+		}
+	}
+
+	/** {@inheritDoc} */
+	public String get(String labelKey)
+	{
+		String label = labelProvider.get(locale, labelKey);
+		if (labelDebugger.isEnabled()) {
+			label = "<font color=\"#00CD00\">" + label + "</font>";
+		}
+		return label;
+	}
+
 }

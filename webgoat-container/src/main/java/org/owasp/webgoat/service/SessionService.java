@@ -5,16 +5,17 @@
  */
 package org.owasp.webgoat.service;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * <p>SessionService class.</p>
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @version $Id: $Id
  */
 @Controller
-public class SessionService extends BaseService {
+public class SessionService {
 
     /**
      * Returns hints for current lesson
@@ -32,7 +33,7 @@ public class SessionService extends BaseService {
      * @param request a {@link javax.servlet.http.HttpServletRequest} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(path = "/session.mvc", produces = "application/json")
+    @RequestMapping(path = "/service/session.mvc", produces = "application/json")
     public @ResponseBody
     String showSession(HttpServletRequest request, HttpSession session) {
         StringBuilder sb = new StringBuilder();

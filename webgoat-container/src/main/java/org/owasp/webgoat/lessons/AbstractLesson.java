@@ -1,39 +1,8 @@
 package org.owasp.webgoat.lessons;
 
-import org.apache.ecs.Element;
-import org.apache.ecs.ElementContainer;
-import org.apache.ecs.StringElement;
-import org.apache.ecs.html.Body;
-import org.apache.ecs.html.Form;
-import org.apache.ecs.html.Head;
-import org.apache.ecs.html.Html;
-import org.apache.ecs.html.IMG;
-import org.apache.ecs.html.PRE;
-import org.apache.ecs.html.Title;
-import org.owasp.webgoat.session.ParameterNotFoundException;
 import org.owasp.webgoat.session.Screen;
-import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.session.WebgoatContext;
-import org.owasp.webgoat.session.WebgoatProperties;
-import org.owasp.webgoat.util.BeanProvider;
-import org.owasp.webgoat.util.LabelManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ************************************************************************************************
@@ -67,56 +36,11 @@ import java.util.Map;
  */
 public abstract class AbstractLesson extends Screen implements Comparable<Object> {
 
-    private static final Logger logger = LoggerFactory.getLogger(AbstractLesson.class);
-
-    /**
-     * Description of the Field
-     */
-    public final static String ADMIN_ROLE = "admin";
-
-    /**
-     * Constant <code>CHALLENGE_ROLE="challenge"</code>
-     */
-    public final static String CHALLENGE_ROLE = "challenge";
-
-    /**
-     * Description of the Field
-     */
-    public final static String HACKED_ADMIN_ROLE = "hacked_admin";
-
-    /**
-     * Description of the Field
-     */
-    public final static String USER_ROLE = "user";
-
     private static int count = 1;
 
     private Integer id = null;
 
-    final static IMG nextGrey = new IMG("images/right16.gif").setAlt("Next").setBorder(0).setHspace(0).setVspace(0);
-
-    final static IMG previousGrey = new IMG("images/left14.gif").setAlt("Previous").setBorder(0).setHspace(0)
-            .setVspace(0);
-
     private Integer ranking;
-
-    private Category category;
-
-    private boolean hidden;
-
-    private String sourceFileName;
-
-    private Map<String, String> lessonPlanFileName = new HashMap<String, String>();
-
-    private String lessonSolutionFileName;
-
-    private WebgoatContext webgoatContext;
-
-    private LinkedList<String> availableLanguages = new LinkedList<String>();
-
-    private String defaultLanguage = "en";
-
-    private LabelManager labelManager = null;
 
     /**
      * Constructor for the Lesson object
@@ -144,42 +68,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         this.ranking = ranking;
     }
 
-    /**
-     * <p>Setter for the field <code>hidden</code>.</p>
-     *
-     * @param hidden a boolean.
-     */
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
-
-    /**
-     * <p>update.</p>
-     *
-     * @param properties a {@link org.owasp.webgoat.session.WebgoatProperties} object.
-     */
-    public void update(WebgoatProperties properties) {
-        String className = getClass().getName();
-        className = className.substring(className.lastIndexOf(".") + 1);
-        setRanking(new Integer(properties.getIntProperty("lesson." + className + ".ranking", getDefaultRanking()
-                .intValue())));
-        String categoryRankingKey = "category." + getDefaultCategory().getName() + ".ranking";
-        Category tempCategory = Category.getCategory(getDefaultCategory().getName());
-        tempCategory.setRanking(new Integer(properties.getIntProperty(categoryRankingKey, getDefaultCategory()
-                .getRanking().intValue())));
-        category = tempCategory;
-        setHidden(properties.getBooleanProperty("lesson." + className + ".hidden", getDefaultHidden()));
-    }
-
-    /**
-     * <p>isCompleted.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a boolean.
-     */
-    public boolean isCompleted(WebSession s) {
-        return getLessonTracker(s, this).getCompleted();
-    }
 
     /**
      * {@inheritDoc}
@@ -205,7 +93,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * @return The category value
      */
     public Category getCategory() {
-        return category;
+        return getDefaultCategory();
     }
 
     /**
@@ -236,176 +124,20 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      */
     public abstract String getSubmitMethod();
 
-
-    /**
-     * Gets the fileMethod attribute of the Lesson class
-     *
-     * @param reader     Description of the Parameter
-     * @param methodName Description of the Parameter
-     * @param numbers    Description of the Parameter
-     * @return The fileMethod value
-     */
-    public static String getFileMethod(BufferedReader reader, String methodName, boolean numbers) {
-        int count = 0;
-        StringBuffer sb = new StringBuffer();
-        boolean echo = false;
-        boolean startCount = false;
-        int parenCount = 0;
-
-        try {
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                if ((line.indexOf(methodName) != -1)
-                        && ((line.indexOf("static") != -1) || (line.indexOf("protected") != -1) || (line
-                        .indexOf("private") != -1))) {
-                    echo = true;
-                    startCount = true;
-                }
-
-                if (echo && startCount) {
-                    if (numbers) {
-                        sb.append(pad(++count) + "    ");
-                    }
-
-                    sb.append(line + "\n");
-                }
-
-                if (echo && (line.indexOf("{") != -1)) {
-                    parenCount++;
-                }
-
-                if (echo && (line.indexOf("}") != -1)) {
-                    parenCount--;
-
-                    if (parenCount == 0) {
-                        startCount = false;
-                        echo = false;
-                    }
-                }
-            }
-
-            reader.close();
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
-        }
-
-        return (sb.toString());
-    }
-
-    /**
-     * Reads text from a file into an ElementContainer. Each line in the file is
-     * represented in the ElementContainer by a StringElement. Each
-     * StringElement is appended with a new-line character.
-     *
-     * @param reader  Description of the Parameter
-     * @param numbers Description of the Parameter
-     * @return Description of the Return Value
-     */
-    public static String readFromFile(BufferedReader reader, boolean numbers) {
-        return (getFileText(reader, numbers));
-    }
-
-    /**
-     * Gets the fileText attribute of the Screen class
-     *
-     * @param reader  Description of the Parameter
-     * @param numbers Description of the Parameter
-     * @return The fileText value
-     */
-    public static String getFileText(BufferedReader reader, boolean numbers) {
-        int count = 0;
-        StringBuffer sb = new StringBuffer();
-
-        try {
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                if (numbers) {
-                    sb.append(pad(++count) + "  ");
-                }
-                sb.append(line + System.getProperty("line.separator"));
-            }
-
-            reader.close();
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
-        }
-
-        return (sb.toString());
-    }
-
-    /**
-     * Will this screen be included in an enterprise edition.
-     *
-     * @return The ranking value
-     */
-    public boolean isEnterprise() {
-        return false;
-    }
-
     /**
      * Gets the hintCount attribute of the Lesson object
      *
-     * @param s The user's WebSession
      * @return The hintCount value
      */
-    public int getHintCount(WebSession s) {
-        return getHints(s).size();
+    public int getHintCount() {
+        return getHints().size();
     }
 
     /**
      * <p>getHints.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
      * @return a {@link java.util.List} object.
      */
-    protected abstract List<String> getHints(WebSession s);
-
-    // @TODO we need to restrict access at the service layer
-    // rather than passing session object around
-
-    /**
-     * <p>getHintsPublic.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.util.List} object.
-     */
-    public List<String> getHintsPublic(WebSession s) {
-        List<String> hints = getHints(s);
-        return hints;
-    }
-
-    /**
-     * Fill in a minor hint that will help people who basically get it, but are
-     * stuck on somthing silly.
-     *
-     * @param s          The users WebSession
-     * @param hintNumber a int.
-     * @return The hint1 value
-     */
-    public String getHint(WebSession s, int hintNumber) {
-        return "Hint: " + getHints(s).get(hintNumber);
-    }
-
-    /**
-     * Gets the instructions attribute of the AbstractLesson object
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return The instructions value
-     */
-    public abstract String getInstructions(WebSession s);
-
-    /**
-     * Gets the lessonPlan attribute of the Lesson object
-     *
-     * @return The lessonPlan value
-     */
-    public String getLessonName() {
-        return this.getClass().getSimpleName();
-    }
+    public abstract List<String> getHints();
 
     /**
      * Gets the title attribute of the HelloScreen object
@@ -413,36 +145,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * @return The title value
      */
     public abstract String getTitle();
-
-    /**
-     * Gets the content of lessonPlanURL
-     *
-     * @param s The user's WebSession
-     * @return The HTML content of the current lesson plan
-     */
-    public String getLessonPlan(WebSession s) {
-        StringBuffer src = new StringBuffer();
-        String lang = s.getCurrrentLanguage();
-
-        try {
-            // System.out.println("Loading lesson plan file: " +
-            // getLessonPlanFileName());
-            String filename = getLessonPlanFileName(lang);
-            if (filename == null) {
-                filename = getLessonPlanFileName(getDefaultLanguage());
-
-            }
-
-            src.append(readFromFile(new BufferedReader(new FileReader(filename)), false));
-
-        } catch (Exception e) {
-            // s.setMessage( "Could not find lesson plan for " +
-            // getLessonName());
-            src = new StringBuffer("Could not find lesson plan for: " + getLessonName() + " and language " + lang);
-
-        }
-        return src.toString();
-    }
 
     /**
      * Gets the ranking attribute of the Lesson object
@@ -458,158 +160,12 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     }
 
     /**
-     * Gets the hidden value of the Lesson Object
-     *
-     * @return The hidden value
-     */
-    public boolean getHidden() {
-        return this.hidden;
-    }
-
-    /**
-     * Gets the role attribute of the AbstractLesson object
-     *
-     * @return The role value
-     */
-    public String getRole() {
-        // FIXME: Each lesson should have a role assigned to it. Each
-        // user/student
-        // should also have a role(s) assigned. The user would only be allowed
-        // to see lessons that correspond to their role. Eventually these roles
-        // will be stored in the internal database. The user will be able to
-        // hack
-        // into the database and change their role. This will allow the user to
-        // see the admin screens, once they figure out how to turn the admin
-        // switch on.
-        return USER_ROLE;
-    }
-
-    /**
      * Gets the uniqueID attribute of the AbstractLesson object
      *
      * @return The uniqueID value
      */
     public int getScreenId() {
         return id.intValue();
-    }
-
-    /**
-     * <p>getHtml_DELETE_ME.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.lang.String} object.
-     */
-    public String getHtml_DELETE_ME(WebSession s) {
-        String html = null;
-
-        // FIXME: This doesn't work for the labs since they do not implement
-        // createContent().
-        String rawHtml = createContent(s).toString();
-        // System.out.println("Getting raw html content: " +
-        // rawHtml.substring(0, Math.min(rawHtml.length(), 100)));
-        html = convertMetachars(AbstractLesson.readFromFile(new BufferedReader(new StringReader(rawHtml)), true));
-        // System.out.println("Getting encoded html content: " +
-        // html.substring(0, Math.min(html.length(), 100)));
-
-        return html;
-    }
-
-    /**
-     * <p>getSource.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.lang.String} object.
-     */
-    public String getSource(WebSession s) {
-        String source = null;
-        String src = null;
-
-        try {
-            // System.out.println("Loading source file: " +
-            // getSourceFileName());
-            src = convertMetacharsJavaCode(readFromFile(new BufferedReader(new FileReader(getSourceFileName())), true));
-
-            // TODO: For styled line numbers and better memory efficiency,
-            // use a custom FilterReader
-            // that performs the convertMetacharsJavaCode() transform plus
-            // optionally adds a styled
-            // line number. Wouldn't color syntax be great too?
-        } catch (Exception e) {
-            s.setMessage("Could not find source file");
-            src = ("Could not find the source file or source file does not exist.<br/>"
-                    + "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress()
-                    + "?subject=Source " + getSourceFileName() + " not found. Lesson: "
-                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext()
-                    .getFeedbackAddress() + "</a>");
-        }
-
-        Html html = new Html();
-
-        Head head = new Head();
-        head.addElement(new Title(getSourceFileName()));
-
-        Body body = new Body();
-        body.addElement(new StringElement(src));
-
-        html.addElement(head);
-        html.addElement(body);
-
-        source = html.toString();
-
-        return source;
-    }
-
-    /**
-     * <p>getRawSource.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.lang.String} object.
-     */
-    public String getRawSource(WebSession s) {
-        String src = "";
-
-        try {
-            logger.debug("Loading source file: " + getSourceFileName());
-            if (getSourceFileName() != null) {
-                src = readFromFile(new BufferedReader(new FileReader(getSourceFileName())), false);
-            }
-
-        } catch (FileNotFoundException e) {
-            s.setMessage("Could not find source file");
-            src = ("Could not find the source file or source file does not exist.<br/>"
-                    + "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress()
-                    + "?subject=Source " + getSourceFileName() + " not found. Lesson: "
-                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext()
-                    .getFeedbackAddress() + "</a>");
-        }
-
-        return src;
-    }
-
-    /**
-     * <p>getSolution.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.lang.String} object.
-     */
-    public String getSolution(WebSession s) {
-        String src = null;
-
-        try {
-            // System.out.println("Solution: " + getLessonSolutionFileName());
-            src = readFromFile(new BufferedReader(new FileReader(getLessonSolutionFileName())), false);
-        } catch (Exception e) {
-            logger.error("Could not find solution for {}", getLessonSolutionFileName());
-            s.setMessage("Could not find the solution file");
-            src = ("Could not find the solution file or solution file does not exist.<br/>"
-                    + "Send this message to: <a href=\"mailto:" + s.getWebgoatContext().getFeedbackAddress()
-                    + "?subject=Solution " + getLessonSolutionFileName() + " not found. Lesson: "
-                    + s.getCurrentLesson().getLessonName() + "\">" + s.getWebgoatContext()
-                    .getFeedbackAddress() + "</a>");
-        }
-
-        // Solutions are html files
-        return src;
     }
 
     /**
@@ -643,242 +199,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      */
     public String getLink() {
         StringBuffer link = new StringBuffer(getPath());
-
-        // mvc update:
-//        return link
-//                .append("/").append(getScreenId())
-//                .append("/").append(getCategory().getRanking()).toString();
         return link.append(getId()).toString();
-    }
-
-    /**
-     * Get the link to the target servlet.
-     * <p>
-     * Unlike getLink() this method does not require rendering the output of
-     * the request to the link in order to execute the servlet's method with
-     * conventional HTTP query parameters.
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String getServletLink() {
-        StringBuffer link = new StringBuffer("attack");
-
-        return link
-                .append("?Screen=").append(getScreenId())
-                .append("&menu=").append(getCategory().getRanking()).toString();
-    }
-
-    /**
-     * Get the link to the jsp page used to render this screen.
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.lang.String} object.
-     */
-    public String getPage(WebSession s) {
-        return null;
-    }
-
-    /**
-     * Get the link to the jsp template page used to render this screen.
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.lang.String} object.
-     */
-    public String getTemplatePage(WebSession s) {
-        return null;
-    }
-
-    /**
-     * <p>getCurrentAction.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.lang.String} object.
-     */
-    public abstract String getCurrentAction(WebSession s);
-
-    /**
-     * Initiates lesson restart functionality
-     */
-    public abstract void restartLesson();
-
-
-    /**
-     * <p>setCurrentAction.</p>
-     *
-     * @param s            a {@link org.owasp.webgoat.session.WebSession} object.
-     * @param lessonScreen a {@link java.lang.String} object.
-     */
-    public abstract void setCurrentAction(WebSession s, String lessonScreen);
-
-    /**
-     * Override this method to implement accesss control in a lesson.
-     *
-     * @param s          a {@link org.owasp.webgoat.session.WebSession} object.
-     * @param functionId a {@link java.lang.String} object.
-     * @param employeeId a int.
-     * @return a boolean.
-     */
-    public boolean isAuthorized(WebSession s, int employeeId, String functionId) {
-        return false;
-    }
-
-    /**
-     * Override this method to implement accesss control in a lesson.
-     *
-     * @param s          a {@link org.owasp.webgoat.session.WebSession} object.
-     * @param functionId a {@link java.lang.String} object.
-     * @param role       a {@link java.lang.String} object.
-     * @return a boolean.
-     */
-    public boolean isAuthorized(WebSession s, String role, String functionId) {
-        logger.info("Checking if " + role + " authorized for: " + functionId);
-        boolean authorized = false;
-        try {
-            String query = "SELECT * FROM auth WHERE role = '" + role + "' and functionid = '" + functionId + "'";
-            try {
-                Statement answer_statement = WebSession.getConnection(s)
-                        .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                ResultSet answer_results = answer_statement.executeQuery(query);
-                authorized = answer_results.first();
-                logger.info("authorized: " + authorized);
-            } catch (SQLException sqle) {
-                s.setMessage("Error authorizing");
-                logger.error("Error authorizing", sqle);
-            }
-        } catch (Exception e) {
-            s.setMessage("Error authorizing");
-            logger.error("Error authorizing", e);
-        }
-        return authorized;
-    }
-
-    /**
-     * <p>getUserId.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a int.
-     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
-     */
-    public int getUserId(WebSession s) throws ParameterNotFoundException {
-        return -1;
-    }
-
-    /**
-     * <p>getUserName.</p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.lang.String} object.
-     * @throws org.owasp.webgoat.session.ParameterNotFoundException if any.
-     */
-    public String getUserName(WebSession s) throws ParameterNotFoundException {
-        return null;
-    }
-
-    /**
-     * Description of the Method
-     *
-     * @param windowName Description of the Parameter
-     * @return Description of the Return Value
-     */
-    public static String makeWindowScript(String windowName) {
-        // FIXME: make this string static
-        StringBuffer script = new StringBuffer();
-        script.append("<script language=\"JavaScript\">\n");
-        script.append(" <!--\n");
-        script.append("   function makeWindow(url) {\n");
-        script.append("\n");
-        script.append("       agent = navigator.userAgent;\n");
-        script.append("\n");
-        script.append("       params  = \"\";\n");
-        script.append("       params += \"toolbar=0,\";\n");
-        script.append("       params += \"location=0,\";\n");
-        script.append("       params += \"directories=0,\";\n");
-        script.append("       params += \"status=0,\";\n");
-        script.append("       params += \"menubar=0,\";\n");
-        script.append("       params += \"scrollbars=1,\";\n");
-        script.append("       params += \"resizable=1,\";\n");
-        script.append("       params += \"width=500,\";\n");
-        script.append("       params += \"height=350\";\n");
-        script.append("\n");
-        script.append("       // close the window to vary the window size\n");
-        script.append("       if (typeof(win) == \"object\" && !win.closed){\n");
-        script.append("            win.close();\n");
-        script.append("       }\n");
-        script.append("\n");
-        script.append("       win = window.open(url, '" + windowName + "' , params);\n");
-        script.append("\n");
-        script.append("           // bring the window to the front\n");
-        script.append("       win.focus();\n");
-        script.append("   }\n");
-        script.append(" //-->\n");
-        script.append(" </script>\n");
-
-        return script.toString();
-    }
-
-    /**
-     * Simply reads a url into an Element for display. CAUTION: you might want
-     * to tinker with any non-https links (href)
-     *
-     * @param url Description of the Parameter
-     * @return Description of the Return Value
-     */
-    public static Element readFromURL(String url) {
-        ElementContainer ec = new ElementContainer();
-
-        try {
-            URL u = new URL(url);
-            HttpURLConnection huc = (HttpURLConnection) u.openConnection();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(huc.getInputStream()));
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                ec.addElement(new StringElement(line));
-            }
-
-            reader.close();
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
-        }
-
-        return (ec);
-    }
-
-    /**
-     * Description of the Method
-     *
-     * @param reader     Description of the Parameter
-     * @param numbers    Description of the Parameter
-     * @param methodName Description of the Parameter
-     * @return Description of the Return Value
-     */
-    public static Element readMethodFromFile(BufferedReader reader, String methodName, boolean numbers) {
-        PRE pre = new PRE().addElement(getFileMethod(reader, methodName, numbers));
-
-        return (pre);
-    }
-
-    /**
-     * Description of the Method
-     *
-     * @param s Description of the Parameter
-     */
-    public void handleRequest(WebSession s) {
-        // call createContent first so messages will go somewhere
-        Form form = new Form(getFormAction(), Form.POST).setName("form").setEncType("");
-        form.addElement(createContent(s));
-        setContent(form);
-        s.getRequest().getRequestURL();
-    }
-
-    /**
-     * <p>getFormAction.</p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String getFormAction() {
-        return getLink();
     }
 
     /**
@@ -888,116 +209,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      */
     public String toString() {
         return getTitle();
-    }
-
-    /**
-     * <p>Getter for the field <code>defaultLanguage</code>.</p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String getDefaultLanguage() {
-        return this.defaultLanguage;
-    }
-
-    /**
-     * <p>Getter for the field <code>lessonPlanFileName</code>.</p>
-     *
-     * @param lang a {@link java.lang.String} object.
-     * @return a {@link java.lang.String} object.
-     */
-    public String getLessonPlanFileName(String lang) {
-        String ret = lessonPlanFileName.get(lang);
-        if (ret == null) {
-            ret = lessonPlanFileName.get(getDefaultLanguage());
-        }
-        return ret;
-    }
-
-    /**
-     * <p>Setter for the field <code>lessonPlanFileName</code>.</p>
-     *
-     * @param lang               a {@link java.lang.String} object.
-     * @param lessonPlanFileName a {@link java.lang.String} object.
-     */
-    public void setLessonPlanFileName(String lang, String lessonPlanFileName) {
-        this.lessonPlanFileName.put(lang, lessonPlanFileName);
-        this.availableLanguages.add(lang);
-    }
-
-    /**
-     * <p>Getter for the field <code>availableLanguages</code>.</p>
-     *
-     * @return a {@link java.util.List} object.
-     */
-    public List<String> getAvailableLanguages() {
-        return this.availableLanguages;
-    }
-
-    /**
-     * <p>Getter for the field <code>lessonSolutionFileName</code>.</p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String getLessonSolutionFileName() {
-        return lessonSolutionFileName;
-    }
-
-    /**
-     * <p>Setter for the field <code>lessonSolutionFileName</code>.</p>
-     *
-     * @param lessonSolutionFileName a {@link java.lang.String} object.
-     */
-    public void setLessonSolutionFileName(String lessonSolutionFileName) {
-        this.lessonSolutionFileName = lessonSolutionFileName;
-    }
-
-    /**
-     * <p>Getter for the field <code>sourceFileName</code>.</p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String getSourceFileName() {
-        return sourceFileName;
-    }
-
-    /**
-     * <p>Setter for the field <code>sourceFileName</code>.</p>
-     *
-     * @param sourceFileName a {@link java.lang.String} object.
-     */
-    public void setSourceFileName(String sourceFileName) {
-        logger.debug("Setting source file of lesson " + this + " to: " + sourceFileName);
-        this.sourceFileName = sourceFileName;
-    }
-
-    /**
-     * <p>Getter for the field <code>webgoatContext</code>.</p>
-     *
-     * @return a {@link org.owasp.webgoat.session.WebgoatContext} object.
-     */
-    public WebgoatContext getWebgoatContext() {
-        return webgoatContext;
-    }
-
-    /**
-     * <p>Setter for the field <code>webgoatContext</code>.</p>
-     *
-     * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
-     */
-    public void setWebgoatContext(WebgoatContext webgoatContext) {
-        this.webgoatContext = webgoatContext;
-    }
-
-    /**
-     * <p>Getter for the field <code>labelManager</code>.</p>
-     *
-     * @return a {@link org.owasp.webgoat.util.LabelManager} object.
-     */
-    protected LabelManager getLabelManager() {
-        if (labelManager == null) {
-            labelManager = BeanProvider.getBean("labelManager", LabelManager.class);
-        }
-        return labelManager;
     }
 
     public String getId() {

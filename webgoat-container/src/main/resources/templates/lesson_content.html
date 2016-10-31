@@ -3,18 +3,11 @@
 
 
 <!-- Model is setup in the class StartLesson -->
-<div th:switch="${migrated}">
-    <div th:case="false" id="lessonInstructions" th:utext="${instructions}"></div>
-    <div th:case="true" id="lessonInstructions"></div>
-</div>
+<div id="lessonInstructions"></div>
 
 <div id="message" class="info" th:utext="${message}"></div>
 <br/>
 
-
-<div th:switch="${migrated}">
-    <div th:case="false" th:utext="${lesson.content}"></div>
-    <div th:case="true" th:replace="lesson:__${lesson.id}__"></div>
-</div>
+<div th:replace="lesson:__${lesson.id}__"></div>
 
 </html>
