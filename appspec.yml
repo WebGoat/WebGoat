@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: webgoat-container-7.0.1.war
+  - source: webgoat-container/target/webgoat-container-7.0.1.war
     destination: /opt/apache-tomcat-6.0.47/webapps/
 hooks:
   ApplicationStop:
