@@ -1,5 +1,6 @@
 #! /bin/bash
 set -x
-WEBGOAT=/opt/apache-tomcat-6.0.47/webapps/WebGoat
-rm -rf $WEBGOAT
+DIR=/opt/apache-tomcat-6.0.47/webapps/WebGoat
+rm -rf $DIR/WebGoat
+rm -rf $DIR/webgoat-container-7.0.1.war
 echo "Removed $WEBGOAT"
