@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+files:
+  - source: webgoat-container-7.0.1.war
+    destination: /opt/apache-tomcat-6.0.47/webapps/webgoat-container-7.0.1.war
+hooks:
+  ApplicationStop:
+    - location: scripts/remove_webgoat.sh
+      runas: root
+  AfterInstall:
+    - location: scripts/deploy_webgoat.sh
+      runas: root
+  ValidateService:
+    - location: scripts/validate_webgoat.sh
+      timeout: 10
+      runas: root
