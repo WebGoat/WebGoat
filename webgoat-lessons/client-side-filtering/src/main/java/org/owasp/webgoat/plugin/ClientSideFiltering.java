@@ -39,7 +39,7 @@ public class ClientSideFiltering extends NewLesson {
 
     @Override
     public Category getDefaultCategory() {
-        return Category.ACCESS_CONTROL;
+        return Category.AJAX_SECURITY;
     }
 
     @Override
