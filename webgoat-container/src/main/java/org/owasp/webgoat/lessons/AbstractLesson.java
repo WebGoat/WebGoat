@@ -1,5 +1,7 @@
 package org.owasp.webgoat.lessons;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.owasp.webgoat.session.Screen;
 
 import java.util.List;
@@ -42,12 +44,17 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     private Integer ranking;
 
+    @Setter
+    @Getter
+    private List<Class<Assignment>> assignments;
+
     /**
      * Constructor for the Lesson object
      */
     public AbstractLesson() {
         id = new Integer(++count);
     }
+
 
     /**
      * <p>getName.</p>
@@ -135,6 +142,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     /**
      * <p>getHints.</p>
+     *
      * @return a {@link java.util.List} object.
      */
     public abstract List<String> getHints();

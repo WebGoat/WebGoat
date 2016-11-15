@@ -30,6 +30,7 @@
  */
 package org.owasp.webgoat.lessons;
 
+//// TODO: 11/8/2016 remove
 public abstract class LessonAdapter extends AbstractLesson {
 
 

@@ -2,7 +2,6 @@ package org.owasp.webgoat.session;
 
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
@@ -44,13 +43,13 @@ public class WebSession {
     private final User currentUser;
     private final WebgoatContext webgoatContext;
     private AbstractLesson currentLesson;
+    private UserTracker userTracker;
 
     /**
      * Constructor for the WebSession object
      *
      * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
      */
-    @Autowired
     public WebSession(WebgoatContext webgoatContext) {
         this.webgoatContext = webgoatContext;
         this.currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -75,7 +74,6 @@ public class WebSession {
     public static void returnConnection(WebSession s) {
         DatabaseUtilities.returnConnection(s.getUserName());
     }
-
 
     /**
      * <p> Setter for the field <code>currentScreen</code>. </p>

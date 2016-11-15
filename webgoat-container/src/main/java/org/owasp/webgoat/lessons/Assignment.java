@@ -26,14 +26,9 @@
 package org.owasp.webgoat.lessons;
 
 import org.owasp.webgoat.lessons.model.AttackResult;
-import org.owasp.webgoat.session.LessonTracker;
 import org.owasp.webgoat.session.UserTracker;
+import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.actuate.endpoint.Endpoint;
-import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
-
-import java.io.File;
 
 /**
  * Each lesson can define an endpoint which can support the lesson. So for example if you create a lesson which uses JavaScript and
@@ -44,57 +39,21 @@ import java.io.File;
  * </p>
  * Note: each subclass should declare this annotation otherwise the WebGoat framework cannot find your endpoint.
  */
-@LessonEndpointMapping
-public abstract class AssignmentEndpoint implements MvcEndpoint {
+public abstract class Assignment extends Endpoint {
 
-    @Autowired
-    @Qualifier("pluginTargetDirectory")
-    private File pluginDirectory;
     @Autowired
     private UserTracker userTracker;
+    @Autowired
+    private WebSession webSession;
 
-    /**
-     * The directory of the plugin directory in which the lessons resides, so if you want to access the lesson 'ClientSideFiltering' you will
-     * need to:
-     *
-     * <code>
-     *     File lessonDirectory = new File(getPluginDirectory(), "ClientSideFiltering");
-     * </code>
-     *
-     * The directory structure of the lesson is exactly the same as the directory structure in the plugins project.
-     *
-     * @return the top level
-     */
-    protected File getPluginDirectory() {
-        return new File(this.pluginDirectory, "plugin");
-    }
-
-    /**
-     * Get the lesson tracker which is based on the current user and do the
-     * @return
-     */
-    protected LessonTracker getLessonTracker() {
-        LessonTracker lessonTracker = userTracker.getCurrentLessonTracker();
-        return lessonTracker;
-    }
-
+    //// TODO: 11/13/2016 events better fit?
     protected AttackResult trackProgress(AttackResult attackResult) {
-        //// TODO: 11/5/2016 improve
-        if (attackResult.isLessonCompleted()) {
-            getLessonTracker().incrementNumVisits();
+        if (attackResult.assignmentSolved()) {
+            userTracker.assignmentSolved(webSession.getCurrentLesson(), this);
+        } else {
+            userTracker.assignmentFailed(webSession.getCurrentLesson());
         }
-        getLessonTracker().setCompleted(attackResult.isLessonCompleted());
         return attackResult;
-    }
-
-    @Override
-    public final boolean isSensitive() {
-        return false;
-    }
-
-    @Override
-    public final Class<? extends Endpoint> getEndpointType() {
-        return null;
     }
 
 }

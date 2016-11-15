@@ -1,16 +1,14 @@
 package org.owasp.webgoat.plugin;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.owasp.webgoat.lessons.AssignmentEndpoint;
-import org.owasp.webgoat.lessons.LessonEndpointMapping;
+import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.model.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * *************************************************************************************************
@@ -46,8 +44,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @created October 28, 2003
  */
 
-@LessonEndpointMapping
-public class HttpBasicsQuiz extends AssignmentEndpoint {
+public class HttpBasicsQuiz extends Assignment {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num, HttpServletRequest request) throws IOException {

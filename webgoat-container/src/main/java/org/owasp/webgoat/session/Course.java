@@ -96,7 +96,7 @@ public class Course {
         for (Plugin plugin : plugins) {
             try {
                 NewLesson lesson = (NewLesson) plugin.getLesson().get();
-                lesson.setTotalNumberOfAssignments(plugin.getLessonEndpoints().size());
+                lesson.setAssignments(plugin.getAssignments());
                 lessons.add(lesson);
             } catch (Exception e) {
                 log.error("Error in loadLessons: ", e);

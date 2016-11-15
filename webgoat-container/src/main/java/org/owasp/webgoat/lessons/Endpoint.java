@@ -1,6 +1,10 @@
 package org.owasp.webgoat.lessons;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
+
+import java.io.File;
 
 /**
  * ************************************************************************************************
@@ -27,26 +31,40 @@ import java.util.List;
  * projects.
  * <p>
  *
- * @author WebGoat
+ * @author nbaars
  * @version $Id: $Id
- * @since October 12, 2016
+ * @since November 13, 2016
  */
-public abstract class NewLesson extends LessonAdapter {
+public abstract class Endpoint implements MvcEndpoint {
 
+    @Autowired
+    @Qualifier("pluginTargetDirectory")
+    private File pluginDirectory;
+
+    /**
+     * The directory of the plugin directory in which the lessons resides, so if you want to access the lesson 'ClientSideFiltering' you will
+     * need to:
+     *
+     * <code>
+     *     File lessonDirectory = new File(getPluginDirectory(), "ClientSideFiltering");
+     * </code>
+     *
+     * The directory structure of the lesson is exactly the same as the directory structure in the plugins project.
+     *
+     * @return the top level
+     */
+    protected File getPluginDirectory() {
+        return new File(this.pluginDirectory, "plugin");
+    }
 
 
     @Override
-    public abstract Category getDefaultCategory();
-
-    public abstract List<String> getHints();
-
-    @Override
-    public abstract Integer getDefaultRanking();
+    public final boolean isSensitive() {
+        return false;
+    }
 
     @Override
-    public abstract String getTitle();
-
-    @Override
-    public abstract String getId();
-
+    public final Class<? extends org.springframework.boot.actuate.endpoint.Endpoint> getEndpointType() {
+        return null;
+    }
 }

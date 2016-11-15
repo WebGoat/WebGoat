@@ -55,7 +55,7 @@ public class RestartLessonService {
     String restartLesson() {
         AbstractLesson al = webSession.getCurrentLesson();
         System.out.println("Restarting lesson: " + al);
-        userTracker.getCurrentLessonTracker().setCompleted(false);
+        userTracker.getLessonTracker(al).reset();
 
         return webSession.getCurrentLesson().getLink();
     }
