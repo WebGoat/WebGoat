@@ -1,0 +1,32 @@
+== Consequences of SQL Injection
+
+= SQL injection attacks allow attackers to 
+* Spoof identity
+* Tamper with existing data
+* Cause repudiation issues such as voiding transactions or changing balances
+* Allow the complete disclosure of all data on the system
+* Destroy the data or make it otherwise unavailable
+* Become administrator of the database server 
+
+= SQL Injection is more common in PHP, Classic ASP, Cold Fusion and older languages
+* Languages do not provide parameterized query support
+* Parameterized queries have been added to newer versions
+* Early adopters of web technology
+
+== Severity of SQL Injection
+
+= The severity of SQL Injection attacks is limited by 
+* Attacker’s skill and imagination
+* Defense in depth countermeasures
+Input validation
+Least privilege
+* Database technology
+
+= Not all databases support command chaining
+* Microsoft Access
+* MySQL Connector/J and C
+* Oracle
+
+= Not all databases are equal (SQL Server)
+* Command shell: master.dbo.xp_cmdshell 'cmd.exe dir c:' 
+* Reqistry commands: xp_regread, xp_regdeletekey, …
