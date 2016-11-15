@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugins;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
+import lombok.Getter;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.Endpoint;
@@ -22,14 +23,17 @@ import static org.owasp.webgoat.plugins.PluginFileUtils.fileEndsWith;
  */
 public class Plugin {
 
+    @Getter
+    private final String originationJar;
     private PluginClassLoader classLoader;
     private Class<NewLesson> newLesson;
     private List<Class<Assignment>> assignments = Lists.newArrayList();
     private List<Class<Endpoint>> endpoints = Lists.newArrayList();
     private List<File> pluginFiles = Lists.newArrayList();
 
-    public Plugin(PluginClassLoader classLoader) {
+    public Plugin(PluginClassLoader classLoader, String originatingJar) {
         this.classLoader = classLoader;
+        this.originationJar = originatingJar;
     }
 
     public List<Class<Assignment>> getAssignments() {

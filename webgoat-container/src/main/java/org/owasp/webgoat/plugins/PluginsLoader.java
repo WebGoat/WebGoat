@@ -56,10 +56,13 @@ public class PluginsLoader {
         List<Plugin> plugins = Lists.newArrayList();
         try {
             URL location = this.getClass().getProtectionDomain().getCodeSource().getLocation();
+            log.trace("Determining whether we run as standalone jar or as directory...");
             if (ResourceUtils.isFileURL(location)) {
-                extractToTempDirectoryFromExplodedDirectory(ResourceUtils.getFile(location));
+                log.trace("Running from directory, copying lessons from {}", location.toString());
+                extractToTargetDirectoryFromExplodedDirectory(ResourceUtils.getFile(location));
             } else {
-                extractToTempDirectoryFromJarFile(ResourceUtils.getFile(ResourceUtils.extractJarFileURL(location)));
+                log.trace("Running from standalone jar, extracting lessons from {}", location.toString());
+                extractToTargetDirectoryFromJarFile(ResourceUtils.getFile(ResourceUtils.extractJarFileURL(location)));
             }
             List<URL> jars = listJars();
             plugins = processPlugins(jars);
@@ -69,7 +72,7 @@ public class PluginsLoader {
         return plugins;
     }
 
-    private void extractToTempDirectoryFromJarFile(File jarFile) throws IOException {
+    private void extractToTargetDirectoryFromJarFile(File jarFile) throws IOException {
         ZipFile jar = new ZipFile(jarFile);
         Enumeration<? extends ZipEntry> entries = jar.entries();
         while (entries.hasMoreElements()) {
@@ -95,13 +98,15 @@ public class PluginsLoader {
                 outputStream.flush();
             }
         }
+        log.trace("Extracting {} to {}", jar.getName(), pluginTargetDirectory);
     }
 
-    private void extractToTempDirectoryFromExplodedDirectory(File directory) throws IOException {
+    private void extractToTargetDirectoryFromExplodedDirectory(File directory) throws IOException {
         Files.walkFileTree(directory.toPath(), new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                 if (dir.endsWith("plugin_lessons")) {
+                    log.trace("Copying {} to {}", dir.toString(), pluginTargetDirectory);
                     FileUtils.copyDirectory(dir.toFile(), pluginTargetDirectory);
                 }
                 return FileVisitResult.CONTINUE;
@@ -117,6 +122,7 @@ public class PluginsLoader {
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (PluginFileUtils.fileEndsWith(file, WEBGOAT_PLUGIN_EXTENSION)) {
                     jars.add(file.toUri().toURL());
+                    log.trace("Found jar file at location: {}", file.toString());
                 }
                 return FileVisitResult.CONTINUE;
             }
@@ -137,7 +143,11 @@ public class PluginsLoader {
             for (int i = 0; i < n; i++) {
                 Plugin plugin = completionService.take().get();
                 if (plugin.getLesson().isPresent()) {
+                    log.trace("Plugin jar '{}' contains a lesson, loading into WebGoat...", plugin.getOriginationJar());
                     plugins.add(plugin);
+                } else {
+                    log.trace("Plugin jar: '{}' does not contain a lesson not processing as a plugin (can be a utility jar)",
+                            plugin.getOriginationJar());
                 }
             }
             LabelProvider.updatePluginResources(

@@ -31,6 +31,7 @@
 package org.owasp.webgoat;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginClassLoader;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
@@ -53,6 +54,7 @@ import java.io.File;
 import java.util.List;
 
 @SpringBootApplication
+@Slf4j
 public class WebGoat extends SpringBootServletInitializer {
 
     @Override
@@ -89,6 +91,13 @@ public class WebGoat extends SpringBootServletInitializer {
     public Course course(PluginsLoader pluginsLoader, PluginEndpointPublisher pluginEndpointPublisher) {
         Course course = new Course();
         List<Plugin> plugins = pluginsLoader.loadPlugins();
+        if (plugins.isEmpty()) {
+            log.error("No lessons found if you downloaded an official release of WebGoat please take the time to");
+            log.error("create a new issue at https://github.com/WebGoat/WebGoat/issues/new");
+            log.error("For developers run 'mvn package' first from the root directory.");
+            log.error("Stopping WebGoat...");
+            System.exit(1); //we always run standalone
+        }
         course.createLessonsFromPlugins(plugins);
         plugins.forEach(p -> pluginEndpointPublisher.publish(p));
 

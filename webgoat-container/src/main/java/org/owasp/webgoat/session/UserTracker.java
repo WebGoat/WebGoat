@@ -84,7 +84,7 @@ public class UserTracker {
 
     @SneakyThrows
     public void load() {
-        File file = new File(webgoatHome, user);
+        File file = new File(webgoatHome, user + ".progress");
         if (file.exists() && file.isFile()) {
             this.storage = (Map<String, LessonTracker>) SerializationUtils.deserialize(FileCopyUtils.copyToByteArray(file));
         }
@@ -92,7 +92,7 @@ public class UserTracker {
 
     @SneakyThrows
     private void save() {
-        File file = new File(webgoatHome, user);
+        File file = new File(webgoatHome, user + ".progress");
         FileCopyUtils.copy(SerializationUtils.serialize(this.storage), file);
     }
 

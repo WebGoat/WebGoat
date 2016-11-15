@@ -36,7 +36,7 @@ public class PluginExtractor {
      */
     public Plugin extractJarFile(final File archive, final File targetDirectory, PluginClassLoader cl) throws IOException {
         ZipFile zipFile = new ZipFile(archive);
-        Plugin plugin = new Plugin(cl);
+        Plugin plugin = new Plugin(cl, zipFile.getName());
         try {
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
             while (entries.hasMoreElements()) {
