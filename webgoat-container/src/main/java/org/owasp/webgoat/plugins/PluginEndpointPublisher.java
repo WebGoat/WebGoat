@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Component;
@@ -49,14 +50,17 @@ public class PluginEndpointPublisher {
     }
 
     public void publish(Plugin plugin) {
-        plugin.getLessonEndpoints().forEach(e -> {
-            try {
-                BeanDefinition beanDefinition = new RootBeanDefinition(e, Autowire.BY_TYPE.value(), true);
-                DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getBeanFactory();
-                beanFactory.registerBeanDefinition(beanDefinition.getBeanClassName(), beanDefinition);
-            } catch (Exception ex) {
-                log.error("Failed to register " + e.getSimpleName() + " as endpoint with Spring, skipping...");
-            }
-        });
+        plugin.getAssignments().forEach(e -> publishEndpoint(e));
+        plugin.getEndpoints().forEach(e -> publishEndpoint(e));
+    }
+
+    private void publishEndpoint(Class<? extends MvcEndpoint> e) {
+        try {
+            BeanDefinition beanDefinition = new RootBeanDefinition(e, Autowire.BY_TYPE.value(), true);
+            DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getBeanFactory();
+            beanFactory.registerBeanDefinition(beanDefinition.getBeanClassName(), beanDefinition);
+        } catch (Exception ex) {
+            log.error("Failed to register " + e.getSimpleName() + " as endpoint with Spring, skipping...");
+        }
     }
 }

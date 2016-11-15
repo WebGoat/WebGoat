@@ -1,5 +1,6 @@
 package org.owasp.webgoat.lessons.model;
 
+import lombok.Getter;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.WebSession;
 
@@ -10,6 +11,7 @@ import org.owasp.webgoat.session.WebSession;
  * @version $Id: $Id
  */
 //// TODO: 11/5/2016 this can be removed???
+@Getter
 public class LessonInfoModel {
 
     private String lessonTitle;

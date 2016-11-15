@@ -30,14 +30,17 @@
  */
 package org.owasp.webgoat;
 
+import lombok.SneakyThrows;
 import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginClassLoader;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.session.Course;
+import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -62,14 +65,9 @@ public class WebGoat extends SpringBootServletInitializer {
     }
 
     @Bean(name = "pluginTargetDirectory")
-    public File pluginTargetDirectory() {
-        return com.google.common.io.Files.createTempDir();
+    public File pluginTargetDirectory(@Value("${webgoat.user.directory}") final String webgoatHome) {
+        return new File(webgoatHome);
     }
-
-//    @Bean
-//    public ApplicationListener<ContextClosedEvent> closeEvent(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory) {
-//        return e -> pluginTargetDirectory.delete();
-//    }
 
     @Bean
     public PluginClassLoader pluginClassLoader() {
@@ -96,4 +94,14 @@ public class WebGoat extends SpringBootServletInitializer {
 
         return course;
     }
+
+    @Bean
+    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @SneakyThrows
+    public UserTracker userTracker(@Value("${webgoat.user.directory}") final String webgoatHome, WebSession webSession) {
+        UserTracker userTracker = new UserTracker(webgoatHome, webSession.getUserName());
+        userTracker.load();
+        return userTracker;
+    }
+
 }

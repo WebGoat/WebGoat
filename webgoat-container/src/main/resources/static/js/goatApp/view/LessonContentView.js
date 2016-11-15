@@ -77,7 +77,7 @@ define(['jquery',
             this.renderFeedback(data.feedback);
 
             this.renderOutput(data.output || "");
-            if (data.lessonComplete) {
+            if (data.lessonCompleted) {
                 this.trigger('lesson:complete');
             }
             return false;

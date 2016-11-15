@@ -1,13 +1,16 @@
 
 package org.owasp.webgoat.session;
 
+import lombok.SneakyThrows;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Assignment;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.SerializationUtils;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 
 /**
@@ -40,34 +43,15 @@ import java.util.Optional;
  * @version $Id: $Id
  * @since October 29, 2003
  */
-@Component
 public class UserTracker {
 
-    private static Map<String, HashMap<String, LessonTracker>> storage = new HashMap<>();
     private final String webgoatHome;
-    private final WebSession webSession;
+    private final String user;
+    private Map<String, LessonTracker> storage = new HashMap<>();
 
-    public UserTracker(@Value("${webgoat.user.directory}") final String webgoatHome, final WebSession webSession) {
+    public UserTracker(@Value("${webgoat.user.directory}") final String webgoatHome, final String user) {
         this.webgoatHome = webgoatHome;
-        this.webSession = webSession;
-    }
-
-    /**
-     * <p>getCurrentLessonTracker.</p>
-     *
-     * @return a {@link org.owasp.webgoat.session.LessonTracker} object.
-     */
-    public LessonTracker getCurrentLessonTracker() {
-        String lessonTitle = webSession.getCurrentLesson().getTitle();
-        String username = webSession.getUserName();
-        HashMap<String, LessonTracker> usermap = getUserMap(username);
-        LessonTracker tracker = usermap.get(lessonTitle);
-        if (tracker == null) {
-            // Creates a new lesson tracker, if one does not exist on disk.
-            tracker = LessonTracker.load(webSession, username, webSession.getCurrentLesson());
-            usermap.put(lessonTitle, tracker);
-        }
-        return tracker;
+        this.user = user;
     }
 
     /**
@@ -76,31 +60,45 @@ public class UserTracker {
      * @param lesson the lesson
      * @return the optional lesson tracker
      */
-    public Optional<LessonTracker> getLessonTracker(AbstractLesson lesson) {
-        String username = webSession.getUserName();
-        return Optional.ofNullable(getUserMap(username).getOrDefault(lesson.getTitle(), null));
-    }
-
-
-    /**
-     * Gets the userMap attribute of the UserTracker object
-     *
-     * @param userName Description of the Parameter
-     * @return The userMap value
-     */
-    private HashMap<String, LessonTracker> getUserMap(String userName) {
-
-        HashMap<String, LessonTracker> usermap = storage.get(userName);
-
-        if (usermap == null) {
-
-            usermap = new HashMap<>();
-
-            storage.put(userName, usermap);
-
+    public LessonTracker getLessonTracker(AbstractLesson lesson) {
+        LessonTracker lessonTracker = storage.get(lesson.getTitle());
+        if (lessonTracker == null) {
+            lessonTracker = new LessonTracker(lesson);
+            storage.put(lesson.getTitle(), lessonTracker);
         }
-
-        return (usermap);
+        return lessonTracker;
     }
 
+    public void assignmentSolved(AbstractLesson lesson, Assignment assignment) {
+        LessonTracker lessonTracker = getLessonTracker(lesson);
+        lessonTracker.incrementAttempts();
+        lessonTracker.assignmentSolved(assignment.getClass().getSimpleName());
+        save();
+    }
+
+    public void assignmentFailed(AbstractLesson lesson) {
+        LessonTracker lessonTracker = getLessonTracker(lesson);
+        lessonTracker.incrementAttempts();
+        save();
+    }
+
+    @SneakyThrows
+    public void load() {
+        File file = new File(webgoatHome, user);
+        if (file.exists() && file.isFile()) {
+            this.storage = (Map<String, LessonTracker>) SerializationUtils.deserialize(FileCopyUtils.copyToByteArray(file));
+        }
+    }
+
+    @SneakyThrows
+    private void save() {
+        File file = new File(webgoatHome, user);
+        FileCopyUtils.copy(SerializationUtils.serialize(this.storage), file);
+    }
+
+
+    public void reset(AbstractLesson al) {
+        getLessonTracker(al).reset();
+        save();
+    }
 }

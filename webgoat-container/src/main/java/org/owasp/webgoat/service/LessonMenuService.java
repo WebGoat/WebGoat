@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>LessonMenuService class.</p>
@@ -56,7 +55,7 @@ import java.util.Optional;
 public class LessonMenuService {
 
     private final Course course;
-    private final UserTracker userTracker;
+    private UserTracker userTracker;
     private final WebSession webSession;
 
     /**
@@ -82,8 +81,8 @@ public class LessonMenuService {
                 lessonItem.setName(lesson.getTitle());
                 lessonItem.setLink(lesson.getLink());
                 lessonItem.setType(LessonMenuItemType.LESSON);
-                Optional<LessonTracker> lessonTracker = userTracker.getLessonTracker(lesson);
-                lessonItem.setComplete(lessonTracker.isPresent() ? lessonTracker.get().getCompleted() : false);
+                LessonTracker lessonTracker = userTracker.getLessonTracker(lesson);
+                lessonItem.setComplete(lessonTracker.isLessonSolved());
                 categoryItem.addChild(lessonItem);
             }
             menu.add(categoryItem);

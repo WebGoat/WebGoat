@@ -1,5 +1,7 @@
 package org.owasp.webgoat.lessons.model;
 
+import lombok.Getter;
+
 /**
  * ************************************************************************************************
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
@@ -29,6 +31,7 @@ package org.owasp.webgoat.lessons.model;
  * @version $Id: $Id
  * @since August 13, 2016
  */
+@Getter
 public class AttackResult {
 
     private boolean lessonCompleted;
@@ -54,15 +57,7 @@ public class AttackResult {
         return attackResult;
     }
 
-    public boolean isLessonCompleted() {
+    public boolean assignmentSolved() {
         return lessonCompleted;
-    }
-
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public String getOutput() {
-        return output;
     }
 }

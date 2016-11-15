@@ -1,13 +1,18 @@
-package org.owasp.webgoat.plugin;
+package org.owasp.webgoat.session;
 
+import com.google.common.collect.Lists;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
-import org.owasp.webgoat.lessons.model.AttackResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 /**
  * ************************************************************************************************
@@ -34,23 +39,33 @@ import java.io.IOException;
  * projects.
  * <p>
  *
- * @author WebGoat
+ * @author nbaars
  * @version $Id: $Id
- * @since August 11, 2016
+ * @since November 15, 2016
  */
-public class Attack extends Assignment {
+public class UserTrackerTest {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody AttackResult completed(@RequestParam String answer) throws IOException {
-        if ("450000".equals(answer)) {
-            return trackProgress(AttackResult.success());
-        } else {
-            return trackProgress(AttackResult.failed("You are close, try again"));
-        }
+    private File home;
+
+    @Before
+    public void init() throws IOException {
+        home = File.createTempFile("test", "test");
+        home.deleteOnExit();
     }
 
-    @Override
-    public String getPath() {
-        return "/clientSideFiltering/attack1";
+    @Test
+    public void writeAndRead() {
+        UserTracker userTracker = new UserTracker(home.getParent(), "test");
+        AbstractLesson abstractLesson = Mockito.mock(AbstractLesson.class);
+        Assignment assignment = Mockito.mock(Assignment.class);
+        when(abstractLesson.getAssignments()).thenReturn((List)Lists.newArrayList(assignment.getClass()));
+        userTracker.getLessonTracker(abstractLesson);
+        userTracker.assignmentSolved(abstractLesson, assignment);
+
+        userTracker = new UserTracker(home.getParent(), "test");
+        userTracker.load();
+        assertThat(userTracker.getLessonTracker(abstractLesson).isLessonSolved()).isTrue();
     }
+
+
 }
