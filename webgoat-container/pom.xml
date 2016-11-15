@@ -145,6 +145,20 @@
                 <!--</dependency>-->
                 <!--</dependencies>-->
             </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.basedir}/src/main/resources/plugin_lessons</directory>
+                            <includes>
+                                <include>**/*.jar</include>
+                                <include>**/*.pom</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
