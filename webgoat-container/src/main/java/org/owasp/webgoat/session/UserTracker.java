@@ -97,4 +97,8 @@ public class UserTracker {
     }
 
 
+    public void reset(AbstractLesson al) {
+        getLessonTracker(al).reset();
+        save();
+    }
 }

@@ -187,22 +187,11 @@ define(['jquery',
 
             this.restartLesson = function() {
                 var self=this;
-                var fragment = "attack/" + self.scr + "/" + self.menu;
-                console.log("Navigating to " + fragment);
-                // Avoiding the trigger event - handle - navigate loop by
-                // loading the lesson explicitly (after executing the restart
-                // servlet).
-                goatRouter.navigate(fragment);
-                // Resetting the user's lesson state (assuming a single browser
-                // and session per user).
                 $.ajax({
                     url:'service/restartlesson.mvc',
                     method:'GET'
-                }).done(function(text) {
-                    console.log("Received a response from the restart servlet: '" + text + "'");
-                    // Explicitly loading the lesson instead of triggering an
-                    // event in goatRouter.navigate().
-                    self.loadLesson(self.scr,self.menu);
+                }).done(function(lessonLink) {
+                    self.loadLesson(self.name);
                 });
             };
 

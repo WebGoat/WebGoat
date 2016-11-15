@@ -76,7 +76,7 @@ public class LessonTracker implements Serializable {
     /**
      * Reset the tracker. We do not reset the number of attempts here!
      */
-    public void reset() {
+    void reset() {
         solvedAssignments.clear();
     }
 }

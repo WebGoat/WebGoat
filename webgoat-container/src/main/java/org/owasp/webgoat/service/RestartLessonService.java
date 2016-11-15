@@ -24,12 +24,14 @@
 package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * <p>RestartLessonService class.</p>
@@ -39,6 +41,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @AllArgsConstructor
+@Slf4j
 public class RestartLessonService {
 
     private final WebSession webSession;
@@ -50,13 +53,11 @@ public class RestartLessonService {
      * @return a {@link java.lang.String} object.
      */
     @RequestMapping(path = "/service/restartlesson.mvc", produces = "text/text")
-    public
-    @ResponseBody
-    String restartLesson() {
+    @ResponseStatus(value = HttpStatus.OK)
+    public void restartLesson() {
         AbstractLesson al = webSession.getCurrentLesson();
-        System.out.println("Restarting lesson: " + al);
-        userTracker.getLessonTracker(al).reset();
+        log.debug("Restarting lesson: " + al);
 
-        return webSession.getCurrentLesson().getLink();
+        userTracker.reset(al);
     }
 }

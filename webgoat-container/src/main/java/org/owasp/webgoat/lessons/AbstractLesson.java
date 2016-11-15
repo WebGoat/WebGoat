@@ -206,8 +206,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * @return a {@link java.lang.String} object.
      */
     public String getLink() {
-        StringBuffer link = new StringBuffer(getPath());
-        return link.append(getId()).toString();
+        return String.format("%s%s.lesson", getPath(), getId());
     }
 
     /**
@@ -219,7 +218,5 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
         return getTitle();
     }
 
-    public String getId() {
-        return "";
-    }
+    public abstract String getId();
 }
