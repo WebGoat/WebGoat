@@ -156,6 +156,15 @@
                                 <include>**/*.pom</include>
                             </includes>
                         </fileset>
+                        <fileset>
+                            <directory>${user.home}/.webgoat/</directory>
+                            <includes>
+                                <include>**/*.jar</include>
+                                <include>**/org/**</include>
+                                <include>**/plugin/**</include>
+                            </includes>
+                        </fileset>
+
                     </filesets>
                 </configuration>
             </plugin>
@@ -301,3 +310,4 @@
     </dependencies>
 
 </project>
+
