@@ -52,15 +52,27 @@ The "Easy Run" JAR file offers a no hassle approach to testing and running WebGo
 wish to simply try/test/run the current development version of WebGoat
 
 ### Prerequisites:
-* Java VM 1.8 installed
+* Java VM 1.8 or Docker installed
 
 ## Easy Run Instructions:
 
-#### 1. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
+#### 1. Docker image
+
+The latest version of WebGoat is available at DockerHub, see [https://hub.docker.com/r/webgoat/webgoat-container/](https://hub.docker.com/r/webgoat/webgoat-container/).
+First install Docker, then open a command shell/window and type:
+
+```Shell
+docker pull webgoat/webgoat-container
+docker run -p 8080:8080 webgoat/webgoat-container
+```
+
+Wait for the Docker container to start and go to step 3.
+
+#### 2. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
 
 https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0.1-war-exec.jar
 
-#### 2. Run it using java:
+#### 3. Run it using java:
 
 Open a command shell/window, browse to where you downloaded the easy run jar and type:
 
@@ -177,13 +189,17 @@ To be able to see which labels are loaded through a property file, open up the d
 After the reload is complete, all labels which are loaded from a property file will be __marked green__.
 
 
-## Docker support
+## Building a new Docker image
 
 WebGoat now has Docker support you can build a container with the following commands:
 
 ```Shell
-cd WebGoat
-mvn -pl webgoat-container package docker:build
+cd WebGoat/
+mvn package
+cd webgoat-container
+mvn docker:build
+docker login
+docker push webgoat/webgoat-container
 ```
 
 With the following command you are able to run the Docker container on your local machine:
@@ -194,4 +210,3 @@ docker ps
 ```
 
 With the last command you are able to determine ip address to connect to.
-At the moment the Docker image is not distributed to a Docker registry.
