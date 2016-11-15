@@ -1,12 +1,10 @@
 package org.owasp.webgoat.plugin;
 
-import com.beust.jcommander.internal.Lists;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.NewLesson;
-
-import java.util.List;
-import java.util.ArrayList;
-import org.owasp.webgoat.i18n.LabelManager;
 
 /**
  * ************************************************************************************************
