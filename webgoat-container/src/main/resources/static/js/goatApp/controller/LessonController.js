@@ -130,7 +130,7 @@ define(['jquery',
 
                     $('.lesson-help').hide();
                 }
-                this.trigger('menu:reload');
+                //this.trigger('menu:reload');
                 this.lessonProgressModel.completed();
             };
 
