@@ -62,8 +62,8 @@ public class WebSession {
      * @return a {@link java.sql.Connection} object.
      * @throws java.sql.SQLException if any.
      */
-    public static synchronized Connection getConnection(WebSession s) throws SQLException {
-        return DatabaseUtilities.getConnection(s);
+    public static synchronized Connection getConnection() throws SQLException {
+        return DatabaseUtilities.getConnection();
     }
 
     /**

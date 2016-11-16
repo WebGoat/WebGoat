@@ -2,11 +2,17 @@
 package org.owasp.webgoat.plugin;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.model.AttackResult;
+import org.owasp.webgoat.session.DatabaseUtilities;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,106 +50,104 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-public class SqlInjectionLesson extends Assignment {
+public class SqlInjectionLesson5a extends Assignment {
 
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody AttackResult completed(@RequestParam String person, HttpServletRequest request) throws IOException {
-	    if (!person.toString().equals("")) {
-	        return trackProgress(AttackResult.success("The server has reversed your name: " + new StringBuffer(person).reverse().toString()));
-	    } else {
-	        return trackProgress(AttackResult.failed("You are close, try again"));
-	    }
+	public @ResponseBody AttackResult completed(@RequestParam String answer, HttpServletRequest request) throws IOException {
+System.out.println("answer:" + answer);
+		return injectableQuery(answer);
 	}
 
     @Override
     public String getPath() {
-        return "/SqlInjection/attack1";
+        return "/SqlInjection/attack5a";
     }
 
 
-//    private final static String ACCT_NAME = "account_name";
-//
-//    private static String STAGE = "stage";
-//
-//    private String accountName;
-//
-//    /**
-//     * Description of the Method
-//     * 
-//     * @param s
-//     *            Description of the Parameter
-//     * @return Description of the Return Value
-//     */
-//    protected Element createContent(WebSession s)
-//    {
-//        return super.createStagedContent(s);
-//    }
-//
-//    protected Element doStage1(WebSession s) throws Exception
-//    {
-//        return injectableQuery(s);
-//    }
-//
-//    protected Element doStage2(WebSession s) throws Exception
-//    {
-//        return parameterizedQuery(s);
-//    }
-//
-//    protected Element injectableQuery(WebSession s)
-//    {
-//        ElementContainer ec = new ElementContainer();
-//
-//        try
-//        {
-//            Connection connection = DatabaseUtilities.getConnection(s);
-//
-//            ec.addElement(makeAccountLine(s));
-//
-//            String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
-//            ec.addElement(new PRE(query));
-//
-//            try
-//            {
-//                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-//                                                                    ResultSet.CONCUR_READ_ONLY);
-//                ResultSet results = statement.executeQuery(query);
-//
-//                if ((results != null) && (results.first() == true))
-//                {
-//                    ResultSetMetaData resultsMetaData = results.getMetaData();
-//                    ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
-//                    results.last();
-//
-//                    // If they get back more than one user they succeeded
-//                    if (results.getRow() >= 6)
-//                    {
-//                        makeSuccess(s);
-//                        getLessonTracker(s).setStage(2);
-//
-//                        StringBuffer msg = new StringBuffer();
-//
-//                        msg.append(getLabelManager().get("StringSqlInjectionSecondStage"));
-//
-//                        s.setMessage(msg.toString());
-//                    }
-//                }
-//                else
-//                {
-//                    ec.addElement(getLabelManager().get("NoResultsMatched"));
-//                }
-//            } catch (SQLException sqle)
-//            {
-//                ec.addElement(new P().addElement(sqle.getMessage()));
-//                sqle.printStackTrace();
-//            }
-//        } catch (Exception e)
-//        {
-//            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
-//            e.printStackTrace();
-//        }
-//
-//        return (ec);
-//    }
+
+    protected AttackResult injectableQuery(String accountName)
+    {
+        try
+        {
+            Connection connection = DatabaseUtilities.getConnection();
+            String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
+
+            try
+            {
+                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                                                    ResultSet.CONCUR_READ_ONLY);
+                ResultSet results = statement.executeQuery(query);
+
+                if ((results != null) && (results.first() == true))
+                {
+                    ResultSetMetaData resultsMetaData = results.getMetaData();
+                	StringBuffer output = new StringBuffer();
+
+                    output.append(writeTable(results, resultsMetaData));
+                    results.last();
+
+                    // If they get back more than one user they succeeded
+                    if (results.getRow() >= 6)
+                    {
+                    	return trackProgress(AttackResult.success("You have succeed: " + output.toString()));
+                   } else {
+                	   return trackProgress(AttackResult.failed("You are close, try again. "));
+                   }
+                    
+                }
+                else
+                {
+                	return trackProgress(AttackResult.failed("No Results Matched. Try Again. "));
+
+//                    output.append(getLabelManager().get("NoResultsMatched"));
+                }
+            } catch (SQLException sqle)
+            {
+            	return trackProgress(AttackResult.failed(sqle.getMessage()));
+            }
+        } catch (Exception e)
+        {
+        	return trackProgress(AttackResult.failed( "ErrorGenerating" + this.getClass().getName()));
+        }
+    }
+    
+    public String writeTable(ResultSet results, ResultSetMetaData resultsMetaData) throws IOException,
+	SQLException 
+    {
+		int numColumns = resultsMetaData.getColumnCount();
+		results.beforeFirst();
+		StringBuffer t = new StringBuffer();
+	
+		if (results.next())
+		{
+			for (int i = 1; i < (numColumns + 1); i++)
+			{
+				t.append(resultsMetaData.getColumnName(i));
+				t.append(", ");
+			}
+		
+			t.append(System.getProperty("line.separator"));
+			results.beforeFirst();
+		
+			while (results.next())
+			{
+		
+				for (int i = 1; i < (numColumns + 1); i++)
+				{
+					t.append(results.getString(i));
+					t.append(", ");
+				}
+		
+				t.append(System.getProperty("line.separator"));
+			}
+		
+			return (t.toString());
+		}
+		else
+		{
+			return ("Query Successful; however no data was returned from this query.");
+		}
+    }
 //
 //    protected Element parameterizedQuery(WebSession s)
 //    {

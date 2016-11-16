@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 /**
  *************************************************************************************************
@@ -42,6 +44,8 @@ public class DatabaseUtilities
 
 	private static Map<String, Connection> connections = new HashMap<String, Connection>();
 	private static Map<String, Boolean> dbBuilt = new HashMap<String, Boolean>();
+    @Autowired
+    private static WebSession webSession;
 
 	/**
 	 * <p>getConnection.</p>
@@ -50,9 +54,9 @@ public class DatabaseUtilities
 	 * @return a {@link java.sql.Connection} object.
 	 * @throws java.sql.SQLException if any.
 	 */
-	public static Connection getConnection(WebSession s) throws SQLException
+	public static Connection getConnection() throws SQLException
 	{
-		return getConnection(s.getUserName(), s.getWebgoatContext());
+		return getConnection(webSession.getUserName(), webSession.getWebgoatContext());
 	}
 
 	/**
