@@ -57,8 +57,8 @@ define(['jquery',
             var prepareDataFunctionName = $(curForm).attr('prepareData');
             var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : this.$form.serialize();
             // var submitData = this.$form.serialize();
-            this.$curFeedback = $(curForm).closest('.lesson-page-wrapper').find('.attack-feedback');
-            this.$curOutput = $(curForm).closest('.lesson-page-wrapper').find('.attack-output');
+            this.$curFeedback = $(curForm).closest('.attack-container').find('.attack-feedback');
+            this.$curOutput = $(curForm).closest('.atatck-container').find('.attack-output');
             var formUrl = $(curForm).attr('action');
             var formMethod = $(curForm).attr('method');
             var contentType = ($(curForm).attr('contentType')) ? $(curForm).attr('contentType') : 'application/x-www-form-urlencoded; charset=UTF-8';
