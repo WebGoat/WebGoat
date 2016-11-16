@@ -112,6 +112,7 @@ define(['jquery',
         addPaginationControls: function() {
             var pagingControlsDiv
             this.$el.html();
+            // remove this.$prevPageButton refs ??? hide/show not really working
             this.$prevPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-left show-prev-page'});
             this.$prevPageButton.unbind().on('click',this.decrementPageView.bind(this));
 
@@ -124,12 +125,30 @@ define(['jquery',
                 pagingControlsDiv.append(this.$nextPageButton);
                 this.$el.append(pagingControlsDiv);
             }
-            //
+
+            this.$prevPageButton.hide();
+
             if (this.numPages > 0 ) {
                 this.$nextPageButton.show();
             }
-            this.$prevPageButton.hide();
 
+
+        },
+
+        showPrevPageButton: function() {
+            $('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-left.show-prev-page').show();
+        },
+
+        hidePrevPageButton: function() {
+            $('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-left.show-prev-page').hide();
+        },
+
+        showNextPageButton: function() {
+            $('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-right.show-next-page').show();
+        },
+
+        hideNextPageButton: function() {
+            $('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-right.show-next-page').hide();
         },
 
         incrementPageView: function() {
@@ -139,12 +158,12 @@ define(['jquery',
             }
 
             if (this.currentPage > 0) {
-                this.$prevPageButton.show();
+                this.showPrevPageButton();
             }
 
             if (this.currentPage >= this.numPages -1) {
-                this.$nextPageButton.hide();
-                this.$prevPageButton.show()
+                this.hideNextPageButton();
+                this.showPrevPageButton;
             }
         },
 
@@ -155,12 +174,12 @@ define(['jquery',
             }
 
             if (this.currentPage < this.numPages -1) {
-                this.$nextPageButton.show();
+                this.showNextPageButton();
             }
 
             if (this.currentPage == 0) {
-                this.$prevPageButton.hide();
-                this.$nextPageButton.show();
+                this.hidePrevPageButton();
+                this.showNextPageButton()
             }
 
         },
@@ -168,10 +187,6 @@ define(['jquery',
         showCurContentPage: function(isIncrement) {
             this.$contentPages.hide();
             this.$el.find(this.$contentPages[this.currentPage]).show();
-        },
-
-        hideNextPageButton: function() {
-
         }
 
     });
