@@ -6,4 +6,5 @@ The query in the code builds a dynamic query as seen in the previous example.  T
 "select * from users where name = ‘" + userName + "'";
 -------------------------------------------------------
 
-Using the form below try to retrieve all the users from the users table.
+Using the form below try to retrieve all the users from the users table. You shouldn't need to know any specific user name to get the complete list, however you can use 'Smith' to see the data for one user.
+

@@ -56,7 +56,7 @@ public class SqlInjectionLesson5b extends Assignment {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String userid, HttpServletRequest request) throws IOException {
 		return injectableQuery(userid);
-		
+	
 	}
 
     @Override

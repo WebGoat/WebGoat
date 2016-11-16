@@ -59,7 +59,6 @@ public class SqlInjectionLesson6b extends Assignment {
 	    } else {
 	        return trackProgress(AttackResult.failed("You are close, try again"));
 	    }
-
 	}
 
     @Override
@@ -97,9 +96,6 @@ public class SqlInjectionLesson6b extends Assignment {
         	e.printStackTrace();
         	// do nothing
         }
-        System.out.println("Password: " + password);
         return (password);
     }
-    
- 
 }
