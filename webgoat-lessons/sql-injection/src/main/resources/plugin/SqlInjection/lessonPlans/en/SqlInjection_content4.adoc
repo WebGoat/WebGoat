@@ -1,19 +1,17 @@
-== Special Characters & Statements
+== Severity of SQL Injection
 
-/* */ 	are inline comments
--- , # 	are line comments
-'Select * from users where name = ‘admin’--and pass = ‘pass’'
+=== The severity of SQL Injection attacks is limited by 
+* Attacker’s skill and imagination
+* Defense in depth countermeasures
+** Input validation
+** Least privilege
+* Database technology
 
-; 		allows query chaining
-'Select * from users; drop table users;'
+=== Not all databases support command chaining
+* Microsoft Access
+* MySQL Connector/J and C
+* Oracle
 
-’,+,||	allows string concatenation 
-Char()	strings without quotes
-'Select * from users where name = ‘+char(27) or 1=1'
-
-
-Unions	allows overlapping of database tables
-'Select id, text from news 
-union all select name, pass from users'
-
-Joins allows connecting to other tables
+=== Not all databases are equal (SQL Server)
+* Command shell: `master.dbo.xp_cmdshell 'cmd.exe dir c:'` 
+* Reqistry commands: `xp_regread`, `xp_regdeletekey`, …

@@ -1,0 +1,20 @@
+== Special Characters
+
+/* */ 	are inline comments
+-- , # 	are line comments
+'Select * from users where name = ‘admin’--and pass = ‘pass’'
+
+; 		allows query chaining
+'Select * from users; drop table users;'
+
+’,+,||	allows string concatenation 
+Char()	strings without quotes
+'Select * from users where name = ‘+char(27) or 1=1'
+
+==  Special Statements
+
+Unions	allows overlapping of database tables
+'Select id, text from news 
+union all select name, pass from users'
+
+Joins allows connecting to other tables
