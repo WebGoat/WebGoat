@@ -253,11 +253,6 @@
             <version>${wsdl4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>ecs</groupId>
-            <artifactId>ecs</artifactId>
-            <version>${ecs.version}</version>
-        </dependency>
-        <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
             <version>${javax.transaction-api.version}</version>

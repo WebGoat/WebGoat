@@ -4,12 +4,11 @@ package org.owasp.webgoat.plugin;
  *
  */
 
-import org.apache.ecs.html.TD;
-import org.apache.ecs.html.TR;
-import org.apache.ecs.html.Table;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.owasp.webgoat.lessons.Endpoint;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -24,11 +23,14 @@ import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class Salaries extends Endpoint {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public void invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @RequestMapping(produces = {"application/json"})
+    @ResponseBody
+    public List<Map<String, Object>> invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userId = req.getParameter("userId");
         NodeList nodes = null;
         File d = new File(getPluginDirectory(), "ClientSideFiltering/html/employees.xml");
@@ -52,49 +54,18 @@ public class Salaries extends Endpoint {
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
-        int nodesLength = nodes.getLength();
-
-
-        TR tr;
-
         int COLUMNS = 5;
-
-        Table t2 = null;
-        if (nodesLength > 0) {
-            t2 = new Table().setCellSpacing(0).setCellPadding(0)
-                    .setBorder(1).setWidth("90%").setAlign("center");
-            tr = new TR();
-            tr.addElement(new TD().addElement("UserID"));
-            tr.addElement(new TD().addElement("First Name"));
-            tr.addElement(new TD().addElement("Last Name"));
-            tr.addElement(new TD().addElement("SSN"));
-            tr.addElement(new TD().addElement("Salary"));
-            t2.addElement(tr);
-        }
-
-        tr = new TR();
-
-        for (int i = 0; i < nodesLength; i++) {
+        List json = Lists.newArrayList();
+        java.util.Map<String, Object> employeeJson = Maps.newHashMap();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            if (i != 0 && i % COLUMNS == 0) {
+                employeeJson = Maps.newHashMap();
+                json.add(employeeJson);
+            }
             Node node = nodes.item(i);
-
-            if (i % COLUMNS == 0) {
-                tr = new TR();
-                tr.setID(node.getTextContent());
-                //tr.setStyle("display: none");
-            }
-
-            tr.addElement(new TD().addElement(node.getTextContent()));
-
-            if (i % COLUMNS == (COLUMNS - 1)) {
-                t2.addElement(tr);
-            }
+            employeeJson.put(node.getNodeName(), node.getTextContent());
         }
-
-        if (t2 != null) {
-            resp.getWriter().println(t2.toString());
-        } else {
-            resp.getWriter().println("No Results");
-        }
+        return json;
     }
 
     @Override

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Employees>
-    <Employee >
+    <Employee>
         <UserID>101</UserID>
         <FirstName>Larry</FirstName>
         <LastName>Stooge</LastName>
@@ -19,7 +19,7 @@
             <Manager>102</Manager>
             <Manager>111</Manager>
             <Manager>112</Manager>
-        </Managers> 
+        </Managers>
     </Employee>
     <Employee>
         <UserID>102</UserID>
@@ -37,8 +37,8 @@
         <DisciplinaryExplanation>Hit Curly over head</DisciplinaryExplanation>
         <DisciplinaryDate>101013</DisciplinaryDate>
         <Managers>
-			<Manager>112</Manager>
-		</Managers> 
+            <Manager>112</Manager>
+        </Managers>
     </Employee>
     <Employee>
         <UserID>103</UserID>
@@ -59,7 +59,7 @@
             <Manager>102</Manager>
             <Manager>111</Manager>
             <Manager>112</Manager>
-        </Managers>  
+        </Managers>
     </Employee>
     <Employee>
         <UserID>104</UserID>
@@ -81,7 +81,7 @@
             <Manager>102</Manager>
             <Manager>111</Manager>
             <Manager>112</Manager>
-        </Managers> 
+        </Managers>
     </Employee>
     <Employee>
         <UserID>105</UserID>
@@ -103,7 +103,7 @@
             <Manager>102</Manager>
             <Manager>111</Manager>
             <Manager>112</Manager>
-        </Managers> 
+        </Managers>
     </Employee>
     <Employee>
         <UserID>106</UserID>
@@ -124,7 +124,7 @@
             <Manager>102</Manager>
             <Manager>111</Manager>
             <Manager>112</Manager>
-        </Managers>  
+        </Managers>
     </Employee>
     <Employee>
         <UserID>107</UserID>
@@ -145,7 +145,7 @@
             <Manager>102</Manager>
             <Manager>111</Manager>
             <Manager>112</Manager>
-        </Managers>         
+        </Managers>
     </Employee>
     <Employee>
         <UserID>108</UserID>
@@ -167,7 +167,7 @@
             <Manager>102</Manager>
             <Manager>111</Manager>
             <Manager>112</Manager>
-        </Managers>        
+        </Managers>
     </Employee>
     <Employee>
         <UserID>109</UserID>
@@ -189,7 +189,7 @@
             <Manager>102</Manager>
             <Manager>111</Manager>
             <Manager>112</Manager>
-        </Managers>        
+        </Managers>
     </Employee>
     <Employee>
         <UserID>110</UserID>
@@ -211,7 +211,7 @@
             <Manager>102</Manager>
             <Manager>111</Manager>
             <Manager>112</Manager>
-        </Managers> 
+        </Managers>
     </Employee>
     <Employee>
         <UserID>111</UserID>
@@ -230,7 +230,7 @@
         <DisciplinaryDate>112005</DisciplinaryDate>
         <Managers>
             <Manager>112</Manager>
-        </Managers>   
+        </Managers>
     </Employee>
     <Employee>
         <UserID>112</UserID>
@@ -246,9 +246,9 @@
         <Limit>300</Limit>
         <Comments></Comments>
         <DisciplinaryExplanation></DisciplinaryExplanation>
-        <DisciplinaryDate>112005</DisciplinaryDate>        
+        <DisciplinaryDate>112005</DisciplinaryDate>
         <Managers>
-		<Manager>112</Manager>
-	</Managers>
+            <Manager>112</Manager>
+        </Managers>
     </Employee>
 </Employees>
