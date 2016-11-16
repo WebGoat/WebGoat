@@ -44,9 +44,10 @@ public abstract class Assignment extends Endpoint {
     @Autowired
     private UserTracker userTracker;
     @Autowired
-    private WebSession webSession;
+	private WebSession webSession;
 
-    //// TODO: 11/13/2016 events better fit?
+  
+	//// TODO: 11/13/2016 events better fit?
     protected AttackResult trackProgress(AttackResult attackResult) {
         if (attackResult.assignmentSolved()) {
             userTracker.assignmentSolved(webSession.getCurrentLesson(), this);
@@ -55,5 +56,10 @@ public abstract class Assignment extends Endpoint {
         }
         return attackResult;
     }
+    
+    protected WebSession getWebSession() {
+  		return webSession;
+  	}
 
+    
 }

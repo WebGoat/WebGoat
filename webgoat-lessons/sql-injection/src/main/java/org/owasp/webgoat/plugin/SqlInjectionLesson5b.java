@@ -1,5 +1,6 @@
-
 package org.owasp.webgoat.plugin;
+
+
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -50,17 +51,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-public class SqlInjectionLesson5a extends Assignment {
+public class SqlInjectionLesson5b extends Assignment {
 
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody AttackResult completed(@RequestParam String account, HttpServletRequest request) throws IOException {
-		return injectableQuery(account);
+	public @ResponseBody AttackResult completed(@RequestParam String userid, HttpServletRequest request) throws IOException {
+		return injectableQuery(userid);
+		
 	}
 
     @Override
     public String getPath() {
-        return "/SqlInjection/attack5a";
+        return "/SqlInjection/attack5b";
     }
+
 
 
     protected AttackResult injectableQuery(String accountName)
@@ -68,7 +71,7 @@ public class SqlInjectionLesson5a extends Assignment {
         try
         {
             Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
+            String query = "SELECT * FROM user_data WHERE userid = " + accountName;
 
             try
             {
@@ -97,6 +100,7 @@ public class SqlInjectionLesson5a extends Assignment {
                 {
                 	return trackProgress(AttackResult.failed("No Results Matched. Try Again. "));
 
+//                    output.append(getLabelManager().get("NoResultsMatched"));
                 }
             } catch (SQLException sqle)
             {

@@ -50,16 +50,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-public class SqlInjectionLesson5a extends Assignment {
+public class SqlInjectionLesson6a extends Assignment {
 
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody AttackResult completed(@RequestParam String account, HttpServletRequest request) throws IOException {
-		return injectableQuery(account);
+	public @ResponseBody AttackResult completed(@RequestParam String userid_6a, HttpServletRequest request) throws IOException {
+		return injectableQuery(userid_6a);
+		// The answer: Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from user_system_data --
+
 	}
 
     @Override
     public String getPath() {
-        return "/SqlInjection/attack5a";
+        return "/SqlInjection/attack6a";
     }
 
 

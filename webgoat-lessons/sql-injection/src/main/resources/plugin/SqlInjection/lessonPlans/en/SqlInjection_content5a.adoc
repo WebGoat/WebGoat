@@ -1,6 +1,7 @@
 == Try It!   String SQL Injection
 
-The query in the code builds a dynamic query as seen in the previous example.  The query in the code looks like: 
+The query in the code builds a dynamic query as seen in the previous example.  The query in the code builds a dynamic query by concatenating strings making it susceptible to String SQL injection: 
+
 -------------------------------------------------------
 "select * from users where name = ‘" + userName + "'";
 -------------------------------------------------------
