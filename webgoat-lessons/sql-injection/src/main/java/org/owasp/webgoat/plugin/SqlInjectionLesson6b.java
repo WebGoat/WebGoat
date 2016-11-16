@@ -54,7 +54,7 @@ public class SqlInjectionLesson6b extends Assignment {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String userid_6b, HttpServletRequest request) throws IOException {
-	    if (!userid_6b.toString().equals(getPassword())) {
+	    if (userid_6b.toString().equals(getPassword())) {
 	        return trackProgress(AttackResult.success());
 	    } else {
 	        return trackProgress(AttackResult.failed("You are close, try again"));
@@ -85,7 +85,7 @@ public class SqlInjectionLesson6b extends Assignment {
 
                 if ((results != null) && (results.first() == true))
                 {
-                    password = results.getNString("password");
+                    password = results.getString("password");
                 }
             } catch (SQLException sqle)
             {

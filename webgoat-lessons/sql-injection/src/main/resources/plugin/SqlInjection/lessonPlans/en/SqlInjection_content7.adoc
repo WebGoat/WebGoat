@@ -1,6 +1,8 @@
 == Immutable Queries
 
-=== Static queries?
+These are the best defense against SQL Injection.  They either do not have data that could get interpreted or the treat the data as a single entity that is bound to a column without interpretation.
+
+=== Static Queries
 -------------------------------------------------------
 select * from products;
 -------------------------------------------------------
@@ -10,7 +12,6 @@ select * from users where user = "'" + session.getAttribute("UserID") + "'";
 -------------------------------------------------------
 
 === Parameterized Queries
-
 -------------------------------------------------------
 String query = "SELECT * FROM users WHERE last_name = ?";
 PreparedStatement statement = connection.prepareStatement(query);
@@ -19,5 +20,4 @@ ResultSet results = statement.executeQuery();
 -------------------------------------------------------
 
 === Stored Procedures
-
 Only if stored procedure does not generate dynamic SQL
