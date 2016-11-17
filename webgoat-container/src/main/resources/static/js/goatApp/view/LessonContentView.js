@@ -30,12 +30,18 @@ define(['jquery',
             this.currentPage = 0;
             this.$contentPages = this.$el.find('.lesson-page-wrapper');
             this.numPages = this.$contentPages.length;
+
             //
+            this.addPaginationControls();
             if (this.numPages > 1) {
                 //no animation on init
                 this.$contentPages.hide();
                 this.$el.find(this.$contentPages[this.currentPage]).show();
-                this.addPaginationControls();
+                this.showNextPageButton();
+                this.hidePrevPageButton();
+            } else if (this.numPages === 1) {
+                this.hideNextPageButton();
+                this.hidePrevPageButton();
             }
          },
 
@@ -110,31 +116,25 @@ define(['jquery',
         },
 
         addPaginationControls: function() {
-            var pagingControlsDiv
+            var pagingControlsDiv;
             this.$el.html();
-            // remove this.$prevPageButton refs ??? hide/show not really working
-            this.$prevPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-left show-prev-page'});
-            this.$prevPageButton.unbind().on('click',this.decrementPageView.bind(this));
-
-            this.$nextPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-right show-next-page'});
-            this.$nextPageButton.unbind().on('click',this.incrementPageView.bind(this));
-
+            //prev
+            var prevPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-left show-prev-page'});
+            prevPageButton.unbind().on('click',this.decrementPageView.bind(this));
+            //next
+            var nextPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-right show-next-page'});
+            nextPageButton.unbind().on('click',this.incrementPageView.bind(this));
+            //add to DOM
             if (this.$el.find('#lesson-page-controls').length < 1) {
                 pagingControlsDiv = $('<div>',{class:'panel-body', id:'lesson-page-controls'});
-                pagingControlsDiv.append(this.$prevPageButton);
-                pagingControlsDiv.append(this.$nextPageButton);
+                pagingControlsDiv.append(prevPageButton);
+                pagingControlsDiv.append(nextPageButton);
                 this.$el.append(pagingControlsDiv);
             }
 
-            this.$prevPageButton.hide();
-
-            if (this.numPages > 0 ) {
-                this.$nextPageButton.show();
-            }
-
-
         },
 
+        /* show & hide pagination controls */
         showPrevPageButton: function() {
             $('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-left.show-prev-page').show();
         },
@@ -151,6 +151,7 @@ define(['jquery',
             $('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-right.show-next-page').hide();
         },
 
+        /* increment, decrement & display handlers */
         incrementPageView: function() {
             if (this.currentPage < this.numPages -1) {
                this.currentPage++;
