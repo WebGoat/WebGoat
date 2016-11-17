@@ -15,6 +15,7 @@ define(['jquery',
             options = options || {};
         },
 
+        /* initial renering */
         render: function() {
             this.$el.find('.lesson-content').html(this.model.get('content'));
             this.$el.find('.attack-feedback').hide();
@@ -45,7 +46,6 @@ define(['jquery',
             }
          },
 
-
         makeFormsAjax: function () {
             this.$form = $('form.attack-form');
             // turn off standard submit
@@ -56,7 +56,8 @@ define(['jquery',
             });
         },
 
-         onFormSubmit: function (e) {
+        /* form submission handling */
+        onFormSubmit: function (e) {
             var curForm = e.currentTarget; // the form from which the
             var self = this;
             // TODO custom Data prep for submission
@@ -115,6 +116,8 @@ define(['jquery',
             this.$curOutput.show(400)
         },
 
+        /* create, show & hide pagination controls */
+
         addPaginationControls: function() {
             var pagingControlsDiv;
             this.$el.html();
@@ -134,7 +137,6 @@ define(['jquery',
 
         },
 
-        /* show & hide pagination controls */
         showPrevPageButton: function() {
             $('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-left.show-prev-page').show();
         },
