@@ -798,7 +798,7 @@ cookie-container {
 .sidebar {
   width: 240px;
   /*height: 100%;*/
-  background: #222;
+  background: #fff;
   position: absolute;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -834,7 +834,9 @@ cookie-container {
 
 
 #menu-container ul li a {
-  color: #aeb2b7;
+  /*color: #aeb2b7;*/
+  color: #222;
+  font-weight:bold;
   text-decoration: none;
   display: block;
   padding: 5px 0 5px 15px;
@@ -850,7 +852,8 @@ cookie-container {
   display: inline-block;
 }
 #menu-container ul ul li {
-  background: #333;
+  /*background: #333;*/
+  background: #aaa;
   margin-bottom: 0;
   margin-left: 0;
   margin-right: 0;
@@ -860,7 +863,8 @@ cookie-container {
   font-size: 11px;
   padding-top: 5px;
   padding-bottom: 5px;
-  color: #aeb2b7;
+  /*color: #aeb2b7;*/
+  color: #fff;
   margin-left:8px;
 }
 #menu-container ul li a i {
@@ -890,7 +894,7 @@ cookie-container {
 }
 
 #menu-container ul li.selected, #menu-container li a.selected {
-    background-color: #555;
+    background-color: ##aaa;
 }
 
 #menu-container ul li.stage {
@@ -898,7 +902,8 @@ cookie-container {
 }
 
 #menu-container li.selected, #menu-container a.selected {
-  color:white;
+  color:#fff;
+  font-weight:550;
 }
 
 #menu-container ul ul.lessonsAndStages.keepOpen {
@@ -963,6 +968,9 @@ cookie-container {
 
 /* ATTACK DISPLAY */
 
-#attack-container {
-    border:1px solid red;
+.attack-container {
+  background-color: #f1f1f1;
+  border: 2px solid #a66;
+  border-radius: 12px;
+  padding: 7px;
 }
