@@ -49,7 +49,7 @@ public class HttpBasicsQuiz extends Assignment {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num, HttpServletRequest request) throws IOException {
         if ("POST".equals(answer.toUpperCase()) && magic_answer.equals(magic_num)) {
-	        return AttackResult.success();
+	        return trackProgress(AttackResult.success());
 	    } else {
 	    	StringBuffer message = new StringBuffer();
 	    	if (!"POST".equals(answer.toUpperCase())) {
@@ -58,7 +58,7 @@ public class HttpBasicsQuiz extends Assignment {
 	    	if (!magic_answer.equals(magic_num)){
 	    		message.append("The magic number is incorrect.  ");
 	    	}
-	        return AttackResult.failed("You are close, try again.  " + message.toString());
+	        return trackProgress(AttackResult.failed("You are close, try again.  " + message.toString()));
 	    }
 	}
 
