@@ -1,0 +1,4 @@
+== Let't try
+
+In this assignment you will need to sign up with a registration form. When submitting the form try to execute an XXE injection with the
+username field. Try listing the root directory of the filesystem.

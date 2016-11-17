@@ -17,6 +17,7 @@
         <module>client-side-filtering</module>
         <module>http-basics</module>
         <module>sql-injection</module>
+        <module>xxe</module>
     </modules>
 
     <dependencies>

@@ -1,0 +1,4 @@
+== Modern REST framework
+
+Again same exercise but try to enforce the same XML injection as we did in first lesson.
+
