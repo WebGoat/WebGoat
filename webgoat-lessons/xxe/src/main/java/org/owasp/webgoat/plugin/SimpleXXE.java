@@ -59,7 +59,7 @@ public class SimpleXXE extends Assignment {
     public AttackResult createNewUser(@RequestBody String userInfo) throws Exception {
         User user = parseXml(userInfo);
         if (checkSolution(user)) {
-          return AttackResult.success(String.format("Welcome %s", user.getUsername()));
+          return AttackResult.success(String.format("Congratulation, welcome %s", user.getUsername()));
         }
         return AttackResult.failed("Try again!");
     }

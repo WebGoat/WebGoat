@@ -45,9 +45,8 @@ public class XXE extends NewLesson {
     @Override
     public List<String> getHints() {
         List<String> hints = new ArrayList<String>();
-        hints.add("Try searching with BOS, SFO or OAK");
+        hints.add("Try submitting the form and see what happens");
         hints.add("XXE stands for XML External Entity attack");
-        hints.add("Look at the search form when you submit");
         hints.add("Try to include your own DTD");
         return hints;
     }

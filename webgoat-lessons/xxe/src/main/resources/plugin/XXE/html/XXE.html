@@ -49,9 +49,10 @@
                         </tr>
                     </table>
                     <br/>
-                    <strong>By signing up you agree to WebGoat's Terms of Service.</strong>
                     <br/>
                 </form>
+                <div class="attack-feedback"></div>
+                <div class="attack-output"></div>
             </div>
         </form>
         <div id='registration_success'></div>
@@ -97,12 +98,28 @@
                         </tr>
                     </table>
                     <br/>
-                    <strong>By signing up you agree to WebGoat's Terms of Service.</strong>
                     <br/>
                 </form>
+                <div class="attack-feedback"></div>
+                <div class="attack-output"></div>
             </div>
         </form>
     </div>
+</div>
+
+
+<div class="lesson-page-wrapper">
+    <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+    <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+    <div class="adoc-content" th:replace="doc:XXE_overflow.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+    <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+    <div class="adoc-content" th:replace="doc:XXE_mitigation.adoc"></div>
 </div>
 
 
