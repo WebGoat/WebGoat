@@ -35,6 +35,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
@@ -50,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry security = http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/images/**", "/js/**", "fonts/**", "/plugins/**", "plugin_lessons/**").permitAll()
+                .antMatchers("/css/**", "/images/**", "/js/**", "fonts/**", "/plugins/**").permitAll()
                 .antMatchers("/servlet/AdminServlet/**").hasAnyRole("WEBGOAT_ADMIN", "SERVER_ADMIN") //
                 .antMatchers("/JavaSource/**").hasRole("SERVER_ADMIN") //
                 .anyRequest().hasAnyRole("WEBGOAT_USER", "WEBGOAT_ADMIN", "SERVER_ADMIN");
@@ -65,8 +66,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
         security.and().csrf().disable();
-        http.headers().cacheControl().disable();
 
+        http.headers().cacheControl().disable();
+    }
+
+    //// TODO: 11/18/2016 make this a little bit more configurabe last part at least
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/plugin_lessons/**", "/XXE/**");
     }
 
     @Autowired

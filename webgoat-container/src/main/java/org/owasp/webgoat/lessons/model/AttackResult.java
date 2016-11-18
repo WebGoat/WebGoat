@@ -43,17 +43,26 @@ public class AttackResult {
     }
 
     public static AttackResult success(String feedback) {
+        return success(feedback, "");
+    }
+
+    public static AttackResult success(String feedback, String output) {
         AttackResult attackResult = new AttackResult();
         attackResult.lessonCompleted = true;
         attackResult.feedback = feedback;
-        attackResult.output = "";
+        attackResult.output = output;
         return attackResult;
     }
 
     public static AttackResult failed(String feedback) {
+        return failed(feedback, "");
+    }
+
+    public static AttackResult failed(String feedback, String output) {
         AttackResult attackResult = new AttackResult();
         attackResult.lessonCompleted = false;
         attackResult.feedback = feedback;
+        attackResult.output = output;
         return attackResult;
     }
 
