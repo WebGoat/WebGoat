@@ -37,7 +37,7 @@ public class LabelDebugger implements Serializable {
 
     /**
      * <p>Sets the status to enabled</p>
-     * @param enabled
+     * @param enabled {@link org.owasp.webgoat.session.LabelDebugger} object
      */
     public void setEnabled(boolean enabled)  {
         this.enabled = enabled;

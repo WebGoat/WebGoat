@@ -40,7 +40,6 @@ import static java.lang.Math.abs;
 /**
  * ************************************************************************************************
  * <p>
- * <p>
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
@@ -620,7 +619,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     /**
      * <p>Returns the default "path" portion of a lesson's URL.</p>
-     * <p>
      * <p>
      * Legacy webgoat lesson links are of the form
      * "attack?Screen=Xmenu=Ystage=Z". This method returns the path portion of

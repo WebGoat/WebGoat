@@ -78,9 +78,9 @@ public class LabelDebugService extends BaseService {
 
       /**
       * Sets the enabled flag on the label debugger to the given parameter
-      *
+      * @param enabled {@link org.owasp.webgoat.session.LabelDebugger} object
+      * @throws Exception unhandled exception
       * @return a {@link org.springframework.http.ResponseEntity} object.
-     * @throws Exception
       */
      @RequestMapping(value = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE, params = KEY_ENABLED)
      public @ResponseBody
@@ -92,7 +92,7 @@ public class LabelDebugService extends BaseService {
      }
 
     /**
-     * @param enabled
+     * @param enabled {@link org.owasp.webgoat.session.LabelDebugger} object
      * @return a {@link java.util.Map} object.
      */
     private Map<String, Object> createResponse(Boolean enabled) {

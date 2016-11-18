@@ -47,7 +47,6 @@ public class RestartLessonService extends BaseService {
      * Returns current lesson
      *
      * @param session a {@link javax.servlet.http.HttpSession} object.
-     * @return a {@link java.lang.String} object.
      */
     @RequestMapping(value = "/restartlesson.mvc")
     @ResponseStatus(value = HttpStatus.OK)
