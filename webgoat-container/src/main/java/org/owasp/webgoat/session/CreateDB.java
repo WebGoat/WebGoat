@@ -4,7 +4,6 @@ package org.owasp.webgoat.session;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.owasp.webgoat.lessons.AbstractLesson;
 
 
 /**
@@ -759,16 +758,16 @@ public class CreateDB
 		String insertData25_1 = "INSERT INTO auth VALUES('admin', 'SearchStaff')";
 		String insertData25_2 = "INSERT INTO auth VALUES('admin', 'FindProfile')";
 
-		// Add a permission for the webgoat role to see the source.
-		// The challenge(s) will change the default role to "challenge"
-		String insertData26 = "INSERT INTO auth VALUES('" + AbstractLesson.USER_ROLE + "','" + WebSession.SHOWSOURCE
-				+ "')";
-		String insertData27 = "INSERT INTO auth VALUES('" + AbstractLesson.USER_ROLE + "','" + WebSession.SHOWHINTS
-				+ "')";
+//		// Add a permission for the webgoat role to see the source.
+//		// The challenge(s) will change the default role to "challenge"
+//		String insertData26 = "INSERT INTO auth VALUES('" + AbstractLesson.USER_ROLE + "','" + WebSession.SHOWSOURCE
+//				+ "')";
+//		String insertData27 = "INSERT INTO auth VALUES('" + AbstractLesson.USER_ROLE + "','" + WebSession.SHOWHINTS
+//				+ "')";
 		// Add a permission for the webgoat role to see the solution.
 		// The challenge(s) will change the default role to "challenge"
-		String insertData28 = "INSERT INTO auth VALUES('" + AbstractLesson.USER_ROLE + "','" + WebSession.SHOWSOLUTION
-				+ "')";
+//		String insertData28 = "INSERT INTO auth VALUES('" + AbstractLesson.USER_ROLE + "','" + WebSession.SHOWSOLUTION
+//				+ "')";
 
 		statement.executeUpdate(insertData1);
 		statement.executeUpdate(insertData2);
@@ -803,9 +802,9 @@ public class CreateDB
 		statement.executeUpdate(insertData25);
 		statement.executeUpdate(insertData25_1);
 		statement.executeUpdate(insertData25_2);
-		statement.executeUpdate(insertData26);
-		statement.executeUpdate(insertData27);
-		statement.executeUpdate(insertData28);
+		//statement.executeUpdate(insertData26);
+		//statement.executeUpdate(insertData27);
+		//statement.executeUpdate(insertData28);
 	}
 
 	private void createOwnershipTable(Connection connection) throws SQLException

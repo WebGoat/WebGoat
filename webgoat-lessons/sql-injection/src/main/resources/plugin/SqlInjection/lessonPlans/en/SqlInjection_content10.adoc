@@ -1,0 +1,35 @@
+== Parameterized Queries – Java Example
+-------------------------------------------------------
+// Parser returns only valid string data
+String accountID = getParser().getStringParameter(ACCT_ID, "");
+String data = null;
+try
+{
+    // Read only database connection
+    Statement connection = DatabaseUtilities.getConnection(READ_ONLY);
+     
+    // Build a fully qualified query
+    String query = "SELECT first_name, last_name, acct_id, balance
+                    FROM user_data WHERE acct_id = ?";
+    PreparedStatement statement = connection.prepareStatement(query);
+    statement.setString(1, accountID);
+    ResultSet results = statement.executeQuery();
+    if ((results != null) && (results.first() == true))
+    {
+        // Only one record should be returned for this query
+        Results.last();
+        if (results.getRow() <= 2)
+        {
+            data = processAccount(results);
+        }
+        else { // Handle the error – Database integrity issue }
+    }
+    else { // Handle the error – no records found }
+}
+catch (SQLException sqle) { // Log and handle the SQL Exception }
+catch (Exception e) { // Log and handle the Exception }
+finally { // Always close connection in finally block
+    DatabaseUtilities.closeConnection();
+}
+return data;	
+-------------------------------------------------------

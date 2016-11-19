@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login Page</title>
+    <!--  CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}" />
+</head>
+<body>
+<section id="container">
+    <header id="header">
+        <!--logo start-->
+        <div class="brand">
+            <a href="${pageContext.request.contextPath}/start.mvc" class="logo"><span>Web</span>Goat</a>
+        </div>
+        <!--logo end-->
+        <div class="toggle-navigation toggle-left">
+
+        </div><!--toggle navigation end-->
+        <div class="lessonTitle" >
+
+        </div><!--lesson title end-->
+
+    </header>
+    <section class="main-content-wrapper">
+
+        <section id="main-content" >
+            <div th:if="${param.error}">
+                Invalid username and password.
+            </div>
+            <div th:if="${param.logout}">
+                You've been logged out successfully.
+            </div>
+            <br/><br/>
+            <form th:action="@{/login}" method='POST' style="width: 400px;">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control" id="exampleInputEmail1" placeholder="Username" name='username'/>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name='password'/>
+                </div>
+                <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+            </form>
+            <br/><br/>
+            <h4>The following accounts are built into Webgoat</h4>
+            <table class="table table-bordered" style="width:400px;">
+                <thead>
+                <tr class="warning"><th>Account</th><th>User</th><th>Password</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>Webgoat User</td><td>guest</td><td>guest</td></tr>
+                <tr><td>Webgoat Admin</td><td>webgoat</td><td>webgoat</td></tr>
+                </tbody>
+            </table>
+            <br/><br/>
+
+
+        </section>
+    </section>
+</section>
+
+
+</body>
+</html>

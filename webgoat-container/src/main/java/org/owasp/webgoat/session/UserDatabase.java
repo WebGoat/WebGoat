@@ -1,9 +1,12 @@
 package org.owasp.webgoat.session;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 class UserDatabase {
     private Connection userDB;
@@ -19,9 +22,6 @@ class UserDatabase {
     private final String QUERY_ALL_USERS = "SELECT username FROM users;";
     private final String QUERY_ALL_ROLES_FOR_USERNAME = "SELECT rolename FROM roles, user_roles, users WHERE roles.id = user_roles.role_id AND user_roles.user_id = users.id AND users.username = ?;";
     private final String QUERY_TABLE_COUNT = "SELECT count(id) AS count FROM table;";
-
-    private final String DELETE_ALL_ROLES_FOR_USER = "DELETE FROM user_roles WHERE user_id IN (SELECT id FROM users WHERE username = ?);";
-    private final String DELETE_USER = "DELETE FROM users WHERE username = ?;";
 
     /**
      * <p>Constructor for UserDatabase.</p>
@@ -102,42 +102,6 @@ class UserDatabase {
     }
 
     /**
-     * <p>getUsers.</p>
-     *
-     * @return a {@link java.util.Iterator} object.
-     */
-    public Iterator<User> getUsers() {
-        ArrayList<User> users = new ArrayList<User>();
-        User currentUser;
-        ResultSet userResults, roleResults;
-
-        try {
-            open();
-            Statement statement = userDB.createStatement();
-            PreparedStatement rolesForUsers = userDB.prepareStatement(QUERY_ALL_ROLES_FOR_USERNAME);
-
-            userResults = statement.executeQuery(QUERY_ALL_USERS);
-            while (userResults.next()) {
-                currentUser = new User(userResults.getString("username"));
-                rolesForUsers.setString(1, currentUser.getUsername());
-                roleResults = rolesForUsers.executeQuery();
-                while (roleResults.next()) {
-                    currentUser.addRole(roleResults.getString("rolename"));
-                }
-                roleResults.close();
-            }
-            rolesForUsers.close();
-            userResults.close();
-            close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            users = new ArrayList<User>();
-        }
-
-        return users.iterator();
-    }
-
-    /**
      * <p>addRoleToUser.</p>
      *
      * @param username a {@link java.lang.String} object.
@@ -152,46 +116,6 @@ class UserDatabase {
             statement.setString(2, rolename);
             statement.execute();
             statement.close();
-            close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * <p>removeUser.</p>
-     *
-     * @param user a {@link org.owasp.webgoat.session.User} object.
-     * @return a boolean.
-     */
-    public boolean removeUser(User user) {
-        return removeUser(user.getUsername());
-    }
-
-    /**
-     * <p>removeUser.</p>
-     *
-     * @param username a {@link java.lang.String} object.
-     * @return a boolean.
-     */
-    public boolean removeUser(String username) {
-        try {
-            open();
-
-            PreparedStatement deleteUserRoles = userDB.prepareStatement(DELETE_ALL_ROLES_FOR_USER);
-            PreparedStatement deleteUser = userDB.prepareStatement(DELETE_USER);
-
-            deleteUserRoles.setString(1, username);
-            deleteUser.setString(1, username);
-
-            deleteUserRoles.execute();
-            deleteUser.execute();
-
-            deleteUserRoles.close();
-            deleteUser.close();
-
             close();
         } catch (SQLException e) {
             e.printStackTrace();

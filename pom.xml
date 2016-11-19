@@ -5,7 +5,7 @@
     <groupId>org.owasp.webgoat</groupId>
     <artifactId>webgoat-parent</artifactId>
     <packaging>pom</packaging>
-    <version>7.2-SNAPSHOT</version>
+    <version>7.1-SNAPSHOT</version>
 
     <name>WebGoat Parent Pom</name>
     <description>Parent Pom for the WebGoat Project. A deliberately insecure Web Application</description>
@@ -16,6 +16,12 @@
         <name>OWASP</name>
         <url>https://webgoat.github.io/</url>
     </organization>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.1.RELEASE</version>
+    </parent>
 
     <licenses>
         <license>
@@ -100,6 +106,9 @@
     </ciManagement>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
         <!-- Use UTF-8 Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -123,7 +132,6 @@
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-logging.version>1.2</commons-logging.version>
         <coveralls-maven-plugin.version>4.0.0</coveralls-maven-plugin.version>
-        <ecs.version>1.4.2</ecs.version>
         <guava.version>18.0</guava.version>
         <h2.version>1.4.190</h2.version>
         <hsqldb.version>1.8.0.10</hsqldb.version>
@@ -146,9 +154,7 @@
         <maven-release-plugin.version>2.5.2</maven-release-plugin.version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
-        <maven-war-plugin.version>2.6</maven-war-plugin.version>
-        <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
-        <org.springframework.version>3.2.4.RELEASE</org.springframework.version>
+        <nexus-staging-maven-plugin.version>1.6.6</nexus-staging-maven-plugin.version>
         <sauce_junit.version>2.1.20</sauce_junit.version>
         <selenium-java.version>2.48.2</selenium-java.version>
         <slf4j-api.version>1.7.12</slf4j-api.version>
@@ -164,7 +170,7 @@
 
     <modules>
         <module>webgoat-container</module>
-        <module>webgoat-standalone</module>
+        <module>webgoat-lessons</module>
     </modules>
 
     <distributionManagement>
@@ -284,6 +290,15 @@
             </build>
         </profile>
     </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.10</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

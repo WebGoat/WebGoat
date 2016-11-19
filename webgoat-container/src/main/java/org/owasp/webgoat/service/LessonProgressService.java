@@ -1,52 +1,48 @@
 package org.owasp.webgoat.service;
 
 import com.google.common.collect.Maps;
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.RandomLessonAdapter;
+import lombok.AllArgsConstructor;
+import org.owasp.webgoat.i18n.LabelManager;
 import org.owasp.webgoat.lessons.model.LessonInfoModel;
+import org.owasp.webgoat.session.LessonTracker;
+import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.util.LabelManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
-@Controller
+
 /**
  * <p>LessonProgressService class.</p>
  *
  * @author webgoat
  */
-public class LessonProgressService extends BaseService {
+@Controller
+@AllArgsConstructor
+public class LessonProgressService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LessonMenuService.class);
     private LabelManager labelManager;
-
-    @Autowired
-    public LessonProgressService(final LabelManager labelManager) {
-        this.labelManager = labelManager;
-    }
+    private UserTracker userTracker;
+    private WebSession webSession;
 
     /**
      * <p>LessonProgressService.</p>
      *
-     * @param session a {@link HttpSession} object.
      * @return a {@link LessonInfoModel} object.
      */
-    @RequestMapping(value = "/lessonprogress.mvc", produces = "application/json")
+    @RequestMapping(value = "/service/lessonprogress.mvc", produces = "application/json")
     @ResponseBody
-    public Map getLessonInfo(HttpSession session) {
-        WebSession webSession = getWebSession(session);
-        AbstractLesson lesson = webSession.getCurrentLesson();
-        boolean lessonCompleted = lesson.isCompleted(webSession);
-        String successMessage = lesson instanceof RandomLessonAdapter ? "Congratulations, you have completed this lab" : labelManager
-                .get("LessonCompleted");
+    public Map getLessonInfo() {
+        LessonTracker lessonTracker = userTracker.getLessonTracker(webSession.getCurrentLesson());
         Map json = Maps.newHashMap();
+        String successMessage = "";
+        boolean lessonCompleted = false;
+        if (lessonTracker != null) {
+            lessonCompleted = lessonTracker.isLessonSolved();
+            successMessage = labelManager.get("LessonCompleted");
+        }
         json.put("lessonCompleted", lessonCompleted);
         json.put("successMessage", successMessage);
         return json;

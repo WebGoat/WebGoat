@@ -1,27 +1,18 @@
 language: java
 jdk:
-  - oraclejdk7
   - oraclejdk8
 install: "/bin/true"
 script:
-  - mvn clean install -q
-  - git clone -b develop https://github.com/WebGoat/WebGoat-Lessons.git
-  - mvn -file ./WebGoat-Lessons/pom.xml clean package -q
-  - cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./webgoat-container/src/main/webapp/plugin_lessons/
-  # Start the container this will make sure we do not see the debug logging of the Tomcat 7 Maven plugin
-  # which seems to always be set to DEBUG this will fail the build because we generate too much logging
-  - nohup bash -c "java -jar ./webgoat-standalone/target/webgoat-standalone-7.1-SNAPSHOT-exec.jar --port 8888 2>&1 &"
-  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then mvn "-Dbuild.number=$TRAVIS_BUILD_NUMBER" -q clean install failsafe:integration-test; else mvn -q failsafe:integration-test; fi
+  - mvn clean install
+  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then mvn "-Dbuild.number=$TRAVIS_BUILD_NUMBER" clean install; else mvn clean install; fi
 cache:
   directories:
   - $HOME/.m2
 before_deploy:
   - export WEBGOAT_CONTAINTER_TARGET_DIR=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-container/target
-  - export WEBGOAT_STANDALONE_TARGET_DIR=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-standalone/target
   - export WEBGOAT_ARTIFACTS_FOLDER=$HOME/build/$TRAVIS_REPO_SLUG/Deployable_Artifacts/
   - mkdir $WEBGOAT_ARTIFACTS_FOLDER
   - cp -fa $WEBGOAT_CONTAINTER_TARGET_DIR/* $WEBGOAT_ARTIFACTS_FOLDER/
-  - cp -fa $WEBGOAT_STANDALONE_TARGET_DIR/* $WEBGOAT_ARTIFACTS_FOLDER/
   - echo "Contents of artifcts folder:"
   - ls $WEBGOAT_ARTIFACTS_FOLDER
 deploy:
@@ -35,11 +26,11 @@ deploy:
   local_dir: "$WEBGOAT_ARTIFACTS_FOLDER"
   on:
     repo: WebGoat/WebGoat
-    branch: develop
+    branch: master
     jdk: oraclejdk8
 after_success:
-  - mvn versioneye:update -q
-  - mvn cobertura:cobertura coveralls:report -q
+  - mvn versioneye:update
+  - mvn cobertura:cobertura coveralls:report
 notifications:
   slack:
     secure: S9VFew5NSE8WDzYD1VDBUULKKT0fzgblQACznwQ85699b2yeX9TX58N3RZvRS1JVagVP1wu2xOrwN2g+AWx4Ro3UBZD5XG86uTJWpCLD4cRWHBoGMH2TfvI7/IzsWmgxH4MBxFRvZr/eEhlVAux+N9H4EoEdS4CKsJXEqV37PlA=
@@ -47,7 +38,6 @@ env:
   global:
    - secure: "ZLZKz6lGt8YZ+NhkZPBAlI235+lEmu37Tcf+yTwh5yXuHAlnvvF6hPui7rANA/stbYGOIqIdhGOXbdrwyTU4Pvg78VwJOwsa9RtHJfou3pg4Ud9i0/dEeVl8aakmg2HDaWYGcFox8X1ViVc5UWjuBLztfJKQUEx0buJoWdMSf2E="
 addons:
-  sauce_connect: true
   coverity_scan:
     project:
       name: "WebGoat/WebGoat"

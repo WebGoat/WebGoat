@@ -29,22 +29,16 @@
  */
 package org.owasp.webgoat.service;
 
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
-import org.owasp.webgoat.plugins.PluginsLoader;
-import org.owasp.webgoat.session.WebSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>PluginReloadService class.</p>
@@ -53,9 +47,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @version $Id: $Id
  */
 @Controller
-public class PluginReloadService extends BaseService {
-
-    private static final Logger logger = LoggerFactory.getLogger(PluginReloadService.class);
+public class PluginReloadService {
 
     /**
      * Reload all the plugins
@@ -63,20 +55,21 @@ public class PluginReloadService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link org.springframework.http.ResponseEntity} object.
      */
-    @RequestMapping(value = "/reloadplugins.mvc", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/service/reloadplugins.mvc", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseEntity<Map<String, Object>> reloadPlugins(HttpSession session) {
-        WebSession webSession = (WebSession) session.getAttribute(WebSession.SESSION);
-
-        logger.debug("Loading plugins into cache");
-        String pluginPath = session.getServletContext().getRealPath("plugin_lessons");
-        String targetPath = session.getServletContext().getRealPath("plugin_extracted");
-        new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).copyJars();
-        webSession.getCourse().loadLessonFromPlugin(session.getServletContext());
+//        WebSession webSession = (WebSession) session.getAttribute(WebSession.SESSION);
+//
+//        logger.debug("Loading plugins into cache");
+//        String pluginPath = session.getServletContext().getRealPath("plugin_lessons");
+//        String targetPath = session.getServletContext().getRealPath("plugin_extracted");
+//        //TODO fix me
+//        //new PluginsLoader(Paths.get(pluginPath), Paths.get(targetPath)).copyJars();
+//        //webSession.getCourse().createLessonsFromPlugins();
 
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", true);
         result.put("message", "Plugins reloaded");
-        return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

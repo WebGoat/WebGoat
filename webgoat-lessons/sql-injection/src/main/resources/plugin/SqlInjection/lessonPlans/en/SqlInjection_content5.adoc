@@ -1,0 +1,27 @@
+== Example of SQL Injection
+
+=== Dynamic query in application
+
+==== Potential String Injection
+-------------------------------------------------------
+"select * from users where name = '" + userName + "'";
+-------------------------------------------------------
+
+==== Potential Numeric Injection
+-------------------------------------------------------
+
+"select * from users where employee_id = "  + userID;
+-------------------------------------------------------
+
+=== Attacker supplies unexpected text
+* userName = [red]*Smith' or '1'='1*
+* userName =[red]*' or 1=1 --*
+* userID = [red]*1234567 or 1=1*
+* UserName = [red]*Smith’;drop table users; truncate audit_log;--*
+
+=== Application executes query
+* select * from users where name = [red]*'Smith' or '1' = '1'*
+** select * from users where name = [red]*'Smith' or TRUE*
+* select * from users where employee_id = 1234567 or 1=1
+
+*All records are returned from database*

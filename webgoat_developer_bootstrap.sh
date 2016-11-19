@@ -98,9 +98,7 @@ developer_bootstrap() {
     echo -e "FYI: This Developer Bootstrap Script for WebGoat requires: Git, Java JDK and Maven accessible on the path"
 
     ## test for require features
-    features git mvn java 
-
-    return $1
+    features git mvn java || return $?
 
     # Clone WebGoat from github
     if [ ! -d "WebGoat" ]; then
@@ -164,15 +162,15 @@ developer_bootstrap() {
     horizontal_rule
     horizontal_rule
     horizontal_rule
-    echo -e "$COL_MAGENTA"
-    echo -e "$COL_CYAN ***** Starting WebGoat using the embedded Tomcat ***** $COL_RESET"
-    echo -e " Please be patient.... The startup of the server can take from 30s to 3 minutes."
-    echo -e " WebGoat will be ready for you when you see the following message on the command prompt:"
-    echo -e "$COL_YELLOW INFO: Starting ProtocolHandler ["http-bio-8080"] $COL_RESET"
-    echo -e "$COL_CYAN When you see the message above, open a web browser and navigate to http://localhost:8080/WebGoat/ $COL_RESET"
-    echo -e " To stop the WebGoat and Tomcat Execution execution, press CTRL + C"
-    echo -e "$COL_RED If you close this terminal window, Tomcat and WebGoat will stop running $COL_RESET"
-    echo -e "$COL_MAGENTA"
+    echo "$COL_MAGENTA"
+    echo "$COL_CYAN ***** Starting WebGoat using the embedded Tomcat ***** $COL_RESET"
+    echo " Please be patient.... The startup of the server takes about 5 seconds..."
+    echo " WebGoat will be ready for you when you see the following message on the command prompt:"
+    echo "$COL_YELLOW INFO: Starting ProtocolHandler ["http-bio-8080"] $COL_RESET"
+    echo "$COL_CYAN When you see the message above, open a web browser and navigate to http://localhost:8080/WebGoat/ $COL_RESET"
+    echo " To stop the WebGoat and Tomcat Execution execution, press CTRL + C"
+    echo "$COL_RED If you close this terminal window, Tomcat and WebGoat will stop running $COL_RESET"
+    echo "$COL_MAGENTA"
     horizontal_rule
     horizontal_rule
     horizontal_rule
@@ -181,7 +179,7 @@ developer_bootstrap() {
     sleep 5
 
     # Starting WebGoat
-    mvn -q -DskipTests -file WebGoat/pom.xml -pl webgoat-container tomcat7:run-war
+    mvn -q -pl webgoat-container spring-boot:run
 }
 
 # Start main script

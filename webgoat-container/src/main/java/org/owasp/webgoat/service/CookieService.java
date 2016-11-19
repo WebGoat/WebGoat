@@ -29,16 +29,14 @@
  */
 package org.owasp.webgoat.service;
 
-import java.util.Collections;
-import java.util.List;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
-import org.owasp.webgoat.lessons.model.RequestParameter;
-import org.owasp.webgoat.session.WebSession;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * <p>CookieService class.</p>
@@ -47,7 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version $Id: $Id
  */
 @Controller
-public class CookieService extends BaseService {
+public class CookieService {
 
     /**
      * Returns cookies for last attack
@@ -55,30 +53,11 @@ public class CookieService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(value = "/cookie.mvc", produces = "application/json")
+    @RequestMapping(path = "/service/cookie.mvc", produces = "application/json")
     public @ResponseBody
-    List<Cookie> showCookies(HttpSession session) {
-        WebSession ws = getWebSession(session);
-        List<Cookie> cookies = ws.getCookiesOnLastRequest();
+    List<Cookie> showCookies() {
+        //// TODO: 11/6/2016 to be decided
+        List<Cookie> cookies = Lists.newArrayList();
         return cookies;
-    }
-
-    /**
-     * Returns cookies and params for current lesson
-     *
-     * @param session a {@link javax.servlet.http.HttpSession} object.
-     * @return a {@link org.springframework.web.servlet.ModelAndView} object.
-     */
-    @RequestMapping(value = "/cookies_widget.mvc", produces = "text/html")
-    public ModelAndView showCookiesAndParamsAsHtml(HttpSession session) {
-        ModelAndView model = new ModelAndView();
-        WebSession ws = getWebSession(session);
-        List<Cookie> cookies = ws.getCookiesOnLastRequest();
-        List<RequestParameter> listParms = ws.getParmsOnLastRequest();
-        Collections.sort(listParms);
-        model.addObject("wgcookies", cookies);
-        model.addObject("wgparams", listParms);
-        model.setViewName("widgets/cookies_and_params");
-        return model;
     }
 }

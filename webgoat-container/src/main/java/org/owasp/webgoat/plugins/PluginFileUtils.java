@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugins;
 
 
 import com.google.common.base.Preconditions;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import java.util.Collection;
  * @version $Id: $Id
  * @author dm
  */
+@UtilityClass
 public class PluginFileUtils {
 
     /**
@@ -62,20 +64,6 @@ public class PluginFileUtils {
             return true;
         }
         return hasParentDirectoryWithName(p.getParent(), s);
-    }
-
-    /**
-     * <p>createDirsIfNotExists.</p>
-     *
-     * @param p a {@link java.nio.file.Path} object.
-     * @return a {@link java.nio.file.Path} object.
-     * @throws java.io.IOException if any.
-     */
-    public static Path createDirsIfNotExists(Path p) throws IOException {
-        if (Files.notExists(p)) {
-            Files.createDirectories(p);
-        }
-        return p;
     }
 
     /**

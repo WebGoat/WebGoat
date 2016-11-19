@@ -29,17 +29,15 @@
  */
 package org.owasp.webgoat.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.servlet.http.HttpSession;
+import com.google.common.collect.Lists;
 import org.owasp.webgoat.lessons.model.RequestParameter;
-import org.owasp.webgoat.session.WebSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>ParameterService class.</p>
@@ -48,9 +46,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @version $Id: $Id
  */
 @Controller
-public class ParameterService extends BaseService {
-
-    final Logger logger = LoggerFactory.getLogger(ParameterService.class);
+public class ParameterService {
 
     /**
      * Returns request parameters for last attack
@@ -58,11 +54,11 @@ public class ParameterService extends BaseService {
      * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(value = "/parameter.mvc", produces = "application/json")
+    @RequestMapping(path = "/service/parameter.mvc", produces = "application/json")
     public @ResponseBody
     List<RequestParameter> showParameters(HttpSession session) {
-        WebSession ws = getWebSession(session);
-        List<RequestParameter> listParms = ws.getParmsOnLastRequest();
+        //// TODO: 11/6/2016 to decide not sure about the role in WebGoat 8
+        List<RequestParameter> listParms = Lists.newArrayList();
         Collections.sort(listParms);
         return listParms;
     }

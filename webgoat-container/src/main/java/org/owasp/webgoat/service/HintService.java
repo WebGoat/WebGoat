@@ -5,17 +5,17 @@
  */
 package org.owasp.webgoat.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.http.HttpSession;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.model.Hint;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * <p>HintService class.</p>
@@ -24,73 +24,43 @@ import org.springframework.web.servlet.ModelAndView;
  * @version $Id: $Id
  */
 @Controller
-public class HintService extends BaseService {
+public class HintService {
+
+    private final WebSession webSession;
+
+    public HintService(WebSession webSession) {
+        this.webSession = webSession;
+    }
 
     /**
      * Returns hints for current lesson
      *
-     * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(value = "/hint.mvc", produces = "application/json")
-    public @ResponseBody
-    List<Hint> showHint(HttpSession session) {
+    @RequestMapping(path = "/service/hint.mvc", produces = "application/json")
+    public
+    @ResponseBody
+    List<Hint> showHint() {
         List<Hint> listHints = new ArrayList<Hint>();
-        WebSession ws = getWebSession(session);
-        AbstractLesson l = ws.getCurrentLesson();
+        AbstractLesson l = webSession.getCurrentLesson();
         if (l == null) {
             return listHints;
         }
-        List<String> hints = (l.getCategory().equals(Category.CHALLENGE)) ? null : l.getHintsPublic(ws);
+        List<String> hints = l.getHints();
 
         if (hints == null) {
             return listHints;
         }
 
         int idx = 0;
-        for (String h : hints) {
-            Hint hint = new Hint();
-            hint.setHint(h);
-            hint.setLesson(l.getName());
-            hint.setNumber(idx);
-            listHints.add(hint);
-            idx++;
-        }
-        return listHints;
+        return hints.stream().map(h -> createHint(h, l.getName(), idx)).collect(toList());
     }
 
-    /**
-     * <p>showHintsAsHtml.</p>
-     *
-     * @param session a {@link javax.servlet.http.HttpSession} object.
-     * @return a {@link org.springframework.web.servlet.ModelAndView} object.
-     */
-    @RequestMapping(value = "/hint_widget.mvc", produces = "text/html")
-    public
-            ModelAndView showHintsAsHtml(HttpSession session) {
-        ModelAndView model = new ModelAndView();
-        List<Hint> listHints = new ArrayList<Hint>();
-        model.addObject("hints", listHints);
-        WebSession ws = getWebSession(session);
-        AbstractLesson l = ws.getCurrentLesson();
-        if (l == null) {            
-            return model;
-        }
-        List<String> hints;
-        hints = l.getHintsPublic(ws);
-        if (hints == null) {
-            return model;
-        }
-        int idx = 0;
-        for (String h : hints) {
-            Hint hint = new Hint();
-            hint.setHint(h);
-            hint.setLesson(l.getName());
-            hint.setNumber(idx);
-            listHints.add(hint);
-            idx++;
-        }
-        model.setViewName("widgets/hints");
-        return model;
+    private Hint createHint(String hintText, String lesson, int idx) {
+        Hint hint = new Hint();
+        hint.setHint(hintText);
+        hint.setLesson(lesson);
+        hint.setNumber(idx);
+        return hint;
     }
 }
