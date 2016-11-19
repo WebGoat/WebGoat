@@ -16,18 +16,30 @@ before_deploy:
   - echo "Contents of artifcts folder:"
   - ls $WEBGOAT_ARTIFACTS_FOLDER
 deploy:
-  provider: s3
-  access_key_id: AKIAJQLKPGHXRH2AH5QA
-  secret_access_key:
-    secure: 45+SwWlPFujD9FOOFLA9Lz0CaePVrn/SEsAhAn0Ve9sYpI0VsijZNymh6D29t93jBXgZoGhu/v0QJkcAA/71fQM+nGMBJjB5wmVFJ1c2A4k7tfWCVbBRI0aHGpJu12j+7BLuSfPCmCAFQGoVo7dWzfqeODe5j9Qpe9fsiQVnrKI=
-  bucket: webgoat-war
-  skip_cleanup: true
-  acl: public_read
-  local_dir: "$WEBGOAT_ARTIFACTS_FOLDER"
-  on:
-    repo: WebGoat/WebGoat
-    branch: master
-    jdk: oraclejdk8
+  - provider: s3
+    access_key_id: AKIAJQLKPGHXRH2AH5QA
+    secret_access_key:
+      secure: 45+SwWlPFujD9FOOFLA9Lz0CaePVrn/SEsAhAn0Ve9sYpI0VsijZNymh6D29t93jBXgZoGhu/v0QJkcAA/71fQM+nGMBJjB5wmVFJ1c2A4k7tfWCVbBRI0aHGpJu12j+7BLuSfPCmCAFQGoVo7dWzfqeODe5j9Qpe9fsiQVnrKI=
+    bucket: webgoat-war
+    skip_cleanup: true
+    acl: public_read
+    local_dir: "$WEBGOAT_ARTIFACTS_FOLDER"
+    on:
+      repo: WebGoat/WebGoat
+      branch: master
+      jdk: oraclejdk8
+  - provider: s3
+    access_key_id: AKIAJQLKPGHXRH2AH5QA
+    secret_access_key:
+      secure: 45+SwWlPFujD9FOOFLA9Lz0CaePVrn/SEsAhAn0Ve9sYpI0VsijZNymh6D29t93jBXgZoGhu/v0QJkcAA/71fQM+nGMBJjB5wmVFJ1c2A4k7tfWCVbBRI0aHGpJu12j+7BLuSfPCmCAFQGoVo7dWzfqeODe5j9Qpe9fsiQVnrKI=
+    bucket: webgoat-war
+    skip_cleanup: true
+    acl: public_read
+    local_dir: "$WEBGOAT_ARTIFACTS_FOLDER"
+    on:
+      repo: WebGoat/WebGoat
+      branch: develop
+      jdk: oraclejdk8	  
 after_success:
   - mvn versioneye:update
   - mvn cobertura:cobertura coveralls:report
