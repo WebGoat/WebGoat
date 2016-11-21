@@ -19,9 +19,9 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision :shell, privileged:false, inline: <<-SHELL
     echo -e "Cloning the WebGoat container repository"
-    git clone https://github.com/WebGoat/WebGoat.git
+    git clone -b master https://github.com/WebGoat/WebGoat.git
     echo -e "Cloning the WebGoat Lessons repository"
-    git clone https://github.com/WebGoat/WebGoat-Lessons.git
+    git clone -b master https://github.com/WebGoat/WebGoat-Lessons.git
     SHELL
 
   config.vm.provision 'shell' do |s|
@@ -29,3 +29,4 @@ Vagrant.configure(2) do |config|
   end
 
 end
+
