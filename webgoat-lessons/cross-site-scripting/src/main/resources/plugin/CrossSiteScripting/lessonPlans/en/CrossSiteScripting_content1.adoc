@@ -1,0 +1,25 @@
+== What is XSS
+
+NEED DEFINITION.
+
+==== Cross site scripting (XSS) is the most prevalent and pernicious web application security issue
+
+==== XSS flaws occur whenever an application takes user originated data and sends it to a web browser without validation or encoding
+
+=== XSS allows attackers to execute script in the victim’s browser and take over the user’s browser using scripting malware
+
+==== Examples:
+* From the browser address bar (chrome, Firefox)
++
+----
+javascript:alert("XSS Test");
+javascript:alert(document.cookie);
+----
+* Any data field that is returned to the client is potentially injectable
++
+----
+<script>alert("XSS Test")</script>
+----
+
+== Try It!  Using Chrome or Firefox 
+Type in `javascript:alert(document.cookie);` in the URL bar.  If you /cut/paste you'll need to add the `javascript:` back in.  Try it on a different tab.

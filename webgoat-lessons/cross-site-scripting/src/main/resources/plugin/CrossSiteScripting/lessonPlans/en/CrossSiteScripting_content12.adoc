@@ -1,0 +1,8 @@
+== The Samy Attack!
+
+A very interesting XSS exploit.  A single flaw led to a massive attack.
+
+http://web.archive.org/web/20060208182348/namb.la/popular/tech.html
+
+Only published AFTER MySpace resolved this issue.  *He only wanted more friends!*
+
