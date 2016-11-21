@@ -1,0 +1,19 @@
+== Encoding Best Practices
+* Not as easy as it may seem
+** Web 2.0 apps (social networks, mashups, blogs, feeds, etc.)
+** HTML encoding, HTML attribute encoding, JavaScript encoding, URL encoding, …
+* Use a proven and tested framework
+** The OWASP AntiSamy project (Java & .NET)
+*** Very useful in social applications where HTML content is allowed as input from users
+*** http://www.owasp.org/index.php/Category:OWASP_AntiSamy_Project
+** The OWASP ESAPI (Java, .NET, PHP, Classic ASP, Cold Fusion, Haskell)
+*** https://www.owasp.org/index.php/ESAPI
+** HTMLPurifier (PHP)
+*** http://htmlpurifier.org/
+** Anti-XSS Library from Microsoft
+*** Designed specifically for ASP.NET applications
+*** http://www.codeplex.com/AntiXSS
+* Some light reading:
+** http://www.owasp.org/index.php/How_to_perform_HTML_entity_encoding_in_Java
+** https://www.owasp.org/index.php?title=XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
+

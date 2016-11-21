@@ -1,0 +1,19 @@
+== XSS Phishing Example
+
+* A search page displays the search string
+* Attacker types in: 
+** ‘String to search”><script>alert(‘xss’)</script><!—
+** This will result in an ‘xss’ alert dialog
+* Attacker could create dynamic page content:
++
+----
+password<form><br><br><HR><H3>
+    This feature requires account login:</H3><br><br>
+    Enter Username:<br><input type="text" id="user“
+                        name="user"><br>
+    Enter Password:<br><input type="password" 
+                        name = "pass"><br>
+  </form><br><br><HR> 
+----
+
+*Attacker steals credentials and posts data to attacker site*

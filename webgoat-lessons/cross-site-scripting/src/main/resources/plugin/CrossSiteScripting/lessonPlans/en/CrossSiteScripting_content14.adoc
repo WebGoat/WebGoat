@@ -1,0 +1,13 @@
+== HTTPOnly  
+
+* Disallows access to cookie in most modern browsers
+** Even by the website that set the cookie in the first place 
+
+* HTTPOnly Cookies are still accessible through AJAX
+** This is accomplished using the XmlHttpRequest object
+** Cookie data can still be read from the headers
+
+* Public web sites that support multiple browsers
+* Use a client-side script to determine the browser version for a visitor
+* The website can restrict sensitive information to visitors using browsers that mitigate cross site scripting attacks for cookies
+* Visitors with browsers that do not support HTTPOnly cookies can be given limited information or functionality along with a request to upgrade their software

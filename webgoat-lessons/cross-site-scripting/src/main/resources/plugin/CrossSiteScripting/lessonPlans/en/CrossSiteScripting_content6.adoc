@@ -1,0 +1,10 @@
+== DOM-Based XSS Scenario
+
+* Attacker sends a malicious URL to victim 
+* Victim clicks on the link that loads malicious web page
+* The malicious web page's JavaScript opens a local web page on the victims machine that contains an attack
+* The local page executes attack in the computer’s local zone
+* Attacker’s malicious script may run commands with the privileges of local account
+
+*Victim does not realize attack occurred*
+

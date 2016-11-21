@@ -15,6 +15,7 @@
 
     <modules>
         <module>client-side-filtering</module>
+        <module>cross-site-scripting</module>
         <module>http-basics</module>
         <module>sql-injection</module>
         <module>xxe</module>
@@ -66,6 +67,6 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
-    </build>
+       </plugins>
+   </build>   
 </project>
