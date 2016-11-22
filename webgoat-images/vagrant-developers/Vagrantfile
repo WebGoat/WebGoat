@@ -1,0 +1,32 @@
+Vagrant.configure(2) do |config|
+  config.vm.box = "boxcutter/ubuntu1604-desktop"
+
+
+  config.vm.provider "virtualbox" do |vb|
+  	vb.gui = true
+  	vb.memory = "4096"
+  	vb.cpus = 2
+  	vb.name = "WebGoat-Development"
+	vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+  end
+
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
+  config.vm.provision 'shell' do |s|
+    s.path = '../vagrant_provision.sh'
+    s.privileged = true
+  end
+
+  config.vm.provision :shell, privileged:false, inline: <<-SHELL
+    echo -e "Cloning the WebGoat container repository"
+    git clone -b master https://github.com/WebGoat/WebGoat.git
+    echo -e "Cloning the WebGoat Lessons repository"
+    git clone -b master https://github.com/WebGoat/WebGoat-Lessons.git
+    SHELL
+
+  config.vm.provision 'shell' do |s|
+    s.inline = "echo Finished provisioning, login with user vagrant pass vagrant"
+  end
+
+end
+

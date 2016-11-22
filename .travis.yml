@@ -26,7 +26,7 @@ deploy:
   local_dir: "$WEBGOAT_ARTIFACTS_FOLDER"
   on:
     repo: WebGoat/WebGoat
-    branch: master
+    branch: develop
     jdk: oraclejdk8
 after_success:
   - mvn versioneye:update

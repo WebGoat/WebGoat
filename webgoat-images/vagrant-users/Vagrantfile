@@ -1,0 +1,48 @@
+#For now use the same as for developers but start WebGoat
+#In the future we can add Docker as well and then Vagrant can start the
+#Docker container or Chef which setups the Tomcat
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "boxcutter/ubuntu1604-desktop"
+  config.vm.network :forwarded_port, guest: 8080, host: 9999
+  config.vm.provider "virtualbox" do |vb|
+  	vb.gui = false
+  	vb.memory = "2048"
+  	vb.cpus = 2
+  	vb.name = "WebGoat-Users"
+	vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+  end
+  config.vm.provider "vmware_fusion" do |vf|
+    vf.gui = false
+    vf.vmx["memsize"] = 4096
+    vf.vmx["numvcpus"] = 2
+    vf.vmx["displayname"] = "WebGoat-Users"
+  end
+
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
+  config.vm.provision 'shell' do |s|
+    s.path = '../vagrant_provision.sh'
+    s.privileged = true
+  end
+
+  config.vm.provision :shell, inline: <<-SHELL
+    echo -e "Cloning the WebGoat container repository"
+    git clone -b master https://github.com/WebGoat/WebGoat.git
+    echo -e "Cloning the WebGoat Lessons repository"
+    git clone -b master https://github.com/WebGoat/WebGoat-Lessons.git
+    echo -e "Compiling and installing the WebGoat Container lesson server....."
+    mvn -q -DskipTests -file WebGoat/pom.xml clean compile install
+    echo -e "Compiling and installing the WebGoat Lessons $COL_RESET"
+    mvn -q -DskipTests -file WebGoat-Lessons/pom.xml package
+    echo -e "Copying the compiled lessons jars into the container so we can start the lesson server with some base lessons"
+    cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+    nohup mvn -q -DskipTests -file WebGoat/pom.xml -pl webgoat-container tomcat7:run-war 0<&- &>/dev/null &
+    SHELL
+
+  config.vm.provision 'shell' do |s|
+    s.inline = "echo Finished provisioning, open a browser and browse to http://localhost:9999/WebGoat/"
+  end
+
+end
+

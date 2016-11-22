@@ -41,6 +41,7 @@ define(['jquery',
             // this.menuController.initMenu();
             webgoat = {};
             webgoat.customjs = {};
+            webgoat.customjs.jquery = $;
 
 //            goatRouter.on('route:attackRoute', function(scr,menu,stage,num) {
 //                this.lessonController.loadLesson(scr,menu,stage,num);

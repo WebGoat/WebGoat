@@ -1,9 +1,10 @@
 # WebGoat: A deliberately insecure Web Application
 
-[![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg)](https://travis-ci.org/WebGoat/WebGoat)
+[![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg?branch=develop)](https://travis-ci.org/WebGoat/WebGoat)
 [![Coverage Status](https://coveralls.io/repos/WebGoat/WebGoat/badge.svg?branch=master&service=github)](https://coveralls.io/github/WebGoat/WebGoat?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/b69ee3a86e3b4afcaf993f210fccfb1d)](https://www.codacy.com/app/dm/WebGoat)
 [![Dependency Status](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa/badge.svg?style=flat)](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa)
+[![OWASP Labs](https://img.shields.io/badge/owasp-labs-orange.svg)](https://www.owasp.org/index.php/OWASP_Project_Inventory#tab=Labs_Projects)
 
 # Important Information
 
@@ -70,25 +71,48 @@ Wait for the Docker container to start and go to step 3.
 
 #### 2. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
 
-https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0.1-war-exec.jar
+https://s3.amazonaws.com/webgoat-war/webgoat-standalone-7.1-SNAPSHOT-exec.jar
 
 #### 3. Run it using java:
 
 Open a command shell/window, browse to where you downloaded the easy run jar and type:
 
 ```Shell
-java -jar webgoat-container-7.0.1.war
+java -jar webgoat-standalone-7.0.1-exec.jar [-p | --p <port>] [-a | --address <address>]
 ```
 
-#### 3. Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
+Using the `--help` option will show the allowed command line arguments.
 
-#### (Optional) If you would like to change the port or other options, use the help command for guidance:
+#### 3. Browse to the url shown in the console and happy hacking !
 
-```Shell
-java -jar webgoat-container-7.0.1-war-exec.jar --help
+## Vagrant
+
+To run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
+
+```shell
+   $ cd WebGoat/webgoat-images/vagrant-users
+   $ vagrant up
 ```
+
+Once you see the message 'Browse to http://localhost:9999/WebGoat and happy hacking! you can open a
+browser.
+
 
 # For Developers
+
+## Vagrant
+
+For an easy development experience you can use Vagrant. Note you should have Vagrant and Virtualbox installed on your system.
+
+```shell
+   $ cd WebGoat/webgoat-images/vagrant-developers
+   $ vagrant up
+```
+
+Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
+The source code will be available in the home directory.
+
+## Set up manual
 
 Follow these instructions if you wish to run Webgoat and modify the source code as well.
 
@@ -107,7 +131,7 @@ launch Tomcat listening on localhost:8080
 mkdir WebGoat-Workspace
 cd WebGoat-Workspace
 curl -o webgoat_developer_bootstrap.sh https://raw.githubusercontent.com/WebGoat/WebGoat/master/webgoat_developer_bootstrap.sh
-sh webgoat_developer_bootstrap.sh
+./webgoat_developer_bootstrap.sh
 ```
 
 ## The Manual Way: Developer Edition!
@@ -125,6 +149,7 @@ git clone https://github.com/WebGoat/WebGoat-Lessons.git
 
 ```Shell
 cd WebGoat
+git checkout develop
 mvn clean compile install
 cd ..
 ```
@@ -134,8 +159,10 @@ cd ..
 
 ```Shell
 cd WebGoat-Lessons
+git checkout develop
 mvn package
-cp target/plugins/*.jar ../WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+(linux)   cp target/plugins/*.jar ../WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
+(windows) xcopy "target\plugins\*.jar" "..\WebGoat\webgoat-container\src\main\webapp\plugin_lessons\"
 cd ..
 ```
 
@@ -154,16 +181,16 @@ mvn -pl webgoat-container spring-boot:run
 Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
 
 #### Option #2: Java executable JAR
-The __maven install__ goal generates an executable .war file:
+The __maven package__ goal generates an executable .jar file:
 
 ```Shell
 cd WebGoat
 mvn package
-cd webgoat-container/target
-java -jar webgoat-container-7.1-SNAPSHOT.war
+cd webgoat-standalone/target
+java -jar webgoat-standalone-7.1-SNAPSHOT-exec.jar [-p | --p <port>] [-a | --address <address>]
 ```
 
-Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
+Browse to url shown in the console and happy hacking !
 
 #### Option #3: Deploy the WebGoat WAR file in your local Tomcat or other Application Server:
 The __maven package__ goal generates a .war file that can deployed into an Application Server, such as Tomcat
