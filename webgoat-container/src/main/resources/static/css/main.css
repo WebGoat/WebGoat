@@ -915,6 +915,10 @@ cookie-container {
     cursor:pointer;
 }
 
+span.show-next-page, span.show-prev-page {
+font-size: 1.3em;
+}
+
 .show-prev-page {
     margin-right: 10px;
 }
