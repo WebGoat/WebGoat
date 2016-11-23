@@ -1,5 +1,6 @@
 package org.owasp.webgoat.plugin;
 
+import com.google.common.base.Joiner;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.model.AttackResult;
@@ -55,18 +56,19 @@ public class BlindSendFileAssignment extends Assignment {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult createNewUser(@RequestBody String userInfo) throws Exception {
-        String error = "";
+        String error = "Parsing successful contents not send to server";
         try {
             parseXml(userInfo);
         } catch (Exception e) {
             error = ExceptionUtils.getFullStackTrace(e);
         }
 
-        File logFile = new File(getPluginDirectory(), "plugin/XXE/");
+        File logFile = new File(getPluginDirectory(), "/XXE/log.txt");
         List<String> lines = Files.readAllLines(Paths.get(logFile.toURI()));
         boolean solved = lines.stream().filter(l -> l.contains("WebGoat 8 rocks...")).findFirst().isPresent();
+        logFile.delete();
         if (solved) {
-            return AttackResult.success();
+            return AttackResult.success(String.format("Contents of the file is: %s", Joiner.on('\n').join(lines)));
         } else {
             return AttackResult.failed("Try again...", error);
         }
