@@ -17,4 +17,18 @@ public class LabelProviderTest  {
                 "Congratulations. You have successfully completed this lesson."));
     }
 
+    @Test
+    public void shouldFallBackToEnglishIfLanguageNotSupported() {
+        LabelProvider labelProvider = new LabelProvider();
+        assertThat(labelProvider.get(Locale.CHINESE, "LessonCompleted"), CoreMatchers.equalTo(
+                "Congratulations. You have successfully completed this lesson."));
+    }
+
+    @Test
+    public void shouldUseProvidedLanguageIfSupported() {
+        LabelProvider labelProvider = new LabelProvider();
+        assertThat(labelProvider.get(Locale.GERMAN, "RestartLesson"), CoreMatchers.equalTo(
+                "Lektion neu beginnen"));
+    }
+
 }

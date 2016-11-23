@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 
 /**
@@ -52,8 +50,8 @@ public class LabelProvider {
 
     private static final List<Locale> SUPPORTED = Arrays.asList(Locale.GERMAN, Locale.FRENCH, Locale.ENGLISH,
             Locale.forLanguageTag("ru"));
-    private final ReloadableResourceBundleMessageSource labels = new ReloadableResourceBundleMessageSource();
-    private static final ReloadableResourceBundleMessageSource pluginLabels = new ReloadableResourceBundleMessageSource();
+    private final ExposedReloadableResourceMessageBundleSource labels = new ExposedReloadableResourceMessageBundleSource();
+    private static final ExposedReloadableResourceMessageBundleSource pluginLabels = new ExposedReloadableResourceMessageBundleSource();
 
     /**
      * <p>Constructor for LabelProvider.</p>
@@ -104,7 +102,27 @@ public class LabelProvider {
     }
 
     private Locale useLocaleOrFallbackToEnglish(Locale locale) {
-        return SUPPORTED.contains(locale) ? Locale.ENGLISH : locale;
+        return SUPPORTED.contains(locale) ? locale : Locale.ENGLISH;
+    }
+
+    /**
+     * <p>getLabels.</p>
+     * Returns a merged map of all the labels for a specified language or the
+     * default language, if the given language is not supported
+     *
+     * @param locale The Locale to get all the labels for
+     * @return A Map of all properties with their values
+     */
+    public Map<String, String> getLabels(Locale locale) {
+        Properties messages = labels.getMessages(locale);
+        messages.putAll(pluginLabels.getMessages(useLocaleOrFallbackToEnglish(locale)));
+        Map<String,String> labelsMap = new HashMap<>();
+        for (Map.Entry<Object, Object> entry : messages.entrySet()) {
+            if (entry.getKey() != null && entry.getValue() != null) {
+                labelsMap.put(entry.getKey().toString(), entry.getValue().toString());
+            }
+        }
+        return labelsMap;
     }
 
 }
