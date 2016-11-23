@@ -46,6 +46,14 @@ define(['jquery',
             }
          },
 
+         setCurrentPage: function (pageNum) {
+            this.currentPage = (_.isNumber(pageNum) && pageNum < this.numPages) ? pageNum : 0;
+         },
+
+         getCurrentPage: function () {
+            return this.currentPage;
+         },
+
         makeFormsAjax: function () {
             this.$form = $('form.attack-form');
             // turn off standard submit
@@ -79,7 +87,7 @@ define(['jquery',
             return false;
          },
 
-         onSuccessResponse: function(data) {
+        onSuccessResponse: function(data) {
             console.log(data);
             this.renderFeedback(data.feedback);
 
@@ -88,14 +96,14 @@ define(['jquery',
                 this.trigger('lesson:complete');
             }
             return false;
-         },
+        },
 
-         onErrorResponse: function (a,b,c) {
+        onErrorResponse: function (a,b,c) {
             console.error(a);
             console.error(b);
             console.error(c);
             return false;
-         },
+        },
 
         ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs
             var self = this;
@@ -120,7 +128,7 @@ define(['jquery',
 
         addPaginationControls: function() {
             var pagingControlsDiv;
-            this.$el.html();
+            //this.$el.html();
             //prev
             var prevPageButton = $('<span>',{class:'glyphicon-class glyphicon glyphicon-circle-arrow-left show-prev-page'});
             prevPageButton.unbind().on('click',this.decrementPageView.bind(this));
@@ -190,6 +198,46 @@ define(['jquery',
         showCurContentPage: function(isIncrement) {
             this.$contentPages.hide();
             this.$el.find(this.$contentPages[this.currentPage]).show();
+        },
+
+        navToPage: function (pageNum) {
+            this.setCurrentPage(pageNum);//provides validation
+            this.showCurContentPage(this.currentPage);
+            this.hideShowNavButtons();
+        },
+
+        hideShowNavButtons: function () {
+            //one page only
+            if (this.numPages === 1) {
+                this.hidePrevPageButton();
+                this.hideNextPageButton();
+            }
+            //first page
+            if (this.currentPage === 0) {
+                this.hidePrevPageButton();
+                if (this.numPages > 1) {
+                    this.showNextPageButton();
+                }
+                return;
+            }
+            // > first page, but not last
+            if (this.currentPage > 0 && this.currentPage < this.numPages -1) {
+                this.showNextPageButton();
+                this.showPrevPageButton();
+                return;
+            }
+            // last page and more than one page
+            if (this.currentPage === this.numPages -1 && this.numPages > 1) {
+                this.hideNextPageButton();
+                this.showPrevPageButton();
+                return;
+            }
+
+        },
+
+        /* for testing */
+        showTestParam: function (param) {
+            this.$el.find('.lesson-content').html('test:' + param);
         }
 
     });

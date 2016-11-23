@@ -22,10 +22,11 @@ define(['jquery',
     var GoatAppRouter = Backbone.Router.extend({
         routes: {
             'welcome':'welcomeRoute',
-            'lesson/:name':'lessonRoute'
-            //'attack/:scr/:menu/:stage':'attackRoute',
-            //'attack/:scr/:menu/*stage/:num':'attackRoute',
+            'lesson/:name':'lessonRoute',
+            'lesson/:name/:pageNum':'lessonPageRoute',
+            'test/:param':'testRoute'
         },
+
 
         lessonController: new LessonController({
             lessonContentView: lessonContentView
@@ -41,14 +42,17 @@ define(['jquery',
             // this.menuController.initMenu();
             webgoat = {};
             webgoat.customjs = {};
-            webgoat.customjs.jquery = $;
+            webgoat.customjs.jquery = $; //passing jquery into custom js scope ... still klunky, but works for now
 
-//            goatRouter.on('route:attackRoute', function(scr,menu,stage,num) {
-//                this.lessonController.loadLesson(scr,menu,stage,num);
-//                this.menuController.updateMenu(scr,menu);
-//            });
             goatRouter.on('route:lessonRoute', function(name) {
-                this.lessonController.loadLesson(name);
+                this.lessonController.loadLesson(name,0);
+                //TODO - update menu code from below
+                this.menuController.updateMenu(name);
+            });
+
+            goatRouter.on('route:lessonPageRoute', function(name,pageNum) {
+                pageNum = (_.isNumber(parseInt(pageNum))) ? parseInt(pageNum) : 0;
+                this.lessonController.loadLesson(name,pageNum);
                 //TODO - update menu code from below
                 this.menuController.updateMenu(name);
             });
@@ -56,6 +60,15 @@ define(['jquery',
             goatRouter.on('route:welcomeRoute', function() {
                 this.lessonController.loadWelcome();
             });
+
+            goatRouter.on('route:welcomeRoute', function() {
+                this.lessonController.loadWelcome();
+            });
+
+            goatRouter.on('route:testRoute', function(param) {
+                this.lessonController.testHandler(param);
+            });
+
             goatRouter.on("route", function(route, params) {});
 
             Backbone.history.start();

@@ -61,7 +61,12 @@ define(['jquery',
                 this.menuButtonView = new MenuButtonView();
             };
 
-            this.loadLesson = function(name) {
+            this.loadLesson = function(name,pageNum) {
+                if (this.name === name) {
+                    this.lessonContentView.navToPage(pageNum)
+                    return;
+                }
+
                 this.titleView = new TitleView();
                 this.helpsLoaded = {};
                 if (typeof(name) === 'undefined' || name === null) {
@@ -195,6 +200,14 @@ define(['jquery',
                 });
             };
 
+            this.testHandler = function(param) {
+                console.log('test handler');
+                this.lessonContentView.showTestParam(param);
+            };
+
         };
+
+
+
         return Controller;
 });
