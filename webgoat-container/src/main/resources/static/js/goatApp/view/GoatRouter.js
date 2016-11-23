@@ -36,13 +36,36 @@ define(['jquery',
             menuView: menuView
         }),
 
+
+        setUpCustomJS: function () {
+            webgoat.customjs.jquery = $; //passing jquery into custom js scope ... still klunky, but works for now
+
+            // temporary shim to support dom-xss lesson
+            webgoat.customjs.phoneHome = function (e) {
+                console.log('phoneHome invoked');
+                console.log(arguments.callee);
+                //
+                webgoat.customjs.jquery.ajax({
+                      method:"POST",
+                      url:"/WebGoat/CrossSiteScripting/dom-xss",
+                      data:{param1:42,param2:24},
+                      headers:{
+                          "webgoat-requested-by":"dom-xss-vuln"
+                      },
+                      contentType:'application/x-www-form-urlencoded; charset=UTF-8'
+                });
+            }
+        },
+
         init:function() {
             goatRouter =  new GoatAppRouter();
             this.lessonController.start();
             // this.menuController.initMenu();
             webgoat = {};
             webgoat.customjs = {};
-            webgoat.customjs.jquery = $; //passing jquery into custom js scope ... still klunky, but works for now
+
+            this.setUpCustomJS();
+
 
             goatRouter.on('route:lessonRoute', function(name) {
                 this.lessonController.loadLesson(name,0);
