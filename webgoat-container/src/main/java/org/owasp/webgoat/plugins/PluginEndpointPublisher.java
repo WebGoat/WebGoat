@@ -8,7 +8,6 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.stereotype.Component;
 
 /**
  * ************************************************************************************************
@@ -39,7 +38,6 @@ import org.springframework.stereotype.Component;
  * @version $Id: $Id
  * @since October 16, 2016
  */
-@Component
 @Slf4j
 public class PluginEndpointPublisher {
 
