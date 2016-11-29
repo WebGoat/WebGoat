@@ -1,7 +1,6 @@
-package org.owasp.webgoat.lessons.model;
+package org.owasp.webgoat.lessons;
 
 import lombok.Getter;
-import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.WebSession;
 
 /**

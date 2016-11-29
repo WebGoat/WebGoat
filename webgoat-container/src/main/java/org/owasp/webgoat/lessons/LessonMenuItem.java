@@ -27,7 +27,7 @@
  * https://github.com/WebGoat/WebGoat, a repository for free software projects.
  *
  */
-package org.owasp.webgoat.lessons.model;
+package org.owasp.webgoat.lessons;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +105,7 @@ public class LessonMenuItem {
     /**
      * <p>addChild.</p>
      *
-     * @param child a {@link org.owasp.webgoat.lessons.model.LessonMenuItem} object.
+     * @param child a {@link LessonMenuItem} object.
      */
     public void addChild(LessonMenuItem child) {
         children.add(child);

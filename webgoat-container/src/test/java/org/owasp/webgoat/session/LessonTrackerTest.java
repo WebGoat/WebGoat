@@ -1,15 +1,15 @@
 package org.owasp.webgoat.session;
 
 import com.google.common.collect.Lists;
-import org.junit.Before;
 import org.junit.Test;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,52 +40,34 @@ import static org.mockito.Mockito.when;
  *
  * @author nbaars
  * @version $Id: $Id
- * @since November 15, 2016
+ * @since November 25, 2016
  */
-public class UserTrackerTest {
+public class LessonTrackerTest {
 
-    private File home;
+    @Test
+    public void allAssignmentsSolvedShouldMarkLessonAsComplete() {
+        AbstractLesson lesson = mock(AbstractLesson.class);
+        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment")));
+        LessonTracker lessonTracker = new LessonTracker(lesson);
+        lessonTracker.assignmentSolved("assignment");
 
-    @Before
-    public void init() throws IOException {
-        home = File.createTempFile("test", "test");
-        home.deleteOnExit();
+        assertTrue(lessonTracker.isLessonSolved());
     }
 
     @Test
-    public void writeAndRead() {
-        UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
+    public void noAssignmentsSolvedShouldMarkLessonAsInComplete() {
         AbstractLesson lesson = mock(AbstractLesson.class);
-        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment")));
-        userTracker.getLessonTracker(lesson);
-        userTracker.assignmentSolved(lesson, lesson.getAssignments().get(0).getName());
+        Assignment a1 = new Assignment("a1");
+        Assignment a2 = new Assignment("a2");
+        List<Assignment> assignments = Lists.newArrayList(a1, a2);
+        when(lesson.getAssignments()).thenReturn(assignments);
+        LessonTracker lessonTracker = new LessonTracker(lesson);
+        lessonTracker.assignmentSolved("a1");
 
-        userTracker = new UserTracker(home.getParent(), "test", false);
-        userTracker.load();
-        assertThat(userTracker.getLessonTracker(lesson).isLessonSolved()).isTrue();
+        Map<Assignment, Boolean> lessonOverview = lessonTracker.getLessonOverview();
+        assertThat(lessonOverview.get(a1)).isTrue();
+        assertThat(lessonOverview.get(a2)).isFalse();
     }
 
-    @Test
-    public void assignmentFailedShouldIncrementAttempts() {
-        UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
-        AbstractLesson lesson = mock(AbstractLesson.class);
-        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment")));
-        userTracker.getLessonTracker(lesson);
-        userTracker.assignmentFailed(lesson);
-        userTracker.assignmentFailed(lesson);
 
-        assertThat(userTracker.getLessonTracker(lesson).getNumberOfAttempts()).isEqualTo(2);
-    }
-
-    @Test
-    public void resetShouldClearSolvedAssignment() {
-        UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
-        AbstractLesson lesson = mock(AbstractLesson.class);
-        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment")));
-        userTracker.assignmentSolved(lesson, "assignment");
-
-        assertThat(userTracker.getLessonTracker(lesson).isLessonSolved()).isTrue();
-        userTracker.reset(lesson);
-        assertThat(userTracker.getLessonTracker(lesson).isLessonSolved()).isFalse();
-    }
 }

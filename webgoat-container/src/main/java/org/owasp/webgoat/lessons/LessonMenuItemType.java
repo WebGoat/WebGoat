@@ -25,7 +25,7 @@
  * 
  */
 
-package org.owasp.webgoat.lessons.model;
+package org.owasp.webgoat.lessons;
 
 /**
  * <p>LessonMenuItemType class.</p>

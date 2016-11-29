@@ -27,7 +27,7 @@
  * for free software projects.
  *
  */
-package org.owasp.webgoat.lessons.model;
+package org.owasp.webgoat.lessons;
 
 /**
  * <p>RequestParameter class.</p>

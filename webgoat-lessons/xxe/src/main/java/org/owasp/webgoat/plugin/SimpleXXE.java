@@ -1,8 +1,8 @@
 package org.owasp.webgoat.plugin;
 
 import org.apache.commons.exec.OS;
-import org.owasp.webgoat.lessons.Assignment;
-import org.owasp.webgoat.lessons.model.AttackResult;
+import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +44,7 @@ import java.io.StringReader;
  * @version $Id: $Id
  * @since November 17, 2016
  */
-public class SimpleXXE extends Assignment {
+public class SimpleXXE extends AssignmentEndpoint {
 
     private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "opt", "var"};
     private final static String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};

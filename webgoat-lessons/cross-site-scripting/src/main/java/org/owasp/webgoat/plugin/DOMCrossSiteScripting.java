@@ -1,7 +1,7 @@
 package org.owasp.webgoat.plugin;
 
-import org.owasp.webgoat.lessons.Assignment;
-import org.owasp.webgoat.lessons.model.AttackResult;
+import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by jason on 11/23/16.
  */
-public class DOMCrossSiteScripting extends Assignment {
+public class DOMCrossSiteScripting extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody
     AttackResult completed(@RequestParam Integer param1,

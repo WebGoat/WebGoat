@@ -6,7 +6,7 @@
 package org.owasp.webgoat.service;
 
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.model.Hint;
+import org.owasp.webgoat.lessons.Hint;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

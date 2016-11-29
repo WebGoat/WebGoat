@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons;
+package org.owasp.webgoat.endpoints;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

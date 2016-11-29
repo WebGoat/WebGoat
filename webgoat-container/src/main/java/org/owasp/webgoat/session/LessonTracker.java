@@ -1,11 +1,16 @@
 
 package org.owasp.webgoat.session;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import lombok.Getter;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Assignment;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,12 +47,17 @@ import java.util.stream.Collectors;
  */
 public class LessonTracker implements Serializable {
     private static final long serialVersionUID = 5410058267505412928L;
-    private final List<String> assignments;
-    private final Set<String> solvedAssignments = Sets.newHashSet();
+    private final Set<Assignment> solvedAssignments = Sets.newHashSet();
+    private final List<Assignment> allAssignments = Lists.newArrayList();
+    @Getter
     private int numberOfAttempts = 0;
 
     public LessonTracker(AbstractLesson lesson) {
-        this.assignments = lesson.getAssignments().stream().map(a -> a.getSimpleName()).collect(Collectors.toList());
+        allAssignments.addAll(lesson.getAssignments());
+    }
+
+    public Optional<Assignment> getAssignment(String name) {
+        return allAssignments.stream().filter(a -> a.getName().equals(name)).findFirst();
     }
 
     /**
@@ -56,14 +66,14 @@ public class LessonTracker implements Serializable {
      * @param solvedAssignment the assignment which the user solved
      */
     public void assignmentSolved(String solvedAssignment) {
-        solvedAssignments.add(solvedAssignment);
+        getAssignment(solvedAssignment).ifPresent(a -> solvedAssignments.add(a));
     }
 
     /**
-     * @return did they user solved all assignments for the lesson?
+     * @return did they user solved all solvedAssignments for the lesson?
      */
     public boolean isLessonSolved() {
-        return solvedAssignments.size() == assignments.size();
+        return allAssignments.size() == solvedAssignments.size();
     }
 
     /**
@@ -78,5 +88,17 @@ public class LessonTracker implements Serializable {
      */
     void reset() {
         solvedAssignments.clear();
+    }
+
+    /**
+     * @return list containing all the assignments solved or not
+     */
+    public Map<Assignment, Boolean> getLessonOverview() {
+        List<Assignment> notSolved = allAssignments.stream()
+                .filter(i -> !solvedAssignments.contains(i))
+                .collect(Collectors.toList());
+        Map<Assignment, Boolean> overview = notSolved.stream().collect(Collectors.toMap(a -> a, b -> false));
+        overview.putAll(solvedAssignments.stream().collect(Collectors.toMap(a -> a, b -> true)));
+        return overview;
     }
 }

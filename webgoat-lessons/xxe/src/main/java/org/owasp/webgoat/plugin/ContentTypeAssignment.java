@@ -1,8 +1,8 @@
 package org.owasp.webgoat.plugin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.owasp.webgoat.lessons.Assignment;
-import org.owasp.webgoat.lessons.model.AttackResult;
+import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -44,7 +44,7 @@ import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
  * @version $Id: $Id
  * @since November 17, 2016
  */
-public class ContentTypeAssignment extends Assignment {
+public class ContentTypeAssignment extends AssignmentEndpoint {
 
     @Override
     public String getPath() {

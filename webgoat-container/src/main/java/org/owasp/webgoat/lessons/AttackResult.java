@@ -1,9 +1,6 @@
 package org.owasp.webgoat.lessons;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.io.Serializable;
 
 /**
  * ************************************************************************************************
@@ -30,15 +27,46 @@ import java.io.Serializable;
  * projects.
  * <p>
  *
- * @author nbaars
+ * @author WebGoat
  * @version $Id: $Id
- * @since November 25, 2016
+ * @since August 13, 2016
  */
-@AllArgsConstructor
 @Getter
-public class Assignment implements Serializable {
+public class AttackResult {
 
-    private final String name;
+    private boolean lessonCompleted;
+    private String feedback;
+    private String output;
 
+    public static AttackResult success() {
+        return AttackResult.success("Congratulations");
+    }
 
+    public static AttackResult success(String feedback) {
+        return success(feedback, "");
+    }
+
+    public static AttackResult success(String feedback, String output) {
+        AttackResult attackResult = new AttackResult();
+        attackResult.lessonCompleted = true;
+        attackResult.feedback = feedback;
+        attackResult.output = output;
+        return attackResult;
+    }
+
+    public static AttackResult failed(String feedback) {
+        return failed(feedback, "");
+    }
+
+    public static AttackResult failed(String feedback, String output) {
+        AttackResult attackResult = new AttackResult();
+        attackResult.lessonCompleted = false;
+        attackResult.feedback = feedback;
+        attackResult.output = output;
+        return attackResult;
+    }
+
+    public boolean assignmentSolved() {
+        return lessonCompleted;
+    }
 }

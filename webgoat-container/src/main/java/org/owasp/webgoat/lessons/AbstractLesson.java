@@ -44,9 +44,9 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     private Integer ranking;
 
-    @Setter
     @Getter
-    private List<Class<Assignment>> assignments;
+    @Setter
+    private List<Assignment> assignments;
 
     /**
      * Constructor for the Lesson object

@@ -3,9 +3,10 @@ package org.owasp.webgoat.plugins;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import lombok.Getter;
+import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.Endpoint;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
-import org.owasp.webgoat.lessons.Endpoint;
 import org.owasp.webgoat.lessons.NewLesson;
 import org.springframework.util.StringUtils;
 
@@ -13,6 +14,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 import static org.owasp.webgoat.plugins.PluginFileUtils.fileEndsWith;
 
 /**
@@ -27,21 +29,15 @@ public class Plugin {
     private final String originationJar;
     private PluginClassLoader classLoader;
     private Class<NewLesson> newLesson;
-    private List<Class<Assignment>> assignments = Lists.newArrayList();
+    @Getter
+    private List<Class<AssignmentEndpoint>> assignments = Lists.newArrayList();
+    @Getter
     private List<Class<Endpoint>> endpoints = Lists.newArrayList();
     private List<File> pluginFiles = Lists.newArrayList();
 
     public Plugin(PluginClassLoader classLoader, String originatingJar) {
         this.classLoader = classLoader;
         this.originationJar = originatingJar;
-    }
-
-    public List<Class<Assignment>> getAssignments() {
-        return this.assignments;
-    }
-
-    public List<Class<Endpoint>> getEndpoints() {
-        return this.endpoints;
     }
 
     /**
@@ -75,11 +71,12 @@ public class Plugin {
             try {
                 Class clazz = classLoader.loadClass(realClassName);
 
-                if (Assignment.class.isAssignableFrom(clazz)) {
+                if (AssignmentEndpoint.class.isAssignableFrom(clazz)) {
                     this.assignments.add(clazz);
-                } else if (Endpoint.class.isAssignableFrom(clazz)) {
-                    this.endpoints.add(clazz);
-                }
+                } else
+                    if (Endpoint.class.isAssignableFrom(clazz)) {
+                        this.endpoints.add(clazz);
+                    }
             } catch (ClassNotFoundException ce) {
                 throw new PluginLoadingFailure("Class " + realClassName + " listed in jar but unable to load the class.", ce);
             }
@@ -106,13 +103,18 @@ public class Plugin {
         try {
             if (newLesson != null) {
                 AbstractLesson lesson = newLesson.newInstance();
-                lesson.setAssignments(this.assignments);
-                return Optional.of(newLesson.newInstance());
+                lesson.setAssignments(createAssignment(assignments));
+                return Optional.of(lesson);
             }
         } catch (IllegalAccessException | InstantiationException e) {
             throw new PluginLoadingFailure("Unable to instantiate the lesson " + newLesson.getName(), e);
         }
         return Optional.absent();
+    }
+
+
+    private List<Assignment> createAssignment(List<Class<AssignmentEndpoint>> endpoints) {
+        return endpoints.stream().map(e -> new Assignment(e.getSimpleName())).collect(toList());
     }
 
 

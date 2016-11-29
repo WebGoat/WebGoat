@@ -32,9 +32,9 @@ package org.owasp.webgoat;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.plugins.Plugin;
 import org.owasp.webgoat.plugins.PluginClassLoader;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
+import org.owasp.webgoat.plugins.PluginsExtractor;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.UserTracker;
@@ -51,7 +51,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
 import java.io.File;
-import java.util.List;
 
 @SpringBootApplication
 @Slf4j
@@ -77,8 +76,8 @@ public class WebGoat extends SpringBootServletInitializer {
     }
 
     @Bean
-    public PluginsLoader pluginsLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory, PluginClassLoader classLoader) {
-        return new PluginsLoader(pluginTargetDirectory, classLoader);
+    public PluginsExtractor pluginsLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory, PluginClassLoader classLoader) {
+        return new PluginsExtractor(pluginTargetDirectory, classLoader);
     }
 
     @Bean
@@ -88,27 +87,16 @@ public class WebGoat extends SpringBootServletInitializer {
     }
 
     @Bean
-    public Course course(PluginsLoader pluginsLoader, PluginEndpointPublisher pluginEndpointPublisher) {
-        Course course = new Course();
-        List<Plugin> plugins = pluginsLoader.loadPlugins();
-        if (plugins.isEmpty()) {
-            log.error("No lessons found if you downloaded an official release of WebGoat please take the time to");
-            log.error("create a new issue at https://github.com/WebGoat/WebGoat/issues/new");
-            log.error("For developers run 'mvn package' first from the root directory.");
-            log.error("Stopping WebGoat...");
-            System.exit(1); //we always run standalone
-        }
-        course.createLessonsFromPlugins(plugins);
-        plugins.forEach(p -> pluginEndpointPublisher.publish(p));
-
-        return course;
+    public Course course(PluginsExtractor extractor, PluginEndpointPublisher pluginEndpointPublisher) {
+        return new PluginsLoader(extractor, pluginEndpointPublisher).loadPlugins();
     }
 
     @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     @SneakyThrows
-    public UserTracker userTracker(@Value("${webgoat.user.directory}") final String webgoatHome, WebSession webSession) {
-        UserTracker userTracker = new UserTracker(webgoatHome, webSession.getUserName());
+    public UserTracker userTracker(@Value("${webgoat.user.directory}") final String webgoatHome,
+                                   @Value("${webgoat.tracker.overwrite:false}") final boolean overwrite, WebSession webSession) {
+        UserTracker userTracker = new UserTracker(webgoatHome, webSession.getUserName(), overwrite);
         userTracker.load();
         return userTracker;
     }

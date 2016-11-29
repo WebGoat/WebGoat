@@ -24,7 +24,7 @@
  * projects.
  * 
  */
-package org.owasp.webgoat.lessons.model;
+package org.owasp.webgoat.lessons;
 
 /**
  * <p>Hint class.</p>

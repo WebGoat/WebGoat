@@ -1,10 +1,9 @@
 
 package org.owasp.webgoat.session;
 
+import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.lessons.Assignment;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.SerializationUtils;
 
@@ -47,11 +46,13 @@ public class UserTracker {
 
     private final String webgoatHome;
     private final String user;
+    private final boolean overwrite;
     private Map<String, LessonTracker> storage = new HashMap<>();
 
-    public UserTracker(@Value("${webgoat.user.directory}") final String webgoatHome, final String user) {
+    public UserTracker(final String webgoatHome, final String user, final boolean overwrite) {
         this.webgoatHome = webgoatHome;
         this.user = user;
+        this.overwrite = overwrite;
     }
 
     /**
@@ -69,10 +70,10 @@ public class UserTracker {
         return lessonTracker;
     }
 
-    public void assignmentSolved(AbstractLesson lesson, Assignment assignment) {
+    public void assignmentSolved(AbstractLesson lesson, String assignmentName) {
         LessonTracker lessonTracker = getLessonTracker(lesson);
         lessonTracker.incrementAttempts();
-        lessonTracker.assignmentSolved(assignment.getClass().getSimpleName());
+        lessonTracker.assignmentSolved(assignmentName);
         save();
     }
 
@@ -85,7 +86,9 @@ public class UserTracker {
     @SneakyThrows
     public void load() {
         File file = new File(webgoatHome, user + ".progress");
-        if (file.exists() && file.isFile()) {
+        if (overwrite) {
+            this.storage = Maps.newHashMap();
+        } else if (file.exists() && file.isFile()) {
             this.storage = (Map<String, LessonTracker>) SerializationUtils.deserialize(FileCopyUtils.copyToByteArray(file));
         }
     }

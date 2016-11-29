@@ -2,8 +2,8 @@ package org.owasp.webgoat.plugin;
 
 import com.google.common.base.Joiner;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.owasp.webgoat.lessons.Assignment;
-import org.owasp.webgoat.lessons.model.AttackResult;
+import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +46,7 @@ import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
  * @version $Id: $Id
  * @since November 18, 2016
  */
-public class BlindSendFileAssignment extends Assignment {
+public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     @Override
     public String getPath() {

@@ -1,9 +1,13 @@
 package org.owasp.webgoat.service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.owasp.webgoat.i18n.LabelManager;
-import org.owasp.webgoat.lessons.model.LessonInfoModel;
+import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Assignment;
+import org.owasp.webgoat.lessons.LessonInfoModel;
 import org.owasp.webgoat.session.LessonTracker;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
@@ -11,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -46,5 +52,39 @@ public class LessonProgressService {
         json.put("lessonCompleted", lessonCompleted);
         json.put("successMessage", successMessage);
         return json;
+    }
+
+    /**
+     * Endpoint for fetching the complete lesson overview which informs the user about whether all the assignments are solved.
+     * Used as the last page of the lesson to generate a lesson overview.
+     *
+     * @return list of assignments
+     */
+    @RequestMapping(value = "/service/lessonoverview.mvc", produces = "application/json")
+    @ResponseBody
+    public List<LessonOverview> lessonOverview() {
+        AbstractLesson currentLesson = webSession.getCurrentLesson();
+        LessonTracker lessonTracker = userTracker.getLessonTracker(currentLesson);
+        return toJson(lessonTracker.getLessonOverview());
+    }
+
+    private List<LessonOverview> toJson(Map<Assignment, Boolean> map) {
+        ArrayList<LessonOverview> result = Lists.newArrayList();
+        for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {
+            result.add(new LessonOverview(entry.getKey(), entry.getValue()));
+        }
+        return result;
+    }
+
+
+    @AllArgsConstructor
+    @Getter
+    //Jackson does not really like returning a map of <Assignment, Boolean> directly, see http://stackoverflow.com/questions/11628698/can-we-make-object-as-key-in-map-when-using-json
+    //so creating intermediate object is the easiest solution
+    private static class LessonOverview {
+
+        private Assignment assignment;
+        private Boolean solved;
+
     }
 }

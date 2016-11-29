@@ -30,7 +30,7 @@
 package org.owasp.webgoat.service;
 
 import com.google.common.collect.Lists;
-import org.owasp.webgoat.lessons.model.RequestParameter;
+import org.owasp.webgoat.lessons.RequestParameter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

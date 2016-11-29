@@ -1,6 +1,4 @@
-package org.owasp.webgoat.lessons.model;
-
-import lombok.Getter;
+package org.owasp.webgoat.session;
 
 /**
  * ************************************************************************************************
@@ -27,46 +25,10 @@ import lombok.Getter;
  * projects.
  * <p>
  *
- * @author WebGoat
+ * @author nbaars
  * @version $Id: $Id
- * @since August 13, 2016
+ * @since November 26, 2016
  */
-@Getter
-public class AttackResult {
+public class CourseTest {
 
-    private boolean lessonCompleted;
-    private String feedback;
-    private String output;
-
-    public static AttackResult success() {
-        return AttackResult.success("Congratulations");
-    }
-
-    public static AttackResult success(String feedback) {
-        return success(feedback, "");
-    }
-
-    public static AttackResult success(String feedback, String output) {
-        AttackResult attackResult = new AttackResult();
-        attackResult.lessonCompleted = true;
-        attackResult.feedback = feedback;
-        attackResult.output = output;
-        return attackResult;
-    }
-
-    public static AttackResult failed(String feedback) {
-        return failed(feedback, "");
-    }
-
-    public static AttackResult failed(String feedback, String output) {
-        AttackResult attackResult = new AttackResult();
-        attackResult.lessonCompleted = false;
-        attackResult.feedback = feedback;
-        attackResult.output = output;
-        return attackResult;
-    }
-
-    public boolean assignmentSolved() {
-        return lessonCompleted;
-    }
 }

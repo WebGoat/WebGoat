@@ -1,10 +1,9 @@
 package org.owasp.webgoat.session;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
-import org.owasp.webgoat.plugins.Plugin;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +41,7 @@ import static java.util.stream.Collectors.toList;
  * @since October 28, 2003
  */
 @Slf4j
+@AllArgsConstructor
 public class Course {
 
     private List<AbstractLesson> lessons = new LinkedList<>();
@@ -89,18 +89,5 @@ public class Course {
         this.lessons = lessons;
     }
 
-    /**
-     * <p>createLessonsFromPlugins.</p>
-     */
-    public void createLessonsFromPlugins(List<Plugin> plugins) {
-        for (Plugin plugin : plugins) {
-            try {
-                NewLesson lesson = (NewLesson) plugin.getLesson().get();
-                lesson.setAssignments(plugin.getAssignments());
-                lessons.add(lesson);
-            } catch (Exception e) {
-                log.error("Error in loadLessons: ", e);
-            }
-        }
-    }
+
 }

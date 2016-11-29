@@ -1,6 +1,6 @@
 package org.owasp.webgoat.service;
 
-import org.owasp.webgoat.lessons.model.LessonInfoModel;
+import org.owasp.webgoat.lessons.LessonInfoModel;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class LessonInfoService {
     /**
      * <p>getLessonInfo.</p>
      *
-     * @return a {@link org.owasp.webgoat.lessons.model.LessonInfoModel} object.
+     * @return a {@link LessonInfoModel} object.
      */
     @RequestMapping(path = "/service/lessoninfo.mvc", produces = "application/json")
     public @ResponseBody
