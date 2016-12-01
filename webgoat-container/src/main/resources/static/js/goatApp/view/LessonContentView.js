@@ -2,17 +2,20 @@
 define(['jquery',
     'underscore',
     'backbone',
-    'libs/jquery.form'], 
+    'libs/jquery.form',
+    'goatApp/view/ErrorNotificationView'],
     function(
         $,
         _,
         Backbone,
-        JQueryForm) {
+        JQueryForm,
+        ErrorNotificationView) {
     return Backbone.View.extend({
         el:'#lesson-content-wrapper', //TODO << get this fixed up in DOM
 
         initialize: function(options) {
             options = options || {};
+            new ErrorNotificationView();
         },
 
         /* initial renering */
