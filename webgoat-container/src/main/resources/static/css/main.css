@@ -978,3 +978,22 @@ font-size: 1.3em;
   border-radius: 12px;
   padding: 7px;
 }
+
+/* ERROR NOTIFICATION */
+#error-notification-container {
+  display: none;
+  position: absolute;
+  right: 20px;
+  width: 35%;
+
+}
+#error-notification {
+  text-align: center;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #eb6154;
+  border-color: #eb6154;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 10px;
+}

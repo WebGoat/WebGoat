@@ -68,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         security.and().csrf().disable();
 
         http.headers().cacheControl().disable();
+        http.exceptionHandling().authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login"));
     }
 
     //// TODO: 11/18/2016 make this a little bit more configurabe last part at least
