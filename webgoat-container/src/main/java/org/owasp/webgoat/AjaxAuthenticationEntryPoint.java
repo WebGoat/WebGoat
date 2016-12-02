@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * <p>LabelService class.</p>
+ * <p>AjaxAuthenticationEntryPoint class.</p>
  *
  * @author zupzup
  */
