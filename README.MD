@@ -100,18 +100,6 @@ browser.
 
 # For Developers
 
-## Vagrant
-
-For an easy development experience you can use Vagrant. Note you should have Vagrant and Virtualbox installed on your system.
-
-```shell
-   $ cd WebGoat/webgoat-images/vagrant-developers
-   $ vagrant up
-```
-
-Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
-The source code will be available in the home directory.
-
 ## Set up manual
 
 Follow these instructions if you wish to run Webgoat and modify the source code as well.
@@ -182,3 +170,15 @@ docker ps
 ```
 
 With the last command you are able to determine ip address to connect to.
+
+## Vagrant
+
+For an easy development experience you can use Vagrant. Note you should have Vagrant and Virtualbox installed on your system.
+
+```shell
+   $ cd WebGoat/webgoat-images/vagrant-developers
+   $ vagrant up
+```
+
+Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
+The source code will be available in the home directory.
