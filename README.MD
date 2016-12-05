@@ -9,7 +9,7 @@
 # Important Information
 
 ### The WebGoat Lesson Server, is currently **UNDER MAJOR DEVELOMENT**.
-As of February 1st 2016, the version "7.0.1" is considered the first **STABLE** version of a major architecture and UI changes.
+As of November 2016, 7.1 is the current stable release and 8.x is under development ('develop') branch here.
 
 #### Older/Legacy version of WebGoat an be found at: [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy)
 
@@ -139,82 +139,27 @@ curl -o webgoat_developer_bootstrap.sh https://raw.githubusercontent.com/WebGoat
 #### Cloning the Lesson Server and the Lessons project:
 
 Open a command shell/window, navigate to where you wish to download the source and type:
+mvn clean package
+mvn –pl webgoat-container spring-boot:run
 
 ```Shell
-git clone https://github.com/WebGoat/WebGoat.git
-git clone https://github.com/WebGoat/WebGoat-Lessons.git
+git clone git@github.com:WebGoat/WebGoat.git
 ```
 
-#### Now let's start by compiling the WebGoat Lessons server.
+#### Now let's start by compiling the project.
 
+*NOTE*: the -DskipTests below is temporary, until we root out an issue (but we didn't want to delay updating these instructions anymore)
 ```Shell
 cd WebGoat
 git checkout develop
-mvn clean compile install
-cd ..
+mvn clean package -DskipTests=true
 ```
 
-#### Before you can run the project, we need to compile the lessons and copy them over:
-**If you don't run this step, you will not have any Lessons to work with!**
-
+#### Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 ```Shell
-cd WebGoat-Lessons
-git checkout develop
-mvn package
-(linux)   cp target/plugins/*.jar ../WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
-(windows) xcopy "target\plugins\*.jar" "..\WebGoat\webgoat-container\src\main\webapp\plugin_lessons\"
-cd ..
-```
-
-#### Now we are ready to run the project. There are 3 options you can choose from to run the project:
-
-Then you can run the project with one of the steps below (From the WebGoat folder not WebGoat-Lessons):
-
-#### Option #1: Using the Maven-Tomcat Plugin
-The __maven tomcat7:run-war__ goal runs the project in an embedded tomcat:
-
-```Shell
-cd WebGoat
 mvn -pl webgoat-container spring-boot:run
 ```
-
-Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
-
-#### Option #2: Java executable JAR
-The __maven package__ goal generates an executable .jar file:
-
-```Shell
-cd WebGoat
-mvn package
-cd webgoat-standalone/target
-java -jar webgoat-standalone-7.1-SNAPSHOT-exec.jar [-p | --p <port>] [-a | --address <address>]
-```
-
-Browse to url shown in the console and happy hacking !
-
-#### Option #3: Deploy the WebGoat WAR file in your local Tomcat or other Application Server:
-The __maven package__ goal generates a .war file that can deployed into an Application Server, such as Tomcat
-
-```Shell
-cd WebGoat
-mvn package
-cp webgoat-container/target/webgoat-container-7.1-SNAPSHOT.war <your_tomcat_directory>/webapps/
-```
-
-Browse to [http://localhost:8080/WebGoat](http://localhost:8080/WebGoat) and happy hacking !
-
-# Debugging and Troubleshooting
-
-## Reloading plugins and lessons
-
-If you want to __reload all the plugin and lessons__, open up the developer tools available from the info menu. This will
-show an extra set of links below the cookie overview.
-
-## Debugging label properties
-
-To be able to see which labels are loaded through a property file, open up the developer tools avalailable from the info menu
-After the reload is complete, all labels which are loaded from a property file will be __marked green__.
-
+... you should be running webgoat on localhost:8080/WebGoat momentarily
 
 ## Building a new Docker image
 
