@@ -136,11 +136,10 @@ git clone git@github.com:WebGoat/WebGoat.git
 
 #### Now let's start by compiling the project.
 
-*NOTE*: the -DskipTests below is temporary, until we root out an issue (but we didn't want to delay updating these instructions anymore)
 ```Shell
 cd WebGoat
 git checkout develop
-mvn clean package -DskipTests=true
+mvn clean package
 ```
 
 #### Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
