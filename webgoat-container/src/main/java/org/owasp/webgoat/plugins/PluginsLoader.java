@@ -63,8 +63,6 @@ public class PluginsLoader {
             log.error("No lessons found if you downloaded an official release of WebGoat please take the time to");
             log.error("create a new issue at https://github.com/WebGoat/WebGoat/issues/new");
             log.error("For developers run 'mvn package' first from the root directory.");
-            log.error("Stopping WebGoat...");
-            System.exit(1); //we always run standalone
         }
         return new Course(lessons);
     }
