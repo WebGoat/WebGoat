@@ -97,6 +97,7 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
 
         private Map<String, Object> createAttributes() {
             Map<String, Object> attributes = Maps.newHashMap();
+            attributes.put("source-highlighter", "coderay");
             attributes.put("backend", "xhtml");
 
             Map<String, Object> options = Maps.newHashMap();
