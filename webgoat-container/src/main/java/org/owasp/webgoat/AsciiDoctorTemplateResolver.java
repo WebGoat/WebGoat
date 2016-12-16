@@ -45,6 +45,7 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.asciidoctor.Asciidoctor.Factory.create;
@@ -83,7 +84,7 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
                 if (adocFile.isPresent()) {
                     try (FileReader reader = new FileReader(adocFile.get().toFile())) {
                         StringWriter writer = new StringWriter();
-                        asciidoctor.convert(reader, writer, Maps.newHashMap());
+                        asciidoctor.convert(reader, writer, createAttributes());
                         return new ByteArrayInputStream(writer.getBuffer().toString().getBytes());
                     }
                 }
@@ -92,6 +93,16 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
                 //no html yet
                 return new ByteArrayInputStream(new byte[0]);
             }
+        }
+
+        private Map<String, Object> createAttributes() {
+            Map<String, Object> attributes = Maps.newHashMap();
+            attributes.put("backend", "xhtml");
+
+            Map<String, Object> options = Maps.newHashMap();
+            options.put("attributes", attributes);
+
+            return options;
         }
 
         private Optional<Path> find(Path path, String resourceName) throws IOException {
