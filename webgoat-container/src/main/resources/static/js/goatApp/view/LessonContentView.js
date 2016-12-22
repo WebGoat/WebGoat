@@ -168,7 +168,8 @@ define(['jquery',
         incrementPageView: function() {
             if (this.currentPage < this.numPages -1) {
                this.currentPage++;
-               this.showCurContentPage(true);
+               window.location.href = this.model.get('lessonUrl') + '/' + this.currentPage;
+               //this.showCurContentPage(true);
             }
 
             if (this.currentPage > 0) {
@@ -184,7 +185,8 @@ define(['jquery',
         decrementPageView: function() {
             if (this.currentPage > 0) {
                 this.currentPage--;
-                this.showCurContentPage(false);
+                window.location.href = this.model.get('lessonUrl') + '/' + this.currentPage;
+                //this.showCurContentPage(false);
             }
 
             if (this.currentPage < this.numPages -1) {

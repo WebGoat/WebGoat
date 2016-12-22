@@ -27,7 +27,6 @@ define(['jquery',
             'test/:param':'testRoute'
         },
 
-
         lessonController: new LessonController({
             lessonContentView: lessonContentView
         }),
@@ -78,10 +77,6 @@ define(['jquery',
                 this.lessonController.loadLesson(name,pageNum);
                 //TODO - update menu code from below
                 this.menuController.updateMenu(name);
-            });
-
-            goatRouter.on('route:welcomeRoute', function() {
-                this.lessonController.loadWelcome();
             });
 
             goatRouter.on('route:welcomeRoute', function() {
