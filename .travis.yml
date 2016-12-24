@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
 install: "/bin/true"
 script:
-  - mvn clean install
+  - mvn clean package
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then mvn "-Dbuild.number=$TRAVIS_BUILD_NUMBER" clean package; else mvn clean package; fi
 cache:
   directories:
