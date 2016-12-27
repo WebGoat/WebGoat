@@ -56,7 +56,7 @@ public class UserTrackerTest {
     public void writeAndRead() {
         UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
         AbstractLesson lesson = mock(AbstractLesson.class);
-        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment")));
+        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment")));
         userTracker.getLessonTracker(lesson);
         userTracker.assignmentSolved(lesson, lesson.getAssignments().get(0).getName());
 
@@ -69,7 +69,7 @@ public class UserTrackerTest {
     public void assignmentFailedShouldIncrementAttempts() {
         UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
         AbstractLesson lesson = mock(AbstractLesson.class);
-        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment")));
+        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment")));
         userTracker.getLessonTracker(lesson);
         userTracker.assignmentFailed(lesson);
         userTracker.assignmentFailed(lesson);
@@ -81,7 +81,7 @@ public class UserTrackerTest {
     public void resetShouldClearSolvedAssignment() {
         UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
         AbstractLesson lesson = mock(AbstractLesson.class);
-        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment")));
+        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment")));
         userTracker.assignmentSolved(lesson, "assignment");
 
         assertThat(userTracker.getLessonTracker(lesson).isLessonSolved()).isTrue();

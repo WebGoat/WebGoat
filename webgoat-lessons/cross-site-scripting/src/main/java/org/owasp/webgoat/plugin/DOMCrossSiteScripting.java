@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 import java.io.IOException;
 
 /**
  * Created by jason on 11/23/16.
  */
+@Path("/CrossSiteScripting/dom-xss")
 public class DOMCrossSiteScripting extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody
@@ -25,11 +27,6 @@ public class DOMCrossSiteScripting extends AssignmentEndpoint {
         } else {
             return trackProgress(AttackResult.failed("keep trying!"));
         }
-    }
-
-    @Override
-    public String getPath() {
-        return "/CrossSiteScripting/dom-xss";
     }
 }
 

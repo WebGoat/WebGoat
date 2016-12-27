@@ -18,8 +18,10 @@ define(['jquery',
     'goatApp/model/LessonInfoModel',
     'goatApp/view/TitleView',
     'goatApp/model/LessonProgressModel',
-    'goatApp/view/LessonProgressView'
-    ], 
+    'goatApp/view/LessonProgressView',
+    'goatApp/view/LessonOverviewView',
+    'goatApp/model/LessonOverviewModel'
+    ],
     function($,
         _,
         Backbone,
@@ -40,18 +42,21 @@ define(['jquery',
         LessonInfoModel,
         TitleView,
         LessonProgressModel,
-        LessonProgressView
-
+        LessonProgressView,
+        LessonOverviewView,
+        LessonOverviewModel
     ) {
         'use strict'
-        
-        
+
         var Controller = function(options) {
             this.lessonContent = new LessonContentModel();
             this.lessonProgressModel = new LessonProgressModel();
             this.lessonProgressView = new LessonProgressView(this.lessonProgressModel);
+            this.lessonOverviewModel = new LessonOverviewModel();
+            this.lessonOverview = new LessonOverviewView(this.lessonOverviewModel);
             this.lessonContentView = options.lessonContentView;
             this.developerControlsView = new DeveloperControlsView();
+
 
             _.extend(Controller.prototype,Backbone.Events);
 
@@ -92,16 +97,18 @@ define(['jquery',
                 });
 
                 this.listenTo(this.helpControlsView,'hints:show',this.showHints);
+                this.listenTo(this.helpControlsView,'lessonOverview:show',this.showLessonOverview)
                 this.listenTo(this.helpControlsView,'attack:show',this.hideShowAttack);
                 this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
                 this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
                 this.listenTo(this.lessonContentView, 'lesson:complete', this.updateMenu)
-
+                this.listenTo(this.lessonContentView, 'lesson:complete', this.updateLessonOverview)
                 this.listenTo(this,'hints:show',this.onShowHints);
 
                 this.helpControlsView.render();
+                this.lessonOverviewModel.fetch();
 
                 this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
             };
@@ -109,6 +116,10 @@ define(['jquery',
             this.updateMenu = function() {
                 this.trigger('menu:reload')
             };
+
+            this.updateLessonOverview = function() {
+                this.lessonOverviewModel.fetch();
+            }
 
             this.onContentLoaded = function(loadHelps) {
                 this.lessonInfoModel = new LessonInfoModel();
@@ -175,6 +186,10 @@ define(['jquery',
             this.showHints = function() {
                 this.lessonHintView.render();
                 //this.lessonHintView.
+            };
+
+            this.showLessonOverview = function() {
+                this.lessonOverview.render();
             };
 
             this.hideShowAttack = function (options) { // will likely expand this to encompass

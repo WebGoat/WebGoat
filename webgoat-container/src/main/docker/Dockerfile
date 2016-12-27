@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-oraclejdk8:slim
+FROM openjdk:8-jre
 VOLUME /tmp
 RUN cd /root; mkdir -p .webgoat
 ADD webgoat-container-8.0-SNAPSHOT.war webgoat.jar

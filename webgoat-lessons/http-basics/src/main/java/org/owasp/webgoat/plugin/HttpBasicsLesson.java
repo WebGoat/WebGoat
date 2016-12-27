@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 import java.io.IOException;
 
 /**
@@ -43,7 +44,7 @@ import java.io.IOException;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-
+@Path("/HttpBasics/attack1")
 public class HttpBasicsLesson extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -54,10 +55,4 @@ public class HttpBasicsLesson extends AssignmentEndpoint {
 	        return trackProgress(AttackResult.failed("You are close, try again"));
 	    }
 	}
-
-    @Override
-    public String getPath() {
-        return "/HttpBasics/attack1";
-    }
-
 }

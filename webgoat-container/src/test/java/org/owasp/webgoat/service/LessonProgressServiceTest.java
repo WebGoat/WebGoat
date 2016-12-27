@@ -71,7 +71,7 @@ public class LessonProgressServiceTest {
 
     @Before
     public void setup() {
-        Assignment assignment = new Assignment("test");
+        Assignment assignment = new Assignment("test", "test");
         when(userTracker.getLessonTracker(any())).thenReturn(lessonTracker);
         when(websession.getCurrentLesson()).thenReturn(lesson);
         when(lessonTracker.getLessonOverview()).thenReturn(Maps.newHashMap(assignment, true));

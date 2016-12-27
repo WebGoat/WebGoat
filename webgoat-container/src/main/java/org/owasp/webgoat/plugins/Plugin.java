@@ -114,7 +114,11 @@ public class Plugin {
 
 
     private List<Assignment> createAssignment(List<Class<AssignmentEndpoint>> endpoints) {
-        return endpoints.stream().map(e -> new Assignment(e.getSimpleName())).collect(toList());
+        return endpoints.stream().map(e -> new Assignment(e.getSimpleName(), getPath(e))).collect(toList());
+    }
+
+    private String getPath(Class<AssignmentEndpoint> e) {
+        return e.getAnnotationsByType(javax.ws.rs.Path.class)[0].value();
     }
 
 

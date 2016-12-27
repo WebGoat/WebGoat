@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.ws.rs.Path;
 import java.io.IOException;
 
 import static org.owasp.webgoat.plugin.SimpleXXE.checkSolution;
@@ -44,12 +45,8 @@ import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
  * @version $Id: $Id
  * @since November 17, 2016
  */
+@Path("XXE/content-type")
 public class ContentTypeAssignment extends AssignmentEndpoint {
-
-    @Override
-    public String getPath() {
-        return "XXE/content-type";
-    }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
