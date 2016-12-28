@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
 import org.owasp.webgoat.lessons.AttackResult;
@@ -51,6 +52,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
+@Path("/SqlInjection/attack5b")
 public class SqlInjectionLesson5b extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -58,13 +60,6 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
 		return injectableQuery(userid);
 	
 	}
-
-    @Override
-    public String getPath() {
-        return "/SqlInjection/attack5b";
-    }
-
-
 
     protected AttackResult injectableQuery(String accountName)
     {

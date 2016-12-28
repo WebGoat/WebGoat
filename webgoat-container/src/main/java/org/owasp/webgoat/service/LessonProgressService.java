@@ -64,8 +64,12 @@ public class LessonProgressService {
     @ResponseBody
     public List<LessonOverview> lessonOverview() {
         AbstractLesson currentLesson = webSession.getCurrentLesson();
-        LessonTracker lessonTracker = userTracker.getLessonTracker(currentLesson);
-        return toJson(lessonTracker.getLessonOverview());
+        List<LessonOverview> result = Lists.newArrayList();
+        if ( currentLesson != null ) {
+            LessonTracker lessonTracker = userTracker.getLessonTracker(currentLesson);
+            result = toJson(lessonTracker.getLessonOverview());
+        }
+        return result;
     }
 
     private List<LessonOverview> toJson(Map<Assignment, Boolean> map) {

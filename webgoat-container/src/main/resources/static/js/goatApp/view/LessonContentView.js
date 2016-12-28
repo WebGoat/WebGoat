@@ -16,6 +16,25 @@ define(['jquery',
         initialize: function(options) {
             options = options || {};
             new ErrorNotificationView();
+            var self = this;
+            Backbone.on('assignment:navTo', function(assignment){
+              var page = self.findPage(assignment);
+              if (page != -1) {
+                self.navToPage(page);
+              }
+            });
+        },
+
+        findPage: function(assignment) {
+          for (var i = 0; i < this.$contentPages.length; i++) {
+             var contentPage = this.$contentPages[i];
+             var form = $('form.attack-form', contentPage);
+             var action = form.attr('action')
+             if (action !== undefined && action.includes(assignment.assignment)) {
+               return i;
+             }
+          }
+          return -1;
         },
 
         /* initial renering */
@@ -76,7 +95,7 @@ define(['jquery',
             var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : this.$form.serialize();
             // var submitData = this.$form.serialize();
             this.$curFeedback = $(curForm).closest('.attack-container').find('.attack-feedback');
-            this.$curOutput = $(curForm).closest('.atatck-container').find('.attack-output');
+            this.$curOutput = $(curForm).closest('.attack-container').find('.attack-output');
             var formUrl = $(curForm).attr('action');
             var formMethod = $(curForm).attr('method');
             var contentType = ($(curForm).attr('contentType')) ? $(curForm).attr('contentType') : 'application/x-www-form-urlencoded; charset=UTF-8';

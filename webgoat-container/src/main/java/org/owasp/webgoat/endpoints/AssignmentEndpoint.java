@@ -30,6 +30,8 @@ import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.ws.rs.Path;
+
 /**
  * Each lesson can define an endpoint which can support the lesson. So for example if you create a lesson which uses JavaScript and
  * needs to call out to the server to fetch data you can define an endpoint in that lesson. WebGoat will pick up this endpoint and
@@ -61,5 +63,8 @@ public abstract class AssignmentEndpoint extends Endpoint {
   		return webSession;
   	}
 
-    
+    @Override
+    public final String getPath() {
+        return this.getClass().getAnnotationsByType(Path.class)[0].value();
+    }
 }

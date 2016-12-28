@@ -4,6 +4,7 @@ package org.owasp.webgoat.plugin;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
 import org.owasp.webgoat.lessons.AttackResult;
@@ -44,6 +45,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
+@Path("/CrossSiteScripting/attack1")
 public class CrossSiteScriptingLesson1 extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -54,9 +56,4 @@ public class CrossSiteScriptingLesson1 extends AssignmentEndpoint {
 	        return trackProgress(AttackResult.failed("Are you sure?  Try using a tab from a different site."));
 	    }
 	}
-
-    @Override
-    public String getPath() {
-        return "/CrossSiteScripting/attack1";
-    }
 }

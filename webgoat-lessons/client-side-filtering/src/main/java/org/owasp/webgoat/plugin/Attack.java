@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.ws.rs.Path;
 import java.io.IOException;
 
 /**
@@ -38,6 +39,7 @@ import java.io.IOException;
  * @version $Id: $Id
  * @since August 11, 2016
  */
+@Path("/clientSideFiltering/attack1")
 public class Attack extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
@@ -47,10 +49,5 @@ public class Attack extends AssignmentEndpoint {
         } else {
             return trackProgress(AttackResult.failed("You are close, try again"));
         }
-    }
-
-    @Override
-    public String getPath() {
-        return "/clientSideFiltering/attack1";
     }
 }

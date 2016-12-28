@@ -44,6 +44,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.templatemode.StandardTemplateModeHandlers;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 import java.io.File;
@@ -71,6 +72,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         resolver.setPrefix("classpath:/templates/");
         resolver.setSuffix(".html");
         resolver.setOrder(1);
+        resolver.setCacheable(false);
         resolver.setApplicationContext(applicationContext);
         return resolver;
     }

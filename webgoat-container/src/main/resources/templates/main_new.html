@@ -39,6 +39,14 @@
     <title>WebGoat</title>
 </head>
 <body>
+
+<script id="assignmentTemplate" type="text/template">
+    <![CDATA[
+    <!-- CDATA is necessary otherwise we get into trouble with the strict HTML5 validation (Thymeleaf) -->
+    <strong><a href="#" data-id=<%= assignment.path %>><%= assignment.name %></a></strong> (<%= solved %>)
+    <!-- ]]> -->
+</script>
+
 <section id="container">
     <header id="header">
         <!--logo start-->
@@ -126,6 +134,8 @@
                                 <!--<button class="btn btn-primary btn-xs btn-danger help-button" id="show-attack-button">-->
                                 <!--Attack It-->
                                 <!--</button>-->
+                                <button class="btn btn-primary btn-xs btn-danger help-button" id="show-lesson-overview-button">Lesson overview
+                                </button>
                                 <button class="btn btn-xs help-button" id="restart-lesson-button">
                                     Reset Lesson
                                 </button>
@@ -145,6 +155,13 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="lesson-hint" id="lesson-overview-container">
+                                <div class="panel">
+                                    <div class="panel-body" id="lesson-overview"></div>
+                                </div>
+                            </div>
+
                             <div class="lesson-content">
 
                             </div>

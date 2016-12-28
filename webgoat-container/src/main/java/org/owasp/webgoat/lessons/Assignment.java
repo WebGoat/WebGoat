@@ -39,6 +39,6 @@ import java.io.Serializable;
 public class Assignment implements Serializable {
 
     private final String name;
-
+    private final String path;
 
 }

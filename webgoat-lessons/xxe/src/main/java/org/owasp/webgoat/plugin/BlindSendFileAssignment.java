@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.ws.rs.Path;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -46,12 +47,8 @@ import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
  * @version $Id: $Id
  * @since November 18, 2016
  */
+@Path("XXE/blind")
 public class BlindSendFileAssignment extends AssignmentEndpoint {
-
-    @Override
-    public String getPath() {
-        return "XXE/blind";
-    }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

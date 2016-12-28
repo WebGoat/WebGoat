@@ -36,7 +36,7 @@ function($,_,Backbone) {
 				this.$el.find('#show-attack-button').unbind().on('click',_.bind(this.showAttack,this)).show();
 			}
 
-			
+			this.$el.find('#show-lesson-overview-button').unbind().on('click', _.bind(this.showLessonOverview, this)).show();
 			this.$el.find('#restart-lesson-button').unbind().on('click',_.bind(this.restartLesson,this)).show();
 			//this.$el.append(this.helpButtons.restartLesson);
 		},
@@ -59,6 +59,9 @@ function($,_,Backbone) {
 
 		restartLesson: function() {
 			this.trigger('lesson:restart');
+		},
+		showLessonOverview: function() {
+		    this.trigger('lessonOverview:show');
 		}
 	});
 });
