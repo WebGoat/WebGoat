@@ -89,5 +89,14 @@ public class Course {
         this.lessons = lessons;
     }
 
+    public int getTotalOfLessons() {
+        return this.lessons.size();
+    }
+
+    public int getTotalOfAssignments() {
+        final int[] total = {0};
+        this.lessons.stream().forEach(l -> total[0] = total[0] + l.getAssignments().size());
+        return total[0];
+    }
 
 }

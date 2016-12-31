@@ -55,8 +55,8 @@ define(['jquery',
             this.lessonOverviewModel = new LessonOverviewModel();
             this.lessonOverview = new LessonOverviewView(this.lessonOverviewModel);
             this.lessonContentView = options.lessonContentView;
+            this.titleView = options.titleView;
             this.developerControlsView = new DeveloperControlsView();
-
 
             _.extend(Controller.prototype,Backbone.Events);
 
@@ -67,12 +67,13 @@ define(['jquery',
             };
 
             this.loadLesson = function(name,pageNum) {
+
                 if (this.name === name) {
-                    this.lessonContentView.navToPage(pageNum)
+                    this.lessonContentView.navToPage(pageNum);
+                    this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
                     return;
                 }
 
-                this.titleView = new TitleView();
                 this.helpsLoaded = {};
                 if (typeof(name) === 'undefined' || name === null) {
                     //TODO: implement lesson not found or return to welcome page?

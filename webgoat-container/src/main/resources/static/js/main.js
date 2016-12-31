@@ -16,9 +16,9 @@ require.config({
     jquery: 'libs/jquery-1.10.2.min',
     underscore: 'libs/underscore-min',
     backbone: 'libs/backbone-min',
-    templates: 'goatApp/templates'
-  }
-,
+    text: 'libs/text',
+    templates: 'goatApp/templates',
+  },
   shim: {
     underscore: {
       exports: "_"

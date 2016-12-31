@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -87,5 +88,16 @@ public class UserTrackerTest {
         assertThat(userTracker.getLessonTracker(lesson).isLessonSolved()).isTrue();
         userTracker.reset(lesson);
         assertThat(userTracker.getLessonTracker(lesson).isLessonSolved()).isFalse();
+    }
+
+    @Test
+    public void totalAssignmentsSolved() {
+        UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
+        AbstractLesson lesson = mock(AbstractLesson.class);
+        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment")));
+        userTracker.assignmentSolved(lesson, "assignment");
+
+        assertThat(userTracker.numberOfAssignmentsSolved()).isEqualTo(1);
+        assertThat(userTracker.numberOfLessonsSolved()).isEqualTo(1);
     }
 }

@@ -4,12 +4,14 @@ package org.owasp.webgoat.session;
 import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Assignment;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.SerializationUtils;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -103,5 +105,24 @@ public class UserTracker {
     public void reset(AbstractLesson al) {
         getLessonTracker(al).reset();
         save();
+    }
+
+    public int numberOfLessonsSolved() {
+        int numberOfLessonsSolved = 0;
+        for(LessonTracker lessonTracker : storage.values()) {
+            if (lessonTracker.isLessonSolved()) {
+                numberOfLessonsSolved = numberOfLessonsSolved + 1;
+            }
+        }
+        return numberOfLessonsSolved;
+    }
+
+    public int numberOfAssignmentsSolved() {
+        int numberOfAssignmentsSolved = 0;
+        for (LessonTracker lessonTracker : storage.values()) {
+            Map<Assignment, Boolean> lessonOverview = lessonTracker.getLessonOverview();
+            numberOfAssignmentsSolved = lessonOverview.values().stream().filter(b -> b).collect(Collectors.counting()).intValue();
+        }
+        return numberOfAssignmentsSolved;
     }
 }
