@@ -40,13 +40,6 @@
 </head>
 <body>
 
-<script id="assignmentTemplate" type="text/template">
-    <![CDATA[
-    <!-- CDATA is necessary otherwise we get into trouble with the strict HTML5 validation (Thymeleaf) -->
-    <strong><a href="#" data-id=<%= assignment.path %>><%= assignment.name %></a></strong> (<%= solved %>)
-    <!-- ]]> -->
-</script>
-
 <section id="container">
     <header id="header">
         <!--logo start-->

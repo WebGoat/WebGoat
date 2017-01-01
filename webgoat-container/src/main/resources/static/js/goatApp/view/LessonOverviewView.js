@@ -2,26 +2,35 @@ define(['jquery',
 	'underscore',
 	'backbone',
 	'goatApp/model/LessonOverviewModel',
-	'goatApp/view/AssignmentOverview'],
+    'text!templates/lesson_overview.html'],
 function($,
 	_,
 	Backbone,
 	LessonOverviewModel,
-	AssignmentOverview) {
+	LessonOverviewTemplate) {
 	return Backbone.View.extend({
+	    template: LessonOverviewTemplate,
 		el:'#lesson-overview',
 		 initialize: function (lessonOverviewModel) {
 			this.model = lessonOverviewModel;
-			this.listenTo(this.model, 'change add remove update', this.render);
+			this.listenTo(this.model, 'change add remove update reset', this.render);
 			this.hideLessonOverview();
 		},
 
+        events: {
+            "click a": "clickedAssignment"
+        },
+
+        clickedAssignment: function(e){
+            e.preventDefault();
+            var id = $(e.currentTarget).data("id");
+            Backbone.trigger('assignment:navTo',{'assignment': id});
+        },
+
         showAssignments: function() {
             this.$el.html('');
-      		this.model.each(function(assignment) {
-      	        var assignmentView = new AssignmentOverview({ model: assignment });
-                this.$el.append(assignmentView.render().el);
-           	}, this);
+            var t = _.template(this.template);
+            this.$el.html(t({"assignments" : this.model.toJSON()}));
         },
 
 		render: function() {

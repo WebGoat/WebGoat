@@ -109,8 +109,7 @@ define(['jquery',
                 this.listenTo(this,'hints:show',this.onShowHints);
 
                 this.helpControlsView.render();
-                this.lessonOverviewModel.fetch();
-
+                this.lessonOverview.hideLessonOverview();
                 this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
             };
 
@@ -186,11 +185,10 @@ define(['jquery',
 
             this.showHints = function() {
                 this.lessonHintView.render();
-                //this.lessonHintView.
             };
 
             this.showLessonOverview = function() {
-                this.lessonOverview.render();
+               this.lessonOverviewModel.fetch().then(this.lessonOverview.render());
             };
 
             this.hideShowAttack = function (options) { // will likely expand this to encompass
