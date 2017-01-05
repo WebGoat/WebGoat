@@ -26,6 +26,7 @@
 package org.owasp.webgoat.endpoints;
 
 import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,8 @@ public abstract class AssignmentEndpoint extends Endpoint {
     private UserTracker userTracker;
     @Autowired
 	private WebSession webSession;
+    @Autowired
+    private UserSessionData userSessionData;
 
   
 	//// TODO: 11/13/2016 events better fit?
@@ -62,6 +65,10 @@ public abstract class AssignmentEndpoint extends Endpoint {
     protected WebSession getWebSession() {
   		return webSession;
   	}
+
+  	protected UserSessionData getUserSessionData() {
+        return userSessionData;
+    }
 
     @Override
     public final String getPath() {

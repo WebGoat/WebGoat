@@ -36,10 +36,7 @@ import org.owasp.webgoat.plugins.PluginClassLoader;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
 import org.owasp.webgoat.plugins.PluginsExtractor;
 import org.owasp.webgoat.plugins.PluginsLoader;
-import org.owasp.webgoat.session.Course;
-import org.owasp.webgoat.session.UserTracker;
-import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.session.WebgoatContext;
+import org.owasp.webgoat.session.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -85,6 +82,12 @@ public class WebGoat extends SpringBootServletInitializer {
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public WebSession webSession(WebgoatContext webgoatContext) {
         return new WebSession(webgoatContext);
+    }
+
+    @Bean
+    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+    public UserSessionData userSessionData() {
+        return new UserSessionData("test","data");
     }
 
     @Bean
