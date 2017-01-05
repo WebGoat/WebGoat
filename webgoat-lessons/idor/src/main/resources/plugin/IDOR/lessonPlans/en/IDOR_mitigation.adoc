@@ -1,0 +1,10 @@
+== Secure Object References
+
+=== Using Indrect References
+In some cases, using an indirect reference may help. This of course may make the application harder to trouble shoot and may also affect performance.
+
+=== Access Controls
+Since the root of 'Insecure' of IDOR's s really in controlling access to the objects referenced, the key to making them secure is implementing vertical and horizontal access control.
+
+==== Knowing How Things Should be Secured
+

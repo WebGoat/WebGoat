@@ -19,6 +19,7 @@
         <module>http-basics</module>
         <module>sql-injection</module>
         <module>xxe</module>
+        <module>idor</module>
     </modules>
 
     <dependencies>
