@@ -1010,6 +1010,8 @@ font-size: 1.3em;
   border: 2px solid #a66;
   border-radius: 12px;
   padding: 7px;
+  margin-top:7px;
+  padding:5px;
 }
 
 /* ERROR NOTIFICATION */
