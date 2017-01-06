@@ -34,17 +34,15 @@ public class IDORViewOwnProfile extends Endpoint{
         try {
             if (userSessionData.getValue("idor-authenticated-as").equals("tom")) {
                 //going to use session auth to view this one
-                String authUserId = userSessionData.getValue("idor-authenticated-user-id");
+                String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
                 UserProfile userProfile = new UserProfile(authUserId);
                 details.put("userId",userProfile.getUserId());
                 details.put("name",userProfile.getName());
                 details.put("color",userProfile.getColor());
                 details.put("size",userProfile.getSize());
-                details.put("admin",userProfile.isAdmin());
-
+                details.put("role",userProfile.getRole());
             } else {
-                details.put("error","You do not have privileges to view the profile.");
-                System.out.println("Not auth'd as tom");
+                details.put("error","You do not have privileges to view the profile. Authenticate as tom first please.");
             }
         }catch (Exception ex) {
             System.out.println(ex.getMessage());

@@ -32,27 +32,23 @@ public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint{
         try {
             if (userSessionData.getValue("idor-authenticated-as").equals("tom")) {
                 //going to use session auth to view this one
-                String authUserId = userSessionData.getValue("idor-authenticated-user-id");
+                String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
                 //don't care about http://localhost:8080 ... just want WebGoat/
                 String[] urlParts = url.split("/");
-                System.out.println("************");
-                System.out.println(urlParts[0]);
-                System.out.println(urlParts[1]);
-                System.out.println(urlParts[2]);
-                System.out.println(urlParts[3]);
-                System.out.println("************");
                 if (urlParts[0].equals("WebGoat") && urlParts[1].equals("IDOR") && urlParts[2].equals("profile") && urlParts[3].equals(authUserId)) {
                     UserProfile userProfile = new UserProfile(authUserId);
                     details.put("userId", userProfile.getUserId());
                     details.put("name", userProfile.getName());
                     details.put("color", userProfile.getColor());
                     details.put("size", userProfile.getSize());
-                    details.put("admin", userProfile.isAdmin());
-                    return AttackResult.success("congratultions, you have used the alternate Url/route to view your own profile.",details.toString());
+                    details.put("role", userProfile.getRole());
+                    return trackProgress(AttackResult.success("congratultions, you have used the alternate Url/route to view your own profile.",details.toString()));
+                } else {
+                    return trackProgress(AttackResult.failed("please try again. The alternoute route is very similar to the previous way you viewed your profile. Only one difference really"));
                 }
 
             } else {
-                return AttackResult.failed("please try again. The alternoute route is very similar to the previous way you viewed your profile. Only one difference really");
+                return trackProgress(AttackResult.failed("You need to authenticate as tom first."));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

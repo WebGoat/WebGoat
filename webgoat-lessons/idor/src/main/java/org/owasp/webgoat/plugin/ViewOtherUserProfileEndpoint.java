@@ -48,7 +48,7 @@ public class ViewOtherUserProfileEndpoint extends AssignmentEndpoint {
             if (userSessionData.getValue("idor-authenticated-as").equals("bill") || userSessionData.getValue("idor-authenticated-as").equals("tom")) {
                 System.out.println("**** authenticated as " + userSessionData.getValue("idor-authenticated-as"));
                 //logged in
-                String authUserId = userSessionData.getValue("idor-authenticated-user-id");
+                String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
                 //secure code would check to make sure authUserId matches userId ... and in this endpoint, we won't bother with that
                 UserProfile userProfile = new UserProfile(userId);
                 return trackProgress(AttackResult.failed("still working"));

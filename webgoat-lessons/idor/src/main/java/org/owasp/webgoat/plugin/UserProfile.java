@@ -9,6 +9,7 @@ public class UserProfile {
     private String color;
     private String size;
     private boolean isAdmin;
+    private int role;
     // anyting else?
 
     public UserProfile() {}
@@ -26,11 +27,13 @@ public class UserProfile {
             this.name = "Tom Cat";
             this.size = "small";
             this.isAdmin = false;
+            this.role = 3;
         } else if (id.equals("2342388")) {
             this.color = "brown";
             this.name = "Buffalo Bill";
             this.size = "large";
             this.isAdmin = false;
+            this.role = 3;
         }
 
     }
@@ -40,6 +43,7 @@ public class UserProfile {
         return "userId" + this.userId + htmlBreak +
                 "name" + this.name + htmlBreak +
                 "size" + this.size + htmlBreak +
+                "role" + this.role + htmlBreak +
                 "isAdmin" + this.isAdmin;
     }
 
@@ -83,4 +87,13 @@ public class UserProfile {
     public void setAdmin(boolean admin) {
         isAdmin = admin;
     }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
 }

@@ -73,9 +73,7 @@ public class IDORLogin extends AssignmentEndpoint {
         initIDORInfo();
         UserSessionData userSessionData = getUserSessionData();
 
-        System.out.println("----:" + username + ":----");
         if (idorUserInfo.containsKey(username)) {
-            System.out.println("****:" + username);
             if ("tom".equals(username) && idorUserInfo.get("tom").get("password").equals(password)) {
                 userSessionData.setValue("idor-authenticated-as", username);
                 userSessionData.setValue("idor-authenticated-user-id", idorUserInfo.get(username).get("id"));

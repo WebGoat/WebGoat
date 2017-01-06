@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugin;
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,18 +42,34 @@ import java.util.Map;
  * @since January 3, 2017
  */
 
-@Path("/IDOR/{userId}/profile-edit")
+@Path("IDOR/profile/{userId}")
 public class IDOREditOwnProfiile extends AssignmentEndpoint {
 
-    private Map<String,Map<String,String>> idorUserInfo = new HashMap<>();
+    @Autowired UserSessionData userSessionData;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
     public @ResponseBody
-    AttackResult completed(@PathVariable String userId, @RequestParam String password, HttpServletRequest request) throws IOException {
+    AttackResult completed(@PathVariable("userId") String userId, @RequestParam UserProfile userSubmittedProfile, HttpServletRequest request) {
 
-        UserSessionData userSessionData = getUserSessionData();
+        String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
+        UserProfile currentUserProfile = new UserProfile(authUserId);
+        if (userSubmittedProfile.getUserId() != null && !userSubmittedProfile.getUserId().equals(authUserId)) {
+            return AttackResult.failed("Don't worry, we'll get to modifying someone else's profile, just modify your own for now.");
+        } else if (userSubmittedProfile.getUserId().equals(authUserId)) {
+            // this is commonly how vulnerable code will act ... updating w/out an authorization check
+            currentUserProfile.setColor(userSubmittedProfile.getColor());
+            currentUserProfile.setRole(userSubmittedProfile.getRole());
+            // we will persist in the session object for now
+            userSessionData.setValue("idor-updated-own-profile",currentUserProfile);
 
-        return trackProgress(AttackResult.failed("still working on this")); //TODO: How do we localize messages like this?
+
+        }
+
+        if (currentUserProfile.getColor().equals("black") && currentUserProfile.getRole() <= 1 ) {
+            return trackProgress(AttackResult.success("Good work! View the updated profile below",userSessionData.getValue("idor-updated-own-profile").toString()));
+        } else {
+            return trackProgress(AttackResult.failed("Please try again. Use the hints if need be."));
+        }
 
     }
 
