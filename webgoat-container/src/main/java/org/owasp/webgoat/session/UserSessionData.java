@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public class UserSessionData {
 
-    private HashMap<String,String> userSessionData = new HashMap<>();
+    private HashMap<String,Object> userSessionData = new HashMap<>();
 
     public UserSessionData() {
     }
@@ -17,11 +17,11 @@ public class UserSessionData {
     }
 
     //GETTERS & SETTERS
-    public String getValue(String key) {
+    public Object getValue(String key) {
         return userSessionData.get(key);
     }
 
-    public void setValue(String key, String value) {
+    public void setValue(String key, Object value) {
         if (userSessionData.containsKey(key)) {
             userSessionData.replace(key,value);
         } else {
