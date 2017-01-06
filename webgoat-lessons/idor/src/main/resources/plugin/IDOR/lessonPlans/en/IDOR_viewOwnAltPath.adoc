@@ -3,4 +3,4 @@
 
 The application we are working with seems to follow a RESTful pattern so far as the profile goes. Many apps have roles in which an elevated user may access content of another.
 In that case, just /profile won't work since the own user's session/authentication data won't tell us whose profile they want view.
-So, what do you think is a likely pattern to view your own profile explicitly?
+So, what do you think is a likely pattern to view your own profile using a direct object reference?
