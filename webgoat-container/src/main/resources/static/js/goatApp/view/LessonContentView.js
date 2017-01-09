@@ -110,7 +110,6 @@ define(['jquery',
          },
 
         onSuccessResponse: function(data) {
-            console.log(data);
             this.renderFeedback(data.feedback);
 
             this.renderOutput(data.output || "");
