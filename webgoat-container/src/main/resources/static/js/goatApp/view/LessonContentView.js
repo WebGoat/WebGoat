@@ -92,7 +92,7 @@ define(['jquery',
             var self = this;
             // TODO custom Data prep for submission
             var prepareDataFunctionName = $(curForm).attr('prepareData');
-            var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : this.$form.serialize();
+            var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : $(curForm).serialize();
             // var submitData = this.$form.serialize();
             this.$curFeedback = $(curForm).closest('.attack-container').find('.attack-feedback');
             this.$curOutput = $(curForm).closest('.attack-container').find('.attack-output');
