@@ -1,5 +1,8 @@
 package org.owasp.webgoat.plugin;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by jason on 1/5/17.
  */
@@ -10,12 +13,10 @@ public class UserProfile {
     private String size;
     private boolean isAdmin;
     private int role;
-    // anyting else?
 
     public UserProfile() {}
 
     public UserProfile(String id) {
-        this.userId = id;
         setProfileFromId(id);
     }
 
@@ -23,19 +24,33 @@ public class UserProfile {
     private void setProfileFromId(String id) {
         // emulate look up from database
         if (id.equals("2342384")) {
+            this.userId = id;
             this.color = "yellow";
             this.name = "Tom Cat";
             this.size = "small";
             this.isAdmin = false;
             this.role = 3;
         } else if (id.equals("2342388")) {
+            this.userId = id;
             this.color = "brown";
             this.name = "Buffalo Bill";
             this.size = "large";
             this.isAdmin = false;
             this.role = 3;
+        } else {
+            //not found
         }
 
+    }
+
+    public Map <String,Object> profileToMap () {
+        Map<String,Object> profileMap = new HashMap<>();
+        profileMap.put("userId", this.userId);
+        profileMap.put("name", this.name);
+        profileMap.put("color", this.color);
+        profileMap.put("size", this.size);
+        profileMap.put("role", this.role);
+        return profileMap;
     }
 
     public String toHTMLString() {

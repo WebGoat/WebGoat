@@ -19,7 +19,8 @@ POST, PUT, DELETE or other methods are also potentially succeptible and mainly o
 
 == *Insecure* Direct Object References
 
-These are considered insecure when the reference is not properly handled and allows for authorization bypasses.
+These are considered insecure when the reference is not properly handled and allows for authorization bypasses or disclose private data that could be used to
+perform opreations or access data that the user should not be able to perform or access.
 Let's say that as a user, you go to view your profile and the URL looks something like:
 
 `https://some.company.tld/app/user/23398`

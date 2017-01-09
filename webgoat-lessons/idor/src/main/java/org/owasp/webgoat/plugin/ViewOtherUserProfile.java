@@ -2,7 +2,6 @@ package org.owasp.webgoat.plugin;
 
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.Endpoint;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import java.util.Map;
  */
 
 @Path("/IDOR/viewprofile/{id}")
-public class ViewOtherUserProfileEndpoint extends AssignmentEndpoint {
+public class ViewOtherUserProfile extends AssignmentEndpoint {
 
     private String color;
     private String size;
@@ -49,7 +48,8 @@ public class ViewOtherUserProfileEndpoint extends AssignmentEndpoint {
                 System.out.println("**** authenticated as " + userSessionData.getValue("idor-authenticated-as"));
                 //logged in
                 String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
-                //secure code would check to make sure authUserId matches userId ... and in this endpoint, we won't bother with that
+                //secure code would check to make sure authUserId matches userId or some similar access control
+                // ... and in this endpoint, we won't bother with that
                 UserProfile userProfile = new UserProfile(userId);
                 return trackProgress(AttackResult.failed("still working"));
             }

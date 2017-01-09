@@ -1,9 +1,12 @@
 package org.owasp.webgoat.plugin;
 
 
+import org.owasp.webgoat.endpoints.AssignmentEndpoint;
 import org.owasp.webgoat.endpoints.Endpoint;
+import org.owasp.webgoat.lessons.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,13 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Path;
 import java.io.IOException;
-import com.google.common.collect.Lists;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * ************************************************************************************************
@@ -49,36 +49,34 @@ import java.util.Objects;
  * @since January 3, 2017
  */
 
-public class IDORViewOwnProfile extends Endpoint{
+@Path("IDOR/profile/{userId}")
+public class IDORViewOtherProfile extends AssignmentEndpoint{
 
     @Autowired
     UserSessionData userSessionData;
 
     @RequestMapping(produces = {"application/json"}, method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public AttackResult completed(@PathVariable("userId") String userId, HttpServletResponse resp) {
         Map<String,Object> details = new HashMap<>();
-        try {
-            if (userSessionData.getValue("idor-authenticated-as").equals("tom")) {
-                //going to use session auth to view this one
-                String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
-                UserProfile userProfile = new UserProfile(authUserId);
-                details.put("userId",userProfile.getUserId());
-                details.put("name",userProfile.getName());
-                details.put("color",userProfile.getColor());
-                details.put("size",userProfile.getSize());
-                details.put("role",userProfile.getRole());
+
+        if (userSessionData.getValue("idor-authenticated-as").equals("tom")) {
+            //going to use session auth to view this one
+            String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
+            if(userId != null && !userId.equals(authUserId)) {
+                //on the right track
+                UserProfile requestedProfile = new UserProfile(userId);
+                // secure code would ensure there was a horizontal access control check prior to dishing up the requested profile
+                if (requestedProfile.getUserId().equals("2342388")){
+                    return trackProgress(AttackResult.success("Well done, you found someone else's profile",requestedProfile.profileToMap().toString()));
+                } else {
+                    return trackProgress((AttackResult.failed("You're on the right path, try a different id")));
+                }
             } else {
-                details.put("error","You do not have privileges to view the profile. Authenticate as tom first please.");
+                return trackProgress((AttackResult.failed("Try again. You need to use the same method/URL you used to access your own profile via direct object reference.")));
             }
-        }catch (Exception ex) {
-            System.out.println(ex.getMessage());
         }
-        return details;
+        return trackProgress((AttackResult.failed("Try again. ")));
     }
 
-    @Override
-    public String getPath() {
-        return "/IDOR/profile";
-    }
 }
