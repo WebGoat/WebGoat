@@ -94,6 +94,7 @@ define(['jquery',
             var prepareDataFunctionName = $(curForm).attr('prepareData');
             var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : $(curForm).serialize();
             // var submitData = this.$form.serialize();
+            this.curForm = curForm;
             this.$curFeedback = $(curForm).closest('.attack-container').find('.attack-feedback');
             this.$curOutput = $(curForm).closest('.attack-container').find('.attack-output');
             var formUrl = $(curForm).attr('action');
@@ -114,6 +115,7 @@ define(['jquery',
 
             this.renderOutput(data.output || "");
             if (data.lessonCompleted) {
+                this.curForm.reset();
                 this.trigger('lesson:complete');
             }
             return false;
