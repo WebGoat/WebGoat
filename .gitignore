@@ -35,3 +35,4 @@ classes/*
 UserDatabase.mv.db
 webgoat-container/src/main/webapp/users/guest.org.owasp.webgoat.plugin.*.props
 webgoat-container/src/main/webapp/plugin_lessons/dist-*.pom
+webgoat-lessons/**/target
