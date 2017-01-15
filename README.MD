@@ -6,12 +6,12 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa/badge.svg?style=flat)](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa)
 [![OWASP Labs](https://img.shields.io/badge/owasp-labs-orange.svg)](https://www.owasp.org/index.php/OWASP_Project_Inventory#tab=Labs_Projects)
 
-# Important Information
+# Important
 
-### The WebGoat Lesson Server, is currently **UNDER MAJOR DEVELOMENT**.
-As of November 2016, 7.1 is the current stable release and 8.x is under development ('develop') branch here.
+This is the development version of WebGoat 8, if you are looking for a released stable version please go to: https://github.com/WebGoat/WebGoat/wiki/Running-WebGoat
 
-#### Older/Legacy version of WebGoat an be found at: [WebGoat-Legacy](https://github.com/WebGoat/WebGoat-Legacy)
+
+# Introduction
 
 WebGoat is a deliberately insecure web application maintained by [OWASP](http://www.owasp.org/) designed to teach web
 application security lessons.
@@ -42,99 +42,38 @@ you are caught engaging in unauthorized hacking, most companies will fire you.
 Claiming that you were doing security research will not work as that is the
 first thing that all hackers claim.*
 
-# Easy Run ( For non-developers )
+# Run Instructions:
 
-Every successful build of the WebGoat Lessons Container and the WebGoat Lessons in our Continuous Integration Server
-creates an "Easy Run" Executable WAR file, which contains the WebGoat Lessons Server, the lessons and a embedded Tomcat server.
+## 1. Run using Docker 
 
-You can check for the "Last Modified" date of our "Easy Run" war file [HERE](http://webgoat-war.s3-website-us-east-1.amazonaws.com/)
-
-The "Easy Run" JAR file offers a no hassle approach to testing and running WebGoat. Follow these instructions if you
-wish to simply try/test/run the current development version of WebGoat
-
-### Prerequisites:
-* Java VM 1.8 or Docker installed
-
-## Easy Run Instructions:
-
-#### 1. Docker image
-
-The latest version of WebGoat is available at DockerHub, see [https://hub.docker.com/r/webgoat/webgoat-container/](https://hub.docker.com/r/webgoat/webgoat-container/).
+From time to time we publish a new development preview of WebGoat 8 on Docker HUB, you can download this version
+[https://hub.docker.com/r/webgoat/webgoat-8.0/](https://hub.docker.com/r/webgoat/webgoat-8.0/).
 First install Docker, then open a command shell/window and type:
 
 ```Shell
-docker pull webgoat/webgoat-container
-docker run -p 8080:8080 webgoat/webgoat-container
+docker pull webgoat/webgoat-8.0
+docker run -p 8080:8080 webgoat/webgoat-8.0
 ```
 
 Wait for the Docker container to start and go to step 3.
+Please note: this version may not be completely in sync with the develop branch.
 
-#### 2. Download the easy run executable jar file which contains all the lessons and a embedded Tomcat server:
-
-https://s3.amazonaws.com/webgoat-war/webgoat-standalone-7.1-SNAPSHOT-exec.jar
-
-#### 3. Run it using java:
-
-Open a command shell/window, browse to where you downloaded the easy run jar and type:
-
-```Shell
-java -jar webgoat-standalone-7.0.1-exec.jar [-p | --p <port>] [-a | --address <address>]
-```
-
-Using the `--help` option will show the allowed command line arguments.
-
-#### 3. Browse to the url shown in the console and happy hacking !
-
-## Vagrant
-
-To run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
-
-```shell
-   $ cd WebGoat/webgoat-images/vagrant-users
-   $ vagrant up
-```
-
-Once you see the message 'Browse to http://localhost:9999/WebGoat and happy hacking! you can open a
-browser.
-
-
-# For Developers
-
-## Set up manual
-
-Follow these instructions if you wish to run Webgoat and modify the source code as well.
+## 2. Run from the sources
 
 ### Prerequisites:
 
 * Java 8
 * Maven > 3.2.1
-* Your favorite IDE, with Maven awareness: Netbeans/IntelliJ/Eclipse with m2e installed.
+* Your favorite IDE
 * Git, or Git support in your IDE
 
-## The Easy Way: Developer Edition run using Linux or Mac
-The __webgoat_developer_bootstrap.sh__ script will clone the necessary repositories, call the maven goals in order
-launch Tomcat listening on localhost:8080
-
-```Shell
-mkdir WebGoat-Workspace
-cd WebGoat-Workspace
-curl -o webgoat_developer_bootstrap.sh https://raw.githubusercontent.com/WebGoat/WebGoat/master/webgoat_developer_bootstrap.sh
-./webgoat_developer_bootstrap.sh
-```
-
-## The Manual Way: Developer Edition!
-
-#### Cloning the Lesson Server and the Lessons project:
-
-Open a command shell/window, navigate to where you wish to download the source and type:
-mvn clean package
-mvn –pl webgoat-container spring-boot:run
+Open a command shell/window:
 
 ```Shell
 git clone git@github.com:WebGoat/WebGoat.git
 ```
 
-#### Now let's start by compiling the project.
+Now let's start by compiling the project.
 
 ```Shell
 cd WebGoat
@@ -142,13 +81,28 @@ git checkout develop
 mvn clean package
 ```
 
-#### Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
+Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
+
 ```Shell
 mvn -pl webgoat-container spring-boot:run
 ```
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
 
-## Building a new Docker image
+
+# Vagrant
+
+We supply a complete development environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
+
+```shell
+   $ cd WebGoat/webgoat-images/vagrant-users
+   $ vagrant up
+```
+
+Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
+The source code will be available in the home directory.
+
+
+# Building a new Docker image
 
 WebGoat now has Docker support you can build a container with the following commands:
 
@@ -157,6 +111,7 @@ cd WebGoat/
 mvn package
 cd webgoat-container
 mvn docker:build
+docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
 docker push webgoat/webgoat-container
 ```
@@ -164,20 +119,8 @@ docker push webgoat/webgoat-container
 With the following command you are able to run the Docker container on your local machine:
 
 ```Shell
-docker run -p 8080:8080 -t webgoat/webgoat-container
+docker run -p 8080:8080 -t webgoat/webgoat-8.0
 docker ps
 ```
 
 With the last command you are able to determine ip address to connect to.
-
-## Vagrant
-
-For an easy development experience you can use Vagrant. Note you should have Vagrant and Virtualbox installed on your system.
-
-```shell
-   $ cd WebGoat/webgoat-images/vagrant-developers
-   $ vagrant up
-```
-
-Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
-The source code will be available in the home directory.

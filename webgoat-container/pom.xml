@@ -39,7 +39,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.10</version>
                 <configuration>
-                    <imageName>webgoat/${project.artifactId}</imageName>
+                    <imageName>webgoat/webgoat-8.0</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>

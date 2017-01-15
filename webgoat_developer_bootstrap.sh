@@ -116,46 +116,6 @@ developer_bootstrap() {
         )
     fi
 
-    # Clone WebGoat-lessons from GitHub if they don't exist
-    if [ ! -d "WebGoat-Lessons" ]; then
-        horizontal_rule
-        echo -e -e  "$COL_CYAN Cloning the WebGoat Lessons repository $COL_RESET"
-        git clone https://github.com/WebGoat/WebGoat-Lessons.git
-    else
-        horizontal_rule
-        (
-            echo -e "$COL_YELLOW The WebGoat Lesson repo has already been cloned before, pulling upstream changes. $COL_RESET"
-            cd WebGoat-Lessons || {
-                echo -e >&2 "$COL_RED *** ERROR: Could not cd into the WebGoat-Lessons Directory $COL_RESET"
-                return 1
-            }
-            git pull origin develop
-        )
-    fi
-
-    # Compile and Install the WebGoat lesson server
-    horizontal_rule
-    echo -e "$COL_BLUE Compiling and installing the WebGoat Container lesson server..... $COL_RESET"
-    mvn -q -DskipTests -file WebGoat/pom.xml clean compile install || {
-        echo -e >&2 "$COL_RED *** ERROR: Could not compile the WebGoat Container. $COL_RESET"
-        return 1
-    }
-    echo -e "$COL_GREEN SUCCESS: Compiled the WebGoat Container successfully! $COL_RESET"
-
-    # Compile and package the WebGoat Lessons
-    horizontal_rule
-    echo -e "$COL_BLUE Compiling and installing the WebGoat Lessons $COL_RESET"
-    mvn -q -DskipTests -file WebGoat-Lessons/pom.xml package || {
-        echo -e >&2 "$COL_RED *** ERROR: Could not compile the WebGoat Container. $COL_RESET"
-        return 1
-    }
-    echo -e "$COL_GREEN SUCCESS: Compiled the WebGoat Lessons successfully! $COL_RESET"
-
-    # Copy the Lessons into the WebGoat-Container
-    horizontal_rule
-    echo -e "$COL_BLUE Copying the compiled lessons jars into the container so we can start the lesson server with some base lessons, $COL_RESET"
-    cp -fa ./WebGoat-Lessons/target/plugins/*.jar ./WebGoat/webgoat-container/src/main/webapp/plugin_lessons/
-
     # Start the embedded Tomcat server
     echo -e "$COL_MAGENTA"
     horizontal_rule
