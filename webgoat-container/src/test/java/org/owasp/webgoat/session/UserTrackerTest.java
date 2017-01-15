@@ -55,20 +55,20 @@ public class UserTrackerTest {
 
     @Test
     public void writeAndRead() {
-        UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
+        UserTracker userTracker = new UserTracker(home.getParent(), "test");
         AbstractLesson lesson = mock(AbstractLesson.class);
         when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment")));
         userTracker.getLessonTracker(lesson);
         userTracker.assignmentSolved(lesson, lesson.getAssignments().get(0).getName());
 
-        userTracker = new UserTracker(home.getParent(), "test", false);
+        userTracker = new UserTracker(home.getParent(), "test");
         userTracker.load();
         assertThat(userTracker.getLessonTracker(lesson).isLessonSolved()).isTrue();
     }
 
     @Test
     public void assignmentFailedShouldIncrementAttempts() {
-        UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
+        UserTracker userTracker = new UserTracker(home.getParent(), "test");
         AbstractLesson lesson = mock(AbstractLesson.class);
         when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment")));
         userTracker.getLessonTracker(lesson);
@@ -80,7 +80,7 @@ public class UserTrackerTest {
 
     @Test
     public void resetShouldClearSolvedAssignment() {
-        UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
+        UserTracker userTracker = new UserTracker(home.getParent(), "test");
         AbstractLesson lesson = mock(AbstractLesson.class);
         when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment")));
         userTracker.assignmentSolved(lesson, "assignment");
@@ -92,7 +92,7 @@ public class UserTrackerTest {
 
     @Test
     public void totalAssignmentsSolved() {
-        UserTracker userTracker = new UserTracker(home.getParent(), "test", false);
+        UserTracker userTracker = new UserTracker(home.getParent(), "test");
         AbstractLesson lesson = mock(AbstractLesson.class);
         when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment")));
         userTracker.assignmentSolved(lesson, "assignment");

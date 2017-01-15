@@ -103,9 +103,8 @@ public class WebGoat extends SpringBootServletInitializer {
     @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     @SneakyThrows
-    public UserTracker userTracker(@Value("${webgoat.user.directory}") final String webgoatHome,
-                                   @Value("${webgoat.tracker.overwrite:false}") final boolean overwrite, WebSession webSession) {
-        UserTracker userTracker = new UserTracker(webgoatHome, webSession.getUserName(), overwrite);
+    public UserTracker userTracker(@Value("${webgoat.user.directory}") final String webgoatHome, WebSession webSession) {
+        UserTracker userTracker = new UserTracker(webgoatHome, webSession.getUserName());
         userTracker.load();
         return userTracker;
     }

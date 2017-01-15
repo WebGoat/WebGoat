@@ -3,6 +3,7 @@ package org.owasp.webgoat.session;
 
 import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.springframework.util.FileCopyUtils;
@@ -44,17 +45,16 @@ import java.util.stream.Collectors;
  * @version $Id: $Id
  * @since October 29, 2003
  */
+@Slf4j
 public class UserTracker {
 
     private final String webgoatHome;
     private final String user;
-    private final boolean overwrite;
     private Map<String, LessonTracker> storage = new HashMap<>();
 
-    public UserTracker(final String webgoatHome, final String user, final boolean overwrite) {
+    public UserTracker(final String webgoatHome, final String user) {
         this.webgoatHome = webgoatHome;
         this.user = user;
-        this.overwrite = overwrite;
     }
 
     /**
@@ -85,13 +85,15 @@ public class UserTracker {
         save();
     }
 
-    @SneakyThrows
     public void load() {
         File file = new File(webgoatHome, user + ".progress");
-        if (overwrite) {
-            this.storage = Maps.newHashMap();
-        } else if (file.exists() && file.isFile()) {
-            this.storage = (Map<String, LessonTracker>) SerializationUtils.deserialize(FileCopyUtils.copyToByteArray(file));
+        if (file.exists() && file.isFile()) {
+            try {
+                this.storage = (Map<String, LessonTracker>) SerializationUtils.deserialize(FileCopyUtils.copyToByteArray(file));
+            } catch (Exception e) {
+                log.error("Unable to read the progress file, creating a new one...");
+                this.storage = Maps.newHashMap();
+            }
         }
     }
 
@@ -109,7 +111,7 @@ public class UserTracker {
 
     public int numberOfLessonsSolved() {
         int numberOfLessonsSolved = 0;
-        for(LessonTracker lessonTracker : storage.values()) {
+        for (LessonTracker lessonTracker : storage.values()) {
             if (lessonTracker.isLessonSolved()) {
                 numberOfLessonsSolved = numberOfLessonsSolved + 1;
             }
