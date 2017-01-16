@@ -20,17 +20,6 @@ This program is a demonstration of common server-side application flaws. The
 exercises are intended to be used by people to learn about application security and
 penetration testing techniques.
 
-* [Home Page](http://webgoat.github.io)
-* [OWASP Project Home Page](http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project)
-* [Source Code](https://github.com/WebGoat/WebGoat)
-* [Easy-Run Download](https://s3.amazonaws.com/webgoat-war/webgoat-container-7.0.1-war-exec.jar)
-* [Wiki](https://github.com/WebGoat/WebGoat/wiki)
-* [FAQ (old info):](http://code.google.com/p/webgoat/wiki/FAQ)
-* [Project Leader - Direct to Bruce Mayhew](mailto:webgoat@owasp.org)
-* [Mailing List - WebGoat Community - For most questions](mailto:owasp-webgoat@lists.owasp.org)
-* [Artifacts generated from Continuous Integration](http://webgoat-war.s3-website-us-east-1.amazonaws.com/)
-* [Output from our Travis.CI Build server](https://travis-ci.org/WebGoat/WebGoat)
-
 **WARNING 1:** *While running this program your machine will be extremely
 vulnerable to attack. You should to disconnect from the Internet while using
 this program.*  WebGoat's default configuration binds to localhost to minimize 
