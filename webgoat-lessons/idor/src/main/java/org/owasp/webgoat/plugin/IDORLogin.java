@@ -4,10 +4,7 @@ import org.owasp.webgoat.endpoints.AssignmentEndpoint;
 import org.owasp.webgoat.lessons.AttackResult;
 
 import org.owasp.webgoat.session.UserSessionData;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
@@ -66,10 +63,8 @@ public class IDORLogin extends AssignmentEndpoint {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody
-    AttackResult completed(@RequestParam String username, @RequestParam String password, HttpServletRequest request) throws IOException {
-
+    @PostMapping
+    public @ResponseBody AttackResult completed(@RequestParam String username, @RequestParam String password) {
         initIDORInfo();
         UserSessionData userSessionData = getUserSessionData();
 

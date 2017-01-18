@@ -45,11 +45,12 @@ import java.util.Map;
 @Path("IDOR/profile/{userId}")
 public class IDOREditOtherProfiile extends AssignmentEndpoint {
 
-    @Autowired UserSessionData userSessionData;
+    @Autowired
+    private UserSessionData userSessionData;
 
-    @RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
+    @PutMapping(consumes = "application/json")
     public @ResponseBody
-    AttackResult completed(@PathVariable("userId") String userId, @RequestParam UserProfile userSubmittedProfile) {
+    AttackResult completed(@PathVariable("userId") String userId, @RequestBody UserProfile userSubmittedProfile) {
 
         String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
         // this is where it starts ... accepting the user submitted ID and assuming it will be the same as the logged in userId and not checking for proper authorization
