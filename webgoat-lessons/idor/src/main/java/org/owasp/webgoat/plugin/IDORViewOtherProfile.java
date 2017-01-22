@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugin;
 
 
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.endpoints.Endpoint;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
@@ -49,7 +50,7 @@ import java.util.Map;
  * @since January 3, 2017
  */
 
-@Path("IDOR/profile/{userId}")
+@AssignmentPath("IDOR/profile/{userId}")
 public class IDORViewOtherProfile extends AssignmentEndpoint{
 
     @Autowired

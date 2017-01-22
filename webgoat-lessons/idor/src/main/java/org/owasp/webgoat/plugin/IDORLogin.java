@@ -1,6 +1,7 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 
 import org.owasp.webgoat.session.UserSessionData;
@@ -42,7 +43,7 @@ import java.util.Map;
  * @since January 3, 2017
  */
 
-@Path("/IDOR/login")
+@AssignmentPath("/IDOR/login")
 public class IDORLogin extends AssignmentEndpoint {
 
     private Map<String,Map<String,String>> idorUserInfo = new HashMap<>();

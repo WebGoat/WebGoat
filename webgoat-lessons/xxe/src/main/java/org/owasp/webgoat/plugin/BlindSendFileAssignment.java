@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugin;
 import com.google.common.base.Joiner;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,7 +48,7 @@ import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
  * @version $Id: $Id
  * @since November 18, 2016
  */
-@Path("XXE/blind")
+@AssignmentPath("XXE/blind")
 public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

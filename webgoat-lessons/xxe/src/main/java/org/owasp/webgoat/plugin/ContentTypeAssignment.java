@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +46,7 @@ import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
  * @version $Id: $Id
  * @since November 17, 2016
  */
-@Path("XXE/content-type")
+@AssignmentPath("XXE/content-type")
 public class ContentTypeAssignment extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

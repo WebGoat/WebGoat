@@ -1,6 +1,7 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,7 +42,7 @@ import java.io.IOException;
  * @since January 3, 2017
  */
 
-@Path("IDOR/diff-attributes")
+@AssignmentPath("IDOR/diff-attributes")
 public class IDORDiffAttributes extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)

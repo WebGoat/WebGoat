@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugin;
 
 import org.apache.commons.exec.OS;
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +46,7 @@ import java.io.StringReader;
  * @version $Id: $Id
  * @since November 17, 2016
  */
-@Path("XXE/simple")
+@AssignmentPath("XXE/simple")
 public class SimpleXXE extends AssignmentEndpoint {
 
     private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "opt", "var"};

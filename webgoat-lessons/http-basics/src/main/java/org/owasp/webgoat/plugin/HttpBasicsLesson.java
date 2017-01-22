@@ -1,6 +1,9 @@
 package org.owasp.webgoat.plugin;
 
+import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentHints;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * *************************************************************************************************
@@ -44,15 +48,16 @@ import java.io.IOException;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@Path("/HttpBasics/attack1")
+@AssignmentPath("/HttpBasics/attack1")
+@AssignmentHints({"http-basics.hints.http_basics_lesson.1"})
 public class HttpBasicsLesson extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody AttackResult completed(@RequestParam String person, HttpServletRequest request) throws IOException {
+	public @ResponseBody AttackResult completed(@RequestParam String person) throws IOException {
 	    if (!person.toString().equals("")) {
-	        return trackProgress(AttackResult.success("The server has reversed your name: " + new StringBuffer(person).reverse().toString()));
+	        return trackProgress(AttackResult.success(getLabelProvider().get("http-basics.reversed", new StringBuffer(person).reverse().toString())));
 	    } else {
-	        return trackProgress(AttackResult.failed("You are close, try again"));
+	        return trackProgress(AttackResult.failed(getLabelProvider().get("http-basics.close")));
 	    }
 	}
 }
