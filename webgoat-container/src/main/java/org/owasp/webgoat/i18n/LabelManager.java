@@ -1,6 +1,10 @@
 
 package org.owasp.webgoat.i18n;
 
+import org.owasp.webgoat.session.LabelDebugger;
+import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
 import java.util.Locale;
 
 
@@ -33,22 +37,42 @@ import java.util.Locale;
  * @version $Id: $Id
  * @author dm
  */
-public interface LabelManager
+@Component
+public class LabelManager
 {
+	private static final long serialVersionUID = 1L;
+
+	private LabelProvider labelProvider;
+	private LabelDebugger labelDebugger;
+	private Locale locale = new Locale(LabelProvider.DEFAULT_LANGUAGE);
 
 	/**
-	 * <p>setLocale.</p>
+	 * <p>Constructor for LabelManagerImpl.</p>
 	 *
-	 * @param locale a {@link java.util.Locale} object.
+	 * @param labelProvider a {@link LabelProvider} object.
 	 */
-	public void setLocale(Locale locale);
+	protected LabelManager(LabelProvider labelProvider, LabelDebugger labelDebugger) {
+		this.labelDebugger = labelDebugger;
+		this.labelProvider = labelProvider;
+	}
 
-	/**
-	 * <p>get.</p>
-	 *
-	 * @param labelKey a {@link java.lang.String} object.
-	 * @return a {@link java.lang.String} object.
-	 */
-	public String get(String labelKey);
+	/** {@inheritDoc} */
+	public void setLocale(Locale locale)
+	{
+		if (locale != null)
+		{
+			this.locale = locale;
+		}
+	}
+
+	/** {@inheritDoc} */
+	public String get(String labelKey, Object... params)
+	{
+		String label = labelProvider.get(locale, labelKey, params);
+		if (labelDebugger.isEnabled()) {
+			label = "<font color=\"#00CD00\">" + label + "</font>";
+		}
+		return label;
+	}
 
 }

@@ -125,13 +125,6 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     protected abstract boolean getDefaultHidden();
 
     /**
-     * <p>getSubmitMethod</p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public abstract String getSubmitMethod();
-
-    /**
      * Gets the hintCount attribute of the Lesson object
      *
      * @return The hintCount value
@@ -219,4 +212,5 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
     }
 
     public abstract String getId();
+
 }

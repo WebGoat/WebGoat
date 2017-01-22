@@ -5,14 +5,16 @@
  */
 package org.owasp.webgoat.service;
 
+import com.google.common.collect.Lists;
+import org.owasp.webgoat.i18n.LabelManager;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.Hint;
 import org.owasp.webgoat.session.WebSession;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -23,13 +25,16 @@ import static java.util.stream.Collectors.toList;
  * @author rlawson
  * @version $Id: $Id
  */
-@Controller
+@RestController
 public class HintService {
 
+    public static final String URL_HINTS_MVC = "/service/hint.mvc";
     private final WebSession webSession;
+    private final LabelManager labelManager;
 
-    public HintService(WebSession webSession) {
+    public HintService(WebSession webSession, LabelManager labelManager) {
         this.webSession = webSession;
+        this.labelManager = labelManager;
     }
 
     /**
@@ -37,30 +42,44 @@ public class HintService {
      *
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(path = "/service/hint.mvc", produces = "application/json")
-    public
+    @GetMapping(path = URL_HINTS_MVC, produces = "application/json")
     @ResponseBody
-    List<Hint> showHint() {
-        List<Hint> listHints = new ArrayList<Hint>();
+    public List<Hint> showHint() {
         AbstractLesson l = webSession.getCurrentLesson();
-        if (l == null) {
-            return listHints;
-        }
-        List<String> hints = l.getHints();
+        List<Hint> hints = createLessonHints(l);
+        hints.addAll(createAssignmentHints(l));
+        return hints;
 
-        if (hints == null) {
-            return listHints;
-        }
-
-        int idx = 0;
-        return hints.stream().map(h -> createHint(h, l.getName(), idx)).collect(toList());
     }
 
-    private Hint createHint(String hintText, String lesson, int idx) {
+    private List<Hint> createLessonHints(AbstractLesson l) {
+        if ( l != null ) {
+            return l.getHints().stream().map(h -> createHint(h, l.getName(), null)).collect(toList());
+        }
+        return Lists.newArrayList();
+    }
+
+    private List<Hint> createAssignmentHints(AbstractLesson l) {
+        List<Hint> hints = Lists.newArrayList();
+        if ( l != null) {
+            List<Assignment> assignments = l.getAssignments();
+            assignments.stream().forEach(a -> { a.getHints(); createHints(a, hints);});
+        }
+        return hints;
+    }
+
+    private void createHints(Assignment a, List<Hint> hints) {
+        hints.addAll(a.getHints().stream().map(h -> createHint(h, null, a.getPath())).collect(toList()));
+    }
+
+    private Hint createHint(String hintText, String lesson, String assignmentName) {
         Hint hint = new Hint();
-        hint.setHint(hintText);
-        hint.setLesson(lesson);
-        hint.setNumber(idx);
+        hint.setHint(labelManager.get(hintText));
+        if (lesson != null) {
+            hint.setLesson(lesson);
+        } else {
+            hint.setAssignmentPath(assignmentName);
+        }
         return hint;
     }
 }

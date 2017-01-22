@@ -72,6 +72,7 @@ define(['jquery',
 
                 if (this.name === name) {
                     this.lessonContentView.navToPage(pageNum);
+                    this.lessonHintView.hideHints();
                     this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
                     return;
                 }
@@ -94,14 +95,11 @@ define(['jquery',
                 this.helpControlsView = new HelpControlsView({
                     hasPlan:this.lessonInfoModel.get('hasPlan'),
                     hasSolution:this.lessonInfoModel.get('hasSolution'),
-                    hasSource:this.lessonInfoModel.get('hasSource'),
-                    hasHints:(this.lessonInfoModel.get('numberHints') > 0)
-                    //hasAttack:this.lessonInfo.get('hasAttack') // TODO: add attack options
+                    hasSource:this.lessonInfoModel.get('hasSource')
                 });
 
                 this.listenTo(this.helpControlsView,'hints:show',this.showHints);
                 this.listenTo(this.helpControlsView,'lessonOverview:show',this.showLessonOverview)
-                this.listenTo(this.helpControlsView,'attack:show',this.hideShowAttack);
                 this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);

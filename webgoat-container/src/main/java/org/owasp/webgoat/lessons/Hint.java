@@ -26,70 +26,21 @@
  */
 package org.owasp.webgoat.lessons;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * <p>Hint class.</p>
  *
  * @author rlawson
  * @version $Id: $Id
  */
+@Getter
+@Setter
 public class Hint {
 
     private String hint;
     private String lesson;
+    private String assignmentPath;
     private int number;
-
-    /**
-     * <p>Getter for the field <code>hint</code>.</p>
-     *
-     * @return the hint
-     */
-    public String getHint() {
-        return hint;
-    }
-
-    /**
-     * <p>Setter for the field <code>hint</code>.</p>
-     *
-     * @param hint the hint to set
-     */
-    public void setHint(String hint) {
-        this.hint = hint;
-    }
-
-    /**
-     * <p>Getter for the field <code>lesson</code>.</p>
-     *
-     * @return the lesson
-     */
-    public String getLesson() {
-        return lesson;
-    }
-
-    /**
-     * <p>Setter for the field <code>lesson</code>.</p>
-     *
-     * @param lesson the lesson to set
-     */
-    public void setLesson(String lesson) {
-        this.lesson = lesson;
-    }
-
-    /**
-     * <p>Getter for the field <code>number</code>.</p>
-     *
-     * @return the number
-     */
-    public int getNumber() {
-        return number;
-    }
-
-    /**
-     * <p>Setter for the field <code>number</code>.</p>
-     *
-     * @param number the number to set
-     */
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
 }

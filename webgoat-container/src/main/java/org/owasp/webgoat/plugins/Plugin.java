@@ -4,6 +4,8 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentHints;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.endpoints.Endpoint;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
@@ -114,12 +116,17 @@ public class Plugin {
 
 
     private List<Assignment> createAssignment(List<Class<AssignmentEndpoint>> endpoints) {
-        return endpoints.stream().map(e -> new Assignment(e.getSimpleName(), getPath(e))).collect(toList());
+        return endpoints.stream().map(e -> new Assignment(e.getSimpleName(), getPath(e), getHints(e))).collect(toList());
     }
 
     private String getPath(Class<AssignmentEndpoint> e) {
-        return e.getAnnotationsByType(javax.ws.rs.Path.class)[0].value();
+        return e.getAnnotationsByType(AssignmentPath.class)[0].value();
     }
 
-
+    private List<String> getHints(Class<AssignmentEndpoint> e) {
+        if (e.isAnnotationPresent(AssignmentHints.class)) {
+            return Lists.newArrayList(e.getAnnotationsByType(AssignmentHints.class)[0].value());
+        }
+        return Lists.newArrayList();
+    }
 }

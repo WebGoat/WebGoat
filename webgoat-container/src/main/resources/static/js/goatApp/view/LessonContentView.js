@@ -189,7 +189,7 @@ define(['jquery',
             if (this.currentPage < this.numPages -1) {
                this.currentPage++;
                window.location.href = this.model.get('lessonUrl') + '/' + this.currentPage;
-               //this.showCurContentPage(true);
+               //this.showCurContentPage(true);Con
             }
 
             if (this.currentPage > 0) {
@@ -225,10 +225,23 @@ define(['jquery',
             this.$el.find(this.$contentPages[this.currentPage]).show();
         },
 
+        findAssigmentEndpointOnPage: function(pageNumber) {
+            var contentPage = this.$contentPages[this.currentPage];
+            var form = $('form.attack-form', contentPage);
+            var action = form.attr('action')
+            if (action !== undefined) {
+                return action;
+            }
+        },
+
+
+
         navToPage: function (pageNum) {
             this.setCurrentPage(pageNum);//provides validation
             this.showCurContentPage(this.currentPage);
             this.hideShowNavButtons();
+            var assignmentEndpoint = this.findAssigmentEndpointOnPage(pageNum);
+            Backbone.trigger('navigatedToPage',{'pageNumber':pageNum, 'assignmentEndpoint' : assignmentEndpoint});
         },
 
         hideShowNavButtons: function () {

@@ -34,7 +34,6 @@ import java.util.List;
 public abstract class NewLesson extends LessonAdapter {
 
 
-
     @Override
     public abstract Category getDefaultCategory();
 
