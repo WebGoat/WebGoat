@@ -28,10 +28,10 @@ define(['jquery',
 				}
 			},
 
-			getHintsForAssignment: function(assignmentEndpoint) {
+			getHintsForAssignment: function(assignmentPath) {
 				var assignmentHints = new Array();
 				this.models.forEach(function(hint) {
-					if (assignmentEndpoint.includes(hint.get('assignmentPath'))) {
+					if (assignmentPath.includes(hint.get('assignmentPath'))) {
 						assignmentHints.push(hint);
                     }
 				});

@@ -17,11 +17,6 @@ define(['jquery',
              DeveloperControlsView,
              TitleView) {
 
-    var lessonContentView = new LessonContentView();
-    var menuView = new MenuView();
-    var developerControlsView = new DeveloperControlsView();
-    var titleView = new TitleView();
-
     function getContentElement() {
         return $('#main-content');
     };
@@ -38,7 +33,8 @@ define(['jquery',
     };
 
     var GoatAppRouter = Backbone.Router.extend({
-        routes: {
+
+         routes: {
             'welcome': 'welcomeRoute',
             'lesson/:name': 'lessonRoute',
             'lesson/:name/:pageNum': 'lessonPageRoute',
@@ -46,14 +42,9 @@ define(['jquery',
             'reportCard': 'reportCard'
         },
 
-        lessonController: new LessonController({
-            lessonContentView: lessonContentView,
-            titleView: titleView
-        }),
-
-        menuController: new MenuController({
-            menuView: menuView
-        }),
+        lessonController: null,
+        menuController : null,
+        titleView: null,
 
         setUpCustomJS: function () {
             webgoat.customjs.jquery = $; //passing jquery into custom js scope ... still klunky, but works for now
@@ -75,45 +66,35 @@ define(['jquery',
             }
         },
 
-        init: function () {
-            goatRouter = new GoatAppRouter();
+        initialize: function () {
+            this.menuController = new MenuController({menuView: new MenuView()});
+            this.titleView = new TitleView();
+            this.lessonController = new LessonController({lessonContentView: new LessonContentView(), titleView: this.titleView}),
             this.lessonController.start();
-            // this.menuController.initMenu();
             webgoat = {};
             webgoat.customjs = {};
 
             this.setUpCustomJS();
-
-            goatRouter.on('route:lessonRoute', function (name) {
-                render();
-                this.lessonController.loadLesson(name, 0);
-                //TODO - update menu code from below
-                this.menuController.updateMenu(name);
-            });
-
-            goatRouter.on('route:lessonPageRoute', function (name, pageNum) {
-                render();
-                pageNum = (_.isNumber(parseInt(pageNum))) ? parseInt(pageNum) : 0;
-                this.lessonController.loadLesson(name, pageNum);
-                //TODO - update menu code from below
-                this.menuController.updateMenu(name);
-            });
-
-            goatRouter.on('route:welcomeRoute', function () {
-                render();
-                this.lessonController.loadWelcome();
-            });
-
-            goatRouter.on('route:testRoute', function (param) {
-                render();
-                this.lessonController.testHandler(param);
-            });
-
-            goatRouter.on("route", function (route, params) {
-            });
-
             Backbone.history.start();
             this.listenTo(this.lessonController, 'menu:reload', this.reloadMenu)
+        },
+
+        lessonRoute: function(name) {
+            render();
+            this.lessonController.loadLesson(name, 0);
+            this.menuController.updateMenu(name);
+        },
+
+        lessonPageRoute: function (name, pageNum) {
+            render();
+            pageNum = (_.isNumber(parseInt(pageNum))) ? parseInt(pageNum) : 0;
+            this.lessonController.loadLesson(name, pageNum);
+            this.menuController.updateMenu(name);
+        },
+
+        welcomeRoute: function () {
+            render();
+            this.lessonController.loadWelcome();
         },
 
         reloadMenu: function (curLesson) {
@@ -121,8 +102,9 @@ define(['jquery',
         },
 
         reportCard : function () {
+            var self = this;
             require(['goatApp/view/ReportCardView'], function (ReportCardView) {
-                titleView.render('Report card');
+                self.titleView.render('Report card');
                 render(new ReportCardView());
             });
         },

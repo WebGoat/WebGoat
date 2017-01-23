@@ -30,11 +30,9 @@ public class HintService {
 
     public static final String URL_HINTS_MVC = "/service/hint.mvc";
     private final WebSession webSession;
-    private final LabelManager labelManager;
 
-    public HintService(WebSession webSession, LabelManager labelManager) {
+    public HintService(WebSession webSession) {
         this.webSession = webSession;
-        this.labelManager = labelManager;
     }
 
     /**
@@ -74,7 +72,7 @@ public class HintService {
 
     private Hint createHint(String hintText, String lesson, String assignmentName) {
         Hint hint = new Hint();
-        hint.setHint(labelManager.get(hintText));
+        hint.setHint(hintText);
         if (lesson != null) {
             hint.setLesson(lesson);
         } else {

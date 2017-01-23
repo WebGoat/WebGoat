@@ -234,14 +234,12 @@ define(['jquery',
             }
         },
 
-
-
         navToPage: function (pageNum) {
             this.setCurrentPage(pageNum);//provides validation
             this.showCurContentPage(this.currentPage);
             this.hideShowNavButtons();
-            var assignmentEndpoint = this.findAssigmentEndpointOnPage(pageNum);
-            Backbone.trigger('navigatedToPage',{'pageNumber':pageNum, 'assignmentEndpoint' : assignmentEndpoint});
+            var assignmentPath = this.findAssigmentEndpointOnPage(pageNum);
+            Backbone.trigger('navigatedToPage',{'pageNumber':pageNum, 'assignmentPath' : assignmentPath});
         },
 
         hideShowNavButtons: function () {

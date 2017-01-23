@@ -54,7 +54,7 @@ function($,
 
         /**
 		 * Select the hints, we get '/WebGoat/HttpBasics/attack1' in the json (nav) we need to select all the hints
-		 * from the model where the assignment name is contained in the assignmentEndpoint. We do this not to mess
+		 * from the model where the assignment name is contained in the assignmentPath. We do this not to mess
 		 * with contextRoots etc and try to select the name from the url.
 		 *
 		 * @todo we can of course try to add the assigment name to the html form as attribute.
@@ -63,9 +63,9 @@ function($,
          */
         selectHints: function(nav) {
         	this.curHint = 0;
-        	var assignmentEndpoint = nav['assignmentEndpoint'];
-			if (assignmentEndpoint != null) {
-                this.hintsToShow = this.collection.getHintsForAssignment(assignmentEndpoint);
+        	var assignmentPath = nav['assignmentPath'];
+			if (assignmentPath != null) {
+                this.hintsToShow = this.collection.getHintsForAssignment(assignmentPath);
             } else {
 				this.hintsToShow = new Array();
 			}
@@ -97,7 +97,7 @@ function($,
             if(this.hintsToShow.length == 0) {
                 this.hideHints();
             } else {
-                this.$el.find('#lesson-hint-content').html(this.hintsToShow[curHint].get('hint'));
+                this.$el.find('#lesson-hint-content').html(polyglot.t(this.hintsToShow[curHint].get('hint')));
             }
 		},
 

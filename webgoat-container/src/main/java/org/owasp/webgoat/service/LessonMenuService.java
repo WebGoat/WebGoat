@@ -56,7 +56,6 @@ public class LessonMenuService {
 
     private final Course course;
     private UserTracker userTracker;
-    private final WebSession webSession;
 
     /**
      * Returns the lesson menu which is used to build the left nav

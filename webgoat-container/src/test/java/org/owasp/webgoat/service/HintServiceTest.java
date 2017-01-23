@@ -34,13 +34,10 @@ public class HintServiceTest {
     private WebSession websession;
     @Mock
     private AbstractLesson lesson;
-    @Mock
-    private LabelManager labelManager;
 
     @Before
     public void setup() {
-        this.mockMvc = standaloneSetup(new HintService(websession, labelManager)).build();
-        when(labelManager.get(anyString())).then(returnsFirstArg());
+        this.mockMvc = standaloneSetup(new HintService(websession)).build();
     }
 
     @Test

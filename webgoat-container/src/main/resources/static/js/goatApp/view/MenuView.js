@@ -60,7 +60,7 @@ define(['jquery',
 					var categoryLessonList = $('<ul>',{class:'slideDown lessonsAndStages',id:catId}); //keepOpen
 					for (var j=0; j < lessons.length;j++) {
 						var lessonItem = $('<li>',{class:'lesson'});
-						var lessonName = lessons[j].name;
+						var lessonName = polyglot.t(lessons[j].name);
 						var lessonId = catId + '-' + GoatUtils.makeId(lessonName);
 						if (this.curLessonLinkId === lessonId) {
 							lessonItem.addClass('selected');
