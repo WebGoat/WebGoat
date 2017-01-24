@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugin;
 
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import java.util.Map;
  * Created by jason on 1/5/17.
  */
 
-@Path("/IDOR/viewprofile/{id}")
+@AssignmentPath("/IDOR/viewprofile/{id}")
 public class ViewOtherUserProfile extends AssignmentEndpoint {
 
     private String color;

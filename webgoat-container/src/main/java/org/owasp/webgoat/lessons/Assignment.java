@@ -2,8 +2,11 @@ package org.owasp.webgoat.lessons;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * ************************************************************************************************
@@ -35,10 +38,14 @@ import java.io.Serializable;
  * @since November 25, 2016
  */
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class Assignment implements Serializable {
 
+    @NonNull
     private final String name;
+    @NonNull
     private final String path;
+    private List<String> hints;
 
 }

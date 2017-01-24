@@ -1,6 +1,8 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentHints;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 
 import org.owasp.webgoat.session.UserSessionData;
@@ -42,29 +44,32 @@ import java.util.Map;
  * @since January 3, 2017
  */
 
-@Path("/IDOR/login")
+@AssignmentPath("/IDOR/login")
+@AssignmentHints({"idor.hints.idor_login"})
 public class IDORLogin extends AssignmentEndpoint {
 
-    private Map<String,Map<String,String>> idorUserInfo = new HashMap<>();
+    private Map<String, Map<String, String>> idorUserInfo = new HashMap<>();
 
     public void initIDORInfo() {
 
-        idorUserInfo.put("tom",new HashMap<String,String>());
-        idorUserInfo.get("tom").put("password","cat");
-        idorUserInfo.get("tom").put("id","2342384");
-        idorUserInfo.get("tom").put("color","yellow");
-        idorUserInfo.get("tom").put("size","small");
+        idorUserInfo.put("tom", new HashMap<String, String>());
+        idorUserInfo.get("tom").put("password", "cat");
+        idorUserInfo.get("tom").put("id", "2342384");
+        idorUserInfo.get("tom").put("color", "yellow");
+        idorUserInfo.get("tom").put("size", "small");
 
-        idorUserInfo.put("bill",new HashMap<String,String>());
-        idorUserInfo.get("bill").put("password","buffalo");
-        idorUserInfo.get("bill").put("id","2342388");
-        idorUserInfo.get("bill").put("color","brown");
-        idorUserInfo.get("bill").put("size","large");
+        idorUserInfo.put("bill", new HashMap<String, String>());
+        idorUserInfo.get("bill").put("password", "buffalo");
+        idorUserInfo.get("bill").put("id", "2342388");
+        idorUserInfo.get("bill").put("color", "brown");
+        idorUserInfo.get("bill").put("size", "large");
 
     }
 
     @PostMapping
-    public @ResponseBody AttackResult completed(@RequestParam String username, @RequestParam String password) {
+    public
+    @ResponseBody
+    AttackResult completed(@RequestParam String username, @RequestParam String password) {
         initIDORInfo();
         UserSessionData userSessionData = getUserSessionData();
 

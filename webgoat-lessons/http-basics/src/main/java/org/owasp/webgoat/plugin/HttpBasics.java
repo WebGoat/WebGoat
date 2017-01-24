@@ -43,12 +43,7 @@ public class HttpBasics extends NewLesson {
 
     @Override
     public List<String> getHints() {
-        return Lists.newArrayList("Type in your name and press 'go'",
-                "Turn on Show Parameters or other features",
-                "Try to intercept the request with <a href='https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project' title='Link to ZAP'>OWASP ZAP</a>",
-                "Press the Show Lesson Plan button to view a lesson summary",
-                "Press the Show Solution button to view a lesson solution",
-                "Use OWASP ZAP to intercept the request and see the type of HTTP command");
+        return Lists.newArrayList();
     }
 
     @Override
@@ -58,7 +53,7 @@ public class HttpBasics extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "HTTP Basics";
+        return "http-basics.title";
     }
 
     @Override

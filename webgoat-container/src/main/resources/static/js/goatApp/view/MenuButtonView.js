@@ -7,13 +7,13 @@ function($,
 	_,
 	Backbone) {
 	return Backbone.View.extend({
-		el:'#toggle-menu', //Check this,
+		el:'#toggle-menu',
 
-		initialize: function() {
-			this.$el.on('click',this.toggleMenu);
-		},
-		
-		toggleMenu: function() {
+        events: {
+            "click": "toggleMenu"
+        },
+
+		toggleMenu: function(e) {
 			//left
 			if (!$('.sidebarRight').hasClass('.sidebar-toggle-right')) {
 	            $('.sidebarRight').removeClass('sidebar-toggle-right');
@@ -21,7 +21,7 @@ function($,
             }
             $('.sidebar').toggleClass('sidebar-toggle');
             $('.main-content-wrapper').toggleClass('main-content-toggle-left');
-            //e.stopPropagation();
+            e.stopImmediatePropagation();
         }
 	});
 });

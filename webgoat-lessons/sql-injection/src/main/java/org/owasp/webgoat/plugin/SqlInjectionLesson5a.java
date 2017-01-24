@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +52,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@Path("/SqlInjection/attack5a")
+@AssignmentPath("/SqlInjection/attack5a")
 public class SqlInjectionLesson5a extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)

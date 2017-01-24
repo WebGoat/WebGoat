@@ -1,6 +1,9 @@
 package org.owasp.webgoat.plugin;
 
+import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentHints;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * *************************************************************************************************
@@ -44,7 +48,8 @@ import java.io.IOException;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@Path("/HttpBasics/attack2")
+@AssignmentPath("/HttpBasics/attack2")
+@AssignmentHints({"http-basics.hints.http_basic_quiz.1", "http-basics.hints.http_basic_quiz.2"})
 public class HttpBasicsQuiz extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -54,12 +59,12 @@ public class HttpBasicsQuiz extends AssignmentEndpoint {
 	    } else {
 	    	StringBuffer message = new StringBuffer();
 	    	if (!"POST".equals(answer.toUpperCase())) {
-	    		message.append("The HTTP Command is incorrect.  ");
+	    		message.append(getLabelProvider().get("http-basics.incorrect"));
  			}
 	    	if (!magic_answer.equals(magic_num)){
-	    		message.append("The magic number is incorrect.  ");
+	    		message.append(getLabelProvider().get("http-basics.magic"));
 	    	}
-	        return trackProgress(AttackResult.failed("You are close, try again.  " + message.toString()));
+	        return trackProgress(AttackResult.failed(getLabelProvider().get("http-basics.close", message.toString())));
 	    }
 	}
 }

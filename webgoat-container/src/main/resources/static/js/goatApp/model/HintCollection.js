@@ -1,7 +1,7 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/HintModel'], 
+	'goatApp/model/HintModel'],
 	
 	function($,
 	_,
@@ -25,8 +25,17 @@ define(['jquery',
 			checkNullModel:function() {
 				if (this.models[0].indexOf('There are no hints defined.') > -1) {
 					this.reset([]);
-					//return this.models;
 				}
+			},
+
+			getHintsForAssignment: function(assignmentPath) {
+				var assignmentHints = new Array();
+				this.models.forEach(function(hint) {
+					if (assignmentPath.includes(hint.get('assignmentPath'))) {
+						assignmentHints.push(hint);
+                    }
+				});
+				return assignmentHints;
 			}
 		});
 });

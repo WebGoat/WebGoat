@@ -1,6 +1,7 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.endpoints.AssignmentEndpoint;
+import org.owasp.webgoat.endpoints.AssignmentPath;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +15,7 @@ import java.io.IOException;
 /**
  * Created by jason on 11/23/16.
  */
-@Path("/CrossSiteScripting/dom-xss")
+@AssignmentPath("/CrossSiteScripting/dom-xss")
 public class DOMCrossSiteScripting extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody

@@ -44,7 +44,7 @@ public class IDOR extends NewLesson {
 
     @Override
     public List<String> getHints() {
-        return Lists.newArrayList("log in first");
+        return Lists.newArrayList();
     }
 
     @Override
@@ -54,14 +54,12 @@ public class IDOR extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "Insecure Direct Object References";
+        return "idor.title";
     }
 
     @Override
     public String getId() {
         return "IDOR";
     }
-
-
 
 }

@@ -25,6 +25,9 @@
  */
 package org.owasp.webgoat.endpoints;
 
+import lombok.Getter;
+import org.owasp.webgoat.i18n.LabelManager;
+import org.owasp.webgoat.i18n.LabelProvider;
 import org.owasp.webgoat.lessons.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.UserTracker;
@@ -50,6 +53,9 @@ public abstract class AssignmentEndpoint extends Endpoint {
 	private WebSession webSession;
     @Autowired
     private UserSessionData userSessionData;
+    @Autowired
+    @Getter
+    private LabelManager labelProvider;
 
   
 	//// TODO: 11/13/2016 events better fit?
@@ -72,6 +78,6 @@ public abstract class AssignmentEndpoint extends Endpoint {
 
     @Override
     public final String getPath() {
-        return this.getClass().getAnnotationsByType(Path.class)[0].value();
+        return this.getClass().getAnnotationsByType(AssignmentPath.class)[0].value();
     }
 }

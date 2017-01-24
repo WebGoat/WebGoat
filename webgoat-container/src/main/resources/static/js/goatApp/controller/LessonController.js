@@ -72,6 +72,7 @@ define(['jquery',
 
                 if (this.name === name) {
                     this.lessonContentView.navToPage(pageNum);
+                    this.lessonHintView.hideHints();
                     this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
                     return;
                 }
@@ -80,9 +81,7 @@ define(['jquery',
                 if (typeof(name) === 'undefined' || name === null) {
                     //TODO: implement lesson not found or return to welcome page?
                 }
-                this.lessonContent.loadData({
-                    'name':name
-                });
+                this.lessonContent.loadData({'name':name});
                 this.planView = {};
                 this.solutionView = {};
                 this.sourceView = {};
@@ -94,23 +93,20 @@ define(['jquery',
                 this.helpControlsView = new HelpControlsView({
                     hasPlan:this.lessonInfoModel.get('hasPlan'),
                     hasSolution:this.lessonInfoModel.get('hasSolution'),
-                    hasSource:this.lessonInfoModel.get('hasSource'),
-                    hasHints:(this.lessonInfoModel.get('numberHints') > 0)
-                    //hasAttack:this.lessonInfo.get('hasAttack') // TODO: add attack options
+                    hasSource:this.lessonInfoModel.get('hasSource')
                 });
 
                 this.listenTo(this.helpControlsView,'hints:show',this.showHints);
                 this.listenTo(this.helpControlsView,'lessonOverview:show',this.showLessonOverview)
-                this.listenTo(this.helpControlsView,'attack:show',this.hideShowAttack);
                 this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
                 this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
-                this.listenTo(this,'hints:show',this.onShowHints);
 
                 this.helpControlsView.render();
                 this.lessonOverview.hideLessonOverview();
                 this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
+                this.helpControlsView.showHideHintsButton({});
             };
 
             this.updateMenu = function() {
@@ -189,19 +185,6 @@ define(['jquery',
 
             this.showLessonOverview = function() {
                this.lessonOverviewModel.fetch().then(this.lessonOverview.render());
-            };
-
-            this.hideShowAttack = function (options) { // will likely expand this to encompass
-                if (options.show) {
-                    $('#attack-container').show();
-                    $('#attack-container div.modal-header button.close, #about-modal div.modal-footer button').unbind('click').on('click', function() {
-                        $('#attack-container').hide(200);
-                    });
-                    if (this.lessonInfoModel.get('numberHints') > 0) {
-
-                        this.lessonContentView.$el.find('#show-hints-button').unbind().on('click',_.bind(this.showHints,this)).show();
-                    }
-                }
             };
 
             this.restartLesson = function() {

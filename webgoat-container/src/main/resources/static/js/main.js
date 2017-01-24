@@ -18,6 +18,7 @@ require.config({
     backbone: 'libs/backbone-min',
     text: 'libs/text',
     templates: 'goatApp/templates',
+    polyglot: 'libs/polyglot.min'
   },
   shim: {
     underscore: {

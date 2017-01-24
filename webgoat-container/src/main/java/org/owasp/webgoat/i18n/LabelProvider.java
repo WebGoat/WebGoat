@@ -97,8 +97,8 @@ public class LabelProvider {
      * @param strName a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
      */
-    public String get(Locale locale, String strName) {
-        return pluginLabels.getMessage(strName, null, useLocaleOrFallbackToEnglish(locale));
+    public String get(Locale locale, String strName, Object... params) {
+        return pluginLabels.getMessage(strName, params, useLocaleOrFallbackToEnglish(locale));
     }
 
     private Locale useLocaleOrFallbackToEnglish(Locale locale) {
