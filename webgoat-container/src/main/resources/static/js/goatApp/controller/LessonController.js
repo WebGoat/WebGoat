@@ -64,8 +64,8 @@ define(['jquery',
                 this.listenTo(this.lessonContent,'content:loaded',this.onContentLoaded);
                 this.userAndInfoView = new UserAndInfoView();
                 this.menuButtonView = new MenuButtonView();
-                this.listenTo(this.lessonContentView, 'lesson:complete', this.updateMenu);
-                this.listenTo(this.lessonContentView, 'lesson:complete', this.updateLessonOverview);
+                this.listenTo(this.lessonContentView, 'assignment:complete', this.updateMenu);
+                this.listenTo(this.lessonContentView, 'assignment:complete', this.updateLessonOverview);
             };
 
             this.loadLesson = function(name,pageNum) {

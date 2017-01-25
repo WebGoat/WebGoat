@@ -34,7 +34,7 @@ import lombok.Getter;
 @Getter
 public class AttackResult {
 
-    private boolean lessonCompleted;
+    private boolean assignmentCompleted;
     private String feedback;
     private String output;
 
@@ -48,7 +48,7 @@ public class AttackResult {
 
     public static AttackResult success(String feedback, String output) {
         AttackResult attackResult = new AttackResult();
-        attackResult.lessonCompleted = true;
+        attackResult.assignmentCompleted = true;
         attackResult.feedback = feedback;
         attackResult.output = output;
         return attackResult;
@@ -60,13 +60,13 @@ public class AttackResult {
 
     public static AttackResult failed(String feedback, String output) {
         AttackResult attackResult = new AttackResult();
-        attackResult.lessonCompleted = false;
+        attackResult.assignmentCompleted = false;
         attackResult.feedback = feedback;
         attackResult.output = output;
         return attackResult;
     }
 
     public boolean assignmentSolved() {
-        return lessonCompleted;
+        return assignmentCompleted;
     }
 }

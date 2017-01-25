@@ -1,0 +1,4 @@
+== Was it Really Reflected XSS?
+
+Now, was the last attack truly reflected XSS?
+
