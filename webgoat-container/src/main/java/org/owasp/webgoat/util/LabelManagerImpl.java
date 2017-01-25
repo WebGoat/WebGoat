@@ -61,8 +61,9 @@ public class LabelManagerImpl implements LabelManager, Serializable
 	 *
 	 * @param labelProvider a {@link org.owasp.webgoat.util.LabelProvider} object.
 	 */
-	protected LabelManagerImpl(LabelProvider labelProvider) {
+	protected LabelManagerImpl(LabelProvider labelProvider, LabelDebugger labelDebugger) {
 		this.labelProvider = labelProvider;
+		this.labelDebugger = labelDebugger;
 	}
 
 	/** {@inheritDoc} */
