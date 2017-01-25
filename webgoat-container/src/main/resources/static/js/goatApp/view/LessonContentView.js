@@ -114,11 +114,22 @@ define(['jquery',
             this.renderFeedback(data.feedback);
 
             this.renderOutput(data.output || "");
-            if (data.lessonCompleted) {
-                this.curForm.reset();
-                this.trigger('lesson:complete');
+            if (data.assignmentCompleted) {
+                this.markAssignmentComplete();
+                this.trigger('assignment:complete');
+            } else {
+                this.markAssignmentIncomplete();
             }
             return false;
+        },
+
+        markAssignmentComplete: function () {
+            this.curForm.reset();
+            $(this.curForm).siblings('.assignment-success').find('i').removeClass('hidden');
+        },
+
+        markAssignmentIncomplete: function () {
+            $(this.curForm).siblings('.assignment-success').find('i').addClass('hidden');
         },
 
         onErrorResponse: function (a,b,c) {

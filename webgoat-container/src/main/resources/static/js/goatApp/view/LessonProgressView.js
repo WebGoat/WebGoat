@@ -16,7 +16,7 @@ define(['jquery',
                 }
             },
             render: function () {
-                if (this.model.get("lessonCompleted")) {
+                if (this.model.get("assignmentCompleted")) {
                     this.$el.html(this.model.get('successMessage'));
                 } else {
                     this.$el.html("");

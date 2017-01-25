@@ -20,6 +20,8 @@
     <div class="adoc-content" th:replace="doc:XXE_simple.adoc"></div>
     <!-- if including attack, reuse this section, leave classes in place -->
     <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
         <!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
         <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
         <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
@@ -69,6 +71,7 @@
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
     <div class="adoc-content" th:replace="doc:XXE_changing_content_type.adoc"></div>
     <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
         <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
         <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
@@ -128,6 +131,7 @@
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
     <div class="adoc-content" th:replace="doc:XXE_blind_assignment.adoc"></div>
     <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
         <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
         <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
