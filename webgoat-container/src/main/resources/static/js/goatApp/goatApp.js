@@ -1,5 +1,15 @@
-define(['jquery', 'underscore', 'backbone', 'polyglot', 'goatApp/view/GoatRouter', 'goatApp/support/goatAsyncErrorHandler'],
-    function ($, _, Backbone, Polyglot, Router, asyncErrorHandler) {
+define(['jquery',
+        'underscore',
+        'backbone',
+        'polyglot',
+        'goatApp/view/GoatRouter',
+        'goatApp/support/goatAsyncErrorHandler'],
+    function ($,
+         _,
+         Backbone,
+         Polyglot,
+         Router,
+         asyncErrorHandler) {
         'use strict'
         return {
             initApp: function () {
