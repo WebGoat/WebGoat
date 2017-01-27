@@ -17,7 +17,7 @@ Once you have 'installed' ZAP (you don't really install it, just unpack it and r
 === Start ZAP
 When ZAP starts, you will be presented with a dialog such as the one below ...
 
-image::plugin_lessons/plugin/HttpBasics/images/zap-start.png[ZAP Start,548,256,style="lesson-image"]
+image::plugin_lessons/plugin/HttpProxies/images/zap-start.png[ZAP Start,548,256,style="lesson-image"]
 
 === Configure Proxy's Port
 
@@ -26,5 +26,5 @@ image::plugin_lessons/plugin/HttpBasics/images/zap-start.png[ZAP Start,548,256,s
 . Choose an available port ... Since WebGoat is using port 8080, use something different like 8090
 . Click OK
 
-image::plugin_lessons/plugin/HttpBasics/images/zap-local-proxy.png[ZAP local proxy,800,648,style="lesson-image"]
+image::plugin_lessons/plugin/HttpProxies/images/zap-local-proxy.png[ZAP local proxy,800,648,style="lesson-image"]
 
