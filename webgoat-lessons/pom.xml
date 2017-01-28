@@ -17,6 +17,7 @@
         <module>client-side-filtering</module>
         <module>cross-site-scripting</module>
         <module>http-basics</module>
+        <module>http-proxies</module>
         <module>sql-injection</module>
         <module>xxe</module>
         <module>idor</module>
