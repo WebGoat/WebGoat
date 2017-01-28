@@ -13,13 +13,19 @@ js/main.js << main file for require.js
 require.config({
   baseUrl: "js/",
   paths: {
-    jquery: 'libs/jquery-1.10.2.min',
+    jquery: 'libs/jquery-2.2.4.min',
     underscore: 'libs/underscore-min',
     backbone: 'libs/backbone-min',
     text: 'libs/text',
     templates: 'goatApp/templates',
     polyglot: 'libs/polyglot.min'
   },
+
+  map: {
+    'libs/jquery-base' : {'jquery':'libs/jquery-2.2.4.min'},
+    'libs/jquery-vuln' : {'jquery':'libs/jquery-2.1.4.min'}
+  },
+
   shim: {
     underscore: {
       exports: "_"
@@ -31,6 +37,6 @@ require.config({
   }
 });
 
-require(['jquery','underscore','backbone','goatApp/goatApp'], function($,_,Backbone,Goat){
-  Goat.initApp();
+require(['jquery','libs/jquery-base','libs/jquery-vuln','underscore','backbone','goatApp/goatApp'], function($,jqueryBase,jqueryVuln,_,Backbone,Goat){
+    Goat.initApp();
 });

@@ -82,7 +82,7 @@ public class Course {
      * @return a {@link java.util.List} object.
      */
     public List<AbstractLesson> getLessons(Category category) {
-        return this.lessons.stream().filter(l -> l.getCategory() == category).collect(toList());
+        return this.lessons.stream().filter(l -> l.getCategory() == category).sorted().collect(toList());
     }
 
     public void setLessons(List<AbstractLesson> lessons) {

@@ -75,8 +75,8 @@ public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint{
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            return AttackResult.failed("an error occurred with your request");
         }
-        return AttackResult.failed("fall back");
     }
 
 }

@@ -1,4 +1,5 @@
 define(['jquery',
+    'libs/jquery-vuln',
     'underscore',
     'backbone',
     'goatApp/controller/LessonController',
@@ -8,6 +9,7 @@ define(['jquery',
     'goatApp/view/DeveloperControlsView',
     'goatApp/view/TitleView'
 ], function ($,
+             $vuln,
              _,
              Backbone,
              LessonController,
@@ -48,6 +50,7 @@ define(['jquery',
 
         setUpCustomJS: function () {
             webgoat.customjs.jquery = $; //passing jquery into custom js scope ... still klunky, but works for now
+            webgoat.customjs.jqueryVuln = $vuln;
 
             // temporary shim to support dom-xss lesson
             webgoat.customjs.phoneHome = function (e) {

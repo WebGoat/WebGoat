@@ -16,7 +16,7 @@ This will send all of your traffic to the proxy. Since we haven't set up a trust
 .. input *8090* as the port
 .. check the _Use this proxy server for all protocols_ checkbox
 
-image::plugin_lessons/plugin/HttpBasics/images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
+image::plugin_lessons/plugin/HttpProxies/images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
 
 ==== Chrome Proxy Config
 
@@ -28,4 +28,4 @@ image::plugin_lessons/plugin/HttpBasics/images/firefox-proxy-config.png[Firefox 
 . Input 127..0.0.1 in the first box under _Web Proxy Server_ and your port # (8090 is what used earlier) in the second box (to the right)
 . You may also want to clear the _Bypass proxy settings for these Hosts & Domains_ text input at the bottom, but shouldn't need to
 
-image::plugin_lessons/plugin/HttpBasics/images/chrome-manual-proxy.png[Chrome Proxy Config,700,447,style="lesson-image"]
+image::plugin_lessons/plugin/HttpProxies/images/chrome-manual-proxy.png[Chrome Proxy Config,700,447,style="lesson-image"]
