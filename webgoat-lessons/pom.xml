@@ -20,6 +20,7 @@
         <module>sql-injection</module>
         <module>xxe</module>
         <module>idor</module>
+        <module>vulnerable-components</module>
     </modules>
 
     <dependencies>
