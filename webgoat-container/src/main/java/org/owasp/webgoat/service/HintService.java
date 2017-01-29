@@ -6,7 +6,6 @@
 package org.owasp.webgoat.service;
 
 import com.google.common.collect.Lists;
-import org.owasp.webgoat.i18n.LabelManager;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.Hint;

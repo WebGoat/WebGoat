@@ -3,28 +3,15 @@ package org.owasp.webgoat.plugins;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.owasp.webgoat.i18n.LabelProvider;
 import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -150,8 +137,7 @@ public class PluginsExtractor {
                             plugin.getOriginationJar());
                 }
             }
-            LabelProvider.updatePluginResources(
-                    pluginTargetDirectory.toPath().resolve("plugin/i18n/WebGoatLabels.properties"));
+            new MessagePropertiesMerger(pluginTargetDirectory).mergeAllLanguage();
             return plugins;
         } finally {
             executorService.shutdown();

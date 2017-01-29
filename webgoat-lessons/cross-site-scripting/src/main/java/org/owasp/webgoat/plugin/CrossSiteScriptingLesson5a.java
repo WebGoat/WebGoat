@@ -1,18 +1,16 @@
 
 package org.owasp.webgoat.plugin;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Path;
-
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 
 
@@ -64,6 +62,6 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
        	cart.append("<p>We have chaged credit card:" + field1 + "<br />");
        	cart.append(   "                             ------------------- <br />");
        	cart.append(   "                               $" + totalSale);
-        return trackProgress(AttackResult.failed(cart.toString()));
+        return trackProgress(failed().output(cart.toString()).build());
 	}
 }

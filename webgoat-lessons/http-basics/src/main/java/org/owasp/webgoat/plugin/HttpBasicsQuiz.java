@@ -1,24 +1,18 @@
 package org.owasp.webgoat.plugin;
 
-import com.beust.jcommander.internal.Lists;
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentHints;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Path;
 import java.io.IOException;
-import java.util.List;
 
 /**
- * *************************************************************************************************
- *
- *
  * This file is part of WebGoat, an Open Web Application Security Project
  * utility. For details, please see http://www.owasp.org/
  *
@@ -55,16 +49,15 @@ public class HttpBasicsQuiz extends AssignmentEndpoint {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num, HttpServletRequest request) throws IOException {
         if ("POST".equals(answer.toUpperCase()) && magic_answer.equals(magic_num)) {
-	        return trackProgress(AttackResult.success());
+	        return trackProgress(success().build());
 	    } else {
-	    	StringBuffer message = new StringBuffer();
 	    	if (!"POST".equals(answer.toUpperCase())) {
-	    		message.append(getLabelProvider().get("http-basics.incorrect"));
+                return trackProgress(failed().feedback("http-basics.incorrect").build());
  			}
 	    	if (!magic_answer.equals(magic_num)){
-	    		message.append(getLabelProvider().get("http-basics.magic"));
+                return trackProgress(failed().feedback("http-basics.magic").build());
 	    	}
-	        return trackProgress(AttackResult.failed(getLabelProvider().get("http-basics.close", message.toString())));
 	    }
+	    return trackProgress(failed().build());
 	}
 }

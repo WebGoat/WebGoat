@@ -1,10 +1,9 @@
 package org.owasp.webgoat.plugin;
 
 
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.endpoints.Endpoint;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Path;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,15 +64,15 @@ public class IDORViewOtherProfile extends AssignmentEndpoint{
                 UserProfile requestedProfile = new UserProfile(userId);
                 // secure code would ensure there was a horizontal access control check prior to dishing up the requested profile
                 if (requestedProfile.getUserId().equals("2342388")){
-                    return trackProgress(AttackResult.success("Well done, you found someone else's profile",requestedProfile.profileToMap().toString()));
+                    return trackProgress(success().feedback("idor.view.profile.success").output(requestedProfile.profileToMap().toString()).build());
                 } else {
-                    return trackProgress((AttackResult.failed("You're on the right path, try a different id")));
+                    return trackProgress(failed().feedback("idor.view.profile.close1").build());
                 }
             } else {
-                return trackProgress((AttackResult.failed("Try again. You need to use the same method/URL you used to access your own profile via direct object reference.")));
+                return trackProgress(failed().feedback("idor.view.profile.close2").build());
             }
         }
-        return trackProgress((AttackResult.failed("Try again. ")));
+        return trackProgress(failed().build());
     }
 
 }

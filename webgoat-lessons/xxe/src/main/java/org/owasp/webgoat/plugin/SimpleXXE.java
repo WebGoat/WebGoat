@@ -1,16 +1,16 @@
 package org.owasp.webgoat.plugin;
 
 import org.apache.commons.exec.OS;
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.ws.rs.Path;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLInputFactory;
@@ -47,6 +47,7 @@ import java.io.StringReader;
  * @since November 17, 2016
  */
 @AssignmentPath("XXE/simple")
+@AssignmentHints({"xxe.hints.simple.xxe.1", "xxe.hints.simple.xxe.2", "xxe.hints.simple.xxe.3", "xxe.hints.simple.xxe.4"})
 public class SimpleXXE extends AssignmentEndpoint {
 
     private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "opt", "var"};
@@ -57,13 +58,11 @@ public class SimpleXXE extends AssignmentEndpoint {
     public AttackResult createNewUser(@RequestBody String userInfo) throws Exception {
         User user = parseXml(userInfo);
         if (checkSolution(user)) {
-          return AttackResult.success("Congratulation", String.format("Welcome %s you can now login to our website", user.getUsername()));
+          return trackProgress(success()
+              .output("xxe.simple.output")
+              .outputArgs(user.getUsername()).build());
         }
-        if (userInfo.contains("<!DOCTYPE")) {
-            return AttackResult.failed("Try again you did include a doctype in the xml!");
-        } else {
-            return AttackResult.failed(String.format("Welcome %s you can now login to our website", user.getUsername()));
-        }
+        return trackProgress(failed().build());
     }
 
     public static User parseXml(String xml) throws Exception {
