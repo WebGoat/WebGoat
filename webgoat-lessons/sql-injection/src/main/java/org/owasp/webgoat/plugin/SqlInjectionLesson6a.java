@@ -1,24 +1,18 @@
 
 package org.owasp.webgoat.plugin;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Path;
-
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.sql.*;
 
 
 
@@ -86,26 +80,26 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     // If they get back more than one user they succeeded
                     if (results.getRow() >= 6)
                     {
-                    	return trackProgress(AttackResult.success("You have succeed: " + output.toString()));
+                    	return trackProgress(success().feedback("sql-injection.6b.success").feedbackArgs(output.toString()).build());
                    } else {
-                	   return trackProgress(AttackResult.failed("You are close, try again. " + output.toString()));
+                	   return trackProgress(failed().output(output.toString()).build());
                    }
                     
                 }
                 else
                 {
-                	return trackProgress(AttackResult.failed("No Results Matched. Try Again. "));
+                	return trackProgress(failed().feedback("sql-injection.6b.no.results").build());
 
                 }
             } catch (SQLException sqle)
             {
             	
-            	return trackProgress(AttackResult.failed(sqle.getMessage()));
+            	return trackProgress(failed().output(sqle.getMessage()).build());
             }
         } catch (Exception e)
         {
         	e.printStackTrace();
-        	return trackProgress(AttackResult.failed( "ErrorGenerating" + this.getClass().getName() + " : " + e.getMessage()));
+        	return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
         }
     }
     

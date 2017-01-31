@@ -2,16 +2,15 @@ package org.owasp.webgoat.plugin;
 
 import com.google.common.base.Joiner;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.ws.rs.Path;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -66,9 +65,9 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
         boolean solved = lines.stream().filter(l -> l.contains("WebGoat 8 rocks...")).findFirst().isPresent();
         logFile.delete();
         if (solved) {
-            return AttackResult.success(String.format("Contents of the file is: %s", Joiner.on('\n').join(lines)));
+            return success().output("xxe.blind.output").outputArgs(Joiner.on('\n').join(lines)).build();
         } else {
-            return AttackResult.failed("Try again...", error);
+            return failed().output(error).build();
         }
     }
 

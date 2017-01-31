@@ -2,24 +2,8 @@ package org.owasp.webgoat.plugin;
 
 
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Path;
-
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
-import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
 
 
 
@@ -55,7 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @AssignmentPath("/CrossSiteScripting/attack5b")
 public class CrossSiteScriptingLesson5b extends AssignmentEndpoint {
-
+/*
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String userid, HttpServletRequest request) throws IOException {
 		return injectableQuery(userid);
@@ -225,6 +209,6 @@ public class CrossSiteScriptingLesson5b extends AssignmentEndpoint {
 //
 //    }
 
- 
+ */
 
 }

@@ -1,9 +1,9 @@
 package org.owasp.webgoat.plugin;
 
 import com.google.common.collect.Lists;
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Path;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +42,7 @@ public class ViewOtherUserProfile extends AssignmentEndpoint {
 
         if (userSessionData.getValue("idor-authenticated-as") == null) {
             json.add(errorMap);
-            return trackProgress(AttackResult.failed("You must authenticate first"));
+            return trackProgress(failed().feedback("idor.view.other.profile.failure1").build());
         } else {
             if (userSessionData.getValue("idor-authenticated-as").equals("bill") || userSessionData.getValue("idor-authenticated-as").equals("tom")) {
                 System.out.println("**** authenticated as " + userSessionData.getValue("idor-authenticated-as"));
@@ -52,11 +51,11 @@ public class ViewOtherUserProfile extends AssignmentEndpoint {
                 //secure code would check to make sure authUserId matches userId or some similar access control
                 // ... and in this endpoint, we won't bother with that
                 UserProfile userProfile = new UserProfile(userId);
-                return trackProgress(AttackResult.failed("still working"));
+                return trackProgress(failed().feedback("idor.view.other.profile.failure2").build());
             }
         }
         // else
-        return trackProgress(AttackResult.failed("fall back"));
+        return trackProgress(failed().build());
     }
 
 

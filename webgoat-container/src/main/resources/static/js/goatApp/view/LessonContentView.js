@@ -148,13 +148,13 @@ define(['jquery',
         },
 
         renderFeedback: function(feedback) {
-            this.$curFeedback.html(feedback || "");
+            this.$curFeedback.html(polyglot.t(feedback) || "");
             this.$curFeedback.show(400)
 
         },
 
         renderOutput: function(output) {
-            this.$curOutput.html(output || "");
+            this.$curOutput.html(polyglot.t(output) || "");
             this.$curOutput.show(400)
         },
 

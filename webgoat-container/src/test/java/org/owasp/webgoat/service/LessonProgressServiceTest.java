@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.owasp.webgoat.i18n.LabelManager;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.session.LessonTracker;
@@ -65,9 +64,6 @@ public class LessonProgressServiceTest {
     private LessonTracker lessonTracker;
     @Mock
     private WebSession websession;
-    @Mock
-    private LabelManager labelManager;
-
 
     @Before
     public void setup() {
@@ -75,7 +71,7 @@ public class LessonProgressServiceTest {
         when(userTracker.getLessonTracker(any())).thenReturn(lessonTracker);
         when(websession.getCurrentLesson()).thenReturn(lesson);
         when(lessonTracker.getLessonOverview()).thenReturn(Maps.newHashMap(assignment, true));
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new LessonProgressService(labelManager, userTracker, websession)).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new LessonProgressService(userTracker, websession)).build();
     }
 
     @Test

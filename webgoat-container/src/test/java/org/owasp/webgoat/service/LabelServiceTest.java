@@ -1,10 +1,9 @@
 package org.owasp.webgoat.service;
 
-import org.assertj.core.util.Maps;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.owasp.webgoat.i18n.LabelProvider;
+import org.owasp.webgoat.session.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,9 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Locale;
-
-import static org.mockito.Mockito.when;
 import static org.owasp.webgoat.service.LabelService.URL_LABELS_MVC;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,30 +45,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @version $Id: $Id
  * @since November 29, 2016
  */
-@WebMvcTest(value = {LabelService.class, LabelProvider.class})
+@WebMvcTest(value = {LabelService.class})
 @RunWith(SpringRunner.class)
 public class LabelServiceTest {
 
     @Autowired
     public MockMvc mockMvc;
     @MockBean
-    private LabelProvider labelProvider;
+    private Course course;
 
     @Test
     @WithMockUser(username = "guest", password = "guest")
     public void withoutLocale() throws Exception {
-        when(labelProvider.getLabels(Locale.ENGLISH)).thenReturn(Maps.newHashMap("key", "value"));
         mockMvc.perform(MockMvcRequestBuilders.get(URL_LABELS_MVC))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("key", CoreMatchers.is("value")));
+                .andExpect(jsonPath("password", CoreMatchers.is("Password")));
     }
 
     @Test
     @WithMockUser(username = "guest", password = "guest")
     public void withLocale() throws Exception {
-        when(labelProvider.getLabels(Locale.GERMAN)).thenReturn(Maps.newHashMap("key", "value"));
-        mockMvc.perform(MockMvcRequestBuilders.get(URL_LABELS_MVC).param("lang", "de"))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL_LABELS_MVC).param("lang", "nl"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("key", CoreMatchers.is("value")));
+                .andExpect(jsonPath("password", CoreMatchers.is("Wachtwoord")));
     }
 }
