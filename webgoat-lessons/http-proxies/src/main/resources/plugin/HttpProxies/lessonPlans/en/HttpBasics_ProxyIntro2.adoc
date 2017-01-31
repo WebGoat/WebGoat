@@ -1,11 +1,9 @@
 == HTTP Proxy Setup: The Browser
 
-=== Point Browser at Proxy
-
 There are many plugins to manage this, but this will show you how to do this manually in Firefox and Chrome.
 This will send all of your traffic to the proxy. Since we haven't set up a trusted cert. yet, that may cause issues with any https requests. More on that in a bit though. Let's stick to basics for now:
 
-==== Firefox Proxy Config
+=== Firefox Proxy Config
 
 . Go to your Firefox Preferences (Mac, Linux) or Options (Windows) from the menu.
 . Select _Advanced_ on the left
@@ -18,7 +16,7 @@ This will send all of your traffic to the proxy. Since we haven't set up a trust
 
 image::plugin_lessons/plugin/HttpProxies/images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
 
-==== Chrome Proxy Config
+=== Chrome Proxy Config
 
 . Bring up Chrome's settings form the menu
 . In the _Search settings_ box type in *proxy* and hit Enter/Return. This should bring up the Network heading with a _Change proxy settings_ button.
@@ -29,3 +27,13 @@ image::plugin_lessons/plugin/HttpProxies/images/firefox-proxy-config.png[Firefox
 . You may also want to clear the _Bypass proxy settings for these Hosts & Domains_ text input at the bottom, but shouldn't need to
 
 image::plugin_lessons/plugin/HttpProxies/images/chrome-manual-proxy.png[Chrome Proxy Config,700,447,style="lesson-image"]
+
+=== Other Proxy Configuration Options
+
+If you don't want to manage the proxy manually, there are extensions or plugins that can help you to do so without digging through as much config,
+or based on URL patterns. Examples include:
+
+* FoxyProxy for Firefox
+* Proxy Switcher for Firefox
+* Toggle Proxy for Firefox
+* Still looking for suggestions for Chrome ...
