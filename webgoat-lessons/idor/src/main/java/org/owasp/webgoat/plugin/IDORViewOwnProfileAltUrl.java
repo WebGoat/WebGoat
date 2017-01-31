@@ -1,10 +1,9 @@
 package org.owasp.webgoat.plugin;
 
 
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.endpoints.Endpoint;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -65,17 +64,17 @@ public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint{
                 String[] urlParts = url.split("/");
                 if (urlParts[0].equals("WebGoat") && urlParts[1].equals("IDOR") && urlParts[2].equals("profile") && urlParts[3].equals(authUserId)) {
                     UserProfile userProfile = new UserProfile(authUserId);
-                    return trackProgress(AttackResult.success("congratultions, you have used the alternate Url/route to view your own profile.",userProfile.profileToMap().toString()));
+                    return trackProgress(success().feedback("idor.view.own.profile.success").output(userProfile.profileToMap().toString()).build());
                 } else {
-                    return trackProgress(AttackResult.failed("please try again. The alternoute route is very similar to the previous way you viewed your profile. Only one difference really"));
+                    return trackProgress(failed().feedback("idor.view.own.profile.failure1").build());
                 }
 
             } else {
-                return trackProgress(AttackResult.failed("You need to authenticate as tom first."));
+                return trackProgress(failed().feedback("idor.view.own.profile.failure2").build());
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            return AttackResult.failed("an error occurred with your request");
+            return failed().feedback("an error occurred with your request").build();
         }
     }
 

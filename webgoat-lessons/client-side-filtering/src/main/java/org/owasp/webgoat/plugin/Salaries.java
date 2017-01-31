@@ -6,7 +6,7 @@ package org.owasp.webgoat.plugin;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.owasp.webgoat.endpoints.Endpoint;
+import org.owasp.webgoat.assignments.Endpoint;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Node;

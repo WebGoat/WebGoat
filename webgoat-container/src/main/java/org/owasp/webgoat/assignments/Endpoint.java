@@ -1,17 +1,8 @@
-package org.owasp.webgoat.endpoints;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
-
-import java.io.File;
-
-/**
- * ************************************************************************************************
+/*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
- * Copyright (c) 2002 - 20014 Bruce Mayhew
+ * Copyright (c) 2002 - 2017 Bruce Mayhew
  * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
@@ -30,11 +21,16 @@ import java.io.File;
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  * <p>
- *
- * @author nbaars
- * @version $Id: $Id
- * @since November 13, 2016
  */
+
+package org.owasp.webgoat.assignments;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
+
+import java.io.File;
+
 public abstract class Endpoint implements MvcEndpoint {
 
     @Autowired

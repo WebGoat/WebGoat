@@ -31,6 +31,7 @@
 package org.owasp.webgoat;
 
 import com.google.common.collect.Sets;
+import org.owasp.webgoat.i18n.Messages;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.LabelDebugger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +39,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.templatemode.StandardTemplateModeHandlers;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 import java.io.File;
@@ -112,6 +114,19 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/plugin_lessons/**").addResourceLocations("file:///" + pluginTargetDirectory.toString() + "/");
+    }
+
+    @Bean
+    public Messages messageSource() {
+        Messages messages = new Messages(localeResolver());
+        messages.setBasename("classpath:/i18n/messages");
+        return messages;
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        return slr;
     }
 
     @Bean

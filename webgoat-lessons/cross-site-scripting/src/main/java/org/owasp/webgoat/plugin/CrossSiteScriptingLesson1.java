@@ -1,18 +1,16 @@
 
 package org.owasp.webgoat.plugin;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Path;
-
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 
 
@@ -52,9 +50,9 @@ public class CrossSiteScriptingLesson1 extends AssignmentEndpoint {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String answer_xss_1, HttpServletRequest request) throws IOException {
 	    if (answer_xss_1.toString().toLowerCase().equals("yes")) {
-	        return trackProgress(AttackResult.success());
+	        return trackProgress(success().build());
 	    } else {
-	        return trackProgress(AttackResult.failed("Are you sure?  Try using a tab from a different site."));
+	        return trackProgress(failed().feedback("xss.lesson1.failure").build());
 	    }
 	}
 }

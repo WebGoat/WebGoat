@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.owasp.webgoat.i18n.LabelManager;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.LessonInfoModel;
@@ -29,7 +28,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class LessonProgressService {
 
-    private LabelManager labelManager;
     private UserTracker userTracker;
     private WebSession webSession;
 
@@ -47,7 +45,7 @@ public class LessonProgressService {
         boolean lessonCompleted = false;
         if (lessonTracker != null) {
             lessonCompleted = lessonTracker.isLessonSolved();
-            successMessage = labelManager.get("LessonCompleted");
+            successMessage = "LessonCompleted"; //@todo we still use this??
         }
         json.put("lessonCompleted", lessonCompleted);
         json.put("successMessage", successMessage);

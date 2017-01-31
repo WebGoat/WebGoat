@@ -1,6 +1,4 @@
-package org.owasp.webgoat.endpoints;
-
-import org.springframework.core.annotation.AliasFor;
+package org.owasp.webgoat.assignments;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

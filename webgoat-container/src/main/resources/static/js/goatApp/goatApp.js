@@ -14,7 +14,7 @@ define(['jquery',
         return {
             initApp: function () {
                 var locale = localStorage.getItem('locale') || 'en';
-                $.getJSON('service/labels.mvc?lang=' +  locale, function(data) {
+                $.getJSON('service/labels.mvc', function(data) {
                     window.polyglot = new Polyglot({phrases: data});
                     asyncErrorHandler.init();
                     var goatRouter = new Router();

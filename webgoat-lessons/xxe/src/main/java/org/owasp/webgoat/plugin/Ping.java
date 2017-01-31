@@ -1,7 +1,7 @@
 package org.owasp.webgoat.plugin;
 
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.endpoints.Endpoint;
+import org.owasp.webgoat.assignments.Endpoint;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
