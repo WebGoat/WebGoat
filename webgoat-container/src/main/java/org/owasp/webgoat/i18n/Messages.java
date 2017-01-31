@@ -60,7 +60,7 @@ public class Messages extends ReloadableResourceBundleMessageSource {
         return super.getMessage(code, args, defaultValue, resolveLocale());
     }
 
-    private Locale resolveLocale() {
+    protected Locale resolveLocale() {
         return localeResolver.resolveLocale(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());
     }
 
