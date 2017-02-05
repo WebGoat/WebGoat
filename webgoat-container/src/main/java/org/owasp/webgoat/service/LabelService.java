@@ -31,6 +31,7 @@ package org.owasp.webgoat.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.i18n.Messages;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +61,7 @@ public class LabelService {
     public static final String URL_LABELS_MVC = "/service/labels.mvc";
     private LocaleResolver localeResolver;
     private Messages messages;
+    private PluginMessages pluginMessages;
 
     /**
      * We use Springs session locale resolver which also gives us the option to change the local later on. For
@@ -82,6 +84,9 @@ public class LabelService {
             ((SessionLocaleResolver)localeResolver).setDefaultLocale(locale);
             log.debug("Language provided: {} leads to Locale: {}", lang, locale);
         }
-        return new ResponseEntity<>(messages.getMessages(), HttpStatus.OK);
+        Properties allProperties = new Properties();
+        allProperties.putAll(messages.getMessages());
+        allProperties.putAll(pluginMessages.getMessages());
+        return new ResponseEntity<>(allProperties, HttpStatus.OK);
     }
 }

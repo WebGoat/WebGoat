@@ -34,6 +34,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Context;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.plugins.PluginClassLoader;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
 import org.owasp.webgoat.plugins.PluginsExtractor;
@@ -91,8 +92,8 @@ public class WebGoat extends SpringBootServletInitializer {
     }
 
     @Bean
-    public PluginsExtractor pluginsLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory, PluginClassLoader classLoader) {
-        return new PluginsExtractor(pluginTargetDirectory, classLoader);
+    public PluginsExtractor pluginsLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory, PluginClassLoader classLoader, PluginMessages messages) {
+        return new PluginsExtractor(pluginTargetDirectory, classLoader, messages);
     }
 
     @Bean

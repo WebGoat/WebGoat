@@ -27,6 +27,7 @@ package org.owasp.webgoat.assignments;
 
 import org.mockito.Mock;
 import org.owasp.webgoat.i18n.Messages;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
@@ -60,13 +61,14 @@ public class AssignmentEndpointTest {
             return Locale.ENGLISH;
         }
     };
+    protected PluginMessages pluginMessages = new PluginMessages(messages);
 
     public void init(AssignmentEndpoint a) {
         messages.setBasenames("classpath:/i18n/messages", "classpath:/plugin/i18n/WebGoatLabels");
         ReflectionTestUtils.setField(a, "userTracker", userTracker);
         ReflectionTestUtils.setField(a, "userSessionData", userSessionData);
         ReflectionTestUtils.setField(a, "webSession", webSession);
-        ReflectionTestUtils.setField(a, "messages", messages);
+        ReflectionTestUtils.setField(a, "messages", pluginMessages);
     }
 
 }

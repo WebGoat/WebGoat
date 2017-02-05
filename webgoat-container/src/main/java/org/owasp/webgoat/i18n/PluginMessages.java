@@ -22,49 +22,59 @@
  * projects.
  * <p>
  */
+
 package org.owasp.webgoat.i18n;
 
-import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.UrlResource;
 
-import java.util.Locale;
+import java.io.File;
 import java.util.Properties;
 
 /**
- * <p>ExposedReloadableResourceMessageBundleSource class.</p>
- * Extends the reloadable message source with a way to get all messages
+ * Message resource bundle for plugins. The files is created after startup during the init of the plugins so we
+ * need to load this file through a ResourceLoader instead of location on the classpath.
  *
- * @author zupzup
+ * @author nbaars
+ * @date 2/4/17
  */
-@AllArgsConstructor
-public class Messages extends ReloadableResourceBundleMessageSource {
+public class PluginMessages extends ReloadableResourceBundleMessageSource {
 
-    private final LocaleResolver localeResolver;
+    private Messages messages;
 
-    /**
-     * Gets all messages for presented Locale.
-     *
-     * @return all messages
-     */
+    public PluginMessages(Messages messages) {
+        this.messages = messages;
+        this.setParentMessageSource(messages);
+    }
+
     public Properties getMessages() {
-        return getMergedProperties(resolveLocale()).getProperties();
+        return getMergedProperties(messages.resolveLocale()).getProperties();
     }
 
     public String getMessage(String code, Object... args) {
-        return getMessage(code, args, resolveLocale());
+        return getMessage(code, args, messages.resolveLocale());
     }
 
     public String getMessage(String code, String defaultValue, Object... args) {
-        return super.getMessage(code, args, defaultValue, resolveLocale());
+        return super.getMessage(code, args, defaultValue, messages.resolveLocale());
     }
 
-    protected Locale resolveLocale() {
-        return localeResolver.resolveLocale(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());
+    public void addPluginMessageBundles(final File i18nPluginDirectory) {
+        this.setBasename("WebGoatLabels");
+        this.setResourceLoader(new ResourceLoader() {
+            @Override
+            @SneakyThrows
+            public Resource getResource(String location) {
+                return new UrlResource(new File(i18nPluginDirectory, location).toURI());
+            }
+
+            @Override
+            public ClassLoader getClassLoader() {
+                return Thread.currentThread().getContextClassLoader();
+            }
+        });
     }
-
-
-
 }

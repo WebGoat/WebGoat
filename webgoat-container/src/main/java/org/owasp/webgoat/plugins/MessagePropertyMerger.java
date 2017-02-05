@@ -24,49 +24,49 @@
  */
 package org.owasp.webgoat.plugins;
 
-import com.google.common.primitives.Bytes;
 import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
 import java.util.Properties;
-import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+import static com.google.common.io.Files.createParentDirs;
 
 /**
  * Merges the main message.properties with the plugins WebGoatLabels
  */
-public class MessagePropertiesMerger {
+public class MessagePropertyMerger {
 
     private final File targetDirectory;
 
-    public MessagePropertiesMerger(File targetDirectory) {
+    public MessagePropertyMerger(File targetDirectory) {
         this.targetDirectory = targetDirectory;
     }
 
     @SneakyThrows
-    public void mergeAllLanguage() {
-        try(Stream<Path> paths = Files.walk(new File(targetDirectory, "plugin/i18n/").toPath())) {
-            paths.filter(Files::isRegularFile).forEach(filePath -> merge(filePath));
-        }
-    }
-
-    @SneakyThrows
-    public void merge(Path propertyFile) {
+    public void merge(ZipFile zipFile, ZipEntry zipEntry) {
         Properties messageProperties = new Properties();
-        String messagePropertyFileName = propertyFile.getFileName().toString().replace("WebGoatLabels", "messages");
-        messageProperties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("i18n/" + messagePropertyFileName));
-        preparePropertyFile(propertyFile);
-        messageProperties.load(new FileInputStream(propertyFile.toFile()));
-        messageProperties.store(new FileOutputStream(new File(Thread.currentThread().getContextClassLoader().getResource("i18n/" + messagePropertyFileName).toURI())), "WebGoat message properties");
-    }
+        try (InputStream zis = zipFile.getInputStream(zipEntry)) {
+            messageProperties.load(zis);
+        }
 
-    @SneakyThrows
-    private void preparePropertyFile(Path propertyFile) {
-        byte[] lines = Files.readAllBytes(propertyFile);
-        lines = Bytes.concat(lines, System.lineSeparator().getBytes());
-        Files.write(propertyFile, lines);
+        Properties messagesFromHome = new Properties();
+        File pluginMessageFiles = new File(targetDirectory, zipEntry.getName());
+        if (pluginMessageFiles.exists()) {
+            try (FileInputStream fis = new FileInputStream(pluginMessageFiles)) {
+                messagesFromHome.load(fis);
+            }
+        }
+
+        messageProperties.putAll(messagesFromHome);
+
+        createParentDirs(pluginMessageFiles);
+        try (FileOutputStream fos = new FileOutputStream(pluginMessageFiles)) {
+            messageProperties.store(fos, "Plugin message properties");
+        }
     }
 }
