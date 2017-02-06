@@ -1,17 +1,11 @@
 package org.owasp.webgoat.plugin;
 
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Path;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * ************************************************************************************************
@@ -65,28 +59,42 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
             // we will persist in the session object for now in case we want to refer back or use it later
             userSessionData.setValue("idor-updated-other-profile",currentUserProfile);
             if (currentUserProfile.getRole() <= 1 && currentUserProfile.getColor().toLowerCase().equals("red")) {
-                return trackProgress(AttackResult.success("Well done, you have modified someone else's profile (as displayed below)",currentUserProfile.profileToMap().toString()));
+                return trackProgress(success()
+                    .feedback("idor.edit.profile.success1")
+                    .output(currentUserProfile.profileToMap().toString())
+                    .build());
             }
 
             if (currentUserProfile.getRole() > 1 && currentUserProfile.getColor().toLowerCase().equals("red")) {
-                return trackProgress(AttackResult.success("Close ... you've got the technique. Now try for a lower role number)",currentUserProfile.profileToMap().toString()));
+                return trackProgress(success()
+                        .feedback("idor.edit.profile.failure1")
+                        .output(currentUserProfile.profileToMap().toString())
+                        .build());
             }
 
             if (currentUserProfile.getRole() <= 1 && !currentUserProfile.getColor().toLowerCase().equals("red")) {
-                return trackProgress(AttackResult.success("Close ... you've got the technique. Now change the color in their profile to red.)",currentUserProfile.profileToMap().toString()));
+                return trackProgress(success()
+                    .feedback("idor.edit.profile.failure2")
+                    .output(currentUserProfile.profileToMap().toString())
+                    .build());
             }
 
             // else
-            return trackProgress(AttackResult.success("Try again. Use the hints if you need to.",currentUserProfile.profileToMap().toString()));
-
+            return trackProgress(failed().
+                feedback("idor.edit.profile.failure3")
+                .output(currentUserProfile.profileToMap().toString())
+                .build());
         } else if (userSubmittedProfile.getUserId().equals(authUserId)) {
-            return AttackResult.failed("Modifying your own profile is good, but we want to do this to Buffalo Bill's profile.");
+            return failed().feedback("idor.edit.profile.failure4").build();
         }
 
         if (currentUserProfile.getColor().equals("black") && currentUserProfile.getRole() <= 1 ) {
-            return trackProgress(AttackResult.success("Good work! View the updated profile below",userSessionData.getValue("idor-updated-own-profile").toString()));
+            return trackProgress(success()
+                .feedback("idor.edit.profile.success2")
+                .output(userSessionData.getValue("idor-updated-own-profile").toString())
+                .build());
         } else {
-            return trackProgress(AttackResult.failed("Please try again. Use the hints if need be."));
+            return trackProgress(failed().feedback("idor.edit.profile.failure3").build());
         }
 
     }

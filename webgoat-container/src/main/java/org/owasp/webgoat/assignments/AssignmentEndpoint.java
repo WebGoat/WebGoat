@@ -1,9 +1,8 @@
-/**
- * ************************************************************************************************
+/*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
- * Copyright (c) 2002 - 20014 Bruce Mayhew
+ * Copyright (c) 2002 - 2017 Bruce Mayhew
  * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
@@ -23,18 +22,14 @@
  * projects.
  * <p>
  */
-package org.owasp.webgoat.endpoints;
+package org.owasp.webgoat.assignments;
 
 import lombok.Getter;
-import org.owasp.webgoat.i18n.LabelManager;
-import org.owasp.webgoat.i18n.LabelProvider;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.ws.rs.Path;
 
 /**
  * Each lesson can define an endpoint which can support the lesson. So for example if you create a lesson which uses JavaScript and
@@ -53,11 +48,10 @@ public abstract class AssignmentEndpoint extends Endpoint {
 	private WebSession webSession;
     @Autowired
     private UserSessionData userSessionData;
-    @Autowired
     @Getter
-    private LabelManager labelProvider;
+    @Autowired
+    private PluginMessages messages;
 
-  
 	//// TODO: 11/13/2016 events better fit?
     protected AttackResult trackProgress(AttackResult attackResult) {
         if (attackResult.assignmentSolved()) {
@@ -79,5 +73,33 @@ public abstract class AssignmentEndpoint extends Endpoint {
     @Override
     public final String getPath() {
         return this.getClass().getAnnotationsByType(AssignmentPath.class)[0].value();
+    }
+
+    /**
+     * Convenience method for create a successful result:
+     *
+     * - Assignment is set to solved
+     * - Feedback message is set to 'assignment.solved'
+     *
+     * Of course you can overwrite these values in a specific lesson
+     *
+     * @return a builder for creating a result from a lesson
+     */
+    protected AttackResult.AttackResultBuilder success() {
+        return AttackResult.builder(messages).lessonCompleted(true).feedback("assignment.solved");
+    }
+
+    /**
+     * Convenience method for create a failed result:
+     *
+     * - Assignment is set to not solved
+     * - Feedback message is set to 'assignment.not.solved'
+     *
+     * Of course you can overwrite these values in a specific lesson
+     *
+     * @return a builder for creating a result from a lesson
+     */
+    protected AttackResult.AttackResultBuilder failed() {
+        return AttackResult.builder(messages).lessonCompleted(false).feedback("assignment.not.solved");
     }
 }

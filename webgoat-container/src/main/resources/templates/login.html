@@ -1,64 +1,71 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login Page</title>
-    <!--  CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}" />
+    <title th:text="#{login.page.title}">Login Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}"/>
 </head>
 <body>
 <section id="container">
     <header id="header">
-        <!--logo start-->
         <div class="brand">
-            <a href="${pageContext.request.contextPath}/start.mvc" class="logo"><span>Web</span>Goat</a>
+            <a th:href="@{/start.mvc}" class="logo"><span>Web</span>Goat</a>
         </div>
-        <!--logo end-->
         <div class="toggle-navigation toggle-left">
-
-        </div><!--toggle navigation end-->
-        <div class="lessonTitle" >
-
-        </div><!--lesson title end-->
+        </div>
+        <div class="lessonTitle">
+        </div>
 
     </header>
     <section class="main-content-wrapper">
 
-        <section id="main-content" >
+        <section id="main-content">
             <div th:if="${param.error}">
-                Invalid username and password.
+                <p th:text="#{invalid_username_password}">Invalid username and password.</p>
             </div>
             <div th:if="${param.logout}">
-                You've been logged out successfully.
+                <p th:text="#{logged_out}">You've been logged out successfully.</p>
             </div>
             <br/><br/>
             <form th:action="@{/login}" method='POST' style="width: 400px;">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control" id="exampleInputEmail1" placeholder="Username" name='username'/>
+                    <label for="exampleInputEmail1" th:text="#{username}">Username</label>
+                    <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"
+                           id="exampleInputEmail1" placeholder="Username" name='username' value="guest"/>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name='password'/>
+                    <label for="exampleInputPassword1" th:text="#{password}">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                           name='password' value="guest"/>
                 </div>
-                <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+                <button class="btn btn-large btn-primary" type="submit" th:text="#{sign.in}">Sign in</button>
             </form>
             <br/><br/>
-            <h4>The following accounts are built into Webgoat</h4>
+            <h4 th:text="#{accounts.build.in}">The following accounts are built into Webgoat</h4>
             <table class="table table-bordered" style="width:400px;">
                 <thead>
-                <tr class="warning"><th>Account</th><th>User</th><th>Password</th></tr>
+                <tr class="warning">
+                    <th th:text="#{accounts.table.account}">Account</th>
+                    <th th:text="#{accounts.table.user}">User</th>
+                    <th th:text="#{accounts.table.password}">Password</th>
+                </tr>
                 </thead>
                 <tbody>
-                <tr><td>Webgoat User</td><td>guest</td><td>guest</td></tr>
-                <tr><td>Webgoat Admin</td><td>webgoat</td><td>webgoat</td></tr>
+                <tr>
+                    <td>Webgoat User</td>
+                    <td>guest</td>
+                    <td>guest</td>
+                </tr>
+                <tr>
+                    <td>Webgoat Admin</td>
+                    <td>webgoat</td>
+                    <td>webgoat</td>
+                </tr>
                 </tbody>
             </table>
             <br/><br/>
-
-
         </section>
     </section>
 </section>

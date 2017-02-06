@@ -1,9 +1,10 @@
 package org.owasp.webgoat.plugin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.ws.rs.Path;
 import java.io.IOException;
 
 import static org.owasp.webgoat.plugin.SimpleXXE.checkSolution;
@@ -47,24 +47,25 @@ import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
  * @since November 17, 2016
  */
 @AssignmentPath("XXE/content-type")
+@AssignmentHints({"xxe.hints.content.type.xxe.1", "xxe.hints.content.type.xxe.2"})
 public class ContentTypeAssignment extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult createNewUser(@RequestBody String userInfo, @RequestHeader("Content-Type") String contentType) throws Exception {
         User user = new User();
-        AttackResult attackResult = AttackResult.failed("Try again!");
+        AttackResult attackResult = failed().build();
         if (MediaType.APPLICATION_JSON_VALUE.equals(contentType)) {
             user = parseJson(userInfo);
-            attackResult = AttackResult.failed("You are posting JSON which does not work with a XXE");
+            attackResult = failed().feedback("xxe.content.type.feedback.json").build();
         }
         if (MediaType.APPLICATION_XML_VALUE.equals(contentType)) {
             user = parseXml(userInfo);
-            attackResult = AttackResult.failed("You are posting XML but there is no XXE attack performed");
+            attackResult = failed().feedback("xxe.content.type.feedback.xml").build();
         }
 
         if (checkSolution(user)) {
-            attackResult = AttackResult.success(String.format("Welcome %s", user.getUsername()));
+            attackResult = success().output("xxe.content.output").outputArgs(user.getUsername()).build();
         }
         return attackResult;
     }

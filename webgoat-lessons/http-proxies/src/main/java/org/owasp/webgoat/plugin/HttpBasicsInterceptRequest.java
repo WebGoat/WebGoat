@@ -1,12 +1,10 @@
 package org.owasp.webgoat.plugin;
 
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentHints;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,11 +47,12 @@ import java.io.IOException;
 public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody AttackResult completed(HttpServletRequest request) throws IOException {
+	public @ResponseBody
+	AttackResult completed(HttpServletRequest request) throws IOException {
 		if (request.getHeader("x-request-intercepted").toLowerCase().equals("true") && request.getParameter("changeMe").equals("Requests are tampered easily")) {
-            return trackProgress(AttackResult.success("Well done, you tampered the request as expected"));
+            return trackProgress(success().feedback("http-proxies.intercept.success").build());
 		} else {
-            return trackProgress(AttackResult.failed("Please try again. Make sure to make all the changes. And case sensitivity may matter ... or not, you never know!"));
+            return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
         }
 	}
 }

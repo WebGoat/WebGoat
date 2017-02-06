@@ -30,7 +30,8 @@ package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.i18n.LabelProvider;
+import org.owasp.webgoat.i18n.Messages;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,10 +40,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -50,19 +53,24 @@ import java.util.Map;
  *
  * @author zupzup
  */
-
 @RestController
 @Slf4j
 @AllArgsConstructor
 public class LabelService {
 
     public static final String URL_LABELS_MVC = "/service/labels.mvc";
-    private final LabelProvider labelProvider;
+    private LocaleResolver localeResolver;
+    private Messages messages;
+    private PluginMessages pluginMessages;
 
     /**
-     * Fetches labels for given language
-     * If no language is provided, the language is determined from the request headers
-     * Otherwise, fall back to default language
+     * We use Springs session locale resolver which also gives us the option to change the local later on. For
+     * now it uses the accept-language from the HttpRequest. If this language is not found it will default back
+     * to messages.properties.
+     *
+     * Note although it is possible to use Spring language interceptor we for now opt for this solution, the UI
+     * will always need to fetch the labels with the new language set by the user. So we don't need to intercept each
+     * and every request to see if the language param has been set in the request.
      *
      * @param lang the language to fetch labels for (optional)
      * @return a map of labels
@@ -70,18 +78,15 @@ public class LabelService {
      */
     @GetMapping(path = URL_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Map<String, String>> fetchLabels(@RequestParam(value = "lang", required = false) String lang, HttpServletRequest request) {
-        Locale locale;
-        if (StringUtils.isEmpty(lang)) {
-            log.debug("No language provided, determining from request headers");
-            locale = request.getLocale();
-            if (locale != null) {
-                log.debug("Locale set to {}", locale);
-            }
-        } else {
-            locale = Locale.forLanguageTag(lang);
+    public ResponseEntity<Properties> fetchLabels(@RequestParam(value = "lang", required = false) String lang, HttpServletRequest request) {
+        if (!StringUtils.isEmpty(lang)) {
+            Locale locale = Locale.forLanguageTag(lang);
+            ((SessionLocaleResolver)localeResolver).setDefaultLocale(locale);
             log.debug("Language provided: {} leads to Locale: {}", lang, locale);
         }
-        return new ResponseEntity<>(labelProvider.getLabels(locale), HttpStatus.OK);
+        Properties allProperties = new Properties();
+        allProperties.putAll(messages.getMessages());
+        allProperties.putAll(pluginMessages.getMessages());
+        return new ResponseEntity<>(allProperties, HttpStatus.OK);
     }
 }

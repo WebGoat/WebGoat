@@ -1,4 +1,4 @@
-package org.owasp.webgoat.endpoints;
+package org.owasp.webgoat.assignments;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

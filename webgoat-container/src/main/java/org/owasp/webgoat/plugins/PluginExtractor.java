@@ -71,6 +71,9 @@ public class PluginExtractor {
             throws IOException {
         if (zipEntry.getName().endsWith(".properties")) {
             final File targetFile = new File(targetDirectory, zipEntry.getName());
+            if ("WebGoatLabels.properties".equals(targetFile.getName())) {
+                new MessagePropertyMerger(targetDirectory).merge(zipFile, zipEntry);
+            }
             copyFile(zipFile, zipEntry, targetFile, true);
             return true;
         }
@@ -98,6 +101,7 @@ public class PluginExtractor {
         }
         return targetFile;
     }
+
 
     /**
      * <p>Getter for the field <code>classes</code>.</p>
