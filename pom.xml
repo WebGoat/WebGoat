@@ -104,16 +104,6 @@
         <system>Travis CI</system>
         <url>https://travis-ci.org/WebGoat/WebGoat</url>
 	    </ciManagement>
-    <repositories>
-    	<repository>
-		<id>jcenter-bintray</id>
-		<url>http://jcenter.bintray.com/</url>
-        </repository>
-        <repository>
-		<id>maven-restlet</id>
-		<url>http://maven.restlet.com/</url>
-	</repository>
-    </repositories>
 	<properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -143,6 +133,8 @@
         <coveralls-maven-plugin.version>4.0.0</coveralls-maven-plugin.version>
         <guava.version>18.0</guava.version>
         <h2.version>1.4.190</h2.version>
+# End comments by InstallAnywhere on Wed Jan 27 15:13:31 EST 2016 1.
+export PATH="$HOME/.rbenv/bin:$PATH"
         <hsqldb.version>1.8.0.10</hsqldb.version>
         <j2h.version>1.3.1</j2h.version>
         <jackson-core.version>2.6.3</jackson-core.version>
@@ -195,6 +187,14 @@
 
     <pluginRepositories>
         <pluginRepository>
+                <id>jcenter-bintray</id>
+                <url>http://jcenter.bintray.com/</url>
+        </pluginRepository>
+        <pluginRepository>
+                <id>maven-restlet</id>
+                <url>http://maven.restlet.com/</url>
+        </pluginRepository>
+         <pluginRepository>
             <id>apache.snapshots</id>
             <url>http://repository.apache.org/snapshots/</url>
             <!-- The releases element here is due to an issue in Maven 2.0 that will be
@@ -222,13 +222,15 @@
                 </dependency>
             </dependencies>
             <build>
-		    <pluginManagement>
-			    <plugin>
-				    <groupId>com.blackducksoftware.integration</groupId>
-				    <artifactId>hub-maven-plugin</artifactId>
-				    <version>1.4.0</version>
-			    </plugin>
-		    </pluginManagement>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.blackducksoftware.integration</groupId>
+                            <artifactId>hub-maven-plugin</artifactId>
+                            <version>1.4.0</version>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
 		    <plugins>
 			    <plugin>
 			    	<groupId>com.blackducksoftware.integration</groupId>
