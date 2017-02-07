@@ -1,17 +1,15 @@
 package org.owasp.webgoat.plugin;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.thoughtworks.xstream.XStream;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.thoughtworks.xstream.XStream;
+
+import java.io.IOException;
 
 /**
  * *************************************************************************************************
@@ -51,11 +49,11 @@ import com.thoughtworks.xstream.XStream;
 public class VulnerableComponentsLesson extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody AttackResult completed(@RequestParam String payload) throws IOException {
+	public @ResponseBody AttackResult completed(@RequestBody String payload) throws IOException {
 		String process = "open"; 		
 		String arguments = "/Applications/Calculator.app";		
 		
-		String payload2 = "<sorted-set>" +  
+		String payload2 = "<sorted-set>" +
 						 "<string>foo</string>" +
 						 "<dynamic-proxy>" + 
 						 "<interface>java.lang.Comparable</interface>" +

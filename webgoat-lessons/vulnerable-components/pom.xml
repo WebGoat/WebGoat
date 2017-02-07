@@ -11,9 +11,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>XStream</artifactId>
+			<artifactId>xstream</artifactId>
 			<version>1.4.7</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
