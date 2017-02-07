@@ -103,8 +103,15 @@
     <ciManagement>
         <system>Travis CI</system>
         <url>https://travis-ci.org/WebGoat/WebGoat</url>
-    </ciManagement>
-
+	    </ciManagement>
+<repositories>
+	 <id>Jcentre</id>
+      <url>http://jcenter.bintray.com/</url>
+	</repositories>
+	<repositories>
+	 <id>Restlet</id>
+      <url>http://maven.restlet.com/</url>
+	</repositories>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -213,7 +220,12 @@
                 </dependency>
             </dependencies>
             <build>
-                <plugins>
+                <plugin>
+            <groupId>com.blackducksoftware.integration</groupId>
+            <artifactId>hub-maven-plugin</artifactId>
+            <version>1.4.0</version>
+         </plugin>
+		    <plugins>
 				    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
