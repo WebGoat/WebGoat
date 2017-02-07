@@ -31,6 +31,7 @@
 package org.owasp.webgoat;
 
 import com.google.common.collect.Sets;
+import org.owasp.webgoat.i18n.Language;
 import org.owasp.webgoat.i18n.Messages;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.Course;
@@ -89,8 +90,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver() {
-        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(pluginTargetDirectory);
+    public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(Language language) {
+        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(pluginTargetDirectory, language);
         resolver.setCacheable(true);
         resolver.setOrder(3);
         return resolver;
@@ -118,13 +119,18 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public PluginMessages pluginMessages(Messages messages) {
-        return new PluginMessages(messages);
+    public PluginMessages pluginMessages(Messages messages, Language language) {
+        return new PluginMessages(messages, language);
     }
 
     @Bean
-    public Messages messageSource(LocaleResolver localeResolver) {
-        Messages messages = new Messages(localeResolver);
+    public Language language(LocaleResolver localeResolver) {
+        return new Language(localeResolver);
+    }
+
+    @Bean
+    public Messages messageSource(Language language) {
+        Messages messages = new Messages(language);
         messages.setBasename("classpath:/i18n/messages");
         return messages;
     }

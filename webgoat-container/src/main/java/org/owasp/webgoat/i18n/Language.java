@@ -22,38 +22,30 @@
  * projects.
  * <p>
  */
+
 package org.owasp.webgoat.i18n;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.LocaleResolver;
 
-import java.util.Properties;
+import java.util.Locale;
 
 /**
- * <p>ExposedReloadableResourceMessageBundleSource class.</p>
- * Extends the reloadable message source with a way to get all messages
+ * Wrapper around the LocaleResolver from Spring so we do not need to bother with passing the HttpRequest object
+ * when asking for a Locale.
  *
- * @author zupzup
+ * @author nbaars
+ * @date 2/7/17
  */
 @AllArgsConstructor
-public class Messages extends ReloadableResourceBundleMessageSource {
+public class Language {
 
-    private final Language language;
+    private final LocaleResolver localeResolver;
 
-    /**
-     * Gets all messages for presented Locale.
-     *
-     * @return all messages
-     */
-    public Properties getMessages() {
-        return getMergedProperties(language.getLocale()).getProperties();
+    public Locale getLocale() {
+        return localeResolver.resolveLocale(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());
     }
 
-    public String getMessage(String code, Object... args) {
-        return getMessage(code, args, language.getLocale());
-    }
-
-    public String getMessage(String code, String defaultValue, Object... args) {
-        return super.getMessage(code, args, defaultValue, language.getLocale());
-    }
 }
