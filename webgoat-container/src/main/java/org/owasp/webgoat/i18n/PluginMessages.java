@@ -43,23 +43,23 @@ import java.util.Properties;
  */
 public class PluginMessages extends ReloadableResourceBundleMessageSource {
 
-    private Messages messages;
+    private Language language;
 
-    public PluginMessages(Messages messages) {
-        this.messages = messages;
+    public PluginMessages(Messages messages, Language language) {
+        this.language = language;
         this.setParentMessageSource(messages);
     }
 
     public Properties getMessages() {
-        return getMergedProperties(messages.resolveLocale()).getProperties();
+        return getMergedProperties(language.getLocale()).getProperties();
     }
 
     public String getMessage(String code, Object... args) {
-        return getMessage(code, args, messages.resolveLocale());
+        return getMessage(code, args, language.getLocale());
     }
 
     public String getMessage(String code, String defaultValue, Object... args) {
-        return super.getMessage(code, args, defaultValue, messages.resolveLocale());
+        return super.getMessage(code, args, defaultValue, language.getLocale());
     }
 
     public void addPluginMessageBundles(final File i18nPluginDirectory) {
