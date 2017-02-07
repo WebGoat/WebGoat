@@ -105,16 +105,16 @@
         <url>https://travis-ci.org/WebGoat/WebGoat</url>
 	    </ciManagement>
     <repositories>
-	<repository>
-	  <id>jcenter-bintray</id>
-          <url>http://jcenter.bintray.com/</url>
+    	<repository>
+		<id>jcenter-bintray</id>
+		<url>http://jcenter.bintray.com/</url>
+        </repository>
+        <repository>
+		<id>maven-restlet</id>
+		<url>http://maven.restlet.com/</url>
 	</repository>
-	<repository>
-	 <id>maven-restlet</id>
-          <url>http://maven.restlet.com/</url>
-	</repository>	
     </repositories>
-    <properties>
+	<properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
