@@ -222,11 +222,17 @@
                 </dependency>
             </dependencies>
             <build>
-		    <plugins>
+		    <pluginManagement>
 			    <plugin>
 			    	<groupId>com.blackducksoftware.integration</groupId>
 			    	<artifactId>hub-maven-plugin</artifactId>
 			    	<version>1.4.0</version>
+			    </plugin>
+		    </pluginManagement>
+		    <plugins>
+			    <plugin>
+			    	<groupId>com.blackducksoftware.integration</groupId>
+			    	<artifactId>hub-maven-plugin</artifactId>
 			    </plugin>
 			    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
