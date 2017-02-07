@@ -2,10 +2,14 @@
  
 == Concept 
 
-The way we build software has changed.  The open source community is maturing and the availability of open source software has become prolific without regard to determining the provenance of the libraries used in our applications. Ref: 
+The way we build software has changed.  The open source community is maturing and the availability of open source software has become prolific without regard to determining the provenance of the libraries used in our applications. Ref:  https://www.sonatype.com/hubfs/SSC/Software_Supply_Chain_Inforgraphic.pdf?t=1485298506170[Software Supply Chain]
+
+image::plugin_lessons/plugin/VulnerableComponents/images/OpenSourceGrowing.png[caption="Figure: ", title="Software Supply Chain", alt="SSC", width="800", height="400", style="lesson-image" link="https://www.sonatype.com/hubfs/SSC/Software_Supply_Chain_Inforgraphic.pdf?t=1485298506170[Software Supply Chain"]
+
+
+This lesson will walk through the difficulties with managing dependent libraries, the risk of not managing those dependencies, and the difficulty in determining if you are at risk.
 
 == Goals
 
-The user will become familiar with exploiting components with known vulnerabilities.
-
-image::plugin_lessons/plugin/VulnerableComponents/images/OWASP-2013-A9.png[caption="Figure: ", title="OWASP-2013-A9", alt="A9", width="800", height="500", style="lesson-image" link="https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities"]
+* Gain awareness that the open source consumed is as important as your own custom code.
+* Gain awareness of the management, or lack of management, in our open source component consumption. 

@@ -1,0 +1,13 @@
+== The Open Source Ecosystems
+
+* 10+ Million GitHub code repositories
+* 1 Million Sourceforge code repositories
+* 2500 public binary repositories
+** Some repositories have strict publisher standards
+*** Some repositories enforce source code distribution
+*** No guarantee the published source code is the source code of the published binary
+** Some repositories allow the republishing of a different set of bits for the same version
+** Some repositories allow you to remove published artifacts
+* Many different packaging systems; even for the same language
+* Different coordinates systems and level of granularity
+

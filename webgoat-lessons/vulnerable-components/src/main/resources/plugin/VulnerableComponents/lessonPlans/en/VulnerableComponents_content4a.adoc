@@ -1,0 +1,23 @@
+== Security Information Overload
+
+=== What's important?
+
+* Is my component exploitable?
+* Is my component an authentic copy?
+** Do I understand why my component is modified?
+
+=== Security information is scattered everywhere
+
+* Multiple sources of security advisories
+** 80,000+ CVEs in the National Vulnerbility Database
+** Node Security Project, Metasploit, VulnDB, Snyk, ...
+** Thousands of website security advisories, blogs, tweets, ...
+* 600,000 GitHub events generated daily
+** 700 GitHub security related events
+** Release notes, change logs, code comments, ...
+
+=== Summary
+
+* It is not reasonable to expect a developer to continually research each component.
+* Developers are not security experts; they already have a day job.
+
