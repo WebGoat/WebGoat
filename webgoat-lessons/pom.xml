@@ -68,6 +68,12 @@
             <version>4.1.3.RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <!-- Temporarily -->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.7</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

@@ -1,6 +1,6 @@
 
 /**
- *************************************************************************************************
+ * ************************************************************************************************
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
@@ -25,28 +25,26 @@
  * <p>
  *
  * @author WebGoat
- * @since  December 12, 2015
  * @version $Id: $Id
+ * @since December 12, 2015
  */
 package org.owasp.webgoat;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.asciidoctor.Asciidoctor;
+import org.owasp.webgoat.i18n.Language;
+import org.springframework.util.StringUtils;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
@@ -62,9 +60,12 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
     private static final Asciidoctor asciidoctor = create();
     private static final String PREFIX = "doc:";
     private final File pluginTargetDirectory;
+    private final Language language;
 
-    public AsciiDoctorTemplateResolver(File pluginTargetDirectory) {
+    public AsciiDoctorTemplateResolver(File pluginTargetDirectory, Language language) {
         this.pluginTargetDirectory = pluginTargetDirectory;
+        this.language = language;
+
         setResourceResolver(new AdocResourceResolver());
         setResolvablePatterns(Sets.newHashSet(PREFIX + "*"));
     }
@@ -80,7 +81,7 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
         @Override
         public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
             try {
-                Optional<Path> adocFile = find(pluginTargetDirectory.toPath(), resourceName);
+                Optional<Path> adocFile = resolveAdocFile(resourceName);
                 if (adocFile.isPresent()) {
                     try (FileReader reader = new FileReader(adocFile.get().toFile())) {
                         StringWriter writer = new StringWriter();
@@ -93,6 +94,18 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
                 //no html yet
                 return new ByteArrayInputStream(new byte[0]);
             }
+
+        }
+
+        private Optional<Path> resolveAdocFile(String resourceName) throws IOException {
+            Optional<Path> path = Optional.empty();
+            if (language.getLocale() != null) {
+                path = find(pluginTargetDirectory.toPath(), resourceName, language.getLocale().toString());
+            }
+            if (!path.isPresent()) {
+                path = find(pluginTargetDirectory.toPath(), resourceName, null);
+            }
+            return path;
         }
 
         private Map<String, Object> createAttributes() {
@@ -106,10 +119,12 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
             return options;
         }
 
-        private Optional<Path> find(Path path, String resourceName) throws IOException {
+        private Optional<Path> find(Path path, String resourceName, String language) throws IOException {
+            Predicate<Path> languageFilter = p -> StringUtils.hasText(language) ? p.getParent().getFileName().toString().equals(language) : true;
             return Files.walk(path)
                     .filter(Files::isRegularFile)
-                    .filter(p -> p.toString().endsWith(resourceName)).findFirst();
+                    .filter(p -> p.toString().endsWith(resourceName))
+                    .filter(languageFilter).findFirst();
         }
 
         @Override
@@ -117,4 +132,5 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
             return "adocResourceResolver";
         }
     }
+
 }
