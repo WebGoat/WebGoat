@@ -1,9 +1,7 @@
-= HTTP Basics : Proxy
- 
+
 == HTTP Proxy Setup
 
-HTTP Proxies are tools that allow an attacker, developer or researcher to act as a man-in-the-middle on requests and responses. Since this is an
-OWASP project, we'll be using ZAP. If you are comfortable using another proxy (e.g. Burp), you can skip this. Otherwise,
+Since this is an OWASP project, we'll be using ZAP. If you are comfortable using another proxy (e.g. Burp), you can skip this. Otherwise,
 this will show you how to set up ZAP to act as a proxy on your localhost.
 
 === Setting up ZAP
@@ -27,4 +25,3 @@ image::plugin_lessons/plugin/HttpProxies/images/zap-start.png[ZAP Start,548,256,
 . Click OK
 
 image::plugin_lessons/plugin/HttpProxies/images/zap-local-proxy.png[ZAP local proxy,800,648,style="lesson-image"]
-

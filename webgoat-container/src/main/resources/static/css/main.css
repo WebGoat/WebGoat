@@ -14,7 +14,7 @@ a:link,
 a:visited {
   text-decoration: none;
   outline: none;
-  color: #e84c3d;
+  /* color: #e84c3d; */
 }
 a:hover,
 a:active {
@@ -839,12 +839,6 @@ cookie-container {
   overflow-y:scroll auto;
   overflow-x:hidden;
 }
-
-#sidebar {
-  /*background-color:#333;*/
-  background-color:blue;
-}
-
   
 .sidebar-toggle {
   margin-left: -240px;
@@ -876,6 +870,7 @@ cookie-container {
   -ms-transition: all 200ms ease-in;
   transition: all 200ms ease-in;
 }
+
 #menu-container ul li a span {
   display: inline-block;
 }
@@ -897,6 +892,15 @@ cookie-container {
   margin-left:8px;
 }
 
+#menu-container ul ul li.selected a {
+    color:#e84c3d
+}
+
+#menu-container ul ul li.selected a:hover {
+    color:#ddd
+}
+
+
 #menu-container ul li a i {
   width: 20px;
 }
@@ -914,9 +918,11 @@ cookie-container {
   display: block;
 }
 
+#menu-container ul li:hover,
 #menu-container ul li a:hover,
 #menu-container ul li.active > a {
-  color: #e84c3d;
+  background-color: #e84c3d;
+  color:#ddd;
 }
 
 #menu-container ul span.lesson-complete {
@@ -927,9 +933,11 @@ cookie-container {
     display:inline-block;
 }
 
+/*
 #menu-container ul li.selected, #menu-container li a.selected {
-    background-color: ##aaa;
+    background-color: #aaa;
 }
+*/
 
 #menu-container ul li.stage {
   padding-left:3px;
@@ -937,6 +945,7 @@ cookie-container {
 
 #menu-container li.selected, #menu-container a.selected {
   color:#fff;
+  /* background-color:#000; */
   font-weight:550;
 }
 
