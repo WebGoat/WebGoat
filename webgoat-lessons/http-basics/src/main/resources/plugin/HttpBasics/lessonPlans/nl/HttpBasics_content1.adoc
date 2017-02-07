@@ -1,0 +1,8 @@
+
+Voer je naam in the input field below and press "Go!" to submit.	The server will accept the request, reverse the input and display it back to the user, illustrating the basics of handling an HTTP	request.
+
+The user should become familiar with the features of WebGoat by manipulating the above buttons to view hints, show the HTTP request parameters, the HTTP request cookies, and the Java source code. You may also try using OWASP ZAP Attack Proxy to see the HTTP data.
+
+== Try It!
+
+Enter your name in the input field below and press "Go!" to submit. The server will accept the request, reverse the input and display it back to the user, illustrating the basics of handling an HTTP request.
