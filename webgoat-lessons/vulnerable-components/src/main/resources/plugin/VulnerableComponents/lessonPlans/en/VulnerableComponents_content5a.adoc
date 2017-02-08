@@ -11,4 +11,4 @@ WebGoat Sends an XML document to add contacts to a contacts database.
 </contact>  
 ----
 
-For this example, we will let you enter the xml directly versus intercepting the request and modifying the data.  You provide the XML representation of a contact and WebGoat will convert it a Contact object using XStream.fromXML(xml).
+For this example, we will let you enter the xml directly versus intercepting the request and modifying the data.  You provide the XML representation of a contact and WebGoat will convert it a Contact object using `XStream.fromXML(xml)`.
