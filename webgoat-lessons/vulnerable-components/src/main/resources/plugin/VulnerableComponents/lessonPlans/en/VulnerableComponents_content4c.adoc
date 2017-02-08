@@ -4,18 +4,17 @@
 
 * Is it old or is it stable
 * Was my lack of upgrade a deliberate choice or a lack of knowledge
-
-=== What is architectural risk?
-
-* Is my component out of date
 * Is the project I'm using no longer active
 * Is my component unpopular
 
+=== Summary
 
-=== Summary?
-image::plugin_lessons/plugin/VulnerableComponents/images/Old-Components.png[caption="Figure: ", title="Old Components", alt="Old Components", width="355", height="304", style="lesson-image"]
+* It's really difficult to keep components up to dat
+ 
 
 For the components analyzed in 25,000 applications it was found that:
 
 *  8% of  2 year old components did not have a newer version
 * 23% of 11 year old components did not have a newer version
+
+image::plugin_lessons/plugin/VulnerableComponents/images/Old-Components.png[caption="Figure: ", title="Old Components", alt="Old Components", width="355", height="304", style="lesson-image"]

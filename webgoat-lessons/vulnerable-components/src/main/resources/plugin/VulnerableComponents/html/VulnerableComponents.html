@@ -131,6 +131,12 @@
 		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
 		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
 		<div class="adoc-content" th:replace="doc:VulnerableComponents_content5.adoc"></div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+		<div class="adoc-content" th:replace="doc:VulnerableComponents_content5a.adoc"></div>
 		<div class="attack-container">
 			<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
 			<!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
@@ -142,9 +148,14 @@
 				enctype="application/json;charset=UTF-8">
 				<div id="lessonContent">
 					<form accept-charset="UNKNOWN" method="POST" name="form"
-						action="#attack/307/100" enctype="">
-						Enter Your XML payload: <input name="payload" value="" type="TEXT"/><input
-							name="SUBMIT" value="Go!" type="SUBMIT"/>
+						action="#attack/307/100" enctype="">					
+						<table>
+							<tr>
+								<td>Enter the contact's xml representation:</td>
+								<td><textarea name="payload" value="" type="TEXT" rows="15" cols="60"/></td>
+								<td><input name="SUBMIT" value="Go!" type="SUBMIT"/></td>
+							</tr>
+						</table>
 					</form>
 				</div>
 			</form>

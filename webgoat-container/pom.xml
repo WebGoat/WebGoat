@@ -259,6 +259,12 @@
             <artifactId>docker-maven-plugin</artifactId>
             <version>0.4.10</version>
         </dependency>
+        
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.6</version>
+		</dependency>
 
         <!-- ************* END spring MVC and related dependencies ************** -->
         <!-- ************* START: Dependencies for Unit and Integration Testing ************** -->
