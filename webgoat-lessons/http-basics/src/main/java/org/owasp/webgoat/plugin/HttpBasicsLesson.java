@@ -58,7 +58,7 @@ public class HttpBasicsLesson extends AssignmentEndpoint {
                 .feedbackArgs(new StringBuffer(person).reverse().toString())
                 .build());
         } else {
-            return trackProgress(failed().feedback("http-basics.close").build());
+            return trackProgress(failed().feedback("http-basics.empty").build());
         }
     }
 }

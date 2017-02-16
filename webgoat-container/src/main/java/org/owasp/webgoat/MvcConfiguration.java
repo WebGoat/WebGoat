@@ -32,6 +32,7 @@ package org.owasp.webgoat;
 
 import com.google.common.collect.Sets;
 import org.owasp.webgoat.i18n.Messages;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.LabelDebugger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,8 +118,13 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public Messages messageSource() {
-        Messages messages = new Messages(localeResolver());
+    public PluginMessages pluginMessages(Messages messages) {
+        return new PluginMessages(messages);
+    }
+
+    @Bean
+    public Messages messageSource(LocaleResolver localeResolver) {
+        Messages messages = new Messages(localeResolver);
         messages.setBasename("classpath:/i18n/messages");
         return messages;
     }

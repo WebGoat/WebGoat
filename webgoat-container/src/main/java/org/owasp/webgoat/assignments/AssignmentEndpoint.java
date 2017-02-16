@@ -25,7 +25,7 @@
 package org.owasp.webgoat.assignments;
 
 import lombok.Getter;
-import org.owasp.webgoat.i18n.Messages;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
@@ -50,7 +50,7 @@ public abstract class AssignmentEndpoint extends Endpoint {
     private UserSessionData userSessionData;
     @Getter
     @Autowired
-    private Messages messages;
+    private PluginMessages messages;
 
 	//// TODO: 11/13/2016 events better fit?
     protected AttackResult trackProgress(AttackResult attackResult) {

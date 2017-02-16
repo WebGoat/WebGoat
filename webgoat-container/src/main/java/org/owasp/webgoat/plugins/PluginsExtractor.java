@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugins;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
@@ -28,10 +29,12 @@ public class PluginsExtractor {
     private static final int BUFFER_SIZE = 32 * 1024;
     private final File pluginTargetDirectory;
     private final PluginClassLoader classLoader;
+    private final PluginMessages messages;
 
-    public PluginsExtractor(File pluginTargetDirectory, PluginClassLoader pluginClassLoader) {
+    public PluginsExtractor(File pluginTargetDirectory, PluginClassLoader pluginClassLoader, PluginMessages messages) {
         this.classLoader = pluginClassLoader;
         this.pluginTargetDirectory = pluginTargetDirectory;
+        this.messages = messages;
     }
 
     /**
@@ -137,7 +140,7 @@ public class PluginsExtractor {
                             plugin.getOriginationJar());
                 }
             }
-            new MessagePropertiesMerger(pluginTargetDirectory).mergeAllLanguage();
+            messages.addPluginMessageBundles(new File(pluginTargetDirectory, "plugin/i18n"));
             return plugins;
         } finally {
             executorService.shutdown();

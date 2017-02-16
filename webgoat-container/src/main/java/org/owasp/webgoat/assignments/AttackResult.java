@@ -27,7 +27,7 @@ package org.owasp.webgoat.assignments;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.owasp.webgoat.i18n.Messages;
+import org.owasp.webgoat.i18n.PluginMessages;
 
 @AllArgsConstructor
 public class AttackResult {
@@ -35,13 +35,13 @@ public class AttackResult {
     public static class AttackResultBuilder {
 
         private boolean lessonCompleted;
-        private Messages messages;
+        private PluginMessages messages;
         private Object[] feedbackArgs;
         private String feedbackResourceBundleKey;
         private String output;
         private Object[] outputArgs;
 
-        public AttackResultBuilder(Messages messages) {
+        public AttackResultBuilder(PluginMessages messages) {
             this.messages = messages;
         }
 
@@ -84,7 +84,7 @@ public class AttackResult {
     private String output;
 
 
-    public static AttackResultBuilder builder(Messages messages) {
+    public static AttackResultBuilder builder(PluginMessages messages) {
         return new AttackResultBuilder(messages);
     }
 

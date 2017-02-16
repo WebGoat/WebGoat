@@ -55,6 +55,7 @@ public enum Category {
     PARAMETER_TAMPERING("Parameter Tampering", new Integer(1700)),
     SESSION_MANAGEMENT("Session Management Flaws", new Integer(1800)),
     WEB_SERVICES("Web Services", new Integer(1900)),
+    VULNERABLE_COMPONENTS("Vulnerable Components - A9", new Integer(1950)),
     ADMIN_FUNCTIONS("Admin Functions", new Integer(2000)),
     CHALLENGE("Challenge", new Integer(3000));
 
