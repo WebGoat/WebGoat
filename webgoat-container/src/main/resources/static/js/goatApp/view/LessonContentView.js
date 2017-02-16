@@ -174,7 +174,7 @@ define(['jquery',
                 pagingControlsDiv = $('<div>',{class:'panel-body', id:'lesson-page-controls'});
                 pagingControlsDiv.append(prevPageButton);
                 pagingControlsDiv.append(nextPageButton);
-                this.$el.append(pagingControlsDiv);
+                this.$el.find('.lesson-page-controls').append(pagingControlsDiv);
             }
 
         },

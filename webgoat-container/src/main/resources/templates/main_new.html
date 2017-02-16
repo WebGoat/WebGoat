@@ -62,7 +62,8 @@
                     <i class="fa fa-user"></i> <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-left">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/login(logout)}" th:text="#{logout}">Logout</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/login(logout)}"
+                                               th:text="#{logout}">Logout</a></li>
                     <li role="presentation" class="divider"></li>
                     <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">User: <span
                             th:text="${#authentication.name}"></span></a>
@@ -73,25 +74,27 @@
                     </a>
                     </li>
                     <li role="presentation" class="divider"></li>
-                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#" th:text="#{version}">Version: <span
+                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#"
+                                                                th:text="#{version}">Version: <span
                             th:text="${@environment.getProperty('webgoat.build.version')}"></span></a>
                     </li>
-                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#" th:text="#{build}">Build:
+                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#"
+                                                                th:text="#{build}">Build:
                         <span th:text="${@environment.getProperty('webgoat.build.number')}"></span></a></li>
 
                 </ul>
             </div>
             <div style="display:inline" id="settings">
                 <!--<button type="button" id="admin-button" class="btn btn-default right_nav_button" title="Administrator">-->
-                    <!--<i class="fa fa-cog"></i>-->
+                <!--<i class="fa fa-cog"></i>-->
                 <!--</button>-->
                 <button type="button" id="report-card-button" class="btn btn-default right_nav_button button-up"
                         th:title="#{report.card}">
                     <a href="#reportCard"><i class="fa fa-bar-chart-o"></i></a>
                 </button>
                 <!--<button type="button" id="user-management" class="btn btn-default right_nav_button"-->
-                        <!--title="User management">-->
-                    <!--<i class="fa fa-users"></i>-->
+                <!--title="User management">-->
+                <!--<i class="fa fa-users"></i>-->
                 <!--</button>-->
             </div>
             <button type="button" id="about-button" class="btn btn-default right_nav_button" th:title="#{about}"
@@ -99,7 +102,8 @@
                 <i class="fa fa-info"></i>
             </button>
             <a href="mailto:${contactEmail}?Subject=Webgoat%20feedback" target="_top">
-                <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip" th:title="#{contact}">
+                <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip"
+                        th:title="#{contact}">
                     <i class="fa fa-envelope"></i>
                 </button>
             </a>
@@ -140,9 +144,11 @@
                                             id="show-hints-button" th:text="#{show.hints}">Show hints
                                     </button>
                                     <button class="btn btn-primary btn-xs btn-danger help-button"
-                                            id="show-lesson-overview-button" th:text="#{lesson.overview}">Lesson overview
+                                            id="show-lesson-overview-button" th:text="#{lesson.overview}">Lesson
+                                        overview
                                     </button>
-                                    <button class="btn btn-xs help-button" id="restart-lesson-button" th:text="#{reset.lesson}">Reset Lesson
+                                    <button class="btn btn-xs help-button" id="restart-lesson-button"
+                                            th:text="#{reset.lesson}">Reset Lesson
                                     </button>
                                 </div>
 
@@ -151,8 +157,8 @@
                                     <div class="panel">
                                         <div id="message" class="info" th:utext="${message}"></div>
                                         <div class="panel-body" id="lesson-hint">
-                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left"
-                                  id="show-prev-hint"></span>
+                                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left"
+                                                  id="show-prev-hint"></span>
                                             <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right"
                                                   id="show-next-hint"></span>
                                             <br/>
@@ -165,6 +171,9 @@
                                     <div class="panel">
                                         <div class="panel-body" id="lesson-overview"></div>
                                     </div>
+                                </div>
+                                <div class="lesson-page-controls">
+
                                 </div>
 
                                 <div class="lesson-content">
