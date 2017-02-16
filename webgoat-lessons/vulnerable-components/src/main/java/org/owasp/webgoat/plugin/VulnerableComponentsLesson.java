@@ -86,13 +86,11 @@ public class VulnerableComponentsLesson extends AssignmentEndpoint {
             return trackProgress(success().feedback("vulnerable-components.fromXML").feedbackArgs(expl.toString()).build());
 
         } catch (com.thoughtworks.xstream.converters.ConversionException ex) {
-        	ex.printStackTrace();
         	if (ex.getMessage().contains("Integer"))
         	{
                 return trackProgress(success().feedback("vulnerable-components.success").build());
         	}
             return trackProgress(failed().feedback("vulnerable-components.close").build());
-
        }
 
  
