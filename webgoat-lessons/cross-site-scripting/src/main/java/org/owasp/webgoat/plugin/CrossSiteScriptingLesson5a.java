@@ -4,6 +4,8 @@ package org.owasp.webgoat.plugin;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.session.UserSessionData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,21 +49,44 @@ import java.io.IOException;
 @AssignmentPath("/CrossSiteScripting/attack5a")
 public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
 
-	@RequestMapping(method = RequestMethod.POST)
+    @Autowired
+    UserSessionData userSessionData;
+
+	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody AttackResult completed(@RequestParam Integer QTY1,
 												@RequestParam Integer QTY2, @RequestParam Integer QTY3,
 												@RequestParam Integer QTY4, @RequestParam String field1,
 												@RequestParam Integer field2, HttpServletRequest request)
 			throws IOException {
-		System.out.println("foo");
+		// System.out.println("foo");
 		// Should add some QTY validation here.  Someone could have fun and enter a negative quantity and get merchanidise and a refund :)
 		double totalSale = QTY1.intValue() * 69.99 + QTY2.intValue() * 27.99 + QTY3.intValue() * 1599.99 + QTY4.intValue() * 299.99;  
-		
+
+        userSessionData.setValue("xss-reflected1-complete",(Object)"false");
        	StringBuffer cart = new StringBuffer();
        	cart.append("Thank you for shopping at WebGoat. <br />You're support is appreciated<hr />");
        	cart.append("<p>We have chaged credit card:" + field1 + "<br />");
        	cart.append(   "                             ------------------- <br />");
        	cart.append(   "                               $" + totalSale);
-        return trackProgress(failed().output(cart.toString()).build());
+
+       	//init state
+        if (userSessionData.getValue("xss-reflected1-complete") == null) {
+            userSessionData.setValue("xss-reflected1-complete",(Object)"false");
+        }
+
+        if (field1.toLowerCase().contains("<script>alert('my javascript here')</script>")) {
+			//return trackProgress()
+            userSessionData.setValue("xss-reflected-5a-complete","true");
+            return trackProgress(success()
+                    .feedback("xss-reflected-5a-success")
+                    .output(cart.toString())
+                    .build());
+		} else {
+            userSessionData.setValue("xss-reflected1-complete","false");
+            return trackProgress(success()
+                    .feedback("xss-reflected-5a-failure")
+                    .output(cart.toString())
+                    .build());
+        }
 	}
 }

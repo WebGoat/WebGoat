@@ -1,10 +1,12 @@
 == DOM-Based XSS Scenario
 
+DOM-based XSS is similar to reflected.  The difference is that the payload will never go to the server, but will only ever be processed by the client.
+
 * Attacker sends a malicious URL to victim 
-* Victim clicks on the link that loads malicious web page
-* The malicious web page's JavaScript opens a local web page on the victims machine that contains an attack
-* The local page executes attack in the computer’s local zone
+* Victim clicks on the link
+* That link may load a malicious web page or a web page they use (are logged into?) that has a vulnerable route/handler
+* If it's a  malicious web page, it may use it's own JavaScript to attack another page/url with a vulnerable route/handler
+* The vulnerable page renders the payload and executes attack in the user's context on that page/site
 * Attacker’s malicious script may run commands with the privileges of local account
 
-*Victim does not realize attack occurred*
-
+*Victim does not realize attack occurred* ... Malicious attackers don't use &lt;script&gt;alert('xss')&lt;/ script&gt;

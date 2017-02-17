@@ -3,7 +3,15 @@ package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.session.UserSessionData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 
 
 /***************************************************************************************************
@@ -38,176 +46,19 @@ import org.owasp.webgoat.assignments.AssignmentPath;
  */
 @AssignmentPath("/CrossSiteScripting/attack6a")
 public class CrossSiteScriptingLesson6a extends AssignmentEndpoint {
-/*
-	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody AttackResult completed(@RequestParam String userid_6a, HttpServletRequest request) throws IOException {
-		return injectableQuery(userid_6a);
-		// The answer: Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from user_system_data --
+    @Autowired
+    UserSessionData userSessionData;
 
-	}
+    @RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody
+    AttackResult completed(@RequestParam String DOMTestRoute)  throws IOException {
 
-    protected AttackResult injectableQuery(String accountName)
-    {
-        try
-        {
-            Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
-
-            try
-            {
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                                                    ResultSet.CONCUR_READ_ONLY);
-                ResultSet results = statement.executeQuery(query);
-
-                if ((results != null) && (results.first() == true))
-                {
-                    ResultSetMetaData resultsMetaData = results.getMetaData();
-                	StringBuffer output = new StringBuffer();
-
-                    output.append(writeTable(results, resultsMetaData));
-                    results.last();
-
-                    // If they get back more than one user they succeeded
-                    if (results.getRow() >= 6)
-                    {
-                    	return trackProgress(AttackResult.success("You have succeed: " + output.toString()));
-                   } else {
-                	   return trackProgress(AttackResult.failed("You are close, try again. " + output.toString()));
-                   }
-                    
-                }
-                else
-                {
-                	return trackProgress(AttackResult.failed("No Results Matched. Try Again. "));
-
-                }
-            } catch (SQLException sqle)
-            {
-            	
-            	return trackProgress(AttackResult.failed(sqle.getMessage()));
-            }
-        } catch (Exception e)
-        {
-        	e.printStackTrace();
-        	return trackProgress(AttackResult.failed( "ErrorGenerating" + this.getClass().getName() + " : " + e.getMessage()));
+        if (DOMTestRoute.equals("start.mvc#test/")) {
+            //return trackProgress()
+            return trackProgress(success().feedback("xss-reflected-6a-success").build());
+        } else {
+            return trackProgress(failed().feedback("xss-reflected-6a-failure").build());
         }
     }
-    
-    public String writeTable(ResultSet results, ResultSetMetaData resultsMetaData) throws IOException,
-	SQLException 
-    {
-		int numColumns = resultsMetaData.getColumnCount();
-		results.beforeFirst();
-		StringBuffer t = new StringBuffer();
-		t.append("<p>");
-	
-		if (results.next())
-		{
-			for (int i = 1; i < (numColumns + 1); i++)
-			{
-				t.append(resultsMetaData.getColumnName(i));
-				t.append(", ");
-			}
-		
-			t.append("<br />");
-			results.beforeFirst();
-		
-			while (results.next())
-			{
-		
-				for (int i = 1; i < (numColumns + 1); i++)
-				{
-					t.append(results.getString(i));
-					t.append(", ");
-				}
-		
-				t.append("<br />");
-			}
-		
-		}
-		else
-		{
-			t.append ("Query Successful; however no data was returned from this query.");
-		}
-		
-		t.append("</p>");
-		return (t.toString());
-    }
-//
-//    protected Element parameterizedQuery(WebSession s)
-//    {
-//        ElementContainer ec = new ElementContainer();
-//
-//        ec.addElement(getLabelManager().get("StringSqlInjectionSecondStage"));
-//        if (s.getParser().getRawParameter(ACCT_NAME, "YOUR_NAME").equals("restart"))
-//        {
-//            getLessonTracker(s).getLessonProperties().setProperty(STAGE, "1");
-//            return (injectableQuery(s));
-//        }
-//
-//        ec.addElement(new BR());
-//
-//        try
-//        {
-//            Connection connection = DatabaseUtilities.getConnection(s);
-//
-//            ec.addElement(makeAccountLine(s));
-//
-//            String query = "SELECT * FROM user_data WHERE last_name = ?";
-//            ec.addElement(new PRE(query));
-//
-//            try
-//            {
-//                PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
-//                                                                            ResultSet.CONCUR_READ_ONLY);
-//                statement.setString(1, accountName);
-//                ResultSet results = statement.executeQuery();
-//
-//                if ((results != null) && (results.first() == true))
-//                {
-//                    ResultSetMetaData resultsMetaData = results.getMetaData();
-//                    ec.addElement(DatabaseUtilities.writeTable(results, resultsMetaData));
-//                    results.last();
-//
-//                    // If they get back more than one user they succeeded
-//                    if (results.getRow() >= 6)
-//                    {
-//                        makeSuccess(s);
-//                    }
-//                }
-//                else
-//                {
-//                    ec.addElement(getLabelManager().get("NoResultsMatched"));
-//                }
-//            } catch (SQLException sqle)
-//            {
-//                ec.addElement(new P().addElement(sqle.getMessage()));
-//            }
-//        } catch (Exception e)
-//        {
-//            s.setMessage(getLabelManager().get("ErrorGenerating") + this.getClass().getName());
-//            e.printStackTrace();
-//        }
-//
-//        return (ec);
-//    }
-//
-//    protected Element makeAccountLine(WebSession s)
-//    {
-//        ElementContainer ec = new ElementContainer();
-//        ec.addElement(new P().addElement(getLabelManager().get("EnterLastName")));
-//
-//        accountName = s.getParser().getRawParameter(ACCT_NAME, "Your Name");
-//        Input input = new Input(Input.TEXT, ACCT_NAME, accountName.toString());
-//        ec.addElement(input);
-//
-//        Element b = ECSFactory.makeButton(getLabelManager().get("Go!"));
-//        ec.addElement(b);
-//
-//        return ec;
-//
-//    }
-
-*/
 
 }

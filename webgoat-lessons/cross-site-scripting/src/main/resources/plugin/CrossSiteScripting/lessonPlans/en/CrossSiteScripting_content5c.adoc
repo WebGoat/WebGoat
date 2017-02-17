@@ -1,0 +1,9 @@
+== Was it Really Reflected XSS?
+
+The last example was not truly reflected XSS ... Why you say?
+# Can you execute it by changing the URL? (No)
+# If you do follow the actual payload in a new tab, does it execute the script? (No ... go ahead and give it a try)
+
+The reason for #2 is that the response type
+
+

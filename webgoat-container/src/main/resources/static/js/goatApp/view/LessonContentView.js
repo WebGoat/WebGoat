@@ -114,7 +114,9 @@ define(['jquery',
             this.renderFeedback(data.feedback);
 
             this.renderOutput(data.output || "");
-            if (data.assignmentCompleted) {
+            //TODO: refactor back assignmentCompleted in Java
+            if (data.lessonCompleted || data.assignmentCompleted) {
+
                 this.markAssignmentComplete();
                 this.trigger('assignment:complete');
             } else {

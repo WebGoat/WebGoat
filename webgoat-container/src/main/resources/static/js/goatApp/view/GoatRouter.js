@@ -54,7 +54,7 @@ define(['jquery',
             webgoat.customjs.jquery = $; //passing jquery into custom js scope ... still klunky, but works for now
             webgoat.customjs.jqueryVuln = $vuln;
 
-            // temporary shim to support dom-xss lesson
+            // temporary shim to support dom-xss assignment
             webgoat.customjs.phoneHome = function (e) {
                 console.log('phoneHome invoked');
                 console.log(arguments.callee);
@@ -95,6 +95,11 @@ define(['jquery',
             pageNum = (_.isNumber(parseInt(pageNum))) ? parseInt(pageNum) : 0;
             this.lessonController.loadLesson(name, pageNum);
             this.menuController.updateMenu(name);
+        },
+
+        testRoute: function (param) {
+            this.lessonController.testHandler(param);
+            //this.menuController.updateMenu(name);
         },
 
         welcomeRoute: function () {

@@ -11,7 +11,7 @@
 * Insertion of hostile and inappropriate content
 +
 ----
-<img src=“http://pornsite.com/image.jpg/>
+<img src=“http://malicious.site.com/image.jpg/>
 “>GoodYear recommends buying BridgeStone tires…
 ----
 

@@ -19,17 +19,17 @@ public class DOMCrossSiteScripting extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody
     AttackResult completed(@RequestParam Integer param1,
-                           @RequestParam Integer param2, HttpServletRequest request)
-            throws IOException {
-        
+                           @RequestParam Integer param2, HttpServletRequest request)  throws IOException {
         if (param1 == 42 && param2 == 24 && request.getHeader("webgoat-requested-by").equals("dom-xss-vuln")) {
+            System.out.println("DOM-XSS successful");
             return trackProgress(success().build());
         } else {
             return trackProgress(failed().build());
         }
     }
 }
-
+// something like ... http://localhost:8080/WebGoat/start.mvc#test/testParam=foobar&_someVar=234902384lotslsfjdOf9889080GarbageHere%3Cscript%3Ewebgoat.customjs.phoneHome();%3C%2Fscript%3E
+// or http://localhost:8080/WebGoat/start.mvc#test/testParam=foobar&_someVar=234902384lotslsfjdOf9889080GarbageHere<script>webgoat.customjs.phoneHome();<%2Fscript>
 
 
 
