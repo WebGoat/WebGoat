@@ -93,7 +93,7 @@ The source code will be available in the home directory.
 
 # Building a new Docker image
 
-WebGoat now has Docker support for x86 and arm (raspberry pi).
+WebGoat now has Docker support for x86 and ARM (raspberry pi).
 ### Docker on x86
 On x86 you can build a container with the following commands:
 
