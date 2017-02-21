@@ -21,12 +21,12 @@
         <profile>
             <id>raspberry-pi-3</id>
             <activation>
-                <os>
+<!--                <os>
                     <name>Linux</name>
                     <arch>armv7l</arch>
-                </os>
+                </os>-->
                 <property>
-                    <name>raspberry-pi-3</name>
+                    <name>rpi</name>
                 </property>
             </activation>
             <build>
@@ -53,9 +53,9 @@
         <profile>
             <id>default</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+               <!-- <activeByDefault>true</activeByDefault>-->
                 <property>
-                    <name>!raspberry-pi-3</name>
+                    <name>!rpi</name>
                 </property>
             </activation>
             <build>
