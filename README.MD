@@ -93,13 +93,42 @@ The source code will be available in the home directory.
 
 # Building a new Docker image
 
-WebGoat now has Docker support you can build a container with the following commands:
+WebGoat now has Docker support for x86 and arm (raspberry pi).
+### Docker on x86
+On x86 you can build a container with the following commands:
 
 ```Shell
 cd WebGoat/
 mvn package
 cd webgoat-container
+mvn package
 mvn docker:build
+docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
+docker login
+docker push webgoat/webgoat-container
+```
+
+### Docker on ARM (Raspberry Pi)
+On a Raspberry Pi (it has yet been tested with a Raspberry Pi 3 and the hypriot Docker image) you need to build JFFI for 
+ARM first. This is needed by the docker-maven-plugin ([see here](https://github.com/spotify/docker-maven-plugin/issues/233)):
+
+```Shell
+sudo apt-get install build-essential
+git clone https://github.com/jnr/jffi.git
+cd jffi
+ant jar
+cd build/jni
+sudo cp libjffi-1.2.so /usr/lib
+```
+
+When you have done this you can build the Docker container using the following commands:
+ 
+```Shell
+cd WebGoat/
+mvn package
+cd webgoat-container
+mvn package
+mvn docker:build -Drpi=true
 docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
 docker push webgoat/webgoat-container
