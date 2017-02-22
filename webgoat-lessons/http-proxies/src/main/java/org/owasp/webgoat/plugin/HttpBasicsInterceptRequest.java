@@ -49,7 +49,12 @@ public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
 	AttackResult completed(HttpServletRequest request) throws IOException {
-		if (request.getHeader("x-request-intercepted").toLowerCase().equals("true") && request.getParameter("changeMe").equals("Requests are tampered easily")) {
+		String header = null;
+		String param = null;
+		if (request != null && (header = request.getHeader("x-request-intercepted")) != null
+			&& header.toLowerCase().equals("true") 
+			&& (param = request.getParameter("changeMe")) != null
+			&& param.equals("Requests are tampered easily")) {
             return trackProgress(success().feedback("http-proxies.intercept.success").build());
 		} else {
             return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
