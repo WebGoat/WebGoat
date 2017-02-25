@@ -1,13 +1,29 @@
 package org.owasp.webgoat.plugins;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
+import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.NewLesson;
 import org.owasp.webgoat.session.Course;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.RegexPatternTypeFilter;
 
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * ************************************************************************************************
@@ -42,7 +58,6 @@ import java.util.List;
 @Slf4j
 public class PluginsLoader {
 
-    private final PluginsExtractor extractor;
     private final PluginEndpointPublisher pluginEndpointPublisher;
 
     /**
@@ -50,11 +65,15 @@ public class PluginsLoader {
      */
     public Course loadPlugins() {
         List<AbstractLesson> lessons = Lists.newArrayList();
-        for (Plugin plugin : extractor.loadPlugins()) {
+        for (PluginResource plugin : findPluginResources()) {
             try {
-                NewLesson lesson = (NewLesson) plugin.getLesson().get();
+                Class lessonClazz = plugin.getLesson()
+                        .orElseThrow(() -> new PluginLoadingFailure("Plugin resource does not contain lesson"));
+                NewLesson lesson = (NewLesson) lessonClazz.newInstance();
+                List<Class<AssignmentEndpoint>> assignments = plugin.getAssignments();
+                lesson.setAssignments(createAssignment(assignments));
                 lessons.add(lesson);
-                pluginEndpointPublisher.publish(plugin);
+                pluginEndpointPublisher.publish(plugin.getEndpoints());
             } catch (Exception e) {
                 log.error("Error in loadLessons: ", e);
             }
@@ -65,6 +84,45 @@ public class PluginsLoader {
             log.error("For developers run 'mvn package' first from the root directory.");
         }
         return new Course(lessons);
+    }
+
+    private List<Assignment> createAssignment(List<Class<AssignmentEndpoint>> endpoints) {
+        return endpoints.stream().map(e -> new Assignment(e.getSimpleName(), getPath(e), getHints(e))).collect(toList());
+    }
+
+    private String getPath(Class<AssignmentEndpoint> e) {
+        return e.getAnnotationsByType(AssignmentPath.class)[0].value();
+    }
+
+    private List<String> getHints(Class<AssignmentEndpoint> e) {
+        if (e.isAnnotationPresent(AssignmentHints.class)) {
+            return Lists.newArrayList(e.getAnnotationsByType(AssignmentHints.class)[0].value());
+        }
+        return Lists.newArrayList();
+    }
+
+
+
+    @SneakyThrows
+    public List<PluginResource> findPluginResources() {
+        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+        provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
+        final Set<BeanDefinition> classes = provider.findCandidateComponents("org.owasp.webgoat.plugin");
+        Map<URL, List<Class>> pluginClasses = Maps.newHashMap();
+        for (BeanDefinition bean : classes) {
+            Class<?> clazz = Class.forName(bean.getBeanClassName());
+            URL location = clazz.getProtectionDomain().getCodeSource().getLocation();
+            List<Class> classFiles = pluginClasses.get(location);
+            if (classFiles == null) {
+                classFiles = Lists.newArrayList(clazz);
+            } else {
+                classFiles.add(clazz);
+            }
+            pluginClasses.put(location, classFiles);
+        }
+        return pluginClasses.entrySet().parallelStream()
+                .map(e -> new PluginResource(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
     }
 
 }

@@ -6,11 +6,12 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.util.SerializationUtils;
+import org.springframework.core.serializer.DefaultDeserializer;
+import org.springframework.core.serializer.DefaultSerializer;
 
 import java.io.File;
-import java.util.HashMap;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,6 @@ public class UserTracker {
 
     private final String webgoatHome;
     private final String user;
-    private Map<String, LessonTracker> storage = new HashMap<>();
 
     public UserTracker(final String webgoatHome, final String user) {
         this.webgoatHome = webgoatHome;
@@ -64,53 +64,72 @@ public class UserTracker {
      * @return the optional lesson tracker
      */
     public LessonTracker getLessonTracker(AbstractLesson lesson) {
+        return getLessonTracker(load(), lesson);
+    }
+
+    /**
+     * Returns the lesson tracker for a specific lesson if available.
+     *
+     * @param lesson the lesson
+     * @return the optional lesson tracker
+     */
+    public LessonTracker getLessonTracker(Map<String, LessonTracker> storage, AbstractLesson lesson) {
         LessonTracker lessonTracker = storage.get(lesson.getTitle());
         if (lessonTracker == null) {
             lessonTracker = new LessonTracker(lesson);
             storage.put(lesson.getTitle(), lessonTracker);
+            save(storage);
         }
         return lessonTracker;
     }
 
     public void assignmentSolved(AbstractLesson lesson, String assignmentName) {
-        LessonTracker lessonTracker = getLessonTracker(lesson);
+        Map<String, LessonTracker> storage = load();
+        LessonTracker lessonTracker = storage.get(lesson.getTitle());
         lessonTracker.incrementAttempts();
         lessonTracker.assignmentSolved(assignmentName);
-        save();
+        save(storage);
     }
 
     public void assignmentFailed(AbstractLesson lesson) {
-        LessonTracker lessonTracker = getLessonTracker(lesson);
+        Map<String, LessonTracker> storage = load();
+        LessonTracker lessonTracker = storage.get(lesson.getTitle());
         lessonTracker.incrementAttempts();
-        save();
+        save(storage);
     }
 
-    public void load() {
+    public Map<String, LessonTracker> load() {
         File file = new File(webgoatHome, user + ".progress");
         if (file.exists() && file.isFile()) {
             try {
-                this.storage = (Map<String, LessonTracker>) SerializationUtils.deserialize(FileCopyUtils.copyToByteArray(file));
+                DefaultDeserializer deserializer = new DefaultDeserializer(Thread.currentThread().getContextClassLoader());
+                return (Map<String, LessonTracker>) deserializer.deserialize(new FileInputStream(file));
             } catch (Exception e) {
                 log.error("Unable to read the progress file, creating a new one...");
-                this.storage = Maps.newHashMap();
+
             }
         }
+        return Maps.newHashMap();
     }
 
     @SneakyThrows
-    private void save() {
+    private void save(Map<String, LessonTracker> storage) {
         File file = new File(webgoatHome, user + ".progress");
-        FileCopyUtils.copy(SerializationUtils.serialize(this.storage), file);
+        DefaultSerializer serializer = new DefaultSerializer();
+        serializer.serialize(storage, new FileOutputStream(file));
     }
 
 
     public void reset(AbstractLesson al) {
-        getLessonTracker(al).reset();
-        save();
+        Map<String, LessonTracker> storage = load();
+        LessonTracker lessonTracker = getLessonTracker(storage, al);
+        lessonTracker.reset();
+        save(storage);
     }
 
     public int numberOfLessonsSolved() {
         int numberOfLessonsSolved = 0;
+        Map<String, LessonTracker> storage = load();
         for (LessonTracker lessonTracker : storage.values()) {
             if (lessonTracker.isLessonSolved()) {
                 numberOfLessonsSolved = numberOfLessonsSolved + 1;
@@ -121,6 +140,7 @@ public class UserTracker {
 
     public int numberOfAssignmentsSolved() {
         int numberOfAssignmentsSolved = 0;
+        Map<String, LessonTracker> storage = load();
         for (LessonTracker lessonTracker : storage.values()) {
             Map<Assignment, Boolean> lessonOverview = lessonTracker.getLessonOverview();
             numberOfAssignmentsSolved = lessonOverview.values().stream().filter(b -> b).collect(Collectors.counting()).intValue();

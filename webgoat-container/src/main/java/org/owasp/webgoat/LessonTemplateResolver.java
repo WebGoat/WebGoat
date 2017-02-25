@@ -30,16 +30,19 @@
  */
 package org.owasp.webgoat;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.common.io.Files;
+import com.google.common.io.ByteStreams;
+import lombok.SneakyThrows;
+import org.springframework.core.io.ResourceLoader;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * Dynamically resolve a lesson. In the html file this can be invoked as:
@@ -48,15 +51,18 @@ import java.io.InputStream;
  *    <div th:case="true" th:replace="lesson:__${lesson.class.simpleName}__"></div>
  * </code>
  *
- * Thymeleaf will invoke this resolver based on the prefix and this implementqtion will resolve the html in the plugins directory
+ * Thymeleaf will invoke this resolver based on the prefix and this implementation will resolve the html in the plugins directory
  */
 public class LessonTemplateResolver extends TemplateResolver {
 
     private final static String PREFIX = "lesson:";
     private final File pluginTargetDirectory;
+    private ResourceLoader resourceLoader;
+    private Map<String, byte[]> resources = Maps.newHashMap();
 
-    public LessonTemplateResolver(File pluginTargetDirectory) {
+    public LessonTemplateResolver(File pluginTargetDirectory, ResourceLoader resourceLoader) {
         this.pluginTargetDirectory = pluginTargetDirectory;
+        this.resourceLoader = resourceLoader;
         setResourceResolver(new LessonResourceResolver());
         setResolvablePatterns(Sets.newHashSet(PREFIX + "*"));
     }
@@ -70,17 +76,14 @@ public class LessonTemplateResolver extends TemplateResolver {
     private class LessonResourceResolver implements IResourceResolver {
 
         @Override
+        @SneakyThrows
         public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
-            File lesson = new File(pluginTargetDirectory, "/plugin/" + resourceName + "/html/" + resourceName + ".html");
-            if (lesson != null) {
-                try {
-                    return new ByteArrayInputStream(Files.toByteArray(lesson));
-                } catch (IOException e) {
-                    //no html yet
-                    return new ByteArrayInputStream(new byte[0]);
-                }
+            byte[] resource = resources.get(resourceName);
+            if (resource == null) {
+                resource = ByteStreams.toByteArray(resourceLoader.getResource("classpath:/html/" + resourceName + ".html").getInputStream());
+                resources.put(resourceName, resource);
             }
-            return null;
+            return new ByteArrayInputStream(resource);
         }
 
         @Override

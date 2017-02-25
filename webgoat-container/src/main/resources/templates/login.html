@@ -29,7 +29,7 @@
                 <p th:text="#{logged_out}">You've been logged out successfully.</p>
             </div>
             <br/><br/>
-            <form th:action="@{/login}" method='POST' style="width: 400px;">
+            <form th:action="@{/login}" method='POST' style="width: 200px;">
                 <div class="form-group">
                     <label for="exampleInputEmail1" th:text="#{username}">Username</label>
                     <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"
@@ -40,31 +40,9 @@
                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
                            name='password' value="guest"/>
                 </div>
-                <button class="btn btn-large btn-primary" type="submit" th:text="#{sign.in}">Sign in</button>
+                <button class="btn btn-primary btn-block" type="submit" th:text="#{sign.in}">Sign in</button>
+                <div class="text-center"><a th:href="@{/registration}" th:text="#{register.new}"></a></div>
             </form>
-            <br/><br/>
-            <h4 th:text="#{accounts.build.in}">The following accounts are built into Webgoat</h4>
-            <table class="table table-bordered" style="width:400px;">
-                <thead>
-                <tr class="warning">
-                    <th th:text="#{accounts.table.account}">Account</th>
-                    <th th:text="#{accounts.table.user}">User</th>
-                    <th th:text="#{accounts.table.password}">Password</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Webgoat User</td>
-                    <td>guest</td>
-                    <td>guest</td>
-                </tr>
-                <tr>
-                    <td>Webgoat Admin</td>
-                    <td>webgoat</td>
-                    <td>webgoat</td>
-                </tr>
-                </tbody>
-            </table>
             <br/><br/>
         </section>
     </section>

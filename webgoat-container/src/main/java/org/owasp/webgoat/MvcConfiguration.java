@@ -1,32 +1,32 @@
 /**
- *************************************************************************************************
- *
- *
+ * ************************************************************************************************
+ * <p>
+ * <p>
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- *
+ * <p>
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- *
+ * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- *
+ * <p>
  * Getting Source ==============
- *
+ * <p>
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  *
  * @author WebGoat
- * @since October 28, 2003
  * @version $Id: $Id
+ * @since October 28, 2003
  */
 package org.owasp.webgoat;
 
@@ -39,8 +39,11 @@ import org.owasp.webgoat.session.LabelDebugger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -70,6 +73,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         registry.addViewController("/start.mvc").setViewName("main_new");
     }
 
+
     @Bean
     public TemplateResolver springThymeleafTemplateResolver(ApplicationContext applicationContext) {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
@@ -82,8 +86,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public LessonTemplateResolver lessonTemplateResolver() {
-        LessonTemplateResolver resolver = new LessonTemplateResolver(pluginTargetDirectory);
+    public LessonTemplateResolver lessonTemplateResolver(ResourceLoader resourceLoader) {
+        LessonTemplateResolver resolver = new LessonTemplateResolver(pluginTargetDirectory, resourceLoader);
         resolver.setOrder(2);
         resolver.setCacheable(false);
         return resolver;
@@ -92,7 +96,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(Language language) {
         AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(pluginTargetDirectory, language);
-        resolver.setCacheable(true);
+        resolver.setCacheable(false);
         resolver.setOrder(3);
         return resolver;
     }
@@ -116,11 +120,18 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/plugin_lessons/**").addResourceLocations("file:///" + pluginTargetDirectory.toString() + "/");
+        //registry.addResourceHandler("/images/**").addResourceLocations("classpath:/plugin/VulnerableComponents/images/");
+        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");
+        registry.addResourceHandler("/lesson_js/**").addResourceLocations("classpath:/js/");
+        registry.addResourceHandler("/lesson_css/**").addResourceLocations("classpath:/css/");
+        super.addResourceHandlers(registry);
     }
 
     @Bean
     public PluginMessages pluginMessages(Messages messages, Language language) {
-        return new PluginMessages(messages, language);
+        PluginMessages pluginMessages = new PluginMessages(messages, language);
+        pluginMessages.setBasenames("i18n/WebGoatLabels");
+        return pluginMessages;
     }
 
     @Bean
@@ -131,7 +142,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public Messages messageSource(Language language) {
         Messages messages = new Messages(language);
-        messages.setBasename("classpath:/i18n/messages");
+        messages.setBasename("classpath:i18n/messages");
         return messages;
     }
 

@@ -1,6 +1,6 @@
 
 /**
- *************************************************************************************************
+ * ************************************************************************************************
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
@@ -25,11 +25,13 @@
  * <p>
  *
  * @author WebGoat
- * @since  December 12, 2015
  * @version $Id: $Id
+ * @since December 12, 2015
  */
 package org.owasp.webgoat;
 
+import lombok.AllArgsConstructor;
+import org.owasp.webgoat.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,16 +47,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * Security configuration for WebGoat.
  */
 @Configuration
+@AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserService userDetailsService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry security = http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/images/**", "/js/**", "fonts/**", "/plugins/**").permitAll()
+                .antMatchers("/css/**", "/images/**", "/js/**", "fonts/**", "/plugins/**", "/registration", "/register.mvc").permitAll()
                 .antMatchers("/servlet/AdminServlet/**").hasAnyRole("WEBGOAT_ADMIN", "SERVER_ADMIN") //
                 .antMatchers("/JavaSource/**").hasRole("SERVER_ADMIN") //
-                .anyRequest().hasAnyRole("WEBGOAT_USER", "WEBGOAT_ADMIN", "SERVER_ADMIN");
+                .anyRequest().authenticated();
         security.and()
                 .formLogin()
                 .loginPage("/login")
@@ -79,15 +85,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("guest").password("guest").roles("WEBGOAT_USER").and() //
-                .withUser("webgoat").password("webgoat").roles("WEBGOAT_ADMIN").and() //
-                .withUser("server").password("server").roles("SERVER_ADMIN");
+        auth.userDetailsService(userDetailsService); //.passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Bean
     @Override
     public UserDetailsService userDetailsServiceBean() throws Exception {
-        return super.userDetailsServiceBean();
+        return userDetailsService;
     }
 }

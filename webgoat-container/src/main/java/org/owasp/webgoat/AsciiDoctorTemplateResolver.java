@@ -34,25 +34,20 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.asciidoctor.Asciidoctor;
 import org.owasp.webgoat.i18n.Language;
-import org.springframework.util.StringUtils;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
 /**
  * Thymeleaf resolver for AsciiDoc used in the lesson, can be used as follows inside a lesson file:
- *
+ * <p>
  * <code>
- *   <div th:replace="doc:AccessControlMatrix_plan.adoc"></div>
+ * <div th:replace="doc:AccessControlMatrix_plan.adoc"></div>
  * </code>
  */
 public class AsciiDoctorTemplateResolver extends TemplateResolver {
@@ -80,33 +75,25 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
 
         @Override
         public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
+            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName));
             try {
-                Optional<Path> adocFile = resolveAdocFile(resourceName);
-                if (adocFile.isPresent()) {
-                    try (FileReader reader = new FileReader(adocFile.get().toFile())) {
-                        StringWriter writer = new StringWriter();
-                        asciidoctor.convert(reader, writer, createAttributes());
-                        return new ByteArrayInputStream(writer.getBuffer().toString().getBytes());
-                    }
-                }
-                return new ByteArrayInputStream(new byte[0]);
+                StringWriter writer = new StringWriter();
+                asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
+                return new ByteArrayInputStream(writer.getBuffer().toString().getBytes());
             } catch (IOException e) {
                 //no html yet
                 return new ByteArrayInputStream(new byte[0]);
             }
-
         }
 
-        private Optional<Path> resolveAdocFile(String resourceName) throws IOException {
-            Optional<Path> path = Optional.empty();
-            if (language.getLocale() != null) {
-                path = find(pluginTargetDirectory.toPath(), resourceName, language.getLocale().toString());
-            }
-            if (!path.isPresent()) {
-                path = find(pluginTargetDirectory.toPath(), resourceName, null);
-            }
-            return path;
+        /**
+         * The resource name is for example HttpBasics_content1.adoc. This is always located in the following directory:
+         * <code>plugin/HttpBasics/lessonPlans/en/HttpBasics_content1.adoc</code>
+         */
+        private String computeResourceName(String resourceName) {
+            return String.format("lessonPlans/%s/%s", language.getLocale().getLanguage(), resourceName);
         }
+
 
         private Map<String, Object> createAttributes() {
             Map<String, Object> attributes = Maps.newHashMap();
@@ -117,14 +104,6 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
             options.put("attributes", attributes);
 
             return options;
-        }
-
-        private Optional<Path> find(Path path, String resourceName, String language) throws IOException {
-            Predicate<Path> languageFilter = p -> StringUtils.hasText(language) ? p.getParent().getFileName().toString().equals(language) : true;
-            return Files.walk(path)
-                    .filter(Files::isRegularFile)
-                    .filter(p -> p.toString().endsWith(resourceName))
-                    .filter(languageFilter).findFirst();
         }
 
         @Override

@@ -1,7 +1,0 @@
-== Blind XXE assignment
-
-In the previous page we showed you how you can ping a server with a XXE attack, in this assigment try to make a DTD which will upload the
-contents of ~/.webgoat/plugin/XXE/secret.txt to our server. For Linux: `/home/USER/.webgoat/plugin/XXE/secret.txt`, for Windows
-this would be `c:/Users/USER/.webgoat/plugin/XXE/secret.txt`
-
-Try to upload this file using the following endpoint: `http://localhost:8080/WebGoat/XXE/ping?text=[contents_file]` (NOTE: this endpoint is under your full control)

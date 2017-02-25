@@ -55,7 +55,7 @@ public class AssignmentEndpointTest {
     protected PluginMessages pluginMessages = new PluginMessages(messages, language);
 
     public void init(AssignmentEndpoint a) {
-        messages.setBasenames("classpath:/i18n/messages", "classpath:/plugin/i18n/WebGoatLabels");
+        messages.setBasenames("classpath:/i18n/messages", "classpath:/i18n/WebGoatLabels");
         ReflectionTestUtils.setField(a, "userTracker", userTracker);
         ReflectionTestUtils.setField(a, "userSessionData", userSessionData);
         ReflectionTestUtils.setField(a, "webSession", webSession);

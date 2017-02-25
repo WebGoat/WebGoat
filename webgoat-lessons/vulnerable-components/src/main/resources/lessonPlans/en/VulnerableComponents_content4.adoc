@@ -1,0 +1,9 @@
+== How do I generate a Bill of Materials
+
+There are several open source and paid-for solutions that will identify risk in components.  However, there are not many tools that will deliver a complete list of "ingredients" used within an application.  OWASP Dependency Check provides the ability to generate a bill of materials and identify potential security risk.
+
+Dependency check uses several pieces of evidence to determine the library names.  Below is a snippet of a report:
+
+image::images/OWASP-Dep-Check.png[caption="Figure: ", title="WebGoat Bill of Materials", alt="BoM", width="988", height="515", style="lesson-image"]
+
+ 

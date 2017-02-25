@@ -1,17 +1,23 @@
 package org.owasp.webgoat.plugin;
 
 import com.google.common.base.Joiner;
+import lombok.SneakyThrows;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -50,6 +56,20 @@ import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
 @AssignmentPath("XXE/blind")
 public class BlindSendFileAssignment extends AssignmentEndpoint {
 
+    @Value("${webgoat.user.directory}")
+    private String webGoatHomeDirectory;
+
+    @PostConstruct
+    @SneakyThrows
+    public void copyFile() {
+        ClassPathResource classPathResource = new ClassPathResource("secret.txt");
+        File targetDirectory = new File(webGoatHomeDirectory, "/XXE");
+        if (!targetDirectory.exists()) {
+            targetDirectory.mkdir();
+        }
+        FileCopyUtils.copy(classPathResource.getInputStream(), new FileOutputStream(new File(targetDirectory, "secret.txt")));
+    }
+
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult createNewUser(@RequestBody String userInfo) throws Exception {
@@ -60,7 +80,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
             error = ExceptionUtils.getFullStackTrace(e);
         }
 
-        File logFile = new File(getPluginDirectory(), "/XXE/log.txt");
+        File logFile = new File(webGoatHomeDirectory, "/XXE/log.txt");
         List<String> lines = Files.readAllLines(Paths.get(logFile.toURI()));
         boolean solved = lines.stream().filter(l -> l.contains("WebGoat 8 rocks...")).findFirst().isPresent();
         logFile.delete();

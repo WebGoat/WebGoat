@@ -1,7 +1,7 @@
 package org.owasp.webgoat.plugin;
 
-import java.io.IOException;
-
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import java.io.IOException;
 
 /**
  * *************************************************************************************************
@@ -55,7 +54,9 @@ public class VulnerableComponentsLesson extends AssignmentEndpoint {
 
 		
         XStream xstream = new XStream(new DomDriver());
-//        xstream.processAnnotations(Contact.class);
+        xstream.setClassLoader(Contact.class.getClassLoader());
+
+        xstream.processAnnotations(Contact.class);
 //        xstream.registerConverter(new ContactConverter());
 //        xstream.registerConverter(new CatchAllConverter(), XStream.PRIORITY_VERY_LOW);
  

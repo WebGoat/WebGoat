@@ -34,13 +34,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Context;
-import org.owasp.webgoat.i18n.PluginMessages;
-import org.owasp.webgoat.plugins.PluginClassLoader;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
-import org.owasp.webgoat.plugins.PluginsExtractor;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.session.*;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -87,16 +83,6 @@ public class WebGoat extends SpringBootServletInitializer {
     }
 
     @Bean
-    public PluginClassLoader pluginClassLoader() {
-        return new PluginClassLoader(PluginClassLoader.class.getClassLoader());
-    }
-
-    @Bean
-    public PluginsExtractor pluginsLoader(@Qualifier("pluginTargetDirectory") File pluginTargetDirectory, PluginClassLoader classLoader, PluginMessages messages) {
-        return new PluginsExtractor(pluginTargetDirectory, classLoader, messages);
-    }
-
-    @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public WebSession webSession(WebgoatContext webgoatContext) {
         return new WebSession(webgoatContext);
@@ -114,8 +100,8 @@ public class WebGoat extends SpringBootServletInitializer {
     }
 
     @Bean
-    public Course course(PluginsExtractor extractor, PluginEndpointPublisher pluginEndpointPublisher) {
-        return new PluginsLoader(extractor, pluginEndpointPublisher).loadPlugins();
+    public Course course(PluginEndpointPublisher pluginEndpointPublisher) {
+        return new PluginsLoader(pluginEndpointPublisher).loadPlugins();
     }
 
     @Bean

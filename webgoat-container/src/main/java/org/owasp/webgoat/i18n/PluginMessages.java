@@ -27,28 +27,44 @@ package org.owasp.webgoat.i18n;
 
 import lombok.SneakyThrows;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.UrlResource;
 
-import java.io.File;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Properties;
 
 /**
- * Message resource bundle for plugins. The files is created after startup during the init of the plugins so we
- * need to load this file through a ResourceLoader instead of location on the classpath.
+ * Message resource bundle for plugins.
  *
  * @author nbaars
  * @date 2/4/17
  */
 public class PluginMessages extends ReloadableResourceBundleMessageSource {
+    private static final String PROPERTIES_SUFFIX = ".properties";
 
     private Language language;
 
     public PluginMessages(Messages messages, Language language) {
         this.language = language;
         this.setParentMessageSource(messages);
+        this.setBasename("WebGoatLabels");
     }
+
+    @Override
+    @SneakyThrows
+    protected PropertiesHolder refreshProperties(String filename, PropertiesHolder propHolder) {
+        Properties properties = new Properties();
+        long lastModified = System.currentTimeMillis();
+
+        Enumeration<URL> resources = Thread.currentThread().getContextClassLoader().getResources(filename + PROPERTIES_SUFFIX);
+        while (resources.hasMoreElements()) {
+            URL resource = resources.nextElement();
+            String sourcePath = resource.toURI().toString().replace(PROPERTIES_SUFFIX, "");
+            PropertiesHolder holder = super.refreshProperties(sourcePath, propHolder);
+            properties.putAll(holder.getProperties());
+        }
+        return new PropertiesHolder(properties, lastModified);
+    }
+
 
     public Properties getMessages() {
         return getMergedProperties(language.getLocale()).getProperties();
@@ -60,21 +76,5 @@ public class PluginMessages extends ReloadableResourceBundleMessageSource {
 
     public String getMessage(String code, String defaultValue, Object... args) {
         return super.getMessage(code, args, defaultValue, language.getLocale());
-    }
-
-    public void addPluginMessageBundles(final File i18nPluginDirectory) {
-        this.setBasename("WebGoatLabels");
-        this.setResourceLoader(new ResourceLoader() {
-            @Override
-            @SneakyThrows
-            public Resource getResource(String location) {
-                return new UrlResource(new File(i18nPluginDirectory, location).toURI());
-            }
-
-            @Override
-            public ClassLoader getClassLoader() {
-                return Thread.currentThread().getContextClassLoader();
-            }
-        });
     }
 }

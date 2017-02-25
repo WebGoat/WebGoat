@@ -73,7 +73,7 @@ mvn clean package
 Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 
 ```Shell
-mvn -pl webgoat-container spring-boot:run
+mvn -pl webgoat-assembly spring-boot:run
 ```
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
 

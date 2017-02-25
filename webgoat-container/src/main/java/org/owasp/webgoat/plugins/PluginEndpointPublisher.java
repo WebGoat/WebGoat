@@ -1,6 +1,7 @@
 package org.owasp.webgoat.plugins;
 
 import lombok.extern.slf4j.Slf4j;
+import org.owasp.webgoat.assignments.Endpoint;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+
+import java.util.List;
 
 /**
  * ************************************************************************************************
@@ -47,9 +50,8 @@ public class PluginEndpointPublisher {
         this.applicationContext = (AbstractApplicationContext) applicationContext;
     }
 
-    public void publish(Plugin plugin) {
-        plugin.getAssignments().forEach(e -> publishEndpoint(e));
-        plugin.getEndpoints().forEach(e -> publishEndpoint(e));
+    public void publish(List<Class<Endpoint>> endpoints) {
+        endpoints.forEach(e -> publishEndpoint(e));
     }
 
     private void publishEndpoint(Class<? extends MvcEndpoint> e) {

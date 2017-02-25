@@ -1,0 +1,11 @@
+
+== Components are everywhere
+
+WebGoat uses almost *200 Java and JavaScript* libraries.  Like most Java applications, we use maven to manage our java dependencies and we employ the wild, wild west strategy for managing JavaScript. 
+
+=== Vulnerable components in WebGoat?
+
+When this lesson was created WebGoat contained more than a dozen high security risks within it's components.  Most of these were not deliberate choices. How are developers supposed to track this information across the hundreds of components?
+
+image::images/WebGoat-Vulns.png[caption="Figure: ", title="WebGoat Security Issues", alt="Security Issues", width="800", height="400", style="lesson-image"]
+

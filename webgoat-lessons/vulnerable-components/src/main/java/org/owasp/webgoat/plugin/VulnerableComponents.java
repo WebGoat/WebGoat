@@ -1,9 +1,9 @@
 package org.owasp.webgoat.plugin;
 
-import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.NewLesson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +43,7 @@ public class VulnerableComponents extends NewLesson {
 
     @Override
     public List<String> getHints() {
-        return Lists.newArrayList();
+        return new ArrayList();
     }
 
     @Override

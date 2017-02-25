@@ -25,34 +25,9 @@
 
 package org.owasp.webgoat.assignments;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.endpoint.mvc.MvcEndpoint;
 
-import java.io.File;
-
 public abstract class Endpoint implements MvcEndpoint {
-
-    @Autowired
-    @Qualifier("pluginTargetDirectory")
-    private File pluginDirectory;
-
-    /**
-     * The directory of the plugin directory in which the lessons resides, so if you want to access the lesson 'ClientSideFiltering' you will
-     * need to:
-     *
-     * <code>
-     *     File lessonDirectory = new File(getPluginDirectory(), "ClientSideFiltering");
-     * </code>
-     *
-     * The directory structure of the lesson is exactly the same as the directory structure in the plugins project.
-     *
-     * @return the top level
-     */
-    protected File getPluginDirectory() {
-        return new File(this.pluginDirectory, "plugin");
-    }
-
 
     @Override
     public final boolean isSensitive() {

@@ -25,7 +25,7 @@
                         </goals>
                         <configuration>
                             <backend>html</backend>
-                            <sourceDirectory>src/main/resources/plugin/IDOR/lessonPlans/en/</sourceDirectory>
+                            <sourceDirectory>src/main/resources/lessonPlans/en/</sourceDirectory>
                         </configuration>
                     </execution>
 

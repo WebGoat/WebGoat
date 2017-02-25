@@ -24,7 +24,7 @@
                        </goals>
                        <configuration>
                            <backend>html</backend>
-                           <sourceDirectory>src/main/resources/plugin/CrossSiteScripting/lessonPlans/en/</sourceDirectory>
+                           <sourceDirectory>src/main/resources/lessonPlans/en/</sourceDirectory>
                        </configuration>
                    </execution>
 

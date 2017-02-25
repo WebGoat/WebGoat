@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugin;
 
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.Endpoint;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +45,9 @@ import java.io.PrintWriter;
 @Slf4j
 public class Ping extends Endpoint {
 
+    @Value("${webgoat.user.directory}")
+    private String webGoatHomeDirectory;
+
     @Override
     public String getPath() {
         return "XXE/ping";
@@ -54,13 +58,13 @@ public class Ping extends Endpoint {
     public String logRequest(@RequestHeader("User-Agent") String userAgent, @RequestParam(required = false) String text) {
         String logLine = String.format("%s %s %s", "GET", userAgent, text);
         log.debug(logLine);
-        File logFile = new File(getPluginDirectory(), "/XXE/log.txt");
+        File logFile = new File(webGoatHomeDirectory, "/XXE/log.txt");
         try {
             try (PrintWriter pw = new PrintWriter(logFile)) {
                 pw.println(logLine);
             }
         } catch (FileNotFoundException e) {
-            log.error("Error occured while writing the logfile", e);
+            log.error("Error occurred while writing the logfile", e);
         }
         return "";
     }

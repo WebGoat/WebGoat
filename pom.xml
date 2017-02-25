@@ -171,6 +171,7 @@
     <modules>
         <module>webgoat-container</module>
         <module>webgoat-lessons</module>
+        <module>webgoat-server</module>
     </modules>
 
     <distributionManagement>

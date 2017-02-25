@@ -57,7 +57,7 @@ function($,
 		 * from the model where the assignment name is contained in the assignmentPath. We do this not to mess
 		 * with contextRoots etc and try to select the name from the url.
 		 *
-		 * @todo we can of course try to add the assigment name to the html form as attribute.
+		 * @todo we can of course try to add the assignment name to the html form as attribute.
 		 *
          * @param nav the json structure for navigating
          */
@@ -95,7 +95,7 @@ function($,
 
 		displayHint: function(curHint) {
             if(this.hintsToShow.length == 0) {
-                this.hideHints();
+               // this.hideHints();
             } else {
                 this.$el.find('#lesson-hint-content').html(polyglot.t(this.hintsToShow[curHint].get('hint')));
             }
