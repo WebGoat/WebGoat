@@ -9,6 +9,7 @@ CREATE TABLE user_system_data (userid varchar(5) not null primary key,
 			                   cookie varchar(30));
 -------------------------------------------------------
 
-Execute a query to union or join these tables.  When you have figured it out.... What is Dave's password?
+*6.a)* Execute a query to union or join these tables.  +
+*6.b)* When you have figured it out.... What is Dave's password?
 
 

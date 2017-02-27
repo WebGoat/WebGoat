@@ -78,9 +78,9 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     results.last();
 
                     // If they get back more than one user they succeeded
-                    if (results.getRow() >= 6)
+                    if (results.getRow() >= 5)
                     {
-                    	return trackProgress(success().feedback("sql-injection.6b.success").feedbackArgs(output.toString()).build());
+                    	return trackProgress(success().feedback("sql-injection.6a.success").feedbackArgs(output.toString()).build());
                    } else {
                 	   return trackProgress(failed().output(output.toString()).build());
                    }
@@ -88,7 +88,7 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                 }
                 else
                 {
-                	return trackProgress(failed().feedback("sql-injection.6b.no.results").build());
+                	return trackProgress(failed().feedback("sql-injection.6a.no.results").build());
 
                 }
             } catch (SQLException sqle)
