@@ -26,16 +26,15 @@
 package org.owasp.webgoat.assignments;
 
 import org.mockito.Mock;
+import org.owasp.webgoat.i18n.Language;
 import org.owasp.webgoat.i18n.Messages;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
 public class AssignmentEndpointTest {
@@ -46,22 +45,14 @@ public class AssignmentEndpointTest {
     protected WebSession webSession;
     @Mock
     protected UserSessionData userSessionData;
-    protected Messages messages = new Messages(new LocaleResolver() {
+    private Language language = new Language(new FixedLocaleResolver()){
         @Override
-        public Locale resolveLocale(HttpServletRequest request) {
-            return Locale.ENGLISH;
-        }
-
-        @Override
-        public void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) {
-
-        }}){
-        @Override
-        protected Locale resolveLocale() {
+        public Locale getLocale() {
             return Locale.ENGLISH;
         }
     };
-    protected PluginMessages pluginMessages = new PluginMessages(messages);
+    protected Messages messages = new Messages(language);
+    protected PluginMessages pluginMessages = new PluginMessages(messages, language);
 
     public void init(AssignmentEndpoint a) {
         messages.setBasenames("classpath:/i18n/messages", "classpath:/plugin/i18n/WebGoatLabels");
