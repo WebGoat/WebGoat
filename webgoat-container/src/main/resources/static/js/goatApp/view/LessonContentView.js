@@ -114,7 +114,9 @@ define(['jquery',
             this.renderFeedback(data.feedback);
 
             this.renderOutput(data.output || "");
-            if (data.assignmentCompleted) {
+            //TODO: refactor back assignmentCompleted in Java
+            if (data.lessonCompleted || data.assignmentCompleted) {
+
                 this.markAssignmentComplete();
                 this.trigger('assignment:complete');
             } else {
@@ -174,7 +176,7 @@ define(['jquery',
                 pagingControlsDiv = $('<div>',{class:'panel-body', id:'lesson-page-controls'});
                 pagingControlsDiv.append(prevPageButton);
                 pagingControlsDiv.append(nextPageButton);
-                this.$el.append(pagingControlsDiv);
+                this.$el.find('.lesson-page-controls').append(pagingControlsDiv);
             }
 
         },

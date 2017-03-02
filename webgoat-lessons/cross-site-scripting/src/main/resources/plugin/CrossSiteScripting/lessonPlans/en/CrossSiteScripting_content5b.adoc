@@ -1,4 +1,5 @@
 == Was it Really Reflected XSS?
 
-Now, was the last attack truly reflected XSS?
+You should have been able to execute script with the last example. Was it truly reflected XSS?
+
 

@@ -1,3 +1,12 @@
-== Try It!   DOM-Based XSS
+== Ientify Potential for DOM-Based XSS
 
-Need A Lesson
+For this, you'll want to look for some 'test' code in the route handlers (javascript/backbone). Sometimes, test code gets left in.
+(Often times test code is very simple and lacks security or any quality controls!).
+
+Your objective is to find the route and exploit it. First though ... what is the base route? As an example, look at the URL for this lesson ...
+it should look something like /WebGoat/start.mvc#lesson/CrossSiteScripting.lesson/5 (although maybe slightly different). The 'base route' in this case is:
+*start.mvc#lesson/*
+
+The *CrossSiteScripting.lesson/5* after that are parameters that are processed by javascript route handler.
+
+So, what is test route for this test code?

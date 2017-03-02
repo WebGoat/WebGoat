@@ -18,6 +18,10 @@ public class UserSessionData {
 
     //GETTERS & SETTERS
     public Object getValue(String key) {
+        if (!userSessionData.containsKey(key)) {
+            return null;
+        }
+        // else
         return userSessionData.get(key);
     }
 
