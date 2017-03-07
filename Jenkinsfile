@@ -13,9 +13,6 @@ node {
     checkout scm
     mvnHome = tool 'M3'
   }
-  stage('License Check') {
-    runOsSafe "'${mvnHome}/bin/mvn' license:check"
-  }
   stage('Build') {
     runOsSafe "'${mvnHome}/bin/mvn' clean package"
   }
