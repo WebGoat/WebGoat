@@ -11,6 +11,7 @@ node {
 
   stage('Preparation') {
     checkout scm
+    tool 'Java 7'
     mvnHome = tool 'M3'
   }
   stage('Build') {
