@@ -35,7 +35,7 @@ node {
       context: 'analysis',
       description: 'Nexus Lifecycle Analysis in running'
     )
-    sh "curl -H \"Authorization: token ${githubApiToken}\" --request POST --data '${analysisPayload}' https://api.github.com/repos/whyjustin/WebGoat/statuses/${commitId} > /dev/null"
+    runOsSafe "curl -H \"Authorization: token ${gitHubApiToken}\" --request POST --data '${analysisPayload}' https://api.github.com/repos/whyjustin/WebGoat/statuses/${commitId} > /dev/null"
 
     def evaluation = nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'webgoat', iqStage: 'build', jobCredentialsId: ''
 
@@ -45,7 +45,7 @@ node {
             description: 'Nexus Lifecycle Analysis failed',
             target_url: "${evaluation.applicationCompositionReportUrl}"
     )
-    sh "curl -H \"Authorization: token ${githubApiToken}\" --request POST --data '${analysisPayload}' https://api.github.com/repos/whyjustin/WebGoat/statuses/${commitId} > /dev/null"
+    runOsSafe "curl -H \"Authorization: token ${gitHubApiToken}\" --request POST --data '${analysisPayload}' https://api.github.com/repos/whyjustin/WebGoat/statuses/${commitId} > /dev/null"
   }
   if (currentBuild.result == 'FAILURE') {
     return
