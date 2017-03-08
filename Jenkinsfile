@@ -7,15 +7,16 @@ def runOsSafe(GString command) {
 }
 
 node {
+  def javaHome
   def mvnHome
 
   stage('Preparation') {
     checkout scm
-    tool 'Java 7'
+    javaHome = tool 'Java 7'
     mvnHome = tool 'M3'
   }
   stage('Build') {
-    runOsSafe "'${mvnHome}/bin/mvn' clean package"
+    runOsSafe "JAVA_HOME=${javaHome} ${mvnHome}/bin/mvn clean package"
   }
   stage('Nexus Lifecycle Analysis') {
     nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'webgoat', iqStage: 'build', jobCredentialsId: ''
