@@ -98,9 +98,7 @@ developer_bootstrap() {
     echo -e "FYI: This Developer Bootstrap Script for WebGoat requires: Git, Java JDK and Maven accessible on the path"
 
     ## test for require features
-    features git mvn java 
-
-    return $1
+    features git mvn java || return $?
 
     # Clone WebGoat from github
     if [ ! -d "WebGoat" ]; then
@@ -114,14 +112,15 @@ developer_bootstrap() {
                 echo -e >&2 "$COL_RED *** ERROR: Could not cd into the WebGoat Directory. $COL_RESET"
                 return 1
             }
-            git pull origin develop
+            git pull origin 7.1
+            cd ..
         )
     fi
 
     # Clone WebGoat-lessons from GitHub if they don't exist
     if [ ! -d "WebGoat-Lessons" ]; then
         horizontal_rule
-        echo -e -e  "$COL_CYAN Cloning the WebGoat Lessons repository $COL_RESET"
+        echo -e "$COL_CYAN Cloning the WebGoat Lessons repository $COL_RESET"
         git clone https://github.com/WebGoat/WebGoat-Lessons.git
     else
         horizontal_rule
@@ -132,6 +131,7 @@ developer_bootstrap() {
                 return 1
             }
             git pull origin develop
+            cd ..
         )
     fi
 
