@@ -98,7 +98,7 @@ developer_bootstrap() {
     echo -e "FYI: This Developer Bootstrap Script for WebGoat requires: Git, Java JDK and Maven accessible on the path"
 
     ## test for require features
-    features git mvn java || return $1
+    features git mvn java || return $?
 
     # Clone WebGoat from github
     if [ ! -d "WebGoat" ]; then
