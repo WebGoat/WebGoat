@@ -14,6 +14,7 @@
     </parent>
 
     <modules>
+        <module>challenge</module>
         <module>client-side-filtering</module>
         <module>cross-site-scripting</module>
         <module>http-basics</module>
