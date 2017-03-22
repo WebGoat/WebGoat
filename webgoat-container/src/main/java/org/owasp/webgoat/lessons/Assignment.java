@@ -42,6 +42,7 @@ import java.util.List;
 @Getter
 public class Assignment implements Serializable {
 
+    private static final long serialVersionUID = 5410058267505412928L;
     @NonNull
     private final String name;
     @NonNull
