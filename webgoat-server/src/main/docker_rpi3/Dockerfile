@@ -5,6 +5,6 @@ VOLUME /tmp
 RUN apt-get update && apt-get install -y \
       openjdk-8-jre-headless
 RUN cd /root; mkdir -p .webgoat
-ADD webgoat-container-8.0-SNAPSHOT.war webgoat.jar
+ADD webgoat-server-8.0-SNAPSHOT.jar webgoat.jar
 RUN sh -c 'touch /webgoat.jar'
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/webgoat.jar"]
