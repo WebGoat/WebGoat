@@ -33,12 +33,12 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1" th:text="#{username}">Username</label>
                     <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"
-                           id="exampleInputEmail1" placeholder="Username" name='username' value="guest"/>
+                           id="exampleInputEmail1" placeholder="Username" name='username' />
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1" th:text="#{password}">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
-                           name='password' value="guest"/>
+                           name='password' />
                 </div>
                 <button class="btn btn-primary btn-block" type="submit" th:text="#{sign.in}">Sign in</button>
                 <div class="text-center"><a th:href="@{/registration}" th:text="#{register.new}"></a></div>
