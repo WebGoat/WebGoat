@@ -1,9 +1,1 @@
-== Welcome to the WebGoat challenge (CTF)
-
-In this CTF you will need to solve a couple of challenges, each challenge will give you a flag which you will
-need to post in order to gain points.
-Flags have the following format: a7179f89-906b-4fec-9d99-f15b796e7208
-
-
-Have fun!!
-Team WebGoat
+=== Admin forgot password can you help?
