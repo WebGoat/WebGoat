@@ -19,7 +19,11 @@ public class UserService implements UserDetailsService {
     @Override
     public WebGoatUser loadUserByUsername(String username) throws UsernameNotFoundException {
         WebGoatUser webGoatUser = userRepository.findByUsername(username);
-        webGoatUser.createUser();
+        if (webGoatUser == null) {
+            throw new UsernameNotFoundException("User not found");
+        } else {
+            webGoatUser.createUser();
+        }
         return webGoatUser;
     }
 
