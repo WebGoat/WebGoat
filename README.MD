@@ -67,13 +67,13 @@ Now let's start by compiling the project.
 ```Shell
 cd WebGoat
 git checkout develop
-mvn clean package
+mvn clean install
 ```
 
 Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 
 ```Shell
-mvn -pl webgoat-assembly spring-boot:run
+mvn -pl webgoat-server spring-boot:run
 ```
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
 
@@ -99,9 +99,8 @@ On x86 you can build a container with the following commands:
 
 ```Shell
 cd WebGoat/
-mvn package
+mvn install
 cd webgoat-server
-mvn package
 mvn docker:build
 docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
@@ -125,9 +124,8 @@ When you have done this you can build the Docker container using the following c
  
 ```Shell
 cd WebGoat/
-mvn package
-cd webgoat-container
-mvn package
+mvn install
+cd webgoat-server
 mvn docker:build -Drpi=true
 docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
