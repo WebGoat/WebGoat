@@ -61,7 +61,7 @@ public class LessonTracker implements Serializable {
     }
 
     /**
-     * Mark an assingment as solved
+     * Mark an assignment as solved
      *
      * @param solvedAssignment the assignment which the user solved
      */
