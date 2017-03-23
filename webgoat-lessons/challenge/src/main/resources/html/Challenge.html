@@ -33,10 +33,23 @@
                     </div>
                     <button class="btn btn-primary btn-block" type="submit" th:text="#{sign.in}">Sign in</button>
                 </form>
-                <div class="attack-feedback"></div>
-                <div class="attack-output"></div>
             </div>
         </div>
+
+        <form class="form-inline">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true" style="font-size:20px"></i></div>
+                    <input type="text" class="form-control" id="flagInput" placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit flag</button>
+        </form>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+
     </div>
 </div>
 </html>
