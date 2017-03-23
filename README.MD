@@ -100,7 +100,7 @@ On x86 you can build a container with the following commands:
 ```Shell
 cd WebGoat/
 mvn package
-cd webgoat-container
+cd webgoat-server
 mvn package
 mvn docker:build
 docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0

@@ -114,7 +114,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
      * <pre>
      *  <?xml version="1.0"?>
      *  <!DOCTYPE root [
-     *  <!ENTITY % remote SYSTEM "http://localhost:8080/WebGoat/plugin_lessons/plugin/XXE/test.dtd">
+     *  <!ENTITY % remote SYSTEM "http://localhost:8080/WebGoat/plugin_lessons/XXE/test.dtd">
      *  %remote;
      *   ]>
      *  <user>
