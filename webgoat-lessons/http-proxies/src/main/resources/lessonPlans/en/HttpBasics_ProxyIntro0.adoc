@@ -1,9 +1,9 @@
 
 == HTTP Proxy Overview
 
-Many times proxies are used as a way of accessing otehrwise blocked content.  A user might connect to server A, which relays content from server B
+Many times proxies are used as a way of accessing otherwise blocked content.  A user might connect to server A, which relays content from server B
  ... Because Server B is blocked wihtin the user's network. That's not the use case we will be dealing with here, but the concept is the same.
-HTTP Proxies receive requesets from a client and relay them. They also typically record them. They act as a man-in-the-middle (keep that in mind if you decide to
+HTTP Proxies receive requests from a client and relay them. They also typically record them. They act as a man-in-the-middle (keep that in mind if you decide to
 use a proxy server to connect to some other system that is otherwise blocked). We won't get into HTTP vs HTTPS just yet, but that's an important topic in
 relationship to proxies.
 
