@@ -20,7 +20,6 @@ define(['jquery',
 
         loadData: function(options) {
             this.urlRoot = _.escape(encodeURIComponent(options.name)) + '.lesson'
-
             var self = this;
             this.fetch().done(function(data) {
                 self.setContent(data);
@@ -32,7 +31,7 @@ define(['jquery',
                 loadHelps = true;
             }
             this.set('content',content);
-            this.set('lessonUrl',document.URL);
+            this.set('lessonUrl',document.URL.replace(/\.lesson.*/,'.lesson'));
             this.trigger('content:loaded',this,loadHelps);
         },
 

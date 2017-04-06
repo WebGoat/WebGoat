@@ -958,6 +958,11 @@ cookie-container {
     cursor:pointer;
 }
 
+.page-nav-wrapper {
+    display:inline-block;
+    width: 30px;
+}
+
 span.show-next-page, span.show-prev-page {
 font-size: 1.3em;
 }
