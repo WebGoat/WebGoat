@@ -50,8 +50,8 @@ public class Challenge3 extends AssignmentEndpoint {
 
     @RequestMapping(method = POST, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult createNewUser(@RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
-        Comment comment = new Comment();
+    public AttackResult createNewComment(@RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
+        Comment comment = null;
         AttackResult attackResult = failed().build();
         if (APPLICATION_JSON_VALUE.equals(contentType)) {
             comment = parseJson(commentStr);
@@ -63,10 +63,13 @@ public class Challenge3 extends AssignmentEndpoint {
             comment.setDateTime(DateTime.now().toString());
             comment.setUser(webSession.getUserName());
         }
-
-        if (checkSolution(comment)) {
-            attackResult = success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(2)).build();
+        if (comment != null) {
+            comments.add(comment);
+            if (checkSolution(comment)) {
+                attackResult = success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(2)).build();
+            }
         }
+
         return attackResult;
     }
 
