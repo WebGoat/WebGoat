@@ -22,8 +22,8 @@ public class Challenge2 extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     public
     @ResponseBody
-    AttackResult completed(@RequestParam String couponCode) throws IOException {
-        if (SUPER_COUPON_CODE.equals(couponCode)) {
+    AttackResult completed(@RequestParam String checkoutCode) throws IOException {
+        if (SUPER_COUPON_CODE.equals(checkoutCode)) {
             return success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(2)).build();
         }
         return failed().build();
