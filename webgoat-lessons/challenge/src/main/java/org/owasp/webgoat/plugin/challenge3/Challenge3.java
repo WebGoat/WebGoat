@@ -29,7 +29,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @author nbaars
  * @since 4/8/17.
  */
-@AssignmentPath("/challenge3")
+@AssignmentPath("/challenge/3")
 public class Challenge3 extends AssignmentEndpoint {
 
     @Autowired

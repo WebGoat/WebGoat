@@ -9,7 +9,7 @@ $(document).ready(function () {
         })
     })
 
-    $.get("challenge3", function (result, status) {
+    $.get("challenge/3", function (result, status) {
         alert("Hello");
     })
 })
