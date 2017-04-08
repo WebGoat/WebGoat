@@ -66,7 +66,7 @@
               action="/WebGoat/challenge/2"
               enctype="application/json;charset=UTF-8">
             <div class="container">
-
+                <input id="discount" type="hidden" value="0"/>
                 <div class="row">
                     <div class="col-xs-3 item-photo">
                         <img style="max-width:100%;" th:src="@{/images/samsung-black.jpg}"/>
@@ -117,7 +117,7 @@
                             </h6>
 
                             <!--
-                              Checkout code: pre-order-webgoat, pre-order-owasp, pre-order-webgoat-owasp
+                              Checkout code: webgoat, owasp, owasp-webgoat
                             -->
                             <input name="checkoutCode" class="checkoutCode" value=""/>
 
@@ -125,8 +125,8 @@
 
                         <div class="section" style="padding-bottom:20px;">
                             <button type="submit" class="btn btn-success"><span style="margin-right:20px"
-                                                                  class="glyphicon glyphicon-shopping-cart"
-                                                                  aria-hidden="true"></span>Buy
+                                                                                class="glyphicon glyphicon-shopping-cart"
+                                                                                aria-hidden="true"></span>Buy
                             </button>
                             <h6><a href="#"><span class="glyphicon glyphicon-heart-empty"
                                                   style="cursor:pointer;"></span>

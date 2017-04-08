@@ -44,9 +44,9 @@ public class ShopEndpoint {
 
     public ShopEndpoint() {
         List<CheckoutCode> codes = Lists.newArrayList();
-        codes.add(new CheckoutCode("pre-order-webgoat", 25));
-        codes.add(new CheckoutCode("pre-order-owasp", 25));
-        codes.add(new CheckoutCode("pre-order-webgoat-owasp", 50));
+        codes.add(new CheckoutCode("webgoat", 25));
+        codes.add(new CheckoutCode("owasp", 25));
+        codes.add(new CheckoutCode("owasp-webgoat", 50));
         this.checkoutCodes = new CheckoutCodes(codes);
     }
 
