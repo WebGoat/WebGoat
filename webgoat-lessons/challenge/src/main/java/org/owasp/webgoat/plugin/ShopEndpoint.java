@@ -3,13 +3,14 @@ package org.owasp.webgoat.plugin;
 import com.beust.jcommander.internal.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.owasp.webgoat.plugin.SolutionConstants.SUPER_COUPON_CODE;
 
@@ -18,54 +19,50 @@ import static org.owasp.webgoat.plugin.SolutionConstants.SUPER_COUPON_CODE;
  * @since 4/6/17.
  */
 @RestController
+@RequestMapping("challenge-store")
 public class ShopEndpoint {
 
     @AllArgsConstructor
-    private class CouponCodes {
+    private class CheckoutCodes {
 
         @Getter
-        private List<CouponCode> codes = Lists.newArrayList();
+        private List<CheckoutCode> codes = Lists.newArrayList();
 
-        public boolean contains(String code) {
-            return codes.stream().anyMatch(c -> c.getCode().equals(code));
+        public Optional<CheckoutCode> get(String code) {
+            return codes.stream().filter(c -> c.getCode().equals(code)).findFirst();
         }
     }
 
     @AllArgsConstructor
     @Getter
-    private class CouponCode {
+    private class CheckoutCode {
         private String code;
         private int discount;
     }
 
-    private CouponCodes couponCodes;
+    private CheckoutCodes checkoutCodes;
 
     public ShopEndpoint() {
-        List<CouponCode> codes = Lists.newArrayList();
-        for (int i = 0; i < 9; i++) {
-            codes.add(new CouponCode(RandomStringUtils.random(10), i * 100));
-        }
-        this.couponCodes = new CouponCodes(codes);
+        List<CheckoutCode> codes = Lists.newArrayList();
+        codes.add(new CheckoutCode("pre-order-webgoat", 25));
+        codes.add(new CheckoutCode("pre-order-owasp", 25));
+        codes.add(new CheckoutCode("pre-order-webgoat-owasp", 50));
+        this.checkoutCodes = new CheckoutCodes(codes);
     }
 
-    @GetMapping(value = "/coupons/{user}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CouponCodes getDiscountCodes(@PathVariable String user) {
-        if ("Tom".equals(user)) {
-            return couponCodes;
+    @GetMapping(value = "/coupons/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CheckoutCode getDiscountCode(@PathVariable String code) {
+        if (SUPER_COUPON_CODE.equals(code)) {
+            return new CheckoutCode(SUPER_COUPON_CODE, 100);
         }
-        return null;
-    }
-
-    @GetMapping(value = "/coupons/valid/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean isValidCouponCode(@PathVariable String code) {
-        return couponCodes.contains(code);
+        return checkoutCodes.get(code).orElse(new CheckoutCode("no", 0));
     }
 
     @GetMapping(value = "/coupons", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CouponCodes coupons() {
-        List<CouponCode> all = Lists.newArrayList();
-        all.addAll(this.couponCodes.getCodes());
-        all.add(new CouponCode(SUPER_COUPON_CODE, 100));
-        return new CouponCodes(all);
+    public CheckoutCodes all() {
+        List<CheckoutCode> all = Lists.newArrayList();
+        all.addAll(this.checkoutCodes.getCodes());
+        all.add(new CheckoutCode(SUPER_COUPON_CODE, 100));
+        return new CheckoutCodes(all);
     }
 }
