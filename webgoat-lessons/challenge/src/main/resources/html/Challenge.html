@@ -65,77 +65,76 @@
               method="POST" name="form"
               action="/WebGoat/challenge/2"
               enctype="application/json;charset=UTF-8">
-            <div class="container">
-                <input id="discount" type="hidden" value="0"/>
-                <div class="row">
-                    <div class="col-xs-3 item-photo">
-                        <img style="max-width:100%;" th:src="@{/images/samsung-black.jpg}"/>
-                    </div>
-                    <div class="col-xs-5" style="border:0px solid gray">
-                        <h3>Samsung Galaxy S8 Plus Android Phone</h3>
-                        <h5 style="color:#337ab7"><a href="http://www.samsung.com">Samsung</a> ·
-                            <small style="color:#337ab7">(124421 reviews)</small>
-                        </h5>
 
-                        <h6 class="title-price">
-                            <small>PRICE</small>
+            <input id="discount" type="hidden" value="0"/>
+            <div class="row">
+
+                <div class="col-xs-3 item-photo">
+                    <img style="max-width:100%;" th:src="@{/images/samsung-black.jpg}"/>
+                </div>
+                <div class="col-xs-5" style="border:0px solid gray">
+                    <h3>Samsung Galaxy S8</h3>
+                    <h5 style="color:#337ab7"><a href="http://www.samsung.com">Samsung</a> ·
+                        <small style="color:#337ab7">(124421 reviews)</small>
+                    </h5>
+
+                    <h6 class="title-price">
+                        <small>PRICE</small>
+                    </h6>
+                    <h3 style="margin-top:0px;"><span>US $</span><span id="price">899</span></h3>
+
+                    <div class="section">
+                        <h6 class="title-attr" style="margin-top:15px;">
+                            <small>COLOR</small>
                         </h6>
-                        <h3 style="margin-top:0px;"><span>US $</span><span id="price">899</span></h3>
-
-                        <div class="section">
-                            <h6 class="title-attr" style="margin-top:15px;">
-                                <small>COLOR</small>
-                            </h6>
-                            <div>
-                                <div class="attr" style="width:25px;background:lightgrey;"></div>
-                                <div class="attr" style="width:25px;background:black;"></div>
-                            </div>
+                        <div>
+                            <div class="attr" style="width:25px;background:lightgrey;"></div>
+                            <div class="attr" style="width:25px;background:black;"></div>
                         </div>
-                        <div class="section" style="padding-bottom:5px;">
-                            <h6 class="title-attr">
-                                <small>CAPACITY</small>
-                            </h6>
-                            <div>
-                                <div class="attr2">64 GB</div>
-                                <div class="attr2">128 GB</div>
-                            </div>
+                    </div>
+                    <div class="section" style="padding-bottom:5px;">
+                        <h6 class="title-attr">
+                            <small>CAPACITY</small>
+                        </h6>
+                        <div>
+                            <div class="attr2">64 GB</div>
+                            <div class="attr2">128 GB</div>
                         </div>
-                        <div class="section" style="padding-bottom:20px;">
-                            <h6 class="title-attr">
-                                <small>QUANTITY</small>
-                            </h6>
-                            <div>
-                                <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-                                <input class="quantity" value="1"/>
-                                <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
-                            </div>
+                    </div>
+                    <div class="section" style="padding-bottom:5px;">
+                        <h6 class="title-attr">
+                            <small>QUANTITY</small>
+                        </h6>
+                        <div>
+                            <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
+                            <input class="quantity" value="1"/>
+                            <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
                         </div>
+                    </div>
 
-                        <div class="section" style="padding-bottom:20px;">
-                            <h6 class="title-attr">
-                                <small>CHECKOUT CODE</small>
-                            </h6>
+                    <div class="section" style="padding-bottom:5px;">
+                        <h6 class="title-attr">
+                            <small>CHECKOUT CODE</small>
+                        </h6>
+                        <!--
+                          Checkout code: webgoat, owasp, owasp-webgoat
+                        -->
+                        <input name="checkoutCode" class="checkoutCode" value=""/>
 
-                            <!--
-                              Checkout code: webgoat, owasp, owasp-webgoat
-                            -->
-                            <input name="checkoutCode" class="checkoutCode" value=""/>
+                    </div>
 
-                        </div>
-
-                        <div class="section" style="padding-bottom:20px;">
-                            <button type="submit" class="btn btn-success"><span style="margin-right:20px"
-                                                                                class="glyphicon glyphicon-shopping-cart"
-                                                                                aria-hidden="true"></span>Buy
-                            </button>
-                            <h6><a href="#"><span class="glyphicon glyphicon-heart-empty"
-                                                  style="cursor:pointer;"></span>
-                                Like</a></h6>
-                        </div>
+                    <div class="section" style="padding-bottom:20px;">
+                        <button type="submit" class="btn btn-success"><span style="margin-right:20px"
+                                                                            class="glyphicon glyphicon-shopping-cart"
+                                                                            aria-hidden="true"></span>Buy
+                        </button>
+                        <h6><a href="#"><span class="glyphicon glyphicon-heart-empty"
+                                              style="cursor:pointer;"></span>
+                            Like</a></h6>
                     </div>
                 </div>
-
             </div>
+
         </form>
         <br/>
         <div>
@@ -157,5 +156,99 @@
         <div class="attack-output"></div>
     </div>
 </div>
+
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:Challenge_3.adoc"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge3.css}"/>
+    <script th:src="@{/lesson_js/challenge3.js}" language="JavaScript"></script>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="panel post">
+            <div class="post-heading">
+                <div class="pull-left image">
+                    <img th:src="@{/images/avatar1.png}"
+                         class="img-circle avatar" alt="user profile image"/>
+                </div>
+                <div class="pull-left meta">
+                    <div class="title h5">
+                        <a href="#"><b>John Doe</b></a>
+                        uploaded a photo.
+                    </div>
+                    <h6 class="text-muted time">24 days ago</h6>
+                </div>
+            </div>
+
+            <div class="post-image">
+                <img th:src="@{images/cat.jpg}" class="image" alt="image post"/>
+            </div>
+
+            <div class="post-description">
+
+            </div>
+            <div class="post-footer">
+                <div class="input-group">
+                    <input class="form-control" id="commentInput" placeholder="Add a comment" type="text"/>
+                    <span class="input-group-addon">
+                                <i id="postComment" class="fa fa-edit"></i>
+                            </span>
+                </div>
+                <ul class="comments-list">
+                    <div id="list">
+                        <li class="comment">
+                            <div class="pull-left">
+                                <img class="avatar"
+                                     src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                                     alt="avatar"/>
+                            </div>
+                            <div class="comment-body">
+                                <div class="comment-heading">
+                                    <h4 class="user">John dOE</h4>
+                                    <h5 class="time">7 minutes ago</h5>
+                                </div>
+                                <p>I really love this picture. I really wish i could have been
+                                    there.</p>
+                            </div>
+                        </li>
+                        <li class="comment">
+                            <div class="pull-left" href="javascript:void(0);">
+                                <img class="avatar"
+                                     src="http://bootdey.com/img/Content/avatar/avatar2.png"
+                                     alt="avatar"/>
+                            </div>
+                            <div class="comment-body">
+                                <div class="comment-heading">
+                                    <h4 class="user">John Doe</h4>
+                                    <h5 class="time">3 minutes ago</h5>
+                                </div>
+                                <p>I think I might you this for one of my projects.</p>
+                            </div>
+                        </li>
+                        <li class="comment">
+                            <div class="pull-left" href="javascript:void(0);">
+                                <img class="avatar"
+                                     src="http://bootdey.com/img/Content/avatar/avatar4.png"
+                                     alt="avatar"/>
+                            </div>
+                            <div class="comment-body">
+                                <div class="comment-heading">
+                                    <h4 class="user">John Doe</h4>
+                                    <h5 class="time">10 seconds ago</h5>
+                                </div>
+                                <p>Wow! This is gorgeous.</p>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
 
 </html>
