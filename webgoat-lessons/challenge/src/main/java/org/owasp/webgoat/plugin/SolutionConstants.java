@@ -9,5 +9,6 @@ package org.owasp.webgoat.plugin;
 public interface SolutionConstants {
 
     String PASSWORD = "!!webgoat_admin_1234!!";
+    String SUPER_COUPON_CODE = "get_if_for_free";
 
 }
