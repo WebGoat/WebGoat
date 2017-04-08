@@ -1,5 +1,6 @@
 package org.owasp.webgoat.users;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,10 +10,10 @@ import org.springframework.validation.Validator;
  * @since 3/19/17.
  */
 @Component
+@AllArgsConstructor
 public class UserValidator implements Validator {
 
-//    @Autowired
-//    private UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -23,9 +24,9 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         UserForm userForm = (UserForm) o;
 
-//        if (userService.findByUsername(userForm.getUsername()) != null) {
-//            errors.rejectValue("username", "Duplicate.userForm.username");
-//        }
+        if (userRepository.findByUsername(userForm.getUsername()) != null) {
+            errors.rejectValue("username", "username.duplicate");
+        }
 
         if (!userForm.getMatchingPassword().equals(userForm.getPassword())) {
             errors.rejectValue("matchingPassword", "password.diff");
