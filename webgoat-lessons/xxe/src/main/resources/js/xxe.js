@@ -7,8 +7,9 @@ webgoat.customjs.register = function () {
     return xml;
 }
 webgoat.customjs.registerJson = function () {
-    var json = '{' +
-        '  "user":' + '"test"' +
+   var json;
+    json = '{' +
+        '   "user":' + '"test"' +
         '  "password":' + '"test"' +
         '}';
     return json;
