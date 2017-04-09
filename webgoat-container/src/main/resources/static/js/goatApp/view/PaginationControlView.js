@@ -20,10 +20,9 @@ define(['jquery',
                 this.numPages = this.$contentPages.length;
                 this.baseUrl = baseLessonUrl;
 
-                this.initPagination();
-                //this.render();
-
                 this.model.fetch();
+                this.initPagination();
+                this.render();
              },
 
             render: function () {
