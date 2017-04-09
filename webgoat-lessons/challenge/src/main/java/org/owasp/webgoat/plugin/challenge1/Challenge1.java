@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin;
+package org.owasp.webgoat.plugin.challenge1;
 
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.lessons.Category;
@@ -10,7 +10,7 @@ import java.util.List;
  * @author nbaars
  * @since 3/21/17.
  */
-public class Challenge extends NewLesson {
+public class Challenge1 extends NewLesson {
 
     @Override
     public Category getDefaultCategory() {
@@ -29,11 +29,11 @@ public class Challenge extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "challenge.title";
+        return "challenge1.title";
     }
 
     @Override
     public String getId() {
-        return "Challenge";
+        return "Challenge1";
     }
 }
