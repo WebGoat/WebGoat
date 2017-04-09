@@ -67,13 +67,18 @@ public class PluginsLoader {
         List<AbstractLesson> lessons = Lists.newArrayList();
         for (PluginResource plugin : findPluginResources()) {
             try {
-                Class lessonClazz = plugin.getLesson()
-                        .orElseThrow(() -> new PluginLoadingFailure("Plugin resource does not contain lesson"));
-                NewLesson lesson = (NewLesson) lessonClazz.newInstance();
-                List<Class<AssignmentEndpoint>> assignments = plugin.getAssignments();
-                lesson.setAssignments(createAssignment(assignments));
-                lessons.add(lesson);
-                pluginEndpointPublisher.publish(plugin.getEndpoints());
+                plugin.getLessons().forEach(c -> {
+                    NewLesson lesson = null;
+                    try {
+                        lesson = (NewLesson) c.newInstance();
+                    } catch (Exception e) {
+                        log.error("Error while loading:" + c, e);
+                    }
+                    List<Class<AssignmentEndpoint>> assignments = plugin.getAssignments();
+                    lesson.setAssignments(createAssignment(assignments));
+                    lessons.add(lesson);
+                    pluginEndpointPublisher.publish(plugin.getEndpoints());
+                });
             } catch (Exception e) {
                 log.error("Error in loadLessons: ", e);
             }

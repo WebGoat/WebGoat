@@ -1,8 +1,9 @@
-package org.owasp.webgoat.plugin;
+package org.owasp.webgoat.plugin.challenge1;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.plugin.Flag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,7 +43,7 @@ import static org.owasp.webgoat.plugin.SolutionConstants.PASSWORD;
  * @since August 11, 2016
  */
 @AssignmentPath("/challenge/1")
-public class Challenge1 extends AssignmentEndpoint {
+public class Assignment1 extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
     public

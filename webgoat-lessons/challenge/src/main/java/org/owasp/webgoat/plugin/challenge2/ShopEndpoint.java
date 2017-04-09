@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin;
+package org.owasp.webgoat.plugin.challenge2;
 
 import com.beust.jcommander.internal.Lists;
 import lombok.AllArgsConstructor;

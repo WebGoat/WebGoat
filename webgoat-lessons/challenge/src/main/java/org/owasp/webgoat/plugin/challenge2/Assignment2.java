@@ -1,8 +1,9 @@
-package org.owasp.webgoat.plugin;
+package org.owasp.webgoat.plugin.challenge2;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.plugin.Flag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,7 @@ import static org.owasp.webgoat.plugin.SolutionConstants.SUPER_COUPON_CODE;
  * @since 4/6/17.
  */
 @AssignmentPath("/challenge/2")
-public class Challenge2 extends AssignmentEndpoint {
+public class Assignment2 extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
     public
