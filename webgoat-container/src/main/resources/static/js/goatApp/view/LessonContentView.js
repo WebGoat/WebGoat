@@ -47,17 +47,17 @@ define(['jquery',
             this.makeFormsAjax();
             //this.ajaxifyAttackHref();
             $(window).scrollTop(0); //work-around til we get the scroll down sorted out
-            this.initPagination();
+            var startPageNum = this.model.get('pageNum');
+            this.initPagination(startPageNum);
         },
 
-        initPagination: function() {
+        initPagination: function(startPageNum) {
             //get basic pagination info
-            this.currentPage = 0;
             this.$contentPages = this.$el.find('.lesson-page-wrapper');
-            this.numPages = this.$contentPages.length;
-            //
+            var currentPage = (!isNaN(startPageNum) && startPageNum && startPageNum < this.$contentPages) ? startPageNum : 0;
+            //init views & pagination
+            this.showCurContentPage(currentPage);
             this.paginationControlView = new PaginationControlView(this.$contentPages,this.model.get('lessonUrl'));
-            //this.listenTo(this.paginationControlView,'page:set',this.navToPage);
          },
 
          getCurrentPage: function () {
@@ -163,8 +163,9 @@ define(['jquery',
         },
 
         navToPage: function (pageNum) {
-            this.showCurContentPage(pageNum);
             this.paginationControlView.setCurrentPage(pageNum);//provides validation
+            this.showCurContentPage(this.paginationControlView.currentPage);
+            this.paginationControlView.render();
             this.paginationControlView.hideShowNavButtons();
             var assignmentPath = this.findAssigmentEndpointOnPage(pageNum);
             Backbone.trigger('navigatedToPage',{'pageNumber':pageNum, 'assignmentPath' : assignmentPath});
