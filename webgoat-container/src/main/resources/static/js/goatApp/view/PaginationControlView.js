@@ -1,38 +1,99 @@
 define(['jquery',
         'underscore',
         'backbone',
+        'goatApp/model/LessonOverviewModel',
         'text!templates/paging_controls.html'],
 //        'css!css/paging-controls.css'],
     function ($,
               _,
               Backbone,
+              LessonOverviewModel,
               PaginationTemplate) {
         return Backbone.View.extend({
             template: PaginationTemplate,
             el: '#lesson-page-controls',
 
             initialize: function ($contentPages,baseLessonUrl) {
-                this.numPages = $contentPages.length;
+                this.$contentPages = $contentPages;
+                this.model = new LessonOverviewModel();
+                this.listenTo(this.model, 'change add remove update reset', this.render);
+                this.numPages = this.$contentPages.length;
                 this.baseUrl = baseLessonUrl;
-                this.parseLinks($contentPages);
+
                 this.initPagination();
-                this.render();
-                this.bindNavButtons();
+                //this.render();
+
+                this.model.fetch();
              },
 
             render: function () {
+                this.parseLinks();
                 var t = _.template(this.template);
-                this.$el.html(t());
+                this.$el.html(t({'overview':this.lessonOverview}));
+               this.bindNavButtons();
                 this.hideShowNavButtons();
             },
 
             bindNavButtons: function() {
                 this.$el.find('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-right.show-next-page').unbind().on('click',this.incrementPageView.bind(this));
                 this.$el.find('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-left.show-prev-page').unbind().on('click', this.decrementPageView.bind(this));
+                this.navButtonsBound = true;
             },
 
-            parseLinks: function($contentPages) {
+            parseLinks: function() {
+                var assignmentCount = this.$contentPages.find('.attack-container');
+                var solvedMap = {};
+                var pages = [];
+                // one pass on solved assignmets
+                _.each(this.model.toJSON(), function(assignment) {
+                    if (assignment.solved) {
+                        var key = assignment.assignment.path; //.replace(/\//g,'');
+                        solvedMap[key] = assignment.assignment.name;
+                    }
+                });
 
+                isAttackSolved = function (path) {
+                    //strip
+                    var newPath = path.replace(/^\/WebGoat/,'');
+                    if (typeof solvedMap[newPath] !== 'undefined') {
+                        return true;
+                    }
+                    return false;
+                };
+
+                var self = this;
+                var pages, pageClass, solved;
+                _.each(this.$contentPages,function(page,index) {
+                    var curPageClass = (self.currentPage == index) ? ' cur-page' : '';
+
+                    if ($(page).find('.attack-container').length < 1) { // no assignments [attacks]
+                        pageClass = 'page-link';
+                        pages.push({content:'content',pageClass:pageClass,curPageClass:curPageClass});
+                    } else {
+                        var $assignmentForms = $(page).find('.attack-container form');
+                        // use for loop to avoid anonymous function scope hell
+                        //var pageAssignments = {content:'attack',attacks:[]}
+                        pageClass = 'attack-link'
+                        var solvedClass = 'solved-true'
+                        for (var i=0; i< $assignmentForms.length; i++) {
+                            //normalize path
+                            var action = $assignmentForms.attr('action');//.replace(/\//g,'');
+                            if (action && isAttackSolved(action)) {
+                                //pageClass = 'fa fa-check-square-o assignment-solved';
+                                //pageAssignments.attacks.push({solved:true});
+                            } else {
+                                solvedClass = 'solved-false';
+
+                            }
+                        }
+                        pages.push({solvedClass:solvedClass,content:'assignment',curPageClass:curPageClass,pageClass:pageClass});
+                    }
+                });
+                //assign to the view
+                this.lessonOverview = {
+                    baseUrl: this.baseUrl,
+                    pages: pages
+                }
             },
 
             showPrevPageButton: function() {
@@ -75,7 +136,7 @@ define(['jquery',
                     this.hideNextPageButton();
                     this.showPrevPageButton;
                 }
-                this.trigger('page:set',this,this.currentPage);
+                this.render();
             },
 
             decrementPageView: function() {
@@ -92,8 +153,7 @@ define(['jquery',
                     this.hidePrevPageButton();
                     this.showNextPageButton()
                 }
-                this.trigger('page:set',this,this.currentPage);
-
+                this.render();
             },
 
             hideShowNavButtons: function () {

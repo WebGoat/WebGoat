@@ -152,7 +152,7 @@ img {
     margin-left: 1.5em;*/
     margin-right: 5px;
     margin-top: -38px; /* << don't like doing this, but otherwise it does not line up correctly */
-    color:#0F0
+    color:#88FB88 /* #0F0 */
 }
 
 /* ==========================================================================
@@ -963,8 +963,47 @@ cookie-container {
     width: 30px;
 }
 
+.attack-link, .page-link {
+    display: inline-block;
+    background-color: #555;
+    border-radius: 8px;
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding-top:2px;
+}
+
+.attack-link.solved-true {
+    color:#88FB88;
+}
+
+.attack-link.solved-false {
+    color:#f2baba;
+}
+
+.attack-link.cur-page, .page-link.cur-page {
+    color:#fff;
+}
+
+.page-link {
+    color:#eee;
+}
+
+.page-link-wrapper {
+    display:inline-block;
+}
+
+.page-link-wrapper span {
+    margin: 3px;
+}
+
+.cur-page {
+    border-bottom: 2px solid #000;
+    color:#aaa;
+}
+
 span.show-next-page, span.show-prev-page {
-font-size: 1.3em;
+    font-size: 1.3em;
 }
 
 .show-prev-page {
@@ -974,6 +1013,8 @@ font-size: 1.3em;
 .show-prev-page:hover {
     cursor:pointer;
 }
+
+/* attack ... */
 
 .attack-feedback {
     font-weight:800;
@@ -1045,4 +1086,11 @@ font-size: 1.3em;
   font-weight: bold;
   font-size: 12px;
   padding: 10px;
+}
+
+/* temp override
+//TODO: come up with longer term solution for full-window viewing
+*/
+.col-md-8 {
+    width: auto !important
 }
