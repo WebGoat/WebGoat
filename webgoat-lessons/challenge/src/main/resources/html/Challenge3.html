@@ -35,7 +35,7 @@
                 <div class="input-group">
                     <input class="form-control" id="commentInput" placeholder="Add a comment" type="text"/>
                     <span class="input-group-addon">
-                                <i id="postComment" class="fa fa-edit"></i>
+                                <i id="postComment" class="fa fa-edit" style="font-size: 20px"></i>
                             </span>
                 </div>
                 <ul class="comments-list">
@@ -44,6 +44,21 @@
                 </ul>
             </div>
         </div>
+
+        <form class="attack-form form-inline" method="POST" name="form" action="/WebGoat/challenge/flag">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
+                                                      style="font-size:20px"></i></div>
+                    <input type="text" class="form-control" id="flag" name="flag"
+                           placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>
+                </div>
+                <div class="input-group" style="margin-top: 10px">
+                    <button type="submit" class="btn btn-primary">Submit flag</button>
+                </div>
+            </div>
+
+        </form>
 
 
         <br/>

@@ -1,11 +1,14 @@
 package org.owasp.webgoat.plugin;
 
 import com.google.common.collect.Maps;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.owasp.webgoat.assignments.Endpoint;
 import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +31,12 @@ public class Flag extends Endpoint {
     @Autowired
     private WebSession webSession;
 
+    @AllArgsConstructor
+    private class FlagPosted {
+        @Getter
+        private boolean lessonCompleted;
+    }
+
     @PostConstruct
     public void initFlags() {
         IntStream.range(1, 4).forEach(i -> FLAGS.put(i, UUID.randomUUID().toString()));
@@ -38,12 +47,14 @@ public class Flag extends Endpoint {
         return "challenge/flag";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void postFlag(@RequestParam String flag, @RequestParam int challengeNumber) {
+    public void postFlag(@RequestParam String flag) {
+        String currentChallenge = webSession.getCurrentLesson().getName();
+        int challengeNumber = Integer.valueOf(currentChallenge.substring(currentChallenge.length() - 1, currentChallenge.length()));
         String expectedFlag = FLAGS.get(challengeNumber);
         if (expectedFlag.equals(flag)) {
-            userTracker.assignmentSolved(webSession.getCurrentLesson(), "Challenge" + challengeNumber);
+            userTracker.assignmentSolved(webSession.getCurrentLesson(), "Assignment" + challengeNumber);
         } else {
             userTracker.assignmentFailed(webSession.getCurrentLesson());
         }
