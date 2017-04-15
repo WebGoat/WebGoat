@@ -104,7 +104,7 @@ cd webgoat-server
 mvn docker:build
 docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
-docker push webgoat/webgoat-container
+docker push webgoat/webgoat-8.0
 ```
 
 ### Docker on ARM (Raspberry Pi)
@@ -129,7 +129,7 @@ cd webgoat-server
 mvn docker:build -Drpi=true
 docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
-docker push webgoat/webgoat-container
+docker push webgoat/webgoat-8.0
 ```
 
 With the following command you are able to run the Docker container on your local machine:
