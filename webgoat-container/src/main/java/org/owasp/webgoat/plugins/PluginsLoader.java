@@ -74,7 +74,7 @@ public class PluginsLoader {
                     } catch (Exception e) {
                         log.error("Error while loading:" + c, e);
                     }
-                    List<Class<AssignmentEndpoint>> assignments = plugin.getAssignments();
+                    List<Class<AssignmentEndpoint>> assignments = plugin.getAssignments(c);
                     lesson.setAssignments(createAssignment(assignments));
                     lessons.add(lesson);
                     pluginEndpointPublisher.publish(plugin.getEndpoints());

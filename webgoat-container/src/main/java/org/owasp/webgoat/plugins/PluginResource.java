@@ -30,14 +30,15 @@ public class PluginResource {
     public List<Class<Endpoint>> getEndpoints() {
         return classes.stream().
                 filter(c -> c.getSuperclass() == AssignmentEndpoint.class || c.getSuperclass() == Endpoint.class).
-                map(c -> (Class<Endpoint>)c).
+                map(c -> (Class<Endpoint>) c).
                 collect(Collectors.toList());
     }
 
-    public List<Class<AssignmentEndpoint>> getAssignments() {
+    public List<Class<AssignmentEndpoint>> getAssignments(Class lesson) {
         return classes.stream().
                 filter(c -> c.getSuperclass() == AssignmentEndpoint.class).
-                map(c -> (Class<AssignmentEndpoint>)c).
+                filter(c -> c.getPackage().equals(lesson.getPackage())).
+                map(c -> (Class<AssignmentEndpoint>) c).
                 collect(Collectors.toList());
     }
 
