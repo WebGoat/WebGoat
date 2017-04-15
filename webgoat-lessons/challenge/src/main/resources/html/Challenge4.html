@@ -5,85 +5,89 @@
 
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:Challenge_4.adoc"></div>
-    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge2.css}"/>
-    <script th:src="@{/lesson_js/challenge2.js}" language="JavaScript"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge4.css}"/>
+    <script th:src="@{/lesson_js/challenge4.js}" language="JavaScript"></script>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <form class="attack-form" accept-charset="UNKNOWN"
-              method="POST" name="form"
-              action="/WebGoat/challenge/4"
-              enctype="application/json;charset=UTF-8">
 
-            <input id="discount" type="hidden" value="0"/>
             <div class="row">
-
-                <div class="col-xs-3 item-photo">
-                    <img style="max-width:100%;" th:src="@{/images/samsung-black.jpg}"/>
-                </div>
-                <div class="col-xs-5" style="border:0px solid gray">
-                    <h3>Samsung Galaxy S8</h3>
-                    <h5 style="color:#337ab7"><a href="http://www.samsung.com">Samsung</a> ·
-                        <small style="color:#337ab7">(124421 reviews)</small>
-                    </h5>
-
-                    <h6 class="title-price">
-                        <small>PRICE</small>
-                    </h6>
-                    <h3 style="margin-top:0px;"><span>US $</span><span id="price">899</span></h3>
-
-                    <div class="section">
-                        <h6 class="title-attr" style="margin-top:15px;">
-                            <small>COLOR</small>
-                        </h6>
-                        <div>
-                            <div class="attr" style="width:25px;background:lightgrey;"></div>
-                            <div class="attr" style="width:25px;background:black;"></div>
+                <div class="col-md-6">
+                    <div class="panel panel-login">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <a href="#" class="active" id="login-form-link">Login</a>
+                                </div>
+                                <div class="col-xs-6">
+                                    <a href="#" id="register-form-link">Register</a>
+                                </div>
+                            </div>
+                            <hr/>
                         </div>
-                    </div>
-                    <div class="section" style="padding-bottom:5px;">
-                        <h6 class="title-attr">
-                            <small>CAPACITY</small>
-                        </h6>
-                        <div>
-                            <div class="attr2">64 GB</div>
-                            <div class="attr2">128 GB</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form id="login-form" class="attack-form" accept-charset="UNKNOWN"
+                                          method="POST" name="form"
+                                          action="/WebGoat/challenge/4"
+                                          enctype="application/json;charset=UTF-8" role="form">
+                                        <div class="form-group">
+                                            <input type="text" name="username" id="username4" tabindex="1" class="form-control" placeholder="Username" value=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password" id="password4" tabindex="2" class="form-control" placeholder="Password"/>
+                                        </div>
+                                        <div class="form-group text-center">
+                                            <input type="checkbox" tabindex="3" class="" name="remember" id="remember"/>
+                                            <label for="remember"> Remember me</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-sm-offset-3">
+                                                    <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn-primary" value="Log In"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="text-center">
+                                                        <a href="#" tabindex="5" class="forgot-password">Forgot Password?</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <form id="register-form" class="attack-form" accept-charset="UNKNOWN"
+                                          method="PUT" name="form"
+                                          action="/WebGoat/challenge/4"
+                                          enctype="application/json;charset=UTF-8" style="display: none;" role="form">
+                                        <div class="form-group">
+                                            <input type="text" name="username-reg" id="username" tabindex="1" class="form-control" placeholder="Username" value=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" name="email-reg" id="email" tabindex="1" class="form-control" placeholder="Email Address" value=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password-reg" id="password" tabindex="2" class="form-control" placeholder="Password"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="confirm-password-reg" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-sm-offset-3">
+                                                    <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-primary" value="Register Now"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="section" style="padding-bottom:5px;">
-                        <h6 class="title-attr">
-                            <small>QUANTITY</small>
-                        </h6>
-                        <div>
-                            <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-                            <input class="quantity" value="1"/>
-                            <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
-                        </div>
-                    </div>
-
-                    <div class="section" style="padding-bottom:5px;">
-                        <h6 class="title-attr">
-                            <small>CHECKOUT CODE</small>
-                        </h6>
-                        <!--
-                          Checkout code: webgoat, owasp, owasp-webgoat
-                        -->
-                        <input name="checkoutCode" class="checkoutCode" value=""/>
-
-                    </div>
-
-                    <div class="section" style="padding-bottom:20px;">
-                        <button type="submit" class="btn btn-success"><span style="margin-right:20px"
-                                                                            class="glyphicon glyphicon-shopping-cart"
-                                                                            aria-hidden="true"></span>Buy
-                        </button>
-                        <h6><a href="#"><span class="glyphicon glyphicon-heart-empty"
-                                              style="cursor:pointer;"></span>
-                            Like</a></h6>
                     </div>
                 </div>
             </div>
-
-        </form>
         <br/>
         <form class="attack-form form-inline" method="POST" name="form" action="/WebGoat/challenge/flag">
             <div class="form-group">
