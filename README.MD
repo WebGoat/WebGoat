@@ -44,7 +44,7 @@ docker pull webgoat/webgoat-8.0
 docker run -p 8080:8080 webgoat/webgoat-8.0
 ```
 
-Wait for the Docker container to start and go to step 3.
+Wait for the Docker container to start and visit http://localhost:8080/WebGoat.
 Please note: this version may not be completely in sync with the develop branch.
 
 ## 2. Run from the sources
