@@ -55,6 +55,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class LessonMenuService {
 
+    public static final String URL_LESSONMENU_MVC = "/service/lessonmenu.mvc";
     private final Course course;
     private UserTracker userTracker;
 
@@ -63,7 +64,7 @@ public class LessonMenuService {
      *
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(path = "/service/lessonmenu.mvc", produces = "application/json")
+    @RequestMapping(path = URL_LESSONMENU_MVC, produces = "application/json")
     public
     @ResponseBody
     List<LessonMenuItem> showLeftNav() {
