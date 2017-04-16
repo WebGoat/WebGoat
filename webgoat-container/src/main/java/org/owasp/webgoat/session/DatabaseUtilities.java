@@ -38,6 +38,7 @@ import java.util.Map;
  * @version $Id: $Id
  */
 //TODO: class we need to refactor to new structure, we can put the connection in the current session of the user
+	// start using jdbc template
 public class DatabaseUtilities
 {
 

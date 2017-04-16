@@ -28,7 +28,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Slf4j
 public class Assignment4 extends AssignmentEndpoint {
 
-    private static final String USERS_TABLE_NAME = "challenge_users_" + RandomStringUtils.randomAlphabetic(6);
+    //Make it more random at runtime (good luck guessing)
+    private static final String USERS_TABLE_NAME = "challenge_users_" + RandomStringUtils.randomAlphabetic(16);
 
     @Autowired
     private WebSession webSession;
@@ -64,7 +65,7 @@ public class Assignment4 extends AssignmentEndpoint {
         if (StringUtils.isEmpty(username_reg) || StringUtils.isEmpty(email_reg) || StringUtils.isEmpty(password_reg)) {
             return failed().feedback("input.invalid").build();
         }
-        if (username_reg.length() > 30 || email_reg.length() > 30 || password_reg.length() > 30) {
+        if (username_reg.length() > 250 || email_reg.length() > 30 || password_reg.length() > 30) {
             return failed().feedback("input.invalid").build();
         }
         return null;
@@ -76,17 +77,16 @@ public class Assignment4 extends AssignmentEndpoint {
         Connection connection = DatabaseUtilities.getConnection(webSession);
         checkDatabase(connection);
 
-        if ("tom".equals(username_login)) {
-            PreparedStatement statement = connection.prepareStatement("select password from " + USERS_TABLE_NAME + " where userid = ? and password = ?");
-            statement.setString(1, username_login);
-            statement.setString(2, password_login);
-            ResultSet resultSet = statement.executeQuery();
+        PreparedStatement statement = connection.prepareStatement("select password from " + USERS_TABLE_NAME + " where userid = ? and password = ?");
+        statement.setString(1, username_login);
+        statement.setString(2, password_login);
+        ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
-                return success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(4)).build();
-            }
+        if (resultSet.next() && "tom".equals(username_login)) {
+            return success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(4)).build();
+        } else {
+            return failed().feedback("challenge.close").build();
         }
-        return failed().build();
     }
 
     private void checkDatabase(Connection connection) throws SQLException {
@@ -107,10 +107,10 @@ public class Assignment4 extends AssignmentEndpoint {
         } catch (SQLException e) {
             log.info("Delete failed, this does not point to an error table might not have been present...");
         }
-
+        log.debug("Challenge 4 - Creating tables for users {}", USERS_TABLE_NAME);
         try {
             String createTableStatement = "CREATE TABLE " + USERS_TABLE_NAME
-                    + " (" + "userid varchar(30),"
+                    + " (" + "userid varchar(250),"
                     + "email varchar(30),"
                     + "password varchar(30)"
                     + ")";
