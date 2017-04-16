@@ -29,7 +29,7 @@ public class ChallengeIntro extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "challenge.title";
+        return "challenge0.title";
     }
 
     @Override

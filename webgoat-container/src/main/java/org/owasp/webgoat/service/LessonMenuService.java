@@ -36,13 +36,14 @@ import org.owasp.webgoat.lessons.LessonMenuItemType;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.LessonTracker;
 import org.owasp.webgoat.session.UserTracker;
-import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>LessonMenuService class.</p>
@@ -75,6 +76,7 @@ public class LessonMenuService {
             categoryItem.setType(LessonMenuItemType.CATEGORY);
             // check for any lessons for this category
             List<AbstractLesson> lessons = course.getLessons(category);
+            lessons = lessons.stream().sorted(Comparator.comparing(l -> l.getTitle())).collect(Collectors.toList());
             for (AbstractLesson lesson : lessons) {
                 LessonMenuItem lessonItem = new LessonMenuItem();
                 lessonItem.setName(lesson.getTitle());
