@@ -54,11 +54,9 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
 
     private static final Asciidoctor asciidoctor = create();
     private static final String PREFIX = "doc:";
-    private final File pluginTargetDirectory;
     private final Language language;
 
-    public AsciiDoctorTemplateResolver(File pluginTargetDirectory, Language language) {
-        this.pluginTargetDirectory = pluginTargetDirectory;
+    public AsciiDoctorTemplateResolver(Language language) {
         this.language = language;
 
         setResourceResolver(new AdocResourceResolver());
@@ -75,7 +73,7 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
 
         @Override
         public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
-            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName));
+            InputStream is = readInputStreamOrFallbackToEnglish(resourceName, language);
             try {
                 StringWriter writer = new StringWriter();
                 asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
@@ -90,10 +88,17 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
          * The resource name is for example HttpBasics_content1.adoc. This is always located in the following directory:
          * <code>plugin/HttpBasics/lessonPlans/en/HttpBasics_content1.adoc</code>
          */
-        private String computeResourceName(String resourceName) {
-            return String.format("lessonPlans/%s/%s", language.getLocale().getLanguage(), resourceName);
+        private String computeResourceName(String resourceName, String language) {
+            return String.format("lessonPlans/%s/%s", language, resourceName);
         }
 
+        private InputStream readInputStreamOrFallbackToEnglish(String resourceName, Language language) {
+            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName, language.getLocale().getLanguage()));
+            if (is == null) {
+                is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName, "en"));
+            }
+            return is;
+        }
 
         private Map<String, Object> createAttributes() {
             Map<String, Object> attributes = Maps.newHashMap();

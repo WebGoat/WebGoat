@@ -95,7 +95,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
     @Bean
     public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(Language language) {
-        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(pluginTargetDirectory, language);
+        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(language);
         resolver.setCacheable(false);
         resolver.setOrder(3);
         return resolver;
@@ -120,7 +120,6 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/plugin_lessons/**").addResourceLocations("file:///" + pluginTargetDirectory.toString() + "/");
-        //registry.addResourceHandler("/images/**").addResourceLocations("classpath:/plugin/VulnerableComponents/images/");
         registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");
         registry.addResourceHandler("/lesson_js/**").addResourceLocations("classpath:/js/");
         registry.addResourceHandler("/lesson_css/**").addResourceLocations("classpath:/css/");
