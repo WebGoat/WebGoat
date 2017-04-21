@@ -1092,5 +1092,5 @@ span.show-next-page, span.show-prev-page {
 //TODO: come up with longer term solution for full-window viewing
 */
 .col-md-8 {
-    width: auto !important
+    width: 95% !important
 }
