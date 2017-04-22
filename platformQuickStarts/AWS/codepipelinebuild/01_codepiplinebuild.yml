@@ -97,8 +97,8 @@ Resources:
                 Provider: GitHub
                 Version: 1
               Configuration:
-                BranchName: !Ref 'qsRepoBranch'
-                RepositoryName: !Ref 'qsCodeRepo'
+                Branch: !Ref 'qsRepoBranch'
+                Repo: !Ref 'qsCodeRepo'
                 Owner: !Ref 'qsGitHubUser'
                 OAuthToken: !Ref 'qsGitHubAPIToken'
               OutputArtifacts:
