@@ -8,7 +8,7 @@ Parameters:
   qsPipelineName:
     Description: The name of the AWS Code Pipeline
     Type: String
-    Default: WG-pipe
+    Default: WG-pipeline
     MinLength: 1
   qsPipelineRoleARN:
     Description: The complete ARN to the IAM role that code pipeline should use
@@ -22,6 +22,15 @@ Parameters:
     Description: The Branch in the Repository
     Type: String
     MinLength: 1
+  qsGitHubUser:
+    Description: The GitHub User Id
+    Type: String
+    MinLength: 1
+  qsGitHubAPIToken:
+    Description: The GitHub Personal Access token do not use password
+    NoEcho: true
+    Type: String
+    MinLength: 1
   qsS3PipelineArtifacts:
     Description: Where Code Pipeline will state artifacts in S3
     Type: String
@@ -33,7 +42,7 @@ Parameters:
   qsCodeBuildName:
     Description: Name of the AWS Code Build
     Type: String
-    Default: WG-builder
+    Default: WG-mvnBuilder
     MinLength: 1
   qsKMSKeyARN:
     Description: The KMS ARN that the IAM Role is allowed to use
@@ -84,12 +93,14 @@ Resources:
             - Name: CodeSource
               ActionTypeId:
                 Category: Source
-                Owner: AWS
-                Provider: CodeCommit
+                Owner: ThirdParty
+                Provider: GitHub
                 Version: 1
               Configuration:
                 BranchName: !Ref 'qsRepoBranch'
                 RepositoryName: !Ref 'qsCodeRepo'
+                Owner: !Ref 'qsGitHubUser'
+                OAuthToken: !Ref 'qsGitHubAPIToken'
               OutputArtifacts:
                 - Name: MySource
               RunOrder: '1'
