@@ -1,4 +1,4 @@
-= Serverless MVN builds Featuring AWS
+# Serverless MVN builds Featuring AWS
 
 This Quick Start is the foundation where other of the AWS quickstarts begin. This quickstart only BUILDS the `webgoat-server` spring boot jar. If you want to also run it on AWS skip to the other AWS quickstarts
 
@@ -19,7 +19,7 @@ You will also need:
 
 
 
-== Create Pre-requisites 
+## Create Pre-requisites 
 
 First pick and AWS region and stick with it for ALL the quickstarts. This one was mostly executed on US-east-1/2 but any region with KMS, CodePipeline, and CodeBuild will work. Eu-Central-1, ap-southeast-1 and sa-east-1 have reported success also.
 
@@ -27,7 +27,7 @@ First pick and AWS region and stick with it for ALL the quickstarts. This one wa
 1. Create an S3 bucket and call it something meaningfull like `webgoat-stash-username` or something or use an existing bucket you have access to.
 2. Create a KMS Key. Make sure you are a key administrator so you can add key users later.
 
-== Deploy IAM role Cloud Formation Stacks
+## Deploy IAM role Cloud Formation Stacks
 
 In this folder there are two json cloudformation templates:
 -`01_IAM_codebuild.json`
@@ -35,11 +35,11 @@ In this folder there are two json cloudformation templates:
 
 You will use the CloudFormation templates to create two roles. One for CodePipeline and the Other for CodeBuild. You will use the name of the bucket you just created as a parameter. 
 
-== Update KMS Key
+## Update KMS Key
 
 Access the KMS key you created earlier...add the two IAM roles you just created and Key Users
 
-== Finally the Pipeline
+## Finally the Pipeline
 
 You will use the yaml cloudformation template `01_codepiplinebuild.yml` to create the code building pipeline. 
 

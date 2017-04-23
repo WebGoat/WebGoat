@@ -1,4 +1,4 @@
-= GKE - DockerHub
+# GKE - DockerHub
 
 This Quickstart shows how to create a Kubernettes Cluster using Google Cloud Platform's [GKE](https://cloud.google.com/container-engine/) and WebGoat Docker [Image](https://hub.docker.com/r/webgoat/webgoat-8.0/). 
 
@@ -8,7 +8,7 @@ To be Successfull with this Quickstart
 2. You know how to `git clone`
 3. You have access to the gcloud SDK
 
-== Create Kubernettes Cluster
+## Create Kubernettes Cluster
 
 Using the cloud console the default settings will suffice. Just provide a cluster name that makes sense to you. Otherwise you can use the [Google Cloud Shell](https://cloud.google.com/shell/docs/) and the followihg command: 
 
@@ -22,7 +22,7 @@ gcloud container --project "PROJECTNAME" clusters create "owaspbasiccluster" --z
 Notice that Google Source is `readonly` and Cloud Platform as `Enabled`
 
 
-== Set up Kubectl
+## Set up Kubectl
 
 Using either Google Cloud Shell or other commandline gcloud SDK environment you need to set-up 'kubectl'
 
@@ -33,7 +33,7 @@ Then you just run:
 `gcloud container clusters get-credentials owaspbasiccluster --zone us-central1-b --project PROJECTNAME`
 
 
-== Deploy WebGoat Deployment
+## Deploy WebGoat Deployment
 
 Time to deploy the latest DockerImage for WebGoat
 
@@ -56,7 +56,7 @@ After a few minutes the service endpoint should be ready. You can check the stat
 In the output you should see a message like "Created Load..."  after a "Creating load..." which means that the public facing loadbalancer (even thou there is just one container running!) is ready.
 
 
-== Test Deployment
+## Test Deployment
 
 From the previous `describe service` command the `LoadBalancer Ingress:` line should have the external IP. The line below should give the port.
 

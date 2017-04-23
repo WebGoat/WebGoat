@@ -1,4 +1,4 @@
-= WebGoat on GCP!
+# WebGoat on GCP!
 
 This folder contains sub folders for the various ways you could deploy WebGoat on Google Cloud Platform
 
@@ -8,10 +8,10 @@ It is assumed:
 3. You can use a Shell Linux/Mac/Google Cloud Shell
 
 
-== GKE Docker
+## GKE Docker
 
 Uses GKE to run the latest DockerHub version of WebGoat8
 
-== AppEngine
+## AppEngine
 
 WIP
