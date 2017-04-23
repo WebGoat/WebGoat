@@ -4,7 +4,7 @@ This Quickstart shows how to create a Kubernettes Cluster using Google Cloud Pla
 
 To be Successfull with this Quickstart
 
-1. You have a Google Cloud Platform account (trial works too) and have enough priveleges to create Compute Engine and Container Engine Resources
+1. You have a Google Cloud Platform account and have enough access rights to create Compute Engine and Container Engine Resources
 2. You know how to `git clone`
 3. You have access to the gcloud SDK
 
@@ -30,12 +30,12 @@ If you have not already installed 'Kubectl' you can do so with the following com
 - `gcloud components install kubectl` 
 
 Then you just run:
-`gcloud container clusters get-credentials owaspbasiccluster --zone us-central1-b --project PROJECTNAME`
+- `gcloud container clusters get-credentials owaspbasiccluster --zone us-central1-b --project PROJECTNAME`
 
 
 ## Deploy WebGoat Deployment
 
-Time to deploy the latest DockerImage for WebGoat
+Time to deploy the latest DockerImage for WebGoat!
 
 
 Let's First Make a namespace for this: 
@@ -47,13 +47,13 @@ Now it is time to make the magic happen!
 
 This should complete with no errors.
 
-Use the following command to see information about the deployment
+Use the following command to see information/status about the deployment
 - `kubectl describe deployment  webgoat-dpl --namespace=webgoat`
 
 After a few minutes the service endpoint should be ready. You can check the status with
 - `kubectl describe service  webgoatsvc --namespace=webgoat`
 
-In the output you should see a message like "Created Load..."  after a "Creating load..." which means that the public facing loadbalancer (even thou there is just one container running!) is ready.
+In the output you should see a message like "Created load..."  after a "Creating load..." which means that the public facing loadbalancer (even thou there is just one container running!) is ready.
 
 
 ## Test Deployment
