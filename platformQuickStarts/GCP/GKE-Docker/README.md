@@ -4,7 +4,7 @@ This Quickstart shows how to create a Kubernettes Cluster using Google Cloud Pla
 
 To be Successfull with this Quickstart
 
-1. You have a Google Cloud PlatForm account (trial works too) and have enough priveleges to create Computer Engine and Container Engine Resources
+1. You have a Google Cloud Platform account (trial works too) and have enough priveleges to create Compute Engine and Container Engine Resources
 2. You know how to `git clone`
 3. You have access to the gcloud SDK
 
