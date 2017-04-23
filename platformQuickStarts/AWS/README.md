@@ -8,17 +8,24 @@
    - Deploying to ECS
 
 
+It is Assumed:
+- You have an AWS Account 
+- You know what an S3 bucket is
+- You have seen the IAM console and have permissions to create IAM Roles
+
+
+
 
 ## Code Pipeline and Build
 
-This Quickstart is for those that just want to perform builds with AWS. It uses CodeCommit but can be modified to use GitHub
+This Quickstart is for those that just want to perform builds with AWS. It Triggers off of Github to perform builds of `webgoat-server`
 
 
 
 ## EC2
 
-This uses AWS CodePipeline, CodeBuild, and CodeDeploy to land WebGoat to Running EC2 instances
+(WIP) This uses AWS CodePipeline, CodeBuild, and CodeDeploy to land WebGoat to Running EC2 instances
 
 ## ECS
 
-This uses AWS CodePipeline, CodeBuild, CodeDeploy, ECR, to update an ECS cluster
+(WIP) This uses AWS CodePipeline, CodeBuild, ECR, to land a container onto  an ECS cluster
