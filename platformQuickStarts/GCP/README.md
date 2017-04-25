@@ -5,7 +5,7 @@ This folder contains sub folders for the various ways you could deploy WebGoat o
 It is assumed:
 1. You have a Google Cloud Platform Account
 2. You can use Git
-3. You can use a Shell Linux/Mac/Google Cloud Shell
+3. You can use a Linux/Mac/Google Cloud Shell
 
 
 ## GKE Docker

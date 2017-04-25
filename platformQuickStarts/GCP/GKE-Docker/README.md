@@ -1,25 +1,24 @@
 # GKE - DockerHub
 
-This Quickstart shows how to create a Kubernettes Cluster using Google Cloud Platform's [GKE](https://cloud.google.com/container-engine/) and WebGoat Docker [Image](https://hub.docker.com/r/webgoat/webgoat-8.0/). 
+This Quickstart shows how to create a Kubernettes Cluster using Google Cloud Platform's [GKE](https://cloud.google.com/container-engine/) and WebGoat's Docker [Image](https://hub.docker.com/r/webgoat/webgoat-8.0/). 
 
 To be Successfull with this Quickstart
 
 1. You have a Google Cloud Platform account and have enough access rights to create Compute Engine and Container Engine Resources
 2. You know how to `git clone`
-3. You have access to the gcloud SDK
+3. You have the gcloud SDK install and initialized somewhere ( Or just use the Google Cloud Shell) 
 
 ## Create Kubernettes Cluster
 
-Using the cloud console the default settings will suffice. Just provide a cluster name that makes sense to you. Otherwise you can use the [Google Cloud Shell](https://cloud.google.com/shell/docs/) and the followihg command: 
+Using the cloud console the default settings will suffice. The following is the commandline you would use to create the cluster using the gcloud command.  For this QuickStart the cluster name used is `owaspbasiccluster`. The `PROJECTNAME` is whatever your project is. The `REGION` is a region near you. 
 
 
 ```
-gcloud container --project "PROJECTNAME" clusters create "owaspbasiccluster" --zone "us-central1-b" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append","https://www.googleapis.com/auth/source.read_only" --num-nodes "3" --network "default" --enable-cloud-logging --no-enable-cloud-monitoring
+gcloud container --project "PROJECTNAME" clusters create "owaspbasiccluster" --zone "REGION" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append","https://www.googleapis.com/auth/source.read_only" --num-nodes "3" --network "default" --enable-cloud-logging --no-enable-cloud-monitoring
 
 
 ```
 
-Notice that Google Source is `readonly` and Cloud Platform as `Enabled`
 
 
 ## Set up Kubectl
@@ -30,7 +29,7 @@ If you have not already installed 'Kubectl' you can do so with the following com
 - `gcloud components install kubectl` 
 
 Then you just run:
-- `gcloud container clusters get-credentials owaspbasiccluster --zone us-central1-b --project PROJECTNAME`
+- `gcloud container clusters get-credentials owaspbasiccluster --zone REGION --project PROJECTNAME`
 
 
 ## Deploy WebGoat Deployment
