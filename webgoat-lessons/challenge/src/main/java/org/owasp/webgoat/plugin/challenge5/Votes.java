@@ -7,7 +7,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -34,36 +33,50 @@ public class Votes {
 
     private static String validUsers = "TomJerrySylvester";
 
-    @AllArgsConstructor
     @Getter
-    private class Voting {
+    private static class Voting {
         @JsonView(Views.GuestView.class)
-        private String title;
+        private final String title;
         @JsonView(Views.GuestView.class)
-        private String information;
+        private final String information;
         @JsonView(Views.GuestView.class)
-        private String imageSmall;
+        private final String imageSmall;
         @JsonView(Views.GuestView.class)
-        private String imageBig;
+        private final String imageBig;
         @JsonView(Views.UserView.class)
-        private int numberOfVotes;
+        private final int numberOfVotes;
         @JsonView(Views.AdminView.class)
         private String flag = FLAGS.get(5);
         @JsonView(Views.UserView.class)
-        private boolean votingAllowed;
+        private boolean votingAllowed = true;
+        @JsonView(Views.UserView.class)
+        private String average = "0.0";
+
+
+        public Voting(String title, String information, String imageSmall, String imageBig, int numberOfVotes) {
+            this.title = title;
+            this.information = information;
+            this.imageSmall = imageSmall;
+            this.imageBig = imageBig;
+            this.numberOfVotes = numberOfVotes;
+            this.average = String.valueOf((double)numberOfVotes / (double)totalVotes);
+        }
     }
 
-    private int totalVotes = 38929;
+    private static int totalVotes = 38929;
     private List votes = Lists.newArrayList(
             new Voting("Admin lost password",
                     "In this challenge you will need to help the admin and find the password in order to login",
-                    "challenge1-small.png", "challenge1.png", 14242, FLAGS.get(5), true),
+                    "challenge1-small.png", "challenge1.png", 14242),
             new Voting("Vote for your favourite",
                     "In this challenge ...",
-                    "challenge5-small.png", "challenge5.png", 12345, FLAGS.get(5), true),
+                    "challenge5-small.png", "challenge5.png", 12345),
             new Voting("Get is for free",
                     "The objective for this challenge is to buy a Samsung phone for free.",
-                    "challenge2-small.png", "challenge2.png", 12342, FLAGS.get(5), true)
+                    "challenge2-small.png", "challenge2.png", 12342),
+            new Voting("Photo comments",
+                    "n this challenge you can comment on the photo you will need to find the flag somewhere.",
+                    "challenge3-small.png", "challenge3.png", 12342)
     );
 
     @GetMapping("/login")
