@@ -15,27 +15,30 @@
             <div class="row">
 
                 <div class="well">
-                    <div class="user-nav pull-right" id="user-and-info-nav" style="margin-right: 75px;">
-                        <div class="dropdown" style="display:inline">
-                            <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"
-                                    id="user-menu">
+                    <div class="pull-right">
+                        <div class="dropdown">
+                            <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">
                                 <i class="fa fa-user"></i> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-left">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" th:text="Unknown">current</a></li>
-                                <li role="presentation" class="divider"></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" th:onclick="'javascript:login(\'' + ${#authentication.name} + '\');'"
-                                                           th:text="${#authentication.name}">current</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" onclick="javascript:login('Tom')"
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           onclick="javascript:login('Guest')"
+                                                           th:text="Guest">current</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           onclick="javascript:login('Tom')"
                                                            th:text="Tom">current</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" onclick="javascript:login('Jerry')"
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           onclick="javascript:login('Jerry')"
                                                            th:text="Jerry">current</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" onclick="javascript:login('Sylvester')"
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           onclick="javascript:login('Sylvester')"
                                                            th:text="Sylvester">current</a></li>
                             </ul>
                         </div>
+                        <div>
+                            <p class="text-right">Welcome back, <b><span id="name"></span></b></p>
+                        </div>
                     </div>
-
 
                     <div>
                         <h3>Vote for your favorite</h3>
