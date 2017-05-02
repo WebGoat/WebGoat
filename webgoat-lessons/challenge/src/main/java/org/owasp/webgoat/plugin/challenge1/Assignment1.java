@@ -68,7 +68,7 @@ public class Assignment1 extends AssignmentEndpoint {
         return getClientIP(request).contains(ip.getHostAddress());
     }
 
-    private String getClientIP(HttpServletRequest request) {
+    public static String getClientIP(HttpServletRequest request) {
         String xfHeader = request.getHeader("X-Forwarded-For");
         if (xfHeader == null) {
             return request.getRemoteAddr();
