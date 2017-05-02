@@ -11,6 +11,8 @@ import org.owasp.webgoat.plugin.SolutionConstants;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.net.InetAddress;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -33,8 +35,10 @@ public class Assignment1Test extends AssignmentEndpointTest {
 
     @Test
     public void success() throws Exception {
+        InetAddress addr = InetAddress.getLocalHost();
+        String host = addr.getHostAddress();
         mockMvc.perform(MockMvcRequestBuilders.post("/challenge/1")
-                .header("X-Forwarded-For", "127.0.1.1")
+                .header("X-Forwarded-For", host)
                 .param("username", "admin")
                 .param("password", SolutionConstants.PASSWORD))
                 .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("flag: " + Flag.FLAGS.get(1))))
