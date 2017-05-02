@@ -1031,6 +1031,7 @@ font-size: 1.3em;
   width: 35%;
 
 }
+
 #error-notification {
   text-align: center;
   border-radius: 4px;
@@ -1040,4 +1041,8 @@ font-size: 1.3em;
   font-weight: bold;
   font-size: 12px;
   padding: 10px;
+}
+
+.col-md-8 {
+    width: 95% !important;
 }
