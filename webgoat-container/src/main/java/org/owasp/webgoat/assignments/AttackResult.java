@@ -51,6 +51,12 @@ public class AttackResult {
             return this;
         }
 
+        public AttackResultBuilder lessonCompleted(boolean lessonCompleted, String resourceBundleKey) {
+            this.lessonCompleted = lessonCompleted;
+            this.feedbackResourceBundleKey = resourceBundleKey;
+            return this;
+        }
+
         public AttackResultBuilder feedbackArgs(Object... args) {
             this.feedbackArgs = args;
             return this;
