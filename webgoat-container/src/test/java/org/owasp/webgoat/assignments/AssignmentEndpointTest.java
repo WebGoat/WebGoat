@@ -30,17 +30,23 @@ import org.owasp.webgoat.i18n.Language;
 import org.owasp.webgoat.i18n.Messages;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.UserSessionData;
-import org.owasp.webgoat.session.UserTracker;
+import org.owasp.webgoat.users.UserTracker;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 import java.util.Locale;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
 public class AssignmentEndpointTest {
 
     @Mock
     protected UserTracker userTracker;
+    @Mock
+    protected UserTrackerRepository userTrackerRepository;
     @Mock
     protected WebSession webSession;
     @Mock
@@ -56,7 +62,8 @@ public class AssignmentEndpointTest {
 
     public void init(AssignmentEndpoint a) {
         messages.setBasenames("classpath:/i18n/messages", "classpath:/i18n/WebGoatLabels");
-        ReflectionTestUtils.setField(a, "userTracker", userTracker);
+        when(userTrackerRepository.findOne(anyString())).thenReturn(userTracker);
+        ReflectionTestUtils.setField(a, "userTrackerRepository", userTrackerRepository);
         ReflectionTestUtils.setField(a, "userSessionData", userSessionData);
         ReflectionTestUtils.setField(a, "webSession", webSession);
         ReflectionTestUtils.setField(a, "messages", pluginMessages);

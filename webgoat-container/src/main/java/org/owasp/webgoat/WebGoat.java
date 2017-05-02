@@ -31,12 +31,14 @@
 package org.owasp.webgoat;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Context;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
 import org.owasp.webgoat.plugins.PluginsLoader;
-import org.owasp.webgoat.session.*;
+import org.owasp.webgoat.session.Course;
+import org.owasp.webgoat.session.UserSessionData;
+import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.session.WebgoatContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -102,15 +104,6 @@ public class WebGoat extends SpringBootServletInitializer {
     @Bean
     public Course course(PluginEndpointPublisher pluginEndpointPublisher) {
         return new PluginsLoader(pluginEndpointPublisher).loadPlugins();
-    }
-
-    @Bean
-    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-    @SneakyThrows
-    public UserTracker userTracker(@Value("${webgoat.user.directory}") final String webgoatHome, WebSession webSession) {
-        UserTracker userTracker = new UserTracker(webgoatHome, webSession.getUserName());
-        userTracker.load();
-        return userTracker;
     }
 
     @Bean

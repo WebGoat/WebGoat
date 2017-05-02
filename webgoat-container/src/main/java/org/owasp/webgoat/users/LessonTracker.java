@@ -1,5 +1,5 @@
 
-package org.owasp.webgoat.session;
+package org.owasp.webgoat.users;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -7,7 +7,6 @@ import lombok.Getter;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,14 +44,20 @@ import java.util.stream.Collectors;
  * @version $Id: $Id
  * @since October 29, 2003
  */
-public class LessonTracker implements Serializable {
-    private static final long serialVersionUID = 5410058267505412928L;
+public class LessonTracker {
+    @Getter
+    private String lessonName;
     private final Set<Assignment> solvedAssignments = Sets.newHashSet();
     private final List<Assignment> allAssignments = Lists.newArrayList();
     @Getter
     private int numberOfAttempts = 0;
 
+    protected LessonTracker() {
+        //Mongo
+    }
+
     public LessonTracker(AbstractLesson lesson) {
+        lessonName = lesson.getId();
         allAssignments.addAll(lesson.getAssignments());
     }
 

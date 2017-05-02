@@ -8,14 +8,17 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.Course;
-import org.owasp.webgoat.session.LessonTracker;
-import org.owasp.webgoat.session.UserTracker;
+import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.users.LessonTracker;
+import org.owasp.webgoat.users.UserTracker;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,10 +36,14 @@ public class ReportCardServiceTest {
     private AbstractLesson lesson;
     @Mock
     private LessonTracker lessonTracker;
+    @Mock
+    private UserTrackerRepository userTrackerRepository;
+    @Mock
+    private WebSession websession;
 
     @Before
     public void setup() {
-        this.mockMvc = standaloneSetup(new ReportCardService(userTracker, course)).build();
+        this.mockMvc = standaloneSetup(new ReportCardService(websession, userTrackerRepository, course)).build();
     }
 
     @Test
@@ -46,7 +53,8 @@ public class ReportCardServiceTest {
         when(course.getTotalOfLessons()).thenReturn(1);
         when(course.getTotalOfAssignments()).thenReturn(10);
         when(course.getLessons()).thenReturn(Lists.newArrayList(lesson));
-        when(userTracker.getLessonTracker(any())).thenReturn(lessonTracker);
+        when(userTrackerRepository.findOne(anyString())).thenReturn(userTracker);
+        when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
         mockMvc.perform(MockMvcRequestBuilders.get("/service/reportcard.mvc"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalNumberOfLessons", is(1)))

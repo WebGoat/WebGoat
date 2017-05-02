@@ -1,13 +1,12 @@
 package org.owasp.webgoat.users;
 
-import org.owasp.webgoat.session.WebGoatUser;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * @author nbaars
  * @since 3/19/17.
  */
-public interface UserRepository extends CrudRepository<WebGoatUser, Long> {
+public interface UserRepository extends MongoRepository<WebGoatUser, String> {
 
     WebGoatUser findByUsername(String username);
 }

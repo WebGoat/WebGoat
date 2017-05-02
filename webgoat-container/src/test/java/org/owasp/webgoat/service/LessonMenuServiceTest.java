@@ -8,15 +8,19 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.NewLesson;
 import org.owasp.webgoat.session.Course;
-import org.owasp.webgoat.session.LessonTracker;
-import org.owasp.webgoat.session.UserTracker;
+import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.users.LessonTracker;
+import org.owasp.webgoat.users.UserTracker;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.owasp.webgoat.service.LessonMenuService.URL_LESSONMENU_MVC;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -35,11 +39,15 @@ public class LessonMenuServiceTest {
     private Course course;
     @Mock
     private UserTracker userTracker;
+    @Mock
+    private UserTrackerRepository userTrackerRepository;
+    @Mock
+    private WebSession webSession;
     private MockMvc mockMvc;
 
     @Before
     public void setup() {
-        this.mockMvc = standaloneSetup(new LessonMenuService(course, userTracker)).build();
+        this.mockMvc = standaloneSetup(new LessonMenuService(course, webSession, userTrackerRepository)).build();
     }
 
     @Test
@@ -54,7 +62,8 @@ public class LessonMenuServiceTest {
         when(lessonTracker.isLessonSolved()).thenReturn(false);
         when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1, l2));
         when(course.getCategories()).thenReturn(Lists.newArrayList(Category.ACCESS_CONTROL));
-        when(userTracker.getLessonTracker(any())).thenReturn(lessonTracker);
+        when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
+        when(userTrackerRepository.findOne(anyString())).thenReturn(userTracker);
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL_LESSONMENU_MVC))
                 .andExpect(status().isOk())
@@ -71,7 +80,9 @@ public class LessonMenuServiceTest {
         when(lessonTracker.isLessonSolved()).thenReturn(true);
         when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1));
         when(course.getCategories()).thenReturn(Lists.newArrayList(Category.ACCESS_CONTROL));
-        when(userTracker.getLessonTracker(any())).thenReturn(lessonTracker);
+        when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
+        when(userTrackerRepository.findOne(anyString())).thenReturn(userTracker);
+
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL_LESSONMENU_MVC))
                 .andExpect(status().isOk()).andDo(print())

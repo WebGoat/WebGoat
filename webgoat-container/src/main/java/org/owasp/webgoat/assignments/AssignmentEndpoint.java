@@ -27,7 +27,8 @@ package org.owasp.webgoat.assignments;
 import lombok.Getter;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.UserSessionData;
-import org.owasp.webgoat.session.UserTracker;
+import org.owasp.webgoat.users.UserTracker;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -43,7 +44,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AssignmentEndpoint extends Endpoint {
 
     @Autowired
-    private UserTracker userTracker;
+    private UserTrackerRepository userTrackerRepository;
     @Autowired
 	private WebSession webSession;
     @Autowired
@@ -54,11 +55,16 @@ public abstract class AssignmentEndpoint extends Endpoint {
 
 	//// TODO: 11/13/2016 events better fit?
     protected AttackResult trackProgress(AttackResult attackResult) {
+        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
+        if (userTracker == null) {
+            userTracker = new UserTracker(webSession.getUserName());
+        }
         if (attackResult.assignmentSolved()) {
             userTracker.assignmentSolved(webSession.getCurrentLesson(), this.getClass().getSimpleName());
         } else {
             userTracker.assignmentFailed(webSession.getCurrentLesson());
         }
+        userTrackerRepository.save(userTracker);
         return attackResult;
     }
     

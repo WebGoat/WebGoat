@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
+import org.owasp.webgoat.users.LessonTracker;
 
 import java.util.List;
 import java.util.Map;

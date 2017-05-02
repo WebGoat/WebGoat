@@ -26,8 +26,9 @@ package org.owasp.webgoat.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.users.UserTracker;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +46,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class RestartLessonService {
 
     private final WebSession webSession;
-    private final UserTracker userTracker;
+    private UserTrackerRepository userTrackerRepository;
 
     /**
      * Returns current lesson
@@ -58,6 +59,7 @@ public class RestartLessonService {
         AbstractLesson al = webSession.getCurrentLesson();
         log.debug("Restarting lesson: " + al);
 
+        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
         userTracker.reset(al);
     }
 }

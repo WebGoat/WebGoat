@@ -2,6 +2,7 @@ package org.owasp.webgoat.session;
 
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.users.WebGoatUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.sql.Connection;

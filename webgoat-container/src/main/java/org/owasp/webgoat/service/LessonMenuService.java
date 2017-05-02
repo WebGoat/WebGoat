@@ -34,8 +34,10 @@ import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonMenuItem;
 import org.owasp.webgoat.lessons.LessonMenuItemType;
 import org.owasp.webgoat.session.Course;
-import org.owasp.webgoat.session.LessonTracker;
-import org.owasp.webgoat.session.UserTracker;
+import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.users.LessonTracker;
+import org.owasp.webgoat.users.UserTracker;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,7 +59,8 @@ public class LessonMenuService {
 
     public static final String URL_LESSONMENU_MVC = "/service/lessonmenu.mvc";
     private final Course course;
-    private UserTracker userTracker;
+    private final WebSession webSession;
+    private UserTrackerRepository userTrackerRepository;
 
     /**
      * Returns the lesson menu which is used to build the left nav
@@ -68,8 +71,9 @@ public class LessonMenuService {
     public
     @ResponseBody
     List<LessonMenuItem> showLeftNav() {
-        List<LessonMenuItem> menu = new ArrayList<LessonMenuItem>();
+        List<LessonMenuItem> menu = new ArrayList<>();
         List<Category> categories = course.getCategories();
+        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
 
         for (Category category : categories) {
             LessonMenuItem categoryItem = new LessonMenuItem();

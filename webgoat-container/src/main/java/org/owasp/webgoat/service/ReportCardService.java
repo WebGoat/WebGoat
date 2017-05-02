@@ -29,25 +29,20 @@
 package org.owasp.webgoat.service;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Singular;
-import org.apache.catalina.User;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.Course;
-import org.owasp.webgoat.session.LessonTracker;
-import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.users.LessonTracker;
+import org.owasp.webgoat.users.UserTracker;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>ReportCardService</p>
@@ -56,15 +51,12 @@ import java.util.Map;
  * @version $Id: $Id
  */
 @Controller
+@AllArgsConstructor
 public class ReportCardService {
 
-    private final UserTracker userTracker;
+    private final WebSession webSession;
+    private final UserTrackerRepository userTrackerRepository;
     private final Course course;
-
-    public ReportCardService(UserTracker userTracker, Course course) {
-        this.userTracker = userTracker;
-        this.course = course;
-    }
 
     /**
      * Endpoint which generates the report card for the current use to show the stats on the solved lessons
@@ -72,6 +64,7 @@ public class ReportCardService {
     @GetMapping(path = "/service/reportcard.mvc", produces = "application/json")
     @ResponseBody
     public ReportCard reportCard() {
+        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
         List<AbstractLesson> lessons = course.getLessons();
         ReportCard reportCard = new ReportCard();
         reportCard.setTotalNumberOfLessons(course.getTotalOfLessons());

@@ -8,9 +8,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
-import org.owasp.webgoat.session.LessonTracker;
-import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.users.LessonTracker;
+import org.owasp.webgoat.users.UserTracker;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,15 +65,18 @@ public class LessonProgressServiceTest {
     @Mock
     private LessonTracker lessonTracker;
     @Mock
+    private UserTrackerRepository userTrackerRepository;
+    @Mock
     private WebSession websession;
 
     @Before
     public void setup() {
         Assignment assignment = new Assignment("test", "test");
-        when(userTracker.getLessonTracker(any())).thenReturn(lessonTracker);
+        when(userTrackerRepository.findOne(anyString())).thenReturn(userTracker);
+        when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
         when(websession.getCurrentLesson()).thenReturn(lesson);
         when(lessonTracker.getLessonOverview()).thenReturn(Maps.newHashMap(assignment, true));
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new LessonProgressService(userTracker, websession)).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new LessonProgressService(userTrackerRepository, websession)).build();
     }
 
     @Test

@@ -14,11 +14,14 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private UserTrackerRepository userTrackerRepository;
+
 
     @Test(expected = UsernameNotFoundException.class)
     public void shouldThrowExceptionWhenUserIsNotFound() {
         when(userRepository.findByUsername(any())).thenReturn(null);
-        UserService userService = new UserService(userRepository);
+        UserService userService = new UserService(userRepository, userTrackerRepository);
         userService.loadUserByUsername("unknown");
     }
 
