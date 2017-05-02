@@ -1,5 +1,6 @@
 package org.owasp.webgoat.plugin.challenge1;
 
+import lombok.SneakyThrows;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.InetAddress;
 
 import static org.owasp.webgoat.plugin.SolutionConstants.PASSWORD;
 
@@ -48,10 +51,28 @@ public class Assignment1 extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     public
     @ResponseBody
-    AttackResult completed(@RequestParam String username, @RequestParam String password) throws IOException {
-        if (PASSWORD.equals(password)) {
+    AttackResult completed(@RequestParam String username, @RequestParam String password, HttpServletRequest request) throws IOException {
+        boolean ipAddressKnown = checkClientOrigin(request);
+        boolean passwordCorrect = "admin".equals(username) && PASSWORD.equals(password);
+        if (passwordCorrect && ipAddressKnown) {
             return success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(1)).build();
+        } else if (passwordCorrect) {
+            return failed().feedback("ip.address.unknown").build();
         }
         return failed().build();
+    }
+
+    @SneakyThrows
+    private boolean checkClientOrigin(HttpServletRequest request) {
+        InetAddress ip = InetAddress.getLocalHost();
+        return getClientIP(request).contains(ip.getHostAddress());
+    }
+
+    private String getClientIP(HttpServletRequest request) {
+        String xfHeader = request.getHeader("X-Forwarded-For");
+        if (xfHeader == null) {
+            return request.getRemoteAddr();
+        }
+        return xfHeader.split(",")[0];
     }
 }
