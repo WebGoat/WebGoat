@@ -5,9 +5,12 @@ package org.owasp.webgoat.plugin.challenge5;
  * @since 4/30/17.
  */
 public class Views {
-    interface GuestView {}
-    interface UserView extends GuestView {}
-    interface AdminView extends UserView {}
+    interface GuestView {
+    }
 
+    interface UserView extends GuestView {
+    }
 
+    interface AdminView extends UserView {
+    }
 }

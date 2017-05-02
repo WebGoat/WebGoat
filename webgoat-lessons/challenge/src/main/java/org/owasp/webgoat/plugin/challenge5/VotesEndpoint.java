@@ -1,25 +1,27 @@
 package org.owasp.webgoat.plugin.challenge5;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.Comparator.comparingLong;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 import static org.owasp.webgoat.plugin.Flag.FLAGS;
 import static org.owasp.webgoat.plugin.SolutionConstants.JWT_PASSWORD;
 
@@ -29,55 +31,31 @@ import static org.owasp.webgoat.plugin.SolutionConstants.JWT_PASSWORD;
  */
 @RestController
 @RequestMapping("/votings")
-public class Votes {
+public class VotesEndpoint {
 
     private static String validUsers = "TomJerrySylvester";
 
-    @Getter
-    private static class Voting {
-        @JsonView(Views.GuestView.class)
-        private final String title;
-        @JsonView(Views.GuestView.class)
-        private final String information;
-        @JsonView(Views.GuestView.class)
-        private final String imageSmall;
-        @JsonView(Views.GuestView.class)
-        private final String imageBig;
-        @JsonView(Views.UserView.class)
-        private final int numberOfVotes;
-        @JsonView(Views.AdminView.class)
-        private String flag = FLAGS.get(5);
-        @JsonView(Views.UserView.class)
-        private boolean votingAllowed = true;
-        @JsonView(Views.UserView.class)
-        private String average = "0.0";
-
-
-        public Voting(String title, String information, String imageSmall, String imageBig, int numberOfVotes) {
-            this.title = title;
-            this.information = information;
-            this.imageSmall = imageSmall;
-            this.imageBig = imageBig;
-            this.numberOfVotes = numberOfVotes;
-            this.average = String.valueOf((double)numberOfVotes / (double)totalVotes);
-        }
-    }
-
     private static int totalVotes = 38929;
-    private List votes = Lists.newArrayList(
-            new Voting("Admin lost password",
-                    "In this challenge you will need to help the admin and find the password in order to login",
-                    "challenge1-small.png", "challenge1.png", 14242),
-            new Voting("Vote for your favourite",
-                    "In this challenge ...",
-                    "challenge5-small.png", "challenge5.png", 12345),
-            new Voting("Get is for free",
-                    "The objective for this challenge is to buy a Samsung phone for free.",
-                    "challenge2-small.png", "challenge2.png", 12342),
-            new Voting("Photo comments",
-                    "n this challenge you can comment on the photo you will need to find the flag somewhere.",
-                    "challenge3-small.png", "challenge3.png", 12342)
-    );
+    private Map<String, Vote> votes = Maps.newHashMap();
+
+    @PostConstruct
+    private void initVotes() {
+        votes.put("Admin lost password", new Vote("Admin lost password",
+                "In this challenge you will need to help the admin and find the password in order to login",
+                "challenge1-small.png", "challenge1.png", 36000, totalVotes));
+        votes.put("Vote for your favourite",
+                new Vote("Vote for your favourite",
+                        "In this challenge ...",
+                        "challenge5-small.png", "challenge5.png", 30000, totalVotes));
+        votes.put("Get it for free",
+                new Vote("Get it for free",
+                        "The objective for this challenge is to buy a Samsung phone for free.",
+                        "challenge2-small.png", "challenge2.png", 20000, totalVotes));
+        votes.put("Photo comments",
+                new Vote("Photo comments",
+                        "n this challenge you can comment on the photo you will need to find the flag somewhere.",
+                        "challenge3-small.png", "challenge3.png", 10000, totalVotes));
+    }
 
     @GetMapping("/login")
     public void login(@RequestParam("user") String user, HttpServletResponse response) {
@@ -102,18 +80,19 @@ public class Votes {
 
     @GetMapping
     public MappingJacksonValue getVotes(@CookieValue(value = "access_token", required = false) String accessToken) {
-        MappingJacksonValue value = new MappingJacksonValue(votes);
+        MappingJacksonValue value = new MappingJacksonValue(votes.values().stream().sorted(comparingLong(Vote::getAverage).reversed()).collect(toList()));
         if (StringUtils.isEmpty(accessToken)) {
             value.setSerializationView(Views.GuestView.class);
         } else {
             try {
-                Jwt jwt = Jwts.parser().parse(accessToken);
+                Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
                 Claims claims = (Claims) jwt.getBody();
                 String user = (String) claims.get("user");
                 boolean isAdmin = Boolean.valueOf((String) claims.get("admin"));
                 if ("Guest".equals(user)) {
                     value.setSerializationView(Views.GuestView.class);
                 } else {
+                    ((Collection<Vote>)value.getValue()).forEach(v -> v.setFlag(FLAGS.get(5)));
                     value.setSerializationView(isAdmin ? Views.AdminView.class : Views.UserView.class);
                 }
             } catch (IllegalArgumentException e) {
@@ -123,11 +102,22 @@ public class Votes {
         return value;
     }
 
-    @PostMapping
+    @PostMapping(value = "{title}")
     @ResponseBody
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void vote(String title) {
-        totalVotes = totalVotes + 1;
-        //return
+    public ResponseEntity<?> vote(@PathVariable String title, @CookieValue(value = "access_token", required = false) String accessToken) {
+        if (StringUtils.isEmpty(accessToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } else {
+            Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
+            Claims claims = (Claims) jwt.getBody();
+            String user = (String) claims.get("user");
+            if (validUsers.contains(user)) {
+                ofNullable(votes.get(title)).ifPresent(v -> v.incrementNumberOfVotes(totalVotes));
+                return ResponseEntity.accepted().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        }
     }
 }

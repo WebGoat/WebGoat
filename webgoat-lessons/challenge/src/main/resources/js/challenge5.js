@@ -1,13 +1,15 @@
 $(document).ready(function () {
-    getVotings();
     login('Guest');
 })
 
 function login(user) {
     $("#name").text(user);
-    $.get("votings/login?user=" + user, function (result, status) {
+    $.ajax({
+        url: "votings/login?user=" + user,
+        complete: function (result, status) {
+            getVotings();
+        }
     });
-    getVotings();
 }
 
 var html = '<a href="#" class="list-group-item ACTIVE">' +
@@ -21,17 +23,17 @@ var html = '<a href="#" class="list-group-item ACTIVE">' +
     '<p class="list-group-item-text">INFORMATION</p>' +
     '</div>' +
     '<div class="col-md-3 text-center">' +
-    '<h2>NO_VOTES' +
-    '<small> votes</small>' +
+    '<h2 HIDDEN_VIEW_VOTES>NO_VOTES' +
+    '<small HIDDEN_VIEW_VOTES> votes</small>' +
     '</h2>' +
-    '<button type="button" class="btn BUTTON btn-lg btn-block">Vote Now!</button>' +
-    '<div class="stars"> ' +
+    '<button type="button" id="TITLE" class="btn BUTTON btn-lg btn-block" onclick="vote(this.id)">Vote Now!</button>' +
+    '<div style="visibility:HIDDEN_VIEW_RATING;" class="stars"> ' +
     '<span class="glyphicon glyphicon-star"></span>' +
     '<span class="glyphicon glyphicon-star"></span>' +
     '<span class="glyphicon glyphicon-star"></span>' +
     '<span class="glyphicon glyphicon-star-empty"></span>' +
     '</div>' +
-    '<p>Average AVERAGE<small> /</small>4</p>' +
+    '<p HIDDEN_VIEW_RATING>Average AVERAGE<small> /</small>4</p>' +
     '</div>' +
     '<div class="clearfix"></div>' +
     '</a>';
@@ -41,19 +43,42 @@ function getVotings() {
     $.get("votings/", function (result, status) {
         for (var i = 0; i < result.length; i++) {
             var voteTemplate = html.replace('IMAGE_SMALL', result[i].imageSmall);
-            if ( i === 0 ) {
+            if (i === 0) {
                 voteTemplate = voteTemplate.replace('ACTIVE', 'active');
                 voteTemplate = voteTemplate.replace('BUTTON', 'btn-default');
             } else {
                 voteTemplate = voteTemplate.replace('ACTIVE', '');
                 voteTemplate = voteTemplate.replace('BUTTON', 'btn-primary');
             }
-
-            voteTemplate = voteTemplate.replace('TITLE', result[i].title);
+            voteTemplate = voteTemplate.replace(/TITLE/g, result[i].title);
             voteTemplate = voteTemplate.replace('INFORMATION', result[i].information || '');
             voteTemplate = voteTemplate.replace('NO_VOTES', result[i].numberOfVotes || '');
+            voteTemplate = voteTemplate.replace('AVERAGE', result[i].average || '');
+
+            var hidden = (result[i].numberOfVotes === undefined ? 'hidden' : '');
+            voteTemplate = voteTemplate.replace(/HIDDEN_VIEW_VOTES/g, hidden);
+            hidden = (result[i].average === undefined ? 'hidden' : '');
+            voteTemplate = voteTemplate.replace(/HIDDEN_VIEW_RATING/g, hidden);
+
             $("#votesList").append(voteTemplate);
         }
     })
 }
+
+function vote(title) {
+    var user = $("#name").text();
+    if (user === 'Guest') {
+        alert("As a guest you are not allowed to vote, please login first.")
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: 'votings/' + title
+        }).then(
+            function () {
+                getVotings();
+            }
+        )
+    }
+}
+
 
