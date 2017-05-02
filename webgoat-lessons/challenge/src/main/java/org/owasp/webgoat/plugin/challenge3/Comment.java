@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author nbaars
  * @since 4/8/17.
@@ -13,9 +15,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@XmlRootElement
 public class Comment {
     private String user;
     private String dateTime;
-    private String comment;
+    private String text;
 }
 

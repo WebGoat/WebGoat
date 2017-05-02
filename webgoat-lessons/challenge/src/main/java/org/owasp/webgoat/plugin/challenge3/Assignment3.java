@@ -1,9 +1,12 @@
 package org.owasp.webgoat.plugin.challenge3;
 
+import com.beust.jcommander.internal.Lists;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.EvictingQueue;
+import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -30,6 +33,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.Collection;
+import java.util.Map;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -49,13 +53,14 @@ public class Assignment3 extends AssignmentEndpoint {
     private WebSession webSession;
     private static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd, HH:mm:ss");
 
+    private static final Map<String, EvictingQueue<Comment>> userComments = Maps.newHashMap();
     private static final EvictingQueue<Comment> comments = EvictingQueue.create(100);
     private static final String secretContents = "Congratulations you may now collect your flag";
 
     static {
         comments.add(new Comment("webgoat", DateTime.now().toString(fmt), "Silly cat...."));
         comments.add(new Comment("guest", DateTime.now().toString(fmt), "I think I will use this picture in one of my projects."));
-        comments.add(new Comment("guest", DateTime.now().toString(), "Lol!! :-)."));
+        comments.add(new Comment("guest", DateTime.now().toString(fmt), "Lol!! :-)."));
     }
 
     @PostConstruct
@@ -68,11 +73,16 @@ public class Assignment3 extends AssignmentEndpoint {
         Files.write(secretContents, new File(targetDirectory, "secret.txt"), Charset.defaultCharset());
     }
 
-
-    @RequestMapping(method = GET, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Collection<Comment> retrieveComments() {
-        return comments;
+        Collection<Comment> allComments = Lists.newArrayList();
+        Collection<Comment> xmlComments = userComments.get(webSession.getUserName());
+        if (xmlComments != null) {
+            allComments.addAll(xmlComments);
+        }
+        allComments.addAll(comments);
+        return allComments;
     }
 
     @RequestMapping(method = POST, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -82,27 +92,29 @@ public class Assignment3 extends AssignmentEndpoint {
         AttackResult attackResult = failed().build();
         if (APPLICATION_JSON_VALUE.equals(contentType)) {
             comment = parseJson(commentStr);
-            comment.setDateTime(DateTime.now().toString());
+            comment.setDateTime(DateTime.now().toString(fmt));
             comment.setUser(webSession.getUserName());
+            comments.add(comment);
         }
         if (MediaType.APPLICATION_XML_VALUE.equals(contentType)) {
+            //Do not show these comments to all users
             comment = parseXml(commentStr);
             comment.setDateTime(DateTime.now().toString(fmt));
             comment.setUser(webSession.getUserName());
-        }
-        if (comment != null) {
+            EvictingQueue<Comment> comments = userComments.getOrDefault(webSession.getUserName(), EvictingQueue.create(100));
             comments.add(comment);
-            if (checkSolution(comment)) {
-                attackResult = success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(2)).build();
-            }
+            userComments.put(webSession.getUserName(), comments);
         }
-
+        if (checkSolution(comment)) {
+            attackResult = success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(2)).build();
+        }
         return attackResult;
     }
 
     private boolean checkSolution(Comment comment) {
-        if (comment.getComment().contains(secretContents)) {
-            comment.setComment("Congratulations to " + webSession.getUserName() + " for finding the flag!!");
+        if (StringUtils.equals(comment.getText(), secretContents)) {
+            comment.setText("Congratulations to " + webSession.getUserName() + " for finding the flag!!");
+            comments.add(comment);
             return true;
         }
         return false;

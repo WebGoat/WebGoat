@@ -4,7 +4,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'POST',
             url: 'challenge/3',
-            data: JSON.stringify({comment: commentInput}),
+            data: JSON.stringify({text: commentInput}),
             contentType: "application/json",
             dataType: 'json'
         }).then(
@@ -17,7 +17,7 @@ $(document).ready(function () {
 
     var html = '<li class="comment">' +
         '<div class="pull-left">' +
-        '<img class="avatar" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar"/>' +
+        '<img class="avatar" src="images/avatar1.png" alt="avatar"/>' +
         '</div>' +
         '<div class="comment-body">' +
         '<div class="comment-heading">' +
@@ -36,7 +36,7 @@ $(document).ready(function () {
             for (var i = 0; i < result.length; i++) {
                 var comment = html.replace('USER', result[i].user);
                 comment = comment.replace('DATETIME', result[i].dateTime);
-                comment = comment.replace('COMMENT', result[i].comment);
+                comment = comment.replace('COMMENT', result[i].text);
                 $("#list").append(comment);
             }
 
