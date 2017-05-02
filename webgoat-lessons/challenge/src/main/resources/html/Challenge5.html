@@ -10,7 +10,7 @@
     <script th:src="@{/lesson_js/challenge5.js}" language="JavaScript"></script>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <div class="container">
+        <div class="container-fluid">
 
             <div class="row">
 
@@ -44,145 +44,14 @@
                         <h3>Vote for your favorite</h3>
                     </div>
                     <div id ="votesList" class="list-group">
-                        <a href="#" class="list-group-item active">
-                            <div class="media col-md-3">
-                                <figure>
-                                    <img class="media-object img-rounded"
-                                         th:src="@{/images/challenge1-small.png}"
-                                         alt="placehold.it/350x250"/>
-                                </figure>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="list-group-item-heading">Admin lost password</h4>
-                                <p class="list-group-item-text">In this challenge you will need to help the admin and
-                                    find the password in
-                                    order to login
-                                </p>
-                            </div>
-                            <div class="col-md-3 text-center">
-                                <h2> 14240
-                                    <small> votes</small>
-                                </h2>
-                                <button type="button" class="btn btn-default btn-lg btn-block"> Vote Now!</button>
-                                <div class="stars">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </div>
-                                <p> Average 4.5
-                                    <small> /</small>
-                                    5
-                                </p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <div class="media col-md-3">
-                                <figure>
-                                    <img class="media-object img-rounded"
-                                         th:src="@{/images/challenge5-small.png}"
-                                         alt="placehold.it/350x250"/>
-                                </figure>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="list-group-item-heading">Vote for your favourite</h4>
-                                <p class="list-group-item-text">In this challenge.....
-                                </p>
-                            </div>
-                            <div class="col-md-3 text-center">
-                                <h2> 14240
-                                    <small> votes</small>
-                                </h2>
-                                <button type="button" class="btn btn-primary btn-lg btn-block">Vote Now!</button>
-                                <div class="stars">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </div>
-                                <p> Average 4.2
-                                    <small> /</small>
-                                    5
-                                </p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <div class="media col-md-3">
-                                <figure>
-                                    <img class="media-object img-rounded img-responsive"
-                                         th:src="@{/images/challenge2-small.png}"
-                                         alt="placehold.it/350x250"/>
-                                </figure>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="list-group-item-heading">Get is for free</h4>
-                                <p class="list-group-item-text">The objective for this challenge is to buy a Samsung
-                                    phone for free.
-                                </p>
-                            </div>
-                            <div class="col-md-3 text-center">
-                                <h2> 12424
-                                    <small> votes</small>
-                                </h2>
-                                <button type="button" class="btn btn-primary btn-lg btn-block">Vote Now!</button>
-                                <div class="stars">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </div>
-                                <p> Average 3
-                                    <small> /</small>
-                                    5
-                                </p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <div class="media col-xs-12 col-md-3">
-                                <figure>
-                                    <img class="media-object img-rounded img-responsive"
-                                         th:src="@{/images/challenge3-small.png}"
-                                         alt="placehold.it/350x250"/>
-                                </figure>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="list-group-item-heading">Photo comments </h4>
-                                <p class="list-group-item-text">In this challenge you can comment on the photo you
-                                    will need to find the flag somewhere.
-                                </p>
-                            </div>
-                            <div class="col-md-3 text-center">
-                                <h2> 13540
-                                    <small> votes</small>
-                                </h2>
-                                <button type="button" class="btn btn-primary btn-lg btn-block">Vote Now!</button>
-                                <div class="stars">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </div>
-                                <p> Average 4.1
-                                    <small> /</small>
-                                    5
-                                </p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </a>
+
                     </div>
                 </div>
             </div>
         </div>
 
         <br/>
-        <form class="attack-form form-inline" method="POST" name="form" action="/WebGoat/challenge/flag">
+        <form class="attack-form" method="POST" name="form" action="/WebGoat/challenge/flag">
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
