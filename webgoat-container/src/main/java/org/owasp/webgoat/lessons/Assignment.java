@@ -37,6 +37,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class Assignment {
     @NonNull
     private String name;
