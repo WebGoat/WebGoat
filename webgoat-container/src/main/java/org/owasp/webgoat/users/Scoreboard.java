@@ -33,7 +33,7 @@ public class Scoreboard {
         private List<String> flagsCaptured;
     }
 
-    @GetMapping("/scoreboard")
+    @GetMapping("/scoreboard-data")
     public List<Ranking> getRankings() {
         List<WebGoatUser> allUsers = userRepository.findAll();
         List<Ranking> rankings = Lists.newArrayList();

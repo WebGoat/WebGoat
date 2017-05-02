@@ -8,7 +8,6 @@ define(['jquery',
     'goatApp/view/SolutionView',
     'goatApp/view/HintView',
     'goatApp/view/HelpControlsView',
-    'goatApp/view/CookieView',
     'goatApp/view/ParamView',
     'goatApp/model/ParamModel',
     'goatApp/view/DeveloperControlsView',
@@ -32,7 +31,6 @@ define(['jquery',
         SolutionView,
         HintView,
         HelpControlsView,
-        CookieView,
         ParamView,
         ParamModel,
         DeveloperControlsView,
@@ -130,7 +128,6 @@ define(['jquery',
                     this.solutionView = new SolutionView();
                     this.sourceView = new SourceView();
                     this.lessonHintView = new HintView();
-                    this.cookieView = new CookieView();
 
                     //TODO: instantiate model with values (not sure why was not working before)
                     var paramModel = new ParamModel({});

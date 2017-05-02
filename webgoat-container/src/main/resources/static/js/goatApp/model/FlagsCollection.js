@@ -1,13 +1,13 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/CookieModel'],
+	'goatApp/model/FlagModel'],
 	function($,
 		_,
 		Backbone,
-		CookieModel) {
+		FlagModel) {
 	return Backbone.Collection.extend({
-		url:'service/cookie.mvc',
-		model:CookieModel
+		url:'/WebGoat/scoreboard-data',
+		model:FlagModel
 	});
 });
