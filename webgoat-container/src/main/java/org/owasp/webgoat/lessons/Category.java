@@ -57,7 +57,7 @@ public enum Category {
     WEB_SERVICES("Web Services", new Integer(1900)),
     VULNERABLE_COMPONENTS("Vulnerable Components - A9", new Integer(1950)),
     ADMIN_FUNCTIONS("Admin Functions", new Integer(2000)),
-    CHALLENGE("Challenge", new Integer(3000));
+    CHALLENGE("Challenges", new Integer(3000));
 
     @Getter
     private String name;
