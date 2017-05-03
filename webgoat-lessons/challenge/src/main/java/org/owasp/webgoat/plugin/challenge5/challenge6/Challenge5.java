@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin.challenge5;
+package org.owasp.webgoat.plugin.challenge5.challenge6;
 
 import com.google.common.collect.Lists;
 import org.owasp.webgoat.lessons.Category;

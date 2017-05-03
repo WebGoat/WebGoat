@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin.challenge5;
+package org.owasp.webgoat.plugin.challenge4;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;

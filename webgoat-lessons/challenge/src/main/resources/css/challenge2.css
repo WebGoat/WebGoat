@@ -11,8 +11,8 @@ li.active{border-bottom:3px solid silver;}
 .btn-plus{cursor:pointer;font-size:7px;display:flex;align-items:center;padding:5px;padding-left:10px;padding-right:10px;border:1px solid gray;border-radius:2px;border-left:0px;}
 div.section > div {width:100%;display:inline-flex;}
 div.section > div > input {margin:0px;padding-left:5px;font-size:10px;padding-right:5px;max-width:18%;text-align:center;}
-.attr,.attr2{cursor:pointer;margin-right:5px;height:20px;font-size:10px;padding:2px;border:1px solid gray;border-radius:2px;}
-.attr.active,.attr2.active{ border:1px solid orange;}
+.attr,.attr2{cursor:pointer;margin-right:5px;height:20px;font-size:11px;padding:2px;border:1px solid gray;border-radius:2px;}
+.attr.active,.attr2.active{ border:2px solid orange;}
 
 @media (max-width: 426px) {
     .container {margin-top:0px !important;}

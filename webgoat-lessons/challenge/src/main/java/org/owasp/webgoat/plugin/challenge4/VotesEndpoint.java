@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin.challenge5;
+package org.owasp.webgoat.plugin.challenge4;
 
 import com.google.common.collect.Maps;
 import io.jsonwebtoken.*;
@@ -89,7 +89,7 @@ public class VotesEndpoint {
                 if ("Guest".equals(user) || !validUsers.contains(user)) {
                     value.setSerializationView(Views.GuestView.class);
                 } else {
-                    ((Collection<Vote>) value.getValue()).forEach(v -> v.setFlag(FLAGS.get(5)));
+                    ((Collection<Vote>) value.getValue()).forEach(v -> v.setFlag(FLAGS.get(4)));
                     value.setSerializationView(isAdmin ? Views.AdminView.class : Views.UserView.class);
                 }
             } catch (JwtException e) {
