@@ -3,9 +3,9 @@ define(['jquery',
     'libs/backbone',
     'goatApp/model/LessonContentModel',
     'goatApp/view/LessonContentView',
-    'goatApp/view/PlanView',
-    'goatApp/view/SourceView',
-    'goatApp/view/SolutionView',
+//    'goatApp/view/PlanView',
+//    'goatApp/view/SourceView',
+//    'goatApp/view/SolutionView',
     'goatApp/view/HintView',
     'goatApp/view/HelpControlsView',
     'goatApp/view/ParamView',
@@ -26,9 +26,9 @@ define(['jquery',
         Backbone,
         LessonContentModel,
         LessonContentView,
-        PlanView,
-        SourceView,
-        SolutionView,
+//        PlanView,
+//        SourceView,
+//        SolutionView,
         HintView,
         HelpControlsView,
         ParamView,
@@ -80,9 +80,9 @@ define(['jquery',
                     //TODO: implement lesson not found or return to welcome page?
                 }
                 this.lessonContent.loadData({'name':name});
-                this.planView = {};
-                this.solutionView = {};
-                this.sourceView = {};
+//                this.planView = {};
+//                this.solutionView = {};
+//                this.sourceView = {};
                 this.lessonHintView = {};
                 this.name = name;
             };
@@ -96,8 +96,8 @@ define(['jquery',
 
                 this.listenTo(this.helpControlsView,'hints:show',this.showHints);
                 this.listenTo(this.helpControlsView,'lessonOverview:show',this.showLessonOverview)
-                this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);
-                this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
+//              this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);
+//              this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
                 this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
 
@@ -124,9 +124,9 @@ define(['jquery',
                     this.lessonContentView.model = this.lessonContent;
                     this.lessonContentView.render();
                     
-                    this.planView = new PlanView();
-                    this.solutionView = new SolutionView();
-                    this.sourceView = new SourceView();
+                    //this.planView = new PlanView();
+                    //this.solutionView = new SolutionView();
+                    //this.sourceView = new SourceView();
                     this.lessonHintView = new HintView();
 
                     //TODO: instantiate model with values (not sure why was not working before)
@@ -147,34 +147,34 @@ define(['jquery',
                 this.helpsLoaded[curHelp.helpElement] = curHelp.value;
             };
 
-            this.hideShowHelps = function(showHelp) {
-                var showId = '#lesson-' + showHelp + '-row';
-                var contentId = '#lesson-' + showHelp + '-content';
-                $('.lesson-help').not(showId).hide();
-                if (!showId) { 
-                    return;
-                }
-
-                if ($(showId).is(':visible')) {
-                    $(showId).hide();
-                    return;
-                } else {
-                    //TODO: move individual .html operations into individual help views
-                    switch(showHelp) {
-                        case 'plan':
-                            $(contentId).html(this.planView.model.get('content'));
-                            break;
-                        case 'solution':
-                            $(showId).html(this.solutionView.model.get('content'));
-                            break;
-                        case 'source':
-                            $(contentId).html('<pre>' + this.sourceView.model.get('content') + '</pre>');
-                            break;
-                    }
-                    $(showId).show();
-                    GoatUtils.scrollToHelp()
-                }
-            };
+//            this.hideShowHelps = function(showHelp) {
+//                var showId = '#lesson-' + showHelp + '-row';
+//                var contentId = '#lesson-' + showHelp + '-content';
+//                $('.lesson-help').not(showId).hide();
+//                if (!showId) {
+//                    return;
+//                }
+//
+//                if ($(showId).is(':visible')) {
+//                    $(showId).hide();
+//                    return;
+//                } else {
+//                    //TODO: move individual .html operations into individual help views
+//                    switch(showHelp) {
+//                        case 'plan':
+//                            $(contentId).html(this.planView.model.get('content'));
+//                            break;
+//                        case 'solution':
+//                            $(showId).html(this.solutionView.model.get('content'));
+//                            break;
+//                        case 'source':
+//                            $(contentId).html('<pre>' + this.sourceView.model.get('content') + '</pre>');
+//                            break;
+//                    }
+//                    $(showId).show();
+//                    GoatUtils.scrollToHelp()
+//                }
+//            };
 
             this.showHints = function() {
                 this.lessonHintView.render();
