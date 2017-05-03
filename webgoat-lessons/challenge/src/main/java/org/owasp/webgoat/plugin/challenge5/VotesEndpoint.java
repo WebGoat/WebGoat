@@ -1,10 +1,7 @@
 package org.owasp.webgoat.plugin.challenge5;
 
 import com.google.common.collect.Maps;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +36,7 @@ public class VotesEndpoint {
     private Map<String, Vote> votes = Maps.newHashMap();
 
     @PostConstruct
-    private void initVotes() {
+    public void initVotes() {
         votes.put("Admin lost password", new Vote("Admin lost password",
                 "In this challenge you will need to help the admin and find the password in order to login",
                 "challenge1-small.png", "challenge1.png", 36000, totalVotes));
@@ -89,13 +86,13 @@ public class VotesEndpoint {
                 Claims claims = (Claims) jwt.getBody();
                 String user = (String) claims.get("user");
                 boolean isAdmin = Boolean.valueOf((String) claims.get("admin"));
-                if ("Guest".equals(user)) {
+                if ("Guest".equals(user) || !validUsers.contains(user)) {
                     value.setSerializationView(Views.GuestView.class);
                 } else {
-                    ((Collection<Vote>)value.getValue()).forEach(v -> v.setFlag(FLAGS.get(5)));
+                    ((Collection<Vote>) value.getValue()).forEach(v -> v.setFlag(FLAGS.get(5)));
                     value.setSerializationView(isAdmin ? Views.AdminView.class : Views.UserView.class);
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (JwtException e) {
                 value.setSerializationView(Views.GuestView.class);
             }
         }
@@ -109,13 +106,17 @@ public class VotesEndpoint {
         if (StringUtils.isEmpty(accessToken)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else {
-            Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
-            Claims claims = (Claims) jwt.getBody();
-            String user = (String) claims.get("user");
-            if (validUsers.contains(user)) {
-                ofNullable(votes.get(title)).ifPresent(v -> v.incrementNumberOfVotes(totalVotes));
-                return ResponseEntity.accepted().build();
-            } else {
+            try {
+                Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
+                Claims claims = (Claims) jwt.getBody();
+                String user = (String) claims.get("user");
+                if (validUsers.contains(user)) {
+                    ofNullable(votes.get(title)).ifPresent(v -> v.incrementNumberOfVotes(totalVotes));
+                    return ResponseEntity.accepted().build();
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
+            } catch (JwtException e) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
         }

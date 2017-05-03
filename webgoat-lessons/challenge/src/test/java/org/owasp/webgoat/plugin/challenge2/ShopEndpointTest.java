@@ -32,7 +32,6 @@ public class ShopEndpointTest {
     @Test
     public void getSuperCoupon() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/challenge-store/coupons/" + SUPER_COUPON_CODE))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(jsonPath("$.code", CoreMatchers.is(SUPER_COUPON_CODE)))
                 .andExpect(jsonPath("$.discount", CoreMatchers.is(100)));
     }
@@ -48,7 +47,6 @@ public class ShopEndpointTest {
     @Test
     public void askForUnknownCouponCode() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/challenge-store/coupons/does-not-exists"))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(jsonPath("$.code", CoreMatchers.is("no")))
                 .andExpect(jsonPath("$.discount", CoreMatchers.is(0)));
     }
@@ -56,7 +54,6 @@ public class ShopEndpointTest {
     @Test
     public void fetchAllTheCouponsShouldContainGetItForFree() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/challenge-store/coupons/"))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(jsonPath("$.codes[3].code", is("get_it_for_free")));
     }
 
