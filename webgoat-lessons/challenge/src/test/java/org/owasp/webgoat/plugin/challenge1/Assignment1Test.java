@@ -54,23 +54,23 @@ public class Assignment1Test extends AssignmentEndpointTest {
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 
-    @Test
-    public void correctPasswordXForwardHeaderMissing() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/challenge/1")
-                .param("username", "admin")
-                .param("password", SolutionConstants.PASSWORD))
-                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("ip.address.unknown"))))
-                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
-    }
+//    @Test
+//    public void correctPasswordXForwardHeaderMissing() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.post("/challenge/1")
+//                .param("username", "admin")
+//                .param("password", SolutionConstants.PASSWORD))
+//                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("ip.address.unknown"))))
+//                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+//    }
 
-    @Test
-    public void correctPasswordXForwardHeaderWrong() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/challenge/1")
-                .header("X-Forwarded-For", "127.0.1.2")
-                .param("username", "admin")
-                .param("password", SolutionConstants.PASSWORD))
-                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("ip.address.unknown"))))
-                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
-    }
+//    @Test
+//    public void correctPasswordXForwardHeaderWrong() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.post("/challenge/1")
+//                .header("X-Forwarded-For", "127.0.1.2")
+//                .param("username", "admin")
+//                .param("password", SolutionConstants.PASSWORD))
+//                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("ip.address.unknown"))))
+//                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+//    }
 
 }

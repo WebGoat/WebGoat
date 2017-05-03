@@ -29,10 +29,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class Assignment6 extends AssignmentEndpoint {
 
     //Make it more random at runtime (good luck guessing)
-    private static final String USERS_TABLE_NAME = "challenge_users_" + RandomStringUtils.randomAlphabetic(16);
+    private static final String USERS_TABLE_NAME = "challenge_users_6" + RandomStringUtils.randomAlphabetic(16);
 
     @Autowired
     private WebSession webSession;
+
+    public Assignment6() {
+        log.info("Challenge 6 tablename is: {}", USERS_TABLE_NAME);
+    }
 
     @PutMapping  //assignment path is bounded to class so we use different http method :-)
     @ResponseBody

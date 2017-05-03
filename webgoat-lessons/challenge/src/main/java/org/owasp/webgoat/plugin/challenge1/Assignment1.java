@@ -1,10 +1,10 @@
 package org.owasp.webgoat.plugin.challenge1;
 
-import lombok.SneakyThrows;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.plugin.Flag;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.net.InetAddress;
 
 import static org.owasp.webgoat.plugin.SolutionConstants.PASSWORD;
 
@@ -52,7 +51,7 @@ public class Assignment1 extends AssignmentEndpoint {
     public
     @ResponseBody
     AttackResult completed(@RequestParam String username, @RequestParam String password, HttpServletRequest request) throws IOException {
-        boolean ipAddressKnown = checkClientOrigin(request);
+        boolean ipAddressKnown =  true;
         boolean passwordCorrect = "admin".equals(username) && PASSWORD.equals(password);
         if (passwordCorrect && ipAddressKnown) {
             return success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(1)).build();
@@ -62,17 +61,8 @@ public class Assignment1 extends AssignmentEndpoint {
         return failed().build();
     }
 
-    @SneakyThrows
-    private boolean checkClientOrigin(HttpServletRequest request) {
-        InetAddress ip = InetAddress.getLocalHost();
-        return getClientIP(request).contains(ip.getHostAddress());
-    }
+    public static boolean containsHeader(HttpServletRequest request) {
+        return StringUtils.hasText(request.getHeader("X-Forwarded-For"));
 
-    public static String getClientIP(HttpServletRequest request) {
-        String xfHeader = request.getHeader("X-Forwarded-For");
-        if (xfHeader == null) {
-            return request.getRemoteAddr();
-        }
-        return xfHeader.split(",")[0];
     }
 }
