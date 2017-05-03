@@ -14,6 +14,29 @@
     </parent>
 
 
+    <profiles>
+        <profile>
+            <id>performance</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.gatling</groupId>
+                        <artifactId>gatling-maven-plugin</artifactId>
+                        <version>${gatling-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
     <build>
         <resources>
             <resource>
@@ -130,6 +153,12 @@
             <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.gatling.highcharts</groupId>
+            <artifactId>gatling-charts-highcharts</artifactId>
+            <version>${gatling.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
@@ -174,6 +203,11 @@
             <artifactId>javax.transaction-api</artifactId>
             <version>${javax.transaction-api.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-compiler</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
 
         <!-- Apache Commons Upload -->
         <dependency>
@@ -187,7 +221,6 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
-
 
 
         <!-- ************* END spring MVC and related dependencies ************** -->
