@@ -191,6 +191,7 @@ define(['jquery',
                     method:'GET'
                 }).done(function(lessonLink) {
                     self.loadLesson(self.name);
+                    self.updateMenu();
                 });
             };
 

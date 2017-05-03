@@ -61,5 +61,6 @@ public class RestartLessonService {
 
         UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
         userTracker.reset(al);
+        userTrackerRepository.save(userTracker);
     }
 }
