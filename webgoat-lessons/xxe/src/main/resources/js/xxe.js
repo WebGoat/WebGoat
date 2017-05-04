@@ -1,22 +1,73 @@
 $(document).ready(function () {
-    $("#postComment").unbind();
-    $("#postComment").on("click", function () {
-        var commentInput = $("#commentInput").val();
+    $("#postCommentSimple").unbind();
+    $("#postCommentSimple").on("click", function () {
+        var commentInput = $("#commentInputSimple").val();
+        var xml = '<?xml version="1.0"?>' +
+            '<comment>' +
+            '  <text>' + commentInput + '</text>' +
+            '</comment>';
         $.ajax({
             type: 'POST',
             url: 'xxe/simple',
-            data: JSON.stringify({text: commentInput}),
-            contentType: "application/json",
-            dataType: 'json'
+            data: xml,
+            contentType: "application/xml",
+            dataType: 'xml',
+            complete: function (data) {
+                $("#commentInputSimple").val('');
+                getComments('#commentsListSimple')
+            }
+        })
+    });
+    getComments('#commentsListSimple');
+});
+
+$(document).ready(function () {
+    $("#postCommentBlind").unbind();
+    $("#postCommentBlind").on("click", function () {
+        var commentInput = $("#commentInput").val();
+        var xml = '<?xml version="1.0"?>' +
+            '<comment>' +
+            '  <text>' + commentInput + '</text>' +
+            '</comment>';
+        $.ajax({
+            type: 'POST',
+            url: 'xxe/blind',
+            data: xml,
+            contentType: "application/xml",
+            dataType: 'xml'
         }).then(
             function () {
-                getComments();
+                getComments('#commentsListBlind');
                 $("#commentInput").val('');
             }
         )
-    })
+    });
+    getComments('#commentsListBlind');
+});
+
+$(document).ready(function () {
+    $("#postCommentContentType").unbind();
+    $("#postCommentContentType").on("click", function () {
+        var commentInput = $("#commentInputContentType").val();
+        $.ajax({
+            type: 'POST',
+            url: 'xxe/content-type',
+            data: JSON.stringify({text: commentInput}),
+            contentType: "application/json",
+            dataType: 'xml'
+        }).then(
+            function () {
+                getComments('#commentsListContentType');
+                $("#commentInputContentType").val('');
+            }
+        )
+    });
+    getComments('#commentsListContentType');
+});
+
+$(document).ready(function () {
     getComments();
-})
+});
 
 var html = '<li class="comment">' +
     '<div class="pull-left">' +
@@ -31,14 +82,14 @@ var html = '<li class="comment">' +
     '</div>' +
     '</li>';
 
-function getComments() {
-    $.get("xxe/simple", function (result, status) {
-        $("#comments_list").empty();
+function getComments(field) {
+    $.get("xxe/comments", function (result, status) {
+        $(field).empty();
         for (var i = 0; i < result.length; i++) {
             var comment = html.replace('USER', result[i].user);
             comment = comment.replace('DATETIME', result[i].dateTime);
             comment = comment.replace('COMMENT', result[i].text);
-            $("#comments_list").append(comment);
+            $(field).append(comment);
         }
 
     });

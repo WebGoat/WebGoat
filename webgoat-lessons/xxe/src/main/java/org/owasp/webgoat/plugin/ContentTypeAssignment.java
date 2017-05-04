@@ -1,14 +1,17 @@
 package org.owasp.webgoat.plugin;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.exec.OS;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.session.WebSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * ************************************************************************************************
@@ -39,37 +42,56 @@ import java.io.IOException;
  * @version $Id: $Id
  * @since November 17, 2016
  */
-@AssignmentPath("XXE/content-type")
+@AssignmentPath("xxe/content-type")
 @AssignmentHints({"xxe.hints.content.type.xxe.1", "xxe.hints.content.type.xxe.2"})
 public class ContentTypeAssignment extends AssignmentEndpoint {
 
+    private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "opt", "var"};
+    private final static String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
+
+
+    @Value("${webgoat.server.directory}")
+    private String webGoatHomeDirectory;
+    @Autowired
+    private WebSession webSession;
+    @Autowired
+    private Comments comments;
+
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult createNewUser(@RequestBody String userInfo, @RequestHeader("Content-Type") String contentType) throws Exception {
-        User user = new User();
+    public AttackResult createNewUser(@RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
         AttackResult attackResult = failed().build();
-        if (MediaType.APPLICATION_JSON_VALUE.equals(contentType)) {
-            user = parseJson(userInfo);
+        Comment comment = null;
+        if (APPLICATION_JSON_VALUE.equals(contentType)) {
+            comment = comments.parseJson(commentStr);
+            comments.addComment(comment, true);
             attackResult = failed().feedback("xxe.content.type.feedback.json").build();
         }
+
         if (MediaType.APPLICATION_XML_VALUE.equals(contentType)) {
-          //  user = parseXml(userInfo);
-            attackResult = failed().feedback("xxe.content.type.feedback.xml").build();
+            String error = "";
+            try {
+                comment = comments.parseXml(commentStr);
+                comments.addComment(comment, false);
+            } catch (Exception e) {
+                error = org.apache.commons.lang.exception.ExceptionUtils.getFullStackTrace(e);
+            }
+            attackResult = failed().feedback("xxe.content.type.feedback.xml").output(error).build();
         }
 
-//        if (checkSolution(user)) {
-//            attackResult = success().output("xxe.content.output").outputArgs(user.getUsername()).build();
-//        }
-        return attackResult;
+        if (checkSolution(comment)) {
+            attackResult = success().build();
+        }
+        return trackProgress(attackResult);
     }
 
-    private User parseJson(String userInfo) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.readValue(userInfo, User.class);
-        } catch (IOException e) {
-            return new User();
+    private boolean checkSolution(Comment comment) {
+        String[] directoriesToCheck = OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
+        boolean success = true;
+        for (String directory : directoriesToCheck) {
+            success &= comment.getText().contains(directory);
         }
+        return success;
     }
 
 }

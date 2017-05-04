@@ -6,6 +6,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.session.WebSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -51,11 +53,15 @@ import java.util.List;
  * @version $Id: $Id
  * @since November 18, 2016
  */
-@AssignmentPath("XXE/blind")
+@AssignmentPath("xxe/blind")
 public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     @Value("${webgoat.user.directory}")
     private String webGoatHomeDirectory;
+    @Autowired
+    private WebSession webSession;
+    @Autowired
+    private Comments comments;
 
     @PostConstruct
     @SneakyThrows
@@ -70,10 +76,11 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult createNewUser(@RequestBody String userInfo) throws Exception {
+    public AttackResult createNewUser(@RequestBody String commentStr) throws Exception {
         String error = "Parsing successful contents not send to server";
         try {
-            //parseXml(userInfo);
+            Comment comment = comments.parseXml(commentStr);
+            comments.addComment(comment, false);
         } catch (Exception e) {
             error = ExceptionUtils.getFullStackTrace(e);
         }
@@ -83,9 +90,9 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
         boolean solved = lines.stream().filter(l -> l.contains("WebGoat 8 rocks...")).findFirst().isPresent();
         logFile.delete();
         if (solved) {
-            return success().output("xxe.blind.output").outputArgs(Joiner.on('\n').join(lines)).build();
+            return trackProgress(success().output("xxe.blind.output").outputArgs(Joiner.on('\n').join(lines)).build());
         } else {
-            return failed().output(error).build();
+            return trackProgress(failed().output(error).build());
         }
     }
 

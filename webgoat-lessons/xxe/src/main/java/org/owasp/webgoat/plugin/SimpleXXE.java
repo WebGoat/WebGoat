@@ -1,24 +1,20 @@
 package org.owasp.webgoat.plugin;
 
 import org.apache.commons.exec.OS;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Collection;
-
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -65,35 +61,22 @@ public class SimpleXXE extends AssignmentEndpoint {
     @Value("${webgoat.server.directory}")
     private String webGoatHomeDirectory;
     @Autowired
-    private WebSession webSession;
-    @Autowired
     private Comments comments;
-
-    @RequestMapping(method = GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Collection<Comment> retrieveComments() {
-        return comments.getComments();
-    }
 
     @RequestMapping(method = POST, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult createNewComment(@RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
-        Comment comment = null;
-        if (APPLICATION_JSON_VALUE.equals(contentType)) {
-            comment = comments.parseJson(commentStr);
-            comments.addComment(comment, true);
-        }
-        if (MediaType.APPLICATION_XML_VALUE.equals(contentType)) {
-            //Do not show these comments to all users
-            comment = comments.parseXml(commentStr);
+        String error = "";
+        try {
+            Comment comment = comments.parseXml(commentStr);
             comments.addComment(comment, false);
+            if (checkSolution(comment)) {
+                return trackProgress(success().build());
+            }
+        } catch (Exception e) {
+            error = ExceptionUtils.getFullStackTrace(e);
         }
-        if (checkSolution(comment)) {
-            return trackProgress(success()
-                    .output("xxe.simple.output")
-                    .outputArgs(webSession.getUserName()).build());
-        }
-        return trackProgress(failed().build());
+        return trackProgress(failed().output(error).build());
     }
 
     private boolean checkSolution(Comment comment) {

