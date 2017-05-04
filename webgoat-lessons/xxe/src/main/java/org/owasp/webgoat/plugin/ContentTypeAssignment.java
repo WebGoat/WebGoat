@@ -6,16 +6,9 @@ import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-
-import static org.owasp.webgoat.plugin.SimpleXXE.checkSolution;
-import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
 
 /**
  * ************************************************************************************************
@@ -60,13 +53,13 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
             attackResult = failed().feedback("xxe.content.type.feedback.json").build();
         }
         if (MediaType.APPLICATION_XML_VALUE.equals(contentType)) {
-            user = parseXml(userInfo);
+          //  user = parseXml(userInfo);
             attackResult = failed().feedback("xxe.content.type.feedback.xml").build();
         }
 
-        if (checkSolution(user)) {
-            attackResult = success().output("xxe.content.output").outputArgs(user.getUsername()).build();
-        }
+//        if (checkSolution(user)) {
+//            attackResult = success().output("xxe.content.output").outputArgs(user.getUsername()).build();
+//        }
         return attackResult;
     }
 

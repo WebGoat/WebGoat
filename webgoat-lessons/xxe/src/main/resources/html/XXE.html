@@ -1,5 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
+<script th:src="@{/lesson_js/xxe.js}" language="JavaScript"></script>
+
+
 <div class="lesson-page-wrapper">
     <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
     <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
@@ -15,54 +18,53 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <!-- reuse this block for each 'page' of content -->
-    <!-- sample ascii doc content for second page -->
     <div class="adoc-content" th:replace="doc:XXE_simple.adoc"></div>
-    <!-- if including attack, reuse this section, leave classes in place -->
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/xxe.css}"/>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
-        <!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
-        <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
-        <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
-        <form class="attack-form" accept-charset="UNKNOWN" prepareData="register" method="POST" name="form"
-              action="/WebGoat/XXE/simple" contentType="application/xml">
-            <script th:src="@{/lesson_js/xxe.js}"
-                    language="JavaScript"></script>
-            <div id="lessonContent">
-                <strong>Registration form</strong>
-                <form prepareData="register" accept-charset="UNKNOWN" method="POST" name="form" action="#attack/307/100">
-                    <table>
-                        <tr>
-                            <td>Username</td>
-                            <td><input name="username" value="" type="TEXT"/></td>
-                        </tr>
-                        <tr>
-                            <td>E-mail</td>
-                            <td><input name="email" value="" type="TEXT"/></td>
-                        </tr>
-                        <tr>
-                            <td>Password</td>
-                            <td><input name="email" value="" type="TEXT"/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td align="right"><input type="submit" id="registerButton" value="Sign up"/></td>
-                        </tr>
-                    </table>
-                    <br/>
-                    <br/>
-                </form>
-                <div class="attack-feedback"></div>
-                <div class="attack-output"></div>
+
+        <div class="container-fluid">
+            <div class="panel post">
+                <div class="post-heading">
+                    <div class="pull-left image">
+                        <img th:src="@{/images/avatar1.png}"
+                             class="img-circle avatar" alt="user profile image"/>
+                    </div>
+                    <div class="pull-left meta">
+                        <div class="title h5">
+                            <a href="#"><b>John Doe</b></a>
+                            uploaded a photo.
+                        </div>
+                        <h6 class="text-muted time">24 days ago</h6>
+                    </div>
+                </div>
+
+                <div class="post-image">
+                    <img th:src="@{images/cat.jpg}" class="image" alt="image post"/>
+                </div>
+
+                <div class="post-description">
+
+                </div>
+                <div class="post-footer">
+                    <div class="input-group">
+                        <input class="form-control" id="commentInput" placeholder="Add a comment" type="text"/>
+                        <span class="input-group-addon">
+                                <i id="postComment" class="fa fa-edit" style="font-size: 20px"></i>
+                            </span>
+                    </div>
+                    <ul class="comments-list">
+                        <div id="comments_list">
+                        </div>
+                    </ul>
+                </div>
             </div>
-        </form>
-        <div id='registration_success'></div>
+        </div>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
     </div>
-    <!-- do not remove the two following div's, this is where your feedback/output will land -->
-    <div class="attack-feedback"></div>
-    <div class="attack-output"></div>
-    <!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
 </div>
 
 <div class="lesson-page-wrapper">
@@ -77,8 +79,6 @@
         <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
         <form class="attack-form" accept-charset="UNKNOWN" prepareData="registerJson" method="POST" name="form"
               action="/WebGoat/XXE/content-type" contentType="application/json">
-            <script th:src="@{/lesson_js/xxe.js}"
-                    language="JavaScript"></script>
             <div id="lessonContent">
                 <strong>Registration form</strong>
                 <form prepareData="registerJson" accept-charset="UNKNOWN" method="POST" name="form" action="#attack/307/100">
@@ -137,8 +137,6 @@
         <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
         <form class="attack-form" accept-charset="UNKNOWN" prepareData="register" method="POST" name="form"
               action="/WebGoat/XXE/blind" contentType="application/xml">
-            <script th:src="@{/lesson_js/xxe.js}"
-                    language="JavaScript"></script>
             <div id="lessonContent">
                 <strong>Registration form</strong>
                 <form prepareData="register" accept-charset="UNKNOWN" method="POST" name="form" action="#attack/307/100">
