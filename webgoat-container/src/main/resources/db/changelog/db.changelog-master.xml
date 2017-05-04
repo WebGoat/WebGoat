@@ -6,9 +6,7 @@
 
 <changeSet author="WebGoat" id="init_schema">
         <createTable tableName="web_goat_user">
-            <column name="username" type="varchar(32)">
-                <constraints unique="true"/>
-            </column>
+            <column name="username" type="varchar(32)"/>
             <column name="password" type="varchar(32)"/>
             <column name="role" type="varchar(32)"/>
         </createTable>

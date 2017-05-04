@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta http-equiv="Expires" CONTENT="0"/>
+    <meta http-equiv="Expires" CONTENT="-1"/>
     <meta http-equiv="Pragma" CONTENT="no-cache"/>
     <meta http-equiv="Cache-Control" CONTENT="no-cache"/>
     <meta http-equiv="Cache-Control" CONTENT="no-store"/>
@@ -143,10 +143,7 @@
                                     <button class="btn btn-primary btn-xs btn-danger help-button"
                                             id="show-hints-button" th:text="#{show.hints}">Show hints
                                     </button>
-                                    <button class="btn btn-primary btn-xs btn-danger help-button"
-                                            id="show-lesson-overview-button" th:text="#{lesson.overview}">Lesson
-                                        overview
-                                    </button>
+
                                     <button class="btn btn-xs help-button" id="restart-lesson-button"
                                             th:text="#{reset.lesson}">Reset Lesson
                                     </button>
@@ -172,7 +169,7 @@
                                         <div class="panel-body" id="lesson-overview"></div>
                                     </div>
                                 </div>
-                                <div class="lesson-page-controls">
+                                <div id="lesson-page-controls">
 
                                 </div>
 

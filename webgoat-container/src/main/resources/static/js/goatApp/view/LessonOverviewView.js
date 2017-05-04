@@ -39,7 +39,7 @@ function($,
         	} else {
         		this.$el.show();
         	}
-        	this.showAssignments();
+        	//this.showAssignments();
 
        		return this;
        	},

@@ -34,15 +34,18 @@ import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonMenuItem;
 import org.owasp.webgoat.lessons.LessonMenuItemType;
 import org.owasp.webgoat.session.Course;
-import org.owasp.webgoat.session.LessonTracker;
-import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.users.LessonTracker;
+import org.owasp.webgoat.users.UserTracker;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>LessonMenuService class.</p>
@@ -54,20 +57,23 @@ import java.util.List;
 @AllArgsConstructor
 public class LessonMenuService {
 
+    public static final String URL_LESSONMENU_MVC = "/service/lessonmenu.mvc";
     private final Course course;
-    private UserTracker userTracker;
+    private final WebSession webSession;
+    private UserTrackerRepository userTrackerRepository;
 
     /**
      * Returns the lesson menu which is used to build the left nav
      *
      * @return a {@link java.util.List} object.
      */
-    @RequestMapping(path = "/service/lessonmenu.mvc", produces = "application/json")
+    @RequestMapping(path = URL_LESSONMENU_MVC, produces = "application/json")
     public
     @ResponseBody
     List<LessonMenuItem> showLeftNav() {
-        List<LessonMenuItem> menu = new ArrayList<LessonMenuItem>();
+        List<LessonMenuItem> menu = new ArrayList<>();
         List<Category> categories = course.getCategories();
+        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
 
         for (Category category : categories) {
             LessonMenuItem categoryItem = new LessonMenuItem();
@@ -75,6 +81,7 @@ public class LessonMenuService {
             categoryItem.setType(LessonMenuItemType.CATEGORY);
             // check for any lessons for this category
             List<AbstractLesson> lessons = course.getLessons(category);
+            lessons = lessons.stream().sorted(Comparator.comparing(l -> l.getTitle())).collect(Collectors.toList());
             for (AbstractLesson lesson : lessons) {
                 LessonMenuItem lessonItem = new LessonMenuItem();
                 lessonItem.setName(lesson.getTitle());

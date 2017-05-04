@@ -1,0 +1,8 @@
+=== Configure Proxy's Port
+
+. Select Tools > Options from the menu
+. Select Local Proxy on the left
+. Choose an available port ... Since WebGoat is using port 8080, use something different like 8090
+. Click OK
+
+image::images/zap-local-proxy.png[ZAP local proxy,800,648,style="lesson-image"]

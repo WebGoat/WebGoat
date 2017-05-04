@@ -8,7 +8,6 @@ import org.owasp.webgoat.lessons.NewLesson;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -24,21 +23,22 @@ public class PluginResource {
     private final URL location;
     private final List<Class> classes;
 
-    public Optional<Class> getLesson() {
-        return classes.stream().filter(c -> c.getSuperclass() == NewLesson.class).findFirst();
+    public List<Class> getLessons() {
+        return classes.stream().filter(c -> c.getSuperclass() == NewLesson.class).collect(Collectors.toList());
     }
 
     public List<Class<Endpoint>> getEndpoints() {
         return classes.stream().
                 filter(c -> c.getSuperclass() == AssignmentEndpoint.class || c.getSuperclass() == Endpoint.class).
-                map(c -> (Class<Endpoint>)c).
+                map(c -> (Class<Endpoint>) c).
                 collect(Collectors.toList());
     }
 
-    public List<Class<AssignmentEndpoint>> getAssignments() {
+    public List<Class<AssignmentEndpoint>> getAssignments(Class lesson) {
         return classes.stream().
                 filter(c -> c.getSuperclass() == AssignmentEndpoint.class).
-                map(c -> (Class<AssignmentEndpoint>)c).
+                filter(c -> c.getPackage().equals(lesson.getPackage())).
+                map(c -> (Class<AssignmentEndpoint>) c).
                 collect(Collectors.toList());
     }
 

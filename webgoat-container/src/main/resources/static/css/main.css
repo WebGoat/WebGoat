@@ -152,7 +152,7 @@ img {
     margin-left: 1.5em;*/
     margin-right: 5px;
     margin-top: -38px; /* << don't like doing this, but otherwise it does not line up correctly */
-    color:#0F0
+    color:#88FB88 /* #0F0 */
 }
 
 /* ==========================================================================
@@ -958,8 +958,52 @@ cookie-container {
     cursor:pointer;
 }
 
+.page-nav-wrapper {
+    display:inline-block;
+    width: 30px;
+}
+
+.attack-link, .page-link {
+    display: inline-block;
+    background-color: #555;
+    border-radius: 8px;
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding-top:2px;
+}
+
+.attack-link.solved-true {
+    color:#88FB88;
+}
+
+.attack-link.solved-false {
+    color:#f2baba;
+}
+
+.attack-link.cur-page, .page-link.cur-page {
+    color:#fff;
+}
+
+.page-link {
+    color:#eee;
+}
+
+.page-link-wrapper {
+    display:inline-block;
+}
+
+.page-link-wrapper span {
+    margin: 3px;
+}
+
+.cur-page {
+    border-bottom: 2px solid #000;
+    color:#aaa;
+}
+
 span.show-next-page, span.show-prev-page {
-font-size: 1.3em;
+    font-size: 1.3em;
 }
 
 .show-prev-page {
@@ -969,6 +1013,8 @@ font-size: 1.3em;
 .show-prev-page:hover {
     cursor:pointer;
 }
+
+/* attack ... */
 
 .attack-feedback {
     font-weight:800;
@@ -984,10 +1030,11 @@ font-size: 1.3em;
 }
 
 #lesson-hint {
-    background-color: #ccc;
+    background-color: #f1f1f1;
     border-radius: 4px;
-    border-color: #999;
-    margin-top:4px;
+    border-color: #4fa44c;
+    margin-top: 4px;
+    border: 2px solid #24b054;
 }
 
 #hintsViewTop{
@@ -1043,6 +1090,60 @@ font-size: 1.3em;
   padding: 10px;
 }
 
+/* temp override
+//TODO: come up with longer term solution for full-window viewing
+*/
 .col-md-8 {
-    width: 95% !important;
+    width: 95% !important
+}
+
+/* scoreboard */
+div.scoreboard-title {
+    font-size:xx-large;
+}
+
+.scoreboard-table tr {
+}
+
+div.scoreboard-username {
+    background-color: #222;
+    color: aliceblue;
+    padding: 4px;
+    padding-left:8px;
+    font-size: x-large;
+    border-radius:6px;
+}
+
+th.username {
+    padding-bottom: 6px;
+}
+
+td.user-flags {
+    padding-left: 8px;
+    padding-bottom: 6px;
+}
+
+div.captured-flag {
+    border-radius: 6px;
+    background-color: #444;
+    color: white;
+    padding: 4px;
+    font-size: x-large;
+    display: inline-block;
+}
+
+.scoreboard-page {
+    background-color: #e0dfdc;
+    padding: 20px;
+}
+
+.fa-flag {
+    color:red
+}
+
+.appseceu-banner {
+    background: url('img/appseceu-17.png') no-repeat 0px 0px;
+    height: 117px;
+    width: 1268px;
+    margin-bottom: 20px;
 }

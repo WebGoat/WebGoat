@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
+import org.owasp.webgoat.users.LessonTracker;
 
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,19 @@ public class LessonTrackerTest {
         Map<Assignment, Boolean> lessonOverview = lessonTracker.getLessonOverview();
         assertThat(lessonOverview.get(a1)).isTrue();
         assertThat(lessonOverview.get(a2)).isFalse();
+    }
+
+    @Test
+    public void solvingSameAssignmentShouldNotAddItTwice() {
+        AbstractLesson lesson = mock(AbstractLesson.class);
+        Assignment a1 = new Assignment("a1", "a1");
+        List<Assignment> assignments = Lists.newArrayList(a1);
+        when(lesson.getAssignments()).thenReturn(assignments);
+        LessonTracker lessonTracker = new LessonTracker(lesson);
+        lessonTracker.assignmentSolved("a1");
+        lessonTracker.assignmentSolved("a1");
+
+        assertThat(lessonTracker.getLessonOverview().size()).isEqualTo(1);
     }
 
 

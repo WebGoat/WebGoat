@@ -1,11 +1,7 @@
 package org.owasp.webgoat.lessons;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -39,14 +35,14 @@ import java.util.List;
  */
 @AllArgsConstructor
 @RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
-public class Assignment implements Serializable {
-
-    private static final long serialVersionUID = 5410058267505412928L;
+@EqualsAndHashCode
+public class Assignment {
     @NonNull
-    private final String name;
+    private String name;
     @NonNull
-    private final String path;
+    private String path;
     private List<String> hints;
 
 }

@@ -7,9 +7,10 @@ import lombok.Getter;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.LessonInfoModel;
-import org.owasp.webgoat.session.LessonTracker;
-import org.owasp.webgoat.session.UserTracker;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.users.LessonTracker;
+import org.owasp.webgoat.users.UserTracker;
+import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +29,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class LessonProgressService {
 
-    private UserTracker userTracker;
+    private UserTrackerRepository userTrackerRepository;
     private WebSession webSession;
 
     /**
@@ -39,6 +40,7 @@ public class LessonProgressService {
     @RequestMapping(value = "/service/lessonprogress.mvc", produces = "application/json")
     @ResponseBody
     public Map getLessonInfo() {
+        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
         LessonTracker lessonTracker = userTracker.getLessonTracker(webSession.getCurrentLesson());
         Map json = Maps.newHashMap();
         String successMessage = "";
@@ -61,6 +63,7 @@ public class LessonProgressService {
     @RequestMapping(value = "/service/lessonoverview.mvc", produces = "application/json")
     @ResponseBody
     public List<LessonOverview> lessonOverview() {
+        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
         AbstractLesson currentLesson = webSession.getCurrentLesson();
         List<LessonOverview> result = Lists.newArrayList();
         if ( currentLesson != null ) {

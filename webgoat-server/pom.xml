@@ -86,11 +86,11 @@
             <artifactId>webgoat-container</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
-            <!--<artifactId>challenge</artifactId>-->
-            <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>challenge</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>client-side-filtering</artifactId>

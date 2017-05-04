@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 /**
  *************************************************************************************************
@@ -39,6 +37,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  * @version $Id: $Id
  */
+//TODO: class we need to refactor to new structure, we can put the connection in the current session of the user
+	// start using jdbc template
 public class DatabaseUtilities
 {
 
@@ -122,7 +122,7 @@ public class DatabaseUtilities
 	private static Connection getHsqldbConnection(String user, WebgoatContext context) throws ClassNotFoundException,
 			SQLException
 	{
-		String url = context.getDatabaseConnectionString().replaceAll("\\$\\{USER\\}", user);
+		String url = context.getDatabaseConnectionString().replace("{USER}", user);
 		return DriverManager.getConnection(url, "sa", "");
 	}
 	

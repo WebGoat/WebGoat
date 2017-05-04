@@ -53,7 +53,7 @@ public class HttpBasicsInterceptRequestTest extends AssignmentEndpointTest {
 
     @Test
     public void success() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/HttpProxies/intercept-request")
+        mockMvc.perform(MockMvcRequestBuilders.get("/challenge/1")
                 .header("x-request-intercepted", "true")
                 .param("changeMe", "Requests are tampered easily"))
                 .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())

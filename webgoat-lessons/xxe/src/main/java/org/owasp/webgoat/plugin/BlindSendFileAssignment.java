@@ -22,8 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static org.owasp.webgoat.plugin.SimpleXXE.parseXml;
-
 /**
  * ************************************************************************************************
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
@@ -75,7 +73,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
     public AttackResult createNewUser(@RequestBody String userInfo) throws Exception {
         String error = "Parsing successful contents not send to server";
         try {
-            parseXml(userInfo);
+            //parseXml(userInfo);
         } catch (Exception e) {
             error = ExceptionUtils.getFullStackTrace(e);
         }
