@@ -22,7 +22,7 @@ penetration testing techniques.
 
 **WARNING 1:** *While running this program your machine will be extremely
 vulnerable to attack. You should disconnect from the Internet while using
-this program.*  WebGoat's default configuration binds to localhost to minimize 
+this program.*  WebGoat's default configuration binds to localhost to minimize
 the exposure.
 
 **WARNING 2:** *This program is for educational purposes only. If you attempt
@@ -33,7 +33,7 @@ first thing that all hackers claim.*
 
 # Run Instructions:
 
-## 1. Run using Docker 
+## 1. Run using Docker
 
 From time to time we publish a new development preview of WebGoat 8 on Docker HUB, you can download this version
 [https://hub.docker.com/r/webgoat/webgoat-8.0/](https://hub.docker.com/r/webgoat/webgoat-8.0/).
@@ -44,8 +44,21 @@ docker pull webgoat/webgoat-8.0
 docker run -p 8080:8080 webgoat/webgoat-8.0
 ```
 
-Wait for the Docker container to start and go to step 3.
-Please note: this version may not be completely in sync with the develop branch.
+Wait for the Docker container to start, and run `docker ps` to verify it's running.
+
+- If you are using `docker-machine`, verify the machine IP using `docker-machine env`
+- If you are using `boot2docker` on OSX, verify the IP by running `docker network inspect bridge`
+- Otherwise, the host will be bound to localhost
+
+Once you have the IP and port, you'll want to navigate to the `/WebGoat` path in the URL. For example:
+
+```
+http://192.168.99.100:8080/WebGoat
+```
+
+Here you'll be able to register a new user and get started.
+
+_Please note: this version may not be completely in sync with the develop branch._
 
 ## 2. Run from the sources
 
@@ -108,7 +121,7 @@ docker push webgoat/webgoat-8.0
 ```
 
 ### Docker on ARM (Raspberry Pi)
-On a Raspberry Pi (it has yet been tested with a Raspberry Pi 3 and the hypriot Docker image) you need to build JFFI for 
+On a Raspberry Pi (it has yet been tested with a Raspberry Pi 3 and the hypriot Docker image) you need to build JFFI for
 ARM first. This is needed by the docker-maven-plugin ([see here](https://github.com/spotify/docker-maven-plugin/issues/233)):
 
 ```Shell
@@ -121,7 +134,7 @@ sudo cp libjffi-1.2.so /usr/lib
 ```
 
 When you have done this you can build the Docker container using the following commands:
- 
+
 ```Shell
 cd WebGoat/
 mvn install
@@ -131,12 +144,3 @@ docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
 docker push webgoat/webgoat-8.0
 ```
-
-With the following command you are able to run the Docker container on your local machine:
-
-```Shell
-docker run -p 8080:8080 -t webgoat/webgoat-8.0
-docker ps
-```
-
-With the last command you are able to determine ip address to connect to.
