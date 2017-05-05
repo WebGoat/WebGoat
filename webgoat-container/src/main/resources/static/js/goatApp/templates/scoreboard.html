@@ -1,4 +1,15 @@
-<table>
-    <! -- iterate for header rows -->
-    <!--
+<div class="scoreboard-title">WebGoat Challenge</div>
+<table class="scoreboard-table">
+    <% _.each(rankings, function(userRanking) { %>
+    <tr>
+        <th class="username"> <div class="scoreboard-username"><%= userRanking.username %> </div></th>
+        <td class="user-flags"> <% _.each(userRanking.flagsCaptured, function(flag) { %>
+
+             <div class="captured-flag">
+                 <i class="fa fa-flag" aria-hidden="true"></i>
+                 <%=flag%> </div>
+            <% }); %>
+        </td>
+    </tr>
+    <% }); %>
 </table>

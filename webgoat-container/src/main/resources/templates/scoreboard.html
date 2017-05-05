@@ -20,10 +20,15 @@
 
     <!-- Require.js used to load js asynchronously -->
     <script src="js/libs/require.min.js" data-main="js/scoreboard.js"/>
+    <!-- main css -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
+
     <meta http-equiv="Content-Type" content="text/id; charset=ISO-8859-1"/>
     <title>WebGoat</title>
 </head>
-<body>
+<body class="scoreboard-page">
 
 <div id="scoreboard-wrapper">
     <div id="scoreboard">

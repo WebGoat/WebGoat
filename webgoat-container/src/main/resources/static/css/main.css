@@ -1094,3 +1094,47 @@ span.show-next-page, span.show-prev-page {
 .col-md-8 {
     width: 95% !important
 }
+
+/* scoreboard */
+div.scoreboard-title {
+    font-size:xx-large;
+}
+
+.scoreboard-table tr {
+}
+
+div.scoreboard-username {
+    background-color: #222;
+    color: aliceblue;
+    padding: 4px;
+    padding-left:8px;
+    font-size: x-large;
+    border-radius:6px;
+}
+
+th.username {
+    padding-bottom: 6px;
+}
+
+td.user-flags {
+    padding-left: 8px;
+    padding-bottom: 6px;
+}
+
+div.captured-flag {
+    border-radius: 6px;
+    background-color: #444;
+    color: white;
+    padding: 4px;
+    font-size: x-large;
+    display: inline-block;
+}
+
+.scoreboard-page {
+    background-color: #e0dfdc;
+    padding: 20px;
+}
+
+.fa-flag {
+    color:red
+}
