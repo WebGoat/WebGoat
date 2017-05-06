@@ -6,11 +6,18 @@ To be Successfull with this Quickstart
 
 1. You have a Google Cloud Platform account and have enough access rights to create Compute Engine and Container Engine Resources
 2. You know how to `git clone`
-3. You have the gcloud SDK install and initialized somewhere ( Or just use the Google Cloud Shell) 
+3. You have the gcloud SDK install and initialized somewhere ( do not use the google cloud shell) 
+
+
+Remeber to perform a 'gcloud auth login' before using the gcloud commands below. 
+
+
 
 ## Create Kubernettes Cluster
 
-Using the cloud console the default settings will suffice. The following is the commandline you would use to create the cluster using the gcloud command.  For this QuickStart the cluster name used is `owaspbasiccluster`. The `PROJECTNAME` is whatever your project is. The `REGION` is a region near you. 
+You can create a cluster using the Google Cloud Console. The Default settings will suffice.  For this QuickStart the cluster name used is `owaspbasiccluster`. The `PROJECTNAME` is whatever your project is. The `REGION` is a region/zone near you. 
+
+If you want to use the gcloud sdk from a properly initialized gcloud commandline environment use the following command
 
 
 ```
@@ -19,11 +26,11 @@ gcloud container --project "PROJECTNAME" clusters create "owaspbasiccluster" --z
 
 ```
 
-
+The command creates a  similar cluster with more of the options set explicitly. 
 
 ## Set up Kubectl
 
-Using either Google Cloud Shell or other commandline gcloud SDK environment you need to set-up 'kubectl'
+Using the commandline gcloud SDK environment you need to set-up 'kubectl'
 
 If you have not already installed 'Kubectl' you can do so with the following command using `gcloud`
 - `gcloud components install kubectl` 
@@ -55,6 +62,10 @@ After a few minutes the service endpoint should be ready. You can check the stat
 In the output you should see a message like "Created load..."  after a "Creating load..." which means that the public facing loadbalancer (even thou there is just one container running!) is ready.
 
 
+If you want to see the Kubernetes dashboard you can run `kubectl proxy` (in a new terminal window) and then navigate to http://localhost:8001/ui .
+
+
+
 ## Test Deployment
 
 From the previous `describe service` command the `LoadBalancer Ingress:` line should have the external IP. The line below should give the port.
@@ -64,5 +75,6 @@ So.....
 [IP]:[PORT]/WebGoat in your browser!
 
 DONE
+
 
 
