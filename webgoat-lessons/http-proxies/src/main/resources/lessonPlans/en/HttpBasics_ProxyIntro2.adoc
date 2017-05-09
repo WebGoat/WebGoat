@@ -11,7 +11,7 @@ This will send all of your traffic to the proxy. Since we haven't set up a trust
 . Click _Settings_
 . Select _Manual proxy configuration_
 .. input *127.0.0.1* as the Proxy
-.. input *8090* as the port
+.. input *8080* as the port
 .. check the _Use this proxy server for all protocols_ checkbox
 
 image::images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
@@ -23,10 +23,19 @@ image::images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesso
 . Click the _Change proxy settings_ button
 . Select the _proxies_ tab
 . Select Web Proxy (HTTP)
-. Input 127.0.0.1 in the first box under _Web Proxy Server_ and your port # (8090 is what used earlier) in the second box (to the right)
+. Input 127.0.0.1 in the first box under _Web Proxy Server_ and your port # (8080 is what used earlier) in the second box (to the right)
 . You may also want to clear the _Bypass proxy settings for these Hosts & Domains_ text input at the bottom, but shouldn't need to
 
+
 image::images/chrome-manual-proxy.png[Chrome Proxy Config,700,447,style="lesson-image"]
+
+(Mac config image above)
+
+
+
+image::images/chrome-manual-proxy-win.png[Chrome Proxy, 394,346,style="lesson-image"]
+
+(Win config image above)
 
 === Other Proxy Configuration Options
 
