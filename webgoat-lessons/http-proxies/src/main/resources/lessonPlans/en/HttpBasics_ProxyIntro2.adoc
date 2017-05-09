@@ -23,7 +23,7 @@ image::images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesso
 . Click the _Change proxy settings_ button
 . Select the _proxies_ tab
 . Select Web Proxy (HTTP)
-. Input 127..0.0.1 in the first box under _Web Proxy Server_ and your port # (8090 is what used earlier) in the second box (to the right)
+. Input 127.0.0.1 in the first box under _Web Proxy Server_ and your port # (8090 is what used earlier) in the second box (to the right)
 . You may also want to clear the _Bypass proxy settings for these Hosts & Domains_ text input at the bottom, but shouldn't need to
 
 image::images/chrome-manual-proxy.png[Chrome Proxy Config,700,447,style="lesson-image"]
