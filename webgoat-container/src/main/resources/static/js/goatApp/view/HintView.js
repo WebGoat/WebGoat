@@ -19,8 +19,10 @@ function($,
 			this.listenTo(this.collection,'loaded',this.onModelLoaded);
 			this.hideHints();
             var self = this;
+            // different way to do this?
             Backbone.on('navigatedToPage', function(nav){
-                self.selectHints(nav)
+                self.selectHints(nav);
+                // end event delegation??
             });
 		},
 
@@ -61,14 +63,25 @@ function($,
 		 *
          * @param nav the json structure for navigating
          */
-        selectHints: function(nav) {
-        	this.curHint = 0;
-        	var assignmentPath = nav['assignmentPath'];
-			if (assignmentPath != null) {
-                this.hintsToShow = this.collection.getHintsForAssignment(assignmentPath);
+        filterHints: function(endpoints) {
+            this.hintsToShow = [];
+            _.each(endpoints, this.filterHint, this);
+
+            if (this.hintsToShow.length > 0) {
+                this.trigger('hints:showButton');
             } else {
-				this.hintsToShow = new Array();
-			}
+                this.trigger('hints:hideButton');
+            }
+        },
+
+        filterHint: function(endpoint) {
+            var self = this;
+            _.each(this.collection.models, function(hintModel) {
+                if (endpoint.indexOf(hintModel.get('assignmentPath')) > -1) {
+                    self.hintsToShow.push(hintModel.get('hint'));
+                }
+            });
+            console.log(this.hintsToShow);
         },
 
 		onModelLoaded: function() {
@@ -97,7 +110,7 @@ function($,
             if(this.hintsToShow.length == 0) {
                // this.hideHints();
             } else {
-                this.$el.find('#lesson-hint-content').html(polyglot.t(this.hintsToShow[curHint].get('hint')));
+                this.$el.find('#lesson-hint-content').html(polyglot.t(this.hintsToShow[curHint]));
             }
 		},
 

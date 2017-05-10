@@ -12,18 +12,14 @@ function($,_,Backbone) {
 			this.hasPlan = options.hasPlan;
 			this.hasSolution = options.hasSolution;
 			this.hasSource = options.hasSource;
-			var self = this;
-            Backbone.on('navigatedToPage', function(nav) {
-                self.showHideHintsButton(nav)
-            });
 		},
 
-        showHideHintsButton: function(nav) {
-		    if (typeof nav['assignmentPath'] !== 'undefined') {
-                this.$el.find('#show-hints-button').unbind().on('click',this.showHints.bind(this)).show();
-            } else {
-                $('#show-hints-button').hide();
-            }
+        showHintsButton: function(nav) {
+            this.$el.find('#show-hints-button').unbind().on('click',this.showHints.bind(this)).show();
+        },
+
+        hideHintsButton: function(){
+           $('#show-hints-button').hide();
         },
 
 		render:function(title) {

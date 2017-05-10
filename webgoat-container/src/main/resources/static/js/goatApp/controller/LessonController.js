@@ -64,13 +64,29 @@ define(['jquery',
                 this.menuButtonView = new MenuButtonView();
                 this.listenTo(this.lessonContentView, 'assignment:complete', this.updateMenu);
                 this.listenTo(this.lessonContentView, 'assignment:complete', this.updateLessonOverview);
+                this.listenTo(this.lessonContentView, 'endpoints:filtered', this.filterPageHints);
             };
 
-            this.loadLesson = function(name,pageNum) {
+            this.filterPageHints = function(endpoints) {
+                //filter hints for page by
+                this.lessonHintView.filterHints(endpoints);
+            }
 
+            this.onHideHintsButton = function() {
+                this.helpControlsView.hideHintsButton();
+            }
+
+            this.onShowHintsButton = function() {
+                this.helpControlsView.showHintsButton();
+            }
+
+            this.loadLesson = function(name,pageNum) {
                 if (this.name === name) {
+                    this.listenTo(this.lessonHintView, 'hints:showButton', this.onShowHintsButton);
+                    this.listenTo(this.lessonHintView, 'hints:hideButton', this.onHideHintsButton);
                     this.lessonContentView.navToPage(pageNum);
                     this.lessonHintView.hideHints();
+                    //this.lessonHintView.selectHints();
                     this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
                     return;
                 }
@@ -83,7 +99,7 @@ define(['jquery',
 //                this.planView = {};
 //                this.solutionView = {};
 //                this.sourceView = {};
-                this.lessonHintView = {};
+//                this.lessonHintView = {};
                 this.name = name;
             };
 
@@ -96,15 +112,13 @@ define(['jquery',
 
                 this.listenTo(this.helpControlsView,'hints:show',this.showHints);
                 this.listenTo(this.helpControlsView,'lessonOverview:show',this.showLessonOverview)
-//              this.listenTo(this.helpControlsView,'solution:show',this.hideShowHelps);
-//              this.listenTo(this.helpControlsView,'source:show',this.hideShowHelps);
+
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
                 this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
 
                 this.helpControlsView.render();
                 this.lessonOverview.hideLessonOverview();
                 this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
-                this.helpControlsView.showHideHintsButton({});
             };
 
             this.updateMenu = function() {
@@ -127,6 +141,10 @@ define(['jquery',
                     //this.planView = new PlanView();
                     //this.solutionView = new SolutionView();
                     //this.sourceView = new SourceView();
+                    if (this.lessonHintView) {
+                        this.lessonHintView.stopListening();
+                        this.lessonHintView = null;
+                    }
                     this.lessonHintView = new HintView();
 
                     //TODO: instantiate model with values (not sure why was not working before)

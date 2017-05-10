@@ -153,13 +153,15 @@ define(['jquery',
             this.$el.find(this.$contentPages[pageNum]).show();
         },
 
-        findAssigmentEndpointOnPage: function(pageNumber) {
-            var contentPage = this.$contentPages[this.currentPage];
-            var form = $('form.attack-form', contentPage);
-            var action = form.attr('action')
-            if (action !== undefined) {
-                return action;
+        findAssigmentEndpointsOnPage: function(pageNumber) {
+            var contentPage = this.$contentPages[pageNumber];
+            var endpoints = []; //going to assume uniqueness since these are assignments
+            var pageForms = $(contentPage).find('form.attack-form');
+            for (var i=0; i<pageForms.length; i++) {
+                endpoints.push(pageForms[i].action);
             }
+            console.log(endpoints);
+            return endpoints;
         },
 
         navToPage: function (pageNum) {
@@ -167,8 +169,8 @@ define(['jquery',
             this.showCurContentPage(this.paginationControlView.currentPage);
             this.paginationControlView.render();
             this.paginationControlView.hideShowNavButtons();
-            var assignmentPath = this.findAssigmentEndpointOnPage(pageNum);
-            Backbone.trigger('navigatedToPage',{'pageNumber':pageNum, 'assignmentPath' : assignmentPath});
+            var assignmentPaths = this.findAssigmentEndpointsOnPage(pageNum);
+            this.trigger('endpoints:filtered',assignmentPaths);
         },
 
         /* for testing */
