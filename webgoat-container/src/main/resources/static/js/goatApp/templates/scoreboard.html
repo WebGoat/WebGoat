@@ -1,8 +1,9 @@
-<div class="scoreboard-title">WebGoat Challenge</div>
+<div class="scoreboard-title">WebGoat Challenge - AppSec EU 2017</div>
+<div class="appseceu-banner">banner here</div>
 <table class="scoreboard-table">
-    <% _.each(rankings, function(userRanking) { %>
+    <% _.each(rankings, function(userRanking, index) { %>
     <tr>
-        <th class="username"> <div class="scoreboard-username"><%= userRanking.username %> </div></th>
+        <th class="username"> <div class="scoreboard-username"><%= index%> <%=userRanking.username %> </div></th>
         <td class="user-flags"> <% _.each(userRanking.flagsCaptured, function(flag) { %>
 
              <div class="captured-flag">
