@@ -54,21 +54,24 @@ define(['jquery',
             webgoat.customjs.jquery = $; //passing jquery into custom js scope ... still klunky, but works for now
             webgoat.customjs.jqueryVuln = $vuln;
 
-            // temporary shim to support dom-xss assignment
+            // shim to support xss lesson
             webgoat.customjs.phoneHome = function (e) {
                 console.log('phoneHome invoked');
-                console.log(arguments.callee);
-                //
                 webgoat.customjs.jquery.ajax({
                     method: "POST",
-                    url: "/WebGoat/CrossSiteScripting/dom-xss",
+                    url: "/WebGoat/CrossSiteScripting/phone-home-xss",
                     data: {param1: 42, param2: 24},
                     headers: {
                         "webgoat-requested-by": "dom-xss-vuln"
                     },
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    success: function (data) {
+                        //devs leave stuff like this in all the time
+                        console.log('phone home said '  + data);
+                    }
                 });
             }
+
         },
 
         initialize: function () {

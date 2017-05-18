@@ -1,0 +1,20 @@
+== DOM-based XSS Defense
+
+* Attacker creates url:
++
+----
+http://mylogin.com/login?error=<script>alert(“xss”)</script>
+----
+
+* JavaScript must enforce input validation
++
+----
+  if ( errorMsg\[1\].match(/^[ a-zA-Z0-9:-]$/))  
+  {
+      document.write(‘some error’);
+  }
+  else
+  {
+    document.write('<b>'+errorMsg\[1\]+'</b>'); 
+  }
+----
