@@ -33,11 +33,19 @@
             <version>${project.version}</version>
             <scope>provided</scope>
             <type>jar</type>
+            <!-- Exclude Mongo embedded so testcases do not start it automatically, seems to be
+                 the easiest way to stop the autoconfiguration of Spring Boot -->
+            <exclusions>
+                <exclusion>
+                    <groupId>de.flapdoodle.embed</groupId>
+                    <artifactId>de.flapdoodle.embed.mongo</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.apache.commons</groupId>-->
-            <!--<artifactId>commons-exec</artifactId>-->
-            <!--<version>1.3</version>-->
+        <!--<groupId>org.apache.commons</groupId>-->
+        <!--<artifactId>commons-exec</artifactId>-->
+        <!--<version>1.3</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
@@ -45,6 +53,14 @@
             <version>${project.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
+            <!-- Exclude Mongo embedded so testcases do not start it automatically, seems to be
+                 the easiest way to stop the autoconfiguration of Spring Boot -->
+            <exclusions>
+                <exclusion>
+                    <groupId>de.flapdoodle.embed</groupId>
+                    <artifactId>de.flapdoodle.embed.mongo</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -68,6 +84,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <version>4.1.3.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.fakemongo</groupId>
+            <artifactId>fongo</artifactId>
+            <version>2.1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -119,6 +141,6 @@
                     </execution>
                 </executions>
             </plugin>
-       </plugins>
-   </build>   
+        </plugins>
+    </build>
 </project>

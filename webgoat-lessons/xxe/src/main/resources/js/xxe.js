@@ -24,7 +24,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#postCommentBlind").unbind();
     $("#postCommentBlind").on("click", function () {
-        var commentInput = $("#commentInput").val();
+        var commentInput = $("#commentInputBlind").val();
         var xml = '<?xml version="1.0"?>' +
             '<comment>' +
             '  <text>' + commentInput + '</text>' +
@@ -34,13 +34,12 @@ $(document).ready(function () {
             url: 'xxe/blind',
             data: xml,
             contentType: "application/xml",
-            dataType: 'xml'
-        }).then(
-            function () {
-                getComments('#commentsListBlind');
-                $("#commentInput").val('');
+            dataType: 'xml',
+            complete: function (data) {
+                $("#commentInputBlind").val('');
+                getComments('#commentsListBlind')
             }
-        )
+        })
     });
     getComments('#commentsListBlind');
 });
@@ -54,13 +53,12 @@ $(document).ready(function () {
             url: 'xxe/content-type',
             data: JSON.stringify({text: commentInput}),
             contentType: "application/json",
-            dataType: 'xml'
-        }).then(
-            function () {
-                getComments('#commentsListContentType');
+            dataType: 'xml',
+            complete: function (data) {
                 $("#commentInputContentType").val('');
+                getComments('#commentsListContentType')
             }
-        )
+        })
     });
     getComments('#commentsListContentType');
 });
