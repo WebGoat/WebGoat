@@ -3,7 +3,6 @@ package org.owasp.webgoat.plugin;
 import com.beust.jcommander.internal.Lists;
 import com.google.common.base.Joiner;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -83,7 +82,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
             Comment comment = comments.parseXml(commentStr);
             comments.addComment(comment, false);
         } catch (Exception e) {
-            error = StringEscapeUtils.escapeJson(e.toString());
+            error = e.toString();
         }
 
         File logFile = new File(webGoatHomeDirectory, "/XXE/log" + webSession.getUserName() + ".txt");

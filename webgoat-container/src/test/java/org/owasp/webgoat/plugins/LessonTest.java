@@ -2,7 +2,7 @@ package org.owasp.webgoat.plugins;
 
 import org.junit.Before;
 import org.owasp.webgoat.i18n.Language;
-import org.owasp.webgoat.i18n.Messages;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
@@ -30,7 +30,7 @@ public abstract class LessonTest {
     @Autowired
     protected WebApplicationContext wac;
     @Autowired
-    protected Messages messages;
+    protected PluginMessages messages;
     @MockBean
     protected WebSession webSession;
     @MockBean
@@ -38,7 +38,8 @@ public abstract class LessonTest {
 
     @Before
     public void init() {
-        when(language.getLocale()).thenReturn(Locale.US);
+        when(webSession.getUserName()).thenReturn("unit-test");
+        when(language.getLocale()).thenReturn(Locale.getDefault());
     }
 
 }

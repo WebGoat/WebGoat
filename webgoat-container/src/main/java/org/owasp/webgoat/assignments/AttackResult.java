@@ -25,11 +25,10 @@
 
 package org.owasp.webgoat.assignments;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.owasp.webgoat.i18n.PluginMessages;
 
-@AllArgsConstructor
 public class AttackResult {
 
     public static class AttackResultBuilder {
@@ -89,6 +88,11 @@ public class AttackResult {
     @Getter
     private String output;
 
+    public AttackResult(boolean lessonCompleted, String feedback, String output) {
+        this.lessonCompleted = lessonCompleted;
+        this.feedback = StringEscapeUtils.escapeJson(feedback);
+        this.output = StringEscapeUtils.escapeJson(output);
+    }
 
     public static AttackResultBuilder builder(PluginMessages messages) {
         return new AttackResultBuilder(messages);
