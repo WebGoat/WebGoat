@@ -84,7 +84,7 @@ public class BlindSendFileAssignmentTest extends LessonTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("assignment.solved"))))
-                .andExpect(jsonPath("$.output", CoreMatchers.is("Contents of the file is: GET Java/1.8.0_121 WebGoat 8 rocks...")));
+                .andExpect(jsonPath("$.output", CoreMatchers.containsString("WebGoat 8 rocks...")));
     }
 
 }
