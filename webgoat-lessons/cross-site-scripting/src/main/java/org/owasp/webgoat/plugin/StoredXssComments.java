@@ -74,10 +74,7 @@ public class StoredXssComments extends AssignmentEndpoint {
     @ResponseBody
     public Collection<Comment> retrieveComments() {
         Collection<Comment> allComments = Lists.newArrayList();
-        Collection<Comment> xmlComments = userComments.get(webSession.getUserName());
-        if (xmlComments != null) {
-            allComments.addAll(xmlComments);
-        }
+        // no filtering applied here at render
         allComments.addAll(comments);
         return allComments;
     }
