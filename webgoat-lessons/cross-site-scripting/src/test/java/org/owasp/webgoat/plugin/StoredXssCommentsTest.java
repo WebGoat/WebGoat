@@ -73,4 +73,16 @@ public class StoredXssCommentsTest extends AssignmentEndpointTest {
         results.andExpect(status().isOk());
         results.andExpect(jsonPath("$.lessonCompleted",CoreMatchers.is(false)));
     }
+
+    @Test
+    public void isNotEncoded() {
+        assert true;
+        //TODO: get around to this
+    }
+
+    @Test
+    public void isEncoded() {
+        assert true;
+        //TODO: get around to this
+    }
 }

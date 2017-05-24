@@ -45,6 +45,7 @@ import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.owasp.encoder.*;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 import java.io.IOException;
@@ -76,6 +77,7 @@ public class StoredXssComments extends AssignmentEndpoint {
         Collection<Comment> allComments = Lists.newArrayList();
         // no filtering applied here at render
         allComments.addAll(comments);
+
         return allComments;
     }
 
