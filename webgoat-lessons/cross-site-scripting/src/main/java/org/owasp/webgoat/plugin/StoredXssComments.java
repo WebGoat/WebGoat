@@ -66,6 +66,7 @@ public class StoredXssComments extends AssignmentEndpoint {
     private static final String phoneHomeString = "<script>webgoat.customjs.phoneHome()</script>";
 
     static {
+        comments.add(new Comment("secUriTy", DateTime.now().toString(fmt), "<script>console.warn('unit test me')</script>Comment for Unit Testing"));
         comments.add(new Comment("webgoat", DateTime.now().toString(fmt), "This comment is safe"));
         comments.add(new Comment("guest", DateTime.now().toString(fmt), "This one is safe too."));
         comments.add(new Comment("guest", DateTime.now().toString(fmt), "Can you post a comment,  calling webgoat.customjs.phoneHome() ?"));
