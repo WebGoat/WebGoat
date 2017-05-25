@@ -74,15 +74,25 @@ public class StoredXssCommentsTest extends AssignmentEndpointTest {
         results.andExpect(jsonPath("$.lessonCompleted",CoreMatchers.is(false)));
     }
 
+    /* For the next two tests there is a comment seeded ...
+        comments.add(new Comment("secUriTy", DateTime.now().toString(fmt), "<script>console.warn('unit test me')</script>Comment for Unit Testing"));
+        ... the isEncoded method will remain commented out as it will fail (because WebGoat isn't supposed to be secure)
+     */
+
+    //Ensures it is vulnerable
     @Test
-    public void isNotEncoded() {
-        assert true;
-        //TODO: get around to this
+    public void isNotEncoded() throws Exception {
+        //do get to get comments after posting xss payload
+        ResultActions taintedResults = mockMvc.perform(MockMvcRequestBuilders.get("/CrossSiteScripting/stored-xss"));
+        taintedResults.andExpect(jsonPath("$[0].text",CoreMatchers.is(CoreMatchers.containsString("<script>console.warn('unit test me')</script>"))));
     }
 
-    @Test
-    public void isEncoded() {
-        assert true;
-        //TODO: get around to this
-    }
+
+    //Could be used to test an encoding solution ... commented out so build will pass. Uncommenting will fail build, but leaving in as positive Security Unit Test
+//    @Test
+//    public void isEncoded() throws Exception {
+//        //do get to get comments after posting xss payload
+//        ResultActions taintedResults = mockMvc.perform(MockMvcRequestBuilders.get("/CrossSiteScripting/stored-xss"));
+//        taintedResults.andExpect(jsonPath("$[0].text",CoreMatchers.is(CoreMatchers.containsString("&lt;scriptgt;"))));
+//    }
 }
