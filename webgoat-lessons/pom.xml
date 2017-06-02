@@ -19,6 +19,7 @@
         <module>cross-site-scripting</module>
         <module>http-basics</module>
         <module>http-proxies</module>
+        <module>insecure-login</module>
         <module>jwt</module>
         <module>sql-injection</module>
         <module>xxe</module>
