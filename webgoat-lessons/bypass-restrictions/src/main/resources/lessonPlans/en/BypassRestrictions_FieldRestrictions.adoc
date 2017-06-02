@@ -1,0 +1,6 @@
+== Field Restrictions
+In most browsers, client has complete or almost complete control over HTML part
+of the webpage. They can alter values or restrictions to fit their preference.
+
+=== Task
+Send a request that bypasses restrictions of all four of these fields
