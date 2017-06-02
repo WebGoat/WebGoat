@@ -1,0 +1,4 @@
+=== Let's try
+Click the "log in" button to send a request containing login credentials of another user.
+Then, write these credentials into the appropriate fields and submit to confirm.
+Try using a packet sniffer to intercept the request.

@@ -118,6 +118,11 @@
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>insecure-login</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>jwt</artifactId>
             <version>${project.version}</version>
         </dependency>
