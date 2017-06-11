@@ -48,7 +48,7 @@ import static org.owasp.webgoat.plugin.SqlInjectionLesson5a.writeTable;
  * @created October 28, 2003
  */
 @AssignmentPath("/SqlInjection/attack6a")
-@AssignmentHints(value = {"SqlStringInjectionHint5", "SqlStringInjectionHint6"})
+@AssignmentHints(value = {"SqlStringInjectionHint5", "SqlStringInjectionHint6", "SqlStringInjectionHint7"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
