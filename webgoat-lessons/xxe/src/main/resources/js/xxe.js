@@ -8,6 +8,7 @@ webgoat.customjs.simpleXXE = function () {
 }
 
 webgoat.customjs.simpleXXECallback = function() {
+    $("#commentInputBlind").val('');
     getComments('#commentsListSimple');
 }
 
@@ -15,50 +16,36 @@ $(document).ready(function () {
     getComments('#commentsListSimple');
 });
 
+webgoat.customjs.blindXXE = function() {
+    var commentInput = $("#commentInputBlind").val();
+    var xml = '<?xml version="1.0"?>' +
+        '<comment>' +
+        '  <text>' + commentInput + '</text>' +
+        '</comment>';
+    return xml;
+}
+
+webgoat.customjs.blindXXECallback = function() {
+    $("#commentInputBlind").val('');
+    getComments('#commentsListBlind');
+}
+
 $(document).ready(function () {
-    $("#postCommentBlind").unbind();
-    $("#postCommentBlind").on("click", function () {
-        var commentInput = $("#commentInputBlind").val();
-        var xml = '<?xml version="1.0"?>' +
-            '<comment>' +
-            '  <text>' + commentInput + '</text>' +
-            '</comment>';
-        $.ajax({
-            type: 'POST',
-            url: 'xxe/blind',
-            data: xml,
-            contentType: "application/xml",
-            dataType: 'xml',
-            complete: function (data) {
-                $("#commentInputBlind").val('');
-                getComments('#commentsListBlind')
-            }
-        })
-    });
     getComments('#commentsListBlind');
 });
 
-$(document).ready(function () {
-    $("#postCommentContentType").unbind();
-    $("#postCommentContentType").on("click", function () {
-        var commentInput = $("#commentInputContentType").val();
-        $.ajax({
-            type: 'POST',
-            url: 'xxe/content-type',
-            data: JSON.stringify({text: commentInput}),
-            contentType: "application/json",
-            dataType: 'xml',
-            complete: function (data) {
-                $("#commentInputContentType").val('');
-                getComments('#commentsListContentType')
-            }
-        })
-    });
+webgoat.customjs.contentTypeXXE = function() {
+    var commentInput = $("#commentInputContentType").val();
+    return JSON.stringify({text: commentInput});
+}
+
+webgoat.customjs.contentTypeXXECallback = function() {
+    $("#commentInputContentType").val('');
     getComments('#commentsListContentType');
-});
+}
 
 $(document).ready(function () {
-    getComments();
+    getComments('#commentsListContentType');
 });
 
 var html = '<li class="comment">' +

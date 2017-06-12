@@ -53,10 +53,10 @@
                     </div>
                     <div class="post-footer">
                         <div class="input-group">
-                            <input class="form-control" id="commentInputSimple" placeholder="Add a comment"
+                            <input class="form-control input-lg" id="commentInputSimple" placeholder="Add a comment"
                                    type="text"/>
                             <span class="input-group-addon">
-                                <button id="postCommentSimple" class="fa fa-edit" style="font-size: 20px"></button>
+                                <button id="postCommentSimple" class="btn btn-primary">Submit</button>
                             </span>
                         </div>
                         <ul class="comments-list">
@@ -80,8 +80,10 @@
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/xxe/content-type"
-              enctype="application/json;charset=UTF-8">
+              prepareData="contentTypeXXE"
+              callback="contentTypeXXECallback"
+              action="xxe/content-type"
+              contentType="application/json">
             <div class="container-fluid">
                 <div class="panel post">
                     <div class="post-heading">
@@ -107,10 +109,10 @@
                     </div>
                     <div class="post-footer">
                         <div class="input-group">
-                            <input class="form-control" id="commentInputContentType" placeholder="Add a comment"
+                            <input class="form-control input-lg" id="commentInputContentType" placeholder="Add a comment"
                                    type="text"/>
                             <span class="input-group-addon">
-                                <i id="postCommentContentType" class="fa fa-edit" style="font-size: 20px"></i>
+                                <button id="postCommentContentType" class="btn btn-primary">Submit</button>
                             </span>
                         </div>
                         <ul class="comments-list">
@@ -143,8 +145,10 @@
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
+              prepareData="blindXXE"
+              callback="blindXXECallback"
               action="/WebGoat/xxe/blind"
-              enctype="application/json;charset=UTF-8">
+              contentType="application/xml">
             <div class="container-fluid">
                 <div class="panel post">
                     <div class="post-heading">
@@ -170,9 +174,9 @@
                     </div>
                     <div class="post-footer">
                         <div class="input-group">
-                            <input class="form-control" id="commentInputBlind" placeholder="Add a comment" type="text"/>
+                            <input class="form-control input-lg" id="commentInputBlind" placeholder="Add a comment" type="text"/>
                             <span class="input-group-addon">
-                                <i id="postCommentBlind" class="fa fa-edit" style="font-size: 20px"></i>
+                                <button id="postCommentBlind" class="btn btn-primary">Submit</button>
                             </span>
                         </div>
                         <ul class="comments-list">
