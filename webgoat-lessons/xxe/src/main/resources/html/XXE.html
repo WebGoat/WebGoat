@@ -24,8 +24,10 @@
 
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/xxe/simple"
-              enctype="application/json;charset=UTF-8">
+              prepareData="simpleXXE"
+              callback="simpleXXECallback"
+              contentType="application/xml"
+              action="/WebGoat/xxe/simple">
             <div class="container-fluid">
                 <div class="panel post">
                     <div class="post-heading">
@@ -54,7 +56,7 @@
                             <input class="form-control" id="commentInputSimple" placeholder="Add a comment"
                                    type="text"/>
                             <span class="input-group-addon">
-                                <i id="postCommentSimple" class="fa fa-edit" style="font-size: 20px"></i>
+                                <button id="postCommentSimple" class="fa fa-edit" style="font-size: 20px"></button>
                             </span>
                         </div>
                         <ul class="comments-list">

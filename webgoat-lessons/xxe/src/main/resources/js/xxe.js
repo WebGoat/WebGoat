@@ -1,23 +1,17 @@
+webgoat.customjs.simpleXXE = function () {
+    var commentInput = $("#commentInputSimple").val();
+    var xml = '<?xml version="1.0"?>' +
+        '<comment>' +
+        '  <text>' + commentInput + '</text>' +
+        '</comment>';
+    return xml;
+}
+
+webgoat.customjs.simpleXXECallback = function() {
+    getComments('#commentsListSimple');
+}
+
 $(document).ready(function () {
-    $("#postCommentSimple").unbind();
-    $("#postCommentSimple").on("click", function () {
-        var commentInput = $("#commentInputSimple").val();
-        var xml = '<?xml version="1.0"?>' +
-            '<comment>' +
-            '  <text>' + commentInput + '</text>' +
-            '</comment>';
-        $.ajax({
-            type: 'POST',
-            url: 'xxe/simple',
-            data: xml,
-            contentType: "application/xml",
-            dataType: 'xml',
-            complete: function (data) {
-                $("#commentInputSimple").val('');
-                getComments('#commentsListSimple')
-            }
-        })
-    });
     getComments('#commentsListSimple');
 });
 

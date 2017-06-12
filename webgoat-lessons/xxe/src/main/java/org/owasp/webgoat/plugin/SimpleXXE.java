@@ -9,7 +9,6 @@ import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -65,7 +64,7 @@ public class SimpleXXE extends AssignmentEndpoint {
 
     @RequestMapping(method = POST, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult createNewComment(@RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
+    public AttackResult createNewComment(@RequestBody String commentStr) throws Exception {
         String error = "";
         try {
             Comment comment = comments.parseXml(commentStr);
