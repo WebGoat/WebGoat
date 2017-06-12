@@ -93,12 +93,22 @@
         <!--</dependency>-->
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>bypass-restrictions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>client-side-filtering</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>cross-site-scripting</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>html-tampering</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -114,6 +124,11 @@
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>idor</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>insecure-login</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

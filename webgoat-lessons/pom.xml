@@ -14,11 +14,14 @@
     </parent>
 
     <modules>
+        <module>bypass-restrictions</module>
         <module>challenge</module>
         <module>client-side-filtering</module>
         <module>cross-site-scripting</module>
+        <module>html-tampering</module>
         <module>http-basics</module>
         <module>http-proxies</module>
+        <module>insecure-login</module>
         <module>jwt</module>
         <module>sql-injection</module>
         <module>xxe</module>
