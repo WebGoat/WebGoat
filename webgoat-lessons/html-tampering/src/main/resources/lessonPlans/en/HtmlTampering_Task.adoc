@@ -1,2 +1,2 @@
 === Try it yourself
-This is an internet store. Try to buy TV-s for a lower price.
+In an online store you ordered a new TV, try to buy one or more TVs for a lower price.

@@ -38,7 +38,7 @@ import java.util.List;
 public class HtmlTampering extends NewLesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.PARAMETER_TAMPERING;
+        return Category.CLIENT_SIDE;
     }
 
     @Override

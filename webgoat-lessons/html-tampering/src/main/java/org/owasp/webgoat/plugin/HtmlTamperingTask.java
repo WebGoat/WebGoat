@@ -1,6 +1,7 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -45,6 +45,7 @@ import java.io.IOException;
  * @created October 28, 2003
  */
 @AssignmentPath("/HtmlTampering/task")
+@AssignmentHints({ "hint1", "hint2", "hint3"})
 public class HtmlTamperingTask extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
