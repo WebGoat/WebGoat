@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
+<title>Off-By-One Overflow</title> 
+<link rel="stylesheet" type="text/css" href="formate.css"> 
+</head> 
+<body> 
+
+<p><b>Lesson Plan Title:</b> How to Exploit "Off-by-One" Buffer Overflow Vulnerabilities</p>
+
+<p><b>Concept / Topic To Teach:</b></p>
+How to Exploit a Web Based "Off-by-One" Buffer Overflow.
+<br>
+<div align="Left">
+<p><b>How the attack works:</b>
+</p>
+Despite being more rare, buffer overflow vulnerabilities on the web occur when a tier of the application has insufficient memory allocated to deal with the data submitted by the user. Typically, such a tier would be written in C or a similar language. 
+
+For the particular subset, namely, off-by-one overflows, this lesson focuses on the consequences of being able to overwrite the position for the trailing null byte. 
+
+As a result, further information is returned back to the user, due to the fact that no null byte was found.
+</div>
+<p><b>Lesson Goal(s):</b> </p>
+<!-- Start Instructions -->
+<p>Welcome to the <b>OWASP Hotel</b>! Can you find out which room a VIP guest is staying in?</p>
+<!-- Stop Instructions -->
+* Understand how a buffer overflow vulnerability can be triggered on a web application.<br>
+* Understand what type of value lengths are likely to trigger a buffer overflow.<br>
+ <b></b><br/>
+ 
+ <b>Solution:</b><br/> 
+ For the first step, enter any name and room number into the provided fields and click the submit button. The page will automatically be updated.<br><br> 
+ <img src="offbyone_files/image001.jpg"><br/> 
+ From Google Chrome, right click on the next page and hit the inspect option. You will notice the input names, the type, and the values that you submitted.<br><br> 
+ <img src="offbyone_files/image002.jpg"><br/> 
+ <font size="2"><b>The result</b></font><br/><br/><br/> 
+ We will manipulate the value of the room_no into a value that consists of 4097 characters. This will cause an overflow and a leakage of valuable hidden information. Open your browser on <a href="http://www.dave-reed.com/Nifty/randSeq.html" target="_blank">Random Sequence Generator</a>. <br><br> 
+ For the first field, enter the value 1. The second field will be 4097 and the final field will be the characters 1-9.<br><br> 
+ <img src="offbyone_files/image003.jpg"><br/> 
+ <br/><br/><br/> 
+ Copy and paste the 4097 characters into the room_no value field. After this, you can click the Accept Terms button to move to the next screen. Repeat Step 2 and right click inspect element. Right below the room_no field, you can now view all of the hidden VIP guest information.<br><br> 
+ <img src="offbyone_files/image004.jpg"><br/>
+  <br/><br/><br/>
+ 
+ You can now restart the lesson, and enter information of a VIP guest. 
+  <br/><br/><br/>
+ <img src="offbyone_files/image005.jpg"><br/><br><br> 
+  <br/><br/><br/>
+ Continue forward and click the Accept Terms button, and this lesson is complete.
+  <br/><br/><br/>
+ <img src="offbyone_files/image006.jpg"><br/><br><br> 
+ </body> 
+ </html> 
