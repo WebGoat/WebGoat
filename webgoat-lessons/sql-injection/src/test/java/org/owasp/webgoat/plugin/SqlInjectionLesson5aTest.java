@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugin;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.owasp.webgoat.plugin.introduction.SqlInjection;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.springframework.beans.factory.annotation.Autowired;

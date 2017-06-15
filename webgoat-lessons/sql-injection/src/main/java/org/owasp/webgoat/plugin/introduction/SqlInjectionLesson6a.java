@@ -1,5 +1,5 @@
-package org.owasp.webgoat.plugin;
 
+package org.owasp.webgoat.plugin.introduction;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.*;
 
@@ -46,29 +45,30 @@ import java.sql.*;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjection/attack5b")
-@AssignmentHints(value = {"SqlStringInjectionHint1", "SqlStringInjectionHint2", "SqlStringInjectionHint3", "SqlStringInjectionHint4"})
-public class SqlInjectionLesson5b extends AssignmentEndpoint {
+@AssignmentPath("/SqlInjection/attack6a")
+@AssignmentHints(value = {"SqlStringInjectionHint5", "SqlStringInjectionHint6", "SqlStringInjectionHint7"})
+public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
     public
     @ResponseBody
-    AttackResult completed(@RequestParam String userid, HttpServletRequest request) throws IOException {
-        return injectableQuery(userid);
+    AttackResult completed(@RequestParam String userid_6a) throws IOException {
+        return injectableQuery(userid_6a);
+        // The answer: Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from user_system_data --
 
     }
 
     protected AttackResult injectableQuery(String accountName) {
         try {
             Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM user_data WHERE userid = " + accountName;
+            String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
 
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 ResultSet results = statement.executeQuery(query);
 
-                if ((results != null) && (results.first() == true)) {
+                if ((results != null) && (results.first())) {
                     ResultSetMetaData resultsMetaData = results.getMetaData();
                     StringBuffer output = new StringBuffer();
 
@@ -76,19 +76,17 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
                     results.last();
 
                     // If they get back more than one user they succeeded
-                    if (results.getRow() >= 6) {
-                        return trackProgress(success().feedback("sql-injection.5b.success").feedbackArgs(output.toString()).build());
+                    if (results.getRow() >= 5) {
+                        return trackProgress(success().feedback("sql-injection.6a.success").feedbackArgs(output.toString()).build());
                     } else {
                         return trackProgress(failed().output(output.toString()).build());
                     }
 
                 } else {
-                    return trackProgress(failed().feedback("sql-injection.5b.no.results").build());
+                    return trackProgress(failed().feedback("sql-injection.6a.no.results").build());
 
-//                    output.append(getLabelManager().get("NoResultsMatched"));
                 }
             } catch (SQLException sqle) {
-
                 return trackProgress(failed().output(sqle.getMessage()).build());
             }
         } catch (Exception e) {

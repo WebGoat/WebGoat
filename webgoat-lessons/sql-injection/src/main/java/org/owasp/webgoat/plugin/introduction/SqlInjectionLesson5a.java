@@ -1,5 +1,5 @@
 
-package org.owasp.webgoat.plugin;
+package org.owasp.webgoat.plugin.introduction;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.sql.*;
-
-import static org.owasp.webgoat.plugin.SqlInjectionLesson5a.writeTable;
 
 
 /***************************************************************************************************
@@ -47,17 +45,15 @@ import static org.owasp.webgoat.plugin.SqlInjectionLesson5a.writeTable;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjection/attack6a")
-@AssignmentHints(value = {"SqlStringInjectionHint5", "SqlStringInjectionHint6", "SqlStringInjectionHint7"})
-public class SqlInjectionLesson6a extends AssignmentEndpoint {
+@AssignmentPath("/SqlInjection/attack5a")
+@AssignmentHints(value = {"SqlStringInjectionHint1", "SqlStringInjectionHint2", "SqlStringInjectionHint3", "SqlStringInjectionHint4"})
+public class SqlInjectionLesson5a extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
     public
     @ResponseBody
-    AttackResult completed(@RequestParam String userid_6a) throws IOException {
-        return injectableQuery(userid_6a);
-        // The answer: Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from user_system_data --
-
+    AttackResult completed(@RequestParam String account) {
+        return injectableQuery(account);
     }
 
     protected AttackResult injectableQuery(String accountName) {
@@ -78,22 +74,55 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     results.last();
 
                     // If they get back more than one user they succeeded
-                    if (results.getRow() >= 5) {
-                        return trackProgress(success().feedback("sql-injection.6a.success").feedbackArgs(output.toString()).build());
+                    if (results.getRow() >= 6) {
+                        return trackProgress(success().feedback("sql-injection.5a.success").feedbackArgs(output.toString()).build());
                     } else {
                         return trackProgress(failed().output(output.toString()).build());
                     }
-
                 } else {
-                    return trackProgress(failed().feedback("sql-injection.6a.no.results").build());
+                    return trackProgress(failed().feedback("sql-injection.5a.no.results").build());
 
                 }
             } catch (SQLException sqle) {
+
                 return trackProgress(failed().output(sqle.getMessage()).build());
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
         }
+    }
+
+    public static String writeTable(ResultSet results, ResultSetMetaData resultsMetaData) throws IOException,
+            SQLException {
+        int numColumns = resultsMetaData.getColumnCount();
+        results.beforeFirst();
+        StringBuffer t = new StringBuffer();
+        t.append("<p>");
+
+        if (results.next()) {
+            for (int i = 1; i < (numColumns + 1); i++) {
+                t.append(resultsMetaData.getColumnName(i));
+                t.append(", ");
+            }
+
+            t.append("<br />");
+            results.beforeFirst();
+
+            while (results.next()) {
+
+                for (int i = 1; i < (numColumns + 1); i++) {
+                    t.append(results.getString(i));
+                    t.append(", ");
+                }
+
+                t.append("<br />");
+            }
+
+        } else {
+            t.append("Query Successful; however no data was returned from this query.");
+        }
+
+        t.append("</p>");
+        return (t.toString());
     }
 }

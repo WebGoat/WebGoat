@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin;
+package org.owasp.webgoat.plugin.advanced;
 
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.NewLesson;
@@ -35,7 +35,7 @@ import java.util.List;
  * @version $Id: $Id
  * @since October 12, 2016
  */
-public class SqlInjectionMitigations extends NewLesson {
+public class SqlInjectionAdvanced extends NewLesson {
     @Override
     public Category getDefaultCategory() {
         return Category.INJECTION;
@@ -53,11 +53,11 @@ public class SqlInjectionMitigations extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "SQL Injection (mitigations)";
+        return "SQL Injection (advanced)";
     }
 
     @Override
     public String getId() {
-        return "SqlInjectionMitigations";
+        return "SqlInjectionAdvanced";
     }
 }

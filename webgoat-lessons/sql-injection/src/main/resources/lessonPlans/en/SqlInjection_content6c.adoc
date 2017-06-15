@@ -1,11 +1,11 @@
-=== Blind SQL Injection
+== Blind SQL Injection
 
 Blind SQL injection is a type of SQL injection attack that asks the database true or false
 questions and determines the answer based on the applications response. This attack is often used when the web
 application is configured to show generic error messages, but has not mitigated the code that is vulnerable to SQL
 injection.
 
-==== Difference
+=== Difference
 
 Let's first start with the difference between a normal SQL injection and a blind SQL injection. In a normal
 SQL injection the error messages from the database are displayed and gives enough information to find out how
@@ -16,7 +16,7 @@ based on a true or false statement. That's why a blind SQL injection is much mor
 There are several different types of blind SQL injections: content based and time based SQL injections.
 
 
-==== Example
+=== Example
 
 In this case we are trying to ask the database a boolean question based on for example a unique id, for example
 suppose we have the following url: `https://my-shop.com?article=4`

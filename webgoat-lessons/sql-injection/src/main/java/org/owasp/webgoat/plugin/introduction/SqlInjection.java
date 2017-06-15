@@ -1,10 +1,10 @@
-package org.owasp.webgoat.plugin;
-
-import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+package org.owasp.webgoat.plugin.introduction;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.owasp.webgoat.lessons.Category;
+import org.owasp.webgoat.lessons.NewLesson;
 
 /**
  * ************************************************************************************************
@@ -35,7 +35,7 @@ import java.util.List;
  * @version $Id: $Id
  * @since October 12, 2016
  */
-public class SqlInjectionAdvanced extends NewLesson {
+public class SqlInjection extends NewLesson {
     @Override
     public Category getDefaultCategory() {
         return Category.INJECTION;
@@ -43,7 +43,14 @@ public class SqlInjectionAdvanced extends NewLesson {
 
     @Override
     public List<String> getHints() {
-        return new ArrayList<>();
+        List<String> hints = new ArrayList<String>();
+        
+//        hints.add(getLabelManager().get("SqlStringInjectionHint1"));
+//        hints.add(getLabelManager().get("SqlStringInjectionHint2"));
+//        hints.add(getLabelManager().get("SqlStringInjectionHint3"));
+//        hints.add(getLabelManager().get("SqlStringInjectionHint4"));
+
+        return hints;
     }
 
     @Override
@@ -53,11 +60,11 @@ public class SqlInjectionAdvanced extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "SQL Injection (advanced)";
+        return "SQL Injection";
     }
 
     @Override
     public String getId() {
-        return "SqlInjectionAdvanced";
+        return "SqlInjection";
     }
 }
