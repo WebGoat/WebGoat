@@ -72,8 +72,6 @@
         </profile>
     </profiles>
 
-
-
     <dependencies>
         <dependency>
             <groupId>com.spotify</groupId>
@@ -86,11 +84,11 @@
             <artifactId>webgoat-container</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
-            <!--<artifactId>challenge</artifactId>-->
-            <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>challenge</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>bypass-restrictions</artifactId>
