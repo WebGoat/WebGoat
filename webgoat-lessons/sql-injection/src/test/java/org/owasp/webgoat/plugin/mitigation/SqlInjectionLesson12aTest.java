@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin;
+package org.owasp.webgoat.plugin.mitigation;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,5 +76,21 @@ public class SqlInjectionLesson12aTest extends LessonTest {
                 .param("column", "CASE WHEN (SELECT ip FROM servers WHERE hostname='webgoat-prd') LIKE '104.%' THEN hostname ELSE id END"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk()).andExpect(jsonPath("$[0].hostname", is("webgoat-acc")));
+    }
+
+    @Test
+    public void postingCorrectAnswerShouldPassTheLesson() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack12a")
+                .param("ip", "104.130.219.202"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
+    }
+
+    @Test
+    public void postingWrongAnswerShouldNotPassTheLesson() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack12a")
+                .param("ip", "192.168.219.202"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(false)));
     }
 }
