@@ -52,63 +52,63 @@
                   enctype="application/json;charset=UTF-8"
                   onsubmit="return validate()">
                 <div>
-                  Field1: exactly three lowercase characters(^[a-z]{3}$)
+                    <strong>Field 1:</strong> exactly three lowercase characters(^[a-z]{3}$)
                 </div>
                 <div>
                   <textarea cols="25" name="field1" rows="1">abc</textarea>
                 </div>
                 <p></p>
-                <div>Field2: exactly three digits(^[0-9]{3}$)</div>
+                <div><strong>Field 2:</strong> exactly three digits(^[0-9]{3}$)</div>
                 <div>
                   <textarea cols="25" name="field2" rows="1">123</textarea>
                 </div>
                 <p></p>
-                <div>Field3: letters, numbers, and space only(^[a-zA-Z0-9 ]*$)</div>
+                <div><strong>Field 3:</strong> letters, numbers, and space only(^[a-zA-Z0-9 ]*$)</div>
                 <div>
                   <textarea cols="25" name="field3" rows="1">abc 123 ABC</textarea>
                 </div>
                 <p></p>
-                <div>Field4: enumeration of numbers (^(one|two|three|four|five|six|seven|eight|nine)$)</div>
+                <div><strong>Field 4:</strong> enumeration of numbers (^(one|two|three|four|five|six|seven|eight|nine)$)</div>
                 <div>
                   <textarea cols="25" name="field4" rows="1">seven</textarea>
                 </div>
                 <p></p>
-                <div>Field5: simple zip code (^\d{5}$)</div>
+                <div><strong>Field 5:</strong> simple zip code (^\d{5}$)</div>
                 <div>
                   <textarea cols="25" name="field5" rows="1">01101</textarea>
                 </div>
                 <p></p>
-                <div>Field6: zip with optional dash four (^\d{5}(-\d{4})?$)</div>
+                <div><strong>Field 6:</strong> zip with optional dash four (^\d{5}(-\d{4})?$)</div>
                 <div>
                   <textarea cols="25" name="field6" rows="1">90210-1111</textarea>
                 </div>
                 <p></p>
-                <div>Field7: US phone number with or without dashes (^[2-9]\d{2}-?\d{3}-?\d{4}$)</div>
+                <div><strong>Field 7:</strong> US phone number with or without dashes (^[2-9]\d{2}-?\d{3}-?\d{4}$)</div>
                 <div>
                   <textarea cols="25" name="field7" rows="1">301-604-4882</textarea>
                 </div>
                 <input type="hidden" value="" name="error" />
-                <p><input type="submit" value="Submit" /></p>
+                <p><button type="submit" class="btn btn-primary">Submit</button></p>
             </form>
 
             <script>
-            let regex1=/^[a-z]{3}$/;
-            let regex2=/^[0-9]{3}$/;
-            let regex3=/^[a-zA-Z0-9 ]*$/;
-            let regex4=/^(one|two|three|four|five|six|seven|eight|nine)$/;
-            let regex5=/^\d{5}$/;
-            let regex6=/^\d{5}(-\d{4})?$/;
-            let regex7=/^[2-9]\d{2}-?\d{3}-?\d{4}$/;
+            var regex1=/^[a-z]{3}$/;
+            var regex2=/^[0-9]{3}$/;
+            var regex3=/^[a-zA-Z0-9 ]*$/;
+            var regex4=/^(one|two|three|four|five|six|seven|eight|nine)$/;
+            var regex5=/^\d{5}$/;
+            var regex6=/^\d{5}(-\d{4})?$/;
+            var regex7=/^[2-9]\d{2}-?\d{3}-?\d{4}$/;
             var validate = function() {
-              let msg='JavaScript found form errors';
-              let err=0;
-              if (!regex1.test(document.frontendValidation.field1.value)) {err+=1; msg+='\n  bad field1';}
-              if (!regex2.test(document.frontendValidation.field2.value)) {err+=1; msg+='\n  bad field2';}
-              if (!regex3.test(document.frontendValidation.field3.value)) {err+=1; msg+='\n  bad field3';}
-              if (!regex4.test(document.frontendValidation.field4.value)) {err+=1; msg+='\n  bad field4';}
-              if (!regex5.test(document.frontendValidation.field5.value)) {err+=1; msg+='\n  bad field5';}
-              if (!regex6.test(document.frontendValidation.field6.value)) {err+=1; msg+='\n  bad field6';}
-              if (!regex7.test(document.frontendValidation.field7.value)) {err+=1; msg+='\n  bad field7';}
+              var msg='JavaScript found form errors';
+              var err=0;
+              if (!regex1.test(document.frontendValidation.field1.value)) {err+=1; msg+='\n  Value entered for field 1 is not correct';}
+              if (!regex2.test(document.frontendValidation.field2.value)) {err+=1; msg+='\n  Value entered for field 2 is not correct';}
+              if (!regex3.test(document.frontendValidation.field3.value)) {err+=1; msg+='\n  Value entered for field 3 is not correct';}
+              if (!regex4.test(document.frontendValidation.field4.value)) {err+=1; msg+='\n  Value entered for field 4 is not correct';}
+              if (!regex5.test(document.frontendValidation.field5.value)) {err+=1; msg+='\n  Value entered for field 5 is not correct';}
+              if (!regex6.test(document.frontendValidation.field6.value)) {err+=1; msg+='\n  Value entered for field 6 is not correct';}
+              if (!regex7.test(document.frontendValidation.field7.value)) {err+=1; msg+='\n  Value entered for field 7 is not correct';}
               document.frontendValidation.error.value = err
               if ( err > 0 ) {
                 alert(msg)
@@ -117,6 +117,8 @@
               return true;
             }
             </script>
+            <br/>
+            <br/>
             <div class="attack-feedback"></div>
             <div class="attack-output"></div>
         </div>

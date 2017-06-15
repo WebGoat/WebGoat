@@ -1,4 +1,5 @@
 == Validation
+
 Often, there is some mechanism in place to prevent users from sending altered
 field values to server, such as validation before sending. Most of popular browsers
 such as Chrome don't allow editing scripts during runtime. We will have to circumvent
