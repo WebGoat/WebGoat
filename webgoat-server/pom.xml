@@ -149,6 +149,13 @@
             <artifactId>xxe</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!--uncommment below to run/include lesson template in WebGoat Build-->
+        <!--<dependency>-->
+            <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
+            <!--<artifactId>webgoat-lesson-template</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+        <!-- /lessons -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
