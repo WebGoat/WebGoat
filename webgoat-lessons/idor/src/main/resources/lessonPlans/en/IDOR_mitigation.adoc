@@ -46,7 +46,7 @@ guessed, brute-forced or reverse engineered.
 This approach should not be the only protection used. It can be used as an additional layer. Your server must
 implement the logic of mapping client (indirect) to server (direct) references.
 
-=== APIs
+=== Access Control & APIs
 Many time, APIs or RESTFul endpoints rely on obscurity , a static 'key', or lack of imagination on the user's part to control access.
 Good options such as digitally signed JSON Web Tokens (https://jwt.io) are a good option for API authentication & access control using a
 combination of the claims and a digital/cryptographic signature to validate the consumer.  Other emerging standards such as
