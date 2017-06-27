@@ -42,7 +42,7 @@ addons:
     project:
       name: "WebGoat/WebGoat"
       description: "Coverity Scan from Travis CI Build Automation"
-    notification_email: doug.morato@owasp.org
+    notification_email: webgoat@owasp.org
     build_command_prepend: "mvn clean"
     build_command: "mvn -DskipTests=true package"
     branch_pattern: coverity_scan

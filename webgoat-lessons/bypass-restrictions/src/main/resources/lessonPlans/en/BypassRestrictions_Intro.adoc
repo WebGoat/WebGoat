@@ -1,0 +1,11 @@
+== Concept
+
+Users have a great degree of control over the front-end of the web application.
+They can alter HTML code, sometimes also scripts. This is why
+apps that require certain format of input should also validate on server-side.
+
+== Goals
+
+* The user should have a basic knowledge of HTML
+* The user should be able to tamper a request before sending (with proxy or other tool)
+* The user will be able to tamper with field restrictions and bypass client-side validation

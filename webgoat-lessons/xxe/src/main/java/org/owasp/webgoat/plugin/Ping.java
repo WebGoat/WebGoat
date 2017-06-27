@@ -2,12 +2,10 @@ package org.owasp.webgoat.plugin;
 
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.Endpoint;
+import org.owasp.webgoat.session.WebSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,6 +45,8 @@ public class Ping extends Endpoint {
 
     @Value("${webgoat.user.directory}")
     private String webGoatHomeDirectory;
+    @Autowired
+    private WebSession webSession;
 
     @Override
     public String getPath() {
@@ -58,7 +58,7 @@ public class Ping extends Endpoint {
     public String logRequest(@RequestHeader("User-Agent") String userAgent, @RequestParam(required = false) String text) {
         String logLine = String.format("%s %s %s", "GET", userAgent, text);
         log.debug(logLine);
-        File logFile = new File(webGoatHomeDirectory, "/XXE/log.txt");
+        File logFile = new File(webGoatHomeDirectory, "/XXE/log" + webSession.getUserName() + ".txt");
         try {
             try (PrintWriter pw = new PrintWriter(logFile)) {
                 pw.println(logLine);

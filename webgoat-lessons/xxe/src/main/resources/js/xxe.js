@@ -1,22 +1,52 @@
+webgoat.customjs.simpleXXE = function () {
+    var commentInput = $("#commentInputSimple").val();
+    var xml = '<?xml version="1.0"?>' +
+        '<comment>' +
+        '  <text>' + commentInput + '</text>' +
+        '</comment>';
+    return xml;
+}
+
+webgoat.customjs.simpleXXECallback = function() {
+    $("#commentInputBlind").val('');
+    getComments('#commentsListSimple');
+}
+
 $(document).ready(function () {
-    $("#postComment").unbind();
-    $("#postComment").on("click", function () {
-        var commentInput = $("#commentInput").val();
-        $.ajax({
-            type: 'POST',
-            url: 'xxe/simple',
-            data: JSON.stringify({text: commentInput}),
-            contentType: "application/json",
-            dataType: 'json'
-        }).then(
-            function () {
-                getComments();
-                $("#commentInput").val('');
-            }
-        )
-    })
-    getComments();
-})
+    getComments('#commentsListSimple');
+});
+
+webgoat.customjs.blindXXE = function() {
+    var commentInput = $("#commentInputBlind").val();
+    var xml = '<?xml version="1.0"?>' +
+        '<comment>' +
+        '  <text>' + commentInput + '</text>' +
+        '</comment>';
+    return xml;
+}
+
+webgoat.customjs.blindXXECallback = function() {
+    $("#commentInputBlind").val('');
+    getComments('#commentsListBlind');
+}
+
+$(document).ready(function () {
+    getComments('#commentsListBlind');
+});
+
+webgoat.customjs.contentTypeXXE = function() {
+    var commentInput = $("#commentInputContentType").val();
+    return JSON.stringify({text: commentInput});
+}
+
+webgoat.customjs.contentTypeXXECallback = function() {
+    $("#commentInputContentType").val('');
+    getComments('#commentsListContentType');
+}
+
+$(document).ready(function () {
+    getComments('#commentsListContentType');
+});
 
 var html = '<li class="comment">' +
     '<div class="pull-left">' +
@@ -31,14 +61,14 @@ var html = '<li class="comment">' +
     '</div>' +
     '</li>';
 
-function getComments() {
-    $.get("xxe/simple", function (result, status) {
-        $("#comments_list").empty();
+function getComments(field) {
+    $.get("xxe/comments", function (result, status) {
+        $(field).empty();
         for (var i = 0; i < result.length; i++) {
             var comment = html.replace('USER', result[i].user);
             comment = comment.replace('DATETIME', result[i].dateTime);
             comment = comment.replace('COMMENT', result[i].text);
-            $("#comments_list").append(comment);
+            $(field).append(comment);
         }
 
     });

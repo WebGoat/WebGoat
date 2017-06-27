@@ -19,3 +19,11 @@ xif.setProperty(XMLInputFactory.SUPPORT_DTD, true);
 ----
 
 For more information about configuration, see https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Prevention_Cheat_Sheet
+
+
+==== Validate
+
+Implement proper validation for the Content-type and Accept header do not simply rely on the framework to handle
+ the incoming request. Also if the client specifies a proper accept header return with a `406/Not Acceptable.
+
+`

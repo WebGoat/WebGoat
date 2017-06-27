@@ -1,6 +1,6 @@
 package org.owasp.webgoat.lessons;
 
-import lombok.Getter;
+import com.google.common.collect.Lists;
 import lombok.Setter;
 import org.owasp.webgoat.session.Screen;
 
@@ -44,9 +44,15 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
 
     private Integer ranking;
 
-    @Getter
     @Setter
     private List<Assignment> assignments;
+
+    public List<Assignment> getAssignments() {
+        if (assignments == null) {
+            return Lists.newArrayList();
+        }
+        return assignments;
+    }
 
     /**
      * Constructor for the Lesson object

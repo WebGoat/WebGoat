@@ -80,7 +80,9 @@ define(['jquery',
             var self = this;
             // TODO custom Data prep for submission
             var prepareDataFunctionName = $(curForm).attr('prepareData');
+            var callbackFunctionName = $(curForm).attr('callback');
             var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : $(curForm).serialize();
+            var callbackFunction = (typeof webgoat.customjs[callbackFunctionName] === 'function') ? webgoat.customjs[callbackFunctionName] : function() {};
             // var submitData = this.$form.serialize();
             this.curForm = curForm;
             this.$curFeedback = $(curForm).closest('.attack-container').find('.attack-feedback');
@@ -93,14 +95,16 @@ define(['jquery',
                 url:formUrl,
                 method:formMethod,
                 contentType:contentType,
-                data: submitData
+                data: submitData,
+                complete: function (data) {
+                    callbackFunction();
+                }
             }).then(self.onSuccessResponse.bind(self), self.onErrorResponse.bind(self));
             return false;
          },
 
         onSuccessResponse: function(data) {
             this.renderFeedback(data.feedback);
-
             this.renderOutput(data.output || "");
             //TODO: refactor back assignmentCompleted in Java
             if (data.lessonCompleted || data.assignmentCompleted) {

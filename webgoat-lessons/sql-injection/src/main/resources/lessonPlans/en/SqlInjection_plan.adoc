@@ -9,5 +9,4 @@ This lesson describes what is Structured Query Language (SQL) and how it can be 
 * The user will demonstrate knowledge on:
 ** String SQL Injection
 ** Numeric SQL Injection
-** Combining SQL Injection Techniques
 

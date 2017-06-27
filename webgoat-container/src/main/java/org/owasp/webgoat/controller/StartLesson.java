@@ -33,7 +33,6 @@ package org.owasp.webgoat.controller;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -77,8 +76,8 @@ public class StartLesson {
         // I will set here the thymeleaf fragment location based on the resource requested.
         ModelAndView model = new ModelAndView();
         SecurityContext context = SecurityContextHolder.getContext(); //TODO this should work with the security roles of Spring
-        GrantedAuthority authority = context.getAuthentication().getAuthorities().iterator().next();
-        String path = request.getServletPath(); // we now got /a/b/c/AccessControlMatrix.lesson
+        //GrantedAuthority authority = context.getAuthentication().getAuthorities().iterator().next();
+        String path = request.getRequestURL().toString(); // we now got /a/b/c/AccessControlMatrix.lesson
         String lessonName = path.substring(path.lastIndexOf('/') + 1, path.indexOf(".lesson"));
         List<AbstractLesson> lessons = course.getLessons();
         Optional<AbstractLesson> lesson = lessons.stream()

@@ -72,8 +72,6 @@
         </profile>
     </profiles>
 
-
-
     <dependencies>
         <dependency>
             <groupId>com.spotify</groupId>
@@ -86,11 +84,16 @@
             <artifactId>webgoat-container</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
-            <!--<artifactId>challenge</artifactId>-->
-            <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>challenge</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>bypass-restrictions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>client-side-filtering</artifactId>
@@ -99,6 +102,11 @@
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>cross-site-scripting</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>html-tampering</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -114,6 +122,11 @@
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>idor</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>insecure-login</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -136,6 +149,13 @@
             <artifactId>xxe</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!--uncommment below to run/include lesson template in WebGoat Build-->
+        <!--<dependency>-->
+            <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
+            <!--<artifactId>webgoat-lesson-template</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+        <!-- /lessons -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.FileSystemUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -23,14 +24,10 @@ public class CleanupLocalProgressFiles {
     @PostConstruct
     public void clean() {
         File dir = new File(webgoatHome);
-        if (dir.exists()) {
-            File[] progressFiles = dir.listFiles(f -> f.getName().endsWith(".progress"));
-            if (progressFiles != null) {
-                log.info("Removing stored user preferences...");
-                for (File f : progressFiles) {
-                    f.delete();
-                }
-            }
+        //do it safe, check whether the subdir mongodb is available as subdirectory
+        File[] mongoDir = dir.listFiles(f -> f.isDirectory() && f.getName().contains("mongodb"));
+        if (mongoDir != null && mongoDir.length == 1) {
+            FileSystemUtils.deleteRecursively(dir);
         }
     }
 }
