@@ -1,19 +1,19 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/LessonOverviewModel',
+	'goatApp/model/LessonOverviewCollection',
     'text!templates/lesson_overview.html'],
 function($,
 	_,
 	Backbone,
-	LessonOverviewModel,
+	LessonOverviewCollection,
 	LessonOverviewTemplate) {
 	return Backbone.View.extend({
 	    template: LessonOverviewTemplate,
 		el:'#lesson-overview',
-		 initialize: function (lessonOverviewModel) {
-			this.model = lessonOverviewModel;
-			this.listenTo(this.model, 'change add remove update reset', this.render);
+		 initialize: function (lessonOverviewCollection) {
+			this.collection = lessonOverviewModel;
+			this.listenTo(this.collection, 'change add remove update reset', this.render);
 			this.hideLessonOverview();
 		},
 

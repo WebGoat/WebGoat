@@ -973,20 +973,24 @@ cookie-container {
     padding-top:2px;
 }
 
-.attack-link.solved-true {
-    color:#88FB88;
-}
-
 .attack-link.solved-false {
-    color:#f2baba;
-}
-
-.attack-link.cur-page, .page-link.cur-page {
+    background-color:#ac2925;
     color:#fff;
 }
 
 .page-link {
     color:#eee;
+}
+
+.attack-link.solved-true {
+    /*color:#88FB88;*/
+    background-color:#247506;
+    color:#fff;
+}
+
+.attack-link.cur-page, .page-link.cur-page {
+    color:#fff;
+    font-weight:bold;
 }
 
 .page-link-wrapper {
