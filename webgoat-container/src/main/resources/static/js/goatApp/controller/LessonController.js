@@ -18,17 +18,13 @@ define(['jquery',
     'goatApp/view/TitleView',
     'goatApp/model/LessonProgressModel',
     'goatApp/view/LessonProgressView',
-    'goatApp/view/LessonOverviewView',
-    'goatApp/model/LessonOverviewModel'
+    'goatApp/view/LessonOverviewView'
     ],
     function($,
         _,
         Backbone,
         LessonContentModel,
         LessonContentView,
-//        PlanView,
-//        SourceView,
-//        SolutionView,
         HintView,
         HelpControlsView,
         ParamView,
@@ -41,8 +37,7 @@ define(['jquery',
         TitleView,
         LessonProgressModel,
         LessonProgressView,
-        LessonOverviewView,
-        LessonOverviewModel
+        LessonOverviewView
     ) {
         'use strict'
 
@@ -50,8 +45,6 @@ define(['jquery',
             this.lessonContent = new LessonContentModel();
             this.lessonProgressModel = new LessonProgressModel();
             this.lessonProgressView = new LessonProgressView(this.lessonProgressModel);
-            this.lessonOverviewModel = new LessonOverviewModel();
-            this.lessonOverview = new LessonOverviewView(this.lessonOverviewModel);
             this.lessonContentView = options.lessonContentView;
             this.titleView = options.titleView;
             this.developerControlsView = new DeveloperControlsView();
@@ -63,7 +56,6 @@ define(['jquery',
                 this.userAndInfoView = new UserAndInfoView();
                 this.menuButtonView = new MenuButtonView();
                 this.listenTo(this.lessonContentView, 'assignment:complete', this.updateMenu);
-                this.listenTo(this.lessonContentView, 'assignment:complete', this.updateLessonOverview);
                 this.listenTo(this.lessonContentView, 'endpoints:filtered', this.filterPageHints);
             };
 
@@ -111,23 +103,17 @@ define(['jquery',
                 });
 
                 this.listenTo(this.helpControlsView,'hints:show',this.showHints);
-                this.listenTo(this.helpControlsView,'lessonOverview:show',this.showLessonOverview)
 
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
                 this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
 
                 this.helpControlsView.render();
-                this.lessonOverview.hideLessonOverview();
                 this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
             };
 
             this.updateMenu = function() {
                 this.trigger('menu:reload')
             };
-
-            this.updateLessonOverview = function() {
-                this.lessonOverviewModel.fetch();
-            }
 
             this.onContentLoaded = function(loadHelps) {
                 this.lessonInfoModel = new LessonInfoModel();
@@ -196,10 +182,6 @@ define(['jquery',
 
             this.showHints = function() {
                 this.lessonHintView.render();
-            };
-
-            this.showLessonOverview = function() {
-               this.lessonOverviewModel.fetch().then(this.lessonOverview.render());
             };
 
             this.restartLesson = function() {
