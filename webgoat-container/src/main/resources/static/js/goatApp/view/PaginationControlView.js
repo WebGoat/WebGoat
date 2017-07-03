@@ -15,13 +15,12 @@ define(['jquery',
             initialize: function ($contentPages,baseLessonUrl) {
                 this.$contentPages = $contentPages;
                 this.collection = new LessonOverviewCollection();
-                this.listenTo(this.collection, 'change add reset delete update', this.render);
+                this.listenTo(this.collection, 'reset', this.render);
                 this.numPages = this.$contentPages.length;
                 this.baseUrl = baseLessonUrl;
-
-                this.collection.fetch();
+                this.collection.fetch({reset:true});
                 this.initPagination();
-                this.render();
+                //this.render();
              },
 
             render: function (e) {
@@ -32,8 +31,8 @@ define(['jquery',
                 this.hideShowNavButtons();
             },
 
-            updateModel: function() {
-                this.collection.fetch();
+            updateCollection: function() {
+                this.collection.fetch({reset:true});
             },
 
             bindNavButtons: function() {
@@ -142,7 +141,7 @@ define(['jquery',
                     this.hideNextPageButton();
                     this.showPrevPageButton;
                 }
-                this.model.fetch();
+                this.collection.fetch({reset:true});
             },
 
             decrementPageView: function() {
@@ -159,7 +158,7 @@ define(['jquery',
                     this.hidePrevPageButton();
                     this.showNextPageButton()
                 }
-                this.model.fetch();
+                this.collection.fetch({reset:true});
             },
 
             hideShowNavButtons: function () {

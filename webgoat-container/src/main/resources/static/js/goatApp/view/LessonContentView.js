@@ -60,6 +60,9 @@ define(['jquery',
             this.paginationControlView = new PaginationControlView(this.$contentPages,this.model.get('lessonUrl'));
          },
 
+         updatePagination: function() {
+            this.paginationControlView.updateCollection();
+         },
 
          getCurrentPage: function () {
             return this.currentPage;
@@ -121,7 +124,7 @@ define(['jquery',
         markAssignmentComplete: function () {
             this.curForm.reset();
             $(this.curForm).siblings('.assignment-success').find('i').removeClass('hidden');
-            this.paginationControlView.updateModel();
+            this.paginationControlView.updateCollection();
         },
 
         markAssignmentIncomplete: function () {

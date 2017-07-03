@@ -192,6 +192,7 @@ define(['jquery',
                 }).done(function(lessonLink) {
                     self.loadLesson(self.name);
                     self.updateMenu();
+                    self.callPaginationUpdate();
                 });
             };
 
@@ -200,7 +201,12 @@ define(['jquery',
                 this.lessonContentView.showTestParam(param);
             };
 
+            this.callPaginationUpdate = function () {
+                this.lessonContentView.updatePagination();
+            }
+
         };
+
 
 
 
