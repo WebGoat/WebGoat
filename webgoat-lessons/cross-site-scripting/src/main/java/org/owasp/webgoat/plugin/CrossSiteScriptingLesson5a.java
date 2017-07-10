@@ -17,40 +17,40 @@ import java.io.IOException;
 
 
 /***************************************************************************************************
- * 
- * 
+ *
+ *
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
- * 
+ *
  * Copyright (c) 2002 - 20014 Bruce Mayhew
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
- * 
+ *
  * Getting Source ==============
- * 
+ *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
- * 
+ *
  * For details, please see http://webgoat.github.io
- * 
+ *
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
 @AssignmentPath("/CrossSiteScripting/attack5a")
 public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
 
-    @Autowired
-    UserSessionData userSessionData;
+	@Autowired
+	UserSessionData userSessionData;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody AttackResult completed(@RequestParam Integer QTY1,
@@ -58,35 +58,34 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
 												@RequestParam Integer QTY4, @RequestParam String field1,
 												@RequestParam Integer field2, HttpServletRequest request)
 			throws IOException {
-		// System.out.println("foo");
-		// Should add some QTY validation here.  Someone could have fun and enter a negative quantity and get merchanidise and a refund :)
-		double totalSale = QTY1.intValue() * 69.99 + QTY2.intValue() * 27.99 + QTY3.intValue() * 1599.99 + QTY4.intValue() * 299.99;  
 
-        userSessionData.setValue("xss-reflected1-complete",(Object)"false");
-       	StringBuffer cart = new StringBuffer();
-       	cart.append("Thank you for shopping at WebGoat. <br />You're support is appreciated<hr />");
-       	cart.append("<p>We have chaged credit card:" + field1 + "<br />");
-       	cart.append(   "                             ------------------- <br />");
-       	cart.append(   "                               $" + totalSale);
+		double totalSale = QTY1.intValue() * 69.99 + QTY2.intValue() * 27.99 + QTY3.intValue() * 1599.99 + QTY4.intValue() * 299.99;
 
-       	//init state
-        if (userSessionData.getValue("xss-reflected1-complete") == null) {
-            userSessionData.setValue("xss-reflected1-complete",(Object)"false");
-        }
+		userSessionData.setValue("xss-reflected1-complete",(Object)"false");
+		StringBuffer cart = new StringBuffer();
+		cart.append("Thank you for shopping at WebGoat. <br />You're support is appreciated<hr />");
+		cart.append("<p>We have chaged credit card:" + field1 + "<br />");
+		cart.append(   "                             ------------------- <br />");
+		cart.append(   "                               $" + totalSale);
 
-        if (field1.toLowerCase().contains("<script>alert('my javascript here')</script>")) {
+		//init state
+		if (userSessionData.getValue("xss-reflected1-complete") == null) {
+			userSessionData.setValue("xss-reflected1-complete",(Object)"false");
+		}
+
+		if (field1.toLowerCase().contains("<script>alert('my javascript here')</script>")) {
 			//return trackProgress()
-            userSessionData.setValue("xss-reflected-5a-complete","true");
-            return trackProgress(success()
-                    .feedback("xss-reflected-5a-success")
-                    .output(cart.toString())
-                    .build());
+			userSessionData.setValue("xss-reflected-5a-complete","true");
+			return trackProgress(success()
+					.feedback("xss-reflected-5a-success")
+					.output(cart.toString())
+					.build());
 		} else {
-            userSessionData.setValue("xss-reflected1-complete","false");
-            return trackProgress(success()
-                    .feedback("xss-reflected-5a-failure")
-                    .output(cart.toString())
-                    .build());
-        }
+			userSessionData.setValue("xss-reflected1-complete","false");
+			return trackProgress(success()
+					.feedback("xss-reflected-5a-failure")
+					.output(cart.toString())
+					.build());
+		}
 	}
 }

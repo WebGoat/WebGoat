@@ -138,7 +138,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN" id="view-other"
               method="GET" name="view-other-profile"
-              action="/WebGoat/IDOR/profile"
+              action="/WebGoat/IDOR/profile/{userId}"
               enctype="application/json;charset=UTF-8">
             <script th:src="@{/lesson_js/idor.js}" />
 
@@ -163,7 +163,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN" id="edit-other"
               method="GET" name="edit-other-profile"
-              action="/WebGoat/IDOR/profile"
+              action="/WebGoat/IDOR/profile/{userId}"
               enctype="application/json;charset=UTF-8">
             <script th:src="@{/lesson_js/idor.js}" />
 

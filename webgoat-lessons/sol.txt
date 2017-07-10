@@ -3,6 +3,9 @@ Basic
 Smith  - to show it returns smith's records
 Smith' or '1'='1    - to show exploit; 1=1 can be any true clause
 
+**Bender Login
+bender@juice-sh.op' --
+
 [2:19 PM]  
 101
 101 or 1=1

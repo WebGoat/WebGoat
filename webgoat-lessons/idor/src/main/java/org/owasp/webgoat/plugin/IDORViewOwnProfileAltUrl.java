@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugin;
 
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
@@ -46,6 +47,7 @@ import java.util.Map;
  */
 
 @AssignmentPath("IDOR/profile/alt-path")
+@AssignmentHints({"idor.hints.ownProfileAltUrl1","idor.hints.ownProfileAltUrl2","idor.hints.ownProfileAltUrl3"})
 public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint{
 
     @Autowired

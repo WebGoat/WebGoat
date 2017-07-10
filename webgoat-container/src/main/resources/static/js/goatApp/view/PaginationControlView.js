@@ -1,12 +1,12 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'goatApp/model/LessonOverviewModel',
+        'goatApp/model/LessonOverviewCollection',
         'text!templates/paging_controls.html'],
     function ($,
               _,
               Backbone,
-              LessonOverviewModel,
+              LessonOverviewCollection,
               PaginationTemplate) {
         return Backbone.View.extend({
             template: PaginationTemplate,
@@ -14,22 +14,25 @@ define(['jquery',
 
             initialize: function ($contentPages,baseLessonUrl) {
                 this.$contentPages = $contentPages;
-                this.model = new LessonOverviewModel();
-                this.listenTo(this.model, 'change add remove update reset', this.render);
+                this.collection = new LessonOverviewCollection();
+                this.listenTo(this.collection, 'reset', this.render);
                 this.numPages = this.$contentPages.length;
                 this.baseUrl = baseLessonUrl;
-
-                this.model.fetch();
+                this.collection.fetch({reset:true});
                 this.initPagination();
-                this.render();
+                //this.render();
              },
 
-            render: function () {
+            render: function (e) {
                 this.parseLinks();
                 var t = _.template(this.template);
                 this.$el.html(t({'overview':this.lessonOverview}));
-               this.bindNavButtons();
+                this.bindNavButtons();
                 this.hideShowNavButtons();
+            },
+
+            updateCollection: function() {
+                this.collection.fetch({reset:true});
             },
 
             bindNavButtons: function() {
@@ -42,17 +45,20 @@ define(['jquery',
                 var assignmentCount = this.$contentPages.find('.attack-container');
                 var solvedMap = {};
                 var pages = [];
-                // one pass on solved assignmets
-                _.each(this.model.toJSON(), function(assignment) {
-                    if (assignment.solved) {
-                        var key = assignment.assignment.path; //.replace(/\//g,'');
-                        solvedMap[key] = assignment.assignment.name;
-                    }
+
+                _.each(this.collection.models, function(model) {
+                    //alert (model.get('solved'));
+                     if (model.get('solved')) {
+                        var key = model.get('assignment').path.replace(/\//g,'');
+                        solvedMap[key] = model.get('assignment').name;
+                     }
+
                 });
 
                 isAttackSolved = function (path) {
                     //strip
                     var newPath = path.replace(/^\/WebGoat/,'');
+                    var newPath = newPath.replace(/\//g,'');
                     if (typeof solvedMap[newPath] !== 'undefined') {
                         return true;
                     }
@@ -68,7 +74,7 @@ define(['jquery',
                         pageClass = 'page-link';
                         pages.push({content:'content',pageClass:pageClass,curPageClass:curPageClass});
                     } else {
-                        var $assignmentForms = $(page).find('.attack-container form');
+                        var $assignmentForms = $(page).find('.attack-container form.attack-form');
                         // use for loop to avoid anonymous function scope hell
                         //var pageAssignments = {content:'attack',attacks:[]}
                         pageClass = 'attack-link'
@@ -87,6 +93,7 @@ define(['jquery',
                         pages.push({solvedClass:solvedClass,content:'assignment',curPageClass:curPageClass,pageClass:pageClass});
                     }
                 });
+
                 //assign to the view
                 this.lessonOverview = {
                     baseUrl: this.baseUrl,
@@ -134,7 +141,7 @@ define(['jquery',
                     this.hideNextPageButton();
                     this.showPrevPageButton;
                 }
-                this.render();
+                this.collection.fetch({reset:true});
             },
 
             decrementPageView: function() {
@@ -151,7 +158,7 @@ define(['jquery',
                     this.hidePrevPageButton();
                     this.showNextPageButton()
                 }
-                this.render();
+                this.collection.fetch({reset:true});
             },
 
             hideShowNavButtons: function () {

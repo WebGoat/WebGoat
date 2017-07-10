@@ -77,7 +77,7 @@ function($,
         filterHint: function(endpoint) {
             var self = this;
             _.each(this.collection.models, function(hintModel) {
-                if (endpoint.indexOf(hintModel.get('assignmentPath')) > -1) {
+                if (endpoint.indexOf(hintModel.get('assignmentPath')) > -1 || decodeURIComponent(endpoint).indexOf(hintModel.get('assignmentPath')) > -1) {
                     self.hintsToShow.push(hintModel.get('hint'));
                 }
             });
