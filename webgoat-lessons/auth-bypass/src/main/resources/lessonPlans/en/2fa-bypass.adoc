@@ -4,7 +4,7 @@
 A recent (2016) example (https://henryhoggard.co.uk/blog/Paypal-2FA-Bypass) is a great example of authentication bypass. He was unable to receive an SMS with a code, so he opted for the provided
 alternative method, which involved security questions.  Using a proxy, removed the parameters entirely ... and won.
 
-image::images/paypal-2fa-bypass.png[Paypal 2FA bypass,936,432,style="lesson-image"]
+image::images/paypal-2fa-bypass.png[Paypal 2FA bypass,1397,645,style="lesson-image"]
 
 
 === The Scenario
