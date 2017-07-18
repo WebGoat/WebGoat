@@ -1,7 +1,8 @@
 // need custom js for this?
 
-webgoat.customjs.onBypassResponse = function(e) {
-    console.warn("showPasswordChange fired - "+ data)
+webgoat.customjs.onBypassResponse = function(data) {
+    webgoat.customjs.jquery('#verify-account-form').hide();
+    webgoat.customjs.jquery('#change-password-form').show();
 }
 
 var onViewProfile = function () {

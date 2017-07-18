@@ -20,9 +20,9 @@
 
             <!-- modify the action to point to the intended endpoint and set other attributes as desired -->
             <script th:src="@{/lesson_js/bypass.js}" />
-            <form class="attack-form" accept-charset="UNKNOWN"
+            <form class="attack-form" accept-charset="UNKNOWN" id="verify-account-form"
                   method="POST" name="form"
-                  callback="onBypassResponse"
+                  successCallback="onBypassResponse"
                   action="/WebGoat/auth-bypass/verify-account"
                   enctype="application/json;charset=UTF-8">
                 <p>Verify Your Account by answering the questions below:</p>
@@ -40,6 +40,27 @@
                 <input name="submit" value="Submit" type="submit"/>
 
             </form>
+
+            <form class="attack-form" accept-charset="UNKNOWN" id="change-password-form"
+                  method="POST" name="form"
+                  successCallback="onBypassResponse"
+                  action="/WebGoat/auth-bypass/verify-account"
+                  enctype="application/json;charset=UTF-8"
+                  style="display:none"><!-- start off hidden -->
+                <p>Please provide a new password for your account</p>
+
+                <p>Password:</p>
+                <input name="newPassword" value="" type="password" /><br/>
+
+                <p>Confirm Password:</p>
+                <input name="newPasswordConfirm" value="" type="password" /><br/><br />
+
+                <input type="hidden" name="userId" value="12309746" />
+
+                <input name="submit" value="Submit" type="submit"/>
+
+            </form>
+
             <!-- do not remove the two following div's, this is where your feedback/output will land -->
             <!-- the attack response will include a 'feedback' and that will automatically go here -->
             <div class="attack-feedback"></div>
