@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugin;
 import com.google.common.collect.Lists;
 import org.jcodings.util.Hash;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
@@ -24,14 +25,11 @@ import java.util.Map;
  */
 
 @AssignmentPath("/auth-bypass/verify-account")
+@AssignmentHints({"auth-bypass.hints.verify.1", "auth-bypass.hints.verify.2", "auth-bypass.hints.verify.3", "auth-bypass.hints.verify.4"})
 public class VerifyAccount extends AssignmentEndpoint {
 
-    String secretValue = "secr37Value";
-
-    //UserSessionData is bound to session and can be used to persist data across multiple assignments
     @Autowired
     UserSessionData userSessionData;
-
 
     @PostMapping(produces = {"application/json"})
     @ResponseBody
@@ -49,6 +47,7 @@ public class VerifyAccount extends AssignmentEndpoint {
 
         // else
         if (verificationHelper.verifyAccount(new Integer(userId),(HashMap)submittedAnswers)) {
+            userSessionData.setValue("account-verified-id", userId);
             return trackProgress(success()
             .feedback("verify-account.success")
             .build());
