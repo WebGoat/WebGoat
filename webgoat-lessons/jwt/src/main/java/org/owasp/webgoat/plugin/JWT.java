@@ -24,7 +24,7 @@ public class JWT extends NewLesson {
 
     @Override
     public Integer getDefaultRanking() {
-        return null;
+        return 40;
     }
 
     @Override
