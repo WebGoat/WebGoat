@@ -149,6 +149,12 @@
             <artifactId>xxe</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>auth-bypass</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!--uncommment below to run/include lesson template in WebGoat Build-->
         <!--<dependency>-->
             <!--<groupId>org.owasp.webgoat.lesson</groupId>-->

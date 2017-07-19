@@ -91,6 +91,7 @@ define(['jquery',
             this.curForm = curForm;
             this.$curFeedback = $(curForm).closest('.attack-container').find('.attack-feedback');
             this.$curOutput = $(curForm).closest('.attack-container').find('.attack-output');
+
             var formUrl = $(curForm).attr('action');
             var formMethod = $(curForm).attr('method');
             var contentType = ($(curForm).attr('contentType')) ? $(curForm).attr('contentType') : 'application/x-www-form-urlencoded; charset=UTF-8';
@@ -100,9 +101,9 @@ define(['jquery',
                 method:formMethod,
                 contentType:contentType,
                 data: submitData,
-                complete: function (data) {
-                    callbackFunction();
-                }
+                //complete: function (data) {
+                    //callbackFunction(data);
+                //}
             }).then(self.onSuccessResponse.bind(self), self.onErrorResponse.bind(self));
             return false;
          },
@@ -110,13 +111,20 @@ define(['jquery',
         onSuccessResponse: function(data) {
             this.renderFeedback(data.feedback);
             this.renderOutput(data.output || "");
+
+            var successCallBackFunctionName = this.$form.attr('successCallback');
+            var failureCallbackFunctionName = this.$form.attr('failureCallback');
+            //var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : $(curForm).serialize();
+            successCallbackFunction = (typeof webgoat.customjs[successCallBackFunctionName] === 'function') ? webgoat.customjs[successCallBackFunctionName] : function() {};
+            failureCallbackFunction = (typeof webgoat.customjs[failureCallbackFunctionName] === 'function') ? webgoat.customjs[failureCallbackFunctionName] : function() {};
             //TODO: refactor back assignmentCompleted in Java
             if (data.lessonCompleted || data.assignmentCompleted) {
-
                 this.markAssignmentComplete();
+                successCallbackFunction(data); //data is likely not useful, except maybe the output ...
                 this.trigger('assignment:complete');
             } else {
-                this.markAssignmentIncomplete();
+                this.markAssignmentIncomplete(data); //again, data might be useful, especially the output
+                failureCallbackFunction();
             }
             return false;
         },
