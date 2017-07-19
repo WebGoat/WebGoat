@@ -18,7 +18,7 @@ public class AccountVerificationHelper {
     private  static final Integer verifyUserId = new Integer(1223445);
     private static final Map<String,String> userSecQuestions = new HashMap<>();
     static {
-        userSecQuestions.put("secQuestion0","Mr. Hamurabi");
+        userSecQuestions.put("secQuestion0","Dr. Watson");
         userSecQuestions.put("secQuestion1","Baker Street");
     }
 
@@ -37,7 +37,7 @@ public class AccountVerificationHelper {
         }
 
         if ((submittedAnswers.containsKey("secQuestion0") && submittedAnswers.get("secQuestion0").equals(secQuestionStore.get(verifyUserId).get("secQuestion0"))) &&
-                (submittedAnswers.containsKey("secQuestion1") && submittedAnswers.get("seQuestion1").equals(secQuestionStore.get(verifyUserId).get("secQuestion1"))) ) {
+                (submittedAnswers.containsKey("secQuestion1") && submittedAnswers.get("secQuestion1").equals(secQuestionStore.get(verifyUserId).get("secQuestion1"))) ) {
             likely = true;
         } else {
             likely = false;
