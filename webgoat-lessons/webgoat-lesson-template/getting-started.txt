@@ -15,11 +15,11 @@ There are a number of moving parts and this sample lesson will help you navigate
 	... line to give your lesson its own artifactId.That should be all you need to do there
 
 1.	The Base Class ...
-	In webgoat-lessons/{your-lesson}/src/main/java, refactor the LessonTemplate.java class, changing ...
-	a. the category in which you want your lesson to be in.  You can create a new category if you want, or put in an issue to have one added
-	b. The 'defaultRanking' will move your lesson up or down in the categories list
-	c. implement a new key name pair "lesson-template.title" (the key) and update the same key/value pair (your.key=your value) in src/main/resources/i18n/WebGoatLabels.properties
-	d. Implement a new value for the getId method, which leads us to ...
+        a. The name of the class (file and class name) to better match your lesson (e.g. sql-injection >> SqlInjection)
+        b. the category in which you want your lesson to be in.  You can create a new category if you want, or put in an issue to have one added
+        c. The 'defaultRanking' will move your lesson up or down in the categories list
+        d. implement a new key name pair "lesson-template.title" (the key) and update the same key/value pair (your.key=your value) in src/main/resources/i18n/WebGoatLabels.properties
+        e. Implement a new value for the getId method, which leads us to ...
 
 2. The HTML content framing ...
 	a. Rename the provided file in src/main/resources/html using your value from the getId method in your lesson's base class (e.g. public String getId() { return "your-lesson";  } >> "your-lesson.html")
