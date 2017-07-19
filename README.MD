@@ -90,6 +90,10 @@ mvn -pl webgoat-server spring-boot:run
 ```
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
 
+To change IP addresss add the following variable to WebGoat/webgoat-container/src/main/resources/application.properties file
+
+```server.address=x.x.x.x
+```
 
 # Vagrant
 
