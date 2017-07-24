@@ -1,0 +1,16 @@
+== Relying on Obscurity
+
+If you are relying on HTML, CSS or javascript to hide links that users don't normally access.
+It's a little older, but there was a case of a network router trying to protect (hide) admin functions with javascript in the UI https://www.wired.com/2009/10/routers-still-vulnerable
+
+=== Finding Hidden Items
+
+There are usually hints to finding functionality the UI does not openly expose in ...
+
+* HTML or javascript comments
+* Commented out elements
+* Items hidden via css controls/classes
+
+=== Your Mission
+
+Find two menu items not visible in menu below that are or would be of interest to an attacker/malicious user and put the labels for those menu items (there are no links right now in the menus).

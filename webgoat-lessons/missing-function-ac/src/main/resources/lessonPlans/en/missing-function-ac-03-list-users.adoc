@@ -1,0 +1,10 @@
+== Just Try It
+
+As the previous page noted, sometimes apps rely on client controls. to control access (obscurity). If you can find items that don't have visible links, just try them, see what happens. Yes, it
+can be that simple!
+
+=== Gathering User Info
+
+Often times, data dumps from vulnerabilities such as sql injection, but they can also come from poor or lacking access control.  Use the info. you already gathered to pull the list of users and
+then provide the CC# for Chaos Monkey.
+
