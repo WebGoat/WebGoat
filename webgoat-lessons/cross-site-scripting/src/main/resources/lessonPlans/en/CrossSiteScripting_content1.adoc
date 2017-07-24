@@ -29,5 +29,6 @@ javascript:alert(document.cookie);
 ----
 
 == Try It!  Using Chrome or Firefox 
-Type in `javascript:alert(document.cookie);` in the URL bar.  *NOTE:* If you /cut/paste you'll need to add the `javascript:` back in.
-Try it on a different tab (with WebGoat open in that tab).
+
+* Open a second tab and use the same url as this page you are currently on (or any url within this instance of WebGoat)
+* Then, in the address bar on each tab, type `javascript:alert(document.cookie);` *NOTE:* If you /cut/paste you'll need to add the `javascript:` back in.

@@ -49,7 +49,9 @@ import org.owasp.encoder.*;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -65,6 +67,7 @@ public class StoredXssComments extends AssignmentEndpoint {
     private static final EvictingQueue<Comment> comments = EvictingQueue.create(100);
     private static final String phoneHomeString = "<script>webgoat.customjs.phoneHome()</script>";
 
+
     static {
         comments.add(new Comment("secUriTy", DateTime.now().toString(fmt), "<script>console.warn('unit test me')</script>Comment for Unit Testing"));
         comments.add(new Comment("webgoat", DateTime.now().toString(fmt), "This comment is safe"));
@@ -76,7 +79,11 @@ public class StoredXssComments extends AssignmentEndpoint {
     @ResponseBody
     public Collection<Comment> retrieveComments() {
         Collection<Comment> allComments = Lists.newArrayList();
-        // no filtering applied here at render
+        Collection<Comment> newComments = userComments.get(webSession.getUserName());
+        if (newComments != null) {
+            allComments.addAll(newComments);
+        }
+
         allComments.addAll(comments);
 
         return allComments;
@@ -89,10 +96,10 @@ public class StoredXssComments extends AssignmentEndpoint {
         Comment comment = parseJson(commentStr);
 
         EvictingQueue<Comment> comments = userComments.getOrDefault(webSession.getUserName(), EvictingQueue.create(100));
-        comments.add(comment);
         comment.setDateTime(DateTime.now().toString(fmt));
         comment.setUser(webSession.getUserName());
 
+        comments.add(comment);
         userComments.put(webSession.getUserName(), comments);
 
         if (comment.getText().contains(phoneHomeString)) {

@@ -1,0 +1,33 @@
+/*  css for lessons */
+/* not efficient loading, but at least easier to maintain */
+
+.hidden-menu-item {
+    display:none;
+    visibility:hidden;
+}
+
+#ac-menu li {
+    list-style-type: none;
+    background-color: #aaa;
+    width: auto;
+    max-width: 20%;
+}
+
+#ac-menu li:hover {
+    color: white;
+    background-color: #333;
+}
+
+#ac-menu div {
+    margin-bottom: -60px;
+    margin-top: -10px;
+}
+
+#ac-menu h3 {
+    color:white;
+    background-color:#666;
+}
+
+#ac-menu-wrapper {
+    border-bottom: 2px solid #444;
+}
