@@ -260,6 +260,8 @@ public class CreateDB {
         String insertData11 = "INSERT INTO user_data VALUES (15603,'Peter','Sand','123609789','MC',' ',0)";
         String insertData12 = "INSERT INTO user_data VALUES (15603,'Peter','Sand','338893453333','AMEX',' ',0)";
         String insertData13 = "INSERT INTO user_data VALUES (15613,'Joesph','Something','33843453533','AMEX',' ',0)";
+        String insertData14 = "INSERT INTO user_data VALUES (15837,'Chaos','Monkey','32849386533','CM',' ',0)";
+        String insertData15 = "INSERT INTO user_data VALUES (19204,'Mr','Goat','33812953533','VISA',' ',0)";
         statement.executeUpdate(insertData1);
         statement.executeUpdate(insertData2);
         statement.executeUpdate(insertData3);
@@ -273,6 +275,8 @@ public class CreateDB {
         statement.executeUpdate(insertData11);
         statement.executeUpdate(insertData12);
         statement.executeUpdate(insertData13);
+        statement.executeUpdate(insertData14);
+        statement.executeUpdate(insertData15);
 
     }
 
