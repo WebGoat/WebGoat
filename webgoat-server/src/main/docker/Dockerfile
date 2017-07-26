@@ -1,6 +1,8 @@
 FROM openjdk:8-jre
-VOLUME /tmp
-RUN cd /root; mkdir -p .webgoat
-ADD webgoat-server-8.0-SNAPSHOT.jar webgoat.jar
-RUN sh -c 'touch /webgoat.jar'
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/webgoat.jar"]
+
+RUN useradd --home-dir /home/webgoat --create-home -U webgoat
+
+USER webgoat
+RUN cd /home/webgoat/; mkdir -p .webgoat
+COPY webgoat-server-8.0-SNAPSHOT.jar /home/webgoat/webgoat.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/home/webgoat/webgoat.jar"]
