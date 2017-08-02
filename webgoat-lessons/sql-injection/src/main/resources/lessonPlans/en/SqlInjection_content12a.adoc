@@ -1,6 +1,6 @@
 == Order by clause
 
-Question: Does a preparared statement always prevent against an SQL injection?
+Question: Does a prepared statement always prevent against an SQL injection?
 Answer: No it does not
 
 Let's take a look at the following statement:
@@ -30,12 +30,11 @@ selectExpression:
 Based on HSQLDB
 ----
 
-This means an `orderExpression` van be a `selectExpression` which can be a function as well, so for example with
+This means an `orderExpression` can be a `selectExpression` which can be a function as well, so for example with
 a `case` statement we might be able to ask the database some questions, like:
 
 ----
-select * from users order by
-    (select case when (true) then lastname else firstname)
+select * from users order by (case when (true) then lastname else firstname)
 ----
 
 So we can substitute any kind of boolean operation in the `when(....)` part. The statement will just work because
