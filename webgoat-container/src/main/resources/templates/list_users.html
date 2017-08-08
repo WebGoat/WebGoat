@@ -123,8 +123,15 @@
     <section class="main-content-wrapper">
         <section id="main-content"> <!--ng-controller="goatLesson"-->
             <div id="lesson-page" class="pages">
-                TEST ... <span th:text="${numUsers}"> Users in WebGoat</span>
-                <div sec:authorize="hasAuthority('WEBGOAT_ADMIN')">Admin sees this ...
+                <span th:text="${numUsers}"> Users in WebGoat</span>
+                <!-- iterate over users below -->su
+                <div sec:authorize="hasAuthority('WEBGOAT_ADMIN')">
+                    <h3>WebGoat Users</h3>
+                    <div th:each="user : ${allUsers}">
+                        <span th:text="${user.username}" />
+                        <ul>Hash: <span th:text="${user.userHash}" /></ul>
+                        <ul>Admin: <span th:text="${user.admin}" /></ul>
+                    </div>
                 </div>
 
                 <div id="lesson-helps-wrapper" class="panel">

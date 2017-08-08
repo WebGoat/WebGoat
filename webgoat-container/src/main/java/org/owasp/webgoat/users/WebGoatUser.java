@@ -43,12 +43,25 @@ public class WebGoatUser implements UserDetails {
         this.role = role;
     }
 
+
     public void createUser() {
         this.user = new User(username, password, getAuthorities());
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(getRole()));
+    }
+
+    public String getRole() {
+        return this.role;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 
     @Override
@@ -70,6 +83,8 @@ public class WebGoatUser implements UserDetails {
     public boolean isEnabled() {
         return this.user.isEnabled();
     }
+
+
 }
 
 

@@ -38,14 +38,14 @@ public class HiddenMenuItems extends AssignmentEndpoint {
     AttackResult completed(String hiddenMenu1, String hiddenMenu2, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         //overly simple example for success. See other existing lesssons for ways to detect 'success' or 'failure'
-        if (hiddenMenu1.equals("List Users") && hiddenMenu2.equals("Add User")) {
+        if (hiddenMenu1.equals("Users") && hiddenMenu2.equals("Config")) {
             return trackProgress(success()
                     .output("")
                     .feedback("access-control.hidden-menus.success")
                     .build());
         }
 
-        if (hiddenMenu1.equals("Add User") && hiddenMenu2.equals("List Users")) {
+        if (hiddenMenu1.equals("Config") && hiddenMenu2.equals("Users")) {
             return trackProgress(success()
                     .output("")
                     .feedback("access-control.hidden-menus.close")
