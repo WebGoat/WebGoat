@@ -37,6 +37,12 @@ public class WebGoatUser implements UserDetails {
         createUser();
     }
 
+    public WebGoatUser(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     public void createUser() {
         this.user = new User(username, password, getAuthorities());
     }

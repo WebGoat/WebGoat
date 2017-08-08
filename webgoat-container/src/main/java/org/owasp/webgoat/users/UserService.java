@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author nbaars
  * @since 3/19/17.
@@ -31,4 +33,14 @@ public class UserService implements UserDetailsService {
         userRepository.save(new WebGoatUser(username, password));
         userTrackerRepository.save(new UserTracker(username));
     }
+
+    public void addUser(String username, String password, String role) {
+        userRepository.save(new WebGoatUser(username,password,role));
+        userTrackerRepository.save(new UserTracker(username));
+    }
+
+    public List<WebGoatUser> getAllUsers () {
+        return userRepository.findAll();
+    }
+
 }

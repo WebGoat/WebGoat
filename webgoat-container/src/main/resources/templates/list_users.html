@@ -123,65 +123,10 @@
     <section class="main-content-wrapper">
         <section id="main-content"> <!--ng-controller="goatLesson"-->
             <div id="lesson-page" class="pages">
-                <div class="row">
-                    <div class="col-md-8">
-                        <!--<div class="col-md-12" align="left">-->
-                        <!---->
-                        <!--&lt;!&ndash; hints moved into lesson template &ndash;&gt;-->
-                        <!--</div>-->
-                        <div class="col-md-12" align="left">
-                            <div id="lesson-content-wrapper" class="panel">
-                                <div class="" id="error-notification-container">
-                                    <div class="" id="error-notification">
-                                        <i class="fa fa-exclamation-circle"/> There was an unexpected error. Please try
-                                        again.
-                                    </div>
-                                </div>
-                                <div class="" id="help-controls">
-                                    <button class="btn btn-primary btn-xs btn-danger help-button"
-                                            id="show-source-button">
-                                        <i class="fa fa-code"/>
-                                    </button>
-                                    <button class="btn btn-primary btn-xs btn-danger help-button"
-                                            id="show-hints-button" th:text="#{show.hints}">Show hints
-                                    </button>
-
-                                    <button class="btn btn-xs help-button" id="restart-lesson-button"
-                                            th:text="#{reset.lesson}">Reset Lesson
-                                    </button>
-                                </div>
-
-                                <div class="lesson-hint" id="lesson-hint-container">
-                                    <!--<h4>Hints</h4>-->
-                                    <div class="panel">
-                                        <div id="message" class="info" th:utext="${message}"></div>
-                                        <div class="panel-body" id="lesson-hint">
-                                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left"
-                                                  id="show-prev-hint"></span>
-                                            <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right"
-                                                  id="show-next-hint"></span>
-                                            <br/>
-                                            <span id="lesson-hint-content"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="lesson-hint" id="lesson-overview-container">
-                                    <div class="panel">
-                                        <div class="panel-body" id="lesson-overview"></div>
-                                    </div>
-                                </div>
-                                <div id="lesson-page-controls">
-
-                                </div>
-
-                                <div class="lesson-content">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                TEST ... <span th:text="${numUsers}"> Users in WebGoat</span>
+                <div sec:authorize="hasAuthority('WEBGOAT_ADMIN')">Admin sees this ...
                 </div>
+
                 <div id="lesson-helps-wrapper" class="panel">
                     <div class="lesson-help" id="lesson-plan-row">
                         <div class="col-md-12">
