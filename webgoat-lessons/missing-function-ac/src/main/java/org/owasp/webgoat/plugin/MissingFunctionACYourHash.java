@@ -28,7 +28,7 @@ public class MissingFunctionACYourHash extends AssignmentEndpoint {
         if (userHash.equals(displayUser.getUserHash())) {
             return trackProgress(success().feedback("access-control.hash.success").build());
         } else {
-            return trackProgress(success().feedback("access-control.hash.close").build());
+            return trackProgress(failed().feedback("access-control.hash.close").build());
         }
     }
 }
