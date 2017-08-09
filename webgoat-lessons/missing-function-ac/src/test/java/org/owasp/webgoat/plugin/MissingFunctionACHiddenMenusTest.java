@@ -50,4 +50,5 @@ public class MissingFunctionACHiddenMenusTest extends AssignmentEndpointTest {
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("access-control.hidden-menus.failure"))))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
+
 }
