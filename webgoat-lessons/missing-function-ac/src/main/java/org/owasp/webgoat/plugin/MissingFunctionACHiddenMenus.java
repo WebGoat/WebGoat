@@ -27,7 +27,7 @@ import java.util.Map;
 
 @AssignmentPath("/access-control/hidden-menu")
 @AssignmentHints({"access-control.hidden-menus.hint1","access-control.hidden-menus.hint2","access-control.hidden-menus.hint3"})
-public class HiddenMenuItems extends AssignmentEndpoint {
+public class MissingFunctionACHiddenMenus extends AssignmentEndpoint {
     //UserSessionData is bound to session and can be used to persist data across multiple assignments
     @Autowired
     UserSessionData userSessionData;
@@ -46,7 +46,7 @@ public class HiddenMenuItems extends AssignmentEndpoint {
         }
 
         if (hiddenMenu1.equals("Config") && hiddenMenu2.equals("Users")) {
-            return trackProgress(success()
+            return trackProgress(failed()
                     .output("")
                     .feedback("access-control.hidden-menus.close")
                     .build());
