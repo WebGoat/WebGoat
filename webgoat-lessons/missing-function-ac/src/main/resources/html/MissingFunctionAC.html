@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:missing-function-ac-01-intro.adoc"></div>
+    </div>
+
+    <div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:missing-function-ac-02-client-controls.adoc"></div>
+
+        <script th:src="@{/lesson_js/missing-function-ac.js}" > </script>
+
+        <div class="attack-container">
+            <div id="ac-menu-wrapper">
+                <div id="ac-menu">
+                    <h3 class="menu-header">Account</h3>
+                    <div class="menu-section">
+                        <ul>
+                            <li>My Profile</li>
+                            <li>Privacy/Security</li>
+                            <li>Log Out</li>
+                        </ul>
+                    </div>
+                    <h3 class="menu-header">Messages</h3>
+                        <div class="menu-section">
+                            <ul>
+                                <li>Unread Messages (3)</li>
+                                <li>Compose Message</li>
+                            </ul>
+                        </div>
+                    <h3 class="hidden-menu-item menu-header">Admin</h3>
+                        <div class="menu-section hidden-menu-item">
+                            <ul>
+                                <li><a href="/users">Users</a></li>
+                                <li><a href="/config">Config</a></li>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+            <form class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  action="/WebGoat/access-control/hidden-menu">
+
+                <p>Hidden Item 1 <input name="hiddenMenu1" value="" type="TEXT" /></p>
+                <p>Hidden Item 2 <input name="hiddenMenu2" value="" type="TEXT" /></p>
+                <br/>
+                <input name="submit" value="Submit" type="SUBMIT"/>
+
+            </form>
+
+            <div class="attack-feedback"></div>
+            <div class="attack-output"></div>
+        </div>
+
+    </div>
+
+    <div class="lesson-page-wrapper">
+
+        <div class="adoc-content" th:replace="doc:missing-function-ac-03-users.adoc"></div>
+
+        <div class="attack-container">
+            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+            <form class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  action="/WebGoat/access-control/user-hash">
+
+                <p>Your Hash: <input name="userHash" value="" type="TEXT" /></p>
+                <br/>
+                <input name="submit" value="Submit" type="SUBMIT"/>
+
+            </form>
+
+            <div class="attack-feedback"></div>
+            <div class="attack-output"></div>
+        </div>
+
+    </div>
+
+</html>

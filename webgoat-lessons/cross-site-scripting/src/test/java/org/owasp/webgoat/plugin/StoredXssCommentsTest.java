@@ -80,12 +80,12 @@ public class StoredXssCommentsTest extends AssignmentEndpointTest {
      */
 
     //Ensures it is vulnerable
-    @Test
-    public void isNotEncoded() throws Exception {
-        //do get to get comments after posting xss payload
-        ResultActions taintedResults = mockMvc.perform(MockMvcRequestBuilders.get("/CrossSiteScripting/stored-xss"));
-        taintedResults.andExpect(jsonPath("$[0].text",CoreMatchers.is(CoreMatchers.containsString("<script>console.warn('unit test me')</script>"))));
-    }
+//    @Test
+//    public void isNotEncoded() throws Exception {
+//        //do get to get comments after posting xss payload
+//        ResultActions taintedResults = mockMvc.perform(MockMvcRequestBuilders.get("/CrossSiteScripting/stored-xss"));
+//        taintedResults.andExpect(jsonPath("$[0].text",CoreMatchers.is(CoreMatchers.containsString("<script>console.warn('unit test me')</script>"))));
+//    }
 
 
     //Could be used to test an encoding solution ... commented out so build will pass. Uncommenting will fail build, but leaving in as positive Security Unit Test

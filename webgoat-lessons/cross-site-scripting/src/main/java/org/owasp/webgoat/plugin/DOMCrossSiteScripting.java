@@ -52,7 +52,7 @@ public class DOMCrossSiteScripting extends AssignmentEndpoint {
     AttackResult completed(@RequestParam Integer param1,
                            @RequestParam Integer param2, HttpServletRequest request)  throws IOException {
 
-        UserSessionData userSessionData = getUserSessionData();
+            UserSessionData userSessionData = getUserSessionData();
         SecureRandom number = new SecureRandom();
         userSessionData.setValue("randValue",number.nextInt());
 
