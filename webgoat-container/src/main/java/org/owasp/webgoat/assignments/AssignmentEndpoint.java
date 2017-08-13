@@ -108,4 +108,8 @@ public abstract class AssignmentEndpoint extends Endpoint {
     protected AttackResult.AttackResultBuilder failed() {
         return AttackResult.builder(messages).lessonCompleted(false).feedback("assignment.not.solved");
     }
+
+    protected AttackResult.AttackResultBuilder informationMessage() {
+        return AttackResult.builder(messages).lessonCompleted(false);
+    }
 }

@@ -1,0 +1,3 @@
+Tom always resets his password immediately after receiving the email with the link.
+Try to reset the password of Tom (tom@webgoat-cloud.org) to your own choice and login as Tom with
+that password.

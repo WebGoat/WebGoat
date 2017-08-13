@@ -30,7 +30,6 @@
  */
 package org.owasp.webgoat;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Context;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
@@ -49,10 +48,8 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.File;
 import java.util.Arrays;
@@ -70,15 +67,6 @@ public class WebGoat extends SpringBootServletInitializer {
         SpringApplication.run(WebGoat.class, args);
     }
 
-    @Bean
-    @Primary
-    public Jackson2ObjectMapperBuilder jacksonBuilder() {
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.indentOutput(true);
-        builder.serializationInclusion(JsonInclude.Include.NON_NULL);
-        return builder;
-    }
-
     @Bean(name = "pluginTargetDirectory")
     public File pluginTargetDirectory(@Value("${webgoat.user.directory}") final String webgoatHome) {
         return new File(webgoatHome);
@@ -93,7 +81,7 @@ public class WebGoat extends SpringBootServletInitializer {
     @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public UserSessionData userSessionData() {
-        return new UserSessionData("test","data");
+        return new UserSessionData("test", "data");
     }
 
     @Bean

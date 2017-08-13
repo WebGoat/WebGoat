@@ -1,0 +1,21 @@
+== Introducing WebWolf
+
+WebWolf is a separate web application which simulates an attackers machine. It makes it possible for us to
+make a clear distinction between what takes place on the attacked website and the actions you need to do as
+an "attacker". WebWolf was introduced after a couple of workshops where we received feedback about the fact there
+was no clear distinction between what was part of the "attackers" role and what was part of the "users" role on the
+website. The following items are supported in WebWolf:
+
+* Hosting a file
+* Receiving email
+* Landing page for incoming requests
+
+WebWolf runs as a separate web application and is started automatically when using the Docker image. If you
+are not using the Docker image you will need to download the jar file and start it:
+
+```
+java -jar webwolf-<<version>>.jar
+```
+
+This will start the application on port 8081, in your browser type: `http://localhost:8081/WebWolf`
+You will be redirected to the login page where you need to login with your WebGoat username and password

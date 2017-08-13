@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:Challenge_8.adoc"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge8.css}"/>
+    <script th:src="@{/lesson_js/challenge8.js}" language="JavaScript"></script>
+
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="rating-block">
+                        <h4>Average user rating</h4>
+                        <h2 class="bold padding-bottom-7">4.3
+                            <small>/ 5</small>
+                        </h2>
+                        <button id="star1" onClick="doVote(1)" type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </button>
+                        <button id="star2" onClick="doVote(2)" type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </button>
+                        <button id="star3" onClick="doVote(3)" type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </button>
+                        <button id="star4" onClick="doVote(4)" type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </button>
+                        <button id="star5" onClick="doVote(5)" type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <h4>Rating breakdown</h4>
+                    <div class="pull-left">
+                        <div class="pull-left" style="width:35px; line-height:1;">
+                            <div style="height:9px; margin:5px 0;">5 <span class="glyphicon glyphicon-star"></span>
+                            </div>
+                        </div>
+                        <div class="pull-left" style="width:180px;">
+                            <div class="progress" style="height:9px; margin:8px 0;">
+                                <div id="progressBar5" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="5"
+                                     aria-valuemin="0" aria-valuemax="5">
+                                    <span class="sr-only">5</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="nrOfVotes5" class="pull-right" style="margin-left:10px;">0</div>
+                    </div>
+                    <div class="pull-left">
+                        <div class="pull-left" style="width:35px; line-height:1;">
+                            <div style="height:9px; margin:5px 0;">4 <span class="glyphicon glyphicon-star"></span>
+                            </div>
+                        </div>
+                        <div class="pull-left" style="width:180px;">
+                            <div class="progress" style="height:9px; margin:8px 0;">
+                                <div id="progressBar4" class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="5"
+                                     aria-valuemin="0" aria-valuemax="5">
+                                    <span class="sr-only">4</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="nrOfVotes4" class="pull-right" style="margin-left:10px;">0</div>
+                    </div>
+                    <div class="pull-left">
+                        <div class="pull-left" style="width:35px; line-height:1;">
+                            <div style="height:9px; margin:5px 0;">3 <span class="glyphicon glyphicon-star"></span>
+                            </div>
+                        </div>
+                        <div class="pull-left" style="width:180px;">
+                            <div class="progress" style="height:9px; margin:8px 0;">
+                                <div id="progressBar3" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="5"
+                                     aria-valuemin="0" aria-valuemax="5">
+                                    <span class="sr-only">4</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="nrOfVotes3" class="pull-right" style="margin-left:10px;">0</div>
+                    </div>
+                    <div class="pull-left">
+                        <div class="pull-left" style="width:35px; line-height:1;">
+                            <div style="height:9px; margin:5px 0;">2 <span class="glyphicon glyphicon-star"></span>
+                            </div>
+                        </div>
+                        <div class="pull-left" style="width:180px;">
+                            <div class="progress" style="height:9px; margin:8px 0;">
+                                <div id="progressBar2" class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="5"
+                                     aria-valuemin="0" aria-valuemax="5">
+                                    <span class="sr-only">2</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="nrOfVotes2" class="pull-right" style="margin-left:10px;">0</div>
+                    </div>
+                    <div class="pull-left">
+                        <div class="pull-left" style="width:35px; line-height:1;">
+                            <div style="height:9px; margin:5px 0;">1 <span class="glyphicon glyphicon-star"></span>
+                            </div>
+                        </div>
+
+                        <div class="pull-left" style="width:180px;">
+                            <div class="progress" style="height:9px; margin:8px 0;">
+                                <div id="progressBar1" class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="5"
+                                     aria-valuemin="0" aria-valuemax="5">
+                                    <span class="sr-only">4</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="nrOfVotes1" class="pull-right" style="margin-left:10px;">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-7">
+                    <hr/>
+                    <div id = "voteResultMsg" class="alert alert-dismissable" style="display: none;">
+                    </div>
+                    <div class="alert alert-info">
+                        Please login or register in order to vote (comments are disabled)
+                    </div>
+                    <div class="review-block">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img src="images/user1.png" class="img-rounded"/>
+                                <div class="review-block-name"><a href="#">nktailor</a></div>
+                                <div class="review-block-date">August 22, 2017<br/>1 day ago</div>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="review-block-rate">
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs"
+                                            aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs"
+                                            aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="review-block-title">WebGoat rocks!</div>
+                                <div class="review-block-description">This is a great tool to learn about security
+                                    and have some fun with a couple challenges.
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img src="images/user3.png" class="img-rounded"/>
+                                <div class="review-block-name"><a href="#">Sarah</a></div>
+                                <div class="review-block-date">July 29, 2017<br/>12 day ago</div>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="review-block-rate">
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs"
+                                            aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-grey btn-xs"
+                                            aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="review-block-title">Nice</div>
+                                <div class="review-block-description">I liked it and learned a couple of things.
+                                    Still some bugs sometimes though.
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img src="images/user2.png" class="img-rounded"/>
+                                <div class="review-block-name"><a href="#">Tom</a></div>
+                                <div class="review-block-date">January 27, 2017<br/>100 days ago</div>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="review-block-rate">
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-grey btn-xs"
+                                            aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-grey btn-xs"
+                                            aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="review-block-title">WebGoat is great</div>
+                                <div class="review-block-description">WebGoat teaches you web security with some great
+                                    lessons
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br/>
+        <form class="attack-form" method="POST" name="form" action="/WebGoat/challenge/flag">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
+                                                      style="font-size:20px"></i></div>
+                    <input type="text" class="form-control" id="flag" name="flag"
+                           placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>
+                </div>
+                <div class="input-group" style="margin-top: 10px">
+                    <button type="submit" class="btn btn-primary">Submit flag</button>
+                </div>
+            </div>
+
+        </form>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+</html>

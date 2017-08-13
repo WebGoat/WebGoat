@@ -71,6 +71,7 @@ public class PluginsLoader {
                     NewLesson lesson = null;
                     try {
                         lesson = (NewLesson) c.newInstance();
+                        log.trace("Lesson loaded: {}", lesson.getId());
                     } catch (Exception e) {
                         log.error("Error while loading:" + c, e);
                     }

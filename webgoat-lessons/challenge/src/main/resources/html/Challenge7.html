@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<!--
+** Revision history (automatically added by: /challenge/7/.git/hooks)
+
+2e29cacb85ce5066b8d011bb9769b666812b2fd9 Updated copyright to 2017
+ac937c7aab89e042ca32efeb00d4ca08a95b50d6 Removed hardcoded key
+f94008f801fceb8833a30fe56a8b26976347edcf First version of WebGoat Cloud website
+
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:Challenge_7.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <h3><i class="fa fa-lock fa-4x"></i></h3>
+                                <h2 class="text-center">Forgot Password?</h2>
+                                <p>You can reset your password here.</p>
+                                <div class="panel-body">
+
+                                    <form id="login-form" class="attack-form" accept-charset="UNKNOWN"
+                                          method="POST" name="form"
+                                          action="/WebGoat/challenge/7"
+                                          enctype="application/json;charset=UTF-8" role="form">
+
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-envelope color-blue"></i></span>
+                                                <input id="email" name="email" placeholder="email address"
+                                                       class="form-control" type="email"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="recover-submit" class="btn btn-lg btn-primary btn-block"
+                                                   value="Reset Password" type="submit"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>(c) 2017 WebGoat Cloud Platform</p>
+                                        </div>
+
+                                        <input type="hidden" class="hide" name="token" id="token" value=""/>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <form class="attack-form" method="POST" name="form" action="/WebGoat/challenge/flag">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
+                                                      style="font-size:20px"></i></div>
+                    <input type="text" class="form-control" id="flag" name="flag"
+                           placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>
+                </div>
+                <div class="input-group" style="margin-top: 10px">
+                    <button type="submit" class="btn btn-primary">Submit flag</button>
+                </div>
+            </div>
+
+        </form>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+</html>

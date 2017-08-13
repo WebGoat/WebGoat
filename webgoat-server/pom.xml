@@ -70,6 +70,22 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>ctf</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.owasp.webgoat</groupId>
+                    <artifactId>webgoat-container</artifactId>
+                    <version>${project.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>de.flapdoodle.embed</groupId>
+                            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 
     <dependencies>
@@ -156,15 +172,20 @@
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>webwolf-introduction</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>missing-function-ac</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <!--uncommment below to run/include lesson template in WebGoat Build-->
         <!--<dependency>-->
-            <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
-            <!--<artifactId>webgoat-lesson-template</artifactId>-->
-            <!--<version>${project.version}</version>-->
+        <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
+        <!--<artifactId>webgoat-lesson-template</artifactId>-->
+        <!--<version>${project.version}</version>-->
         <!--</dependency>-->
         <!-- /lessons -->
         <dependency>
