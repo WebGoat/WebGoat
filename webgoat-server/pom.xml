@@ -36,6 +36,11 @@
                                     <directory>${project.build.directory}</directory>
                                     <include>${project.build.finalName}.jar</include>
                                 </resource>
+                                <resource>
+                                    <targetPath>/</targetPath>
+                                    <directory>${project.basedir}/../webwolf/target</directory>
+                                    <include>webwolf-${project.version}.jar</include>
+                                </resource>
                             </resources>
                         </configuration>
                     </plugin>
