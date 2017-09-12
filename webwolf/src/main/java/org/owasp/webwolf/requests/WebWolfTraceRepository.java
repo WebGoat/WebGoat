@@ -58,8 +58,8 @@ public class WebWolfTraceRepository implements TraceRepository {
     @Override
     public void add(Map<String, Object> map) {
         Optional<String> host = getFromHeaders("host", map);
-        String path = (String) map.getOrDefault("path", "");
-        if (host.isPresent() && ("/".equals(path) || path.contains("challenge"))) {
+        Optional<String> referer = getFromHeaders("referer", map);
+        if (host.isPresent() && referer.orElse("").contains("WebGoat")) {
             Optional<String> cookie = getFromHeaders("cookie", map);
             cookie.ifPresent(c -> {
                 Optional<String> user = findUserBasedOnCookie(c);
