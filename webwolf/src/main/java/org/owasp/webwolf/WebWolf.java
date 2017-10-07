@@ -3,6 +3,7 @@ package org.owasp.webwolf;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webwolf.requests.WebWolfTraceRepository;
+import org.owasp.webwolf.user.UserRepository;
 import org.owasp.webwolf.user.WebGoatUserToCookieRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.trace.TraceRepository;
@@ -25,8 +26,8 @@ import javax.jms.ConnectionFactory;
 public class WebWolf extends SpringBootServletInitializer {
 
     @Bean
-    public TraceRepository traceRepository(WebGoatUserToCookieRepository repository) {
-        return new WebWolfTraceRepository(repository);
+    public TraceRepository traceRepository(WebGoatUserToCookieRepository repository, UserRepository userRepository) {
+        return new WebWolfTraceRepository(repository, userRepository);
     }
 
     @Override

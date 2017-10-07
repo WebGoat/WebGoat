@@ -4,10 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,8 @@ import java.net.URISyntaxException;
 @AssignmentPath("/WebWolf/landing")
 public class LandingAssignment extends AssignmentEndpoint {
 
-    private RestTemplate restTemplate = new RestTemplate();
+    @Value("${webworf.url.landingpage}")
+    private String landingPageUrl;
 
     @PostMapping
     @ResponseBody
@@ -37,7 +38,7 @@ public class LandingAssignment extends AssignmentEndpoint {
     public ModelAndView openPasswordReset(HttpServletRequest request) throws URISyntaxException {
         URI uri = new URI(request.getRequestURL().toString());
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("webwolfUrl", uri.getScheme() + "://" + uri.getHost() + ":8081");
+        modelAndView.addObject("webwolfUrl", landingPageUrl);
         modelAndView.addObject("uniqueCode", StringUtils.reverse(getWebSession().getUserName()));
 
         modelAndView.setViewName("webwolfPasswordReset");

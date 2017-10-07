@@ -1,6 +1,6 @@
 == Landing page
 
-This page will show all the requests made to '/' or '/challenge'. This means
+This page will show all the requests made to '/landing/**'. This means
 you can use WebWolf as your landing page for harvesting cookies etc which
 is helpful when you perform a XSS lesson.
 
