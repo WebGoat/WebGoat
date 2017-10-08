@@ -43,7 +43,7 @@ public class MissingFunctionYourHashTest extends AssignmentEndpointTest {
     public void HashDoesNotMatch() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/access-control/user-hash")
                 .param("userHash", "42"))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("Keep trying, this one may take several attempts")))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
@@ -52,7 +52,7 @@ public class MissingFunctionYourHashTest extends AssignmentEndpointTest {
     public void hashMatches() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/access-control/user-hash")
                 .param("userHash", "2340928sadfajsdalsNfwrBla="))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("Keep trying, this one may take several attempts")))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }

@@ -33,7 +33,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,7 +55,7 @@ public class HttpBasicsInterceptRequestTest extends AssignmentEndpointTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/challenge/1")
                 .header("x-request-intercepted", "true")
                 .param("changeMe", "Requests are tampered easily"))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("http-proxies.intercept.success"))))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
     }
@@ -66,7 +65,7 @@ public class HttpBasicsInterceptRequestTest extends AssignmentEndpointTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/HttpProxies/intercept-request")
                 .header("x-request-intercepted", "false")
                 .param("changeMe", "Requests are tampered easily"))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("http-proxies.intercept.failure"))))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }

@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.File;
@@ -53,7 +52,7 @@ public class BlindSendFileAssignmentTest extends LessonTest {
         int nrOfComments = comments.getComments().size();
         mockMvc.perform(MockMvcRequestBuilders.post("/xxe/blind")
                 .content("<comment><text>test</text></comment>"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("assignment.not.solved"))));
         assertThat(comments.getComments().size()).isEqualTo(nrOfComments + 1);
@@ -63,7 +62,7 @@ public class BlindSendFileAssignmentTest extends LessonTest {
     public void wrongXmlShouldGiveErrorBack() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/xxe/blind")
                 .content("<comment><text>test</ext></comment>"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("assignment.not.solved"))))
                 .andExpect(jsonPath("$.output", CoreMatchers.is("javax.xml.bind.UnmarshalException\\n - with linked exception:\\n[javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,22]\\nMessage: The element type \\\"text\\\" must be terminated by the matching end-tag \\\"<\\/text>\\\".]")));
@@ -91,7 +90,7 @@ public class BlindSendFileAssignmentTest extends LessonTest {
         //Call with XXE injection
         mockMvc.perform(MockMvcRequestBuilders.post("/xxe/blind")
                 .content(xml))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("assignment.not.solved"))));
 

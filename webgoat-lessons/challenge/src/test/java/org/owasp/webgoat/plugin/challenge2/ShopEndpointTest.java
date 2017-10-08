@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.hamcrest.Matchers.is;
 import static org.owasp.webgoat.plugin.SolutionConstants.SUPER_COUPON_CODE;
@@ -39,7 +38,6 @@ public class ShopEndpointTest {
     @Test
     public void getCoupon() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/challenge-store/coupons/webgoat"))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(jsonPath("$.code", CoreMatchers.is("webgoat")))
                 .andExpect(jsonPath("$.discount", CoreMatchers.is(25)));
     }

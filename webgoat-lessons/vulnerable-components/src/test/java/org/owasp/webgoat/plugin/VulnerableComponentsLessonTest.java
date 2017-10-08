@@ -53,7 +53,7 @@ public class VulnerableComponentsLessonTest extends AssignmentEndpointTest {
     @Test
     public void success() throws Exception {
 //        mockMvc.perform(MockMvcRequestBuilders.post("/VulnerableComponents/attack1").content("Test"))
-//                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
+//                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("http-proxies.intercept.success"))))
 //                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
     }

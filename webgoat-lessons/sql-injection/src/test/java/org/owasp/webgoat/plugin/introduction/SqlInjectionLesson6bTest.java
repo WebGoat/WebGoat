@@ -31,7 +31,7 @@ public class SqlInjectionLesson6bTest extends LessonTest {
     public void submitCorrectPassword() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6b")
                 .param("userid_6b", "dave"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
     }
 
@@ -39,7 +39,7 @@ public class SqlInjectionLesson6bTest extends LessonTest {
     public void submitWrongPassword() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6b")
                 .param("userid_6b", "John"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(false)));
     }
 
