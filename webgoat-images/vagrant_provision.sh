@@ -22,21 +22,21 @@ sudo apt-get install -y google-chrome-stable
 echo "Provisioning Java 8..."
 mkdir -p /home/vagrant/java
 cd /home/vagrant/java
-test -f /tmp/jdk-8-linux-x64.tar.gz || curl -q -L --cookie "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-x64.tar.gz -o /tmp/jdk-8-linux-x64.tar.gz
+test -f /tmp/jdk-8-linux-x64.tar.gz || curl -q -L --cookie "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz -o /tmp/jdk-8-linux-x64.tar.gz
 
 sudo mkdir -p /usr/lib/jvm
 sudo tar zxf /tmp/jdk-8-linux-x64.tar.gz -C /usr/lib/jvm
 
-sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0_101/bin/java" 1
-sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0_101/bin/javac" 1
-sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.8.0_101/bin/javaws" 1
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0_144/bin/java" 1
+sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0_144/bin/javac" 1
+sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.8.0_144/bin/javaws" 1
 
 sudo chmod a+x /usr/bin/java
 sudo chmod a+x /usr/bin/javac
 sudo chmod a+x /usr/bin/javaws
-sudo chown -R root:root /usr/lib/jvm/jdk1.8.0_101
+sudo chown -R root:root /usr/lib/jvm/jdk1.8.0_144
 
-echo "export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_101" >> /home/vagrant/.bashrc
+echo "export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_144" >> /home/vagrant/.bashrc
 
 ## Maven
 echo "Installing Maven.."
