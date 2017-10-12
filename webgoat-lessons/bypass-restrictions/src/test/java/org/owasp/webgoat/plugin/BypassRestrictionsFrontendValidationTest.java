@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.Matchers.is;
@@ -38,7 +37,6 @@ public class BypassRestrictionsFrontendValidationTest extends LessonTest {
                 .param("field6", "90201 1111")
                 .param("field7", "301-604-4882")
                 .param("error", "2"))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(false)));
     }
 
@@ -53,7 +51,6 @@ public class BypassRestrictionsFrontendValidationTest extends LessonTest {
                 .param("field6", "90201 1111AA")
                 .param("field7", "301-604-4882$$")
                 .param("error", "0"))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
     }
 
@@ -68,7 +65,6 @@ public class BypassRestrictionsFrontendValidationTest extends LessonTest {
                 .param("field6", "90201 1111AA")
                 .param("field7", "301-604-4882AA")
                 .param("error", "0"))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(false)));
     }
 

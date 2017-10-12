@@ -34,12 +34,11 @@ import org.owasp.webgoat.assignments.AssignmentEndpointTest;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -64,7 +63,7 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
                 .header("webgoat-requested-by","dom-xss-vuln")
                 .param("param1", "42")
                 .param("param2", "24"))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.output", CoreMatchers.containsString("phoneHome Response is " + randVal)))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
     }
@@ -76,7 +75,7 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
                 .header("webgoat-requested-by","wrong-value")
                 .param("param1", "22")
                 .param("param2", "20"))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 

@@ -22,7 +22,9 @@
  * projects.
  * <p>
  */
-package org.owasp.webgoat;import org.springframework.boot.SpringApplication;
+package org.owasp.webgoat;
+
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -30,7 +32,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2/21/17
  */
 @SpringBootApplication
-public class StartWebGoat  {
+public class StartWebGoat {
 
     public static void main(String[] args) {
         SpringApplication.run(WebGoat.class, args);

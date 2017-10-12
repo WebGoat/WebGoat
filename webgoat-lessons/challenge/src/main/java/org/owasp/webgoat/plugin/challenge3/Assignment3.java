@@ -6,7 +6,7 @@ import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -45,6 +45,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @since 4/8/17.
  */
 @AssignmentPath("/challenge/3")
+@Slf4j
 public class Assignment3 extends AssignmentEndpoint {
 
     @Value("${webgoat.server.directory}")
@@ -66,10 +67,11 @@ public class Assignment3 extends AssignmentEndpoint {
     @PostConstruct
     @SneakyThrows
     public void copyFile() {
-        File targetDirectory = new File(webGoatHomeDirectory, "/challenges");
+        File targetDirectory = new File(webGoatHomeDirectory);
         if (!targetDirectory.exists()) {
             targetDirectory.mkdir();
         }
+        log.info("Copied secret.txt to: {}", targetDirectory);
         Files.write(secretContents, new File(targetDirectory, "secret.txt"), Charset.defaultCharset());
     }
 
@@ -106,14 +108,14 @@ public class Assignment3 extends AssignmentEndpoint {
             userComments.put(webSession.getUserName(), comments);
         }
         if (checkSolution(comment)) {
-            attackResult = success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(2)).build();
+            attackResult = success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(3)).build();
         }
         return attackResult;
     }
 
     private boolean checkSolution(Comment comment) {
-        if (StringUtils.equals(comment.getText(), secretContents)) {
-            comment.setText("Congratulations to " + webSession.getUserName() + " for finding the flag!!");
+        if (comment.getText().contains(secretContents)) {
+            comment.setText("Congratulations to " + webSession.getUserName() + " for finding the flag!! Check your original response where you posted the XXE attack ");
             comments.add(comment);
             return true;
         }

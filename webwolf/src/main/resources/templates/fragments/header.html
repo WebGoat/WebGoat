@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>WebWolf</title>
+    <div th:fragment="header-css">
+        <link rel="stylesheet" type="text/css"
+              href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>-->
+        <link rel="stylesheet" th:href="@{/css/main.css}"/>
+        <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+        <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </div>
+</head>
+<body>
+<div th:fragment="header">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" th:href="@{/WebWolf/home}">WebWolf</a>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/WebWolf/home}">Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/WebWolf/files}">Files</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/WebWolf/mail}">Mailbox</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/WebWolf/requests}">Incoming requests</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+
+                <li><a href="#">
+                        <span sec:authorize="isAuthenticated()">
+                        <span class="glyphicon glyphicon-user"></span>
+                            <span th:text="${#authentication.name}"></span></span></a>
+                </li>
+                <li><a th:href="@{/logout}">
+                        <span sec:authorize="isAuthenticated()">
+                        Sign out</span></a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+</div>
+
+</body>
+</html>

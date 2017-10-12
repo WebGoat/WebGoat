@@ -40,7 +40,7 @@ public class SqlInjectionLesson12aTest extends LessonTest {
     public void knownAccountShouldDisplayData() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/SqlInjection/servers")
                 .param("column", "id"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk());
     }
 
@@ -48,7 +48,7 @@ public class SqlInjectionLesson12aTest extends LessonTest {
     public void trueShouldSortByHostname() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/SqlInjection/servers")
                 .param("column", "(case when (true) then hostname else id end)"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(status().isOk()).andExpect(jsonPath("$[0].hostname", is("webgoat-acc")));
     }
@@ -57,7 +57,7 @@ public class SqlInjectionLesson12aTest extends LessonTest {
     public void falseShouldSortById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/SqlInjection/servers")
                 .param("column", "(case when (true) then hostname else id end)"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(status().isOk()).andExpect(jsonPath("$[0].hostname", is("webgoat-acc")));
     }
@@ -66,7 +66,7 @@ public class SqlInjectionLesson12aTest extends LessonTest {
     public void passwordIncorrectShouldOrderByHostname() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/SqlInjection/servers")
                 .param("column", "CASE WHEN (SELECT ip FROM servers WHERE hostname='webgoat-prd') LIKE '192.%' THEN hostname ELSE id END"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk()).andExpect(jsonPath("$[0].hostname", is("webgoat-dev")));
     }
 
@@ -74,7 +74,7 @@ public class SqlInjectionLesson12aTest extends LessonTest {
     public void passwordCorrectShouldOrderByHostname() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/SqlInjection/servers")
                 .param("column", "CASE WHEN (SELECT ip FROM servers WHERE hostname='webgoat-prd') LIKE '104.%' THEN hostname ELSE id END"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk()).andExpect(jsonPath("$[0].hostname", is("webgoat-acc")));
     }
 
@@ -82,7 +82,7 @@ public class SqlInjectionLesson12aTest extends LessonTest {
     public void postingCorrectAnswerShouldPassTheLesson() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack12a")
                 .param("ip", "104.130.219.202"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
     }
 
@@ -90,7 +90,7 @@ public class SqlInjectionLesson12aTest extends LessonTest {
     public void postingWrongAnswerShouldNotPassTheLesson() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack12a")
                 .param("ip", "192.168.219.202"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(false)));
     }
 }

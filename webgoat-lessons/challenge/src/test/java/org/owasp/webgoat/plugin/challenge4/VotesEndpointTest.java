@@ -9,7 +9,6 @@ import org.owasp.webgoat.plugin.Flag;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import javax.servlet.http.Cookie;
 
@@ -97,7 +96,6 @@ public class VotesEndpointTest {
                 .cookie(mvcResult.getResponse().getCookie("access_token")));
         mockMvc.perform(MockMvcRequestBuilders.get("/votings/")
                 .cookie(mvcResult.getResponse().getCookie("access_token")))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(jsonPath("$..[?(@.title == 'Get it for free')].numberOfVotes", CoreMatchers.hasItem(20001)));
     }
 

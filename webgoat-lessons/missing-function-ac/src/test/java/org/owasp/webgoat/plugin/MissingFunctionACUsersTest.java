@@ -6,15 +6,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.service.HintService;
-import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.users.UserService;
 import org.owasp.webgoat.users.WebGoatUser;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +23,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(MockitoJUnitRunner.class)
 public class MissingFunctionACUsersTest {
     private MockMvc mockMvc;
-    @Mock
-    private WebSession websession;
-    @Mock
-    private AbstractLesson lesson;
     @Mock
     private UserService userService;
 
@@ -46,7 +38,6 @@ public class MissingFunctionACUsersTest {
     public void TestContentTypeApplicationJSON () throws  Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/users")
                 .header("Content-type","application/json"))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].username", CoreMatchers.is("user1")))
                 .andExpect(jsonPath("$[0].userHash",CoreMatchers.is("cplTjehjI/e5ajqTxWaXhU5NW9UotJfXj+gcbPvfWWc=")))

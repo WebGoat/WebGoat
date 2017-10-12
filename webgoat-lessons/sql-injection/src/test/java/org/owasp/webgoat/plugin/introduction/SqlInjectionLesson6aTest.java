@@ -32,7 +32,7 @@ public class SqlInjectionLesson6aTest extends LessonTest {
     public void wrongSolution() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6a")
                 .param("userid_6a", "John"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", is(false)));
     }
@@ -41,7 +41,7 @@ public class SqlInjectionLesson6aTest extends LessonTest {
     public void wrongNumberOfColumns() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6a")
                 .param("userid_6a", "Smith' union select userid,user_name, password,cookie from user_system_data --"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.output", is("column number mismatch detected in rows of UNION, INTERSECT, EXCEPT, or VALUES operation")));
@@ -51,7 +51,7 @@ public class SqlInjectionLesson6aTest extends LessonTest {
     public void wrongDataTypeOfColumns() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6a")
                 .param("userid_6a", "Smith' union select 1,password, 1,'2','3', '4',1 from user_system_data --"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.output", containsString("incompatible data types in combination")));
@@ -61,7 +61,7 @@ public class SqlInjectionLesson6aTest extends LessonTest {
     public void correctSolution() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6a")
                 .param("userid_6a", "Smith' union select 1,password, '1','2','3', '4',1 from user_system_data --"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", is(true)))
                 .andExpect(jsonPath("$.feedback", containsString("dave")));
@@ -71,7 +71,7 @@ public class SqlInjectionLesson6aTest extends LessonTest {
     public void noResultsReturned() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6a")
                 .param("userid_6a", "Smith' and 1 = 2 --"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.6a.no.results"))));

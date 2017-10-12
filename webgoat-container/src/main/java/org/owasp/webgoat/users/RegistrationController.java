@@ -1,16 +1,16 @@
 package org.owasp.webgoat.users;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -32,29 +32,16 @@ public class RegistrationController {
     }
 
     @PostMapping("/register.mvc")
-    public String registration(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult) {
+    @SneakyThrows
+    public String registration(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpServletRequest request) {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "registration";
         }
         userService.addUser(userForm.getUsername(), userForm.getPassword());
-        autologin(userForm.getUsername(), userForm.getPassword());
+        request.login(userForm.getUsername(), userForm.getPassword());
 
         return "redirect:/attack";
     }
-
-    private void autologin(String username, String password) {
-        WebGoatUser user = userService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
-
-        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            log.debug("Login for {} successfully!", username);
-        }
-    }
-
-
 }

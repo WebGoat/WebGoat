@@ -9,6 +9,7 @@ import org.owasp.webgoat.plugin.Flag;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,6 +38,13 @@ public class Assignment5 extends AssignmentEndpoint {
     public AttackResult login(@RequestParam String username_login, @RequestParam String password_login) throws Exception {
         Connection connection = DatabaseUtilities.getConnection(webSession);
         checkDatabase(connection);
+
+        if (!StringUtils.hasText(username_login) || !StringUtils.hasText(password_login)) {
+            return failed().feedback("required4").build();
+        }
+        if (!"Larry".equals(username_login)) {
+            return failed().feedback("user.not.larry").feedbackArgs(username_login).build();
+        }
 
         PreparedStatement statement = connection.prepareStatement("select password from " + USERS_TABLE_NAME + " where userid = '" + username_login + "' and password = '" + password_login + "'");
         ResultSet resultSet = statement.executeQuery();

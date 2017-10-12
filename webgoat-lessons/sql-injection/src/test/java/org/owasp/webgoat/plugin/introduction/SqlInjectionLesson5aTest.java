@@ -8,7 +8,6 @@ import org.owasp.webgoat.session.WebgoatContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -39,7 +38,7 @@ public class SqlInjectionLesson5aTest extends LessonTest {
     public void knownAccountShouldDisplayData() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack5a")
                 .param("account", "Smith"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.feedback", is(messages.getMessage("assignment.not.solved"))))
@@ -50,7 +49,7 @@ public class SqlInjectionLesson5aTest extends LessonTest {
     public void unknownAccount() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack5a")
                 .param("account", "Smithh"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.feedback", is(messages.getMessage("NoResultsMatched"))))
@@ -61,7 +60,7 @@ public class SqlInjectionLesson5aTest extends LessonTest {
     public void sqlInjection() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack5a")
                 .param("account", "smith' OR '1' = '1"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(true)))
                 .andExpect(jsonPath("$.feedback", containsString("You have succeed")))
@@ -72,7 +71,7 @@ public class SqlInjectionLesson5aTest extends LessonTest {
     public void sqlInjectionWrongShouldDisplayError() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack5a")
                 .param("account", "smith' OR '1' = '1'"))
-                .andDo(MockMvcResultHandlers.print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.feedback", containsString(messages.getMessage("assignment.not.solved"))))
