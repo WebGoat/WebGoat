@@ -41,6 +41,7 @@ public enum Category {
     INJECTION("Injection Flaws", new Integer(200)),
     AUTHENTICATION("Authentication Flaws", new Integer(300)),
     XSS("Cross-Site Scripting (XSS)", new Integer(400)),
+    REQ_FORGERIES("Request Forgeries", new Integer(450)),
     ACCESS_CONTROL("Access Control Flaws", new Integer(500)),
     INSECURE_CONFIGURATION("Insecure Configuration", new Integer(600)),
     INSECURE_COMMUNICATION("Insecure Communication", new Integer(700)),

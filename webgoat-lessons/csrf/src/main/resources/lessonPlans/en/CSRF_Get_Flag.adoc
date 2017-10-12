@@ -1,0 +1,4 @@
+== Basic Get CSRF Exercise
+
+place holder ...
+

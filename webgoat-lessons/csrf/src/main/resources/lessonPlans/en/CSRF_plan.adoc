@@ -1,0 +1,10 @@
+= Cross-site request forgery (CSRF)
+
+== Concept
+
+This lesson teaches how to what a CSRF attack is and how it can be abused and protected against.
+
+== Goals
+
+* The user should have basic knowledge of JavaScript
+* The user will learn to perform a CSRF attack and how to protected against it.

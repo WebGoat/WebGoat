@@ -1,0 +1,9 @@
+== The Base Form
+
+The form below has hidden elements and submits to an action of TBD.  You can try it out and watch what it does, but it won't get you the flag. Once you can
+
+Every attack in this lesson will need to be done through another page or site. To see your progress, you will need to reload the
+pages or re-navigate back through the lesson to see your progress.
+
+Just to get your feet wet, issue a request to _SERVER_/WebGoat/csrf/basic-get-flag with a parameter named 'csrf' equal to 'true'. Your request needs to
+come from a local file or be hosted on a different website.
