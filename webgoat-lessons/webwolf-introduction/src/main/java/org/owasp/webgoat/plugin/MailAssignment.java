@@ -1,15 +1,14 @@
 package org.owasp.webgoat.plugin;
 
-import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.mail.IncomingMailEvent;
-import org.springframework.jms.core.JmsTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 
@@ -18,29 +17,33 @@ import java.time.LocalDateTime;
  * @since 8/20/17.
  */
 @AssignmentPath("/WebWolf/mail")
-@AllArgsConstructor
 public class MailAssignment extends AssignmentEndpoint {
 
-    private JmsTemplate jmsTemplate;
+    private final String webWolfURL;
+    private RestTemplate restTemplate;
+
+    public MailAssignment(RestTemplate restTemplate, @Value("${webwolf.url}") String webWolfURL) {
+        this.restTemplate = restTemplate;
+        this.webWolfURL = webWolfURL;
+    }
 
     @PostMapping("send")
     @ResponseBody
     public AttackResult sendEmail(@RequestParam String email) {
         String username = email.substring(0, email.indexOf("@"));
         if (username.equals(getWebSession().getUserName())) {
-            IncomingMailEvent mailEvent = IncomingMailEvent.builder()
+            Email mailEvent = Email.builder()
                     .recipient(username)
                     .title("Test messages from WebWolf")
                     .time(LocalDateTime.now())
                     .contents("This is a test message from WebWolf, your unique code is" + StringUtils.reverse(username))
                     .sender("webgoat@owasp.org")
                     .build();
-            jmsTemplate.convertAndSend("mailbox", mailEvent);
+            restTemplate.postForEntity(webWolfURL + "/WebWolf/mail", mailEvent, Object.class);
             return informationMessage().feedback("webwolf.email_send").feedbackArgs(email).build();
         } else {
             return informationMessage().feedback("webwolf.email_mismatch").feedbackArgs(username).build();
         }
-
     }
 
     @PostMapping

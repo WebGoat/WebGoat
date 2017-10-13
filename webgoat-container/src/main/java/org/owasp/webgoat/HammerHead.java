@@ -1,23 +1,15 @@
 package org.owasp.webgoat;
 
 import lombok.AllArgsConstructor;
-import org.owasp.webgoat.login.LoginEvent;
 import org.owasp.webgoat.session.Course;
-import org.owasp.webgoat.users.WebGoatUser;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
-
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 
 /**
  * *************************************************************************************************
@@ -58,34 +50,12 @@ import static java.util.Optional.of;
 public class HammerHead {
 
     private final Course course;
-    private JmsTemplate jmsTemplate;
 
     /**
      * Entry point for WebGoat, redirects to the first lesson found within the course.
      */
     @RequestMapping(path = "/attack", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView attack(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
-        sendUserLoggedInMessage(request, response, authentication);
         return new ModelAndView("redirect:" + "start.mvc" + course.getFirstLesson().getLink());
-    }
-
-    private void sendUserLoggedInMessage(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        WebGoatUser user = (WebGoatUser) authentication.getPrincipal();
-        getWebGoatCookie(request).ifPresent(c -> {
-            jmsTemplate.convertAndSend("webgoat", new LoginEvent(user.getUsername(), c.getValue()), m -> {
-                        m.setStringProperty("type", LoginEvent.class.getSimpleName());
-                        return m;
-                    }
-            );
-        });
-    }
-
-    private Optional<Cookie> getWebGoatCookie(HttpServletRequest request) {
-        for (Cookie c : request.getCookies()) {
-            if (c.getName().equals("JSESSIONID")) {
-                return of(c);
-            }
-        }
-        return empty();
     }
 }

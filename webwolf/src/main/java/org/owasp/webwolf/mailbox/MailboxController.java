@@ -1,10 +1,12 @@
 package org.owasp.webwolf.mailbox;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.owasp.webwolf.user.UserRepository;
 import org.owasp.webwolf.user.WebGoatUser;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -15,8 +17,10 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class MailboxController {
 
+    private final UserRepository userRepository;
     private final MailboxRepository mailboxRepository;
 
     @GetMapping(value = "/WebWolf/mail")
@@ -30,6 +34,16 @@ public class MailboxController {
         }
         modelAndView.setViewName("mailbox");
         return modelAndView;
+    }
+
+    @PostMapping(value = "/mail")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void sendEmail(@RequestBody Email email) {
+        if (userRepository.findByUsername(email.getRecipient()) != null) {
+            mailboxRepository.save(email);
+        } else {
+            log.trace("Mail received for unknown user: {}", email.getRecipient());
+        }
     }
 
 }

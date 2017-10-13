@@ -41,7 +41,7 @@ First install Docker, then open a command shell/window and type:
 
 ```Shell
 docker pull webgoat/webgoat-8.0
-docker run -p 8080:8080 webgoat/webgoat-8.0
+docker run -p 8080:8080 -it webgoat/webgoat-8.0 /home/webgoat/start.sh 
 ```
 
 Wait for the Docker container to start, and run `docker ps` to verify it's running.
@@ -60,7 +60,16 @@ Here you'll be able to register a new user and get started.
 
 _Please note: this version may not be completely in sync with the develop branch._
 
-## 2. Run from the sources
+## 2. Standalone 
+
+Download the latest WebWolf release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
+
+```Shell
+java -jar webwolf-<<version>>.jar
+```
+
+
+## 3. Run from the sources
 
 ### Prerequisites:
 
@@ -86,7 +95,7 @@ mvn clean install
 Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 
 ```Shell
-mvn -pl webgoat-server spring-boot:run
+mvn -pl webwolf spring-boot:run
 ```
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
 
@@ -118,7 +127,7 @@ On x86 you can build a container with the following commands:
 cd WebGoat/
 mvn install
 cd webgoat-server
-mvn docker:build
+docker build -t webgoat/webgoat-8.0 .
 docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
 docker push webgoat/webgoat-8.0

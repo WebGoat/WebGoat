@@ -7,14 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.mail.IncomingMailEvent;
+import org.owasp.webgoat.plugin.Email;
 import org.owasp.webgoat.users.UserRepository;
 import org.owasp.webgoat.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -53,9 +53,11 @@ public class Assignment9 extends AssignmentEndpoint {
             "Kind regards, \nTeam WebGoat";
 
     @Autowired
-    private JmsTemplate jmsTemplate;
+    private RestTemplate restTemplate;
     @Autowired
     private UserRepository userRepository;
+    @Value("${webwolf.url}")
+    private String webWolfURL;
 
     @RequestMapping(method = POST, value = "/create-password-reset-link")
     @ResponseBody
@@ -79,13 +81,13 @@ public class Assignment9 extends AssignmentEndpoint {
         WebGoatUser webGoatUser = userRepository.findByUsername(email.substring(0, email.indexOf("@")));
         if (webGoatUser != null) {
             username = webGoatUser.getUsername();
-            IncomingMailEvent mail = IncomingMailEvent.builder()
+            Email mail = Email.builder()
                     .title("Your password reset link for challenge 9")
                     .contents(String.format(TEMPLATE, host, resetLink))
                     .sender("password-reset@webgoat-cloud.net")
                     .recipient(username)
                     .time(LocalDateTime.now()).build();
-            jmsTemplate.convertAndSend("mailbox", mail);
+            restTemplate.postForEntity(webWolfURL + "/WebWolf/mail", mail, Object.class);
         }
     }
 

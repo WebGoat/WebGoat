@@ -17,5 +17,12 @@ are not using the Docker image you will need to download the jar file and start 
 java -jar webwolf-<<version>>.jar
 ```
 
+WebWolf is also available as a Docker container:
+
+```
+docker pull webwolf/webwolf-8.0
+docker run -it 8081:8081 /home/webwolf/run.sh
+```
+
 This will start the application on port 8081, in your browser type: `http://localhost:8081/WebWolf`
 You will be redirected to the login page where you need to login with your WebGoat username and password

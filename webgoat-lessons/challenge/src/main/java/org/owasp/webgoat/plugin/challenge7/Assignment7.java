@@ -5,16 +5,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.mail.IncomingMailEvent;
+import org.owasp.webgoat.plugin.Email;
 import org.owasp.webgoat.plugin.SolutionConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -43,7 +44,9 @@ public class Assignment7 extends AssignmentEndpoint {
             "Kind regards, \nTeam WebGoat";
 
     @Autowired
-    private JmsTemplate jmsTemplate;
+    private RestTemplate restTemplate;
+    @Value("${webworf.url.mail}")
+    private String webWolfMailURL;
 
     @GetMapping("/reset-password/{link}")
     public ResponseEntity<String> resetPassword(@PathVariable(value = "link") String link) {
@@ -62,13 +65,13 @@ public class Assignment7 extends AssignmentEndpoint {
             String username = email.substring(0, email.indexOf("@"));
             if (StringUtils.hasText(username)) {
                 URI uri = new URI(request.getRequestURL().toString());
-                IncomingMailEvent mail = IncomingMailEvent.builder()
+                Email mail = Email.builder()
                         .title("Your password reset link for challenge 7")
                         .contents(String.format(TEMPLATE, uri.getScheme() + "://" + uri.getHost(), new PasswordResetLink().createPasswordReset(username, "webgoat")))
                         .sender("password-reset@webgoat-cloud.net")
                         .recipient(username)
                         .time(LocalDateTime.now()).build();
-                jmsTemplate.convertAndSend("mailbox", mail);
+                restTemplate.postForEntity(webWolfMailURL, mail, Object.class);
             }
         }
         return success().feedback("email.send").feedbackArgs(email).build();

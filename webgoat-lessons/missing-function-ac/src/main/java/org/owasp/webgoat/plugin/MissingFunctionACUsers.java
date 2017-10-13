@@ -1,13 +1,13 @@
 package org.owasp.webgoat.plugin;
 
-import com.sun.corba.se.spi.activation.EndPointInfo;
-import org.owasp.webgoat.assignments.*;
-import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.users.UserService;
 import org.owasp.webgoat.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ public class MissingFunctionACUsers {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(path = {"users", "/"}, method = RequestMethod.GET)
+    @RequestMapping(path = {"users"}, method = RequestMethod.GET)
     public ModelAndView listUsers(HttpServletRequest request) {
 
         ModelAndView model = new ModelAndView();

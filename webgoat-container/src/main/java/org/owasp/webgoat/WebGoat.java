@@ -50,6 +50,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.util.Arrays;
@@ -92,6 +93,11 @@ public class WebGoat extends SpringBootServletInitializer {
     @Bean
     public Course course(PluginEndpointPublisher pluginEndpointPublisher) {
         return new PluginsLoader(pluginEndpointPublisher).loadPlugins();
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Bean

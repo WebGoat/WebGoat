@@ -3,40 +3,36 @@ jdk:
 - oraclejdk8
 install: "/bin/true"
 script:
-- mvn clean install
+- export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+- echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
+- mvn clean install -q
 cache:
   directories:
   - "$HOME/.m2"
-before_deploy:
-- export WEBGOAT_SERVER_TARGET_DIR=$HOME/build/$TRAVIS_REPO_SLUG/webgoat-server/target
-- export WEBGOAT_ARTIFACTS_FOLDER=$HOME/build/$TRAVIS_REPO_SLUG/Deployable_Artifacts/
-- mkdir $WEBGOAT_ARTIFACTS_FOLDER
-- cp -fa $WEBGOAT_SERVER_TARGET_DIR/*.jar $WEBGOAT_ARTIFACTS_FOLDER/
-- echo "Contents of artifacts folder:"
-- ls $WEBGOAT_ARTIFACTS_FOLDER
 deploy:
-  provider: heroku
-  api_key:
-    secure: eqSm5syJhyvIwxQ/ZCMtfFVayiZjsr+1m0eIR36FKMU6iSz5V351G+VNjCy/G+7EIsm+KuoLHqbl+NxmmOsDf2YoQk8KAdnbecMLWVwB+VncLM0ZU4mEEBt3lJWUzStoy9UNgzKs6Nc/HQ0zllV61NfgFS17pNHvce5WfjKHzTA=
-  app: WebGoat
-  on:
-    repo: WebGoat/WebGoat
-    branch: develop
-after_success:
-- mvn versioneye:update
-- mvn cobertura:cobertura coveralls:report
-notifications:
-  slack:
-    secure: S9VFew5NSE8WDzYD1VDBUULKKT0fzgblQACznwQ85699b2yeX9TX58N3RZvRS1JVagVP1wu2xOrwN2g+AWx4Ro3UBZD5XG86uTJWpCLD4cRWHBoGMH2TfvI7/IzsWmgxH4MBxFRvZr/eEhlVAux+N9H4EoEdS4CKsJXEqV37PlA=
+  - provider: script
+    skip_cleanup: true
+    script: bash scripts/deploy-webgoat.sh
+    on:
+      repo: WebGoat/WebGoat
+      tags: true
+  - provider: script
+    skip_cleanup: true
+    script: bash scripts/deploy-webgoat.sh
+    on:
+      repo: WebGoat/WebGoat
+      branch: develop
+  - provider: releases
+    api_key:
+      #api-key from webgoat-github user
+      secure: pJOLBnl6427PcVg/tVy/qB18JC7b8cKpffau+IP0pjdSt7KUfBdBY3QuJ7mrM65zRoVILzggLckaew2PlRmYQRdumyWlyRn44XiJ9KO4n6Bsufbz+ictB4ggtozpp9+I9IIUh1TmqypL9lhkX2ONM9dSHmyblYpAAgMuYSK8FYc=
+    file: "webgoat-server/target/webgoat-server*.jar"
+    on:
+      repo: WebGoat/WebGoat
+      tags: true
 env:
   global:
-  - secure: ZLZKz6lGt8YZ+NhkZPBAlI235+lEmu37Tcf+yTwh5yXuHAlnvvF6hPui7rANA/stbYGOIqIdhGOXbdrwyTU4Pvg78VwJOwsa9RtHJfou3pg4Ud9i0/dEeVl8aakmg2HDaWYGcFox8X1ViVc5UWjuBLztfJKQUEx0buJoWdMSf2E=
-addons:
-  coverity_scan:
-    project:
-      name: WebGoat/WebGoat
-      description: Coverity Scan from Travis CI Build Automation
-    notification_email: webgoat@owasp.org
-    build_command_prepend: mvn clean
-    build_command: mvn -DskipTests=true package
-    branch_pattern: coverity_scan
+  #Docker login
+  - secure: XgPc0UKRTUI70I4YWNQpThPPWeQIxkmzh1GNoR/SSDC2GPIBq3EfkkbSQewqil8stTy+S1/xSzc0JXG8NTn7UOxHVHA/2nhI6jX9E+DKtXQ89YwmaDNQjkbMjziAtDCIex+5TRykxNfkxj6VPYbDssrzI7iJXOIZVj/HoyO3O5E=
+  #Docker password
+  - secure: aly5TKBUK9sIiqtMbytNNPZHQhC0a7Yond5tEtuJ8fO+j/KZB4Uro3I6BhzYjGWFb5Kndd0j2TXHPFvtOl402J1CmFsY3v0BhilQd0g6zOssp5T0A73m8Jgq4ItV8wQJJy2bQsXqL1B+uFYieYPiMchj7JxWW0vBn7TV5b68l6U=

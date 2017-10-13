@@ -1,7 +1,9 @@
 package org.owasp.webwolf.mailbox;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,6 +19,8 @@ import java.time.format.DateTimeFormatter;
 @Builder
 @Data
 @Document
+@NoArgsConstructor
+@AllArgsConstructor
 public class Email implements Serializable {
 
     @Id
@@ -30,6 +34,10 @@ public class Email implements Serializable {
 
     public String getSummary() {
         return "-" + this.contents.substring(0, 50);
+    }
+
+    public LocalDateTime getTimestamp() {
+        return time;
     }
 
     public String getTime() {

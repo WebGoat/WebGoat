@@ -16,14 +16,14 @@ At the moment WebWolf offers support for:
 - Serving files
 - Logging of incoming requests (cookies etc)
 
-## Running
+# Run instructions
 
-### Docker
+## 1. Run using Docker
 
 If you use the Docker image of WebGoat this application will automatically be available. Use the following 
 URL: http://localhost:8081/WebWolf
 
-### Standalone
+## 2. Standalone
 
 ```Shell
 cd WebGoat

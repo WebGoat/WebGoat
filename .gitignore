@@ -38,3 +38,4 @@ webgoat-container/src/main/webapp/plugin_lessons/dist-*.pom
 webgoat-lessons/**/target
 **/*.jar
 **/.DS_Store
+webgoat-server/mongo-data/*
