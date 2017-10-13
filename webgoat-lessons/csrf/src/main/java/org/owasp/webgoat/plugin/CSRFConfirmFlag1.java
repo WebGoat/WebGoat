@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @AssignmentPath("/csrf/confirm-flag-1")
-@AssignmentHints({""})
+@AssignmentHints({"csrf-get.hint1","csrf-get.hint2","csrf-get.hint3","csrf-get.hint4"})
 public class CSRFConfirmFlag1 extends AssignmentEndpoint {
 
     @Autowired
@@ -25,15 +25,11 @@ public class CSRFConfirmFlag1 extends AssignmentEndpoint {
 
     @PostMapping(produces = {"application/json"})
     public @ResponseBody AttackResult completed(String confirmFlagVal) {
-//        String host = (req.getHeader("host") == null) ? "NULL" : req.getHeader("host");
-//        String origin = (req.getHeader("origin") == null) ? "NULL" : req.getHeader("origin");
-//        Integer serverPort = (req.getServerPort() < 1) ? 0 : req.getServerPort();
-//        String serverName = (req.getServerName() == null) ? "NULL" : req.getServerName();
-//        String referer = (req.getHeader("referer") == null) ? "NULL" : req.getHeader("referer");
 
-        if (confirmFlagVal.equals(userSessionData.getValue("csrf-get-success"))) {
-            return success().feedback("csrf-get-success").output("Correct, the flag was " + userSessionData.getValue("csrf-get-success")).build();
+        if (confirmFlagVal.equals(userSessionData.getValue("csrf-get-success").toString())) {
+            return success().feedback("csrf-get-null-referer.success").output("Correct, the flag was " + userSessionData.getValue("csrf-get-success")).build();
         }
+
         return  failed().feedback("").build();
     }
 }

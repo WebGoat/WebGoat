@@ -20,7 +20,7 @@ import java.util.Random;
  * Created by jason on 9/30/17.
  */
 
-public class CSRFGetFlag extends Endpoint {
+public class CSRFGetXhrFlag extends Endpoint {
 
     @Autowired
     UserSessionData userSessionData;
@@ -64,6 +64,6 @@ public class CSRFGetFlag extends Endpoint {
 
     @Override
     public String getPath() {
-        return "/csrf/basic-get-flag";
+        return "/csrf/get-xhr-flag";
     }
 }
