@@ -1,0 +1,3 @@
+Watching in your browser's developer tools or your proxy, the output should include a value starting with 'phoneHome Response is ...."
+Put that value in below to complete this exercise.  Note that, each subsequent call to the _phoneHome_ method will change that value.
+You may need to ensure you have the most recent one.
