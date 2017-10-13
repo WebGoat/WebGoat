@@ -4,12 +4,13 @@ To intercept a request, you start by clicking the green button. This will set a 
 
 image::images/proxy-intercept-button.png[Set break/intercept button,style="lesson-image"]
 
-NOTE: It is also possible set breakpoints that are triggered on conditions. That won't be covered in this lesson though. You are encouraged to explore.
+
+*NOTE*: It is also possible set breakpoints that are triggered on conditions. That won't be covered in this lesson though. You are encouraged to explore.
 That's part of what hackers do ... explore!
 
 Once you are intercepting requests and a request is made, it should look something like this:
 
-image::images/proxy-intercept-details.png[ZAP history tab,1269,337,style="lesson-image"]
+image::images/proxy-intercept-details.png[ZAP history tab,style="lesson-image"]
 
 === Intercept and modify a request
 
