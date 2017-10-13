@@ -40,6 +40,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.WebSession;
@@ -58,6 +59,7 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @AssignmentPath("/csrf/review")
+@AssignmentHints({"csrf-review-hint1","csrf-review-hint2","csrf-review-hint3"})
 public class ForgedReviews extends AssignmentEndpoint {
 
     @Autowired
