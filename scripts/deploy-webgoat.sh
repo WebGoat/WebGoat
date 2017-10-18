@@ -7,11 +7,11 @@ cd webgoat-server
 
 if [ "${BRANCH}" == "master" ] && [ ! -z "${TRAVIS_TAG}" ]; then
   # If we push a tag to master this will update the LATEST Docker image and tag with the version number
-  docker build --build-arg webgoat_version=${TRAVIS_TAG} -f Dockerfile -t $REPO:latest -t $REPO:${TRAVIS_TAG} .
+  docker build --build-arg webgoat_version=${TRAVIS_TAG:1} -f Dockerfile -t $REPO:latest -t $REPO:${TRAVIS_TAG} .
   docker push $REPO
 elif [ ! -z "${TRAVIS_TAG}" ]; then
   # Creating a tag build we push it to Docker with that tag
-  docker build --build-arg webgoat_version=${TRAVIS_TAG} -f Dockerfile -t $REPO:${TRAVIS_TAG} .
+  docker build --build-arg webgoat_version=${TRAVIS_TAG:1} -f Dockerfile -t $REPO:${TRAVIS_TAG} .
   docker push $REPO
 elif [ "${BRANCH}" == "develop" ]; then
   docker build -f Dockerfile -t $REPO:snapshot .
