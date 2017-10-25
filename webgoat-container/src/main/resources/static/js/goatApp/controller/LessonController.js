@@ -74,7 +74,7 @@ define(['jquery',
 
             this.loadLesson = function(name,pageNum) {
                 if (this.name === name) {
-                    this.listenTo(this.lessonHintView, 'hints:showButton', this.onShowHintsButton);
+                    this.listenToOnce(this.lessonHintView, 'hints:showButton', this.onShowHintsButton);
                     this.listenTo(this.lessonHintView, 'hints:hideButton', this.onHideHintsButton);
                     this.lessonContentView.navToPage(pageNum);
                     this.lessonHintView.hideHints();
