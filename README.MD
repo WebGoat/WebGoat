@@ -101,7 +101,8 @@ mvn -pl webwolf spring-boot:run
 
 To change IP addresss add the following variable to WebGoat/webgoat-container/src/main/resources/application.properties file
 
-```server.address=x.x.x.x
+```
+server.address=x.x.x.x
 ```
 
 # Vagrant
@@ -109,8 +110,8 @@ To change IP addresss add the following variable to WebGoat/webgoat-container/sr
 We supply a complete development environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
 
 ```shell
-   $ cd WebGoat/webgoat-images/vagrant-users
-   $ vagrant up
+ $ cd WebGoat/webgoat-images/vagrant-users
+ $ vagrant up
 ```
 
 Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
