@@ -30,40 +30,40 @@ There are a number of moving parts and this sample lesson will help you navigate
 
 2. The HTML content framing  
 
-	* Rename the provided file in src/main/resources/html using your value from the `getId` method in your lesson's base class:  
+    * Rename the provided file in src/main/resources/html using your value from the `getId` method in your lesson's base class:  
 	e.g.   
 	`public String getId() { return "your-lesson";  }` >> `your-lesson.html`   
-	* Modify that file following the commented instructions in there.  
-	* In conjunction with this file you.  
+    * Modify that file following the commented instructions in there.   
+    * In conjunction with this file you.  
 
 3. Assignment Endpoints    
-	* In the above html file, you will see an example of an 'attack form'. You can create endpoints to handle these attacks and provide the user feedback and simulated output. See the example file here as well as other existing lessons for ways to extend these.  You will extend the `AssignmentEndpoint` as the example will show:  
-	* You can also create supporting (non-assignment) endpoints, that are not evaluated/graded.  
-	* See other lesson examples for creating unit/integration tests for your project as well.
+    * In the above html file, you will see an example of an 'attack form'. You can create endpoints to handle these attacks and provide the user feedback and simulated output. See the example file here as well as other existing lessons for ways to extend these.  You will extend the `AssignmentEndpoint` as the example will show:  
+    * You can also create supporting (non-assignment) endpoints, that are not evaluated/graded.  
+    * See other lesson examples for creating unit/integration tests for your project as well.
 
 
 4. Getting your lesson to show up  
 
-  * Modify the webgoat-lessons/pom.xml to include your project in the `<modules>` section:  
-    ```xml
+    * Modify the webgoat-lessons/pom.xml to include your project in the `<modules>` section:  
+        ```xml
 	  <modules>
-	         <!-- ... -->
+	             <!-- ... -->
 	     <module>webgoat-lesson-template</module>
 		     <!-- ... -->
 	  </modules>
-    ```
+        ```
 	
-  * Modify the webgoat-server/pom.xml to add your project as a dependency in the `<dependencies>` section:   
-    ```xml
-      <dependencies>
-	      <!-- .... >
-        <dependency>
-            <groupId>org.owasp.webgoat.lesson</groupId>
-            <artifactId>your-artfifact-id-here</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-             <!-- .... >
-      </dependencies>
+    * Modify the webgoat-server/pom.xml to add your project as a dependency in the `<dependencies>` section:   
+       ```xml
+         <dependencies>
+	             <!-- .... >
+           <dependency>
+              <groupId>org.owasp.webgoat.lesson</groupId>
+              <artifactId>your-artfifact-id-here</artifactId>
+              <version>${project.version}</version>
+           </dependency>
+                     <!-- .... >
+        </dependencies>
     ```
         
 
