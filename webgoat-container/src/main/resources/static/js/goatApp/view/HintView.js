@@ -126,6 +126,10 @@ function($,
 			} else {
 				this.$el.find('#show-prev-hint').css('visibility','visible');
 			}
+		},
+
+		getHintsCount: function () {
+		    return this.collection.length;
 		}
 
 	});

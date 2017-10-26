@@ -102,12 +102,13 @@ define(['jquery',
                     hasSource:this.lessonInfoModel.get('hasSource')
                 });
 
-                this.listenTo(this.helpControlsView,'hints:show',this.showHints);
+                this.listenTo(this.helpControlsView,'hints:show',this.showHintsView);
 
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
                 this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
 
                 this.helpControlsView.render();
+                this.showHintsView();
                 this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
             };
 
@@ -180,8 +181,13 @@ define(['jquery',
 //                }
 //            };
 
-            this.showHints = function() {
+            this.showHintsView = function() {
                 this.lessonHintView.render();
+                if (this.lessonHintView.getHintsCount > 0) {
+                    this.helpControlsView.showHintsButton();
+                } else {
+                    this.helpControlsView.hideHintsButton();
+                }
             };
 
             this.restartLesson = function() {
