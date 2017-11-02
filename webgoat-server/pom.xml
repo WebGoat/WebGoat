@@ -87,7 +87,8 @@
             <groupId>com.spotify</groupId>
             <artifactId>docker-maven-plugin</artifactId>
             <version>0.4.10</version>
-            <scope>compile</scope>
+            <scope>test</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
