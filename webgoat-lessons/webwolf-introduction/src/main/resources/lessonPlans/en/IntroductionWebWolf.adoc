@@ -1,5 +1,8 @@
 == Introducing WebWolf
 
+NOTE: You only need WebWolf if you a lesson specifies you can use it. For a lot of lessons you use WebGoat without
+starting WebWolf.
+
 WebWolf is a separate web application which simulates an attackers machine. It makes it possible for us to
 make a clear distinction between what takes place on the attacked website and the actions you need to do as
 an "attacker". WebWolf was introduced after a couple of workshops where we received feedback about the fact there

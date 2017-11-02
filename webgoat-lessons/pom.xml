@@ -27,6 +27,7 @@
         <module>xxe</module>
         <module>idor</module>
         <module>vulnerable-components</module>
+        <module>webgoat-introduction</module>
         <module>webwolf-introduction</module>
 	    <module>auth-bypass</module>
         <module>missing-function-ac</module>
