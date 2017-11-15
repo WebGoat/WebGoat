@@ -1,12 +1,6 @@
 version: '2.0'
 
 services:
-  activemq:
-    image: webcenter/activemq:latest
-    ports:
-      - 8161:8161
-      - 61616:61616
-      - 61613:61613
   mongo:
     image: mongo:latest
     expose:

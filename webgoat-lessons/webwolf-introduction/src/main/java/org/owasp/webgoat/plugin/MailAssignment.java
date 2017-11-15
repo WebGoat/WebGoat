@@ -22,7 +22,7 @@ public class MailAssignment extends AssignmentEndpoint {
     private final String webWolfURL;
     private RestTemplate restTemplate;
 
-    public MailAssignment(RestTemplate restTemplate, @Value("${webwolf.url}") String webWolfURL) {
+    public MailAssignment(RestTemplate restTemplate, @Value("${webwolf.url.mail}") String webWolfURL) {
         this.restTemplate = restTemplate;
         this.webWolfURL = webWolfURL;
     }
@@ -36,10 +36,10 @@ public class MailAssignment extends AssignmentEndpoint {
                     .recipient(username)
                     .title("Test messages from WebWolf")
                     .time(LocalDateTime.now())
-                    .contents("This is a test message from WebWolf, your unique code is" + StringUtils.reverse(username))
+                    .contents("This is a test message from WebWolf, your unique code is: " + StringUtils.reverse(username))
                     .sender("webgoat@owasp.org")
                     .build();
-            restTemplate.postForEntity(webWolfURL + "/WebWolf/mail", mailEvent, Object.class);
+            restTemplate.postForEntity(webWolfURL, mailEvent, Object.class);
             return informationMessage().feedback("webwolf.email_send").feedbackArgs(email).build();
         } else {
             return informationMessage().feedback("webwolf.email_mismatch").feedbackArgs(username).build();

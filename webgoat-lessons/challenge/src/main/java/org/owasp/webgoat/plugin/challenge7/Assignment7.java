@@ -45,7 +45,7 @@ public class Assignment7 extends AssignmentEndpoint {
 
     @Autowired
     private RestTemplate restTemplate;
-    @Value("${webworf.url.mail}")
+    @Value("${webwolf.url.mail}")
     private String webWolfMailURL;
 
     @GetMapping("/reset-password/{link}")
