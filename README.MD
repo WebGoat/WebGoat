@@ -88,20 +88,21 @@ Now let's start by compiling the project.
 
 ```Shell
 cd WebGoat
-git checkout develop
+git checkout <<branch_name>>
 mvn clean install
 ```
 
 Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 
 ```Shell
-mvn -pl webwolf spring-boot:run
+mvn -pl webgoat-server spring-boot:run
 ```
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
 
 To change IP addresss add the following variable to WebGoat/webgoat-container/src/main/resources/application.properties file
 
-```server.address=x.x.x.x
+```
+server.address=x.x.x.x
 ```
 
 # Vagrant
