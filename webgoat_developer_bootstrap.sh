@@ -67,7 +67,7 @@ features() {
 }
 
 tomcat_started () {
-    STAT=`netstat -na | grep 8080 | awk '{print $6}'`
+    STAT=$(netstat -na | grep 8080 | awk '{print $6}')
     if [ "$STAT" = "LISTEN" ]; then
         echo -e "$COL_GREEN WebGoat has started successfully! Browse to the following address. $COL_RESET"
         echo -e "$COL_CYAN Happy Hacking! $COL_RESET"
@@ -126,7 +126,7 @@ developer_bootstrap() {
     echo "$COL_CYAN ***** Starting WebGoat using the embedded Tomcat ***** $COL_RESET"
     echo " Please be patient.... The startup of the server takes about 5 seconds..."
     echo " WebGoat will be ready for you when you see the following message on the command prompt:"
-    echo "$COL_YELLOW INFO: Starting ProtocolHandler ["http-bio-8080"] $COL_RESET"
+    echo "$COL_YELLOW INFO: Starting ProtocolHandler [\"http-bio-8080\"] $COL_RESET"
     echo "$COL_CYAN When you see the message above, open a web browser and navigate to http://localhost:8080/WebGoat/ $COL_RESET"
     echo " To stop the WebGoat and Tomcat Execution execution, press CTRL + C"
     echo "$COL_RED If you close this terminal window, Tomcat and WebGoat will stop running $COL_RESET"
@@ -143,4 +143,4 @@ developer_bootstrap() {
 }
 
 # Start main script
-developer_bootstrap
+developer_bootstrap "$@"
