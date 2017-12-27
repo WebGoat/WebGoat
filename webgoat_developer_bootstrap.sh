@@ -139,7 +139,7 @@ developer_bootstrap() {
     sleep 5
 
     # Starting WebGoat
-    mvn -q -pl webgoat-container spring-boot:run
+    mvn -q -pl webgoat-server spring-boot:run
 }
 
 # Start main script
