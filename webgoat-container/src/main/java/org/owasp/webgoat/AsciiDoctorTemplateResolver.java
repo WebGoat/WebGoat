@@ -42,6 +42,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 import java.io.*;
 import java.util.Map;
 
+import static org.apache.commons.lang3.CharEncoding.UTF_8;
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
 /**
@@ -82,7 +83,7 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
                 } else {
                     StringWriter writer = new StringWriter();
                     asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
-                    return new ByteArrayInputStream(writer.getBuffer().toString().getBytes());
+                    return new ByteArrayInputStream(writer.getBuffer().toString().getBytes(UTF_8));
                 }
             } catch (IOException e) {
                 //no html yet
