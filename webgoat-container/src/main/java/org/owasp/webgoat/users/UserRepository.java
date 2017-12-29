@@ -1,6 +1,6 @@
 package org.owasp.webgoat.users;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * @author nbaars
  * @since 3/19/17.
  */
-public interface UserRepository extends MongoRepository<WebGoatUser, String> {
+public interface UserRepository extends JpaRepository<WebGoatUser, String> {
 
     WebGoatUser findByUsername(String username);
 

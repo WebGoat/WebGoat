@@ -23,11 +23,5 @@ public class CleanupLocalProgressFiles {
 
     @PostConstruct
     public void clean() {
-        File dir = new File(webgoatHome);
-        //do it safe, check whether the subdir mongodb is available as subdirectory
-        File[] mongoDir = dir.listFiles(f -> f.isDirectory() && f.getName().contains("mongodb"));
-        if (mongoDir != null && mongoDir.length == 1) {
-            FileSystemUtils.deleteRecursively(dir);
-        }
     }
 }
