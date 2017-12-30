@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <div class="lesson-page-wrapper">
+        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+        <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+        which go in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+        <div class="adoc-content" th:replace="doc:lesson-template-intro.adoc"></div>
+    </div>
+
+    <div class="lesson-page-wrapper">
+        <!-- reuse the above lesson-page-wrapper block for each 'page' of content in your lesson -->
+        <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+        which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+        <div class="adoc-content" th:replace="doc:lesson-template-video.adoc"></div>
+        <!-- can use multiple adoc's in a page-wrapper if you want ... or not-->
+        <div class="adoc-content" th:replace="doc:lesson-template-attack.adoc"></div>
+
+        <!-- WebGoat will automatically style and scaffold some functionality by using the div.attack-container as below -->
+        <div class="attack-container">
+            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+            <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
+            <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
+            <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
+
+            <!-- modify the action to point to the intended endpoint and set other attributes as desired -->
+            <script th:src="@{/lesson_js/idor.js}" />
+            <form class="attack-form" accept-charset="UNKNOWN"
+                  method="GET" name="form"
+                  action="/WebGoat/lesson-template/sample-attack"  
+                  enctype="application/json;charset=UTF-8">
+                <table>
+                    <tr>
+                        <td>two random params</td>
+                        <td>parameter 1:<input name="param1" value="" type="TEXT" /></td>
+                        <td>parameter 2:<input name="param2" value="" type="TEXT" /></td>
+                        <td>
+                            <input
+                                name="submit" value="Submit" type="SUBMIT"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <!-- do not remove the two following div's, this is where your feedback/output will land -->
+            <!-- the attack response will include a 'feedback' and that will automatically go here -->
+            <div class="attack-feedback"></div>
+            <!-- output is intended to be a simulation of what the screen would display in an attack -->
+            <div class="attack-output"></div>
+        </div>
+    </div>
+
+    <!-- repeat and mix-and-match the lesson-page-wrappers with or wihtout the attack-containers as you like ...
+        see other lessons for other more complex examples -->
+
+</html>

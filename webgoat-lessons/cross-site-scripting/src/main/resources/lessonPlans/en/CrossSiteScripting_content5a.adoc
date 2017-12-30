@@ -1,0 +1,8 @@
+== Try It!   Reflected XSS
+
+Identify which field is susceptible to XSS
+
+It is always a good practice to validate all input on the server side. XSS can occur when unvalidated user input is used in an HTTP response.
+In a reflected XSS attack, an attacker can craft a URL with the attack script and post it to another website, email it, or otherwise get a victim to click on it.
+
+Make sure to include in your attack payload "<script>alert('my javascript here')</script>".

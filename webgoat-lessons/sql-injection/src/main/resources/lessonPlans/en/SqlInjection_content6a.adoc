@@ -1,0 +1,15 @@
+== Try It! Pulling data from other tables
+
+Lets try to exploit a join to another table.  One of the tables in the WebGoat database is:
+
+-------------------------------------------------------
+CREATE TABLE user_system_data (userid varchar(5) not null primary key,
+			                   user_name varchar(12),
+			                   password varchar(10),
+			                   cookie varchar(30));
+-------------------------------------------------------
+
+*6.a)* Execute a query to union or join these tables.  +
+*6.b)* When you have figured it out.... What is Dave's password?
+
+

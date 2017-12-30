@@ -53,9 +53,10 @@ rm -rf ZAP_2.5.0_Linux.tar.gz
 
 ## IntelliJ
 cd /home/vagrant/tools
-wget https://download.jetbrains.com/idea/ideaIC-2016.2.4.tar.gz
-tar xvfz ideaIC-2016.2.4.tar.gz
-rm -rf ideaIC-2016.2.4.tar.gz
+wget https://download.jetbrains.com/idea/ideaIC-2016.1.4.tar.gz
+tar xvfz ideaIC-2016.1.4.tar.gz
+rm -rf ideaIC-2016.1.4.tar.gz
 
 ## Eclipse
 sudo apt-get -y install eclipse
+

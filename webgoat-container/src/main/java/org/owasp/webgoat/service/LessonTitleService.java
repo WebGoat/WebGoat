@@ -1,46 +1,38 @@
 package org.owasp.webgoat.service;
 
-import javax.servlet.http.HttpSession;
-
 import org.owasp.webgoat.lessons.AbstractLesson;
-import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller
+
 /**
  * <p>LessonTitleService class.</p>
  *
- * @version $Id: $Id
  * @author dm
+ * @version $Id: $Id
  */
-public class LessonTitleService extends BaseService {
-	
+@Controller
+public class LessonTitleService {
+
+    private final WebSession webSession;
+
+    public LessonTitleService(final WebSession webSession) {
+        this.webSession = webSession;
+    }
+
     /**
      * Returns the title for the current attack
      *
-     * @param session a {@link javax.servlet.http.HttpSession} object.
      * @return a {@link java.lang.String} object.
      */
-    @RequestMapping(value = "/lessontitle.mvc", produces = "application/html")
-    public @ResponseBody
-    String showPlan(HttpSession session) {
-        WebSession ws = getWebSession(session);
-        return getLessonTitle(ws);
-    }
-
-    private String getLessonTitle(WebSession s) {
-    	String title = "";
-        int scr = s.getCurrentScreen();
-        Course course = s.getCourse();
-
-        if (s.isUser() || s.isChallenge()) {
-            AbstractLesson lesson = course.getLesson(s, scr, AbstractLesson.USER_ROLE);
-            title = lesson != null ? lesson.getTitle() : "";
-        }
-        return title;
+    @RequestMapping(path = "/service/lessontitle.mvc", produces = "application/html")
+    public
+    @ResponseBody
+    String showPlan() {
+        AbstractLesson lesson = webSession.getCurrentLesson();
+        return lesson != null ? lesson.getTitle() : "";
     }
 
 }

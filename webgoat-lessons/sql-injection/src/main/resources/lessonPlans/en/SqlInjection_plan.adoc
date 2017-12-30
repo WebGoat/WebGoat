@@ -1,0 +1,12 @@
+== Concept 
+
+This lesson describes what is Structured Query Language (SQL) and how it can be manipulated to perform tasks that were not the original intent of the developer.
+
+== Goals
+
+* The user should have a basic understand how SQL works and what it is used for.
+* The user will understand the best practices for defending against SQL injection attacks
+* The user will demonstrate knowledge on:
+** String SQL Injection
+** Numeric SQL Injection
+

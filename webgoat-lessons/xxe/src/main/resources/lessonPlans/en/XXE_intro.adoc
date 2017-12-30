@@ -1,0 +1,39 @@
+=== What is a XML entity?
+
+An XML Entity allows tags to be defined that will be replaced by content when the XML Document is parsed.
+In general there are three types of entities:
+* internal entities
+* external entities
+* parameter entities.
+
+An entity must be created in the Document Type Definition (DTD), let's start with an example:
+
+[source]
+----
+<?xml version="1.0" standalone="yes" ?>
+<!DOCTYPE author [
+  <!ELEMENT author (#PCDATA)>
+  <!ENTITY js "Jo Smith">
+]>
+<author>&js;</author>
+----
+
+So everywhere you use the entity ``&js;` the parser will replace it with the value defined in the entity.
+
+=== What is an XXE injection?
+
+An XML External Entity attack is a type of attack against an application that parses XML input. This attack occurs when XML input containing a
+reference to an external entity is processed by a weakly configured XML parser. This attack may lead to the disclosure of confidential data,
+denial of service, server side request forgery, port scanning from the perspective of the machine where the parser is located, and other system impacts.
+
+Attacks can include disclosing local files, which may contain sensitive data such as passwords or private user data, using file: schemes or relative
+paths in the system identifier. Since the attack occurs relative to the application processing the XML document, an attacker may use this
+trusted application to pivot to other internal systems, possibly disclosing other internal content via http(s) requests or launching a CSRF attack to
+any unprotected internal services. In some situations, an XML processor library that is vulnerable to client-side memory corruption issues
+may be exploited by dereferencing a malicious URI, possibly allowing arbitrary code execution under the application account. Other attacks can access
+local resources that may not stop returning data, possibly impacting application availability if too many threads or processes are not released.
+
+In general we can distinguish the following kind of XXE attacks:
+* Classic: in this case an external entity is included in a local DTD
+* Blind: no output and or errors are shown in the response
+* Error: try to get the content of a resource in the error message

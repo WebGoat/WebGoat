@@ -1,0 +1,9 @@
+== Post a review on someone else's behalf
+
+The page below simulates a comment/review page.  The difference here is that you have to initiate the submission elsewhere as you might
+with a CSRF attack and like the previous exercise. It's easier than you think. In most cases, the trickier part is
+finding somewhere that you want to execute the CSRF attack. The classic example is account/wire transfers in someone's bank account.
+
+But we're keeping it simple here.  In this case, you just need to trigger a review submission on behalf of the currently
+logged in user.
+

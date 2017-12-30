@@ -1,0 +1,11 @@
+= XML External Entity (XXE) Processing
+
+== Concept
+
+This lesson teaches how to perform a XML External Entity attack is and how it can be abused and protected against.
+
+== Goals
+
+* The user should have basic knowledge of XML
+* The user will understand how XML parsers work
+* The user will learn to perform a XXE attack and how to protected against it.

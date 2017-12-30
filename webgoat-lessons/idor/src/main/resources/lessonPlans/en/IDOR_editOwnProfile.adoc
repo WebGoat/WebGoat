@@ -1,0 +1,4 @@
+==== Edit Your Own Profile
+
+If an application only exposes a way to view your profile or some object (i.e. 'GET' in RESTful), that does not mean you cannot edit it.
+Use your intercept proxy to modify the request such that it would modify your profile. Change the color from 'yellow' to 'black' (sans single quotes).

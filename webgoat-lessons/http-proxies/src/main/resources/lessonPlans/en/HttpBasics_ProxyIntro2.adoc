@@ -1,0 +1,50 @@
+== HTTP Proxy Setup: The Browser
+
+There are many plugins to manage this, but this will show you how to do this manually in Firefox and Chrome.
+This will send all of your traffic to the proxy. Since we haven't set up a trusted cert. yet, that may cause issues with any https requests. More on that in a bit though. Let's stick to basics for now:
+
+=== Firefox Proxy Config
+
+. Go to your Firefox Preferences (Mac, Linux) or Options (Windows) from the menu.
+. Select _Advanced_ on the left
+. Select _Network_ in the in Advanced Pane
+. Click _Settings_
+. Select _Manual proxy configuration_
+.. input *127.0.0.1* as the Proxy
+.. input *8090* as the port if running WebGoat locally and you updated ZAP to 8090 (otherwise, use *8080*)
+.. check the _Use this proxy server for all protocols_ checkbox
+
+image::images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
+
+=== Chrome Proxy Config
+
+. Bring up Chrome's settings form the menu
+. In the _Search settings_ box type in *proxy* and hit Enter/Return. This should bring up the Network heading with a _Change proxy settings_ button.
+. Click the _Change proxy settings_ button
+. Select the _proxies_ tab
+. Select Web Proxy (HTTP)
+. Input 127.0.0.1 in the first box under _Web Proxy Server_ and your port # (8090 if running WebGoat locally, otherwise 8080) in the second box (to the right)
+. You may also want to clear the _Bypass proxy settings for these Hosts & Domains_ text input at the bottom, but shouldn't need to
+
+
+image::images/chrome-manual-proxy.png[Chrome Proxy Config,700,447,style="lesson-image"]
+
+(Mac config image above)
+
+
+
+image::images/chrome-manual-proxy-win.png[Chrome Proxy, 394,346,style="lesson-image"]
+
+(Win config image above)
+
+*Remember*: If running WebGoat locally, you can use ZAP's default port of 8080 instead of 8090 (or whatever number you prefer to use)
+
+=== Other Proxy Configuration Options
+
+If you don't want to manage the proxy manually, there are extensions or plugins that can help you to do so without digging through as much config,
+or based on URL patterns. Examples include:
+
+* FoxyProxy for Firefox
+* Proxy Switcher for Firefox
+* Toggle Proxy for Firefox
+* Still looking for suggestions for Chrome ...

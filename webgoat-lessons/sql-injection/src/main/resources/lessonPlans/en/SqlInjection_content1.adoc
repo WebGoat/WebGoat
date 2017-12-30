@@ -1,0 +1,17 @@
+== What is SQL
+
+SQL is a way to interact with databases and is interpreted by the database.
+
+=== SQL - Structured Query Language 
+* Not “Standard Query Language”
+* Multiple versions of SQL. Most databases have some custom functions
+* Most vendors have a proprietary extension
+
+=== Data Manipulation Language (DML)
+* SELECT, INSERT, UPDATE, DELETE, …
+
+=== Data Definition Language (DDL)
+* CREATE, ALTER, DROP,TRUNCATE,…
+
+=== Data Control Language (DCL)
+* GRANT, REVOKE, …

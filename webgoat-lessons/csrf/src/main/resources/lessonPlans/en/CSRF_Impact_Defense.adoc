@@ -1,0 +1,20 @@
+== CSRF Impact
+
+The impact is limited only by what the logged in user can do (if the site/function/action is not protected properly).
+The areas that are really prone to CSRF attacks are IoT devices and 'smart' appliances.  Sadly, many consumer-grade routers
+have also proven vulnerable to CSRF.
+
+== CSRF Solution
+
+Fortunately, many (web) application frameworks now come with built in support to handle CSRF attacks.  For example, Spring and
+Tomcat have this on by default.  As long as you don't turn it off (like it is in WebGoat), you should be safe from CSRF attacks.
+
+See the following for more information on CSRF protections:
+
+https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet (Prevention/Defense)
+
+https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)  (Attack)
+
+https://tomcat.apache.org/tomcat-7.0-doc/config/filter.html#CSRF_Prevention_Filter / https://tomcat.apache.org/tomcat-8.0-doc/config/filter.html#CSRF_Prevention_Filter (Tomcat)
+
+https://docs.spring.io/spring-security/site/docs/current/reference/html/csrf.html

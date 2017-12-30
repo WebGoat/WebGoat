@@ -1,0 +1,15 @@
+
+== 2FA Password Reset
+
+A recent (2016) example (https://henryhoggard.co.uk/blog/Paypal-2FA-Bypass) is a great example of authentication bypass. He was unable to receive an SMS with a code, so he opted for the provided
+alternative method, which involved security questions.  Using a proxy, removed the parameters entirely ... and won.
+
+image::images/paypal-2fa-bypass.png[Paypal 2FA bypass,1397,645,style="lesson-image"]
+
+
+=== The Scenario
+
+You are resetting your password, but doing it from a location or device that your provider does not recognize. So you need to answer the security questions you set up.  The other issue is
+that those security questions are also stored on another device (not with you) and you don't remember them.
+
+You have already provided your username/email and opted for the alternative verification method.

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:Challenge_4.adoc"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge4.css}"/>
+    <script th:src="@{/lesson_js/bootstrap.min.js}" language="JavaScript"></script>
+    <script th:src="@{/lesson_js/challenge4.js}" language="JavaScript"></script>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <div class="well">
+                    <div class="pull-right">
+                        <div class="dropdown">
+                            <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                                <i class="fa fa-user"></i> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-left">
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           onclick="javascript:login('Guest')"
+                                                           th:text="Guest">current</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           onclick="javascript:login('Tom')"
+                                                           th:text="Tom">current</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           onclick="javascript:login('Jerry')"
+                                                           th:text="Jerry">current</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           onclick="javascript:login('Sylvester')"
+                                                           th:text="Sylvester">current</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-right">Welcome back, <b><span id="name"></span></b></p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>Vote for your favorite</h3>
+                    </div>
+                    <div id ="votesList" class="list-group">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br/>
+        <form class="attack-form" method="POST" name="form" action="/WebGoat/challenge/flag">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
+                                                      style="font-size:20px"></i></div>
+                    <input type="text" class="form-control" id="flag" name="flag"
+                           placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>
+                </div>
+                <div class="input-group" style="margin-top: 10px">
+                    <button type="submit" class="btn btn-primary">Submit flag</button>
+                </div>
+            </div>
+
+        </form>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+</html>

@@ -1,19 +1,11 @@
 
 package org.owasp.webgoat.session;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.ecs.MultiPartElement;
-import org.apache.ecs.html.B;
-import org.apache.ecs.html.TD;
-import org.apache.ecs.html.TR;
-import org.apache.ecs.html.Table;
 
 
 /**
@@ -45,6 +37,8 @@ import org.apache.ecs.html.Table;
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
  * @version $Id: $Id
  */
+//TODO: class we need to refactor to new structure, we can put the connection in the current session of the user
+	// start using jdbc template
 public class DatabaseUtilities
 {
 
@@ -128,76 +122,8 @@ public class DatabaseUtilities
 	private static Connection getHsqldbConnection(String user, WebgoatContext context) throws ClassNotFoundException,
 			SQLException
 	{
-		String url = context.getDatabaseConnectionString().replaceAll("\\$\\{USER\\}", user);
+		String url = context.getDatabaseConnectionString().replace("{USER}", user);
 		return DriverManager.getConnection(url, "sa", "");
 	}
-
-	/**
-	 * Description of the Method
-	 *
-	 * @param results
-	 *            Description of the Parameter
-	 * @param resultsMetaData
-	 *            Description of the Parameter
-	 * @param resultsMetaData
-	 *            Description of the Parameter
-	 * @param resultsMetaData
-	 *            Description of the Parameter
-	 * @param resultsMetaData
-	 *            Description of the Parameter
-	 * @param resultsMetaData
-	 *            Description of the Parameter
-	 * @param resultsMetaData
-	 *            Description of the Parameter
-	 * @return Description of the Return Value
-	 * @exception IOException
-	 *                Description of the Exception
-	 * @exception SQLException
-	 *                Description of the Exception
-	 * @throws java.io.IOException if any.
-	 * @throws java.sql.SQLException if any.
-	 */
-	public static MultiPartElement writeTable(ResultSet results, ResultSetMetaData resultsMetaData) throws IOException,
-			SQLException
-	{
-		int numColumns = resultsMetaData.getColumnCount();
-		results.beforeFirst();
-
-		if (results.next())
-		{
-			Table t = new Table(1); // 1 = with border
-			t.setCellPadding(1);
-
-			TR tr = new TR();
-
-			for (int i = 1; i < (numColumns + 1); i++)
-			{
-				tr.addElement(new TD(new B(resultsMetaData.getColumnName(i))));
-			}
-
-			t.addElement(tr);
-			results.beforeFirst();
-
-			while (results.next())
-			{
-				TR row = new TR();
-
-				for (int i = 1; i < (numColumns + 1); i++)
-				{
-					String str = results.getString(i);
-					if (str == null) str = "";
-					row.addElement(new TD(str.replaceAll(" ", "&nbsp;")));
-				}
-
-				t.addElement(row);
-			}
-
-			return (t);
-		}
-		else
-		{
-			return (new B("Query Successful; however no data was returned from this query."));
-		}
-	}
-
+	
 }

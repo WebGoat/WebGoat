@@ -1,0 +1,24 @@
+== XSS Defense
+* HTML entity input encoding
+** Converting ‘<‘ and ‘>’ to &lt; and &gt; before storage
+* HTML entity output encoding
+** Converting ‘<‘ and ‘>’ to &lt; and &gt; before writing
+* Input validation
+** Positive model to allow valid characters only
+** New attacks found everyday 
+*** negative filter not reliable
+* Setting HTTPOnly as a cookie attribute
+* Only allow post data to prevent reflected XSS
+* Use language specific built-in mechanisms
+** Page validation for .NET in web.config
++
+----
+<%page ValidateRequest="true" %>
+----
+** Struts
++
+----
+<bean:write ... >
+----
+
+*Any problems with these approaches?*

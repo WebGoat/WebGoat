@@ -1,0 +1,4 @@
+== Let's try
+
+In this assignment you will add a comment to the photo, when submitting the form try to execute an XXE
+injection with the comments field. Try listing the root directory of the filesystem.

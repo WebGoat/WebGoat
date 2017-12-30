@@ -1,0 +1,13 @@
+== What is SQL Injection?
+
+==== A SQL injection attack consists of insertion or "injection" of an malicious data via the SQL query input from the client to the application
+
+=== A successful SQL injection exploit can:
+* Read and modify sensitive data from the database
+* Execute administration operations on the database
+** Shutdown auditing or the DBMS
+** Truncate tables and logs
+** Add users
+* Recover the content of a given file present on the DBMS file system 
+* Issue commands to the operating system 
+

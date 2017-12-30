@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>cross-site-scripting</artifactId>
+    <packaging>jar</packaging>
+    <parent>
+        <groupId>org.owasp.webgoat.lesson</groupId>
+        <artifactId>webgoat-lessons-parent</artifactId>
+        <version>8.0.0.M3</version>
+    </parent>
+    <build>
+       <plugins>
+           <plugin>
+               <groupId>org.asciidoctor</groupId>
+               <artifactId>asciidoctor-maven-plugin</artifactId>
+               <version>1.5.3</version>
+
+               <executions>
+                   <execution>
+                       <id>output-html</id>
+                       <phase>generate-resources</phase>
+                       <goals>
+                           <goal>process-asciidoc</goal>
+                       </goals>
+                       <configuration>
+                           <backend>html</backend>
+                           <sourceDirectory>src/main/resources/lessonPlans/en/</sourceDirectory>
+                       </configuration>
+                   </execution>
+
+               </executions>
+           </plugin>
+       </plugins>
+   </build>
+</project>

@@ -1,0 +1,9 @@
+== Missing Function Level Access Control
+
+Access control, like output encoding XSS can be tricky to maintain and ensure it is enforced properly throughout an application, including at each method/function.
+
+=== IDOR vs Missing Function Level Access Control
+
+The fact is many people (including the author of this lesson) would lump function level access control and IDOR into 'Access Control'. For sake of OWASP, Top 10 and these lessons, we will make a
+distinction. The distinction most make is that IDOR is more of a 'horizontal' or 'lateral' access control issue, and missing function level access control 'exposes functionality'. Even though,
+the IDOR lesson here demonstrates how functionality may also be exposed, (at least to another user in the same role), we will look at other ways functionality might be exposed.

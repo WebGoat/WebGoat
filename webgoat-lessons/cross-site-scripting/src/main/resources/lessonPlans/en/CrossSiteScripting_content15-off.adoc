@@ -1,0 +1,31 @@
+== HTTPOnly Implementation 
+
+* Java has limited support for HTTPOnly
++
+----
+response.setHeader("Set-Cookie", UNIQUE2U + "=" + value + "; HTTPOnly");
+----
+* Draft Servlet 3.0 specification (JSR 315)
+** Support in Cookie and SessionCookieConfig
+
+* ASP.NET 1.1 has no built-in support for HTTPOnly
++
+----
+HttpCookie cookie = new HttpCookie("MyCookie");
+cookie.Value = cookieval;
+cookie.Path = FormsAuthentication.FormsCookiePath + "; HTTPOnly";
+context.Response.Cookies.Add(cookie);
+----
+* ASP.NET 1.1 EndRequest event listener
++
+----
+private void OnEndRequest(object sender, EventArgs e)
+{
+    HttpContext context = HttpContext.Current;
+    foreach (string sCookie in context.Response.Cookies)
+    {
+        context.Response.Cookies[sCookie].Path += "; HTTPOnly";
+    }
+}
+---
+* ASP.NET 2.0 has HTTPOnly property in Cookie class

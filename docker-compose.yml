@@ -1,0 +1,15 @@
+version: '2.0'
+
+services:
+  webgoat:
+    build: webgoat-server/
+    command: "sh /home/webgoat/start.sh"
+    ports:
+      - "8080:8080"
+  webwolf:
+    build: webwolf/
+    command: "sh /home/webwolf/start.sh"
+    depends_on:
+      - webgoat
+    ports:
+      - "8081:8081"

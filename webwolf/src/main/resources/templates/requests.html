@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<script type="text/javascript" th:src="@{js/fileUpload.js}"></script>
+
+<div class="container">
+
+
+    <div class="alert alert-info fade in">
+
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <p>
+            Challenges in which you need to call your hacker machine WebWolf offers a simple httpd
+            server functionality which only logs the incoming request. You can use the following URL:
+            http://webwolf/landing/* and the incoming request will be available below.
+        </p>
+        <p>
+            This is by no means a substitution of httpd but it offers enough functionality to callback to a safe
+            environment and does not require you to host your own httpd server on your local machine.
+        </p>
+    </div>
+
+
+    <h3>Requests</h3>
+    <div th:each="trace,iter : ${traces}" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" th:id="'heading' + ${iter.index}">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                       th:href="'#collapse' + ${iter.index}" aria-expanded="false" th:aria-controls="'collapse' + ${iter.index}">
+                        <span th:utext="${trace.date}"/> | <span th:utext="${trace.path}"/>
+                    </a>
+                </h4>
+            </div>
+            <div th:id="'collapse' + ${iter.index}" class="panel-collapse collapse" role="tabpanel"
+                 th:aria-labelledby="'heading' + ${iter.index}">
+                <div class="panel-body">
+                    <div>
+                        <pre th:utext="${trace.json}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+</body>
+</html>

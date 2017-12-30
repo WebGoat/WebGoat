@@ -29,13 +29,9 @@
  */
 package org.owasp.webgoat.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.session.LabelDebugger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +40,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <p>LabelDebugService class.</p>
  *
@@ -51,29 +50,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @version $Id: $Id
  */
 @Controller
-public class LabelDebugService extends BaseService {
+@Slf4j
+@AllArgsConstructor
+public class LabelDebugService {
 
-    private static final String URL_DEBUG_LABELS_MVC = "/debug/labels.mvc";
+    private static final String URL_DEBUG_LABELS_MVC = "/service/debug/labels.mvc";
     private static final String KEY_ENABLED = "enabled";
     private static final String KEY_SUCCESS = "success";
 
-    private static final Logger logger = LoggerFactory.getLogger(LabelDebugService.class);
-
-    @Autowired
     private LabelDebugger labelDebugger;
-
 
     /**
      * Checks if debugging of labels is enabled or disabled
      *
      * @return a {@link org.springframework.http.ResponseEntity} object.
      */
-    @RequestMapping(value = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseEntity<Map<String, Object>> checkDebuggingStatus() {
-        logger.debug("Checking label debugging, it is " + labelDebugger.isEnabled()); // FIXME parameterize
+        log.debug("Checking label debugging, it is {}", labelDebugger.isEnabled());
         Map<String, Object> result = createResponse(labelDebugger.isEnabled());
-        return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
       /**
@@ -85,10 +82,10 @@ public class LabelDebugService extends BaseService {
      @RequestMapping(value = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE, params = KEY_ENABLED)
      public @ResponseBody
      ResponseEntity<Map<String, Object>> setDebuggingStatus(@RequestParam("enabled") Boolean enabled) throws Exception {
-         logger.debug("Setting label debugging to " + labelDebugger.isEnabled()); // FIXME parameterize
+         log.debug("Setting label debugging to {} ", labelDebugger.isEnabled());
          Map<String, Object> result = createResponse(enabled);
          labelDebugger.setEnabled(enabled);
-         return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+         return new ResponseEntity<>(result, HttpStatus.OK);
      }
 
     /**

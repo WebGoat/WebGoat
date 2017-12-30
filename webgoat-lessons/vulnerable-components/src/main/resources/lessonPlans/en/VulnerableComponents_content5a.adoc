@@ -1,0 +1,14 @@
+== Exploiting http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7285[CVE-2013-7285] (XStream)
+
+WebGoat Sends an XML document to add contacts to a contacts database.  
+[source,xml]
+----
+<contact>  
+    <id>1</id>
+    <firstName>Bruce</firstName>
+    <lastName>Mayhew</lastName>
+    <email>webgoat@owasp.org</email>
+</contact>  
+----
+
+For this example, we will let you enter the xml directly versus intercepting the request and modifying the data.  You provide the XML representation of a contact and WebGoat will convert it a Contact object using `XStream.fromXML(xml)`.

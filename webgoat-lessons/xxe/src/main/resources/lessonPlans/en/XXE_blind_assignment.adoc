@@ -1,0 +1,23 @@
+== Blind XXE assignment
+
+In the previous page we showed you how you can ping a server with a XXE attack, in this assignment try to make a DTD
+which will upload the contents of ~/.webgoat/plugin/XXE/secret.txt to our server. You can use WebWolf to serve your
+DTD.
+
+
+|===
+|OS |Location
+
+|Linux
+|`/home/USER/.webgoat/XXE/secret.txt`
+
+|Windows
+|`c:/Users/USER/.webgoat/XXE/secret.txt`
+
+|Docker
+|`/home/webgoat/.webgoat/XXE/secret.txt`
+|===
+
+Try to upload this file using WebWolf landing page for example: `http://localhost:8081/WebWolf/landing?text=[contents_file]`
+(NOTE: this endpoint is under your full control)
+Once you obtained the contents of the file post it as a new comment on the page and you will solve the lesson.

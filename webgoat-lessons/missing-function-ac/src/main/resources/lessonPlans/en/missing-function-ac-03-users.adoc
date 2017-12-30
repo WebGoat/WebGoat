@@ -1,0 +1,10 @@
+== Just Try It
+
+As the previous page noted, sometimes apps rely on client controls. to control access (obscurity). If you can find items that don't have visible links, just try them, see what happens. Yes, it
+can be that simple!
+
+=== Gathering User Info
+
+Often times, data dumps from vulnerabilities such as sql injection, but they can also come from poor or lacking access control.
+
+It will likely take multiple steps and multiple attempts to get this one. Pay attention to the comments, leaked info. and you'll need to guess some.  You may need to use another browser/account along the way.  Start with the info. you already gathered (hidden menu items) to see if you can pull the list of users and then provide the 'Hash' for your own user account.

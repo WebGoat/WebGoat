@@ -1,0 +1,10 @@
+== Self XSS or Reflected XSS?
+
+You should have been able to execute script with the last example. At this point, it would be considered 'self XSS' though.
+
+Why is that?
+
+That is because there is no link that would tigger that XSS.
+You can try it yourself to see what happens ... go to (substitute localhost with your server's name or IP if you need to):
+
+link: http://localhost:8080/WebGoat/CrossSiteScripting/attack5a?QTY1=1&QTY2=1&QTY3=1&QTY4=1&field1=<script>alert('myjavascripthere')</script>4128+3214+0002+1999&field2=111

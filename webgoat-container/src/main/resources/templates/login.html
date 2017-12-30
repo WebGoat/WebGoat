@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{login.page.title}">Login Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}"/>
+</head>
+<body>
+<section id="container">
+    <header id="header">
+        <div class="brand">
+            <a th:href="@{/start.mvc}" class="logo"><span>Web</span>Goat</a>
+        </div>
+        <div class="toggle-navigation toggle-left">
+        </div>
+        <div class="lessonTitle">
+        </div>
+
+    </header>
+    <section class="main-content-wrapper">
+
+        <section id="main-content">
+            <div th:if="${param.error}">
+                <p th:text="#{invalid_username_password}">Invalid username and password.</p>
+            </div>
+            <div th:if="${param.logout}">
+                <p th:text="#{logged_out}">You've been logged out successfully.</p>
+            </div>
+            <br/><br/>
+            <form th:action="@{/login}" method='POST' style="width: 200px;">
+                <div class="form-group">
+                    <label for="exampleInputEmail1" th:text="#{username}">Username</label>
+                    <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"
+                           id="exampleInputEmail1" placeholder="Username" name='username' />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1" th:text="#{password}">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                           name='password' />
+                </div>
+                <button class="btn btn-primary btn-block" type="submit" th:text="#{sign.in}">Sign in</button>
+                <div class="text-center"><a th:href="@{/registration}" th:text="#{register.new}"></a></div>
+            </form>
+            <br/><br/>
+        </section>
+    </section>
+</section>
+
+
+</body>
+</html>

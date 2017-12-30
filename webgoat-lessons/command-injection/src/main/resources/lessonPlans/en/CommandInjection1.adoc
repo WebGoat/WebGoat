@@ -1,0 +1,20 @@
+
+== HTTP Proxy Overview
+
+Many times proxies are used as a way of accessing otherwise blocked content.  A user might connect to server A, which relays content from server B
+ ... Because Server B is blocked within the user's network. That's not the use case we will be dealing with here, but the concept is the same.
+HTTP Proxies receive requests from a client and relay them. They also typically record them. They act as a man-in-the-middle (keep that in mind if you decide to
+use a proxy server to connect to some other system that is otherwise blocked). We won't get into HTTP vs HTTPS just yet, but that's an important topic in
+relationship to proxies.
+
+=== Proxy Capabilities
+
+Proxies sit between your client and the server the client is talking to. You can record and analyze the requests & responses.  You can also use the proxy to
+modify (tamper) the requests and responses.  Proxies also have automated or semi-automated functions that allow  you to gain efficiency in testing and
+analyzing the security of a website.
+
+=== Other Uses for Proxies
+
+ZAP specifically can also be used in the development process in a CI/CD, DevOps or otherwise automated build/test environment.  This lesson does
+not currently have any details on that, but it is worth mentioning. There are a number of examples on the internet of it being integrated into a
+CI/CD with Jenkins, Maven or other build processes.

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="lesson-page-wrapper">
+	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+	<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_plan.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+	<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content1.adoc"></div>
+	<div class="attack-container">
+		<!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
+		<div id="lessonContent">
+			<!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
+			<!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
+			<!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
+			<form class="attack-form" accept-charset="UNKNOWN"
+				  method="POST" name="form"
+				  action="/WebGoat/CrossSiteScripting/attack1"
+				  enctype="application/json;charset=UTF-8">
+				<table>
+					<tr>
+						<td>Were the cookies the same on each tab?</td>
+						<td><input name="answer_xss_1" value="" type="TEXT" /></td>
+						<td><input
+								name="answer" value="Submit" type="SUBMIT"/></td>
+						<td></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<!-- do not remove the two following div's, this is where your feedback/output will land -->
+		<div class="attack-feedback"></div>
+		<div class="attack-output"></div>
+		<!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
+	</div>
+</div>
+<div class="lesson-page-wrapper">
+	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+	<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content2.adoc"></div>
+</div>
+<div class="lesson-page-wrapper">
+	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+	<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content3.adoc"></div>
+</div>
+<div class="lesson-page-wrapper">
+	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+	<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content4.adoc"></div>
+</div>
+<div class="lesson-page-wrapper">
+	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+	<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content5.adoc"></div>
+	<img align="middle" th:src="@{/images/Reflected-XSS.png}" />
+</div>
+<div class="lesson-page-wrapper">
+	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+	<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
+        which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content5a.adoc"></div>
+	<div class="attack-container">
+		<!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
+		<div id="lessonContent">
+			<!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
+			<!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
+			<!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
+			<form class="attack-form" accept-charset="UNKNOWN"
+				  method="GET" name="xss-5a"
+				  action="/WebGoat/CrossSiteScripting/attack5a"
+				  enctype="application/json;charset=UTF-8">
+				<hr width="90%" />
+				<center>
+					<h1>Shopping Cart</h1>
+				</center>
+				<table width="90%" cellspacing="0" cellpadding="2" border="1"
+					   align="center">
+					<tbody>
+					<tr>
+						<th width="80%">Shopping Cart Items -- To Buy Now</th>
+						<th width="10%">Price</th>
+						<th width="3%">Quantity</th>
+						<th width="7%">Total</th>
+					</tr>
+					<tr>
+						<td>Studio RTA - Laptop/Reading Cart with Tilting Surface -
+							Cherry</td>
+						<td align="right">69.99</td>
+						<td align="right"><input size="6" value="1" name="QTY1"
+												 type="TEXT" /></td>
+						<td>$0.00</td>
+					</tr>
+					<tr>
+						<td>Dynex - Traditional Notebook Case</td>
+						<td align="right">27.99</td>
+						<td align="right"><input size="6" value="1" name="QTY2"
+												 type="TEXT" /></td>
+						<td>$0.00</td>
+					</tr>
+					<tr>
+						<td>Hewlett-Packard - Pavilion Notebook with Intel Centrino</td>
+						<td align="right">1599.99</td>
+						<td align="right"><input size="6" value="1" name="QTY3"
+												 type="TEXT" /></td>
+						<td>$0.00</td>
+					</tr>
+					<tr>
+						<td>3 - Year Performance Service Plan $1000 and Over</td>
+						<td align="right">299.99</td>
+						<td align="right"><input size="6" value="1" name="QTY4"
+												 type="TEXT" /></td>
+						<td>$0.00</td>
+					</tr>
+					</tbody>
+				</table>
+				<br />
+				<table width="90%" cellspacing="0" cellpadding="2" border="0"
+					   align="center">
+					<tbody>
+					<tr>
+						<td>The total charged to your credit card:</td>
+						<td>$0.00</td>
+						<td><input name="SUBMIT" value="UpdateCart" type="SUBMIT" /></td>
+					</tr>
+					<tr>
+						<td colspan="2">&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Enter your credit card number:</td>
+						<td><input name="field1" value="4128 3214 0002 1999"
+								   type="TEXT" /></td>
+					</tr>
+					<tr>
+						<td>Enter your three digit access code:</td>
+						<td><input name="field2" value="111" type="TEXT" /></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><input name="SUBMIT"
+															  value="Purchase" type="SUBMIT" /></td>
+					</tr>
+					</tbody>
+				</table>
+				<br />
+				<hr width="90%"/>
+			</form>
+		</div>
+		<!-- do not remove the two following div's, this is where your feedback/output will land -->
+		<div class="attack-feedback"></div>
+		<div class="attack-output"></div>
+		<!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
+	</div>
+
+</div>
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content5b.adoc"></div>
+
+</div>
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content6.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+	<!-- include content here. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content6a.adoc"></div>
+	<div class="attack-container">
+		<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+		<!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
+		<!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
+		<!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
+		<!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
+		<form class="attack-form" accept-charset="UNKNOWN"
+			  method="POST" name="DOMTestRoute"
+			  action="/WebGoat/CrossSiteScripting/attack6a"
+			  enctype="application/json;charset=UTF-8">
+			<input name="DOMTestRoute" value="" type="TEXT" />
+			<input name="SubmitTestRoute" value="Submit" type="SUBMIT"/>
+		</form>
+		<!-- do not remove the two following div's, this is where your feedback/output will land -->
+		<div class="attack-feedback"></div>
+		<div class="attack-output"></div>
+		<!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
+	</div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
+	<!-- include content here. Content will be presented via asciidocs files,
+    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content6b.adoc"></div>
+	<div class="attack-container">
+		<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+		<!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
+		<!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
+		<!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
+		<!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
+		<form class="attack-form" accept-charset="UNKNOWN"
+			  method="POST" name="DOMFollowUp"
+			  action="/WebGoat/CrossSiteScripting/dom-follow-up"
+			  enctype="application/json;charset=UTF-8">
+			<input name="successMessage" value="" type="TEXT" />
+			<input name="submitMessage" value="Submit" type="SUBMIT"/>
+		</form>
+		<!-- do not remove the two following div's, this is where your feedback/output will land -->
+		<div class="attack-feedback"></div>
+		<div class="attack-output"></div>
+		<!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
+	</div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content7.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content7b.adoc"></div>
+
+	<!-- comment area -->
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/stored-xss.css}"/>
+	<script th:src="@{/lesson_js/stored-xss.js}" language="JavaScript"></script>
+
+		<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+
+		<div class="container-fluid">
+			<div class="panel post">
+				<div class="post-heading">
+					<div class="pull-left image">
+						<img th:src="@{/images/avatar1.png}"
+							 class="img-circle avatar" alt="user profile image"/>
+					</div>
+					<div class="pull-left meta">
+						<div class="title h5">
+							<a href="#"><b>John Doe</b></a>
+							uploaded a photo.
+						</div>
+						<h6 class="text-muted time">24 days ago</h6>
+					</div>
+				</div>
+
+				<div class="post-image">
+					<img th:src="@{images/cat.jpg}" class="image" alt="image post"/>
+				</div>
+
+				<div class="post-description">
+
+				</div>
+				<div class="post-footer">
+					<div class="input-group">
+						<input class="form-control" id="commentInput" placeholder="Add a comment" type="text"/>
+						<span class="input-group-addon">
+                                <i id="postComment" class="fa fa-edit" style="font-size: 20px"></i>
+                            </span>
+					</div>
+					<ul class="comments-list">
+						<div id="list">
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- end comments -->
+
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content7c.adoc"></div>
+
+	<div class="attack-container">
+		<!-- this will be where they can store the additional comment -->
+		<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+
+		<form class="attack-form" accept-charset="UNKNOWN"
+			  method="POST" name="DOMFollowUp"
+			  action="/WebGoat/CrossSiteScripting/stored-xss-follow-up"
+			  enctype="application/json;charset=UTF-8">
+			<input name="successMessage" value="" type="TEXT" />
+			<input name="submitMessage" value="Submit" type="SUBMIT"/>
+		</form>
+		<!-- do not remove the two following div's, this is where your feedback/output will land -->
+		<div class="attack-feedback"></div>
+		<div class="attack-output"></div>
+		<!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
+	</div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <!-- overview of XSS defenses -->
+    <div class="adoc-content" th:replace="doc:CrossSiteScripting_content8.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <!-- links to OWASP XSS resources mainly -->
+    <div class="adoc-content" th:replace="doc:CrossSiteScripting_content9.adoc"></div>
+</div>
+
+
+</html>
