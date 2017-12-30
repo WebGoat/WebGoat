@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webwolf.user.WebGoatUser;
 import org.springframework.boot.actuate.trace.Trace;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,8 +44,7 @@ public class Requests {
     @GetMapping
     public ModelAndView get(HttpServletRequest request) {
         ModelAndView m = new ModelAndView("requests");
-        WebGoatUser user = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Tracert> traces = traceRepository.findTraceForUser(user.getUsername()).stream()
+        List<Tracert> traces = traceRepository.findAllTraces().stream()
                 .map(t -> new Tracert(t.getTimestamp(), path(t), toJsonString(t))).collect(toList());
         m.addObject("traces", traces);
 

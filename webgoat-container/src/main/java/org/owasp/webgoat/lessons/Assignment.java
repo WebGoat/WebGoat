@@ -2,6 +2,10 @@ package org.owasp.webgoat.lessons;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -38,11 +42,14 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode
+@Entity
 public class Assignment {
     @NonNull
+    @Id
     private String name;
     @NonNull
     private String path;
+    @Transient
     private List<String> hints;
 
 }

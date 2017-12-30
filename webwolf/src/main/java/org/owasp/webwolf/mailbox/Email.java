@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +17,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Builder
 @Data
-@Document
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class Email implements Serializable {
@@ -29,7 +28,6 @@ public class Email implements Serializable {
     private String contents;
     private String sender;
     private String title;
-    @Indexed
     private String recipient;
 
     public String getSummary() {

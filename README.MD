@@ -1,14 +1,10 @@
-# WebGoat: A deliberately insecure Web Application
+# WebGoat 8: A deliberately insecure Web Application
 
 [![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg?branch=develop)](https://travis-ci.org/WebGoat/WebGoat)
 [![Coverage Status](https://coveralls.io/repos/WebGoat/WebGoat/badge.svg?branch=develop&service=github)](https://coveralls.io/github/WebGoat/WebGoat?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/b69ee3a86e3b4afcaf993f210fccfb1d)](https://www.codacy.com/app/dm/WebGoat)
 [![Dependency Status](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa/badge.svg?style=flat)](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa)
 [![OWASP Labs](https://img.shields.io/badge/owasp-labs-orange.svg)](https://www.owasp.org/index.php/OWASP_Project_Inventory#tab=Labs_Projects)
-
-# Important
-
-This is the development version of WebGoat 8, if you are looking for a released stable version please go to: https://github.com/WebGoat/WebGoat/wiki/Running-WebGoat
 
 
 # Introduction
@@ -65,8 +61,22 @@ _Please note: this version may not be completely in sync with the develop branch
 Download the latest WebWolf release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```Shell
-java -jar webwolf-<<version>>.jar
+java -jar webgoat-server-<<version>>.jar
 ```
+
+By default WebGoat starts at port 8080 in order to change this use the following property:
+
+```Shell
+java -jar webgoat-server-<<version>>.jar --server.port=9090
+```
+
+You can specify one of the following arguments when starting WebGoat:
+
+```Shell
+java -jar webgoat-server-<<version>>.jar --server.port=9090 --server.address=x.x.x.x
+```
+
+This will start WebGoat on a different port and/or different address.
 
 
 ## 3. Run from the sources
@@ -88,18 +98,19 @@ Now let's start by compiling the project.
 
 ```Shell
 cd WebGoat
-git checkout develop
+git checkout <<branch_name>>
 mvn clean install
 ```
 
 Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 
 ```Shell
-mvn -pl webwolf spring-boot:run
+mvn -pl webgoat-server spring-boot:run
 ```
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
 
-To change IP addresss add the following variable to WebGoat/webgoat-container/src/main/resources/application.properties file
+
+To change IP address add the following variable to WebGoat/webgoat-container/src/main/resources/application.properties file
 
 ```
 server.address=x.x.x.x
@@ -110,8 +121,8 @@ server.address=x.x.x.x
 We supply a complete development environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
 
 ```shell
- $ cd WebGoat/webgoat-images/vagrant-users
- $ vagrant up
+   $ cd WebGoat/webgoat-images/vagrant-users
+   $ vagrant up
 ```
 
 Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
@@ -119,6 +130,8 @@ The source code will be available in the home directory.
 
 
 # Building a new Docker image
+
+NOTE: Travis will create a new Docker image automatically when making a new release.
 
 WebGoat now has Docker support for x86 and ARM (raspberry pi).
 ### Docker on x86

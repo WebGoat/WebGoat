@@ -5,8 +5,8 @@ import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,11 +44,15 @@ import java.util.stream.Collectors;
  * @since October 29, 2003
  */
 @Slf4j
+@Entity
 public class UserTracker {
 
     @Id
-    private final String user;
+    private String user;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<LessonTracker> lessonTrackers = Lists.newArrayList();
+
+    private UserTracker() {}
 
     public UserTracker(final String user) {
         this.user = user;

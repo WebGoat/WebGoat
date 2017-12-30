@@ -27,4 +27,9 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public void addUser(String username, String password) {
+        userRepository.save(new WebGoatUser(username, password));
+    }
+
+
 }

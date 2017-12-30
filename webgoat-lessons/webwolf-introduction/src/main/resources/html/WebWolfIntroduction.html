@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:Introduction.adoc"></div>
+    <div class="adoc-content" th:replace="doc:IntroductionWebWolf.adoc"></div>
 </div>
 
 <div class="lesson-page-wrapper">
@@ -12,9 +12,10 @@
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:Receiving_mail.adoc"></div>
     <div class="attack-container">
-        <form accept-charset="UNKNOWN"
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/WebWolf/send"
+              action="/WebGoat/WebWolf/mail/send"
               enctype="application/json;charset=UTF-8">
             <div class="container-fluid">
                 <div class="row">

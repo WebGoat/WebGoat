@@ -1,7 +1,8 @@
 package org.owasp.webgoat.plugin;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import lombok.SneakyThrows;
-import org.apache.commons.io.FileUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -63,7 +64,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
         if (!targetDirectory.exists()) {
             targetDirectory.mkdir();
         }
-        FileUtils.write(new File(targetDirectory, "secret.txt"), CONTENTS);
+        Files.write(CONTENTS, new File(targetDirectory, "secret.txt"), Charsets.UTF_8);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
