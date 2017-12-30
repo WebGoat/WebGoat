@@ -70,6 +70,15 @@ By default WebGoat starts at port 8080 in order to change this use the following
 java -jar webgoat-server-<<version>>.jar --server.port=9090
 ```
 
+You can specify one of the following arguments when starting WebGoat:
+
+```Shell
+java -jar webgoat-server-<<version>>.jar --server.port=9090 --server.address=x.x.x.x
+```
+
+This will start WebGoat on a different port and/or different address.
+
+
 ## 3. Run from the sources
 
 ### Prerequisites:
@@ -101,7 +110,7 @@ mvn -pl webgoat-server spring-boot:run
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
 
 
-To change IP addresss add the following variable to WebGoat/webgoat-container/src/main/resources/application.properties file
+To change IP address add the following variable to WebGoat/webgoat-container/src/main/resources/application.properties file
 
 ```
 server.address=x.x.x.x
@@ -121,6 +130,8 @@ The source code will be available in the home directory.
 
 
 # Building a new Docker image
+
+NOTE: Travis will create a new Docker image automatically when making a new release.
 
 WebGoat now has Docker support for x86 and ARM (raspberry pi).
 ### Docker on x86
