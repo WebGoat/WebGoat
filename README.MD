@@ -1,14 +1,10 @@
-# WebGoat: A deliberately insecure Web Application
+# WebGoat 8: A deliberately insecure Web Application
 
 [![Build Status](https://travis-ci.org/WebGoat/WebGoat.svg?branch=develop)](https://travis-ci.org/WebGoat/WebGoat)
 [![Coverage Status](https://coveralls.io/repos/WebGoat/WebGoat/badge.svg?branch=develop&service=github)](https://coveralls.io/github/WebGoat/WebGoat?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/b69ee3a86e3b4afcaf993f210fccfb1d)](https://www.codacy.com/app/dm/WebGoat)
 [![Dependency Status](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa/badge.svg?style=flat)](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa)
 [![OWASP Labs](https://img.shields.io/badge/owasp-labs-orange.svg)](https://www.owasp.org/index.php/OWASP_Project_Inventory#tab=Labs_Projects)
-
-# Important
-
-This is the development version of WebGoat 8, if you are looking for a released stable version please go to: https://github.com/WebGoat/WebGoat/wiki/Running-WebGoat
 
 
 # Introduction
@@ -68,6 +64,11 @@ Download the latest WebWolf release from [https://github.com/WebGoat/WebGoat/rel
 java -jar webgoat-server-<<version>>.jar
 ```
 
+By default WebGoat starts at port 8080 in order to change this use the following property:
+
+```Shell
+java -jar webgoat-server-<<version>>.jar --server.port=9090
+```
 
 ## 3. Run from the sources
 
@@ -98,6 +99,7 @@ Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 mvn -pl webgoat-server spring-boot:run
 ```
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
+
 
 To change IP addresss add the following variable to WebGoat/webgoat-container/src/main/resources/application.properties file
 
