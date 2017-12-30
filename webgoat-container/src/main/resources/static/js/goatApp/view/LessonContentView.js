@@ -45,7 +45,6 @@ define(['jquery',
             this.$el.find('.attack-feedback').hide();
             this.$el.find('.attack-output').hide();
             this.makeFormsAjax();
-            //this.ajaxifyAttackHref();
             $(window).scrollTop(0); //work-around til we get the scroll down sorted out
             var startPageNum = this.model.get('pageNum');
             this.initPagination(startPageNum);
@@ -86,6 +85,8 @@ define(['jquery',
             var prepareDataFunctionName = $(curForm).attr('prepareData');
             var callbackFunctionName = $(curForm).attr('callback');
             var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : $(curForm).serialize();
+            var successCallBackFunctionName = $(curForm).attr('successCallback');
+            var failureCallbackFunctionName = $(curForm).attr('failureCallback');
             var callbackFunction = (typeof webgoat.customjs[callbackFunctionName] === 'function') ? webgoat.customjs[callbackFunctionName] : function() {};
             // var submitData = this.$form.serialize();
             this.curForm = curForm;
@@ -104,19 +105,18 @@ define(['jquery',
                 //complete: function (data) {
                     //callbackFunction(data);
                 //}
-            }).then(self.onSuccessResponse.bind(self), self.onErrorResponse.bind(self));
+            }).then(function(data){
+                 self.onSuccessResponse(data, failureCallbackFunctionName, successCallBackFunctionName)}, self.onErrorResponse.bind(self));
             return false;
          },
 
-        onSuccessResponse: function(data) {
+        onSuccessResponse: function(data, failureCallbackFunctionName, successCallBackFunctionName) {
             this.renderFeedback(data.feedback);
             this.renderOutput(data.output || "");
 
-            var successCallBackFunctionName = this.$form.attr('successCallback');
-            var failureCallbackFunctionName = this.$form.attr('failureCallback');
             //var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : $(curForm).serialize();
-            successCallbackFunction = (typeof webgoat.customjs[successCallBackFunctionName] === 'function') ? webgoat.customjs[successCallBackFunctionName] : function() {};
-            failureCallbackFunction = (typeof webgoat.customjs[failureCallbackFunctionName] === 'function') ? webgoat.customjs[failureCallbackFunctionName] : function() {};
+            var successCallbackFunction = (typeof webgoat.customjs[successCallBackFunctionName] === 'function') ? webgoat.customjs[successCallBackFunctionName] : function() {};
+            var failureCallbackFunction = (typeof webgoat.customjs[failureCallbackFunctionName] === 'function') ? webgoat.customjs[failureCallbackFunctionName] : function() {};
             //TODO: refactor back assignmentCompleted in Java
             if (data.lessonCompleted || data.assignmentCompleted) {
                 this.markAssignmentComplete();
@@ -144,14 +144,6 @@ define(['jquery',
             console.error(b);
             console.error(c);
             return false;
-        },
-
-        ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs
-            var self = this;
-            // instruct in template to have links returned with the attack-link class
-            $('a.attack-link').submit(function(event){
-                $.get(this.action, "json").then(self.onSuccessResponse, self.onErrorResponse);
-             });
         },
 
         renderFeedback: function(feedback) {

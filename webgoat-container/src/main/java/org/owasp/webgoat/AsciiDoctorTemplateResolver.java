@@ -32,6 +32,7 @@ package org.owasp.webgoat;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
 import org.owasp.webgoat.i18n.Language;
 import org.thymeleaf.TemplateProcessingParameters;
@@ -41,6 +42,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 import java.io.*;
 import java.util.Map;
 
+import static org.apache.commons.lang3.CharEncoding.UTF_8;
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
 /**
@@ -50,6 +52,7 @@ import static org.asciidoctor.Asciidoctor.Factory.create;
  * <div th:replace="doc:AccessControlMatrix_plan.adoc"></div>
  * </code>
  */
+@Slf4j
 public class AsciiDoctorTemplateResolver extends TemplateResolver {
 
     private static final Asciidoctor asciidoctor = create();
@@ -73,11 +76,15 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
 
         @Override
         public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
-            InputStream is = readInputStreamOrFallbackToEnglish(resourceName, language);
-            try {
-                StringWriter writer = new StringWriter();
-                asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
-                return new ByteArrayInputStream(writer.getBuffer().toString().getBytes());
+            try (InputStream is = readInputStreamOrFallbackToEnglish(resourceName, language)) {
+                if (is == null) {
+                    log.warn("Resource name: {} not found, did you add the adoc file?", resourceName);
+                    return new ByteArrayInputStream(new byte[0]);
+                } else {
+                    StringWriter writer = new StringWriter();
+                    asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
+                    return new ByteArrayInputStream(writer.getBuffer().toString().getBytes(UTF_8));
+                }
             } catch (IOException e) {
                 //no html yet
                 return new ByteArrayInputStream(new byte[0]);

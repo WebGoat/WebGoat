@@ -19,7 +19,13 @@ import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 
 /**
  * @author nbaars
@@ -50,7 +56,7 @@ public class Comments {
             allComments.addAll(xmlComments);
         }
         allComments.addAll(comments);
-        return allComments;
+        return allComments.stream().sorted(Comparator.comparing(Comment::getDateTime).reversed()).collect(Collectors.toList());
     }
 
     protected Comment parseXml(String xml) throws Exception {
@@ -67,12 +73,12 @@ public class Comments {
         return (Comment) unmarshaller.unmarshal(xsr);
     }
 
-    protected Comment parseJson(String comment) {
+    protected Optional<Comment> parseJson(String comment) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.readValue(comment, Comment.class);
+            return of(mapper.readValue(comment, Comment.class));
         } catch (IOException e) {
-            return new Comment();
+            return empty();
         }
     }
 
