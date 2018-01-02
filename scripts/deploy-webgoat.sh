@@ -14,9 +14,9 @@ elif [ ! -z "${TRAVIS_TAG}" ]; then
   # Creating a tag build we push it to Docker with that tag
   docker build --build-arg webgoat_version=${TRAVIS_TAG:1} -f Dockerfile -t $REPO:${TRAVIS_TAG} -t $REPO:latest .
   docker push $REPO
-elif [ "${BRANCH}" == "develop" ]; then
-  docker build -f Dockerfile -t $REPO:snapshot .
-  docker push $REPO
+#elif [ "${BRANCH}" == "develop" ]; then
+#  docker build -f Dockerfile -t $REPO:snapshot .
+#  docker push $REPO
 else
   echo "Skipping releasing to DockerHub because it is a build of branch ${BRANCH}"
 fi
