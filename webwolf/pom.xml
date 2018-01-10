@@ -78,6 +78,13 @@
             <artifactId>hsqldb</artifactId>
             <version>${hsqldb.version}</version>
         </dependency>
+
+        <!-- ************* START: Dependencies for Unit and Integration Testing ************** -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
