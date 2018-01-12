@@ -121,7 +121,7 @@ server.address=x.x.x.x
 We supply a complete development environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
 
 ```shell
-   $ cd WebGoat/webgoat-images/vagrant-users
+   $ cd WebGoat/webgoat-images/vagrant-training
    $ vagrant up
 ```
 
