@@ -53,7 +53,7 @@ public class LessonTracker {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private final Set<Assignment> solvedAssignments = Sets.newHashSet();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private final List<Assignment> allAssignments = Lists.newArrayList();
+    private final Set<Assignment> allAssignments = Sets.newHashSet();
     @Getter
     private int numberOfAttempts = 0;
 
