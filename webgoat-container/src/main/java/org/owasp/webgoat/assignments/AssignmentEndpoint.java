@@ -55,7 +55,7 @@ public abstract class AssignmentEndpoint extends Endpoint {
 
 	//// TODO: 11/13/2016 events better fit?
     protected AttackResult trackProgress(AttackResult attackResult) {
-        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
+        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         if (userTracker == null) {
             userTracker = new UserTracker(webSession.getUserName());
         }
