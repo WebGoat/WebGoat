@@ -38,7 +38,7 @@ For example, if a super-user or admin can edit other's profiles ... That is some
 examples would include detected violations or attempts to violate access control mechanisms.
 
 === Using Indrect References
-Not many applications employ it, but you can use *indirect* refrences. In this case you can run your references across a hahsing,
+Not many applications employ it, but you can use *indirect* references. In this case you can run your references across a hashing,
 encoding or other function on the server so that the id that the client sees is not the actual reference
 which the server handles.  This will reduce efficiency some (a common trade-off for security) and is still subject to being
 guessed, brute-forced or reverse engineered.
