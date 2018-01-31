@@ -38,7 +38,7 @@ public class Scoreboard {
         List<WebGoatUser> allUsers = userRepository.findAll();
         List<Ranking> rankings = Lists.newArrayList();
         for (WebGoatUser user : allUsers) {
-            UserTracker userTracker = userTrackerRepository.findOne(user.getUsername());
+            UserTracker userTracker = userTrackerRepository.findByUser(user.getUsername());
             rankings.add(new Ranking(user.getUsername(), challengesSolved(userTracker)));
         }
         return rankings;

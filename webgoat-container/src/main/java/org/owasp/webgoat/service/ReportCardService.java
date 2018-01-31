@@ -64,7 +64,7 @@ public class ReportCardService {
     @GetMapping(path = "/service/reportcard.mvc", produces = "application/json")
     @ResponseBody
     public ReportCard reportCard() {
-        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
+        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         List<AbstractLesson> lessons = course.getLessons();
         ReportCard reportCard = new ReportCard();
         reportCard.setTotalNumberOfLessons(course.getTotalOfLessons());
