@@ -4,7 +4,7 @@
 
 ==== Potential String Injection
 -------------------------------------------------------
-"select * from users where name = '" + userName + "'";
+"SELECT * FROM user_data WHERE last_name = '" + accountName + "'"
 -------------------------------------------------------
 
 ==== Potential Numeric Injection
@@ -20,8 +20,8 @@
 * UserName = [red]*Smith’;drop table users; truncate audit_log;--*
 
 === Application executes query
-* select * from users where name = [red]*'Smith' or '1' = '1'*
-** select * from users where name = [red]*'Smith' or TRUE*
-* select * from users where employee_id = 1234567 or 1=1
+* SELECT * FROM user_data WHERE last_name = [red]*'Smith' or '1' = '1'*
+** SELECT * FROM user_data WHERE last_name = [red]*'Smith' or TRUE*
+* SELECT * FROM users WHERE employee_id = 1234567 or 1=1
 
 *All records are returned from database*
