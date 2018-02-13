@@ -1,0 +1,150 @@
+== Using WebGoat
+
+The OWASP *WebGoat* will teach you the most common
+security vulnerabilities in web applications, described in
+*OWASP Top Ten Vulnerabilities* sponsored by
+https://www.owasp.org[OWASP Open Web Application Security Project].
+The guided lessons provide introductory level explanations
+and hands-on black box exercises.
+
+The lessons are suitable for less experienced students and
+seasoned pros. WebGoat is a good place to start if you are new to testing and designing, or want to
+fill in your background at any level; it seems there's always more to learn about cybersecurity.
+
+By completing the coursework lessons you will understand the most common types of flaws in
+implementation, and be able to create
+*exploits* for the vulnerability from such flaws. These are the fundamentals
+encountered in so many aspects of application security.
+
+The set of Challenges provide some *pen testing*
+(penetration testing) exercises allowing you put together knowledge of multiple vulnerabilities
+to discover more
+complex exploits.
+
+=== Content
+
+The content is a set of Lessons organized in Categories
+roughly corresponding to the OWASP Top Ten Vulnerabilities as described in
+https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project[OWASP Top Ten Vulnerabilities 2017]
+and
+https://www.owasp.org/index.php/Top_10_2013[OWASP Top Ten Vulnerabilities 2013].
+
+Each Category has one more more Lessons designed to complete in
+a reasonably short time, and the set of lessons can be
+completed in a day or so. Your mileage may vary, depending on pace and background.
+
+A set of Challenges allow exercise and extension
+of the knowledge, and can also be used directly by more experienced students and CTF events.
+
+Lessons are self contained and suited to self study.
+Along with the lessons are some built in study support tools
+to help you track your progress. There are minimal external resource requirements, but you will
+need an application *proxy* and the first lesson will walk you through the setup.
+
+A more complete version of this documentation, along with installation,
+links to source, and lots more are on the
+https://www.owasp.org/index.php/Category:OWASP_WebGoat_Project[WebGoat Project Web Page].
+
+
+=== Lessons
+
+
+The User Interface is straightforward and you'll probably intuit the
+flow; here's a quick description.
+Take a look around this screen, each page will have the same presentation format.
+You'll see:
+
+* Left Toolbar iframe with expando-list to navigate among Lessons
+* Tool Icons located upper right, to perform various modal study tasks
+* Lesson Navigation controls center page to move within a lesson
+* The Lesson content (this text you are reading). Here is where the work gets done.
+
+
+Lessons are presented by Category in the Lesson List.
+You can hide the iframe using the tribar. When you complete all of the
+assignments, the Lesson is complete and check-marked in the Lesson list and updated in
+your *Report Card*.
+
+
+The lessons are presented in a problem solving format to help
+develop intuition, to "think like a hacker", requiring application of the techniques,
+and trial and error.
+Each lesson contains three elements:
+
+* Explanation of the vulnerability
+* Assignments to learn about how to exploit the vulnerability
+* Descriptions of possible mitigation scenarios
+
+You should continue to the *HTTP Basics* lesson, then you can tackle the
+remaining lessons
+in any order you prefer. Each subsequent Lesson is independent
+rather than sequenced.
+
+====
+Some lessons may need the *WebWolf*. You can wait to visit the WebWolf lesson until you need it,
+or you can do it now. Before you undertake any of other assignments, an application proxy
+is indispensable, the basic lesson will walk through the use of the
+*OWASP ZED proxy*. You may also use other tools as you like, such as
+browser web developer tools; the lessons are designed to be completed
+without additional utilities.
+====
+
+=== Lesson Navigation
+
+* Lesson Pages
+  At the top left of the page there are navigation controls that show the number
+  of steps within the lesson. You have already figured that out, since you are on
+  the second page of this Lesson.  +
+** A number with a red background means there is an assignment to solve.
+  When you successfully complete the assignment the background will have green check.
+
+* *Reset Lesson*
+  You can also Reset the Lesson to rerun from the beginning.
+
+* *Show Hints*
+  The goat wants to help. Some lessons have hints, some don't. If you're stuck
+  a hint may help. Try a few things before looking at the hint.
+
+== Challenges/CTF
+
+In addition to the structured Lessons, a set of more free form lesson scenarios
+are presented as *Challenges*.
+
+During a couple of conferences the goat team were asked to host a small Capture the Flag
+event with WebGoat. The first one was a success so we added a separate section
+in WebGoat with CTF Capture The Plag Challenges. Some of the challenges
+have a direct connection with the lessons but a couple of them are more for fun.
+
+Having the *CTF* challenges has two purposes:
+
+* As a teacher you can start WebGoat to host only the challenges (next release)
+* A lesson can point to a specific challenges to solve in which a user of WebGoat can test the knowledge of a vulnerability (end challenge)
+
+
+== Tools
+
+A few modal views are available in any lesson
+by using the icons in the upper right. They are:
+
+* *User* :
+  Behind the silhouette icon is some information about your session.
+
+* *Info* :
+  Contains info about WebGoat: development and support team, thanks to the contributors
+  and supporters, overview, version and licensing information.
+
+* *Report Card*
+  This presentation summarizes your efforts on the lessons,
+  including completions, progress,
+  and how many times you tried various screens. The number of attempts
+  can be useful to see which lessons gave you trouble, in case you want to
+  revisit or even repeat the lesson to increase understanding.
+
+* *Email*
+  Invokes your (external personal) installed e-email client to send an email to the
+  team contact accounts.
+
+== TL;DR;
+****
+*tl;dr;  The UI is straightforward. Start with the Basics Lesson and proceed. Go forth and hack...*
+****
