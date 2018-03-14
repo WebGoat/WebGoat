@@ -8,11 +8,11 @@ In this assignment you need to achieve to POST the following JSON message to our
 
 [source]
 ----
-POST /csrf/feedback HTTP/1.1
+POST /csrf/feedback/message HTTP/1.1
 
 {
   "name"    : "WebGoat",
-  "email"   : "webgoat@webgoat.org"
+  "email"   : "webgoat@webgoat.org",
   "content" : "WebGoat is the best!!"
 }
 ----
