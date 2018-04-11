@@ -23,7 +23,7 @@ java -jar webwolf-<<version>>.jar
 WebWolf is also available as a Docker container:
 
 ```
-docker pull webwolf/webwolf-8.0
+docker pull webgoat/webwolf
 docker run -it 8081:8081 /home/webwolf/run.sh
 ```
 
