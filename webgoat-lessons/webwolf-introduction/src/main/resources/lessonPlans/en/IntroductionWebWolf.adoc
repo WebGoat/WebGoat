@@ -24,7 +24,7 @@ WebWolf is also available as a Docker container:
 
 ```
 docker pull webgoat/webwolf
-docker run -it 8081:8081 /home/webwolf/run.sh
+docker run -it -p 8081:8081 webgoat/webwolf /home/webwolf/run.sh
 ```
 
 This will start the application on port 8081, click webWolfLink:here[] to open WebWolf.
