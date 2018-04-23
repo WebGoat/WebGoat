@@ -7,14 +7,13 @@ This lesson teaches about using JSON Web Tokens (JWT) for authentication and the
 
 == Goals
 
-Teach how to securely implement the usage of tokens.
+Teach how to securely implement the usage of tokens and validation of those tokens.
 
 == Introduction
 
 Many application use JSON Web Tokens (JWT) to allow the client to indicate is identity for further exchange after authentication.
 
 From https://jwt.io/introduction:
-
 -------------------------------------------------------
 JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact
 and self-contained way for securely transmitting
