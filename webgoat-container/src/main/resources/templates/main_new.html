@@ -76,14 +76,13 @@
                     </a>
                     </li>
                     <li role="presentation" class="divider"></li>
-                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#"
-                                                                th:text="#{version}">Version: <span
-                            th:text="${@environment.getProperty('webgoat.build.version')}"></span></a>
+                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">
+                        <span th:text="#{version}">Version:</span><span>: </span>
+                        <span th:text="${@environment.getProperty('webgoat.build.version')}"></span></a>
                     </li>
-                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#"
-                                                                th:text="#{build}">Build:
+                    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">
+                        <span th:text="#{build}">Build:</span><span>: </span>
                         <span th:text="${@environment.getProperty('webgoat.build.number')}"></span></a></li>
-
                 </ul>
             </div>
             <div style="display:inline" id="settings">

@@ -9,13 +9,13 @@ DTD.
 |OS |Location
 
 |Linux
-|`/home/USER/.webgoat/XXE/secret.txt`
+|`/home/USER/.webgoat-webGoatVersion:version[]/XXE/secret.txt`
 
 |Windows
-|`c:/Users/USER/.webgoat/XXE/secret.txt`
+|`c:/Users/USER/.webgoat-webGoatVersion:version[]/XXE/secret.txt`
 
 |Docker
-|`/home/webgoat/.webgoat/XXE/secret.txt`
+|`/home/webgoat/.webgoat-webGoatVersion:version[]/XXE/secret.txt`
 |===
 
 Try to upload this file using WebWolf landing page for example: `http://localhost:8081/WebWolf/landing?text=[contents_file]`
