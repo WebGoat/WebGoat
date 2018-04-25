@@ -89,9 +89,9 @@
     </mailingLists>
 
     <scm>
-        <url>https://github.com/WebGoat/WebGoat</url>
-        <connection>scm:git:git@github.com:WebGoat/WebGoat.git</connection>
-        <developerConnection>scm:git:git@github.com:WebGoat/WebGoat.git</developerConnection>
+        <url>https://github.com/jgergel/WebGoat</url>
+        <connection>scm:git:git@github.com:jgergel/WebGoat.git</connection>
+        <developerConnection>scm:git:git@github.com:jgergel/WebGoat.git</developerConnection>
       <tag>HEAD</tag>
   </scm>
 
@@ -172,7 +172,7 @@
         <module>webgoat-server</module>
         <module>webwolf</module>
     </modules>
-
+<!-- Jerry was here
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -181,6 +181,13 @@
         <repository>
             <id>ossrh</id>
             <url>http://www.demo.com:8081/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+-->
+    <distributionManagement>
+        <repository>
+            <id>maven-junk</id>
+            <url>http://www.demo.com:8081/repository/maven-junk/</url>
         </repository>
     </distributionManagement>
 
