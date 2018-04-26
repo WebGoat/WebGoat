@@ -16,11 +16,11 @@ pipeline {
 			}
 		}
 //
-		stage('Policy Evaluation'){
-			steps {
-				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'HelloWorld1', iqStage: 'build', jobCredentialsId: ''
-			}
-		}
+//		stage('Policy Evaluation'){
+//			steps {
+//				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'HelloWorld1', iqStage: 'build', jobCredentialsId: ''
+//			}
+//		}
 //		stage ('Deploy to Staging') {
 //			steps {
 //				build job: 'JenkinsClassDeployToStage'
