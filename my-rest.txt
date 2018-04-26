@@ -1,8 +1,15 @@
-curl -i -X GET --user 'demo:abc123' http://www.demo.com:8081/service/rest/beta/tags 
+list tags : curl -i -X GET --user 'demo:abc123' http://www.demo.com:8081/service/rest/beta/tags 
 
-curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' -d '{ "name" : "testing-delete-me" }' 'http://www.demo.com:8081/service/rest/beta/tags' 
+create tag : curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' -d '{ "name" : "testing-delete-me" }' 'http://www.demo.com:8081/service/rest/beta/tags' 
 
-curl -i --user 'demo:abc123' -X DELETE --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/tags/testing-delete-me'
+delete tag : curl -i --user 'demo:abc123' -X DELETE --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/tags/testing-delete-me' 
 
+upload raw file : curl -i --user 'demo:abc123' -X POST --header 'Content-Type: multipart/form-data' --header 'Accept: application/json' -F raw.directory=/readmes -F raw.asset1=@my-rest.txt -F raw.asset1.filename=my-rest.txt 'http://www.demo.com:8081/service/rest/beta/components?repository=raw-dev'
+
+upload maven2 file : curl -i --user 'demo:abc123' -X POST --header 'Content-Type: multipart/form-data' --header 'Accept: application/json' -F maven2.groupId=org.owasp.webgoat -F maven2.artifactId=webgoat-server -F maven2.version=8.0.0.M3 -F maven2.asset1=@webgoat-server/target/webgoat-server-8.0.0.M3.jar -F maven2.asset2=@@webgoat-server/pom.xml   'http://www.demo.com:8081/service/rest/beta/components?repository=maven-junk'
+
+tag component : curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/tags/associate/testing-tags?repository=raw-dev&name=readmes/my-rest.txt'
+
+search repo : curl -i --user 'demo:abc123' -X GET --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/search?repository=raw-dev'
 
 
