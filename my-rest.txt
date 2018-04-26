@@ -1,0 +1,8 @@
+curl -i -X GET --user 'demo:abc123' http://www.demo.com:8081/service/rest/beta/tags 
+
+curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' -d '{ "name" : "testing-delete-me" }' 'http://www.demo.com:8081/service/rest/beta/tags' 
+
+curl -i --user 'demo:abc123' -X DELETE --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/tags/testing-delete-me'
+
+
+
