@@ -16,11 +16,11 @@ pipeline {
 			}
 		}
 //
-//		stage('Policy Evaluation'){
-//			steps {
-//				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'HelloWorld1', iqStage: 'build', jobCredentialsId: ''
-//			}
-//		}
+		stage('Policy Evaluation'){
+			steps {
+				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'Webgoat', iqScanPatterns: [[scanPattern: '**/webgoat-server-8.0.0.M3.jar']], iqStage: 'build', jobCredentialsId: ''
+			}
+		}
 //		stage ('Deploy to Staging') {
 //			steps {
 //				build job: 'JenkinsClassDeployToStage'
