@@ -21,11 +21,11 @@ pipeline {
 				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'Webgoat', iqScanPatterns: [[scanPattern: '**/webgoat-server-8.0.0.M3.jar']], iqStage: 'build', jobCredentialsId: ''
 			}
 		}
-		stage ('Promoting webgoat-server to QA repo') {
-			steps {
-
-			}
-		}
+//		stage ('Promoting webgoat-server to QA repo') {
+//			steps {
+//
+//			}
+//		}
 	}
 }
 	
