@@ -13,7 +13,7 @@ pipeline {
 //					tag
 //					found the system needed a pause
 //					sleep(10)
-//					sh "curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/tags/associate/jerry-1?repository=maven-dev&group=org.owasp.webgoat&name=webgoat-server&version=8.0.0.M3'" 
+//					sh "curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/tags/associate/jerry-1?repository=maven-dev&maven.groupID=org.owasp.webgoat&maven.artifactID=webgoat-server&maven.baseVersion=8.0.0.M3'" 
 				}
 			}
 		}
