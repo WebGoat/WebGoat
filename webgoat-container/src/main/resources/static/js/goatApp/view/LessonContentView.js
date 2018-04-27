@@ -25,6 +25,9 @@ define(['jquery',
                 self.navToPage(page);
               }
             });
+            setInterval(function () {
+                this.updatePagination();
+            }.bind(this), 5000);
         },
 
         findPage: function(assignment) {
@@ -60,7 +63,9 @@ define(['jquery',
          },
 
          updatePagination: function() {
-            this.paginationControlView.updateCollection();
+            if ( this.paginationControlView != undefined ) {
+                this.paginationControlView.updateCollection();
+            }
          },
 
          getCurrentPage: function () {
