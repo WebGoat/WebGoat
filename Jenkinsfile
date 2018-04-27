@@ -3,8 +3,9 @@ pipeline {
 	stages {
 		stage('Build'){
 			steps {
-				cd webgoat-server
-				sh '/apps/mvn/bin/mvn clean deploy -DskipTests'
+				dir('webgoat-server'){
+					sh '/apps/mvn/bin/mvn clean deploy -DskipTests'
+				}
 			}
  			post {
 				success {
