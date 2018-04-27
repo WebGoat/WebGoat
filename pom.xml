@@ -186,8 +186,8 @@
 -->
     <distributionManagement>
         <repository>
-            <id>maven-junk</id>
-            <url>http://www.demo.com:8081/repository/maven-junk/</url>
+            <id>maven-dev</id>
+            <url>http://www.demo.com:8081/repository/maven-dev/</url>
         </repository>
     </distributionManagement>
 
