@@ -23,7 +23,7 @@ pipeline {
 		}
 		stage ('Promoting webgoat-server to QA repo') {
 			steps {
-				sh "curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/staging/move/maven-dev?repository=maven-qa&tag=jerry-1'"
+				sh "curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/staging/move/maven-qa?repository=maven-dev&tag=jerry-1'"
 			}
 		}
 //		stage('Policy Evaluation for Staging'){
