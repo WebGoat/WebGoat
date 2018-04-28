@@ -20,16 +20,16 @@ pipeline {
 			}
 		}
 //
-//		stage('Policy Evaluation for Dev'){
-//			steps {
-//				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'Webgoat', iqScanPatterns: [[scanPattern: '**/webgoat-server-8.0.0.M3.jar']], iqStage: 'build', jobCredentialsId: ''
-//			}
-//		}
-//		stage ('Promoting webgoat-server to QA repo') {
-//			steps {
-//				sh "curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/staging/move/maven-qa?repository=maven-dev&tag=jerry-1'"
-//			}
-//		}
+		stage('Policy Evaluation Dev and Promote'){
+			steps {
+				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'Webgoat', iqScanPatterns: [[scanPattern: '**/webgoat-server-8.0.0.M3.jar']], iqStage: 'build', jobCredentialsId: ''
+			}
+			post {
+				success {
+					sh "curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/staging/move/maven-qa?repository=maven-dev&tag=jerry-1'"
+				}
+			}
+		}
 //		stage('Policy Evaluation for Staging'){
 //			steps {
 //				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'Webgoat', iqStage: 'stage-release', jobCredentialsId: ''
