@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -39,7 +40,11 @@ public class MailAssignment extends AssignmentEndpoint {
                     .contents("This is a test message from WebWolf, your unique code is: " + StringUtils.reverse(username))
                     .sender("webgoat@owasp.org")
                     .build();
-            restTemplate.postForEntity(webWolfURL, mailEvent, Object.class);
+            try {
+                restTemplate.postForEntity(webWolfURL, mailEvent, Object.class);
+            } catch (RestClientException e ) {
+                return informationMessage().feedback("webwolf.email_failed").output(e.getMessage()).build();
+            }
             return informationMessage().feedback("webwolf.email_send").feedbackArgs(email).build();
         } else {
             return informationMessage().feedback("webwolf.email_mismatch").feedbackArgs(username).build();

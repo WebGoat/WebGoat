@@ -7,6 +7,7 @@ import org.owasp.webwolf.user.WebGoatUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,12 +26,11 @@ import java.util.concurrent.Callable;
 @Slf4j
 public class MailboxController {
 
-    private final UserRepository userRepository;
     private final MailboxRepository mailboxRepository;
 
     @GetMapping(value = "/WebWolf/mail")
     public ModelAndView mail() {
-        WebGoatUser user = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView();
         List<Email> emails = mailboxRepository.findByRecipientOrderByTimeDesc(user.getUsername());
         if (emails != null && !emails.isEmpty()) {
@@ -44,13 +44,8 @@ public class MailboxController {
     @PostMapping(value = "/mail")
     public Callable<ResponseEntity<?>> sendEmail(@RequestBody Email email) {
         return () -> {
-            if (userRepository.findByUsername(email.getRecipient()) != null) {
-                mailboxRepository.save(email);
-                return ResponseEntity.status(HttpStatus.CREATED).build();
-            } else {
-                log.trace("Mail received for unknown user: {}", email.getRecipient());
-                return ResponseEntity.notFound().build();
-            }
+            mailboxRepository.save(email);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         };
     }
 

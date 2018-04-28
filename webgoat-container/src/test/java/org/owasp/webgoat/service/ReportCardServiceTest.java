@@ -47,6 +47,7 @@ public class ReportCardServiceTest {
     @Before
     public void setup() {
         this.mockMvc = standaloneSetup(new ReportCardService(websession, userTrackerRepository, course, pluginMessages)).build();
+        when(pluginMessages.getMessage(anyString())).thenReturn("Test");
     }
 
     @Test
