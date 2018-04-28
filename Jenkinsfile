@@ -25,10 +25,10 @@ pipeline {
 				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'Webgoat', iqScanPatterns: [[scanPattern: '**/webgoat-server-8.0.0.M3.jar']], iqStage: 'build', jobCredentialsId: ''
 			}
 			post {
-				if (success) {
+				success {
 					sh "curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/staging/move/maven-qa?repository=maven-dev&tag=jerry-1'"
 				}
-				else {
+				unstable {
 // need to add a question in Jenkins					
 					sh "curl -i --user 'demo:abc123' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' 'http://www.demo.com:8081/service/rest/beta/staging/move/maven-qa?repository=maven-dev&tag=jerry-1'"
 				}
