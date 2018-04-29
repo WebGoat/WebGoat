@@ -1066,6 +1066,7 @@ span.show-next-page, span.show-prev-page {
 
 /* ATTACK DISPLAY */
 .attack-container {
+  position: relative;
   background-color: #f1f1f1;
   border: 2px solid #a66;
   border-radius: 12px;
@@ -1150,4 +1151,16 @@ div.captured-flag {
     height: 117px;
     width: 1268px;
     margin-bottom: 20px;
+}
+
+#content {
+  position:relative;
+}
+
+.webwolf-enabled {
+  position:absolute;
+  top: 10px;
+  right: 25px;
+  width: 42px;
+  height: 47px;
 }
