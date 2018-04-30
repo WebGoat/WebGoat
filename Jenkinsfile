@@ -25,7 +25,7 @@ pipeline {
 		}
 		stage('Promote to QA?'){
 			steps {
-				timeout(time: 5, unit 'DAYS'){
+				timeout(time: 5, unit: 'DAYS'){
 					input message:'Move to QA?'
 				}
 			}
