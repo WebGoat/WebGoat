@@ -18,7 +18,7 @@ pipeline {
 			}
 		}
 //
-		stage('Policy Evaluation Dev and Promote'){
+		stage('Policy Evaluation Dev'){
 			steps {
 				nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'Webgoat', iqScanPatterns: [[scanPattern: '**/webgoat-server-8.0.0.M3.jar']], iqStage: 'build', jobCredentialsId: ''
 			}
