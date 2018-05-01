@@ -78,6 +78,11 @@
             <artifactId>hsqldb</artifactId>
             <version>${hsqldb.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.2</version>
+        </dependency>
 
         <!-- ************* START: Dependencies for Unit and Integration Testing ************** -->
         <dependency>
