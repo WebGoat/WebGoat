@@ -52,6 +52,7 @@ public class UserTracker {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "username")
     private String user;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<LessonTracker> lessonTrackers = Sets.newHashSet();
