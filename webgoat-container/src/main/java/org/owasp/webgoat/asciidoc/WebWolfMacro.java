@@ -10,6 +10,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+/**
+ * Usage in asciidoc:
+ * <p>
+ * webWolfLink:here[] will display a href with here as text
+ * webWolfLink:landing[noLink] will display the complete url, for example: http://WW_HOST:WW_PORT/landing
+ */
 public class WebWolfMacro extends InlineMacroProcessor {
 
     public WebWolfMacro(String macroName, Map<String, Object> config) {
@@ -20,7 +26,15 @@ public class WebWolfMacro extends InlineMacroProcessor {
     protected String process(AbstractBlock parent, String target, Map<String, Object> attributes) {
         Environment env = EnvironmentExposure.getEnv();
         String hostname = determineHost(env.getProperty("webwolf.host"), env.getProperty("webwolf.port"));
+
+        if (displayCompleteLinkNoFormatting(attributes)) {
+            return hostname + (hostname.endsWith("/") ? "" : "/") + target;
+        }
         return "<a href=\"" + hostname + "\" target=\"_blank\">" + target + "</a>";
+    }
+
+    private boolean displayCompleteLinkNoFormatting(Map<String, Object> attributes) {
+        return attributes.values().stream().filter(a -> a.equals("noLink")).findFirst().isPresent();
     }
 
     /**
