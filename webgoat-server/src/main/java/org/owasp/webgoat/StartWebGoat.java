@@ -37,7 +37,4 @@ public class StartWebGoat {
     public static void main(String[] args) {
         SpringApplication.run(WebGoat.class, args);
     }
-
-
-
 }
