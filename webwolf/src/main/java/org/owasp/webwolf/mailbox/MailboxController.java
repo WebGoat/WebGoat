@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class MailboxController {
 
     @GetMapping(value = "/WebWolf/mail")
     public ModelAndView mail() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView();
         List<Email> emails = mailboxRepository.findByRecipientOrderByTimeDesc(user.getUsername());
         if (emails != null && !emails.isEmpty()) {
