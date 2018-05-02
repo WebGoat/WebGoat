@@ -53,7 +53,7 @@ public class SqlInjectionAdvanced extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "SQL Injection (advanced)";
+        return "sql.advanced.title";
     }
 
     @Override

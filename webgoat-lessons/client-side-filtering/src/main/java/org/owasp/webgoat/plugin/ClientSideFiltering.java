@@ -56,7 +56,7 @@ public class ClientSideFiltering extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "Client side filtering";
+        return "client.side.filtering.title";
     }
 
     @Override

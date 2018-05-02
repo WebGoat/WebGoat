@@ -35,6 +35,7 @@ import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.extension.JavaExtensionRegistry;
+import org.owasp.webgoat.asciidoc.WebGoatVersionMacro;
 import org.owasp.webgoat.asciidoc.WebWolfMacro;
 import org.owasp.webgoat.i18n.Language;
 import org.thymeleaf.TemplateProcessingParameters;
@@ -86,6 +87,7 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
                     StringWriter writer = new StringWriter();
                     JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
                     extensionRegistry.inlineMacro("webWolfLink", WebWolfMacro.class);
+                    extensionRegistry.inlineMacro("webGoatVersion", WebGoatVersionMacro.class);
 
                     asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
                     return new ByteArrayInputStream(writer.getBuffer().toString().getBytes(UTF_8));

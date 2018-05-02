@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.owasp.webgoat</groupId>
         <artifactId>webgoat-parent</artifactId>
-        <version>8.0.0.M3</version>
+        <version>v8.0.0.M14</version>
     </parent>
 
     <dependencies>
@@ -78,12 +78,21 @@
             <artifactId>hsqldb</artifactId>
             <version>${hsqldb.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.2</version>
+        </dependency>
 
         <!-- ************* START: Dependencies for Unit and Integration Testing ************** -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
         </dependency>
     </dependencies>
 

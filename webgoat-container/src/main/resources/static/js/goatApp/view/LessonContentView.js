@@ -25,6 +25,9 @@ define(['jquery',
                 self.navToPage(page);
               }
             });
+            setInterval(function () {
+                this.updatePagination();
+            }.bind(this), 5000);
         },
 
         findPage: function(assignment) {
@@ -60,7 +63,9 @@ define(['jquery',
          },
 
          updatePagination: function() {
-            this.paginationControlView.updateCollection();
+            if ( this.paginationControlView != undefined ) {
+                this.paginationControlView.updateCollection();
+            }
          },
 
          getCurrentPage: function () {
@@ -146,14 +151,23 @@ define(['jquery',
             return false;
         },
 
+        removeSlashesFromJSON: function(str) {
+        // slashes are leftover escapes from JSON serialization by server
+        // for every two char sequence starting with backslash,
+        // replace them in the text with second char only
+            return str.replace(/\\(.)/g, "$1");
+        },
+
         renderFeedback: function(feedback) {
-            this.$curFeedback.html(polyglot.t(feedback) || "");
+            var s = this.removeSlashesFromJSON(feedback);
+            this.$curFeedback.html(polyglot.t(s) || "");
             this.$curFeedback.show(400)
 
         },
 
         renderOutput: function(output) {
-            this.$curOutput.html(polyglot.t(output) || "");
+            var s = this.removeSlashesFromJSON(output);
+            this.$curOutput.html(polyglot.t(s) || "");
             this.$curOutput.show(400)
         },
 
