@@ -16,17 +16,8 @@ pipeline {
       }
     }
     stage('Policy Evaluation Dev') {
-      parallel {
-        stage('Policy Evaluation Dev') {
-          steps {
-            nexusPolicyEvaluation(iqApplication: 'Webgoat', iqScanPatterns: [[scanPattern: '**/webgoat-server-8.0.0.M3.jar']], iqStage: 'build')
-          }
-        }
-        stage('Promote to QA?') {
-          steps {
-            input 'Promote?'
-          }
-        }
+      steps {
+        nexusPolicyEvaluation(iqApplication: 'Webgoat', iqScanPatterns: [[scanPattern: '**/webgoat-server-8.0.0.M3.jar']], iqStage: 'build')
       }
     }
     stage('Promote to QA?') {
