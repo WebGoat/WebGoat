@@ -33,8 +33,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.Assert;
 
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -80,12 +82,17 @@ public class StoredXssCommentsTest extends AssignmentEndpointTest {
      */
 
     //Ensures it is vulnerable
-//    @Test
-//    public void isNotEncoded() throws Exception {
-//        //do get to get comments after posting xss payload
-//        ResultActions taintedResults = mockMvc.perform(MockMvcRequestBuilders.get("/CrossSiteScripting/stored-xss"));
-//        taintedResults.andExpect(jsonPath("$[0].text",CoreMatchers.is(CoreMatchers.containsString("<script>console.warn('unit test me')</script>"))));
-//    }
+    @Test
+    public void isNotEncoded() throws Exception {
+        //do get to get comments after posting xss payload
+        ResultActions taintedResults = mockMvc.perform(MockMvcRequestBuilders.get("/CrossSiteScripting/stored-xss"));
+        MvcResult mvcResult = taintedResults.andReturn();
+        assert(mvcResult.getResponse().getContentAsString().contains("<script>console.warn"));
+    }
+
+    private Boolean hasScriptTagInComments () {
+        return false;
+    }
 
 
     //Could be used to test an encoding solution ... commented out so build will pass. Uncommenting will fail build, but leaving in as positive Security Unit Test
