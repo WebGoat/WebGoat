@@ -30,12 +30,18 @@ are not using the Docker image you will need to download the jar file and start 
 java -jar webwolf-<<version>>.jar
 ```
 
-WebWolf is also available as a Docker container:
+WebWolf is also available as a Docker container, because it shares the database with WebGoat we first need
+to find out the ip address of the Docker container.
 
 ```
+WEBGOAT_SERVER_ADDRESS=$(docker inspect -f "{{ .NetworkSettings.IPAddress }}" `docker ps | grep webgoat | awk '{print $1}'`)
 docker pull webgoat/webwolf
-docker run -it -p 8081:8081 webgoat/webwolf /home/webwolf/run.sh
+docker run -e webgoat.server.address=${WEBGOAT_SERVER_ADDRESS} -it -p 8081:8081 webgoat/webwolf /home/webwolf/run.sh
 ```
+
+Note: if you start WebGoat as standalone application you need to start WebWolf as standalone application as well. If
+you start WebGoat as Docker container you need to start WebWolf as Docker container as well.
+
 
 This will start the application on port 8081, click webWolfLink:here[] to open WebWolf.
 First thing you need to do is register a new user within WebWolf.
