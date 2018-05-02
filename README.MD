@@ -40,6 +40,15 @@ docker pull webgoat/webgoat-8.0
 docker run -p 8080:8080 -it webgoat/webgoat-8.0 /home/webgoat/start.sh 
 ```
 
+If you want to keep the database between Docker sessions you need to map the WebGoat data directory to a 
+folder on the host system as follows:
+
+```Shell
+docker run -p 8080:8080 -it -v /tmp/webgoat-data:/home/webgoat/.webgoat-${VERSION} webgoat/webgoat-8.0 /home/webgoat/start.sh
+```
+
+where `${VERSION}` is for example `v8.0.0.M14`. The data will now be stored in `/tmp/webgoat-data` on your host system.
+
 Wait for the Docker container to start, and run `docker ps` to verify it's running.
 
 - If you are using `docker-machine`, verify the machine IP using `docker-machine env`

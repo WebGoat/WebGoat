@@ -62,7 +62,7 @@ public class UserTrackerRepositoryTest {
 
         userTrackerRepository.save(userTracker);
 
-        userTracker = userTrackerRepository.findOne("test");
+        userTracker = userTrackerRepository.findByUser("test");
         Assertions.assertThat(userTracker.getLessonTracker("test")).isNotNull();
     }
 
@@ -77,7 +77,7 @@ public class UserTrackerRepositoryTest {
 
         userTrackerRepository.saveAndFlush(userTracker);
 
-        userTracker = userTrackerRepository.findOne("test");
+        userTracker = userTrackerRepository.findByUser("test");
         Assertions.assertThat(userTracker.numberOfAssignmentsSolved()).isEqualTo(1);
     }
 
@@ -90,7 +90,7 @@ public class UserTrackerRepositoryTest {
         userTracker.assignmentFailed(lesson);
         userTrackerRepository.saveAndFlush(userTracker);
 
-        userTracker = userTrackerRepository.findOne("test");
+        userTracker = userTrackerRepository.findByUser("test");
         userTracker.assignmentFailed(lesson);
         userTracker.assignmentFailed(lesson);
         userTrackerRepository.saveAndFlush(userTracker);

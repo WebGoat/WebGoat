@@ -130,6 +130,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public PluginMessages pluginMessages(Messages messages, Language language) {
         PluginMessages pluginMessages = new PluginMessages(messages, language);
+        pluginMessages.setDefaultEncoding("UTF-8");
         pluginMessages.setBasenames("i18n/WebGoatLabels");
         return pluginMessages;
     }
@@ -142,6 +143,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public Messages messageSource(Language language) {
         Messages messages = new Messages(language);
+        messages.setDefaultEncoding("UTF-8");
         messages.setBasename("classpath:i18n/messages");
         return messages;
     }
