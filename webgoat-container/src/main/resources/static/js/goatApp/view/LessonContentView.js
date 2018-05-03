@@ -59,7 +59,7 @@ define(['jquery',
             var currentPage = (!isNaN(startPageNum) && startPageNum && startPageNum < this.$contentPages) ? startPageNum : 0;
             //init views & pagination
             this.showCurContentPage(currentPage);
-            this.paginationControlView = new PaginationControlView(this.$contentPages,this.model.get('lessonUrl'));
+            this.paginationControlView = new PaginationControlView(this.$contentPages,this.model.get('lessonUrl'),startPageNum);
          },
 
          updatePagination: function() {
@@ -187,13 +187,19 @@ define(['jquery',
             return endpoints;
         },
 
+        onNavToPage: function(pageNum) {
+            var assignmentPaths = this.findAssigmentEndpointsOnPage(pageNum);
+            this.trigger('endpoints:filtered',assignmentPaths);
+        },
+
         navToPage: function (pageNum) {
             this.paginationControlView.setCurrentPage(pageNum);//provides validation
             this.showCurContentPage(this.paginationControlView.currentPage);
             this.paginationControlView.render();
             this.paginationControlView.hideShowNavButtons();
-            var assignmentPaths = this.findAssigmentEndpointsOnPage(pageNum);
-            this.trigger('endpoints:filtered',assignmentPaths);
+            this.onNavToPage(pageNum);
+            //var assignmentPaths = this.findAssigmentEndpointsOnPage(pageNum);
+            //this.trigger('endpoints:filtered',assignmentPaths);
         },
 
         /* for testing */
