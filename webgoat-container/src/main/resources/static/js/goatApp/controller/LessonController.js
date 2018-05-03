@@ -126,11 +126,7 @@ define(['jquery',
                     this.lessonContentView.model = this.lessonContent;
                     this.lessonContentView.render();
                     //TODO: consider moving hintView as child of lessonContentView ...
-                    if (this.lessonHintView) {
-                        this.lessonHintView.stopListening();
-                        this.lessonHintView = null;
-                    }
-                    this.lessonHintView = new HintView();
+                    this.createLessonHintView();
 
                     //TODO: instantiate model with values (not sure why was not working before)
                     var paramModel = new ParamModel({});
@@ -146,11 +142,23 @@ define(['jquery',
                 this.lessonProgressModel.completed();
             };
 
+            this.createLessonHintView = function () {
+                if (this.lessonHintView) {
+                    this.lessonHintView.stopListening();
+                    this.lessonHintView = null;
+                }
+                this.lessonHintView = new HintView();
+            }
+
             this.addCurHelpState = function (curHelp) {
                 this.helpsLoaded[curHelp.helpElement] = curHelp.value;
             };
 
             this.showHintsView = function() {
+                if (!this.lessonHintView) {
+                    this.createLessonHintView();
+                }
+                //
                 this.lessonHintView.render();
                 if (this.lessonHintView.getHintsCount > 0) {
                     this.helpControlsView.showHintsButton();
