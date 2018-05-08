@@ -1,6 +1,6 @@
 == Immutable Queries
 
-These are the best defense against SQL Injection.  They either do not have data that could get interpreted or the treat the data as a single entity that is bound to a column without interpretation.
+These are the best defense against SQL Injection.  They either do not have data that could get interpreted or they treat the data as a single entity that is bound to a column without interpretation.
 
 === Static Queries
 -------------------------------------------------------
