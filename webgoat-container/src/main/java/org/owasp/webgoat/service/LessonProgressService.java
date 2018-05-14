@@ -40,17 +40,19 @@ public class LessonProgressService {
     @RequestMapping(value = "/service/lessonprogress.mvc", produces = "application/json")
     @ResponseBody
     public Map getLessonInfo() {
-        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
-        LessonTracker lessonTracker = userTracker.getLessonTracker(webSession.getCurrentLesson());
         Map json = Maps.newHashMap();
-        String successMessage = "";
-        boolean lessonCompleted = false;
-        if (lessonTracker != null) {
-            lessonCompleted = lessonTracker.isLessonSolved();
-            successMessage = "LessonCompleted"; //@todo we still use this??
+        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
+        if (webSession.getCurrentLesson() != null) {
+            LessonTracker lessonTracker = userTracker.getLessonTracker(webSession.getCurrentLesson());
+            String successMessage = "";
+            boolean lessonCompleted = false;
+            if (lessonTracker != null) {
+                lessonCompleted = lessonTracker.isLessonSolved();
+                successMessage = "LessonCompleted"; //@todo we still use this??
+            }
+            json.put("lessonCompleted", lessonCompleted);
+            json.put("successMessage", successMessage);
         }
-        json.put("lessonCompleted", lessonCompleted);
-        json.put("successMessage", successMessage);
         return json;
     }
 
@@ -63,7 +65,7 @@ public class LessonProgressService {
     @RequestMapping(value = "/service/lessonoverview.mvc", produces = "application/json")
     @ResponseBody
     public List<LessonOverview> lessonOverview() {
-        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
+        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         AbstractLesson currentLesson = webSession.getCurrentLesson();
         List<LessonOverview> result = Lists.newArrayList();
         if ( currentLesson != null ) {

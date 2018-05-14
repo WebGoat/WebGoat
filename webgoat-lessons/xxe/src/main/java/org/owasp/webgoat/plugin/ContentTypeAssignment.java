@@ -46,7 +46,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @AssignmentHints({"xxe.hints.content.type.xxe.1", "xxe.hints.content.type.xxe.2"})
 public class ContentTypeAssignment extends AssignmentEndpoint {
 
-    private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "opt", "var"};
+    private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"}; 
     private final static String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
 
 
@@ -61,37 +61,36 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult createNewUser(@RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
         AttackResult attackResult = failed().build();
-        Comment comment = null;
+
         if (APPLICATION_JSON_VALUE.equals(contentType)) {
-            comment = comments.parseJson(commentStr);
-            comments.addComment(comment, true);
+            comments.parseJson(commentStr).ifPresent(c -> comments.addComment(c, true));
             attackResult = failed().feedback("xxe.content.type.feedback.json").build();
         }
 
         if (MediaType.APPLICATION_XML_VALUE.equals(contentType)) {
             String error = "";
             try {
-                comment = comments.parseXml(commentStr);
+                Comment comment = comments.parseXml(commentStr);
                 comments.addComment(comment, false);
+                if (checkSolution(comment)) {
+                    attackResult = success().build();
+                }
             } catch (Exception e) {
                 error = org.apache.commons.lang.exception.ExceptionUtils.getFullStackTrace(e);
+                attackResult = failed().feedback("xxe.content.type.feedback.xml").output(error).build();
             }
-            attackResult = failed().feedback("xxe.content.type.feedback.xml").output(error).build();
         }
 
-        if (checkSolution(comment)) {
-            attackResult = success().build();
-        }
         return trackProgress(attackResult);
     }
 
-    private boolean checkSolution(Comment comment) {
-        String[] directoriesToCheck = OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
-        boolean success = true;
-        for (String directory : directoriesToCheck) {
-            success &= comment.getText().contains(directory);
-        }
-        return success;
-    }
+   private boolean checkSolution(Comment comment) {
+       String[] directoriesToCheck = OS.isFamilyMac() || OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
+       boolean success = true;
+       for (String directory : directoriesToCheck) {
+           success &= org.apache.commons.lang3.StringUtils.contains(comment.getText(), directory);
+       }
+       return success;
+   } 
 
 }

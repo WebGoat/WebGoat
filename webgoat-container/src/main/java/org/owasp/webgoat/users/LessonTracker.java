@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,16 +45,23 @@ import java.util.stream.Collectors;
  * @version $Id: $Id
  * @since October 29, 2003
  */
+@Entity
 public class LessonTracker {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @Getter
     private String lessonName;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private final Set<Assignment> solvedAssignments = Sets.newHashSet();
-    private final List<Assignment> allAssignments = Lists.newArrayList();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private final Set<Assignment> allAssignments = Sets.newHashSet();
     @Getter
     private int numberOfAttempts = 0;
 
-    protected LessonTracker() {
-        //Mongo
+    private LessonTracker() {
+        //JPA
     }
 
     public LessonTracker(AbstractLesson lesson) {

@@ -2,14 +2,16 @@
 package org.owasp.webgoat.users;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -44,11 +46,18 @@ import java.util.stream.Collectors;
  * @since October 29, 2003
  */
 @Slf4j
+@Entity
 public class UserTracker {
 
     @Id
-    private final String user;
-    private List<LessonTracker> lessonTrackers = Lists.newArrayList();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(name = "username")
+    private String user;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<LessonTracker> lessonTrackers = Sets.newHashSet();
+
+    private UserTracker() {}
 
     public UserTracker(final String user) {
         this.user = user;

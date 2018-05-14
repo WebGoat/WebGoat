@@ -54,7 +54,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @AssignmentHints({"xxe.hints.simple.xxe.1", "xxe.hints.simple.xxe.2", "xxe.hints.simple.xxe.3", "xxe.hints.simple.xxe.4"})
 public class SimpleXXE extends AssignmentEndpoint {
 
-    private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "opt", "var"};
+    private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
     private final static String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
 
     @Value("${webgoat.server.directory}")
@@ -77,13 +77,12 @@ public class SimpleXXE extends AssignmentEndpoint {
         }
         return trackProgress(failed().output(error).build());
     }
-
     private boolean checkSolution(Comment comment) {
-        String[] directoriesToCheck = OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
-        boolean success = true;
-        for (String directory : directoriesToCheck) {
-            success &= comment.getText().contains(directory);
-        }
-        return success;
-    }
+       String[] directoriesToCheck = OS.isFamilyMac() || OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
+       boolean success = true;
+       for (String directory : directoriesToCheck) {
+           success &= org.apache.commons.lang3.StringUtils.contains(comment.getText(), directory);
+       }
+       return success;
+   } 
 }

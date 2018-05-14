@@ -60,7 +60,7 @@ public class SqlInjection extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "SQL Injection";
+        return "sql.injection.title";
     }
 
     @Override

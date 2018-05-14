@@ -1,13 +1,14 @@
 package org.owasp.webgoat.users;
 
 import lombok.Getter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -16,6 +17,7 @@ import java.util.Collections;
  * @since 3/19/17.
  */
 @Getter
+@Entity
 public class WebGoatUser implements UserDetails {
 
     public static final String ROLE_USER = "WEBGOAT_USER";

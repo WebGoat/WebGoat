@@ -8,13 +8,32 @@ webgoat.customjs.simpleXXE = function () {
 }
 
 webgoat.customjs.simpleXXECallback = function() {
-    $("#commentInputBlind").val('');
+    $("#commentInputSimple").val('');
     getComments('#commentsListSimple');
 }
 
 $(document).ready(function () {
     getComments('#commentsListSimple');
 });
+
+//// Content-type
+
+webgoat.customjs.contentTypeXXE = function() {
+    var commentInput = $("#commentInputContentType").val();
+    return JSON.stringify({text: commentInput});
+}
+
+webgoat.customjs.contentTypeXXECallback = function() {
+    $("#commentInputContentType").val('');
+    getComments('#commentsListContentType');
+}
+
+$(document).ready(function () {
+    getComments('#commentsListContentType');
+});
+
+
+//// Blind
 
 webgoat.customjs.blindXXE = function() {
     var commentInput = $("#commentInputBlind").val();
@@ -34,19 +53,7 @@ $(document).ready(function () {
     getComments('#commentsListBlind');
 });
 
-webgoat.customjs.contentTypeXXE = function() {
-    var commentInput = $("#commentInputContentType").val();
-    return JSON.stringify({text: commentInput});
-}
 
-webgoat.customjs.contentTypeXXECallback = function() {
-    $("#commentInputContentType").val('');
-    getComments('#commentsListContentType');
-}
-
-$(document).ready(function () {
-    getComments('#commentsListContentType');
-});
 
 var html = '<li class="comment">' +
     '<div class="pull-left">' +

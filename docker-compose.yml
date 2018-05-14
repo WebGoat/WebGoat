@@ -1,40 +1,28 @@
-version: '2.0'
+version: '2.1'
 
 services:
-  activemq:
-    image: webcenter/activemq:latest
-    ports:
-      - 8161:8161
-      - 61616:61616
-      - 61613:61613
-  mongo:
-    image: mongo:latest
-    expose:
-      - "27017"
-    volumes:
-      - './mongo-data:/data/db'
   webgoat:
-    build: webgoat-server/
-    command: "sh /home/webgoat/start.sh"
+    image: webgoat/webgoat-8.0
+    environment:
+      - WEBWOLF_HOST=webwolf
+      - spring.datasource.url=jdbc:hsqldb:hsql://webgoat_db:9001/webgoat
     ports:
       - "8080:8080"
     depends_on:
-      [mongo, activemq]
-    environment:
-      WG_MONGO_PORT: 27017
-      WG_MONGO_HOST: mongo
-      WG_MQ_HOST: activemq
-      WG_MQ_PORT: 61616
-      WG_INTERNAL_MONGO: "false"
+      - db
   webwolf:
-    build: webwolf/
-    command: "sh /home/webwolf/start.sh"
-    depends_on:
-      - webgoat
+    image: webgoat/webwolf
+    environment:
+          - spring.datasource.url=jdbc:hsqldb:hsql://webgoat_db:9001/webgoat
     ports:
       - "8081:8081"
+    depends_on:
+      - db
+  db:
+    image: blacklabelops/hsqldb
+    container_name: webgoat_db
     environment:
-      WG_MONGO_PORT: 27017
-      WG_MONGO_HOST: mongo
-      WG_MQ_HOST: activemq
-      WG_MQ_PORT: 61616
+      - HSQLDB_TRACE=false
+      - HSQLDB_SILENT=true
+      - HSQLDB_DATABASE_NAME=webgoat
+      - HSQLDB_DATABASE_ALIAS=webgoat

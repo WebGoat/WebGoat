@@ -1,4 +1,4 @@
-== Authentication Bpasses
+== Authentication Bypasses
 
 Authentication Bypasses happen in many ways, but usually take advantage of some flaw in the configuration or logic. Tampering to achieve the right conditions.
 
@@ -12,4 +12,4 @@ Sometimes, if an attacker doesn't know the correct value of a parameter, they ma
 
 === Forced Browsing
 
-If an area of a site is not protected properly by configuation, that area of the site may be accessed by guessing/brute-forcing.
+If an area of a site is not protected properly by configuration, that area of the site may be accessed by guessing/brute-forcing.
