@@ -1,15 +1,29 @@
 == Special Characters
 
-/* */ 	are inline comments
--- , # 	are line comments
-'Select * from users where name = ‘admin’--and pass = ‘pass’'
+[source]
+----
+/* */ 	 are inline comments
+-- , # 	 are line comments
 
-; 		allows query chaining
-'Select * from users; drop table users;'
+Example: Select * from users where name = 'admin' --and pass = 'pass'
+----
 
-’,+,||	allows string concatenation 
-Char()	strings without quotes
-'Select * from users where name = ‘+char(27) or 1=1'
+
+[source]
+----
+;        allows query chaining
+
+Example: Select * from users; drop table users;
+----
+
+[source]
+----
+',+,||	 allows string concatenation
+Char()	 strings without quotes
+
+Example: Select * from users where name = '+char(27) or 1=1
+----
+
 
 ==  Special Statements
 

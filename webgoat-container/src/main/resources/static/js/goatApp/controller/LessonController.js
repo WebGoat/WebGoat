@@ -73,6 +73,7 @@ define(['jquery',
             }
 
             this.loadLesson = function(name,pageNum) {
+
                 if (this.name === name) {
                     this.listenToOnce(this.lessonHintView, 'hints:showButton', this.onShowHintsButton);
                     this.listenTo(this.lessonHintView, 'hints:hideButton', this.onHideHintsButton);
@@ -83,15 +84,15 @@ define(['jquery',
                     return;
                 }
 
+                if (pageNum && !this.name) {
+                    //placeholder
+                }
+
                 this.helpsLoaded = {};
                 if (typeof(name) === 'undefined' || name === null) {
                     //TODO: implement lesson not found or return to welcome page?
                 }
                 this.lessonContent.loadData({'name':name});
-//                this.planView = {};
-//                this.solutionView = {};
-//                this.sourceView = {};
-//                this.lessonHintView = {};
                 this.name = name;
             };
 
@@ -124,15 +125,8 @@ define(['jquery',
                     this.helpControlsView = null;
                     this.lessonContentView.model = this.lessonContent;
                     this.lessonContentView.render();
-                    
-                    //this.planView = new PlanView();
-                    //this.solutionView = new SolutionView();
-                    //this.sourceView = new SourceView();
-                    if (this.lessonHintView) {
-                        this.lessonHintView.stopListening();
-                        this.lessonHintView = null;
-                    }
-                    this.lessonHintView = new HintView();
+                    //TODO: consider moving hintView as child of lessonContentView ...
+                    this.createLessonHintView();
 
                     //TODO: instantiate model with values (not sure why was not working before)
                     var paramModel = new ParamModel({});
@@ -148,40 +142,23 @@ define(['jquery',
                 this.lessonProgressModel.completed();
             };
 
+            this.createLessonHintView = function () {
+                if (this.lessonHintView) {
+                    this.lessonHintView.stopListening();
+                    this.lessonHintView = null;
+                }
+                this.lessonHintView = new HintView();
+            }
+
             this.addCurHelpState = function (curHelp) {
                 this.helpsLoaded[curHelp.helpElement] = curHelp.value;
             };
 
-//            this.hideShowHelps = function(showHelp) {
-//                var showId = '#lesson-' + showHelp + '-row';
-//                var contentId = '#lesson-' + showHelp + '-content';
-//                $('.lesson-help').not(showId).hide();
-//                if (!showId) {
-//                    return;
-//                }
-//
-//                if ($(showId).is(':visible')) {
-//                    $(showId).hide();
-//                    return;
-//                } else {
-//                    //TODO: move individual .html operations into individual help views
-//                    switch(showHelp) {
-//                        case 'plan':
-//                            $(contentId).html(this.planView.model.get('content'));
-//                            break;
-//                        case 'solution':
-//                            $(showId).html(this.solutionView.model.get('content'));
-//                            break;
-//                        case 'source':
-//                            $(contentId).html('<pre>' + this.sourceView.model.get('content') + '</pre>');
-//                            break;
-//                    }
-//                    $(showId).show();
-//                    GoatUtils.scrollToHelp()
-//                }
-//            };
-
             this.showHintsView = function() {
+                if (!this.lessonHintView) {
+                    this.createLessonHintView();
+                }
+                //
                 this.lessonHintView.render();
                 if (this.lessonHintView.getHintsCount > 0) {
                     this.helpControlsView.showHintsButton();

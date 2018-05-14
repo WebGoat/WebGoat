@@ -59,7 +59,7 @@ public class RestartLessonService {
         AbstractLesson al = webSession.getCurrentLesson();
         log.debug("Restarting lesson: " + al);
 
-        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
+        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         userTracker.reset(al);
         userTrackerRepository.save(userTracker);
     }

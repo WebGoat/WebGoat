@@ -73,7 +73,7 @@ public class LessonMenuService {
     List<LessonMenuItem> showLeftNav() {
         List<LessonMenuItem> menu = new ArrayList<>();
         List<Category> categories = course.getCategories();
-        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
+        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
 
         for (Category category : categories) {
             LessonMenuItem categoryItem = new LessonMenuItem();

@@ -25,6 +25,9 @@ define(['jquery',
                 self.navToPage(page);
               }
             });
+            setInterval(function () {
+                this.updatePagination();
+            }.bind(this), 5000);
         },
 
         findPage: function(assignment) {
@@ -45,7 +48,6 @@ define(['jquery',
             this.$el.find('.attack-feedback').hide();
             this.$el.find('.attack-output').hide();
             this.makeFormsAjax();
-            //this.ajaxifyAttackHref();
             $(window).scrollTop(0); //work-around til we get the scroll down sorted out
             var startPageNum = this.model.get('pageNum');
             this.initPagination(startPageNum);
@@ -57,11 +59,13 @@ define(['jquery',
             var currentPage = (!isNaN(startPageNum) && startPageNum && startPageNum < this.$contentPages) ? startPageNum : 0;
             //init views & pagination
             this.showCurContentPage(currentPage);
-            this.paginationControlView = new PaginationControlView(this.$contentPages,this.model.get('lessonUrl'));
+            this.paginationControlView = new PaginationControlView(this.$contentPages,this.model.get('lessonUrl'),startPageNum);
          },
 
          updatePagination: function() {
-            this.paginationControlView.updateCollection();
+            if ( this.paginationControlView != undefined ) {
+                this.paginationControlView.updateCollection();
+            }
          },
 
          getCurrentPage: function () {
@@ -86,6 +90,8 @@ define(['jquery',
             var prepareDataFunctionName = $(curForm).attr('prepareData');
             var callbackFunctionName = $(curForm).attr('callback');
             var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : $(curForm).serialize();
+            var successCallBackFunctionName = $(curForm).attr('successCallback');
+            var failureCallbackFunctionName = $(curForm).attr('failureCallback');
             var callbackFunction = (typeof webgoat.customjs[callbackFunctionName] === 'function') ? webgoat.customjs[callbackFunctionName] : function() {};
             // var submitData = this.$form.serialize();
             this.curForm = curForm;
@@ -104,19 +110,18 @@ define(['jquery',
                 //complete: function (data) {
                     //callbackFunction(data);
                 //}
-            }).then(self.onSuccessResponse.bind(self), self.onErrorResponse.bind(self));
+            }).then(function(data){
+                 self.onSuccessResponse(data, failureCallbackFunctionName, successCallBackFunctionName)}, self.onErrorResponse.bind(self));
             return false;
          },
 
-        onSuccessResponse: function(data) {
+        onSuccessResponse: function(data, failureCallbackFunctionName, successCallBackFunctionName) {
             this.renderFeedback(data.feedback);
             this.renderOutput(data.output || "");
 
-            var successCallBackFunctionName = this.$form.attr('successCallback');
-            var failureCallbackFunctionName = this.$form.attr('failureCallback');
             //var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : $(curForm).serialize();
-            successCallbackFunction = (typeof webgoat.customjs[successCallBackFunctionName] === 'function') ? webgoat.customjs[successCallBackFunctionName] : function() {};
-            failureCallbackFunction = (typeof webgoat.customjs[failureCallbackFunctionName] === 'function') ? webgoat.customjs[failureCallbackFunctionName] : function() {};
+            var successCallbackFunction = (typeof webgoat.customjs[successCallBackFunctionName] === 'function') ? webgoat.customjs[successCallBackFunctionName] : function() {};
+            var failureCallbackFunction = (typeof webgoat.customjs[failureCallbackFunctionName] === 'function') ? webgoat.customjs[failureCallbackFunctionName] : function() {};
             //TODO: refactor back assignmentCompleted in Java
             if (data.lessonCompleted || data.assignmentCompleted) {
                 this.markAssignmentComplete();
@@ -146,22 +151,23 @@ define(['jquery',
             return false;
         },
 
-        ajaxifyAttackHref: function() {  // rewrite any links with hrefs point to relative attack URLs
-            var self = this;
-            // instruct in template to have links returned with the attack-link class
-            $('a.attack-link').submit(function(event){
-                $.get(this.action, "json").then(self.onSuccessResponse, self.onErrorResponse);
-             });
+        removeSlashesFromJSON: function(str) {
+        // slashes are leftover escapes from JSON serialization by server
+        // for every two char sequence starting with backslash,
+        // replace them in the text with second char only
+            return str.replace(/\\(.)/g, "$1");
         },
 
         renderFeedback: function(feedback) {
-            this.$curFeedback.html(polyglot.t(feedback) || "");
+            var s = this.removeSlashesFromJSON(feedback);
+            this.$curFeedback.html(polyglot.t(s) || "");
             this.$curFeedback.show(400)
 
         },
 
         renderOutput: function(output) {
-            this.$curOutput.html(polyglot.t(output) || "");
+            var s = this.removeSlashesFromJSON(output);
+            this.$curOutput.html(polyglot.t(s) || "");
             this.$curOutput.show(400)
         },
 
@@ -181,13 +187,19 @@ define(['jquery',
             return endpoints;
         },
 
+        onNavToPage: function(pageNum) {
+            var assignmentPaths = this.findAssigmentEndpointsOnPage(pageNum);
+            this.trigger('endpoints:filtered',assignmentPaths);
+        },
+
         navToPage: function (pageNum) {
             this.paginationControlView.setCurrentPage(pageNum);//provides validation
             this.showCurContentPage(this.paginationControlView.currentPage);
             this.paginationControlView.render();
             this.paginationControlView.hideShowNavButtons();
-            var assignmentPaths = this.findAssigmentEndpointsOnPage(pageNum);
-            this.trigger('endpoints:filtered',assignmentPaths);
+            this.onNavToPage(pageNum);
+            //var assignmentPaths = this.findAssigmentEndpointsOnPage(pageNum);
+            //this.trigger('endpoints:filtered',assignmentPaths);
         },
 
         /* for testing */
