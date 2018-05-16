@@ -1,0 +1,8 @@
+== Refreshing a token
+
+=== Assignment
+
+In this assignment Tom no longer has a valid token, try to find a way to create a new access token and use that token
+to vote.
+
+

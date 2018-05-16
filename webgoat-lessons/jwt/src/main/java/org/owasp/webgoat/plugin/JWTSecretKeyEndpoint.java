@@ -15,7 +15,7 @@ import io.jsonwebtoken.Jwts;
  * @since 4/23/17.
  */
 @AssignmentPath("/JWT/secret")
-@AssignmentHints({"jwt-secret-hint1", "jwt-secret-hint2", "jwt-secret-hint3", "jwt-secret-hint4", "jwt-secret-hint5"})
+@AssignmentHints({"jwt-secret-hint1", "jwt-secret-hint2", "jwt-secret-hint3"})
 public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
 
     private static final String JWT_SECRET = "victory";
