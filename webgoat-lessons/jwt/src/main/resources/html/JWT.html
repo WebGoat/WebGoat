@@ -101,4 +101,72 @@
     </div>
 </div>
 
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:JWT_refresh.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:JWT_refresh_assignment"></div>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
+    <script th:src="@{/lesson_js/bootstrap.min.js}" language="JavaScript"></script>
+    <script th:src="@{/lesson_js/jwt-signing.js}" language="JavaScript"></script>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST"
+              successCallback="jwtSigningCallback"
+              action="/WebGoat/JWT/refresh/reset"
+              enctype="application/json;charset=UTF-8">
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="well">
+                        <div class="pull-right">
+                            <div class="dropdown">
+                                <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"
+                                        title="Change user">
+                                    <i class="fa fa-user"></i> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               onclick="javascript:login('Guest')"
+                                                               th:text="Guest">current</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               onclick="javascript:login('Tom')"
+                                                               th:text="Tom">current</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               onclick="javascript:login('Jerry')"
+                                                               th:text="Jerry">current</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               onclick="javascript:login('Sylvester')"
+                                                               th:text="Sylvester">current</a></li>
+                                </ul>
+                                <button type="button" class="btn btn-default fa fa-refresh" title="Refresh votes"
+                                        onclick="javascript:getVotings()"/>
+                                <button type="submit" class="btn btn-default fa fa-trash-o" title="Reset votes"/>
+                            </div>
+                            <div>
+                                <p class="text-right">Welcome back, <b><span id="name"></span></b></p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>Vote for your favorite</h3>
+                        </div>
+                        <div id="votesList" class="list-group">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
 </html>

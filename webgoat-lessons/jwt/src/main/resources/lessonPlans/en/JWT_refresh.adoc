@@ -10,7 +10,7 @@ In general there are two type of tokens: access token and a refresh token. The a
 calls towards the server. Access tokens have a limited life span, that's where the refresh token comes in. Once
 the access token is no longer valid a request can me made towards the server to get a new access token by presenting
 the refresh token. The refresh token can expire but their life span is much longer. This solves the problem of a user
-having to authenticate again with their credentials. Whether you should use a refresh token and access token depends
+having to authenticate again with their credentials. Whether you should use a refresh token and access token depends,
 below can find a couple of points to keep in mind while choosing which tokens to use.
 
 So a normal flow can look like:
@@ -31,18 +31,16 @@ The server returns:
 ```
 
 As you can see the refresh token is a random string which the server can keep track of (in memory or store in a database)
-With storing the information you can match the refresh token to the specific user to which the refresh token was
-granted to. So in this case whenever the access token is still valid we can speak of a "stateless" session, there is
+With storing you can match the refresh token to the specific user the refresh token was granted to.
+So in this case whenever the access token is still valid we can speak of a "stateless" session, there is
 no burden on the server side to setup the user session, the token is self contained.
 When the access token is no longer valid the server needs to query for the stored refresh token to make sure the token
 is not blocked in any way.
 
 Whenever the attacker gets a hold on an access token it is only valid for a certain amount of time (say 10 minutes). The
 attacker then needs the refresh token to get a new access token. That is why the refresh token needs better protection.
-
 It is also possible to make the refresh token stateless but this means it will become more difficult to see if
 the user revoked the tokens.
-
 After the server made all the validations it must return a new refresh token and a new access token to the client. The
 client can use the new access token to make the API call.
 
@@ -53,11 +51,9 @@ Regardless of the chosen solution you should store enough information on the ser
 is still trusted. You can think of many things, like store the ip address, keep track of how many times the refresh
 token is used (using the refresh token multiple times in the valid time window of the access token might indicate strange
 behavior, you can revoke all the tokens an let the user authenticate again).
-
 It is also a good to keep track of which access token belonged to which refresh token. Otherwise an attacker might
 be able to get a new access token for a different user with the refresh token of the attacker
 (see https://emtunc.org/blog/11/2017/jwt-refresh-token-manipulation/ for a nice write up about how this attack works)
-
 Also a good thing to check for is the ip address or geolocation of the user. If you need to give out a new token check
 whether the location is still the same if not revoke all the tokens and let the user authenticate again.
 
@@ -72,14 +68,10 @@ server you can chose to only use the access token.
 
 As stated above using an access token and a separate refresh token gives some leverage for the server not to check
 the access token over and over. Only perform the check when the user needs a new access token.
-
 It is certainly possible to only use an access token, at the server you store the exact same information you would
 store for a refresh token, see previous paragraph. This way you need to check the token each time but this might
-be suitable depending on the application.
-
-In the case the refresh tokens are stored for validation it is important to protect these tokens as well (at least
+be suitable depending on the application. In the case the refresh tokens are stored for validation it is important to protect these tokens as well (at least
 use a hash function to store them in your database).
-Another check is to make use there is only one access token
 
 
 
