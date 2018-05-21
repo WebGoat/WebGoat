@@ -5,11 +5,10 @@ $(document).ready(function () {
 function login(user) {
     $("#name").text(user);
     $.ajax({
-        url: "JWT/votings/login?user=" + user,
-        complete: function (result, status) {
-            getVotings();
-        }
-    });
+        url: 'JWT/votings/login?user=' + user
+    }).then(function () {
+        getVotings();
+    })
 }
 
 var html = '<a href="#" class="list-group-item ACTIVE">' +
@@ -65,7 +64,7 @@ function getVotings() {
     })
 }
 
-webgoat.customjs.jwtSigningCallback = function() {
+webgoat.customjs.jwtSigningCallback = function () {
     getVotings();
 }
 

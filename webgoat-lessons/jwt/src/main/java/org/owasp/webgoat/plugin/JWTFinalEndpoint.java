@@ -54,7 +54,7 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
                         final String kid = (String) header.get("kid");
                         try {
                             Connection connection = DatabaseUtilities.getConnection(webSession);
-                            ResultSet rs = connection.createStatement().executeQuery("SELECT key FROM jwt_keys WHERE id = " + kid);
+                            ResultSet rs = connection.createStatement().executeQuery("SELECT key FROM jwt_keys WHERE id = '" + kid + "'");
                             while (rs.next()) {
                                 return rs.getString(1).getBytes(Charsets.UTF_8);
                             }

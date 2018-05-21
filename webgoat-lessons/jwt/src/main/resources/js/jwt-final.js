@@ -3,8 +3,7 @@ function follow(user) {
         type: 'POST',
         url: 'JWT/final/follow/' + user
     }).then(function (result) {
-        $("#toast").setTextContent(result);
+        $("#toast").append(result);
     })
-}
 }
 
