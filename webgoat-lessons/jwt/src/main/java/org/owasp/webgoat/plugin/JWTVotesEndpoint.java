@@ -13,6 +13,7 @@ import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.plugin.votes.Views;
 import org.owasp.webgoat.plugin.votes.Vote;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
@@ -75,10 +76,12 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
             Cookie cookie = new Cookie("access_token", token);
             response.addCookie(cookie);
             response.setStatus(HttpStatus.OK.value());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         } else {
             Cookie cookie = new Cookie("access_token", "");
             response.addCookie(cookie);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         }
     }
 
