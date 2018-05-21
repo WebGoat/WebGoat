@@ -5,8 +5,9 @@ $(document).ready(function () {
 function login(user) {
     $("#name").text(user);
     $.ajax({
-        url: 'JWT/votings/login?user=' + user
-    }).then(function () {
+        url: 'JWT/votings/login?user=' + user,
+        contentType: "application/json"
+    }).always(function () {
         getVotings();
     })
 }
