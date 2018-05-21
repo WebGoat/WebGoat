@@ -1,0 +1,5 @@
+== Final challenges
+
+Same as before try to change the token and become admin, this assignment requires multiple attack scenarios.
+
+
