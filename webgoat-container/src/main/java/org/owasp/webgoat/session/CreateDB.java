@@ -101,7 +101,7 @@ public class CreateDB {
         // Create the new table
         try {
             String createTableStatement = "CREATE TABLE jwt_keys"
-                    + " (" + "id varchar(10),"
+                    + " (" + "id varchar(20),"
                     + "key varchar(20))";
             statement.executeUpdate(createTableStatement);
 
