@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugin;
 
 import com.google.common.base.Charsets;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.impl.TextCodec;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
@@ -20,6 +21,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * <pre>
+ *  {
+ *      "typ": "JWT",
+ *      "kid": "webgoat_key",
+ *      "alg": "HS256"
+ *  }
+ *  {
+ *       "iss": "WebGoat Token Builder",
+ *       "iat": 1524210904,
+ *       "exp": 1618905304,
+ *       "aud": "webgoat.org",
+ *       "sub": "jerry@webgoat.com",
+ *       "username": "Jerry",
+ *       "Email": "jerry@webgoat.com",
+ *       "Role": [
+ *       "Cat"
+ *       ]
+ *  }
+ * </pre>
+ *
  * @author nbaars
  * @since 4/23/17.
  */
@@ -54,9 +75,10 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
                         final String kid = (String) header.get("kid");
                         try {
                             Connection connection = DatabaseUtilities.getConnection(webSession);
+                            System.out.println("SELECT key FROM jwt_keys WHERE id = '" + kid + "'");
                             ResultSet rs = connection.createStatement().executeQuery("SELECT key FROM jwt_keys WHERE id = '" + kid + "'");
                             while (rs.next()) {
-                                return rs.getString(1).getBytes(Charsets.UTF_8);
+                                return TextCodec.BASE64.decode(rs.getString(1));
                             }
                         } catch (SQLException e) {
                             errorMessage[0] = e.getMessage();
