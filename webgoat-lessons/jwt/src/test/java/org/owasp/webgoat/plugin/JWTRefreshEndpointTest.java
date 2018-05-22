@@ -1,5 +1,6 @@
 package org.owasp.webgoat.plugin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import org.hamcrest.CoreMatchers;
@@ -79,6 +80,15 @@ public class JWTRefreshEndpointTest extends LessonTest {
     }
 
     @Test
+    public void checkoutWitRandomTokenShouldFail() throws Exception {
+        String accessTokenTom = "eyJhbGciOiJIUzUxMiJ9.eyJpLXQiOjE1MjYxMzE0MTEsImV4cCI6MTUyNjIxNzgxMSwiYWRtaW4iOiJmYWxzZSIsInVzZXIiOiJUb20ifQ.DCoaq9zQkyDH25EcVWKcdbyVfUL4c9D4jRvsqOqvi9iAd4QuqmKcchfbU8FNzeBNF9tLeFXHZLU4yRkq-bjm7Q";
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/checkout")
+                .header("Authorization", "Bearer " + accessTokenTom))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("jwt-invalid-token"))));
+    }
+
+    @Test
     public void flowForJerryAlwaysWorks() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -97,6 +107,78 @@ public class JWTRefreshEndpointTest extends LessonTest {
                 .header("Authorization", "Bearer " + accessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", is("User is not Tom but Jerry, please try again")));
+    }
 
+    @Test
+    public void loginShouldNotWorkForJerryWithWrongPassword() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Map<String, Object> loginJson = Maps.newHashMap();
+        loginJson.put("user", "Jerry");
+        loginJson.put("password", PASSWORD + "wrong");
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginJson)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void loginShouldNotWorkForTom() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Map<String, Object> loginJson = Maps.newHashMap();
+        loginJson.put("user", "Tom");
+        loginJson.put("password", PASSWORD);
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginJson)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void newTokenShouldWorkForJerry() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> loginJson = Maps.newHashMap();
+        loginJson.put("user", "Jerry");
+        loginJson.put("password", PASSWORD);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginJson)))
+                .andExpect(status().isOk())
+                .andReturn();
+        Map<String, String> tokens = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+        String accessToken = tokens.get("access_token");
+        String refreshToken = tokens.get("refresh_token");
+
+        Map<String, Object> refreshJson = Maps.newHashMap();
+        refreshJson.put("refresh_token", refreshToken);
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/newToken")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .content(objectMapper.writeValueAsString(refreshJson)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void unknownRefreshTokenShouldGiveUnauthorized() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> loginJson = Maps.newHashMap();
+        loginJson.put("user", "Jerry");
+        loginJson.put("password", PASSWORD);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginJson)))
+                .andExpect(status().isOk())
+                .andReturn();
+        Map<String, String> tokens = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+        String accessToken = tokens.get("access_token");
+
+        Map<String, Object> refreshJson = Maps.newHashMap();
+        refreshJson.put("refresh_token", "wrong_refresh_token");
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/newToken")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .content(objectMapper.writeValueAsString(refreshJson)))
+                .andExpect(status().isUnauthorized());
     }
 }
