@@ -90,6 +90,8 @@ define(['jquery',
             var prepareDataFunctionName = $(curForm).attr('prepareData');
             var callbackFunctionName = $(curForm).attr('callback');
             var submitData = (typeof webgoat.customjs[prepareDataFunctionName] === 'function') ? webgoat.customjs[prepareDataFunctionName]() : $(curForm).serialize();
+            var additionalHeadersFunctionName =  $(curForm).attr('additionalHeaders');
+            var additionalHeaders = (typeof webgoat.customjs[additionalHeadersFunctionName] === 'function') ? webgoat.customjs[additionalHeadersFunctionName]() : function() {};
             var successCallBackFunctionName = $(curForm).attr('successCallback');
             var failureCallbackFunctionName = $(curForm).attr('failureCallback');
             var callbackFunction = (typeof webgoat.customjs[callbackFunctionName] === 'function') ? webgoat.customjs[callbackFunctionName] : function() {};
@@ -104,6 +106,7 @@ define(['jquery',
             $.ajax({
                 //data:submitData,
                 url:formUrl,
+                headers: additionalHeaders,
                 method:formMethod,
                 contentType:contentType,
                 data: submitData,
