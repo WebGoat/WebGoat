@@ -6,6 +6,10 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.TextCodec;
 import org.junit.Test;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -33,5 +37,20 @@ public class TokenTest {
             }
         }).parse(token);
 
+    }
+
+    @Test
+    public void testRefresh() {
+        Instant now = Instant.now(); //current date
+        Claims claims = Jwts.claims().setIssuedAt(Date.from(now.minus(Duration.ofDays(10))));
+        claims.setExpiration(Date.from(now.minus(Duration.ofDays(9))));
+        claims.put("admin", "false");
+        claims.put("user", "Tom");
+        String token = Jwts.builder().setClaims(claims)
+                .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, "bm5n3SkxCX4kKRy4")
+                .compact();
+        //Jws<Claims> jws = Jwts.parser().setSigningKey("bm5n3SkxCX4kKRy4").parseClaimsJws(token);
+        //Jwts.parser().setSigningKey().parsePlaintextJws(token);
+        System.out.println(token);
     }
 }

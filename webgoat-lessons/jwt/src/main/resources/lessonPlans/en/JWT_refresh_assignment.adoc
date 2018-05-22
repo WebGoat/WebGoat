@@ -2,7 +2,7 @@
 
 === Assignment
 
-Jerry really wants to follow Tom, can you help him to follow Jerry?
 From a breach of last year the following logfile is available link:images/logs.txt[here]
+Can you find a way to order the books but let *Tom* pay for them?
 
 
