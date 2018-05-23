@@ -10,7 +10,4 @@ public class Views {
 
     public interface UserView extends GuestView {
     }
-
-    public interface AdminView extends UserView {
-    }
 }
