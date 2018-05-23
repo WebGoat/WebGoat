@@ -67,7 +67,7 @@ _Please note: this version may not be completely in sync with the develop branch
 
 ## 2. Standalone 
 
-Download the latest WebWolf release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
+Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```Shell
 java -jar webgoat-server-<<version>>.jar
