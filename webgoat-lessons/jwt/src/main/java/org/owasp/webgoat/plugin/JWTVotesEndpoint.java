@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +39,7 @@ import static java.util.stream.Collectors.toList;
 @AssignmentHints({"jwt-change-token-hint1", "jwt-change-token-hint2", "jwt-change-token-hint3", "jwt-change-token-hint4", "jwt-change-token-hint5"})
 public class JWTVotesEndpoint extends AssignmentEndpoint {
 
-    private static final String JWT_PASSWORD = "victory";
+    public static final String JWT_PASSWORD = "victory";
     private static String validUsers = "TomJerrySylvester";
 
     private static int totalVotes = 38929;
@@ -65,11 +67,10 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
     @GetMapping("/login")
     public void login(@RequestParam("user") String user, HttpServletResponse response) {
         if (validUsers.contains(user)) {
-            Map<String, Object> claims = Maps.newHashMap();
+            Claims claims = Jwts.claims().setIssuedAt(Date.from(Instant.now().plus(Duration.ofDays(10))));
             claims.put("admin", "false");
             claims.put("user", user);
             String token = Jwts.builder()
-                    .setIssuedAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toDays(10)))
                     .setClaims(claims)
                     .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, JWT_PASSWORD)
                     .compact();
@@ -96,11 +97,11 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
                 Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
                 Claims claims = (Claims) jwt.getBody();
                 String user = (String) claims.get("user");
-                boolean isAdmin = Boolean.valueOf((String) claims.get("admin"));
                 if ("Guest".equals(user) || !validUsers.contains(user)) {
                     value.setSerializationView(Views.GuestView.class);
+                } else {
+                    value.setSerializationView(Views.UserView.class);
                 }
-                value.setSerializationView(isAdmin ? Views.AdminView.class : Views.UserView.class);
             } catch (JwtException e) {
                 value.setSerializationView(Views.GuestView.class);
             }
@@ -132,7 +133,8 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
     }
 
     @PostMapping("reset")
-    public @ResponseBody AttackResult resetVotes(@CookieValue(value = "access_token", required = false) String accessToken) {
+    public @ResponseBody
+    AttackResult resetVotes(@CookieValue(value = "access_token", required = false) String accessToken) {
         if (StringUtils.isEmpty(accessToken)) {
             return trackProgress(failed().feedback("jwt-invalid-token").build());
         } else {

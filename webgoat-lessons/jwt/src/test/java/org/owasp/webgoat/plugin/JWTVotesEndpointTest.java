@@ -1,0 +1,187 @@
+package org.owasp.webgoat.plugin;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import org.hamcrest.CoreMatchers;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.owasp.webgoat.plugins.LessonTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import javax.servlet.http.Cookie;
+
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.when;
+import static org.owasp.webgoat.plugin.JWTVotesEndpoint.JWT_PASSWORD;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+public class JWTVotesEndpointTest extends LessonTest {
+
+    @Before
+    public void setup() {
+        JWT jwt = new JWT();
+        when(webSession.getCurrentLesson()).thenReturn(jwt);
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        when(webSession.getUserName()).thenReturn("unit-test");
+    }
+
+    @Test
+    public void solveAssignment() throws Exception {
+        //Create new token and set alg to none and do not sign it
+        Claims claims = Jwts.claims();
+        claims.put("admin", "true");
+        claims.put("user", "Tom");
+        String token = Jwts.builder().setClaims(claims).setHeaderParam("alg", "none").compact();
+
+        //Call the reset endpoint
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/reset")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(new Cookie("access_token", token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.lessonCompleted", is(true)));
+    }
+
+    @Test
+    public void resetWithoutTokenShouldNotWork() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/reset")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("jwt-invalid-token"))));
+    }
+
+    @Test
+    public void guestShouldNotGetAToken() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("user", "Guest"))
+                .andExpect(status().isUnauthorized()).andExpect(cookie().value("access_token", ""));
+    }
+
+    @Test
+    public void tomShouldGetAToken() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("user", "Tom"))
+                .andExpect(status().isOk()).andExpect(cookie().value("access_token", containsString("eyJhbGciOiJIUzUxMiJ9.")));
+    }
+
+    @Test
+    public void guestShouldNotSeeNumberOfVotes() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings")
+                .cookie(new Cookie("access_token", "")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].numberOfVotes").doesNotExist())
+                .andExpect(jsonPath("$[0].votingAllowed").doesNotExist())
+                .andExpect(jsonPath("$[0].average").doesNotExist());
+    }
+
+    @Test
+    public void tomShouldSeeNumberOfVotes() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("user", "Tom"))
+                .andExpect(status().isOk()).andReturn();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings")
+                .cookie(result.getResponse().getCookies()[0]))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].numberOfVotes").exists())
+                .andExpect(jsonPath("$[0].votingAllowed").exists())
+                .andExpect(jsonPath("$[0].average").exists());
+    }
+
+    @Test
+    public void invalidTokenShouldSeeGuestView() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings")
+                .cookie(new Cookie("access_token", "abcd.efgh.ijkl")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].numberOfVotes").doesNotExist())
+                .andExpect(jsonPath("$[0].votingAllowed").doesNotExist())
+                .andExpect(jsonPath("$[0].average").doesNotExist());
+    }
+
+    @Test
+    public void tomShouldBeAbleToVote() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("user", "Tom"))
+                .andExpect(status().isOk()).andReturn();
+        Cookie cookie = result.getResponse().getCookie("access_token");
+
+        result = mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings")
+                .cookie(cookie))
+                .andExpect(status().isOk()).andDo(print()).andReturn();
+        Object[] nodes = new ObjectMapper().readValue(result.getResponse().getContentAsString(), Object[].class);
+        int currentNumberOfVotes = (int) findNodeByTitle(nodes, "Admin lost password").get("numberOfVotes");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/Admin lost password")
+                .cookie(cookie))
+                .andExpect(status().isAccepted());
+        result = mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings")
+                .cookie(cookie))
+                .andExpect(status().isOk()).andReturn();
+        nodes = new ObjectMapper().readValue(result.getResponse().getContentAsString(), Object[].class);
+        int numberOfVotes = (int) findNodeByTitle(nodes, "Admin lost password").get("numberOfVotes");
+        assertThat(numberOfVotes).isEqualTo(currentNumberOfVotes + 1);
+    }
+
+    private Map<String, Object> findNodeByTitle(Object[] nodes, String title) {
+        for (Object n : nodes) {
+            Map<String, Object> node = (Map<String, Object>) n;
+            if (node.get("title").equals(title)) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+    @Test
+    public void guestShouldNotBeAbleToVote() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/Admin lost password")
+                .cookie(new Cookie("access_token", "")))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void unknownUserWithValidTokenShouldNotBeAbleToVote() throws Exception {
+        Claims claims = Jwts.claims();
+        claims.put("admin", "true");
+        claims.put("user", "Intruder");
+        String token = Jwts.builder().signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, JWT_PASSWORD).setClaims(claims).compact();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/Admin lost password")
+                .cookie(new Cookie("access_token", token)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void unknownUserShouldSeeGuestView() throws Exception {
+        Claims claims = Jwts.claims();
+        claims.put("admin", "true");
+        claims.put("user", "Intruder");
+        String token = Jwts.builder().signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, JWT_PASSWORD).setClaims(claims).compact();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings/")
+                .cookie(new Cookie("access_token", token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].numberOfVotes").doesNotExist())
+                .andExpect(jsonPath("$[0].votingAllowed").doesNotExist())
+                .andExpect(jsonPath("$[0].average").doesNotExist());
+    }
+
+
+}

@@ -20,9 +20,6 @@ public class Vote {
     private final String imageBig;
     @JsonView(Views.UserView.class)
     private int numberOfVotes;
-    @JsonView(Views.AdminView.class)
-    @Setter
-    private String flag;
     @JsonView(Views.UserView.class)
     private boolean votingAllowed = true;
     @JsonView(Views.UserView.class)
