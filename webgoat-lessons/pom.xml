@@ -33,6 +33,7 @@
 	    <module>auth-bypass</module>
         <module>missing-function-ac</module>
         <module>csrf</module>
+        <module>password-reset</module>
         <!-- uncomment below to include lesson template in build, also uncomment the dependency in webgoat-server/pom.xml to have it run in the project fully -->
         <!--<module>webgoat-lesson-template</module>-->
     </modules>
