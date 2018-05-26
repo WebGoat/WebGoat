@@ -1,11 +1,13 @@
-package org.owasp.webgoat.plugin.resetlink;
+package org.owasp.webgoat.plugin;
 
 import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.Maps;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.plugin.PasswordResetEmail;
+import org.owasp.webgoat.plugin.resetlink.PasswordChangeForm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +29,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @since 8/20/17.
  */
 @AssignmentPath("/PasswordReset/reset")
+@AssignmentHints({"password-reset-hint1", "password-reset-hint2", "password-reset-hint3", "password-reset-hint4", "password-reset-hint5"})
 public class ResetLinkAssignment extends AssignmentEndpoint {
 
     private static final String PASSWORD_TOM_9 = "somethingVeryRandomWhichNoOneWillEverTypeInAsPasswordForTom";
@@ -46,12 +49,10 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
 
     private final RestTemplate restTemplate;
     private final String webWolfMailURL;
-    private final String webwolfLandingURL;
 
-    public ResetLinkAssignment(RestTemplate restTemplate, @Value("${webwolf.url.mail}") String webWolfMailURL, @Value("${webwolf.url.landingpage}") String webwolfLandingURL) {
+    public ResetLinkAssignment(RestTemplate restTemplate, @Value("${webwolf.url.mail}") String webWolfMailURL) {
         this.restTemplate = restTemplate;
         this.webWolfMailURL = webWolfMailURL;
-        this.webwolfLandingURL = webwolfLandingURL;
     }
 
     @RequestMapping(method = POST, value = "/create-password-reset-link")
@@ -63,7 +64,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
         if (org.springframework.util.StringUtils.hasText(email)) {
             if (email.equals(TOM_EMAIL) && host.contains("8081")) { //User indeed changed the host header.
                 userToTomResetLink.put(getWebSession().getUserName(), resetLink);
-                fakeClickingLinkEmail(cookie, host, resetLink);
+                fakeClickingLinkEmail(host, resetLink);
             } else {
                 sendMailToUser(email, host, resetLink);
             }
@@ -88,7 +89,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
      * which user we need to trace the incoming request. In normal situation this HOST will be in your
      * full control so every incoming request would be valid.
      */
-    private void fakeClickingLinkEmail(String cookie, String host, String resetLink) {
+    private void fakeClickingLinkEmail(String host, String resetLink) {
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             HttpEntity httpEntity = new HttpEntity(httpHeaders);
@@ -104,12 +105,12 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
         if (TOM_EMAIL.equals(email)) {
             String passwordTom = usersToTomPassword.getOrDefault(getWebSession().getUserName(), PASSWORD_TOM_9);
             if (passwordTom.equals(PASSWORD_TOM_9)) {
-                return failed().feedback("login_failed").build();
+                return trackProgress(failed().feedback("login_failed").build());
             } else if (passwordTom.equals(password)) {
-                return success().feedback("challenge.solved").feedbackArgs("test").build();
+                return trackProgress(success().build());
             }
         }
-        return failed().feedback("login_failed.tom").build();
+        return trackProgress(failed().feedback("login_failed.tom").build());
     }
 
     @GetMapping("/reset-password/{link}")
@@ -123,7 +124,6 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
             return "password_link_not_found";
         }
     }
-
 
     @PostMapping("/change-password")
     public String changePassword(@ModelAttribute("form") PasswordChangeForm form, BindingResult bindingResult) {

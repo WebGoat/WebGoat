@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin.questions;
+package org.owasp.webgoat.plugin;
 
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
