@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin.challenge9;
+package org.owasp.webgoat.plugin.resetlink;
 
 import lombok.Getter;
 import lombok.Setter;
