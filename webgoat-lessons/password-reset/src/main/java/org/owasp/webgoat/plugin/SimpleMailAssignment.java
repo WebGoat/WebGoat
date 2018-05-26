@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin.simple;
+package org.owasp.webgoat.plugin;
 
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
@@ -24,6 +24,7 @@ import static java.util.Optional.ofNullable;
  * @since 8/20/17.
  */
 @AssignmentPath("/PasswordReset/simple-mail")
+
 public class SimpleMailAssignment extends AssignmentEndpoint {
 
     private final String webWolfURL;

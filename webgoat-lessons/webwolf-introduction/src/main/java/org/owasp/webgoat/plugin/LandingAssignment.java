@@ -21,7 +21,7 @@ import java.net.URISyntaxException;
 @AssignmentPath("/WebWolf/landing")
 public class LandingAssignment extends AssignmentEndpoint {
 
-    @Value("${webworf.url.landingpage}")
+    @Value("${webwolf.url.landingpage}")
     private String landingPageUrl;
 
     @PostMapping

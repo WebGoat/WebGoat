@@ -20,7 +20,7 @@ import java.util.*;
 public class WebWolfTraceRepository implements TraceRepository {
 
     private final EvictingQueue<Trace> traces = EvictingQueue.create(10000);
-    private List<String> exclusionList = Lists.newArrayList("/WebWolf/mail","/WebWolf/files", "/login", "/favicon.ico", "/js/", "/webjars/", "/WebWolf/requests", "/css/");
+    private List<String> exclusionList = Lists.newArrayList("/WebWolf/home", "/WebWolf/mail","/WebWolf/files", "/images/", "/login", "/favicon.ico", "/js/", "/webjars/", "/WebWolf/requests", "/css/", "/mail");
 
     @Override
     public List<Trace> findAll() {

@@ -6,7 +6,7 @@ import org.owasp.webgoat.lessons.NewLesson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PasswordReset  extends NewLesson {
+public class PasswordReset extends NewLesson {
     @Override
     public Category getDefaultCategory() {
         return Category.AUTHENTICATION;
