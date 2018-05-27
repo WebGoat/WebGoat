@@ -28,7 +28,6 @@ public class SimpleXXETest extends LessonTest {
         when(webSession.getUserName()).thenReturn("unit-test");
     }
 
-
     @Test
     public void workingAttack() throws Exception {
         //Call with XXE injection

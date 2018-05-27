@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin.challenge2;
+package org.owasp.webgoat.plugin;
 
 import com.beust.jcommander.internal.Lists;
 import lombok.AllArgsConstructor;
@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
-import static org.owasp.webgoat.plugin.SolutionConstants.SUPER_COUPON_CODE;
+import static org.owasp.webgoat.plugin.ClientSideFilteringFreeAssignment.SUPER_COUPON_CODE;
 
 /**
  * @author nbaars
  * @since 4/6/17.
  */
 @RestController
-@RequestMapping("challenge-store")
+@RequestMapping("/clientSideFiltering/challenge-store")
 public class ShopEndpoint {
 
     @AllArgsConstructor
     private class CheckoutCodes {
 
         @Getter
-        private List<CheckoutCode> codes = Lists.newArrayList();
+        private List<CheckoutCode> codes;
 
         public Optional<CheckoutCode> get(String code) {
             return codes.stream().filter(c -> c.getCode().equals(code)).findFirst();
