@@ -63,7 +63,7 @@ public class LessonMenuServiceTest {
         when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1, l2));
         when(course.getCategories()).thenReturn(Lists.newArrayList(Category.ACCESS_CONTROL));
         when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
-        when(userTrackerRepository.findOne(anyString())).thenReturn(userTracker);
+        when(userTrackerRepository.findByUser(anyString())).thenReturn(userTracker);
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL_LESSONMENU_MVC))
                 .andExpect(status().isOk())
@@ -81,7 +81,7 @@ public class LessonMenuServiceTest {
         when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1));
         when(course.getCategories()).thenReturn(Lists.newArrayList(Category.ACCESS_CONTROL));
         when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
-        when(userTrackerRepository.findOne(anyString())).thenReturn(userTracker);
+        when(userTrackerRepository.findByUser(anyString())).thenReturn(userTracker);
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL_LESSONMENU_MVC))

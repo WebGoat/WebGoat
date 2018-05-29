@@ -30,7 +30,7 @@ require.config({
   shim: {
 	"jqueryui": {
 	  exports:"$",
-	  deps: ['jquery']
+	  deps: ['libs/jquery-2.1.4.min']
 	},
     underscore: {
       exports: "_"

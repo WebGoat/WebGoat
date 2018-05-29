@@ -81,6 +81,39 @@ public class CreateDB {
         }
     }
 
+    /**
+     * Description of the Method
+     *
+     * @param connection Description of the Parameter
+     * @throws SQLException Description of the Exception
+     */
+    private void createJWTKeys(Connection connection) throws SQLException {
+        Statement statement = connection.createStatement();
+
+        // Drop servers table
+        try {
+            String dropTable = "DROP TABLE jwt_keys";
+            statement.executeUpdate(dropTable);
+        } catch (SQLException e) {
+            System.out.println("Info - Could not drop jwtkeys table");
+        }
+
+        // Create the new table
+        try {
+            String createTableStatement = "CREATE TABLE jwt_keys"
+                    + " (" + "id varchar(20),"
+                    + "key varchar(20))";
+            statement.executeUpdate(createTableStatement);
+
+            String insertData1 = "INSERT INTO jwt_keys VALUES ('webgoat_key', 'qwertyqwerty1234')";
+            String insertData2 = "INSERT INTO jwt_keys VALUES ('webwolf_key', 'doesnotreallymatter')";
+            statement.executeUpdate(insertData1);
+            statement.executeUpdate(insertData2);
+        } catch (SQLException e) {
+            System.out.println("Error creating product table " + e.getLocalizedMessage());
+        }
+    }
+
 
     /**
      * Description of the Method
@@ -975,6 +1008,7 @@ public class CreateDB {
         createTanTable(connection);
         createMFEImagesTable(connection);
         createModifyWithSQLLessonTable(connection);
+        createJWTKeys(connection);
         System.out.println("Success: creating tables.");
     }
 }

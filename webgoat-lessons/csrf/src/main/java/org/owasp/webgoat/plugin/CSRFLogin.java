@@ -33,7 +33,7 @@ public class CSRFLogin extends AssignmentEndpoint {
     }
 
     private void markAssignmentSolvedWithRealUser(String username) {
-        UserTracker userTracker = userTrackerRepository.findOne(username);
+        UserTracker userTracker = userTrackerRepository.findByUser(username);
         userTracker.assignmentSolved(getWebSession().getCurrentLesson(), this.getClass().getSimpleName());
         userTrackerRepository.save(userTracker);
     }

@@ -31,7 +31,7 @@ public class CSRFGetFlag extends Endpoint {
     @ResponseBody
     public Map<String, Object> invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Map<String,Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
         String host = (req.getHeader("host") == null) ? "NULL" : req.getHeader("host");
 //        String origin = (req.getHeader("origin") == null) ? "NULL" : req.getHeader("origin");
@@ -40,22 +40,32 @@ public class CSRFGetFlag extends Endpoint {
         String referer = (req.getHeader("referer") == null) ? "NULL" : req.getHeader("referer");
         String[] refererArr = referer.split("/");
 
-        if (referer.equals("NULL") && req.getParameter("csrf").equals("true")) {
-            Random random = new Random();
-            userSessionData.setValue("csrf-get-success", random.nextInt(65536));
-            response.put("success",true);
-            response.put("message",pluginMessages.getMessage("csrf-get-null-referer.success"));
-            response.put("flag",userSessionData.getValue("csrf-get-success"));
-        }  else if (refererArr[2].equals(host)) {
+
+
+        if (referer.equals("NULL")) {
+            if (req.getParameter("csrf").equals("true")) {
+                Random random = new Random();
+                userSessionData.setValue("csrf-get-success", random.nextInt(65536));
+                response.put("success", true);
+                response.put("message", pluginMessages.getMessage("csrf-get-null-referer.success"));
+                response.put("flag", userSessionData.getValue("csrf-get-success"));
+            } else {
+                Random random = new Random();
+                userSessionData.setValue("csrf-get-success", random.nextInt(65536));
+                response.put("success", true);
+                response.put("message", pluginMessages.getMessage("csrf-get-other-referer.success"));
+                response.put("flag", userSessionData.getValue("csrf-get-success"));
+            }
+        } else if (refererArr[2].equals(host)) {
             response.put("success", false);
             response.put("message", "Appears the request came from the original host");
             response.put("flag", null);
         } else {
             Random random = new Random();
             userSessionData.setValue("csrf-get-success", random.nextInt(65536));
-            response.put("success",true);
-            response.put("message",pluginMessages.getMessage("csrf-get-other-referer.success"));
-            response.put("flag",userSessionData.getValue("csrf-get-success"));
+            response.put("success", true);
+            response.put("message", pluginMessages.getMessage("csrf-get-other-referer.success"));
+            response.put("flag", userSessionData.getValue("csrf-get-success"));
         }
 
         return response;

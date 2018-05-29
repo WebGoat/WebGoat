@@ -46,7 +46,6 @@ public class Flag extends Endpoint {
     @PostConstruct
     public void initFlags() {
         IntStream.range(1, 10).forEach(i -> FLAGS.put(i, UUID.randomUUID().toString()));
-        FLAGS.entrySet().stream().forEach(e -> log.debug("Flag {} {}", e.getKey(), e.getValue()));
     }
 
     @Override

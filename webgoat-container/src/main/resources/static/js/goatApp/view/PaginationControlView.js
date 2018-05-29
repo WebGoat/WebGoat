@@ -12,14 +12,14 @@ define(['jquery',
             template: PaginationTemplate,
             el: '#lesson-page-controls',
 
-            initialize: function ($contentPages,baseLessonUrl) {
+            initialize: function ($contentPages,baseLessonUrl,initPageNum) {
                 this.$contentPages = $contentPages;
                 this.collection = new LessonOverviewCollection();
                 this.listenTo(this.collection, 'reset', this.render);
                 this.numPages = this.$contentPages.length;
                 this.baseUrl = baseLessonUrl;
                 this.collection.fetch({reset:true});
-                this.initPagination();
+                this.initPagination(initPageNum);
                 //this.render();
              },
 
@@ -117,9 +117,9 @@ define(['jquery',
                 $('span.glyphicon-class.glyphicon.glyphicon-circle-arrow-right.show-next-page').hide();
             },
 
-            initPagination: function() {
-               //track pagination state in this view ... start at 0
-               this.currentPage = 0;
+            initPagination: function(initPageNum) {
+               //track pagination state in this view ... start at 0 .. unless a pageNum was provided
+               this.currentPage = !initPageNum ? 0 : initPageNum;
             },
 
             setCurrentPage: function (pageNum) {

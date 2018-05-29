@@ -2,7 +2,6 @@ package org.owasp.webgoat.lessons;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.owasp.webgoat.session.WebSession;
 
 /**
  * <p>LessonInfoModel class.</p>
