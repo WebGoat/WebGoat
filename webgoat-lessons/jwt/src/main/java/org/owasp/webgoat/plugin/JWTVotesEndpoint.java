@@ -143,7 +143,6 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
                 Claims claims = (Claims) jwt.getBody();
                 boolean isAdmin = Boolean.valueOf((String) claims.get("admin"));
                 if (!isAdmin) {
-                    votes.values().forEach(vote -> vote.reset());
                     return trackProgress(failed().feedback("jwt-only-admin").build());
                 } else {
                     votes.values().forEach(vote -> vote.reset());

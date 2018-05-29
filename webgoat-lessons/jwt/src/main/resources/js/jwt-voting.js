@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    login('Guest');
+    loginVotes('Guest');
 })
 
-function login(user) {
+function loginVotes(user) {
     $("#name").text(user);
     $.ajax({
         url: 'JWT/votings/login?user=' + user,
