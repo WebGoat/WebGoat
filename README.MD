@@ -4,8 +4,8 @@
 [![Coverage Status](https://coveralls.io/repos/WebGoat/WebGoat/badge.svg?branch=develop&service=github)](https://coveralls.io/github/WebGoat/WebGoat?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/b69ee3a86e3b4afcaf993f210fccfb1d)](https://www.codacy.com/app/dm/WebGoat)
 [![Dependency Status](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa/badge.svg?style=flat)](https://www.versioneye.com/user/projects/562da95ae346d7000e0369aa)
-[![OWASP Labs](https://img.shields.io/badge/owasp-labs-orange.svg)](https://www.owasp.org/index.php/OWASP_Project_Inventory#tab=Labs_Projects)
-
+[![OWASP Labs](https://img.shields.io/badge/owasp-lab%20project-f7b73c.svg)](https://www.owasp.org/index.php/OWASP_Project_Inventory#tab=Labs_Projects) 
+[![GitHub release](https://img.shields.io/github/release/WebGoat/WebGoat.svg)](https://github.com/WebGoat/WebGoat/releases/latest) 
 
 # Introduction
 
@@ -40,6 +40,15 @@ docker pull webgoat/webgoat-8.0
 docker run -p 8080:8080 -it webgoat/webgoat-8.0 /home/webgoat/start.sh 
 ```
 
+If you want to keep the database between Docker sessions you need to map the WebGoat data directory to a 
+folder on the host system as follows:
+
+```Shell
+docker run -p 8080:8080 -it -v /tmp/webgoat-data:/home/webgoat/.webgoat-${VERSION} webgoat/webgoat-8.0 /home/webgoat/start.sh
+```
+
+where `${VERSION}` is for example `v8.0.0.M14`. The data will now be stored in `/tmp/webgoat-data` on your host system.
+
 Wait for the Docker container to start, and run `docker ps` to verify it's running.
 
 - If you are using `docker-machine`, verify the machine IP using `docker-machine env`
@@ -58,7 +67,7 @@ _Please note: this version may not be completely in sync with the develop branch
 
 ## 2. Standalone 
 
-Download the latest WebWolf release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
+Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```Shell
 java -jar webgoat-server-<<version>>.jar
@@ -121,7 +130,7 @@ server.address=x.x.x.x
 We supply a complete development environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
 
 ```shell
-   $ cd WebGoat/webgoat-images/vagrant-users
+   $ cd WebGoat/webgoat-images/vagrant-training
    $ vagrant up
 ```
 

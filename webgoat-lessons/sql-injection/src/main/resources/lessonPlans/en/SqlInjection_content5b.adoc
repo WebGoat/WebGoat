@@ -2,8 +2,8 @@
 
 The query in the code builds a dynamic query as seen in the previous example.  The query in the code builds a dynamic query by concatenating a number making it susceptible to Numeric SQL injection: 
 
--------------------------------------------------------
-"select * from users where employee_id = "  + userID;
--------------------------------------------------------
+--------------------------------------------------
+"select * from users where USERID = "  + userID;
+--------------------------------------------------
 
 Using the form below try to retrieve all the users from the users table. You shouldn't need to know any specific user name to get the complete list, however you can use '101' to see the data for one user.

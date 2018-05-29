@@ -9,7 +9,7 @@ injection.
 
 Let's first start with the difference between a normal SQL injection and a blind SQL injection. In a normal
 SQL injection the error messages from the database are displayed and gives enough information to find out how
-the query is working. Or in the case of an union based SQL injection the application does not reflect the information
+the query is working. Or in the case of a union based SQL injection the application does not reflect the information
 directly on the webpage. So in the case where nothing is displayed you will need to start asking the database questions
 based on a true or false statement. That's why a blind SQL injection is much more difficult to exploit.
 

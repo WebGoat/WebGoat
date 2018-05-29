@@ -46,13 +46,10 @@ public class CSRFFeedbackTest extends LessonTest {
         mockMvc.perform(post("/csrf/feedback/message")
                 .contentType(MediaType.TEXT_PLAIN)
                 .cookie(new Cookie("JSESSIONID", "test"))
-                .header("host", "localhost:8080")
+                .header("origin", "localhost:8080")
                 .header("referer", "webgoat.org")
                 .content("{\"name\": \"Test\", \"email\": \"test1233@dfssdf.de\", \"subject\": \"service\", \"message\":\"dsaffd\"}"))
                 .andExpect(jsonPath("lessonCompleted", is(true)))
                 .andExpect(jsonPath("feedback", StringContains.containsString("the flag is: ")));
     }
-
-
-
 }

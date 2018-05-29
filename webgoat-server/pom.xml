@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.owasp.webgoat</groupId>
         <artifactId>webgoat-parent</artifactId>
-        <version>8.0.0.M3</version>
+        <version>v8.0.0.M15</version>
     </parent>
 
     <properties>
@@ -147,6 +147,11 @@
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>insecure-deserialization</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>jwt</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -185,6 +190,11 @@
             <artifactId>missing-function-ac</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>password-reset</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!--uncommment below to run/include lesson template in WebGoat Build-->
         <!--<dependency>-->
@@ -197,6 +207,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.2</version>
         </dependency>
     </dependencies>
 

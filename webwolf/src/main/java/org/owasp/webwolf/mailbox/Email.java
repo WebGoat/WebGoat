@@ -1,12 +1,12 @@
 package org.owasp.webwolf.mailbox;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,23 +15,25 @@ import java.time.format.DateTimeFormatter;
  * @author nbaars
  * @since 8/20/17.
  */
-@Builder
 @Data
+@Builder
+@AllArgsConstructor
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class Email implements Serializable {
 
     @Id
-    private String id;
-    private LocalDateTime time;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDateTime time = LocalDateTime.now();
+    @Column(length = 1024)
     private String contents;
     private String sender;
     private String title;
     private String recipient;
 
     public String getSummary() {
-        return "-" + this.contents.substring(0, 50);
+        return "-" + this.contents.substring(0, Math.min(50, contents.length()));
     }
 
     public LocalDateTime getTimestamp() {
@@ -45,4 +47,5 @@ public class Email implements Serializable {
     public String getShortSender() {
         return sender.substring(0, sender.indexOf("@"));
     }
+
 }

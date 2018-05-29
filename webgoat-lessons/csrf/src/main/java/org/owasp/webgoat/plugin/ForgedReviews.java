@@ -115,22 +115,13 @@ public class ForgedReviews extends AssignmentEndpoint {
         userReviews.put(webSession.getUserName(), reviews);
         //short-circuit
         if (validateReq == null || !validateReq.equals(weakAntiCSRF)) {
-            return failed().feedback("csrf-you-forgot-something").build();
+            return trackProgress(failed().feedback("csrf-you-forgot-something").build());
         }
         //we have the spoofed files
         if (referer != "NULL" && refererArr[2].equals(host) ) {
-            return (failed().feedback("csrf-same-host").build());
+            return trackProgress(failed().feedback("csrf-same-host").build());
         } else {
-            return (success().feedback("csrf-review.success").build()); //feedback("xss-stored-comment-failure")
-        }
-    }
-
-    private Review parseJson(String comment) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.readValue(comment, Review.class);
-        } catch (IOException e) {
-            return new Review();
+            return trackProgress(success().feedback("csrf-review.success").build()); //feedback("xss-stored-comment-failure")
         }
     }
 }

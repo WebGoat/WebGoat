@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import lombok.SneakyThrows;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
  * @since November 18, 2016
  */
 @AssignmentPath("xxe/blind")
+@AssignmentHints({"xxe.blind.hints.1","xxe.blind.hints.2","xxe.blind.hints.3","xxe.blind.hints.4","xxe.blind.hints.5"})
 public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     static final String CONTENTS = "WebGoat 8.0 rocks... (" + randomAlphabetic(10) + ")";
