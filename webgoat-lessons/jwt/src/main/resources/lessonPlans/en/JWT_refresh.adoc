@@ -2,7 +2,7 @@
 
 === Introduction
 
-In this section we touch upon refreshing an access token. There are many solutions some might
+In this section we touch upon refreshing an access token.
 
 === Types of tokens
 
@@ -31,7 +31,7 @@ The server returns:
 ```
 
 As you can see the refresh token is a random string which the server can keep track of (in memory or store in a database)
-With storing you can match the refresh token to the specific user the refresh token was granted to.
+in order to match the refresh token to the user the refresh token was granted to.
 So in this case whenever the access token is still valid we can speak of a "stateless" session, there is
 no burden on the server side to setup the user session, the token is self contained.
 When the access token is no longer valid the server needs to query for the stored refresh token to make sure the token
@@ -51,7 +51,7 @@ Regardless of the chosen solution you should store enough information on the ser
 is still trusted. You can think of many things, like store the ip address, keep track of how many times the refresh
 token is used (using the refresh token multiple times in the valid time window of the access token might indicate strange
 behavior, you can revoke all the tokens an let the user authenticate again).
-It is also a good to keep track of which access token belonged to which refresh token. Otherwise an attacker might
+Also keep track of which access token belonged to which refresh token otherwise an attacker might
 be able to get a new access token for a different user with the refresh token of the attacker
 (see https://emtunc.org/blog/11/2017/jwt-refresh-token-manipulation/ for a nice write up about how this attack works)
 Also a good thing to check for is the ip address or geolocation of the user. If you need to give out a new token check
@@ -73,6 +73,13 @@ store for a refresh token, see previous paragraph. This way you need to check th
 be suitable depending on the application. In the case the refresh tokens are stored for validation it is important to protect these tokens as well (at least
 use a hash function to store them in your database).
 
+=== JWT a good idea?
 
+There are a lot of resources available which question the usecase for using JWT token for client to server authentication
+with regards to cookies. The best place to use a JWT token is between server to server communication. In a normal web
+application you are better of using plain old cookies. See for more information:
 
+- http://cryto.net/~joepie91/blog/2016/06/13/stop-using-jwt-for-sessions/
+- http://cryto.net/~joepie91/blog/2016/06/19/stop-using-jwt-for-sessions-part-2-why-your-solution-doesnt-work/
+- http://cryto.net/~joepie91/blog/attachments/jwt-flowchart.png
 
