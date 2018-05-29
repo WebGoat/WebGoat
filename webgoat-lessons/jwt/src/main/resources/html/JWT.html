@@ -16,8 +16,10 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
     <script th:src="@{/lesson_js/bootstrap.min.js}" language="JavaScript"></script>
-    <script th:src="@{/lesson_js/jwt-signing.js}" language="JavaScript"></script>
+    <script th:src="@{/lesson_js/jwt-voting.js}" language="JavaScript"></script>
     <div class="attack-container">
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST"
@@ -37,16 +39,16 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-left">
                                     <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                               onclick="javascript:login('Guest')"
+                                                               onclick="javascript:loginVotes('Guest')"
                                                                th:text="Guest">current</a></li>
                                     <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                               onclick="javascript:login('Tom')"
+                                                               onclick="javascript:loginVotes('Tom')"
                                                                th:text="Tom">current</a></li>
                                     <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                               onclick="javascript:login('Jerry')"
+                                                               onclick="javascript:loginVotes('Jerry')"
                                                                th:text="Jerry">current</a></li>
                                     <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                               onclick="javascript:login('Sylvester')"
+                                                               onclick="javascript:loginVotes('Sylvester')"
                                                                th:text="Sylvester">current</a></li>
                                 </ul>
                                 <button type="button" class="btn btn-default fa fa-refresh" title="Refresh votes"
@@ -70,8 +72,7 @@
         </form>
 
         <br/>
-        <div class="attack-feedback"></div>
-        <div class="attack-output"></div>
+
     </div>
 </div>
 
