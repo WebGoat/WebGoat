@@ -1,15 +1,28 @@
-version: '2.0'
+version: '2.1'
 
 services:
   webgoat:
-    build: webgoat-server/
-    command: "sh /home/webgoat/start.sh"
+    image: webgoat/webgoat-8.0
+    environment:
+      - WEBWOLF_HOST=webwolf
+      - spring.datasource.url=jdbc:hsqldb:hsql://webgoat_db:9001/webgoat
     ports:
       - "8080:8080"
-  webwolf:
-    build: webwolf/
-    command: "sh /home/webwolf/start.sh"
     depends_on:
-      - webgoat
+      - db
+  webwolf:
+    image: webgoat/webwolf
+    environment:
+          - spring.datasource.url=jdbc:hsqldb:hsql://webgoat_db:9001/webgoat
     ports:
       - "8081:8081"
+    depends_on:
+      - db
+  db:
+    image: blacklabelops/hsqldb
+    container_name: webgoat_db
+    environment:
+      - HSQLDB_TRACE=false
+      - HSQLDB_SILENT=true
+      - HSQLDB_DATABASE_NAME=webgoat
+      - HSQLDB_DATABASE_ALIAS=webgoat

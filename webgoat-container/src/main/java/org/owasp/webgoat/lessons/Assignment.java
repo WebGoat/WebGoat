@@ -1,11 +1,9 @@
 package org.owasp.webgoat.lessons;
 
+import com.google.common.collect.Lists;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -37,19 +35,30 @@ import java.util.List;
  * @version $Id: $Id
  * @since November 25, 2016
  */
-@AllArgsConstructor
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Getter
 @EqualsAndHashCode
 @Entity
 public class Assignment {
-    @NonNull
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
-    @NonNull
     private String path;
     @Transient
     private List<String> hints;
 
+    private Assignment() {
+        //Hibernate
+    }
+
+    public Assignment(String name, String path) {
+        this(name, path, Lists.newArrayList());
+    }
+
+    public Assignment(String name, String path, List<String> hints) {
+        this.name = name;
+        this.path = path;
+        this.hints = hints;
+    }
 }

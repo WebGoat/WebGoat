@@ -51,7 +51,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @since 4/8/17.
  */
 @AssignmentPath("xxe/simple")
-@AssignmentHints({"xxe.hints.simple.xxe.1", "xxe.hints.simple.xxe.2", "xxe.hints.simple.xxe.3", "xxe.hints.simple.xxe.4"})
+@AssignmentHints({"xxe.hints.simple.xxe.1", "xxe.hints.simple.xxe.2", "xxe.hints.simple.xxe.3", "xxe.hints.simple.xxe.4", "xxe.hints.simple.xxe.5", "xxe.hints.simple.xxe.6"})
 public class SimpleXXE extends AssignmentEndpoint {
 
     private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};

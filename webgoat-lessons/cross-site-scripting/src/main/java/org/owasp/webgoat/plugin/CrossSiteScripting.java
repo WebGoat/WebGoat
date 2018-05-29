@@ -60,7 +60,7 @@ public class CrossSiteScripting extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "Cross Site Scripting";
+        return "xss.title";
     }
 
     @Override
