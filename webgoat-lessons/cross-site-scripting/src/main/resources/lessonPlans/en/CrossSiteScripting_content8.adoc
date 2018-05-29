@@ -2,10 +2,10 @@
 
 
 === Why?
-Hopefully we've covered that by now. Bottom line, you don't want someone else's code running in the context of your users and their logged-in seession
+Hopefully we've covered that by now. Bottom line, you don't want someone else's code running in the context of your users and their logged-in session
 
 === What to encode?
-The basic premise of defending against XSS is *output endoding* any untrusted input that goes to the screen.
+The basic premise of defending against XSS is *output encoding* any untrusted input that goes to the screen.
 That may be changing with more sophisticated attacks, but is still the best defense we currently have. *AND* ... *context matters*
 
 Another word on 'untrusted input'. If in doubt, treat everything (even data you populated in your DB as untrusted).

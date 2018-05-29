@@ -48,7 +48,7 @@ public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
-	AttackResult completed(HttpServletRequest request) throws IOException {
+	AttackResult completed(HttpServletRequest request) {
 		String header = null;
 		String param = null;
 		if (request != null && (header = request.getHeader("x-request-intercepted")) != null

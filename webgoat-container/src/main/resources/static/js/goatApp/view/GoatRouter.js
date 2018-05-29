@@ -67,7 +67,7 @@ define(['jquery',
                     contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                     success: function (data) {
                         //devs leave stuff like this in all the time
-                        console.log('phone home said '  + data);
+                        console.log('phone home said '  + JSON.stringify(data));
                     }
                 });
             }

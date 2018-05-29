@@ -2,6 +2,7 @@
 package org.owasp.webgoat.users;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -48,9 +50,12 @@ import java.util.stream.Collectors;
 public class UserTracker {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(name = "username")
     private String user;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<LessonTracker> lessonTrackers = Lists.newArrayList();
+    private Set<LessonTracker> lessonTrackers = Sets.newHashSet();
 
     private UserTracker() {}
 

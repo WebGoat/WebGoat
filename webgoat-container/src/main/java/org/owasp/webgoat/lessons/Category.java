@@ -46,6 +46,7 @@ public enum Category {
     INSECURE_CONFIGURATION("Insecure Configuration", new Integer(600)),
     INSECURE_COMMUNICATION("Insecure Communication", new Integer(700)),
     INSECURE_STORAGE("Insecure Storage", new Integer(800)),
+    INSECURE_DESERIALIZATION("Insecure Deserialization", new Integer(850)),
     REQUEST_FORGERIES("Request Forgeries", new Integer(900)),
     VULNERABLE_COMPONENTS("Vulnerable Components - A9", new Integer(950)),
     AJAX_SECURITY("AJAX Security", new Integer(1000)),

@@ -32,6 +32,7 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
@@ -57,6 +58,7 @@ public class ReportCardService {
     private final WebSession webSession;
     private final UserTrackerRepository userTrackerRepository;
     private final Course course;
+    private final PluginMessages pluginMessages;
 
     /**
      * Endpoint which generates the report card for the current use to show the stats on the solved lessons
@@ -64,7 +66,7 @@ public class ReportCardService {
     @GetMapping(path = "/service/reportcard.mvc", produces = "application/json")
     @ResponseBody
     public ReportCard reportCard() {
-        UserTracker userTracker = userTrackerRepository.findOne(webSession.getUserName());
+        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         List<AbstractLesson> lessons = course.getLessons();
         ReportCard reportCard = new ReportCard();
         reportCard.setTotalNumberOfLessons(course.getTotalOfLessons());
@@ -74,7 +76,7 @@ public class ReportCardService {
         for (AbstractLesson lesson : lessons) {
             LessonTracker lessonTracker = userTracker.getLessonTracker(lesson);
             LessonStatistics lessonStatistics = new LessonStatistics();
-            lessonStatistics.setName(lesson.getTitle());
+            lessonStatistics.setName(pluginMessages.getMessage(lesson.getTitle()));
             lessonStatistics.setNumberOfAttempts(lessonTracker.getNumberOfAttempts());
             lessonStatistics.setSolved(lessonTracker.isLessonSolved());
             reportCard.lessonStatistics.add(lessonStatistics);

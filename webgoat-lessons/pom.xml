@@ -5,12 +5,12 @@
     <groupId>org.owasp.webgoat.lesson</groupId>
     <artifactId>webgoat-lessons-parent</artifactId>
     <packaging>pom</packaging>
-    <version>8.0.0.M3</version>
+    <version>v8.0.0.M15</version>
 
     <parent>
         <groupId>org.owasp.webgoat</groupId>
         <artifactId>webgoat-parent</artifactId>
-        <version>8.0.0.M3</version>
+        <version>v8.0.0.M15</version>
     </parent>
 
     <modules>
@@ -22,6 +22,7 @@
         <module>http-basics</module>
         <module>http-proxies</module>
         <module>insecure-login</module>
+        <module>insecure-deserialization</module>
         <module>jwt</module>
         <module>sql-injection</module>
         <module>xxe</module>
@@ -32,6 +33,7 @@
 	    <module>auth-bypass</module>
         <module>missing-function-ac</module>
         <module>csrf</module>
+        <module>password-reset</module>
         <!-- uncomment below to include lesson template in build, also uncomment the dependency in webgoat-server/pom.xml to have it run in the project fully -->
         <!--<module>webgoat-lesson-template</module>-->
     </modules>

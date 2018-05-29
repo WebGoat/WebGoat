@@ -58,7 +58,7 @@ public class XXE extends NewLesson {
 
     @Override
     public String getTitle() {
-        return "XXE";
+        return "xxe.title";
     }
 
     @Override
