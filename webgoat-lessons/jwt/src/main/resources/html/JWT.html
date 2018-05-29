@@ -111,7 +111,7 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
     <script th:src="@{/lesson_js/bootstrap.min.js}" language="JavaScript"></script>
-    <script th:src="@{/lesson_js/jwt-refresh.js}" language="JavaScript"></script>
+    <script th:src="@{/lesson_js/jwt-buy.js}" language="JavaScript"></script>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
@@ -136,9 +136,11 @@
                             <tr>
                                 <td class="col-sm-8 col-md-6">
                                     <div class="media">
-                                        <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"></img>
+                                        <img class="media-object" th:src="@{/images/product-icon.png}"
+                                             style="width: 72px; height: 72px;"></img>
                                         <div class="media-body">
-                                            <h4 class="media-heading"><a href="#">Learn defending your application with WebGoat</a></h4>
+                                            <h4 class="media-heading"><a href="#">Learn to defend your application with
+                                                WebGoat</a></h4>
                                             <h5 class="media-heading"> by <a href="#">WebGoat Publishing</a></h5>
                                             <span>Status: </span><span
                                                 class="text-success"><strong>In Stock</strong></span>
@@ -148,8 +150,11 @@
                                 <td class="col-sm-1 col-md-1" style="text-align: center">
                                     <input type="text" class="form-control" id="quantity1" value="3"></input>
                                 </td>
-                                <td class="col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
-                                <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$
+                                    <span id="piecePrice1">4.87</span></strong>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span
+                                        id="totalPrice1">14.61</span></strong></td>
                                 <td class="col-sm-1 col-md-1">
                                     <button type="button" class="btn btn-danger">
                                         <span class="glyphicon glyphicon-remove"></span> Remove
@@ -159,7 +164,9 @@
                             <tr>
                                 <td class="col-md-6">
                                     <div class="media">
-                                        <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"></img>
+                                        <img class="media-object"
+                                             th:src="@{/images/product-icon.png}"
+                                             style="width: 72px; height: 72px;"></img>
                                         <div class="media-body">
                                             <h4 class="media-heading"><a href="#">Pentesting for professionals</a></h4>
                                             <h5 class="media-heading"> by <a href="#">WebWolf Publishing</a></h5>
@@ -167,11 +174,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="col-md-1" style="text-align: center">
+                                <td class="col-sm-1 col-md-1" style="text-align: center">
                                     <input type="text" class="form-control" id="quantity2" value="2"></input>
                                 </td>
-                                <td class="col-md-1 text-center"><strong>$4.99</strong></td>
-                                <td class="col-md-1 text-center"><strong>$9.98</strong></td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span id="piecePrice2">4.99</span></strong>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span id="totalPrice2">9.98</span></strong></td>
                                 <td class="col-md-1">
                                     <button type="button" class="btn btn-danger">
                                         <span class="glyphicon glyphicon-remove"></span> Remove
@@ -186,8 +194,8 @@
                                 <td>  </td>
                                 <td><h5>Subtotal<br></br>Estimated shipping</h5>
                                     <h3>Total</h3></td>
-                                <td class="text-right"><h5><strong>$24.59<br></br>$6.94</strong></h5>
-                                    <h3>$31.53</h3></td>
+                                <td class="text-right"><h5><strong>$<span id="subtotalJwt">24.59</span><br></br>$6.94</strong></h5>
+                                    <h3>$<span id="totalJwt">31.53</span></h3></td>
                             </tr>
                             <tr>
                                 <td>  </td>
