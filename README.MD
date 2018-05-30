@@ -29,7 +29,18 @@ first thing that all hackers claim.*
 
 # Run Instructions:
 
-## 1. Run using Docker
+## 1. Standalone 
+
+Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
+
+```Shell
+java -jar webgoat-server-<<version>>.jar [--server.port=8080] [--server.address=localhost]
+```
+
+By default WebGoat starts on port 8080 with `--server.port` you can specify a different port. With `server.address` you
+can bind it to a different address (default localhost)
+
+## 2. Run using Docker
 
 From time to time we publish a new development preview of WebGoat 8 on Docker HUB, you can download this version
 [https://hub.docker.com/r/webgoat/webgoat-8.0/](https://hub.docker.com/r/webgoat/webgoat-8.0/).
@@ -65,27 +76,6 @@ Here you'll be able to register a new user and get started.
 
 _Please note: this version may not be completely in sync with the develop branch._
 
-## 2. Standalone 
-
-Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
-
-```Shell
-java -jar webgoat-server-<<version>>.jar
-```
-
-By default WebGoat starts at port 8080 in order to change this use the following property:
-
-```Shell
-java -jar webgoat-server-<<version>>.jar --server.port=9090
-```
-
-You can specify one of the following arguments when starting WebGoat:
-
-```Shell
-java -jar webgoat-server-<<version>>.jar --server.port=9090 --server.address=x.x.x.x
-```
-
-This will start WebGoat on a different port and/or different address.
 
 
 ## 3. Run from the sources

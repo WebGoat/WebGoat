@@ -5,6 +5,7 @@ services:
     image: webgoat/webgoat-8.0
     environment:
       - WEBWOLF_HOST=webwolf
+      - WEBWOLF_PORT=9090
       - spring.datasource.url=jdbc:hsqldb:hsql://webgoat_db:9001/webgoat
     ports:
       - "8080:8080"
@@ -15,7 +16,7 @@ services:
     environment:
           - spring.datasource.url=jdbc:hsqldb:hsql://webgoat_db:9001/webgoat
     ports:
-      - "8081:8081"
+      - "9090:9090"
     depends_on:
       - db
   db:
