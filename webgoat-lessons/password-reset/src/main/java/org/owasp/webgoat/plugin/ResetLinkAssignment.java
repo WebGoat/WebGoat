@@ -62,7 +62,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
         resetLinks.add(resetLink);
         String host = request.getHeader("host");
         if (org.springframework.util.StringUtils.hasText(email)) {
-            if (email.equals(TOM_EMAIL) && host.contains("8081")) { //User indeed changed the host header.
+            if (email.equals(TOM_EMAIL) && host.contains("9090")) { //User indeed changed the host header.
                 userToTomResetLink.put(getWebSession().getUserName(), resetLink);
                 fakeClickingLinkEmail(host, resetLink);
             } else {
