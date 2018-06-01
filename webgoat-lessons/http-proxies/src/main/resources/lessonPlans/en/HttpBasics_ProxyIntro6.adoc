@@ -1,0 +1,29 @@
+=== Use the "Edit and resend" functionality in ZAP
+
+Another way to send a request again instead of clicking in WebGoat on a button and intercept the request there is also
+an option to resend the same request again from within ZAP.
+This may significantly help you to solve an assignment because you do not have to switch to ZAP enable the intercept button
+and go back to WebGoat and perform the request again from within the browser.
+
+Let's look at an example, we are going to use the e-mail example from the WebWolf introduction lesson. This lesson
+will generate a request for `/WebGoat/WebWolf/mail`, in the "History" window select the URL you want to resend right click
+on the URL and select `Open/Resend with Request Editor`. You can also find the request in the left pane of ZAP as indicated
+with the red arrow in the image below:
+
+image::images/zap_edit_and_resend.png[Open/Resend with Request Editor,style="lesson-image"]
+
+{nbsp}
+
+A new window will open and here you can modify the request for example change the e-mail address to someone else and send it again.
+In the response tab you can inspect the response of the request. In some assignments the response will show a solved message
+but sometimes you get a code/flag which you need to submit in WebGoat in order to complete the assignment. Always be on the
+lookout for the response. If you solved the assignment by make a request in this way WebGoat will automatically mark
+the lesson as solved.
+
+image::images/zap_edit_and_send.png[Open/Resend with Request Editor,style="lesson-image"]
+
+{nbsp}
+
+image::images/zap_edit_and_response.png[Open/Resend response,style="lesson-image"]
+
+

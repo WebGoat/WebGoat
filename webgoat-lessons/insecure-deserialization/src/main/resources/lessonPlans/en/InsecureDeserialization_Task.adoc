@@ -1,0 +1,8 @@
+=== Let's try
+The following input box receives a serialized object (a string) and it deserialzes it.
+
+```
+rO0ABXQAVklmIHlvdSBkZXNlcmlhbGl6ZSBtZSBkb3duLCBJIHNoYWxsIGJlY29tZSBtb3JlIHBvd2VyZnVsIHRoYW4geW91IGNhbiBwb3NzaWJseSBpbWFnaW5l
+```
+
+Try to change this serialized object in order to delay the page response for exactly 5 seconds.

@@ -32,6 +32,11 @@ public class FileServer {
 
     @Value("${webwolf.fileserver.location}")
     private String fileLocatation;
+    @Value("${server.address}")
+    private String server;
+    @Value("${server.port}")
+    private int port;
+
 
     @PostMapping(value = "/WebWolf/fileupload")
     @SneakyThrows
@@ -84,6 +89,7 @@ public class FileServer {
         }
 
         modelAndView.addObject("files", uploadedFiles);
+        modelAndView.addObject("webwolf_url", "http://" + server +":" + port);
         return modelAndView;
     }
 }
