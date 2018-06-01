@@ -1,0 +1,35 @@
+== Storing JWT tokens
+
+When receiving a JWT token you need to store it at the client side. There are basically two options:
+
+- Store the token in a cookie
+- Store the token in local/session storage
+
+=== Cookies
+
+Cookies is the most simplest form, every browser supports cookies for a long time. A best practise is to mark the
+cookie with the `HttpOnly` to guarantee scripts cannot read the cookie and with `Secure` to make sure the cookie
+is only sent over HTTPs.
+
+Note: using a cookie does not mean you have maintain a state stored on the server, like the old session cookies worked
+before. The JWT token is self contained and can/should contain all the information necessary to be completely stateless the
+cookie is just used as the transport mechanism.
+
+=== Web storage
+
+In this case you store the token in on the client side in HTML5 Web Storage.
+
+=== Choices, security risks
+
+Web storage is accessible through JavaScript running on the same domain, so the script will have access to the
+web storage. So if the site is vulnerable to a cross-site scripting attack the script is able to read the token
+from the web storage. See XSS lesson for more about how this attack works.
+
+On the other hand using cookies have a different problem namely they are vulnerable to a cross-site request forgery
+attack. In this case the attacker tries to invoke an action on the website you have a token for. See CSRF lesson for more
+information about how this attack works.
+
+The best recommendation is to choose for the cookie based approach. In practise it is easier to defend against a CSRF
+attack. On the other hand many JavaScript frameworks are protecting the user for a XSS attack by applying the right
+encoding, this protection comes out of the box. A CSRF protection sometimes is not provided by default and requires work.
+In the end take a look at what the framework is offering you, but most of the time a XSS attack gives the attacker more leverage.

