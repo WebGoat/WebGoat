@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @AssignmentPath("/access-control/user-hash")
 @AssignmentHints({"access-control.hash.hint1","access-control.hash.hint2","access-control.hash.hint3",
         "access-control.hash.hint4","access-control.hash.hint5","access-control.hash.hint6","access-control.hash.hint7",
-        "access-control.hash.hint8","access-control.hash.hint9"})
+        "access-control.hash.hint8","access-control.hash.hint9","access-control.hash.hint10","access-control.hash.hint11","access-control.hash.hint12"})
 public class MissingFunctionACYourHash extends AssignmentEndpoint {
 
     @Autowired
