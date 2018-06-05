@@ -42,4 +42,7 @@ webgoat-lessons/**/target
 **/.DS_Store
 webgoat-server/mongo-data/*
 webgoat-lessons/vulnerable-components/dependency-reduced-pom.xml
+**/.sts4-cache/*
+**/.vscode/*
+
 /.sonatype

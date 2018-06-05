@@ -1,0 +1,39 @@
+== Structure of a JWT token
+
+Let's take a look at the structure of a JWT token:
+
+image::images/jwt_token.png[style="lesson-image"]
+
+{nbsp} +
+
+The token is base64 encoded and consists of three parts `header.claims.signature`. The decoded version of this token is:
+
+```
+{
+  "alg":"HS256",
+  "typ":"JWT"
+}
+.
+{
+  "exp": 1416471934,
+  "user_name": "user",
+  "scope": [
+    "read",
+    "write"
+  ],
+  "authorities": [
+    "ROLE_ADMIN",
+    "ROLE_USER"
+  ],
+  "jti": "9bc92a44-0b1a-4c5e-be70-da52075b9a84",
+  "client_id": "my-client-with-secret"
+}
+.
+qxNjYSPIKSURZEMqLQQPw1Zdk6Le2FdGHRYZG7SQnNk
+```
+
+
+Based on the algorithm the signature will be added to the token. This way you can verify that someone did not modify
+the token (one change to the token will invalidate the signature).
+
+

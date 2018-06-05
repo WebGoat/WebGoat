@@ -20,6 +20,7 @@ import java.util.*;
 public class WebWolfTraceRepository implements TraceRepository {
 
     private final EvictingQueue<Trace> traces = EvictingQueue.create(10000);
+    private List<String> exclusionList = Lists.newArrayList("/WebWolf/home", "/WebWolf/mail","/WebWolf/files", "/images/", "/login", "/favicon.ico", "/js/", "/webjars/", "/WebWolf/requests", "/css/", "/mail");
 
     @Override
     public List<Trace> findAll() {
@@ -33,11 +34,15 @@ public class WebWolfTraceRepository implements TraceRepository {
         return Lists.newArrayList(traces);
     }
 
+    private boolean isInExclusionList(String path) {
+        return exclusionList.stream().anyMatch(e -> path.contains(e));
+    }
+
     @Override
     public void add(Map<String, Object> map) {
         Optional<String> host = getFromHeaders("host", map);
         String path = (String) map.getOrDefault("path", "");
-        if (host.isPresent() && path.contains("/landing")) {
+        if (host.isPresent() && !isInExclusionList(path)) {
             traces.add(new Trace(new Date(), map));
         }
     }

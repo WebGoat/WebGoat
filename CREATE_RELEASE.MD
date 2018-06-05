@@ -20,8 +20,8 @@ git flow release publish
 Now we can make a new release, be sure you committed all your changes.
 
 ```
-git tag v8.0.0.M3
-git push origin v8.0.0.M3 
+git tag v8.0.0.M15
+git push origin v8.0.0.M15 
 ```
 
 Now Travis takes over and will create the release in Github and on Docker Hub. 
