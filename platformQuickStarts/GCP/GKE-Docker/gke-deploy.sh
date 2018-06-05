@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Script to deploy webgoat docker (or I guess any docker for that matter) to GKE
+# You will need the SDK installed and be authenticated and set up for the project you 
+# plan to push the image into and run it on
+
+# will pull in config vars
 source deploy.cfg
 
 echo "tagging $CURTAG to $DEST_TAG"
