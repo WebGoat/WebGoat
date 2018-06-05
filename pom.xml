@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.owasp.webgoat</groupId>
     <artifactId>webgoat-parent</artifactId>
     <packaging>pom</packaging>
-    <version>v8.0.0.M14</version>
+    <version>v8.0.0.SNAPSHOT</version>
 
     <name>WebGoat Parent Pom</name>
     <description>Parent Pom for the WebGoat Project. A deliberately insecure Web Application</description>
@@ -53,17 +54,17 @@
         <developer>
             <id>jwayman</id>
             <name>Jeff Wayman</name>
-            <email />
+            <email/>
         </developer>
         <developer>
             <id>dcowden</id>
             <name>Dave Cowden</name>
-            <email />
+            <email/>
         </developer>
         <developer>
             <id>lawson89</id>
             <name>Richard Lawson</name>
-            <email />
+            <email/>
         </developer>
         <developer>
             <id>dougmorato</id>
@@ -92,8 +93,8 @@
         <url>https://github.com/WebGoat/WebGoat</url>
         <connection>scm:git:git@github.com:WebGoat/WebGoat.git</connection>
         <developerConnection>scm:git:git@github.com:WebGoat/WebGoat.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <issueManagement>
         <system>Github Issues</system>
@@ -202,7 +203,7 @@
     <profiles>
         <profile>
             <id>release</id>
-			<dependencies>
+            <dependencies>
                 <dependency>
                     <groupId>org.owasp.webgoat.lesson</groupId>
                     <artifactId>dist</artifactId>
@@ -214,7 +215,7 @@
             </dependencies>
             <build>
                 <plugins>
-				    <plugin>
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
                         <executions>
@@ -225,7 +226,9 @@
                                 </goals>
                                 <phase>generate-resources</phase>
                                 <configuration>
-                                    <outputDirectory>${project.basedir}/webgoat-container/src/main/webapp/plugin_lessons</outputDirectory>
+                                    <outputDirectory>
+                                        ${project.basedir}/webgoat-container/src/main/webapp/plugin_lessons
+                                    </outputDirectory>
                                     <includeArtifactIds>dist</includeArtifactIds>
                                     <includes>*.jar</includes>
                                 </configuration>
@@ -324,7 +327,7 @@
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>${coveralls-maven-plugin.version}</version>
                 <configuration>
-                    <repoToken />
+                    <repoToken/>
                 </configuration>
             </plugin>
             <plugin>
@@ -332,7 +335,7 @@
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>${cobertura-maven-plugin.version}</version>
                 <configuration>
-                    <check />
+                    <check/>
                     <format>xml</format>
                     <maxmem>256m</maxmem>
                     <!-- aggregated reports for multi-module projects -->

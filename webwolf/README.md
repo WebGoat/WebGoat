@@ -21,7 +21,7 @@ At the moment WebWolf offers support for:
 ## 1. Run using Docker
 
 If you use the Docker image of WebGoat this application will automatically be available. Use the following 
-URL: http://localhost:8081/WebWolf
+URL: http://localhost:9090/WebWolf
 
 ## 2. Standalone
 
@@ -36,7 +36,7 @@ Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 ```Shell
 mvn -pl webwolf spring-boot:run
 ```
-... you should be running WebWolf on localhost:8081/WebWolf momentarily
+... you should be running WebWolf on localhost:9090/WebWolf momentarily
 
 
 
