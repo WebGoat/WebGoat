@@ -32,7 +32,11 @@ define(['jquery',
             }
             this.set('content',content);
             this.set('lessonUrl',document.URL.replace(/\.lesson.*/,'.lesson'));
-            this.set('pageNum',document.URL.replace(/.*\.lesson\/(\d{1,4})$/,'$1'));
+            if (/.*\.lesson\/(\d{1,4})$/.test(document.URL)) {
+                this.set('pageNum',document.URL.replace(/.*\.lesson\/(\d{1,4})$/,'$1'));
+            } else {
+                this.set('pageNum',0);
+            }
             this.trigger('content:loaded',this,loadHelps);
         },
 
