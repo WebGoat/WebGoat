@@ -32,20 +32,18 @@ function($,
 
         toggleLabel: function() {
             if (this.isVisible()) {
-                $('show-hints-button').text('Hide hints');
+                $('#show-hints-button').text('Hide hints');
             } else {
-                $('show-hints-button').text('Show hints');
+                $('#show-hints-button').text('Show hints');
             }
         },
 
 		render:function() {
 			if (this.isVisible()) {
-				this.$el.hide(350);
+				this.$el.hide(350, this.toggleLabel.bind(this));
 			} else if (this.hintsToShow.length > 0) {
-				this.$el.show(350);
+				this.$el.show(350, this.toggleLabel.bind(this));
 			}
-
-            this.toggleLabel()
 
 			if (this.hintsToShow.length > 0) {
 				this.hideShowPrevNextButtons();
@@ -90,9 +88,9 @@ function($,
 
 		hideHints: function() {
 			if (this.$el.is(':visible')) {
-				this.$el.hide(350);
+				this.$el.hide(350, this.toggleLabel.bind(this));
 			}
-		},			
+        },
 
 		showNextHint: function() {
 			this.curHint = (this.curHint < this.hintsToShow.length -1) ? this.curHint+1 : this.curHint;
@@ -105,6 +103,12 @@ function($,
 			this.hideShowPrevNextButtons();
 			this.displayHint(this.curHint);
 		},
+
+        showFirstHint: function() {
+            this.curHint = 0;
+            this.hideShowPrevNextButtons();
+            this.displayHint(this.curHint);
+        },
 
 		displayHint: function(curHint) {
             if(this.hintsToShow.length == 0) {

@@ -79,6 +79,7 @@ define(['jquery',
                     this.listenTo(this.lessonHintView, 'hints:hideButton', this.onHideHintsButton);
                     this.lessonContentView.navToPage(pageNum);
                     this.lessonHintView.hideHints();
+                    this.lessonHintView.showFirstHint();
                     //this.lessonHintView.selectHints();
                     this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
                     return;
@@ -160,7 +161,7 @@ define(['jquery',
                 }
                 //
                 this.lessonHintView.render();
-                if (this.lessonHintView.getHintsCount > 0) {
+                if (this.lessonHintView.getHintsCount() > 0) {
                     this.helpControlsView.showHintsButton();
                 } else {
                     this.helpControlsView.hideHintsButton();
