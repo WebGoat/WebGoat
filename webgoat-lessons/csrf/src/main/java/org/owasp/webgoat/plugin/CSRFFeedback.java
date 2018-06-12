@@ -64,11 +64,11 @@ public class CSRFFeedback extends AssignmentEndpoint {
 
     private boolean hostOrRefererDifferentHost(HttpServletRequest request) {
         String referer = request.getHeader("referer");
-        String origin = request.getHeader("origin");
+        String host = request.getHeader("host");
         if (referer != null) {
-            return !referer.contains(origin);
+            return !referer.contains(host);
         } else {
-            return true; //this case referer is null or origin does not matter we cannot compare so we return true which should of course be false
+            return true;
         }
     }
 
