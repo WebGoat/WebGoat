@@ -16,9 +16,11 @@ the activities of the user.
 image::images/login-csrf.png[caption="Figure: ", title="Login CSRF from Robust Defenses for Cross-Site Request Forgery", width="800", height="500", style="lesson-image" link="http://seclab.stanford.edu/websec/csrf/csrf.pdf"]
 
 {blank}
-For more information read the following http://seclab.stanford.edu/websec/csrf/csrf.pdf[paper]
+For more information read the following http://seclab.stanford.edu/websec/csrf/csrf.pdf[paper].
 
-In this assignment try to see if WebGoat is also vulnerable for a login CSRF attack. First create a user 
-based on your own username prefixed with csrf. So if your username is `tom` you must create
-a new user called `csrf-tom`
+In this assignment try to see if WebGoat is also vulnerable for a login CSRF attack.
+Leave this tab open and in another tab create a user based on your own username prefixed with `csrf-`.
+So if your username is `tom` you must create a new user called `csrf-tom`.
 
+Login as the new user. This is what an attacker would do using CSRF. Then click the button in the original tab.
+Because you are logged in as a different user, the attacker learns that you clicked the button.
