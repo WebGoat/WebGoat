@@ -30,7 +30,7 @@ public class SqlInjectionLesson6bTest extends LessonTest {
     @Test
     public void submitCorrectPassword() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6b")
-                .param("userid_6b", "dave"))
+                .param("userid_6b", "passW0rD"))
 
                 .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
     }
