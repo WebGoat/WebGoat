@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.impl.TextCodec;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
@@ -25,7 +26,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.Comparator.comparingLong;
 import static java.util.Optional.ofNullable;
@@ -39,7 +39,7 @@ import static java.util.stream.Collectors.toList;
 @AssignmentHints({"jwt-change-token-hint1", "jwt-change-token-hint2", "jwt-change-token-hint3", "jwt-change-token-hint4", "jwt-change-token-hint5"})
 public class JWTVotesEndpoint extends AssignmentEndpoint {
 
-    public static final String JWT_PASSWORD = "victory";
+    public static final String JWT_PASSWORD = TextCodec.BASE64.encode("victory");
     private static String validUsers = "TomJerrySylvester";
 
     private static int totalVotes = 38929;
