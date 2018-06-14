@@ -123,8 +123,9 @@
     <section class="main-content-wrapper">
         <section id="main-content"> <!--ng-controller="goatLesson"-->
             <div id="lesson-page" class="pages">
-                <span th:text="${numUsers}"> Users in WebGoat</span>
-                <!-- iterate over users below -->su
+                <span th:text="${numUsers}"></span>
+                <span> Users in WebGoat</span>
+
                 <div sec:authorize="hasAuthority('WEBGOAT_ADMIN')">
                     <h3>WebGoat Users</h3>
                     <div th:each="user : ${allUsers}">
