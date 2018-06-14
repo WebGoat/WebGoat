@@ -232,7 +232,7 @@ public class CreateDB {
 
         // Create the new table
         try {
-            String createTableStatement = "CREATE TABLE user_system_data (" + "userid varchar(5) not null primary key,"
+            String createTableStatement = "CREATE TABLE user_system_data (" + "userid int not null primary key,"
                     + "user_name varchar(12)," + "password varchar(10)," + "cookie varchar(30)" + ")";
             statement.executeUpdate(createTableStatement);
         } catch (SQLException e) {
@@ -240,11 +240,11 @@ public class CreateDB {
         }
 
         // Populate
-        String insertData1 = "INSERT INTO user_system_data VALUES ('101','jsnow','passwd1', '')";
-        String insertData2 = "INSERT INTO user_system_data VALUES ('102','jdoe','passwd2', '')";
-        String insertData3 = "INSERT INTO user_system_data VALUES ('103','jplane','passwd3', '')";
-        String insertData4 = "INSERT INTO user_system_data VALUES ('104','jeff','jeff', '')";
-        String insertData5 = "INSERT INTO user_system_data VALUES ('105','dave','dave', '')";
+        String insertData1 = "INSERT INTO user_system_data VALUES (101,'jsnow','passwd1', '')";
+        String insertData2 = "INSERT INTO user_system_data VALUES (102,'jdoe','passwd2', '')";
+        String insertData3 = "INSERT INTO user_system_data VALUES (103,'jplane','passwd3', '')";
+        String insertData4 = "INSERT INTO user_system_data VALUES (104,'jeff','jeff', '')";
+        String insertData5 = "INSERT INTO user_system_data VALUES (105,'dave','passW0rD', '')";
         statement.executeUpdate(insertData1);
         statement.executeUpdate(insertData2);
         statement.executeUpdate(insertData3);

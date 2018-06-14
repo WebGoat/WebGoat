@@ -3,7 +3,7 @@
 Lets try to exploit a join to another table.  One of the tables in the WebGoat database is:
 
 -------------------------------------------------------
-CREATE TABLE user_system_data (userid varchar(5) not null primary key,
+CREATE TABLE user_system_data (userid int not null primary key,
 			                   user_name varchar(12),
 			                   password varchar(10),
 			                   cookie varchar(30));
