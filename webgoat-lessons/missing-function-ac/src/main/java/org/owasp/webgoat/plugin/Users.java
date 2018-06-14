@@ -51,7 +51,7 @@ public class Users extends Endpoint{
                         userMap.put("cc", results.getString(3));
                         userMap.put("ccType", results.getString(4));
                         userMap.put("cookie", results.getString(5));
-                        userMap.put("loginCOunt",Integer.toString(results.getInt(6)));
+                        userMap.put("loginCount",Integer.toString(results.getInt(6)));
                         allUsersMap.put(id,userMap);
                     }
                     userSessionData.setValue("allUsers",allUsersMap);
