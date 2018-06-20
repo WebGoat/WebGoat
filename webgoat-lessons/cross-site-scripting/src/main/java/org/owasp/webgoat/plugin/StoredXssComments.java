@@ -49,10 +49,7 @@ import org.owasp.encoder.*;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -72,20 +69,19 @@ public class StoredXssComments extends AssignmentEndpoint {
         comments.add(new Comment("secUriTy", DateTime.now().toString(fmt), "<script>console.warn('unit test me')</script>Comment for Unit Testing"));
         comments.add(new Comment("webgoat", DateTime.now().toString(fmt), "This comment is safe"));
         comments.add(new Comment("guest", DateTime.now().toString(fmt), "This one is safe too."));
-        comments.add(new Comment("guest", DateTime.now().toString(fmt), "Can you post a comment,  calling webgoat.customjs.phoneHome() ?"));
+        comments.add(new Comment("guest", DateTime.now().toString(fmt), "Can you post a comment, calling webgoat.customjs.phoneHome() ?"));
     }
 
     @RequestMapping(method = GET, produces = MediaType.APPLICATION_JSON_VALUE,consumes = ALL_VALUE)
     @ResponseBody
     public Collection<Comment> retrieveComments() {
-        Collection<Comment> allComments = Lists.newArrayList();
+        List<Comment> allComments = Lists.newArrayList();
         Collection<Comment> newComments = userComments.get(webSession.getUserName());
+        allComments.addAll(comments);
         if (newComments != null) {
             allComments.addAll(newComments);
         }
-
-        allComments.addAll(comments);
-
+        Collections.reverse(allComments);
         return allComments;
     }
 
