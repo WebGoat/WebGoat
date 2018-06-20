@@ -28,7 +28,6 @@ deploy:
     on:
       repo: WebGoat/WebGoat
       tags: true
-      branch: master
   - provider: releases
     skip_cleanup: true
     overwrite: true
@@ -40,7 +39,6 @@ deploy:
     on:
       repo: WebGoat/WebGoat
       tags: true
-      branch: master
 env:
   global:
   #Docker login
