@@ -28,12 +28,7 @@ deploy:
     on:
       repo: WebGoat/WebGoat
       tags: true
-  - provider: script
-    skip_cleanup: true
-    script: bash scripts/deploy-webgoat.sh
-    on:
-      repo: WebGoat/WebGoat
-      branch: develop
+      branch: master
   - provider: releases
     skip_cleanup: true
     overwrite: true
@@ -45,6 +40,7 @@ deploy:
     on:
       repo: WebGoat/WebGoat
       tags: true
+      branch: master
 env:
   global:
   #Docker login
