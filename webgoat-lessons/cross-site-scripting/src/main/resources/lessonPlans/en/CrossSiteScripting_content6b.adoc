@@ -8,4 +8,4 @@ The function you want to execute is ...
 
 Sure, you could just use console/debug to trigger it, but you need to trigger it via a URL in a new tab.
 
-Once you do trigger it, a subsequent response will come to the browser with a random number. Put that random number in below.
+Once you do trigger it, a subsequent response will come to your browser's console with a random number. Put that random number in below.

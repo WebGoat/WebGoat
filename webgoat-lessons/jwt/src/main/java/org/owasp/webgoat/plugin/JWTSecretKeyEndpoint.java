@@ -1,6 +1,7 @@
 package org.owasp.webgoat.plugin;
 
 import com.google.common.collect.Lists;
+import io.jsonwebtoken.impl.TextCodec;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
@@ -23,7 +24,7 @@ import java.util.List;
 @AssignmentHints({"jwt-secret-hint1", "jwt-secret-hint2", "jwt-secret-hint3"})
 public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
 
-    public static final String JWT_SECRET = "victory";
+    public static final String JWT_SECRET = TextCodec.BASE64.encode("victory");
     private static final String WEBGOAT_USER = "WebGoat";
     private static final List<String> expectedClaims = Lists.newArrayList("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
 
