@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Policy Evaluation') {
           steps {
-            nexusPolicyEvaluation(iqStage: 'build', iqApplication: 'Webgoat')
+            nexusPolicyEvaluation(iqStage: 'build', iqApplication: 'WebGoatServer')
           }
         }
       }
