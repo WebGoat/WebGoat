@@ -40,6 +40,12 @@ java -jar webgoat-server-<<version>>.jar [--server.port=8080] [--server.address=
 By default WebGoat starts on port 8080 with `--server.port` you can specify a different port. With `server.address` you
 can bind it to a different address (default localhost)
 
+If you use Java 9 or higher you need to run WebGoat as follows:
+
+```Shell
+java --add-modules java.xml.bind -jar webgoat-server-8.0.0.VERSION.jar
+```
+
 ## 2. Run using Docker
 
 From time to time we publish a new development preview of WebGoat 8 on Docker HUB, you can download this version
