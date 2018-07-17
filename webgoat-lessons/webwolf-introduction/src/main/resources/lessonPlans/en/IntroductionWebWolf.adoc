@@ -23,8 +23,8 @@ website. The following items are supported in WebWolf:
 * Receiving email
 * Landing page for incoming requests
 
-WebWolf runs as a separate web application and is started automatically when using the Docker image. If you
-are not using the Docker image you will need to download the jar file and start it:
+WebWolf runs as a separate web application. If you are using the Docker-compose file you can just point your browser webWolfLink:here[] to open WebWolf.
+If you want to use the standalone version, you will need to download the jar file and start it:
 
 ```
 java -jar webwolf-<<version>>.jar [--server.port=9090] [--server.address=localhost]
@@ -33,17 +33,7 @@ java -jar webwolf-<<version>>.jar [--server.port=9090] [--server.address=localho
 By default WebWolf starts on port 9090 with `--server.port` you can specify a different port. With `server.address` you
 can bind it to a different address (default localhost)
 
-WebWolf is also available as a Docker container, because it shares the database with WebGoat we first need
-to find out the ip address of the Docker container.
-
-```
-WEBGOAT_SERVER_ADDRESS=$(docker inspect -f "{{ .NetworkSettings.IPAddress }}" `docker ps | grep webgoat | awk '{print $1}'`)
-docker pull webgoat/webwolf
-docker run -e webgoat.server.address=${WEBGOAT_SERVER_ADDRESS} -it -p 9090:9090 webgoat/webwolf /home/webwolf/run.sh
-```
-
-Note: if you start WebGoat as standalone application you need to start WebWolf as standalone application as well. If
-you start WebGoat as Docker container you need to start WebWolf as Docker container as well.
+Note: if you start WebGoat as standalone application you need to start WebWolf as standalone application as well.
 
 
 This will start the application on port 9090, click webWolfLink:here[] to open WebWolf.
