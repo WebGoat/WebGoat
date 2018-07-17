@@ -1,0 +1,18 @@
+version: '2.1'
+
+services:
+  webgoat:
+    image: webgoat/webgoat-v8.0.0.snapshot
+    environment:
+      - WEBWOLF_HOST=webwolf
+      - WEBWOLF_PORT=9090
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/home/webgoat/.webgoat
+  command: "java -Djava.security.egd=file:/dev/./urandom -jar /home/webgoat/webgoat.jar --server.address=0.0.0.0 --server.port=8080"
+  webwolf:
+    image: webgoat/webwolf-v8.0.0.snapshot
+    ports:
+      - "9090:9090"
+    command: bash -c "sleep 8 && java -Djava.security.egd=file:/dev/./urandom -jar /home/webwolf/webwolf.jar --server.port=9090 --server.address=0.0.0.0 --spring.datasource.url=jdbc:hsqldb:hsql://webgoat:9001/webgoat"

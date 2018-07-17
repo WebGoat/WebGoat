@@ -9,6 +9,4 @@ RUN \
 USER webwolf
 COPY target/webwolf-${webwolf_version}.jar /home/webwolf/webwolf.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/home/webwolf/webwolf.jar", "--server.port=9090", "--server.address=0.0.0.0"]
-
 EXPOSE 9090
