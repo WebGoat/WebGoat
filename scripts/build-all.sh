@@ -13,15 +13,17 @@ if [[ "${SUCCESS}" -eq 00 ]] ; then
 fi
 
 
-#mvn clean install
-#if [[ "$?" -ne 0 ]] ; then
-#  exit y$?
-#fi
+mvn clean install
+if [[ "$?" -ne 0 ]] ; then
+  exit y$?
+fi
 
 cd -
 sh build_docker.sh
+if [[ "$?" -ne 0 ]] ; then
+  exit y$?
+fi
 
-echo "Do you want to run docker-compose?"
 while true; do
     read -p "Do you want to run docker-compose?" yn
     case ${yn} in
