@@ -104,7 +104,7 @@ server.address=x.x.x.x
 
 # Vagrant
 
-We supply a complete development environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
+We supply a complete environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
 
 ```shell
    $ cd WebGoat/webgoat-images/vagrant-training
@@ -112,7 +112,7 @@ We supply a complete development environment using Vagrant, to run WebGoat with 
 ```
 
 Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
-The source code will be available in the home directory.
+WebGoat and WebWolf will automatically start when you login to this image.
 
 
 # Building a new Docker image
