@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.plugin.PasswordResetEmail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +13,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
@@ -37,28 +34,27 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseBody
-    public AttackResult sendEmail(@RequestParam Map<String, Object> json) {
-        String email = (String) json.get("emailReset");
-        if (StringUtils.isEmpty(email)) {
-            email = (String) json.getOrDefault("email", "unknown@webgoat.org");
-        }
-        String password = (String) json.getOrDefault("password", "");
-        int index = email.indexOf("@");
-        String username = email.substring(0, index == -1 ? email.length() : index);
+    public AttackResult login(@RequestParam String email, @RequestParam String password) {
+        String emailAddress = ofNullable(email).orElse("unknown@webgoat.org");
+        String username = extractUsername(emailAddress);
 
-        if (StringUtils.isEmpty(password)) {
-            return sendEmail(username, email);
-        } else {
-            return checkPassword(password, username);
-        }
-    }
-
-    private AttackResult checkPassword(String password, String username) {
         if (username.equals(getWebSession().getUserName()) && StringUtils.reverse(username).equals(password)) {
             return trackProgress(success().build());
         } else {
             return trackProgress(failed().feedbackArgs("password-reset-simple.password_incorrect").build());
         }
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, value = "/reset")
+    @ResponseBody
+    public AttackResult resetPassword(@RequestParam String emailReset) {
+        String email = ofNullable(emailReset).orElse("unknown@webgoat.org");
+        return sendEmail(extractUsername(email), email);
+    }
+
+    private String extractUsername(String email) {
+        int index = email.indexOf("@");
+        return email.substring(0, index == -1 ? email.length() : index);
     }
 
     private AttackResult sendEmail(String username, String email) {
