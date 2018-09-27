@@ -10,7 +10,6 @@ services:
       - "8080:8080"
     volumes:
       - .:/home/webgoat/.webgoat
-    command: "java -Djava.security.egd=file:/dev/./urandom -jar /home/webgoat/webgoat.jar --server.port=8080 --server.address=0.0.0.0"
   webwolf:
     image: webgoat/webwolf
     ports:
