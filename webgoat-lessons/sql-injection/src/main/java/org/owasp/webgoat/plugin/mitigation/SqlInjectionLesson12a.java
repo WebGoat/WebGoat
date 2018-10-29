@@ -21,7 +21,7 @@ import java.sql.*;
  * @since 6/13/17.
  */
 @AssignmentPath("SqlInjection/attack12a")
-@AssignmentHints(value = {"SqlStringInjectionHint8", "SqlStringInjectionHint9", "SqlStringInjectionHint10", "SqlStringInjectionHint11"})
+@AssignmentHints(value = {"SqlStringInjectionHint9", "SqlStringInjectionHint10", "SqlStringInjectionHint11", "SqlStringInjectionHint12"})
 @Slf4j
 public class SqlInjectionLesson12a extends AssignmentEndpoint {
 
