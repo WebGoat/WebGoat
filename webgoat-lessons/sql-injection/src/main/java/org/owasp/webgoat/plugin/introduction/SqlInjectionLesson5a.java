@@ -46,7 +46,7 @@ import java.sql.*;
  * @created October 28, 2003
  */
 @AssignmentPath("/SqlInjection/attack5a")
-@AssignmentHints(value = {"SqlStringInjectionHint1", "SqlStringInjectionHint2", "SqlStringInjectionHint3", "SqlStringInjectionHint4"})
+@AssignmentHints(value = {"SqlStringInjectionHint5a1", "SqlStringInjectionHint5a2", "SqlStringInjectionHint5a3", "SqlStringInjectionHint5a4", "SqlStringInjectionHint5a5"})
 public class SqlInjectionLesson5a extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
@@ -59,7 +59,7 @@ public class SqlInjectionLesson5a extends AssignmentEndpoint {
     protected AttackResult injectableQuery(String accountName) {
         try {
             Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
+            String query = "SELECT userid, first_name, last_name, CC_Number, CC_Type, Cookie, Login_Count FROM user_data WHERE last_name = '" + accountName + "'";
 
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
