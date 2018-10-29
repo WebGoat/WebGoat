@@ -1,17 +1,63 @@
 == What is SQL
 
-SQL is a way to interact with databases and is interpreted by the database.
+SQL is a standardized (ANSI in 1986, ISO in 1987) programming language which is used for managing relational databases and performing various operations on the data in them.
 
-=== SQL - Structured Query Language 
-* Not “Standard Query Language”
-* Multiple versions of SQL. Most databases have some custom functions
-* Most vendors have a proprietary extension
+A database is a collection of data. Data is organized into rows, columns and tables, and it is indexed to make it easier to find relevant information.
+
+Example SQL table with employees:
+
+Employees Table
+|===
+|IdNum |LName |FName |JobCode |Salary |Phone |
+
+|1876 |CHIN |JACK |TA1 |42400 |212/558-5634 |
+
+|1114 |GREENWALD |JANICE |ME3 |38000 |212/558-1092 |
+
+|1556 |PENNINGTION|MICHAEL |ME1 |29860 |718/383-5681 |
+
+|1354 |PARKER |MARY |FA3 |65800 |914/455-2337 |
+
+|1130 |WOOD |DEBORAH |PT2 |36514 |212/587-0013 |
+|===
+
+Each employee has an index (IdNum), lastname, firstname, job title (JobCode), salary and a phone number. All his data from this table is represented in a single row.
+
+By using SQL queries you can modify a database table and its index structures, add, update and delete rows of data.
+
+There are three types of SQL commands in the SQL database language:
 
 === Data Manipulation Language (DML)
+* DML commands are used for storing, retrieving, modifying, and deleting data.
 * SELECT, INSERT, UPDATE, DELETE, …
+* Example:
+** Retrieve data:
+** SELECT Phone  +
+   FROM Employees +
+   WHERE IdNum = 1354;
+** This statement delivers the phone number of the employee with the number 1354.
 
 === Data Definition Language (DDL)
+* DDL commands are used for creating, modifying, and dropping the structure of database objects.
 * CREATE, ALTER, DROP,TRUNCATE,…
+* Example:
+** CREATE TABLE Customers( +
+   &nbsp;&nbsp;&nbsp;&nbsp;IdNum INT NOT NULL, +
+   &nbsp;&nbsp;&nbsp;&nbsp;LName VARCHAR (20) NOT NULL, +
+   &nbsp;&nbsp;&nbsp;&nbsp;FName VARCHAR (20) NOT NULL, +
+   &nbsp;&nbsp;&nbsp;&nbsp;JobCode VARCHAR (3) NOT NULL, +
+   &nbsp;&nbsp;&nbsp;&nbsp;Salary DECIMAL (18, 2), +
+   &nbsp;&nbsp;&nbsp;&nbsp;Phone VARCHAR (20), +
+   &nbsp;&nbsp;&nbsp;&nbsp;PRIMARY KEY (IdNum) +
+);
+** This statement creates the employees example table given above.
 
 === Data Control Language (DCL)
+* DCL commands are used for providing security to database objects.
 * GRANT, REVOKE, …
+* Example:
+** GRANT CREATE TABLE +
+   TO operator;
+** This statement gives all users of the operator-role the privilege to create new tables in the database.
+
+If you are still struggling with SQL and need more information or practice you can visit http://www.sqlcourse.com/ for an interactive and free online training.
