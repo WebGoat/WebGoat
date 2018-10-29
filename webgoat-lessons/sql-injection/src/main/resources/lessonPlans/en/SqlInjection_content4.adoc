@@ -12,6 +12,11 @@
 * MySQL Connector/J and C
 * Oracle
 
+=== SQL Injection is more common in PHP, Classic ASP, Cold Fusion and older languages
+* Languages that do not provide parameterized query support
+* Parameterized queries have been added to newer versions
+* Early adopters of web technology (i.e. Old Code)
+
 === Not all databases are equal (SQL Server)
 * Command shell: `master.dbo.xp_cmdshell 'cmd.exe dir c:'` 
 * Reqistry commands: `xp_regread`, `xp_regdeletekey`, …
