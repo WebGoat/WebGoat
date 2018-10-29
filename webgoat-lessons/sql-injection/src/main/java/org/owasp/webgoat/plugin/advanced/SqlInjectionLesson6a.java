@@ -47,7 +47,7 @@ import java.sql.*;
  * @created October 28, 2003
  */
 @AssignmentPath("/SqlInjection/attack6a")
-@AssignmentHints(value = {"SqlStringInjectionHint5", "SqlStringInjectionHint6", "SqlStringInjectionHint7"})
+@AssignmentHints(value = {"SqlStringInjectionHint6", "SqlStringInjectionHint7", "SqlStringInjectionHint8"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
@@ -73,6 +73,8 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     StringBuffer output = new StringBuffer();
 
                     output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
+                    if(! (query.toLowerCase().contains("union") || query.toLowerCase().contains("join")) )
+                        output.append("There is also a way to retrieve the Data by using a UNION or JOIN. Can you figure out, how this  is done?");
                     results.last();
 
                     // If they get back more than one user they succeeded
