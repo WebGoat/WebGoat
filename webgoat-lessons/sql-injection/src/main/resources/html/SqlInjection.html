@@ -23,7 +23,24 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:SqlInjection_content5.adoc"></div>
+    <div class="adoc-content" th:replace="doc:SqlInjection_content5_before.adoc"></div>
+    <div>
+        <label for="username-preview">Username:</label>
+        <input id="preview-input" type="text" name="username" val=""/>
+        <div class="listingblock">
+            <div class="content">
+                <pre>"SELECT * FROM users WHERE name = '<span id="input-preview" style="font-weight: bold;"></span>'";</pre>
+            </div>
+        </div>
+        <script>
+            $(document).ready( () => {
+                $("#preview-input").on("keyup", (e) => {
+                    $("#input-preview").text(e.target.value);
+                });
+            });
+        </script>
+    </div>
+    <div class="adoc-content" th:replace="doc:SqlInjection_content5_after.adoc"></div>
 </div>
 
 <div class="lesson-page-wrapper">

@@ -1,0 +1,23 @@
+== Example of SQL Injection
+
+Think of a web application, that allows to display user information, by typing a username into an input field.
+
+The input will then be sent to the server and gets inserted into a SQL-query which then is processed by an SQL-Interpreter.
+
+The SQL-query to retrieve the user information from the database looks like that: +
+-------------------------------------------------------
+"SELECT * FROM users WHERE name = '" + userName + "'";
+-------------------------------------------------------
+
+The variable *userName* holds the input from the client and “injects” it into the query. +
+If the Input would be Smith the query then looks like that +
+-------------------------------------------------------
+"SELECT * FROM users WHERE name = 'Smith'";
+-------------------------------------------------------
+and would retrieve all data for the user with the name Smith.
+
+But if an attacker supplies an unexpected input which could be part of a SQL-query, the query itself can be modified and that way be used to perform other (malicious) actions on the database.
+{nbsp} +
+{nbsp} +
+
+Here is an input field. Try typing some SQL in here to better understand how the query changes.
