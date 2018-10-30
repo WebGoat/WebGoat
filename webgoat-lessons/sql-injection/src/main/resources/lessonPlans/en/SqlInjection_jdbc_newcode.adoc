@@ -1,0 +1,43 @@
+== Try it! Writing safe code
+
+Now it's time to write your own code!
+
+All code you write down below gets inserted into a main method of a java class with the name "TestClass". This class also imports java.sql.*. Use your knowledge and write the right code from scratch!
+
+[source,java]
+-------------------------------------------------------
+ Connection conn = null;
+ PreparedStatement stmt = null;
+ try{
+    //STEP 1: Open a connection
+    conn = DriverManager.getConnection("DBURL","DBUSER","DBPW");
+
+    //STEP 2: Use the PreparedStatement
+    stmt = conn.prepareStatement("SELECT id, first, last, age FROM Employees WHERE id=?");
+    stmt.setString(1, "Hallo");
+
+    //STEP 3: Clean-up environment
+    stmt.close();
+    conn.close();
+    //STEP 4: catch Exceptions
+ }catch(SQLException se){
+    //Handle errors for JDBC
+    se.printStackTrace();
+ }catch(Exception e){
+    //Handle errors for Class.forName
+    e.printStackTrace();
+ }finally{
+    //finally block used to close resources
+    try{
+       if(stmt!=null)
+          stmt.close();
+    }catch(SQLException se2){
+    }// nothing we can do
+    try{
+       if(conn!=null)
+          conn.close();
+    }catch(SQLException se){
+       se.printStackTrace();
+    }//end finally try
+ }//end try
+-------------------------------------------------------
