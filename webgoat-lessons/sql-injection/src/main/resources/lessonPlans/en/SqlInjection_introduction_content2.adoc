@@ -1,0 +1,10 @@
+=== Data Manipulation Language (DML)
+* DML commands are used for storing, retrieving, modifying, and deleting data.
+* SELECT, INSERT, UPDATE, DELETE, …
+* Example:
+** Retrieve data:
+** SELECT Phone  +
+   FROM Employees +
+   WHERE IdNum = 1354;
+** This statement delivers the phone number of the employee with the number 1354.
+
