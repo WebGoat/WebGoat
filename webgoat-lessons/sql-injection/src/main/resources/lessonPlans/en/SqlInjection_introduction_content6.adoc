@@ -9,7 +9,7 @@
 * Recover the content of a given file present on the DBMS file system
 * Issue commands to the operating system
 
-=== SQL injection attacks allow attackers to 
+=== SQL injection attacks allow attackers to
 * Spoof identity
 * Tamper with existing data
 * Cause repudiation issues such as voiding transactions or changing balances

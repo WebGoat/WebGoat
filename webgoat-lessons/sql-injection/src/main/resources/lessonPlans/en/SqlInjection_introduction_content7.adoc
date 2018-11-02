@@ -1,6 +1,6 @@
 == Severity of SQL Injection
 
-=== The severity of SQL Injection attacks is limited by 
+=== The severity of SQL Injection attacks is limited by
 * Attacker’s skill and imagination
 * Defense in depth countermeasures
 ** Input validation
@@ -18,5 +18,5 @@
 * Early adopters of web technology (i.e. Old Code)
 
 === Not all databases are equal (SQL Server)
-* Command shell: `master.dbo.xp_cmdshell 'cmd.exe dir c:'` 
+* Command shell: `master.dbo.xp_cmdshell 'cmd.exe dir c:'`
 * Reqistry commands: `xp_regread`, `xp_regdeletekey`, …
