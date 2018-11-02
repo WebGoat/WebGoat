@@ -1,0 +1,20 @@
+== Integrity
+
+Integrity is "the property of accuracy and completeness." In other words, integrity means to maintain the consistency, accuracy and trustworthiness of data over its entire life cycle. Data must not be changed during transit and it must be ensured, that data can not be altered by unauthorized people (per example in a breach of confidentiality).
+
+{nbsp} +
+
+=== Examples that compromise integrity:
+
+** human error when entering data
+** errors during data transmission
+** software bugs, hardware failures
+** hackers change information that they should not have access to
+
+{nbsp} +
+
+=== Examples of methods ensuring integrity
+
+** well functioning authentication methods and access control
+** checking integrity with hash functions
+** backups, redundancy
