@@ -47,22 +47,21 @@ import java.sql.*;
  * @created October 28, 2003
  */
 @AssignmentPath("/SqlInjection/attack5b")
-@AssignmentHints(value = {"SqlStringInjectionHint1", "SqlStringInjectionHint2", "SqlStringInjectionHint3", "SqlStringInjectionHint4"})
+@AssignmentHints(value = {"SqlStringInjectionHint5b1", "SqlStringInjectionHint5b2", "SqlStringInjectionHint5b3", "SqlStringInjectionHint5b4"})
 public class SqlInjectionLesson5b extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
     public
     @ResponseBody
-    AttackResult completed(@RequestParam String userid, HttpServletRequest request) throws IOException {
-        return injectableQuery(userid);
-
+    AttackResult completed(@RequestParam String userid, @RequestParam String login_count, HttpServletRequest request) throws IOException {
+        return injectableQuery(login_count, userid);
     }
 
-    protected AttackResult injectableQuery(String accountName) {
+    protected AttackResult injectableQuery(String login_count, String accountName) {
         try {
             Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM user_data WHERE userid = " + accountName;
-
+            String query = "SELECT * FROM user_data WHERE Login_Count = " + login_count + " and userid = " + accountName;
+            System.err.println("Querry: " + query);
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
