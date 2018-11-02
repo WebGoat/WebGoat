@@ -4,9 +4,11 @@ This lesson describes what is Structured Query Language (SQL) and how it can be 
 
 == Goals
 
-* The user should have a basic understand how SQL works and what it is used for.
-* The user will understand the best practices for defending against SQL injection attacks
+* The user will have a basic understanding of how SQL works and what it is used for
+* The user will have a basic understanding of what SQL-Injections are and how they work
 * The user will demonstrate knowledge on:
+** DML, DDL and DCL
 ** String SQL Injection
 ** Numeric SQL Injection
+** violation of the CIA triad
 
