@@ -1,0 +1,7 @@
+=== Data Control Language (DCL)
+* DCL commands are used for providing security to database objects.
+* GRANT, REVOKE, …
+* Example:
+** GRANT CREATE TABLE +
+   TO operator;
+** This statement gives all users of the operator-role the privilege to create new tables in the database.

@@ -1,0 +1,14 @@
+=== Data Definition Language (DDL)
+* DDL commands are used for creating, modifying, and dropping the structure of database objects.
+* CREATE, ALTER, DROP,TRUNCATE,…
+* Example:
+** CREATE TABLE Customers( +
+   &nbsp;&nbsp;&nbsp;&nbsp;IdNum INT NOT NULL, +
+   &nbsp;&nbsp;&nbsp;&nbsp;LName VARCHAR (20) NOT NULL, +
+   &nbsp;&nbsp;&nbsp;&nbsp;FName VARCHAR (20) NOT NULL, +
+   &nbsp;&nbsp;&nbsp;&nbsp;JobCode VARCHAR (3) NOT NULL, +
+   &nbsp;&nbsp;&nbsp;&nbsp;Salary DECIMAL (18, 2), +
+   &nbsp;&nbsp;&nbsp;&nbsp;Phone VARCHAR (20), +
+   &nbsp;&nbsp;&nbsp;&nbsp;PRIMARY KEY (IdNum) +
+);
+** This statement creates the employees example table given above.
