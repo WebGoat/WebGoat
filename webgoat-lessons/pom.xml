@@ -20,6 +20,7 @@
         <module>cross-site-scripting</module>
         <module>html-tampering</module>
         <module>http-basics</module>
+        <module>cia</module>
         <module>http-proxies</module>
         <module>insecure-login</module>
         <module>insecure-deserialization</module>
