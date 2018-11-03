@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugin.mitigation;
 
 import lombok.SneakyThrows;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @AssignmentPath("SqlInjection/attack10b")
+@AssignmentHints(value = {"SqlStringInjectionHint10b1", "SqlStringInjectionHint10b2", "SqlStringInjectionHint10b3"})
 public class SqlInjectionLesson10b extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
