@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugin.mitigation;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.WebSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @AssignmentPath("SqlInjection/attack10a")
 @Slf4j
+@AssignmentHints(value = {"SqlStringInjectionHint10a1", "SqlStringInjectionHint10a2"})
 public class SqlInjectionLesson10a extends AssignmentEndpoint {
 
     @Autowired
