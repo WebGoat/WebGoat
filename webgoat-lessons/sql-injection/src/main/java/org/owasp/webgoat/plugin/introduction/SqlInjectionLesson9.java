@@ -31,7 +31,8 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
 
             try {
                 String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
-                Statement statement = connection.createStatement();
+                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                SqlInjectionLesson8.log(connection, query);
                 ResultSet results = statement.executeQuery(query);
 
                 results.first();
@@ -40,33 +41,37 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
                 output.append(SqlInjectionLesson8.generateTable(results, resultsMetaData));
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
-                return trackProgress(failed().output(e.getMessage()).build());
+                return checkSalaryRanking(connection, output);
             }
 
-            try {
-                String query = "SELECT * FROM employees ORDER BY salary desc";
-                Statement statement = connection.createStatement();
-                ResultSet results = statement.executeQuery(query);
-
-                results.first();
-                System.out.println(results.getString(2));
-                System.out.println(results.getString(3));
-
-                // user completes lesson if John Smith is the first in the list
-                if ((results.getString(2).equals("John")) && (results.getString(3).equals("Smith"))) {
-                    return trackProgress(success().feedback("sql-injection.9.success").feedbackArgs(output.toString()).build());
-                } else {
-                    return trackProgress(failed().output(output.toString()).build());
-                }
-
-            } catch (SQLException e) {
-                System.err.println(e.getMessage());
-                return trackProgress(failed().output(e.getMessage()).build());
-            }
+            return checkSalaryRanking(connection, output);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+        }
+    }
+
+    private AttackResult checkSalaryRanking(Connection connection, StringBuffer output) {
+        try {
+            String query = "SELECT * FROM employees ORDER BY salary DESC";
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet results = statement.executeQuery(query);
+
+            results.first();
+            System.out.println(results.getString(2));
+            System.out.println(results.getString(3));
+
+            // user completes lesson if John Smith is the first in the list
+            if ((results.getString(2).equals("John")) && (results.getString(3).equals("Smith"))) {
+                return trackProgress(success().feedback("sql-injection.9.success").feedbackArgs(output.toString()).build());
+            } else {
+                return trackProgress(failed().output(output.toString()).build());
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return trackProgress(failed().output(e.getMessage()).build());
         }
     }
 

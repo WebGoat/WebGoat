@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 import java.sql.*;
 
@@ -31,6 +33,7 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
 
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                log(connection, query);
                 ResultSet results = statement.executeQuery(query);
 
                 if ((results != null) && (results.first())) {
@@ -88,5 +91,19 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
         return (t.toString());
     }
 
+    public static void log(Connection connection, String action) {
+        action = action.replace('\'', '"');
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = sdf.format(cal.getTime());
 
+        String log_query = "INSERT INTO access_log (time, action) VALUES ('" + time + "', '" + action + "')";
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(log_query);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }

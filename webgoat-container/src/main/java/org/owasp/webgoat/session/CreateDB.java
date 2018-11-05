@@ -988,15 +988,19 @@ public class CreateDB {
     private void createEmployeesTable(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
 
-        // Drop employees table
+        // Drop employees and access_log tables
         try {
-            String dropTable = "DROP TABLE employees";
-            statement.executeUpdate(dropTable);
+            statement.executeUpdate("DROP TABLE employees");
         } catch (SQLException e) {
             System.out.println("Info - Could not drop employees table");
         }
+        try {
+            statement.executeUpdate("DROP TABLE access_log");
+        } catch (SQLException e) {
+            System.out.println("Info - Could not drop access_log table");
+        }
 
-        // Create the new table
+        // Create the employees table
         try {
             String createTableStatement = "CREATE TABLE employees ("
                     + "userid varchar(6) not null primary key,"
@@ -1022,6 +1026,18 @@ public class CreateDB {
         statement.executeUpdate(insertData3);
         statement.executeUpdate(insertData4);
         statement.executeUpdate(insertData5);
+
+        // Create the logging table
+        try {
+            String createTableStatement = "CREATE TABLE access_log ("
+                    + "id int not null primary key identity,"
+                    + "time varchar(50),"
+                    + "action varchar(200)"
+                    + ")";
+            statement.executeUpdate(createTableStatement);
+        } catch (SQLException e) {
+            System.out.println("Error creating access_log table " + e.getLocalizedMessage());
+        }
     }
 
     /**
