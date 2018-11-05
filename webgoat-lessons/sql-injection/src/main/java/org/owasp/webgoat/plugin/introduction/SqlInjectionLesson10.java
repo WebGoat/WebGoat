@@ -19,12 +19,60 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     public
     @ResponseBody
-    AttackResult completed(@RequestParam String name, @RequestParam String auth_tan) {
-        return injectableQueryConfidentiality(name, auth_tan);
+    AttackResult completed(@RequestParam String action) {
+        return injectableQueryAvailability(action);
     }
 
-    protected AttackResult injectableQueryConfidentiality(String name, String auth_tan) {
-        return trackProgress(failed().build());
+    protected AttackResult injectableQueryAvailability(String action) {
+        try {
+            Connection connection = DatabaseUtilities.getConnection(getWebSession());
+            String query = "SELECT * FROM access_log WHERE action LIKE '%" + action + "%'";
+
+            StringBuffer output = new StringBuffer();
+
+            try {
+                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                ResultSet results = statement.executeQuery(query);
+
+                if ((results != null) && (results.first())) {
+                    ResultSetMetaData resultsMetaData = results.getMetaData();
+
+                    output.append(SqlInjectionLesson8.generateTable(results, resultsMetaData));
+                    results.last();
+
+                    return trackProgress(failed().output(output.toString()).build());
+                } else {
+                    if (tableExists(connection)) {
+                        return trackProgress(failed().output(output.toString()).build());
+                    }
+                    else {
+                        return trackProgress(success().feedback("sql-injection.10.success").build());
+                    }
+                }
+            } catch (SQLException e) {
+                if (tableExists(connection)) {
+                    return trackProgress(failed().output(output.toString()).build());
+                }
+                else {
+                    return trackProgress(success().feedback("sql-injection.10.success").build());
+                }
+            }
+
+        } catch (Exception e) {
+            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+        }
+    }
+
+    private boolean tableExists(Connection connection) throws SQLException {
+        ResultSet res = connection.getMetaData().getTables(null, null, "access_log", null);
+        while (res.next()) {
+            String table_name = res.getString("TABLE_NAME");
+            if (table_name != null && table_name.equals("access_log")) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
