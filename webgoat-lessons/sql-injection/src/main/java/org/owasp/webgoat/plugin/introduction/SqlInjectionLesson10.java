@@ -35,13 +35,13 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 ResultSet results = statement.executeQuery(query);
 
-                if (results.getStatement() != null && results.first()) {
+                if (results.getStatement() != null) {
+                    results.first();
                     output.append(SqlInjectionLesson8.generateTable(results));
-                    results.last();
                     return trackProgress(failed().feedback("sql-injection.10.entries").output(output.toString()).build());
                 } else {
                     if (tableExists(connection)) {
-                        return trackProgress(failed().output(output.toString()).build());
+                        return trackProgress(failed().feedback("sql-injection.10.entries").output(output.toString()).build());
                     }
                     else {
                         return trackProgress(success().feedback("sql-injection.10.success").build());
@@ -49,7 +49,7 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
                 }
             } catch (SQLException e) {
                 if (tableExists(connection)) {
-                    return trackProgress(failed().output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build());
+                    return trackProgress(failed().feedback("sql-injection.error").output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build());
                 }
                 else {
                     return trackProgress(success().feedback("sql-injection.10.success").build());
@@ -61,15 +61,21 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
         }
     }
 
-    private boolean tableExists(Connection connection) throws SQLException {
-        ResultSet res = connection.getMetaData().getTables(null, null, "access_log", null);
-        while (res.next()) {
-            String table_name = res.getString("TABLE_NAME");
-            if (table_name != null && table_name.equals("access_log")) {
-                return true;
+    private boolean tableExists(Connection connection) {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet results = stmt.executeQuery("SELECT * FROM access_log");
+            int cols = results.getMetaData().getColumnCount();
+            return (cols > 0);
+        } catch (SQLException e) {
+            String error_msg = e.getMessage();
+            if (error_msg.contains("object not found: ACCESS_LOG")) {
+                return false;
+            } else {
+                System.err.println(e.getMessage());
+                return false;
             }
         }
-        return false;
     }
 
 }
