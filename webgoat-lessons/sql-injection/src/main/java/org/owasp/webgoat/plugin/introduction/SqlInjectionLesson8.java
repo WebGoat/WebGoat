@@ -78,7 +78,6 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
             while (results.next()) {
                 t.append("<tr>");
                 for (int i = 1; i < (numColumns + 1); i++) {
-                    System.out.println(results.getString(i));
                     t.append("<td>" + results.getString(i) + "</td>");
                 }
                 t.append("</tr>");
