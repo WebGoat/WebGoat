@@ -72,7 +72,6 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
                 return true;
             }
         }
-
         return false;
     }
 

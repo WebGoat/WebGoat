@@ -4,5 +4,5 @@ After successfully compromising confidentiality and integrity in the previous le
 === It's your turn!
 Now you're the top earner in your company.
 But do you see that?
-There seems to be a table, where all your actions have been logged to! +
+There seems to be a access_log table, where all your actions have been logged to! +
 Better go and delete it quickly before anyone notices.
