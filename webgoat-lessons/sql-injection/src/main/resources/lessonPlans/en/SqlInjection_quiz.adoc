@@ -1,0 +1,1 @@
+Now it's time for a quiz! It is recommended to do all SQL-Injection lessons before trying the quiz. Answer all questions correctly to complete the assignment.
