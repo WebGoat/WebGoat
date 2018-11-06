@@ -25,23 +25,20 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
     }
 
     protected AttackResult injectableQueryAvailability(String action) {
+        StringBuffer output = new StringBuffer();
+        String query = "SELECT * FROM access_log WHERE action LIKE '%" + action + "%'";
+
         try {
             Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM access_log WHERE action LIKE '%" + action + "%'";
-
-            StringBuffer output = new StringBuffer();
 
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 ResultSet results = statement.executeQuery(query);
 
-                if ((results != null) && (results.first())) {
-                    ResultSetMetaData resultsMetaData = results.getMetaData();
-
-                    output.append(SqlInjectionLesson8.generateTable(results, resultsMetaData));
+                if (results.getStatement() != null && results.first()) {
+                    output.append(SqlInjectionLesson8.generateTable(results));
                     results.last();
-
-                    return trackProgress(failed().output(output.toString()).build());
+                    return trackProgress(failed().feedback("sql-injection.10.entries").output(output.toString()).build());
                 } else {
                     if (tableExists(connection)) {
                         return trackProgress(failed().output(output.toString()).build());
@@ -52,7 +49,7 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
                 }
             } catch (SQLException e) {
                 if (tableExists(connection)) {
-                    return trackProgress(failed().output(output.toString()).build());
+                    return trackProgress(failed().output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build());
                 }
                 else {
                     return trackProgress(success().feedback("sql-injection.10.success").build());
@@ -60,7 +57,7 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
             }
 
         } catch (Exception e) {
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+            return trackProgress(failed().output("<span class='feedback-negative'>" + e.getMessage() + "</span>").build());
         }
     }
 

@@ -27,68 +27,75 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
     }
 
     protected AttackResult injectableQueryConfidentiality(String name, String auth_tan) {
+        StringBuffer output = new StringBuffer();
+        String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
+
         try {
             Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
 
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 log(connection, query);
                 ResultSet results = statement.executeQuery(query);
 
-                if ((results != null) && (results.first())) {
-                    ResultSetMetaData resultsMetaData = results.getMetaData();
-                    StringBuffer output = new StringBuffer();
+                if (results.getStatement() != null) {
+                    if (results.first()) {
+                        output.append(generateTable(results));
+                        results.last();
 
-                    output.append(generateTable(results, resultsMetaData));
-                    results.last();
+                        if (results.getRow() > 1) {
+                            // more than one record, the user succeeded
+                            return trackProgress(success().feedback("sql-injection.8.success").output(output.toString()).build());
+                        } else {
+                            // only one record
+                            return trackProgress(failed().feedback("sql-injection.8.one").output(output.toString()).build());
+                        }
 
-                    // If they get back more than one user they succeeded
-                    if (results.getRow() > 1) {
-                        return trackProgress(success().feedback("sql-injection.8.success").feedbackArgs(output.toString()).build());
                     } else {
-                        return trackProgress(failed().output(output.toString()).build());
+                        // no results
+                        return trackProgress(failed().feedback("sql-injection.8.no.results").build());
                     }
                 } else {
-                    return trackProgress(failed().feedback("sql-injection.8.no.results").build());
+                    return trackProgress(failed().feedback("sql-injection.error").build());
                 }
             } catch (SQLException e) {
-                return trackProgress(failed().output(e.getMessage()).build());
+                return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
             }
 
         } catch (Exception e) {
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+            return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
         }
     }
 
-    public static String generateTable(ResultSet results, ResultSetMetaData resultsMetaData) throws SQLException {
+    public static String generateTable(ResultSet results) throws SQLException {
+        ResultSetMetaData resultsMetaData = results.getMetaData();
         int numColumns = resultsMetaData.getColumnCount();
         results.beforeFirst();
-        StringBuffer t = new StringBuffer();
-        t.append("<table>");
+        StringBuffer table = new StringBuffer();
+        table.append("<table>");
 
         if (results.next()) {
-            t.append("<tr>");
+            table.append("<tr>");
             for (int i = 1; i < (numColumns + 1); i++) {
-                t.append("<th>" + resultsMetaData.getColumnName(i) + "</th>");
+                table.append("<th>" + resultsMetaData.getColumnName(i) + "</th>");
             }
-            t.append("</tr>");
+            table.append("</tr>");
 
             results.beforeFirst();
             while (results.next()) {
-                t.append("<tr>");
+                table.append("<tr>");
                 for (int i = 1; i < (numColumns + 1); i++) {
-                    t.append("<td>" + results.getString(i) + "</td>");
+                    table.append("<td>" + results.getString(i) + "</td>");
                 }
-                t.append("</tr>");
+                table.append("</tr>");
             }
 
         } else {
-            t.append("Query Successful; however no data was returned from this query.");
+            table.append("Query Successful; however no data was returned from this query.");
         }
 
-        t.append("</table>");
-        return (t.toString());
+        table.append("</table>");
+        return (table.toString());
     }
 
     public static void log(Connection connection, String action) {

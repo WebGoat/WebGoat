@@ -26,28 +26,29 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
 
     protected AttackResult injectableQueryIntegrity(String name, String auth_tan) {
         StringBuffer output = new StringBuffer();
+        String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
+
         try {
             Connection connection = DatabaseUtilities.getConnection(getWebSession());
 
             try {
-                String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 SqlInjectionLesson8.log(connection, query);
                 ResultSet results = statement.executeQuery(query);
 
-                if (results != null && results.first()) {
-                    output.append(SqlInjectionLesson8.generateTable(results, results.getMetaData()));
+                if (results.getStatement() != null && results.first()) {
+                    output.append(SqlInjectionLesson8.generateTable(results));
                 }
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
-                return checkSalaryRanking(connection, output);
+                return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
             }
 
             return checkSalaryRanking(connection, output);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return trackProgress(failed().output("<br><span style='color: red;'>" + this.getClass().getName() + " : " + e.getMessage() + "</span>").build());
+            return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
         }
     }
 
@@ -60,15 +61,15 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
             results.first();
             // user completes lesson if John Smith is the first in the list
             if ((results.getString(2).equals("John")) && (results.getString(3).equals("Smith"))) {
-                output.append(SqlInjectionLesson8.generateTable(results, results.getMetaData()));
-                return trackProgress(success().feedback("sql-injection.8.success").feedbackArgs(output.toString()).build());
+                output.append(SqlInjectionLesson8.generateTable(results));
+                return trackProgress(success().feedback("sql-injection.9.success").output(output.toString()).build());
             } else {
-                return trackProgress(failed().output(output.toString()).build());
+                return trackProgress(failed().feedback("sql-injection.9.one").output(output.toString()).build());
             }
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-            return trackProgress(failed().output("<br><span style='color: red;'>" + e.getMessage() + "</span>").build());
+            return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
         }
     }
 
