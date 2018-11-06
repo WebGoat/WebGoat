@@ -48,7 +48,7 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+            return trackProgress(failed().output("<br><span style='color: red;'>" + this.getClass().getName() + " : " + e.getMessage() + "</span>").build());
         }
     }
 
@@ -59,11 +59,10 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
             ResultSet results = statement.executeQuery(query);
 
             results.first();
-            System.out.println(results.getString(2));
-            System.out.println(results.getString(3));
 
             // user completes lesson if John Smith is the first in the list
             if ((results.getString(2).equals("John")) && (results.getString(3).equals("Smith"))) {
+                output.append(SqlInjectionLesson8.generateTable(results, results.getMetaData()));
                 return trackProgress(success().feedback("sql-injection.9.success").feedbackArgs(output.toString()).build());
             } else {
                 return trackProgress(failed().output(output.toString()).build());
@@ -71,7 +70,7 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-            return trackProgress(failed().output(e.getMessage()).build());
+            return trackProgress(failed().output("<br><span style='color: red;'>" + e.getMessage() + "</span>").build());
         }
     }
 

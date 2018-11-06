@@ -2,7 +2,7 @@
 
 This lesson describes what is Structured Query Language (SQL) and how it can be manipulated to perform tasks that were not the original intent of the developer.
 
-== Goals
+=== Goals
 
 * The user will have a basic understanding of how SQL works and what it is used for
 * The user will have a basic understanding of what SQL-Injections are and how they work
