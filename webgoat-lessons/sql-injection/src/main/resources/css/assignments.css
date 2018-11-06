@@ -1,7 +1,7 @@
-.attack-feedback {
+.feedback-positive {
     color: green;
 }
 
-.attack-feedback table {
-    color: black;
+.feedback-negative {
+    color: red;
 }
