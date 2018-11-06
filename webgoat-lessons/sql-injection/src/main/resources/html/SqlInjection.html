@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/assignments.css}"/>
 
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:SqlInjection_introduction_plan.adoc"></div>
@@ -25,7 +26,7 @@
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:SqlInjection_introduction_content5_before.adoc"></div>
     <div>
-        <label for="username-preview">Username:</label>
+        <label for="preview-input">Username:</label>
         <input id="preview-input" type="text" name="username" val=""/>
         <div class="listingblock">
             <div class="content">

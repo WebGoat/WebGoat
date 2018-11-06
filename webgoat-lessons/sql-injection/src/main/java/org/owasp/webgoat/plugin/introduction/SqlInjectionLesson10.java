@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.sql.*;
 
 @AssignmentPath("/SqlInjection/attack10")
+@AssignmentHints(value = {"SqlStringInjectionHint10-1", "SqlStringInjectionHint10-2", "SqlStringInjectionHint10-3", "SqlStringInjectionHint10-4", "SqlStringInjectionHint10-5", "SqlStringInjectionHint10-6"})
 public class SqlInjectionLesson10 extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
