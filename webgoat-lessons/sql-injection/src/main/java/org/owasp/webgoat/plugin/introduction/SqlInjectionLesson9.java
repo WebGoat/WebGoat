@@ -35,10 +35,9 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
                 SqlInjectionLesson8.log(connection, query);
                 ResultSet results = statement.executeQuery(query);
 
-                results.first();
-
-                ResultSetMetaData resultsMetaData = results.getMetaData();
-                output.append(SqlInjectionLesson8.generateTable(results, resultsMetaData));
+                if (results != null && results.first()) {
+                    output.append(SqlInjectionLesson8.generateTable(results, results.getMetaData()));
+                }
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
                 return checkSalaryRanking(connection, output);
@@ -59,11 +58,10 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
             ResultSet results = statement.executeQuery(query);
 
             results.first();
-
             // user completes lesson if John Smith is the first in the list
             if ((results.getString(2).equals("John")) && (results.getString(3).equals("Smith"))) {
                 output.append(SqlInjectionLesson8.generateTable(results, results.getMetaData()));
-                return trackProgress(success().feedback("sql-injection.9.success").feedbackArgs(output.toString()).build());
+                return trackProgress(success().feedback("sql-injection.8.success").feedbackArgs(output.toString()).build());
             } else {
                 return trackProgress(failed().output(output.toString()).build());
             }
