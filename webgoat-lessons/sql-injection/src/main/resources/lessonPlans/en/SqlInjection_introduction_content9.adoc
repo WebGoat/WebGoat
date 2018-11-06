@@ -1,11 +1,11 @@
-Integrity
+== Compromising Integrity with Query Chaining
+After compromising the confidentiality of data in the previous lesson, this time we are gonna compromise the integrity of data by using a SQL query chaining.
 
-== Try It!   Numeric SQL Injection
+=== What is SQL query chaining?
+Query chaining is exactly what it sounds like. When query chaining, you try to append one or more queries to the end of the actual query.
+You can do this by using the *;* metacharacter which marks the end of a query and that way allows to start another one right after it within the same line.
 
-The query in the code builds a dynamic query as seen in the previous example.  The query in the code builds a dynamic query by concatenating a number making it susceptible to Numeric SQL injection: 
-
---------------------------------------------------
-"select * from users where Login_Count = " + Login_Count + " and USERID = "  + userID;
---------------------------------------------------
-
-Using the form below try to retrieve all the users from the users table. You shouldn't need to know any specific user name or Login_Count to get the complete list.
+=== It's your turn!
+You just found out that Tobi and Bob both seem to earn more money than you!
+Of course you cannot leave it at that. +
+Better go and change your salary so you're at the earner.
