@@ -36,8 +36,14 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
                 SqlInjectionLesson8.log(connection, query);
                 ResultSet results = statement.executeQuery(query);
 
-                if (results.getStatement() != null && results.first()) {
-                    output.append(SqlInjectionLesson8.generateTable(results));
+                if (results.getStatement() != null) {
+                    if (results.first()) {
+                        output.append(SqlInjectionLesson8.generateTable(results));
+                    } else {
+                        // no results
+                        return trackProgress(failed().feedback("sql-injection.8.no.results").build());
+                    }
+
                 }
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
