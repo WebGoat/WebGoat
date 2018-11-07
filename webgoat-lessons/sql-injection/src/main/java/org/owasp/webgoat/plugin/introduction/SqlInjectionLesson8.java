@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.sql.*;
 
 @AssignmentPath("/SqlInjection/attack8")
-@AssignmentHints(value = {"SqlStringInjectionHint8-1", "SqlStringInjectionHint8-2", "SqlStringInjectionHint8-3", "SqlStringInjectionHint8-4", "SqlStringInjectionHint8-5"})
+@AssignmentHints(value = {"SqlStringInjectionHint.8.1", "SqlStringInjectionHint.8.2", "SqlStringInjectionHint.8.3", "SqlStringInjectionHint.8.4", "SqlStringInjectionHint.8.5"})
 public class SqlInjectionLesson8 extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
