@@ -5,7 +5,7 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.plugin.introduction.SqlInjectionLesson5a;
+import org.owasp.webgoat.plugin.introduction.SqlInjectionLesson8;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,7 +72,7 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     ResultSetMetaData resultsMetaData = results.getMetaData();
                     StringBuffer output = new StringBuffer();
 
-                    output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
+                    output.append(SqlInjectionLesson8.generateTable(results));
                     if(! (query.toLowerCase().contains("union") || query.toLowerCase().contains("join")) )
                         output.append("There is also a way to retrieve the Data by using a UNION or JOIN. Can you figure out, how this  is done?");
                     results.last();
