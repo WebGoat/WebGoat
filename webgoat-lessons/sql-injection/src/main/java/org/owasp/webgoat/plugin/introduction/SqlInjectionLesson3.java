@@ -75,7 +75,7 @@ public class SqlInjectionLesson3 extends AssignmentEndpoint {
                 output.append(_results);
                 // user completes lesson if the department of Tobi Barnett now is 'Sales'
                 if (_results.getString("department").equals("Sales")) {
-                    output.append(SqlInjectionLesson8.generateTable(_results, _results.getMetaData()));
+                    output.append(SqlInjectionLesson8.generateTable(_results));
                     return trackProgress(success().feedbackArgs(output.toString()).build());
                 } else {
                     return trackProgress(failed().output(output.toString()).build());

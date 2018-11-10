@@ -71,15 +71,15 @@ public class SqlInjectionLesson2 extends AssignmentEndpoint {
                 output.append(results);
                 // user completes lesson if department is "Marketing"
                 if (results.getString("department").equals("Marketing")) {
-                    output.append(SqlInjectionLesson8.generateTable(results, results.getMetaData()));
-                    return trackProgress(success().feedbackArgs(output.toString()).build());
+                    output.append(SqlInjectionLesson8.generateTable(results));
+                    return trackProgress(success().feedback("sql-injection.2.success").output(output.toString()).build());
                 } else {
-                    return trackProgress(failed().output(output.toString()).build());
+                    return trackProgress(failed().feedback("sql-injection.2.failed").output(output.toString()).build());
                 }
 
             } catch (SQLException sqle) {
 
-                return trackProgress(failed().output(sqle.getMessage()).build());
+                return trackProgress(failed().feedback("sql-injection.2.failed").output(sqle.getMessage()).build());
             }
         } catch (Exception e) {
             return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
