@@ -67,12 +67,8 @@ public class SqlInjectionLesson3 extends AssignmentEndpoint {
                 Statement check_statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 statement.executeUpdate(_query);
-                ResultSet _results = check_statement.executeQuery("SELECT department from employees where last_name='Barnett';");
-
+                ResultSet _results = check_statement.executeQuery("SELECT * FROM employees WHERE last_name='Barnett';");
                 StringBuffer output = new StringBuffer();
-
-                _results.first();
-                output.append(_results);
                 // user completes lesson if the department of Tobi Barnett now is 'Sales'
                 if (_results.getString("department").equals("Sales")) {
                     output.append(SqlInjectionLesson8.generateTable(_results));

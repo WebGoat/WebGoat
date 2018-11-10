@@ -68,8 +68,8 @@ public class SqlInjectionLesson2 extends AssignmentEndpoint {
                 StringBuffer output = new StringBuffer();
 
                 results.first();
-                output.append(results);
                 // user completes lesson if department is "Marketing"
+                // what if other employee with same dept is result?
                 if (results.getString("department").equals("Marketing")) {
                     output.append(SqlInjectionLesson8.generateTable(results));
                     return trackProgress(success().feedback("sql-injection.2.success").output(output.toString()).build());
