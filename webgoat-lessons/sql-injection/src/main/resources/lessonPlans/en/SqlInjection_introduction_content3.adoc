@@ -1,8 +1,16 @@
 === Data Definition Language (DDL)
+
+Data definition language includes commands for defining data structures, especially database schemas which tell how the data should reside in the database.
+
+If an attacker uses a SQL injection of the DDL type to manipulate your database, he will violate the following of the three protection goals in information security: integrity (alter) & availability (drop). (Only people authorized to change/delete the data can do so.)
+
+
 * DDL commands are used for creating, modifying, and dropping the structure of database objects.
-* CREATE, ALTER, DROP,TRUNCATE,…
+* CREATE - to create a database and its objects like (table, views, …)
+* ALTER - alters the structure of the existing database
+* DROP - delete objects from the database
 * Example:
-** CREATE TABLE Customers( +
+** CREATE TABLE Employees( +
    &nbsp;&nbsp;&nbsp;&nbsp;IdNum INT NOT NULL, +
    &nbsp;&nbsp;&nbsp;&nbsp;LName VARCHAR (20) NOT NULL, +
    &nbsp;&nbsp;&nbsp;&nbsp;FName VARCHAR (20) NOT NULL, +
@@ -11,4 +19,7 @@
    &nbsp;&nbsp;&nbsp;&nbsp;Phone VARCHAR (20), +
    &nbsp;&nbsp;&nbsp;&nbsp;PRIMARY KEY (IdNum) +
 );
-** This statement creates the employees example table given above.
+** This statement creates the employees example table given on page 2.
+
+Now try to modify the schneme by removing the column "Phone" from the table "Employees":
+

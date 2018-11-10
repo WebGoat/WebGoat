@@ -8,23 +8,32 @@ Example SQL table with employees:
 
 Employees Table
 |===
-|IdNum |LName |FName |JobCode |Salary |Phone |
+|userid |first_name |last_name |department |salary |auth_tan |
 
-|1876 |CHIN |JACK |TA1 |42400 |212/558-5634 |
+|32147|Paulina|Travers|Accounting|$46.000|P45JSI|
+|89762|Tobi|Barnett|Development|$77.000|TA9LL1|
+|96134|Bob|Franco|Marketing|$83.700|LO9S2V|
+|34477|Abraham|Holman|Development|$50.000|UU2ALK|
+|37648|John|Smith|Marketing|$64.350|3SL99A|
 
-|1114 |GREENWALD |JANICE |ME3 |38000 |212/558-1092 |
-
-|1556 |PENNINGTION|MICHAEL |ME1 |29860 |718/383-5681 |
-
-|1354 |PARKER |MARY |FA3 |65800 |914/455-2337 |
-
-|1130 |WOOD |DEBORAH |PT2 |36514 |212/587-0013 |
 |===
 
-Each employee has an index (IdNum), lastname, firstname, job title (JobCode), salary and a phone number. All his data from this table is represented in a single row.
+A company saves the following information of an employee in their databases:
+a unique employee number, the lastnname, the firstname, the department of the employee, the salary and an auth_tan.
+
+One row represents one employee of the company.
 
 By using SQL queries you can modify a database table and its index structures, add, update and delete rows of data.
 
 There are three types of SQL commands in the SQL database language:
+Each type of command carries the danger of violating different protection goals if an intruder attacks your database system.
+
+The 3 main protection goals in information security are confidentiality, integrity, and availability are considered the three most crucial components of information security.
+Go ahead to the next pages to get some details on the different types of commands and protections goals.
 
 If you are still struggling with SQL and need more information or practice you can visit http://www.sqlcourse.com/ for an interactive and free online training.
+
+=== It's your turn!
+Look at the example table.
+Try to retrieve the department of the employee Bob Franco.
+Note that you have been granted full administrator privileges in this assignment and can access all data without authentication.
