@@ -41,14 +41,21 @@
 
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:SqlInjection_jdbc_newcode.adoc"></div>
-    <div class="attack-container">
+    <div class="attack-container" style="height: 300px; border: none !important">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN" method="POST" name="form" action="/WebGoat/SqlInjection/attack10b" enctype="application/json;charset=UTF-8">
             <div>
-                <textarea rows="10" cols="75" name="code" id="code"></textarea>
+                <div id="editor" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;" name="editor"></div>
+                <script th:src="@{/lesson_js/ext/ace/src-noconflict/ace.js}" type="text/javascript" charset="utf-8"></script>
+                <script th:src="@{/lesson_js/assignment10b.js}" type="text/javascript" charset="utf-8"></script>
+                <script>
+                    var editor = ace.edit("editor");
+                    editor.setTheme("ace/theme/monokai");
+                    editor.session.setMode("ace/mode/java");
+                </script>
             </div>
             <div class="input-group" style="margin-top: 10px">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary" style="margin-top: 350%; margin-left: 60%;" onclick="ace_collect()">Submit</button>
             </div>
         </form>
     </div>
