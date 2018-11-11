@@ -18,4 +18,23 @@
     <div class="adoc-content" th:replace="doc:CIA_availability.adoc"></div>
 </div>
 
+<div class="lesson-page-wrapper">
+    <script th:src="@{/lesson_js/quiz.js}" language="JavaScript"></script>
+    <link rel="import" type="application/json" th:href="@{/lesson_js/questions.json}"/>
+    <div class="adoc-content" th:replace="doc:CIA_quiz.adoc"></div>
+    <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+    <div class="container-fluid">
+        <form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="cia/quiz"
+              enctype="application/json;charset=UTF-8" role="form">
+            <div id="q_container"></div>
+            <br />
+            <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>
+        </form>
+    </div>
+    <div class="attack-feedback"></div>
+    <div class="attack-output"></div>
+</div>
+
 </html>
