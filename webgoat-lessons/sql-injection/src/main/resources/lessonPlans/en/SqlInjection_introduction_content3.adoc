@@ -10,7 +10,7 @@ If an attacker uses a SQL injection of the DDL type to manipulate your database,
 * ALTER - alters the structure of the existing database
 * DROP - delete objects from the database
 * Example:
-** CREATE TABLE Employees( +
+** CREATE TABLE employees( +
    &nbsp;&nbsp;&nbsp;&nbsp;userid varchar(6) not null primary key, +
    &nbsp;&nbsp;&nbsp;&nbsp;first_name varchar(20), +
    &nbsp;&nbsp;&nbsp;&nbsp;last_name varchar(20), +
