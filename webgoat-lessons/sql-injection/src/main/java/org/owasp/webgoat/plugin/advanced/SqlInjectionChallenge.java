@@ -26,6 +26,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @AssignmentPath("SqlInjection/challenge")
 @AssignmentHints(value = {"SqlInjectionChallenge1", "SqlInjectionChallenge2", "SqlInjectionChallenge3"})
 @Slf4j
+@AssignmentHints(value ={"SqlInjectionChallengeHint1", "SqlInjectionChallengeHint2", "SqlInjectionChallengeHint3", "SqlInjectionChallengeHint4"})
 public class SqlInjectionChallenge extends AssignmentEndpoint {
 
     private static final String PASSWORD_TOM = "thisisasecretfortomonly";
