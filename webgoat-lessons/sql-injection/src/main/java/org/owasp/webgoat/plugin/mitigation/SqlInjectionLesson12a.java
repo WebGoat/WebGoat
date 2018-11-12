@@ -33,8 +33,9 @@ public class SqlInjectionLesson12a extends AssignmentEndpoint {
     @SneakyThrows
     public AttackResult completed(@RequestParam String ip) {
         Connection connection = DatabaseUtilities.getConnection(webSession);
-        PreparedStatement preparedStatement = connection.prepareStatement("select ip from servers where hostname = 'webgoat-prd' and ip = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("select ip from servers where ip = ? and hostname = ?");
         preparedStatement.setString(1, ip);
+        preparedStatement.setString(2, "webgoat-prd");
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             return trackProgress(success().build());
