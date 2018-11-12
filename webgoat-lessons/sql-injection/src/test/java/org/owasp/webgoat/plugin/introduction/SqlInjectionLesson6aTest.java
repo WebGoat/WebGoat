@@ -77,5 +77,13 @@ public class SqlInjectionLesson6aTest extends LessonTest {
                 .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.6a.no.results"))));
     }
 
+    @Test
+    public void noUnionUsed() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6a")
+                .param("userid_6a", "S'; Select * from user_system_data; --"))
 
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.lessonCompleted", is(false)))
+                .andExpect(jsonPath("$.output", containsString("To succesfully complete this Assignement you have to use a UNION")));
+    }
 }
