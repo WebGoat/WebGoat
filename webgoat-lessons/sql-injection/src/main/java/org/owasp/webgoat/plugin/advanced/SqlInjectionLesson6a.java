@@ -1,11 +1,10 @@
-
 package org.owasp.webgoat.plugin.advanced;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.plugin.introduction.SqlInjectionLesson8;
+import org.owasp.webgoat.plugin.introduction.SqlInjectionLesson5a;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,7 +46,7 @@ import java.sql.*;
  * @created October 28, 2003
  */
 @AssignmentPath("/SqlInjection/attack6a")
-@AssignmentHints(value = {"SqlStringInjectionHint6", "SqlStringInjectionHint7", "SqlStringInjectionHint8"})
+@AssignmentHints(value = {"SqlStringInjectionHint6a1", "SqlStringInjectionHint6a2", "SqlStringInjectionHint6a3", "SqlStringInjectionHint6a4"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
@@ -60,9 +59,13 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     protected AttackResult injectableQuery(String accountName) {
         try {
+            boolean usedUnion = true;
             Connection connection = DatabaseUtilities.getConnection(getWebSession());
             String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
-
+            //Check if Union is used
+            if(!accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)")) {
+                usedUnion = false;
+            }
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
@@ -72,18 +75,19 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     ResultSetMetaData resultsMetaData = results.getMetaData();
                     StringBuffer output = new StringBuffer();
 
-                    output.append(SqlInjectionLesson8.generateTable(results));
-                    if(! (query.toLowerCase().contains("union") || query.toLowerCase().contains("join")) )
-                        output.append("There is also a way to retrieve the Data by using a UNION or JOIN. Can you figure out, how this  is done?");
+                    output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
+                    if(! usedUnion)
+                        output.append("To succesfully complete this Assignement you have to use a UNION");
                     results.last();
 
                     // If they get back more than one user they succeeded
-                    if (results.getRow() >= 5) {
+                    if (results.getRow() >= 5 && usedUnion) {
                         return trackProgress(success().feedback("sql-injection.6a.success").feedbackArgs(output.toString()).build());
+                    } else if((output.toString().contains("dave") && output.toString().contains("passW0rD")) && !usedUnion) {
+                        return trackProgress(failed().output("To succesfully complete this Assignement you have to use a UNION").build());
                     } else {
                         return trackProgress(failed().output(output.toString()).build());
                     }
-
                 } else {
                     return trackProgress(failed().feedback("sql-injection.6a.no.results").build());
 
