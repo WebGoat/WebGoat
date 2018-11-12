@@ -46,7 +46,7 @@ import java.sql.*;
  * @created October 28, 2003
  */
 @AssignmentPath("/SqlInjection/attack4")
-@AssignmentHints(value = {"SqlStringInjectionHint4a1", "SqlStringInjectionHint4a2"})
+@AssignmentHints(value = {"SqlStringInjectionHint4a1", "SqlStringInjectionHint4a2", "SqlStringInjectionHint4a3"})
 public class SqlInjectionLesson4 extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
