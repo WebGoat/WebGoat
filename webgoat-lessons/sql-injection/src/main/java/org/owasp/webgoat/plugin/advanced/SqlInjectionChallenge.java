@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugin.advanced;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
@@ -24,6 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @AssignmentPath("SqlInjection/challenge")
 @Slf4j
+@AssignmentHints(value ={"SqlInjectionChallengeHint1", "SqlInjectionChallengeHint2", "SqlInjectionChallengeHint3", "SqlInjectionChallengeHint4"})
 public class SqlInjectionChallenge extends AssignmentEndpoint {
 
     private static final String PASSWORD_TOM = "thisisasecretfortomonly";
