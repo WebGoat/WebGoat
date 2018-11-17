@@ -1,6 +1,5 @@
 package org.owasp.webgoat.plugin.mitigation;
 
-import lombok.SneakyThrows;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
@@ -24,12 +23,13 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public AttackResult completed(@RequestParam String code) {
+    public AttackResult completed(@RequestParam String editor) {
         String regex1 = "(?=.*PreparedStatement.*)(?=.*setString.*)(?=.*\\=\\?.*|.*\\=\\s\\?.*)";
-        boolean hasImportant = this.check_text(regex1, code.replace("\n", "").replace("\r", ""));
-        List<Diagnostic> hasCompiled = this.compileFromString(code);
+        editor = editor.replaceAll("\\<.*?>","");
+        boolean hasImportant = this.check_text(regex1, editor.replace("\n", "").replace("\r", ""));
+        List<Diagnostic> hasCompiled = this.compileFromString(editor);
         String errors = "";
-        if(hasImportant && hasCompiled.size() < 2) {
+        if(hasImportant && hasCompiled.size() < 1) {
             return trackProgress(success().build());
         } else if(hasCompiled.size() > 1) {
             for(Diagnostic d : hasCompiled) {
@@ -48,11 +48,7 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
         JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnosticsCollector, null, null, fileObjects);
         Boolean result = task.call();
         List<Diagnostic> diagnostics = diagnosticsCollector.getDiagnostics();
-        if(result == true){
-            return null;
-        } else {
-            return diagnostics;
-        }
+        return diagnostics;
     }
 
     private SimpleJavaFileObject getJavaFileContentsAsString(String s){
