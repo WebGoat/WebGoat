@@ -1,7 +1,8 @@
 $(function () {
     var json = "";
     var client = new XMLHttpRequest();
-    client.open('GET', '/WebGoat/lesson_js/questions.json');
+    var quiz_id = document.getElementById("quiz_id").getAttribute("data-quiz_id");
+    client.open('GET', '/WebGoat/lesson_js/questions_' + quiz_id + '.json');
     client.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             json += client.responseText;
