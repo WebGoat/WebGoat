@@ -3,18 +3,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="lesson-page-wrapper">
-	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-	<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
 	<div class="adoc-content" th:replace="doc:CrossSiteScriptingMitigation_plan.adoc"></div>
 </div>
 <div class="lesson-page-wrapper">
-	<!-- overview of XSS defenses -->
 	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content8.adoc"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-	<!-- links to OWASP XSS resources mainly -->
 	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content9.adoc"></div>
 </div>
 
