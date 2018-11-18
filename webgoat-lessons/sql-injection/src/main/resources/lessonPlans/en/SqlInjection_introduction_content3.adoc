@@ -1,14 +1,24 @@
 === Data Definition Language (DDL)
+
+Data definition language includes commands for defining data structures, especially database schemas which tell how the data should reside in the database.
+
+If an attacker uses a SQL injection of the DDL type to manipulate your database, he will violate the following of the three protection goals in information security: integrity (alter) & availability (drop). (Only people authorized to change/delete the data can do so.)
+
+
 * DDL commands are used for creating, modifying, and dropping the structure of database objects.
-* CREATE, ALTER, DROP,TRUNCATE,…
+* CREATE - to create a database and its objects like (table, views, …)
+* ALTER - alters the structure of the existing database
+* DROP - delete objects from the database
 * Example:
-** CREATE TABLE Customers( +
-   &nbsp;&nbsp;&nbsp;&nbsp;IdNum INT NOT NULL, +
-   &nbsp;&nbsp;&nbsp;&nbsp;LName VARCHAR (20) NOT NULL, +
-   &nbsp;&nbsp;&nbsp;&nbsp;FName VARCHAR (20) NOT NULL, +
-   &nbsp;&nbsp;&nbsp;&nbsp;JobCode VARCHAR (3) NOT NULL, +
-   &nbsp;&nbsp;&nbsp;&nbsp;Salary DECIMAL (18, 2), +
-   &nbsp;&nbsp;&nbsp;&nbsp;Phone VARCHAR (20), +
-   &nbsp;&nbsp;&nbsp;&nbsp;PRIMARY KEY (IdNum) +
+** CREATE TABLE employees( +
+   &nbsp;&nbsp;&nbsp;&nbsp;userid varchar(6) not null primary key, +
+   &nbsp;&nbsp;&nbsp;&nbsp;first_name varchar(20), +
+   &nbsp;&nbsp;&nbsp;&nbsp;last_name varchar(20), +
+   &nbsp;&nbsp;&nbsp;&nbsp;department varchar(20), +
+   &nbsp;&nbsp;&nbsp;&nbsp;salary varchar(10), +
+   &nbsp;&nbsp;&nbsp;&nbsp;auth_tan varchar(6) +
 );
-** This statement creates the employees example table given above.
+** This statement creates the employees example table given on page 2.
+
+Now try to modify the scheme by adding the column "phone" to the table "employees":
+
