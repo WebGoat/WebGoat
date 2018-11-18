@@ -55,7 +55,7 @@ public class CrossSiteScriptingLesson6a extends AssignmentEndpoint {
     public @ResponseBody
     AttackResult completed(@RequestParam String DOMTestRoute)  throws IOException {
 
-        if (DOMTestRoute.equals("start.mvc#test/")) {
+        if (DOMTestRoute.matches("start\\.mvc#test(\\/|)")) {
             //return trackProgress()
             return trackProgress(success().feedback("xss-reflected-6a-success").build());
         } else {

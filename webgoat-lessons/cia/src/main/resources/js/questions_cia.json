@@ -29,7 +29,7 @@
       "1": "A system can be considered safe until all the goals are harmed. Harming one goal has no effect on the systems security.",
       "2": "The systems security is compromised even if only one goal is harmed.",
       "3": "It's not that bad when an attacker reads or changes data, at least some data is still available, hence only when the goal of availability is harmed the security of the system is compromised.",
-      "4": "It shouldn't be possible for an attacker to change data or make it unavailable, but reading sensitive data is not tolerable. Theres only a problem when confidentiality is harmed."
+      "4": "It shouldn't be a problem if an attacker changes data or makes it unavailable, but reading sensitive data is not tolerable. Theres only a problem when confidentiality is harmed."
     }
   }]
 }
