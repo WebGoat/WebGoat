@@ -1,15 +1,8 @@
 == Concept 
 
-This lesson describes what is Cross-Site Scripting (XSS) and how it can be manipulated to perform tasks that were not the original intent of the developer.
+After taking a look at Reflected XSS in the previous lesson. We're now gonna take a closer look at another form of Cross Site Scripting Attack: Stored CSS.
 
 == Goals
-
-* The user should have a basic understand how XSS works.
-* The user will understand the best practices for defending against XSS injection attacks
+* The user will learn what Stored XSS is
 * The user will demonstrate knowledge on:
-** Reflected XSS Injection
 ** Stored XSS Injection
-** Dom-Based XSS Injection
-
-
-
