@@ -2,6 +2,7 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
@@ -47,6 +48,7 @@ import java.io.IOException;
  * @created October 28, 2003
  */
 @AssignmentPath("/CrossSiteScripting/attack5a")
+@AssignmentHints(value = {"xss-reflected-5a-hint-1", "xss-reflected-5a-hint-2", "xss-reflected-5a-hint-3", "xss-reflected-5a-hint-4"})
 public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
 
 	@Autowired
