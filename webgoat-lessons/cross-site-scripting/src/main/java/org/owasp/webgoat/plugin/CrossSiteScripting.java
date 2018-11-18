@@ -44,12 +44,6 @@ public class CrossSiteScripting extends NewLesson {
     @Override
     public List<String> getHints() {
         List<String> hints = new ArrayList<String>();
-        
-//        hints.add(getLabelManager().get("SqlStringInjectionHint1"));
-//        hints.add(getLabelManager().get("SqlStringInjectionHint2"));
-//        hints.add(getLabelManager().get("SqlStringInjectionHint3"));
-//        hints.add(getLabelManager().get("SqlStringInjectionHint4"));
-
         return hints;
     }
 
