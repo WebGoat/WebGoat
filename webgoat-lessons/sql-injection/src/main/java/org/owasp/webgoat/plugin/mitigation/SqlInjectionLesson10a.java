@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @AssignmentPath("SqlInjection/attack10a")
 @Slf4j
-@AssignmentHints(value = {"SqlStringInjectionHint10a1", "SqlStringInjectionHint10a2"})
+@AssignmentHints(value = {"SqlStringInjectionHint-mitigation-10a-1", "SqlStringInjectionHint-mitigation-10a-10a2"})
 public class SqlInjectionLesson10a extends AssignmentEndpoint {
 
     @Autowired
