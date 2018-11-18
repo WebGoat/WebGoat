@@ -46,7 +46,7 @@ import java.sql.*;
  * @created October 28, 2003
  */
 @AssignmentPath("/SqlInjection/attack6a")
-@AssignmentHints(value = {"SqlStringInjectionHint6a1", "SqlStringInjectionHint6a2", "SqlStringInjectionHint6a3", "SqlStringInjectionHint6a4"})
+@AssignmentHints(value = {"SqlStringInjectionHint-advanced-6a-1", "SqlStringInjectionHint-advanced-6a-2", "SqlStringInjectionHint-advanced-6a-3"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
@@ -82,14 +82,14 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
                     // If they get back more than one user they succeeded
                     if (results.getRow() >= 5 && usedUnion) {
-                        return trackProgress(success().feedback("sql-injection.6a.success").feedbackArgs(output.toString()).build());
+                        return trackProgress(success().feedback("sql-injection.advanced.6a.success").feedbackArgs(output.toString()).build());
                     } else if((output.toString().contains("dave") && output.toString().contains("passW0rD")) && !usedUnion) {
                         return trackProgress(failed().output("To succesfully complete this Assignement you have to use a UNION").build());
                     } else {
                         return trackProgress(failed().output(output.toString()).build());
                     }
                 } else {
-                    return trackProgress(failed().feedback("sql-injection.6a.no.results").build());
+                    return trackProgress(failed().feedback("sql-injection.advanced.6a.no.results").build());
 
                 }
             } catch (SQLException sqle) {
