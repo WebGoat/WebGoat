@@ -3,9 +3,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="lesson-page-wrapper">
-	<!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-	<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-    which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
 	<div class="adoc-content" th:replace="doc:CrossSiteScriptingStored_plan.adoc"></div>
 </div>
 
@@ -75,10 +72,8 @@
 			<input name="successMessage" value="" type="TEXT" />
 			<input name="submitMessage" value="Submit" type="SUBMIT"/>
 		</form>
-		<!-- do not remove the two following div's, this is where your feedback/output will land -->
 		<div class="attack-feedback"></div>
 		<div class="attack-output"></div>
-		<!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
 	</div>
 </div>
 
