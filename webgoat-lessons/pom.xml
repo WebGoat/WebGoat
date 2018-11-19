@@ -21,6 +21,7 @@
         <module>html-tampering</module>
         <module>http-basics</module>
         <module>cia</module>
+        <module>chrome-dev-tools</module>
         <module>http-proxies</module>
         <module>insecure-login</module>
         <module>insecure-deserialization</module>
