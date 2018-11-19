@@ -1,0 +1,5 @@
+== Try It! Using the Console
+
+In this Assignment your task is to, call a Webgoat-specific JavaScript function, called
+*webgoat.customjs.phoneHome()*
+

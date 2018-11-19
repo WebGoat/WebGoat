@@ -1,0 +1,16 @@
+== Google Chrome Developer Tools
+
+To complete certain assignments you sometimes may have to look at the JavaScript
+source code or run a JavaScript Command on your own.
+To do that Google Chrome has a set of tools which allows to do that and much much more.
+While these tools are not specific to Google Chrome, almost every modern browser has a set
+of their own, our introduction will focus on the ones found in Google Chrome.
+You can however still use the Browser of your choice, like Firefox or Safari, although some steps of this tutorial
+may be different for you.
+
+Keep in mind that the following tutorial, is not there to teach everything there is about these tools.
+This tutorial will only focus on the essential knowledge you need to complete certain assignments.
+Also if you are already familiar with these Tools you can safely skip these lessons.
+
+To get started open the developer tools by right clicking anywhere and clicking "inspect"
+or click the three vertical on the top right, go to more tools and then Developer tools.
