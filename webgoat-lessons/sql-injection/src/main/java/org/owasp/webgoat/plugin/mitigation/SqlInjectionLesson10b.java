@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.tools.*;
 import java.io.IOException;
 import java.net.URI;
@@ -21,22 +22,31 @@ import java.util.regex.Pattern;
 @AssignmentHints(value = {"SqlStringInjectionHint-mitigation-10b-1", "SqlStringInjectionHint-mitigation-10b-2", "SqlStringInjectionHint-mitigation-10b-3"})
 public class SqlInjectionLesson10b extends AssignmentEndpoint {
 
+    // Problem: Form has two submits, first submit is null and already wants to throw an attack result. Seconds attack result cant be thrown
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public AttackResult completed(@RequestParam String editor) {
-        String regex1 = "(?=.*PreparedStatement.*)(?=.*setString.*)(?=.*\\=\\?.*|.*\\=\\s\\?.*)";
-        editor = editor.replaceAll("\\<.*?>","");
-        boolean hasImportant = this.check_text(regex1, editor.replace("\n", "").replace("\r", ""));
-        List<Diagnostic> hasCompiled = this.compileFromString(editor);
-        String errors = "";
-        if(hasImportant && hasCompiled.size() < 1) {
-            return trackProgress(success().build());
-        } else if(hasCompiled.size() > 1) {
-            for(Diagnostic d : hasCompiled) {
-                errors += d.getMessage(null) + "\n";
+    public AttackResult completed(HttpServletRequest req) {
+        String editor = req.getParameter("editor");
+        try {
+            if (editor == null) {
+                throw new Exception();
             }
+            String regex1 = "(?=.*PreparedStatement.*)(?=.*setString.*)(?=.*\\=\\?.*|.*\\=\\s\\?.*)";
+            editor = editor.replaceAll("\\<.*?>", "");
+            boolean hasImportant = this.check_text(regex1, editor.replace("\n", "").replace("\r", ""));
+            List<Diagnostic> hasCompiled = this.compileFromString(editor);
+            String errors = "";
+            if (hasImportant && hasCompiled.size() < 1) {
+                return trackProgress(success().feedback("sql-injection.10b.success").build());
+            } else if (hasCompiled.size() > 1) {
+                for (Diagnostic d : hasCompiled) {
+                    errors += d.getMessage(null) + "\n";
+                }
+            }
+            return trackProgress(failed().feedback("sql-injection.10b.failed").output(errors).build());
+        } catch(Exception e) {
+            return trackProgress(success().build());
         }
-        return trackProgress(failed().output(errors).build());
     }
 
     private List<Diagnostic> compileFromString(String s) {
