@@ -15,3 +15,5 @@ try {
     System.out.println("Oops. Something went wrong!");
 }
 -------------------------------------------------------
+
+Now type your solution in the editor window down below (if you can't type there it might help to adjust the size of your browser window once, then it should work):
