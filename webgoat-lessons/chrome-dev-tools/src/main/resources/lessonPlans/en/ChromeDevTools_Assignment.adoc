@@ -1,5 +1,6 @@
 == Try It! Using the Console
 
-In this Assignment your task is to, call a Webgoat-specific JavaScript function, called
-*webgoat.customjs.phoneHome()*
-
+Let's try it. Use the console in the dev tools and call the javascript function *webgoat.customjs.phoneHome*. +
+You should get a response in the console.
+Paste the phoneHome number in below.
+(Make sure you got the most recent number, since it's randomly generated each time you call the function)
