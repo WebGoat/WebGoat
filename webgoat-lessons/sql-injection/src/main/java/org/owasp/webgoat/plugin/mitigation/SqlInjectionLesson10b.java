@@ -22,15 +22,12 @@ import java.util.regex.Pattern;
 @AssignmentHints(value = {"SqlStringInjectionHint-mitigation-10b-1", "SqlStringInjectionHint-mitigation-10b-2", "SqlStringInjectionHint-mitigation-10b-3"})
 public class SqlInjectionLesson10b extends AssignmentEndpoint {
 
-    // Problem: Form has two submits, first submit is null and already wants to throw an attack result. Seconds attack result cant be thrown
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public AttackResult completed(HttpServletRequest req) {
-        String editor = req.getParameter("editor");
+    public AttackResult completed(@RequestParam String editor) {
         try {
-            if (editor == null) {
-                throw new Exception();
-            }
+            if (editor.isEmpty()) return trackProgress(failed().feedback("sql-injection.10b.no-code").build());
+
             String regex1 = "(?=.*PreparedStatement.*)(?=.*setString.*)(?=.*\\=\\?.*|.*\\=\\s\\?.*)";
             editor = editor.replaceAll("\\<.*?>", "");
             boolean hasImportant = this.check_text(regex1, editor.replace("\n", "").replace("\r", ""));
@@ -38,12 +35,12 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
             String errors = "";
             if (hasImportant && hasCompiled.size() < 1) {
                 return trackProgress(success().feedback("sql-injection.10b.success").build());
-            } else if (hasCompiled.size() > 1) {
+            } else if (hasCompiled.size() > 0) {
                 for (Diagnostic d : hasCompiled) {
                     errors += d.getMessage(null) + "\n";
                 }
             }
-            return trackProgress(failed().feedback("sql-injection.10b.failed").output(errors).build());
+            return trackProgress(failed().feedback("sql-injection.10b.failed").output(errors.replace("\n", "<br>")).build());
         } catch(Exception e) {
             return trackProgress(success().build());
         }
