@@ -4,7 +4,7 @@ SQL is a standardized (ANSI in 1986, ISO in 1987) programming language which is 
 
 A database is a collection of data. Data is organized into rows, columns and tables, and it is indexed to make it easier to find relevant information.
 
-Example SQL table with employees:
+Example SQL table with employees, the name of the table is 'employees':
 
 Employees Table
 |===
