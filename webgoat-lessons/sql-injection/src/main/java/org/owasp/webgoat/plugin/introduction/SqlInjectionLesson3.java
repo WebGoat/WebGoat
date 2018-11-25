@@ -70,6 +70,7 @@ public class SqlInjectionLesson3 extends AssignmentEndpoint {
                 ResultSet _results = check_statement.executeQuery("SELECT * FROM employees WHERE last_name='Barnett';");
                 StringBuffer output = new StringBuffer();
                 // user completes lesson if the department of Tobi Barnett now is 'Sales'
+                _results.first();
                 if (_results.getString("department").equals("Sales")) {
                     output.append(SqlInjectionLesson8.generateTable(_results));
                     return trackProgress(success().feedbackArgs(output.toString()).build());
