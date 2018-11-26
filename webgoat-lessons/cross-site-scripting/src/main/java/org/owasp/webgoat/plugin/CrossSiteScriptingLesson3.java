@@ -24,11 +24,20 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public AttackResult completed(@RequestParam String editor) {
-        String regex1 = "(?=.*PreparedStatement.*)(?=.*setString.*)(?=.*\\=\\?.*|.*\\=\\s\\?.*)";
+
+        String regex1 = "<(\\\"[^\\\"]*\\\"|'[^']*'|[^'\\\">])*>(.*<(\\\"[^\\\"]*\\\"|'[^']*'|[^'\\\">])*>)?"; //Insert regex to verify html
         editor = editor.replaceAll("\\<.*?>","");
         boolean hasImportant = this.check_text(regex1, editor.replace("\n", "").replace("\r", ""));
-        List<Diagnostic> hasCompiled = this.compileFromString(editor);
-        String errors = "";
+
+        //http://www.java67.com/2012/10/how-to-escape-html-special-characters-JSP-Java-Example.html
+        //
+        //<c:out value=${first_name/last_name} escapeXml='true'/>
+        //or
+        //${fn:escapeXml("param.first_name/last_name")}
+
+        //check html string for regex
+            //check for c:out && escapeXml="true" && !request.getParameter
+        /**
         if(hasImportant && hasCompiled.size() < 1) {
             return trackProgress(success().build());
         } else if(hasCompiled.size() > 1) {
@@ -36,41 +45,9 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
                 errors += d.getMessage(null) + "\n";
             }
         }
-        return trackProgress(failed().output(errors).build());
-    }
+         **/
+        return trackProgress(failed().build());
 
-    private List<Diagnostic> compileFromString(String s) {
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        DiagnosticCollector diagnosticsCollector = new DiagnosticCollector();
-        StandardJavaFileManager fileManager  = compiler.getStandardFileManager(diagnosticsCollector, null, null);
-        JavaFileObject javaObjectFromString = getJavaFileContentsAsString(s);
-        Iterable fileObjects = Arrays.asList(javaObjectFromString);
-        JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnosticsCollector, null, null, fileObjects);
-        Boolean result = task.call();
-        List<Diagnostic> diagnostics = diagnosticsCollector.getDiagnostics();
-        return diagnostics;
-    }
-
-    private SimpleJavaFileObject getJavaFileContentsAsString(String s){
-        StringBuilder javaFileContents = new StringBuilder("import java.sql.*; public class TestClass { public static void main(String[] args) {" + s + "}}");
-        JavaObjectFromString javaFileObject = null;
-        try{
-            javaFileObject = new JavaObjectFromString("TestClass.java", javaFileContents.toString());
-        }catch(Exception exception){
-            exception.printStackTrace();
-        }
-        return javaFileObject;
-    }
-
-    class JavaObjectFromString extends SimpleJavaFileObject {
-        private String contents = null;
-        public JavaObjectFromString(String className, String contents) throws Exception{
-            super(new URI(className), Kind.SOURCE);
-            this.contents = contents;
-        }
-        public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
-            return contents;
-        }
     }
 
     private boolean check_text(String regex, String text) {
