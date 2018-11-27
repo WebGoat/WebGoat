@@ -20,8 +20,8 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     public
     @ResponseBody
-    AttackResult completed(@RequestParam String action) {
-        return injectableQueryAvailability(action);
+    AttackResult completed(@RequestParam String action_string) {
+        return injectableQueryAvailability(action_string);
     }
 
     protected AttackResult injectableQueryAvailability(String action) {
