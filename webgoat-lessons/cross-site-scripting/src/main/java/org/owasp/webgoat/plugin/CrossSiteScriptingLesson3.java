@@ -37,8 +37,8 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
 
         //check html string for regex
             //check for c:out && escapeXml="true" && !request.getParameter
-        Document doc = Jsoup.parse(editor);
-        Element e = doc.getElementById();
+        //Document doc = Jsoup.parse(editor);
+        //Element e = doc.getElementById();
 
         System.out.println(editor);
         if (editor.contains("c:out") && editor.contains("escapeXml=\"true\"") && editor.contains("value=\"${last_name}\"") && editor.contains("value=\"${first_name}\"")) {
