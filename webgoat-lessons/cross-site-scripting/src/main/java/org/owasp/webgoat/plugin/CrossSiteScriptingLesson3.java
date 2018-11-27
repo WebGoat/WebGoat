@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.jsoup.*;
+import org.w3c.dom.*;
+
 
 import javax.tools.*;
 import java.io.IOException;
@@ -34,6 +37,9 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
 
         //check html string for regex
             //check for c:out && escapeXml="true" && !request.getParameter
+        Document doc = Jsoup.parse(editor);
+        Element e = doc.getElementById();
+
         System.out.println(editor);
         if (editor.contains("c:out") && editor.contains("escapeXml=\"true\"") && editor.contains("value=\"${last_name}\"") && editor.contains("value=\"${first_name}\"")) {
             System.out.println("true");
