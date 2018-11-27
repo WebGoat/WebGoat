@@ -1,6 +1,7 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 
 @AssignmentPath("/ChromeDevTools/network")
+@AssignmentHints({"networkHint1", "networkHint2"})
 public class NetworkLesson extends AssignmentEndpoint {
 
   @RequestMapping(method = RequestMethod.POST)
