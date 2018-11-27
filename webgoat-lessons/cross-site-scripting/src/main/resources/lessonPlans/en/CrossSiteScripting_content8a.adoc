@@ -33,8 +33,9 @@ it can run maliciously.
 |<	|\&lt;|
 |>	|\&gt;|
 |"	|\&quot;|
-|'	|\&apos;|
+|'	|\&#x27;|
 |&	|\&amp;|
+|/  |\&#x2F;|
 
 |===
 
