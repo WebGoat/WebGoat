@@ -48,7 +48,7 @@ public class SqlInjectionMitigations extends NewLesson {
 
     @Override
     public Integer getDefaultRanking() {
-        return 1;
+        return 3;
     }
 
     @Override
