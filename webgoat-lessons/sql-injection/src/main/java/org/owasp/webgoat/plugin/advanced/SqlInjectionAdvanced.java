@@ -48,7 +48,7 @@ public class SqlInjectionAdvanced extends NewLesson {
 
     @Override
     public Integer getDefaultRanking() {
-        return 1;
+        return 2;
     }
 
     @Override
