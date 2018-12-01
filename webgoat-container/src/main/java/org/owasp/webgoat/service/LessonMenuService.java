@@ -99,11 +99,4 @@ public class LessonMenuService {
         return menu;
 
     }
-
-    public class CustomComparator implements java.util.Comparator<Integer> {
-        @Override
-        public int compare(Integer o1, Integer o2) {
-            return o1.compareTo(o2);
-        }
-    }
 }
