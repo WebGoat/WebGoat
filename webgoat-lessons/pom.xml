@@ -86,6 +86,11 @@
             <artifactId>encoder</artifactId>
             <version>1.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.nulab-inc</groupId>
+            <artifactId>zxcvbn</artifactId>
+            <version>1.2.5</version>
+        </dependency>
         <!-- Temporarily -->
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
