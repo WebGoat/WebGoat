@@ -1,5 +1,6 @@
 package org.owasp.webgoat.plugin.mitigation;
 
+
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
@@ -8,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.jsoup.*;
-import org.w3c.dom.*;
 
 
 import javax.tools.*;
@@ -27,31 +26,36 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public AttackResult completed(@RequestParam String editor) {
+        //https://github.com/OWASP/owasp-java-encoder
+        //maybe better idea for assignment
 
-        editor = editor.replaceAll("\\<.*?>","");
-        //http://www.java67.com/2012/10/how-to-escape-html-special-characters-JSP-Java-Example.html
-        //
+        String line1 ="";
+        String line2 ="";
+
+        String[] lines = editor.split(System.getProperty("line.separator"));
+        for (int i = 0; i < lines.length; i++) {
+            if(lines[i].contains("First Name")){
+                line1 = lines[i+1].replace("                <td>","").replace("</td>","");
+            } else if (lines[i].contains("Last Name")){
+                line2 = lines[i+1].replace("                <td>", "").replace("</td>", "");
+            }
+        }
+
         //<c:out value="${first_name/last_name}" escapeXml="true"/>
         //or
         //${fn:escapeXml("param.first_name/last_name")}
 
-        //check html string for regex
-            //check for c:out && escapeXml="true" && !request.getParameter
-        //Document doc = Jsoup.parse(editor);
-        //Element e = doc.getElementById();
-
-        System.out.println(editor);
-        if (editor.contains("c:out") && editor.contains("escapeXml=\"true\"") && editor.contains("value=\"${last_name}\"") && editor.contains("value=\"${first_name}\"")) {
+        if((line1.equals("<c:out value=\"${first_name}\" escapeXml=\"true\"/>") || line1.equals("<c:out escapeXml=\"true\" value=\"${first_name}\"/>"))
+                && (line2.equals("<c:out value=\"${last_name}\" escapeXml=\"true\"/>")) || line2.equals("<c:out escapeXml=\"true\" value=\"${last_name}\" />")){
             System.out.println("true");
-            return trackProgress(success().build());
-        }
-        else if (editor.contains("${fn:escapeXml") && editor.contains("\"param.first_name\"") && editor.contains("\"param.last_name\"")) {
+            return trackProgress(success().feedback("xss-mitigation-3-success").build());
+        } else if(line1.equals("${fn:escapeXml(\"param.first_name\")}") && line2.equals("${fn:escapeXml(\"param.last_name\")}")){
             System.out.println("true");
-            return trackProgress(success().build());
-        }
-        else {
+            return trackProgress(success().feedback("xss-mitigation-3-success").build());
+        } else {
             System.out.println("false");
-            return trackProgress(failed().build());
+            System.out.println(line1 + "\n" + line2);
+            return trackProgress(failed().feedback("xss-mitigation-3-failure").build());
         }
     }
 }
