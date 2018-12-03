@@ -83,7 +83,7 @@
                                 <div class="col-lg-12">
                                     <form id="login-form" class="attack-form" accept-charset="UNKNOWN"
                                           method="POST" name="form"
-                                          action="SqlInjection/challenge"
+                                          action="SqlInjection/challenge_Login"
                                           enctype="application/json;charset=UTF-8" role="form">
                                         <div class="form-group">
                                             <input type="text" name="username_login" id="username4" tabindex="1"
@@ -162,7 +162,7 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <span id="quiz_id" data-quiz_id="sql_injection"></span>
+    <span id="quiz_id" data-quiz_id="sql_incjection"></span>
     <script th:src="@{/js/quiz.js}" language="JavaScript"></script>
     <link rel="import" type="application/json" th:href="@{/lesson_js/questions.json}"/>
     <div class="adoc-content" th:replace="doc:SqlInjection_quiz.adoc"></div>
