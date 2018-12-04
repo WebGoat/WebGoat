@@ -28,6 +28,7 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
     public AttackResult completed(@RequestParam String editor) {
         //https://github.com/OWASP/owasp-java-encoder
         //maybe better idea for assignment
+        //<e:forHtml value="${param.title}" />
 
         String line1 ="";
         String line2 ="";
