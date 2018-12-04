@@ -42,7 +42,14 @@ public class SecurePasswordsAssignment extends AssignmentEndpoint {
         output.append("<b>Your Password: </b>" + password + "</br>");
         output.append("<b>Length: </b>" + password.length()+ "</br>");
         output.append("<b>Estimated guesses needed to crack your password: </b>" + df.format(strength.getGuesses())+ "</br>");
-        output.append("<b>Score: </b>" + strength.getScore()+ "/5 </br>");
+        output.append("<b>Score: </b>" + strength.getScore()+ "/5");
+        if(strength.getScore()<=1){
+            output.append("<div style=\"background-color:red;width: 200px;\">&nbsp;</div></br>");
+        } else if(strength.getScore()<=3){
+            output.append("<div style=\"background-color:orange;width: 200px;\">&nbsp;</div></br>");
+        } else{
+            output.append("<div style=\"background-color:green;width: 200px;\">&nbsp;</div></br>");
+        }
         output.append("<b>Estimated cracking time in seconds: </b>" + calculateTime((long) strength.getCrackTimeSeconds().getOnlineNoThrottling10perSecond()));
 
         if(strength.getScore() >= 4)
