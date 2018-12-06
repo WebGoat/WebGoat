@@ -1,6 +1,10 @@
 package org.owasp.webgoat.plugin.mitigation;
 
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
@@ -30,32 +34,32 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
         //maybe better idea for assignment
         //<e:forHtml value="${param.title}" />
 
-        String line1 ="";
-        String line2 ="";
-
+        Document doc = Jsoup.parse(editor);
         String[] lines = editor.split(System.getProperty("line.separator"));
-        for (int i = 0; i < lines.length; i++) {
-            if(lines[i].contains("First Name")){
-                line1 = lines[i+1].replace("                <td>","").replace("</td>","");
-            } else if (lines[i].contains("Last Name")){
-                line2 = lines[i+1].replace("                <td>", "").replace("</td>", "");
-            }
+
+        String include = (lines[0]);
+        String first_name_element = doc.select("body > table > tbody > tr:nth-child(1) > td:nth-child(2)").first().text();
+        String last_name_element = doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").first().text();
+
+        Boolean includeCorrect = false;
+        Boolean firstNameCorrect = false;
+        Boolean lastNameCorrect = false;
+        if(include.contains("<%@") && include.contains("taglib") && include.contains("uri=\"https://www.owasp.org/index.php/OWASP_Java_Encoder_Project\"") && include.contains("%>")){
+            includeCorrect = true;
+        }
+        if(first_name_element.equals("${e:forHtml(param.first_name)}")){
+            firstNameCorrect = true;
+        }
+        if(last_name_element.equals("${e:forHtml(param.last_name)}")){
+            lastNameCorrect = true;
         }
 
-        //<c:out value="${first_name/last_name}" escapeXml="true"/>
-        //or
-        //${fn:escapeXml("param.first_name/last_name")}
-
-        if((line1.equals("<c:out value=\"${first_name}\" escapeXml=\"true\"/>") || line1.equals("<c:out escapeXml=\"true\" value=\"${first_name}\"/>"))
-                && (line2.equals("<c:out value=\"${last_name}\" escapeXml=\"true\"/>")) || line2.equals("<c:out escapeXml=\"true\" value=\"${last_name}\" />")){
-            System.out.println("true");
-            return trackProgress(success().feedback("xss-mitigation-3-success").build());
-        } else if(line1.equals("${fn:escapeXml(\"param.first_name\")}") && line2.equals("${fn:escapeXml(\"param.last_name\")}")){
+        if(includeCorrect && firstNameCorrect && lastNameCorrect){
             System.out.println("true");
             return trackProgress(success().feedback("xss-mitigation-3-success").build());
         } else {
             System.out.println("false");
-            System.out.println(line1 + "\n" + line2);
+            System.out.println(first_name_element + "\n" + last_name_element);
             return trackProgress(failed().feedback("xss-mitigation-3-failure").build());
         }
     }
