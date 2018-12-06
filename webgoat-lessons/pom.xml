@@ -97,6 +97,12 @@
             <artifactId>xstream</artifactId>
             <version>1.4.7</version>
         </dependency>
+        <dependency>
+            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.11.3</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
