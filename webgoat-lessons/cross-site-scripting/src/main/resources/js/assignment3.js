@@ -44,7 +44,5 @@ function ace_collect() {
         var to_add = el.innerHTML;
         code += to_add;
     });
-    console.log("+ "+editor.toString());
-    console.log("code:  "+code);
     return code;
 }
