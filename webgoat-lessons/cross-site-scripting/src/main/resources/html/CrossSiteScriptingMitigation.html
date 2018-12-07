@@ -16,55 +16,26 @@
 
 <div class="lesson-page-wrapper">
 	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content8b.adoc"></div>
-	<div class="attack-container" style="height: 300px; border: none !important">
-		<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-		<form class="attack-form" accept-charset="UNKNOWN" method="POST" name="form" action="/WebGoat/CrossSiteScripting/attack3" enctype="application/json;charset=UTF-8">
+	<div class="attack-container" style="height: 100%; border: none !important;min-height: 450px;">
+		<form id="codesubmit" style="height: 100%; min-height: 350px;" class="attack-form" accept-charset="UNKNOWN" method="POST" name="form" action="/WebGoat/CrossSiteScripting/attack3" enctype="application/json;charset=UTF-8">
 			<div>
-				<div id="editor" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;" name="editor"></div>
+				<div id="editor" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; height: 350px;" name="editor"></div>
 				<script th:src="@{/js/libs/ace/src-noconflict/ace.js}" type="text/javascript" charset="utf-8"></script>
 				<script th:src="@{/lesson_js/assignment3.js}" type="text/javascript" charset="utf-8"></script>
-				<script>
-                    var editor = ace.edit("editor");
-                    editor.setTheme("ace/theme/monokai");
-                    editor.session.setMode("ace/mode/html");
-                    editor.setValue("<html>\n" +
-                        "\n" +
-                        "<head>\n" +
-                        "    <title>Using GET and POST Method to Read Form Data</title>\n" +
-                        "</head>\n" +
-                        "\n" +
-                        "<body>\n" +
-                        "    <h1>Using POST Method to Read Form Data</h1>\n" +
-                        "    <table>\n" +
-                        "        <tbody>\n" +
-                        "            <tr>\n" +
-                        "                <td><b>First Name:</b></td>\n" +
-                        "                <td>YOUR CODE HERE</td>\n" +
-                        "            </tr>\n" +
-                        "            <tr>\n" +
-                        "                <td><b>Last Name:</b></td>\n" +
-                        "                <td>YOUR CODE HERE</td>\n" +
-                        "            </tr>\n" +
-                        "        </tbody>\n" +
-                        "    </table>\n" +
-                        "</body>\n" +
-                        "\n" +
-                        "</html>\n" +
-						"\n" +
-                    	"\n");
-				</script>
 			</div>
-			<div class="input-group" style="margin-top: 10px">
-				<button type="button" class="btn btn-primary" style="margin-top: 350%; margin-left: 60%;" onclick="ace_collect()">Submit</button>
+			<input type="hidden" name="editor"/>
+			<div class="input-group" style="position: absolute; top: 365px;">
+				<button class="btn btn-primary" type="submit">Submit</button>
 			</div>
 		</form>
-		<div class="attack-feedback"></div>
+		<br />
+		<div class="attack-feedback" style="margin-top: 50px;"></div>
 		<div class="attack-output"></div>
 	</div>
-</div>
 
 <div class="lesson-page-wrapper">
 	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content9.adoc"></div>
+</div>
 </div>
 
 </html>
