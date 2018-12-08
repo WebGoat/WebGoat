@@ -1,5 +1,4 @@
 $(document).ready( () => {
-
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/java");
@@ -14,13 +13,7 @@ $(document).ready( () => {
 });
 
 function ace_collect() {
-    let code = "";
-    $(".ace_line").each(function(i, el) {
-        var to_add = el.innerHTML;
-        if(/\/\/.*/.test(to_add)) {
-            to_add = to_add.replace(/\/\/.*/i, '');
-        }
-        code += to_add;
-    });
+    var editor = ace.edit("editor");
+    var code = editor.getValue();
     return code;
 }
