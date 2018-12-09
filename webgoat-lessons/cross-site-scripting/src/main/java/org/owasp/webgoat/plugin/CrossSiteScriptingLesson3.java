@@ -1,4 +1,4 @@
-package org.owasp.webgoat.plugin.mitigation;
+package org.owasp.webgoat.plugin;
 
 
 import org.jsoup.Jsoup;
