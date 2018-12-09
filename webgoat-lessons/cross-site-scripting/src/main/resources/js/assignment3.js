@@ -10,7 +10,8 @@ $(document).ready( () => {
         }, 20);
     });
 
-    editor.setValue("<html>\n" +
+    editor.setValue(
+        "<html>\n" +
         "<head>\n" +
         "    <title>Using GET and POST Method to Read Form Data</title>\n" +
         "</head>\n" +
@@ -31,18 +32,13 @@ $(document).ready( () => {
         "</body>\n" +
         "</html>\n" +
         "\n" +
-        "\n");
+        "\n"
+    );
 
 });
 
-
-
 function ace_collect() {
-    let code = "";
-
-    $(".ace_xml").each(function(i, el) {
-        var to_add = el.innerHTML;
-        code += to_add;
-    });
+    var editor = ace.edit("editor");
+    var code = editor.getValue();
     return code;
 }
