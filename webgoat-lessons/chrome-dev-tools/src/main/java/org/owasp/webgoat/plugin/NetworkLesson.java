@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 
+/**
+ * Assignment where the user has to look through an HTTP Request
+ * using the Developer Tools and find a specific number.
+ * @author TMelzer
+ * @since 30.11.18
+ */
 @AssignmentPath("/ChromeDevTools/network")
 @AssignmentHints({"networkHint1", "networkHint2"})
 public class NetworkLesson extends AssignmentEndpoint {

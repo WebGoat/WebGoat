@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 
+/**
+ * This is just a class used to make the the HTTP request.
+ * @author TMelzer
+ * @since 30.11.18
+ */
 @AssignmentPath("/ChromeDevTools/dummy")
 public class NetworkDummy extends AssignmentEndpoint {
 
