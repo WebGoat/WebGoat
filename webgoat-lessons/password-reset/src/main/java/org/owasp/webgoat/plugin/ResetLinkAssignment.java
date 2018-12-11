@@ -6,23 +6,12 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.plugin.PasswordResetEmail;
 import org.owasp.webgoat.plugin.resetlink.PasswordChangeForm;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.UUID;
-
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * @author nbaars
@@ -32,13 +21,13 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @AssignmentHints({"password-reset-hint1", "password-reset-hint2", "password-reset-hint3", "password-reset-hint4", "password-reset-hint5", "password-reset-hint6"})
 public class ResetLinkAssignment extends AssignmentEndpoint {
 
-    private static final String PASSWORD_TOM_9 = "somethingVeryRandomWhichNoOneWillEverTypeInAsPasswordForTom";
-    private static final String TOM_EMAIL = "tom@webgoat-cloud.org";
-    private static Map<String, String> userToTomResetLink = Maps.newHashMap();
-    private static Map<String, String> usersToTomPassword = Maps.newHashMap();
-    private static EvictingQueue resetLinks = EvictingQueue.create(1000);
+    static final String PASSWORD_TOM_9 = "somethingVeryRandomWhichNoOneWillEverTypeInAsPasswordForTom";
+    static final String TOM_EMAIL = "tom@webgoat-cloud.org";
+    static Map<String, String> userToTomResetLink = Maps.newHashMap();
+    static Map<String, String> usersToTomPassword = Maps.newHashMap();
+    static EvictingQueue resetLinks = EvictingQueue.create(1000);
 
-    private static final String TEMPLATE = "Hi, you requested a password reset link, please use this " +
+    static final String TEMPLATE = "Hi, you requested a password reset link, please use this " +
             "<a target='_blank' href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your password." +
             "\n \n\n" +
             "If you did not request this password change you can ignore this message." +
@@ -47,57 +36,6 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
             "\n\n" +
             "Kind regards, \nTeam WebGoat";
 
-    private final RestTemplate restTemplate;
-    private final String webWolfMailURL;
-
-    public ResetLinkAssignment(RestTemplate restTemplate, @Value("${webwolf.url.mail}") String webWolfMailURL) {
-        this.restTemplate = restTemplate;
-        this.webWolfMailURL = webWolfMailURL;
-    }
-
-    @RequestMapping(method = POST, value = "/create-password-reset-link")
-    @ResponseBody
-    public AttackResult sendPasswordResetLink(@RequestParam String email, HttpServletRequest request, @CookieValue("JSESSIONID") String cookie) {
-        String resetLink = UUID.randomUUID().toString();
-        resetLinks.add(resetLink);
-        String host = request.getHeader("host");
-        if (org.springframework.util.StringUtils.hasText(email)) {
-            if (email.equals(TOM_EMAIL) && host.contains("9090")) { //User indeed changed the host header.
-                userToTomResetLink.put(getWebSession().getUserName(), resetLink);
-                fakeClickingLinkEmail(host, resetLink);
-            } else {
-                sendMailToUser(email, host, resetLink);
-            }
-        }
-        return success().feedback("email.send").feedbackArgs(email).build();
-    }
-
-    private void sendMailToUser(@RequestParam String email, String host, String resetLink) {
-        int index = email.indexOf("@");
-        String username = email.substring(0, index == -1 ? email.length() : index);
-        PasswordResetEmail mail = PasswordResetEmail.builder()
-                .title("Your password reset link")
-                .contents(String.format(TEMPLATE, host, resetLink))
-                .sender("password-reset@webgoat-cloud.net")
-                .recipient(username)
-                .time(LocalDateTime.now()).build();
-        restTemplate.postForEntity(webWolfMailURL, mail, Object.class);
-    }
-
-    /**
-     * We need to add the current cookie of the user otherwise we cannot distinguish in WebWolf for
-     * which user we need to trace the incoming request. In normal situation this HOST will be in your
-     * full control so every incoming request would be valid.
-     */
-    private void fakeClickingLinkEmail(String host, String resetLink) {
-        try {
-            HttpHeaders httpHeaders = new HttpHeaders();
-            HttpEntity httpEntity = new HttpEntity(httpHeaders);
-            new RestTemplate().exchange(String.format("http://%s/PasswordReset/reset/reset-password/%s", host, resetLink), HttpMethod.GET, httpEntity, Void.class);
-        } catch (Exception e) {
-            //don't care
-        }
-    }
 
     @PostMapping("/login")
     @ResponseBody
