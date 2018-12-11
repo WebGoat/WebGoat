@@ -16,10 +16,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * @TODO: Get JSON from file not from hardcoded string
  * add a question: 1. Append new question to JSON string
  * 2. add right solution to solutions array
  * 3. add Request param with name of question to method head
+ * For a more detailed description how to implement the quiz go to the quiz.js file in webgoat-container -> js
  */
 @AssignmentPath("/SqlInjection/quiz")
 public class SqlInjectionQuiz extends AssignmentEndpoint {

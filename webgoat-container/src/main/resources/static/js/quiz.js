@@ -1,3 +1,12 @@
+/**
+This is the basic javascript that can be used for a quiz assignment. It is made for single choice quizzes (tho a multiple choice extension should be easy to make).
+Basic steps for implementing a quiz:
+1. HTML: include this js script file for the assignment, build a basic form, where you include a #q_container div element, create a submit button with "Quiz_solutions" as name attribute
+2. JSON: Create a JSON-file with the name questions_lesson_name.json, include a span element #quiz_id with lesson_name as the data-quiz_id attribute. Build a JSON file like the one in sql-injection -> resources -> js
+3. Java: Create a normal assignment that has a String[] where the correct solutions are contained in the form of "Solution [i]", replace [i] with the position of the solution beginning at 1.
+        The request parameters will contain the answer in full text with "Solution [i]" in front of the text. Use them to check the answers validity.
+**/
+
 $(function () {
     var json = "";
     var client = new XMLHttpRequest();
