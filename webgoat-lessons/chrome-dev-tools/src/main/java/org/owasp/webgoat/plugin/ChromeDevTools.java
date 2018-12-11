@@ -6,6 +6,10 @@ import org.owasp.webgoat.lessons.NewLesson;
 
 import java.util.List;
 
+/**
+ * @author TMelzer
+ * @since 30.11.18
+ */
 public class ChromeDevTools extends NewLesson {
 
     @Override
