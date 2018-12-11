@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Assignment for picking a good security question.
+ * @author Tobias Melzer
+ * @since 11.12.18
+ */
 @AssignmentPath("/PasswordReset/SecurityQuestions")
-@AssignmentHints("security-questions-hint1")
 public class SecurityQuestionAssignemnt extends AssignmentEndpoint {
 
   private static Map<String, String> questions;
@@ -40,7 +44,6 @@ public class SecurityQuestionAssignemnt extends AssignmentEndpoint {
   public
   @ResponseBody
   AttackResult completed(@RequestParam String question) {
-    System.out.println("moin");
     String answer = questions.get(question);
     if(answer.startsWith("Good"))
       return success().output(answer).build();
