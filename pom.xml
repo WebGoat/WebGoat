@@ -6,7 +6,7 @@
     <groupId>org.owasp.webgoat</groupId>
     <artifactId>webgoat-parent</artifactId>
     <packaging>pom</packaging>
-    <version>v8.0.0.SNAPSHOT</version>
+    <version>v8.0.0-SNAPSHOT</version>
 
     <name>WebGoat Parent Pom</name>
     <description>Parent Pom for the WebGoat Project. A deliberately insecure Web Application</description>
@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.12.RELEASE</version>
+        <version>1.5.18.RELEASE</version>
     </parent>
 
     <licenses>
@@ -107,9 +107,6 @@
     </ciManagement>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
         <!-- Use UTF-8 Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -129,7 +126,7 @@
         <commons-digester.version>2.1</commons-digester.version>
         <commons-discovery.version>0.5</commons-discovery.version>
         <commons-fileupload.version>1.3.1</commons-fileupload.version>
-        <commons-io.version>2.4</commons-io.version>
+        <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <coveralls-maven-plugin.version>4.0.0</coveralls-maven-plugin.version>
         <gatling.version>2.2.5</gatling.version>
@@ -141,30 +138,25 @@
         <jackson-core.version>2.6.3</jackson-core.version>
         <jackson-databind.version>2.6.3</jackson-databind.version>
         <javaee-api.version>6.0</javaee-api.version>
-        <javax.transaction-api.version>1.2</javax.transaction-api.version>
+        <javax.transaction-api.version>1.3</javax.transaction-api.version>
         <jcl-over-slf4j.version>1.7.12</jcl-over-slf4j.version>
         <jtds.version>1.3.1</jtds.version>
         <junit.version>4.12</junit.version>
+        <lombok.version>1.18.4</lombok.version>
         <mail-api.version>1.5.4</mail-api.version>
-        <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>2.19</maven-failsafe-plugin.version>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
         <maven-release-plugin.version>2.5.2</maven-release-plugin.version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.6</nexus-staging-maven-plugin.version>
         <scala.version>2.11.7</scala.version>
         <sauce_junit.version>2.1.20</sauce_junit.version>
         <selenium-java.version>2.48.2</selenium-java.version>
         <spring.security.version>3.2.4.RELEASE</spring.security.version>
-        <standard.version>1.1.2</standard.version>
-        <tiles.version>3.0.5</tiles.version>
-        <tomcat-catalina.version>7.0.65</tomcat-catalina.version>
-        <tomcat7-maven-plugin.version>2.3-SNAPSHOT</tomcat7-maven-plugin.version>
-        <versioneye-maven-plugin.version>3.5.1</versioneye-maven-plugin.version>
-        <wsdl4j.version>1.6.3</wsdl4j.version>
     </properties>
 
     <modules>
@@ -200,105 +192,12 @@
         </pluginRepository>
     </pluginRepositories>
 
-    <profiles>
-        <profile>
-            <id>release</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.owasp.webgoat.lesson</groupId>
-                    <artifactId>dist</artifactId>
-                    <version>1.0</version>
-                    <type>zip</type>
-                    <scope>provided</scope>
-                    <classifier>plugins</classifier>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>unpack-lesson</id>
-                                <goals>
-                                    <goal>unpack-dependencies</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <outputDirectory>
-                                        ${project.basedir}/webgoat-container/src/main/webapp/plugin_lessons
-                                    </outputDirectory>
-                                    <includeArtifactIds>dist</includeArtifactIds>
-                                    <includes>*.jar</includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${nexus-staging-maven-plugin.version}</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven-source-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven-javadoc-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven-gpg-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                                <configuration>
-                                    <keyname>WebGoat</keyname>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+            <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -306,10 +205,25 @@
             <artifactId>commons-exec</artifactId>
             <version>1.3</version>
         </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -340,15 +254,6 @@
                     <maxmem>256m</maxmem>
                     <!-- aggregated reports for multi-module projects -->
                     <aggregate>true</aggregate>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.versioneye</groupId>
-                <artifactId>versioneye-maven-plugin</artifactId>
-                <version>${versioneye-maven-plugin.version}</version>
-                <configuration>
-                    <apiKey>a1e4a9da4ed34ee44cab</apiKey>
-                    <projectId>562da95be346d7000e0369ac</projectId>
                 </configuration>
             </plugin>
         </plugins>
