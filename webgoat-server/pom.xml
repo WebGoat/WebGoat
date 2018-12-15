@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.owasp.webgoat</groupId>
         <artifactId>webgoat-parent</artifactId>
-        <version>v8.0.0.SNAPSHOT</version>
+        <version>v8.0.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -203,11 +203,13 @@
         <!--<version>${project.version}</version>-->
         <!--</dependency>-->
         <!-- /lessons -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
+
+        <!-- devtools no longer working with Java 11 and Spring Boot version 1.* enable again once we move to 2.0-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--<optional>true</optional>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
