@@ -46,7 +46,7 @@ import java.sql.*;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjection/attack5b")
+@AssignmentPath("/SqlInjection/assignment5b")
 @AssignmentHints(value = {"SqlStringInjectionHint5b1", "SqlStringInjectionHint5b2", "SqlStringInjectionHint5b3", "SqlStringInjectionHint5b4"})
 public class SqlInjectionLesson5b extends AssignmentEndpoint {
 
