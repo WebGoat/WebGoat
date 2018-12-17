@@ -1,5 +1,5 @@
 == Compromising confidentiality with String SQL Injection
-If a system is vulnerable to SQL-Injections it is also easy to compromise aspects of the CIA-Triad.
+If a system is vulnerable to SQL-Injections it is also easy to compromise aspects of the CIA-Triad _(if you are unfamiliar with the CIA-Triad check out the CIA-Triad lesson in the general category)_.
 In the following three lessons, you will learn how to use simple SQL-Injection attacks to compromise each of the three. Per example by using _SQL String Injections_ or _query chaining_.
 
 This lesson, we will take a look at *confidentiality*.
