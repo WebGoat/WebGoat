@@ -1,6 +1,6 @@
-== Try It! Working with the Newtork Tab
+== Try It! Working with the Network Tab
 
 In this Assignment you need to find a specific HTTP request and read a randomized number from it.
-To start click the first button, to generate an HTTP Request. Try to find this specific HTTP request.
+To start click the first button, this wil generate an HTTP Request. Try to find the specific HTTP request.
 The request should contain a field: `magic_num:`
 Copy the number which is displayed afterwards, into the input field below and click on the check button.
