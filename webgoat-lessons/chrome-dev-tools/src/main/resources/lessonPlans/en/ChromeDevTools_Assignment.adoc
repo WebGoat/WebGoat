@@ -1,6 +1,6 @@
 == Try It! Using the Console
 
-Let's try it. Use the console in the dev tools and call the javascript function *webgoat.customjs.phoneHome*. +
+Let's try it. Use the console in the dev tools and call the javascript function *webgoat.customjs.phoneHome()*. +
 You should get a response in the console. Your result should look something like:
 `phone home said
 {"lessonCompleted:true, ... ,"output":"phone home response is..."`
