@@ -42,7 +42,7 @@ public class SqlInjectionLesson10Test extends LessonTest {
     public void tableExistsIsFailure() throws Exception {
         try {
             mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack10")
-                    .param("action", ""))
+                    .param("action_string", ""))
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(false)))
@@ -51,7 +51,7 @@ public class SqlInjectionLesson10Test extends LessonTest {
             if (!e.getMessage().contains(completedError)) throw e;
 
             mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack10")
-                    .param("action", ""))
+                    .param("action_string", ""))
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(true)))
@@ -62,7 +62,7 @@ public class SqlInjectionLesson10Test extends LessonTest {
     @Test
     public void tableMissingIsSuccess() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack10")
-                .param("action", "%'; DROP TABLE access_log;--"))
+                .param("action_string", "%'; DROP TABLE access_log;--"))
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(true)))
