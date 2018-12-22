@@ -45,7 +45,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(false)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.9.one")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.9.one")))))
                     .andExpect(jsonPath("$.output", containsString("<table><tr><th>")));
         } catch (AssertionError e) {
             if (!e.getMessage().contains(completedError)) throw e;
@@ -56,7 +56,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(true)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.9.success")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.9.success")))))
                     .andExpect(jsonPath("$.output", containsString("<table><tr><th>")));
         }
     }
@@ -70,7 +70,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(false)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.9.one")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.9.one")))))
                     .andExpect(jsonPath("$.output", containsString("<tr><td>96134<\\/td><td>Bob<\\/td><td>Franco<\\/td><td>Marketing<\\/td><td>83700<\\/td><td>LO9S2V<\\/td><\\/tr>")));
         } catch (AssertionError e) {
             if (!e.getMessage().contains(completedError)) throw e;
@@ -81,7 +81,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(true)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.9.success")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.9.success")))))
                     .andExpect(jsonPath("$.output", containsString("<tr><td>96134<\\/td><td>Bob<\\/td><td>Franco<\\/td><td>Marketing<\\/td><td>83700<\\/td><td>LO9S2V<\\/td><\\/tr>")));
         }
     }
@@ -95,7 +95,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(false)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.8.no.results")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.8.no.results")))))
                     .andExpect(jsonPath("$.output").doesNotExist());
         } catch (AssertionError e) {
             if (!e.getMessage().contains(completedError)) throw e;
@@ -106,7 +106,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(true)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.8.no.success")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.8.no.success")))))
                     .andExpect(jsonPath("$.output").doesNotExist());
         }
     }
@@ -120,7 +120,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(false)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.8.no.results")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.8.no.results")))))
                     .andExpect(jsonPath("$.output").doesNotExist());
         } catch (AssertionError e) {
             if (!e.getMessage().contains(completedError)) throw e;
@@ -131,7 +131,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(true)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.9.success")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.9.success")))))
                     .andExpect(jsonPath("$.output").doesNotExist());
         }
     }
@@ -145,7 +145,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(false)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.error")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.error")))))
                     .andExpect(jsonPath("$.output", containsString("feedback-negative")));
         } catch (AssertionError e) {
             if (!e.getMessage().contains(completedError)) throw e;
@@ -156,7 +156,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(true)))
-                    .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.9.success")))))
+                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.9.success")))))
                     .andExpect(jsonPath("$.output", containsString("feedback-negative")));
         }
     }
@@ -169,11 +169,7 @@ public class SqlInjectionLesson9Test extends LessonTest {
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(true)))
-                .andExpect(jsonPath("$.feedback", is(this.modifySpan(messages.getMessage("sql-injection.9.success")))))
+                .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.9.success")))))
                 .andExpect(jsonPath("$.output", containsString("300000")));
-    }
-
-    private String modifySpan(String message) {
-        return message.replace("</span>", "<\\/span>");
     }
 }
