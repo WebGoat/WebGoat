@@ -16,9 +16,9 @@ pipeline {
 
       }
     }
-    stage('Promote to QA?') {
+    stage('Scan and Promote') {
       parallel {
-        stage('Promote to QA?') {
+        stage('Approve for QA') {
           steps {
             timeout(time: 5, unit: 'DAYS') {
               input 'Move to QA?'
