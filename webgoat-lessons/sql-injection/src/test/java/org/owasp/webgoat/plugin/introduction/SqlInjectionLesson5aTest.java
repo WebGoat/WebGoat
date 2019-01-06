@@ -63,7 +63,7 @@ public class SqlInjectionLesson5aTest extends LessonTest {
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(true)))
-                .andExpect(jsonPath("$.feedback", containsString("You have succeed")))
+                .andExpect(jsonPath("$.feedback", containsString("You have succeeded")))
                 .andExpect(jsonPath("$.output").doesNotExist());
     }
 
