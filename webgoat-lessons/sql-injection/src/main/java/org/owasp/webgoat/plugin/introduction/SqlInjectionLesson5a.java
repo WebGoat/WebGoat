@@ -55,10 +55,11 @@ public class SqlInjectionLesson5a extends AssignmentEndpoint {
   }
 
   protected AttackResult injectableQuery(String accountName) {
+    String query = "";
     try {
       Connection connection = DatabaseUtilities.getConnection(getWebSession());
       System.out.println(accountName);
-      String query = "SELECT * FROM user_data WHERE first_name = 'John' and last_name = '" + accountName + "'";
+      query = "SELECT * FROM user_data WHERE first_name = 'John' and last_name = '" + accountName + "'";
       try {
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
@@ -73,20 +74,20 @@ public class SqlInjectionLesson5a extends AssignmentEndpoint {
 
           // If they get back more than one user they succeeded
           if (results.getRow() >= 6) {
-            return trackProgress(success().feedback("sql-injection.5a.success").feedbackArgs(output.toString()).build());
+            return trackProgress(success().feedback("sql-injection.5a.success").output("Your query was: " + query).feedbackArgs(output.toString()).build());
           } else {
-            return trackProgress(failed().output(output.toString()).build());
+            return trackProgress(failed().output(output.toString() + "<br> Your query was: " + query).build());
           }
         } else {
-          return trackProgress(failed().feedback("sql-injection.5a.no.results").build());
+          return trackProgress(failed().feedback("sql-injection.5a.no.results").output("Your query was: " + query).build());
 
         }
       } catch (SQLException sqle) {
 
-        return trackProgress(failed().output(sqle.getMessage()).build());
+        return trackProgress(failed().output(sqle.getMessage() + "<br> Your query was: " + query).build());
       }
     } catch (Exception e) {
-      return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+      return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query).build());
     }
   }
 

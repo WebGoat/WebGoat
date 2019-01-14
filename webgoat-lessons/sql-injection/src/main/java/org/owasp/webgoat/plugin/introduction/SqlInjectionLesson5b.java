@@ -57,22 +57,24 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
     return injectableQuery(login_count, userid);
   }
 
+
   protected AttackResult injectableQuery(String login_count, String accountName) {
+    String queryString = "SELECT * From user_data WHERE Login_Count = ? and userid= " + accountName;
     try {
       Connection connection = DatabaseUtilities.getConnection(getWebSession());
-      PreparedStatement query = connection.prepareStatement("SELECT * From user_data WHERE Login_Count = ? and userid= " + accountName, ResultSet.TYPE_SCROLL_INSENSITIVE,
+      PreparedStatement query = connection.prepareStatement(queryString, ResultSet.TYPE_SCROLL_INSENSITIVE,
               ResultSet.CONCUR_READ_ONLY);
 
       int count = 0;
       try {
         count = Integer.parseInt(login_count);
       } catch(Exception e) {
-        return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+        return trackProgress(failed().output("Could not parse: " + login_count + " to a number" +
+                "<br> Your query was: " + queryString.replace("?", login_count)).build());
       }
 
       query.setInt(1, count);
       //String query = "SELECT * FROM user_data WHERE Login_Count = " + login_count + " and userid = " + accountName, ;
-      System.err.println("Querry: " + query);
       try {
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
@@ -87,23 +89,22 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
 
           // If they get back more than one user they succeeded
           if (results.getRow() >= 6) {
-            return trackProgress(success().feedback("sql-injection.5b.success").feedbackArgs(output.toString()).build());
+            return trackProgress(success().feedback("sql-injection.5b.success").output("Your query was: " + queryString.replace("?", login_count)).feedbackArgs(output.toString()).build());
           } else {
-            return trackProgress(failed().output(output.toString()).build());
+            return trackProgress(failed().output(output.toString() + "<br> Your query was: " + queryString.replace("?", login_count)).build());
           }
 
         } else {
-          return trackProgress(failed().feedback("sql-injection.5b.no.results").build());
+          return trackProgress(failed().feedback("sql-injection.5b.no.results").output("Your query was: " + queryString.replace("?", login_count)).build());
 
 //                    output.append(getLabelManager().get("NoResultsMatched"));
         }
       } catch (SQLException sqle) {
 
-        return trackProgress(failed().output(sqle.getMessage()).build());
+        return trackProgress(failed().output(sqle.getMessage() + "<br> Your query was: " + queryString.replace("?", login_count)).build());
       }
     } catch (Exception e) {
-      e.printStackTrace();
-      return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+      return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + queryString.replace("?", login_count)).build());
     }
   }
 }

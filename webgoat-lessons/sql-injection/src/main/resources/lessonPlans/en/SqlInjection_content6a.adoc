@@ -1,8 +1,21 @@
 == Try It! Pulling data from other tables
 
-Lets try to exploit the fact that you can use a union to get the contents of another table.
+The input field below is used to get data from a user by their last name. +
+The table is called 'user_data':
 
-One of the tables in the WebGoat database is:
+-------------------------------------------------------
+CREATE TABLE user_data (userid int not null,
+                        first_name varchar(20),
+                        last_name varchar(20),
+                        cc_number varchar(30),
+                        cc_type varchar(10),
+                        cookie varchar(20),
+                        login_count int);
+-------------------------------------------------------
+
+Through experimentation you found that this field is susceptible to SQL Injection.
+Now you want to use that knowledge to get the contents of another table. +
+The table you want to pull data from is:
 
 -------------------------------------------------------
 CREATE TABLE user_system_data (userid int not null primary key,
