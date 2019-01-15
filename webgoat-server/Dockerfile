@@ -1,6 +1,6 @@
-FROM openjdk:8-jre-slim
+FROM openjdk:11.0.1-jre-slim-stretch
 
-ARG webgoat_version=v8.0.0.SNAPSHOT
+ARG webgoat_version=v8.0.0-SNAPSHOT
 
 RUN \
   apt-get update && apt-get install && \
