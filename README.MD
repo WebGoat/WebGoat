@@ -69,7 +69,7 @@ Using the `docker-compose` file will simplify getting WebGoat and WebWolf up and
 
 ### Prerequisites:
 
-* Java 8
+* Java 11
 * Maven > 3.2.1
 * Your favorite IDE
 * Git, or Git support in your IDE
