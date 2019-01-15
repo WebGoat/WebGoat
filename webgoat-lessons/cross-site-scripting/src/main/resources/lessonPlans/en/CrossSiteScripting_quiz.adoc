@@ -1,0 +1,1 @@
+Now it's time for a quiz! It's recommended to check the OWASP Cross Site Scripting explanations https://www.owasp.org/index.php/Cross-site_Scripting_(XSS). Answer all questions correctly to complete the assignment.
