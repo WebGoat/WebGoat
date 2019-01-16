@@ -18,6 +18,6 @@ DTD.
 |`/home/webgoat/.webgoat-webGoatVersion:version[]/XXE/secret.txt`
 |===
 
-Try to upload this file using WebWolf landing page for example: `webWolfLink:landing?text=contents_file[noLink]`
+Try to upload this file using WebWolf landing page for example: `webWolfRootLink:landing?text=contents_file[noLink]`
 (NOTE: this endpoint is under your full control)
 Once you obtained the contents of the file post it as a new comment on the page and you will solve the lesson.
