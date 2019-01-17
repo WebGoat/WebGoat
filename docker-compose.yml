@@ -8,11 +8,11 @@ services:
       - WEBWOLF_PORT=9090
     ports:
       - "8080:8080"
+      - "9001:9001"
     volumes:
       - .:/home/webgoat/.webgoat
-    command: "java -Djava.security.egd=file:/dev/./urandom -jar /home/webgoat/webgoat.jar --server.port=8080 --server.address=0.0.0.0"
   webwolf:
     image: webgoat/webwolf
     ports:
       - "9090:9090"
-    command: bash -c "sleep 8 && java -Djava.security.egd=file:/dev/./urandom -jar /home/webwolf/webwolf.jar --server.port=9090 --server.address=0.0.0.0 --spring.datasource.url=jdbc:hsqldb:hsql://webgoat:9001/webgoat"
+    command: --spring.datasource.url=jdbc:hsqldb:hsql://webgoat:9001/webgoat --server.address=0.0.0.0
