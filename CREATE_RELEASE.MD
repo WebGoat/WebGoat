@@ -15,6 +15,8 @@ git flow release start <version>
 mvn versions:set <<version>  
 git commit -am "New release, updating pom.xml" 
 git flow release publish
+git push origin develop
+git push origin master
 git push --tags
 ```
 
