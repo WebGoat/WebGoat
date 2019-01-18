@@ -7,21 +7,23 @@ SUCCESS=$?
 nc -zv 127.0.0.1 9090 2>/dev/null
 SUCCESS=${SUCCESS}$?
 
-if [[ "${SUCCESS}" -eq 00 ]] ; then
+if [[ "${SUCCESS}" -eq 0 ]] ; then
   echo "WebGoat and or WebWolf are still running, please stop them first otherwise unit tests might fail!"
   exit 127
 fi
 
 
-#mvn clean install
-#if [[ "$?" -ne 0 ]] ; then
-#  exit y$?
-#fi
+sh mvnw clean install
+if [[ "$?" -ne 0 ]] ; then
+  exit y$?
+fi
 
 cd -
 sh build_docker.sh
+if [[ "$?" -ne 0 ]] ; then
+  exit y$?
+fi
 
-echo "Do you want to run docker-compose?"
 while true; do
     read -p "Do you want to run docker-compose?" yn
     case ${yn} in

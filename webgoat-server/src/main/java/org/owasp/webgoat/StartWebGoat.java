@@ -24,17 +24,22 @@
  */
 package org.owasp.webgoat;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
+ * Main entry point, this project is here to get all the lesson jars included to the final jar file
+ *
  * @author nbaars
  * @date 2/21/17
  */
 @SpringBootApplication
+@Slf4j
 public class StartWebGoat {
 
     public static void main(String[] args) {
+        log.info("Starting WebGoat with args: {}", args);
         SpringApplication.run(WebGoat.class, args);
     }
 }

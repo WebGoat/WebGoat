@@ -44,5 +44,10 @@ webgoat-server/mongo-data/*
 webgoat-lessons/vulnerable-components/dependency-reduced-pom.xml
 **/.sts4-cache/*
 **/.vscode/*
-
+**/.factorypath
 /.sonatype
+**/bin/*
+webgoat.lck
+webgoat.log
+webgoat.properties
+webgoat.script

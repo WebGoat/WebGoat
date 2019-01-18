@@ -6,24 +6,13 @@ services:
     environment:
       - WEBWOLF_HOST=webwolf
       - WEBWOLF_PORT=9090
-      - spring.datasource.url=jdbc:hsqldb:hsql://webgoat_db:9001/webgoat
     ports:
       - "8080:8080"
-    depends_on:
-      - db
+      - "9001:9001"
+    volumes:
+      - .:/home/webgoat/.webgoat
   webwolf:
     image: webgoat/webwolf
-    environment:
-          - spring.datasource.url=jdbc:hsqldb:hsql://webgoat_db:9001/webgoat
     ports:
       - "9090:9090"
-    depends_on:
-      - db
-  db:
-    image: blacklabelops/hsqldb
-    container_name: webgoat_db
-    environment:
-      - HSQLDB_TRACE=false
-      - HSQLDB_SILENT=true
-      - HSQLDB_DATABASE_NAME=webgoat
-      - HSQLDB_DATABASE_ALIAS=webgoat
+    command: --spring.datasource.url=jdbc:hsqldb:hsql://webgoat:9001/webgoat --server.address=0.0.0.0

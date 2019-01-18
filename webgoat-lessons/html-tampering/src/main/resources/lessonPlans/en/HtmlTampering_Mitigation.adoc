@@ -1,6 +1,6 @@
 === Mitigation
 
-In this simple example you noticed that the price is calculated server side and send to the server. The server
+In this simple example you noticed that the price is calculated client-side and sent to the server. The server
 accepted the input as a given and did not calculate the price again. One of the mitigations in this case is to look up
 the price of the television in your database and calculate the total price again.
 

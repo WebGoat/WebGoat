@@ -2,6 +2,7 @@
 
 An XML Entity allows tags to be defined that will be replaced by content when the XML Document is parsed.
 In general there are three types of entities:
+
 * internal entities
 * external entities
 * parameter entities.
@@ -34,6 +35,7 @@ may be exploited by dereferencing a malicious URI, possibly allowing arbitrary c
 local resources that may not stop returning data, possibly impacting application availability if too many threads or processes are not released.
 
 In general we can distinguish the following kind of XXE attacks:
+
 * Classic: in this case an external entity is included in a local DTD
 * Blind: no output and or errors are shown in the response
 * Error: try to get the content of a resource in the error message

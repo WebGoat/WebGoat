@@ -2,4 +2,4 @@
 
 cd ..
 docker-compose rm -f
-docker-compose up
+docker-compose -f docker-compose-local.yml up

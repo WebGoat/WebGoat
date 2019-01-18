@@ -34,55 +34,42 @@ first thing that all hackers claim.*
 Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```Shell
-java -jar webgoat-server-<<version>>.jar [--server.port=8080] [--server.address=localhost]
+java -jar webgoat-server-8.0.0.VERSION.jar [--server.port=8080] [--server.address=localhost]
 ```
 
 By default WebGoat starts on port 8080 with `--server.port` you can specify a different port. With `server.address` you
 can bind it to a different address (default localhost)
 
+If you use Java 9 or higher you need to run WebGoat as follows:
+
+```Shell
+java --add-modules java.xml.bind -jar webgoat-server-8.0.0.VERSION.jar
+```
+
 ## 2. Run using Docker
 
-From time to time we publish a new development preview of WebGoat 8 on Docker HUB, you can download this version
-[https://hub.docker.com/r/webgoat/webgoat-8.0/](https://hub.docker.com/r/webgoat/webgoat-8.0/).
-First install Docker, then open a command shell/window and type:
+Every release is also published on [DockerHub]((https://hub.docker.com/r/webgoat/webgoat-8.0/)).
 
-```Shell
-docker pull webgoat/webgoat-8.0
-docker run -p 8080:8080 -it webgoat/webgoat-8.0 /home/webgoat/start.sh 
+### Using docker-compose
+
+The easiest way to start WebGoat as a Docker container is to use the `docker-compose.yml` [file](https://raw.githubusercontent.com/WebGoat/WebGoat/develop/docker-compose.yml) 
+from our Github repository. This will start both containers and it also takes care of setting up the
+connection between WebGoat and WebWolf.
+
+```shell
+curl https://raw.githubusercontent.com/WebGoat/WebGoat/develop/docker-compose.yml | docker-compose -f - up
 ```
 
-If you want to keep the database between Docker sessions you need to map the WebGoat data directory to a 
-folder on the host system as follows:
+**Important**: the current directory on your host will be mapped into the container for keeping state.
 
-```Shell
-docker run -p 8080:8080 -it -v /tmp/webgoat-data:/home/webgoat/.webgoat-${VERSION} webgoat/webgoat-8.0 /home/webgoat/start.sh
-```
-
-where `${VERSION}` is for example `v8.0.0.M14`. The data will now be stored in `/tmp/webgoat-data` on your host system.
-
-Wait for the Docker container to start, and run `docker ps` to verify it's running.
-
-- If you are using `docker-machine`, verify the machine IP using `docker-machine env`
-- If you are using `boot2docker` on OSX, verify the IP by running `docker network inspect bridge`
-- Otherwise, the host will be bound to localhost
-
-Once you have the IP and port, you'll want to navigate to the `/WebGoat` path in the URL. For example:
-
-```
-http://192.168.99.100:8080/WebGoat
-```
-
-Here you'll be able to register a new user and get started.
-
-_Please note: this version may not be completely in sync with the develop branch._
-
+Using the `docker-compose` file will simplify getting WebGoat and WebWolf up and running.
 
 
 ## 3. Run from the sources
 
 ### Prerequisites:
 
-* Java 8
+* Java 11
 * Maven > 3.2.1
 * Your favorite IDE
 * Git, or Git support in your IDE
@@ -117,7 +104,7 @@ server.address=x.x.x.x
 
 # Vagrant
 
-We supply a complete development environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
+We supply a complete environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
 
 ```shell
    $ cd WebGoat/webgoat-images/vagrant-training
@@ -125,7 +112,7 @@ We supply a complete development environment using Vagrant, to run WebGoat with 
 ```
 
 Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
-The source code will be available in the home directory.
+WebGoat and WebWolf will automatically start when you login to this image.
 
 
 # Building a new Docker image

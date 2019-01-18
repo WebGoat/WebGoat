@@ -12,18 +12,14 @@ At the moment we use Gitflow, for a release you create a new release branch and 
 ```
 git checkout develop
 git flow release start <version>
-mvn versions:set <<version> 
-git commit -am "New release, updaing pom.xml" 
+mvn versions:set <<version>  
+git commit -am "New release, updating pom.xml" 
 git flow release publish
+git push --tags
 ```
 
-Now we can make a new release, be sure you committed all your changes.
+Now Travis takes over and will create the release in Github and on Docker Hub.
 
-```
-git tag v8.0.0.M15
-git push origin v8.0.0.M15 
-```
-
-Now Travis takes over and will create the release in Github and on Docker Hub. 
+NOTE: the `mvn versions:set` command above is just there to make sure the master branch contains the latest version
 
 
