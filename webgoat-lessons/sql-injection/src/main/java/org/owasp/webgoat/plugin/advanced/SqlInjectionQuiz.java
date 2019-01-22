@@ -29,26 +29,26 @@ public class SqlInjectionQuiz extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public AttackResult completed(@RequestParam String[] question_0_solution, @RequestParam String[] question_1_solution, @RequestParam String[] question_2_solution, @RequestParam String[] question_3_solution, @RequestParam String[] question_4_solution) throws IOException {
-        boolean correct = false;
-        String[][] solutionsInput = {question_0_solution, question_1_solution, question_2_solution, question_3_solution, question_4_solution};
-        int counter = 0;
-        for(String[] sa : solutionsInput) {
-            for(String s : sa) {
-                if(sa.length == 1 && s.contains(this.solutions[counter])) {
-                    correct = true;
-                    break;
-                } else {
-                    correct = false;
-                    continue;
-                }
+        int correctAnswers = 0;
+        String feedbackMessage = "";
+
+        String[] givenAnswers = {question_0_solution[0], question_1_solution[0], question_2_solution[0], question_3_solution[0], question_4_solution[0]};
+
+        for(int i = 0; i < solutions.length; i++) {
+            if (givenAnswers[i].contains(solutions[i])) {
+                // answer correct
+                feedbackMessage += "Question " + (i + 1) + " (<span class='feedback-positive'>correct</span>):<br><span class='feedback-positive' style='display: block'>" + givenAnswers[i] + "</span>";
+                correctAnswers++;
+            } else {
+                // answer incorrect
+                feedbackMessage += "Question " + (i + 1) + " (<span class='feedback-negative'>incorrect</span>):<br><span class='feedback-negative' style='display: block'>" + givenAnswers[i] + "</span>";
             }
-            if(!correct) break;
-            counter++;
         }
-        if(correct) {
+
+        if(correctAnswers == solutions.length) {
             return trackProgress(success().build());
         } else {
-            return trackProgress(failed().build());
+            return trackProgress(failed().output(feedbackMessage).build());
         }
     }
 
