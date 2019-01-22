@@ -1,0 +1,19 @@
+#q_container .quiz_question {
+    border: solid 1px;
+    padding: 4px;
+    margin: 5px 2px 5px 2px;
+}
+
+#q_container .quiz_question label {
+    font-weight: normal;
+}
+
+#q_container .quiz_question.correct {
+    border: solid 3px green;
+    background: #b0dcb0;
+}
+
+#q_container .quiz_question.incorrect {
+    border: solid 3px red;
+    background: #e8b6b6;
+}

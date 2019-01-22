@@ -4,7 +4,8 @@ Basic steps for implementing a quiz:
 1. HTML: include this js script file for the assignment, build a basic form, where you include a #q_container div element, create a submit button with "Quiz_solutions" as name attribute
 2. JSON: Create a JSON-file with the name questions_lesson_name.json, include a span element #quiz_id with lesson_name as the data-quiz_id attribute. Build a JSON file like the one in sql-injection -> resources -> js
 3. Java: Create a normal assignment that has a String[] where the correct solutions are contained in the form of "Solution [i]", replace [i] with the position of the solution beginning at 1.
-        The request parameters will contain the answer in full text with "Solution [i]" in front of the text. Use them to check the answers validity.
+         The request parameters will contain the answer in full text with "Solution [i]" in front of the text. Use them to check the answers validity.
+4. CSS:  include the css/quiz.css file for styling.
 **/
 
 $(function () {
@@ -21,11 +22,11 @@ $(function () {
             let html = "";
             jQuery.each(questionsObj, function(i, obj) {
                 jQuery.each(obj, function(j, quest) {
-                  html += "<div id='question_" + j + "' class='quiz_question' name='question' style='border: solid 1px; padding: 4px; margin: 5px 2px 5px 2px'><p>" + (j+1) + ".&nbsp;" + quest.text + "</p>";
+                  html += "<div id='question_" + j + "' class='quiz_question' name='question'><p>" + (j+1) + ".&nbsp;" + quest.text + "</p>";
                   html += "<fieldset>";
                   jQuery.each(quest.solutions, function(k, solution) {
                     solution = "Solution " + k + ": " + solution;
-                    html += '<input type="checkbox" name="question_' + j +'_solution" value="' + solution + '">' + solution + '<br>';
+                    html += '<input id="question_' + j + '_' + k + '_input" type="radio" name="question_' + j +'_solution" value="' + solution + '"><label for="question_' + j + '_' + k + '_input">' + solution + '</label><br>';
                   });
                   html += "</fieldset></div>";
                 });
