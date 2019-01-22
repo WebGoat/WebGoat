@@ -11,3 +11,6 @@ You can do this by using the *;* metacharacter which marks the end of a query an
 You just found out that Tobi and Bob both seem to earn more money than you!
 Of course you cannot leave it at that. +
 Better go and _change your own salary so you're earning the most!_
+
+
+Remember: Your name is John *Smith* and your current TAN is *3SL99A*.
