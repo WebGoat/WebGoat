@@ -10,4 +10,4 @@ Another way to compromise availability would be to per example revoke access-rig
 Now you are the top earner in your company.
 But do you see that?
 There seems to be a *access_log* table, where all your actions have been logged to! +
-Better go and _delete it_ quickly before anyone notices.
+Better go and _delete it_ completely before anyone notices.

@@ -11,7 +11,7 @@ If the input takes a string and that one gets inserted into the query as a strin
 You could per example end the string parameter with it and input your own SQL after that.
 
 === It's your turn!
-You are an employee named *John Smith* working for a big company.
+You are an employee named John *Smith* working for a big company.
 The company has an internal system that allows all employees to see their own internal data, like the department they work in and their salary.
 
 The system requires the employees to use a unique _authentication TAN_ to view their data. +
