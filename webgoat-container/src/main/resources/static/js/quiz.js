@@ -26,7 +26,7 @@ $(function () {
                   html += "<fieldset>";
                   jQuery.each(quest.solutions, function(k, solution) {
                     solution = "Solution " + k + ": " + solution;
-                    html += '<input id="question_' + j + '_' + k + '_input" type="radio" name="question_' + j +'_solution" value="' + solution + '"><label for="question_' + j + '_' + k + '_input">' + solution + '</label><br>';
+                    html += '<input id="question_' + j + '_' + k + '_input" type="radio" name="question_' + j +'_solution" value="' + solution + '" required><label for="question_' + j + '_' + k + '_input">' + solution + '</label><br>';
                   });
                   html += "</fieldset></div>";
                 });
@@ -36,3 +36,24 @@ $(function () {
     }
     client.send();
 });
+
+$(document).ready( () => {
+    $("#q_container").closest(".attack-container").addClass("quiz");
+    $("#q_container").closest("form").on("submit", function(e) {
+        setTimeout(getFeedback, 200, this);
+    }); // end listener
+}); // end ready
+
+function getFeedback(context) {
+    $.ajax({
+        url: $(context).attr("action")
+    }).done( (result) => {
+        if (!result) return;
+        for(let i=0; i<result.length; i++) {
+            if (result[i] === true)
+                $("#q_container .quiz_question:nth-of-type(" + (i+1) + ")").removeClass("incorrect").addClass("correct");
+            else if (result[i] === false)
+                $("#q_container .quiz_question:nth-of-type(" + (i+1) + ")").removeClass("correct").addClass("incorrect");
+        }
+    }); // end ajax-done
+} // end getFeedback

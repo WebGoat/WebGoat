@@ -2,7 +2,6 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/assignments.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{/css/quiz.css}"/>
 
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:SqlInjectionAdvanced_plan.adoc"></div>
@@ -164,6 +163,7 @@
 
 <div class="lesson-page-wrapper">
     <span id="quiz_id" data-quiz_id="sql_injection"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/quiz.css}"/>
     <script th:src="@{/js/quiz.js}" language="JavaScript"></script>
     <link rel="import" type="application/json" th:href="@{/lesson_js/questions.json}"/>
     <div class="adoc-content" th:replace="doc:SqlInjection_quiz.adoc"></div>
