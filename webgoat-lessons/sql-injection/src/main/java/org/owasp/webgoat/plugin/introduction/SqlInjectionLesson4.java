@@ -72,8 +72,8 @@ public class SqlInjectionLesson4 extends AssignmentEndpoint {
                 StringBuffer output = new StringBuffer();
                 // user completes lesson if column phone exists
                 if (_results.first()) {
-                    output.append(SqlInjectionLesson8.generateTable(_results));
-                    return trackProgress(success().feedbackArgs(output.toString()).build());
+                    output.append("<span class='feedback-positive'>" + _query + "</span>");
+                    return trackProgress(success().output(output.toString()).build());
                 } else {
                     return trackProgress(failed().output(output.toString()).build());
                 }
