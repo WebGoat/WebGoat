@@ -20,5 +20,5 @@ If an attacker uses a SQL injection of the DDL type to manipulate your database,
 );
 ** This statement creates the employees example table given on page 2.
 
-Now try to modify the scheme by adding the column "phone" to the table "employees":
+Now try to modify the scheme by adding the column "phone" (varchar(20)) to the table "employees". :
 
