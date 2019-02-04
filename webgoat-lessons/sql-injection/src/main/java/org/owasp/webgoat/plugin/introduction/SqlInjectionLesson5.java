@@ -59,13 +59,14 @@ public class SqlInjectionLesson5 extends AssignmentEndpoint {
     protected AttackResult injectableQuery(String _query) {
         try {
             String query = _query;
-            String regex = "(?i)^grant alter table to unauthorizedUser;$";
+            String regex = "(?i)^(grant alter table to unauthorizedUser)(?:[;]?)$";
             Boolean isCorrect = false;
             StringBuffer output = new StringBuffer();
 
             // user completes lesson if the query is correct
             if (_query.matches(regex)) {
-                return trackProgress(success().feedbackArgs(output.toString()).build());
+                output.append("<span class='feedback-positive'>" + _query + "</span>");
+                return trackProgress(success().output(output.toString()).build());
             } else {
                 return trackProgress(failed().output(output.toString()).build());
             }
