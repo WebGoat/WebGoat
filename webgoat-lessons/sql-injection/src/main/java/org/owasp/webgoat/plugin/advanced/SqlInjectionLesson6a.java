@@ -6,10 +6,7 @@ import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.plugin.introduction.SqlInjectionLesson5a;
 import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.*;
@@ -47,10 +44,10 @@ import java.sql.*;
  */
 @AssignmentPath("/SqlInjection/attack6a")
 @AssignmentHints(value = {"SqlStringInjectionHint-advanced-6a-1", "SqlStringInjectionHint-advanced-6a-2", "SqlStringInjectionHint-advanced-6a-3",
-"SqlStringInjectionHint-advanced-6a-4", "SqlStringInjectionHint-advanced-6a-5"})
+"SqlStringInjectionHint-advanced-6a-4"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public
     @ResponseBody
     AttackResult completed(@RequestParam String userid_6a) throws IOException {
@@ -60,17 +57,15 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     protected AttackResult injectableQuery(String accountName) {
         String query = "";
-        try {
+        try(Connection connection = DatabaseUtilities.getConnection(getWebSession())) {
             boolean usedUnion = true;
-            Connection connection = DatabaseUtilities.getConnection(getWebSession());
             query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
             //Check if Union is used
             if(!accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)")) {
                 usedUnion = false;
             }
-            try {
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
+            try(Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY)) {
                 ResultSet results = statement.executeQuery(query);
 
                 if ((results != null) && (results.first())) {
@@ -78,15 +73,17 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     StringBuffer output = new StringBuffer();
 
                     output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
-                    if(! usedUnion)
-                        output.append("To successfully complete this Assignment you have to use a UNION");
+
+                    String appendingWhenSucceded;
+                    if(usedUnion)
+                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by appending a new Sql Statement?";
+                    else
+                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by using a UNION?";
                     results.last();
 
-                    // If they get back more than one user they succeeded
-                    if (results.getRow() >= 5 && usedUnion) {
-                        return trackProgress(success().feedback("sql-injection.advanced.6a.success").feedbackArgs(output.toString()).output(" Your query was: " + query).build());
-                    } else if((output.toString().contains("dave") && output.toString().contains("passW0rD")) && !usedUnion) {
-                        return trackProgress(failed().output("To successfully complete this Assignment you have to use a UNION" + "<br> Your query was: " + query).build());
+                    if (output.toString().contains("dave") && output.toString().contains("passW0rD")) {
+                        output.append(appendingWhenSucceded);
+                        return trackProgress(informationMessage().feedback("sql-injection.advanced.6a.success").feedbackArgs(output.toString()).output(" Your query was: " + query).build());
                     } else {
                         return trackProgress(failed().output(output.toString() + "<br> Your query was: " + query).build());
                     }
