@@ -46,7 +46,7 @@ import java.sql.*;
  * @created October 28, 2003
  */
 @AssignmentPath("/SqlInjection/attack2")
-@AssignmentHints(value = {"SqlStringInjectionHint2-1", "SqlStringInjectionHint2-2"})
+@AssignmentHints(value = {"SqlStringInjectionHint2-1", "SqlStringInjectionHint2-2", "SqlStringInjectionHint2-3", "SqlStringInjectionHint2-4"})
 public class SqlInjectionLesson2 extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
@@ -68,9 +68,9 @@ public class SqlInjectionLesson2 extends AssignmentEndpoint {
                 StringBuffer output = new StringBuffer();
 
                 results.first();
-                // user completes lesson if department is "Marketing"
-                // what if other employee with same dept is result?
+
                 if (results.getString("department").equals("Marketing")) {
+                    output.append("<span class='feedback-positive'>" + _query + "</span>");
                     output.append(SqlInjectionLesson8.generateTable(results));
                     return trackProgress(success().feedback("sql-injection.2.success").output(output.toString()).build());
                 } else {
