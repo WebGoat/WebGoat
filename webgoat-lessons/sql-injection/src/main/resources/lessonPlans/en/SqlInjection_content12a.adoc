@@ -3,7 +3,7 @@
 Question: Does a prepared statement always prevent against an SQL injection?
 Answer: No it does not
 
-Let's take a look at the following statement:
+Let us take a look at the following statement:
 
 ----
 select * from users order by lastname;

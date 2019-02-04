@@ -7,7 +7,7 @@
 * Stored XSS
 * Information leakage
 * Logic errors – business rule validation
-* SQL Injection
+* SQL injection
 
 === Often the database is considered trusted
 

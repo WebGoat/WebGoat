@@ -1,4 +1,4 @@
-== Consequences of SQL Injection
+== Consequences of SQL injection
 
 === A successful SQL injection exploit can:
 * Read and modify sensitive data from the database

@@ -7,7 +7,7 @@ you will know learn how you can defend against it.
 
 * The user will understand the best practices for defending against XSS injection attacks
 * The user will demonstrate knowledge on:
-** XSS Mitigation
+** XSS mitigation
 
 
 
