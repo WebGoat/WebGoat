@@ -2,7 +2,7 @@
 
 Data control language is used to create privileges to allow users to access and manipulate the database.
 
-If an attacker uses a SQL injection of the DCL type to manipulate your database, he will violate the following of the three protection goals in information security: confidentiality (grant) & availability (revoke) (Unwanted people could grand themselves admin privileges or revoke the admin rights from an administrator)
+If an attacker uses SQL injection of the DCL type to manipulate your database, he will violate the following of the three protection goals in information security: confidentiality (grant) & availability (revoke) (Unwanted people could grand themselves admin privileges or revoke the admin rights from an administrator)
 
 
 * DCL commands are used for providing security to database objects.

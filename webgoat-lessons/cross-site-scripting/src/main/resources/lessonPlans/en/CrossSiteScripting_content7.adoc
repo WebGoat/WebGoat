@@ -1,5 +1,5 @@
 == Stored XSS
-Stored cross-site scripting is different in that the payload is persisted (stored) as opposed to passed/injected via a link.
+Stored Cross-Site Scripting is different in that the payload is persisted (stored) as opposed to passed/injected via a link.
 
 == Stored XSS Scenario
 * Attacker posts malicious script to a message board 

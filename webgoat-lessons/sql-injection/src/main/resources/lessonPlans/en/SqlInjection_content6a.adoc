@@ -13,7 +13,7 @@ CREATE TABLE user_data (userid int not null,
                         login_count int);
 -------------------------------------------------------
 
-Through experimentation you found that this field is susceptible to SQL Injection.
+Through experimentation you found that this field is susceptible to SQL injection.
 Now you want to use that knowledge to get the contents of another table. +
 The table you want to pull data from is:
 

@@ -1,13 +1,13 @@
-== What is encoding
+== What is encoding?
 
 Not trusting user input means validating data for type, length, format and range whenever it passes through a trust boundary,
-say from a Web form to an application script, and then encoding it prior to redisplay in a dynamic page.
+say from a web form to an application script, and then encoding it prior to redisplay in a dynamic page.
 
 In practice, this means that you need to review every point on your site where user-supplied data is handled and processed and
 ensure that, before being passed back to the user, any values accepted from the client side are checked, filtered and encoded.
 
 Client-side validation cannot be relied upon, but user input can be forced down to a minimal alphanumeric set with server-side
-processing before being used by a Web application in any way.
+processing before being used by a web application in any way.
 
 == Escaping
 
@@ -20,10 +20,10 @@ which will not be interpreted as HTML tags by a browser.
 
 You need to encode special characters like "<" and ">" before they are redisplayed if they are received from user input.
 For example, encoding "<" and ">" ensures a browser will display <script> but not execute it.
-In conjunction to encoding, it is important that your webpages always define their character set so the browser won't interpret
+In conjunction to encoding, it is important that your web pages always define their character set so the browser will not interpret
 special character encodings from other character sets.
 
-Cross-site scripting attacks usually occur when you manage to sneak a script (usually javascript) onto someone else's website, where
+Cross site scripting attacks usually occur when you manage to sneak a script (usually javascript) onto someone else's website, where
 it can run maliciously.
 
 === Relevant XML/HTML special characters
