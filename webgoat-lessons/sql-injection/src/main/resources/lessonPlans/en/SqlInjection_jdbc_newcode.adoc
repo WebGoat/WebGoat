@@ -1,12 +1,12 @@
 == Try it! Writing safe code
 
-Now it's time to write your own code!
+Now it is time to write your own code!
 Your task is to use JDBC to connect to a database and request data from it.
 
 *Requirements:*
 
 * connect to a database
-* perform a query on the database which is immune to SQL Injection attacks
+* perform a query on the database which is immune to SQL injection attacks
 * your query needs to contain at least one string parameter
 
 *Some tips before you start:* +
@@ -29,4 +29,4 @@ try {
 -------------------------------------------------------
 
 Use your knowledge and write some valid code from scratch in the editor window down below!
-(if you can't type there it might help to adjust the size of your browser window once, then it should work):
+(if you cannot type there it might help to adjust the size of your browser window once, then it should work):

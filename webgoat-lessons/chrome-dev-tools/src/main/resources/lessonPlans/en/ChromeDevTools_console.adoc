@@ -1,8 +1,8 @@
 == The Console tab
 
 In the console tab you can see anything, which a loaded JavaScript file may have printed out to it.
-Don't worry if you see something in red. While that is an error, it has probably resolved itself.
-Through the console tab, it is also possible for you to run your own line of javascript code.
+Do not worry if you see something in red. While that is an error, it has probably resolved itself.
+Through the console tab, it is also possible for you to run your own line of JavaScript code.
 
 Start by clearing console using the shortcut `CTRL+L`.
 
@@ -12,6 +12,6 @@ The console also allows you to do some basic arithmetic. If you type for example
 enter the console should display 4.
 
 Note: You may see an `undefined` in the console. You can safely  ignore this statement,
-it only means, that the JavaScript function you have called did not return anything, therefor `undefined`.
+it only means, that the JavaScript function you have called did not return anything, therefore `undefined`.
 
 image::images/ChromeDev_Console_Ex.jpg[DeveloperToolsConsoleExample,500,500,style="lesson-image"]

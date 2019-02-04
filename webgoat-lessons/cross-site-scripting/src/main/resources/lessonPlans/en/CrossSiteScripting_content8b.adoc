@@ -60,7 +60,7 @@ But what happens if someone uses this link:
 http://hostname.com/mywebapp/main.jsp?first_name=<script>alert("XSS Test")</script>
 ----
 
-=== It's your turn!
+=== It is your turn!
 
 Try to prevent this kind of XSS by escaping the url parameters in the JSP file:
 
