@@ -1,5 +1,6 @@
 
 == Prevent
+
 To prevent SSRF vulnerabilities in web applications, it is recommended to adhere to the following guidelines:
 
 * Use a whitelist of allowed domains, resources and protocols from where the web server can fetch resources.
