@@ -6,9 +6,9 @@ pipeline {
 
   }
   stages {
-    stage('Native') {
+    stage('Initialize') {
       steps {
-        echo 'Hello World'
+        sh 'hostname'
       }
     }
   }
