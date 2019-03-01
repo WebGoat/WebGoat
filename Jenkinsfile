@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Initialize') {
       steps {
-        sh '/opt/coverity/coverity_static_analysis/bin/cov-generate-hostid'
+        synopsys_coverity buildCommand: 'mvn clean compile', buildStatusForIssues: 'FAILURE', changeSetExclusionPatterns: '', changeSetInclusionPatterns: '', checkForIssuesInView: true, commands: [[command: '']], configureChangeSetPatterns: false, coverityAnalysisType: 'COV_RUN_DESKTOP', coverityRunConfiguration: 'SIMPLE', coverityToolName: 'Docker-Container', onCommandFailure: 'SKIP_REMAINING_COMMANDS', projectName: 'WebGoat', streamName: 'webgoat8', viewName: 'OWASP Top 10'
       }
     }
   }
