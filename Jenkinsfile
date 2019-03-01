@@ -9,7 +9,8 @@ pipeline {
   stages {
     stage('Initialize') {
       steps {
-        sh label: 'cov-build', script: 'cov-build --desktop --dir idir --fs-capture-list ${CHANGE_SET} --no-command'
+        echo 'Staring file system capture for change set'
+        sh(label: 'cov-build', script: 'cov-build --desktop --dir idir --fs-capture-list ${CHANGE_SET} --no-command')
       }
     }
   }
