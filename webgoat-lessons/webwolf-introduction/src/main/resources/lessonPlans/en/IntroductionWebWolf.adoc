@@ -1,6 +1,6 @@
 == Introducing WebWolf
 
-You only need WebWolf if you a lesson specifies you can use it. For a lot of lessons you use WebGoat without
+You only need WebWolf if a lesson specifies you can use it. For a lot of lessons you use WebGoat without
 starting WebWolf. If you need to do an exercise with WebWolf make sure it is running along side with WebGoat. Lessons
 where you can use WebWolf are marked with the following icon (top right in assignment):
 
@@ -10,13 +10,13 @@ image::images/wolf-enabled.png[width=115,height=128]
 
 {nbsp}
 
-Even if the icon the present your are not obliged to use WebWolf, you can also use any intercepting tool you like, like
+Even if the icon is present you are not obliged to use WebWolf, you can also use any intercepting tool you like, like
 `netcat` etc.
 
-WebWolf is a separate web application which simulates an attackers machine. It makes it possible for us to
+WebWolf is a separate web application which simulates an attacker's machine. It makes it possible for us to
 make a clear distinction between what takes place on the attacked website and the actions you need to do as
-an "attacker". WebWolf was introduced after a couple of workshops where we received feedback about the fact there
-was no clear distinction between what was part of the "attackers" role and what was part of the "users" role on the
+an "attacker." WebWolf was introduced after a couple of workshops where we received feedback about the fact there
+was no clear distinction between what was part of the "attacker's" role and what was part of the "user's" role on the
 website. The following items are supported in WebWolf:
 
 * Hosting a file
@@ -30,7 +30,7 @@ If you want to use the standalone version, you will need to download the jar fil
 java -jar webwolf-<<version>>.jar [--server.port=9090] [--server.address=localhost]
 ```
 
-By default WebWolf starts on port 9090 with `--server.port` you can specify a different port. With `server.address` you
+By default WebWolf starts on port 9090, but you can specify a different port with `--server.port`. With `server.address` you
 can bind it to a different address (default localhost)
 
 Note: if you start WebGoat as standalone application you need to start WebWolf as standalone application as well.
