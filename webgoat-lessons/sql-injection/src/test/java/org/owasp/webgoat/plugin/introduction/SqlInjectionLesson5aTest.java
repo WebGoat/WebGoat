@@ -1,6 +1,5 @@
 package org.owasp.webgoat.plugin.introduction;
 
-import org.hsqldb.lib.MultiValueHashMap;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -12,7 +11,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
@@ -81,7 +79,7 @@ public class SqlInjectionLesson5aTest extends LessonTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("lessonCompleted", is(true)))
             .andExpect(jsonPath("$.feedback", containsString("You have succeed")))
-            .andExpect(jsonPath("$.output").doesNotExist());
+            .andExpect(jsonPath("$.output").exists());
   }
 
   @Test
@@ -96,6 +94,7 @@ public class SqlInjectionLesson5aTest extends LessonTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("lessonCompleted", is(false)))
             .andExpect(jsonPath("$.feedback", containsString(messages.getMessage("assignment.not.solved"))))
-            .andExpect(jsonPath("$.output", is("malformed string: '1''")));
+            .andExpect(jsonPath("$.output", is("malformed string: '1''<br> Your query was: SELECT * FROM user_data WHERE" +
+                    " first_name = 'John' and last_name = 'Smith' OR '1' = '1''")));
   }
 }

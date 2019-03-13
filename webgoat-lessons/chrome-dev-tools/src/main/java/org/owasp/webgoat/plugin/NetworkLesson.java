@@ -26,7 +26,7 @@ public class NetworkLesson extends AssignmentEndpoint {
   @ResponseBody
   AttackResult completed(@RequestParam String network_num, @RequestParam String number) throws IOException {
     if(network_num.equals(number)) {
-      return trackProgress(success().feedback("network.success").build());
+      return trackProgress(success().feedback("network.success").output("").build());
     } else {
       return trackProgress(failed().feedback("network.failed").build());
     }

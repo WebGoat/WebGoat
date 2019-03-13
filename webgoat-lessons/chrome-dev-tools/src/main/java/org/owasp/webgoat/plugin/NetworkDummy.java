@@ -21,7 +21,7 @@ public class NetworkDummy extends AssignmentEndpoint {
   @RequestMapping(method = RequestMethod.POST)
   public
   @ResponseBody
-  AttackResult completed(@RequestParam String network_num) throws IOException {
+  AttackResult completed(@RequestParam String networkNum) throws IOException {
     return trackProgress(failed().feedback("network.request").build());
   }
 }
