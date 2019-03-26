@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,12 +18,8 @@ public class UserServiceTest {
     @Mock
     private UserRepository mockUserRepository;
 
+    @InjectMocks
     private UserService cut;
-
-    @Before
-    public void setup(){
-        cut = new UserService(mockUserRepository);
-    }
 
     @Test
     public void testLoadUserByUsername(){
