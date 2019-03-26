@@ -1,6 +1,7 @@
 package org.owasp.webwolf.user;
 
 import lombok.AllArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
  * @since 3/19/17.
  */
 @Service
-@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     @Autowired
