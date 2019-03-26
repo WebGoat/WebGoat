@@ -12,6 +12,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * @author rjclancy
+ * @since 3/26/19.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserServiceTest {
 
