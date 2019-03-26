@@ -55,8 +55,9 @@ public class DOMCrossSiteScriptingVerifier extends AssignmentEndpoint {
     AttackResult completed(@RequestParam String successMessage)  throws IOException {
 
         UserSessionData userSessionData = getUserSessionData();
+        String answer = (String) userSessionData.getValue("randValue");
 
-        if (successMessage.equals(userSessionData.getValue("randValue").toString())) {
+        if (successMessage.equals(answer)) {
             return trackProgress(success().feedback("xss-dom-message-success").build());
         } else {
             return trackProgress(failed().feedback("xss-dom-message-failure").build());
