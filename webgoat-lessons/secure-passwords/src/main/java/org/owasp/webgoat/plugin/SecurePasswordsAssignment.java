@@ -38,7 +38,7 @@ public class SecurePasswordsAssignment extends AssignmentEndpoint {
         DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         df.setMaximumFractionDigits(340);
 
-        output.append("<b>Your Password: </b>" + password + "</br>");
+        output.append("<b>Your Password: *******</b></br>");
         output.append("<b>Length: </b>" + password.length()+ "</br>");
         output.append("<b>Estimated guesses needed to crack your password: </b>" + df.format(strength.getGuesses())+ "</br>");
         output.append("<div style=\"float: left;padding-right: 10px;\"><b>Score: </b>" + strength.getScore()+ "/4 </div>");
