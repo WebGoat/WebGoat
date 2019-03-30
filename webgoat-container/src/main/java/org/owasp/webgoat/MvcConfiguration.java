@@ -131,6 +131,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         PluginMessages pluginMessages = new PluginMessages(messages, language);
         pluginMessages.setDefaultEncoding("UTF-8");
         pluginMessages.setBasenames("i18n/WebGoatLabels");
+        pluginMessages.setFallbackToSystemLocale(false);
         return pluginMessages;
     }
 
