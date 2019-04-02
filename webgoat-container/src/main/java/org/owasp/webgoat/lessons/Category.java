@@ -38,17 +38,26 @@ public enum Category {
 
     INTRODUCTION("Introduction", new Integer(5)),
     GENERAL("General", new Integer(100)),
-    INJECTION("Injection Flaws", new Integer(200)),
-    AUTHENTICATION("Authentication Flaws", new Integer(300)),
-    XSS("Cross-Site Scripting (XSS)", new Integer(400)),
+    
+    INJECTION("(A1) Injection", new Integer(300)),
+    AUTHENTICATION("(A2) Broken Authentication", new Integer(302)),
+    INSECURE_COMMUNICATION("(A3) Sensitive Data Exposure", new Integer(303)),
+    XXE("(A4) XML External Entities (XXE)", Integer.valueOf(304)),
+    ACCESS_CONTROL("(A5) Broken Access Control", new Integer(305)),
+    
+    XSS("(A7) Cross-Site Scripting (XSS)", new Integer(307)),
+    INSECURE_DESERIALIZATION("(A8) Insecure Deserialization", new Integer(308)),
+    VULNERABLE_COMPONENTS("(A9) Vulnerable Components", new Integer(309)),
+    
+    REQUEST_FORGERIES("(A8:2013) Request Forgeries", new Integer(318)),
+
+    
     REQ_FORGERIES("Request Forgeries", new Integer(450)),
-    ACCESS_CONTROL("Access Control Flaws", new Integer(500)),
+    
     INSECURE_CONFIGURATION("Insecure Configuration", new Integer(600)),
-    INSECURE_COMMUNICATION("Insecure Communication", new Integer(700)),
     INSECURE_STORAGE("Insecure Storage", new Integer(800)),
-    INSECURE_DESERIALIZATION("Insecure Deserialization", new Integer(850)),
-    REQUEST_FORGERIES("Request Forgeries", new Integer(900)),
-    VULNERABLE_COMPONENTS("Vulnerable Components - A9", new Integer(950)),
+    
+    
     AJAX_SECURITY("AJAX Security", new Integer(1000)),
     BUFFER_OVERFLOW("Buffer Overflows", new Integer(1100)),
     CODE_QUALITY("Code Quality", new Integer(1200)),
