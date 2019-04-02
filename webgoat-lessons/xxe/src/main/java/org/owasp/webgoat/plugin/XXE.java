@@ -39,7 +39,7 @@ public class XXE extends NewLesson {
 
     @Override
     public Category getDefaultCategory() {
-        return Category.INJECTION;
+        return Category.XXE;
     }
 
     @Override
