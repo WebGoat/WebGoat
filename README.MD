@@ -27,7 +27,7 @@ you are caught engaging in unauthorized hacking, most companies will fire you.
 Claiming that you were doing security research will not work as that is the
 first thing that all hackers claim.*
 
-# Run Instructions:
+# Installation Instructions:
 
 ## 1. Standalone 
 
@@ -152,3 +152,7 @@ docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
 docker push webgoat/webgoat-8.0
 ```
+
+# Run Instructions:
+
+Once installed connect to http://localhost:8080/WebGoat and http://localhost:9090/WebWolf
