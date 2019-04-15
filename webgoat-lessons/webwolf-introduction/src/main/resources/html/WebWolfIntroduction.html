@@ -16,6 +16,28 @@
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
+              action="/WebGoat/WebWolf/mail/"
+              enctype="application/json;charset=UTF-8">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   placeholder="Type in your unique code"
+                                   name='uniqueCode'/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary" type="submit">Go</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <br/>
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
               action="/WebGoat/WebWolf/mail/send"
               enctype="application/json;charset=UTF-8">
             <div class="container-fluid">
@@ -37,28 +59,7 @@
         </form>
         <br/>
         <br/>
-        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <form class="attack-form" accept-charset="UNKNOWN"
-              method="POST" name="form"
-              action="/WebGoat/WebWolf/mail/"
-              enctype="application/json;charset=UTF-8">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <input type="text" class="form-control"
-                                   placeholder="Type in your unique code"
-                                   name='uniqueCode'/>
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary" type="submit">Go</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <br/>
-        <br/>
+        
         <div class="attack-feedback"></div>
         <div class="attack-output"></div>
     </div>
