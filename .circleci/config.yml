@@ -20,4 +20,5 @@ jobs:
       - checkout
         
       # run tests!
-      - run: mvn install -P run-with-contrast
+      - run: mvn clean install
+      - run: mvn -pl webgoat-server spring-boot:run
