@@ -20,5 +20,5 @@ jobs:
       - checkout
         
       # run tests!
-      - run: mvn clean install
+      - run: mvn -e clean install
       - run: mvn -pl webgoat-server spring-boot:run
