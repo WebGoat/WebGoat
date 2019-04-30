@@ -22,3 +22,4 @@ jobs:
       # run tests!
       - run: mvn -e clean install
       - run: mvn -pl webgoat-server spring-boot:run
+      - run: curl http://localhost:8080/WebGoat
