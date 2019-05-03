@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.owasp.webgoat.lesson</groupId>
         <artifactId>webgoat-lessons-parent</artifactId>
-        <version>v8.0.0.M25</version>
+        <version>v8.0.0-SNAPSHOT</version>
     </parent>
 
 
