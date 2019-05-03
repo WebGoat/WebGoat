@@ -1,4 +1,4 @@
-== Most Common Locations
+== Most common locations
 
 * Search fields that echo a search string back to the user
 

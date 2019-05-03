@@ -1,0 +1,25 @@
+== Confidentiality
+
+Confidentiality is "the property, that information is not made available or disclosed to unauthorized individuals, entities, or processes." In other words, confidentiality means to prevent sensitive information from reaching the wrong people, that should not get access to it, while at the same time making sure, that people that are allowed to access it, can get it.
+
+While being similar to "privacy", these two words are not interchangeable. Rather, confidentiality is a component of privacy that implements to protect our data from unauthorized viewers.
+
+{nbsp} +
+
+=== Examples that compromise confidentiality:
+
+** a hacker gets access to the password database of a company
+** sensitive emails being sent to incorrect individuals
+** a hacker reads sensitive information by intercepting and eavesdropping an information transfer
+
+{nbsp} +
+
+=== Examples of methods ensuring confidentiality
+
+** data encryption
+** authentication methods
+*** passwords
+*** two-factor authentication
+*** biometric verification
+** minimizing the number of places/times the information appears
+** physical security measurements like protected server rooms etc.

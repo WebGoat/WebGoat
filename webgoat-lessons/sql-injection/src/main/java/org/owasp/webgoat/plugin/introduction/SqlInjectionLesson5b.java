@@ -46,54 +46,65 @@ import java.sql.*;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjection/attack5b")
-@AssignmentHints(value = {"SqlStringInjectionHint1", "SqlStringInjectionHint2", "SqlStringInjectionHint3", "SqlStringInjectionHint4"})
+@AssignmentPath("/SqlInjection/assignment5b")
+@AssignmentHints(value = {"SqlStringInjectionHint5b1", "SqlStringInjectionHint5b2", "SqlStringInjectionHint5b3", "SqlStringInjectionHint5b4"})
 public class SqlInjectionLesson5b extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
-    @ResponseBody
-    AttackResult completed(@RequestParam String userid, HttpServletRequest request) throws IOException {
-        return injectableQuery(userid);
+  @RequestMapping(method = RequestMethod.POST)
+  public
+  @ResponseBody
+  AttackResult completed(@RequestParam String userid, @RequestParam String login_count, HttpServletRequest request) throws IOException {
+    return injectableQuery(login_count, userid);
+  }
 
-    }
 
-    protected AttackResult injectableQuery(String accountName) {
-        try {
-            Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM user_data WHERE userid = " + accountName;
+  protected AttackResult injectableQuery(String login_count, String accountName) {
+    String queryString = "SELECT * From user_data WHERE Login_Count = ? and userid= " + accountName;
+    try {
+      Connection connection = DatabaseUtilities.getConnection(getWebSession());
+      PreparedStatement query = connection.prepareStatement(queryString, ResultSet.TYPE_SCROLL_INSENSITIVE,
+              ResultSet.CONCUR_READ_ONLY);
 
-            try {
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-                ResultSet results = statement.executeQuery(query);
+      int count = 0;
+      try {
+        count = Integer.parseInt(login_count);
+      } catch(Exception e) {
+        return trackProgress(failed().output("Could not parse: " + login_count + " to a number" +
+                "<br> Your query was: " + queryString.replace("?", login_count)).build());
+      }
 
-                if ((results != null) && (results.first() == true)) {
-                    ResultSetMetaData resultsMetaData = results.getMetaData();
-                    StringBuffer output = new StringBuffer();
+      query.setInt(1, count);
+      //String query = "SELECT * FROM user_data WHERE Login_Count = " + login_count + " and userid = " + accountName, ;
+      try {
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        ResultSet results = query.executeQuery();
 
-                    output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
-                    results.last();
+        if ((results != null) && (results.first() == true)) {
+          ResultSetMetaData resultsMetaData = results.getMetaData();
+          StringBuffer output = new StringBuffer();
 
-                    // If they get back more than one user they succeeded
-                    if (results.getRow() >= 6) {
-                        return trackProgress(success().feedback("sql-injection.5b.success").feedbackArgs(output.toString()).build());
-                    } else {
-                        return trackProgress(failed().output(output.toString()).build());
-                    }
+          output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
+          results.last();
 
-                } else {
-                    return trackProgress(failed().feedback("sql-injection.5b.no.results").build());
+          // If they get back more than one user they succeeded
+          if (results.getRow() >= 6) {
+            return trackProgress(success().feedback("sql-injection.5b.success").output("Your query was: " + queryString.replace("?", login_count)).feedbackArgs(output.toString()).build());
+          } else {
+            return trackProgress(failed().output(output.toString() + "<br> Your query was: " + queryString.replace("?", login_count)).build());
+          }
+
+        } else {
+          return trackProgress(failed().feedback("sql-injection.5b.no.results").output("Your query was: " + queryString.replace("?", login_count)).build());
 
 //                    output.append(getLabelManager().get("NoResultsMatched"));
-                }
-            } catch (SQLException sqle) {
-
-                return trackProgress(failed().output(sqle.getMessage()).build());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
         }
+      } catch (SQLException sqle) {
+
+        return trackProgress(failed().output(sqle.getMessage() + "<br> Your query was: " + queryString.replace("?", login_count)).build());
+      }
+    } catch (Exception e) {
+      return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + queryString.replace("?", login_count)).build());
     }
+  }
 }

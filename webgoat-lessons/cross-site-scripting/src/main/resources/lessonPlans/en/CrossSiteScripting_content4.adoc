@@ -11,7 +11,7 @@
 * Similar to reflected XSS 
 * Runs with browser privileges inherited from user in browser
 
-=== Stored or Persistent
+=== Stored or persistent
 * Malicious content is stored on the server ( in a database, file system, or other object ) and later displayed to users in a web browser
 * Social engineering is not required
 

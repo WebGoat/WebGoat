@@ -1,0 +1,49 @@
+== Stored XSS
+One way to prevent stored XSS is the usage of https://www.owasp.org/index.php/Category:OWASP_AntiSamy_Project[OWASP AntiSamy]. AntiSamy is able to produce a "clean" string based on a modifiable policy file.
+
+See the java class below which saves a comment into a database.
+
+[source,java]
+-------------------------------------------------------
+public class MyCommentDAO {
+
+    public static void addComment(int threadID, int userID, String newComment) {
+
+                String sql = "INSERT INTO COMMENTS(THREADID, USERID, COMMENT) VALUES(?,?,?);";
+
+                try {
+                        PreparedStatement stmt = connection.prepareStatement(sql);
+
+                        stmt.setInt(1, threadID);
+                        stmt.setInt(2, userID);
+                        stmt.setString(3, newComment);
+
+                        stmt.executeUpdate();
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+        }
+}
+-------------------------------------------------------
+
+
+And here is a java class that is using the addComment function
+
+[source,java]
+-------------------------------------------------------
+import org.owasp.validator.html.*;
+import MyCommentDAO;
+
+public class AntiSamyController {
+    ...
+    public void saveNewComment(int threadID, int userID, String newComment){
+        MyCommentDAO.addComment(threadID, userID, newComment);
+    }
+    ...
+}
+-------------------------------------------------------
+As you can see the Java file stores unfiltered user input into the database.
+You’ll have the whole malicious code stored in your database now.
+
+== It’s your turn!
+Try to prevent this kind of XSS by creating a clean string inside of the saveNewComment() function. Use the "antisamy-slashdot.xml" as policy file for this example:

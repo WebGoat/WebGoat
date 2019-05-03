@@ -49,13 +49,13 @@ public class SqlInjection extends NewLesson {
 //        hints.add(getLabelManager().get("SqlStringInjectionHint2"));
 //        hints.add(getLabelManager().get("SqlStringInjectionHint3"));
 //        hints.add(getLabelManager().get("SqlStringInjectionHint4"));
-
+//        hints.add(getLabelManager().get("SqlStringInjectionHint5"));
         return hints;
     }
 
     @Override
     public Integer getDefaultRanking() {
-        return 1;
+        return 0;
     }
 
     @Override

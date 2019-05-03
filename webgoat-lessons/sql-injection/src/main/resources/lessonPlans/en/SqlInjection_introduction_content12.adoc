@@ -1,0 +1,11 @@
+== Try It!   Numeric SQL injection
+
+The query in the code builds a dynamic query as seen in the previous example.  The query in the code builds a dynamic query by concatenating a number making it susceptible to Numeric SQL injection:
+
+--------------------------------------------------
+"select * from user_data where Login_Count = " + Login_Count + " and USERID = "  + User_ID;
+--------------------------------------------------
+
+Using the two Input Fields below, try to retrieve all the date from the users table.
+
+Warning: Only one of these fields is susceptible to SQL Injection. You need to find out which, to successfully retrieve all the data.
