@@ -2,6 +2,7 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
@@ -47,6 +48,7 @@ import java.io.IOException;
  * @created October 28, 2003
  */
 @AssignmentPath("/CrossSiteScripting/attack5a")
+@AssignmentHints(value = {"xss-reflected-5a-hint-1", "xss-reflected-5a-hint-2", "xss-reflected-5a-hint-3", "xss-reflected-5a-hint-4"})
 public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
 
 	@Autowired
@@ -56,8 +58,12 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
 	public @ResponseBody AttackResult completed(@RequestParam Integer QTY1,
 												@RequestParam Integer QTY2, @RequestParam Integer QTY3,
 												@RequestParam Integer QTY4, @RequestParam String field1,
-												@RequestParam Integer field2, HttpServletRequest request)
+												@RequestParam String field2, HttpServletRequest request)
 			throws IOException {
+
+		if (field2.toLowerCase().matches("<script>.*(console\\.log\\(.*\\)|alert\\(.*\\))<\\/script>")) {
+			return trackProgress(failed().feedback("xss-reflected-5a-failed-wrong-field").build());
+		}
 
 		double totalSale = QTY1.intValue() * 69.99 + QTY2.intValue() * 27.99 + QTY3.intValue() * 1599.99 + QTY4.intValue() * 299.99;
 
@@ -73,13 +79,14 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
 			userSessionData.setValue("xss-reflected1-complete",(Object)"false");
 		}
 
-		if (field1.toLowerCase().contains("<script>alert('my javascript here')</script>")) {
+		if (field1.toLowerCase().matches("<script>.*(console\\.log\\(.*\\)|alert\\(.*\\))<\\/script>")) {
 			//return trackProgress()
 			userSessionData.setValue("xss-reflected-5a-complete","true");
-			return trackProgress(success()
-					.feedback("xss-reflected-5a-success")
-					.output(cart.toString())
-					.build());
+			if(field1.toLowerCase().contains("console.log")) {
+				return trackProgress(success().feedback("xss-reflected-5a-success-console").output(cart.toString()).build());
+			} else {
+				return trackProgress(success().feedback("xss-reflected-5a-success-alert").output(cart.toString()).build());
+			}
 		} else {
 			userSessionData.setValue("xss-reflected1-complete","false");
 			return trackProgress(success()

@@ -34,7 +34,6 @@ import com.google.common.collect.Sets;
 import org.owasp.webgoat.i18n.Language;
 import org.owasp.webgoat.i18n.Messages;
 import org.owasp.webgoat.i18n.PluginMessages;
-import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.LabelDebugger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -132,6 +131,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         PluginMessages pluginMessages = new PluginMessages(messages, language);
         pluginMessages.setDefaultEncoding("UTF-8");
         pluginMessages.setBasenames("i18n/WebGoatLabels");
+        pluginMessages.setFallbackToSystemLocale(false);
         return pluginMessages;
     }
 
@@ -145,6 +145,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         Messages messages = new Messages(language);
         messages.setDefaultEncoding("UTF-8");
         messages.setBasename("classpath:i18n/messages");
+        messages.setFallbackToSystemLocale(false);
         return messages;
     }
 
@@ -153,7 +154,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         return slr;
     }
-
+    
     @Bean
     public LabelDebugger labelDebugger() {
         return new LabelDebugger();

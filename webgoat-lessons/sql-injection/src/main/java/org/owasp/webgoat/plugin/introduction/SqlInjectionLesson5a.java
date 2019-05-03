@@ -1,4 +1,3 @@
-
 package org.owasp.webgoat.plugin.introduction;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
@@ -6,10 +5,7 @@ import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.*;
@@ -45,84 +41,88 @@ import java.sql.*;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjection/attack5a")
-@AssignmentHints(value = {"SqlStringInjectionHint1", "SqlStringInjectionHint2", "SqlStringInjectionHint3", "SqlStringInjectionHint4"})
+@AssignmentPath("/SqlInjection/assignment5a")
+@AssignmentHints(value = {"SqlStringInjectionHint5a1"})
 public class SqlInjectionLesson5a extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
-    @ResponseBody
-    AttackResult completed(@RequestParam String account) {
-        return injectableQuery(account);
-    }
+  private static final String EXPLANATION = "<br> Explanation: This injection works, because <span style=\"font-style: italic\">or '1' = '1'</span> "
+          + "always evaluates to true (The string ending literal for '1 is closed by the query itself, so you should not inject it). "
+          + "So the injected query basically looks like this: <span style=\"font-style: italic\">SELECT * FROM user_data WHERE first_name = 'John' and last_name = '' or TRUE</span>, "
+          + "which will always evaluate to true, no matter what came before it.";
 
-    protected AttackResult injectableQuery(String accountName) {
-        try {
-            Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
+  @PostMapping
+  public
+  @ResponseBody
+  AttackResult completed(@RequestParam String account, @RequestParam String operator, @RequestParam String injection) {
+    return injectableQuery(account + " " + operator + " " + injection);
+  }
 
-            try {
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-                ResultSet results = statement.executeQuery(query);
+  protected AttackResult injectableQuery(String accountName) {
+    String query = "";
+    try {
+      Connection connection = DatabaseUtilities.getConnection(getWebSession());
+      query = "SELECT * FROM user_data WHERE first_name = 'John' and last_name = '" + accountName + "'";
+      try(Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+              ResultSet.CONCUR_READ_ONLY)) {
 
-                if ((results != null) && (results.first())) {
-                    ResultSetMetaData resultsMetaData = results.getMetaData();
-                    StringBuffer output = new StringBuffer();
+        ResultSet results = statement.executeQuery(query);
 
-                    output.append(writeTable(results, resultsMetaData));
-                    results.last();
+        if ((results != null) && (results.first())) {
+          ResultSetMetaData resultsMetaData = results.getMetaData();
+          StringBuilder output = new StringBuilder();
 
-                    // If they get back more than one user they succeeded
-                    if (results.getRow() >= 6) {
-                        return trackProgress(success().feedback("sql-injection.5a.success").feedbackArgs(output.toString()).build());
-                    } else {
-                        return trackProgress(failed().output(output.toString()).build());
-                    }
-                } else {
-                    return trackProgress(failed().feedback("sql-injection.5a.no.results").build());
+          output.append(writeTable(results, resultsMetaData));
+          results.last();
 
-                }
-            } catch (SQLException sqle) {
-
-                return trackProgress(failed().output(sqle.getMessage()).build());
-            }
-        } catch (Exception e) {
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
-        }
-    }
-
-    public static String writeTable(ResultSet results, ResultSetMetaData resultsMetaData) throws IOException,
-            SQLException {
-        int numColumns = resultsMetaData.getColumnCount();
-        results.beforeFirst();
-        StringBuffer t = new StringBuffer();
-        t.append("<p>");
-
-        if (results.next()) {
-            for (int i = 1; i < (numColumns + 1); i++) {
-                t.append(resultsMetaData.getColumnName(i));
-                t.append(", ");
-            }
-
-            t.append("<br />");
-            results.beforeFirst();
-
-            while (results.next()) {
-
-                for (int i = 1; i < (numColumns + 1); i++) {
-                    t.append(results.getString(i));
-                    t.append(", ");
-                }
-
-                t.append("<br />");
-            }
-
+          // If they get back more than one user they succeeded
+          if (results.getRow() >= 6) {
+            return trackProgress(success().feedback("sql-injection.5a.success").output("Your query was: " + query + EXPLANATION).feedbackArgs(output.toString()).build());
+          } else {
+            return trackProgress(failed().output(output.toString() + "<br> Your query was: " + query).build());
+          }
         } else {
-            t.append("Query Successful; however no data was returned from this query.");
+          return trackProgress(failed().feedback("sql-injection.5a.no.results").output("Your query was: " + query).build());
+
+        }
+      } catch (SQLException sqle) {
+
+        return trackProgress(failed().output(sqle.getMessage() + "<br> Your query was: " + query).build());
+      }
+    } catch (Exception e) {
+      return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query).build());
+    }
+  }
+
+  public static String writeTable(ResultSet results, ResultSetMetaData resultsMetaData) throws SQLException {
+    int numColumns = resultsMetaData.getColumnCount();
+    results.beforeFirst();
+    StringBuilder t = new StringBuilder();
+    t.append("<p>");
+
+    if (results.next()) {
+      for (int i = 1; i < (numColumns + 1); i++) {
+        t.append(resultsMetaData.getColumnName(i));
+        t.append(", ");
+      }
+
+      t.append("<br />");
+      results.beforeFirst();
+
+      while (results.next()) {
+
+        for (int i = 1; i < (numColumns + 1); i++) {
+          t.append(results.getString(i));
+          t.append(", ");
         }
 
-        t.append("</p>");
-        return (t.toString());
+        t.append("<br />");
+      }
+
+    } else {
+      t.append("Query Successful; however no data was returned from this query.");
     }
+
+    t.append("</p>");
+    return (t.toString());
+  }
 }

@@ -1,0 +1,13 @@
+== Concept 
+
+After learning what Cross-Site Scripting (XSS) is and how it works,
+you will know learn how you can defend against it.
+
+== Goals
+
+* The user will understand the best practices for defending against XSS injection attacks
+* The user will demonstrate knowledge on:
+** XSS mitigation
+
+
+

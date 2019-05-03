@@ -1,4 +1,4 @@
-== Self XSS or Reflected XSS?
+== Self XSS or reflected XSS?
 
 You should have been able to execute script with the last example. At this point, it would be considered 'self XSS' though.
 

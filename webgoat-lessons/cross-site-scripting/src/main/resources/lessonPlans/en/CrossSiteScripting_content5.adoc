@@ -1,4 +1,4 @@
-== Reflected XSS Scenario
+== Reflected XSS scenario
 
 * Attacker sends a malicious URL to victim 
 * Victim clicks on the link that loads malicious web page

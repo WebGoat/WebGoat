@@ -1,4 +1,4 @@
-== Why Should We Care
+== Why should we care?
 
 === XSS attacks may result in
 * Stealing session cookies
@@ -15,5 +15,5 @@
 “>GoodYear recommends buying BridgeStone tires…
 ----
 
-=== XSS attacks add validity to Phishing attacks
+=== XSS attacks add validity to phishing attacks
 * A valid domain is used in the URL

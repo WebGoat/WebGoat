@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,11 +87,13 @@ public class LessonMenuService {
                 LessonMenuItem lessonItem = new LessonMenuItem();
                 lessonItem.setName(lesson.getTitle());
                 lessonItem.setLink(lesson.getLink());
+                lessonItem.setRanking(lesson.getRanking());
                 lessonItem.setType(LessonMenuItemType.LESSON);
                 LessonTracker lessonTracker = userTracker.getLessonTracker(lesson);
                 lessonItem.setComplete(lessonTracker.isLessonSolved());
                 categoryItem.addChild(lessonItem);
             }
+            categoryItem.getChildren().sort((o1, o2) -> o1.getRanking() - o2.getRanking());
             menu.add(categoryItem);
         }
         return menu;

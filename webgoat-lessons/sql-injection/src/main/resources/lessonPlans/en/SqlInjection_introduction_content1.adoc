@@ -1,0 +1,39 @@
+== What is SQL?
+
+SQL is a standardized (ANSI in 1986, ISO in 1987) programming language which is used for managing relational databases and performing various operations on the data in them.
+
+A database is a collection of data. Data is organized into rows, columns and tables, and it is indexed to make it easier to find relevant information.
+
+Example SQL table with employees, the name of the table is 'employees':
+
+Employees Table
+|===
+|userid |first_name |last_name |department |salary |auth_tan |
+
+|32147|Paulina|Travers|Accounting|$46.000|P45JSI|
+|89762|Tobi|Barnett|Development|$77.000|TA9LL1|
+|96134|Bob|Franco|Marketing|$83.700|LO9S2V|
+|34477|Abraham|Holman|Development|$50.000|UU2ALK|
+|37648|John|Smith|Marketing|$64.350|3SL99A|
+
+|===
+
+A company saves the following information of an employee in their databases:
+a unique employee number, the lastnname, the firstname, the department of the employee, the salary and an auth_tan.
+
+One row represents one employee of the company.
+
+By using SQL queries you can modify a database table and its index structures, add, update and delete rows of data.
+
+There are three types of SQL commands in the SQL database language:
+Each type of command carries the danger of violating different protection goals if an intruder attacks your database system.
+
+The 3 main protection goals in information security are confidentiality, integrity, and availability are considered the three most crucial components of information security.
+Go ahead to the next pages to get some details on the different types of commands and protections goals.
+
+If you are still struggling with SQL and need more information or practice you can visit http://www.sqlcourse.com/ for an interactive and free online training.
+
+=== It is your turn!
+Look at the example table.
+Try to retrieve the department of the employee Bob Franco.
+Note that you have been granted full administrator privileges in this assignment and can access all data without authentication.
