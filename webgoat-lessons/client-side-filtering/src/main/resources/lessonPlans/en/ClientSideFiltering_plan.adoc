@@ -1,4 +1,4 @@
-== Client Side Filtering
+== Client side filtering
 
 It is always a good practice to send to the client only information which they are supposed
 to have access to.  In this lesson, too much information is being sent to the client, creating

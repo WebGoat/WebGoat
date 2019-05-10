@@ -2,6 +2,7 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
@@ -45,6 +46,7 @@ import java.io.IOException;
  * @created October 28, 2003
  */
 @AssignmentPath("/CrossSiteScripting/attack6a")
+@AssignmentHints(value = {"xss-reflected-6a-hint-1", "xss-reflected-6a-hint-2", "xss-reflected-6a-hint-3", "xss-reflected-6a-hint-4"})
 public class CrossSiteScriptingLesson6a extends AssignmentEndpoint {
     @Autowired
     UserSessionData userSessionData;
@@ -53,7 +55,7 @@ public class CrossSiteScriptingLesson6a extends AssignmentEndpoint {
     public @ResponseBody
     AttackResult completed(@RequestParam String DOMTestRoute)  throws IOException {
 
-        if (DOMTestRoute.equals("start.mvc#test/")) {
+        if (DOMTestRoute.matches("start\\.mvc#test(\\/|)")) {
             //return trackProgress()
             return trackProgress(success().feedback("xss-reflected-6a-success").build());
         } else {

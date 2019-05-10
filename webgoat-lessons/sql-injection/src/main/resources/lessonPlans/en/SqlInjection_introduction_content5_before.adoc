@@ -1,0 +1,31 @@
+== What is SQL injection?
+
+SQL injections are the most common web hacking techniques. *A SQL injection attack consists of insertion or "injection" of malicious code via the SQL query input from the client to the application.* If not dealt with correctly, such an injection of code into the application can have an serious impact on e.g. data integrity and security.
+
+SQL injections can occur, when unfiltered data from the client, e.g. the input of a search field, gets into the SQL interpreter of the application itself. If the input from the client does not get checked for containing SQL commands, hackers can easily manipulate the underlying SQL statement to their advantage. +
+Per example if the input is not filtered for SQL metacharacters like *--* (comments out the rest of the line) or *;* (ends a SQL query and that way can be used to chain them).
+
+{nbsp} +
+
+== Example of SQL injection
+
+Think of a web application, that allows to display user information, by typing a username into an input field.
+
+The input will then be sent to the server and gets inserted into a SQL query which then is processed by an SQL interpreter.
+
+The SQL query to retrieve the user information from the database looks like that: +
+-------------------------------------------------------
+"SELECT * FROM users WHERE name = '" + userName + "'";
+-------------------------------------------------------
+
+The variable *userName* holds the input from the client and “injects” it into the query. +
+If the input would be Smith the query then looks like that +
+-------------------------------------------------------
+"SELECT * FROM users WHERE name = 'Smith'";
+-------------------------------------------------------
+and would retrieve all data for the user with the name Smith.
+
+{nbsp} +
+But if an attacker supplies an unexpected input which could be part of a SQL query, the query itself can be modified and that way be used to perform other (malicious) actions on the database.
+
+Here is an input field. Try typing some SQL in here to better understand how the query changes.

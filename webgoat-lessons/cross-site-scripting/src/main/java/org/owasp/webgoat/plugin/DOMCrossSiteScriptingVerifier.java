@@ -32,6 +32,7 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
@@ -47,14 +48,16 @@ import java.io.IOException;
  * Created by jason on 11/23/16.
  */
 @AssignmentPath("/CrossSiteScripting/dom-follow-up")
+@AssignmentHints(value = {"xss-dom-message-hint-1", "xss-dom-message-hint-2", "xss-dom-message-hint-3", "xss-dom-message-hint-4", "xss-dom-message-hint-5", "xss-dom-message-hint-6"})
 public class DOMCrossSiteScriptingVerifier extends AssignmentEndpoint {
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody
     AttackResult completed(@RequestParam String successMessage)  throws IOException {
 
         UserSessionData userSessionData = getUserSessionData();
+        String answer = (String) userSessionData.getValue("randValue");
 
-        if (successMessage.equals(userSessionData.getValue("randValue").toString())) {
+        if (successMessage.equals(answer)) {
             return trackProgress(success().feedback("xss-dom-message-success").build());
         } else {
             return trackProgress(failed().feedback("xss-dom-message-failure").build());

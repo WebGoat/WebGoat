@@ -44,7 +44,7 @@ public class SqlInjectionLesson6aTest extends LessonTest {
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", is(false)))
-                .andExpect(jsonPath("$.output", is("column number mismatch detected in rows of UNION, INTERSECT, EXCEPT, or VALUES operation")));
+                .andExpect(jsonPath("$.output", containsString("column number mismatch detected in rows of UNION, INTERSECT, EXCEPT, or VALUES operation")));
     }
 
     @Test
@@ -60,10 +60,9 @@ public class SqlInjectionLesson6aTest extends LessonTest {
     @Test
     public void correctSolution() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6a")
-                .param("userid_6a", "Smith' union select 1,password, '1','2','3', '4',1 from user_system_data --"))
-
+                .param("userid_6a", "Smith'; SELECT * from user_system_data; --"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lessonCompleted", is(true)))
+                .andExpect(jsonPath("$.lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.feedback", containsString("passW0rD")));
     }
 
@@ -74,8 +73,15 @@ public class SqlInjectionLesson6aTest extends LessonTest {
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", is(false)))
-                .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.6a.no.results"))));
+                .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.6a.no.results")))));
     }
 
+    @Test
+    public void noUnionUsed() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack6a")
+                .param("userid_6a", "S'; Select * from user_system_data; --"))
 
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.feedback", containsString("UNION")));
+    }
 }

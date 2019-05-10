@@ -1,4 +1,3 @@
-
 package org.owasp.webgoat.plugin.advanced;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
@@ -7,10 +6,7 @@ import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.plugin.introduction.SqlInjectionLesson5a;
 import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.*;
@@ -47,10 +43,11 @@ import java.sql.*;
  * @created October 28, 2003
  */
 @AssignmentPath("/SqlInjection/attack6a")
-@AssignmentHints(value = {"SqlStringInjectionHint5", "SqlStringInjectionHint6", "SqlStringInjectionHint7"})
+@AssignmentHints(value = {"SqlStringInjectionHint-advanced-6a-1", "SqlStringInjectionHint-advanced-6a-2", "SqlStringInjectionHint-advanced-6a-3",
+"SqlStringInjectionHint-advanced-6a-4"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public
     @ResponseBody
     AttackResult completed(@RequestParam String userid_6a) throws IOException {
@@ -59,13 +56,16 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
     }
 
     protected AttackResult injectableQuery(String accountName) {
-        try {
-            Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
-
-            try {
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
+        String query = "";
+        try(Connection connection = DatabaseUtilities.getConnection(getWebSession())) {
+            boolean usedUnion = true;
+            query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
+            //Check if Union is used
+            if(!accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)")) {
+                usedUnion = false;
+            }
+            try(Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY)) {
                 ResultSet results = statement.executeQuery(query);
 
                 if ((results != null) && (results.first())) {
@@ -73,25 +73,29 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     StringBuffer output = new StringBuffer();
 
                     output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
+
+                    String appendingWhenSucceded;
+                    if(usedUnion)
+                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by appending a new Sql Statement?";
+                    else
+                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by using a UNION?";
                     results.last();
 
-                    // If they get back more than one user they succeeded
-                    if (results.getRow() >= 5) {
-                        return trackProgress(success().feedback("sql-injection.6a.success").feedbackArgs(output.toString()).build());
+                    if (output.toString().contains("dave") && output.toString().contains("passW0rD")) {
+                        output.append(appendingWhenSucceded);
+                        return trackProgress(informationMessage().feedback("sql-injection.advanced.6a.success").feedbackArgs(output.toString()).output(" Your query was: " + query).build());
                     } else {
-                        return trackProgress(failed().output(output.toString()).build());
+                        return trackProgress(failed().output(output.toString() + "<br> Your query was: " + query).build());
                     }
-
                 } else {
-                    return trackProgress(failed().feedback("sql-injection.6a.no.results").build());
-
+                    return trackProgress(failed().feedback("sql-injection.advanced.6a.no.results").output(" Your query was: " + query).build());
                 }
             } catch (SQLException sqle) {
-                return trackProgress(failed().output(sqle.getMessage()).build());
+                return trackProgress(failed().output(sqle.getMessage() + "<br> Your query was: " + query).build());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query).build());
         }
     }
 }

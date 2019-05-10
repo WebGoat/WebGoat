@@ -1,0 +1,26 @@
+== Compromising confidentiality with String SQL injection
+If a system is vulnerable to SQL injections it is also easy to compromise aspects of the CIA triad _(if you are unfamiliar with the CIA triad check out the CIA triad lesson in the general category)_.
+In the following three lessons, you will learn how to use simple SQL injection attacks to compromise each of the three. Per example by using _SQL string injections_ or _query chaining_.
+
+This lesson, we will take a look at *confidentiality*.
+Confidentiality can easily be compromised if an attacker uses SQL injection to read sensitive data from the database. For example reading credit card numbers or passwords.
+
+=== What is String SQL injection?
+If queries are build dynamically in the application by concatenating strings to it, this makes it very susceptible to String SQL injection. +
+If the input takes a string and that one gets inserted into the query as a string parameter, then you can easily manipulate the build query by using quotation marks to form the string to your specific needs.
+You could per example end the string parameter with it and input your own SQL after that.
+
+=== It is your turn!
+You are an employee named John *Smith* working for a big company.
+The company has an internal system that allows all employees to see their own internal data, like the department they work in and their salary.
+
+The system requires the employees to use a unique _authentication TAN_ to view their data. +
+Your current TAN is *3SL99A*.
+
+Since you always have the urge to be the most earning employee you want to exploit the system and instead of viewing your own internal data _take a look at the data of all your colleagues_ to check their current salaries.
+
+Use the form below and try to retrieve all the employee data from the *employees* table. You should not need to know any specific names or TANs to get the information you need. +
+You already found out that the query performing your request looks like that:
+------------------------------------------------------------
+"SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "';
+------------------------------------------------------------

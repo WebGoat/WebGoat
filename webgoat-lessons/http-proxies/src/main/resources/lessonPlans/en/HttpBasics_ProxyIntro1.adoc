@@ -30,6 +30,6 @@ If you are setting up ZAP while running WebGoat locally ...
 * Select 'Local Proxy' on the left
 * Input 8090 for the 'Port'
 
-*Remember*: If you are not running WebGoat locally, leave this setting along, skip to the next page and use 8080 instead of 8090
+*Remember*: If you are not running WebGoat locally, leave this setting alone, skip to the next page and use 8080 instead of 8090
 
 image::images/zap-local-proxy-8090.png[ZAP Proxy Config,750,587,style="lesson-image"]
