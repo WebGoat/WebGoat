@@ -136,7 +136,7 @@
                                     <type>${project.packaging}</type>
                                 </artifactItem>
                             </artifactItems>
-                            <outputDirectory>../../webgoat-container/src/main/resources/plugin_lessons</outputDirectory>
+                            <outputDirectory>${project.basedir}/../webgoat-container/src/main/resources/plugin_lessons</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
