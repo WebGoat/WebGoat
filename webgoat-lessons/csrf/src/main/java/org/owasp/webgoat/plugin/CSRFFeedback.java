@@ -1,5 +1,6 @@
 package org.owasp.webgoat.plugin;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -38,6 +39,12 @@ public class CSRFFeedback extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(HttpServletRequest request, @RequestBody String feedback) {
         try {
+            objectMapper.enable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
+            objectMapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES);
+            objectMapper.enable(DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS);
+            objectMapper.enable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY);
+            objectMapper.enable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES);
+            objectMapper.enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
             objectMapper.readValue(feedback.getBytes(), Map.class);
         } catch (IOException e) {
             return failed().feedback(ExceptionUtils.getStackTrace(e)).build();

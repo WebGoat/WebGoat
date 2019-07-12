@@ -126,6 +126,7 @@
         <commons-io.version>2.6</commons-io.version>
         <guava.version>18.0</guava.version>
         <hsqldb.version>2.3.4</hsqldb.version>
+	<jackson.version>2.9.9</jackson.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.4</lombok.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
