@@ -27,7 +27,7 @@ public class CSRFGetFlag extends Endpoint {
     @Autowired
     private PluginMessages pluginMessages;
 
-    @RequestMapping(produces = {"application/json"}, method = RequestMethod.GET)
+    @RequestMapping(produces = {"application/json"}, method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
