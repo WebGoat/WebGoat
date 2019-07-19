@@ -31,7 +31,6 @@
 package org.owasp.webgoat;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.Context;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.session.Course;
@@ -42,9 +41,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +49,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.util.Arrays;
 
 @SpringBootApplication
 @Slf4j
@@ -99,20 +94,4 @@ public class WebGoat extends SpringBootServletInitializer {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
-    @Bean
-    public EmbeddedServletContainerFactory servletContainer() {
-        TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
-        factory.setTomcatContextCustomizers(Arrays.asList(new CustomCustomizer()));
-        return factory;
-    }
-
-    static class CustomCustomizer implements TomcatContextCustomizer {
-        @Override
-        public void customize(Context context) {
-            context.setUseHttpOnly(false);
-        }
-    }
-
-
 }

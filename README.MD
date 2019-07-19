@@ -97,57 +97,15 @@ To change IP address add the following variable to WebGoat/webgoat-container/src
 server.address=x.x.x.x
 ```
 
-# Vagrant
-
-We supply a complete environment using Vagrant, to run WebGoat with Vagrant you must first have Vagrant and Virtualbox installed.
-
-```shell
-   $ cd WebGoat/webgoat-images/vagrant-training
-   $ vagrant up
-```
-
-Once the provisioning is complete login to the Virtualbox with username vagrant and password vagrant.
-WebGoat and WebWolf will automatically start when you login to this image.
-
-
 # Building a new Docker image
 
 NOTE: Travis will create a new Docker image automatically when making a new release.
-
-WebGoat now has Docker support for x86 and ARM (raspberry pi).
-### Docker on x86
-On x86 you can build a container with the following commands:
 
 ```Shell
 cd WebGoat/
 mvn install
 cd webgoat-server
 docker build -t webgoat/webgoat-8.0 .
-docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
-docker login
-docker push webgoat/webgoat-8.0
-```
-
-### Docker on ARM (Raspberry Pi)
-On a Raspberry Pi (it has yet been tested with a Raspberry Pi 3 and the hypriot Docker image) you need to build JFFI for
-ARM first. This is needed by the docker-maven-plugin ([see here](https://github.com/spotify/docker-maven-plugin/issues/233)):
-
-```Shell
-sudo apt-get install build-essential
-git clone https://github.com/jnr/jffi.git
-cd jffi
-ant jar
-cd build/jni
-sudo cp libjffi-1.2.so /usr/lib
-```
-
-When you have done this you can build the Docker container using the following commands:
-
-```Shell
-cd WebGoat/
-mvn install
-cd webgoat-server
-mvn docker:build -Drpi=true
 docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
 docker login
 docker push webgoat/webgoat-8.0

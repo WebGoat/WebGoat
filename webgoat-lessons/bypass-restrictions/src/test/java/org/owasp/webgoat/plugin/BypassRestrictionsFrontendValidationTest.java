@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BypassRestrictionsFrontendValidationTest extends LessonTest {
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(new BypassRestrictions());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
