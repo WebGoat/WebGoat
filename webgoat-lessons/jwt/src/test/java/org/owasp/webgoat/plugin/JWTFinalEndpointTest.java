@@ -59,4 +59,13 @@ public class JWTFinalEndpointTest extends LessonTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("jwt-final-jerry-account"))));
     }
+
+    @Test
+    public void shouldNotBeAbleToBypassWithSimpleToken() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/final/delete")
+                .param("token", ".eyJ1c2VybmFtZSI6IlRvbSJ9.")
+                .content(""))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("jwt-invalid-token"))));
+    }
 }
