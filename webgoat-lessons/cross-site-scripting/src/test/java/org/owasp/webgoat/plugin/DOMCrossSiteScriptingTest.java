@@ -76,7 +76,7 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
                 .param("param1", "22")
                 .param("param2", "20"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
     }
 
 }
