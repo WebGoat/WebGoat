@@ -47,7 +47,7 @@ import java.sql.Statement;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjection/attack6b")
+@AssignmentPath("/SqlInjectionAdvanced/attack6b")
 public class SqlInjectionLesson6b extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)

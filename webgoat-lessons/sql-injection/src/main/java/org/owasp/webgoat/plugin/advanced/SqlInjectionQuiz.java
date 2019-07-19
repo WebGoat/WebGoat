@@ -21,7 +21,7 @@ import java.sql.Statement;
  * 3. add Request param with name of question to method head
  * For a more detailed description how to implement the quiz go to the quiz.js file in webgoat-container -> js
  */
-@AssignmentPath("/SqlInjection/quiz")
+@AssignmentPath("/SqlInjectionAdvanced/quiz")
 public class SqlInjectionQuiz extends AssignmentEndpoint {
 
     String[] solutions = {"Solution 4", "Solution 3", "Solution 2", "Solution 3", "Solution 4"};
