@@ -84,7 +84,7 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
                         }
                         return null;
                     }
-                }).parse(token);
+                }).parseClaimsJws(token);
                 if (errorMessage[0] != null) {
                     return trackProgress(failed().output(errorMessage[0]).build());
                 }

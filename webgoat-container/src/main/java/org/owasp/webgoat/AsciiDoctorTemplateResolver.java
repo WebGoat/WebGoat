@@ -44,9 +44,9 @@ import org.thymeleaf.resourceresolver.IResourceResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import static org.apache.commons.lang3.CharEncoding.UTF_8;
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
 /**
@@ -92,7 +92,7 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
                     extensionRegistry.inlineMacro("webGoatVersion", WebGoatVersionMacro.class);
 
                     asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
-                    return new ByteArrayInputStream(writer.getBuffer().toString().getBytes(UTF_8));
+                    return new ByteArrayInputStream(writer.getBuffer().toString().getBytes(StandardCharsets.UTF_8));
                 }
             } catch (IOException e) {
                 //no html yet
