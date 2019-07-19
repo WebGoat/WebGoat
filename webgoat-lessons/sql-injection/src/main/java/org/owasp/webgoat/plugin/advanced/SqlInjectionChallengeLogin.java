@@ -17,7 +17,7 @@ import java.sql.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@AssignmentPath("SqlInjection/challenge_Login")
+@AssignmentPath("/SqlInjectionAdvanced/challenge_Login")
 @Slf4j
 @AssignmentHints(value ={"SqlInjectionChallengeHint1", "SqlInjectionChallengeHint2", "SqlInjectionChallengeHint3", "SqlInjectionChallengeHint4"})
 public class SqlInjectionChallengeLogin extends AssignmentEndpoint {

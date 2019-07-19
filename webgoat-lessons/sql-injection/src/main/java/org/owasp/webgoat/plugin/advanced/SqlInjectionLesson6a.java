@@ -42,7 +42,7 @@ import java.sql.*;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjection/attack6a")
+@AssignmentPath("/SqlInjectionAdvanced/attack6a")
 @AssignmentHints(value = {"SqlStringInjectionHint-advanced-6a-1", "SqlStringInjectionHint-advanced-6a-2", "SqlStringInjectionHint-advanced-6a-3",
 "SqlStringInjectionHint-advanced-6a-4"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
