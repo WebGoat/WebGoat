@@ -52,6 +52,11 @@
             <email>jason.white@owasp.org</email>
         </developer>
         <developer>
+            <id>zubcevic</id>
+            <name>René Zubcevic</name>
+            <email>rene.zubcevic@owasp.org</email>
+        </developer>
+        <developer>
             <id>jwayman</id>
             <name>Jeff Wayman</name>
             <email/>
