@@ -58,6 +58,8 @@ import java.io.File;
  */
 @Configuration
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
+	
+	private static final String UTF8 = "UTF-8";
 
     @Autowired
     @Qualifier("pluginTargetDirectory")
@@ -80,6 +82,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         resolver.setSuffix(".html");
         resolver.setOrder(1);
         resolver.setCacheable(false);
+        resolver.setCharacterEncoding(UTF8);
         resolver.setApplicationContext(applicationContext);
         return resolver;
     }
@@ -89,6 +92,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         LessonTemplateResolver resolver = new LessonTemplateResolver(pluginTargetDirectory, resourceLoader);
         resolver.setOrder(2);
         resolver.setCacheable(false);
+        resolver.setCharacterEncoding(UTF8);
         return resolver;
     }
 
@@ -97,6 +101,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(language);
         resolver.setCacheable(false);
         resolver.setOrder(3);
+        resolver.setCharacterEncoding(UTF8);
         return resolver;
     }
 
