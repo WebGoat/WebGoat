@@ -83,7 +83,7 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
                     if (output.toString().contains("dave") && output.toString().contains("passW0rD")) {
                         output.append(appendingWhenSucceded);
-                        return trackProgress(informationMessage().feedback("sql-injection.advanced.6a.success").feedbackArgs(output.toString()).output(" Your query was: " + query).build());
+                        return trackProgress(success().feedback("sql-injection.advanced.6a.success").feedbackArgs(output.toString()).output(" Your query was: " + query).build());
                     } else {
                         return trackProgress(failed().output(output.toString() + "<br> Your query was: " + query).build());
                     }
