@@ -62,7 +62,7 @@ public class SqlInjectionLesson6aTest extends LessonTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjectionAdvanced/attack6a")
                 .param("userid_6a", "Smith'; SELECT * from user_system_data; --"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lessonCompleted", is(false)))
+                .andExpect(jsonPath("$.lessonCompleted", is(true)))
                 .andExpect(jsonPath("$.feedback", containsString("passW0rD")));
     }
 
@@ -82,6 +82,7 @@ public class SqlInjectionLesson6aTest extends LessonTest {
                 .param("userid_6a", "S'; Select * from user_system_data; --"))
 
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.lessonCompleted", is(true)))
                 .andExpect(jsonPath("$.feedback", containsString("UNION")));
     }
 }
