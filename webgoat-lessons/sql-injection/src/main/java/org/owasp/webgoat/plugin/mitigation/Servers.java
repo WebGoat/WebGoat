@@ -20,7 +20,7 @@ import java.util.List;
  * @since 6/13/17.
  */
 @RestController
-@RequestMapping("SqlInjection/servers")
+@RequestMapping("SqlInjectionMitigations/servers")
 public class Servers {
 
     @AllArgsConstructor
