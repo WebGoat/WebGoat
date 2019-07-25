@@ -42,9 +42,11 @@ public class General_TestHelper extends TestHelper {
 		startLesson(cookie, webgoatURL, "HttpProxies");
 		assertThat(given()
 				.when().config(restConfig).cookie("JSESSIONID", cookie).header("x-request-intercepted", "true")
-				.contentType(ContentType.JSON).log().all()
+				.contentType(ContentType.JSON)
+				//.log().all()
 				.get(webgoatURL + "/WebGoat/HttpProxies/intercept-request?changeMe=Requests are tampered easily").then()
-				.log().all().statusCode(200).extract().path("lessonCompleted"), is(true));
+				//.log().all()
+				.statusCode(200).extract().path("lessonCompleted"), is(true));
 
 		checkResults(cookie, webgoatURL, "/HttpProxies/");
 
@@ -85,9 +87,11 @@ public class General_TestHelper extends TestHelper {
 
 		startLesson(cookie, webgoatURL, "HttpProxies");
 		assertThat(given().when().config(restConfig).cookie("JSESSIONID", cookie).header("x-request-intercepted", "true")
-				.contentType(ContentType.JSON).log().all()
+				.contentType(ContentType.JSON)
+				//.log().all()
 				.get(webgoatURL + "/WebGoat/HttpProxies/intercept-request?changeMe=Requests are tampered easily").then()
-				.log().all().statusCode(200).extract().path("lessonCompleted"), is(true));
+				//.log().all()
+				.statusCode(200).extract().path("lessonCompleted"), is(true));
 		checkResults(cookie, webgoatURL, "/HttpProxies/");
 		
 	}
