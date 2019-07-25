@@ -20,7 +20,7 @@ import java.sql.*;
  * @author nbaars
  * @since 4/8/17.
  */
-@AssignmentPath("SqlInjection/challenge")
+@AssignmentPath("/SqlInjectionAdvanced/challenge")
 @AssignmentHints(value = {"SqlInjectionChallenge1", "SqlInjectionChallenge2", "SqlInjectionChallenge3"})
 @Slf4j
 public class SqlInjectionChallenge extends AssignmentEndpoint {

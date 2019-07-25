@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@AssignmentPath("SqlInjection/attack10b")
+@AssignmentPath("SqlInjectionMitigations/attack10b")
 @AssignmentHints(value = {"SqlStringInjectionHint-mitigation-10b-1", "SqlStringInjectionHint-mitigation-10b-2", "SqlStringInjectionHint-mitigation-10b-3", "SqlStringInjectionHint-mitigation-10b-4", "SqlStringInjectionHint-mitigation-10b-5"})
 public class SqlInjectionLesson10b extends AssignmentEndpoint {
 
