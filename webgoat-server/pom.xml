@@ -139,7 +139,17 @@
             <artifactId>secure-passwords</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>4.0.0</version>
+			<scope>test</scope>
+		</dependency>
         <!--uncommment below to run/include lesson template in WebGoat Build-->
         <!--<dependency>-->
         <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
