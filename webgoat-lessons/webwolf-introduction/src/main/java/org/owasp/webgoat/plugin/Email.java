@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Data
 public class Email implements Serializable {
 
-    private LocalDateTime time;
     private String contents;
     private String sender;
     private String title;
