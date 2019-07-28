@@ -32,11 +32,10 @@ public class MailAssignment extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult sendEmail(@RequestParam String email) {
         String username = email.substring(0, email.indexOf("@"));
-        if (username.equals(getWebSession().getUserName())) {
+        if (username.equalsIgnoreCase(getWebSession().getUserName())) {
             Email mailEvent = Email.builder()
                     .recipient(username)
                     .title("Test messages from WebWolf")
-                    .time(LocalDateTime.now())
                     .contents("This is a test message from WebWolf, your unique code is: " + StringUtils.reverse(username))
                     .sender("webgoat@owasp.org")
                     .build();
