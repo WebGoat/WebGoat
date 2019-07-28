@@ -17,7 +17,7 @@ public class UserForm {
 
     @NotNull
     @Size(min=6, max=20)
-    @Pattern(regexp = "[a-zA-Z0-9-]*", message = "can only contain letters, digits, and -")
+    @Pattern(regexp = "[a-z0-9-]*", message = "can only contain lowercase letters, digits, and -")
     private String username;
     @NotNull
     @Size(min=6, max=10)
