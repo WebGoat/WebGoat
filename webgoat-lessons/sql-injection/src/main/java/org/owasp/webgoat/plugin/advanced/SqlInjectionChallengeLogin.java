@@ -39,10 +39,10 @@ public class SqlInjectionChallengeLogin extends AssignmentEndpoint {
     ResultSet resultSet = statement.executeQuery();
 
     if (resultSet.next()) {
-        return ("tom".equals(username_login)) ? success().build()
-                : success().feedback("ResultsButNotTom").build();
+        return ("tom".equals(username_login)) ? trackProgress(success().build())
+                : trackProgress(failed().feedback("ResultsButNotTom").build());
     } else {
-      return failed().feedback("NoResultsMatched").build();
+      return trackProgress(failed().feedback("NoResultsMatched").build());
     }
   }
 }
