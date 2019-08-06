@@ -1,10 +1,10 @@
 package org.owasp.webgoat.plugin;
 
-import lombok.Builder;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * @author nbaars

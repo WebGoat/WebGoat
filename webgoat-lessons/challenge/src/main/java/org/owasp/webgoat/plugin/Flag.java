@@ -1,9 +1,11 @@
 package org.owasp.webgoat.plugin;
 
-import com.google.common.collect.Maps;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.IntStream;
+
+import javax.annotation.PostConstruct;
+
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.assignments.Endpoint;
 import org.owasp.webgoat.i18n.PluginMessages;
@@ -17,10 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.PostConstruct;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.IntStream;
+import com.google.common.collect.Maps;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author nbaars

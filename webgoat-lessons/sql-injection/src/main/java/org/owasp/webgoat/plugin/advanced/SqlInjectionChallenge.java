@@ -11,17 +11,19 @@ import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.*;
 
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 /**
  * @author nbaars
  * @since 4/8/17.
  */
 @AssignmentPath("/SqlInjectionAdvanced/challenge")
-@AssignmentHints(value = {"SqlInjectionChallenge1", "SqlInjectionChallenge2", "SqlInjectionChallenge3"})
+@AssignmentHints(value = {"SqlInjectionChallenge1", "SqlInjectionChallenge2", "SqlInjectionChallenge3", "SqlInjectionChallengeHint1", "SqlInjectionChallengeHint2", "SqlInjectionChallengeHint3", "SqlInjectionChallengeHint4"})
 @Slf4j
 public class SqlInjectionChallenge extends AssignmentEndpoint {
 
@@ -67,6 +69,26 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
             return attackResult;
     }
 
+	@RequestMapping(method = POST)
+	@ResponseBody
+	public AttackResult login(@RequestParam String username_login, @RequestParam String password_login) throws Exception {
+		System.out.println("right Method");
+		Connection connection = DatabaseUtilities.getConnection(webSession);
+		SqlInjectionChallenge.checkDatabase(connection);
+
+		PreparedStatement statement = connection.prepareStatement("select password from " + SqlInjectionChallenge.USERS_TABLE_NAME + " where userid = ? and password = ?");
+		statement.setString(1, username_login);
+		statement.setString(2, password_login);
+		ResultSet resultSet = statement.executeQuery();
+
+		if (resultSet.next()) {
+			return ("tom".equals(username_login)) ? trackProgress(success().build())
+					: trackProgress(failed().feedback("ResultsButNotTom").build());
+		} else {
+		  return trackProgress(failed().feedback("NoResultsMatched").build());
+		}
+	}
+  
     private AttackResult checkArguments(String username_reg, String email_reg, String password_reg) {
         if (StringUtils.isEmpty(username_reg) || StringUtils.isEmpty(email_reg) || StringUtils.isEmpty(password_reg)) {
             return failed().feedback("input.invalid").build();

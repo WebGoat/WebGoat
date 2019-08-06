@@ -1,6 +1,14 @@
 package org.owasp.webgoat.plugin.challenge6;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.owasp.webgoat.plugin.SolutionConstants.PASSWORD_TOM;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
@@ -15,10 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.sql.*;
-
-import static org.owasp.webgoat.plugin.SolutionConstants.PASSWORD_TOM;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author nbaars

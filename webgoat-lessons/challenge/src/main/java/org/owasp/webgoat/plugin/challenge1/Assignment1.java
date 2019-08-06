@@ -1,5 +1,11 @@
 package org.owasp.webgoat.plugin.challenge1;
 
+import static org.owasp.webgoat.plugin.SolutionConstants.PASSWORD;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -9,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-
-import static org.owasp.webgoat.plugin.SolutionConstants.PASSWORD;
 
 /**
  * ************************************************************************************************

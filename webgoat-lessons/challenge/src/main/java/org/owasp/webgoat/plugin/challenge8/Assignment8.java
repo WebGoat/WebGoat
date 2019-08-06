@@ -1,7 +1,11 @@
 package org.owasp.webgoat.plugin.challenge8;
 
-import com.google.common.collect.Maps;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.plugin.Flag;
@@ -11,10 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.google.common.collect.Maps;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author nbaars
