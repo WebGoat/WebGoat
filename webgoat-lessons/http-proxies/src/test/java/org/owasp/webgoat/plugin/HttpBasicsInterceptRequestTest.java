@@ -69,4 +69,32 @@ public class HttpBasicsInterceptRequestTest extends AssignmentEndpointTest {
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("http-proxies.intercept.failure"))))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
+
+    @Test
+    public void missingParam() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/HttpProxies/intercept-request")
+                .header("x-request-intercepted", "false"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("http-proxies.intercept.failure"))))
+                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+    }
+
+    @Test
+    public void missingHeader() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/HttpProxies/intercept-request")
+                .param("changeMe", "Requests are tampered easily"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("http-proxies.intercept.failure"))))
+                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+    }
+
+    @Test
+    public void whenPostAssignmentShouldNotPass() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/HttpProxies/intercept-request")
+                .header("x-request-intercepted", "true")
+                .param("changeMe", "Requests are tampered easily"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("http-proxies.intercept.failure"))))
+                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+    }
 }
