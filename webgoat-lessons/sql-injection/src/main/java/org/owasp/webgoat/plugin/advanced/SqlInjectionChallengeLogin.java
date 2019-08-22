@@ -1,7 +1,5 @@
 package org.owasp.webgoat.plugin.advanced;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
@@ -18,7 +16,6 @@ import java.sql.*;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @AssignmentPath("/SqlInjectionAdvanced/challenge_Login")
-@Slf4j
 @AssignmentHints(value ={"SqlInjectionChallengeHint1", "SqlInjectionChallengeHint2", "SqlInjectionChallengeHint3", "SqlInjectionChallengeHint4"})
 public class SqlInjectionChallengeLogin extends AssignmentEndpoint {
 
@@ -29,7 +26,6 @@ public class SqlInjectionChallengeLogin extends AssignmentEndpoint {
   @RequestMapping(method = POST)
   @ResponseBody
   public AttackResult login(@RequestParam String username_login, @RequestParam String password_login) throws Exception {
-    System.out.println("right Method");
     Connection connection = DatabaseUtilities.getConnection(webSession);
     SqlInjectionChallenge.checkDatabase(connection);
 
@@ -39,8 +35,8 @@ public class SqlInjectionChallengeLogin extends AssignmentEndpoint {
     ResultSet resultSet = statement.executeQuery();
 
     if (resultSet.next()) {
-        return ("tom".equals(username_login)) ? success().build()
-                : success().feedback("ResultsButNotTom").build();
+        return ("tom".equals(username_login)) ? trackProgress(success().build())
+        		: success().feedback("ResultsButNotTom").build();
     } else {
       return failed().feedback("NoResultsMatched").build();
     }

