@@ -65,6 +65,29 @@ public class TestHelper {
 	}
 	
 	/**
+	 * Helper method for most common type of test.
+	 * PUT with parameters.
+	 * Checks for 200 and lessonCompleted as indicated by expectedResult
+	 * @param webgoatCookie
+	 * @param url
+	 * @param params
+	 * @param expectedResult
+	 */
+	public void checkAssignmentWithPUT(String webgoatCookie, String url, Map<String, ?> params, boolean expectedResult) {
+		assertThat(
+			given()
+				.when()
+					.config(restConfig)
+					.cookie("JSESSIONID", webgoatCookie)
+					.formParams(params)
+				.put(url)
+				.then()
+					//.log().all()
+					.statusCode(200)
+					.extract().path("lessonCompleted"), is(expectedResult));
+	}
+	
+	/**
 	 * Helper method at the end of a lesson.
 	 * Check if all path paramters are correct for the progress.
 	 * Check if all are solved.
