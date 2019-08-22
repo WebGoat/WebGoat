@@ -23,3 +23,6 @@ capture:
       files:
       - directory: ${project.projectDir}
       - excludeRegex: node_modules|bower_components|vendor
+install:
+  coverity:
+    version: latest
