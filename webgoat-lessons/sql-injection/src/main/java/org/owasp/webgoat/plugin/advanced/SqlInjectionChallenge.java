@@ -51,7 +51,11 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
                 ResultSet resultSet = statement.executeQuery(checkUserQuery);
 
                 if (resultSet.next()) {
-                    attackResult = failed().feedback("user.exists").feedbackArgs(username_reg).build();
+                	if (username_reg.contains("tom'")) {
+                		attackResult = trackProgress(success().feedback("user.exists").build());
+                	} else {
+                		attackResult = failed().feedback("user.exists").feedbackArgs(username_reg).build();
+                	}
                 } else {
                     PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + USERS_TABLE_NAME + " VALUES (?, ?, ?)");
                     preparedStatement.setString(1, username_reg);
