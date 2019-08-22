@@ -39,7 +39,7 @@ _$selector.*text*(someEncodeHtmlMethod(userInputHere))_
 
 http://underscorejs.org/#template
 
-https://nvisium.com/blog/2015/05/21/dont-break-your-backbone-xss-mitigation/
+https://nvisium.com/blog/2015/05/21/dont-break-your-backbone-xss-mitigation.html
 
 ==== Angular
 Angular has sought to escape by default, but the expression language has proven to have 'sandbox' escapes.  Best to check
