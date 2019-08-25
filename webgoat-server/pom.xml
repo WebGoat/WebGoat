@@ -139,17 +139,6 @@
             <artifactId>secure-passwords</artifactId>
             <version>${project.version}</version>
         </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<version>4.0.0</version>
-			<scope>test</scope>
-		</dependency>
         <!--uncommment below to run/include lesson template in WebGoat Build-->
         <!--<dependency>-->
         <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
@@ -198,6 +187,22 @@
                     </jvmArguments>
                     <fork>true</fork>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>internal</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

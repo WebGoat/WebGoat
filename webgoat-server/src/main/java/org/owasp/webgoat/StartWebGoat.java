@@ -27,6 +27,11 @@ package org.owasp.webgoat;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Import;
+
+import java.util.Map;
 
 /**
  * Main entry point, this project is here to get all the lesson jars included to the final jar file
@@ -36,10 +41,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @Slf4j
-public class StartWebGoat {
+public class StartWebGoat extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         log.info("Starting WebGoat with args: {}", args);
-        SpringApplication.run(WebGoat.class, args);
+        System.setProperty("spring.config.name", "application-webgoat");
+        SpringApplication.run(StartWebGoat.class, args);
     }
 }

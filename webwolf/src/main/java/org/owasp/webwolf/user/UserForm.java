@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 public class UserForm {
 
     @NotNull
-    @Size(min=6, max=20)
+    @Size(min=6, max=40)
     private String username;
     @NotNull
     @Size(min=6, max=10)
