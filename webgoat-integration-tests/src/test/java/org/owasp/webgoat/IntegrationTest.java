@@ -17,10 +17,15 @@ import java.net.ServerSocket;
 import java.util.Map;
 import java.util.UUID;
 
+import static io.restassured.RestAssured.given;
+
 public abstract class IntegrationTest {
 
-    private static String WEBGOAT_URL = "http://localhost:8080/WebGoat/";
-    private static String WEBWOLF_URL = "http://localhost:9090/";
+    protected static int WG_PORT = 8080;
+    protected static int WW_PORT = 9090;
+    private static String WEBGOAT_URL = "http://127.0.0.1:" + WG_PORT + "/WebGoat/";
+    private static String WEBWOLF_URL = "http://127.0.0.1:" + WW_PORT + "/";
+
 
     //This also allows to test the application with HTTPS when outside testing option is used
     protected static RestAssuredConfig restConfig = RestAssuredConfig.newConfig().sslConfig(new SSLConfig().relaxedHTTPSValidation());
@@ -38,23 +43,19 @@ public abstract class IntegrationTest {
     public static void beforeAll() {
         if (!started) {
             started = true;
-            if (!areAlreadyRunning()) {
+            if (!isAlreadyRunning()) {
                 SpringApplicationBuilder wgs = new SpringApplicationBuilder(StartWebGoat.class)
-                        .properties(Map.of("spring.config.name", "application-webgoat"));
+                        .properties(Map.of("spring.config.name", "application-webgoat", "WEBGOAT_PORT", WG_PORT));
                 wgs.run();
                 SpringApplicationBuilder wws = new SpringApplicationBuilder(WebWolf.class)
-                        .properties(Map.of("spring.config.name", "application-webwolf"));
+                        .properties(Map.of("spring.config.name", "application-webwolf", "WEBWOLF_PORT", WW_PORT));
                 wws.run();
             }
         }
     }
 
-    private static boolean areAlreadyRunning() {
-        return checkIfServerIsRunnningOn(9090) && checkIfServerIsRunnningOn(8080);
-    }
-
-    private static boolean checkIfServerIsRunnningOn(int port) {
-        try (var ignored = new ServerSocket(port)) {
+    private static boolean isAlreadyRunning() {
+        try (var ignored = new ServerSocket(WG_PORT)) {
             return false;
         } catch (IOException e) {
             return true;
@@ -75,19 +76,40 @@ public abstract class IntegrationTest {
 
     @Before
     public void login() {
-        webGoatCookie = RestAssured.given()
+        String location = given()
                 .when()
                 .config(restConfig)
                 .formParam("username", webgoatUser)
                 .formParam("password", "password")
-                .formParam("matchingPassword", "password")
-                .formParam("agree", "agree")
-                .post(url("register.mvc"))
-                .then()
+                .post(url("login")).then()
                 .cookie("JSESSIONID")
                 .statusCode(302)
-                .extract()
-                .cookie("JSESSIONID");
+                .extract().header("Location");
+        if (location.endsWith("?error")) {
+            webGoatCookie = RestAssured.given()
+                    .when()
+                    .config(restConfig)
+                    .formParam("username", webgoatUser)
+                    .formParam("password", "password")
+                    .formParam("matchingPassword", "password")
+                    .formParam("agree", "agree")
+                    .post(url("register.mvc"))
+                    .then()
+                    .cookie("JSESSIONID")
+                    .statusCode(302)
+                    .extract()
+                    .cookie("JSESSIONID");
+        } else {
+            webGoatCookie = given()
+                    .when()
+                    .config(restConfig)
+                    .formParam("username", webgoatUser)
+                    .formParam("password", "password")
+                    .post(url("login")).then()
+                    .cookie("JSESSIONID")
+                    .statusCode(302)
+                    .extract().cookie("JSESSIONID");
+        }
 
         webWolfCookie = RestAssured.given()
                 .when()
@@ -107,7 +129,7 @@ public abstract class IntegrationTest {
         RestAssured.given()
                 .when()
                 .config(restConfig)
-                .get(WEBGOAT_URL + "logout")
+                .get(url("logout"))
                 .then()
                 .statusCode(200);
     }
