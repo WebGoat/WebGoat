@@ -51,7 +51,7 @@ public abstract class LessonAdapter extends AbstractLesson {
         // Do Nothing - called when restart lesson is pressed. Each lesson can do something
     }
         
-    private final static Integer DEFAULT_RANKING = new Integer(1000);
+    private final static Integer DEFAULT_RANKING = 1000;
 
     /**
      * <p>getDefaultRanking.</p>

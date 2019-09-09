@@ -25,6 +25,7 @@ public class Email implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @JsonIgnore
     private LocalDateTime time = LocalDateTime.now();
     @Column(length = 1024)
     private String contents;

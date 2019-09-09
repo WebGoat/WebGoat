@@ -42,7 +42,7 @@ public class Requests {
     }
 
     @GetMapping
-    public ModelAndView get(HttpServletRequest request) {
+    public ModelAndView get() {
         ModelAndView m = new ModelAndView("requests");
         List<Tracert> traces = traceRepository.findAllTraces().stream()
                 .map(t -> new Tracert(t.getTimestamp(), path(t), toJsonString(t))).collect(toList());
