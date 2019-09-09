@@ -13,7 +13,7 @@ import org.owasp.webwolf.WebWolf;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Map;
 import java.util.UUID;
 
@@ -43,10 +43,12 @@ public abstract class IntegrationTest {
     public static void beforeAll() {
         if (!started) {
             started = true;
-            if (!isAlreadyRunning()) {
+            if (!isAlreadyRunning(WG_PORT)) {
                 SpringApplicationBuilder wgs = new SpringApplicationBuilder(StartWebGoat.class)
                         .properties(Map.of("spring.config.name", "application-webgoat", "WEBGOAT_PORT", WG_PORT));
                 wgs.run();
+            }
+            if (!isAlreadyRunning(WW_PORT)) {
                 SpringApplicationBuilder wws = new SpringApplicationBuilder(WebWolf.class)
                         .properties(Map.of("spring.config.name", "application-webwolf", "WEBWOLF_PORT", WW_PORT));
                 wws.run();
@@ -54,11 +56,11 @@ public abstract class IntegrationTest {
         }
     }
 
-    private static boolean isAlreadyRunning() {
-        try (var ignored = new ServerSocket(WG_PORT)) {
-            return false;
-        } catch (IOException e) {
+    private static boolean isAlreadyRunning(int port) {
+        try (var ignored = new Socket("127.0.0.1", port)) {
             return true;
+        } catch (IOException e) {
+            return false;
         }
     }
 
