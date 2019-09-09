@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
  * @since 5/20/17.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:/application-test.properties")
+@TestPropertySource(locations = {"classpath:/application-webgoat.properties", "classpath:/application-test.properties"})
 public abstract class LessonTest {
 
     @LocalServerPort

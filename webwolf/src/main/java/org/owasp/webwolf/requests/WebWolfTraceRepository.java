@@ -7,7 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.trace.Trace;
 import org.springframework.boot.actuate.trace.TraceRepository;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Keep track of all the incoming requests, we are only keeping track of request originating from
@@ -20,7 +23,7 @@ import java.util.*;
 public class WebWolfTraceRepository implements TraceRepository {
 
     private final EvictingQueue<Trace> traces = EvictingQueue.create(10000);
-    private List<String> exclusionList = Lists.newArrayList("/WebWolf/home", "/WebWolf/mail","/WebWolf/files", "/images/", "/login", "/favicon.ico", "/js/", "/webjars/", "/WebWolf/requests", "/css/", "/mail");
+    private List<String> exclusionList = Lists.newArrayList("/WebWolf/home", "/WebWolf/mail", "/WebWolf/files", "/images/", "/login", "/favicon.ico", "/js/", "/webjars/", "/WebWolf/requests", "/css/", "/mail");
 
     @Override
     public List<Trace> findAll() {
@@ -40,21 +43,9 @@ public class WebWolfTraceRepository implements TraceRepository {
 
     @Override
     public void add(Map<String, Object> map) {
-        Optional<String> host = getFromHeaders("host", map);
         String path = (String) map.getOrDefault("path", "");
-        if (host.isPresent() && !isInExclusionList(path)) {
+        if (!isInExclusionList(path)) {
             traces.add(new Trace(new Date(), map));
         }
-    }
-
-    private Optional<String> getFromHeaders(String header, Map<String, Object> map) {
-        Map<String, Object> headers = (Map<String, Object>) map.get("headers");
-        if (headers != null) {
-            Map<String, Object> request = (Map<String, Object>) headers.get("request");
-            if (request != null) {
-                return Optional.ofNullable((String) request.get(header));
-            }
-        }
-        return Optional.empty();
     }
 }

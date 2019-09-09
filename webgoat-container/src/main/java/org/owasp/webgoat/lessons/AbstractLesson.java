@@ -58,7 +58,7 @@ public abstract class AbstractLesson extends Screen implements Comparable<Object
      * Constructor for the Lesson object
      */
     public AbstractLesson() {
-        id = new Integer(++count);
+        id = ++count;
     }
 
 

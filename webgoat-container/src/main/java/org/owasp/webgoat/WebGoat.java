@@ -30,7 +30,6 @@
  */
 package org.owasp.webgoat;
 
-import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.plugins.PluginEndpointPublisher;
 import org.owasp.webgoat.plugins.PluginsLoader;
 import org.owasp.webgoat.session.Course;
@@ -38,10 +37,7 @@ import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
@@ -51,17 +47,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 
 @SpringBootApplication
-@Slf4j
-public class WebGoat extends SpringBootServletInitializer {
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(WebGoat.class);
-    }
-
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(WebGoat.class, args);
-    }
+public class WebGoat {
 
     @Bean(name = "pluginTargetDirectory")
     public File pluginTargetDirectory(@Value("${webgoat.user.directory}") final String webgoatHome) {
