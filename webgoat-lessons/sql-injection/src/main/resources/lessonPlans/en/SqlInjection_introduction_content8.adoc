@@ -1,6 +1,6 @@
 == Compromising confidentiality with String SQL injection
-If a system is vulnerable to SQL injections, aspets of that system's CIA triad can be easily compromoised _(if you are unfamiliar with the CIA triad, check out the CIA triad lesson in the general category)_.
-In the following three lessons you will learn how to compromise each aspect of the CIA triad using teachniques like _SQL string injections_ or _query chaining_.
+If a system is vulnerable to SQL injections, aspects of that system's CIA triad can be easily compromised _(if you are unfamiliar with the CIA triad, check out the CIA triad lesson in the general category)_.
+In the following three lessons you will learn how to compromise each aspect of the CIA triad using techniques like _SQL string injections_ or _query chaining_.
 
 In this lesson we will look at *confidentiality*.
 Confidentiality can be easily compromised by an attacker using SQL injection to read sensitive data like credit card numbers from a database.
