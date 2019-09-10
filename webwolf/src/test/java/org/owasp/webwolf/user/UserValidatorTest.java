@@ -1,5 +1,6 @@
 package org.owasp.webwolf.user;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,10 +13,6 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.when;
 
-/**
- * @author rjclancy
- * @since 3/26/19.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserValidatorTest {
 
@@ -26,8 +23,8 @@ public class UserValidatorTest {
     private UserValidator userValidator;
 
     @Test
-    public void testValidUserForm() {
-        UserForm validUserForm = new UserForm();
+    public void validUserFormShouldNotHaveErrors() {
+        var validUserForm = new UserForm();
         validUserForm.setUsername("guest");
         validUserForm.setMatchingPassword("123");
         validUserForm.setPassword("123");
@@ -35,12 +32,12 @@ public class UserValidatorTest {
 
         userValidator.validate(validUserForm, errors);
 
-        assertFalse(errors.hasErrors());
+        Assertions.assertThat(errors.hasErrors()).isFalse();
     }
 
     @Test
-    public void testValidUserForm_INVALID_PASSWORD() {
-        UserForm validUserForm = new UserForm();
+    public void whenPasswordDoNotMatchShouldFail() {
+        var validUserForm = new UserForm();
         validUserForm.setUsername("guest");
         validUserForm.setMatchingPassword("123");
         validUserForm.setPassword("124");
@@ -48,38 +45,33 @@ public class UserValidatorTest {
 
         userValidator.validate(validUserForm, errors);
 
-        assertTrue(errors.hasErrors());
+        Assertions.assertThat(errors.hasErrors()).isTrue();
     }
 
     @Test
-    public void testValidUserForm_DUPLICATE_USER() {
-        // setup
-        final String username = "guest";
-        final String password = "123";
-
-        UserForm validUserForm = new UserForm();
+    public void registerExistingUserAgainShouldFail() {
+        var username = "guest";
+        var password = "123";
+        var validUserForm = new UserForm();
         validUserForm.setUsername(username);
         validUserForm.setMatchingPassword(password);
         validUserForm.setPassword("124");
         BindException errors = new BindException(validUserForm, "validUserForm");
-
-        WebGoatUser webGoatUser = new WebGoatUser(username, password);
+        var webGoatUser = new WebGoatUser(username, password);
         when(mockUserRepository.findByUsername(validUserForm.getUsername())).thenReturn(webGoatUser);
 
-        // execute
         userValidator.validate(validUserForm, errors);
 
-        // verify
-        assertTrue(errors.hasErrors());
+        Assertions.assertThat(errors.hasErrors()).isTrue();
     }
 
     @Test
-    public void testSupports(){
-        Assert.assertTrue(userValidator.supports(UserForm.class));
+    public void testSupports() {
+        Assertions.assertThat(userValidator.supports(UserForm.class)).isTrue();
     }
 
     @Test
-    public void testSupports_false(){
-        Assert.assertFalse(userValidator.supports(UserService.class));
+    public void testSupports_false() {
+        Assertions.assertThat(userValidator.supports(UserService.class)).isFalse();
     }
 }
