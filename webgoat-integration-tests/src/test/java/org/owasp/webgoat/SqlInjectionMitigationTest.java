@@ -2,6 +2,9 @@ package org.owasp.webgoat;
 
 import org.junit.Test;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +36,18 @@ public class SqlInjectionMitigationTest extends IntegrationTest {
 				"}");
 		checkAssignment(url("/WebGoat/SqlInjectionMitigations/attack10b"), params, true);
 		
-		//checkResults(webGoatCookie, webgoatURL, "/SqlInjectionMitigations/");
+		RestAssured.given()
+		.when().config(restConfig).cookie("JSESSIONID", getWebGoatCookie())
+		.contentType(ContentType.JSON)
+		.get(url("/WebGoat/SqlInjectionMitigations/servers?column=(case when (true) then hostname else id end)"))
+		.then()
+		.statusCode(200);
+
+		params.clear();
+		params.put("ip", "104.130.219.202");
+		checkAssignment(url("/WebGoat/SqlInjectionMitigations/attack12a"), params, true);
+
+		checkResults("/SqlInjectionMitigations/");
 	
 	}
 }
