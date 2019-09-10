@@ -1,5 +1,7 @@
 package org.owasp.webwolf.user;
 
+import lombok.AllArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,8 +16,7 @@ public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
 
-    @Autowired
-    public UserService(final UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
