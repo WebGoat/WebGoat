@@ -20,7 +20,7 @@ import java.sql.*;
  * @author nbaars
  * @since 6/13/17.
  */
-@AssignmentPath("SqlInjectionMitigations/attack12a")
+@AssignmentPath("/SqlInjectionMitigations/attack12a")
 @AssignmentHints(value = {"SqlStringInjectionHint-mitigation-12a-1", "SqlStringInjectionHint-mitigation-12a-2", "SqlStringInjectionHint-mitigation-12a-3", "SqlStringInjectionHint-mitigation-12a-4"})
 @Slf4j
 public class SqlInjectionLesson12a extends AssignmentEndpoint {
