@@ -1,6 +1,5 @@
 package org.owasp.webgoat.plugin;
 
-import org.owasp.webgoat.assignments.Endpoint;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.WebSession;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
 import java.util.HashMap;
 
-public class Users extends Endpoint{
+public class Users {
 
     @Autowired
     private WebSession webSession;
@@ -102,8 +101,8 @@ public class Users extends Endpoint{
         return webSession;
     }
 
-    @Override
-    public String getPath() {
-        return  "/access-control/list-users";
-    }
+//    @Override
+//    public String getPath() {
+//        return  "/access-control/list-users";
+//    }
 }

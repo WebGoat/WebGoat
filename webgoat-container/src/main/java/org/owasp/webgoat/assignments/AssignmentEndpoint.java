@@ -41,7 +41,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * </p>
  * Note: each subclass should declare this annotation otherwise the WebGoat framework cannot find your endpoint.
  */
-public abstract class AssignmentEndpoint extends Endpoint {
+//TODO: rename to assignment
+public abstract class AssignmentEndpoint {
 
     @Autowired
     private UserTrackerRepository userTrackerRepository;
@@ -74,11 +75,6 @@ public abstract class AssignmentEndpoint extends Endpoint {
 
   	protected UserSessionData getUserSessionData() {
         return userSessionData;
-    }
-
-    @Override
-    public final String getPath() {
-        return this.getClass().getAnnotationsByType(AssignmentPath.class)[0].value();
     }
 
     /**

@@ -4,10 +4,7 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -44,15 +41,14 @@ import java.io.IOException;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/HttpBasics/attack1")
+@RestController
 @AssignmentHints({"http-basics.hints.http_basics_lesson.1"})
 public class HttpBasicsLesson extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
+    @PostMapping("/HttpBasics/attack1")
     @ResponseBody
-    AttackResult completed(@RequestParam String person) throws IOException {
-        if (!person.toString().equals("")) {
+    public AttackResult completed(@RequestParam String person) {
+        if (!person.equals("")) {
             return trackProgress(success()
                 .feedback("http-basics.reversed")
                 .feedbackArgs(new StringBuffer(person).reverse().toString())

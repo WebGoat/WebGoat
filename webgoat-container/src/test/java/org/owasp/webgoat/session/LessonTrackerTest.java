@@ -48,7 +48,7 @@ public class LessonTrackerTest {
     @Test
     public void allAssignmentsSolvedShouldMarkLessonAsComplete() {
         AbstractLesson lesson = mock(AbstractLesson.class);
-        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "")));
+        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment", List.of(""))));
         LessonTracker lessonTracker = new LessonTracker(lesson);
         lessonTracker.assignmentSolved("assignment");
 
@@ -58,8 +58,8 @@ public class LessonTrackerTest {
     @Test
     public void noAssignmentsSolvedShouldMarkLessonAsInComplete() {
         AbstractLesson lesson = mock(AbstractLesson.class);
-        Assignment a1 = new Assignment("a1", "a1");
-        Assignment a2 = new Assignment("a2", "a2");
+        Assignment a1 = new Assignment("a1");
+        Assignment a2 = new Assignment("a2");
         List<Assignment> assignments = Lists.newArrayList(a1, a2);
         when(lesson.getAssignments()).thenReturn(assignments);
         LessonTracker lessonTracker = new LessonTracker(lesson);
@@ -73,7 +73,7 @@ public class LessonTrackerTest {
     @Test
     public void solvingSameAssignmentShouldNotAddItTwice() {
         AbstractLesson lesson = mock(AbstractLesson.class);
-        Assignment a1 = new Assignment("a1", "a1");
+        Assignment a1 = new Assignment("a1");
         List<Assignment> assignments = Lists.newArrayList(a1);
         when(lesson.getAssignments()).thenReturn(assignments);
         LessonTracker lessonTracker = new LessonTracker(lesson);

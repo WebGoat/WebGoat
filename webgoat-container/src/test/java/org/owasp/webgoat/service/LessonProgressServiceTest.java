@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -71,7 +73,7 @@ public class LessonProgressServiceTest {
 
     @Before
     public void setup() {
-        Assignment assignment = new Assignment("test", "test");
+        Assignment assignment = new Assignment("test", "test", List.of());
         when(userTrackerRepository.findByUser(anyString())).thenReturn(userTracker);
         when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
         when(websession.getCurrentLesson()).thenReturn(lesson);

@@ -1,7 +1,6 @@
 package org.owasp.webgoat.plugin;
 
 
-import org.owasp.webgoat.assignments.Endpoint;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +44,7 @@ import java.util.Map;
  * @since January 3, 2017
  */
 
-public class IDORViewOwnProfile extends Endpoint{
+public class IDORViewOwnProfile {
 
     @Autowired
     UserSessionData userSessionData;
@@ -74,8 +72,8 @@ public class IDORViewOwnProfile extends Endpoint{
         return details;
     }
 
-    @Override
-    public String getPath() {
-        return "/IDOR/profile";
-    }
+//    @Override
+//    public String getPath() {
+//        return "/IDOR/profile";
+//    }
 }
