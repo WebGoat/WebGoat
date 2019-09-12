@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.assignments.Endpoint;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.users.UserTracker;
@@ -27,7 +26,7 @@ import java.util.stream.IntStream;
  * @since 3/23/17.
  */
 @Slf4j
-public class Flag extends Endpoint {
+public class Flag { //extends Endpoint {
 
     public static final Map<Integer, String> FLAGS = Maps.newHashMap();
     @Autowired
@@ -48,10 +47,10 @@ public class Flag extends Endpoint {
         IntStream.range(1, 10).forEach(i -> FLAGS.put(i, UUID.randomUUID().toString()));
     }
 
-    @Override
-    public String getPath() {
-        return "challenge/flag";
-    }
+//    @Override
+//    public String getPath() {
+//        return "challenge/flag";
+//    }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

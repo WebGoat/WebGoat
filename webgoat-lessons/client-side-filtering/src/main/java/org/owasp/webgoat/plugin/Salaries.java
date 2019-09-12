@@ -7,7 +7,6 @@ package org.owasp.webgoat.plugin;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
-import org.owasp.webgoat.assignments.Endpoint;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
@@ -30,7 +29,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class Salaries extends Endpoint {
+public class Salaries { // {extends Endpoint {
 
     @Value("${webgoat.user.directory}")
     private String webGoatHomeDirectory;
@@ -84,10 +83,10 @@ public class Salaries extends Endpoint {
         return json;
     }
 
-    @Override
-    public String getPath() {
-        return "/clientSideFiltering/salaries";
-    }
+//    @Override
+//    public String getPath() {
+//        return "/clientSideFiltering/salaries";
+//    }
 
 
 }

@@ -1,7 +1,6 @@
 package org.owasp.webgoat.plugin;
 
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.assignments.Endpoint;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,17 +40,17 @@ import java.io.PrintWriter;
  * @since November 17, 2016
  */
 @Slf4j
-public class Ping extends Endpoint {
+public class Ping  {
 
     @Value("${webgoat.user.directory}")
     private String webGoatHomeDirectory;
     @Autowired
     private WebSession webSession;
 
-    @Override
-    public String getPath() {
-        return "XXE/ping";
-    }
+//    @Override
+//    public String getPath() {
+//        return "XXE/ping";
+//    }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody

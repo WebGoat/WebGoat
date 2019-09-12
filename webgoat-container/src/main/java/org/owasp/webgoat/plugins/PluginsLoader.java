@@ -8,14 +8,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.NewLesson;
 import org.owasp.webgoat.session.Course;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -56,13 +64,12 @@ import static java.util.stream.Collectors.toList;
  */
 @AllArgsConstructor
 @Slf4j
+@Configuration
 public class PluginsLoader {
-
-    private final PluginEndpointPublisher pluginEndpointPublisher;
-
     /**
      * <p>createLessonsFromPlugins.</p>
      */
+    @Bean
     public Course loadPlugins() {
         List<AbstractLesson> lessons = Lists.newArrayList();
         for (PluginResource plugin : findPluginResources()) {
@@ -70,7 +77,7 @@ public class PluginsLoader {
                 plugin.getLessons().forEach(c -> {
                     NewLesson lesson = null;
                     try {
-                        lesson = (NewLesson) c.newInstance();
+                        lesson = (NewLesson) c.getConstructor().newInstance();
                         log.trace("Lesson loaded: {}", lesson.getId());
                     } catch (Exception e) {
                         log.error("Error while loading:" + c, e);
@@ -78,7 +85,6 @@ public class PluginsLoader {
                     List<Class<AssignmentEndpoint>> assignments = plugin.getAssignments(c);
                     lesson.setAssignments(createAssignment(assignments));
                     lessons.add(lesson);
-                    pluginEndpointPublisher.publish(plugin.getEndpoints());
                 });
             } catch (Exception e) {
                 log.error("Error in loadLessons: ", e);
@@ -97,7 +103,29 @@ public class PluginsLoader {
     }
 
     private String getPath(Class<AssignmentEndpoint> e) {
-        return e.getAnnotationsByType(AssignmentPath.class)[0].value();
+        for (Method m : e.getMethods()) {
+            if (m.getReturnType() == AttackResult.class) {
+                var mapping = m.getAnnotation(RequestMapping.class);
+                if (mapping == null) {
+                    log.error("AttackResult method found without mapping in: {}", e.getSimpleName());
+                } else {
+                    return getMapping(m);
+                }
+            }
+        }
+        return "";
+    }
+
+    private String getMapping(Method m) {
+        String[] path = null;
+        if (m.getAnnotation(RequestMapping.class) != null) {
+            path = m.getAnnotation(RequestMapping.class).path();
+        } else if (m.getAnnotation(PostMapping.class) != null) {
+            path = m.getAnnotation(PostMapping.class).path();
+        } else if (m.getAnnotation(GetMapping.class) != null) {
+            path = m.getAnnotation(GetMapping.class).value();
+        }
+        return path != null && path.length > 0 ? path[0] : "";
     }
 
     private List<String> getHints(Class<AssignmentEndpoint> e) {
@@ -106,8 +134,6 @@ public class PluginsLoader {
         }
         return Lists.newArrayList();
     }
-
-
 
     @SneakyThrows
     public List<PluginResource> findPluginResources() {

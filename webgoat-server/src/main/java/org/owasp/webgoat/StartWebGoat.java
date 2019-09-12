@@ -27,11 +27,7 @@ package org.owasp.webgoat;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Import;
-
-import java.util.Map;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
  * Main entry point, this project is here to get all the lesson jars included to the final jar file
@@ -39,7 +35,7 @@ import java.util.Map;
  * @author nbaars
  * @date 2/21/17
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "org.owasp.webgoat")
 @Slf4j
 public class StartWebGoat extends SpringBootServletInitializer {
 

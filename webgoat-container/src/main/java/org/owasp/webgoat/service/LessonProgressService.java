@@ -76,7 +76,7 @@ public class LessonProgressService {
     }
 
     private List<LessonOverview> toJson(Map<Assignment, Boolean> map) {
-        ArrayList<LessonOverview> result = Lists.newArrayList();
+        List<LessonOverview> result = new ArrayList();
         for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {
             result.add(new LessonOverview(entry.getKey(), entry.getValue()));
         }

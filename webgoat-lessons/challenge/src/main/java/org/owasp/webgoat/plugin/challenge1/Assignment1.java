@@ -63,6 +63,5 @@ public class Assignment1 extends AssignmentEndpoint {
 
     public static boolean containsHeader(HttpServletRequest request) {
         return StringUtils.hasText(request.getHeader("X-Forwarded-For"));
-
     }
 }

@@ -52,8 +52,8 @@ public class Assignment {
         //Hibernate
     }
 
-    public Assignment(String name, String path) {
-        this(name, path, Lists.newArrayList());
+    public Assignment(String name) {
+        this(name, name, Lists.newArrayList());
     }
 
     public Assignment(String name, String path, List<String> hints) {

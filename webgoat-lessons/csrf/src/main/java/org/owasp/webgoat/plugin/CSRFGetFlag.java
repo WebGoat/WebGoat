@@ -1,6 +1,5 @@
 package org.owasp.webgoat.plugin;
 
-import org.owasp.webgoat.assignments.Endpoint;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import java.util.Random;
  * Created by jason on 9/30/17.
  */
 
-public class CSRFGetFlag extends Endpoint {
+public class CSRFGetFlag {
 
     @Autowired
     UserSessionData userSessionData;
@@ -71,9 +70,9 @@ public class CSRFGetFlag extends Endpoint {
         return response;
 
     }
-
-    @Override
-    public String getPath() {
-        return "/csrf/basic-get-flag";
-    }
+//
+//    @Override
+//    public String getPath() {
+//        return "/csrf/basic-get-flag";
+//    }
 }
