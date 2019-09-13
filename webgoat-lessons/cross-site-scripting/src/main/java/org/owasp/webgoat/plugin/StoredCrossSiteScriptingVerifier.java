@@ -35,22 +35,19 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
 /**
  * Created by jason on 11/23/16.
  */
-@AssignmentPath("/CrossSiteScripting/stored-xss-follow-up")
+@RestController
 public class StoredCrossSiteScriptingVerifier extends AssignmentEndpoint {
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody
-    AttackResult completed(@RequestParam String successMessage)  throws IOException {
 
+    @PostMapping("/CrossSiteScripting/stored-xss-follow-up")
+    @ResponseBody
+    public AttackResult completed(@RequestParam String successMessage) {
         UserSessionData userSessionData = getUserSessionData();
 
         if (successMessage.equals(userSessionData.getValue("randValue").toString())) {

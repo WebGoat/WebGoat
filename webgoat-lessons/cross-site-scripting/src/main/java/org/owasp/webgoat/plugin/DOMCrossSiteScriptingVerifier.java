@@ -36,10 +36,7 @@ import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -47,13 +44,13 @@ import java.io.IOException;
 /**
  * Created by jason on 11/23/16.
  */
-@AssignmentPath("/CrossSiteScripting/dom-follow-up")
+@RestController
 @AssignmentHints(value = {"xss-dom-message-hint-1", "xss-dom-message-hint-2", "xss-dom-message-hint-3", "xss-dom-message-hint-4", "xss-dom-message-hint-5", "xss-dom-message-hint-6"})
 public class DOMCrossSiteScriptingVerifier extends AssignmentEndpoint {
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody
-    AttackResult completed(@RequestParam String successMessage)  throws IOException {
 
+    @PostMapping("/CrossSiteScripting/dom-follow-up")
+    @ResponseBody
+    public AttackResult completed(@RequestParam String successMessage) {
         UserSessionData userSessionData = getUserSessionData();
         String answer = (String) userSessionData.getValue("randValue");
 

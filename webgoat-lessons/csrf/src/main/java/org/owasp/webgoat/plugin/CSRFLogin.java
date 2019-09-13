@@ -9,19 +9,20 @@ import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author nbaars
  * @since 11/17/17.
  */
-@AssignmentPath("/csrf/login")
+@RestController
 @AssignmentHints({"csrf-login-hint1", "csrf-login-hint2", "csrf-login-hint3"})
 public class CSRFLogin extends AssignmentEndpoint {
 
     @Autowired
     private UserTrackerRepository userTrackerRepository;
 
-    @PostMapping(produces = {"application/json"})
+    @PostMapping(path = "/csrf/login", produces = {"application/json"})
     @ResponseBody
     public AttackResult completed() {
         String userName = getWebSession().getUserName();

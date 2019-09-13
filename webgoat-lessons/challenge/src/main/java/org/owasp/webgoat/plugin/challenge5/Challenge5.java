@@ -20,18 +20,23 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.plugin;
+package org.owasp.webgoat.plugin.challenge5;
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.NewLesson;
 
 import java.util.List;
 
-public class HttpBasics extends NewLesson {
+/**
+ * @author nbaars
+ * @since 3/21/17.
+ */
+public class Challenge5 extends NewLesson {
+
     @Override
     public Category getDefaultCategory() {
-        return Category.GENERAL;
+        return Category.CHALLENGE;
     }
 
     @Override
@@ -41,16 +46,16 @@ public class HttpBasics extends NewLesson {
 
     @Override
     public Integer getDefaultRanking() {
-        return 1;
+        return 10;
     }
 
     @Override
     public String getTitle() {
-        return "http-basics.title";
+        return "challenge5.title";
     }
 
     @Override
     public String getId() {
-        return "HttpBasics";
+        return "Challenge5";
     }
 }

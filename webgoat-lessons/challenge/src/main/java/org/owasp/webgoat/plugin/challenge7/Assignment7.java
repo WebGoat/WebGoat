@@ -30,7 +30,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @author nbaars
  * @since 4/8/17.
  */
-@AssignmentPath("/challenge/7")
+@RestController
 @Slf4j
 public class Assignment7 extends AssignmentEndpoint {
 
@@ -48,7 +48,7 @@ public class Assignment7 extends AssignmentEndpoint {
     @Value("${webwolf.url.mail}")
     private String webWolfMailURL;
 
-    @GetMapping("/reset-password/{link}")
+    @GetMapping("/challenge/7/reset-password/{link}")
     public ResponseEntity<String> resetPassword(@PathVariable(value = "link") String link) {
         if (link.equals(SolutionConstants.ADMIN_PASSWORD_LINK)) {
             return ResponseEntity.accepted().body("<h1>Success!!</h1>" +
@@ -58,7 +58,7 @@ public class Assignment7 extends AssignmentEndpoint {
         return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("That is not the reset link for admin");
     }
 
-    @RequestMapping(method = POST)
+    @PostMapping("/challenge/7")
     @ResponseBody
     public AttackResult sendPasswordResetLink(@RequestParam String email, HttpServletRequest request) throws URISyntaxException {
         if (StringUtils.hasText(email)) {
@@ -77,7 +77,7 @@ public class Assignment7 extends AssignmentEndpoint {
         return success().feedback("email.send").feedbackArgs(email).build();
     }
 
-    @RequestMapping(method = GET, value = "/.git", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/challenge/7/.git", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     @SneakyThrows
     public ClassPathResource git() {

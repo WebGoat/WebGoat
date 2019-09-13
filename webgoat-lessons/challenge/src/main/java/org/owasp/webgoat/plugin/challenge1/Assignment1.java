@@ -5,10 +5,7 @@ import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.plugin.Flag;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -44,13 +41,12 @@ import static org.owasp.webgoat.plugin.SolutionConstants.PASSWORD;
  * @version $Id: $Id
  * @since August 11, 2016
  */
-@AssignmentPath("/challenge/1")
+@RestController
 public class Assignment1 extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
+    @PostMapping("/challenge/1")
     @ResponseBody
-    AttackResult completed(@RequestParam String username, @RequestParam String password, HttpServletRequest request) throws IOException {
+    public AttackResult completed(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
         boolean ipAddressKnown =  true;
         boolean passwordCorrect = "admin".equals(username) && PASSWORD.equals(password);
         if (passwordCorrect && ipAddressKnown) {

@@ -11,10 +11,7 @@ import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +23,7 @@ import java.util.UUID;
  * @author nbaars
  * @since 11/17/17.
  */
-@AssignmentPath("/csrf/feedback")
+@RestController
 @AssignmentHints({"csrf-feedback-hint1", "csrf-feedback-hint2", "csrf-feedback-hint3"})
 public class CSRFFeedback extends AssignmentEndpoint {
 
@@ -35,7 +32,7 @@ public class CSRFFeedback extends AssignmentEndpoint {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @PostMapping(value = "/message", produces = {"application/json"})
+    @PostMapping(value = "/csrf/feedback/message", produces = {"application/json"})
     @ResponseBody
     public AttackResult completed(HttpServletRequest request, @RequestBody String feedback) {
         try {
@@ -59,7 +56,7 @@ public class CSRFFeedback extends AssignmentEndpoint {
         return failed().build();
     }
 
-    @PostMapping(produces = "application/json")
+    @PostMapping(path = "/csrf/feedback", produces = "application/json")
     @ResponseBody
     public AttackResult flag(@RequestParam("confirmFlagVal") String flag) {
         if (flag.equals(userSessionData.getValue("csrf-feedback"))) {
