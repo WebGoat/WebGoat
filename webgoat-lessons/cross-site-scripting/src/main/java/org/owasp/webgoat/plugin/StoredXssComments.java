@@ -48,12 +48,13 @@ import org.springframework.web.bind.annotation.*;
 import org.owasp.encoder.*;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
+
 import java.io.IOException;
 import java.util.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-@AssignmentPath("/CrossSiteScripting/stored-xss")
+@RestController
 public class StoredXssComments extends AssignmentEndpoint {
 
     @Autowired
@@ -72,7 +73,7 @@ public class StoredXssComments extends AssignmentEndpoint {
         comments.add(new Comment("guest", DateTime.now().toString(fmt), "Can you post a comment, calling webgoat.customjs.phoneHome() ?"));
     }
 
-    @RequestMapping(method = GET, produces = MediaType.APPLICATION_JSON_VALUE,consumes = ALL_VALUE)
+    @GetMapping(path = "/CrossSiteScripting/stored-xss", produces = MediaType.APPLICATION_JSON_VALUE, consumes = ALL_VALUE)
     @ResponseBody
     public Collection<Comment> retrieveComments() {
         List<Comment> allComments = Lists.newArrayList();
@@ -85,10 +86,9 @@ public class StoredXssComments extends AssignmentEndpoint {
         return allComments;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("/CrossSiteScripting/stored-xss")
     @ResponseBody
-    public AttackResult createNewComment (@RequestBody String commentStr)  throws IOException {
-
+    public AttackResult createNewComment(@RequestBody String commentStr) {
         Comment comment = parseJson(commentStr);
 
         EvictingQueue<Comment> comments = userComments.getOrDefault(webSession.getUserName(), EvictingQueue.create(100));
@@ -114,8 +114,3 @@ public class StoredXssComments extends AssignmentEndpoint {
         }
     }
 }
-
-
-
-
-

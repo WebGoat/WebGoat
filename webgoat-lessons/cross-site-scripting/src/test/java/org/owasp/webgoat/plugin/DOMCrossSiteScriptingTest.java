@@ -29,7 +29,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.test.web.servlet.MockMvc;
@@ -44,8 +44,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(MockitoJUnitRunner.class)
 public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
     private MockMvc mockMvc;
-    private UserSessionData mockUserSessionData;
-    private String randVal =  "12034837";
+    private String randVal = "12034837";
 
     @Before
     public void setup() {
@@ -60,7 +59,7 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
     public void success() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/CrossSiteScripting/phone-home-xss")
-                .header("webgoat-requested-by","dom-xss-vuln")
+                .header("webgoat-requested-by", "dom-xss-vuln")
                 .param("param1", "42")
                 .param("param2", "24"))
                 .andExpect(status().isOk())
@@ -72,7 +71,7 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
     public void failure() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/CrossSiteScripting/phone-home-xss")
-                .header("webgoat-requested-by","wrong-value")
+                .header("webgoat-requested-by", "wrong-value")
                 .param("param1", "22")
                 .param("param2", "20"))
                 .andExpect(status().isOk())

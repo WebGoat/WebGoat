@@ -1,15 +1,11 @@
 package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * *************************************************************************************************
@@ -44,23 +40,22 @@ import java.io.IOException;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/BypassRestrictions/FieldRestrictions")
+@RestController
 public class BypassRestrictionsFieldRestrictions extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
+    @PostMapping("/BypassRestrictions/FieldRestrictions")
     @ResponseBody
-    AttackResult completed(@RequestParam String select, @RequestParam String radio, @RequestParam String checkbox, @RequestParam String shortInput) throws IOException {
-    	if (select.toString().equals("option1") || select.toString().equals("option2")) {
+    public AttackResult completed(@RequestParam String select, @RequestParam String radio, @RequestParam String checkbox, @RequestParam String shortInput) {
+    	if (select.equals("option1") || select.equals("option2")) {
         return trackProgress(failed().build());
       }
-      if (radio.toString().equals("option1") || radio.toString().equals("option2")) {
+      if (radio.equals("option1") || radio.equals("option2")) {
         return trackProgress(failed().build());
       }
-      if (checkbox.toString().equals("on") || checkbox.toString().equals("off")) {
+      if (checkbox.equals("on") || checkbox.equals("off")) {
         return trackProgress(failed().build());
       }
-      if (shortInput.toString().length() <= 5) {
+      if (shortInput.length() <= 5) {
         return trackProgress(failed().build());
       }
       /*if (disabled == null) {

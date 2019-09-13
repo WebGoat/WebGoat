@@ -7,16 +7,13 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@AssignmentPath("CrossSiteScripting/attack3")
+@RestController
 @AssignmentHints(value = {"xss-mitigation-3-hint1", "xss-mitigation-3-hint2", "xss-mitigation-3-hint3", "xss-mitigation-3-hint4"})
 public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("CrossSiteScripting/attack3")
     @ResponseBody
     public AttackResult completed(@RequestParam String editor) {
         String unescapedString = org.jsoup.parser.Parser.unescapeEntities(editor, true);
@@ -49,7 +46,7 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
             } else {
                 return trackProgress(failed().feedback("xss-mitigation-3-failure").build());
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return trackProgress(failed().output(e.getMessage()).build());
         }
     }
