@@ -1,11 +1,9 @@
 package org.owasp.webgoat.session;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -41,10 +39,13 @@ import static java.util.stream.Collectors.toList;
  * @since October 28, 2003
  */
 @Slf4j
-@AllArgsConstructor
 public class Course {
 
-    private List<AbstractLesson> lessons = new LinkedList<>();
+    private List<AbstractLesson> lessons;
+
+    public Course(List<AbstractLesson> lessons) {
+        this.lessons = lessons;
+    }
 
     /**
      * Gets the categories attribute of the Course object
@@ -98,5 +99,4 @@ public class Course {
         this.lessons.stream().forEach(l -> total[0] = total[0] + l.getAssignments().size());
         return total[0];
     }
-
 }
