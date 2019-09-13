@@ -45,22 +45,20 @@ import java.util.Map;
  * @version $Id: $Id
  * @since January 3, 2017
  */
-
-@AssignmentPath("IDOR/profile/alt-path")
-@AssignmentHints({"idor.hints.ownProfileAltUrl1","idor.hints.ownProfileAltUrl2","idor.hints.ownProfileAltUrl3"})
-public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint{
+@RestController
+@AssignmentHints({"idor.hints.ownProfileAltUrl1", "idor.hints.ownProfileAltUrl2", "idor.hints.ownProfileAltUrl3"})
+public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint {
 
     @Autowired
     UserSessionData userSessionData;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("IDOR/profile/alt-path")
     @ResponseBody
-    public AttackResult completed(@RequestParam String url, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map<String,Object> details = new HashMap<>();
+    public AttackResult completed(@RequestParam String url) {
         try {
             if (userSessionData.getValue("idor-authenticated-as").equals("tom")) {
                 //going to use session auth to view this one
-                String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
+                String authUserId = (String) userSessionData.getValue("idor-authenticated-user-id");
                 //don't care about http://localhost:8080 ... just want WebGoat/
                 String[] urlParts = url.split("/");
                 if (urlParts[0].equals("WebGoat") && urlParts[1].equals("IDOR") && urlParts[2].equals("profile") && urlParts[3].equals(authUserId)) {
@@ -74,9 +72,7 @@ public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint{
                 return trackProgress(failed().feedback("idor.view.own.profile.failure2").build());
             }
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
             return failed().feedback("an error occurred with your request").build();
         }
     }
-
 }

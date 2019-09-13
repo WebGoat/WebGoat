@@ -42,15 +42,14 @@ import java.sql.*;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjectionAdvanced/attack6a")
+@RestController
 @AssignmentHints(value = {"SqlStringInjectionHint-advanced-6a-1", "SqlStringInjectionHint-advanced-6a-2", "SqlStringInjectionHint-advanced-6a-3",
 "SqlStringInjectionHint-advanced-6a-4"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
-    @PostMapping
-    public
+    @PostMapping("/SqlInjectionAdvanced/attack6a")
     @ResponseBody
-    AttackResult completed(@RequestParam String userid_6a) throws IOException {
+    public AttackResult completed(@RequestParam String userid_6a) throws IOException {
         return injectableQuery(userid_6a);
         // The answer: Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from user_system_data --
     }

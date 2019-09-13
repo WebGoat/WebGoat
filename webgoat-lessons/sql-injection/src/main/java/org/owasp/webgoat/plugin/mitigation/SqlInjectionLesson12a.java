@@ -4,23 +4,24 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  * @author nbaars
  * @since 6/13/17.
  */
-@AssignmentPath("SqlInjectionMitigations/attack12a")
+@RestController
 @AssignmentHints(value = {"SqlStringInjectionHint-mitigation-12a-1", "SqlStringInjectionHint-mitigation-12a-2", "SqlStringInjectionHint-mitigation-12a-3", "SqlStringInjectionHint-mitigation-12a-4"})
 @Slf4j
 public class SqlInjectionLesson12a extends AssignmentEndpoint {
@@ -28,7 +29,7 @@ public class SqlInjectionLesson12a extends AssignmentEndpoint {
     @Autowired
     private WebSession webSession;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("SqlInjectionMitigations/attack12a")
     @ResponseBody
     @SneakyThrows
     public AttackResult completed(@RequestParam String ip) {
@@ -43,5 +44,3 @@ public class SqlInjectionLesson12a extends AssignmentEndpoint {
         return trackProgress(failed().build());
     }
 }
-
-

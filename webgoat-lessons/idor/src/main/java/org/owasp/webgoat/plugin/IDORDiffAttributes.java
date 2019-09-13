@@ -4,10 +4,7 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -41,14 +38,13 @@ import java.io.IOException;
  * @version $Id: $Id
  * @since January 3, 2017
  */
-
-@AssignmentPath("IDOR/diff-attributes")
+@RestController
 @AssignmentHints({"idor.hints.idorDiffAttributes1","idor.hints.idorDiffAttributes2","idor.hints.idorDiffAttributes3"})
 public class IDORDiffAttributes extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody
-    AttackResult completed(@RequestParam String attributes, HttpServletRequest request) throws IOException {
+    @PostMapping("IDOR/diff-attributes")
+    @ResponseBody
+    public AttackResult completed(@RequestParam String attributes, HttpServletRequest request) throws IOException {
         attributes = attributes.trim();
         String[] diffAttribs = attributes.split(",");
         if (diffAttribs.length < 2) {

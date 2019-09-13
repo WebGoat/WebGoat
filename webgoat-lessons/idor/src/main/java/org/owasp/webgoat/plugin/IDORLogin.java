@@ -40,8 +40,7 @@ import java.util.Map;
  * @version $Id: $Id
  * @since January 3, 2017
  */
-
-@AssignmentPath("/IDOR/login")
+@RestController
 @AssignmentHints({"idor.hints.idor_login"})
 public class IDORLogin extends AssignmentEndpoint {
 
@@ -63,7 +62,7 @@ public class IDORLogin extends AssignmentEndpoint {
 
     }
 
-    @PostMapping
+    @PostMapping("/IDOR/login")
     @ResponseBody
     public AttackResult completed(@RequestParam String username, @RequestParam String password) {
         initIDORInfo();
@@ -81,12 +80,4 @@ public class IDORLogin extends AssignmentEndpoint {
             return trackProgress(failed().feedback("idor.login.failure").build());
         }
     }
-
-//        userSessionData.setValue("foo","bar");
-//        System.out.println("*** value set");
-//        System.out.println("*** fetching value");
-//        System.out.println(userSessionData.getValue("foo"));
-//        System.out.println("*** DONE fetching value");
-//        return trackProgress(AttackResult.failed("You are close, try again"));
-
 }

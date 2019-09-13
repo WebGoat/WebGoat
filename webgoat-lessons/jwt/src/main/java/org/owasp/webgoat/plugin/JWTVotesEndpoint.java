@@ -35,7 +35,7 @@ import static java.util.stream.Collectors.toList;
  * @author nbaars
  * @since 4/23/17.
  */
-@AssignmentPath("/JWT/votings")
+@RestController
 @AssignmentHints({"jwt-change-token-hint1", "jwt-change-token-hint2", "jwt-change-token-hint3", "jwt-change-token-hint4", "jwt-change-token-hint5"})
 public class JWTVotesEndpoint extends AssignmentEndpoint {
 
@@ -64,7 +64,7 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
                         "challenge3-small.png", "challenge3.png", 10000, totalVotes));
     }
 
-    @GetMapping("/login")
+    @GetMapping("/JWT/votings/login")
     public void login(@RequestParam("user") String user, HttpServletResponse response) {
         if (validUsers.contains(user)) {
             Claims claims = Jwts.claims().setIssuedAt(Date.from(Instant.now().plus(Duration.ofDays(10))));
@@ -86,7 +86,7 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
         }
     }
 
-    @GetMapping
+    @GetMapping("/JWT/votings")
     @ResponseBody
     public MappingJacksonValue getVotes(@CookieValue(value = "access_token", required = false) String accessToken) {
         MappingJacksonValue value = new MappingJacksonValue(votes.values().stream().sorted(comparingLong(Vote::getAverage).reversed()).collect(toList()));
@@ -109,7 +109,7 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
         return value;
     }
 
-    @PostMapping(value = "{title}")
+    @PostMapping(value = "/JWT/votings/{title}")
     @ResponseBody
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> vote(@PathVariable String title, @CookieValue(value = "access_token", required = false) String accessToken) {
@@ -132,9 +132,9 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
         }
     }
 
-    @PostMapping("reset")
-    public @ResponseBody
-    AttackResult resetVotes(@CookieValue(value = "access_token", required = false) String accessToken) {
+    @PostMapping("/JWT/votings/reset")
+    @ResponseBody
+    public AttackResult resetVotes(@CookieValue(value = "access_token", required = false) String accessToken) {
         if (StringUtils.isEmpty(accessToken)) {
             return trackProgress(failed().feedback("jwt-invalid-token").build());
         } else {

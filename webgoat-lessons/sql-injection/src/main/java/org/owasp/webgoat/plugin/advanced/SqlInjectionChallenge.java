@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.*;
 
@@ -20,7 +21,7 @@ import java.sql.*;
  * @author nbaars
  * @since 4/8/17.
  */
-@AssignmentPath("/SqlInjectionAdvanced/challenge")
+@RestController
 @AssignmentHints(value = {"SqlInjectionChallenge1", "SqlInjectionChallenge2", "SqlInjectionChallenge3"})
 @Slf4j
 public class SqlInjectionChallenge extends AssignmentEndpoint {
@@ -36,7 +37,7 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
         log.info("Challenge 6 tablename is: {}", USERS_TABLE_NAME);
     }
 
-    @PutMapping  //assignment path is bounded to class so we use different http method :-)
+    @PutMapping("/SqlInjectionAdvanced/challenge")  //assignment path is bounded to class so we use different http method :-)
     @ResponseBody
     public AttackResult registerNewUser(@RequestParam String username_reg, @RequestParam String email_reg, @RequestParam String password_reg) throws Exception {
         AttackResult attackResult = checkArguments(username_reg, email_reg, password_reg);

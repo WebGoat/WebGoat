@@ -2,6 +2,7 @@ package org.owasp.webgoat.plugin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class CommentsEndpoint {
     @Autowired
     private Comments comments;
 
-    @RequestMapping(method = GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Collection<Comment> retrieveComments() {
         return comments.getComments();

@@ -21,7 +21,6 @@ import java.util.List;
 @Controller
 public class MissingFunctionACUsers {
 
-
     // this will actually put controllers on the /WebGoat/* path ... the jsp for list_users restricts what can be seen, but the add_user is not controlled carefully
     @Autowired
     private UserService userService;

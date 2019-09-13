@@ -6,23 +6,20 @@ import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
 import java.sql.*;
 
-@AssignmentPath("/SqlInjection/attack8")
+@RestController
 @AssignmentHints(value = {"SqlStringInjectionHint.8.1", "SqlStringInjectionHint.8.2", "SqlStringInjectionHint.8.3", "SqlStringInjectionHint.8.4", "SqlStringInjectionHint.8.5"})
 public class SqlInjectionLesson8 extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
+    @PostMapping("/SqlInjection/attack8")
     @ResponseBody
-    AttackResult completed(@RequestParam String name, @RequestParam String auth_tan) {
+    public AttackResult completed(@RequestParam String name, @RequestParam String auth_tan) {
         return injectableQueryConfidentiality(name, auth_tan);
     }
 

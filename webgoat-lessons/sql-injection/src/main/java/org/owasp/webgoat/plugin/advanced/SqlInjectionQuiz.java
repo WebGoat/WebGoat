@@ -4,10 +4,7 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -21,13 +18,13 @@ import java.sql.Statement;
  * 3. add Request param with name of question to method head
  * For a more detailed description how to implement the quiz go to the quiz.js file in webgoat-container -> js
  */
-@AssignmentPath("/SqlInjectionAdvanced/quiz")
+@RestController
 public class SqlInjectionQuiz extends AssignmentEndpoint {
 
     String[] solutions = {"Solution 4", "Solution 3", "Solution 2", "Solution 3", "Solution 4"};
     boolean[] guesses = new boolean[solutions.length];
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("/SqlInjectionAdvanced/quiz")
     @ResponseBody
     public AttackResult completed(@RequestParam String[] question_0_solution, @RequestParam String[] question_1_solution, @RequestParam String[] question_2_solution, @RequestParam String[] question_3_solution, @RequestParam String[] question_4_solution) throws IOException {
         int correctAnswers = 0;
@@ -52,7 +49,7 @@ public class SqlInjectionQuiz extends AssignmentEndpoint {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("/SqlInjectionAdvanced/quiz")
     @ResponseBody
     public boolean[] getResults() {
         return this.guesses;

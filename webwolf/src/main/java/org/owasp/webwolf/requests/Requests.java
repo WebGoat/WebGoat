@@ -5,14 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.actuate.trace.Trace;
+import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -36,7 +35,7 @@ public class Requests {
     @AllArgsConstructor
     @Getter
     private class Tracert {
-        private final Date date;
+        private final Instant date;
         private final String path;
         private final String json;
     }
@@ -51,13 +50,13 @@ public class Requests {
         return m;
     }
 
-    private String path(Trace t) {
-        return (String) t.getInfo().getOrDefault("path", "");
+    private String path(HttpTrace t) {
+        return (String) t.getRequest().getUri().getPath();
     }
 
-    private String toJsonString(Trace t) {
+    private String toJsonString(HttpTrace t) {
         try {
-            return objectMapper.writeValueAsString(t.getInfo());
+            return objectMapper.writeValueAsString(t);
         } catch (JsonProcessingException e) {
             log.error("Unable to create json", e);
         }

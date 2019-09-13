@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,8 +21,7 @@ import static java.util.Optional.ofNullable;
  * @author nbaars
  * @since 8/20/17.
  */
-@AssignmentPath("/PasswordReset/simple-mail")
-
+@RestController
 public class SimpleMailAssignment extends AssignmentEndpoint {
 
     private final String webWolfURL;
@@ -32,7 +32,7 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
         this.webWolfURL = webWolfURL;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(path = "/PasswordReset/simple-mail", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseBody
     public AttackResult login(@RequestParam String email, @RequestParam String password) {
         String emailAddress = ofNullable(email).orElse("unknown@webgoat.org");
@@ -45,7 +45,7 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
         }
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, value = "/reset")
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, value = "/PasswordReset/simple-mail/reset")
     @ResponseBody
     public AttackResult resetPassword(@RequestParam String emailReset) {
         String email = ofNullable(emailReset).orElse("unknown@webgoat.org");

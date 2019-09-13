@@ -4,10 +4,7 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +17,7 @@ import static java.util.Optional.of;
  * @author Tobias Melzer
  * @since 11.12.18
  */
-@AssignmentPath("/PasswordReset/SecurityQuestions")
+@RestController
 public class SecurityQuestionAssignment extends AssignmentEndpoint {
 
     @Autowired
@@ -46,7 +43,7 @@ public class SecurityQuestionAssignment extends AssignmentEndpoint {
         questions.put("What is your favorite color?", "Can easily be guessed.");
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("/PasswordReset/SecurityQuestions")
     @ResponseBody
     public AttackResult completed(@RequestParam String question) {
         var answer = of(questions.get(question));

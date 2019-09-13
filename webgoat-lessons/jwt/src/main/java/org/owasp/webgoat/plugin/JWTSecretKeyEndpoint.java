@@ -13,6 +13,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * @author nbaars
  * @since 4/23/17.
  */
-@AssignmentPath("/JWT/secret")
+@RestController
 @AssignmentHints({"jwt-secret-hint1", "jwt-secret-hint2", "jwt-secret-hint3"})
 public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
 
@@ -28,7 +29,7 @@ public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
     private static final String WEBGOAT_USER = "WebGoat";
     private static final List<String> expectedClaims = Lists.newArrayList("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
 
-    @PostMapping
+    @PostMapping("/JWT/secret")
     @ResponseBody
     public AttackResult login(@RequestParam String token) {
         try {

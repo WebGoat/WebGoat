@@ -4,17 +4,16 @@ import org.apache.commons.exec.OS;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * ************************************************************************************************
@@ -50,7 +49,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @author nbaars
  * @since 4/8/17.
  */
-@AssignmentPath("xxe/simple")
+@RestController
 @AssignmentHints({"xxe.hints.simple.xxe.1", "xxe.hints.simple.xxe.2", "xxe.hints.simple.xxe.3", "xxe.hints.simple.xxe.4", "xxe.hints.simple.xxe.5", "xxe.hints.simple.xxe.6"})
 public class SimpleXXE extends AssignmentEndpoint {
 
@@ -62,7 +61,7 @@ public class SimpleXXE extends AssignmentEndpoint {
     @Autowired
     private Comments comments;
 
-    @RequestMapping(method = POST, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path = "xxe/simple", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult createNewComment(@RequestBody String commentStr) throws Exception {
         String error = "";
@@ -77,12 +76,13 @@ public class SimpleXXE extends AssignmentEndpoint {
         }
         return trackProgress(failed().output(error).build());
     }
+
     private boolean checkSolution(Comment comment) {
-       String[] directoriesToCheck = OS.isFamilyMac() || OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
-       boolean success = true;
-       for (String directory : directoriesToCheck) {
-           success &= org.apache.commons.lang3.StringUtils.contains(comment.getText(), directory);
-       }
-       return success;
-   } 
+        String[] directoriesToCheck = OS.isFamilyMac() || OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
+        boolean success = true;
+        for (String directory : directoriesToCheck) {
+            success &= org.apache.commons.lang3.StringUtils.contains(comment.getText(), directory);
+        }
+        return success;
+    }
 }
