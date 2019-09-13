@@ -74,7 +74,7 @@ public class LessonProgressServiceTest {
     @Before
     public void setup() {
         Assignment assignment = new Assignment("test", "test", List.of());
-        when(userTrackerRepository.findByUser(anyString())).thenReturn(userTracker);
+        when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
         when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
         when(websession.getCurrentLesson()).thenReturn(lesson);
         when(lessonTracker.getLessonOverview()).thenReturn(Maps.newHashMap(assignment, true));
