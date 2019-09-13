@@ -7,10 +7,7 @@ import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -45,15 +42,14 @@ import java.util.Map;
  * @version $Id: $Id
  * @since January 3, 2017
  */
-
-@AssignmentPath("IDOR/profile/{userId}")
+@RestController
 @AssignmentHints({"idor.hints.otherProfile1","idor.hints.otherProfile2","idor.hints.otherProfile3","idor.hints.otherProfile4","idor.hints.otherProfile5","idor.hints.otherProfile6","idor.hints.otherProfile7","idor.hints.otherProfile8","idor.hints.otherProfile9"})
 public class IDORViewOtherProfile extends AssignmentEndpoint{
 
     @Autowired
     UserSessionData userSessionData;
 
-    @RequestMapping(produces = {"application/json"}, method = RequestMethod.GET)
+    @GetMapping(path = "IDOR/profile/{userId}", produces = {"application/json"})
     @ResponseBody
     public AttackResult completed(@PathVariable("userId") String userId, HttpServletResponse resp) {
         Map<String,Object> details = new HashMap<>();
@@ -76,5 +72,4 @@ public class IDORViewOtherProfile extends AssignmentEndpoint{
         }
         return trackProgress(failed().build());
     }
-
 }

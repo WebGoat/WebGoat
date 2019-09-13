@@ -3,9 +3,7 @@ package org.owasp.webgoat.plugin;
 
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,15 +41,15 @@ import java.util.Map;
  * @version $Id: $Id
  * @since January 3, 2017
  */
-
+@RestController
 public class IDORViewOwnProfile {
 
     @Autowired
     UserSessionData userSessionData;
 
-    @RequestMapping(produces = {"application/json"}, method = RequestMethod.GET)
+    @GetMapping(produces = {"application/json"})
     @ResponseBody
-    public Map<String, Object> invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public Map<String, Object> invoke() {
         Map<String,Object> details = new HashMap<>();
         try {
             if (userSessionData.getValue("idor-authenticated-as").equals("tom")) {
@@ -71,9 +69,4 @@ public class IDORViewOwnProfile {
         }
         return details;
     }
-
-//    @Override
-//    public String getPath() {
-//        return "/IDOR/profile";
-//    }
 }

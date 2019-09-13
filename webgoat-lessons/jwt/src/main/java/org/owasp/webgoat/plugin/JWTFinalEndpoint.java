@@ -11,10 +11,7 @@ import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -44,14 +41,14 @@ import java.sql.SQLException;
  * @author nbaars
  * @since 4/23/17.
  */
-@AssignmentPath("/JWT/final")
+@RestController
 @AssignmentHints({"jwt-final-hint1", "jwt-final-hint2", "jwt-final-hint3", "jwt-final-hint4", "jwt-final-hint5", "jwt-final-hint6"})
 public class JWTFinalEndpoint extends AssignmentEndpoint {
 
     @Autowired
     private WebSession webSession;
 
-    @PostMapping("follow/{user}")
+    @PostMapping("/JWT/final/follow/{user}")
     public @ResponseBody
     String follow(@PathVariable("user") String user) {
         if ("Jerry".equals(user)) {
@@ -61,7 +58,7 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
         }
     }
 
-    @PostMapping("delete")
+    @PostMapping("/JWT/final/delete")
     public @ResponseBody
     AttackResult resetVotes(@RequestParam("token") String token) {
         if (StringUtils.isEmpty(token)) {

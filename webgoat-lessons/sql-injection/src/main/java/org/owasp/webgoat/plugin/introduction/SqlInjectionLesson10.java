@@ -6,21 +6,17 @@ import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 
-@AssignmentPath("/SqlInjection/attack10")
+@RestController
 @AssignmentHints(value = {"SqlStringInjectionHint.10.1", "SqlStringInjectionHint.10.2", "SqlStringInjectionHint.10.3", "SqlStringInjectionHint.10.4", "SqlStringInjectionHint.10.5", "SqlStringInjectionHint.10.6"})
 public class SqlInjectionLesson10 extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
+    @PostMapping("/SqlInjection/attack10")
     @ResponseBody
-    AttackResult completed(@RequestParam String action_string) {
+    public AttackResult completed(@RequestParam String action_string) {
         return injectableQueryAvailability(action_string);
     }
 

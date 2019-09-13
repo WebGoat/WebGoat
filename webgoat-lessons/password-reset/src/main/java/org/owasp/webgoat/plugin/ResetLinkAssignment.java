@@ -17,7 +17,7 @@ import java.util.Map;
  * @author nbaars
  * @since 8/20/17.
  */
-@AssignmentPath("/PasswordReset/reset")
+@RestController
 @AssignmentHints({"password-reset-hint1", "password-reset-hint2", "password-reset-hint3", "password-reset-hint4", "password-reset-hint5", "password-reset-hint6"})
 public class ResetLinkAssignment extends AssignmentEndpoint {
 
@@ -37,7 +37,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
             "Kind regards, \nTeam WebGoat";
 
 
-    @PostMapping("/login")
+    @PostMapping("/PasswordReset/reset/login")
     @ResponseBody
     public AttackResult login(@RequestParam String password, @RequestParam String email) {
         if (TOM_EMAIL.equals(email)) {
@@ -51,7 +51,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
         return trackProgress(failed().feedback("login_failed.tom").build());
     }
 
-    @GetMapping("/reset-password/{link}")
+    @GetMapping("/PasswordReset/reset/reset-password/{link}")
     public String resetPassword(@PathVariable(value = "link") String link, Model model) {
         if (this.resetLinks.contains(link)) {
             PasswordChangeForm form = new PasswordChangeForm();
@@ -63,7 +63,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
         }
     }
 
-    @PostMapping("/change-password")
+    @PostMapping("/PasswordReset/reset/change-password")
     public String changePassword(@ModelAttribute("form") PasswordChangeForm form, BindingResult bindingResult) {
         if (!org.springframework.util.StringUtils.hasText(form.getPassword())) {
             bindingResult.rejectValue("password", "not.empty");

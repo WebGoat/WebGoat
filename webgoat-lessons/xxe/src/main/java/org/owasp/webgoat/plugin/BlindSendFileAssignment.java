@@ -10,10 +10,7 @@ import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -49,7 +46,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
  * @version $Id: $Id
  * @since November 18, 2016
  */
-@AssignmentPath("xxe/blind")
+@RestController
 @AssignmentHints({"xxe.blind.hints.1","xxe.blind.hints.2","xxe.blind.hints.3","xxe.blind.hints.4","xxe.blind.hints.5"})
 public class BlindSendFileAssignment extends AssignmentEndpoint {
 
@@ -69,9 +66,9 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
         Files.write(CONTENTS, new File(targetDirectory, "secret.txt"), Charsets.UTF_8);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "xxe/blind", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult addComment(@RequestBody String commentStr) throws Exception {
+    public AttackResult addComment(@RequestBody String commentStr) {
         //Solution is posted as a separate comment
         if (commentStr.contains(CONTENTS)) {
             return trackProgress(success().build());

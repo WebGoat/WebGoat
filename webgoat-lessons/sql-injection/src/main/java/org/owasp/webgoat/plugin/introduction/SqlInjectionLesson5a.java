@@ -41,7 +41,7 @@ import java.sql.*;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjection/assignment5a")
+@RestController
 @AssignmentHints(value = {"SqlStringInjectionHint5a1"})
 public class SqlInjectionLesson5a extends AssignmentEndpoint {
 
@@ -50,10 +50,9 @@ public class SqlInjectionLesson5a extends AssignmentEndpoint {
           + "So the injected query basically looks like this: <span style=\"font-style: italic\">SELECT * FROM user_data WHERE first_name = 'John' and last_name = '' or TRUE</span>, "
           + "which will always evaluate to true, no matter what came before it.";
 
-  @PostMapping
-  public
+  @PostMapping("/SqlInjection/assignment5a")
   @ResponseBody
-  AttackResult completed(@RequestParam String account, @RequestParam String operator, @RequestParam String injection) {
+  public AttackResult completed(@RequestParam String account, @RequestParam String operator, @RequestParam String injection) {
     return injectableQuery(account + " " + operator + " " + injection);
   }
 

@@ -42,13 +42,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * @version $Id: $Id
  * @since November 17, 2016
  */
-@AssignmentPath("xxe/content-type")
+@RestController
 @AssignmentHints({"xxe.hints.content.type.xxe.1", "xxe.hints.content.type.xxe.2"})
 public class ContentTypeAssignment extends AssignmentEndpoint {
 
     private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"}; 
     private final static String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
-
 
     @Value("${webgoat.server.directory}")
     private String webGoatHomeDirectory;
@@ -57,7 +56,7 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
     @Autowired
     private Comments comments;
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "xxe/content-type", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult createNewUser(@RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
         AttackResult attackResult = failed().build();

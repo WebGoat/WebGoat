@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +23,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @author nbaars
  * @since 8/20/17.
  */
-@AssignmentPath("/PasswordReset/ForgotPassword")
+@RestController
 public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
 
     private final RestTemplate restTemplate;
@@ -37,7 +35,7 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
         this.webWolfMailURL = webWolfMailURL;
     }
 
-    @RequestMapping(method = POST, value = "/create-password-reset-link")
+    @PostMapping("/PasswordReset/ForgotPassword/create-password-reset-link")
     @ResponseBody
     public AttackResult sendPasswordResetLink(@RequestParam String email, HttpServletRequest request) {
         String resetLink = UUID.randomUUID().toString();
@@ -58,7 +56,7 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
         return success().feedback("email.send").feedbackArgs(email).build();
     }
 
-    private void sendMailToUser(@RequestParam String email, String host, String resetLink) {
+    private void sendMailToUser(String email, String host, String resetLink) {
         int index = email.indexOf("@");
         String username = email.substring(0, index == -1 ? email.length() : index);
         PasswordResetEmail mail = PasswordResetEmail.builder()
@@ -78,5 +76,4 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
             //don't care
         }
     }
-
 }

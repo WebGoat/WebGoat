@@ -5,10 +5,7 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -47,10 +44,10 @@ import java.sql.Statement;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjectionAdvanced/attack6b")
+@RestController
 public class SqlInjectionLesson6b extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("/SqlInjectionAdvanced/attack6b")
     @ResponseBody
     public AttackResult completed(@RequestParam String userid_6b) throws IOException {
         if (userid_6b.toString().equals(getPassword())) {

@@ -39,10 +39,10 @@ import org.springframework.web.bind.annotation.*;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/HttpProxies/intercept-request")
+@RestController
 public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
 
-    @GetMapping
+    @GetMapping("/HttpProxies/intercept-request")
     @ResponseBody
     public AttackResult completed(@RequestHeader(value = "x-request-intercepted", required = false) Boolean headerValue,
                                   @RequestParam(value = "changeMe", required = false) String paramValue) {
@@ -53,7 +53,7 @@ public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
         }
     }
 
-    @PostMapping
+    @PostMapping("/HttpProxies/intercept-request")
     @ResponseBody
     public AttackResult post() {
         return trackProgress(failed().feedback("http-proxies.intercept.failure").build());

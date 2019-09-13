@@ -3,10 +3,7 @@ package org.owasp.webgoat.plugin;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -44,13 +41,12 @@ import java.io.IOException;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/InsecureLogin/task")
+@RestController
 public class InsecureLoginTask extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
+    @PostMapping("/InsecureLogin/task")
     @ResponseBody
-    AttackResult completed(@RequestParam String username, @RequestParam String password) throws IOException {
+    public AttackResult completed(@RequestParam String username, @RequestParam String password) {
     	if (username.toString().equals("CaptainJack") && password.toString().equals("BlackPearl")) {
     		return trackProgress(success().build());
     	}

@@ -6,10 +6,7 @@ import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.*;
@@ -45,22 +42,19 @@ import java.sql.*;
  * @author Bruce Mayhew <a href="http://code.google.com/p/webgoat">WebGoat</a>
  * @created October 28, 2003
  */
-@AssignmentPath("/SqlInjection/attack4")
+@RestController
 @AssignmentHints(value = {"SqlStringInjectionHint4-1", "SqlStringInjectionHint4-2", "SqlStringInjectionHint4-3"})
 public class SqlInjectionLesson4 extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
+    @PostMapping("/SqlInjection/attack4")
     @ResponseBody
-    AttackResult completed(@RequestParam String query) {
+    public AttackResult completed(@RequestParam String query) {
         return injectableQuery(query);
     }
 
     protected AttackResult injectableQuery(String _query) {
         try {
             Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = _query;
-
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);

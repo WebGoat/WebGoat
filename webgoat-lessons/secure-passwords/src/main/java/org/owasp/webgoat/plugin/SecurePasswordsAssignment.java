@@ -1,35 +1,19 @@
 package org.owasp.webgoat.plugin;
 
-import com.nulabinc.zxcvbn.Feedback;
 import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
-import org.jruby.RubyProcess;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-
-import javax.tools.*;
-import java.io.IOException;
-import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-@AssignmentPath("SecurePasswords/assignment")
+@RestController
 public class SecurePasswordsAssignment extends AssignmentEndpoint {
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("SecurePasswords/assignment")
     @ResponseBody
     public AttackResult completed(@RequestParam String password) {
         Zxcvbn zxcvbn = new Zxcvbn();

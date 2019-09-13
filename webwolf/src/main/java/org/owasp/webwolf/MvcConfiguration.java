@@ -38,6 +38,4 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
             file.mkdirs();
         }
     }
-
-
 }

@@ -4,6 +4,7 @@ import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,9 +21,9 @@ public class Users {
     @Autowired
     UserSessionData userSessionData;
 
-    @RequestMapping(produces = {"application/json"}, method = RequestMethod.GET)
+    @GetMapping(produces = {"application/json"})
     @ResponseBody
-    protected HashMap<Integer, HashMap> getUsers  (HttpServletRequest req) {
+    protected HashMap<Integer, HashMap> getUsers() {
 
         try {
             Connection connection = DatabaseUtilities.getConnection(getWebSession());

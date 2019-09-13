@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -27,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @author nbaars
  * @since 4/23/17.
  */
-@AssignmentPath("/JWT/refresh/")
+@RestController
 @AssignmentHints({"jwt-refresh-hint1", "jwt-refresh-hint2", "jwt-refresh-hint3", "jwt-refresh-hint4"})
 public class JWTRefreshEndpoint extends AssignmentEndpoint {
 
@@ -35,9 +32,9 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
     private static final String JWT_PASSWORD = "bm5n3SkxCX4kKRy4";
     private static final List<String> validRefreshTokens = Lists.newArrayList();
 
-    @PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ResponseEntity follow(@RequestBody Map<String, Object> json) {
+    @PostMapping(value = "/JWT/refresh/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity follow(@RequestBody Map<String, Object> json) {
         String user = (String) json.get("user");
         String password = (String) json.get("password");
 
@@ -64,9 +61,9 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
         return tokenJson;
     }
 
-    @PostMapping("checkout")
-    public @ResponseBody
-    AttackResult checkout(@RequestHeader("Authorization") String token) {
+    @PostMapping("/JWT/refresh/checkout")
+    @ResponseBody
+    public AttackResult checkout(@RequestHeader("Authorization") String token) {
         try {
             Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(token.replace("Bearer ", ""));
             Claims claims = (Claims) jwt.getBody();
@@ -82,9 +79,9 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
         }
     }
 
-    @PostMapping("newToken")
-    public @ResponseBody
-    ResponseEntity newToken(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> json) {
+    @PostMapping("/JWT/refresh/newToken")
+    @ResponseBody
+    public ResponseEntity newToken(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> json) {
         String user;
         String refreshToken;
         try {
@@ -105,5 +102,4 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
 }

@@ -37,17 +37,16 @@ import org.springframework.web.bind.annotation.*;
  * @version $Id: $Id
  * @since January 3, 2017
  */
-
-@AssignmentPath("IDOR/profile/{userId}")
+@RestController
 @AssignmentHints({"idor.hints.otherProfile1","idor.hints.otherProfile2","idor.hints.otherProfile3","idor.hints.otherProfile4","idor.hints.otherProfile5","idor.hints.otherProfile6","idor.hints.otherProfile7","idor.hints.otherProfile8","idor.hints.otherProfile9"})
 public class IDOREditOtherProfiile extends AssignmentEndpoint {
 
     @Autowired
     private UserSessionData userSessionData;
 
-    @PutMapping(consumes = "application/json")
-    public @ResponseBody
-    AttackResult completed(@PathVariable("userId") String userId, @RequestBody UserProfile userSubmittedProfile) {
+    @PutMapping(path = "IDOR/profile/{userId}", consumes = "application/json")
+    @ResponseBody
+    public AttackResult completed(@PathVariable("userId") String userId, @RequestBody UserProfile userSubmittedProfile) {
 
         String authUserId = (String)userSessionData.getValue("idor-authenticated-user-id");
         // this is where it starts ... accepting the user submitted ID and assuming it will be the same as the logged in userId and not checking for proper authorization

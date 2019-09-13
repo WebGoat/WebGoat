@@ -7,23 +7,20 @@ import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@AssignmentPath("/SqlInjectionAdvanced/challenge_Login")
+@RestController
 @AssignmentHints(value ={"SqlInjectionChallengeHint1", "SqlInjectionChallengeHint2", "SqlInjectionChallengeHint3", "SqlInjectionChallengeHint4"})
 public class SqlInjectionChallengeLogin extends AssignmentEndpoint {
 
   @Autowired
   private WebSession webSession;
 
-
-  @RequestMapping(method = POST)
+  @PostMapping("/SqlInjectionAdvanced/challenge_Login")
   @ResponseBody
   public AttackResult login(@RequestParam String username_login, @RequestParam String password_login) throws Exception {
     Connection connection = DatabaseUtilities.getConnection(webSession);

@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.session.WebSession;
@@ -48,7 +48,6 @@ public class HintServiceTest {
 
     @Test
     public void hintsPerAssignment() throws Exception {
-        when(lesson.getName()).thenReturn("Test lesson");
         Assignment assignment = Mockito.mock(Assignment.class);
         when(assignment.getPath()).thenReturn("/HttpBasics/attack1");
         when(assignment.getHints()).thenReturn(Lists.newArrayList("hint 1", "hint 2"));
