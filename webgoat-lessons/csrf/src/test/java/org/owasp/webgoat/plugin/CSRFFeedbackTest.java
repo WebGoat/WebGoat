@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CSRFFeedbackTest extends LessonTest {
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         CSRF csrf = new CSRF();
         when(webSession.getCurrentLesson()).thenReturn(csrf);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
