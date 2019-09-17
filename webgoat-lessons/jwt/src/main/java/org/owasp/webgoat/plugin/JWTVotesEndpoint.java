@@ -38,13 +38,13 @@ import static java.util.stream.Collectors.toList;
 @AssignmentPath("/JWT/votings")
 @AssignmentHints({"jwt-change-token-hint1", "jwt-change-token-hint2", "jwt-change-token-hint3", "jwt-change-token-hint4", "jwt-change-token-hint5"})
 public class JWTVotesEndpoint extends AssignmentEndpoint {
-
+	
     public static final String JWT_PASSWORD = TextCodec.BASE64.encode("victory");
     private static String validUsers = "TomJerrySylvester";
 
     private static int totalVotes = 38929;
     private Map<String, Vote> votes = Maps.newHashMap();
-
+    
     @PostConstruct
     public void initVotes() {
         votes.put("Admin lost password", new Vote("Admin lost password",
@@ -109,7 +109,7 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
         return value;
     }
 
-    @PostMapping(value = "{title}")
+    @PostMapping(value = "/vote/{title}")
     @ResponseBody
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> vote(@PathVariable String title, @CookieValue(value = "access_token", required = false) String accessToken) {
@@ -132,7 +132,7 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
         }
     }
 
-    @PostMapping("reset")
+    @PostMapping
     public @ResponseBody
     AttackResult resetVotes(@CookieValue(value = "access_token", required = false) String accessToken) {
         if (StringUtils.isEmpty(accessToken)) {
