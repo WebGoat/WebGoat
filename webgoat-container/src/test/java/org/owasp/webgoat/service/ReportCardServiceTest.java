@@ -17,6 +17,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -56,7 +58,7 @@ public class ReportCardServiceTest {
         when(lesson.getTitle()).thenReturn("Test");
         when(course.getTotalOfLessons()).thenReturn(1);
         when(course.getTotalOfAssignments()).thenReturn(10);
-        when(course.getLessons()).thenReturn(Lists.newArrayList(lesson));
+        when(course.getLessons()).thenAnswer(x -> List.of(lesson));
         when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
         when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
         mockMvc.perform(MockMvcRequestBuilders.get("/service/reportcard.mvc"))

@@ -67,7 +67,7 @@ public class ReportCardService {
     @ResponseBody
     public ReportCard reportCard() {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
-        List<AbstractLesson> lessons = course.getLessons();
+        var lessons = course.getLessons();
         ReportCard reportCard = new ReportCard();
         reportCard.setTotalNumberOfLessons(course.getTotalOfLessons());
         reportCard.setTotalNumberOfAssignments(course.getTotalOfAssignments());

@@ -52,7 +52,7 @@ public class AssignmentEndpointTest {
     protected WebSession webSession;
     @Mock
     protected UserSessionData userSessionData;
-    private Language language = new Language(new FixedLocaleResolver()){
+    private Language language = new Language(new FixedLocaleResolver()) {
         @Override
         public Locale getLocale() {
             return Locale.ENGLISH;

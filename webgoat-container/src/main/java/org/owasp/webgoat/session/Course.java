@@ -41,9 +41,9 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class Course {
 
-    private List<AbstractLesson> lessons;
+    private List<? extends AbstractLesson> lessons;
 
-    public Course(List<AbstractLesson> lessons) {
+    public Course(List<? extends AbstractLesson> lessons) {
         this.lessons = lessons;
     }
 
@@ -72,7 +72,7 @@ public class Course {
      *
      * @return a {@link java.util.List} object.
      */
-    public List<AbstractLesson> getLessons() {
+    public List<? extends AbstractLesson> getLessons() {
         return this.lessons;
     }
 
@@ -95,8 +95,6 @@ public class Course {
     }
 
     public int getTotalOfAssignments() {
-        final int[] total = {0};
-        this.lessons.stream().forEach(l -> total[0] = total[0] + l.getAssignments().size());
-        return total[0];
+        return this.lessons.stream().reduce(0, (total, lesson) -> lesson.getAssignments().size() + total, Integer::sum);
     }
 }
