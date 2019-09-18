@@ -3,6 +3,7 @@ package org.owasp.webgoat;
 import io.restassured.RestAssured;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.config.SSLConfig;
+import io.restassured.http.ContentType;
 import lombok.Getter;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
@@ -210,7 +211,8 @@ public abstract class IntegrationTest {
                 .config(restConfig)
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/lessonoverview.mvc"))
-                .then()
+                .then()                
+                .log().all()
                 .statusCode(200).extract().jsonPath().getList("solved"), CoreMatchers.everyItem(CoreMatchers.is(true)));
 
         Assert.assertThat(RestAssured.given()
@@ -222,4 +224,20 @@ public abstract class IntegrationTest {
                 .statusCode(200).extract().jsonPath().getList("assignment.path"), CoreMatchers.everyItem(CoreMatchers.startsWith(prefix)));
 
     }
+
+    public void checkAssignment(String url, ContentType contentType, String body, boolean expectedResult) {
+        Assert.assertThat(
+                RestAssured.given()
+                        .when()
+                        .config(restConfig)
+                        .contentType(contentType)
+                        .cookie("JSESSIONID", getWebGoatCookie())
+                        .body(body)
+                        .post(url)
+                        .then()
+                        .statusCode(200)
+                        .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
+    }
+    
 }
+
