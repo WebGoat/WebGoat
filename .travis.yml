@@ -45,5 +45,3 @@ env:
   - secure: XgPc0UKRTUI70I4YWNQpThPPWeQIxkmzh1GNoR/SSDC2GPIBq3EfkkbSQewqil8stTy+S1/xSzc0JXG8NTn7UOxHVHA/2nhI6jX9E+DKtXQ89YwmaDNQjkbMjziAtDCIex+5TRykxNfkxj6VPYbDssrzI7iJXOIZVj/HoyO3O5E=
   #Docker password
   - secure: aly5TKBUK9sIiqtMbytNNPZHQhC0a7Yond5tEtuJ8fO+j/KZB4Uro3I6BhzYjGWFb5Kndd0j2TXHPFvtOl402J1CmFsY3v0BhilQd0g6zOssp5T0A73m8Jgq4ItV8wQJJy2bQsXqL1B+uFYieYPiMchj7JxWW0vBn7TV5b68l6U=
-notifications:
-  slack: owasp:WUwEMRssJ98Ec0r5sQth4EnX
