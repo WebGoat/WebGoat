@@ -21,11 +21,10 @@ import static io.restassured.RestAssured.given;
 
 public abstract class IntegrationTest {
 
-    protected static int WG_PORT = 8080;
+    protected static int WG_PORT = 8081;
     protected static int WW_PORT = 9090;
     private static String WEBGOAT_URL = "http://127.0.0.1:" + WG_PORT + "/WebGoat/";
     private static String WEBWOLF_URL = "http://127.0.0.1:" + WW_PORT + "/";
-
 
     //This also allows to test the application with HTTPS when outside testing option is used
     protected static RestAssuredConfig restConfig = RestAssuredConfig.newConfig().sslConfig(new SSLConfig().relaxedHTTPSValidation());
@@ -41,16 +40,18 @@ public abstract class IntegrationTest {
 
     @BeforeClass
     public static void beforeAll() {
-        if (!started) {
+    	    	
+        if (!started) {       
             started = true;
             if (!isAlreadyRunning(WG_PORT)) {
                 SpringApplicationBuilder wgs = new SpringApplicationBuilder(StartWebGoat.class)
-                        .properties(Map.of("spring.config.name", "application-webgoat", "WEBGOAT_PORT", WG_PORT));
+                        .properties(Map.of("spring.config.name", "application-webgoat,application-inttest", "WEBGOAT_PORT", WG_PORT));
                 wgs.run();
+           
             }
             if (!isAlreadyRunning(WW_PORT)) {
                 SpringApplicationBuilder wws = new SpringApplicationBuilder(WebWolf.class)
-                        .properties(Map.of("spring.config.name", "application-webwolf", "WEBWOLF_PORT", WW_PORT));
+                        .properties(Map.of("spring.config.name", "application-webwolf,application-inttest", "WEBWOLF_PORT", WW_PORT));
                 wws.run();
             }
         }
