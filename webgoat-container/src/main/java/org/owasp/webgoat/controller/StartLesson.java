@@ -79,8 +79,8 @@ public class StartLesson {
         //GrantedAuthority authority = context.getAuthentication().getAuthorities().iterator().next();
         String path = request.getRequestURL().toString(); // we now got /a/b/c/AccessControlMatrix.lesson
         String lessonName = path.substring(path.lastIndexOf('/') + 1, path.indexOf(".lesson"));
-        List<AbstractLesson> lessons = course.getLessons();
-        Optional<AbstractLesson> lesson = lessons.stream()
+        List<? extends  AbstractLesson> lessons = course.getLessons();
+        Optional<? extends  AbstractLesson> lesson = lessons.stream()
                 .filter(l -> l.getId().equals(lessonName))
                 .findFirst();
         ws.setCurrentLesson(lesson.get());

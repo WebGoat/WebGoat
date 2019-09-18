@@ -57,8 +57,8 @@ public class PasswordResetLessonTest extends IntegrationTest {
                 .get(webWolfUrl("WebWolf/requests"))
                 .then()
                 .extract().response().getBody().asString();
-        int startIndex = responseBody.lastIndexOf("\"path\" : \"/PasswordReset/reset/reset-password/");
-        var link = responseBody.substring(startIndex + "\"path\" : \"/PasswordReset/reset/reset-password/".length(), responseBody.indexOf(",", startIndex) - 1);
+        int startIndex = responseBody.lastIndexOf("/PasswordReset/reset/reset-password/");
+        var link = responseBody.substring(startIndex + "/PasswordReset/reset/reset-password/".length(), responseBody.indexOf(",", startIndex) - 1);
         return link;
     }
 
