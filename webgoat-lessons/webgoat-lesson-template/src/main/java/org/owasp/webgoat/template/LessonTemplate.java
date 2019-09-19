@@ -3,6 +3,7 @@ package org.owasp.webgoat.template;
 import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.NewLesson;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ import java.util.List;
  * @version $Id: $Id
  * @since January 3, 2017
  */
+@Component
 public class LessonTemplate extends NewLesson {
 
     @Override
