@@ -85,7 +85,7 @@ public class CourseConfiguration {
                 }
             }
         }
-        return "";
+        return "none";
     }
 
     private String getMapping(Method m) {
