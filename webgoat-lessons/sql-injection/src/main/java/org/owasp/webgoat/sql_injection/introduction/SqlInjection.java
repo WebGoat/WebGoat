@@ -22,35 +22,15 @@
 
 package org.owasp.webgoat.sql_injection.introduction;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SqlInjection extends NewLesson {
+public class SqlInjection extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.INJECTION;
-    }
-
-    @Override
-    public List<String> getHints() {
-        List<String> hints = new ArrayList<String>();
-        
-//        hints.add(getLabelManager().get("SqlStringInjectionHint1"));
-//        hints.add(getLabelManager().get("SqlStringInjectionHint2"));
-//        hints.add(getLabelManager().get("SqlStringInjectionHint3"));
-//        hints.add(getLabelManager().get("SqlStringInjectionHint4"));
-//        hints.add(getLabelManager().get("SqlStringInjectionHint5"));
-        return hints;
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 0;
     }
 
     @Override

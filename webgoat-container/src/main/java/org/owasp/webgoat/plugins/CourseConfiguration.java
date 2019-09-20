@@ -27,9 +27,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Assignment;
-import org.owasp.webgoat.lessons.NewLesson;
 import org.owasp.webgoat.session.Course;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +39,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -51,11 +49,11 @@ import static java.util.stream.Collectors.toList;
 @Configuration
 public class CourseConfiguration {
 
-    private final List<NewLesson> lessons;
+    private final List<Lesson> lessons;
     private final List<AssignmentEndpoint> assignments;
     private final Map<String, List<AssignmentEndpoint>> assignmentsByPackage;
 
-    public CourseConfiguration(List<NewLesson> lessons, List<AssignmentEndpoint> assignments) {
+    public CourseConfiguration(List<Lesson> lessons, List<AssignmentEndpoint> assignments) {
         this.lessons = lessons;
         this.assignments = assignments;
         assignmentsByPackage = this.assignments.stream().collect(groupingBy(a -> a.getClass().getPackageName()));
@@ -67,7 +65,7 @@ public class CourseConfiguration {
         return new Course(lessons);
     }
 
-    private List<Assignment> createAssignment(AbstractLesson lesson) {
+    private List<Assignment> createAssignment(Lesson lesson) {
         var endpoints = assignmentsByPackage.get(lesson.getClass().getPackageName());
         if (CollectionUtils.isEmpty(endpoints)) {
             log.warn("Lesson: {} has no endpoints, is this intentionally?", lesson.getTitle());

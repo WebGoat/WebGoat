@@ -23,27 +23,14 @@
 package org.owasp.webgoat.sql_injection.mitigation;
 
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
-public class SqlInjectionMitigations extends NewLesson {
+public class SqlInjectionMitigations extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.INJECTION;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 3;
     }
 
     @Override

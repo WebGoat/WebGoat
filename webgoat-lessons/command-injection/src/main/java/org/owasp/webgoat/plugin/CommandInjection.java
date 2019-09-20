@@ -2,7 +2,7 @@ package org.owasp.webgoat.plugin;
 
 import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.AbstractLesson;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ import java.util.List;
  * @version $Id: $Id
  * @since October 12, 2016
  */
-public class HttpProxies extends NewLesson {
+public class HttpProxies extends AbstractLesson {
     @Override
     public Category getDefaultCategory() {
         return Category.GENERAL;

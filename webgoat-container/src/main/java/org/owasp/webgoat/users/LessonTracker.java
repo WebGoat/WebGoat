@@ -1,10 +1,9 @@
 
 package org.owasp.webgoat.users;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Getter;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Assignment;
 
 import javax.persistence.*;
@@ -64,9 +63,9 @@ public class LessonTracker {
         //JPA
     }
 
-    public LessonTracker(AbstractLesson lesson) {
+    public LessonTracker(Lesson lesson) {
         lessonName = lesson.getId();
-        allAssignments.addAll(lesson.getAssignments());
+        allAssignments.addAll(lesson.getAssignments() == null ? List.of() : lesson.getAssignments());
     }
 
     public Optional<Assignment> getAssignment(String name) {

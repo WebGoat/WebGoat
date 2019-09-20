@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -46,13 +47,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CSRFFeedbackTest extends LessonTest {
 
+    @Autowired
+    private CSRF csrf;
+
     @Before
     public void setup() {
-        CSRF csrf = new CSRF();
         when(webSession.getCurrentLesson()).thenReturn(csrf);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        when(webSession.getUserName()).thenReturn("unit-test");
-        when(webSession.getCurrentLesson()).thenReturn(new CSRF());
     }
 
     @Test

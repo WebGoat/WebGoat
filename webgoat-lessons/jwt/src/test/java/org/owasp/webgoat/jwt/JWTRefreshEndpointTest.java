@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MvcResult;
@@ -46,9 +47,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 public class JWTRefreshEndpointTest extends LessonTest {
 
+    @Autowired
+    private JWT jwt;
+
     @Before
     public void setup() {
-        JWT jwt = new JWT();
         when(webSession.getCurrentLesson()).thenReturn(jwt);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         when(webSession.getUserName()).thenReturn("unit-test");

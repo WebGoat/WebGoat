@@ -22,28 +22,15 @@
 
 package org.owasp.webgoat.http_basics;
 
-import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
-public class HttpBasics extends NewLesson {
+public class HttpBasics extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.GENERAL;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 1;
     }
 
     @Override

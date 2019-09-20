@@ -26,8 +26,7 @@
  */
 package org.owasp.webgoat.lessons;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Value;
 
 /**
  * <p>Hint class.</p>
@@ -35,12 +34,9 @@ import lombok.Setter;
  * @author rlawson
  * @version $Id: $Id
  */
-@Getter
-@Setter
+@Value
 public class Hint {
 
     private String hint;
-    private String lesson;
     private String assignmentPath;
-    private int number;
 }

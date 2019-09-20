@@ -17,6 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 /**
  * @author Benedikt Stuhrmann
  * @since 13/03/19.
@@ -25,18 +26,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ChromeDevToolsTest extends LessonTest {
 
     @Autowired
-    private WebgoatContext context;
+    private ChromeDevTools cdt;
 
     @Before
     public void setup() {
-        ChromeDevTools cdt = new ChromeDevTools();
         when(webSession.getCurrentLesson()).thenReturn(cdt);
-        when(webSession.getWebgoatContext()).thenReturn(context);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
     @Test
-    public void NetworkAssignmentTest_Success() throws Exception{
+    public void NetworkAssignmentTest_Success() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/ChromeDevTools/network")
                 .param("network_num", "123456")
                 .param("number", "123456"))

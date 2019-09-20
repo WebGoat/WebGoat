@@ -1,7 +1,7 @@
 package org.owasp.webgoat.session;
 
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.users.WebGoatUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -42,7 +42,7 @@ public class WebSession {
 
     private final WebGoatUser currentUser;
     private final WebgoatContext webgoatContext;
-    private AbstractLesson currentLesson;
+    private Lesson currentLesson;
 
     /**
      * Constructor for the WebSession object
@@ -79,16 +79,16 @@ public class WebSession {
      *
      * @param lesson current lesson
      */
-    public void setCurrentLesson(AbstractLesson lesson) {
+    public void setCurrentLesson(Lesson lesson) {
         this.currentLesson = lesson;
     }
 
     /**
      * <p> getCurrentLesson. </p>
      *
-     * @return a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     * @return a {@link Lesson} object.
      */
-    public AbstractLesson getCurrentLesson() {
+    public Lesson getCurrentLesson() {
         return this.currentLesson;
     }
 

@@ -1,11 +1,8 @@
 package org.owasp.webgoat.html_tampering;
 
-import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * ************************************************************************************************
@@ -37,20 +34,10 @@ import java.util.List;
  * @since October 12, 2016
  */
 @Component
-public class HtmlTampering extends NewLesson {
+public class HtmlTampering extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.CLIENT_SIDE;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 3;
     }
 
     @Override

@@ -23,32 +23,15 @@
 package org.owasp.webgoat.xxe;
 
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
-public class XXE extends NewLesson {
+public class XXE extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
         return Category.XXE;
-    }
-
-    @Override
-    public List<String> getHints() {
-        List<String> hints = new ArrayList<String>();
-        hints.add("Try submitting the form and see what happens");
-        hints.add("XXE stands for XML External Entity attack");
-        hints.add("Try to include your own DTD");
-        return hints;
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 4;
     }
 
     @Override

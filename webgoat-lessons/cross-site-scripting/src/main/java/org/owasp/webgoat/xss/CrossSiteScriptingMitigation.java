@@ -23,26 +23,12 @@
 package org.owasp.webgoat.xss;
 
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class CrossSiteScriptingMitigation extends NewLesson {
+public class CrossSiteScriptingMitigation extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.XSS;
-    }
-
-    @Override
-    public List<String> getHints() {
-        List<String> hints = new ArrayList<String>();
-        return hints;
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 3;
     }
 
     @Override

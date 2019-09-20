@@ -1,32 +1,19 @@
 package org.owasp.webgoat.challenges.challenge7;
 
-import com.google.common.collect.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @author nbaars
  * @since 3/21/17.
  */
 @Component
-public class Challenge7 extends NewLesson {
+public class Challenge7 extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
         return Category.CHALLENGE;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 10;
     }
 
     @Override

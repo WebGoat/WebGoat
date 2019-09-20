@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.owasp.webgoat.session.WebgoatContext;
+import org.owasp.webgoat.sql_injection.SqlLessonTest;
 import org.owasp.webgoat.sql_injection.introduction.SqlInjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -44,18 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 11/07/18.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SqlInjectionLesson8Test extends LessonTest {
-
-    @Autowired
-    private WebgoatContext context;
-
-    @Before
-    public void setup() {
-        SqlInjection sql = new SqlInjection();
-        when(webSession.getCurrentLesson()).thenReturn(sql);
-        when(webSession.getWebgoatContext()).thenReturn(context);
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+public class SqlInjectionLesson8Test extends SqlLessonTest {
 
     @Test
     public void oneAccount() throws Exception {

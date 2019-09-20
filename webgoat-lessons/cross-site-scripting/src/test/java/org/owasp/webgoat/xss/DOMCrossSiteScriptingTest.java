@@ -28,9 +28,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
+import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.xss.DOMCrossSiteScripting;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -48,7 +51,8 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
         DOMCrossSiteScripting domXss = new DOMCrossSiteScripting();
         init(domXss);
         this.mockMvc = standaloneSetup(domXss).build();
-        when(webSession.getCurrentLesson()).thenReturn(new CrossSiteScripting());
+        CrossSiteScripting xss = new CrossSiteScripting();
+        when(webSession.getCurrentLesson()).thenReturn(xss);
         when(userSessionData.getValue("randValue")).thenReturn(randVal);
     }
 

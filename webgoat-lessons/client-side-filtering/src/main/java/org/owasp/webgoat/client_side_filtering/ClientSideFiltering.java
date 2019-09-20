@@ -1,11 +1,8 @@
 package org.owasp.webgoat.client_side_filtering;
 
-import com.google.common.collect.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * ************************************************************************************************
@@ -37,23 +34,11 @@ import java.util.List;
  * @since October 12, 2016
  */
 @Component
-public class ClientSideFiltering extends NewLesson {
+public class ClientSideFiltering extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
         return Category.CLIENT_SIDE;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return Lists.newArrayList("Many sites attempt to restrict access to resources by role.",
-                "Developers frequently make mistakes implementing this scheme.",
-                "Attempt combinations of users, roles, and resources.");
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 10;
     }
 
     @Override

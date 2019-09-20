@@ -24,13 +24,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CIAQuizTest extends LessonTest {
 
     @Autowired
-    private WebgoatContext context;
+    private CIA cia;
 
     @Before
     public void setup() {
-        CIA cia = new CIA();
         when(webSession.getCurrentLesson()).thenReturn(cia);
-        when(webSession.getWebgoatContext()).thenReturn(context);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
