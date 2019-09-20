@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -100,8 +101,11 @@ public class CourseConfiguration {
         } else if (m.getAnnotation(PutMapping.class) != null) {
             paths = ArrayUtils.addAll(m.getAnnotation(PutMapping.class).value(), m.getAnnotation(PutMapping.class).path());
         }
-
-        return paths != null && paths.length > 0 ? paths[0] : "";
+        if (paths == null) {
+            return "";
+        } else {
+            return Arrays.stream(paths).filter(path -> !"".equals(path)).findFirst().orElseGet(() -> "");
+        }
     }
 
     private List<String> getHints(Class<? extends AssignmentEndpoint> e) {
