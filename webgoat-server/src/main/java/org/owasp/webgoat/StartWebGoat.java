@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.util.StringUtils;
 
 /**
  * Main entry point, this project is here to get all the lesson jars included to the final jar file
@@ -40,7 +41,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 public class StartWebGoat extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        log.info("Starting WebGoat with args: {}", args);
+        log.info("Starting WebGoat with args: {}", StringUtils.arrayToCommaDelimitedString(args));
         System.setProperty("spring.config.name", "application-webgoat");
         SpringApplication.run(StartWebGoat.class, args);
     }

@@ -1,7 +1,7 @@
 package org.owasp.webgoat.session;
 
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Category;
 
 import java.util.List;
@@ -41,9 +41,9 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class Course {
 
-    private List<? extends AbstractLesson> lessons;
+    private List<? extends Lesson> lessons;
 
-    public Course(List<? extends AbstractLesson> lessons) {
+    public Course(List<? extends Lesson> lessons) {
         this.lessons = lessons;
     }
 
@@ -61,7 +61,7 @@ public class Course {
      *
      * @return The firstLesson value
      */
-    public AbstractLesson getFirstLesson() {
+    public Lesson getFirstLesson() {
         // Category 0 is the admin function. We want the first real category
         // to be returned. This is normally the General category and the Http Basics lesson
         return getLessons(getCategories().get(0)).get(0);
@@ -72,7 +72,7 @@ public class Course {
      *
      * @return a {@link java.util.List} object.
      */
-    public List<? extends AbstractLesson> getLessons() {
+    public List<? extends Lesson> getLessons() {
         return this.lessons;
     }
 
@@ -82,11 +82,11 @@ public class Course {
      * @param category a {@link org.owasp.webgoat.lessons.Category} object.
      * @return a {@link java.util.List} object.
      */
-    public List<AbstractLesson> getLessons(Category category) {
-        return this.lessons.stream().filter(l -> l.getCategory() == category).sorted().collect(toList());
+    public List<Lesson> getLessons(Category category) {
+        return this.lessons.stream().filter(l -> l.getCategory() == category).collect(toList());
     }
 
-    public void setLessons(List<AbstractLesson> lessons) {
+    public void setLessons(List<Lesson> lessons) {
         this.lessons = lessons;
     }
 

@@ -29,9 +29,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.users.LessonTracker;
@@ -40,8 +39,7 @@ import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.owasp.webgoat.service.LessonMenuService.URL_LESSONMENU_MVC;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -71,14 +69,14 @@ public class LessonMenuServiceTest {
 
     @Test
     public void lessonsShouldBeOrdered() throws Exception {
-        NewLesson l1 = Mockito.mock(NewLesson.class);
-        NewLesson l2 = Mockito.mock(NewLesson.class);
+        Lesson l1 = Mockito.mock(Lesson.class);
+        Lesson l2 = Mockito.mock(Lesson.class);
         when(l1.getTitle()).thenReturn("ZA");
         when(l2.getTitle()).thenReturn("AA");
         when(lessonTracker.isLessonSolved()).thenReturn(false);
         when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1, l2));
         when(course.getCategories()).thenReturn(Lists.newArrayList(Category.ACCESS_CONTROL));
-        when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
+        when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
         when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL_LESSONMENU_MVC))
@@ -89,12 +87,12 @@ public class LessonMenuServiceTest {
 
     @Test
     public void lessonCompleted() throws Exception {
-        NewLesson l1 = Mockito.mock(NewLesson.class);
+        Lesson l1 = Mockito.mock(Lesson.class);
         when(l1.getTitle()).thenReturn("ZA");
         when(lessonTracker.isLessonSolved()).thenReturn(true);
         when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1));
         when(course.getCategories()).thenReturn(Lists.newArrayList(Category.ACCESS_CONTROL));
-        when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
+        when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
         when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL_LESSONMENU_MVC))

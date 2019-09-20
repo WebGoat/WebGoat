@@ -3,6 +3,7 @@ package org.owasp.webgoat.sql_injection.mitigation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.owasp.webgoat.sql_injection.SqlLessonTest;
 import org.owasp.webgoat.sql_injection.introduction.SqlInjection;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.owasp.webgoat.session.WebgoatContext;
@@ -21,19 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 5/21/17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SqlInjectionLesson12aTest extends LessonTest {
-
-    @Autowired
-    private WebgoatContext context;
-
-    @Before
-    public void setup()  {
-        SqlInjection sql = new SqlInjection();
-
-        when(webSession.getCurrentLesson()).thenReturn(sql);
-        when(webSession.getWebgoatContext()).thenReturn(context);
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+public class SqlInjectionLesson12aTest extends SqlLessonTest {
 
     @Test
     public void knownAccountShouldDisplayData() throws Exception {

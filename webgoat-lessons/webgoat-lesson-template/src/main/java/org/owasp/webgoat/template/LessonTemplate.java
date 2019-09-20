@@ -1,11 +1,8 @@
 package org.owasp.webgoat.template;
 
-import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * ************************************************************************************************
@@ -37,21 +34,11 @@ import java.util.List;
  * @since January 3, 2017
  */
 @Component
-public class LessonTemplate extends NewLesson {
+public class LessonTemplate extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
         return Category.GENERAL;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 30;
     }
 
     @Override

@@ -1,11 +1,8 @@
 package org.owasp.webgoat.ssrf;
 
-import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * ************************************************************************************************
@@ -37,20 +34,10 @@ import java.util.List;
  * @since October 12, 2016
  */
 @Component
-public class SSRF extends NewLesson {
+public class SSRF extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.REQUEST_FORGERIES;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 2;
     }
 
     @Override

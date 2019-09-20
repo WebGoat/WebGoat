@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.owasp.webgoat.plugins.LessonTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -17,10 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SecurityQuestionAssignmentTest extends LessonTest {
 
+    @Autowired
+    private PasswordReset passwordReset;
+
     @Before
     public void setup() {
-        PasswordReset assignment = new PasswordReset();
-        Mockito.when(webSession.getCurrentLesson()).thenReturn(assignment);
+        Mockito.when(webSession.getCurrentLesson()).thenReturn(passwordReset);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         Mockito.when(webSession.getUserName()).thenReturn("unit-test");
     }

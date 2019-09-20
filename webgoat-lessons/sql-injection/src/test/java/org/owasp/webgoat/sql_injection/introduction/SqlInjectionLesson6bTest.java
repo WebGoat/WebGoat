@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
+import org.owasp.webgoat.sql_injection.SqlLessonTest;
 import org.owasp.webgoat.sql_injection.introduction.SqlInjection;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -41,13 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 6/16/17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SqlInjectionLesson6bTest extends LessonTest {
-
-    @Before
-    public void setup() throws Exception {
-        when(webSession.getCurrentLesson()).thenReturn(new SqlInjection());
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+public class SqlInjectionLesson6bTest extends SqlLessonTest {
 
     @Test
     public void submitCorrectPassword() throws Exception {

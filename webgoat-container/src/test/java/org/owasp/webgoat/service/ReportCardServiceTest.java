@@ -1,13 +1,12 @@
 package org.owasp.webgoat.service;
 
-import com.beust.jcommander.internal.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.owasp.webgoat.i18n.PluginMessages;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.users.LessonTracker;
@@ -20,8 +19,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,7 +35,7 @@ public class ReportCardServiceTest {
     @Mock
     private UserTracker userTracker;
     @Mock
-    private AbstractLesson lesson;
+    private Lesson lesson;
     @Mock
     private LessonTracker lessonTracker;
     @Mock
@@ -60,7 +59,7 @@ public class ReportCardServiceTest {
         when(course.getTotalOfAssignments()).thenReturn(10);
         when(course.getLessons()).thenAnswer(x -> List.of(lesson));
         when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
-        when(userTracker.getLessonTracker(any(AbstractLesson.class))).thenReturn(lessonTracker);
+        when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
         mockMvc.perform(MockMvcRequestBuilders.get("/service/reportcard.mvc"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalNumberOfLessons", is(1)))

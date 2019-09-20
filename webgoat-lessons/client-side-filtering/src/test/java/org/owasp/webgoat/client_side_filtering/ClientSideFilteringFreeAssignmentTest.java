@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,14 +22,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ClientSideFilteringFreeAssignmentTest extends LessonTest {
 
-    private MockMvc mockMvc;
+    @Autowired
+    private ClientSideFiltering clientSideFiltering;
 
     @Before
     public void setup() {
-        ClientSideFiltering clientSideFiltering = new ClientSideFiltering();
         when(webSession.getCurrentLesson()).thenReturn(clientSideFiltering);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        when(webSession.getUserName()).thenReturn("unit-test");
     }
 
     @Test

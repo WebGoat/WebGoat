@@ -22,33 +22,20 @@
 
 package org.owasp.webgoat.chrome_dev_tools;
 
-import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @author TMelzer
  * @since 30.11.18
  */
 @Component
-public class ChromeDevTools extends NewLesson {
+public class ChromeDevTools extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
       return Category.GENERAL;
-    }
-
-    @Override
-    public List<String> getHints() {
-      return Lists.newArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-      return 4;
     }
 
     @Override

@@ -23,27 +23,14 @@
 package org.owasp.webgoat.webwolf_introduction;
 
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
-public class WebWolfIntroduction extends NewLesson {
+public class WebWolfIntroduction extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.INTRODUCTION;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return new ArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 10;
     }
 
     @Override

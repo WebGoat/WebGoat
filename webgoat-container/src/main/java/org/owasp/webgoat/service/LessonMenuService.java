@@ -29,7 +29,7 @@
 package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonMenuItem;
 import org.owasp.webgoat.lessons.LessonMenuItemType;
@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -81,13 +80,12 @@ public class LessonMenuService {
             categoryItem.setName(category.getName());
             categoryItem.setType(LessonMenuItemType.CATEGORY);
             // check for any lessons for this category
-            List<AbstractLesson> lessons = course.getLessons(category);
+            List<Lesson> lessons = course.getLessons(category);
             lessons = lessons.stream().sorted(Comparator.comparing(l -> l.getTitle())).collect(Collectors.toList());
-            for (AbstractLesson lesson : lessons) {
+            for (Lesson lesson : lessons) {
                 LessonMenuItem lessonItem = new LessonMenuItem();
                 lessonItem.setName(lesson.getTitle());
                 lessonItem.setLink(lesson.getLink());
-                lessonItem.setRanking(lesson.getRanking());
                 lessonItem.setType(LessonMenuItemType.LESSON);
                 LessonTracker lessonTracker = userTracker.getLessonTracker(lesson);
                 lessonItem.setComplete(lessonTracker.isLessonSolved());

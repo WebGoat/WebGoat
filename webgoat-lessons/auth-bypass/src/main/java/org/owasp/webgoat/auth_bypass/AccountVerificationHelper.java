@@ -31,7 +31,7 @@ import java.util.Map;
 public class AccountVerificationHelper {
 
     //simulating database storage of verification credentials
-    private  static final Integer verifyUserId = new Integer(1223445);
+    private  static final Integer verifyUserId = 1223445;
     private static final Map<String,String> userSecQuestions = new HashMap<>();
     static {
         userSecQuestions.put("secQuestion0","Dr. Watson");

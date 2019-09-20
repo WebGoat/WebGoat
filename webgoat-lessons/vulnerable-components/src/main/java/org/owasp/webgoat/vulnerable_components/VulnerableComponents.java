@@ -23,27 +23,14 @@
 package org.owasp.webgoat.vulnerable_components;
 
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
-public class VulnerableComponents extends NewLesson {
+public class VulnerableComponents extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.VULNERABLE_COMPONENTS;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return new ArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 1;
     }
 
     @Override

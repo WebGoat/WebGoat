@@ -35,6 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BlindSendFileAssignmentTest extends LessonTest {
 
     @Autowired
+    private XXE xxe;
+    @Autowired
     private Comments comments;
     @Value("${webgoat.user.directory}")
     private String webGoatHomeDirectory;
@@ -45,11 +47,9 @@ public class BlindSendFileAssignmentTest extends LessonTest {
     public WireMockRule webwolfServer = new WireMockRule(wireMockConfig().dynamicPort());
 
     @Before
-    public void setup() throws Exception {
-        XXE xxe = new XXE();
+    public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(xxe);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        when(webSession.getUserName()).thenReturn("unit-test");
         port = webwolfServer.port();
     }
 

@@ -24,7 +24,7 @@ package org.owasp.webgoat.csrf;
 
 import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -33,20 +33,10 @@ import java.util.List;
  * Created by jason on 9/29/17.
  */
 @Component
-public class CSRF extends NewLesson  {
+public class CSRF extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.REQUEST_FORGERIES;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 1;
     }
 
     @Override

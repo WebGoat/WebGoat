@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -21,10 +22,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SSRFTest1 extends LessonTest {
 
+    @Autowired
+    private SSRF ssrf;
 
     @Before
     public void setup() throws Exception {
-        SSRF ssrf = new SSRF();
         when(webSession.getCurrentLesson()).thenReturn(ssrf);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }

@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.owasp.webgoat.session.WebgoatContext;
+import org.owasp.webgoat.sql_injection.SqlLessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -42,20 +43,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 11/07/18.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SqlInjectionLesson10Test extends LessonTest {
-
-    @Autowired
-    private WebgoatContext context;
+public class SqlInjectionLesson10Test extends SqlLessonTest {
 
     private String completedError = "JSON path \"lessonCompleted\"";
-
-    @Before
-    public void setup() {
-        SqlInjection sql = new SqlInjection();
-        when(webSession.getCurrentLesson()).thenReturn(sql);
-        when(webSession.getWebgoatContext()).thenReturn(context);
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
 
     @Test
     public void tableExistsIsFailure() throws Exception {

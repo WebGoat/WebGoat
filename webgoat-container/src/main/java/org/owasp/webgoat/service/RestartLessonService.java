@@ -25,7 +25,7 @@ package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.users.UserTracker;
 import org.owasp.webgoat.users.UserTrackerRepository;
@@ -56,7 +56,7 @@ public class RestartLessonService {
     @RequestMapping(path = "/service/restartlesson.mvc", produces = "text/text")
     @ResponseStatus(value = HttpStatus.OK)
     public void restartLesson() {
-        AbstractLesson al = webSession.getCurrentLesson();
+        Lesson al = webSession.getCurrentLesson();
         log.debug("Restarting lesson: " + al);
 
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());

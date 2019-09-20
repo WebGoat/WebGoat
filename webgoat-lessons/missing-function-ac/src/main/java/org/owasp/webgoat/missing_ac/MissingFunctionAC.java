@@ -22,29 +22,16 @@
 
 package org.owasp.webgoat.missing_ac;
 
-import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
-public class MissingFunctionAC  extends NewLesson {
+public class MissingFunctionAC  extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
         return Category.ACCESS_CONTROL;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 40;
     }
 
     @Override

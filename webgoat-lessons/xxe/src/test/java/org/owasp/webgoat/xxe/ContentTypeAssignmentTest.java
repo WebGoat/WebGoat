@@ -48,14 +48,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ContentTypeAssignmentTest extends LessonTest {
 
     @Autowired
+    private XXE xxe;
+    @Autowired
     private Comments comments;
 
     @Before
-    public void setup() throws Exception {
-        XXE xxe = new XXE();
+    public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(xxe);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        when(webSession.getUserName()).thenReturn("unit-test");
     }
 
     @Test

@@ -20,26 +20,27 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.xss;
+package org.owasp.webgoat.sql_injection;
 
-import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.Lesson;
-import org.springframework.stereotype.Component;
+import org.junit.Before;
+import org.owasp.webgoat.plugins.LessonTest;
+import org.owasp.webgoat.session.WebgoatContext;
+import org.owasp.webgoat.sql_injection.introduction.SqlInjection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@Component
-public class CrossSiteScripting extends Lesson {
-    @Override
-    public Category getDefaultCategory() {
-        return Category.XSS;
+import static org.mockito.Mockito.when;
+
+public class SqlLessonTest extends LessonTest {
+
+    @Autowired
+    private SqlInjection sql = new SqlInjection();
+
+    @Before
+    public void setup() {
+        when(webSession.getCurrentLesson()).thenReturn(sql);
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
-    @Override
-    public String getTitle() {
-        return "xss.title";
-    }
 
-    @Override
-    public String getId() {
-        return "CrossSiteScripting";
-    }
 }

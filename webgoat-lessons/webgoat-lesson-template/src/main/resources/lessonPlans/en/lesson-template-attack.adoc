@@ -5,7 +5,7 @@ Each lesson can contain multiple assignments, first let's define a lesson class 
 [source]
 ----
 @Component
-public class LessonTemplate extends NewLesson {
+public class LessonTemplate extends AbstractLesson {
  @Override
     public Category getDefaultCategory() {
         return Category.GENERAL;

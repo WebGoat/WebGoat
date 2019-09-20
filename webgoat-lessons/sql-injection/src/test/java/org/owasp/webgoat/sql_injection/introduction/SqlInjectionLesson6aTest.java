@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
+import org.owasp.webgoat.sql_injection.SqlLessonTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -41,13 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 6/15/17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SqlInjectionLesson6aTest extends LessonTest {
-
-    @Before
-    public void setup() throws Exception {
-        when(webSession.getCurrentLesson()).thenReturn(new SqlInjection());
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+public class SqlInjectionLesson6aTest extends SqlLessonTest {
 
     @Test
     public void wrongSolution() throws Exception {
