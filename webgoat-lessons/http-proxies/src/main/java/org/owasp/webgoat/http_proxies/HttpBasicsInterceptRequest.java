@@ -47,10 +47,4 @@ public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
             return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
         }
     }
-
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public AttackResult handleMissingParams() {
-        return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
-    }
-
 }
