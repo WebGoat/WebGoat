@@ -25,21 +25,22 @@ package org.owasp.webgoat.http_proxies;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
 
-//    @ExceptionHandler(MissingServletRequestParameterException.class)
-//    public AttackResult handleMissingParams() {
-//        return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
-//    }
-
-    @GetMapping("/HttpProxies/intercept-request")
+    @RequestMapping(path = "/HttpProxies/intercept-request", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
     public AttackResult completed(@RequestHeader(value = "x-request-intercepted", required = false) Boolean headerValue,
-                                  @RequestParam(value = "changeMe", required = false) String paramValue) {
+                                  @RequestParam(value = "changeMe", required = false) String paramValue, HttpServletRequest request) {
+        if (HttpMethod.POST.matches(request.getMethod())) {
+            return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
+        }
         if (headerValue != null && paramValue != null && headerValue && "Requests are tampered easily".equalsIgnoreCase(paramValue)) {
             return trackProgress(success().feedback("http-proxies.intercept.success").build());
         } else {
@@ -47,9 +48,9 @@ public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
         }
     }
 
-//    @PostMapping("/HttpProxies/intercept-request")
-//    @ResponseBody
-//    public AttackResult post() {
-//        return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
-//    }
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public AttackResult handleMissingParams() {
+        return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
+    }
+
 }

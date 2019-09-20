@@ -57,6 +57,9 @@ public class Assignment {
     }
 
     public Assignment(String name, String path, List<String> hints) {
+        if (path.equals("")) {
+            System.out.println(name);
+        }
         this.name = name;
         this.path = path;
         this.hints = hints;
