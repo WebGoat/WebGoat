@@ -31,6 +31,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
 
+//    @ExceptionHandler(MissingServletRequestParameterException.class)
+//    public AttackResult handleMissingParams() {
+//        return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
+//    }
+
     @GetMapping("/HttpProxies/intercept-request")
     @ResponseBody
     public AttackResult completed(@RequestHeader(value = "x-request-intercepted", required = false) Boolean headerValue,
@@ -42,14 +47,9 @@ public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
         }
     }
 
-    @PostMapping("/HttpProxies/intercept-request")
-    @ResponseBody
-    public AttackResult post() {
-        return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
-    }
-
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public AttackResult handleMissingParams() {
-        return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
-    }
+//    @PostMapping("/HttpProxies/intercept-request")
+//    @ResponseBody
+//    public AttackResult post() {
+//        return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
+//    }
 }
