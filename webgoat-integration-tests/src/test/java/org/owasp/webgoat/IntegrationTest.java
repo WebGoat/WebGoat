@@ -3,6 +3,7 @@ package org.owasp.webgoat;
 import io.restassured.RestAssured;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.config.SSLConfig;
+import io.restassured.http.ContentType;
 import lombok.Getter;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
@@ -26,7 +27,6 @@ public abstract class IntegrationTest {
     private static String WEBGOAT_URL = "http://127.0.0.1:" + WG_PORT + "/WebGoat/";
     private static String WEBWOLF_URL = "http://127.0.0.1:" + WW_PORT + "/";
 
-
     //This also allows to test the application with HTTPS when outside testing option is used
     protected static RestAssuredConfig restConfig = RestAssuredConfig.newConfig().sslConfig(new SSLConfig().relaxedHTTPSValidation());
 
@@ -41,16 +41,18 @@ public abstract class IntegrationTest {
 
     @BeforeClass
     public static void beforeAll() {
-        if (!started) {
+    	    	
+        if (!started) {       
             started = true;
             if (!isAlreadyRunning(WG_PORT)) {
                 SpringApplicationBuilder wgs = new SpringApplicationBuilder(StartWebGoat.class)
-                        .properties(Map.of("spring.config.name", "application-webgoat", "WEBGOAT_PORT", WG_PORT));
+                        .properties(Map.of("spring.config.name", "application-webgoat,application-inttest", "WEBGOAT_PORT", WG_PORT));
                 wgs.run();
+           
             }
             if (!isAlreadyRunning(WW_PORT)) {
                 SpringApplicationBuilder wws = new SpringApplicationBuilder(WebWolf.class)
-                        .properties(Map.of("spring.config.name", "application-webwolf", "WEBWOLF_PORT", WW_PORT));
+                        .properties(Map.of("spring.config.name", "application-webwolf,application-inttest", "WEBWOLF_PORT", WW_PORT));
                 wws.run();
             }
         }
@@ -209,7 +211,7 @@ public abstract class IntegrationTest {
                 .config(restConfig)
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/lessonoverview.mvc"))
-                .then()
+                .then()                
                 .statusCode(200).extract().jsonPath().getList("solved"), CoreMatchers.everyItem(CoreMatchers.is(true)));
 
         Assert.assertThat(RestAssured.given()
@@ -221,4 +223,20 @@ public abstract class IntegrationTest {
                 .statusCode(200).extract().jsonPath().getList("assignment.path"), CoreMatchers.everyItem(CoreMatchers.startsWith(prefix)));
 
     }
+
+    public void checkAssignment(String url, ContentType contentType, String body, boolean expectedResult) {
+        Assert.assertThat(
+                RestAssured.given()
+                        .when()
+                        .config(restConfig)
+                        .contentType(contentType)
+                        .cookie("JSESSIONID", getWebGoatCookie())
+                        .body(body)
+                        .post(url)
+                        .then()
+                        .statusCode(200)
+                        .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
+    }
+    
 }
+

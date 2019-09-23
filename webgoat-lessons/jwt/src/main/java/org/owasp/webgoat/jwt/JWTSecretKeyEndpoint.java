@@ -28,16 +28,24 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author nbaars
@@ -47,9 +55,25 @@ import java.util.List;
 @AssignmentHints({"jwt-secret-hint1", "jwt-secret-hint2", "jwt-secret-hint3"})
 public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
 
-    public static final String JWT_SECRET = TextCodec.BASE64.encode("victory");
+	public static final String[] SECRETS = {"victory","business","available", "shipping", "washington"};
+    public static final String JWT_SECRET = TextCodec.BASE64.encode(SECRETS[new Random().nextInt(SECRETS.length)]);
     private static final String WEBGOAT_USER = "WebGoat";
     private static final List<String> expectedClaims = Lists.newArrayList("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
+
+    @RequestMapping(path="/gettoken",produces=MediaType.TEXT_HTML_VALUE)
+    @ResponseBody
+    public String getSecretToken() {
+    	return Jwts.builder()
+    		.setIssuer("WebGoat Token Builder")
+    		.setAudience("webgoat.org")
+    		.setIssuedAt(Calendar.getInstance().getTime())
+    		.setExpiration(Date.from(Instant.now().plusSeconds(60)))
+    		.setSubject("tom@webgoat.org")
+    		.claim("username", "Tom")
+    		.claim("Email", "tom@webgoat.org")
+    		.claim("Role", new String[] {"Manager", "Project Administrator"})
+    		.signWith(SignatureAlgorithm.HS256, JWT_SECRET).compact();
+    }
 
     @PostMapping("/JWT/secret")
     @ResponseBody
@@ -69,6 +93,7 @@ public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
                 }
             }
         } catch (Exception e) {
+        	e.printStackTrace();
             return trackProgress(failed().feedback("jwt-invalid-token").output(e.getMessage()).build());
         }
     }

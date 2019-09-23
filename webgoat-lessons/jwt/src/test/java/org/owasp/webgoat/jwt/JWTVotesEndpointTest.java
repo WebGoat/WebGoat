@@ -73,7 +73,7 @@ public class JWTVotesEndpointTest extends LessonTest {
         String token = Jwts.builder().setClaims(claims).setHeaderParam("alg", "none").compact();
 
         //Call the reset endpoint
-        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/reset")
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings")
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(new Cookie("access_token", token)))
                 .andExpect(status().isOk())
@@ -82,7 +82,7 @@ public class JWTVotesEndpointTest extends LessonTest {
 
     @Test
     public void resetWithoutTokenShouldNotWork() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/reset")
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("jwt-invalid-token"))));
@@ -153,7 +153,7 @@ public class JWTVotesEndpointTest extends LessonTest {
         Object[] nodes = new ObjectMapper().readValue(result.getResponse().getContentAsString(), Object[].class);
         int currentNumberOfVotes = (int) findNodeByTitle(nodes, "Admin lost password").get("numberOfVotes");
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/Admin lost password")
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/vote/Admin lost password")
                 .cookie(cookie))
                 .andExpect(status().isAccepted());
         result = mockMvc.perform(MockMvcRequestBuilders.get("/JWT/votings")
@@ -176,7 +176,7 @@ public class JWTVotesEndpointTest extends LessonTest {
 
     @Test
     public void guestShouldNotBeAbleToVote() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/Admin lost password")
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/vote/Admin lost password")
                 .cookie(new Cookie("access_token", "")))
                 .andExpect(status().isUnauthorized());
     }
@@ -188,7 +188,7 @@ public class JWTVotesEndpointTest extends LessonTest {
         claims.put("user", "Intruder");
         String token = Jwts.builder().signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, JWT_PASSWORD).setClaims(claims).compact();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/Admin lost password")
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings/vote/Admin lost password")
                 .cookie(new Cookie("access_token", token)))
                 .andExpect(status().isUnauthorized());
     }

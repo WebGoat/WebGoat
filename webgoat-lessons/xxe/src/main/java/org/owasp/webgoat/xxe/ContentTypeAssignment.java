@@ -58,7 +58,7 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
             attackResult = failed().feedback("xxe.content.type.feedback.json").build();
         }
 
-        if (MediaType.APPLICATION_XML_VALUE.equals(contentType)) {
+        if (null != contentType && contentType.contains(MediaType.APPLICATION_XML_VALUE)) {
             String error = "";
             try {
                 Comment comment = comments.parseXml(commentStr);
