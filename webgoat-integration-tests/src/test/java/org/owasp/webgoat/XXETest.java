@@ -74,6 +74,7 @@ public class XXETest extends IntegrationTest {
         .get(webWolfUrl("/WebWolf/requests"))
         .then()
         .extract().response().getBody().asString();
+        result = result.replace("%20", " ");
         result = result.substring(result.lastIndexOf("WebGoat 8.0 rocks... ("),result.lastIndexOf("WebGoat 8.0 rocks... (")+33);
         return result;
     }

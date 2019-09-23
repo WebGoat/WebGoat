@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 @AssignmentHints(value = {"SqlStringInjectionHint-mitigation-10b-1", "SqlStringInjectionHint-mitigation-10b-2", "SqlStringInjectionHint-mitigation-10b-3", "SqlStringInjectionHint-mitigation-10b-4", "SqlStringInjectionHint-mitigation-10b-5"})
 public class SqlInjectionLesson10b extends AssignmentEndpoint {
 
-    @PostMapping("SqlInjectionMitigations/attack10b")
+    @PostMapping("/SqlInjectionMitigations/attack10b")
     @ResponseBody
     public AttackResult completed(@RequestParam String editor) {
         try {

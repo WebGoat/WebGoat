@@ -153,7 +153,7 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
         }
     }
 
-    @PostMapping("/JWT/votings/reset")
+    @PostMapping("/JWT/votings")
     @ResponseBody
     public AttackResult resetVotes(@CookieValue(value = "access_token", required = false) String accessToken) {
         if (StringUtils.isEmpty(accessToken)) {

@@ -41,7 +41,7 @@ public class SqlInjectionLesson10a extends AssignmentEndpoint {
     private WebSession webSession;
     private String[] results = {"getConnection", "PreparedStatement", "prepareStatement", "?", "?", "setString", "setString"};
 
-    @PostMapping("SqlInjectionMitigations/attack10a")
+    @PostMapping("/SqlInjectionMitigations/attack10a")
     @ResponseBody
     public AttackResult completed(@RequestParam String field1, @RequestParam String field2, @RequestParam String field3, @RequestParam String field4, @RequestParam String field5, @RequestParam String field6, @RequestParam String field7) {
         String[] userInput = {field1, field2, field3, field4, field5, field6, field7};
