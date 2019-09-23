@@ -51,7 +51,7 @@ public class SqlInjectionLesson12a extends AssignmentEndpoint {
     @Autowired
     private WebSession webSession;
 
-    @PostMapping("SqlInjectionMitigations/attack12a")
+    @PostMapping("/SqlInjectionMitigations/attack12a")
     @ResponseBody
     @SneakyThrows
     public AttackResult completed(@RequestParam String ip) {
