@@ -147,12 +147,11 @@
         <!--</dependency>-->
         <!-- /lessons -->
 
-        <!-- devtools no longer working with Java 11 and Spring Boot version 1.* enable again once we move to 2.0-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-devtools</artifactId>-->
-            <!--<optional>true</optional>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -171,7 +170,7 @@
                     <requiresUnpack>
                         <dependency>
                             <groupId>org.thymeleaf.extra</groupId>
-                            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+                            <artifactId>thymeleaf-extras-springsecurity5++</artifactId>
                         </dependency>
                         <dependency>
                             <groupId>org.asciidoctor</groupId>

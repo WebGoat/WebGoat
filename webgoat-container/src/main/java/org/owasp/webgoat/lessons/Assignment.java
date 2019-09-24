@@ -52,11 +52,14 @@ public class Assignment {
         //Hibernate
     }
 
-    public Assignment(String name, String path) {
-        this(name, path, Lists.newArrayList());
+    public Assignment(String name) {
+        this(name, name, Lists.newArrayList());
     }
 
     public Assignment(String name, String path, List<String> hints) {
+        if (path.equals("") || path.equals("/") || path.equals("/WebGoat/")) {
+            throw new IllegalStateException("The path of assignment '" + name + "' overrides WebGoat endpoints, please choose a path within the scope of the lesson");
+        }
         this.name = name;
         this.path = path;
         this.hints = hints;

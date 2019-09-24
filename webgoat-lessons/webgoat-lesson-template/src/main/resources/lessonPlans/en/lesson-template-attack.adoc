@@ -1,3 +1,123 @@
 === Attack Explanation
 
-Explanation of attack here ... Instructions etc.
+Each lesson can contain multiple assignments, first let's define a lesson class in Java
+
+[source]
+----
+@Component
+public class LessonTemplate extends AbstractLesson {
+ @Override
+    public Category getDefaultCategory() {
+        return Category.GENERAL;
+    }
+
+    @Override
+    public List<String> getHints() {
+        return Lists.newArrayList();
+    }
+
+    @Override
+    public Integer getDefaultRanking() {
+        return 30;
+    }
+
+    @Override
+    public String getTitle() {
+        return "lesson-template.title";
+    }
+
+    @Override
+    public String getId() {
+        return "LessonTemplate";
+    }
+}
+----
+
+This implementation is quite straightforward. Now for an assignment you need to implement:
+
+[source]
+----
+@RestController
+public class SampleAttack extends AssignmentEndpoint {
+
+    String secretValue = "secr37Value";
+
+    //UserSessionData is bound to session and can be used to persist data across multiple assignments
+    @Autowired
+    UserSessionData userSessionData;
+
+
+    @GetMapping(path = "/lesson-template/sample-attack", produces = {"application/json"})
+    @ResponseBody
+    public AttackResult completed(String param1, String param2, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (userSessionData.getValue("some-value") != null) {
+            // do any session updating you want here ... or not, just comment/example here
+            //return trackProgress(failed().feedback("lesson-template.sample-attack.failure-2").build());
+        }
+
+        //overly simple example for success. See other existing lesssons for ways to detect 'success' or 'failure'
+        if (secretValue.equals(param1)) {
+            return trackProgress(success()
+                    .output("Custom Output ...if you want, for success")
+                    .feedback("lesson-template.sample-attack.success")
+                    .build());
+            //lesson-template.sample-attack.success is defined in src/main/resources/i18n/WebGoatLabels.properties
+        }
+
+        // else
+        return trackProgress(failed()
+                .feedback("lesson-template.sample-attack.failure-2")
+                .output("Custom output for this failure scenario, usually html that will get rendered directly ... yes, you can self-xss if you want")
+                .build());
+    }
+
+    @GetMapping("lesson-template/shop/{user}")
+    @ResponseBody
+    public List<Items> getItemsInBasket(@PathVariable("user") String user) {
+        ....
+    }
+}
+----
+
+As you can see an assignment is a REST controller which need to at least have one method with the following signature:
+
+[source]
+----
+@RequestMapping(method = "...", path = "/lesson-template/solution")
+@ResponseBody
+public AttackResult solve(String param) {
+  ...
+}
+----
+
+Other endpoints can be added in the assignment to support different cases for the assignment.
+
+### Glue between html and assignment
+
+We mentioned a lesson can consist of multiple assignments, WebGoat picks them up automatically and the UI displays
+a navigation bar on top of every lesson. A page with an assignment will be red in the beginning and will become
+green when the user solves the assignment. To make this work in the html we need to add:
+
+[source]
+----
+div class="attack-container">
+  <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+    <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
+    <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
+    <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
+
+
+    <form class="attack-form" accept-charset="UNKNOWN"
+          method="GET" name="form"
+          action="/WebGoat/lesson-template/sample-attack"
+          enctype="application/json;charset=UTF-8">
+          ....
+    </form>
+  </div>
+</div>
+----
+
+So the `action` of the form should match the method which defines the check if the lesson has been solved or not
+see `public AttackResult solved()`
+
+That's it you now successfully created your first WebGoat lesson.

@@ -87,7 +87,6 @@ public class GeneralLessonTest extends IntegrationTest {
                 .get(url("/WebGoat/HttpProxies/intercept-request?changeMe=Requests are tampered easily")).then()
                 .statusCode(200).extract().path("lessonCompleted"), CoreMatchers.is(true));
         checkResults("/HttpProxies/");
-
     }
 
     @Test

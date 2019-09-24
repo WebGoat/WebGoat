@@ -13,7 +13,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.owasp.webgoat.plugin.JWTSecretKeyEndpoint;
+import org.owasp.webgoat.jwt.JWTSecretKeyEndpoint;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
