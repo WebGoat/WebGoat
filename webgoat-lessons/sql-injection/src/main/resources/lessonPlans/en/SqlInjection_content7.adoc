@@ -4,16 +4,16 @@ These are the best defense against SQL injection.  They either do not have data 
 
 === Static Queries
 -------------------------------------------------------
-select * from products;
+SELECT * FROM PRODUCTS;
 -------------------------------------------------------
 
 -------------------------------------------------------
-select * from users where user = "'" + session.getAttribute("UserID") + "'"; 
+SELECT * FROM USERS WHERE USER = "'" + session.getAttribute("UserID") + "'";
 -------------------------------------------------------
 
 === Parameterized Queries
 -------------------------------------------------------
-String query = "SELECT * FROM users WHERE last_name = ?";
+String query = "SELECT * FROM USERS WHERE LAST_NAME = ?";
 PreparedStatement statement = connection.prepareStatement(query);
 statement.setString(1, accountName);
 ResultSet results = statement.executeQuery();
