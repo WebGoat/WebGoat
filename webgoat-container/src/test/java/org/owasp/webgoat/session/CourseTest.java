@@ -31,4 +31,8 @@ package org.owasp.webgoat.session;
  */
 public class CourseTest {
 
+    public void number() {
+
+    }
+
 }

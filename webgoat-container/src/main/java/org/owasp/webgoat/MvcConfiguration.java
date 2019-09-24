@@ -30,40 +30,37 @@
  */
 package org.owasp.webgoat;
 
-import com.google.common.collect.Sets;
 import org.owasp.webgoat.i18n.Language;
 import org.owasp.webgoat.i18n.Messages;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.LabelDebugger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.templateresolver.TemplateResolver;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import java.io.File;
+import java.util.Set;
 
 /**
  * Configuration for Spring MVC
  */
 @Configuration
-public class MvcConfiguration extends WebMvcConfigurerAdapter {
+public class MvcConfiguration implements WebMvcConfigurer {
 	
 	private static final String UTF8 = "UTF-8";
-
-    @Autowired
-    @Qualifier("pluginTargetDirectory")
-    private File pluginTargetDirectory;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -74,13 +71,21 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         //registry.addViewController("/list_users").setViewName("list_users");
     }
 
+    @Bean
+    public ViewResolver viewResolver(SpringTemplateEngine thymeleafTemplateEngine) {
+        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+        resolver.setTemplateEngine(thymeleafTemplateEngine);
+        resolver.setCharacterEncoding("UTF-8");
+        return resolver;
+    }
 
     @Bean
-    public TemplateResolver springThymeleafTemplateResolver(ApplicationContext applicationContext) {
+    public ITemplateResolver springThymeleafTemplateResolver(ApplicationContext applicationContext) {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
         resolver.setPrefix("classpath:/templates/");
         resolver.setSuffix(".html");
-        resolver.setOrder(1);
+        resolver.setTemplateMode(TemplateMode.HTML);
+        resolver.setOrder(2);
         resolver.setCacheable(false);
         resolver.setCharacterEncoding(UTF8);
         resolver.setApplicationContext(applicationContext);
@@ -89,8 +94,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
     @Bean
     public LessonTemplateResolver lessonTemplateResolver(ResourceLoader resourceLoader) {
-        LessonTemplateResolver resolver = new LessonTemplateResolver(pluginTargetDirectory, resourceLoader);
-        resolver.setOrder(2);
+        LessonTemplateResolver resolver = new LessonTemplateResolver(resourceLoader);
+        resolver.setOrder(0);
         resolver.setCacheable(false);
         resolver.setCharacterEncoding(UTF8);
         return resolver;
@@ -100,19 +105,20 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(Language language) {
         AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(language);
         resolver.setCacheable(false);
-        resolver.setOrder(3);
+        resolver.setOrder(1);
         resolver.setCharacterEncoding(UTF8);
         return resolver;
     }
 
     @Bean
-    public SpringTemplateEngine thymeleafTemplateEngine(TemplateResolver springThymeleafTemplateResolver,
+    public SpringTemplateEngine thymeleafTemplateEngine(ITemplateResolver springThymeleafTemplateResolver,
                                                         LessonTemplateResolver lessonTemplateResolver,
                                                         AsciiDoctorTemplateResolver asciiDoctorTemplateResolver) {
         SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setEnableSpringELCompiler(true);
         engine.addDialect(new SpringSecurityDialect());
         engine.setTemplateResolvers(
-                Sets.newHashSet(springThymeleafTemplateResolver, lessonTemplateResolver, asciiDoctorTemplateResolver));
+                Set.of(lessonTemplateResolver, asciiDoctorTemplateResolver, springThymeleafTemplateResolver));
         return engine;
     }
 
@@ -123,12 +129,10 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/plugin_lessons/**").addResourceLocations("file:///" + pluginTargetDirectory.toString() + "/");
         registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");
         registry.addResourceHandler("/lesson_js/**").addResourceLocations("classpath:/js/");
         registry.addResourceHandler("/lesson_css/**").addResourceLocations("classpath:/css/");
         registry.addResourceHandler("/video/**").addResourceLocations("classpath:/video/");
-        super.addResourceHandlers(registry);
     }
 
     @Bean

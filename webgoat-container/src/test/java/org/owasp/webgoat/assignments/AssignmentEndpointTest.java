@@ -38,7 +38,8 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 import java.util.Locale;
 
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class AssignmentEndpointTest {
@@ -51,7 +52,7 @@ public class AssignmentEndpointTest {
     protected WebSession webSession;
     @Mock
     protected UserSessionData userSessionData;
-    private Language language = new Language(new FixedLocaleResolver()){
+    private Language language = new Language(new FixedLocaleResolver()) {
         @Override
         public Locale getLocale() {
             return Locale.ENGLISH;
@@ -62,7 +63,6 @@ public class AssignmentEndpointTest {
 
     public void init(AssignmentEndpoint a) {
         messages.setBasenames("classpath:/i18n/messages", "classpath:/i18n/WebGoatLabels");
-        when(userTrackerRepository.findByUser(anyString())).thenReturn(userTracker);
         ReflectionTestUtils.setField(a, "userTrackerRepository", userTrackerRepository);
         ReflectionTestUtils.setField(a, "userSessionData", userSessionData);
         ReflectionTestUtils.setField(a, "webSession", webSession);

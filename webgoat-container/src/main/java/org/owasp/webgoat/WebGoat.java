@@ -30,15 +30,11 @@
  */
 package org.owasp.webgoat;
 
-import org.owasp.webgoat.plugins.PluginEndpointPublisher;
-import org.owasp.webgoat.plugins.PluginsLoader;
-import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.session.WebgoatContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -64,16 +60,6 @@ public class WebGoat {
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public UserSessionData userSessionData() {
         return new UserSessionData("test", "data");
-    }
-
-    @Bean
-    public PluginEndpointPublisher pluginEndpointPublisher(ApplicationContext applicationContext) {
-        return new PluginEndpointPublisher(applicationContext);
-    }
-
-    @Bean
-    public Course course(PluginEndpointPublisher pluginEndpointPublisher) {
-        return new PluginsLoader(pluginEndpointPublisher).loadPlugins();
     }
 
     @Bean

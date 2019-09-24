@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.LessonInfoModel;
 import org.owasp.webgoat.session.WebSession;
@@ -66,7 +66,7 @@ public class LessonProgressService {
     @ResponseBody
     public List<LessonOverview> lessonOverview() {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
-        AbstractLesson currentLesson = webSession.getCurrentLesson();
+        Lesson currentLesson = webSession.getCurrentLesson();
         List<LessonOverview> result = Lists.newArrayList();
         if ( currentLesson != null ) {
             LessonTracker lessonTracker = userTracker.getLessonTracker(currentLesson);
@@ -76,7 +76,7 @@ public class LessonProgressService {
     }
 
     private List<LessonOverview> toJson(Map<Assignment, Boolean> map) {
-        ArrayList<LessonOverview> result = Lists.newArrayList();
+        List<LessonOverview> result = new ArrayList();
         for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {
             result.add(new LessonOverview(entry.getKey(), entry.getValue()));
         }
