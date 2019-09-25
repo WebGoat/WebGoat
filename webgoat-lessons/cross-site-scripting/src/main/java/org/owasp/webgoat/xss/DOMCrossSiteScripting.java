@@ -28,7 +28,6 @@ import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.security.SecureRandom;
 
 @RestController

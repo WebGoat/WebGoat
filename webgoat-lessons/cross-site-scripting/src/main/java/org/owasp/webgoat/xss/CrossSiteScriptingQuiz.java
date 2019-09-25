@@ -34,7 +34,7 @@ public class CrossSiteScriptingQuiz extends AssignmentEndpoint {
     String[] solutions = {"Solution 4", "Solution 3", "Solution 1", "Solution 2", "Solution 4"};
     boolean[] guesses = new boolean[solutions.length];
 
-    @PostMapping("/cross-site-scripting/quiz")
+    @PostMapping("/CrossSiteScripting/quiz")
     @ResponseBody
     public AttackResult completed(@RequestParam String[] question_0_solution, @RequestParam String[] question_1_solution, @RequestParam String[] question_2_solution, @RequestParam String[] question_3_solution, @RequestParam String[] question_4_solution) throws IOException {
         int correctAnswers = 0;
@@ -59,7 +59,7 @@ public class CrossSiteScriptingQuiz extends AssignmentEndpoint {
         }
     }
 
-    @GetMapping("/cross-site-scripting/quiz")
+    @GetMapping("/CrossSiteScripting/quiz")
     @ResponseBody
     public boolean[] getResults() {
         return this.guesses;

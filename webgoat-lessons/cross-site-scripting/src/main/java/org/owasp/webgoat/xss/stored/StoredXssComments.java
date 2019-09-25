@@ -20,7 +20,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.xss;
+package org.owasp.webgoat.xss.stored;
 
 import com.beust.jcommander.internal.Lists;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,20 +30,18 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.xss.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.owasp.encoder.*;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 
 import java.io.IOException;
 import java.util.*;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 public class StoredXssComments extends AssignmentEndpoint {
@@ -64,7 +62,8 @@ public class StoredXssComments extends AssignmentEndpoint {
         comments.add(new Comment("guest", DateTime.now().toString(fmt), "Can you post a comment, calling webgoat.customjs.phoneHome() ?"));
     }
 
-    @GetMapping(path = "/CrossSiteScripting/stored-xss", produces = MediaType.APPLICATION_JSON_VALUE, consumes = ALL_VALUE)
+    //TODO This assignment seems not to be in use in the UI
+    @GetMapping(path = "/CrossSiteScriptingStored/stored-xss", produces = MediaType.APPLICATION_JSON_VALUE, consumes = ALL_VALUE)
     @ResponseBody
     public Collection<Comment> retrieveComments() {
         List<Comment> allComments = Lists.newArrayList();
@@ -77,7 +76,8 @@ public class StoredXssComments extends AssignmentEndpoint {
         return allComments;
     }
 
-    @PostMapping("/CrossSiteScripting/stored-xss")
+    //TODO This assignment seems not to be in use in the UI
+    @PostMapping("/CrossSiteScriptingStored/stored-xss")
     @ResponseBody
     public AttackResult createNewComment(@RequestBody String commentStr) {
         Comment comment = parseJson(commentStr);

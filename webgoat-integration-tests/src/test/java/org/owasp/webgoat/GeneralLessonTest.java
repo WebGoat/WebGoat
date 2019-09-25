@@ -123,4 +123,20 @@ public class GeneralLessonTest extends IntegrationTest {
 
         checkResults("/ChromeDevTools/");
     }
+    
+    @Test
+    public void authByPass() {
+        startLesson("AuthBypass");
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("secQuestion2", "John");
+        params.put("secQuestion3", "Main");
+        params.put("jsEnabled", "1");
+        params.put("verifyMethod", "SEC_QUESTIONS");
+        params.put("userId", "12309746");
+        checkAssignment(url("/auth-bypass/verify-account"), params, true);
+        checkResults("/auth-bypass/");
+
+    }
+    
 }

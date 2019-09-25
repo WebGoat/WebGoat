@@ -20,15 +20,12 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.xss;
+package org.owasp.webgoat.xss.stored;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 /**
  * Created by jason on 11/23/16.
@@ -36,7 +33,8 @@ import java.io.IOException;
 @RestController
 public class StoredCrossSiteScriptingVerifier extends AssignmentEndpoint {
 
-    @PostMapping("/CrossSiteScripting/stored-xss-follow-up")
+	//TODO This assignment seems not to be in use in the UI
+    @PostMapping("/CrossSiteScriptingStored/stored-xss-follow-up")
     @ResponseBody
     public AttackResult completed(@RequestParam String successMessage) {
         UserSessionData userSessionData = getUserSessionData();
