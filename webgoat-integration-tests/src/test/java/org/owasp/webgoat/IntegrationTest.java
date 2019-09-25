@@ -179,7 +179,6 @@ public abstract class IntegrationTest {
                         .formParams(params)
                         .post(url)
                         .then()
-                        .log().all()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
@@ -213,7 +212,6 @@ public abstract class IntegrationTest {
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/lessonoverview.mvc"))
                 .then()     
-                .log().all()
                 .statusCode(200).extract().jsonPath().getList("solved"), CoreMatchers.everyItem(CoreMatchers.is(true)));
 
         Assert.assertThat(RestAssured.given()
@@ -249,7 +247,6 @@ public abstract class IntegrationTest {
                         .queryParams(params)
                         .get(url)                        
                         .then()
-                        .log().all()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
