@@ -45,6 +45,7 @@ public class Assignment {
     private Long id;
     private String name;
     private String path;
+    
     @Transient
     private List<String> hints;
 
@@ -63,5 +64,15 @@ public class Assignment {
         this.name = name;
         this.path = path;
         this.hints = hints;
+    }
+    
+    /**
+     * Set path is here to overwrite stored paths.
+     * Since a stored path can no longer be used in a lesson while
+     * the lesson (name) itself is still part of the lesson.
+     * @param pathName
+     */
+    public void setPath(String pathName) {
+    	this.path = pathName;
     }
 }

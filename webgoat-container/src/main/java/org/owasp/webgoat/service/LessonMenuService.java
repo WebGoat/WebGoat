@@ -30,6 +30,7 @@ package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
 import org.owasp.webgoat.lessons.Lesson;
+import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonMenuItem;
 import org.owasp.webgoat.lessons.LessonMenuItemType;
@@ -45,6 +46,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -88,7 +90,8 @@ public class LessonMenuService {
                 lessonItem.setLink(lesson.getLink());
                 lessonItem.setType(LessonMenuItemType.LESSON);
                 LessonTracker lessonTracker = userTracker.getLessonTracker(lesson);
-                lessonItem.setComplete(lessonTracker.isLessonSolved());
+                boolean lessonSolved = lessonCompleted(lessonTracker.getLessonOverview(), lesson);
+                lessonItem.setComplete(lessonSolved);
                 categoryItem.addChild(lessonItem);
             }
             categoryItem.getChildren().sort((o1, o2) -> o1.getRanking() - o2.getRanking());
@@ -96,5 +99,28 @@ public class LessonMenuService {
         }
         return menu;
 
+    }
+    
+    /**
+     * This determines if the lesson is complete based on data in the database 
+     * and the list of assignments actually linked to the existing current lesson.
+     * This way older removed assignments will not prevent a lesson from being completed.
+     * @param map
+     * @param currentLesson
+     * @return
+     */
+    private boolean lessonCompleted(Map<Assignment, Boolean> map, Lesson currentLesson) {
+        boolean result = true;
+        for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {
+        	    Assignment storedAssignment = entry.getKey();
+            	for (Assignment lessonAssignment: currentLesson.getAssignments()) {
+            		if (lessonAssignment.getName().equals(storedAssignment.getName())) {
+            			result = result && entry.getValue();
+            			break;
+            		}
+            	}
+            
+        }
+        return result;
     }
 }
