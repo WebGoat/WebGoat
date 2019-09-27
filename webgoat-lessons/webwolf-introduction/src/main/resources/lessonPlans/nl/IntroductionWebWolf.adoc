@@ -1,14 +1,14 @@
 == Wat is WebWolf
 
-WebWolf is een web applicatie die onder jouw controle staat. En die jij als hacker in staat stelt om requests naar deze server te sturen en responses daarmee te manipuleren.
+WebWolf is een web applicatie die onder jouw controle staat. En die jou als hacker in staat stelt om requests naar deze server te sturen.
 
-Daarnaast is het een tool om bij de oefeningen waarin email wordt gebruikt. Een email inbox te simuleren.
+Daarnaast kun je WebWolf gebruiken als tool bij de oefeningen waarin email wordt gebruikt. Het simuleert je email inbox.
 
 WebWolf is bij een aantal opdrachten benodigd. Bv. bij de authentication flaws en de XXE XML Entity Injection voorbeelden. 
 
 Bij de introductie wordt de email functionaliteit uitgetest en daarmee wordt de totale setup van de workshop uitgetest.
 
-De lessen waar WebWolf gebruikt kan worden, zijn gemarkeerd met:
+De lessen waarbij WebWolf nodig is, zijn gemarkeerd met:
 
 {nbsp}
 
