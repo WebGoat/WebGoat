@@ -38,14 +38,13 @@ public abstract class IntegrationTest {
     @Getter
     private String webgoatUser = UUID.randomUUID().toString();
 
-    private static boolean started = false;
+    private static boolean started = true;
 
     @BeforeClass
     public static void beforeAll() {
     	
     	if (WG_SSL) {
-    		WEBGOAT_URL.replace("http","https");
-    		WEBWOLF_URL.replace("http","https");
+    		WEBGOAT_URL = WEBGOAT_URL.replace("http","https");
     	}
     	
         if (!started) {       
