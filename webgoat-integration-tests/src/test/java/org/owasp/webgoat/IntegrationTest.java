@@ -22,14 +22,15 @@ import static io.restassured.RestAssured.given;
 
 public abstract class IntegrationTest {
 
-    protected static int WG_PORT = 8080;
+    protected static int WG_PORT = 8843;
     protected static int WW_PORT = 9090;
     private static String WEBGOAT_URL = "http://127.0.0.1:" + WG_PORT + "/WebGoat/";
     private static String WEBWOLF_URL = "http://127.0.0.1:" + WW_PORT + "/";
+    private static boolean WG_SSL = false;
 
     //This also allows to test the application with HTTPS when outside testing option is used
     protected static RestAssuredConfig restConfig = RestAssuredConfig.newConfig().sslConfig(new SSLConfig().relaxedHTTPSValidation());
-
+    
     @Getter
     private String webGoatCookie;
     @Getter
@@ -41,12 +42,17 @@ public abstract class IntegrationTest {
 
     @BeforeClass
     public static void beforeAll() {
-    	    	
+    	
+    	if (WG_SSL) {
+    		WEBGOAT_URL.replace("http","https");
+    		WEBWOLF_URL.replace("http","https");
+    	}
+    	
         if (!started) {       
             started = true;
             if (!isAlreadyRunning(WG_PORT)) {
                 SpringApplicationBuilder wgs = new SpringApplicationBuilder(StartWebGoat.class)
-                        .properties(Map.of("spring.config.name", "application-webgoat,application-inttest", "WEBGOAT_PORT", WG_PORT));
+                        .properties(Map.of("spring.config.name", "application-webgoat,application-inttest", "WEBGOAT_SSLENABLED", WG_SSL, "WEBGOAT_PORT", WG_PORT));
                 wgs.run();
            
             }
@@ -80,9 +86,10 @@ public abstract class IntegrationTest {
 
     @Before
     public void login() {
+    	
         String location = given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .formParam("username", webgoatUser)
                 .formParam("password", "password")
                 .post(url("login")).then()
@@ -92,7 +99,7 @@ public abstract class IntegrationTest {
         if (location.endsWith("?error")) {
             webGoatCookie = RestAssured.given()
                     .when()
-                    .config(restConfig)
+                    .relaxedHTTPSValidation()
                     .formParam("username", webgoatUser)
                     .formParam("password", "password")
                     .formParam("matchingPassword", "password")
@@ -106,7 +113,7 @@ public abstract class IntegrationTest {
         } else {
             webGoatCookie = given()
                     .when()
-                    .config(restConfig)
+                    .relaxedHTTPSValidation()
                     .formParam("username", webgoatUser)
                     .formParam("password", "password")
                     .post(url("login")).then()
@@ -117,7 +124,7 @@ public abstract class IntegrationTest {
 
         webWolfCookie = RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .formParam("username", webgoatUser)
                 .formParam("password", "password")
                 .post(WEBWOLF_URL + "login")
@@ -132,7 +139,7 @@ public abstract class IntegrationTest {
     public void logout() {
         RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .get(url("logout"))
                 .then()
                 .statusCode(200);
@@ -146,7 +153,7 @@ public abstract class IntegrationTest {
     public void startLesson(String lessonName) {
         RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url(lessonName + ".lesson.lesson"))
                 .then()
@@ -154,7 +161,7 @@ public abstract class IntegrationTest {
 
         RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/restartlesson.mvc"))
                 .then()
@@ -174,7 +181,7 @@ public abstract class IntegrationTest {
         Assert.assertThat(
                 RestAssured.given()
                         .when()
-                        .config(restConfig)
+                        .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .formParams(params)
                         .post(url)
@@ -196,7 +203,7 @@ public abstract class IntegrationTest {
         Assert.assertThat(
                 RestAssured.given()
                         .when()
-                        .config(restConfig)
+                        .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .formParams(params)
                         .put(url)
@@ -208,7 +215,7 @@ public abstract class IntegrationTest {
     public void checkResults(String prefix) {
         Assert.assertThat(RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/lessonoverview.mvc"))
                 .then()                
@@ -216,7 +223,7 @@ public abstract class IntegrationTest {
 
         Assert.assertThat(RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/lessonoverview.mvc"))
                 .then()
@@ -228,7 +235,7 @@ public abstract class IntegrationTest {
         Assert.assertThat(
                 RestAssured.given()
                         .when()
-                        .config(restConfig)
+                        .relaxedHTTPSValidation()
                         .contentType(contentType)
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .body(body)

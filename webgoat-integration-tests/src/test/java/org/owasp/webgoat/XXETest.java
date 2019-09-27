@@ -58,7 +58,7 @@ public class XXETest extends IntegrationTest {
         //upload DTD
         RestAssured.given()
         .when()
-        .config(restConfig)
+        .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .multiPart("file", "blind.dtd", dtd7String.getBytes())
         .post(webWolfUrl("/WebWolf/fileupload"))
@@ -72,7 +72,7 @@ public class XXETest extends IntegrationTest {
         //read results from WebWolf
         String result = RestAssured.given()
         .when()
-        .config(restConfig)
+        .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .get(webWolfUrl("/WebWolf/requests"))
         .then()
@@ -87,7 +87,7 @@ public class XXETest extends IntegrationTest {
     	//read path from server
         String result = RestAssured.given()
         .when()
-        .config(restConfig)
+        .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .get(url("/WebGoat/xxe/tmpdir"))
         .then()
@@ -101,7 +101,7 @@ public class XXETest extends IntegrationTest {
     	//read path from server
         String result = RestAssured.given()
         .when()
-        .config(restConfig)
+        .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .get(webWolfUrl("/tmpdir"))
         .then()
