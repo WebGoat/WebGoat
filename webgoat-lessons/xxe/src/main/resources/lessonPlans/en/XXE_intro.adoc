@@ -19,7 +19,7 @@ An entity must be created in the Document Type Definition (DTD), let's start wit
 <author>&js;</author>
 ----
 
-So everywhere you use the entity ``&js;` the parser will replace it with the value defined in the entity.
+So everywhere you use the entity `&js;` the parser will replace it with the value defined in the entity.
 
 === What is an XXE injection?
 
