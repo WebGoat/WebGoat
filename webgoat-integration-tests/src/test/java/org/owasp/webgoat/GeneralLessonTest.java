@@ -39,7 +39,7 @@ public class GeneralLessonTest extends IntegrationTest {
     public void httpProxies() {
         startLesson("HttpProxies");
         Assert.assertThat(RestAssured.given()
-                .when().config(restConfig).cookie("JSESSIONID", getWebGoatCookie()).header("x-request-intercepted", "true")
+                .when().relaxedHTTPSValidation().cookie("JSESSIONID", getWebGoatCookie()).header("x-request-intercepted", "true")
                 .contentType(ContentType.JSON)
                 .get(url("HttpProxies/intercept-request?changeMe=Requests are tampered easily"))
                 .then()
@@ -82,7 +82,7 @@ public class GeneralLessonTest extends IntegrationTest {
         checkResults("/auth-bypass/");
 
         startLesson("HttpProxies");
-        Assert.assertThat(RestAssured.given().when().config(restConfig).cookie("JSESSIONID", getWebGoatCookie()).header("x-request-intercepted", "true")
+        Assert.assertThat(RestAssured.given().when().relaxedHTTPSValidation().cookie("JSESSIONID", getWebGoatCookie()).header("x-request-intercepted", "true")
                 .contentType(ContentType.JSON)
                 .get(url("/WebGoat/HttpProxies/intercept-request?changeMe=Requests are tampered easily")).then()
                 .statusCode(200).extract().path("lessonCompleted"), CoreMatchers.is(true));
@@ -101,7 +101,7 @@ public class GeneralLessonTest extends IntegrationTest {
         String result =
                 RestAssured.given()
                         .when()
-                        .config(restConfig)
+                        .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .header("webgoat-requested-by", "dom-xss-vuln")
                         .header("X-Requested-With", "XMLHttpRequest")

@@ -26,9 +26,9 @@ public abstract class IntegrationTest {
     protected static int WW_PORT = 9090;
     private static String WEBGOAT_URL = "http://127.0.0.1:" + WG_PORT + "/WebGoat/";
     private static String WEBWOLF_URL = "http://127.0.0.1:" + WW_PORT + "/";
-    private static boolean WG_SSL = false;
+    private static boolean WG_SSL = false;//enable this if you want to run the test on ssl
 
-    //This also allows to test the application with HTTPS when outside testing option is used
+    //TODO no longer required but will be removed once all usages are removed
     protected static RestAssuredConfig restConfig = RestAssuredConfig.newConfig().sslConfig(new SSLConfig().relaxedHTTPSValidation());
     
     @Getter
@@ -38,13 +38,13 @@ public abstract class IntegrationTest {
     @Getter
     private String webgoatUser = UUID.randomUUID().toString();
 
-    private static boolean started = true;
+    private static boolean started = false;
 
     @BeforeClass
     public static void beforeAll() {
     	
     	if (WG_SSL) {
-    		WEBGOAT_URL = WEBGOAT_URL.replace("http","https");
+    		WEBGOAT_URL = WEBGOAT_URL.replace("http:","https:");
     	}
     	
         if (!started) {       
