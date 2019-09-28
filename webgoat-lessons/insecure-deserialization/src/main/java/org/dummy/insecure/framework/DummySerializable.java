@@ -31,8 +31,8 @@ public class DummySerializable implements Serializable {
 		System.out.println("restoring task: "+taskName);
 		
 		//condition is here to prevent you from destroying the goat altogether
-		if ((taskAction.startsWith("sleep")||taskAction.startsWith("timeout"))
-				&& taskAction.length() < 10) {
+		if ((taskAction.startsWith("sleep")||taskAction.startsWith("ping"))
+				&& taskAction.length() < 22) {
 		System.out.println("about to execute: "+taskAction);
 		try {
             Process p = Runtime.getRuntime().exec(taskAction);

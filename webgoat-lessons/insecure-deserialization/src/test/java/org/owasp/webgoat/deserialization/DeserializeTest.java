@@ -20,6 +20,8 @@ public class DeserializeTest extends AssignmentEndpointTest {
 
 	private MockMvc mockMvc;
 	
+	private static String OS = System.getProperty("os.name").toLowerCase();
+	
 	@Before
     public void setup() {
         InsecureDeserializationTask insecureTask = new InsecureDeserializationTask();
@@ -30,10 +32,17 @@ public class DeserializeTest extends AssignmentEndpointTest {
 
     @Test
     public void success() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/InsecureDeserialization/task")
+    	if (OS.indexOf("win")>-1) {
+    		mockMvc.perform(MockMvcRequestBuilders.post("/InsecureDeserialization/task")
+                    .header("x-request-intercepted", "true")
+                    .param("token", SerializationHelper.toString(new DummySerializable("wait", "ping localhost -n 5"))))
+            		.andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
+    	} else {
+    		mockMvc.perform(MockMvcRequestBuilders.post("/InsecureDeserialization/task")
                 .header("x-request-intercepted", "true")
                 .param("token", SerializationHelper.toString(new DummySerializable("wait", "sleep 5"))))
         		.andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
+    	}
     }
     
     @Test
