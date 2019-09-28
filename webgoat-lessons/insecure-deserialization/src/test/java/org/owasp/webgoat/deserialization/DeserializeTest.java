@@ -1,47 +1,47 @@
 package org.owasp.webgoat.deserialization;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.Serializable;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import org.dummy.insecure.framework.DummySerializable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.owasp.webgoat.plugins.LessonTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.owasp.webgoat.assignments.AssignmentEndpointTest;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-public class DeserializeTest extends LessonTest {
+@RunWith(MockitoJUnitRunner.class)
+public class DeserializeTest extends AssignmentEndpointTest {
 
+	private MockMvc mockMvc;
+	
 	@Before
-	public void setup() {
-		InsecureDeserialization insecureDeserializationTest = new InsecureDeserialization();
-		when(webSession.getCurrentLesson()).thenReturn(insecureDeserializationTest);
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-		when(webSession.getUserName()).thenReturn("unit-test");
-	}
+    public void setup() {
+        InsecureDeserializationTask insecureTask = new InsecureDeserializationTask();
+        init(insecureTask);
+        this.mockMvc = standaloneSetup(insecureTask).build();
+        when(webSession.getCurrentLesson()).thenReturn(new InsecureDeserialization());
+    }
 
-	@Test
-	public void solveAssignment() throws Exception {
-
-		try {
-			DummySerializable someObject = new DummySerializable("test", 20);
-
-			String token = SerializationHelper.toString((Serializable) someObject);
-			mockMvc.perform(
-					MockMvcRequestBuilders.post("/InsecureDeserialization/task").param("token", token).content(""))
-					.andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
-		}
-	}
+    @Test
+    public void success() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/InsecureDeserialization/task")
+                .header("x-request-intercepted", "true")
+                .param("token", SerializationHelper.toString(new DummySerializable("wait", "sleep 5"))))
+        		.andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
+    }
+    
+    @Test
+    public void fail() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/InsecureDeserialization/task")
+                .header("x-request-intercepted", "true")
+                .param("token", SerializationHelper.toString(new DummySerializable("delete", "rm *"))))
+        		.andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(false)));
+    }
 
 }
