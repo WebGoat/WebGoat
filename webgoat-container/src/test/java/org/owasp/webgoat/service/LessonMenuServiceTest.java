@@ -50,7 +50,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(MockitoJUnitRunner.class)
 public class LessonMenuServiceTest {
 
-    @Mock
+    @Mock(lenient=true)
     private LessonTracker lessonTracker;
     @Mock
     private Course course;

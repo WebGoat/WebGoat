@@ -27,15 +27,18 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+//@RestController
+@Deprecated
+//TODO This assignment seems not to be in use in the UI
+// it is there to make sure the lesson can be marked complete
+// in order to restore it, make it accessible through the UI and uncomment RestController
 @AssignmentHints(value = {"xss-mitigation-3-hint1", "xss-mitigation-3-hint2", "xss-mitigation-3-hint3", "xss-mitigation-3-hint4"})
 public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
 
-    @PostMapping("CrossSiteScripting/attack3")
+    @PostMapping("/CrossSiteScripting/attack3")
     @ResponseBody
     public AttackResult completed(@RequestParam String editor) {
         String unescapedString = org.jsoup.parser.Parser.unescapeEntities(editor, true);
