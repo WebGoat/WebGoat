@@ -22,4 +22,4 @@ WebWolf heeft de volgende onderdelen:
 * Email inbox
 * Log van binnenkomende requests die zijn uitgelokt op WebWolf
 
-Klik webWolfLink:here[] om WebWolf te starten. Je kunt dan met dezelfde use inloggen waarmee je je in WebGoat hebt aangemeld.
+Klik webWolfLink:here[] om WebWolf te starten. Je kunt dan met dezelfde gebruiker inloggen als waarmee je je in WebGoat hebt aangemeld.
