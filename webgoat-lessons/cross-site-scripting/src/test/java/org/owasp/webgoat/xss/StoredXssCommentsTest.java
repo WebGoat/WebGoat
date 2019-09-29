@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
+import org.owasp.webgoat.xss.stored.StoredXssComments;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -53,7 +54,7 @@ public class StoredXssCommentsTest extends AssignmentEndpointTest {
 
     @Test
     public void success() throws Exception {
-        ResultActions results = mockMvc.perform(MockMvcRequestBuilders.post("/CrossSiteScripting/stored-xss")
+        ResultActions results = mockMvc.perform(MockMvcRequestBuilders.post("/CrossSiteScriptingStored/stored-xss")
                 .content("{\"text\":\"someTextHere<script>webgoat.customjs.phoneHome()</script>MoreTextHere\"}")
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -63,7 +64,7 @@ public class StoredXssCommentsTest extends AssignmentEndpointTest {
 
     @Test
     public void failure() throws Exception {
-        ResultActions results = mockMvc.perform(MockMvcRequestBuilders.post("/CrossSiteScripting/stored-xss")
+        ResultActions results = mockMvc.perform(MockMvcRequestBuilders.post("/CrossSiteScriptingStored/stored-xss")
                 .content("{\"text\":\"someTextHere<script>alert('Xss')</script>MoreTextHere\"}")
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -80,7 +81,7 @@ public class StoredXssCommentsTest extends AssignmentEndpointTest {
     @Test
     public void isNotEncoded() throws Exception {
         //do get to get comments after posting xss payload
-        ResultActions taintedResults = mockMvc.perform(MockMvcRequestBuilders.get("/CrossSiteScripting/stored-xss"));
+        ResultActions taintedResults = mockMvc.perform(MockMvcRequestBuilders.get("/CrossSiteScriptingStored/stored-xss"));
         MvcResult mvcResult = taintedResults.andReturn();
         assert(mvcResult.getResponse().getContentAsString().contains("<script>console.warn"));
     }

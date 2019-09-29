@@ -211,7 +211,7 @@ public abstract class IntegrationTest {
                 .config(restConfig)
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/lessonoverview.mvc"))
-                .then()                
+                .then()     
                 .statusCode(200).extract().jsonPath().getList("solved"), CoreMatchers.everyItem(CoreMatchers.is(true)));
 
         Assert.assertThat(RestAssured.given()
@@ -233,6 +233,19 @@ public abstract class IntegrationTest {
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .body(body)
                         .post(url)
+                        .then()
+                        .statusCode(200)
+                        .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
+    }
+    
+    public void checkAssignmentWithGet(String url, Map<String, ?> params, boolean expectedResult) {
+        Assert.assertThat(
+                RestAssured.given()
+                        .when()
+                        .config(restConfig)
+                        .cookie("JSESSIONID", getWebGoatCookie())   
+                        .queryParams(params)
+                        .get(url)                        
                         .then()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
