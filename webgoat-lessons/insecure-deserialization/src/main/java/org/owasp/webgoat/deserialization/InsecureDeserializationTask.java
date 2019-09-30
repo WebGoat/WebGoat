@@ -22,7 +22,9 @@
 
 package org.owasp.webgoat.deserialization;
 
+import org.dummy.insecure.framework.VulnerableTaskHolder;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,38 +33,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.util.Base64;
 
 @RestController
+@AssignmentHints({"insecure-deserialization.hints.1","insecure-deserialization.hints.2","insecure-deserialization.hints.3"})
 public class InsecureDeserializationTask extends AssignmentEndpoint {
 
     @PostMapping("/InsecureDeserialization/task")
     @ResponseBody
     public AttackResult completed(@RequestParam String token) throws IOException {
         String b64token;
-        byte[] data;
-        ObjectInputStream ois;
-        Object o;
         long before, after;
         int delay;
 
         b64token = token.replace('-', '+').replace('_', '/');
-        try {
-            data = Base64.getDecoder().decode(b64token);
-            ois = new ObjectInputStream(new ByteArrayInputStream(data));
+        
+        try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
+        	before = System.currentTimeMillis();
+        	Object o = ois.readObject();
+        	if (!(o instanceof VulnerableTaskHolder)) {
+        		if (o instanceof String) {
+        			return trackProgress(failed().feedback("insecure-deserialization.stringobject").build());
+        		}
+        		return trackProgress(failed().feedback("insecure-deserialization.wrongobject").build());
+        	}
+            after = System.currentTimeMillis();
+        } catch (InvalidClassException e) {
+            return trackProgress(failed().feedback("insecure-deserialization.invalidversion").build());
+        } catch (IllegalArgumentException e) {
+            return trackProgress(failed().feedback("insecure-deserialization.expired").build());
         } catch (Exception e) {
-            return trackProgress(failed().build());
+            return trackProgress(failed().feedback("insecure-deserialization.invalidversion").build());
         }
-
-        before = System.currentTimeMillis();
-        try {
-            o = ois.readObject();
-        } catch (Exception e) {
-            o = null;
-        }
-        after = System.currentTimeMillis();
-        ois.close();
 
         delay = (int) (after - before);
         if (delay > 7000) {

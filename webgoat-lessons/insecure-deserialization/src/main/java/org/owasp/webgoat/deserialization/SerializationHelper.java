@@ -8,8 +8,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Base64;
-import java.util.HashSet;
-import java.util.Set;
 
 public class SerializationHelper {
 	
@@ -53,22 +51,4 @@ public class SerializationHelper {
         return new String(hexChars);
     }
 
-	public static String getDdosSerialization() throws IOException {
-		Set root = new HashSet();
-    	Set s1 = root;
-    	Set s2 = new HashSet();
-    	for (int i = 0; i < 100; i++) {
-    	  Set t1 = new HashSet();
-    	  Set t2 = new HashSet();
-    	  t1.add("foo"); // make it not equal to t2
-    	  s1.add(t1);
-    	  s1.add(t2);
-    	  s2.add(t1);
-    	  s2.add(t2);
-    	  s1 = t1;
-    	  s2 = t2;
-    	}
-    	return toString((Serializable) root);
-	}
-	
 }
