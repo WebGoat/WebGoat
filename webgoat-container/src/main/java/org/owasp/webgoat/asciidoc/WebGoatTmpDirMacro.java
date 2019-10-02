@@ -4,14 +4,14 @@ import org.asciidoctor.ast.AbstractBlock;
 import org.asciidoctor.extension.InlineMacroProcessor;
 import java.util.Map;
 
-public class WebGoatVersionMacro extends InlineMacroProcessor {
+public class WebGoatTmpDirMacro extends InlineMacroProcessor {
 
-    public WebGoatVersionMacro(String macroName, Map<String, Object> config) {
+    public WebGoatTmpDirMacro(String macroName, Map<String, Object> config) {
         super(macroName, config);
     }
 
     @Override
     protected String process(AbstractBlock parent, String target, Map<String, Object> attributes) {
-        return EnvironmentExposure.getEnv().getProperty("webgoat.build.version");
+        return EnvironmentExposure.getEnv().getProperty("webgoat.server.directory");
     }
 }

@@ -29,7 +29,7 @@ public class PasswordResetLessonTest extends IntegrationTest {
 
         var responseBody = RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("WEBWOLFSESSION", getWebWolfCookie())
                 .get(webWolfUrl("/WebWolf/mail"))
                 .then()
@@ -41,7 +41,7 @@ public class PasswordResetLessonTest extends IntegrationTest {
     private void changePassword(String link) {
         RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .formParams("resetLink", link, "password", "123456")
                 .post(url("PasswordReset/reset/change-password"))
@@ -52,7 +52,7 @@ public class PasswordResetLessonTest extends IntegrationTest {
     private String getPasswordResetLinkFromLandingPage() {
         var responseBody = RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("WEBWOLFSESSION", getWebWolfCookie())
                 .get(webWolfUrl("WebWolf/requests"))
                 .then()
@@ -66,7 +66,7 @@ public class PasswordResetLessonTest extends IntegrationTest {
         RestAssured.given()
                 .when()
                 .header("host", "localhost:9090")
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .formParams("email", user)
                 .post(url("PasswordReset/ForgotPassword/create-password-reset-link"))

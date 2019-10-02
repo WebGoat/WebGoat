@@ -76,7 +76,7 @@ public class JWTLessonTest extends IntegrationTest {
     	
     	String accessToken = RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("/WebGoat/JWT/secret/gettoken"))
                 .then()
@@ -87,7 +87,7 @@ public class JWTLessonTest extends IntegrationTest {
         Assert.assertThat(
                 RestAssured.given()
                         .when()
-                        .config(restConfig)
+                        .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .formParam("token", generateToken(secret))
                         .post(url("/WebGoat/JWT/secret"))
@@ -101,7 +101,7 @@ public class JWTLessonTest extends IntegrationTest {
     private void resetVotes() throws IOException {
     	String accessToken = RestAssured.given()
                 .when()
-                .config(restConfig)
+                .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("/WebGoat/JWT/votings/login?user=Tom"))
                 .then()
@@ -128,7 +128,7 @@ public class JWTLessonTest extends IntegrationTest {
         Assert.assertThat(
                 RestAssured.given()
                         .when()
-                        .config(restConfig)
+                        .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .cookie("access_token", replacedToken)
                         .post(url("/WebGoat/JWT/votings"))

