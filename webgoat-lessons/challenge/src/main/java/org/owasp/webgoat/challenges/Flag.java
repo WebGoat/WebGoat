@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
@@ -48,7 +49,8 @@ import java.util.stream.IntStream;
  * @since 3/23/17.
  */
 @Slf4j
-public class Flag { //extends Endpoint {
+@RestController
+public class Flag {
 
     public static final Map<Integer, String> FLAGS = Maps.newHashMap();
     @Autowired
@@ -69,12 +71,7 @@ public class Flag { //extends Endpoint {
         IntStream.range(1, 10).forEach(i -> FLAGS.put(i, UUID.randomUUID().toString()));
     }
 
-//    @Override
-//    public String getPath() {
-//        return "challenge/flag";
-//    }
-
-    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path="/challenge/flag", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult postFlag(@RequestParam String flag) {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
