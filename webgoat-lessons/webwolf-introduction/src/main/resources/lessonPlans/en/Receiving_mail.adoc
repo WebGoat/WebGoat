@@ -2,7 +2,7 @@
 
 WebWolf offers a mail client which will contain the e-mail sent during a lesson.
 This mailbox is user specific so each user has a separate mailbox. All e-mail
-sent to {user}@.... wil end up in this inbox.
+sent to {user}@.... will end up in this inbox.
 
 {nbsp}
 {nbsp}
