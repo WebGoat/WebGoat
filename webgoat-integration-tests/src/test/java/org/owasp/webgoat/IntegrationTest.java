@@ -1,8 +1,6 @@
 package org.owasp.webgoat;
 
 import io.restassured.RestAssured;
-import io.restassured.config.RestAssuredConfig;
-import io.restassured.config.SSLConfig;
 import io.restassured.http.ContentType;
 import lombok.Getter;
 import org.hamcrest.CoreMatchers;
@@ -22,14 +20,11 @@ import static io.restassured.RestAssured.given;
 
 public abstract class IntegrationTest {
 
-    protected static int WG_PORT = 8843;
+    protected static int WG_PORT = 8080;
     protected static int WW_PORT = 9090;
     private static String WEBGOAT_URL = "http://127.0.0.1:" + WG_PORT + "/WebGoat/";
     private static String WEBWOLF_URL = "http://127.0.0.1:" + WW_PORT + "/";
     private static boolean WG_SSL = false;//enable this if you want to run the test on ssl
-
-    //TODO no longer required but will be removed once all usages are removed
-    protected static RestAssuredConfig restConfig = RestAssuredConfig.newConfig().sslConfig(new SSLConfig().relaxedHTTPSValidation());
     
     @Getter
     private String webGoatCookie;
@@ -248,7 +243,7 @@ public abstract class IntegrationTest {
         Assert.assertThat(
                 RestAssured.given()
                         .when()
-                        .config(restConfig)
+                        .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())   
                         .queryParams(params)
                         .get(url)                        

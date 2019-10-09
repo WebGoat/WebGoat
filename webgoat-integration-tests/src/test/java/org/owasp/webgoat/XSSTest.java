@@ -39,7 +39,7 @@ public class XSSTest extends IntegrationTest {
         String result =
                 RestAssured.given()
                         .when()
-                        .config(restConfig)
+                        .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .header("webgoat-requested-by", "dom-xss-vuln")
                         .header("X-Requested-With", "XMLHttpRequest")
