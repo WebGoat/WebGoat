@@ -92,7 +92,6 @@ public class JWTLessonTest extends IntegrationTest {
                         .formParam("token", generateToken(secret))
                         .post(url("/WebGoat/JWT/secret"))
                         .then()
-                        .log().all()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
     	

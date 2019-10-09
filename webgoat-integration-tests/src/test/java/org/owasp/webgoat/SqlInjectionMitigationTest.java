@@ -37,7 +37,7 @@ public class SqlInjectionMitigationTest extends IntegrationTest {
 		checkAssignment(url("/WebGoat/SqlInjectionMitigations/attack10b"), params, true);
 		
 		RestAssured.given()
-		.when().config(restConfig).cookie("JSESSIONID", getWebGoatCookie())
+		.when().relaxedHTTPSValidation().cookie("JSESSIONID", getWebGoatCookie())
 		.contentType(ContentType.JSON)
 		.get(url("/WebGoat/SqlInjectionMitigations/servers?column=(case when (true) then hostname else id end)"))
 		.then()
