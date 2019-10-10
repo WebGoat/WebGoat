@@ -35,7 +35,7 @@ public class SqlInjection extends Lesson {
 
     @Override
     public String getTitle() {
-        return "sql.injection.title";
+        return "1.sql.injection.title";
     }
 
     @Override

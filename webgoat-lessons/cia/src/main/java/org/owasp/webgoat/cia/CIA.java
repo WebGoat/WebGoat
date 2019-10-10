@@ -18,7 +18,7 @@ public class CIA extends Lesson {
 
     @Override
     public String getTitle() {
-        return "cia.title";
+        return "4.cia.title";//4th lesson in general
     }
 
     @Override

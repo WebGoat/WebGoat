@@ -30,12 +30,12 @@ import org.springframework.stereotype.Component;
 public class SqlInjectionAdvanced extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.INJECTION;
+        return Category.INJECTION; 
     }
 
     @Override
     public String getTitle() {
-        return "sql.advanced.title";
+        return "2.sql.advanced.title";
     }
 
     @Override

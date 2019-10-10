@@ -35,7 +35,7 @@ public class HttpBasics extends Lesson {
 
     @Override
     public String getTitle() {
-        return "http-basics.title";
+        return "1.http-basics.title";//first lesson in general
     }
 
     @Override
