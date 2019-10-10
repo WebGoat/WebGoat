@@ -4,7 +4,7 @@
 
 The challenges contain more a CTF like lessons where we do not provide any explanations what you need to do, no hints
 will be provided. You can use these challenges in a CTF style where you can run WebGoat on one server and all
-participants can join and hack the challenges. A scoreboard is available at http://localhost:8080/WebGoat/scoreboard
+participants can join and hack the challenges. A scoreboard is available at link:/WebGoat/scoreboard["/WebGoat/scoreboard",window=_blank]
 
 :hardbreaks:
 In this CTF you will need to solve a couple of challenges, each challenge will give you a flag which you will

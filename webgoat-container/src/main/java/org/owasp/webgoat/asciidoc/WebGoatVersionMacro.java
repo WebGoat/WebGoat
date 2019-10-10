@@ -11,7 +11,7 @@ public class WebGoatVersionMacro extends InlineMacroProcessor {
     }
 
     @Override
-    protected String process(AbstractBlock parent, String target, Map<String, Object> attributes) {
+	public String process(AbstractBlock parent, String target, Map<String, Object> attributes) {
         return EnvironmentExposure.getEnv().getProperty("webgoat.build.version");
     }
 }
