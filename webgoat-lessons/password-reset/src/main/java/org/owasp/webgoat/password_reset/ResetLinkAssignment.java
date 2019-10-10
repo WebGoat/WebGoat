@@ -31,6 +31,7 @@ import org.owasp.webgoat.password_reset.resetlink.PasswordChangeForm;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
     static final String TOM_EMAIL = "tom@webgoat-cloud.org";
     static Map<String, String> userToTomResetLink = Maps.newHashMap();
     static Map<String, String> usersToTomPassword = Maps.newHashMap();
-    static EvictingQueue resetLinks = EvictingQueue.create(1000);
+    static EvictingQueue<String> resetLinks = EvictingQueue.create(1000);
 
     static final String TEMPLATE = "Hi, you requested a password reset link, please use this " +
             "<a target='_blank' href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your password." +
@@ -73,32 +74,46 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
     }
 
     @GetMapping("/PasswordReset/reset/reset-password/{link}")
-    public String resetPassword(@PathVariable(value = "link") String link, Model model) {
-        if (this.resetLinks.contains(link)) {
+    public ModelAndView resetPassword(@PathVariable(value = "link") String link, Model model) {
+    	ModelAndView modelAndView = new ModelAndView();
+        if (ResetLinkAssignment.resetLinks.contains(link)) {
             PasswordChangeForm form = new PasswordChangeForm();
             form.setResetLink(link);
             model.addAttribute("form", form);
-            return "password_reset"; //Display html page for changing password
+            modelAndView.addObject("form", form);
+            modelAndView.setViewName("password_reset"); //Display html page for changing password
         } else {
-            return "password_link_not_found";
+        	modelAndView.setViewName("password_link_not_found");
         }
+        return modelAndView;
     }
 
+    @GetMapping("/PasswordReset/reset/change-password")
+    public ModelAndView illegalCall() {
+    	ModelAndView modelAndView = new ModelAndView();
+    	modelAndView.setViewName("password_link_not_found");
+    	return modelAndView;
+    }
+    
     @PostMapping("/PasswordReset/reset/change-password")
-    public String changePassword(@ModelAttribute("form") PasswordChangeForm form, BindingResult bindingResult) {
+    public ModelAndView changePassword(@ModelAttribute("form") PasswordChangeForm form, BindingResult bindingResult) {
+    	ModelAndView modelAndView = new ModelAndView();
         if (!org.springframework.util.StringUtils.hasText(form.getPassword())) {
             bindingResult.rejectValue("password", "not.empty");
         }
         if (bindingResult.hasErrors()) {
-            return "password_reset";
+        	modelAndView.setViewName("password_reset");
+        	return modelAndView;
         }
         if (!resetLinks.contains(form.getResetLink())) {
-            return "password_link_not_found";
+        	modelAndView.setViewName("password_link_not_found");
+        	return modelAndView;
         }
         if (checkIfLinkIsFromTom(form.getResetLink())) {
             usersToTomPassword.put(getWebSession().getUserName(), form.getPassword());
         }
-        return "success";
+        modelAndView.setViewName("success");
+        return modelAndView;
     }
 
     private boolean checkIfLinkIsFromTom(String resetLinkFromForm) {
