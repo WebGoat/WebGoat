@@ -23,7 +23,7 @@ public class WebWolfMacro extends InlineMacroProcessor {
     }
 
     @Override
-    protected String process(AbstractBlock parent, String target, Map<String, Object> attributes) {
+	public String process(AbstractBlock parent, String target, Map<String, Object> attributes) {
         Environment env = EnvironmentExposure.getEnv();
         String hostname = determineHost(env.getProperty("webwolf.host"), env.getProperty("webwolf.port"));
 

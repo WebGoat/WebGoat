@@ -12,8 +12,7 @@ image::images/zap_exclude.png[Select URL from history,style="lesson-image"]
 A new window will open and add the following entries:
 
 ```
-http://localhost:8080/WebGoat/service/.*
-http://localhost:8080/WebGoat/.*.lesson.lesson
+./WebGoat/service/..mvc
 ```
 
 Click Ok to close the window, ZAP will now no longer proxy internal WebGoat requests.
