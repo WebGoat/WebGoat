@@ -42,7 +42,7 @@ public class HttpProxies extends Lesson {
 
     @Override
     public String getTitle() {
-        return "http-proxies.title";
+        return "2.http-proxies.title";//second lesson in GENERAL
     }
 
     @Override

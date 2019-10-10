@@ -40,7 +40,7 @@ public class ChromeDevTools extends Lesson {
 
     @Override
     public String getTitle() {
-      return "chrome-dev-tools.title";
+      return "3.chrome-dev-tools.title";//3rd lesson in General
     }
 
     @Override
