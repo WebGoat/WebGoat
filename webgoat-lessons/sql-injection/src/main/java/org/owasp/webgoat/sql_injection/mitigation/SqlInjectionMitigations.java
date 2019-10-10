@@ -35,7 +35,7 @@ public class SqlInjectionMitigations extends Lesson {
 
     @Override
     public String getTitle() {
-        return "sql.mitigation.title";
+        return "3.sql.mitigation.title";
     }
 
     @Override
