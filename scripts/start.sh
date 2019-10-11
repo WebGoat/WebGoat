@@ -15,4 +15,6 @@ $(checkDatabaseAvailable)
 
 #java -Djava.security.egd=file:/dev/./urandom -jar /home/webwolf/webwolf.jar --server.port=9090 --server.address=0.0.0.0
 
+//adding comments to change this file.
+
 
