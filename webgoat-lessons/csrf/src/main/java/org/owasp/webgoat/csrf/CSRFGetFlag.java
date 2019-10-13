@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,7 @@ import java.util.Random;
 /**
  * Created by jason on 9/30/17.
  */
-
+@RestController
 public class CSRFGetFlag {
 
     @Autowired
@@ -48,7 +49,7 @@ public class CSRFGetFlag {
     @Autowired
     private PluginMessages pluginMessages;
 
-    @RequestMapping(produces = {"application/json"}, method = RequestMethod.POST)
+    @RequestMapping(path="/csrf/basic-get-flag" ,produces = {"application/json"}, method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
