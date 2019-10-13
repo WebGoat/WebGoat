@@ -81,33 +81,5 @@ public class XXETest extends IntegrationTest {
         result = result.substring(result.lastIndexOf("WebGoat 8.0 rocks... ("),result.lastIndexOf("WebGoat 8.0 rocks... (")+33);
         return result;
     }
-    
-    private String getWebGoatServerPath() throws IOException {
-    	
-    	//read path from server
-        String result = RestAssured.given()
-        .when()
-        .relaxedHTTPSValidation()
-        .cookie("JSESSIONID", getWebGoatCookie())
-        .get(url("/WebGoat/xxe/tmpdir"))
-        .then()
-        .extract().response().getBody().asString();
-        result = result.replace("%20", " ");
-        return result;
-    }
-    
-    private String getWebWolfServerPath() throws IOException {
-    	
-    	//read path from server
-        String result = RestAssured.given()
-        .when()
-        .relaxedHTTPSValidation()
-        .cookie("WEBWOLFSESSION", getWebWolfCookie())
-        .get(webWolfUrl("/tmpdir"))
-        .then()
-        .extract().response().getBody().asString();
-        result = result.replace("%20", " ");
-        return result;
-    }
         
 }

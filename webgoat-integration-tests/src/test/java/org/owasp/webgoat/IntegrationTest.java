@@ -252,5 +252,33 @@ public abstract class IntegrationTest {
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
     
+    public String getWebGoatServerPath() throws IOException {
+    	
+    	//read path from server
+        String result = RestAssured.given()
+        .when()
+        .relaxedHTTPSValidation()
+        .cookie("JSESSIONID", getWebGoatCookie())
+        .get(url("/WebGoat/xxe/tmpdir"))
+        .then()
+        .extract().response().getBody().asString();
+        result = result.replace("%20", " ");
+        return result;
+    }
+    
+    public String getWebWolfServerPath() throws IOException {
+    	
+    	//read path from server
+        String result = RestAssured.given()
+        .when()
+        .relaxedHTTPSValidation()
+        .cookie("WEBWOLFSESSION", getWebWolfCookie())
+        .get(webWolfUrl("/tmpdir"))
+        .then()
+        .extract().response().getBody().asString();
+        result = result.replace("%20", " ");
+        return result;
+    }
+    
 }
 
