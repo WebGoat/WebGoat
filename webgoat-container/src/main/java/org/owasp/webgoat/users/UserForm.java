@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 public class UserForm {
 
     @NotNull
-    @Size(min=6, max=40)
+    @Size(min=6, max=45)
     @Pattern(regexp = "[a-z0-9-]*", message = "can only contain lowercase letters, digits, and -")
     private String username;
     @NotNull
