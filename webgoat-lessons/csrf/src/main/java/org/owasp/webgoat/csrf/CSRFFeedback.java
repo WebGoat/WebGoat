@@ -68,7 +68,7 @@ public class CSRFFeedback extends AssignmentEndpoint {
         } catch (IOException e) {
             return failed().feedback(ExceptionUtils.getStackTrace(e)).build();
         }
-        boolean correctCSRF = requestContainsWebGoatCookie(request.getCookies()) && request.getContentType().equals(MediaType.TEXT_PLAIN_VALUE);
+        boolean correctCSRF = requestContainsWebGoatCookie(request.getCookies()) && request.getContentType().contains(MediaType.TEXT_PLAIN_VALUE);
         correctCSRF &= hostOrRefererDifferentHost(request);
         if (correctCSRF) {
             String flag = UUID.randomUUID().toString();
@@ -89,8 +89,8 @@ public class CSRFFeedback extends AssignmentEndpoint {
     }
 
     private boolean hostOrRefererDifferentHost(HttpServletRequest request) {
-        String referer = request.getHeader("referer");
-        String host = request.getHeader("host");
+        String referer = request.getHeader("Referer");
+        String host = request.getHeader("Host");
         if (referer != null) {
             return !referer.contains(host);
         } else {
