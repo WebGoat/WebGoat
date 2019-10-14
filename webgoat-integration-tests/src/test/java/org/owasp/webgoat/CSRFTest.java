@@ -186,9 +186,8 @@ public class CSRFTest extends IntegrationTest {
             	.cookie("JSESSIONID", getWebGoatCookie())
             	.header("Referer", webWolfUrl("/files/fake.html"))
             	.params(params)
-            	.log().all()
             	.post(goatURL)            	
-            	.then().log().all()
+            	.then()
             	.extract().cookie("JSESSIONID");
   
     	//select the lesson
@@ -205,10 +204,8 @@ public class CSRFTest extends IntegrationTest {
             	.when()
             	.relaxedHTTPSValidation()
             	.cookie("JSESSIONID", newCookie)
-            	.log().all()
             	.post(url("/csrf/login"))            	
             	.then()
-            	.log().all()
             	.statusCode(200)
             	.extract().path("lessonCompleted");
     	
