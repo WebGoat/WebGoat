@@ -22,9 +22,10 @@
 
 package org.owasp.webgoat.csrf;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.users.UserTracker;
 import org.owasp.webgoat.users.UserTrackerRepository;
@@ -46,8 +47,8 @@ public class CSRFLogin extends AssignmentEndpoint {
 
     @PostMapping(path = "/csrf/login", produces = {"application/json"})
     @ResponseBody
-    public AttackResult completed() {
-        String userName = getWebSession().getUserName();
+    public AttackResult completed(HttpServletRequest request) {
+        String userName = request.getUserPrincipal().getName();
         if (userName.startsWith("csrf")) {
             markAssignmentSolvedWithRealUser(userName.substring("csrf-".length()));
             return trackProgress(success().feedback("csrf-login-success").build());

