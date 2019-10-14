@@ -47,11 +47,13 @@ public class CSRFTest extends IntegrationTest {
         uploadTrickHtml("csrf3.html", trickHTML3.replace("WEBGOATURL", url("/csrf/basic-get-flag")));
         checkAssignment3(callTrickHtml("csrf3.html"));
         
+        //Assignment 4
         uploadTrickHtml("csrf4.html", trickHTML4.replace("WEBGOATURL", url("/csrf/review")));
         checkAssignment4(callTrickHtml("csrf4.html"));
         
+        //Assignment 7
         uploadTrickHtml("csrf7.html", trickHTML7.replace("WEBGOATURL", url("/csrf/feedback/message")));
-        //checkAssignment7(callTrickHtml("csrf7.html"));
+        checkAssignment7(callTrickHtml("csrf7.html"));
         
         //checkResults("/csrf");
         
@@ -135,18 +137,22 @@ public class CSRFTest extends IntegrationTest {
         params.clear();
         params.put("{\"name\":\"WebGoat\",\"email\":\"webgoat@webgoat.org\",\"content\":\"WebGoat is the best!!", "\"}");
        
-    	String result = RestAssured.given()
+    	String flag = RestAssured.given()
             	.when()
             	.relaxedHTTPSValidation()
             	.cookie("JSESSIONID", getWebGoatCookie())
             	.header("Referer", webWolfUrl("/files/fake.html"))
-            	.formParams(params)
-            	.log().all()
             	.contentType(ContentType.TEXT)
+            	.body("{\"name\":\"WebGoat\",\"email\":\"webgoat@webgoat.org\",\"content\":\"WebGoat is the best!!"+ "=\"}")
             	.post(goatURL)
             	.then()
-            	.log().all()
             	.extract().asString();
+    	flag = flag.substring(9+flag.indexOf("flag is:"));
+    	flag = flag.substring(0, flag.indexOf("\""));
+
+    	params.clear();
+        params.put("confirmFlagVal", flag);
+        checkAssignment(url("/WebGoat/csrf/feedback"), params, true);
         	
     }
     
