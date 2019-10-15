@@ -151,7 +151,7 @@
               enctype="application/json;charset=UTF-8">
             <table>
                 <tr>
-                    <td>SELECT * FROM users_data FIRST_NAME = 'John' and Last_NAME = '</td>
+                    <td>SELECT * FROM users_data WHERE FIRST_NAME = 'John' and Last_NAME = '</td>
                     <td><select name="account">
                         <option>Smith</option>
                         <option>'Smith</option>
@@ -175,6 +175,9 @@
                             <option>Last_Name = 'Smith</option>
                         </select>
                     </td>
+		    <td>
+			'
+	            </td>
                     <td><input
                             name="Get Account Info" value="Get Account Info" type="SUBMIT"/></td>
                 </tr>
