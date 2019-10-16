@@ -34,5 +34,7 @@ This of course can be checked or expanded beyond GET methods to view data, but t
 Before we go on to practice, here's some good reading on Insecure Direct Object References:
 
 * https://www.owasp.org/index.php/Testing_for_Insecure_Direct_Object_References_(OTG-AUTHZ-004)
+* https://www.owasp.org/index.php/Top_10-2017_A5-Broken_Access_Control
+* https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html
 * https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
 * http://cwe.mitre.org/data/definitions/639.html
