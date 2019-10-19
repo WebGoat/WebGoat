@@ -23,14 +23,14 @@ suppose we have the following url: `https://my-shop.com?article=4`
 On the server side this query will be translated as follows:
 
 ----
-SELECT * FROM ARTICLES WHERE ARTICLE_ID = 4
+SELECT * FROM articles WHERE article_id = 4
 ----
 
 When we want to exploit this we change the url into: `https://shop.example.com?article=4 AND 1=1`
 This will be translated to:
 
 ----
-SELECT * FROM ARTICLES WHERE ARTICLE_ID = 4 and 1 = 1
+SELECT * FROM articles WHERE article_id = 4 and 1 = 1
 ----
 
 If the browser will return the same page as it used to when using `https://shop.example.com?article=4` you know the

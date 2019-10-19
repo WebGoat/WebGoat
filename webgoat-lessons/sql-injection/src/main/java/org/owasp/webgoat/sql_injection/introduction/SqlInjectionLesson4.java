@@ -25,18 +25,27 @@ package org.owasp.webgoat.sql_injection.introduction;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
+import javax.sql.DataSource;
 import java.sql.*;
+
+import static java.sql.ResultSet.*;
 
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint4-1", "SqlStringInjectionHint4-2", "SqlStringInjectionHint4-3"})
 public class SqlInjectionLesson4 extends AssignmentEndpoint {
+
+    private final DataSource dataSource;
+
+    public SqlInjectionLesson4(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @PostMapping("/SqlInjection/attack4")
     @ResponseBody
@@ -45,16 +54,11 @@ public class SqlInjectionLesson4 extends AssignmentEndpoint {
     }
 
     protected AttackResult injectableQuery(String _query) {
-        try {
-            Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            try {
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-                Statement check_statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
                 statement.executeUpdate(_query);
-                ResultSet _results = check_statement.executeQuery("SELECT phone from employees;");
-                ResultSetMetaData _resultMetaData = _results.getMetaData();
+                connection.commit();
+                ResultSet _results = statement.executeQuery("SELECT phone from employees;");
                 StringBuffer output = new StringBuffer();
                 // user completes lesson if column phone exists
                 if (_results.first()) {
@@ -63,9 +67,7 @@ public class SqlInjectionLesson4 extends AssignmentEndpoint {
                 } else {
                     return trackProgress(failed().output(output.toString()).build());
                 }
-
             } catch (SQLException sqle) {
-
                 return trackProgress(failed().output(sqle.getMessage()).build());
             }
         } catch (Exception e) {

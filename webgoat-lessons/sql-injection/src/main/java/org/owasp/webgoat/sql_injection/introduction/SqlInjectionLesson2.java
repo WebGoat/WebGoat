@@ -26,15 +26,29 @@ package org.owasp.webgoat.sql_injection.introduction;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.*;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import static java.sql.ResultSet.CONCUR_READ_ONLY;
+import static java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE;
 
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint2-1", "SqlStringInjectionHint2-2", "SqlStringInjectionHint2-3", "SqlStringInjectionHint2-4"})
 public class SqlInjectionLesson2 extends AssignmentEndpoint {
+
+    private final DataSource dataSource;
+
+    public SqlInjectionLesson2(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @PostMapping("/SqlInjection/attack2")
     @ResponseBody
@@ -42,33 +56,23 @@ public class SqlInjectionLesson2 extends AssignmentEndpoint {
         return injectableQuery(query);
     }
 
-    protected AttackResult injectableQuery(String _query) {
-        try {
-            Connection connection = DatabaseUtilities.getConnection(getWebSession());
-            String query = _query;
+    protected AttackResult injectableQuery(String query) {
+        try (var connection = dataSource.getConnection()) {
+            Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY);
+            ResultSet results = statement.executeQuery(query);
+            StringBuffer output = new StringBuffer();
 
-            try {
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-                ResultSet results = statement.executeQuery(_query);
-                StringBuffer output = new StringBuffer();
+            results.first();
 
-                results.first();
-
-                if (results.getString("department").equals("Marketing")) {
-                    output.append("<span class='feedback-positive'>" + _query + "</span>");
-                    output.append(SqlInjectionLesson8.generateTable(results));
-                    return trackProgress(success().feedback("sql-injection.2.success").output(output.toString()).build());
-                } else {
-                    return trackProgress(failed().feedback("sql-injection.2.failed").output(output.toString()).build());
-                }
-
-            } catch (SQLException sqle) {
-
-                return trackProgress(failed().feedback("sql-injection.2.failed").output(sqle.getMessage()).build());
+            if (results.getString("department").equals("Marketing")) {
+                output.append("<span class='feedback-positive'>" + query + "</span>");
+                output.append(SqlInjectionLesson8.generateTable(results));
+                return trackProgress(success().feedback("sql-injection.2.success").output(output.toString()).build());
+            } else {
+                return trackProgress(failed().feedback("sql-injection.2.failed").output(output.toString()).build());
             }
-        } catch (Exception e) {
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+        } catch (SQLException sqle) {
+            return trackProgress(failed().feedback("sql-injection.2.failed").output(sqle.getMessage()).build());
         }
     }
 }

@@ -38,13 +38,13 @@ public class SqlInjectionLesson5 extends AssignmentEndpoint {
 
     @PostMapping("/SqlInjection/attack5")
     @ResponseBody
-    public AttackResult completed(@RequestParam("_query") String query) {
+    public AttackResult completed(String query) {
         return injectableQuery(query);
     }
 
     protected AttackResult injectableQuery(String query) {
         try {
-            String regex = "(?i)^(grant alter table to [\"']?unauthorizedUser[\"']?)(?:[;]?)$";
+            String regex = "(?i)^(grant alter table to [']?unauthorizedUser[']?)(?:[;]?)$";
             StringBuffer output = new StringBuffer();
 
             // user completes lesson if the query is correct

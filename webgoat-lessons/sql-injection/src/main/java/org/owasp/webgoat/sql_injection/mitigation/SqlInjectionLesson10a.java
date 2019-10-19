@@ -22,23 +22,20 @@
 
 package org.owasp.webgoat.sql_injection.mitigation;
 
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.WebSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
 @AssignmentHints(value = {"SqlStringInjectionHint-mitigation-10a-1", "SqlStringInjectionHint-mitigation-10a-10a2"})
 public class SqlInjectionLesson10a extends AssignmentEndpoint {
 
-    @Autowired
-    private WebSession webSession;
     private String[] results = {"getConnection", "PreparedStatement", "prepareStatement", "?", "?", "setString", "setString"};
 
     @PostMapping("/SqlInjectionMitigations/attack10a")
@@ -47,15 +44,15 @@ public class SqlInjectionLesson10a extends AssignmentEndpoint {
         String[] userInput = {field1, field2, field3, field4, field5, field6, field7};
         int position = 0;
         boolean completed = false;
-        for(String input : userInput) {
-            if(input.toLowerCase().contains(this.results[position].toLowerCase())) {
+        for (String input : userInput) {
+            if (input.toLowerCase().contains(this.results[position].toLowerCase())) {
                 completed = true;
             } else {
                 return trackProgress(failed().build());
             }
             position++;
         }
-        if(completed) {
+        if (completed) {
             return trackProgress(success().build());
         }
         return trackProgress(failed().build());

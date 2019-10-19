@@ -26,35 +26,43 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.sql_injection.introduction.SqlInjectionLesson5a;
-import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
+import javax.sql.DataSource;
 import java.sql.*;
 
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint-advanced-6a-1", "SqlStringInjectionHint-advanced-6a-2", "SqlStringInjectionHint-advanced-6a-3",
-"SqlStringInjectionHint-advanced-6a-4"})
+        "SqlStringInjectionHint-advanced-6a-4"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
+
+    private final DataSource dataSource;
+
+    public SqlInjectionLesson6a(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @PostMapping("/SqlInjectionAdvanced/attack6a")
     @ResponseBody
-    public AttackResult completed(@RequestParam String userid_6a) throws IOException {
+    public AttackResult completed(@RequestParam String userid_6a) {
         return injectableQuery(userid_6a);
         // The answer: Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from user_system_data --
     }
 
     protected AttackResult injectableQuery(String accountName) {
         String query = "";
-        try(Connection connection = DatabaseUtilities.getConnection(getWebSession())) {
+        try (Connection connection = dataSource.getConnection()) {
             boolean usedUnion = true;
             query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
             //Check if Union is used
-            if(!accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)")) {
+            if (!accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)")) {
                 usedUnion = false;
             }
-            try(Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+            try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY)) {
                 ResultSet results = statement.executeQuery(query);
 
@@ -65,7 +73,7 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
 
                     String appendingWhenSucceded;
-                    if(usedUnion)
+                    if (usedUnion)
                         appendingWhenSucceded = "Well done! Can you also figure out a solution, by appending a new Sql Statement?";
                     else
                         appendingWhenSucceded = "Well done! Can you also figure out a solution, by using a UNION?";
