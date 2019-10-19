@@ -80,7 +80,6 @@ public class Requests {
     }
     
     private boolean allowedTrace(HttpTrace t, UserDetails user) {
-    	
     	Request req = t.getRequest();
     	boolean allowed = true;
     	/* do not show certain traces to other users in a classroom setup */

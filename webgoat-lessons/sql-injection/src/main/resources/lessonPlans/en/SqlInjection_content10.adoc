@@ -5,7 +5,7 @@ public static String loadAccount() {
   // Parser returns only valid string data
   String accountID = getParser().getStringParameter(ACCT_ID, "");
   String data = null;
-  String query = "SELECT FIRST_NAME, LAST_NAME, ACCT_ID, BALANCE FROM USER_DATA WHERE ACCT_ID = ?";
+  String query = "SELECT first_name, last_name, acct_id, balance FROM user_data WHERE acct_id = ?";
   try (Connection connection = null;
        PreparedStatement statement = connection.prepareStatement(query)) {
      statement.setString(1, accountID);

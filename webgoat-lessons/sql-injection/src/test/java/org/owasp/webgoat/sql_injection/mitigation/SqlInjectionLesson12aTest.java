@@ -1,19 +1,12 @@
 package org.owasp.webgoat.sql_injection.mitigation;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.sql_injection.SqlLessonTest;
-import org.owasp.webgoat.sql_injection.introduction.SqlInjection;
-import org.owasp.webgoat.plugins.LessonTest;
-import org.owasp.webgoat.session.WebgoatContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

@@ -26,12 +26,10 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.owasp.webgoat.session.DatabaseUtilities;
-import org.owasp.webgoat.session.WebSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,6 +43,8 @@ import java.util.List;
 @RequestMapping("SqlInjectionMitigations/servers")
 public class Servers {
 
+    private final DataSource dataSource;
+
     @AllArgsConstructor
     @Getter
     private class Server {
@@ -57,14 +57,15 @@ public class Servers {
         private String description;
     }
 
-    @Autowired
-    private WebSession webSession;
+    public Servers(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @SneakyThrows
     @ResponseBody
     public List<Server> sort(@RequestParam String column) {
-        Connection connection = DatabaseUtilities.getConnection(webSession);
+        Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by " + column);
         ResultSet rs = preparedStatement.executeQuery();
         List<Server> servers = Lists.newArrayList();

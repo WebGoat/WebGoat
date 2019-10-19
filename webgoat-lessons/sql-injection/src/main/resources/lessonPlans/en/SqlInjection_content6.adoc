@@ -5,7 +5,7 @@
 /* */ 	 are inline comments
 -- , # 	 are line comments
 
-Example: SELECT * FROM USERS WHERE NAME = 'admin' --AND pass = 'pass'
+Example: SELECT * FROM users WHERE name = 'admin' --AND pass = 'pass'
 ----
 
 
@@ -13,7 +13,7 @@ Example: SELECT * FROM USERS WHERE NAME = 'admin' --AND pass = 'pass'
 ----
 ;        allows query chaining
 
-Example: SELECT * FROM USERS; DROP TABLE USERS;
+Example: SELECT * FROM users; DROP TABLE users;
 ----
 
 [source]
@@ -21,7 +21,7 @@ Example: SELECT * FROM USERS; DROP TABLE USERS;
 ',+,||	 allows string concatenation
 Char()	 strings without quotes
 
-Example: SELECT * FROM USERS WHERE NAME = '+char(27) OR 1=1
+Example: SELECT * FROM users WHERE name = '+char(27) OR 1=1
 ----
 
 
@@ -39,7 +39,7 @@ of the first column in the second (third, fourth, ...) SELECT Statement. The Sam
 
 [source]
 ------
-SELECT FIRST_NAME FROM USER_SYSTEM_DATA UNION SELECT LOGIN_COUNT FROM USER_DATA;
+SELECT first_name FROM user_system_data UNION SELECT login_count FROM user_data;
 ------
 
 The UNION ALL Syntax also allows duplicate Values.
@@ -50,7 +50,7 @@ The Join operator is used to combine rows from two ore more tables, based on a r
 
 [source]
 -----
-SELECT * FROM USER_DATA INNER JOIN USER_DATA_TAN ON USER_DATA.USERID=USER_DATA_TAN.USERID;
+SELECT * FROM user_data INNER JOIN user_data_tan ON user_data.userid=user_data_tan.userid;
 -----
 
 For more detailed information about JOINS visit: https://www.w3schools.com/sql/sql_join.asp

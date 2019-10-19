@@ -1,3 +1,25 @@
+/*
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
+ *
+ * Copyright (c) 2002 - 2019 Bruce Mayhew
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
+ * Getting Source ==============
+ *
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ */
+
 package org.owasp.webgoat.sql_injection.introduction;
 
 import org.junit.Ignore;
@@ -6,27 +28,21 @@ import org.junit.runner.RunWith;
 import org.owasp.webgoat.sql_injection.SqlLessonTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author nbaars
- * @since 5/21/17.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SqlInjectionLesson5aTest extends SqlLessonTest {
 
     @Test
     public void knownAccountShouldDisplayData() throws Exception {
-        var params = Map.of("account", "Smith", "operator", "", "injection", "");
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/assignment5a")
-                .params(new LinkedMultiValueMap(params)))
+                .param("account", "Smith")
+                .param("operator", "")
+                .param("injection", ""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.feedback", is(messages.getMessage("assignment.not.solved"))))
@@ -36,10 +52,9 @@ public class SqlInjectionLesson5aTest extends SqlLessonTest {
     @Ignore
     @Test
     public void unknownAccount() throws Exception {
-        var params = Map.of("account", "Smith", "operator", "", "injection", "");
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/assignment5a")
-                .params(new LinkedMultiValueMap(params)))
-
+                .param("account", "Smith")
+                .param("operator", "").param("injection", ""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("NoResultsMatched")))))
@@ -48,9 +63,10 @@ public class SqlInjectionLesson5aTest extends SqlLessonTest {
 
     @Test
     public void sqlInjection() throws Exception {
-        var params = Map.of("account", "'", "operator", "OR", "injection", "'1' = '1");
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/assignment5a")
-                .params(new LinkedMultiValueMap(params)))
+                .param("account", "'")
+                .param("operator", "OR")
+                .param("injection", "'1' = '1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(true)))
                 .andExpect(jsonPath("$.feedback", containsString("You have succeed")))
@@ -59,9 +75,10 @@ public class SqlInjectionLesson5aTest extends SqlLessonTest {
 
     @Test
     public void sqlInjectionWrongShouldDisplayError() throws Exception {
-        var params = Map.of("account", "Smith'", "operator", "OR", "injection", "'1' = '1'");
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/assignment5a")
-                .params(new LinkedMultiValueMap(params)))
+                .param("account", "Smith'")
+                .param("operator", "OR")
+                .param("injection", "'1' = '1'"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(false)))
                 .andExpect(jsonPath("$.feedback", containsString(messages.getMessage("assignment.not.solved"))))
