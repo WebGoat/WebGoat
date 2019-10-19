@@ -47,9 +47,10 @@ public class HSQLDBDatabaseConfig {
     @Bean
     @DependsOn("hsqlStandalone")
     @Primary
-    public DataSource dataSource(@Value("${spring.datasource.url}") String url) {
+    public DataSource dataSource(@Value("${spring.datasource.url}") String url,
+                                 @Value("${spring.datasource.driver-class-name}") String driverClassName) {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(url);
-        driverManagerDataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
+        driverManagerDataSource.setDriverClassName(driverClassName);
         return driverManagerDataSource;
     }
 }
