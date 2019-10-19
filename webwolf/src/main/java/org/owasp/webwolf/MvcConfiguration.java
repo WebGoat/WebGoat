@@ -64,12 +64,4 @@ public class MvcConfiguration implements WebMvcConfigurer {
             file.mkdirs();
         }
     }
-
-    @Bean
-    @Primary
-    public DataSource dataSource(@Value("${spring.datasource.url}") String url) {
-        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(url);
-        driverManagerDataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-        return driverManagerDataSource;
-    }
 }
