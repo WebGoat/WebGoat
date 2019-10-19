@@ -40,12 +40,12 @@ public class SqlInjectionLessonTest extends IntegrationTest {
         checkAssignment(url("/WebGoat/SqlInjection/attack3"), params, true);
 
         params.clear();
-        params.put("query", sql_4_drop);
-        checkAssignment(url("/WebGoat/SqlInjection/attack4"), params, false);
-
-        params.clear();
         params.put("query", sql_4_add);
         checkAssignment(url("/WebGoat/SqlInjection/attack4"), params, true);
+
+        params.clear();
+        params.put("query", sql_4_drop);
+        checkAssignment(url("/WebGoat/SqlInjection/attack4"), params, false);
 
         params.clear();
         params.put("query", sql_5);

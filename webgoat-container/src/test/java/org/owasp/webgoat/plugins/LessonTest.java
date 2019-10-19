@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.owasp.webgoat.i18n.Language;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.session.WebgoatContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,8 +33,7 @@ public abstract class LessonTest {
     protected PluginMessages messages;
     @MockBean
     protected WebSession webSession;
-    @Autowired
-    private WebgoatContext context;
+
     @MockBean
     private Language language;
 
@@ -43,7 +41,6 @@ public abstract class LessonTest {
     public void init() {
         when(webSession.getUserName()).thenReturn("unit-test");
         when(language.getLocale()).thenReturn(Locale.getDefault());
-        when(webSession.getWebgoatContext()).thenReturn(context);
     }
 
 }

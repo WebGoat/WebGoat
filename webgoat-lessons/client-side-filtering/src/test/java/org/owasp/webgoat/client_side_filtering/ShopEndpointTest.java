@@ -27,6 +27,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.owasp.webgoat.plugins.LessonTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -40,8 +42,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
  * @author nbaars
  * @since 5/2/17.
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ShopEndpointTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class ShopEndpointTest extends LessonTest {
 
     private MockMvc mockMvc;
 

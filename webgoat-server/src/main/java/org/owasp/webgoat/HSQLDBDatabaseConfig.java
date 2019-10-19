@@ -9,8 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Driver;
+import java.util.Map;
 
 
 /**
@@ -40,14 +44,12 @@ public class HSQLDBDatabaseConfig {
         return server;
     }
 
-    @Primary
     @Bean
     @DependsOn("hsqlStandalone")
-    public DataSource dataSource(@Value("${spring.datasource.driver-class-name}") String driverClass,
-                                 @Value("${spring.datasource.url}") String url) {
-        return DataSourceBuilder.create()
-                .driverClassName(driverClass)
-                .url(url)
-                .build();
+    @Primary
+    public DataSource dataSource(@Value("${spring.datasource.url}") String url) {
+        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(url);
+        driverManagerDataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
+        return driverManagerDataSource;
     }
 }

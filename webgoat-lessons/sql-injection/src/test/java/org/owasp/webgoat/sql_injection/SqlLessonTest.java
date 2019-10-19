@@ -24,7 +24,6 @@ package org.owasp.webgoat.sql_injection;
 
 import org.junit.Before;
 import org.owasp.webgoat.plugins.LessonTest;
-import org.owasp.webgoat.session.WebgoatContext;
 import org.owasp.webgoat.sql_injection.introduction.SqlInjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;

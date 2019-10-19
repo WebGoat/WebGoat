@@ -26,14 +26,26 @@ package org.owasp.webgoat.sql_injection.introduction;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.DatabaseUtilities;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.*;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint.10.1", "SqlStringInjectionHint.10.2", "SqlStringInjectionHint.10.3", "SqlStringInjectionHint.10.4", "SqlStringInjectionHint.10.5", "SqlStringInjectionHint.10.6"})
 public class SqlInjectionLesson10 extends AssignmentEndpoint {
+
+    private final DataSource dataSource;
+
+    public SqlInjectionLesson10(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @PostMapping("/SqlInjection/attack10")
     @ResponseBody
@@ -45,9 +57,7 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
         StringBuffer output = new StringBuffer();
         String query = "SELECT * FROM access_log WHERE action LIKE '%" + action + "%'";
 
-        try {
-            Connection connection = DatabaseUtilities.getConnection(getWebSession());
-
+        try (Connection connection = dataSource.getConnection()) {
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 ResultSet results = statement.executeQuery(query);
@@ -59,16 +69,14 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
                 } else {
                     if (tableExists(connection)) {
                         return trackProgress(failed().feedback("sql-injection.10.entries").output(output.toString()).build());
-                    }
-                    else {
+                    } else {
                         return trackProgress(success().feedback("sql-injection.10.success").build());
                     }
                 }
             } catch (SQLException e) {
                 if (tableExists(connection)) {
                     return trackProgress(failed().feedback("sql-injection.error").output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build());
-                }
-                else {
+                } else {
                     return trackProgress(success().feedback("sql-injection.10.success").build());
                 }
             }
@@ -80,7 +88,7 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
 
     private boolean tableExists(Connection connection) {
         try {
-            Statement stmt = connection.createStatement();
+            Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet results = stmt.executeQuery("SELECT * FROM access_log");
             int cols = results.getMetaData().getColumnCount();
             return (cols > 0);

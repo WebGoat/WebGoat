@@ -23,12 +23,17 @@
 package org.owasp.webwolf;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 import java.io.File;
 
 /**
@@ -58,5 +63,13 @@ public class MvcConfiguration implements WebMvcConfigurer {
         if (!file.exists()) {
             file.mkdirs();
         }
+    }
+
+    @Bean
+    @Primary
+    public DataSource dataSource(@Value("${spring.datasource.url}") String url) {
+        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(url);
+        driverManagerDataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
+        return driverManagerDataSource;
     }
 }
