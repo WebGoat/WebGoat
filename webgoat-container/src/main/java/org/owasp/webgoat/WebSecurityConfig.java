@@ -76,12 +76,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling().authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login"));
     }
 
-    //// TODO: 11/18/2016 make this a little bit more configurabe last part at least
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/plugin_lessons/**", "/XXE/**");
-    }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService); //.passwordEncoder(bCryptPasswordEncoder());
