@@ -41,14 +41,6 @@ public class HttpProxies extends Lesson {
         return Category.GENERAL;
     }
 
-    public List<String> getHints() {
-        return Lists.newArrayList();
-    }
-
-    public Integer getDefaultRanking() {
-        return 2;
-    }
-
     @Override
     public String getTitle() {
         return "http-proxies.title";
