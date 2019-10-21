@@ -1,6 +1,5 @@
 package org.owasp.webgoat.users;
 
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.owasp.webgoat.i18n.PluginMessages;
@@ -8,6 +7,7 @@ import org.owasp.webgoat.session.Course;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +36,7 @@ public class Scoreboard {
     @GetMapping("/scoreboard-data")
     public List<Ranking> getRankings() {
         List<WebGoatUser> allUsers = userRepository.findAll();
-        List<Ranking> rankings = Lists.newArrayList();
+        List<Ranking> rankings = new ArrayList<>();
         for (WebGoatUser user : allUsers) {
             UserTracker userTracker = userTrackerRepository.findByUser(user.getUsername());
             rankings.add(new Ranking(user.getUsername(), challengesSolved(userTracker)));
@@ -45,7 +45,7 @@ public class Scoreboard {
     }
 
     private List<String> challengesSolved(UserTracker userTracker) {
-        List<String> challenges = Lists.newArrayList("Challenge1", "Challenge2", "Challenge3", "Challenge4", "Challenge5", "Challenge6", "Challenge7", "Challenge8", "Challenge9");
+        List<String> challenges = List.of("Challenge1", "Challenge2", "Challenge3", "Challenge4", "Challenge5", "Challenge6", "Challenge7", "Challenge8", "Challenge9");
         return challenges.stream()
                 .map(c -> userTracker.getLessonTracker(c))
                 .filter(l -> l.isPresent()).map(l -> l.get())

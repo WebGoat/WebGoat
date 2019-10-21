@@ -24,6 +24,7 @@
  * projects.
  * 
  */
+
 package org.owasp.webgoat.lessons;
 
 import lombok.Value;

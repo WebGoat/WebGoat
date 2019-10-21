@@ -22,6 +22,7 @@
  * projects.
  * <p>
  */
+
 package org.owasp.webgoat.assignments;
 
 import lombok.Getter;

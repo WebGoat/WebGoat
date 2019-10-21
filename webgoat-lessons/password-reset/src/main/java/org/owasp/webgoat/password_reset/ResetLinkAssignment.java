@@ -22,8 +22,7 @@
 
 package org.owasp.webgoat.password_reset;
 
-import com.google.common.collect.EvictingQueue;
-import com.google.common.collect.Maps;
+import com.beust.jcommander.internal.Maps;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -33,6 +32,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,9 +47,9 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
 
     static final String PASSWORD_TOM_9 = "somethingVeryRandomWhichNoOneWillEverTypeInAsPasswordForTom";
     static final String TOM_EMAIL = "tom@webgoat-cloud.org";
-    static Map<String, String> userToTomResetLink = Maps.newHashMap();
+    static Map<String, String> userToTomResetLink = new HashMap<>();
     static Map<String, String> usersToTomPassword = Maps.newHashMap();
-    static EvictingQueue<String> resetLinks = EvictingQueue.create(1000);
+    static List<String> resetLinks = new ArrayList<>();
 
     static final String TEMPLATE = "Hi, you requested a password reset link, please use this " +
             "<a target='_blank' href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your password." +

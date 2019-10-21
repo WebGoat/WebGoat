@@ -22,12 +22,6 @@
 
 package org.owasp.webgoat.client_side_filtering;
 
-/**
- *
- */
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -48,6 +42,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,11 +88,11 @@ public class Salaries { // {extends Endpoint {
             e.printStackTrace();
         }
         int COLUMNS = 5;
-        List json = Lists.newArrayList();
-        java.util.Map<String, Object> employeeJson = Maps.newHashMap();
+        List json = new ArrayList();
+        java.util.Map<String, Object> employeeJson = new HashMap<>();
         for (int i = 0; i < nodes.getLength(); i++) {
             if (i % COLUMNS == 0) {
-                employeeJson = Maps.newHashMap();
+                employeeJson = new HashMap<>();
                 json.add(employeeJson);
             }
             Node node = nodes.item(i);

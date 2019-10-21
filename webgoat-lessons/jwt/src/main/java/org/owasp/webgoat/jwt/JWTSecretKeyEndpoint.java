@@ -22,24 +22,16 @@
 
 package org.owasp.webgoat.jwt;
 
-import com.google.common.collect.Lists;
-import io.jsonwebtoken.impl.TextCodec;
-import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
-import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import io.jsonwebtoken.impl.TextCodec;
+import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
+import org.owasp.webgoat.assignments.AttackResult;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.Calendar;
@@ -58,7 +50,7 @@ public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
 	public static final String[] SECRETS = {"victory","business","available", "shipping", "washington"};
     public static final String JWT_SECRET = TextCodec.BASE64.encode(SECRETS[new Random().nextInt(SECRETS.length)]);
     private static final String WEBGOAT_USER = "WebGoat";
-    private static final List<String> expectedClaims = Lists.newArrayList("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
+    private static final List<String> expectedClaims = List.of("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
 
     @RequestMapping(path="/JWT/secret/gettoken",produces=MediaType.TEXT_HTML_VALUE)
     @ResponseBody

@@ -22,7 +22,6 @@
 
 package org.owasp.webgoat.sql_injection.mitigation;
 
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -33,6 +32,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,7 +68,7 @@ public class Servers {
         Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by " + column);
         ResultSet rs = preparedStatement.executeQuery();
-        List<Server> servers = Lists.newArrayList();
+        List<Server> servers = new ArrayList<>();
         while (rs.next()) {
             Server server = new Server(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
             servers.add(server);
