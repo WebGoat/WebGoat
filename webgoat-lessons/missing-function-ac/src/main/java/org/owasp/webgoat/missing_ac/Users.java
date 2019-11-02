@@ -58,7 +58,6 @@ public class Users {
 
                 if ((results != null) && (results.first() == true)) {
                     while (results.next()) {
-                        int id = results.getInt(0);
                         HashMap<String, String> userMap = new HashMap<>();
                         userMap.put("first", results.getString(1));
                         userMap.put("last", results.getString(2));
@@ -66,7 +65,7 @@ public class Users {
                         userMap.put("ccType", results.getString(4));
                         userMap.put("cookie", results.getString(5));
                         userMap.put("loginCount", Integer.toString(results.getInt(6)));
-                        allUsersMap.put(id, userMap);
+                        allUsersMap.put(results.getInt(0), userMap);
                     }
                     userSessionData.setValue("allUsers", allUsersMap);
                     return allUsersMap;

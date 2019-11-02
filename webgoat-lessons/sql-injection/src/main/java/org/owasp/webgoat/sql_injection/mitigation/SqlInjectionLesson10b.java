@@ -49,21 +49,21 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
 
             editor = editor.replaceAll("\\<.*?>", "");
 
-            String regex_setsUpConnection = "(?=.*getConnection.*)";
-            String regex_usesPreparedStatement = "(?=.*PreparedStatement.*)";
-            String regex_usesPlaceholder = "(?=.*\\=\\?.*|.*\\=\\s\\?.*)";
-            String regex_usesSetString = "(?=.*setString.*)";
-            String regex_usesExecute = "(?=.*execute.*)";
-            String regex_usesExecuteUpdate = "(?=.*executeUpdate.*)";
+            String regexSetsUpConnection = "(?=.*getConnection.*)";
+            String regexUsesPreparedStatement = "(?=.*PreparedStatement.*)";
+            String regexUsesPlaceholder = "(?=.*\\=\\?.*|.*\\=\\s\\?.*)";
+            String regexUsesSetString = "(?=.*setString.*)";
+            String regexUsesExecute = "(?=.*execute.*)";
+            String regexUsesExecuteUpdate = "(?=.*executeUpdate.*)";
 
             String codeline = editor.replace("\n", "").replace("\r", "");
 
-            boolean setsUpConnection = this.check_text(regex_setsUpConnection, codeline);
-            boolean usesPreparedStatement = this.check_text(regex_usesPreparedStatement, codeline);
-            boolean usesSetString = this.check_text(regex_usesSetString, codeline);
-            boolean usesPlaceholder = this.check_text(regex_usesPlaceholder, codeline);
-            boolean usesExecute = this.check_text(regex_usesExecute, codeline);
-            boolean usesExecuteUpdate = this.check_text(regex_usesExecuteUpdate, codeline);
+            boolean setsUpConnection = this.check_text(regexSetsUpConnection, codeline);
+            boolean usesPreparedStatement = this.check_text(regexUsesPreparedStatement, codeline);
+            boolean usesSetString = this.check_text(regexUsesSetString, codeline);
+            boolean usesPlaceholder = this.check_text(regexUsesPlaceholder, codeline);
+            boolean usesExecute = this.check_text(regexUsesExecute, codeline);
+            boolean usesExecuteUpdate = this.check_text(regexUsesExecuteUpdate, codeline);
 
             boolean hasImportant = (setsUpConnection && usesPreparedStatement && usesPlaceholder && usesSetString && (usesExecute || usesExecuteUpdate));
             List<Diagnostic> hasCompiled = this.compileFromString(editor);
@@ -79,7 +79,7 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
             } else {
                 return trackProgress(failed().feedback("sql-injection.10b.failed").build());
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             return trackProgress(failed().output(e.getMessage()).build());
         }
     }
@@ -87,7 +87,7 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
     private List<Diagnostic> compileFromString(String s) {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         DiagnosticCollector diagnosticsCollector = new DiagnosticCollector();
-        StandardJavaFileManager fileManager  = compiler.getStandardFileManager(diagnosticsCollector, null, null);
+        StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnosticsCollector, null, null);
         JavaFileObject javaObjectFromString = getJavaFileContentsAsString(s);
         Iterable fileObjects = Arrays.asList(javaObjectFromString);
         JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnosticsCollector, null, null, fileObjects);
@@ -96,12 +96,12 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
         return diagnostics;
     }
 
-    private SimpleJavaFileObject getJavaFileContentsAsString(String s){
+    private SimpleJavaFileObject getJavaFileContentsAsString(String s) {
         StringBuilder javaFileContents = new StringBuilder("import java.sql.*; public class TestClass { static String DBUSER; static String DBPW; static String DBURL; public static void main(String[] args) {" + s + "}}");
         JavaObjectFromString javaFileObject = null;
-        try{
+        try {
             javaFileObject = new JavaObjectFromString("TestClass.java", javaFileContents.toString());
-        }catch(Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
         return javaFileObject;
@@ -109,10 +109,12 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
 
     class JavaObjectFromString extends SimpleJavaFileObject {
         private String contents = null;
-        public JavaObjectFromString(String className, String contents) throws Exception{
+
+        public JavaObjectFromString(String className, String contents) throws Exception {
             super(new URI(className), Kind.SOURCE);
             this.contents = contents;
         }
+
         public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
             return contents;
         }
@@ -121,7 +123,7 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
     private boolean check_text(String regex, String text) {
         Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(text);
-        if(m.find())
+        if (m.find())
             return true;
         else return false;
     }

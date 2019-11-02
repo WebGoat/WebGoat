@@ -15,7 +15,7 @@
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
  -->
 
-<module name = "Checker">
+<module name="Checker">
     <property name="charset" value="UTF-8"/>
 
     <property name="severity" value="error"/>
@@ -30,42 +30,44 @@
     <module name="TreeWalker">
         <module name="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck">
             <property name="maximum" value="0"/>
-            <property name="format" value="org\.junit\.Assert\.assert" />
+            <property name="format" value="org\.junit\.Assert\.assert"/>
             <property name="message"
-                      value="Please use AssertJ imports." />
-            <property name="ignoreComments" value="true" />
+                      value="Please use AssertJ imports."/>
+            <property name="ignoreComments" value="true"/>
         </module>
         <module
                 name="com.puppycrawl.tools.checkstyle.checks.imports.IllegalImportCheck">
-            <property name="regexp" value="true" />
+            <property name="regexp" value="true"/>
             <property name="illegalPkgs"
-                      value="^sun.*, ^org\.apache\.commons\.(?!compress|dbcp2|lang|lang3|logging|pool2).*, ^org\.flywaydb\.core\.internal.*, ^org\.testcontainers\.shaded.*" />
+                      value="^sun.*, ^org\.apache\.commons\.(?!compress|dbcp2|lang|lang3|logging|io|pool2).*, ^org\.flywaydb\.core\.internal.*, ^org\.testcontainers\.shaded.*"/>
             <property name="illegalClasses"
-                      value="^com\.hazelcast\.util\.Base64, ^org\.junit\.rules\.ExpectedException, ^org\.slf4j\.LoggerFactory, ^reactor\.core\.support\.Assert, ^com\.google\.common\.collect\.Maps, ^com\.google\.common\.collect\.Sets, ^com\.google\.common\.collect\.Lists" />
+                      value="^com\.hazelcast\.util\.Base64, ^org\.junit\.rules\.ExpectedException, ^org\.slf4j\.LoggerFactory, ^reactor\.core\.support\.Assert, ^com\.google\.common\.collect\.Maps, ^com\.google\.common\.collect\.Sets, ^com\.google\.common\.collect\.Lists"/>
         </module>
         <module
                 name="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck">
-            <property name="maximum" value="0" />
+            <property name="maximum" value="0"/>
             <property name="format"
-                      value="assertThatExceptionOfType\((NullPointerException|IllegalArgumentException|IOException|IllegalStateException)\.class\)" />
+                      value="assertThatExceptionOfType\((NullPointerException|IllegalArgumentException|IOException|IllegalStateException)\.class\)"/>
             <property name="message"
-                      value="Please use specialized AssertJ assertThat*Exception method." />
-            <property name="ignoreComments" value="true" />
+                      value="Please use specialized AssertJ assertThat*Exception method."/>
+            <property name="ignoreComments" value="true"/>
         </module>
         <module
                 name="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck">
-            <property name="maximum" value="0" />
+            <property name="maximum" value="0"/>
             <property name="format"
-                      value="@SneakyThrows" />
+                      value="@SneakyThrows"/>
             <property name="message"
-                      value="Please use a unchecked exceptions instead of @SneakyThrows gives compiler warnings" />
-            <property name="ignoreComments" value="true" />
+                      value="Please use a unchecked exceptions instead of @SneakyThrows gives compiler warnings"/>
+            <property name="ignoreComments" value="true"/>
         </module>
         <module name="OuterTypeFilename"/>
         <module name="IllegalTokenText">
             <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
-            <property name="format" value="\\u00(09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
-            <property name="message" value="Consider using special escape sequence instead of octal value or Unicode escaped value."/>
+            <property name="format"
+                      value="\\u00(09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
+            <property name="message"
+                      value="Consider using special escape sequence instead of octal value or Unicode escaped value."/>
         </module>
         <module name="AvoidEscapedUnicodeCharacters">
             <property name="allowEscapesForControlCharacters" value="true"/>
@@ -142,7 +144,7 @@
                      value="Member name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="ParameterName">
-            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9_]*)?$"/>
             <message key="name.invalidPattern"
                      value="Parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -185,7 +187,8 @@
         </module>
         <module name="AbbreviationAsWordInName">
             <property name="ignoreFinal" value="false"/>
-            <property name="allowedAbbreviationLength" value="3"/>
+            <property name="allowedAbbreviationLength" value="4"/>
+            <property name="severity" value="warning"/>
         </module>
         <module name="OverloadMethodsDeclarationOrder"/>
         <module name="VariableDeclarationUsageDistance"/>
@@ -202,7 +205,8 @@
         <module name="ParenPad"/>
         <module name="OperatorWrap">
             <property name="option" value="NL"/>
-            <property name="tokens" value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF "/>
+            <property name="tokens"
+                      value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF "/>
         </module>
         <module name="AnnotationLocation">
             <property name="id" value="AnnotationLocationMostCases"/>
@@ -216,7 +220,8 @@
         <module name="NonEmptyAtclauseDescription"/>
         <module name="JavadocTagContinuationIndentation"/>
         <module name="SummaryJavadoc">
-            <property name="forbiddenSummaryFragments" value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
+            <property name="forbiddenSummaryFragments"
+                      value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
             <property name="severity" value="warning"/>
         </module>
         <module name="JavadocParagraph">

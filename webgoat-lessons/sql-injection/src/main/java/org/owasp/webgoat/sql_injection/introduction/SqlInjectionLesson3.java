@@ -57,19 +57,19 @@ public class SqlInjectionLesson3 extends AssignmentEndpoint {
         return injectableQuery(query);
     }
 
-    protected AttackResult injectableQuery(String _query) {
+    protected AttackResult injectableQuery(String query) {
         try (Connection connection = dataSource.getConnection()) {
             try (Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
-                Statement check_statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE,
+                Statement checkStatement = connection.createStatement(TYPE_SCROLL_INSENSITIVE,
                         CONCUR_READ_ONLY);
-                statement.executeUpdate(_query);
-                ResultSet _results = check_statement.executeQuery("SELECT * FROM employees WHERE last_name='Barnett';");
+                statement.executeUpdate(query);
+                ResultSet results = checkStatement.executeQuery("SELECT * FROM employees WHERE last_name='Barnett';");
                 StringBuffer output = new StringBuffer();
                 // user completes lesson if the department of Tobi Barnett now is 'Sales'
-                _results.first();
-                if (_results.getString("department").equals("Sales")) {
-                    output.append("<span class='feedback-positive'>" + _query + "</span>");
-                    output.append(SqlInjectionLesson8.generateTable(_results));
+                results.first();
+                if (results.getString("department").equals("Sales")) {
+                    output.append("<span class='feedback-positive'>" + query + "</span>");
+                    output.append(SqlInjectionLesson8.generateTable(results));
                     return trackProgress(success().output(output.toString()).build());
                 } else {
                     return trackProgress(failed().output(output.toString()).build());

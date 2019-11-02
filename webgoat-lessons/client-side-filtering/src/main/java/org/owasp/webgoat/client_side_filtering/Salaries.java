@@ -53,14 +53,17 @@ public class Salaries { // {extends Endpoint {
     private String webGoatHomeDirectory;
 
     @PostConstruct
-    @SneakyThrows
     public void copyFiles() {
         ClassPathResource classPathResource = new ClassPathResource("employees.xml");
         File targetDirectory = new File(webGoatHomeDirectory, "/ClientSideFiltering");
         if (!targetDirectory.exists()) {
             targetDirectory.mkdir();
         }
-        FileCopyUtils.copy(classPathResource.getInputStream(), new FileOutputStream(new File(targetDirectory, "employees.xml")));
+        try {
+            FileCopyUtils.copy(classPathResource.getInputStream(), new FileOutputStream(new File(targetDirectory, "employees.xml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @RequestMapping(produces = {"application/json"})
@@ -69,7 +72,7 @@ public class Salaries { // {extends Endpoint {
         NodeList nodes = null;
         File d = new File(webGoatHomeDirectory, "ClientSideFiltering/employees.xml");
         XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
+        XPath path = factory.newXPath();
         InputSource inputSource = new InputSource(new FileInputStream(d));
 
         StringBuffer sb = new StringBuffer();
@@ -83,15 +86,15 @@ public class Salaries { // {extends Endpoint {
         String expression = sb.toString();
 
         try {
-            nodes = (NodeList) xPath.evaluate(expression, inputSource, XPathConstants.NODESET);
+            nodes = (NodeList) path.evaluate(expression, inputSource, XPathConstants.NODESET);
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
-        int COLUMNS = 5;
+        int columns = 5;
         List json = new ArrayList();
         java.util.Map<String, Object> employeeJson = new HashMap<>();
         for (int i = 0; i < nodes.getLength(); i++) {
-            if (i % COLUMNS == 0) {
+            if (i % columns == 0) {
                 employeeJson = new HashMap<>();
                 json.add(employeeJson);
             }
@@ -100,11 +103,4 @@ public class Salaries { // {extends Endpoint {
         }
         return json;
     }
-
-//    @Override
-//    public String getPath() {
-//        return "/clientSideFiltering/salaries";
-//    }
-
-
 }

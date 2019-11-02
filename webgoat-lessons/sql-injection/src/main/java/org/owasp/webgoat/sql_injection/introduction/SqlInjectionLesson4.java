@@ -53,16 +53,16 @@ public class SqlInjectionLesson4 extends AssignmentEndpoint {
         return injectableQuery(query);
     }
 
-    protected AttackResult injectableQuery(String _query) {
+    protected AttackResult injectableQuery(String query) {
         try (Connection connection = dataSource.getConnection()) {
             try (Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
-                statement.executeUpdate(_query);
+                statement.executeUpdate(query);
                 connection.commit();
-                ResultSet _results = statement.executeQuery("SELECT phone from employees;");
+                ResultSet results = statement.executeQuery("SELECT phone from employees;");
                 StringBuffer output = new StringBuffer();
                 // user completes lesson if column phone exists
-                if (_results.first()) {
-                    output.append("<span class='feedback-positive'>" + _query + "</span>");
+                if (results.first()) {
+                    output.append("<span class='feedback-positive'>" + query + "</span>");
                     return trackProgress(success().output(output.toString()).build());
                 } else {
                     return trackProgress(failed().output(output.toString()).build());

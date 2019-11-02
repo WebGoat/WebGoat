@@ -38,27 +38,28 @@ import java.io.ObjectInputStream;
 import java.util.Base64;
 
 @RestController
-@AssignmentHints({"insecure-deserialization.hints.1","insecure-deserialization.hints.2","insecure-deserialization.hints.3"})
+@AssignmentHints({"insecure-deserialization.hints.1", "insecure-deserialization.hints.2", "insecure-deserialization.hints.3"})
 public class InsecureDeserializationTask extends AssignmentEndpoint {
 
     @PostMapping("/InsecureDeserialization/task")
     @ResponseBody
     public AttackResult completed(@RequestParam String token) throws IOException {
         String b64token;
-        long before, after;
+        long before;
+        long after;
         int delay;
 
         b64token = token.replace('-', '+').replace('_', '/');
-        
+
         try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
-        	before = System.currentTimeMillis();
-        	Object o = ois.readObject();
-        	if (!(o instanceof VulnerableTaskHolder)) {
-        		if (o instanceof String) {
-        			return trackProgress(failed().feedback("insecure-deserialization.stringobject").build());
-        		}
-        		return trackProgress(failed().feedback("insecure-deserialization.wrongobject").build());
-        	}
+            before = System.currentTimeMillis();
+            Object o = ois.readObject();
+            if (!(o instanceof VulnerableTaskHolder)) {
+                if (o instanceof String) {
+                    return trackProgress(failed().feedback("insecure-deserialization.stringobject").build());
+                }
+                return trackProgress(failed().feedback("insecure-deserialization.wrongobject").build());
+            }
             after = System.currentTimeMillis();
         } catch (InvalidClassException e) {
             return trackProgress(failed().feedback("insecure-deserialization.invalidversion").build());

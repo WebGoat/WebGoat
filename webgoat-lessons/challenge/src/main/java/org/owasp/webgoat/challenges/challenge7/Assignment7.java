@@ -31,14 +31,14 @@ import static org.owasp.webgoat.challenges.Flag.FLAGS;
 @Slf4j
 public class Assignment7 extends AssignmentEndpoint {
 
-    private static final String TEMPLATE = "Hi, you requested a password reset link, please use this " +
-            "<a target='_blank' href='%s:8080/WebGoat/challenge/7/reset-password/%s'>link</a> to reset your password." +
-            "\n \n\n" +
-            "If you did not request this password change you can ignore this message." +
-            "\n" +
-            "If you have any comments or questions, please do not hesitate to reach us at support@webgoat-cloud.org" +
-            "\n\n" +
-            "Kind regards, \nTeam WebGoat";
+    private static final String TEMPLATE = "Hi, you requested a password reset link, please use this "
+            + "<a target='_blank' href='%s:8080/WebGoat/challenge/7/reset-password/%s'>link</a> to reset your password."
+            + "\n \n\n"
+            + "If you did not request this password change you can ignore this message."
+            + "\n"
+            + "If you have any comments or questions, please do not hesitate to reach us at support@webgoat-cloud.org"
+            + "\n\n"
+            + "Kind regards, \nTeam WebGoat";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -48,9 +48,9 @@ public class Assignment7 extends AssignmentEndpoint {
     @GetMapping("/challenge/7/reset-password/{link}")
     public ResponseEntity<String> resetPassword(@PathVariable(value = "link") String link) {
         if (link.equals(SolutionConstants.ADMIN_PASSWORD_LINK)) {
-            return ResponseEntity.accepted().body("<h1>Success!!</h1>" +
-                    "<img src='/WebGoat/images/hi-five-cat.jpg'>" +
-                    "<br/><br/>Here is your flag: " + "<b>" + FLAGS.get(7) + "</b>");
+            return ResponseEntity.accepted().body("<h1>Success!!</h1>"
+                    + "<img src='/WebGoat/images/hi-five-cat.jpg'>"
+                    + "<br/><br/>Here is your flag: " + "<b>" + FLAGS.get(7) + "</b>");
         }
         return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("That is not the reset link for admin");
     }
@@ -76,7 +76,6 @@ public class Assignment7 extends AssignmentEndpoint {
 
     @GetMapping(value = "/challenge/7/.git", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    @SneakyThrows
     public ClassPathResource git() {
         return new ClassPathResource("challenge7/git.zip");
     }

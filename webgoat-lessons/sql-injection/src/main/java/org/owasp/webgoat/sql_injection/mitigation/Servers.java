@@ -25,6 +25,7 @@ package org.owasp.webgoat.sql_injection.mitigation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("SqlInjectionMitigations/servers")
+@Slf4j
 public class Servers {
 
     private final DataSource dataSource;
@@ -62,16 +65,19 @@ public class Servers {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @SneakyThrows
     @ResponseBody
     public List<Server> sort(@RequestParam String column) {
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by " + column);
-        ResultSet rs = preparedStatement.executeQuery();
         List<Server> servers = new ArrayList<>();
-        while (rs.next()) {
-            Server server = new Server(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
-            servers.add(server);
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by " + column)) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Server server = new Server(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                servers.add(server);
+            }
+        } catch (SQLException e) {
+            log.error("Unable to get servers", e);
         }
         return servers;
     }

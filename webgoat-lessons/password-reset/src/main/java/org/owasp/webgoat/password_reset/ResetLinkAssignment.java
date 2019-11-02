@@ -51,14 +51,14 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
     static Map<String, String> usersToTomPassword = Maps.newHashMap();
     static List<String> resetLinks = new ArrayList<>();
 
-    static final String TEMPLATE = "Hi, you requested a password reset link, please use this " +
-            "<a target='_blank' href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your password." +
-            "\n \n\n" +
-            "If you did not request this password change you can ignore this message." +
-            "\n" +
-            "If you have any comments or questions, please do not hesitate to reach us at support@webgoat-cloud.org" +
-            "\n\n" +
-            "Kind regards, \nTeam WebGoat";
+    static final String TEMPLATE = "Hi, you requested a password reset link, please use this "
+            + "<a target='_blank' href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your password."
+            + "\n \n\n"
+            + "If you did not request this password change you can ignore this message."
+            + "\n"
+            + "If you have any comments or questions, please do not hesitate to reach us at support@webgoat-cloud.org"
+            + "\n\n"
+            + "Kind regards, \nTeam WebGoat";
 
 
     @PostMapping("/PasswordReset/reset/login")

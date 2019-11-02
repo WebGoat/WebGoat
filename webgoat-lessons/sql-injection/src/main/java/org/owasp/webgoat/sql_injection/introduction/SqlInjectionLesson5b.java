@@ -22,7 +22,6 @@
 
 package org.owasp.webgoat.sql_injection.introduction;
 
-
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -62,8 +61,8 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
             try {
                 count = Integer.parseInt(login_count);
             } catch (Exception e) {
-                return trackProgress(failed().output("Could not parse: " + login_count + " to a number" +
-                        "<br> Your query was: " + queryString.replace("?", login_count)).build());
+                return trackProgress(failed().output("Could not parse: " + login_count + " to a number"
+                        + "<br> Your query was: " + queryString.replace("?", login_count)).build());
             }
 
             query.setInt(1, count);
@@ -87,8 +86,6 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
 
                 } else {
                     return trackProgress(failed().feedback("sql-injection.5b.no.results").output("Your query was: " + queryString.replace("?", login_count)).build());
-
-//                    output.append(getLabelManager().get("NoResultsMatched"));
                 }
             } catch (SQLException sqle) {
 

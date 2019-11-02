@@ -4,4 +4,8 @@
         "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <suppressions>
     <suppress files="MD5.java" checks="[a-zA-Z0-9]*" />
+    <suppress files="VulnerableComponentsLesson.java" checks="[a-zA-Z0-9]*" />
+    <suppress files="ContentTypeAssignment.java" checks="IllegalImportCheck" />
+    <suppress files="SimpleXXE.java" checks="IllegalImportCheck" />
+    <suppress files="HtmlTamperingTask.java" checks="ParameterName" />
 </suppressions>

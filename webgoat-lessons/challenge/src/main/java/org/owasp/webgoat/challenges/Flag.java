@@ -71,7 +71,7 @@ public class Flag {
         IntStream.range(1, 10).forEach(i -> FLAGS.put(i, UUID.randomUUID().toString()));
     }
 
-    @RequestMapping(path="/challenge/flag", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/challenge/flag", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult postFlag(@RequestParam String flag) {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());

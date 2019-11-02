@@ -47,24 +47,24 @@ import java.util.Random;
 @AssignmentHints({"jwt-secret-hint1", "jwt-secret-hint2", "jwt-secret-hint3"})
 public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
 
-	public static final String[] SECRETS = {"victory","business","available", "shipping", "washington"};
+    public static final String[] SECRETS = {"victory", "business", "available", "shipping", "washington"};
     public static final String JWT_SECRET = TextCodec.BASE64.encode(SECRETS[new Random().nextInt(SECRETS.length)]);
     private static final String WEBGOAT_USER = "WebGoat";
     private static final List<String> expectedClaims = List.of("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
 
-    @RequestMapping(path="/JWT/secret/gettoken",produces=MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(path = "/JWT/secret/gettoken", produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String getSecretToken() {
-    	return Jwts.builder()
-    		.setIssuer("WebGoat Token Builder")
-    		.setAudience("webgoat.org")
-    		.setIssuedAt(Calendar.getInstance().getTime())
-    		.setExpiration(Date.from(Instant.now().plusSeconds(60)))
-    		.setSubject("tom@webgoat.org")
-    		.claim("username", "Tom")
-    		.claim("Email", "tom@webgoat.org")
-    		.claim("Role", new String[] {"Manager", "Project Administrator"})
-    		.signWith(SignatureAlgorithm.HS256, JWT_SECRET).compact();
+        return Jwts.builder()
+                .setIssuer("WebGoat Token Builder")
+                .setAudience("webgoat.org")
+                .setIssuedAt(Calendar.getInstance().getTime())
+                .setExpiration(Date.from(Instant.now().plusSeconds(60)))
+                .setSubject("tom@webgoat.org")
+                .claim("username", "Tom")
+                .claim("Email", "tom@webgoat.org")
+                .claim("Role", new String[]{"Manager", "Project Administrator"})
+                .signWith(SignatureAlgorithm.HS256, JWT_SECRET).compact();
     }
 
     @PostMapping("/JWT/secret")
@@ -85,7 +85,7 @@ public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
                 }
             }
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             return trackProgress(failed().feedback("jwt-invalid-token").output(e.getMessage()).build());
         }
     }

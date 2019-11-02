@@ -76,22 +76,16 @@ public class ForgedReviews extends AssignmentEndpoint {
     @PostMapping("/csrf/review")
     @ResponseBody
     public AttackResult createNewReview(String reviewText, Integer stars, String validateReq, HttpServletRequest request) {
+        final String host = (request.getHeader("host") == null) ? "NULL" : request.getHeader("host");
+        final String referer = (request.getHeader("referer") == null) ? "NULL" : request.getHeader("referer");
+        final String[] refererArr = referer.split("/");
 
-        String host = (request.getHeader("host") == null) ? "NULL" : request.getHeader("host");
-//        String origin = (req.getHeader("origin") == null) ? "NULL" : req.getHeader("origin");
-//        Integer serverPort = (req.getServerPort() < 1) ? 0 : req.getServerPort();
-//        String serverName = (req.getServerName() == null) ? "NULL" : req.getServerName();
-        String referer = (request.getHeader("referer") == null) ? "NULL" : request.getHeader("referer");
-        String[] refererArr = referer.split("/");
-
-        var reviews = userReviews.getOrDefault(webSession.getUserName(), new ArrayList<>());
         Review review = new Review();
-
         review.setText(reviewText);
         review.setDateTime(DateTime.now().toString(fmt));
         review.setUser(webSession.getUserName());
         review.setStars(stars);
-
+        var reviews = userReviews.getOrDefault(webSession.getUserName(), new ArrayList<>());
         reviews.add(review);
         userReviews.put(webSession.getUserName(), reviews);
         //short-circuit
