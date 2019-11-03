@@ -36,6 +36,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint-mitigation-12a-1", "SqlStringInjectionHint-mitigation-12a-2", "SqlStringInjectionHint-mitigation-12a-3", "SqlStringInjectionHint-mitigation-12a-4"})
@@ -50,16 +51,18 @@ public class SqlInjectionLesson12a extends AssignmentEndpoint {
 
     @PostMapping("/SqlInjectionMitigations/attack12a")
     @ResponseBody
-    @SneakyThrows
     public AttackResult completed(@RequestParam String ip) {
-        try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("select ip from servers where ip = ? and hostname = ?");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("select ip from servers where ip = ? and hostname = ?")) {
             preparedStatement.setString(1, ip);
             preparedStatement.setString(2, "webgoat-prd");
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return trackProgress(success().build());
             }
+            return trackProgress(failed().build());
+        } catch (SQLException e) {
+            log.error("Failed", e);
             return trackProgress(failed().build());
         }
     }

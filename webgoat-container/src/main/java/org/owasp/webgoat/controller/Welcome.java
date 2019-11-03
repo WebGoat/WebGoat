@@ -28,6 +28,7 @@
  * @since October 28, 2003
  * @version $Id: $Id
  */
+
 package org.owasp.webgoat.controller;
 
 import org.springframework.stereotype.Controller;

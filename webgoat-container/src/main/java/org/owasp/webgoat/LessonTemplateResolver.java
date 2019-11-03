@@ -28,11 +28,9 @@
  * @version $Id: $Id
  * @since October 28, 2003
  */
+
 package org.owasp.webgoat;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.common.io.ByteStreams;
 import org.springframework.core.io.ResourceLoader;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
@@ -41,7 +39,9 @@ import org.thymeleaf.templateresource.StringTemplateResource;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Dynamically resolve a lesson. In the html file this can be invoked as:
@@ -54,13 +54,13 @@ import java.util.Map;
  */
 public class LessonTemplateResolver extends FileTemplateResolver {
 
-    private final static String PREFIX = "lesson:";
+    private static final String PREFIX = "lesson:";
     private ResourceLoader resourceLoader;
-    private Map<String, byte[]> resources = Maps.newHashMap();
+    private Map<String, byte[]> resources = new HashMap<>();
 
     public LessonTemplateResolver(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
-        setResolvablePatterns(Sets.newHashSet(PREFIX + "*"));
+        setResolvablePatterns(Set.of(PREFIX + "*"));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class LessonTemplateResolver extends FileTemplateResolver {
         byte[] resource = resources.get(templateName);
         if (resource == null) {
             try {
-                resource = ByteStreams.toByteArray(resourceLoader.getResource("classpath:/html/" + templateName + ".html").getInputStream());
+                resource = resourceLoader.getResource("classpath:/html/" + templateName + ".html").getInputStream().readAllBytes();
             } catch (IOException e) {
                 e.printStackTrace();
             }

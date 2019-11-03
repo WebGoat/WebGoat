@@ -1,7 +1,5 @@
 package org.owasp.webgoat.service;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.owasp.webgoat.lessons.Lesson;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,14 +39,14 @@ public class LessonProgressService {
     @RequestMapping(value = "/service/lessonprogress.mvc", produces = "application/json")
     @ResponseBody
     public Map getLessonInfo() {
-        Map json = Maps.newHashMap();
+        Map json = new HashMap();
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         if (webSession.getCurrentLesson() != null) {
             LessonTracker lessonTracker = userTracker.getLessonTracker(webSession.getCurrentLesson());
             String successMessage = "";
             boolean lessonCompleted = false;
             if (lessonTracker != null) {
-                lessonCompleted = lessonCompleted(lessonTracker.getLessonOverview(),webSession.getCurrentLesson());
+                lessonCompleted = isLessonComplete(lessonTracker.getLessonOverview(), webSession.getCurrentLesson());
                 successMessage = "LessonCompleted"; //@todo we still use this??
             }
             json.put("lessonCompleted", lessonCompleted);
@@ -67,8 +66,8 @@ public class LessonProgressService {
     public List<LessonOverview> lessonOverview() {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         Lesson currentLesson = webSession.getCurrentLesson();
-        List<LessonOverview> result = Lists.newArrayList();
-        if ( currentLesson != null ) {
+        List<LessonOverview> result = new ArrayList<>();
+        if (currentLesson != null) {
             LessonTracker lessonTracker = userTracker.getLessonTracker(currentLesson);
             result = toJson(lessonTracker.getLessonOverview(), currentLesson);
         }
@@ -78,45 +77,38 @@ public class LessonProgressService {
     private List<LessonOverview> toJson(Map<Assignment, Boolean> map, Lesson currentLesson) {
         List<LessonOverview> result = new ArrayList();
         for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {
-        	    Assignment storedAssignment = entry.getKey();
-            	for (Assignment lessonAssignment: currentLesson.getAssignments()) {
-            		if (lessonAssignment.getName().equals(storedAssignment.getName())
-            				&& !lessonAssignment.getPath().equals(storedAssignment.getPath())) {
-            			//here a stored path in the assignments table will be corrected for the JSON output
-            			//with the value of the actual expected path
-            			storedAssignment.setPath(lessonAssignment.getPath());
-            			result.add(new LessonOverview(storedAssignment, entry.getValue()));
-            			break;
-            			
-            		} else if (lessonAssignment.getName().equals(storedAssignment.getName())) {
-            			result.add(new LessonOverview(storedAssignment, entry.getValue()));
-            			break;
-            		}
-            	}
-            	//assignments not in the list will not be put in the lesson progress JSON output
-            
+            Assignment storedAssignment = entry.getKey();
+            for (Assignment lessonAssignment : currentLesson.getAssignments()) {
+                if (lessonAssignment.getName().equals(storedAssignment.getName())
+                        && !lessonAssignment.getPath().equals(storedAssignment.getPath())) {
+                    //here a stored path in the assignments table will be corrected for the JSON output
+                    //with the value of the actual expected path
+                    storedAssignment.setPath(lessonAssignment.getPath());
+                    result.add(new LessonOverview(storedAssignment, entry.getValue()));
+                    break;
+
+                } else if (lessonAssignment.getName().equals(storedAssignment.getName())) {
+                    result.add(new LessonOverview(storedAssignment, entry.getValue()));
+                    break;
+                }
+            }
+            //assignments not in the list will not be put in the lesson progress JSON output
+
         }
         return result;
     }
 
-    /**
-     * Get the lesson completed based on Assignment data from the database
-     * while ignoring assignments no longer in the application.
-     * @param map
-     * @param currentLesson
-     * @return
-     */
-    private boolean lessonCompleted(Map<Assignment, Boolean> map, Lesson currentLesson) {
+    private boolean isLessonComplete(Map<Assignment, Boolean> map, Lesson currentLesson) {
         boolean result = true;
         for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {
-        	    Assignment storedAssignment = entry.getKey();
-            	for (Assignment lessonAssignment: currentLesson.getAssignments()) {
-            		if (lessonAssignment.getName().equals(storedAssignment.getName())) {
-            			result = result && entry.getValue();
-            			break;
-            		}
-            	}
-            
+            Assignment storedAssignment = entry.getKey();
+            for (Assignment lessonAssignment : currentLesson.getAssignments()) {
+                if (lessonAssignment.getName().equals(storedAssignment.getName())) {
+                    result = result && entry.getValue();
+                    break;
+                }
+            }
+
         }
         return result;
     }

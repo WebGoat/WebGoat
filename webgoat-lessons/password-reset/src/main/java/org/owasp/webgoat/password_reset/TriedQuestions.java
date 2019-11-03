@@ -22,17 +22,17 @@
 
 package org.owasp.webgoat.password_reset;
 
-import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Component
 @SessionScope
 public class TriedQuestions {
 
-    private Set<String> answeredQuestions = Sets.newHashSet();
+    private Set<String> answeredQuestions = new HashSet<>();
 
     public void incr(String question) {
         answeredQuestions.add(question);

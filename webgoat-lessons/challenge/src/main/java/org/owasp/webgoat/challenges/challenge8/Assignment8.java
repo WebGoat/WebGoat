@@ -1,6 +1,5 @@
 package org.owasp.webgoat.challenges.challenge8;
 
-import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.challenges.Flag;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Assignment8 extends AssignmentEndpoint {
 
-    private static final Map<Integer, Integer> votes = Maps.newHashMap();
+    private static final Map<Integer, Integer> votes = new HashMap<>();
 
     static {
         votes.put(1, 400);
@@ -40,9 +39,7 @@ public class Assignment8 extends AssignmentEndpoint {
         //Simple implementation of VERB Based Authentication
         String msg = "";
         if (request.getMethod().equals("GET")) {
-            HashMap<String, Object> json = Maps.newHashMap();
-            json.put("error", true);
-            json.put("message", "Sorry but you need to login first in order to vote");
+            var json = Map.of("error", true, "message", "Sorry but you need to login first in order to vote");
             return ResponseEntity.status(200).body(json);
         }
         Integer allVotesForStar = votes.getOrDefault(nrOfStars, 0);
@@ -59,8 +56,7 @@ public class Assignment8 extends AssignmentEndpoint {
     public ResponseEntity<Map<String, Integer>> average() {
         int totalNumberOfVotes = votes.values().stream().mapToInt(i -> i.intValue()).sum();
         int categories = votes.entrySet().stream().mapToInt(e -> e.getKey() * e.getValue()).reduce(0, (a, b) -> a + b);
-        Map json = Maps.newHashMap();
-        json.put("average", (int) Math.ceil((double) categories / totalNumberOfVotes));
+        var json = Map.of("average", (int) Math.ceil((double) categories / totalNumberOfVotes));
         return ResponseEntity.ok(json);
     }
 }

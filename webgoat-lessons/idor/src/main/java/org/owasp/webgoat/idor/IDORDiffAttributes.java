@@ -32,19 +32,19 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
-@AssignmentHints({"idor.hints.idorDiffAttributes1","idor.hints.idorDiffAttributes2","idor.hints.idorDiffAttributes3"})
+@AssignmentHints({"idor.hints.idorDiffAttributes1", "idor.hints.idorDiffAttributes2", "idor.hints.idorDiffAttributes3"})
 public class IDORDiffAttributes extends AssignmentEndpoint {
 
     @PostMapping("IDOR/diff-attributes")
     @ResponseBody
-    public AttackResult completed(@RequestParam String attributes, HttpServletRequest request) throws IOException {
+    public AttackResult completed(@RequestParam String attributes) {
         attributes = attributes.trim();
         String[] diffAttribs = attributes.split(",");
         if (diffAttribs.length < 2) {
             return trackProgress(failed().feedback("idor.diff.attributes.missing").build());
         }
-        if (diffAttribs[0].toLowerCase().trim().equals("userid") && diffAttribs[1].toLowerCase().trim().equals("role") ||
-                diffAttribs[1].toLowerCase().trim().equals("userid") && diffAttribs[0].toLowerCase().trim().equals("role")) {
+        if (diffAttribs[0].toLowerCase().trim().equals("userid") && diffAttribs[1].toLowerCase().trim().equals("role")
+                || diffAttribs[1].toLowerCase().trim().equals("userid") && diffAttribs[0].toLowerCase().trim().equals("role")) {
             return trackProgress(success().feedback("idor.diff.success").build());
         } else {
             return trackProgress(failed().feedback("idor.diff.failure").build());

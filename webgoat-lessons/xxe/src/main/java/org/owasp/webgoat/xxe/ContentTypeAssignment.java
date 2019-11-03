@@ -38,8 +38,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @AssignmentHints({"xxe.hints.content.type.xxe.1", "xxe.hints.content.type.xxe.2"})
 public class ContentTypeAssignment extends AssignmentEndpoint {
 
-    private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"}; 
-    private final static String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
+    private static final String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
+    private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
 
     @Value("${webgoat.server.directory}")
     private String webGoatHomeDirectory;

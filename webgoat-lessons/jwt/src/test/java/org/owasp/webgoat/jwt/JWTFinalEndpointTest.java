@@ -1,6 +1,5 @@
 package org.owasp.webgoat.jwt;
 
-import com.google.common.collect.Maps;
 import io.jsonwebtoken.Jwts;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
@@ -8,12 +7,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +38,7 @@ public class JWTFinalEndpointTest extends LessonTest {
     @Test
     public void solveAssignment() throws Exception {
         String key = "deletingTom";
-        Map<String, Object> claims = Maps.newHashMap();
+        Map<String, Object> claims = new HashMap<>();
         claims.put("username", "Tom");
         String token = Jwts.builder()
                 .setHeaderParam("kid", "hacked' UNION select '" + key + "' from INFORMATION_SCHEMA.SYSTEM_USERS --")

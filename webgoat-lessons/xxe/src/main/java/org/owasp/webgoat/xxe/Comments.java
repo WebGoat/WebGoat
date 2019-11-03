@@ -24,8 +24,6 @@ package org.owasp.webgoat.xxe;
 
 import com.beust.jcommander.internal.Lists;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.EvictingQueue;
-import com.google.common.collect.Maps;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -40,10 +38,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.empty;
@@ -62,8 +57,8 @@ public class Comments {
 
     protected static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd, HH:mm:ss");
 
-    private static final Map<String, EvictingQueue<Comment>> userComments = Maps.newHashMap();
-    private static final EvictingQueue<Comment> comments = EvictingQueue.create(100);
+    private static final Map<String, List<Comment>> userComments = new HashMap<>();
+    private static final List<Comment> comments = new ArrayList<>();
 
     static {
         comments.add(new Comment("webgoat", DateTime.now().toString(fmt), "Silly cat...."));
@@ -110,7 +105,7 @@ public class Comments {
         if (visibleForAllUsers) {
             comments.add(comment);
         } else {
-            EvictingQueue<Comment> comments = userComments.getOrDefault(webSession.getUserName(), EvictingQueue.create(100));
+            List<Comment> comments = userComments.getOrDefault(webSession.getUserName(), new ArrayList<>());
             comments.add(comment);
             userComments.put(webSession.getUserName(), comments);
         }

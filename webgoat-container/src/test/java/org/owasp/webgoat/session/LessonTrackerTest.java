@@ -1,9 +1,8 @@
 package org.owasp.webgoat.session;
 
-import com.google.common.collect.Lists;
 import org.junit.Test;
-import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Assignment;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.users.LessonTracker;
 
 import java.util.List;
@@ -48,7 +47,7 @@ public class LessonTrackerTest {
     @Test
     public void allAssignmentsSolvedShouldMarkLessonAsComplete() {
         Lesson lesson = mock(Lesson.class);
-        when(lesson.getAssignments()).thenReturn(Lists.newArrayList(new Assignment("assignment", "assignment", List.of(""))));
+        when(lesson.getAssignments()).thenReturn(List.of(new Assignment("assignment", "assignment", List.of(""))));
         LessonTracker lessonTracker = new LessonTracker(lesson);
         lessonTracker.assignmentSolved("assignment");
 
@@ -60,7 +59,7 @@ public class LessonTrackerTest {
         Lesson lesson = mock(Lesson.class);
         Assignment a1 = new Assignment("a1");
         Assignment a2 = new Assignment("a2");
-        List<Assignment> assignments = Lists.newArrayList(a1, a2);
+        List<Assignment> assignments = List.of(a1, a2);
         when(lesson.getAssignments()).thenReturn(assignments);
         LessonTracker lessonTracker = new LessonTracker(lesson);
         lessonTracker.assignmentSolved("a1");
@@ -74,7 +73,7 @@ public class LessonTrackerTest {
     public void solvingSameAssignmentShouldNotAddItTwice() {
         Lesson lesson = mock(Lesson.class);
         Assignment a1 = new Assignment("a1");
-        List<Assignment> assignments = Lists.newArrayList(a1);
+        List<Assignment> assignments = List.of(a1);
         when(lesson.getAssignments()).thenReturn(assignments);
         LessonTracker lessonTracker = new LessonTracker(lesson);
         lessonTracker.assignmentSolved("a1");

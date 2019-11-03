@@ -22,7 +22,6 @@
 
 package org.owasp.webgoat.jwt;
 
-import com.google.common.collect.Maps;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtException;
@@ -46,6 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Comparator.comparingLong;
@@ -64,7 +64,7 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
     private static String validUsers = "TomJerrySylvester";
 
     private static int totalVotes = 38929;
-    private Map<String, Vote> votes = Maps.newHashMap();
+    private Map<String, Vote> votes = new HashMap<>();
 
     @PostConstruct
     public void initVotes() {
