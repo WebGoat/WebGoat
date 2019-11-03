@@ -37,9 +37,9 @@ public abstract class IntegrationTest {
 
     @BeforeClass
     public static void beforeAll() {
-if (WG_SSL) {
-    		WEBGOAT_URL = WEBGOAT_URL.replace("http:","https:");
-    	}
+        if (WG_SSL) {
+            WEBGOAT_URL = WEBGOAT_URL.replace("http:", "https:");
+        }
         if (!started) {
             started = true;
             if (!isAlreadyRunning(WG_PORT)) {
@@ -84,7 +84,7 @@ if (WG_SSL) {
                 .relaxedHTTPSValidation()
                 .formParam("username", webgoatUser)
                 .formParam("password", "password")
-                    .post(url("login")).then()
+                .post(url("login")).then()
                 .cookie("JSESSIONID")
                 .statusCode(302)
                 .extract().header("Location");
@@ -236,7 +236,8 @@ if (WG_SSL) {
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
-public void checkAssignmentWithGet(String url, Map<String, ?> params, boolean expectedResult) {
+
+    public void checkAssignmentWithGet(String url, Map<String, ?> params, boolean expectedResult) {
         Assert.assertThat(
                 RestAssured.given()
                         .when()
@@ -251,28 +252,28 @@ public void checkAssignmentWithGet(String url, Map<String, ?> params, boolean ex
 
     public String getWebGoatServerPath() throws IOException {
 
-    	//read path from server
+        //read path from server
         String result = RestAssured.given()
-        .when()
-        .relaxedHTTPSValidation()
-        .cookie("JSESSIONID", getWebGoatCookie())
-        .get(url("/WebGoat/xxe/tmpdir"))
-        .then()
-        .extract().response().getBody().asString();
+                .when()
+                .relaxedHTTPSValidation()
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("/WebGoat/xxe/tmpdir"))
+                .then()
+                .extract().response().getBody().asString();
         result = result.replace("%20", " ");
         return result;
     }
 
     public String getWebWolfServerPath() throws IOException {
 
-    	//read path from server
+        //read path from server
         String result = RestAssured.given()
-        .when()
-        .relaxedHTTPSValidation()
-        .cookie("WEBWOLFSESSION", getWebWolfCookie())
-        .get(webWolfUrl("/tmpdir"))
-        .then()
-        .extract().response().getBody().asString();
+                .when()
+                .relaxedHTTPSValidation()
+                .cookie("WEBWOLFSESSION", getWebWolfCookie())
+                .get(webWolfUrl("/tmpdir"))
+                .then()
+                .extract().response().getBody().asString();
         result = result.replace("%20", " ");
         return result;
     }
