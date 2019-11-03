@@ -144,7 +144,11 @@
             <artifactId>webgoat-lesson-template</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+		<dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>crypto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>

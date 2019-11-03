@@ -1,0 +1,25 @@
+= Cryptography Basics 
+ 
+== Concept 
+
+This lesson explains different types of cryptography techniques that are commonly used in web applications. 
+
+== Goals
+
+The goal is to get familiar with the following forms of techniques:
+
+* link:start.mvc#lesson/Crypto.lesson/1[Encoding]
+
+* link:start.mvc#lesson/Crypto.lesson/3[Hashing]
+
+* link:start.mvc#lesson/Crypto.lesson/4[Encryption]
+
+* Keystores
+
+* Security defaults
+
+=== Assignments
+
+After the explanation of an item there will be several assignments.
+
+
