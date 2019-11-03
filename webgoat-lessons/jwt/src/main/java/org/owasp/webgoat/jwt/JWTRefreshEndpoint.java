@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 /**
  * @author nbaars
  * @since 4/23/17.
@@ -49,12 +51,15 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
 
     @PostMapping(value = "/JWT/refresh/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity follow(@RequestBody Map<String, Object> json) {
+    public ResponseEntity follow(@RequestBody(required = false) Map<String, Object> json) {
+        if (json == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         String user = (String) json.get("user");
         String password = (String) json.get("password");
 
         if ("Jerry".equals(user) && PASSWORD.equals(password)) {
-            return ResponseEntity.ok(createNewTokens(user));
+            return ok(createNewTokens(user));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
@@ -78,25 +83,33 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
 
     @PostMapping("/JWT/refresh/checkout")
     @ResponseBody
-    public AttackResult checkout(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> checkout(@RequestHeader(value = "Authorization", required = false) String token) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(token.replace("Bearer ", ""));
             Claims claims = (Claims) jwt.getBody();
             String user = (String) claims.get("user");
             if ("Tom".equals(user)) {
-                return trackProgress(success().build());
+                return ok(trackProgress(success().build()));
             }
-            return trackProgress(failed().feedback("jwt-refresh-not-tom").feedbackArgs(user).build());
+            return ok(trackProgress(failed().feedback("jwt-refresh-not-tom").feedbackArgs(user).build()));
         } catch (ExpiredJwtException e) {
-            return trackProgress(failed().output(e.getMessage()).build());
+            return ok(trackProgress(failed().output(e.getMessage()).build()));
         } catch (JwtException e) {
-            return trackProgress(failed().feedback("jwt-invalid-token").build());
+            return ok(trackProgress(failed().feedback("jwt-invalid-token").build()));
         }
     }
 
     @PostMapping("/JWT/refresh/newToken")
     @ResponseBody
-    public ResponseEntity newToken(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> json) {
+    public ResponseEntity newToken(@RequestHeader(value = "Authorization", required = false) String token,
+                                   @RequestBody(required = false) Map<String, Object> json) {
+        if (token == null || json == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         String user;
         String refreshToken;
         try {
@@ -112,7 +125,7 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else if (validRefreshTokens.contains(refreshToken)) {
             validRefreshTokens.remove(refreshToken);
-            return ResponseEntity.ok(createNewTokens(user));
+            return ok(createNewTokens(user));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
