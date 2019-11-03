@@ -1,7 +1,5 @@
 package org.owasp.webgoat.missing_ac;
 
-
-import lombok.Getter;
 import org.owasp.webgoat.users.WebGoatUser;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -32,9 +30,7 @@ import java.util.Base64;
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  * <p>
- *
  */
-
 
 public class DisplayUser {
     //intended to provide a display version of WebGoatUser for admins to view user attributes
@@ -63,7 +59,7 @@ public class DisplayUser {
 
     }
 
-    protected String genUserHash (String username, String password) throws Exception {
+    protected String genUserHash(String username, String password) throws Exception {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         // salting is good, but static & too predictable ... short too for a salt
         String salted = password + "DeliberatelyInsecure1234" + username;

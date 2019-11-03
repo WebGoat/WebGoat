@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(new WebGoatUser(username, password));
         //if user previously existed it will not get another tracker
         if (webGoatUser == null) {
-                userTrackerRepository.save(new UserTracker(username));
+            userTrackerRepository.save(new UserTracker(username));
         }
     }
 
@@ -44,14 +44,14 @@ public class UserService implements UserDetailsService {
         //get user if there exists one by the name
         WebGoatUser webGoatUser = userRepository.findByUsername(username);
         //if user exists it will be updated, otherwise created
-        userRepository.save(new WebGoatUser(username,password,role));
+        userRepository.save(new WebGoatUser(username, password, role));
         //if user previously existed it will not get another tracker
         if (webGoatUser == null) {
-                userTrackerRepository.save(new UserTracker(username));
+            userTrackerRepository.save(new UserTracker(username));
         }
     }
 
-    public List<WebGoatUser> getAllUsers () {
+    public List<WebGoatUser> getAllUsers() {
         return userRepository.findAll();
     }
 

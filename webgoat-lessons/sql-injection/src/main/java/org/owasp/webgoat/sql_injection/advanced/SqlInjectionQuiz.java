@@ -47,7 +47,7 @@ public class SqlInjectionQuiz extends AssignmentEndpoint {
 
         String[] givenAnswers = {question_0_solution[0], question_1_solution[0], question_2_solution[0], question_3_solution[0], question_4_solution[0]};
 
-        for(int i = 0; i < solutions.length; i++) {
+        for (int i = 0; i < solutions.length; i++) {
             if (givenAnswers[i].contains(solutions[i])) {
                 // answer correct
                 correctAnswers++;
@@ -58,7 +58,7 @@ public class SqlInjectionQuiz extends AssignmentEndpoint {
             }
         }
 
-        if(correctAnswers == solutions.length) {
+        if (correctAnswers == solutions.length) {
             return trackProgress(success().build());
         } else {
             return trackProgress(failed().build());

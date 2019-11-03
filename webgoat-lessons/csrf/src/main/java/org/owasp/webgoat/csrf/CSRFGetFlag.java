@@ -49,19 +49,15 @@ public class CSRFGetFlag {
     @Autowired
     private PluginMessages pluginMessages;
 
-    @RequestMapping(path="/csrf/basic-get-flag" ,produces = {"application/json"}, method = RequestMethod.POST)
+    @RequestMapping(path = "/csrf/basic-get-flag", produces = {"application/json"}, method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Map<String, Object> response = new HashMap<>();
 
         String host = (req.getHeader("host") == null) ? "NULL" : req.getHeader("host");
-//        String origin = (req.getHeader("origin") == null) ? "NULL" : req.getHeader("origin");
-//        Integer serverPort = (req.getServerPort() < 1) ? 0 : req.getServerPort();
-//        String serverName = (req.getServerName() == null) ? "NULL" : req.getServerName();
         String referer = (req.getHeader("referer") == null) ? "NULL" : req.getHeader("referer");
         String[] refererArr = referer.split("/");
-
 
 
         if (referer.equals("NULL")) {
@@ -93,9 +89,4 @@ public class CSRFGetFlag {
         return response;
 
     }
-//
-//    @Override
-//    public String getPath() {
-//        return "/csrf/basic-get-flag";
-//    }
 }

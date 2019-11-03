@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 public class PasswordChangeForm {
 
     @NotNull
-    @Size(min=6, max=10)
+    @Size(min = 6, max = 10)
     private String password;
     private String resetLink;
 

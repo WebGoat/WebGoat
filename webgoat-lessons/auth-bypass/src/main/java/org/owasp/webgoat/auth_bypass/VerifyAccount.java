@@ -68,7 +68,7 @@ public class VerifyAccount extends AssignmentEndpoint {
         }
 
         // else
-        if (verificationHelper.verifyAccount(new Integer(userId), (HashMap) submittedAnswers)) {
+        if (verificationHelper.verifyAccount(Integer.valueOf(userId), (HashMap) submittedAnswers)) {
             userSessionData.setValue("account-verified-id", userId);
             return trackProgress(success()
                     .feedback("verify-account.success")

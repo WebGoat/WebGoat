@@ -33,17 +33,12 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 @Slf4j
-public class Ping  {
+public class Ping {
 
     @Value("${webgoat.user.directory}")
     private String webGoatHomeDirectory;
     @Autowired
     private WebSession webSession;
-
-//    @Override
-//    public String getPath() {
-//        return "XXE/ping";
-//    }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody

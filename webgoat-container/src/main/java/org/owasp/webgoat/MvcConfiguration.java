@@ -28,6 +28,7 @@
  * @version $Id: $Id
  * @since October 28, 2003
  */
+
 package org.owasp.webgoat;
 
 import org.owasp.webgoat.i18n.Language;
@@ -122,11 +123,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
         return engine;
     }
 
-    /**
-     * This way we expose the plugins target directory as a resource within the web application.
-     *
-     * @param registry
-     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");

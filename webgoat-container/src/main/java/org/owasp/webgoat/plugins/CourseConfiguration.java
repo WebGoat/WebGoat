@@ -19,9 +19,9 @@
  *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
+
 package org.owasp.webgoat.plugins;
 
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
@@ -39,9 +39,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -70,7 +68,7 @@ public class CourseConfiguration {
         var endpoints = assignmentsByPackage.get(lesson.getClass().getPackageName());
         if (CollectionUtils.isEmpty(endpoints)) {
             log.warn("Lesson: {} has no endpoints, is this intentionally?", lesson.getTitle());
-            return Lists.newArrayList();
+            return new ArrayList();
         }
         return endpoints.stream().map(e -> new Assignment(e.getClass().getSimpleName(), getPath(e.getClass()), getHints(e.getClass()))).collect(toList());
     }
@@ -110,8 +108,8 @@ public class CourseConfiguration {
 
     private List<String> getHints(Class<? extends AssignmentEndpoint> e) {
         if (e.isAnnotationPresent(AssignmentHints.class)) {
-            return Lists.newArrayList(e.getAnnotationsByType(AssignmentHints.class)[0].value());
+            return List.of(e.getAnnotationsByType(AssignmentHints.class)[0].value());
         }
-        return Lists.newArrayList();
+        return Collections.emptyList();
     }
 }

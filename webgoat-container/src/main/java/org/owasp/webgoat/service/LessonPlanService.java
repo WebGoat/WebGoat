@@ -27,6 +27,7 @@
  * for free software projects.
  *
  */
+
 package org.owasp.webgoat.service;
 
 import org.owasp.webgoat.session.WebSession;

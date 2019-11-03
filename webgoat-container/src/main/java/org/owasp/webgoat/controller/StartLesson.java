@@ -28,6 +28,7 @@
  * @version $Id: $Id
  * @since October 28, 2003
  */
+
 package org.owasp.webgoat.controller;
 
 import org.owasp.webgoat.lessons.Lesson;

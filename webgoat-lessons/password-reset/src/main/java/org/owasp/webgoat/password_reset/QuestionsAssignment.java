@@ -40,7 +40,7 @@ import java.util.Map;
 @RestController
 public class QuestionsAssignment extends AssignmentEndpoint {
 
-    private final static Map<String, String> COLORS = new HashMap<>();
+    private static final Map<String, String> COLORS = new HashMap<>();
 
     static {
         COLORS.put("admin", "green");

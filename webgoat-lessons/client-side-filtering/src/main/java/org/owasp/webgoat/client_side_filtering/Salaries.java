@@ -22,12 +22,6 @@
 
 package org.owasp.webgoat.client_side_filtering;
 
-/**
- *
- */
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -48,6 +42,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,14 +53,17 @@ public class Salaries { // {extends Endpoint {
     private String webGoatHomeDirectory;
 
     @PostConstruct
-    @SneakyThrows
     public void copyFiles() {
         ClassPathResource classPathResource = new ClassPathResource("employees.xml");
         File targetDirectory = new File(webGoatHomeDirectory, "/ClientSideFiltering");
         if (!targetDirectory.exists()) {
             targetDirectory.mkdir();
         }
-        FileCopyUtils.copy(classPathResource.getInputStream(), new FileOutputStream(new File(targetDirectory, "employees.xml")));
+        try {
+            FileCopyUtils.copy(classPathResource.getInputStream(), new FileOutputStream(new File(targetDirectory, "employees.xml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @RequestMapping(produces = {"application/json"})
@@ -73,7 +72,7 @@ public class Salaries { // {extends Endpoint {
         NodeList nodes = null;
         File d = new File(webGoatHomeDirectory, "ClientSideFiltering/employees.xml");
         XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
+        XPath path = factory.newXPath();
         InputSource inputSource = new InputSource(new FileInputStream(d));
 
         StringBuffer sb = new StringBuffer();
@@ -87,16 +86,16 @@ public class Salaries { // {extends Endpoint {
         String expression = sb.toString();
 
         try {
-            nodes = (NodeList) xPath.evaluate(expression, inputSource, XPathConstants.NODESET);
+            nodes = (NodeList) path.evaluate(expression, inputSource, XPathConstants.NODESET);
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
-        int COLUMNS = 5;
-        List json = Lists.newArrayList();
-        java.util.Map<String, Object> employeeJson = Maps.newHashMap();
+        int columns = 5;
+        List json = new ArrayList();
+        java.util.Map<String, Object> employeeJson = new HashMap<>();
         for (int i = 0; i < nodes.getLength(); i++) {
-            if (i % COLUMNS == 0) {
-                employeeJson = Maps.newHashMap();
+            if (i % columns == 0) {
+                employeeJson = new HashMap<>();
                 json.add(employeeJson);
             }
             Node node = nodes.item(i);
@@ -104,11 +103,4 @@ public class Salaries { // {extends Endpoint {
         }
         return json;
     }
-
-//    @Override
-//    public String getPath() {
-//        return "/clientSideFiltering/salaries";
-//    }
-
-
 }

@@ -23,8 +23,6 @@
 package org.owasp.webgoat.csrf;
 
 import com.beust.jcommander.internal.Lists;
-import com.google.common.collect.EvictingQueue;
-import com.google.common.collect.Maps;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -37,8 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 
@@ -50,8 +47,8 @@ public class ForgedReviews extends AssignmentEndpoint {
     private WebSession webSession;
     private static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd, HH:mm:ss");
 
-    private static final Map<String, EvictingQueue<Review>> userReviews = Maps.newHashMap();
-    private static final EvictingQueue<Review> REVIEWS = EvictingQueue.create(100);
+    private static final Map<String, List<Review>> userReviews = new HashMap<>();
+    private static final List<Review> REVIEWS = new ArrayList<>();
     private static final String weakAntiCSRF = "2aa14227b9a13d0bede0388a7fba9aa9";
 
 
@@ -79,22 +76,16 @@ public class ForgedReviews extends AssignmentEndpoint {
     @PostMapping("/csrf/review")
     @ResponseBody
     public AttackResult createNewReview(String reviewText, Integer stars, String validateReq, HttpServletRequest request) {
+        final String host = (request.getHeader("host") == null) ? "NULL" : request.getHeader("host");
+        final String referer = (request.getHeader("referer") == null) ? "NULL" : request.getHeader("referer");
+        final String[] refererArr = referer.split("/");
 
-        String host = (request.getHeader("host") == null) ? "NULL" : request.getHeader("host");
-//        String origin = (req.getHeader("origin") == null) ? "NULL" : req.getHeader("origin");
-//        Integer serverPort = (req.getServerPort() < 1) ? 0 : req.getServerPort();
-//        String serverName = (req.getServerName() == null) ? "NULL" : req.getServerName();
-        String referer = (request.getHeader("referer") == null) ? "NULL" : request.getHeader("referer");
-        String[] refererArr = referer.split("/");
-
-        EvictingQueue<Review> reviews = userReviews.getOrDefault(webSession.getUserName(), EvictingQueue.create(100));
         Review review = new Review();
-
         review.setText(reviewText);
         review.setDateTime(DateTime.now().toString(fmt));
         review.setUser(webSession.getUserName());
         review.setStars(stars);
-
+        var reviews = userReviews.getOrDefault(webSession.getUserName(), new ArrayList<>());
         reviews.add(review);
         userReviews.put(webSession.getUserName(), reviews);
         //short-circuit

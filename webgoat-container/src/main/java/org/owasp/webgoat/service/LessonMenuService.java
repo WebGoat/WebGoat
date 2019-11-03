@@ -26,6 +26,7 @@
  * Source for this application is maintained at
  * https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
+
 package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
@@ -100,15 +101,7 @@ public class LessonMenuService {
         return menu;
 
     }
-    
-    /**
-     * This determines if the lesson is complete based on data in the database 
-     * and the list of assignments actually linked to the existing current lesson.
-     * This way older removed assignments will not prevent a lesson from being completed.
-     * @param map
-     * @param currentLesson
-     * @return
-     */
+
     private boolean lessonCompleted(Map<Assignment, Boolean> map, Lesson currentLesson) {
         boolean result = true;
         for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {

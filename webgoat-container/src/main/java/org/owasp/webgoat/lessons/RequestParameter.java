@@ -27,6 +27,7 @@
  * for free software projects.
  *
  */
+
 package org.owasp.webgoat.lessons;
 
 /**
@@ -69,7 +70,6 @@ public class RequestParameter implements Comparable<RequestParameter> {
         return value;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int compareTo(RequestParameter o) {
         return this.name.compareTo(o.getName());

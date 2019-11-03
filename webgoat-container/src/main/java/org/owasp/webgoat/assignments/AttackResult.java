@@ -25,7 +25,6 @@
 
 package org.owasp.webgoat.assignments;
 
-import com.google.common.base.Strings;
 import lombok.Getter;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.owasp.webgoat.i18n.PluginMessages;
