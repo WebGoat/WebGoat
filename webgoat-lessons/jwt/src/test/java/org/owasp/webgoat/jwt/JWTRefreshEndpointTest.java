@@ -205,4 +205,22 @@ public class JWTRefreshEndpointTest extends LessonTest {
                 .content(objectMapper.writeValueAsString(refreshJson)))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    public void noTokenWhileCheckoutShouldReturn401() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/checkout"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void noTokenWhileRequestingNewTokenShouldReturn401() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/newToken"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void noTokenWhileLoginShouldReturn401() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login"))
+                .andExpect(status().isUnauthorized());
+    }
 }
