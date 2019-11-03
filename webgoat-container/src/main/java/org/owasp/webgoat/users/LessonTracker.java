@@ -54,6 +54,8 @@ public class LessonTracker {
     private final Set<Assignment> allAssignments = new HashSet<>();
     @Getter
     private int numberOfAttempts = 0;
+    @Version
+    private Integer version;
 
     private LessonTracker() {
         //JPA
