@@ -22,20 +22,15 @@
 
 package org.owasp.webgoat.jwt;
 
-import com.google.common.base.Charsets;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.TextCodec;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.DatabaseUtilities;
-import org.owasp.webgoat.session.WebSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -67,8 +62,11 @@ import java.sql.SQLException;
 @AssignmentHints({"jwt-final-hint1", "jwt-final-hint2", "jwt-final-hint3", "jwt-final-hint4", "jwt-final-hint5", "jwt-final-hint6"})
 public class JWTFinalEndpoint extends AssignmentEndpoint {
 
-    @Autowired
-    private WebSession webSession;
+    private final DataSource dataSource;
+
+    private JWTFinalEndpoint(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @PostMapping("/JWT/final/follow/{user}")
     public @ResponseBody
@@ -92,8 +90,7 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
                     @Override
                     public byte[] resolveSigningKeyBytes(JwsHeader header, Claims claims) {
                         final String kid = (String) header.get("kid");
-                        try {
-                            Connection connection = DatabaseUtilities.getConnection(webSession);
+                        try (var connection = dataSource.getConnection()) {
                             ResultSet rs = connection.createStatement().executeQuery("SELECT key FROM jwt_keys WHERE id = '" + kid + "'");
                             while (rs.next()) {
                                 return TextCodec.BASE64.decode(rs.getString(1));

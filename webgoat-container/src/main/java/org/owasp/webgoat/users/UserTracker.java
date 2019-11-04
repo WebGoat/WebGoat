@@ -1,12 +1,12 @@
 
 package org.owasp.webgoat.users;
 
-import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Assignment;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -53,7 +53,7 @@ public class UserTracker {
     @Column(name = "username")
     private String user;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<LessonTracker> lessonTrackers = Sets.newHashSet();
+    private Set<LessonTracker> lessonTrackers = new HashSet<>();
 
     private UserTracker() {}
 

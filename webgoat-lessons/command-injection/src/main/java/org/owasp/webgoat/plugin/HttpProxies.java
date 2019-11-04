@@ -2,7 +2,7 @@ package org.owasp.webgoat.plugin;
 
 import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 
 import java.util.List;
 
@@ -35,20 +35,10 @@ import java.util.List;
  * @version $Id: $Id
  * @since October 12, 2016
  */
-public class HttpProxies extends AbstractLesson {
+public class HttpProxies extends Lesson {
     @Override
     public Category getDefaultCategory() {
         return Category.GENERAL;
-    }
-
-    @Override
-    public List<String> getHints() {
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public Integer getDefaultRanking() {
-        return 2;
     }
 
     @Override

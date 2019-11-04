@@ -22,77 +22,72 @@
 
 package org.owasp.webgoat.missing_ac;
 
-import org.owasp.webgoat.session.DatabaseUtilities;
 import org.owasp.webgoat.session.UserSessionData;
-import org.owasp.webgoat.session.WebSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.sql.*;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 
 public class Users {
 
-    @Autowired
-    private WebSession webSession;
+    private UserSessionData userSessionData;
+    private DataSource dataSource;
 
-    @Autowired
-    UserSessionData userSessionData;
+    public Users(UserSessionData userSessionData, DataSource dataSource) {
+        this.userSessionData = userSessionData;
+        this.dataSource = dataSource;
+    }
 
     @GetMapping(produces = {"application/json"})
     @ResponseBody
     protected HashMap<Integer, HashMap> getUsers() {
 
-        try {
-            Connection connection = DatabaseUtilities.getConnection(getWebSession());
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT * FROM user_data";
 
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 ResultSet results = statement.executeQuery(query);
-                HashMap<Integer,HashMap> allUsersMap = new HashMap();
+                HashMap<Integer, HashMap> allUsersMap = new HashMap();
 
                 if ((results != null) && (results.first() == true)) {
-                    ResultSetMetaData resultsMetaData = results.getMetaData();
-                    StringBuffer output = new StringBuffer();
-
                     while (results.next()) {
-                        int id = results.getInt(0);
-                        HashMap<String,String> userMap = new HashMap<>();
+                        HashMap<String, String> userMap = new HashMap<>();
                         userMap.put("first", results.getString(1));
                         userMap.put("last", results.getString(2));
                         userMap.put("cc", results.getString(3));
                         userMap.put("ccType", results.getString(4));
                         userMap.put("cookie", results.getString(5));
-                        userMap.put("loginCount",Integer.toString(results.getInt(6)));
-                        allUsersMap.put(id,userMap);
+                        userMap.put("loginCount", Integer.toString(results.getInt(6)));
+                        allUsersMap.put(results.getInt(0), userMap);
                     }
-                    userSessionData.setValue("allUsers",allUsersMap);
+                    userSessionData.setValue("allUsers", allUsersMap);
                     return allUsersMap;
 
                 }
             } catch (SQLException sqle) {
                 sqle.printStackTrace();
-                HashMap<String,String> errMap = new HashMap() {{
-                    put("err",sqle.getErrorCode() + "::" + sqle.getMessage());
+                HashMap<String, String> errMap = new HashMap() {{
+                    put("err", sqle.getErrorCode() + "::" + sqle.getMessage());
                 }};
 
-                return new HashMap<Integer,HashMap>() {{
-                    put(0,errMap);
+                return new HashMap<Integer, HashMap>() {{
+                    put(0, errMap);
                 }};
             } catch (Exception e) {
                 e.printStackTrace();
-                HashMap<String,String> errMap = new HashMap() {{
-                    put("err",e.getMessage() + "::" + e.getCause());
+                HashMap<String, String> errMap = new HashMap() {{
+                    put("err", e.getMessage() + "::" + e.getCause());
                 }};
                 e.printStackTrace();
-                return new HashMap<Integer,HashMap>() {{
-                    put(0,errMap);
+                return new HashMap<Integer, HashMap>() {{
+                    put(0, errMap);
                 }};
 
 
@@ -108,24 +103,15 @@ public class Users {
 
         } catch (Exception e) {
             e.printStackTrace();
-            HashMap<String,String> errMap = new HashMap() {{
-                put("err",e.getMessage() + "::" + e.getCause());
+            HashMap<String, String> errMap = new HashMap() {{
+                put("err", e.getMessage() + "::" + e.getCause());
             }};
             e.printStackTrace();
-            return new HashMap<Integer,HashMap>() {{
-                put(0,errMap);
+            return new HashMap<>() {{
+                put(0, errMap);
             }};
 
         }
         return null;
     }
-
-    protected  WebSession getWebSession() {
-        return webSession;
-    }
-
-//    @Override
-//    public String getPath() {
-//        return  "/access-control/list-users";
-//    }
 }

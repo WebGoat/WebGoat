@@ -22,7 +22,6 @@
 
 package org.owasp.webgoat.challenges;
 
-import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.IntStream;
@@ -52,7 +52,7 @@ import java.util.stream.IntStream;
 @RestController
 public class Flag {
 
-    public static final Map<Integer, String> FLAGS = Maps.newHashMap();
+    public static final Map<Integer, String> FLAGS = new HashMap<>();
     @Autowired
     private UserTrackerRepository userTrackerRepository;
     @Autowired
@@ -71,7 +71,7 @@ public class Flag {
         IntStream.range(1, 10).forEach(i -> FLAGS.put(i, UUID.randomUUID().toString()));
     }
 
-    @RequestMapping(path="/challenge/flag", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/challenge/flag", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult postFlag(@RequestParam String flag) {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());

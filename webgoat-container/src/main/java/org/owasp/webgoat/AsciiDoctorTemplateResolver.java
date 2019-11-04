@@ -28,18 +28,13 @@
  * @version $Id: $Id
  * @since December 12, 2015
  */
+
 package org.owasp.webgoat;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.extension.JavaExtensionRegistry;
-import org.owasp.webgoat.asciidoc.OperatingSystemMacro;
-import org.owasp.webgoat.asciidoc.WebGoatTmpDirMacro;
-import org.owasp.webgoat.asciidoc.WebGoatVersionMacro;
-import org.owasp.webgoat.asciidoc.WebWolfMacro;
-import org.owasp.webgoat.asciidoc.WebWolfRootMacro;
+import org.owasp.webgoat.asciidoc.*;
 import org.owasp.webgoat.i18n.Language;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
@@ -50,7 +45,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
@@ -70,7 +67,7 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
 
     public AsciiDoctorTemplateResolver(Language language) {
         this.language = language;
-        setResolvablePatterns(Sets.newHashSet(PREFIX + "*"));
+        setResolvablePatterns(Set.of(PREFIX + "*"));
     }
 
     @Override
@@ -81,7 +78,6 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
                 log.warn("Resource name: {} not found, did you add the adoc file?", templateName);
                 return new StringTemplateResource("");
             } else {
-                StringWriter writer = new StringWriter();
                 JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
                 extensionRegistry.inlineMacro("webWolfLink", WebWolfMacro.class);
                 extensionRegistry.inlineMacro("webWolfRootLink", WebWolfRootMacro.class);
@@ -89,6 +85,7 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
                 extensionRegistry.inlineMacro("webGoatTempDir", WebGoatTmpDirMacro.class);
                 extensionRegistry.inlineMacro("operatingSystem", OperatingSystemMacro.class);
 
+                StringWriter writer = new StringWriter();
                 asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
                 return new StringTemplateResource(writer.getBuffer().toString());
             }
@@ -115,11 +112,11 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
     }
 
     private Map<String, Object> createAttributes() {
-        Map<String, Object> attributes = Maps.newHashMap();
+        Map<String, Object> attributes = new HashMap<>();
         attributes.put("source-highlighter", "coderay");
         attributes.put("backend", "xhtml");
 
-        Map<String, Object> options = Maps.newHashMap();
+        Map<String, Object> options = new HashMap<>();
         options.put("attributes", attributes);
 
         return options;

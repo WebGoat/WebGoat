@@ -5,7 +5,7 @@
 /* */ 	 are inline comments
 -- , # 	 are line comments
 
-Example: Select * from users where name = 'admin' --and pass = 'pass'
+Example: SELECT * FROM users WHERE name = 'admin' --AND pass = 'pass'
 ----
 
 
@@ -13,7 +13,7 @@ Example: Select * from users where name = 'admin' --and pass = 'pass'
 ----
 ;        allows query chaining
 
-Example: Select * from users; drop table users;
+Example: SELECT * FROM users; DROP TABLE users;
 ----
 
 [source]
@@ -21,7 +21,7 @@ Example: Select * from users; drop table users;
 ',+,||	 allows string concatenation
 Char()	 strings without quotes
 
-Example: Select * from users where name = '+char(27) or 1=1
+Example: SELECT * FROM users WHERE name = '+char(27) OR 1=1
 ----
 
 
@@ -39,7 +39,7 @@ of the first column in the second (third, fourth, ...) SELECT Statement. The Sam
 
 [source]
 ------
-SELECT First_Name from user_system_data UNION SELECT login_count FROM user_data;
+SELECT first_name FROM user_system_data UNION SELECT login_count FROM user_data;
 ------
 
 The UNION ALL Syntax also allows duplicate Values.

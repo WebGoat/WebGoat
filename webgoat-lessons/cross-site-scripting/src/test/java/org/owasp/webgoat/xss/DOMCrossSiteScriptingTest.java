@@ -58,7 +58,6 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
 
     @Test
     public void success() throws Exception {
-
         mockMvc.perform(MockMvcRequestBuilders.post("/CrossSiteScripting/phone-home-xss")
                 .header("webgoat-requested-by", "dom-xss-vuln")
                 .param("param1", "42")

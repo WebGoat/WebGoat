@@ -28,21 +28,21 @@
  * @version $Id: $Id
  * @since October 28, 2003
  */
+
 package org.owasp.webgoat;
 
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.session.WebgoatContext;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 
-@SpringBootApplication
+@Configuration
 public class WebGoat {
 
     @Bean(name = "pluginTargetDirectory")
@@ -52,8 +52,8 @@ public class WebGoat {
 
     @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public WebSession webSession(WebgoatContext webgoatContext) {
-        return new WebSession(webgoatContext);
+    public WebSession webSession() {
+        return new WebSession();
     }
 
     @Bean

@@ -23,7 +23,6 @@
 package org.owasp.webgoat.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Maps;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +35,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
@@ -62,9 +62,7 @@ public class JWTRefreshEndpointTest extends LessonTest {
         ObjectMapper objectMapper = new ObjectMapper();
 
         //First login to obtain tokens for Jerry
-        Map<String, Object> loginJson = Maps.newHashMap();
-        loginJson.put("user", "Jerry");
-        loginJson.put("password", PASSWORD);
+        var loginJson = Map.of("user", "Jerry", "password", PASSWORD);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginJson)))
@@ -76,7 +74,7 @@ public class JWTRefreshEndpointTest extends LessonTest {
 
         //Now create a new refresh token for Tom based on Toms old access token and send the refresh token of Jerry
         String accessTokenTom = "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1MjYxMzE0MTEsImV4cCI6MTUyNjIxNzgxMSwiYWRtaW4iOiJmYWxzZSIsInVzZXIiOiJUb20ifQ.DCoaq9zQkyDH25EcVWKcdbyVfUL4c9D4jRvsqOqvi9iAd4QuqmKcchfbU8FNzeBNF9tLeFXHZLU4yRkq-bjm7Q";
-        Map<String, Object> refreshJson = Maps.newHashMap();
+        Map<String, Object> refreshJson = new HashMap<>();
         refreshJson.put("refresh_token", refreshToken);
         result = mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/newToken")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -116,9 +114,7 @@ public class JWTRefreshEndpointTest extends LessonTest {
     public void flowForJerryAlwaysWorks() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Map<String, Object> loginJson = Maps.newHashMap();
-        loginJson.put("user", "Jerry");
-        loginJson.put("password", PASSWORD);
+        var loginJson = Map.of("user", "Jerry", "password", PASSWORD);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginJson)))
@@ -137,9 +133,7 @@ public class JWTRefreshEndpointTest extends LessonTest {
     public void loginShouldNotWorkForJerryWithWrongPassword() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Map<String, Object> loginJson = Maps.newHashMap();
-        loginJson.put("user", "Jerry");
-        loginJson.put("password", PASSWORD + "wrong");
+        var loginJson = Map.of("user", "Jerry", "password", PASSWORD + "wrong");
         mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginJson)))
@@ -150,9 +144,7 @@ public class JWTRefreshEndpointTest extends LessonTest {
     public void loginShouldNotWorkForTom() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Map<String, Object> loginJson = Maps.newHashMap();
-        loginJson.put("user", "Tom");
-        loginJson.put("password", PASSWORD);
+        var loginJson = Map.of("user", "Tom", "password", PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginJson)))
@@ -162,7 +154,7 @@ public class JWTRefreshEndpointTest extends LessonTest {
     @Test
     public void newTokenShouldWorkForJerry() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> loginJson = Maps.newHashMap();
+        Map<String, Object> loginJson = new HashMap<>();
         loginJson.put("user", "Jerry");
         loginJson.put("password", PASSWORD);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
@@ -174,8 +166,7 @@ public class JWTRefreshEndpointTest extends LessonTest {
         String accessToken = tokens.get("access_token");
         String refreshToken = tokens.get("refresh_token");
 
-        Map<String, Object> refreshJson = Maps.newHashMap();
-        refreshJson.put("refresh_token", refreshToken);
+        var refreshJson = Map.of("refresh_token", refreshToken);
         mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/newToken")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + accessToken)
@@ -186,7 +177,7 @@ public class JWTRefreshEndpointTest extends LessonTest {
     @Test
     public void unknownRefreshTokenShouldGiveUnauthorized() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> loginJson = Maps.newHashMap();
+        Map<String, Object> loginJson = new HashMap<>();
         loginJson.put("user", "Jerry");
         loginJson.put("password", PASSWORD);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login")
@@ -197,12 +188,29 @@ public class JWTRefreshEndpointTest extends LessonTest {
         Map<String, String> tokens = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
         String accessToken = tokens.get("access_token");
 
-        Map<String, Object> refreshJson = Maps.newHashMap();
-        refreshJson.put("refresh_token", "wrong_refresh_token");
+        var refreshJson = Map.of("refresh_token", "wrong_refresh_token");
         mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/newToken")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + accessToken)
                 .content(objectMapper.writeValueAsString(refreshJson)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void noTokenWhileCheckoutShouldReturn401() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/checkout"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void noTokenWhileRequestingNewTokenShouldReturn401() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/newToken"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void noTokenWhileLoginShouldReturn401() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/refresh/login"))
                 .andExpect(status().isUnauthorized());
     }
 }

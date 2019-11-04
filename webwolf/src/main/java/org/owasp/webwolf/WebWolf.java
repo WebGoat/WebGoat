@@ -23,10 +23,14 @@
 package org.owasp.webwolf;
 
 import org.owasp.webwolf.requests.WebWolfTraceRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import javax.sql.DataSource;
 
 @SpringBootApplication
 public class WebWolf {
@@ -39,5 +43,12 @@ public class WebWolf {
     public static void main(String[] args) {
         System.setProperty("spring.config.name", "application-webwolf");
         SpringApplication.run(WebWolf.class, args);
+    }
+
+    @Bean
+    public DataSource dataSource(@Value("${spring.datasource.url}") String url, @Value("${spring.datasource.driver-class-name}") String driverClassName) {
+        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(url);
+        driverManagerDataSource.setDriverClassName(driverClassName);
+        return driverManagerDataSource;
     }
 }

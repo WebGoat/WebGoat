@@ -6,7 +6,7 @@ Answer: No it does not
 Let us take a look at the following statement:
 
 ----
-select * from users order by lastname;
+SELECT * FROM users ORDER BY lastname;
 ----
 
 If we look at the specification of the SQL grammar the definition is as follows:
@@ -34,7 +34,7 @@ This means an `orderExpression` can be a `selectExpression` which can be a funct
 a `case` statement we might be able to ask the database some questions, like:
 
 ----
-select * from users order by (case when (true) then lastname else firstname)
+SELECT * FROM users ORDER BY (CASE WHEN (TRUE) THEN lastname ELSE firstname)
 ----
 
 So we can substitute any kind of boolean operation in the `when(....)` part. The statement will just work because

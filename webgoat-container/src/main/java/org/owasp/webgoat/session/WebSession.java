@@ -41,37 +41,10 @@ public class WebSession implements Serializable {
 
 	private static final long serialVersionUID = -4270066103101711560L;
 	private final WebGoatUser currentUser;
-    private final WebgoatContext webgoatContext;
     private Lesson currentLesson;
 
-    /**
-     * Constructor for the WebSession object
-     *
-     * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
-     */
-    public WebSession(WebgoatContext webgoatContext) {
-        this.webgoatContext = webgoatContext;
+    public WebSession() {
         this.currentUser = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
-    /**
-     * <p> getConnection. </p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.sql.Connection} object.
-     * @throws java.sql.SQLException if any.
-     */
-    public static synchronized Connection getConnection(WebSession s) throws SQLException {
-        return DatabaseUtilities.getConnection(s);
-    }
-
-    /**
-     * <p> returnConnection. </p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     */
-    public static void returnConnection(WebSession s) {
-        DatabaseUtilities.returnConnection(s.getUserName());
     }
 
     /**
@@ -99,14 +72,5 @@ public class WebSession implements Serializable {
      */
     public String getUserName() {
         return currentUser.getUsername();
-    }
-
-    /**
-     * <p> Getter for the field <code>webgoatContext</code>. </p>
-     *
-     * @return a {@link org.owasp.webgoat.session.WebgoatContext} object.
-     */
-    public WebgoatContext getWebgoatContext() {
-        return webgoatContext;
     }
 }

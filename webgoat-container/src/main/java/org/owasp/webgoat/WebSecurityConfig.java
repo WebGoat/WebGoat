@@ -1,4 +1,3 @@
-
 /**
  * ************************************************************************************************
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
@@ -28,6 +27,7 @@
  * @version $Id: $Id
  * @since December 12, 2015
  */
+
 package org.owasp.webgoat;
 
 import lombok.AllArgsConstructor;
@@ -38,7 +38,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
@@ -74,12 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.headers().cacheControl().disable();
         http.exceptionHandling().authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login"));
-    }
-
-    //// TODO: 11/18/2016 make this a little bit more configurabe last part at least
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/plugin_lessons/**", "/XXE/**");
     }
 
     @Autowired

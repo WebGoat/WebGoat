@@ -22,13 +22,14 @@
 
 package org.owasp.webgoat.xss;
 
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 //@RestController
 @Deprecated
@@ -48,8 +49,8 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
             String[] lines = unescapedString.split("<html>");
 
             String include = (lines[0]);
-            String first_name_element = doc.select("body > table > tbody > tr:nth-child(1) > td:nth-child(2)").first().text();
-            String last_name_element = doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").first().text();
+            String fistNameElement = doc.select("body > table > tbody > tr:nth-child(1) > td:nth-child(2)").first().text();
+            String lastNameElement = doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").first().text();
 
             Boolean includeCorrect = false;
             Boolean firstNameCorrect = false;
@@ -58,10 +59,10 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
             if (include.contains("<%@") && include.contains("taglib") && include.contains("uri=\"https://www.owasp.org/index.php/OWASP_Java_Encoder_Project\"") && include.contains("%>")) {
                 includeCorrect = true;
             }
-            if (first_name_element.equals("${e:forHtml(param.first_name)}")) {
+            if (fistNameElement.equals("${e:forHtml(param.first_name)}")) {
                 firstNameCorrect = true;
             }
-            if (last_name_element.equals("${e:forHtml(param.last_name)}")) {
+            if (lastNameElement.equals("${e:forHtml(param.last_name)}")) {
                 lastNameCorrect = true;
             }
 

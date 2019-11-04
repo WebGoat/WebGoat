@@ -21,10 +21,12 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  */
+
 package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.core.Flyway;
 import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.users.UserTracker;
@@ -34,25 +36,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-/**
- * <p>RestartLessonService class.</p>
- *
- * @author rlawson
- * @version $Id: $Id
- */
 @Controller
 @AllArgsConstructor
 @Slf4j
 public class RestartLessonService {
 
     private final WebSession webSession;
-    private UserTrackerRepository userTrackerRepository;
+    private final UserTrackerRepository userTrackerRepository;
+    private final Flyway flywayLessons;
 
-    /**
-     * Returns current lesson
-     *
-     * @return a {@link java.lang.String} object.
-     */
     @RequestMapping(path = "/service/restartlesson.mvc", produces = "text/text")
     @ResponseStatus(value = HttpStatus.OK)
     public void restartLesson() {
@@ -62,5 +54,8 @@ public class RestartLessonService {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         userTracker.reset(al);
         userTrackerRepository.save(userTracker);
+
+        flywayLessons.clean();
+        flywayLessons.migrate();
     }
 }

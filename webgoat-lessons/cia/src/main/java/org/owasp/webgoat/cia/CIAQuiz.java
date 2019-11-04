@@ -1,16 +1,8 @@
 package org.owasp.webgoat.cia;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.DatabaseUtilities;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 @RestController
 public class CIAQuiz extends AssignmentEndpoint {

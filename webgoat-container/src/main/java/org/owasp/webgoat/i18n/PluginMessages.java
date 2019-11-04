@@ -25,9 +25,10 @@
 
 package org.owasp.webgoat.i18n;
 
-import lombok.SneakyThrows;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -50,18 +51,23 @@ public class PluginMessages extends ReloadableResourceBundleMessageSource {
     }
 
     @Override
-    @SneakyThrows
     protected PropertiesHolder refreshProperties(String filename, PropertiesHolder propHolder) {
         Properties properties = new Properties();
         long lastModified = System.currentTimeMillis();
 
-        Enumeration<URL> resources = Thread.currentThread().getContextClassLoader().getResources(filename + PROPERTIES_SUFFIX);
-        while (resources.hasMoreElements()) {
-            URL resource = resources.nextElement();
-            String sourcePath = resource.toURI().toString().replace(PROPERTIES_SUFFIX, "");
-            PropertiesHolder holder = super.refreshProperties(sourcePath, propHolder);
-            properties.putAll(holder.getProperties());
+        Enumeration<URL> resources = null;
+        try {
+            resources = Thread.currentThread().getContextClassLoader().getResources(filename + PROPERTIES_SUFFIX);
+            while (resources.hasMoreElements()) {
+                URL resource = resources.nextElement();
+                String sourcePath = resource.toURI().toString().replace(PROPERTIES_SUFFIX, "");
+                PropertiesHolder holder = super.refreshProperties(sourcePath, propHolder);
+                properties.putAll(holder.getProperties());
+            }
+        } catch (IOException | URISyntaxException e) {
+            logger.error("Unable to read plugin message", e);
         }
+
         return new PropertiesHolder(properties, lastModified);
     }
 

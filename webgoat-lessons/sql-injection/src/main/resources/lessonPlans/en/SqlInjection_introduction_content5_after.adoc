@@ -2,9 +2,9 @@
 
 ==== Here are some examples of what a hacker could supply to the input field to perform actions on the database that go further than just reading the data of a single user:
 
-* `+Smith’ OR ‘1’ = ‘1+` +
-results in `+"SELECT * FROM users WHERE name = 'Smith' OR TRUE;+` and that way will return all entries from the users table
+* `+Smith’ OR '1' = '1+` +
+results in `+SELECT * FROM users WHERE name = 'Smith' OR TRUE;+` and that way will return all entries from the users table
 * `+Smith’ OR 1 = 1; --+` +
-results in `+"SELECT * FROM users WHERE name = 'Smith' OR TRUE;--';+` and that way will return all entries from the users table
-* `+Smith’; DROP TABLE USERS; truncate audit_log; --+` +
+results in `+SELECT * FROM users WHERE name = 'Smith' OR TRUE;--';+` and that way will return all entries from the users table
+* `+Smith’; DROP TABLE users; TRUNCATE audit_log; --+` +
 chains multiple SQL-Commands and deletes the USERS table as well as entries from the audit_log

@@ -25,7 +25,7 @@ public abstract class IntegrationTest {
     private static String WEBGOAT_URL = "http://127.0.0.1:" + WG_PORT + "/WebGoat/";
     private static String WEBWOLF_URL = "http://127.0.0.1:" + WW_PORT + "/";
     private static boolean WG_SSL = false;//enable this if you want to run the test on ssl
-    
+
     @Getter
     private String webGoatCookie;
     @Getter
@@ -37,18 +37,16 @@ public abstract class IntegrationTest {
 
     @BeforeClass
     public static void beforeAll() {
-    	
-    	if (WG_SSL) {
-    		WEBGOAT_URL = WEBGOAT_URL.replace("http:","https:");
-    	}
-    	
-        if (!started) {       
+        if (WG_SSL) {
+            WEBGOAT_URL = WEBGOAT_URL.replace("http:", "https:");
+        }
+        if (!started) {
             started = true;
             if (!isAlreadyRunning(WG_PORT)) {
                 SpringApplicationBuilder wgs = new SpringApplicationBuilder(StartWebGoat.class)
                         .properties(Map.of("spring.config.name", "application-webgoat,application-inttest", "WEBGOAT_SSLENABLED", WG_SSL, "WEBGOAT_PORT", WG_PORT));
                 wgs.run();
-           
+
             }
             if (!isAlreadyRunning(WW_PORT)) {
                 SpringApplicationBuilder wws = new SpringApplicationBuilder(WebWolf.class)
@@ -80,7 +78,7 @@ public abstract class IntegrationTest {
 
     @Before
     public void login() {
-    	
+
         String location = given()
                 .when()
                 .relaxedHTTPSValidation()
@@ -212,7 +210,7 @@ public abstract class IntegrationTest {
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/lessonoverview.mvc"))
-                .then()     
+                .then()
                 .statusCode(200).extract().jsonPath().getList("solved"), CoreMatchers.everyItem(CoreMatchers.is(true)));
 
         Assert.assertThat(RestAssured.given()
@@ -238,47 +236,47 @@ public abstract class IntegrationTest {
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
-    
+
     public void checkAssignmentWithGet(String url, Map<String, ?> params, boolean expectedResult) {
         Assert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
-                        .cookie("JSESSIONID", getWebGoatCookie())   
+                        .cookie("JSESSIONID", getWebGoatCookie())
                         .queryParams(params)
-                        .get(url)                        
+                        .get(url)
                         .then()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
-    
+
     public String getWebGoatServerPath() throws IOException {
-    	
-    	//read path from server
+
+        //read path from server
         String result = RestAssured.given()
-        .when()
-        .relaxedHTTPSValidation()
-        .cookie("JSESSIONID", getWebGoatCookie())
-        .get(url("/WebGoat/xxe/tmpdir"))
-        .then()
-        .extract().response().getBody().asString();
+                .when()
+                .relaxedHTTPSValidation()
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("/WebGoat/xxe/tmpdir"))
+                .then()
+                .extract().response().getBody().asString();
         result = result.replace("%20", " ");
         return result;
     }
-    
+
     public String getWebWolfServerPath() throws IOException {
-    	
-    	//read path from server
+
+        //read path from server
         String result = RestAssured.given()
-        .when()
-        .relaxedHTTPSValidation()
-        .cookie("WEBWOLFSESSION", getWebWolfCookie())
-        .get(webWolfUrl("/tmpdir"))
-        .then()
-        .extract().response().getBody().asString();
+                .when()
+                .relaxedHTTPSValidation()
+                .cookie("WEBWOLFSESSION", getWebWolfCookie())
+                .get(webWolfUrl("/tmpdir"))
+                .then()
+                .extract().response().getBody().asString();
         result = result.replace("%20", " ");
         return result;
     }
-    
+
 }
 

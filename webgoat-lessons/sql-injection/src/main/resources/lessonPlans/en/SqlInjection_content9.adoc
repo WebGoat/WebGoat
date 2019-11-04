@@ -12,7 +12,7 @@ RecordSet rs = null;
 try {
     pUserName = request.getParameter("UserName");
     if ( isUsernameValid (pUsername) ) {
-        ps = conn.prepareStatement("SELECT * FROM user_table 
+        ps = conn.prepareStatement("SELECT * FROM user_table
                                    WHERE username = ? ");
         ps.setString(1, pUsername);
         rs = ps.execute();

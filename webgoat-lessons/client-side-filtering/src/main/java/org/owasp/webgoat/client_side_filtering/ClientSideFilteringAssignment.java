@@ -37,8 +37,8 @@ public class ClientSideFilteringAssignment extends AssignmentEndpoint {
     @PostMapping("/clientSideFiltering/attack1")
     @ResponseBody
     public AttackResult completed(@RequestParam String answer) {
-        return trackProgress("450000".equals(answer) ?
-                success().feedback("assignment.solved").build() :
+        return trackProgress("450000".equals(answer)
+                ? success().feedback("assignment.solved").build() :
                 failed().feedback("ClientSideFiltering.incorrect").build());
     }
 }

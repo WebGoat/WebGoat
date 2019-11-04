@@ -36,13 +36,13 @@ public class BypassRestrictionsFrontendValidation extends AssignmentEndpoint {
     @PostMapping("/BypassRestrictions/frontendValidation")
     @ResponseBody
     public AttackResult completed(@RequestParam String field1, @RequestParam String field2, @RequestParam String field3, @RequestParam String field4, @RequestParam String field5, @RequestParam String field6, @RequestParam String field7, @RequestParam Integer error) {
-        String regex1 = "^[a-z]{3}$";
-        String regex2 = "^[0-9]{3}$";
-        String regex3 = "^[a-zA-Z0-9 ]*$";
-        String regex4 = "^(one|two|three|four|five|six|seven|eight|nine)$";
-        String regex5 = "^\\d{5}$";
-        String regex6 = "^\\d{5}(-\\d{4})?$";
-        String regex7 = "^[2-9]\\d{2}-?\\d{3}-?\\d{4}$";
+        final String regex1 = "^[a-z]{3}$";
+        final String regex2 = "^[0-9]{3}$";
+        final String regex3 = "^[a-zA-Z0-9 ]*$";
+        final String regex4 = "^(one|two|three|four|five|six|seven|eight|nine)$";
+        final String regex5 = "^\\d{5}$";
+        final String regex6 = "^\\d{5}(-\\d{4})?$";
+        final String regex7 = "^[2-9]\\d{2}-?\\d{3}-?\\d{4}$";
         if (error > 0) {
             return trackProgress(failed().build());
         }

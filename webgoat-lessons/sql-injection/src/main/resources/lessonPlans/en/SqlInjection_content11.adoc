@@ -7,7 +7,7 @@ public static bool isUsernameValid(string username) {
 
 // SqlConnection conn is set and opened elsewhere for brevity.
 try {
-	string selectString = “SELECT * FROM user_table WHERE username = @userID”;
+	string selectString = "SELECT * FROM user_table WHERE username = @userID";
 	SqlCommand cmd = new SqlCommand( selectString, conn );
 	if ( isUsernameValid( uid ) ) {
 		cmd.Parameters.Add( "@userID", SqlDbType.VarChar, 16 ).Value = uid;
