@@ -1,0 +1,9 @@
+= Security defaults 
+
+A big problem in all kinds of systems is the use of default configurations.
+E.g. default username/passwords in routers, default passwords for keystores, default unencrypted mode, etc.
+ 
+
+
+
+
