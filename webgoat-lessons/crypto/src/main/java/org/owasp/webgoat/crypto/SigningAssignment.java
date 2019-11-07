@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.crypto;
 
+import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
@@ -42,13 +43,13 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@AssignmentHints({"crypto-signing.hints.1","crypto-signing.hints.2"})
+@AssignmentHints({"crypto-signing.hints.1","crypto-signing.hints.2", "crypto-signing.hints.3", "crypto-signing.hints.4"})
 @Slf4j
 public class SigningAssignment extends AssignmentEndpoint {
 	
 	@RequestMapping(path="/crypto/signing/getprivate",produces=MediaType.TEXT_HTML_VALUE)
     @ResponseBody
-    public String getPrivateKey(HttpServletRequest request) throws NoSuchAlgorithmException {
+    public String getPrivateKey(HttpServletRequest request) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
 		
 		String privateKey = (String) request.getSession().getAttribute("privateKeyString");
 		if (privateKey == null) {			

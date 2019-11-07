@@ -21,6 +21,7 @@ public class CryptoUtilTest {
 			PrivateKey privateKey = CryptoUtil.getPrivateKeyFromPEM(CryptoUtil.getPrivateKeyInPEM(keyPair));
 			String modulus = DatatypeConverter.printHexBinary(rsaPubKey.getModulus().toByteArray());
 			String signature = CryptoUtil.signMessage(modulus, privateKey);
+			System.out.println(rsaPubKey.getPublicExponent());
 			assertTrue(CryptoUtil.verifyAssignment(modulus, signature, keyPair.getPublic()));
 		} catch (Exception e) {
 			e.printStackTrace();

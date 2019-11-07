@@ -1,17 +1,22 @@
 package org.owasp.webgoat.crypto;
 
+import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAKeyGenParameterSpec;
 import java.util.Base64;
+import java.util.Random;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -20,9 +25,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CryptoUtil {
 
-    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048);
+	private static final BigInteger[] FERMAT_PRIMES = 
+		{	BigInteger.valueOf(3), 
+			BigInteger.valueOf(5), 
+			BigInteger.valueOf(17), 
+			BigInteger.valueOf(257), 
+			BigInteger.valueOf(65537) };
+
+	public static KeyPair generateKeyPair() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+		RSAKeyGenParameterSpec kpgSpec = new RSAKeyGenParameterSpec(2048, FERMAT_PRIMES[new SecureRandom().nextInt(FERMAT_PRIMES.length)]);
+		keyPairGenerator.initialize(kpgSpec);
+		//keyPairGenerator.initialize(2048);
         return keyPairGenerator.generateKeyPair();
     }
 

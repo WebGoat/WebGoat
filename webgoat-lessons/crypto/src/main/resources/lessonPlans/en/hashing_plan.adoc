@@ -9,3 +9,7 @@ So in a way it looks like a secure technique. However, it is NOT and even NEVER 
 
 Some hashing algorithms should no longer be used: MD5, SHA-1
 For these hashes it is possible to change the payload in such a way that it still results in the same hash. This takes a lot of computing power, but is still a feasible option.
+
+== Assignment
+
+Now let's see if you can find what passwords matches which hashes.

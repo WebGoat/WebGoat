@@ -33,5 +33,8 @@ Sending emails is not very difficult. You have to fill in some data and send it 
 Adobe PDF documents and Microsoft Word documents are also examples of things that support signing. The signature is also inside the same document as the data so there is some description on what is part of the data and what is part of the meta data.
 Governments usually send official documents with a PDF that contains a certificate.
 
+== Assignment
+
+Here is a simple assignment. A private key is sent to you. With this key you should send the server a payload with a matching valid signature. As the payload you should determine the RSA key modulus and pass these hexstrings as the modulus. And calculate the signature over this string.
 
 
