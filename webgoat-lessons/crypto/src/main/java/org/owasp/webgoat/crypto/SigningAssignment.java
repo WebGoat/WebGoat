@@ -39,8 +39,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @AssignmentHints({"crypto-signing.hints.1","crypto-signing.hints.2"})
+@Slf4j
 public class SigningAssignment extends AssignmentEndpoint {
 	
 	@RequestMapping(path="/crypto/signing/getprivate",produces=MediaType.TEXT_HTML_VALUE)
@@ -48,8 +51,7 @@ public class SigningAssignment extends AssignmentEndpoint {
     public String getPrivateKey(HttpServletRequest request) throws NoSuchAlgorithmException {
 		
 		String privateKey = (String) request.getSession().getAttribute("privateKeyString");
-		if (privateKey == null) {
-			
+		if (privateKey == null) {			
 			KeyPair keyPair = CryptoUtil.generateKeyPair();
 			privateKey = CryptoUtil.getPrivateKeyInPEM(keyPair);
 			request.getSession().setAttribute("privateKeyString", privateKey);
@@ -61,24 +63,24 @@ public class SigningAssignment extends AssignmentEndpoint {
     @PostMapping("/crypto/signing/verify")
     @ResponseBody
     public AttackResult completed(HttpServletRequest request, @RequestParam String modulus, @RequestParam String signature) {
-        
+		
+		String tempModulus = modulus;/* used to validate the modulus of the public key but might need to be corrected */
     	KeyPair keyPair = (KeyPair) request.getSession().getAttribute("keyPair");
-    	
-    	if (CryptoUtil.verifyMessage(modulus, signature, keyPair.getPublic())) {
-			RSAPublicKey rsaPubKey = (RSAPublicKey) keyPair.getPublic();
-			if (modulus.length()==512) {
-				modulus = "00".concat(modulus);
-			}
-			if (DatatypeConverter.printHexBinary(rsaPubKey.getModulus().toByteArray()).equals(modulus.toUpperCase())) {
-				return trackProgress(success()
-        			.feedback("crypto-signing.success")
-					.build());
-			} else {
-				return trackProgress(failed().feedback("crypto-signing.modulusnotok").build());
-			}
-        }  else {
+		RSAPublicKey rsaPubKey = (RSAPublicKey) keyPair.getPublic();
+		if (tempModulus.length() == 512) {
+			tempModulus = "00".concat(tempModulus);
+		}
+		if (!DatatypeConverter.printHexBinary(rsaPubKey.getModulus().toByteArray()).equals(tempModulus.toUpperCase())) {
+			log.warn("modulus {} incorrect", modulus);
+			return trackProgress(failed().feedback("crypto-signing.modulusnotok").build());
+		}
+		/* orginal modulus must be used otherwise the signature would be invalid */
+		if (CryptoUtil.verifyMessage(modulus, signature, keyPair.getPublic())) {
+			return trackProgress(success().feedback("crypto-signing.success").build());
+		} else {
+			log.warn("signature incorrect");
 			return trackProgress(failed().feedback("crypto-signing.notok").build());
-        } 
+		}
        
     }
     

@@ -1,6 +1,7 @@
 package org.owasp.webgoat.crypto;
 
 import java.nio.charset.Charset;
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -8,6 +9,8 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
 import javax.xml.bind.DatatypeConverter;
@@ -99,6 +102,19 @@ public class CryptoUtil {
 		}
 		return result;
 
+	}
+
+	public static PrivateKey getPrivateKeyFromPEM(String privateKeyPem) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		privateKeyPem = privateKeyPem.replace("-----BEGIN PRIVATE KEY-----", "");
+		privateKeyPem = privateKeyPem.replace("-----END PRIVATE KEY-----", "");
+		privateKeyPem = privateKeyPem.replace("\n", "").replace("\r", "");
+		
+
+      	byte [] decoded = Base64.getDecoder().decode(privateKeyPem);
+
+      	PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decoded);
+      	KeyFactory kf = KeyFactory.getInstance("RSA");
+      	return kf.generatePrivate(spec);
 	}
 
 }
