@@ -84,20 +84,21 @@
                         <span th:text="${@environment.getProperty('webgoat.build.number')}"></span></a></li>
                 </ul>
             </div>
+            <div style="display:inline" id="reset_db">
+                <a href="#resetLessonDatabase">
+                    <button type="button" id="reset-db-button" class="btn btn-default right_nav_button button-up"
+                            th:title="#{database.reset}">
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </a>
+            </div>
             <div style="display:inline" id="settings">
-                <!--<button type="button" id="admin-button" class="btn btn-default right_nav_button" title="Administrator">-->
-                <!--<i class="fa fa-cog"></i>-->
-                <!--</button>-->
                 <a href="#reportCard">
                     <button type="button" id="report-card-button" class="btn btn-default right_nav_button button-up"
                             th:title="#{report.card}">
                        <i class="fa fa-bar-chart-o"></i>
                     </button>
                 </a>
-                <!--<button type="button" id="user-management" class="btn btn-default right_nav_button"-->
-                <!--title="User management">-->
-                <!--<i class="fa fa-users"></i>-->
-                <!--</button>-->
             </div>
             <button type="button" id="about-button" class="btn btn-default right_nav_button" th:title="#{about}"
                     data-toggle="modal" data-target="#about-modal">
