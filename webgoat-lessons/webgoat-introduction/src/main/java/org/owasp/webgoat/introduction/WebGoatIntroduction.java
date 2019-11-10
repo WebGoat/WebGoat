@@ -45,8 +45,4 @@ public class WebGoatIntroduction extends Lesson {
         return "webgoat.title";
     }
 
-    @Override
-    public String getId() {
-        return "WebGoatIntroduction";
-    }
 }

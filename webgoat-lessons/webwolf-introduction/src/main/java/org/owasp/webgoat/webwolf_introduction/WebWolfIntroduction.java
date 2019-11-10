@@ -38,8 +38,4 @@ public class WebWolfIntroduction extends Lesson {
         return "webwolf.title";
     }
 
-    @Override
-    public String getId() {
-        return "WebWolfIntroduction";
-    }
 }

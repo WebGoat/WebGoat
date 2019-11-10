@@ -20,9 +20,4 @@ public class CIA extends Lesson {
     public String getTitle() {
         return "4.cia.title";//4th lesson in general
     }
-
-    @Override
-    public String getId() {
-        return "CIA";
-    }
 }

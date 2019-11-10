@@ -37,9 +37,4 @@ public class HttpBasics extends Lesson {
     public String getTitle() {
         return "1.http-basics.title";//first lesson in general
     }
-
-    @Override
-    public String getId() {
-        return "HttpBasics";
-    }
 }

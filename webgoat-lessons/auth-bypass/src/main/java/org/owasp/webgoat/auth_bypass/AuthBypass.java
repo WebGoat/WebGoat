@@ -38,10 +38,4 @@ public class AuthBypass extends Lesson {
     public String getTitle() {
         return "auth-bypass.title";
     }
-
-    @Override
-    public String getId() {
-        return "AuthBypass";
-    }
-
 }

@@ -23,8 +23,7 @@ There are a number of moving parts and this sample lesson will help you navigate
 1. The Base Class  
 
     *  The name of the class (file and class name) to better match your lesson. (e.g. `sql-injection` >> `SqlInjection`)  
-    *  The category in which you want your lesson to be in. You can create a new category if you want, or put in an issue to have one added.  
-    * The `defaultRanking` will move your lesson up or down in the categories list.  
+    *  The category in which you want your lesson to be in. You can create a new category if you want, or put in an issue to have one added.   
     * Implement a new key name pair `lesson-template.title` (the key) and update the same key/value pair `your.key=your value` in src/main/resources/i18n/WebGoatLabels.properties.  
     * Implement a new value for the `getId` method, which leads us to...  
 

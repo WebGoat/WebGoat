@@ -42,9 +42,4 @@ public class SecurePasswords extends Lesson {
     public String getTitle() {
         return "secure-passwords.title";
     }
-
-    @Override
-    public String getId() {
-        return "SecurePasswords";
-    }
 }
