@@ -1,21 +1,20 @@
-== HTTP Proxy Setup: The Browser
+== Setting up other HTTP Proxy Tools
 
-*Important: Firefox no longer proxies traffic for localhost (127.0.0.1) due to security reasons*.
-The are two options to bypass this restriction:
+=== Configure the proxy tool
+
+Configure the proxy tool to listen on a free port on your localhost.
+
+=== Configure the browser
+
+*It is important to note that the latest versions of Firefox and Chrome no longer proxy traffic from localhost by default.*
+The are a couple of options to bypass this restriction:
 
 - Use the host name of your machine instead of `localhost`, you can find or add a host name in `/etc/hosts` on Linux and MacOSX and `C:\Windows\System32\drivers\etc` on Windows
-- Set the preference `network.proxy.allow_hijacking_localhost` (accessible through the `about:config` page) must be set to `true.
-
-The first option is the preferred one, but it might be that for some reason you are unable to use this option you can fallback to the second one.
-
-{nbsp} +
+- To proxy localhost (and related addresses) with newer Firefox versions (>= 67) the preference network.proxy.allow_hijacking_localhost (accessible through the about:config page) must be set to true.
+- To proxy localhost (and related addresses) with newer Chrome versions (>= 72) the command line argument --proxy-bypass-list=<-loopback> must be provided.
 
 
-There are many plugins to manage this, but this will show you how to do this manually in Firefox and Chrome.
-This will send all of your traffic to the proxy. Since we haven't set up a trusted cert. yet, that may cause issues with any https requests. More on that in a bit though. Let's stick to basics for now:
-
-
-=== Firefox Proxy Config
+==== Firefox Proxy Config
 
 . Go to your Firefox Preferences (Mac, Linux) or Options (Windows) from the menu.`
 . Select _Advanced_ on the left
@@ -28,7 +27,7 @@ This will send all of your traffic to the proxy. Since we haven't set up a trust
 
 image::images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
 
-=== Chrome Proxy Config
+==== Chrome Proxy Config
 
 . Bring up Chrome's settings form the menu
 . In the _Search settings_ box type in *proxy* and hit Enter/Return. This should bring up the Network heading with a _Change proxy settings_ button.
@@ -59,4 +58,4 @@ or based on URL patterns. Examples include:
 * FoxyProxy for Firefox
 * Proxy Switcher for Firefox
 * Toggle Proxy for Firefox
-* Still looking for suggestions for Chrome ...
+* Still looking for suggestions for Chrome ..
