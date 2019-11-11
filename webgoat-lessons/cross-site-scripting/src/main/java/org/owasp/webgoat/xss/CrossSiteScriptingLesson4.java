@@ -52,10 +52,10 @@ public class CrossSiteScriptingLesson4 extends AssignmentEndpoint {
                 editor.contains("MyCommentDAO.addComment(threadID, userID") &&
                 editor.contains(".getCleanHTML());")) {
             log.debug("true");
-            return trackProgress(success().feedback("xss-mitigation-4-success").build());
+            return success(this).feedback("xss-mitigation-4-success").build();
         } else {
             log.debug("false");
-            return trackProgress(failed().feedback("xss-mitigation-4-failed").build());
+            return failed(this).feedback("xss-mitigation-4-failed").build();
         }
     }
 }

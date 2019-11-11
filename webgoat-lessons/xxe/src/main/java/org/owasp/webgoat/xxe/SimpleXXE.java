@@ -69,12 +69,12 @@ public class SimpleXXE extends AssignmentEndpoint {
             Comment comment = comments.parseXml(commentStr);
             comments.addComment(comment, false);
             if (checkSolution(comment)) {
-                return trackProgress(success().build());
+                return success(this).build();
             }
         } catch (Exception e) {
             error = ExceptionUtils.getFullStackTrace(e);
         }
-        return trackProgress(failed().output(error).build());
+        return failed(this).output(error).build();
     }
 
     private boolean checkSolution(Comment comment) {

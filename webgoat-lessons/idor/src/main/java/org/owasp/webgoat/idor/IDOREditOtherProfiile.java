@@ -52,42 +52,42 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
             // we will persist in the session object for now in case we want to refer back or use it later
             userSessionData.setValue("idor-updated-other-profile", currentUserProfile);
             if (currentUserProfile.getRole() <= 1 && currentUserProfile.getColor().toLowerCase().equals("red")) {
-                return trackProgress(success()
+                return success(this)
                         .feedback("idor.edit.profile.success1")
                         .output(currentUserProfile.profileToMap().toString())
-                        .build());
+                        .build();
             }
 
             if (currentUserProfile.getRole() > 1 && currentUserProfile.getColor().toLowerCase().equals("red")) {
-                return trackProgress(success()
+                return success(this)
                         .feedback("idor.edit.profile.failure1")
                         .output(currentUserProfile.profileToMap().toString())
-                        .build());
+                        .build();
             }
 
             if (currentUserProfile.getRole() <= 1 && !currentUserProfile.getColor().toLowerCase().equals("red")) {
-                return trackProgress(success()
+                return success(this)
                         .feedback("idor.edit.profile.failure2")
                         .output(currentUserProfile.profileToMap().toString())
-                        .build());
+                        .build();
             }
 
             // else
-            return trackProgress(failed()
+            return failed(this)
                     .feedback("idor.edit.profile.failure3")
                     .output(currentUserProfile.profileToMap().toString())
-                    .build());
+                    .build();
         } else if (userSubmittedProfile.getUserId().equals(authUserId)) {
-            return failed().feedback("idor.edit.profile.failure4").build();
+            return failed(this).feedback("idor.edit.profile.failure4").build();
         }
 
         if (currentUserProfile.getColor().equals("black") && currentUserProfile.getRole() <= 1) {
-            return trackProgress(success()
+            return success(this)
                     .feedback("idor.edit.profile.success2")
                     .output(userSessionData.getValue("idor-updated-own-profile").toString())
-                    .build());
+                    .build();
         } else {
-            return trackProgress(failed().feedback("idor.edit.profile.failure3").build());
+            return failed(this).feedback("idor.edit.profile.failure3").build();
         }
 
     }

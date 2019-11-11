@@ -66,9 +66,9 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
 
                 if (resultSet.next()) {
                     if (username_reg.contains("tom'")) {
-                        attackResult = trackProgress(success().feedback("user.exists").build());
+                        attackResult = success(this).feedback("user.exists").build();
                     } else {
-                        attackResult = failed().feedback("user.exists").feedbackArgs(username_reg).build();
+                        attackResult = failed(this).feedback("user.exists").feedbackArgs(username_reg).build();
                     }
                 } else {
                     PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)");
@@ -76,10 +76,10 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
                     preparedStatement.setString(2, email_reg);
                     preparedStatement.setString(3, password_reg);
                     preparedStatement.execute();
-                    attackResult = success().feedback("user.created").feedbackArgs(username_reg).build();
+                    attackResult = success(this).feedback("user.created").feedbackArgs(username_reg).build();
                 }
             } catch (SQLException e) {
-                attackResult = failed().output("Something went wrong").build();
+                attackResult = failed(this).output("Something went wrong").build();
             }
         }
         return attackResult;
@@ -87,10 +87,10 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
 
     private AttackResult checkArguments(String username_reg, String email_reg, String password_reg) {
         if (StringUtils.isEmpty(username_reg) || StringUtils.isEmpty(email_reg) || StringUtils.isEmpty(password_reg)) {
-            return failed().feedback("input.invalid").build();
+            return failed(this).feedback("input.invalid").build();
         }
         if (username_reg.length() > 250 || email_reg.length() > 30 || password_reg.length() > 30) {
-            return failed().feedback("input.invalid").build();
+            return failed(this).feedback("input.invalid").build();
         }
         return null;
     }

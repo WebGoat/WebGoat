@@ -57,15 +57,15 @@ public class QuestionsAssignment extends AssignmentEndpoint {
         String username = (String) json.getOrDefault("username", "");
 
         if ("webgoat".equalsIgnoreCase(username.toLowerCase())) {
-            return trackProgress(failed().feedback("password-questions-wrong-user").build());
+            return failed(this).feedback("password-questions-wrong-user").build();
         }
 
         String validAnswer = COLORS.get(username.toLowerCase());
         if (validAnswer == null) {
-            return trackProgress(failed().feedback("password-questions-unknown-user").feedbackArgs(username).build());
+            return failed(this).feedback("password-questions-unknown-user").feedbackArgs(username).build();
         } else if (validAnswer.equals(securityQuestion)) {
-            return trackProgress(success().build());
+            return success(this).build();
         }
-        return trackProgress(failed().build());
+        return failed(this).build();
     }
 }

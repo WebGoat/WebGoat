@@ -59,9 +59,9 @@ public class SqlInjectionQuiz extends AssignmentEndpoint {
         }
 
         if (correctAnswers == solutions.length) {
-            return trackProgress(success().build());
+            return success(this).build();
         } else {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
     }
 

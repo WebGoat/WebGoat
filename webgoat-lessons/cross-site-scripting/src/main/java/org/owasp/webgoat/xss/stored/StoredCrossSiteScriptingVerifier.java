@@ -43,9 +43,9 @@ public class StoredCrossSiteScriptingVerifier extends AssignmentEndpoint {
         UserSessionData userSessionData = getUserSessionData();
 
         if (successMessage.equals(userSessionData.getValue("randValue").toString())) {
-            return trackProgress(success().feedback("xss-stored-callback-success").build());
+            return success(this).feedback("xss-stored-callback-success").build();
         } else {
-            return trackProgress(failed().feedback("xss-stored-callback-failure").build());
+            return failed(this).feedback("xss-stored-callback-failure").build();
         }
     }
 }

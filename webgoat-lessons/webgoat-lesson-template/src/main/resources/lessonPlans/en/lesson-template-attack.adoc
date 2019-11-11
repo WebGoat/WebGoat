@@ -19,23 +19,23 @@ public class SampleAttack extends AssignmentEndpoint { // <3>
     public AttackResult completed(@RequestParam("param1") String param1, @RequestParam("param2") String param2) { <6>
         if (userSessionData.getValue("some-value") != null) {
             // do any session updating you want here ... or not, just comment/example here
-            //return trackProgress(failed().feedback("lesson-template.sample-attack.failure-2").build());
+            //return failed(this).feedback("lesson-template.sample-attack.failure-2").build();
         }
 
         //overly simple example for success. See other existing lesssons for ways to detect 'success' or 'failure'
         if (secretValue.equals(param1)) {
-            return trackProgress(success() // <7>
+            return success(this) // <7>
                     .output("Custom Output ...if you want, for success")
                     .feedback("lesson-template.sample-attack.success")
-                    .build());
+                    .build();
             //lesson-template.sample-attack.success is defined in src/main/resources/i18n/WebGoatLabels.properties
         }
 
         // else
-        return trackProgress(failed()
+        return failed(this) // <8>
                 .feedback("lesson-template.sample-attack.failure-2")
                 .output("Custom output for this failure scenario, usually html that will get rendered directly ... yes, you can self-xss if you want")
-                .build());
+                .build();
     }
 ----
 <1> Every assignment is just a Spring RestController
@@ -44,7 +44,8 @@ public class SampleAttack extends AssignmentEndpoint { // <3>
 <4> As the assignment is a Spring based class you can autowire every component managed by Spring necessary for the assignment
 <5> Each assignment should at least have one mapping with the method signature (see 6)
 <6> When the user tries to solve an assignment you need return an `AttackResult`
-<7> The method `trackProgress` takes care of handling the administrative things
+<7> Returning a successful attack result when user solved the lesson
+<8> Returning a failed attack user did not solve the lesson
 
 As you can see an assignment is a REST controller which need to at least have one method with the following signature:
 

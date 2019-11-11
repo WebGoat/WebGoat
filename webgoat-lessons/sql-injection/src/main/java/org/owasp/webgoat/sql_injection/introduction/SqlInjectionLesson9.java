@@ -37,8 +37,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static java.sql.ResultSet.CONCUR_READ_ONLY;
-import static org.hsqldb.jdbc.JDBCResultSet.*;
+import static org.hsqldb.jdbc.JDBCResultSet.CONCUR_UPDATABLE;
+import static org.hsqldb.jdbc.JDBCResultSet.TYPE_SCROLL_SENSITIVE;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint.9.1", "SqlStringInjectionHint.9.2", "SqlStringInjectionHint.9.3", "SqlStringInjectionHint.9.4", "SqlStringInjectionHint.9.5"})
@@ -70,19 +70,19 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
                         output.append(SqlInjectionLesson8.generateTable(results));
                     } else {
                         // no results
-                        return trackProgress(failed().feedback("sql-injection.8.no.results").build());
+                        return failed(this).feedback("sql-injection.8.no.results").build();
                     }
                 }
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
-                return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
+                return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
             }
 
             return checkSalaryRanking(connection, output);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
+            return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 
@@ -97,13 +97,13 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
                 // user completes lesson if John Smith is the first in the list
                 if ((results.getString(2).equals("John")) && (results.getString(3).equals("Smith"))) {
                     output.append(SqlInjectionLesson8.generateTable(results));
-                    return trackProgress(success().feedback("sql-injection.9.success").output(output.toString()).build());
+                    return success(this).feedback("sql-injection.9.success").output(output.toString()).build();
                 } else {
-                    return trackProgress(failed().feedback("sql-injection.9.one").output(output.toString()).build());
+                    return failed(this).feedback("sql-injection.9.one").output(output.toString()).build();
                 }
             }
         } catch (SQLException e) {
-            return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
+            return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 

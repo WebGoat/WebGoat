@@ -52,7 +52,6 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
         init(domXss);
         this.mockMvc = standaloneSetup(domXss).build();
         CrossSiteScripting xss = new CrossSiteScripting();
-        when(webSession.getCurrentLesson()).thenReturn(xss);
         when(userSessionData.getValue("randValue")).thenReturn(randVal);
     }
 

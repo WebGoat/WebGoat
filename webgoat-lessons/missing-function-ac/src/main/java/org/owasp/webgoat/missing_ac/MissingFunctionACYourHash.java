@@ -24,7 +24,6 @@ package org.owasp.webgoat.missing_ac;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.users.UserService;
 import org.owasp.webgoat.users.WebGoatUser;
@@ -49,9 +48,9 @@ public class MissingFunctionACYourHash extends AssignmentEndpoint {
         WebGoatUser user = userService.loadUserByUsername(currentUser);
         DisplayUser displayUser = new DisplayUser(user);
         if (userHash.equals(displayUser.getUserHash())) {
-            return trackProgress(success().feedback("access-control.hash.success").build());
+            return success(this).feedback("access-control.hash.success").build();
         } else {
-            return trackProgress(failed().feedback("access-control.hash.close").build());
+            return failed(this).feedback("access-control.hash.close").build();
         }
     }
 }

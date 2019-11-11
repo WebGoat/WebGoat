@@ -24,11 +24,8 @@ package org.owasp.webgoat.client_side_filtering;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @RestController
 @AssignmentHints({"ClientSideFilteringHint1", "ClientSideFilteringHint2", "ClientSideFilteringHint3", "ClientSideFilteringHint4"})
@@ -37,8 +34,8 @@ public class ClientSideFilteringAssignment extends AssignmentEndpoint {
     @PostMapping("/clientSideFiltering/attack1")
     @ResponseBody
     public AttackResult completed(@RequestParam String answer) {
-        return trackProgress("450000".equals(answer)
-                ? success().feedback("assignment.solved").build() :
-                failed().feedback("ClientSideFiltering.incorrect").build());
+        return "450000".equals(answer)
+                ? success(this).feedback("assignment.solved").build() :
+                failed(this).feedback("ClientSideFiltering.incorrect").build();
     }
 }

@@ -24,11 +24,9 @@ package org.owasp.webgoat.csrf;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,25 +64,25 @@ public class CSRFFeedback extends AssignmentEndpoint {
             objectMapper.enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
             objectMapper.readValue(feedback.getBytes(), Map.class);
         } catch (IOException e) {
-            return failed().feedback(ExceptionUtils.getStackTrace(e)).build();
+            return failed(this).feedback(ExceptionUtils.getStackTrace(e)).build();
         }
         boolean correctCSRF = requestContainsWebGoatCookie(request.getCookies()) && request.getContentType().contains(MediaType.TEXT_PLAIN_VALUE);
         correctCSRF &= hostOrRefererDifferentHost(request);
         if (correctCSRF) {
             String flag = UUID.randomUUID().toString();
             userSessionData.setValue("csrf-feedback", flag);
-            return success().feedback("csrf-feedback-success").feedbackArgs(flag).build();
+            return success(this).feedback("csrf-feedback-success").feedbackArgs(flag).build();
         }
-        return failed().build();
+        return failed(this).build();
     }
 
     @PostMapping(path = "/csrf/feedback", produces = "application/json")
     @ResponseBody
     public AttackResult flag(@RequestParam("confirmFlagVal") String flag) {
         if (flag.equals(userSessionData.getValue("csrf-feedback"))) {
-            return trackProgress(success().build());
+            return success(this).build();
         } else {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
     }
 

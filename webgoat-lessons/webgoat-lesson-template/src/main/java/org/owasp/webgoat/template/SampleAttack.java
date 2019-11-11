@@ -28,13 +28,8 @@ import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -56,23 +51,23 @@ public class SampleAttack extends AssignmentEndpoint {
     public AttackResult completed(@RequestParam("param1") String param1, @RequestParam("param2") String param2) {
         if (userSessionData.getValue("some-value") != null) {
             // do any session updating you want here ... or not, just comment/example here
-            //return trackProgress(failed().feedback("lesson-template.sample-attack.failure-2").build());
+            //return failed().feedback("lesson-template.sample-attack.failure-2").build());
         }
 
         //overly simple example for success. See other existing lesssons for ways to detect 'success' or 'failure'
         if (secretValue.equals(param1)) {
-            return trackProgress(success()
+            return success(this)
                     .output("Custom Output ...if you want, for success")
                     .feedback("lesson-template.sample-attack.success")
-                    .build());
+                    .build();
             //lesson-template.sample-attack.success is defined in src/main/resources/i18n/WebGoatLabels.properties
         }
 
         // else
-        return trackProgress(failed()
+        return failed(this)
                 .feedback("lesson-template.sample-attack.failure-2")
                 .output("Custom output for this failure scenario, usually html that will get rendered directly ... yes, you can self-xss if you want")
-                .build());
+                .build();
     }
 
     @GetMapping("lesson-template/shop/{user}")

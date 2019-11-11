@@ -57,7 +57,6 @@ public class MissingFunctionYourHashTest extends AssignmentEndpointTest {
         this.mockDisplayUser = new DisplayUser(new WebGoatUser("user", "userPass"));
         ReflectionTestUtils.setField(yourHashTest, "userService", userService);
         when(userService.loadUserByUsername(any())).thenReturn(new WebGoatUser("user", "userPass"));
-        when(webSession.getCurrentLesson()).thenReturn(new MissingFunctionAC());
     }
 
     @Test

@@ -24,7 +24,6 @@ package org.owasp.webgoat.auth_bypass;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.WebSession;
@@ -61,22 +60,22 @@ public class VerifyAccount extends AssignmentEndpoint {
         AccountVerificationHelper verificationHelper = new AccountVerificationHelper();
         Map<String, String> submittedAnswers = parseSecQuestions(req);
         if (verificationHelper.didUserLikelylCheat((HashMap) submittedAnswers)) {
-            return trackProgress(failed()
+            return failed(this)
                     .feedback("verify-account.cheated")
                     .output("Yes, you guessed correctly, but see the feedback message")
-                    .build());
+                    .build();
         }
 
         // else
         if (verificationHelper.verifyAccount(Integer.valueOf(userId), (HashMap) submittedAnswers)) {
             userSessionData.setValue("account-verified-id", userId);
-            return trackProgress(success()
+            return success(this)
                     .feedback("verify-account.success")
-                    .build());
+                    .build();
         } else {
-            return trackProgress(failed()
+            return failed(this)
                     .feedback("verify-account.failed")
-                    .build());
+                    .build();
         }
 
     }

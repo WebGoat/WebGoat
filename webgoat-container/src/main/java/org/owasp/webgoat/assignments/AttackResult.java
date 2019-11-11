@@ -29,7 +29,10 @@ import lombok.Getter;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.owasp.webgoat.i18n.PluginMessages;
 
+import java.util.Objects;
+
 public class AttackResult {
+
 
     public static class AttackResultBuilder {
 
@@ -39,6 +42,7 @@ public class AttackResult {
         private String feedbackResourceBundleKey;
         private String output;
         private Object[] outputArgs;
+        private AssignmentEndpoint assignment;
 
         public AttackResultBuilder(PluginMessages messages) {
             this.messages = messages;
@@ -77,7 +81,12 @@ public class AttackResult {
         }
 
         public AttackResult build() {
-            return new AttackResult(lessonCompleted, messages.getMessage(feedbackResourceBundleKey, feedbackArgs), messages.getMessage(output, output, outputArgs));
+            return new AttackResult(lessonCompleted, messages.getMessage(feedbackResourceBundleKey, feedbackArgs), messages.getMessage(output, output, outputArgs), assignment.getClass().getSimpleName());
+        }
+
+        public AttackResultBuilder assignment(AssignmentEndpoint assignment) {
+            this.assignment = assignment;
+            return this;
         }
     }
 
@@ -87,11 +96,14 @@ public class AttackResult {
     private String feedback;
     @Getter
     private String output;
+    @Getter
+    private final String assignment;
 
-    public AttackResult(boolean lessonCompleted, String feedback, String output) {
+    public AttackResult(boolean lessonCompleted, String feedback, String output, String assignment) {
         this.lessonCompleted = lessonCompleted;
         this.feedback = StringEscapeUtils.escapeJson(feedback);
         this.output = StringEscapeUtils.escapeJson(output);
+        this.assignment = assignment;
     }
 
     public static AttackResultBuilder builder(PluginMessages messages) {

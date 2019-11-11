@@ -74,19 +74,19 @@ public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
             Jwt jwt = Jwts.parser().setSigningKey(JWT_SECRET).parse(token);
             Claims claims = (Claims) jwt.getBody();
             if (!claims.keySet().containsAll(expectedClaims)) {
-                return trackProgress(failed().feedback("jwt-secret-claims-missing").build());
+                return failed(this).feedback("jwt-secret-claims-missing").build();
             } else {
                 String user = (String) claims.get("username");
 
                 if (WEBGOAT_USER.equalsIgnoreCase(user)) {
-                    return trackProgress(success().build());
+                    return success(this).build();
                 } else {
-                    return trackProgress(failed().feedback("jwt-secret-incorrect-user").feedbackArgs(user).build());
+                    return failed(this).feedback("jwt-secret-incorrect-user").feedbackArgs(user).build();
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return trackProgress(failed().feedback("jwt-invalid-token").output(e.getMessage()).build());
+            return failed(this).feedback("jwt-invalid-token").output(e.getMessage()).build();
         }
     }
 }

@@ -28,7 +28,6 @@ public class DeserializeTest extends AssignmentEndpointTest {
         InsecureDeserializationTask insecureTask = new InsecureDeserializationTask();
         init(insecureTask);
         this.mockMvc = standaloneSetup(insecureTask).build();
-        when(webSession.getCurrentLesson()).thenReturn(new InsecureDeserialization());
     }
 
     @Test

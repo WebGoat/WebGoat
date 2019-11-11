@@ -38,9 +38,9 @@ public class CrossSiteScriptingLesson1 extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String answer_xss_1) {
         if (answer_xss_1.toString().toLowerCase().equals("yes")) {
-            return trackProgress(success().build());
+            return success(this).build();
         } else {
-            return trackProgress(failed().feedback("xss.lesson1.failure").build());
+            return failed(this).feedback("xss.lesson1.failure").build();
         }
     }
 }
