@@ -38,6 +38,6 @@ public class ProgressRaceConditionTest extends IntegrationTest {
             } catch (InterruptedException | ExecutionException e) {
                 throw new IllegalStateException(e);
             }
-        }).count()).isGreaterThan(10);
+        }).count()).isGreaterThan(8);
     }
 }
