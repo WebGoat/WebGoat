@@ -66,7 +66,7 @@ public class Servers {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Server> sort(@RequestParam String column) {
+    public List<Server> sort(@RequestParam String column) throws Exception {
         List<Server> servers = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
@@ -76,8 +76,6 @@ public class Servers {
                 Server server = new Server(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
                 servers.add(server);
             }
-        } catch (SQLException e) {
-            log.error("Unable to get servers", e);
         }
         return servers;
     }
