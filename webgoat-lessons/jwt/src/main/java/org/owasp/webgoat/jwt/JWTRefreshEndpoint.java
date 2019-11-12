@@ -58,7 +58,7 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
         String user = (String) json.get("user");
         String password = (String) json.get("password");
 
-        if ("Jerry".equals(user) && PASSWORD.equals(password)) {
+        if ("Jerry".equalsIgnoreCase(user) && PASSWORD.equals(password)) {
             return ok(createNewTokens(user));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
