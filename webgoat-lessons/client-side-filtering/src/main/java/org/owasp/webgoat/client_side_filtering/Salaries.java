@@ -22,12 +22,12 @@
 
 package org.owasp.webgoat.client_side_filtering;
 
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RestController
 public class Salaries { // {extends Endpoint {
 
     @Value("${webgoat.user.directory}")
@@ -66,7 +67,7 @@ public class Salaries { // {extends Endpoint {
         }
     }
 
-    @RequestMapping(produces = {"application/json"})
+    @GetMapping("clientSideFiltering/salaries")
     @ResponseBody
     public List<Map<String, Object>> invoke() throws ServletException, IOException {
         NodeList nodes = null;
