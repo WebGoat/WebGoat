@@ -76,7 +76,7 @@ function vote(title) {
     } else {
         $.ajax({
             type: 'POST',
-            url: 'JWT/votings/vote/' + title
+            url: 'JWT/votings/' + title
         }).then(
             function () {
                 getVotings();
