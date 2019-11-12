@@ -26,14 +26,14 @@
  * Source for this application is maintained at
  * https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
+
 package org.owasp.webgoat.service;
 
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.owasp.webgoat.i18n.PluginMessages;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.users.LessonTracker;
@@ -43,6 +43,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,14 +67,14 @@ public class ReportCardService {
     @GetMapping(path = "/service/reportcard.mvc", produces = "application/json")
     @ResponseBody
     public ReportCard reportCard() {
-        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
-        List<AbstractLesson> lessons = course.getLessons();
         ReportCard reportCard = new ReportCard();
         reportCard.setTotalNumberOfLessons(course.getTotalOfLessons());
         reportCard.setTotalNumberOfAssignments(course.getTotalOfAssignments());
+
+        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         reportCard.setNumberOfAssignmentsSolved(userTracker.numberOfAssignmentsSolved());
         reportCard.setNumberOfLessonsSolved(userTracker.numberOfLessonsSolved());
-        for (AbstractLesson lesson : lessons) {
+        for (Lesson lesson : course.getLessons()) {
             LessonTracker lessonTracker = userTracker.getLessonTracker(lesson);
             LessonStatistics lessonStatistics = new LessonStatistics();
             lessonStatistics.setName(pluginMessages.getMessage(lesson.getTitle()));
@@ -93,7 +94,7 @@ public class ReportCardService {
         private int solvedLessons;
         private int numberOfAssignmentsSolved;
         private int numberOfLessonsSolved;
-        private List<LessonStatistics> lessonStatistics = Lists.newArrayList();
+        private List<LessonStatistics> lessonStatistics =  new ArrayList<>();
     }
 
     @Setter

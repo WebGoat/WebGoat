@@ -1,6 +1,6 @@
 == Availability
 
-Confidentiality is "the property of being accessible and usable on demand by an authorized entity." In other words all the information should be available and accessible for authorized persons whenever it is needed.
+Availability is "the property of being accessible and usable on demand by an authorized entity." In other words all the information should be available and accessible for authorized persons whenever it is needed.
 
 {nbsp} +
 

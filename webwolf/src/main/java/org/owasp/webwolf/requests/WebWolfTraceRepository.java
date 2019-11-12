@@ -1,13 +1,34 @@
+/*
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
+ *
+ * Copyright (c) 2002 - 2019 Bruce Mayhew
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
+ * Getting Source ==============
+ *
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ */
+
 package org.owasp.webwolf.requests;
 
 import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.actuate.trace.Trace;
-import org.springframework.boot.actuate.trace.TraceRepository;
+import org.springframework.boot.actuate.trace.http.HttpTrace;
+import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Keep track of all the incoming requests, we are only keeping track of request originating from
@@ -17,20 +38,17 @@ import java.util.*;
  * @since 8/13/17.
  */
 @Slf4j
-public class WebWolfTraceRepository implements TraceRepository {
+public class WebWolfTraceRepository implements HttpTraceRepository {
 
-    private final EvictingQueue<Trace> traces = EvictingQueue.create(10000);
-    private List<String> exclusionList = Lists.newArrayList("/WebWolf/home", "/WebWolf/mail","/WebWolf/files", "/images/", "/login", "/favicon.ico", "/js/", "/webjars/", "/WebWolf/requests", "/css/", "/mail");
+    private final EvictingQueue<HttpTrace> traces = EvictingQueue.create(10000);
+    private List<String> exclusionList = Lists.newArrayList("/tmpdir", "/WebWolf/home", "/WebWolf/mail", "/WebWolf/files", "/images/", "/login", "/favicon.ico", "/js/", "/webjars/", "/WebWolf/requests", "/css/", "/mail");
 
     @Override
-    public List<Trace> findAll() {
-        HashMap<String, Object> map = Maps.newHashMap();
-        map.put("nice", "Great you found the standard Spring Boot tracing endpoint!");
-        Trace trace = new Trace(new Date(), map);
-        return Lists.newArrayList(trace);
+    public List<HttpTrace> findAll() {
+        return List.of();
     }
 
-    public List<Trace> findAllTraces() {
+    public List<HttpTrace> findAllTraces() {
         return Lists.newArrayList(traces);
     }
 
@@ -39,22 +57,10 @@ public class WebWolfTraceRepository implements TraceRepository {
     }
 
     @Override
-    public void add(Map<String, Object> map) {
-        Optional<String> host = getFromHeaders("host", map);
-        String path = (String) map.getOrDefault("path", "");
-        if (host.isPresent() && !isInExclusionList(path)) {
-            traces.add(new Trace(new Date(), map));
+    public void add(HttpTrace httpTrace) {
+        var path = httpTrace.getRequest().getUri().getPath();
+        if (!isInExclusionList(path)) {
+            traces.add(httpTrace);
         }
-    }
-
-    private Optional<String> getFromHeaders(String header, Map<String, Object> map) {
-        Map<String, Object> headers = (Map<String, Object>) map.get("headers");
-        if (headers != null) {
-            Map<String, Object> request = (Map<String, Object>) headers.get("request");
-            if (request != null) {
-                return Optional.ofNullable((String) request.get(header));
-            }
-        }
-        return Optional.empty();
     }
 }

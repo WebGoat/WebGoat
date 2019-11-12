@@ -5,6 +5,6 @@ You should have been able to execute script with the last example. At this point
 Why is that?
 
 That is because there is no link that would trigger that XSS.
-You can try it yourself to see what happens ... go to (substitute localhost with your server's name or IP if you need to):
+You can try it yourself to see what happens ... go to:
 
-link: http://localhost:8080/WebGoat/CrossSiteScripting/attack5a?QTY1=1&QTY2=1&QTY3=1&QTY4=1&field1=<script>alert('my%20javascript%20here')</script>4128+3214+0002+1999&field2=111
+link:/WebGoat/CrossSiteScripting/attack5a?QTY1=1&QTY2=1&QTY3=1&QTY4=1&field1=<script>alert('my%20javascript%20here')</script>4128+3214+0002+1999&field2=111["/WebGoat/CrossSiteScripting/attack5a?QTY1=1&QTY2=1&QTY3=1&QTY4=1&field1=<script>alert('my%20javascript%20here')</script>4128+3214+0002+1999&field2=111",window=_blank]

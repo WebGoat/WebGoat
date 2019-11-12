@@ -6,32 +6,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.NewLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 @DataJpaTest
 @RunWith(SpringRunner.class)
+@ActiveProfiles({"test", "webgoat"})
 public class UserTrackerRepositoryTest {
 
-    private class TestLesson extends NewLesson {
+    private class TestLesson extends Lesson {
 
         @Override
         public Category getDefaultCategory() {
             return Category.AJAX_SECURITY;
-        }
-
-        @Override
-        public List<String> getHints() {
-            return Lists.newArrayList();
-        }
-
-        @Override
-        public Integer getDefaultRanking() {
-            return 12;
         }
 
         @Override
@@ -53,7 +45,6 @@ public class UserTrackerRepositoryTest {
 
     @Autowired
     private UserTrackerRepository userTrackerRepository;
-
 
     @Test
     public void saveUserTracker() {

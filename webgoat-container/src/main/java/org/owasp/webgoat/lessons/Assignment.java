@@ -1,9 +1,9 @@
 package org.owasp.webgoat.lessons;
 
-import com.google.common.collect.Lists;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +45,7 @@ public class Assignment {
     private Long id;
     private String name;
     private String path;
+
     @Transient
     private List<String> hints;
 
@@ -52,13 +53,27 @@ public class Assignment {
         //Hibernate
     }
 
-    public Assignment(String name, String path) {
-        this(name, path, Lists.newArrayList());
+    public Assignment(String name) {
+        this(name, name, new ArrayList<>());
     }
 
     public Assignment(String name, String path, List<String> hints) {
+        if (path.equals("") || path.equals("/") || path.equals("/WebGoat/")) {
+            throw new IllegalStateException("The path of assignment '" + name + "' overrides WebGoat endpoints, please choose a path within the scope of the lesson");
+        }
         this.name = name;
         this.path = path;
         this.hints = hints;
+    }
+
+    /**
+     * Set path is here to overwrite stored paths.
+     * Since a stored path can no longer be used in a lesson while
+     * the lesson (name) itself is still part of the lesson.
+     *
+     * @param pathName the path
+     */
+    public void setPath(String pathName) {
+        this.path = pathName;
     }
 }

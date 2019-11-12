@@ -1,11 +1,14 @@
 == Compromising Integrity with Query chaining
-After compromising the confidentiality of data in the previous lesson, this time we are gonna compromise the *integrity* of data by using SQL *query chaining*.
+After compromising the confidentiality of data in the previous lesson, this time we are gonna compromise the *integrity*
+of data by using SQL *query chaining*.
 
-The integrity of any data can be compromised, if an attacker per example changes information that he should not even be able to access.
+The integrity of any data can be compromised, if an attacker per example changes information that he should not even be
+able to access.
 
 === What is SQL query chaining?
-Query chaining is exactly what it sounds like. When query chaining, you try to append one or more queries to the end of the actual query.
-You can do this by using the *;* metacharacter which marks the end of a query and that way allows to start another one right after it within the same line.
+Query chaining is exactly what it sounds like. When query chaining, you try to append one or more queries to the end of
+the actual query. You can do this by using the *;* metacharacter which marks the end of a query and that way allows to
+start another one right after it within the same line.
 
 === It is your turn!
 You just found out that Tobi and Bob both seem to earn more money than you!

@@ -28,9 +28,10 @@
  * @version $Id: $Id
  * @since October 28, 2003
  */
+
 package org.owasp.webgoat.controller;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.security.core.context.SecurityContext;
@@ -79,8 +80,8 @@ public class StartLesson {
         //GrantedAuthority authority = context.getAuthentication().getAuthorities().iterator().next();
         String path = request.getRequestURL().toString(); // we now got /a/b/c/AccessControlMatrix.lesson
         String lessonName = path.substring(path.lastIndexOf('/') + 1, path.indexOf(".lesson"));
-        List<AbstractLesson> lessons = course.getLessons();
-        Optional<AbstractLesson> lesson = lessons.stream()
+        List<? extends Lesson> lessons = course.getLessons();
+        Optional<? extends Lesson> lesson = lessons.stream()
                 .filter(l -> l.getId().equals(lessonName))
                 .findFirst();
         ws.setCurrentLesson(lesson.get());

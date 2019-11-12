@@ -16,8 +16,8 @@ public class UserValidator implements Validator {
     private final UserRepository userRepository;
 
     @Override
-    public boolean supports(Class<?> aClass) {
-        return UserForm.class.equals(aClass);
+    public boolean supports(Class<?> clazz) {
+        return UserForm.class.equals(clazz);
     }
 
     @Override

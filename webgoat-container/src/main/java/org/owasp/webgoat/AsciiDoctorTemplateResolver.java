@@ -28,25 +28,27 @@
  * @version $Id: $Id
  * @since December 12, 2015
  */
+
 package org.owasp.webgoat;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.extension.JavaExtensionRegistry;
-import org.owasp.webgoat.asciidoc.WebGoatVersionMacro;
-import org.owasp.webgoat.asciidoc.WebWolfMacro;
-import org.owasp.webgoat.asciidoc.WebWolfRootMacro;
+import org.owasp.webgoat.asciidoc.*;
 import org.owasp.webgoat.i18n.Language;
-import org.thymeleaf.TemplateProcessingParameters;
-import org.thymeleaf.resourceresolver.IResourceResolver;
-import org.thymeleaf.templateresolver.TemplateResolver;
+import org.thymeleaf.IEngineConfiguration;
+import org.thymeleaf.templateresolver.FileTemplateResolver;
+import org.thymeleaf.templateresource.ITemplateResource;
+import org.thymeleaf.templateresource.StringTemplateResource;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import static org.apache.commons.lang3.CharEncoding.UTF_8;
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
 /**
@@ -57,7 +59,7 @@ import static org.asciidoctor.Asciidoctor.Factory.create;
  * </code>
  */
 @Slf4j
-public class AsciiDoctorTemplateResolver extends TemplateResolver {
+public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
 
     private static final Asciidoctor asciidoctor = create();
     private static final String PREFIX = "doc:";
@@ -65,72 +67,58 @@ public class AsciiDoctorTemplateResolver extends TemplateResolver {
 
     public AsciiDoctorTemplateResolver(Language language) {
         this.language = language;
-
-        setResourceResolver(new AdocResourceResolver());
-        setResolvablePatterns(Sets.newHashSet(PREFIX + "*"));
+        setResolvablePatterns(Set.of(PREFIX + "*"));
     }
 
     @Override
-    protected String computeResourceName(TemplateProcessingParameters params) {
-        String templateName = params.getTemplateName();
-        return templateName.substring(PREFIX.length());
-    }
-
-    private class AdocResourceResolver implements IResourceResolver {
-
-        @Override
-        public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
-            try (InputStream is = readInputStreamOrFallbackToEnglish(resourceName, language)) {
-                if (is == null) {
-                    log.warn("Resource name: {} not found, did you add the adoc file?", resourceName);
-                    return new ByteArrayInputStream(new byte[0]);
-                } else {
-                    StringWriter writer = new StringWriter();
-                    JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
-                    extensionRegistry.inlineMacro("webWolfLink", WebWolfMacro.class);
-                    extensionRegistry.inlineMacro("webWolfRootLink", WebWolfRootMacro.class);
-                    extensionRegistry.inlineMacro("webGoatVersion", WebGoatVersionMacro.class);
-
-                    asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
-                    return new ByteArrayInputStream(writer.getBuffer().toString().getBytes(UTF_8));
-                }
-            } catch (IOException e) {
-                //no html yet
-                return new ByteArrayInputStream(new byte[0]);
-            }
-        }
-
-        /**
-         * The resource name is for example HttpBasics_content1.adoc. This is always located in the following directory:
-         * <code>plugin/HttpBasics/lessonPlans/en/HttpBasics_content1.adoc</code>
-         */
-        private String computeResourceName(String resourceName, String language) {
-            return String.format("lessonPlans/%s/%s", language, resourceName);
-        }
-
-        private InputStream readInputStreamOrFallbackToEnglish(String resourceName, Language language) {
-            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName, language.getLocale().getLanguage()));
+    protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
+        var templateName = resourceName.substring(PREFIX.length());
+        try (InputStream is = readInputStreamOrFallbackToEnglish(templateName, language)) {
             if (is == null) {
-                is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName, "en"));
+                log.warn("Resource name: {} not found, did you add the adoc file?", templateName);
+                return new StringTemplateResource("");
+            } else {
+                JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
+                extensionRegistry.inlineMacro("webWolfLink", WebWolfMacro.class);
+                extensionRegistry.inlineMacro("webWolfRootLink", WebWolfRootMacro.class);
+                extensionRegistry.inlineMacro("webGoatVersion", WebGoatVersionMacro.class);
+                extensionRegistry.inlineMacro("webGoatTempDir", WebGoatTmpDirMacro.class);
+                extensionRegistry.inlineMacro("operatingSystem", OperatingSystemMacro.class);
+
+                StringWriter writer = new StringWriter();
+                asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
+                return new StringTemplateResource(writer.getBuffer().toString());
             }
-            return is;
-        }
-
-        private Map<String, Object> createAttributes() {
-            Map<String, Object> attributes = Maps.newHashMap();
-            attributes.put("source-highlighter", "coderay");
-            attributes.put("backend", "xhtml");
-
-            Map<String, Object> options = Maps.newHashMap();
-            options.put("attributes", attributes);
-
-            return options;
-        }
-
-        @Override
-        public String getName() {
-            return "adocResourceResolver";
+        } catch (IOException e) {
+            //no html yet
+            return new StringTemplateResource("");
         }
     }
 
+    /**
+     * The resource name is for example HttpBasics_content1.adoc. This is always located in the following directory:
+     * <code>plugin/HttpBasics/lessonPlans/en/HttpBasics_content1.adoc</code>
+     */
+    private String computeResourceName(String resourceName, String language) {
+        return String.format("lessonPlans/%s/%s", language, resourceName);
+    }
+
+    private InputStream readInputStreamOrFallbackToEnglish(String resourceName, Language language) {
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName, language.getLocale().getLanguage()));
+        if (is == null) {
+            is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName, "en"));
+        }
+        return is;
+    }
+
+    private Map<String, Object> createAttributes() {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("source-highlighter", "coderay");
+        attributes.put("backend", "xhtml");
+
+        Map<String, Object> options = new HashMap<>();
+        options.put("attributes", attributes);
+
+        return options;
+    }
 }

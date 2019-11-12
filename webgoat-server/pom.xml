@@ -6,90 +6,14 @@
     <parent>
         <groupId>org.owasp.webgoat</groupId>
         <artifactId>webgoat-parent</artifactId>
-        <version>v8.0.0.M25</version>
+        <version>v8.0.0.M26</version>
     </parent>
 
     <properties>
         <start-class>org.owasp.webgoat.StartWebGoat</start-class>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>raspberry-pi-3</id>
-            <activation>
-                <property>
-                    <name>rpi</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.4.10</version>
-                        <configuration>
-                            <imageName>webgoat/webgoat-8.0</imageName>
-                            <dockerDirectory>src/main/docker_rpi3</dockerDirectory>
-                            <resources>
-                                <resource>
-                                    <targetPath>/</targetPath>
-                                    <directory>${project.build.directory}</directory>
-                                    <include>${project.build.finalName}.jar</include>
-                                </resource>
-                                <resource>
-                                    <targetPath>/</targetPath>
-                                    <directory>${project.basedir}/../webwolf/target</directory>
-                                    <include>webwolf-${project.version}.jar</include>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>default</id>
-            <activation>
-                <property>
-                    <name>!rpi</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.4.10</version>
-                        <configuration>
-                            <imageName>webgoat/webgoat-8.0</imageName>
-                            <dockerDirectory>${project.basedir}</dockerDirectory>
-                            <resources>
-                                <resource>
-                                    <targetPath>/</targetPath>
-                                    <directory>${project.build.directory}</directory>
-                                    <include>${project.build.finalName}.jar</include>
-                                </resource>
-                                <resource>
-                                    <targetPath>/</targetPath>
-                                    <directory>${project.basedir}/../webwolf/target</directory>
-                                    <include>webwolf-${project.version}.jar</include>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <dependencies>
-        <dependency>
-            <groupId>com.spotify</groupId>
-            <artifactId>docker-maven-plugin</artifactId>
-            <version>0.4.10</version>
-            <scope>test</scope>
-            <optional>true</optional>
-        </dependency>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
             <artifactId>webgoat-container</artifactId>
@@ -215,7 +139,6 @@
             <artifactId>secure-passwords</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <!--uncommment below to run/include lesson template in WebGoat Build-->
         <!--<dependency>-->
         <!--<groupId>org.owasp.webgoat.lesson</groupId>-->
@@ -224,12 +147,11 @@
         <!--</dependency>-->
         <!-- /lessons -->
 
-        <!-- devtools no longer working with Java 11 and Spring Boot version 1.* enable again once we move to 2.0-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-devtools</artifactId>-->
-            <!--<optional>true</optional>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -248,7 +170,7 @@
                     <requiresUnpack>
                         <dependency>
                             <groupId>org.thymeleaf.extra</groupId>
-                            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+                            <artifactId>thymeleaf-extras-springsecurity5++</artifactId>
                         </dependency>
                         <dependency>
                             <groupId>org.asciidoctor</groupId>
@@ -264,6 +186,22 @@
                     </jvmArguments>
                     <fork>true</fork>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>internal</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

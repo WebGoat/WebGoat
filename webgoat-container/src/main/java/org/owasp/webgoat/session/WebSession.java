@@ -1,10 +1,10 @@
 package org.owasp.webgoat.session;
 
-import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.users.WebGoatUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -37,41 +37,14 @@ import java.sql.SQLException;
  * @version $Id: $Id
  * @since October 28, 2003
  */
-@Slf4j
-public class WebSession {
+public class WebSession implements Serializable {
 
-    private final WebGoatUser currentUser;
-    private final WebgoatContext webgoatContext;
-    private AbstractLesson currentLesson;
+	private static final long serialVersionUID = -4270066103101711560L;
+	private final WebGoatUser currentUser;
+    private Lesson currentLesson;
 
-    /**
-     * Constructor for the WebSession object
-     *
-     * @param webgoatContext a {@link org.owasp.webgoat.session.WebgoatContext} object.
-     */
-    public WebSession(WebgoatContext webgoatContext) {
-        this.webgoatContext = webgoatContext;
+    public WebSession() {
         this.currentUser = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
-    /**
-     * <p> getConnection. </p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     * @return a {@link java.sql.Connection} object.
-     * @throws java.sql.SQLException if any.
-     */
-    public static synchronized Connection getConnection(WebSession s) throws SQLException {
-        return DatabaseUtilities.getConnection(s);
-    }
-
-    /**
-     * <p> returnConnection. </p>
-     *
-     * @param s a {@link org.owasp.webgoat.session.WebSession} object.
-     */
-    public static void returnConnection(WebSession s) {
-        DatabaseUtilities.returnConnection(s.getUserName());
     }
 
     /**
@@ -79,16 +52,16 @@ public class WebSession {
      *
      * @param lesson current lesson
      */
-    public void setCurrentLesson(AbstractLesson lesson) {
+    public void setCurrentLesson(Lesson lesson) {
         this.currentLesson = lesson;
     }
 
     /**
      * <p> getCurrentLesson. </p>
      *
-     * @return a {@link org.owasp.webgoat.lessons.AbstractLesson} object.
+     * @return a {@link Lesson} object.
      */
-    public AbstractLesson getCurrentLesson() {
+    public Lesson getCurrentLesson() {
         return this.currentLesson;
     }
 
@@ -99,14 +72,5 @@ public class WebSession {
      */
     public String getUserName() {
         return currentUser.getUsername();
-    }
-
-    /**
-     * <p> Getter for the field <code>webgoatContext</code>. </p>
-     *
-     * @return a {@link org.owasp.webgoat.session.WebgoatContext} object.
-     */
-    public WebgoatContext getWebgoatContext() {
-        return webgoatContext;
     }
 }

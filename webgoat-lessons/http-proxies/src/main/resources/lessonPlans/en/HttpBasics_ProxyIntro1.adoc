@@ -4,32 +4,15 @@
 Since this is an OWASP project, we'll be using ZAP. If you are comfortable using another proxy (e.g. Burp), you can skip this. Otherwise,
 this will show you how to set up ZAP to act as a proxy on your localhost.
 
-=== Setting up ZAP
+=== Setting up ZAP >= 2.8.0
 
-Once you have 'installed' ZAP (you don't really install it, just unpack it and run it locally), we will need to:
+If you use the latest ZAP version (>= 2.8.0) you only need to start ZAP and click the browser button to be able to
+proxy, see image below:
 
-* Start ZAP
-* Configure the local proxy port
-* Point the browser at the proxy
+image::images/zap-browser-button.png[ZAP Start,style="lesson-image"]
 
-=== Start ZAP
-When ZAP starts, you will be presented with a dialog such as the one below ...
+{nbsp}+
 
-image::images/zap-start.png[ZAP Start,548,256,style="lesson-image"]
 
-=== Set ZAP's port (if running WebGoat locally)
-
-*NOTE*: The following proxy set up is only needed if you are running WebGoat locally. If it's on a remote server, or you are running on
-WebGoat (or any application) that is not using port 8080 locally, you can leave ZAP at it's default. and use 8080, instead of
-8090 when setting up your browser to proxy (next page).
-
-If you are setting up ZAP while running WebGoat locally ...
-
-* Open ZAP
-* Go to Tools >> Options in the menu
-* Select 'Local Proxy' on the left
-* Input 8090 for the 'Port'
-
-*Remember*: If you are not running WebGoat locally, leave this setting alone, skip to the next page and use 8080 instead of 8090
-
-image::images/zap-local-proxy-8090.png[ZAP Proxy Config,750,587,style="lesson-image"]
+To setup a different browser continue to the next page and read how to set it up in section: 'Configure the browser'.
+In all other cases you can skip the next page and continue to the page titled 'Confirm it's working' to check whether it is working.

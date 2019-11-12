@@ -4,11 +4,11 @@ These are the best defense against SQL injection.  They either do not have data 
 
 === Static Queries
 -------------------------------------------------------
-select * from products;
+SELECT * FROM products;
 -------------------------------------------------------
 
 -------------------------------------------------------
-select * from users where user = "'" + session.getAttribute("UserID") + "'"; 
+SELECT * FROM users WHERE user = "'" + session.getAttribute("UserID") + "'";
 -------------------------------------------------------
 
 === Parameterized Queries

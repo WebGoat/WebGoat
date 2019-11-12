@@ -19,7 +19,7 @@ modify it as follows.
 
 * Change the Method to GET
 * Add a header 'x-request-intercepted:true'
-* Change the input value 'changeMe' to 'Requests are tampered easily' (without the single quotes)
+* Remove the request body and instead send 'changeMe' as query string parameter and set the value to 'Requests are tampered easily' (without the single quotes)
 
 Then let the request continue through (by hitting the play button).
 

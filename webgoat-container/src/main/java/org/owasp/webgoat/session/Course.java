@@ -1,11 +1,9 @@
 package org.owasp.webgoat.session;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Category;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -41,10 +39,13 @@ import static java.util.stream.Collectors.toList;
  * @since October 28, 2003
  */
 @Slf4j
-@AllArgsConstructor
 public class Course {
 
-    private List<AbstractLesson> lessons = new LinkedList<>();
+    private List<? extends Lesson> lessons;
+
+    public Course(List<? extends Lesson> lessons) {
+        this.lessons = lessons;
+    }
 
     /**
      * Gets the categories attribute of the Course object
@@ -60,7 +61,7 @@ public class Course {
      *
      * @return The firstLesson value
      */
-    public AbstractLesson getFirstLesson() {
+    public Lesson getFirstLesson() {
         // Category 0 is the admin function. We want the first real category
         // to be returned. This is normally the General category and the Http Basics lesson
         return getLessons(getCategories().get(0)).get(0);
@@ -71,7 +72,7 @@ public class Course {
      *
      * @return a {@link java.util.List} object.
      */
-    public List<AbstractLesson> getLessons() {
+    public List<? extends Lesson> getLessons() {
         return this.lessons;
     }
 
@@ -81,11 +82,11 @@ public class Course {
      * @param category a {@link org.owasp.webgoat.lessons.Category} object.
      * @return a {@link java.util.List} object.
      */
-    public List<AbstractLesson> getLessons(Category category) {
-        return this.lessons.stream().filter(l -> l.getCategory() == category).sorted().collect(toList());
+    public List<Lesson> getLessons(Category category) {
+        return this.lessons.stream().filter(l -> l.getCategory() == category).collect(toList());
     }
 
-    public void setLessons(List<AbstractLesson> lessons) {
+    public void setLessons(List<Lesson> lessons) {
         this.lessons = lessons;
     }
 
@@ -94,9 +95,6 @@ public class Course {
     }
 
     public int getTotalOfAssignments() {
-        final int[] total = {0};
-        this.lessons.stream().forEach(l -> total[0] = total[0] + l.getAssignments().size());
-        return total[0];
+        return this.lessons.stream().reduce(0, (total, lesson) -> lesson.getAssignments().size() + total, Integer::sum);
     }
-
 }

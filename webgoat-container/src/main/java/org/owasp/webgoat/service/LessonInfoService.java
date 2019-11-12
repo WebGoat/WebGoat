@@ -1,7 +1,7 @@
 package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.LessonInfoModel;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,7 @@ public class LessonInfoService {
     @RequestMapping(path = "/service/lessoninfo.mvc", produces = "application/json")
     public @ResponseBody
     LessonInfoModel getLessonInfo() {
-        AbstractLesson lesson = webSession.getCurrentLesson();
+        Lesson lesson = webSession.getCurrentLesson();
         return new LessonInfoModel(lesson.getTitle(), false, false, false);
     }
 

@@ -19,17 +19,17 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    wget https://github.com/WebGoat/WebGoat/releases/download/v8.0.0.M21/webgoat-server-8.0.0.M21.jar
-    wget https://github.com/WebGoat/WebGoat/releases/download/v8.0.0.M21/webwolf-8.0.0.M21.jar
+    wget https://github.com/WebGoat/WebGoat/releases/download/v8.0.0.M25/webgoat-server-8.0.0.M25.jar
+    wget https://github.com/WebGoat/WebGoat/releases/download/v8.0.0.M25/webwolf-8.0.0.M25.jar
     sudo add-apt-repository ppa:openjdk-r/ppa
     sudo apt-get update
-    sudo apt-get install openjdk-8-jre -y
+    sudo apt-get install openjdk-11-jre -y
     SHELL
 
   config.vm.provision "shell", run: "always", privileged: false, inline: <<-SHELL
-    java -jar webgoat-server-8.0.0.M21.jar --server.address=0.0.0.0 &
+    java -jar webgoat-server-8.0.0.M25.jar --server.address=0.0.0.0 &
     sleep 40s
-    java -jar webwolf-8.0.0.M21.jar --server.address=0.0.0.0 &
+    java -jar webwolf-8.0.0.M25.jar --server.address=0.0.0.0 &
     SHELL
 
 end

@@ -5,12 +5,12 @@
     <groupId>org.owasp.webgoat.lesson</groupId>
     <artifactId>webgoat-lessons-parent</artifactId>
     <packaging>pom</packaging>
-    <version>v8.0.0.M25</version>
+    <version>v8.0.0.M26</version>
 
     <parent>
         <groupId>org.owasp.webgoat</groupId>
         <artifactId>webgoat-parent</artifactId>
-        <version>v8.0.0.M25</version>
+        <version>v8.0.0.M26</version>
     </parent>
 
     <modules>
@@ -32,7 +32,7 @@
         <module>vulnerable-components</module>
         <module>webgoat-introduction</module>
         <module>webwolf-introduction</module>
-	    <module>auth-bypass</module>
+        <module>auth-bypass</module>
         <module>missing-function-ac</module>
         <module>csrf</module>
         <module>password-reset</module>
@@ -67,7 +67,6 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -97,12 +96,6 @@
             <artifactId>xstream</artifactId>
             <version>1.4.7</version>
         </dependency>
-        <dependency>
-            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.11.3</version>
-        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -118,28 +111,25 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-artifact-src</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>${project.artifactId}</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>${project.packaging}</type>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>../../webgoat-container/src/main/resources/plugin_lessons</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <forkCount>0</forkCount>
+                    <reuseForks>true</reuseForks>
+                    <argLine>
+                        --illegal-access=permit
+                    </argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
             </plugin>
         </plugins>
     </build>

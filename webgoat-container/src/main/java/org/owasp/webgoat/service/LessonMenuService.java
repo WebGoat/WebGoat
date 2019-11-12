@@ -26,10 +26,12 @@
  * Source for this application is maintained at
  * https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
+
 package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
+import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonMenuItem;
 import org.owasp.webgoat.lessons.LessonMenuItemType;
@@ -43,9 +45,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -81,16 +83,16 @@ public class LessonMenuService {
             categoryItem.setName(category.getName());
             categoryItem.setType(LessonMenuItemType.CATEGORY);
             // check for any lessons for this category
-            List<AbstractLesson> lessons = course.getLessons(category);
+            List<Lesson> lessons = course.getLessons(category);
             lessons = lessons.stream().sorted(Comparator.comparing(l -> l.getTitle())).collect(Collectors.toList());
-            for (AbstractLesson lesson : lessons) {
+            for (Lesson lesson : lessons) {
                 LessonMenuItem lessonItem = new LessonMenuItem();
                 lessonItem.setName(lesson.getTitle());
                 lessonItem.setLink(lesson.getLink());
-                lessonItem.setRanking(lesson.getRanking());
                 lessonItem.setType(LessonMenuItemType.LESSON);
                 LessonTracker lessonTracker = userTracker.getLessonTracker(lesson);
-                lessonItem.setComplete(lessonTracker.isLessonSolved());
+                boolean lessonSolved = lessonCompleted(lessonTracker.getLessonOverview(), lesson);
+                lessonItem.setComplete(lessonSolved);
                 categoryItem.addChild(lessonItem);
             }
             categoryItem.getChildren().sort((o1, o2) -> o1.getRanking() - o2.getRanking());
@@ -98,5 +100,20 @@ public class LessonMenuService {
         }
         return menu;
 
+    }
+
+    private boolean lessonCompleted(Map<Assignment, Boolean> map, Lesson currentLesson) {
+        boolean result = true;
+        for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {
+        	    Assignment storedAssignment = entry.getKey();
+            	for (Assignment lessonAssignment: currentLesson.getAssignments()) {
+            		if (lessonAssignment.getName().equals(storedAssignment.getName())) {
+            			result = result && entry.getValue();
+            			break;
+            		}
+            	}
+            
+        }
+        return result;
     }
 }
