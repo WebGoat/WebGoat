@@ -22,17 +22,13 @@ There are a number of moving parts and this sample lesson will help you navigate
 	```  
 1. The Base Class  
 
-    *  The name of the class (file and class name) to better match your lesson. (e.g. `sql-injection` >> `SqlInjection`)  
-    *  The category in which you want your lesson to be in. You can create a new category if you want, or put in an issue to have one added.  
-    * The `defaultRanking` will move your lesson up or down in the categories list.  
+    * The name of the class (file and class name) to better match your lesson. (e.g. `sql-injection` >> `SqlInjection`)  
+    * The category in which you want your lesson to be in. You can create a new category if you want, or put in an issue to have one added.   
     * Implement a new key name pair `lesson-template.title` (the key) and update the same key/value pair `your.key=your value` in src/main/resources/i18n/WebGoatLabels.properties.  
-    * Implement a new value for the `getId` method, which leads us to...  
 
 2. The HTML content framing  
 
-    * Rename the provided file in src/main/resources/html using your value from the `getId` method in your lesson's base class:  
-	e.g.   
-	`public String getId() { return "your-lesson";  }` >> `your-lesson.html`   
+    * Rename the provided file in src/main/resources/html using the name of the lesson class.
     * Modify that file following the commented instructions in there.   
     * In conjunction with this file you.  
 
@@ -40,7 +36,6 @@ There are a number of moving parts and this sample lesson will help you navigate
     * In the above html file, you will see an example of an 'attack form'. You can create endpoints to handle these attacks and provide the user feedback and simulated output. See the example file here as well as other existing lessons for ways to extend these.  You will extend the `AssignmentEndpoint` as the example will show:  
     * You can also create supporting (non-assignment) endpoints, that are not evaluated/graded.  
     * See other lesson examples for creating unit/integration tests for your project as well.
-
 
 4. Getting your lesson to show up  
 
@@ -63,8 +58,8 @@ There are a number of moving parts and this sample lesson will help you navigate
               <version>${project.version}</version>
            </dependency>
                      <!-- .... >
-        </dependencies>
-    ```
+         </dependencies>
+       ```
         
 
 5. You should be ready to run and test your project. Please create issues at https://github.com/WebGoat/WebGoat if there errors or confusion with this documentation/template

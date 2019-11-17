@@ -35,9 +35,4 @@ public class CrossSiteScriptingMitigation extends Lesson {
     public String getTitle() {
         return "xss-mitigation.title";
     }
-
-    @Override
-    public String getId() {
-        return "CrossSiteScriptingMitigation";
-    }
 }

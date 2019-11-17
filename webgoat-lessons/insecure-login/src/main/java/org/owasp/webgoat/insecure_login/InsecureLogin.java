@@ -44,9 +44,4 @@ public class InsecureLogin extends Lesson {
     public String getTitle() {
         return "insecure-login.title";
     }
-
-    @Override
-    public String getId() {
-        return "InsecureLogin";
-    }
 }

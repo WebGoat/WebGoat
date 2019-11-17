@@ -60,9 +60,9 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
         String username = extractUsername(emailAddress);
 
         if (username.equals(getWebSession().getUserName()) && StringUtils.reverse(username).equals(password)) {
-            return trackProgress(success().build());
+            return success(this).build();
         } else {
-            return trackProgress(failed().feedbackArgs("password-reset-simple.password_incorrect").build());
+            return failed(this).feedbackArgs("password-reset-simple.password_incorrect").build();
         }
     }
 
@@ -90,11 +90,11 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
             try {
                 restTemplate.postForEntity(webWolfURL, mailEvent, Object.class);
             } catch (RestClientException e) {
-                return informationMessage().feedback("password-reset-simple.email_failed").output(e.getMessage()).build();
+                return informationMessage(this).feedback("password-reset-simple.email_failed").output(e.getMessage()).build();
             }
-            return informationMessage().feedback("password-reset-simple.email_send").feedbackArgs(email).build();
+            return informationMessage(this).feedback("password-reset-simple.email_send").feedbackArgs(email).build();
         } else {
-            return informationMessage().feedback("password-reset-simple.email_mismatch").feedbackArgs(username).build();
+            return informationMessage(this).feedback("password-reset-simple.email_mismatch").feedbackArgs(username).build();
         }
     }
 }

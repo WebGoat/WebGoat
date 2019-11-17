@@ -24,7 +24,6 @@ package org.owasp.webgoat.webwolf_introduction;
 
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,8 +32,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.time.LocalDateTime;
 
 /**
  * @author nbaars
@@ -65,11 +62,11 @@ public class MailAssignment extends AssignmentEndpoint {
             try {
                 restTemplate.postForEntity(webWolfURL, mailEvent, Object.class);
             } catch (RestClientException e ) {
-                return informationMessage().feedback("webwolf.email_failed").output(e.getMessage()).build();
+                return informationMessage(this).feedback("webwolf.email_failed").output(e.getMessage()).build();
             }
-            return informationMessage().feedback("webwolf.email_send").feedbackArgs(email).build();
+            return informationMessage(this).feedback("webwolf.email_send").feedbackArgs(email).build();
         } else {
-            return informationMessage().feedback("webwolf.email_mismatch").feedbackArgs(username).build();
+            return informationMessage(this).feedback("webwolf.email_mismatch").feedbackArgs(username).build();
         }
     }
 
@@ -77,9 +74,9 @@ public class MailAssignment extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String uniqueCode) {
         if (uniqueCode.equals(StringUtils.reverse(getWebSession().getUserName()))) {
-            return trackProgress(success().build());
+            return success(this).build();
         } else {
-            return trackProgress(failed().feedbackArgs("webwolf.code_incorrect").feedbackArgs(uniqueCode).build());
+            return failed(this).feedbackArgs("webwolf.code_incorrect").feedbackArgs(uniqueCode).build();
         }
     }
 }

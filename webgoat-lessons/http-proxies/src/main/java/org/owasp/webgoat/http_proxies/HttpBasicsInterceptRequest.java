@@ -23,10 +23,8 @@
 package org.owasp.webgoat.http_proxies;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,12 +37,12 @@ public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
     public AttackResult completed(@RequestHeader(value = "x-request-intercepted", required = false) Boolean headerValue,
                                   @RequestParam(value = "changeMe", required = false) String paramValue, HttpServletRequest request) {
         if (HttpMethod.POST.matches(request.getMethod())) {
-            return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
+            return failed(this).feedback("http-proxies.intercept.failure").build();
         }
         if (headerValue != null && paramValue != null && headerValue && "Requests are tampered easily".equalsIgnoreCase(paramValue)) {
-            return trackProgress(success().feedback("http-proxies.intercept.success").build());
+            return success(this).feedback("http-proxies.intercept.success").build();
         } else {
-            return trackProgress(failed().feedback("http-proxies.intercept.failure").build());
+            return failed(this).feedback("http-proxies.intercept.failure").build();
         }
     }
 }

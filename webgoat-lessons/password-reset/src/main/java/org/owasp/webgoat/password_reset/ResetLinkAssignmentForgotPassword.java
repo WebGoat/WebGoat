@@ -68,11 +68,11 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
                 try {
                     sendMailToUser(email, host, resetLink);
                 } catch (Exception e) {
-                    return failed().output("E-mail can't be send. please try again.").build();
+                    return failed(this).output("E-mail can't be send. please try again.").build();
                 }
             }
         }
-        return success().feedback("email.send").feedbackArgs(email).build();
+        return success(this).feedback("email.send").feedbackArgs(email).build();
     }
 
     private void sendMailToUser(String email, String host, String resetLink) {

@@ -63,15 +63,15 @@ public class SqlInjectionLesson4 extends AssignmentEndpoint {
                 // user completes lesson if column phone exists
                 if (results.first()) {
                     output.append("<span class='feedback-positive'>" + query + "</span>");
-                    return trackProgress(success().output(output.toString()).build());
+                    return success(this).output(output.toString()).build();
                 } else {
-                    return trackProgress(failed().output(output.toString()).build());
+                    return failed(this).output(output.toString()).build();
                 }
             } catch (SQLException sqle) {
-                return trackProgress(failed().output(sqle.getMessage()).build());
+                return failed(this).output(sqle.getMessage()).build();
             }
         } catch (Exception e) {
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+            return failed(this).output(this.getClass().getName() + " : " + e.getMessage()).build();
         }
     }
 }

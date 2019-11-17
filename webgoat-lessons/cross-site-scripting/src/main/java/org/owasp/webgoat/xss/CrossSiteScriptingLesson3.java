@@ -44,7 +44,7 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
     public AttackResult completed(@RequestParam String editor) {
         String unescapedString = org.jsoup.parser.Parser.unescapeEntities(editor, true);
         try {
-            if (editor.isEmpty()) return trackProgress(failed().feedback("xss-mitigation-3-no-code").build());
+            if (editor.isEmpty()) return failed(this).feedback("xss-mitigation-3-no-code").build();
             Document doc = Jsoup.parse(unescapedString);
             String[] lines = unescapedString.split("<html>");
 
@@ -68,12 +68,12 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
 
             if (includeCorrect && firstNameCorrect && lastNameCorrect) {
                 System.out.println("true");
-                return trackProgress(success().feedback("xss-mitigation-3-success").build());
+                return success(this).feedback("xss-mitigation-3-success").build();
             } else {
-                return trackProgress(failed().feedback("xss-mitigation-3-failure").build());
+                return failed(this).feedback("xss-mitigation-3-failure").build();
             }
         } catch (Exception e) {
-            return trackProgress(failed().output(e.getMessage()).build());
+            return failed(this).output(e.getMessage()).build();
         }
     }
 }

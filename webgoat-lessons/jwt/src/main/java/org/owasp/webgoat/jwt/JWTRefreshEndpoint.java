@@ -26,7 +26,6 @@ import io.jsonwebtoken.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -92,13 +91,13 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
             Claims claims = (Claims) jwt.getBody();
             String user = (String) claims.get("user");
             if ("Tom".equals(user)) {
-                return ok(trackProgress(success().build()));
+                return ok(success(this).build());
             }
-            return ok(trackProgress(failed().feedback("jwt-refresh-not-tom").feedbackArgs(user).build()));
+            return ok(failed(this).feedback("jwt-refresh-not-tom").feedbackArgs(user).build());
         } catch (ExpiredJwtException e) {
-            return ok(trackProgress(failed().output(e.getMessage()).build()));
+            return ok(failed(this).output(e.getMessage()).build());
         } catch (JwtException e) {
-            return ok(trackProgress(failed().feedback("jwt-invalid-token").build()));
+            return ok(failed(this).feedback("jwt-invalid-token").build());
         }
     }
 

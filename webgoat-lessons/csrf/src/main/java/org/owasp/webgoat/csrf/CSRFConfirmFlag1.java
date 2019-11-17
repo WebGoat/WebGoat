@@ -47,11 +47,12 @@ public class CSRFConfirmFlag1 extends AssignmentEndpoint {
     public AttackResult completed(String confirmFlagVal) {
         Object userSessionDataStr = userSessionData.getValue("csrf-get-success");
         if (userSessionDataStr != null && confirmFlagVal.equals(userSessionDataStr.toString())) {
-            return trackProgress(
-                    success().feedback("csrf-get-null-referer.success").output("Correct, the flag was " + userSessionData.getValue("csrf-get-success")).build()
-            );
+            return success(this)
+                    .feedback("csrf-get-null-referer.success")
+                    .output("Correct, the flag was " + userSessionData.getValue("csrf-get-success"))
+                    .build();
         }
 
-        return trackProgress(failed().build());
+        return failed(this).build();
     }
 }

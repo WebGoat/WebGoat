@@ -1,6 +1,5 @@
 package org.owasp.webgoat.challenges.challenge7;
 
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -71,7 +70,7 @@ public class Assignment7 extends AssignmentEndpoint {
                 restTemplate.postForEntity(webWolfMailURL, mail, Object.class);
             }
         }
-        return success().feedback("email.send").feedbackArgs(email).build();
+        return success(this).feedback("email.send").feedbackArgs(email).build();
     }
 
     @GetMapping(value = "/challenge/7/.git", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)

@@ -56,26 +56,26 @@ public class InsecureDeserializationTask extends AssignmentEndpoint {
             Object o = ois.readObject();
             if (!(o instanceof VulnerableTaskHolder)) {
                 if (o instanceof String) {
-                    return trackProgress(failed().feedback("insecure-deserialization.stringobject").build());
+                    return failed(this).feedback("insecure-deserialization.stringobject").build();
                 }
-                return trackProgress(failed().feedback("insecure-deserialization.wrongobject").build());
+                return failed(this).feedback("insecure-deserialization.wrongobject").build();
             }
             after = System.currentTimeMillis();
         } catch (InvalidClassException e) {
-            return trackProgress(failed().feedback("insecure-deserialization.invalidversion").build());
+            return failed(this).feedback("insecure-deserialization.invalidversion").build();
         } catch (IllegalArgumentException e) {
-            return trackProgress(failed().feedback("insecure-deserialization.expired").build());
+            return failed(this).feedback("insecure-deserialization.expired").build();
         } catch (Exception e) {
-            return trackProgress(failed().feedback("insecure-deserialization.invalidversion").build());
+            return failed(this).feedback("insecure-deserialization.invalidversion").build();
         }
 
         delay = (int) (after - before);
         if (delay > 7000) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
         if (delay < 3000) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
-        return trackProgress(success().build());
+        return success(this).build();
     }
 }

@@ -42,9 +42,4 @@ public class JWT extends Lesson {
     public String getTitle() {
         return "jwt.title";
     }
-
-    @Override
-    public String getId() {
-        return "JWT";
-    }
 }

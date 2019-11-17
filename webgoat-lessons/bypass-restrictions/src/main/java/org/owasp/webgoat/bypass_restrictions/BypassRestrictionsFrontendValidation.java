@@ -23,12 +23,8 @@
 package org.owasp.webgoat.bypass_restrictions;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @RestController
 public class BypassRestrictionsFrontendValidation extends AssignmentEndpoint {
@@ -44,29 +40,29 @@ public class BypassRestrictionsFrontendValidation extends AssignmentEndpoint {
         final String regex6 = "^\\d{5}(-\\d{4})?$";
         final String regex7 = "^[2-9]\\d{2}-?\\d{3}-?\\d{4}$";
         if (error > 0) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
         if (field1.matches(regex1)) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
         if (field2.matches(regex2)) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
         if (field3.matches(regex3)) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
         if (field4.matches(regex4)) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
         if (field5.matches(regex5)) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
         if (field6.matches(regex6)) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
         if (field7.matches(regex7)) {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
-        return trackProgress(success().build());
+        return success(this).build();
     }
 }

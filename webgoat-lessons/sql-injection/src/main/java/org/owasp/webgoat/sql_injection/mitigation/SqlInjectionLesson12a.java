@@ -22,7 +22,6 @@
 
 package org.owasp.webgoat.sql_injection.mitigation;
 
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
@@ -58,12 +57,12 @@ public class SqlInjectionLesson12a extends AssignmentEndpoint {
             preparedStatement.setString(2, "webgoat-prd");
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return trackProgress(success().build());
+                return success(this).build();
             }
-            return trackProgress(failed().build());
+            return failed(this).build();
         } catch (SQLException e) {
             log.error("Failed", e);
-            return trackProgress(failed().build());
+            return (failed(this).build());
         }
     }
 }

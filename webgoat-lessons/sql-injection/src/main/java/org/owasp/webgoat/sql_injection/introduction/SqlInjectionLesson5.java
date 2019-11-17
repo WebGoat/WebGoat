@@ -27,7 +27,6 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,12 +49,12 @@ public class SqlInjectionLesson5 extends AssignmentEndpoint {
             // user completes lesson if the query is correct
             if (query.matches(regex)) {
                 output.append("<span class='feedback-positive'>" + query + "</span>");
-                return trackProgress(success().output(output.toString()).build());
+                return success(this).output(output.toString()).build();
             } else {
-                return trackProgress(failed().output(output.toString()).build());
+                return failed(this).output(output.toString()).build();
             }
         } catch (Exception e) {
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+            return failed(this).output(this.getClass().getName() + " : " + e.getMessage()).build();
         }
     }
 }

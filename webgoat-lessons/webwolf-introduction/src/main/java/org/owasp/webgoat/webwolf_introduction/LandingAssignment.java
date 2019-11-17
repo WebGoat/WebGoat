@@ -50,9 +50,9 @@ public class LandingAssignment extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult click(String uniqueCode) {
         if (StringUtils.reverse(getWebSession().getUserName()).equals(uniqueCode)) {
-            return trackProgress(success().build());
+            return success(this).build();
         }
-        return failed().feedback("webwolf.landing_wrong").build();
+        return failed(this).feedback("webwolf.landing_wrong").build();
     }
 
 

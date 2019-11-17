@@ -51,9 +51,9 @@ public class CSRFLogin extends AssignmentEndpoint {
         String userName = request.getUserPrincipal().getName();
         if (userName.startsWith("csrf")) {
             markAssignmentSolvedWithRealUser(userName.substring("csrf-".length()));
-            return trackProgress(success().feedback("csrf-login-success").build());
+            return success(this).feedback("csrf-login-success").build();
         }
-        return trackProgress(failed().feedback("csrf-login-failed").feedbackArgs(userName).build());
+        return failed(this).feedback("csrf-login-failed").feedbackArgs(userName).build();
     }
 
     private void markAssignmentSolvedWithRealUser(String username) {

@@ -48,16 +48,16 @@ public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint {
                 String[] urlParts = url.split("/");
                 if (urlParts[0].equals("WebGoat") && urlParts[1].equals("IDOR") && urlParts[2].equals("profile") && urlParts[3].equals(authUserId)) {
                     UserProfile userProfile = new UserProfile(authUserId);
-                    return trackProgress(success().feedback("idor.view.own.profile.success").output(userProfile.profileToMap().toString()).build());
+                    return success(this).feedback("idor.view.own.profile.success").output(userProfile.profileToMap().toString()).build();
                 } else {
-                    return trackProgress(failed().feedback("idor.view.own.profile.failure1").build());
+                    return failed(this).feedback("idor.view.own.profile.failure1").build();
                 }
 
             } else {
-                return trackProgress(failed().feedback("idor.view.own.profile.failure2").build());
+                return failed(this).feedback("idor.view.own.profile.failure2").build();
             }
         } catch (Exception ex) {
-            return failed().feedback("an error occurred with your request").build();
+            return failed(this).feedback("an error occurred with your request").build();
         }
     }
 }

@@ -82,7 +82,7 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
     public @ResponseBody
     AttackResult resetVotes(@RequestParam("token") String token) {
         if (StringUtils.isEmpty(token)) {
-            return trackProgress(failed().feedback("jwt-invalid-token").build());
+            return failed(this).feedback("jwt-invalid-token").build();
         } else {
             try {
                 final String[] errorMessage = {null};
@@ -102,20 +102,20 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
                     }
                 }).parseClaimsJws(token);
                 if (errorMessage[0] != null) {
-                    return trackProgress(failed().output(errorMessage[0]).build());
+                    return failed(this).output(errorMessage[0]).build();
                 }
                 Claims claims = (Claims) jwt.getBody();
                 String username = (String) claims.get("username");
                 if ("Jerry".equals(username)) {
-                    return trackProgress(failed().feedback("jwt-final-jerry-account").build());
+                    return failed(this).feedback("jwt-final-jerry-account").build();
                 }
                 if ("Tom".equals(username)) {
-                    return trackProgress(success().build());
+                    return success(this).build();
                 } else {
-                    return trackProgress(failed().feedback("jwt-final-not-tom").build());
+                    return failed(this).feedback("jwt-final-not-tom").build();
                 }
             } catch (JwtException e) {
-                return trackProgress(failed().feedback("jwt-invalid-token").output(e.toString()).build());
+                return failed(this).feedback("jwt-invalid-token").output(e.toString()).build();
             }
         }
     }

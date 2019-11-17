@@ -70,18 +70,18 @@ public class SqlInjectionLesson5a extends AssignmentEndpoint {
 
                     // If they get back more than one user they succeeded
                     if (results.getRow() >= 6) {
-                        return trackProgress(success().feedback("sql-injection.5a.success").output("Your query was: " + query + EXPLANATION).feedbackArgs(output.toString()).build());
+                        return success(this).feedback("sql-injection.5a.success").output("Your query was: " + query + EXPLANATION).feedbackArgs(output.toString()).build();
                     } else {
-                        return trackProgress(failed().output(output.toString() + "<br> Your query was: " + query).build());
+                        return failed(this).output(output.toString() + "<br> Your query was: " + query).build();
                     }
                 } else {
-                    return trackProgress(failed().feedback("sql-injection.5a.no.results").output("Your query was: " + query).build());
+                    return failed(this).feedback("sql-injection.5a.no.results").output("Your query was: " + query).build();
                 }
             } catch (SQLException sqle) {
-                return trackProgress(failed().output(sqle.getMessage() + "<br> Your query was: " + query).build());
+                return failed(this).output(sqle.getMessage() + "<br> Your query was: " + query).build();
             }
         } catch (Exception e) {
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query).build());
+            return failed(this).output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query).build();
         }
     }
 

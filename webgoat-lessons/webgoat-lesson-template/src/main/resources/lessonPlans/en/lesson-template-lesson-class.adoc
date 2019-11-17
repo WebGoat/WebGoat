@@ -1,0 +1,20 @@
+=== Step 2: adding a new lesson class
+
+Each lesson can contain multiple assignments, first let's define a lesson class in Java
+
+[source]
+----
+@Component
+public class LessonTemplate extends Lesson {
+ @Override
+    public Category getDefaultCategory() {
+        return Category.GENERAL;
+    }
+
+    @Override
+    public String getTitle() {
+        return "lesson-template.title";
+    }
+}
+----
+

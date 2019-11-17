@@ -51,11 +51,11 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
     @PostMapping(path = "xxe/content-type", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult createNewUser(@RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
-        AttackResult attackResult = failed().build();
+        AttackResult attackResult = failed(this).build();
 
         if (APPLICATION_JSON_VALUE.equals(contentType)) {
             comments.parseJson(commentStr).ifPresent(c -> comments.addComment(c, true));
-            attackResult = failed().feedback("xxe.content.type.feedback.json").build();
+            attackResult = failed(this).feedback("xxe.content.type.feedback.json").build();
         }
 
         if (null != contentType && contentType.contains(MediaType.APPLICATION_XML_VALUE)) {
@@ -64,15 +64,15 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
                 Comment comment = comments.parseXml(commentStr);
                 comments.addComment(comment, false);
                 if (checkSolution(comment)) {
-                    attackResult = success().build();
+                    attackResult = success(this).build();
                 }
             } catch (Exception e) {
                 error = org.apache.commons.lang.exception.ExceptionUtils.getFullStackTrace(e);
-                attackResult = failed().feedback("xxe.content.type.feedback.xml").output(error).build();
+                attackResult = failed(this).feedback("xxe.content.type.feedback.xml").output(error).build();
             }
         }
 
-        return trackProgress(attackResult);
+        return attackResult;
     }
 
    private boolean checkSolution(Comment comment) {

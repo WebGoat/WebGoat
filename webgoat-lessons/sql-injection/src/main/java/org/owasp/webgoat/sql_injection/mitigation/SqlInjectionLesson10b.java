@@ -24,11 +24,9 @@ package org.owasp.webgoat.sql_injection.mitigation;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.tools.*;
 import java.io.IOException;
 import java.net.URI;
@@ -45,7 +43,7 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String editor) {
         try {
-            if (editor.isEmpty()) return trackProgress(failed().feedback("sql-injection.10b.no-code").build());
+            if (editor.isEmpty()) return failed(this).feedback("sql-injection.10b.no-code").build();
 
             editor = editor.replaceAll("\\<.*?>", "");
 
@@ -69,18 +67,18 @@ public class SqlInjectionLesson10b extends AssignmentEndpoint {
             List<Diagnostic> hasCompiled = this.compileFromString(editor);
 
             if (hasImportant && hasCompiled.size() < 1) {
-                return trackProgress(success().feedback("sql-injection.10b.success").build());
+                return success(this).feedback("sql-injection.10b.success").build();
             } else if (hasCompiled.size() > 0) {
                 String errors = "";
                 for (Diagnostic d : hasCompiled) {
                     errors += d.getMessage(null) + "<br>";
                 }
-                return trackProgress(failed().feedback("sql-injection.10b.compiler-errors").output(errors).build());
+                return failed(this).feedback("sql-injection.10b.compiler-errors").output(errors).build();
             } else {
-                return trackProgress(failed().feedback("sql-injection.10b.failed").build());
+                return failed(this).feedback("sql-injection.10b.failed").build();
             }
         } catch (Exception e) {
-            return trackProgress(failed().output(e.getMessage()).build());
+            return failed(this).output(e.getMessage()).build();
         }
     }
 

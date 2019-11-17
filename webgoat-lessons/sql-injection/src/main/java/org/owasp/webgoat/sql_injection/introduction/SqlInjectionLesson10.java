@@ -65,24 +65,24 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
                 if (results.getStatement() != null) {
                     results.first();
                     output.append(SqlInjectionLesson8.generateTable(results));
-                    return trackProgress(failed().feedback("sql-injection.10.entries").output(output.toString()).build());
+                    return failed(this).feedback("sql-injection.10.entries").output(output.toString()).build();
                 } else {
                     if (tableExists(connection)) {
-                        return trackProgress(failed().feedback("sql-injection.10.entries").output(output.toString()).build());
+                        return failed(this).feedback("sql-injection.10.entries").output(output.toString()).build();
                     } else {
-                        return trackProgress(success().feedback("sql-injection.10.success").build());
+                        return success(this).feedback("sql-injection.10.success").build();
                     }
                 }
             } catch (SQLException e) {
                 if (tableExists(connection)) {
-                    return trackProgress(failed().feedback("sql-injection.error").output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build());
+                    return failed(this).feedback("sql-injection.error").output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build();
                 } else {
-                    return trackProgress(success().feedback("sql-injection.10.success").build());
+                    return success(this).feedback("sql-injection.10.success").build();
                 }
             }
 
         } catch (Exception e) {
-            return trackProgress(failed().output("<span class='feedback-negative'>" + e.getMessage() + "</span>").build());
+            return failed(this).output("<span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 
