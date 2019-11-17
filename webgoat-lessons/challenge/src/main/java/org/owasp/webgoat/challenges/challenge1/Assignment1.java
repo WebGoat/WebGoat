@@ -48,11 +48,11 @@ public class Assignment1 extends AssignmentEndpoint {
         boolean ipAddressKnown =  true;
         boolean passwordCorrect = "admin".equals(username) && PASSWORD.equals(password);
         if (passwordCorrect && ipAddressKnown) {
-            return success().feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(1)).build();
+            return success(this).feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(1)).build();
         } else if (passwordCorrect) {
-            return failed().feedback("ip.address.unknown").build();
+            return failed(this).feedback("ip.address.unknown").build();
         }
-        return failed().build();
+        return failed(this).build();
     }
 
     public static boolean containsHeader(HttpServletRequest request) {

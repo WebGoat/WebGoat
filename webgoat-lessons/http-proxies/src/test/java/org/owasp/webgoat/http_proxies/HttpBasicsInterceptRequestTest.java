@@ -47,7 +47,6 @@ public class HttpBasicsInterceptRequestTest extends AssignmentEndpointTest {
         HttpBasicsInterceptRequest httpBasicsInterceptRequest = new HttpBasicsInterceptRequest();
         init(httpBasicsInterceptRequest);
         this.mockMvc = standaloneSetup(httpBasicsInterceptRequest).build();
-        when(webSession.getCurrentLesson()).thenReturn(new HttpProxies());
     }
 
     @Test

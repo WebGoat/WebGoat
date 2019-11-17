@@ -18,9 +18,4 @@ public class ChallengeIntro extends Lesson {
     public String getTitle() {
         return "challenge0.title";
     }
-
-    @Override
-    public String getId() {
-        return "Challenge";
-    }
 }

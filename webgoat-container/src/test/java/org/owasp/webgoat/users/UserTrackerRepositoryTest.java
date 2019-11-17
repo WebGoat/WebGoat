@@ -32,11 +32,6 @@ public class UserTrackerRepositoryTest {
         }
 
         @Override
-        public String getId() {
-            return "test";
-        }
-
-        @Override
         public List<Assignment> getAssignments() {
             Assignment assignment = new Assignment("test", "test", Lists.newArrayList());
             return Lists.newArrayList(assignment);

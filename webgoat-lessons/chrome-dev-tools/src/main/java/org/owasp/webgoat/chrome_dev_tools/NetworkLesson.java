@@ -24,12 +24,9 @@ package org.owasp.webgoat.chrome_dev_tools;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 /**
  * Assignment where the user has to look through an HTTP Request
@@ -46,9 +43,9 @@ public class NetworkLesson extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String network_num, @RequestParam String number) {
         if (network_num.equals(number)) {
-            return trackProgress(success().feedback("network.success").output("").build());
+            return success(this).feedback("network.success").output("").build();
         } else {
-            return trackProgress(failed().feedback("network.failed").build());
+            return failed(this).feedback("network.failed").build();
         }
     }
 

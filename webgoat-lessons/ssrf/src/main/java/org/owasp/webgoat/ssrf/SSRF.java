@@ -44,9 +44,4 @@ public class SSRF extends Lesson {
     public String getTitle() {
         return "ssrf.title";
     }
-
-    @Override
-    public String getId() {
-        return "SSRF";
-    }
 }

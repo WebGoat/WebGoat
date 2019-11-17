@@ -37,9 +37,4 @@ public class PasswordReset extends Lesson {
     public String getTitle() {
         return "password-reset.title";
     }
-
-    @Override
-    public String getId() {
-        return "PasswordReset";
-    }
 }

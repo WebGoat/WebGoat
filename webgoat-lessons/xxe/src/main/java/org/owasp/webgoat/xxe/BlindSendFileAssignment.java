@@ -78,15 +78,15 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
     public AttackResult addComment(@RequestBody String commentStr) {
         //Solution is posted as a separate comment
         if (commentStr.contains(CONTENTS)) {
-            return trackProgress(success().build());
+            return success(this).build();
         }
 
         try {
             Comment comment = comments.parseXml(commentStr);
             comments.addComment(comment, false);
         } catch (Exception e) {
-            return trackProgress(failed().output(e.toString()).build());
+            return failed(this).output(e.toString()).build();
         }
-        return trackProgress(failed().build());
+        return failed(this).build();
     }
 }

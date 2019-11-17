@@ -48,13 +48,13 @@ public class SqlInjectionLesson10a extends AssignmentEndpoint {
             if (input.toLowerCase().contains(this.results[position].toLowerCase())) {
                 completed = true;
             } else {
-                return trackProgress(failed().build());
+                return failed(this).build();
             }
             position++;
         }
         if (completed) {
-            return trackProgress(success().build());
+            return success(this).build();
         }
-        return trackProgress(failed().build());
+        return failed(this).build();
     }
 }

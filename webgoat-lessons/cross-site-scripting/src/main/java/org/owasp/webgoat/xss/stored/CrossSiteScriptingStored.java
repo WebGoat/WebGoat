@@ -35,9 +35,4 @@ public class CrossSiteScriptingStored extends Lesson {
     public String getTitle() {
         return "xss-stored.title";
     }
-
-    @Override
-    public String getId() {
-        return "CrossSiteScriptingStored";
-    }
 }

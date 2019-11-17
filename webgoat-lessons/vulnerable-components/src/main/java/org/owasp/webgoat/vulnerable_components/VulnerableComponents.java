@@ -38,8 +38,4 @@ public class VulnerableComponents extends Lesson {
         return "vulnerable-components.title";
     }
 
-    @Override
-    public String getId() {
-        return "VulnerableComponents";
-    }
 }

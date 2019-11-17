@@ -44,9 +44,4 @@ public class InsecureDeserialization extends Lesson {
     public String getTitle() {
         return "insecure-deserialization.title";
     }
-
-    @Override
-    public String getId() {
-        return "InsecureDeserialization";
-    }
 }

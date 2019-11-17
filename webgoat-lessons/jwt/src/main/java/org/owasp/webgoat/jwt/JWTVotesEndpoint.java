@@ -157,20 +157,20 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult resetVotes(@CookieValue(value = "access_token", required = false) String accessToken) {
         if (StringUtils.isEmpty(accessToken)) {
-            return trackProgress(failed().feedback("jwt-invalid-token").build());
+            return failed(this).feedback("jwt-invalid-token").build();
         } else {
             try {
                 Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
                 Claims claims = (Claims) jwt.getBody();
                 boolean isAdmin = Boolean.valueOf((String) claims.get("admin"));
                 if (!isAdmin) {
-                    return trackProgress(failed().feedback("jwt-only-admin").build());
+                    return failed(this).feedback("jwt-only-admin").build();
                 } else {
                     votes.values().forEach(vote -> vote.reset());
-                    return trackProgress(success().build());
+                    return success(this).build();
                 }
             } catch (JwtException e) {
-                return trackProgress(failed().feedback("jwt-invalid-token").output(e.toString()).build());
+                return failed(this).feedback("jwt-invalid-token").output(e.toString()).build();
             }
         }
     }

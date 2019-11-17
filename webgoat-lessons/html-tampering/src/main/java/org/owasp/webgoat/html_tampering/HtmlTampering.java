@@ -44,9 +44,4 @@ public class HtmlTampering extends Lesson {
     public String getTitle() {
         return "html-tampering.title";
     }
-
-    @Override
-    public String getId() {
-        return "HtmlTampering";
-    }
 }

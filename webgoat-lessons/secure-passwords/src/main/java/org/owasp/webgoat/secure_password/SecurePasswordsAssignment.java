@@ -69,9 +69,9 @@ public class SecurePasswordsAssignment extends AssignmentEndpoint {
         output.append("<b>Estimated cracking time in seconds: </b>" + calculateTime((long) strength.getCrackTimeSeconds().getOnlineNoThrottling10perSecond()));
 
         if (strength.getScore() >= 4)
-            return trackProgress(success().feedback("securepassword-success").output(output.toString()).build());
+            return success(this).feedback("securepassword-success").output(output.toString()).build();
         else
-            return trackProgress(failed().feedback("securepassword-failed").output(output.toString()).build());
+            return failed(this).feedback("securepassword-failed").output(output.toString()).build();
     }
 
     public static String calculateTime(long seconds) {

@@ -44,7 +44,6 @@ public class MissingFunctionACHiddenMenusTest extends AssignmentEndpointTest {
     public void setup() {
         MissingFunctionACHiddenMenus hiddenMenus = new MissingFunctionACHiddenMenus();
         init(hiddenMenus);
-        when(webSession.getCurrentLesson()).thenReturn(new MissingFunctionAC());
         this.mockMvc = standaloneSetup(hiddenMenus).build();
     }
 

@@ -38,10 +38,4 @@ public class MissingFunctionAC  extends Lesson {
     public String getTitle() {
         return "missing-function-access-control.title";
     }
-
-    @Override
-    public String getId() {
-        return "MissingFunctionAC";
-    }
-
 }

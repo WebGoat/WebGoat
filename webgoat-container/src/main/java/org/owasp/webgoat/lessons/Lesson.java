@@ -119,5 +119,7 @@ public abstract class Lesson {
         return getTitle();
     }
 
-    public abstract String getId();
+    public final String getId() {
+        return this.getClass().getSimpleName();
+    }
 }

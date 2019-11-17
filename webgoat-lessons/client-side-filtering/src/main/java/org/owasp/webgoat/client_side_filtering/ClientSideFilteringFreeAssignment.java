@@ -24,11 +24,8 @@ package org.owasp.webgoat.client_side_filtering;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 /**
  * @author nbaars
@@ -44,8 +41,8 @@ public class ClientSideFilteringFreeAssignment extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String checkoutCode) {
         if (SUPER_COUPON_CODE.equals(checkoutCode)) {
-            return trackProgress(success().build());
+            return success(this).build();
         }
-        return trackProgress(failed().build());
+        return failed(this).build();
     }
 }
