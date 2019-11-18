@@ -89,15 +89,15 @@ public class HashingAssignment extends AssignmentEndpoint {
     	if (answer_pwd1!=null && answer_pwd2 !=null) {
         	if (answer_pwd1.equals(md5Secret)
         		&& answer_pwd2.equals(sha256Secret)) {
-        		return trackProgress(success()
+        		return success(this)
         				.feedback("crypto-hashing.success")
-        				.build());
+        				.build();
         	} else if (answer_pwd1.equals(md5Secret)
             		|| answer_pwd2.equals(sha256Secret)) {
-        		return trackProgress(failed().feedback("crypto-hashing.oneok").build());
+        		return failed(this).feedback("crypto-hashing.oneok").build();
         	} 
         } 
-        return trackProgress(failed().feedback("crypto-hashing.empty").build()); 
+        return failed(this).feedback("crypto-hashing.empty").build(); 
     }
     
     public static String getHash(String secret, String algorithm) throws NoSuchAlgorithmException {

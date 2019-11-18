@@ -38,8 +38,4 @@ public class Crypto extends Lesson {
         return "6.crypto.title";//first lesson in general
     }
 
-    @Override
-    public String getId() {
-        return "Crypto";
-    }
 }

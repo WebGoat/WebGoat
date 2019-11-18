@@ -73,14 +73,14 @@ public class SigningAssignment extends AssignmentEndpoint {
 		}
 		if (!DatatypeConverter.printHexBinary(rsaPubKey.getModulus().toByteArray()).equals(tempModulus.toUpperCase())) {
 			log.warn("modulus {} incorrect", modulus);
-			return trackProgress(failed().feedback("crypto-signing.modulusnotok").build());
+			return failed(this).feedback("crypto-signing.modulusnotok").build();
 		}
 		/* orginal modulus must be used otherwise the signature would be invalid */
 		if (CryptoUtil.verifyMessage(modulus, signature, keyPair.getPublic())) {
-			return trackProgress(success().feedback("crypto-signing.success").build());
+			return success(this).feedback("crypto-signing.success").build();
 		} else {
 			log.warn("signature incorrect");
-			return trackProgress(failed().feedback("crypto-signing.notok").build());
+			return failed(this).feedback("crypto-signing.notok").build();
 		}
        
     }

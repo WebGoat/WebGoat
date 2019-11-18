@@ -38,10 +38,10 @@ public class XOREncodingAssignment extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String answer_pwd1) {
         if (answer_pwd1!=null && answer_pwd1.equals("databasepassword")) {
-        	return trackProgress(success()
+        	return success(this)
         				.feedback("crypto-encoding-xor.success")
-        				.build());
+        				.build();
         } 
-        return trackProgress(failed().feedback("crypto-encoding-xor.empty").build()); 
+        return failed(this).feedback("crypto-encoding-xor.empty").build(); 
     }
 }

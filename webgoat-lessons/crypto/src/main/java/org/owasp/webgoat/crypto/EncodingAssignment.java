@@ -64,11 +64,11 @@ public class EncodingAssignment extends AssignmentEndpoint {
     	if (basicAuth !=null && answer_user!=null && answer_pwd !=null 
         		&& basicAuth.equals(getBasicAuth(answer_user,answer_pwd))) 
         {
-            return trackProgress(success()
+            return success(this)
                 .feedback("crypto-encoding.success")
-                .build());
+                .build();
         } else {
-            return trackProgress(failed().feedback("crypto-encoding.empty").build());
+            return failed(this).feedback("crypto-encoding.empty").build();
         }
     }
 }
