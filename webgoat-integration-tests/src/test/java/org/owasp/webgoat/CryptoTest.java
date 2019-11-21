@@ -2,6 +2,7 @@ package org.owasp.webgoat;
 
 import static org.junit.Assert.fail;
 
+import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.interfaces.RSAPrivateKey;
@@ -41,6 +42,8 @@ public class CryptoTest extends IntegrationTest {
 			e.printStackTrace();
 			fail();
 		}
+		
+		checkAssignmentDefaults();
 
 		checkResults("/crypto");
 
@@ -115,6 +118,17 @@ public class CryptoTest extends IntegrationTest {
         params.put("modulus", modulus);
         params.put("signature", signature);
         checkAssignment(url("/crypto/signing/verify"), params, true);
+    }
+	
+	private void checkAssignmentDefaults() {
+    	
+    	String text = new String(Base64.getDecoder().decode("TGVhdmluZyBwYXNzd29yZHMgaW4gZG9ja2VyIGltYWdlcyBpcyBub3Qgc28gc2VjdXJl".getBytes(Charset.forName("UTF-8"))));
+
+		Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("secretText", text);
+        params.put("secretFileName", "default_secret");
+        checkAssignment(url("/crypto/secure/defaults"), params, true);
     }
     
 }

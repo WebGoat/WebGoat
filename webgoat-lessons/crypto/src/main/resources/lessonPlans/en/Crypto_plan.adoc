@@ -20,6 +20,8 @@ The goal is to get familiar with the following forms of techniques:
 
 * link:start.mvc#lesson/Crypto.lesson/7[Security defaults]
 
+* link:start.mvc#lesson/Crypto.lesson/8[Post quantum crypto]
+
 === Assignments
 
 After the explanation of an item there will be several assignments.
