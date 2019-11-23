@@ -39,6 +39,7 @@
         <module>ssrf</module>
         <module>secure-passwords</module>
         <module>webgoat-lesson-template</module>
+		<module>crypto</module>
     </modules>
 
     <dependencies>

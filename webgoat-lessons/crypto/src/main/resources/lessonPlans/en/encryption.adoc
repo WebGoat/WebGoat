@@ -1,0 +1,32 @@
+= Encryption 
+ 
+== Symmetric encryption 
+
+Symmetric encryption is based on a shared secret that is used for both encryption as well as decryption. Both parties involved in exchanging secrets therefore share the same key.
+
+Example protocols are:
+
+* AES
+* 3DES
+
+== Asymmetric encryption
+
+Asymmetric encryption is based on mathematical principals that consist of a key pair. The two keys are usually called a private key and a public key. The private key needs to be protected very well and is only known to one party. All others can freely use the public key. Something encrypted with the private key can be decrypted by all that have the public key, and something encryted with the public key can only be decrypted with the private key.
+ 
+Example protocols are:
+
+* RSA
+* DSA
+
+== HTTPS uses both symmetric and asymmetric keys
+
+Here is a short description of what happens if you open your browser and go to an https site.
+
+* Your browser connects to the server and gets the webserver certificate
+* Your browser checks if it trusts the certificate issuer by checking if the issuer certificate is in its trust store. This trust store is managed by operating and browser updates. And on some coroporate networks it is managed by the company. From the certificate the browser obtains the public key.
+* The browser now generates random bytes to be used to generate a symmetric key and encrypts this the public key of the server. So only the server can decrypt it.
+* At the end of this process both the browser and the webserver will use the exchanged symmetric key (in the asymmetric key exchange process) to encrypt and decrypt messages that are send back and forth between the browser and the webserver.
+
+Symmetric keys are used because it can be used more safely for large amounts of data.
+
+
