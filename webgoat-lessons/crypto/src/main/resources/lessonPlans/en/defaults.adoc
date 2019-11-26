@@ -22,7 +22,7 @@ In this exercise you need to retrieve a secret that has accidentally been left i
 You can decrypt the message by logging in to the running container (docker exec ...) and getting access to the password file located in /root. Then use the openssl command inside the container (for portability issues in openssl on Windows/Mac/Linux)
 You can find the secret in the following docker image, which you can start as:
 
-	docker run -d renezubcevic/webgoat:findthesecret
+	docker run -d webgoat/assignments:findthesecret
 
 [source]
 ----
