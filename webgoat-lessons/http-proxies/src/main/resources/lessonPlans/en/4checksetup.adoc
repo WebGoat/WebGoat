@@ -1,0 +1,19 @@
+=== Confirm Proxy, Host and Browser are ok
+
+Now use the browser that has the ZAP certificate and proxy settings with the special local host address and confirm that your requests show up in the proxy.
+
+Browse to: http://www.webgoat.local:8080/WebGoat (or https://www.webgoat.local:8443/WebGoat or similar)
+
+You should see WebGoat and the OWASP ZAP Heads On Display (if you use OWASP ZAP as the proxy):
+
+image::images/loginscreen.png[Browser with HUD,style="lesson-image"]
+
+You might notice that this is the dutch login screen. This is determined from the language settings from your browser. For some of the pages there will be some local translations. You can contribute to WebGoat and add more for your preferred language.
+You can disable the Heads On Display by clicking on the highlighted button. 
+You can learn about the OWASP ZAP HUD on their website. For now it is recommended to disable it as it kind of blocks the menu items.
+
+You should see the following in OWASP ZAP on the history panel:
+
+image::images/zap-history.png[ZAP History,style="lesson-image"]
+
+On the next page we will show how you can filter these requests to see only relevant requests and how to configure the interceptor. 
