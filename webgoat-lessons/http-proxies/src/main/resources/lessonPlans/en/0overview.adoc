@@ -16,6 +16,6 @@ ZAP has a graphical user interface, but now also has a HUD Heads-On-Display whic
 You can go through all lesson pages or click on these links to skip some pages.
 
 * link:start.mvc#lesson/HttpProxies.lesson/1[Configuring] OWASP ZAP and browser
-* link:start.mvc#lesson/HttpProxies.lesson/5[Intercepting] requests with ZAP
+* link:start.mvc#lesson/HttpProxies.lesson/5[Filtering] requests with ZAP
 * link:start.mvc#lesson/HttpProxies.lesson/6[A proxy assignment] with ZAP
 * link:start.mvc#lesson/HttpProxies.lesson/7[Replaying requests] with ZAP

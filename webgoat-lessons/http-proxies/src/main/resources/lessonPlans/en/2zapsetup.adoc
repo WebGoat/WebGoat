@@ -19,6 +19,8 @@ image::images/zap-start.png[ZAP start,style="lesson-image"]
 
 image::images/zap-local-proxy-8090.png[ZAP local proxy,style="lesson-image"]
 
+In the options menu, you can also change the language. By default it is set with the language setting of your operating system. The examples are shown in English.
+
 === Export the certificate
 
 Depending on the local installation of tools, ZAP can start a browser directly with some adjusted options like network settings and certificate adjustments. However, this step should be done if you want to start your browser independently of ZAP. To be able to use the browser, the browser needs the certificate, which can be exported here:
