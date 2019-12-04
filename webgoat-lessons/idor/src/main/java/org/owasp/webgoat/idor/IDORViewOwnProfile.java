@@ -36,7 +36,7 @@ public class IDORViewOwnProfile {
     @Autowired
     UserSessionData userSessionData;
 
-    @GetMapping(path = "IDOR/own", produces = {"application/json"})
+    @GetMapping(path = {"IDOR/own", "IDOR/profile"}, produces = {"application/json"})
     @ResponseBody
     public Map<String, Object> invoke() {
         Map<String,Object> details = new HashMap<>();
