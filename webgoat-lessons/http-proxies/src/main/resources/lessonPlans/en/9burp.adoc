@@ -1,0 +1,35 @@
+== Burp
+
+Another proxy that is used a lot is Burp. One of the exercises in WebGoat can only be resolved with Burp and not yet with OWAP ZAP.
+Burp community edition can be downloaded as a plain jar file https://portswigger.net/burp/communitydownload[Burp download,window=_blank]
+
+	 java -jar burpsuite_community_v2.1.04.jar
+	 
+Ignore the warning on using JDK11.
+Choose `temporary project`, followed by `use burp defaults`.
+
+Go to the proxy options and change it to use port 8090
+
+image::images/burpproxy.png[Burp proxy options,style="lesson-image"]
+
+On this page you can also export the Burp certificate and import it into your browser. Similar as in the instructions in previous pages.
+
+Go to the proxy intercept page and click on the toggle so that intercept is switched off. (By default nd in the picture below it is switched on)
+
+image::images/burpintercept.png[Burp intercept,style="lesson-image"]
+
+The start a browser connected to the proxy and start using WebGoat.
+Now adjust the intercept request setting by extending the rule on what not to intercept:
+
+image::images/burpfilterclient.png[Burp client request filter,style="lesson-image"]
+
+Use e.g.: (\^mvc$|^txt$|\^woff$|^lesson$|\^gif$|^jpg$|\^png$|^css$|\^js$|^ico$)
+Then enable the intercept by click on the earlier mentioned toggle.
+
+An intercept will look like:
+
+image::images/burpintercepted.png[Burp client request filter,style="lesson-image"]
+
+Finally you can look at the history and add filters for the history and replay requests, from this screen:
+
+image::images/burpfilter.png[Burp history,style="lesson-image"]

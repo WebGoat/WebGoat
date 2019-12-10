@@ -1,0 +1,6 @@
+== Proxy from ZAP to https
+
+The OWASP ZAP proxy can also be configured to proxy *https* requests. It will terminate the https connection in OWASP Zap and then proxy it to the target using its own keystore. You can even proxy to sites with mutual TLS. In that case you configure OWASP ZAP with the keystore and key to use for the connection.
+
+Go to Tools/Options/Client Certificate if you want to proxy to a mutual TLS https site.
+Go to Tools/Options/Connection if you want to set timeouts and want to force the use of TLSv1.2 e.g. 
