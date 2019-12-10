@@ -1,7 +1,4 @@
-=== Exclude WebGoat internal requests (ZAP >= 2.8.0)
-
-Before we start diving into intercepting requests with ZAP we need to exclude the internal requests from the WebGoat
-framework otherwise ZAP will also stop at all the requests which are only necessary for the internal working of WebGoat.
+=== Filter requests in history panel
 
 In the main ZAP window click on Filter, see image below
 
@@ -14,17 +11,18 @@ Then in the `URL Inc Regex` box type:
 
 [source]
 ----
-http://localhost:8080/WebGoat/.*
+.*WebGoat.*
 ----
 
 And in the `URL Exc Regex` box type:
 
 [source]
 ----
-.*/WebGoat/service/.*mvc
+.*lesson.*.mvc
 ----
 
 Click 'Apply to close the window, ZAP will now no longer show internal WebGoat requests.
+
 
 
 
