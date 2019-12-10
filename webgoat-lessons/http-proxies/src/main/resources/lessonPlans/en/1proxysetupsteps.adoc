@@ -1,0 +1,38 @@
+
+== HTTP Proxy Setup
+
+Since this is an OWASP project, we'll be using OWASP ZAP. If you are comfortable using another proxy (e.g. Burp), you can skip this. Otherwise, this will show you how to set up ZAP to act as a proxy on your localhost.
+
+=== link:start.mvc#lesson/HttpProxies.lesson/2[Setting up ZAP 2.8.0]
+
+* First download and install ZAP 2.8.0 for your operating system
+* Start ZAP 
+* Configure the proxy to use a free port, e.g. 8090
+* Export the ZAP root certificate
+
+=== link:start.mvc#lesson/HttpProxies.lesson/3[Configuring your browser to use the ZAP proxy]
+
+The example is for Firefox. It should work similarly for other browsers. 
+
+* Make sure you can change the certificate store and network proxy settings, use a portable browser version if necessary
+* Import the ZAP root certificate in your trusted certificates
+* Change the network proxy settings
+
+=== Additional config when running locally
+If you run the WebGoat application on localhost, Firefox and ZAP behave differently than when it's on a remote IP address.
+
+* Adjust your hostfile and use a fake hostname, otherwise Firefox will not forward to the proxy
+* For ZAP do not use the exclude from proxy option as it will drop the requests entirely
+
+
+
+If you use the latest ZAP version (>= 2.8.0) you only need to start ZAP and click the browser button to be able to
+proxy, see image below:
+
+image::images/zap-browser-button.png[ZAP Start,style="lesson-image"]
+
+{nbsp}+
+
+
+To setup a different browser continue to the next page and read how to set it up in section: 'Configure the browser'.
+In all other cases you can skip the next page and continue to the page titled 'Confirm it's working' to check whether it is working.
