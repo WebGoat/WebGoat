@@ -90,11 +90,10 @@
             <artifactId>zxcvbn</artifactId>
             <version>1.2.5</version>
         </dependency>
-        <!-- Temporarily -->
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.7</version>
+            <version>1.4.5</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
