@@ -1,0 +1,18 @@
+
+== HTTP Proxy Setup
+
+Since this is an OWASP project, we'll be using ZAP. If you are comfortable using another proxy (e.g. Burp), you can skip this. Otherwise,
+this will show you how to set up ZAP to act as a proxy on your localhost.
+
+=== Setting up ZAP >= 2.8.0
+
+If you use the latest ZAP version (>= 2.8.0) you only need to start ZAP and click the browser button to be able to
+proxy, see image below:
+
+image::images/zap-browser-button.png[ZAP Start,style="lesson-image"]
+
+{nbsp}+
+
+
+To setup a different browser continue to the next page and read how to set it up in section: 'Configure the browser'.
+In all other cases you can skip the next page and continue to the page titled 'Confirm it's working' to check whether it is working.

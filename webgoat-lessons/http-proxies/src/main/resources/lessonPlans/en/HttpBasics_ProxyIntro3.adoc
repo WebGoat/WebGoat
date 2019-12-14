@@ -1,0 +1,6 @@
+=== Confirm it's working
+
+You should now be able to browse somewhere. We suggest starting with a plain http host.
+If it's working, ZAP's history tab will start to look something like this.
+
+image::images/zap-history.png[ZAP history tab,style="lesson-image"]

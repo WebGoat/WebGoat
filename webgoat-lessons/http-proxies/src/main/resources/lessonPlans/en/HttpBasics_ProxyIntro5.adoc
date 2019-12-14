@@ -1,0 +1,26 @@
+=== Use the intercept
+
+To intercept a request, you start by clicking the green button. This will set a break point for the next request.
+
+image::images/proxy-intercept-button.png[Set break/intercept button,style="lesson-image"]
+
+
+*NOTE*: It is also possible set breakpoints that are triggered on conditions. That won't be covered in this lesson though. You are encouraged to explore.
+That's part of what hackers do ... explore!
+
+Once you are intercepting requests and a request is made, it should look something like this:
+
+image::images/proxy-intercept-details.png[ZAP history tab,style="lesson-image"]
+
+=== Intercept and modify a request
+
+Set up the intercept as noted above and then submit the form/request below by clicking the submit button. When you request is intercepted (hits the breakpoint),
+modify it as follows.
+
+* Change the Method to GET
+* Add a header 'x-request-intercepted:true'
+* Remove the request body and instead send 'changeMe' as query string parameter and set the value to 'Requests are tampered easily' (without the single quotes)
+
+Then let the request continue through (by hitting the play button).
+
+NOTE: The two play buttons behave a little differently, but we'll let you tinker and figure that out for yourself.
