@@ -46,6 +46,7 @@ public class PasswordResetLessonTest extends IntegrationTest {
                 .formParams("resetLink", link, "password", "123456")
                 .post(url("PasswordReset/reset/change-password"))
                 .then()
+                .log().all()
                 .statusCode(200);
     }
 
@@ -56,6 +57,7 @@ public class PasswordResetLessonTest extends IntegrationTest {
                 .cookie("WEBWOLFSESSION", getWebWolfCookie())
                 .get(webWolfUrl("WebWolf/requests"))
                 .then()
+                .log().all()
                 .extract().response().getBody().asString();
         int startIndex = responseBody.lastIndexOf("/PasswordReset/reset/reset-password/");
         var link = responseBody.substring(startIndex + "/PasswordReset/reset/reset-password/".length(), responseBody.indexOf(",", startIndex) - 1);
@@ -65,7 +67,7 @@ public class PasswordResetLessonTest extends IntegrationTest {
     private void clickForgotEmailLink(String user) {
         RestAssured.given()
                 .when()
-                .header("host", "localhost:9090")
+                .header("host", getWebWolfHostHeader())
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .formParams("email", user)
