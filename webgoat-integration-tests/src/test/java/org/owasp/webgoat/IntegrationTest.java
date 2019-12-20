@@ -22,8 +22,19 @@ public abstract class IntegrationTest {
 
     protected static int WG_PORT = 8080;
     protected static int WW_PORT = 9090;
-    private static String WEBGOAT_URL = "http://127.0.0.1:" + WG_PORT + "/WebGoat/";
-    private static String WEBWOLF_URL = "http://127.0.0.1:" + WW_PORT + "/";
+    private static String WEBGOAT_HOSTNAME = "127.0.0.1";//"www.webgoat.local";
+    private static String WEBWOLF_HOSTNAME = "127.0.0.1";//"www.webwolf.local";
+    
+    /*
+     * To test docker compose/stack solution: 
+     * add localhost settings in hosts file: 127.0.0.1 www.webgoat.local www.webwolf.local
+     * Then set the above values to the specified host names and set the port to 80
+     */
+    
+    private static String WEBGOAT_HOSTHEADER = WEBGOAT_HOSTNAME +":"+WG_PORT;
+    private static String WEBWOLF_HOSTHEADER = WEBWOLF_HOSTNAME +":"+WW_PORT;
+    private static String WEBGOAT_URL = "http://" + WEBGOAT_HOSTHEADER + "/WebGoat/";
+    private static String WEBWOLF_URL = "http://" + WEBWOLF_HOSTHEADER + "/";
     private static boolean WG_SSL = false;//enable this if you want to run the test on ssl
 
     @Getter
@@ -178,6 +189,7 @@ public abstract class IntegrationTest {
                         .formParams(params)
                         .post(url)
                         .then()
+                        .log().all()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
@@ -276,6 +288,14 @@ public abstract class IntegrationTest {
                 .extract().response().getBody().asString();
         result = result.replace("%20", " ");
         return result;
+    }
+    
+    /**
+     * In order to facilitate tests with 
+     * @return
+     */
+    public String getWebWolfHostHeader() {
+    	return WEBWOLF_HOSTHEADER;
     }
 
 }
