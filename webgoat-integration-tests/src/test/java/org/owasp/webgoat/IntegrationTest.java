@@ -189,7 +189,6 @@ public abstract class IntegrationTest {
                         .formParams(params)
                         .post(url)
                         .then()
-                        .log().all()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
