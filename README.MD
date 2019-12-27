@@ -62,8 +62,9 @@ WebWolf will be located at: http://127.0.0.1:9090/WebWolf
 
 Another way to deply WebGoat and WebWolf in a more advanced way is to use a compose-file in a docker stack deploy.
 You can define which containers should run in which combinations and define all of this in a yaml file.
-An example of such a file is: `goat-with-reverseproxy.yaml` [file](https://raw.githubusercontent.com/WebGoat/WebGoat/develop/goat-with-reverseproxy.yaml)
-This sets up an nginx webserver as reverse proxy to WebGoat and WebWolf.
+An example of such a file is: [goat-with-reverseproxy.yaml](goat-with-reverseproxy.yaml)
+
+This sets up an nginx webserver as reverse proxy to WebGoat and WebWolf. You can change the timezone by adjusting the value in the yaml file.
 
 ```shell
 docker stack init
@@ -77,7 +78,9 @@ Add the following entries in your local hosts file:
 ```
 
 You can use the overall start page: http://www.webgoat.local or:
+
 WebGoat will be located at: http://www.webgoat.local/WebGoat
+
 WebWolf will be located at: http://www.webwolf.local/WebWolf
 
 **Important**: the current directory on your host will be mapped into the container for keeping state.
