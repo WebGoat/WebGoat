@@ -79,7 +79,6 @@ function($,
                     self.hintsToShow.push(hintModel.get('hint'));
                 }
             });
-            console.log(this.hintsToShow);
         },
 
 		onModelLoaded: function() {
