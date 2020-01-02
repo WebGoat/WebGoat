@@ -17,7 +17,6 @@ define(['jquery',
              MenuController,
              LessonContentView,
              MenuView,
-             DeveloperControlsView,
              TitleView) {
 
     function getContentElement() {
