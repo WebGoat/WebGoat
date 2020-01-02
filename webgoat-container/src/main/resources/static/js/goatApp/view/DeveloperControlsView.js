@@ -1,13 +1,11 @@
 define(['jquery',
 	'underscore',
 	'backbone',
-	'goatApp/model/PluginReloadModel',
 	'goatApp/model/LabelDebugModel'],
 function(
 	$,
 	_,
 	Backbone,
-	PluginReloadModel,
 	LabelDebugModel) {
 	return Backbone.View.extend({
 		el: '#developer-controls',
@@ -15,10 +13,6 @@ function(
 	    onControlClick: function(model) {
 	    	$('#' + model.id).find('td').text('Loading...');
 	    	model.load();
-	    },
-	    
-	    onPluginsLoaded: function(model) {
-	    	window.location.href = 'welcome.mvc';
 	    },
 	    
 	    onLabelsLoaded: function(model) {
@@ -29,9 +23,8 @@ function(
 
 		initialize: function(options) {
 			this.addMenuListener();
-			this.models = [new PluginReloadModel(), new LabelDebugModel()];
-			this.listenTo(this.models[0], 'plugins:loaded', this.onPluginsLoaded);
-			this.listenTo(this.models[1], 'plugins:loaded', this.onLabelsLoaded);
+			this.models = [new LabelDebugModel()];
+			this.listenTo(this.models[0], this.onLabelsLoaded);
 			this.render();
 		},
 		

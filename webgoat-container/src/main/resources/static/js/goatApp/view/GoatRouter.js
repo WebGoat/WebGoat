@@ -7,7 +7,6 @@ define(['jquery',
     'goatApp/controller/MenuController',
     'goatApp/view/LessonContentView',
     'goatApp/view/MenuView',
-    'goatApp/view/DeveloperControlsView',
     'goatApp/view/TitleView'
 ], function ($,
              $vuln,

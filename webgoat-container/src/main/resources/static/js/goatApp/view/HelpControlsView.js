@@ -50,6 +50,7 @@ function($,_,Backbone) {
 		},
 
 		restartLesson: function() {
+		    
 			this.trigger('lesson:restart');
 		}
 	});
