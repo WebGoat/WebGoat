@@ -149,6 +149,7 @@ define(['jquery',
                     self.loadLesson(self.name);
                     self.updateMenu();
                     self.callPaginationUpdate();
+                    self.lessonContentView.resetLesson();
                 });
             };
 
@@ -162,9 +163,6 @@ define(['jquery',
             }
 
         };
-
-
-
 
         return Controller;
 });
