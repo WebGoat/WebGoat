@@ -186,7 +186,6 @@ define(['jquery',
             for (var i=0; i<pageForms.length; i++) {
                 endpoints.push(pageForms[i].action);
             }
-            console.log(endpoints);
             return endpoints;
         },
 
@@ -208,6 +207,12 @@ define(['jquery',
         /* for testing */
         showTestParam: function (param) {
             this.$el.find('.lesson-content').html('test:' + param);
+        },
+
+        resetLesson: function() {
+               this.$el.find('.attack-feedback').hide();
+               this.$el.find('.attack-output').hide();
+               this.markAssignmentIncomplete();
         }
 
     });
