@@ -103,7 +103,7 @@
                     data-toggle="modal" data-target="#about-modal">
                 <i class="fa fa-info"></i>
             </button>
-            <a href="mailto:${contactEmail}?Subject=Webgoat%20feedback" target="_top">
+            <a th:href="'mailto:' + ${@environment.getProperty('webgoat.email')} + '?Subject=Webgoat%20feedback'" target="_top">
                 <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip"
                         th:title="#{contact}">
                     <i class="fa fa-envelope"></i>
