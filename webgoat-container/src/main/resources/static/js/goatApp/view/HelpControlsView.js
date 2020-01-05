@@ -41,14 +41,6 @@ function($,_,Backbone) {
 		    this.trigger('hints:show','hint');
 		},
 
-		showSource: function() {
-			this.trigger('source:show','source');
-		},
-
-		showSolution: function() {
-			this.trigger('solution:show','solution');
-		},
-
 		restartLesson: function() {
 			this.trigger('lesson:restart');
 		}
