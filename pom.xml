@@ -144,6 +144,7 @@
         <module>webgoat-server</module>
         <module>webwolf</module>
         <module>webgoat-integration-tests</module>
+		<module>docker</module><!-- copy required jars in preparation of docker all-in-one build -->
     </modules>
 
     <dependencies>
