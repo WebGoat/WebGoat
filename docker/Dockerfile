@@ -5,9 +5,7 @@ ENV webgoat_version_env=${webgoat_version}
 
 RUN apt-get update && apt-get install 
 RUN useradd --home-dir /home/webgoat --create-home -U webgoat
-RUN apt-get -y install apt-utils nginx wget
-RUN echo "127.0.0.1 www.webgoat.local www.webwolf.local webgoat webwolf" >> /etc/hosts
-RUN update-rc.d nginx defaults
+RUN apt-get -y install apt-utils nginx
 
 USER webgoat
 RUN cd /home/webgoat/; mkdir -p .webgoat-${webgoat_version}
