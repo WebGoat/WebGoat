@@ -2,7 +2,7 @@
 
 ## Docker build
 
-	docker build --no-cache --build-arg webgoat_version_env=v8.0.0-SNAPSHOT -t webgoat/goatandwolf:latest .
+	docker build --no-cache --build-arg webgoat_version=v8.0.0-SNAPSHOT -t webgoat/goatandwolf:latest .
 	
 ## Docker run
 	
