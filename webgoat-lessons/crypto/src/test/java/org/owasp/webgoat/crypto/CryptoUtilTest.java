@@ -11,6 +11,9 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.junit.jupiter.api.Test;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class CryptoUtilTest {
 
 	@Test
@@ -21,10 +24,10 @@ public class CryptoUtilTest {
 			PrivateKey privateKey = CryptoUtil.getPrivateKeyFromPEM(CryptoUtil.getPrivateKeyInPEM(keyPair));
 			String modulus = DatatypeConverter.printHexBinary(rsaPubKey.getModulus().toByteArray());
 			String signature = CryptoUtil.signMessage(modulus, privateKey);
-			System.out.println(rsaPubKey.getPublicExponent());
+			log.debug("public exponent {}", rsaPubKey.getPublicExponent());
 			assertTrue(CryptoUtil.verifyAssignment(modulus, signature, keyPair.getPublic()));
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("signing failed", e);;
 			fail();
 		}
 	}
