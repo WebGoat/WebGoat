@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class VulnerableTaskHolder implements Serializable {
 
 	private static final long serialVersionUID = 2;
@@ -37,31 +40,31 @@ public class VulnerableTaskHolder implements Serializable {
 		stream.defaultReadObject();
 		
 		//do something with the data
-		System.out.println("restoring task: "+taskName);
-		System.out.println("restoring time: "+requestedExecutionTime);
+		log.info("restoring task: {}", taskName);
+		log.info("restoring time: {}", requestedExecutionTime);
 		
 		if (requestedExecutionTime!=null && 
 				(requestedExecutionTime.isBefore(LocalDateTime.now().minusMinutes(10))
 				|| requestedExecutionTime.isAfter(LocalDateTime.now()))) {
 			//do nothing is the time is not within 10 minutes after the object has been created
-			System.out.println(this.toString());
+			log.debug(this.toString());
 			throw new IllegalArgumentException("outdated");
 		}
 		
 		//condition is here to prevent you from destroying the goat altogether
 		if ((taskAction.startsWith("sleep")||taskAction.startsWith("ping"))
 				&& taskAction.length() < 22) {
-		System.out.println("about to execute: "+taskAction);
+		log.info("about to execute: {}", taskAction);
 		try {
             Process p = Runtime.getRuntime().exec(taskAction);
             BufferedReader in = new BufferedReader(
                                 new InputStreamReader(p.getInputStream()));
             String line = null;
             while ((line = in.readLine()) != null) {
-                System.out.println(line);
+                log.info(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IO Exception", e);
         }
 		}
        

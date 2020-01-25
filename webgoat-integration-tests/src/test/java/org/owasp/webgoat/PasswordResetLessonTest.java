@@ -46,7 +46,6 @@ public class PasswordResetLessonTest extends IntegrationTest {
                 .formParams("resetLink", link, "password", "123456")
                 .post(url("PasswordReset/reset/change-password"))
                 .then()
-                .log().all()
                 .statusCode(200);
     }
 
@@ -57,7 +56,6 @@ public class PasswordResetLessonTest extends IntegrationTest {
                 .cookie("WEBWOLFSESSION", getWebWolfCookie())
                 .get(webWolfUrl("WebWolf/requests"))
                 .then()
-                .log().all()
                 .extract().response().getBody().asString();
         int startIndex = responseBody.lastIndexOf("/PasswordReset/reset/reset-password/");
         var link = responseBody.substring(startIndex + "/PasswordReset/reset/reset-password/".length(), responseBody.indexOf(",", startIndex) - 1);
