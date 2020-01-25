@@ -24,6 +24,8 @@ package org.owasp.webgoat.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.TextCodec;
+import lombok.extern.slf4j.Slf4j;
+
 import org.junit.Test;
 
 import java.time.Duration;
@@ -32,6 +34,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class TokenTest {
 
     @Test
@@ -43,7 +46,7 @@ public class TokenTest {
                 .setIssuedAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toDays(10)))
                 .setClaims(claims)
                 .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, key).compact();
-        System.out.println(token);
+        log.debug(token);
         Jwt jwt = Jwts.parser().setSigningKey("qwertyqwerty1234").parse(token);
         jwt = Jwts.parser().setSigningKeyResolver(new SigningKeyResolverAdapter() {
             @Override
@@ -64,8 +67,6 @@ public class TokenTest {
         String token = Jwts.builder().setClaims(claims)
                 .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, "bm5n3SkxCX4kKRy4")
                 .compact();
-        //Jws<Claims> jws = Jwts.parser().setSigningKey("bm5n3SkxCX4kKRy4").parseClaimsJws(token);
-        //Jwts.parser().setSigningKey().parsePlaintextJws(token);
-        System.out.println(token);
+        log.debug(token);
     }
 }

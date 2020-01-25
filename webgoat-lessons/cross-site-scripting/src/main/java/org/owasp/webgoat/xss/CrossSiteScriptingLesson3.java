@@ -67,7 +67,6 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
             }
 
             if (includeCorrect && firstNameCorrect && lastNameCorrect) {
-                System.out.println("true");
                 return success(this).feedback("xss-mitigation-3-success").build();
             } else {
                 return failed(this).feedback("xss-mitigation-3-failure").build();
