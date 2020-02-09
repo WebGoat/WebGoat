@@ -2,7 +2,7 @@
 
 A signature is a hash that can be used to check the validity of some data. The signature can be supplied separately from the data that it validates, or in the case of CMS or SOAP can be included in the same file. (Where parts of that file contain the data and parts contain the signature).
 
-Signing is used when integrity is important. It is meant to be a guarantee that data send from A to B was not altered. So A signs the data by calculating the hash of the data and encrypting that hash using an assymmetric private key. B can then verify the data by calculating the hash of the data and decrypting the signature to compare if both hashes are the same.
+Signing is used when integrity is important. It is meant to be a guarantee that data sent from A to B was not altered. So A signs the data by calculating the hash of the data and encrypting that hash using an asymmetric private key. B can then verify the data by calculating the hash of the data and decrypting the signature to compare if both hashes are the same.
  
 == RAW signatures 
 
@@ -12,7 +12,7 @@ A raw signature is usually calculated as follows:
 * encrypt the hash using an asymmetric private key (e.g. RSA 2048 bit key)
 * (optionally) encode the binary encrypted hash using base64 encoding
 
-B will have to get the certificate with the public key as well. This might have been exchanged before. So at least 3 files are involved. The data, the signature and the certificate.
+B will have to get the certificate with the public key as well. This might have been exchanged before. So at least 3 files are involved: the data, the signature and the certificate.
 
 == CMS signatures
 
@@ -21,7 +21,7 @@ A CMS signature is a standardized way to send data + signature + certificate wit
 == SOAP signatures
 
 A SOAP signature also contains data and the signature and optionally the certificate. All in one XML payload. There are special steps involved in calculating the hash of the data. This has to do with the fact that the SOAP XML sent from system to system might introduce extra elements or timestamps. 
-Also, SOAP Signing offers the posibility to sign different parts of the message by different parties.
+Also, SOAP Signing offers the possibility to sign different parts of the message by different parties.
 
 
 == Email signatures
