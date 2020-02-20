@@ -45,7 +45,7 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
                                   @RequestParam Integer QTY4, @RequestParam String field1,
                                   @RequestParam String field2) {
 
-        if (field2.toLowerCase().matches("<script>.*(console\\.log\\(.*\\)|alert\\(.*\\))<\\/script>")) {
+        if (field2.toLowerCase().matches(".*<script>.*(console\\.log\\(.*\\)|alert\\(.*\\));?<\\/script>.*")) {
             return failed(this).feedback("xss-reflected-5a-failed-wrong-field").build();
         }
 
