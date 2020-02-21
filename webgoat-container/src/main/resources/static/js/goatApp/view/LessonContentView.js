@@ -113,12 +113,16 @@ define(['jquery',
                 //complete: function (data) {
                     //callbackFunction(data);
                 //}
-            }).then(function(data){
-                 self.onSuccessResponse(data, failureCallbackFunctionName, successCallBackFunctionName)}, self.onErrorResponse.bind(self));
+            }).then(
+            		function(data){
+                 self.onSuccessResponse(data, failureCallbackFunctionName, successCallBackFunctionName)
+                 }, 
+                 self.onErrorResponse.bind(self)
+                 );
             return false;
          },
 
-        onSuccessResponse: function(data, failureCallbackFunctionName, successCallBackFunctionName) {
+        onSuccessResponse: function(data, failureCallbackFunctionName, successCallBackFunctionName) {        	
             this.renderFeedback(data.feedback);
             this.renderOutput(data.output || "");
 
@@ -147,10 +151,15 @@ define(['jquery',
             $(this.curForm).siblings('.assignment-success').find('i').addClass('hidden');
         },
 
-        onErrorResponse: function (a,b,c) {
-            console.error(a);
+        onErrorResponse: function (data,b,c) {
+        	console.error(data);
+        	if (data.status == 403) {
+        		this.renderFeedback(data.responseText);
+        	}
+            
             console.error(b);
             console.error(c);
+            
             return false;
         },
 
