@@ -8,7 +8,10 @@ $(document).ready(
 				$("#secrettoken").load('/WebGoat/JWT/secret/gettoken');
 		}
 	);
+	
 </script>
+
+
 </header>
 <body>
 <div class="lesson-page-wrapper">
@@ -16,6 +19,23 @@ $(document).ready(
 </div>
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:JWT_structure.adoc"></div>
+			<form id="encode" class="attack-form" method="POST" name="form"	action="/WebGoat/JWT/encode" >
+			<table>
+			<tr><td width="100%"><input class="form-control" name="jsonHeader" value='{  "alg":"HS256",  "typ":"JWT"}"' type="TEXT"/></td></tr>
+			<tr><td width="100%"><input class="form-control" name="jsonPayload" value='{  "alg":"HS256",  "typ":"JWT"}' type="TEXT"/></td></tr>
+			<tr><td width="100%"><input class="form-control" name="jsonSecret" value="secret" type="TEXT"/></td></tr>
+			<tr><td><input name="SUBMIT" value="encode" type="SUBMIT"/></td></tr>			
+			</table>
+			</form>
+			<form id="decode" class="attack-form" method="POST" name="form"	action="/WebGoat/JWT/decode" >
+			<table>
+			<tr><td width="100%"><input class="form-control" id="headervalue" name="headervalue" value='' type="TEXT"/></td></tr>
+			<tr><td width="100%"><input class="form-control" name="payloadvalue" value='' type="TEXT"/></td></tr>
+			<tr><td width="100%"><input class="form-control" name="signature" value="" type="TEXT"/></td></tr>
+			<tr><td><input name="SUBMIT" value="encode" type="SUBMIT"/></td></tr>			
+			</table>
+			</form>
+			
 </div>
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:JWT_login_to_token.adoc"></div>
@@ -296,6 +316,17 @@ $(document).ready(
         <div class="attack-output"></div>
     </div>
 </div>
+<script>
+
+$('#encode').submit(function () {
+    $.post('/WebGoat/JWT/encode', $('#encode').serialize(), function (data, textStatus) {
+    	var obj = JSON.parse(data);
+    	document.getElementById("headervalue").value=obj.header;
+    });
+    return false;
+});
+
+</script>
 </body>
 
 </html>
