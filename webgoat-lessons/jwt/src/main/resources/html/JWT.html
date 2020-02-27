@@ -20,22 +20,41 @@ $(document).ready(
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:JWT_structure.adoc"></div>
 			<form id="encode" class="attack-form" method="POST" name="form"	action="/WebGoat/JWT/encode" >
-			<table>
-			<tr><td width="100%"><input class="form-control" name="jsonHeader" value='{  "alg":"HS256",  "typ":"JWT"}"' type="TEXT"/></td></tr>
-			<tr><td width="100%"><input class="form-control" name="jsonPayload" value='{  "alg":"HS256",  "typ":"JWT"}' type="TEXT"/></td></tr>
-			<tr><td width="100%"><input class="form-control" name="jsonSecret" value="secret" type="TEXT"/></td></tr>
-			<tr><td><input name="SUBMIT" value="encode" type="SUBMIT"/></td></tr>			
-			</table>
-			</form>
-			<form id="decode" class="attack-form" method="POST" name="form"	action="/WebGoat/JWT/decode" >
-			<table>
-			<tr><td width="100%"><input class="form-control" id="headervalue" name="headervalue" value='' type="TEXT"/></td></tr>
-			<tr><td width="100%"><input class="form-control" name="payloadvalue" value='' type="TEXT"/></td></tr>
-			<tr><td width="100%"><input class="form-control" name="signature" value="" type="TEXT"/></td></tr>
-			<tr><td><input name="SUBMIT" value="encode" type="SUBMIT"/></td></tr>			
-			</table>
-			</form>
+			<table width="100%"><tbody>
+			<tr><td>JWT header: </td><td width="100%"><input class="form-control" id="jsonHeader" name="jsonHeader" value='{  "alg":"HS256",  "typ":"JWT"}' type="TEXT"/></td></tr>
 			
+			<tr><td>JWT payload: </td><td width="100%">
+			<textarea class="form-control" rows="7" id="jsonPayload" name="jsonPayload" >
+{  	
+	"exp": 1416471934,  "user_name": "user",  
+	"scope": [    "read",    "write"  ],  
+	"authorities": [    "ROLE_ADMIN",    "ROLE_USER"  ],  
+	"jti": "9bc92a44-0b1a-4c5e-be70-da52075b9a84",  
+	"client_id": "my-client-with-secret"
+}
+			</textarea>
+			</td></tr>
+			<tr><td align="center">.</td></tr>
+			<tr><td>encryption key: </td><td width="100%"><input class="form-control" id="jsonSecret" name="jsonSecret" value="secret" type="TEXT"/></td></tr>
+			<tr><td><input name="SUBMIT" value="generate JWT token" type="SUBMIT"/></td></tr>			
+			</tbody></table>
+			</form>
+			<form id="decode" class="attack-form" method="POST" name="form"	action="/WebGoat/JWT/decode" >			
+			<table width=100%><tbody>
+			<tr><td>JWT token: </td><td width="100%">
+				<span id="encodedHeader" style="color: orange;font-family:courier">eyAgImFsZyI6IkhTMjU2IiwgICJ0eXAiOiJKV1QifQ</span>
+				<span style="color: black;font-family:courier"><b>.//header</b></span><br/>
+				<div id="encodedPayload" style="color: green;font-family:courier;width:50%">eyAgCQ0KCSJleHAiOiAxNDE2NDcxOTM0LCAgInVzZXJfbmFtZSI6ICJ1c2Vy
+				IiwgIA0KCSJzY29wZSI6IFsgICAgInJlYWQiLCAgICAid3JpdGUiICBdLCAg
+				DQoJImF1dGhvcml0aWVzIjogWyAgICAiUk9MRV9BRE1JTiIsICAgICJST0xF
+				X1VTRVIiICBdLCAgDQoJImp0aSI6ICI5YmM5MmE0NC0wYjFhLTRjNWUtYmU3
+				MC1kYTUyMDc1YjlhODQiLCAgDQoJImNsaWVudF9pZCI6ICJteS1jbGllbnQt
+				d2l0aC1zZWNyZXQiDQp9DQoJCQk<span style="color: black;font-family:courier"><b>. //payload</b></span></div>
+				<span id="encodedSignature" style="color: blue;font-family:courier">gc32RepP65NANPLQP31Aq7QPbpWKBOiaS9UXczYVZLE</span><span style="color: black;font-family:courier"><b>//signature</b></span></td></tr>
+			<tr><td>JWT token: </td><td width="100%"><input class="form-control" id="jwtToken" name="jwtToken" value='' type="text"/></td></tr>
+			<tr><td><input name="SUBMIT" value="decode JWT token" type="SUBMIT"/></td></tr>			
+			</tbody></table>
+			</form>			
 </div>
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:JWT_login_to_token.adoc"></div>
@@ -318,10 +337,37 @@ $(document).ready(
 </div>
 <script>
 
+string_chop =  function(str, size){
+    if (str == null) return [];
+    str = String(str);
+    size = ~~size;
+    var strArray = str.match(new RegExp('.{1,' + size + '}', 'g'));
+    var strResult = "";
+    var i;
+    for (i = 0; i < strArray.length; i++) {
+    	strResult = strResult + strArray[i] + "\n";
+    }
+    return strResult;
+}
+
 $('#encode').submit(function () {
     $.post('/WebGoat/JWT/encode', $('#encode').serialize(), function (data, textStatus) {
     	var obj = JSON.parse(data);
-    	document.getElementById("headervalue").value=obj.header;
+    	document.getElementById("jwtToken").value=obj.encodedHeader+"."+obj.encodedPayload+"."+obj.encodedSignature;
+    	document.getElementById("encodedHeader").innerHTML=obj.encodedHeader;
+    	document.getElementById("encodedPayload").innerHTML=string_chop(obj.encodedPayload, 80);
+    	document.getElementById("encodedSignature").innerHTML=obj.encodedSignature;
+    	
+    });
+    return false;
+});
+
+$('#decode').submit(function () {
+    $.post('/WebGoat/JWT/decode', $('#decode').serialize(), function (data, textStatus) {
+    	var obj = JSON.parse(data);
+    	document.getElementById("jsonHeader").value=obj.jsonHeader;
+    	document.getElementById("jsonPayload").value=obj.jsonPayload;
+    	document.getElementById("jsonSignature").value="";
     });
     return false;
 });

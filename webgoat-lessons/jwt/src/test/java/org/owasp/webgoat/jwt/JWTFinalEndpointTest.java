@@ -1,6 +1,16 @@
 package org.owasp.webgoat.jwt;
 
-import io.jsonwebtoken.Jwts;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,15 +21,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jwts;
+import lombok.SneakyThrows;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class JWTFinalEndpointTest extends LessonTest {
@@ -28,6 +32,9 @@ public class JWTFinalEndpointTest extends LessonTest {
 
     @Autowired
     private JWT jwt;
+    
+    @Autowired
+    private JWTFinalEndpoint jwtFinalEndpoint;
 
     @Before
     public void setup() {
@@ -69,5 +76,23 @@ public class JWTFinalEndpointTest extends LessonTest {
                 .content(""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("jwt-invalid-token"))));
+    }
+    
+    @Test
+    @SneakyThrows
+    public void testJWTTestTools() {
+    	   
+		//JWTFinalEndpoint jwtFinalEndpoint = new JWTFinalEndpoint(null);
+		String jsonHeader = "{\"alg\":\"HS256\"}";
+		String jsonPayload = "{\"iss\":\"OWASP\"}";
+		String jsonSecret = "secret";
+		String jwtToken = jwtFinalEndpoint.encode(jsonHeader, jsonPayload, jsonSecret).replace(":", "")
+				.replace("encodedHeader", "").replace("encodedPayload", "").replace("encodedSignature", "")
+				.replace("{", "").replace("}", "").replace("\"", "").replace(",", ".");
+
+		Jwt jwt = Jwts.parser().setSigningKey(jsonSecret).parse(jwtToken);   
+		String revert = jwtFinalEndpoint.decode(jwtToken);
+		//System.out.println("revert: "+revert);
+        
     }
 }
