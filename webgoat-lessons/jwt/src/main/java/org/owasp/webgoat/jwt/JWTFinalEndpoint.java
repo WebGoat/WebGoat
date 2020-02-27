@@ -28,11 +28,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+
+import java.nio.charset.Charset;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
+import java.util.Random;
 
 /**
  * <pre>
@@ -68,6 +75,25 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
         this.dataSource = dataSource;
     }
 
+    @PostMapping(path="/JWT/encode",produces=MediaType.TEXT_HTML_VALUE)
+    @ResponseBody
+    public String encode(@RequestParam("jsonHeader") String jsonHeader,
+    		@RequestParam("jsonPayload") String jsonPayload,
+    		@RequestParam("jsonSecret") String jsonSecret) throws NoSuchAlgorithmException {		
+		
+		String header = Base64.getUrlEncoder().encodeToString(jsonHeader.getBytes(Charset.defaultCharset()));
+		String body = Base64.getUrlEncoder().encodeToString(jsonPayload.getBytes(Charset.defaultCharset()));
+		String signature = "";
+		return "{\"header\":\""+header+"\",\"payload\":\""+body+"\",\"secret\":\""+signature+"\"}";
+    }
+    
+    @PostMapping(path="/JWT/decode",produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String decode(@RequestParam("token") String token) throws NoSuchAlgorithmException {		
+		
+		return new String(Base64.getUrlDecoder().decode(token.getBytes(Charset.defaultCharset())));
+    }
+    
     @PostMapping("/JWT/final/follow/{user}")
     public @ResponseBody
     String follow(@PathVariable("user") String user) {
