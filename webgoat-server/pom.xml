@@ -36,6 +36,11 @@
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>crypto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>cross-site-scripting</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -91,6 +96,11 @@
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>path-traversal</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>sql-injection</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -142,11 +152,6 @@
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>webgoat-lesson-template</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-		<dependency>
-            <groupId>org.owasp.webgoat.lesson</groupId>
-            <artifactId>crypto</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

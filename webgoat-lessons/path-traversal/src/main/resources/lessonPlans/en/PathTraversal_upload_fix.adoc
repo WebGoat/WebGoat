@@ -1,0 +1,11 @@
+=== Path traversal while uploading files
+
+Again the same assignment but can you bypass the implemented fix?
+
+|===
+|OS |Location
+
+|`operatingSystem:os[]`
+|`webGoatTempDir:temppath[]PathTraversal/`
+
+|===

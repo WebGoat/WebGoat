@@ -29,8 +29,6 @@ import lombok.Getter;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.owasp.webgoat.i18n.PluginMessages;
 
-import java.util.Objects;
-
 public class AttackResult {
 
 
@@ -43,6 +41,7 @@ public class AttackResult {
         private String output;
         private Object[] outputArgs;
         private AssignmentEndpoint assignment;
+        private boolean attemptWasMade = false;
 
         public AttackResultBuilder(PluginMessages messages) {
             this.messages = messages;
@@ -80,8 +79,13 @@ public class AttackResult {
             return this;
         }
 
+        public AttackResultBuilder attemptWasMade() {
+            this.attemptWasMade = true;
+            return this;
+        }
+
         public AttackResult build() {
-            return new AttackResult(lessonCompleted, messages.getMessage(feedbackResourceBundleKey, feedbackArgs), messages.getMessage(output, output, outputArgs), assignment.getClass().getSimpleName());
+            return new AttackResult(lessonCompleted, messages.getMessage(feedbackResourceBundleKey, feedbackArgs), messages.getMessage(output, output, outputArgs), assignment.getClass().getSimpleName(), attemptWasMade);
         }
 
         public AttackResultBuilder assignment(AssignmentEndpoint assignment) {
@@ -98,12 +102,15 @@ public class AttackResult {
     private String output;
     @Getter
     private final String assignment;
+    @Getter
+    private boolean attemptWasMade;
 
-    public AttackResult(boolean lessonCompleted, String feedback, String output, String assignment) {
+    public AttackResult(boolean lessonCompleted, String feedback, String output, String assignment, boolean attemptWasMade) {
         this.lessonCompleted = lessonCompleted;
         this.feedback = StringEscapeUtils.escapeJson(feedback);
         this.output = StringEscapeUtils.escapeJson(output);
         this.assignment = assignment;
+        this.attemptWasMade = attemptWasMade;
     }
 
     public static AttackResultBuilder builder(PluginMessages messages) {

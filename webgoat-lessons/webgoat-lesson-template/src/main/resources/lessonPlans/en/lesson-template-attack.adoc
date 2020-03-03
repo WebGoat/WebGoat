@@ -85,8 +85,7 @@ green when the user solves the assignment. To make this work in the html we need
     <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
     <form class="attack-form" accept-charset="UNKNOWN"
           method="POST" name="form"
-          action="/WebGoat/lesson-template/sample-attack"
-          enctype="application/json;charset=UTF-8">
+          action="/WebGoat/lesson-template/sample-attack">
       <table>
         <tr>
           <td>two random params</td>
