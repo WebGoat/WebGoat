@@ -64,7 +64,7 @@ public abstract class AssignmentEndpoint {
      * @param assignment
      */
     protected AttackResult.AttackResultBuilder success(AssignmentEndpoint assignment) {
-        return AttackResult.builder(messages).lessonCompleted(true).feedback("assignment.solved").assignment(assignment);
+        return AttackResult.builder(messages).lessonCompleted(true).attemptWasMade().feedback("assignment.solved").assignment(assignment);
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class AssignmentEndpoint {
      * @param assignment
      */
     protected AttackResult.AttackResultBuilder failed(AssignmentEndpoint assignment) {
-        return AttackResult.builder(messages).lessonCompleted(false).feedback("assignment.not.solved").assignment(assignment);
+        return AttackResult.builder(messages).lessonCompleted(false).attemptWasMade().feedback("assignment.not.solved").assignment(assignment);
     }
 
     protected AttackResult.AttackResultBuilder informationMessage(AssignmentEndpoint assignment) {
