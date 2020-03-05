@@ -112,7 +112,7 @@ define(['jquery',
                     headers: additionalHeaders,
                     method: formMethod,
                     processData: 'multipart/form-data' !== encType,
-                    contentType: 'multipart/form-data' === encType ? false : encType,
+                    contentType: 'multipart/form-data' === encType ? false : contentType,
                     data: submitData,
                 }).then(function (data) {
                     self.onSuccessResponse(data, failureCallbackFunctionName, successCallBackFunctionName, informationalCallbackFunctionName)
