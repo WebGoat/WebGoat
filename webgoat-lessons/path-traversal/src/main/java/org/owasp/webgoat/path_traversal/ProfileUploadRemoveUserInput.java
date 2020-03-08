@@ -23,7 +23,7 @@ public class ProfileUploadRemoveUserInput extends ProfileUploadBase {
 
     @PostMapping(value = "/PathTraversal/profile-upload-remove-user-input", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult uploadFileHandler(@RequestParam("uploadedFileRetrieval") MultipartFile file) {
+    public AttackResult uploadFileHandler(@RequestParam("uploadedFileRemoveUserInput") MultipartFile file) {
         return super.execute(file, file.getOriginalFilename());
     }
 }

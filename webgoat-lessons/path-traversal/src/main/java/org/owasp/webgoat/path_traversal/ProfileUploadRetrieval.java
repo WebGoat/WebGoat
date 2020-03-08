@@ -55,14 +55,15 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
     }
 
     @PostMapping("/PathTraversal/random")
-    protected AttackResult execute(@RequestParam(value = "secret", required = false) String secret) {
+    @ResponseBody
+    public AttackResult execute(@RequestParam(value = "secret", required = false) String secret) {
         if (Sha512DigestUtils.shaHex(getWebSession().getUserName()).equalsIgnoreCase(secret)) {
             return success(this).build();
         }
         return failed(this).build();
     }
 
-    @GetMapping("/PathTraversal/random")
+    @GetMapping("/PathTraversal/random-picture")
     @ResponseBody
     public ResponseEntity<?> getProfilePicture(@RequestParam(value = "id", required = false) String id) {
         var catPicture = new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
@@ -75,7 +76,7 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
             }
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
-                    .location(new URI("/PathTraversal/random?id=" + catPicture.getName()))
+                    .location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
                     .body(Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(catPicture)));
         } catch (IOException | URISyntaxException e) {
             log.error("Unable to download picture", e);

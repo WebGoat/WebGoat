@@ -8,7 +8,7 @@ upload overwriting critical system files.
 
 For example let's assume we have an application which hosts some files and they can be requested in the following
 format: `http://example.com/file=report.pdf` now as an attacker you are interested in other files of course so
-you try `http://example.com/../../../../../etc/passwd`. In this case you try walk up to the root of the filesystem
+you try `http://example.com/file=../../../../../etc/passwd`. In this case you try walk up to the root of the filesystem
 and then go into `/etc/passwd` to gain access to this file. The `../` is called dot-dot-slash which is another name
 for this attack.
 
@@ -21,17 +21,4 @@ Also note that avoiding applications filtering those encodings double encoding m
 might be necessary in the case where you have a system A which calls system B. System A will only decode once and
 will call B with the still encoded URL.
 
-Now let's try some examples
-
-1. Example with upload where you have to overwrite one of the files
-1a Example upload where developer implemented a fix by removing ../ from the path
-1b No longer using name of user to store file so you need proxy to intercept
-2. Example with download for example the idea is to download a pdf but there is also a txt file
-3. Same as 2 with blacklisting implemented (see example from Workpress plugin)
-4. Zip path traversal where you have to create a zip file which overwrites a file in another directory
-
-
-- Run app with least priviledge
-- Before storing the file calculate the location
-- Same for reading is it actually reading from the directory you allow
 

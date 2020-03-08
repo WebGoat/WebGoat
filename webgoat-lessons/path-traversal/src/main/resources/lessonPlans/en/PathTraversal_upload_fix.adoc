@@ -1,5 +1,6 @@
 === Path traversal while uploading files
 
+The developer became aware of the vulnerability and implemented a fix which removed the `../` from the input.
 Again the same assignment but can you bypass the implemented fix?
 
 |===
@@ -7,5 +8,4 @@ Again the same assignment but can you bypass the implemented fix?
 
 |`operatingSystem:os[]`
 |`webGoatTempDir:temppath[]PathTraversal/`
-
 |===

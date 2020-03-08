@@ -35,7 +35,7 @@ webgoat.customjs.profileUploadCallbackFix = function () {
 webgoat.customjs.profileUploadRemoveUserInput = function () {
     var picture = document.getElementById("uploadedFileRemoveUserInput").files[0];
     var formData = new FormData();
-    formData.append("uploadedFile", picture);
+    formData.append("uploadedFileRemoveUserInput", picture);
     formData.append("fullName", $("#fullNameRemoveUserInput").val());
     formData.append("email", $("#emailRemoveUserInput").val());
     formData.append("password", $("#passwordRemoveUserInput").val());
@@ -56,7 +56,7 @@ webgoat.customjs.profileUploadCallbackRetrieval = function () {
 }
 
 function newRandomPicture() {
-    $.get("PathTraversal/random", function (result, status) {
+    $.get("PathTraversal/random-picture", function (result, status) {
         document.getElementById("randomCatPicture").src = "data:image/png;base64," + result;
     });
 }

@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,6 +40,29 @@ public class ProfileUploadTest extends LessonTest {
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$.assignment", CoreMatchers.equalTo("ProfileUpload")))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
+    }
+
+    @Test
+    public void attemptWithWrongDirectory() throws Exception {
+        var profilePicture = new MockMultipartFile("uploadedFile", "../picture.jpg", "text/plain", "an image".getBytes());
+
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/PathTraversal/profile-upload")
+                .file(profilePicture)
+                .param("fullName", "../../" + webSession.getUserName()))
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.assignment", CoreMatchers.equalTo("ProfileUpload")))
+                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("Nice try")))
+                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+    }
+
+    @Test
+    public void shouldNotOverrideExistingFile() throws Exception {
+        var profilePicture = new MockMultipartFile("uploadedFile", "picture.jpg", "text/plain", "an image".getBytes());
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/PathTraversal/profile-upload")
+                .file(profilePicture)
+                .param("fullName", "../" + webSession.getUserName()))
+                .andExpect(jsonPath("$.output", CoreMatchers.containsString("Is a directory")))
+                .andExpect(status().is(200));
     }
 
     @Test

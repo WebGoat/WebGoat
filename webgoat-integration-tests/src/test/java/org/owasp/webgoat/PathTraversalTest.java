@@ -2,10 +2,7 @@ package org.owasp.webgoat;
 
 import io.restassured.RestAssured;
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 import org.springframework.security.core.token.Sha512DigestUtils;
 
@@ -16,15 +13,8 @@ import java.util.Map;
 
 public class PathTraversalTest extends IntegrationTest {
 
-    private static String OS = System.getProperty("os.name").toLowerCase();
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
-    private File folder;
-
-    @Before
-    public void setup() throws IOException {
-        this.folder = temporaryFolder.newFolder();
-    }
 
     @Test
     public void assignment1() throws IOException {
@@ -75,7 +65,7 @@ public class PathTraversalTest extends IntegrationTest {
                         .when()
                         .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
-                        .multiPart("uploadedFileRetrieval", "../test.jpg", Files.readAllBytes(fileToUpload.toPath()))
+                        .multiPart("uploadedFileRemoveUserInput", "../test.jpg", Files.readAllBytes(fileToUpload.toPath()))
                         .post("/WebGoat/PathTraversal/profile-upload-remove-user-input")
                         .then()
                         .statusCode(200)
@@ -90,7 +80,7 @@ public class PathTraversalTest extends IntegrationTest {
                 .when()
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
-                .get("/WebGoat/PathTraversal/random?id=../../path-traversal-secret")
+                .get("/WebGoat/PathTraversal/random-picture?id=../../path-traversal-secret")
                 .then()
                 .statusCode(200)
                 .content(CoreMatchers.is("You found it submit the SHA-512 hash of your username as answer"));
