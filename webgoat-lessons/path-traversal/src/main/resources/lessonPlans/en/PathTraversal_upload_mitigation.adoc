@@ -32,6 +32,35 @@ in any other directory.
 Make sure that in any case you build detection for catching these cases but be careful with returning explicit information
 to the user. Every small detail might give the attacker knowledge about your system.
 
+==== Be aware...
+
+As shown in the previous examples be careful which method you use for retrieving parameters especially query parameters.
+Spring Boot does a decent job denying invalid path variables. To recap:
+
+[source]
+----
+@Getter("/f")
+public void f(@RequestParam("name") String name) {
+  //name is automatically decoded so %2E%2E%2F%2E%2E%2Ftest will become ../../test
+}
+
+@Getter("/g")
+public void g(HttpServletRequest request) {
+  var queryString = request.getQueryString(); // will return
+}
+
+@Getter("/h")
+public void h(HttpServletRequest request) {
+  var name = request.getParam("name"); //will return ../../test
+----
+
+If you invoke `/f` with `/f?name=%2E%2E%2F%2E%2E%2Ftest` it will become `../../test`. If you invoke `g` with
+`/g?name=%2E%2E%2F%2E%2E%2Ftest` it will return `%2E%2E%2F%2E%2E%2Ftest` *NO* decoding will be applied.
+The behaviour of `/h` with the same parameter will be the same as `/f`
+
+As you can see be careful and familiarize yourself with the correct methods to call. In every case write a
+unit test in such cases which covers encoded characters.
+
 ==== Spring Boot protection
 
 By default Spring Boot has protection for usage of for example `../` in a path. The implementation can be found in
@@ -40,3 +69,4 @@ if you replace `1.jpg` with `../../secret.txt` it will block the request. With q
 will not be there.
 
 In the lesson about "File uploads" more examples of vulnerabilities are shown.
+
