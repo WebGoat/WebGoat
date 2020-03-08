@@ -30,7 +30,7 @@ public class ProfileUploadRemoveUserInputTest extends LessonTest {
 
     @Test
     public void solve() throws Exception {
-        var profilePicture = new MockMultipartFile("uploadedFileRetrieval", "../picture.jpg", "text/plain", "an image".getBytes());
+        var profilePicture = new MockMultipartFile("uploadedFileRemoveUserInput", "../picture.jpg", "text/plain", "an image".getBytes());
 
         mockMvc.perform(MockMvcRequestBuilders.multipart("/PathTraversal/profile-upload-remove-user-input")
                 .file(profilePicture)
@@ -42,7 +42,7 @@ public class ProfileUploadRemoveUserInputTest extends LessonTest {
 
     @Test
     public void normalUpdate() throws Exception {
-        var profilePicture = new MockMultipartFile("uploadedFileRetrieval", "picture.jpg", "text/plain", "an image".getBytes());
+        var profilePicture = new MockMultipartFile("uploadedFileRemoveUserInput", "picture.jpg", "text/plain", "an image".getBytes());
 
         mockMvc.perform(MockMvcRequestBuilders.multipart("/PathTraversal/profile-upload-remove-user-input")
                 .file(profilePicture)

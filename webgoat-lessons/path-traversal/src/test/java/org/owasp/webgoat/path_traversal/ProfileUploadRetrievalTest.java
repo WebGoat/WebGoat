@@ -33,20 +33,20 @@ public class ProfileUploadRetrievalTest extends LessonTest {
     @Test
     public void solve() throws Exception {
         //Look at the response
-        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random-picture"))
                 .andExpect(status().is(200))
                 .andExpect(header().exists("Location"))
                 .andExpect(header().string("Location", containsString("?id=")))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.IMAGE_JPEG));
 
         //Browse the directories
-        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random?id=../../"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random-picture?id=../../"))
                 .andExpect(status().is(200))
                 .andExpect(content().string(containsString("/path-traversal-secret.jpg")))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.IMAGE_JPEG));
 
         //Retrieve the secret file (note: .jpg is added by the server)
-        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random?id=../../path-traversal-secret"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random-picture?id=../../path-traversal-secret"))
                 .andExpect(status().is(200))
                 .andExpect(content().string("You found it submit the SHA-512 hash of your username as answer"))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.IMAGE_JPEG));
@@ -60,7 +60,7 @@ public class ProfileUploadRetrievalTest extends LessonTest {
 
     @Test
     public void shouldReceiveRandomPicture() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random-picture"))
                 .andExpect(status().is(200))
                 .andExpect(header().exists("Location"))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.IMAGE_JPEG));
@@ -68,7 +68,7 @@ public class ProfileUploadRetrievalTest extends LessonTest {
 
     @Test
     public void unknownFileShouldGiveDirectoryContents() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random?id=test"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/PathTraversal/random-picture?id=test"))
                 .andExpect(status().is(200))
                 .andExpect(content().string(containsString("cats/8.jpg")))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.IMAGE_JPEG));
