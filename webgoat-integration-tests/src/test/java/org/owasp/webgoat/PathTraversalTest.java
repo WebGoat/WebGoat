@@ -76,11 +76,12 @@ public class PathTraversalTest extends IntegrationTest {
     public void assignment4() throws IOException {
         startLesson("PathTraversal");
 
-        RestAssured.given()
+        var uri = "/WebGoat/PathTraversal/random-picture?id=%2E%2E%2F%2E%2E%2Fpath-traversal-secret";
+        RestAssured.given().urlEncodingEnabled(false)
                 .when()
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
-                .get("/WebGoat/PathTraversal/random-picture?id=../../path-traversal-secret")
+                .get(uri)
                 .then()
                 .statusCode(200)
                 .content(CoreMatchers.is("You found it submit the SHA-512 hash of your username as answer"));

@@ -6,15 +6,16 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.token.Sha512DigestUtils;
-import org.springframework.security.crypto.codec.Hex;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -26,7 +27,13 @@ import static org.springframework.util.FileCopyUtils.copy;
 import static org.springframework.util.ResourceUtils.getFile;
 
 @RestController
-@AssignmentHints({"path-traversal-profile-retrieve.hint1", "path-traversal-profile-retrieve.hint2", "path-traversal-profile-retrieve.hint3, path-traversal-profile-retrieve.hint4", "path-traversal-profile-retrieve.hint5"})
+@AssignmentHints({
+        "path-traversal-profile-retrieve.hint1",
+        "path-traversal-profile-retrieve.hint2",
+        "path-traversal-profile-retrieve.hint3",
+        "path-traversal-profile-retrieve.hint4",
+        "path-traversal-profile-retrieve.hint5",
+        "path-traversal-profile-retrieve.hint6"})
 @Slf4j
 public class ProfileUploadRetrieval extends AssignmentEndpoint {
 
@@ -65,25 +72,33 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
 
     @GetMapping("/PathTraversal/random-picture")
     @ResponseBody
-    public ResponseEntity<?> getProfilePicture(@RequestParam(value = "id", required = false) String id) {
-        var catPicture = new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
-
+    public ResponseEntity<?> getProfilePicture(HttpServletRequest request) {
+        var queryParams = request.getQueryString();
+        if (queryParams != null && (queryParams.contains("..") || queryParams.contains("/"))) {
+            return ResponseEntity.badRequest().body("Illegal characters are not allowed in the query params");
+        }
         try {
+            var id = request.getParameter("id");
+            var catPicture = new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
+
             if (catPicture.getName().toLowerCase().contains("path-traversal-secret.jpg")) {
                 return ResponseEntity.ok()
                         .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
                         .body(FileCopyUtils.copyToByteArray(catPicture));
             }
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+            if (catPicture.exists()) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+                        .location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
+                        .body(Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(catPicture)));
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
-                    .body(Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(catPicture)));
+                    .body(StringUtils.arrayToCommaDelimitedString(catPicture.getParentFile().listFiles()).getBytes());
         } catch (IOException | URISyntaxException e) {
-            log.error("Unable to download picture", e);
+            log.error("Image not found", e);
         }
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
-                .body(StringUtils.arrayToCommaDelimitedString(catPicture.getParentFile().listFiles()).getBytes());
+        return ResponseEntity.badRequest().build();
     }
 }
