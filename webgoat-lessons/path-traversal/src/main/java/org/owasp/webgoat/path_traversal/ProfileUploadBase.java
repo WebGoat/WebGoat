@@ -5,15 +5,11 @@ import lombok.SneakyThrows;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.WebSession;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -45,7 +41,8 @@ public class ProfileUploadBase extends AssignmentEndpoint {
             var uploadedFile = new File(uploadDirectory, fullName);
             uploadedFile.createNewFile();
             FileCopyUtils.copy(file.getBytes(), uploadedFile);
-            if (userAttemptedToSolveLesson(uploadDirectory, uploadedFile)) {
+
+            if (attemptWasMade(uploadDirectory, uploadedFile)) {
                 return solvedIt(uploadedFile);
             }
             return informationMessage(this).feedback("path-traversal-profile-updated").feedbackArgs(uploadedFile.getAbsoluteFile()).build();
@@ -55,7 +52,7 @@ public class ProfileUploadBase extends AssignmentEndpoint {
         }
     }
 
-    private boolean userAttemptedToSolveLesson(File expectedUploadDirectory, File uploadedFile) throws IOException {
+    private boolean attemptWasMade(File expectedUploadDirectory, File uploadedFile) throws IOException {
         return !expectedUploadDirectory.getCanonicalPath().equals(uploadedFile.getParentFile().getCanonicalPath());
     }
 
@@ -63,7 +60,7 @@ public class ProfileUploadBase extends AssignmentEndpoint {
         if (uploadedFile.getCanonicalFile().getParentFile().getName().endsWith("PathTraversal")) {
             return success(this).build();
         }
-        return failed(this).build();
+        return failed(this).attemptWasMade().feedback("path-traversal-profile-attempt").feedbackArgs(uploadedFile.getCanonicalPath()).build();
     }
 
     public ResponseEntity<?> getProfilePicture() {

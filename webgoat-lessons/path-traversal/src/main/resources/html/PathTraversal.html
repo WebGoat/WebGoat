@@ -129,7 +129,7 @@
                   successCallback="profileUploadCallbackRemoveUserInput"
                   failureCallback="profileUploadCallbackRemoveUserInput"
                   informationalCallback="profileUploadCallbackRemoveUserInput"
-                  prepareData="profileUploadFix"
+                  prepareData="profileUploadRemoveUserInput"
                   enctype="multipart/form-data"
                   action="/WebGoat/PathTraversal/profile-upload-remove-user-input">
                 <div class="preview text-center">
@@ -176,19 +176,21 @@
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:PathTraversal_retrieval.adoc"></div>
     <div class="attack-container">
-        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <div class="upload-container">
-            <div class="form-group">
-                <button class="btn btn-primary btn-block" onclick="newRandomPicture()">Show random cat picture</button>
+
+        <div class="container-fluid">
+            <div class="input-group" style="margin-top: 10px">
+                <button class="btn btn-primary" onclick="newRandomPicture()">Show random cat picture
+                </button>
             </div>
+            <br/>
             <div>
-                <img id="randomCatPicture" th:src="@{/images/cats/1.jpg}"/>
+                <img id="randomCatPicture" th:src="@{/images/cats/1.jpg}" width="50%" height="50%"/>
             </div>
 
 
             <br/>
-
             <form class="attack-form" method="POST" name="form" action="/WebGoat/PathTraversal/random">
+                <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
@@ -199,8 +201,8 @@
                         <button type="submit" class="btn btn-primary">Submit secret</button>
                     </div>
                 </div>
-            </form>
 
+            </form>
 
             <div class="attack-feedback"></div>
             <div class="attack-output"></div>
