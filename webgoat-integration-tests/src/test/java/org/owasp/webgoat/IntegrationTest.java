@@ -43,7 +43,7 @@ public abstract class IntegrationTest {
     public String webGoatCookie;
     @Getter
     public String webWolfCookie;
-    @Getter
+    @Getter @Setter
     private String webgoatUser = UUID.randomUUID().toString();
 
     private static boolean started = false;

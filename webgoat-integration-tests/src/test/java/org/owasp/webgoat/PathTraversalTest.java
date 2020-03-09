@@ -22,6 +22,7 @@ public class PathTraversalTest extends IntegrationTest {
     
     private File fileToUpload = null;
     private static String cookieAccrossTests = null;
+    private static String userName = null;
 
     @Before
     @SneakyThrows
@@ -30,8 +31,11 @@ public class PathTraversalTest extends IntegrationTest {
     	if (null == cookieAccrossTests) {
     		super.login();
     		cookieAccrossTests = getWebGoatCookie();
+    		userName = getWebgoatUser();
+    	} else {
+    		setWebGoatCookie(cookieAccrossTests);
+    		setWebgoatUser(userName);
     	}
-    	setWebGoatCookie(cookieAccrossTests);
     	fileToUpload = temporaryFolder.newFile("test.jpg");
         Files.write(fileToUpload.toPath(), "This is a test" .getBytes());
         fileToUpload.deleteOnExit();
