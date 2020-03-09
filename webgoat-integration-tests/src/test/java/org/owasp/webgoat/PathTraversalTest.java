@@ -1,9 +1,12 @@
 package org.owasp.webgoat;
 
 import io.restassured.RestAssured;
+import lombok.SneakyThrows;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runners.MethodSorters;
 import org.springframework.security.core.token.Sha512DigestUtils;
 
 import java.io.File;
@@ -11,16 +14,32 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PathTraversalTest extends IntegrationTest {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    
+    private File fileToUpload = null;
+    private static String cookieAccrossTests = null;
 
-    @Test
-    public void assignment1() throws IOException {
-        startLesson("PathTraversal");
-        var fileToUpload = temporaryFolder.newFile("test.jpg");
+    @Before
+    @SneakyThrows
+    public void init() {
+    	
+    	if (null == cookieAccrossTests) {
+    		super.login();
+    		cookieAccrossTests = getWebGoatCookie();
+    	}
+    	setWebGoatCookie(cookieAccrossTests);
+    	fileToUpload = temporaryFolder.newFile("test.jpg");
         Files.write(fileToUpload.toPath(), "This is a test" .getBytes());
+        fileToUpload.deleteOnExit();
+    }
+    
+    @Test
+    public void assignment1() throws IOException {    	
+        startLesson("/PathTraversal");        
 
         Assert.assertThat(
                 RestAssured.given()
@@ -30,17 +49,13 @@ public class PathTraversalTest extends IntegrationTest {
                         .multiPart("uploadedFile", "test.jpg", Files.readAllBytes(fileToUpload.toPath()))
                         .param("fullName", "../John Doe")
                         .post("/WebGoat/PathTraversal/profile-upload")
-                        .then()
+                        .then()                        
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
     }
 
     @Test
     public void assignment2() throws IOException {
-        startLesson("PathTraversal");
-        var fileToUpload = temporaryFolder.newFile("test.jpg");
-        Files.write(fileToUpload.toPath(), "This is a test" .getBytes());
-
         Assert.assertThat(
                 RestAssured.given()
                         .when()
@@ -56,10 +71,6 @@ public class PathTraversalTest extends IntegrationTest {
 
     @Test
     public void assignment3() throws IOException {
-        startLesson("PathTraversal");
-        var fileToUpload = temporaryFolder.newFile("test.jpg");
-        Files.write(fileToUpload.toPath(), "This is a test" .getBytes());
-
         Assert.assertThat(
                 RestAssured.given()
                         .when()
@@ -74,8 +85,6 @@ public class PathTraversalTest extends IntegrationTest {
 
     @Test
     public void assignment4() throws IOException {
-        startLesson("PathTraversal");
-
         var uri = "/WebGoat/PathTraversal/random-picture?id=%2E%2E%2F%2E%2E%2Fpath-traversal-secret";
         RestAssured.given().urlEncodingEnabled(false)
                 .when()
@@ -87,5 +96,6 @@ public class PathTraversalTest extends IntegrationTest {
                 .content(CoreMatchers.is("You found it submit the SHA-512 hash of your username as answer"));
 
         checkAssignment("/WebGoat/PathTraversal/random", Map.of("secret", Sha512DigestUtils.shaHex(getWebgoatUser())), true);
+        checkResults("/PathTraversal");
     }
 }

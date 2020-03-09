@@ -3,6 +3,8 @@ package org.owasp.webgoat;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.Getter;
+import lombok.Setter;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Assert;
@@ -37,10 +39,10 @@ public abstract class IntegrationTest {
     private static String WEBWOLF_URL = "http://" + WEBWOLF_HOSTHEADER + "/";
     private static boolean WG_SSL = false;//enable this if you want to run the test on ssl
 
+    @Getter @Setter
+    public String webGoatCookie;
     @Getter
-    private String webGoatCookie;
-    @Getter
-    private String webWolfCookie;
+    public String webWolfCookie;
     @Getter
     private String webgoatUser = UUID.randomUUID().toString();
 
