@@ -28,8 +28,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class LessonProgressService {
 
-    private UserTrackerRepository userTrackerRepository;
-    private WebSession webSession;
+    private final UserTrackerRepository userTrackerRepository;
+    private final WebSession webSession;
 
     /**
      * Endpoint for fetching the complete lesson overview which informs the user about whether all the assignments are solved.
