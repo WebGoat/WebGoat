@@ -50,7 +50,7 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
             try {
                 copy(getFile(getClass().getResource("/images/cats/" + i + ".jpg")), new File(catPicturesDirectory, i + ".jpg"));
             } catch (Exception e) {
-                log.error("Unable to copy pictures", e);
+                log.error("Unable to copy pictures" + e.getMessage());
             }
         }
         var secretDirectory = this.catPicturesDirectory.getParentFile().getParentFile();
