@@ -11,8 +11,8 @@ import java.util.Date;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.jwt.JWTSecretKeyEndpoint;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,11 +27,6 @@ import io.jsonwebtoken.impl.TextCodec;
 import io.restassured.RestAssured;
 
 public class JWTLessonTest extends IntegrationTest {
-
-	@Before
-	public void initTest() {
-		
-	}
 	
     @Test
     public void solveAssignment() throws IOException, InvalidKeyException, NoSuchAlgorithmException {

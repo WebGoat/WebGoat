@@ -8,6 +8,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.owasp.webwolf.WebWolf;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
@@ -47,6 +50,7 @@ public abstract class IntegrationTest {
     private static boolean started = false;
 
     @BeforeClass
+    @BeforeAll
     public static void beforeAll() {
         if (WG_SSL) {
             WEBGOAT_URL = WEBGOAT_URL.replace("http:", "https:");
@@ -88,6 +92,7 @@ public abstract class IntegrationTest {
     }
 
     @Before
+    @BeforeEach
     public void login() {
 
         String location = given()
@@ -139,6 +144,7 @@ public abstract class IntegrationTest {
     }
 
     @After
+    @AfterEach
     public void logout() {
         RestAssured.given()
                 .when()
@@ -154,6 +160,10 @@ public abstract class IntegrationTest {
      * @param lessonName
      */
     public void startLesson(String lessonName) {
+        startLesson(lessonName, true);
+    }
+    
+    public void startLesson(String lessonName, boolean restart) {
         RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
@@ -162,6 +172,7 @@ public abstract class IntegrationTest {
                 .then()
                 .statusCode(200);
 
+        if (restart) {
         RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
@@ -169,6 +180,7 @@ public abstract class IntegrationTest {
                 .get(url("service/restartlesson.mvc"))
                 .then()
                 .statusCode(200);
+        }
     }
 
     /**

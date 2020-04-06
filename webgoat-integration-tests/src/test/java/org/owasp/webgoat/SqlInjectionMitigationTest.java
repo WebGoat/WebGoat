@@ -1,13 +1,12 @@
 package org.owasp.webgoat;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Test;
-
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
 

@@ -1,11 +1,11 @@
 package org.owasp.webgoat;
 
-import org.junit.Test;
-
 import io.restassured.RestAssured;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.jupiter.api.Test;
 
 public class XSSTest extends IntegrationTest {
 

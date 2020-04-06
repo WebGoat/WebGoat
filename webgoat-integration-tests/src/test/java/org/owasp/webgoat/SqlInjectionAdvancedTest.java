@@ -1,9 +1,9 @@
 package org.owasp.webgoat;
 
-import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.jupiter.api.Test;
 
 public class SqlInjectionAdvancedTest extends IntegrationTest {
 
