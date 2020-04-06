@@ -1,6 +1,6 @@
 package org.owasp.webgoat;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 import javax.xml.bind.DatatypeConverter;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.crypto.CryptoUtil;
 import org.owasp.webgoat.crypto.HashingAssignment;
 

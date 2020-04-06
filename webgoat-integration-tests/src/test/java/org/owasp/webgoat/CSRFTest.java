@@ -1,18 +1,25 @@
 package org.owasp.webgoat;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.TestFactory;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import lombok.SneakyThrows;
 
 public class CSRFTest extends IntegrationTest {
 	
@@ -44,32 +51,33 @@ public class CSRFTest extends IntegrationTest {
 	
     private String webwolfFileDir;
 	
-	
-    @Test
-    public void runTests() throws IOException {
-        startLesson("CSRF");
-        
+    @BeforeEach
+    @SneakyThrows
+    public void init() {
+    	startLesson("CSRF");        
         webwolfFileDir = getWebWolfServerPath();
-        
-        //Assignment 3
         uploadTrickHtml("csrf3.html", trickHTML3.replace("WEBGOATURL", url("/csrf/basic-get-flag")));
-        checkAssignment3(callTrickHtml("csrf3.html"));
-        
-        //Assignment 4
         uploadTrickHtml("csrf4.html", trickHTML4.replace("WEBGOATURL", url("/csrf/review")));
-        checkAssignment4(callTrickHtml("csrf4.html"));
-        
-        //Assignment 7
         uploadTrickHtml("csrf7.html", trickHTML7.replace("WEBGOATURL", url("/csrf/feedback/message")));
-        checkAssignment7(callTrickHtml("csrf7.html"));
-        
-        //Assignment 8
         uploadTrickHtml("csrf8.html", trickHTML8.replace("WEBGOATURL", url("/login")).replace("USERNAME", getWebgoatUser()));
-        checkAssignment8(callTrickHtml("csrf8.html"));
-        
+    }
+
+    @TestFactory
+    Iterable<DynamicTest> testCSRFLesson() {
+    	return Arrays.asList(
+    			dynamicTest("assignement 3",()-> checkAssignment3(callTrickHtml("csrf3.html"))),
+    			dynamicTest("assignement 4",()-> checkAssignment4(callTrickHtml("csrf4.html"))),
+    			dynamicTest("assignement 7",()-> checkAssignment7(callTrickHtml("csrf7.html"))),
+    			dynamicTest("assignement 8",()-> checkAssignment8(callTrickHtml("csrf8.html")))
+    			);
+    }
+	
+    @AfterEach
+    public void shutdown() throws IOException {        
+    	//logout();
         login();//because old cookie got replaced and invalidated
-        checkResults("csrf");
-        
+        startLesson("CSRF", false);
+        checkResults("/csrf");        
     }
     
     private void uploadTrickHtml(String htmlName, String htmlContent) throws IOException {
@@ -217,7 +225,7 @@ public class CSRFTest extends IntegrationTest {
     /**
      * Try to register the new user. Ignore the result.
      */
-    public void registerCSRFUser() {
+    private void registerCSRFUser() {
     	
        RestAssured.given()
                     .when()
