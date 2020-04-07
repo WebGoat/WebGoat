@@ -1,6 +1,6 @@
 define(['jquery',
     'underscore',
-    'libs/backbone',
+    'backbone',
     'goatApp/model/LessonContentModel',
     'goatApp/view/LessonContentView',
     'goatApp/view/HintView',

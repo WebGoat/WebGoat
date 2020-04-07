@@ -1,6 +1,11 @@
+/*
+ * Define the libraries that are used by the GoatRouter script. All define '' names should refer to the
+ * names in the main.js require.config paths name parts.
+ * The names of the function arguments is used as the object returned from loading the specified framework.
+ */
+
 define(['jquery',
-    'libs/jquery-vuln',
-    'jqueryui',
+	'libs/jquery-vuln',
     'underscore',
     'backbone',
     'goatApp/controller/LessonController',
@@ -8,9 +13,8 @@ define(['jquery',
     'goatApp/view/LessonContentView',
     'goatApp/view/MenuView',
     'goatApp/view/TitleView'
-], function ($,
-             $vuln,
-             jqueryui,
+], function (jquery,
+             jqueryvuln,
              _,
              Backbone,
              LessonController,
@@ -20,20 +24,23 @@ define(['jquery',
              TitleView) {
 
     function getContentElement() {
-        return $('#main-content');
+        return jquery('#main-content');
     };
 
     function render(view) {
-        $('div.pages').hide();
+    	jquery('div.pages').hide();
         //TODO this works for now because we only have one page we should rewrite this a bit
         if (view != null) {
-            $('#report-card-page').show();
+        	jquery('#report-card-page').show();
         } else {
-            $('#lesson-title').show();
-            $('#lesson-page').show();
+        	jquery('#lesson-title').show();
+        	jquery('#lesson-page').show();
         }
     };
 
+    /*
+     * Definition of Goat App Router.
+     */
     var GoatAppRouter = Backbone.Router.extend({
 
          routes: {
@@ -49,8 +56,8 @@ define(['jquery',
         titleView: null,
 
         setUpCustomJS: function () {
-            webgoat.customjs.jquery = $; //passing jquery into custom js scope ... still klunky, but works for now
-            webgoat.customjs.jqueryVuln = $vuln;
+            webgoat.customjs.jquery = jquery; //passing jquery into custom js scope ... still klunky, but works for now
+            webgoat.customjs.jqueryVuln = jqueryvuln;//ui;//$vuln;
 
             // shim to support xss lesson
             webgoat.customjs.phoneHome = function (e) {
@@ -72,7 +79,11 @@ define(['jquery',
 
         },
 
+        /* 
+         * Constructor of Goat App Router invoked by goatApp.js new Router().
+         */
         initialize: function () {
+        	console.log('initialize goat app router');
             this.menuController = new MenuController({menuView: new MenuView()});
             this.titleView = new TitleView();
             this.lessonController = new LessonController({lessonContentView: new LessonContentView(), titleView: this.titleView}),

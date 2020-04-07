@@ -1,3 +1,7 @@
+/*
+ * This JavaScript is used to load a Backbone router which is defined by GoatRouter.js
+ */
+
 define(['jquery',
         'underscore',
         'backbone',
@@ -15,10 +19,11 @@ define(['jquery',
             initApp: function () {
                 var locale = localStorage.getItem('locale') || 'en';
                 $.getJSON('service/labels.mvc', function(data) {
-                    window.polyglot = new Polyglot({phrases: data});
+                    window.polyglot = new Polyglot({phrases: data});//i18n polyglot labels
                     asyncErrorHandler.init();
-                    var goatRouter = new Router();
-                });
+                    console.log('about to create app router');//default js
+                    var goatRouter = new Router();//backbone router
+                });//jquery
 
             }
         };
