@@ -42,7 +42,7 @@
 					<table>
 						<tr>
 							<td>Clicking go will execute a jquery-ui close dialog:</td>
-							<td><input name="closetext" value="" type="TEXT" /><input
+							<td><input id="closetext" value="OK<script>alert('XSS')</script>" type="TEXT" /><input
 								name="SUBMIT" value="Go!" type="SUBMIT" onclick="webgoat.customjs.vuln_jquery_ui()" /></td>
 							<td></td>
 						</tr>
@@ -51,7 +51,7 @@
 					/*<![CDATA[*/
 					webgoat.customjs.vuln_jquery_ui = function()
 					{
-						webgoat.customjs.jquery('#dialog').dialog({ closeText: 'OK<script>alert("XSS")<\/script>' });
+						webgoat.customjs.jqueryVuln('#dialog').dialog({ closeText: webgoat.customjs.jquery('#closetext').val() });
 		        	};
 					/*]]>*/
 						</script>
@@ -73,7 +73,7 @@
 					<table>
 						<tr>
 							<td>Clicking go will execute a jquery-ui close dialog:</td>
-							<td><input name="closetext" value="" type="TEXT" /><input
+							<td><input id="closetext2" value="OK<script>alert('XSS')</script>" type="TEXT" /><input
 								name="SUBMIT" value="Go!" type="SUBMIT" onclick="webgoat.customjs.jquery_ui()" /></td>
 							<td></td>
 						</tr>
@@ -82,7 +82,7 @@
 					/*<![CDATA[*/
 					webgoat.customjs.jquery_ui = function()
 					{
-						webgoat.customjs.jquery('#dialog2').dialog({ closeText: 'OK' });
+						webgoat.customjs.jquery('#dialog2').dialog({ closeText: webgoat.customjs.jquery('#closetext2').val() });
 		        	};
 					/*]]>*/
 						</script>

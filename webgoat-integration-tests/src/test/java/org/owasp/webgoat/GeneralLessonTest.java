@@ -61,6 +61,22 @@ public class GeneralLessonTest extends IntegrationTest {
         checkResults("/cia/");
 
     }
+    
+    @Test
+    public void vulnerableComponents() {
+    	String solution = "<contact>\n" + 
+    			"    <java.lang.Integer>1</java.lang.Integer>\n" + 
+    			"    <firstName>Bruce</firstName>\n" + 
+    			"    <lastName>Mayhew</lastName>\n" + 
+    			"    <email>webgoat@owasp.org</email>\n" + 
+    			"</contact>";
+    	startLesson("VulnerableComponents");
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("payload", solution);
+        checkAssignment(url("/WebGoat/VulnerableComponents/attack1"), params, true);
+        checkResults("/VulnerableComponents/");
+    }
 
     @Test
     public void securePasswords() {
