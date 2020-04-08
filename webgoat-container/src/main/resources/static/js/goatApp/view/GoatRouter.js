@@ -6,6 +6,7 @@
 
 define(['jquery',
 	'libs/jquery-vuln',
+	'jqueryuivuln',
     'underscore',
     'backbone',
     'goatApp/controller/LessonController',
@@ -13,8 +14,9 @@ define(['jquery',
     'goatApp/view/LessonContentView',
     'goatApp/view/MenuView',
     'goatApp/view/TitleView'
-], function (jquery,
-             jqueryvuln,
+], function ($,
+             $vuln,
+             jqueryui,
              _,
              Backbone,
              LessonController,
@@ -24,17 +26,17 @@ define(['jquery',
              TitleView) {
 
     function getContentElement() {
-        return jquery('#main-content');
+        return $('#main-content');
     };
 
     function render(view) {
-    	jquery('div.pages').hide();
+    	$('div.pages').hide();
         //TODO this works for now because we only have one page we should rewrite this a bit
         if (view != null) {
-        	jquery('#report-card-page').show();
+        	$('#report-card-page').show();
         } else {
-        	jquery('#lesson-title').show();
-        	jquery('#lesson-page').show();
+        	$('#lesson-title').show();
+        	$('#lesson-page').show();
         }
     };
 
@@ -56,8 +58,8 @@ define(['jquery',
         titleView: null,
 
         setUpCustomJS: function () {
-            webgoat.customjs.jquery = jquery; //passing jquery into custom js scope ... still klunky, but works for now
-            webgoat.customjs.jqueryVuln = jqueryvuln;//ui;//$vuln;
+            webgoat.customjs.jquery = $; //passing jquery into custom js scope ... still klunky, but works for now
+            webgoat.customjs.jqueryVuln = $vuln;
 
             // shim to support xss lesson
             webgoat.customjs.phoneHome = function (e) {
