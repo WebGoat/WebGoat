@@ -17,7 +17,7 @@ The company has an internal system that allows all employees to see their own in
 The system requires the employees to use a unique _authentication TAN_ to view their data. +
 Your current TAN is *3SL99A*.
 
-Since you always have the urge to be the most earning employee, you want to exploit the system and instead of viewing your own internal data, _ you want to take a look at the data of all your colleagues_ to check their current salaries.
+Since you always have the urge to be the most earning employee, you want to exploit the system and instead of viewing your own internal data, _you want to take a look at the data of all your colleagues_ to check their current salaries.
 
 Use the form below and try to retrieve all employee data from the *employees* table. You should not need to know any specific names or TANs to get the information you need. +
 You already found out that the query performing your request looks like this:
