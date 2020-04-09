@@ -1,4 +1,4 @@
-This lesson describes the steps needed to add a new lesson to WebGoat. In general there are three steps:
+This lesson describes the steps needed to add a new lesson to WebGoat. In general there are four steps:
 
 - Write the content, in WebGoat we use AsciiDoc as a format.
 - Create a lesson class
