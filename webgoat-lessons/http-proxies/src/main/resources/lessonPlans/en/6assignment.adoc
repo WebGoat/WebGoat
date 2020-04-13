@@ -4,9 +4,6 @@ Before we start diving into intercepting requests with ZAP we need to exclude th
 framework otherwise ZAP will also stop at all the requests which are only necessary for the internal working of WebGoat.
 Basically a breakpoint is configured that will intercept requests when the request header contains a POST. Which are the most interesting ones. You can add other rules as long as the polling .mvc messages will be excluded. As this would be annoying.
 
-*This differs from the previous ZAP versions where you choose "exclude from proxy" and used the green/red intercept button*
-The exclude from proxy blocks the entire request when the IP address is the same as localhost. Using the breakpoint filter solves this issue. 
-
 Set the breakpoint as follows:
 
 image::images/breakpoint.png[Set breakpoint,style="lesson-image"]
