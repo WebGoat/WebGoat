@@ -50,7 +50,7 @@ public class ProfileUploadRemoveUserInputTest extends LessonTest {
                 .file(profilePicture)
                 .param("fullNameFix", "John Doe"))
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString(("unit-test"+File.separator+"picture.jpg").replace("\\", "\\\\"))))
+                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("unit-test\\"+File.separator+"picture.jpg")))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 

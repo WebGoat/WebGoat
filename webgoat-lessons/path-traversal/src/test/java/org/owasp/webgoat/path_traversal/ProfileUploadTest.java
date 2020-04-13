@@ -77,7 +77,7 @@ public class ProfileUploadTest extends LessonTest {
                 .file(profilePicture)
                 .param("fullName", "John Doe"))
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.feedback", CoreMatchers.containsStringIgnoringCase(("PathTraversal"+File.separator+"unit-test"+File.separator+"John Doe").replace("\\", "\\\\"))))
+                .andExpect(jsonPath("$.feedback", CoreMatchers.containsStringIgnoringCase("PathTraversal\\"+File.separator+"unit-test\\"+File.separator+"John Doe")))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 
