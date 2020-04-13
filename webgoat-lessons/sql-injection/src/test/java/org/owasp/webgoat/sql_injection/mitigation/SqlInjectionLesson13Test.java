@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 5/21/17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SqlInjectionLesson12aTest extends SqlLessonTest {
+public class SqlInjectionLesson13Test extends SqlLessonTest {
 
     @Test
     public void knownAccountShouldDisplayData() throws Exception {

@@ -227,14 +227,9 @@ public abstract class IntegrationTest {
                         .extract().path("lessonCompleted"), CoreMatchers.is(expectedResult));
     }
 
+    //TODO is prefix useful? not every lesson endpoint needs to start with a certain prefix (they are only required to be in the same package)
     public void checkResults(String prefix) {
-        Assert.assertThat(RestAssured.given()
-                .when()
-                .relaxedHTTPSValidation()
-                .cookie("JSESSIONID", getWebGoatCookie())
-                .get(url("service/lessonoverview.mvc"))
-                .then()
-                .statusCode(200).extract().jsonPath().getList("solved"), CoreMatchers.everyItem(CoreMatchers.is(true)));
+        checkResults();
 
         Assert.assertThat(RestAssured.given()
                 .when()
@@ -244,6 +239,16 @@ public abstract class IntegrationTest {
                 .then()
                 .statusCode(200).extract().jsonPath().getList("assignment.path"), CoreMatchers.everyItem(CoreMatchers.startsWith(prefix)));
 
+    }
+
+    public void checkResults() {
+        Assert.assertThat(RestAssured.given()
+                .when()
+                .relaxedHTTPSValidation()
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("service/lessonoverview.mvc"))
+                .then()
+                .statusCode(200).extract().jsonPath().getList("solved"), CoreMatchers.everyItem(CoreMatchers.is(true)));
     }
 
     public void checkAssignment(String url, ContentType contentType, String body, boolean expectedResult) {

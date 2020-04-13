@@ -1,3 +1,4 @@
+
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -22,47 +23,34 @@
 
 package org.owasp.webgoat.sql_injection.mitigation;
 
-import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.sql_injection.advanced.SqlInjectionLesson6a;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 @RestController
-@AssignmentHints(value = {"SqlStringInjectionHint-mitigation-12a-1", "SqlStringInjectionHint-mitigation-12a-2", "SqlStringInjectionHint-mitigation-12a-3", "SqlStringInjectionHint-mitigation-12a-4"})
-@Slf4j
-public class SqlInjectionLesson12a extends AssignmentEndpoint {
+@AssignmentHints(value = {"SqlOnlyInputValidation-1", "SqlOnlyInputValidation-2", "SqlOnlyInputValidation-3"})
+public class SqlOnlyInputValidation extends AssignmentEndpoint {
 
-    private final DataSource dataSource;
+    private final SqlInjectionLesson6a lesson6a;
 
-    public SqlInjectionLesson12a(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public SqlOnlyInputValidation(SqlInjectionLesson6a lesson6a) {
+        this.lesson6a = lesson6a;
     }
 
-    @PostMapping("/SqlInjectionMitigations/attack12a")
+    @PostMapping("/SqlOnlyInputValidation/attack")
     @ResponseBody
-    public AttackResult completed(@RequestParam String ip) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("select ip from servers where ip = ? and hostname = ?")) {
-            preparedStatement.setString(1, ip);
-            preparedStatement.setString(2, "webgoat-prd");
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return success(this).build();
-            }
-            return failed(this).build();
-        } catch (SQLException e) {
-            log.error("Failed", e);
-            return (failed(this).build());
+    public AttackResult attack(@RequestParam("userid_sql_only_input_validation") String userId) {
+        if (userId.contains(" ")) {
+            return failed(this).feedback("SqlOnlyInputValidation-failed").build();
         }
+        AttackResult attackResult = lesson6a.injectableQuery(userId);
+        return new AttackResult(attackResult.isLessonCompleted(), attackResult.getFeedback(), attackResult.getOutput(), getClass().getSimpleName());
     }
 }
