@@ -17,6 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.File;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProfileUploadTest extends LessonTest {
 
@@ -60,8 +62,10 @@ public class ProfileUploadTest extends LessonTest {
         var profilePicture = new MockMultipartFile("uploadedFile", "picture.jpg", "text/plain", "an image".getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/PathTraversal/profile-upload")
                 .file(profilePicture)
-                .param("fullName", "../" + webSession.getUserName()))
-                .andExpect(jsonPath("$.output", CoreMatchers.containsString("Is a directory")))
+                .param("fullName", ".."+File.separator + webSession.getUserName()))
+                .andExpect(jsonPath("$.output", CoreMatchers.anyOf(
+                		CoreMatchers.containsString("Is a directory"),
+                		CoreMatchers.containsString("..\\\\"+ webSession.getUserName()))))
                 .andExpect(status().is(200));
     }
 
@@ -73,7 +77,7 @@ public class ProfileUploadTest extends LessonTest {
                 .file(profilePicture)
                 .param("fullName", "John Doe"))
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("/PathTraversal\\/unit-test\\/John Doe\\\"")))
+                .andExpect(jsonPath("$.feedback", CoreMatchers.containsStringIgnoringCase(("PathTraversal"+File.separator+"unit-test"+File.separator+"John Doe").replace("\\", "\\\\"))))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 
