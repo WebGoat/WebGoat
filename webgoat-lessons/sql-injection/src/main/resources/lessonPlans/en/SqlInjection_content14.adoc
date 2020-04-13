@@ -1,0 +1,14 @@
+== Least Privilege
+
+=== Connect with a minimum set of privileges
+* The application should connect to the database with different credentials for every trust distinction
+* Applications rarely need delete rights to a table or database
+
+=== Database accounts should limit schema access
+
+=== Define database accounts for read and read/write access
+
+=== Multiple connection pools based on access
+* Use read only access for the authentication query
+* Use read/write access for the data modification queries
+* Use execute for access to stored procedure calls

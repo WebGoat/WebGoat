@@ -53,7 +53,7 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
         // The answer: Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from user_system_data --
     }
 
-    protected AttackResult injectableQuery(String accountName) {
+    public AttackResult injectableQuery(String accountName) {
         String query = "";
         try (Connection connection = dataSource.getConnection()) {
             boolean usedUnion = true;
