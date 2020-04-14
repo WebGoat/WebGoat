@@ -16,7 +16,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAKeyGenParameterSpec;
 import java.util.Base64;
-import java.util.Random;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -74,12 +73,15 @@ public class CryptoUtil {
 			PublicKey publicKey) {
 
 		log.debug("start verifyMessage");
-
-		//get raw signature from base64 encrypted string in header
-		byte[] decodedSignature = Base64.getDecoder().decode(base64EncSignature);
 		boolean result = false;
 		
 		try {
+			
+			base64EncSignature = base64EncSignature.replace("\r", "").replace("\n", "")
+					.replace(" ", "");
+			//get raw signature from base64 encrypted string in header
+			byte[] decodedSignature = Base64.getDecoder().decode(base64EncSignature);
+			
 			//Initiate signature verification
 			Signature instance = Signature.getInstance("SHA256withRSA");
 			instance.initVerify(publicKey);
