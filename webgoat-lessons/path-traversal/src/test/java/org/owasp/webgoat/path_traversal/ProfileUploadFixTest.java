@@ -55,7 +55,7 @@ public class ProfileUploadFixTest extends LessonTest {
                 .file(profilePicture)
                 .param("fullNameFix", "John Doe"))
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("/unit-test\\/John Doe\\\"")))
+                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("unit-test\\"+File.separator+"John Doe")))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 

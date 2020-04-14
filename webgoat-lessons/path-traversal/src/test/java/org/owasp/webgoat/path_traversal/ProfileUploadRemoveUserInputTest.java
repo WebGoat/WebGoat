@@ -15,14 +15,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.File;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProfileUploadRemoveUserInputTest extends LessonTest {
-
+	
     @Autowired
     private PathTraversal pathTraversal;
 
     @Before
-    public void setup() {
+    public void setup() { 
         Mockito.when(webSession.getCurrentLesson()).thenReturn(pathTraversal);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         Mockito.when(webSession.getUserName()).thenReturn("unit-test");
@@ -48,7 +50,7 @@ public class ProfileUploadRemoveUserInputTest extends LessonTest {
                 .file(profilePicture)
                 .param("fullNameFix", "John Doe"))
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("/unit-test\\/picture.jpg\\\"")))
+                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("unit-test\\"+File.separator+"picture.jpg")))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 

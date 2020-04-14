@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.io.File;
 import java.net.URI;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -48,7 +49,7 @@ public class ProfileUploadRetrievalTest extends LessonTest {
         mockMvc.perform(get(uri))
                 .andExpect(status().is(404))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(content().string(containsString("/path-traversal-secret.jpg")));
+                .andExpect(content().string(containsString("path-traversal-secret.jpg")));
 
         //Retrieve the secret file (note: .jpg is added by the server)
         uri = new URI("/PathTraversal/random-picture?id=%2E%2E%2F%2E%2E%2Fpath-traversal-secret");
@@ -76,6 +77,6 @@ public class ProfileUploadRetrievalTest extends LessonTest {
     public void unknownFileShouldGiveDirectoryContents() throws Exception {
         mockMvc.perform(get("/PathTraversal/random-picture?id=test"))
                 .andExpect(status().is(404))
-                .andExpect(content().string(containsString("cats/8.jpg")));
+                .andExpect(content().string(containsString("cats"+File.separator+"8.jpg")));
     }
 }
