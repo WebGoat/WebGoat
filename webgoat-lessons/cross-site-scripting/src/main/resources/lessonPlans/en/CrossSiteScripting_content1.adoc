@@ -16,11 +16,11 @@ And if not properly protected, sensitive data (such as your authentication cooki
 
 
 ==== Quick examples:
-* From the browser address bar (chrome, Firefox)
+* From the JavaScript console in the developer tools of the browser (chrome, Firefox)
 +
 ----
-javascript:alert("XSS Test");
-javascript:alert(document.cookie);
+alert("XSS Test");
+alert(document.cookie);
 ----
 * Any data field that is returned to the client is potentially injectable
 +
