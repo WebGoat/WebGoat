@@ -1,17 +1,58 @@
 package org.owasp.webgoat;
 
 import io.restassured.RestAssured;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+import lombok.SneakyThrows;
 
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.TestFactory;
+
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
+
+import java.util.Arrays;
 import java.util.Map;
 
 public class PasswordResetLessonTest extends IntegrationTest {
 
-    @Test
+	@BeforeEach
+    @SneakyThrows
+    public void init() {
+    	startLesson("/PasswordReset");
+    }
+	
+	@TestFactory
+    Iterable<DynamicTest> testPathTraversal() {
+    	return Arrays.asList(
+    			dynamicTest("assignment 6 - check email link",()-> sendEmailShouldBeAvailabeInWebWolf()),
+    			dynamicTest("assignment 6 - solve assignment",()-> solveAssignment()),
+    			dynamicTest("assignment 2 - simple reset",()-> assignment2()),
+    			dynamicTest("assignment 4 - guess questions",()-> assignment4()),
+    			dynamicTest("assignment 5 - simple questions",()-> assignment5())
+    			);
+    }
+	public void assignment2() {
+		
+		checkAssignment(url("PasswordReset/simple-mail/reset"), Map.of("emailReset", getWebgoatUser()+"@webgoat.org"), false);
+		checkAssignment(url("PasswordReset/simple-mail"), Map.of("email", getWebgoatUser()+"@webgoat.org", "password", StringUtils.reverse(getWebgoatUser())), true);
+	}
+	
+	public void assignment4() {
+        
+        checkAssignment(url("PasswordReset/questions"), Map.of("username", "tom", "securityQuestion", "purple"), true);
+    }
+	
+	public void assignment5() {
+        
+        checkAssignment(url("PasswordReset/SecurityQuestions"), Map.of("question", "What is your favorite animal?"), false);
+        checkAssignment(url("PasswordReset/SecurityQuestions"), Map.of("question", "What is your favorite color?"), true);
+    }
+
+	
     public void solveAssignment() {
         //WebGoat
-        startLesson("PasswordReset");
         clickForgotEmailLink("tom@webgoat-cloud.org");
 
         //WebWolf
@@ -22,10 +63,9 @@ public class PasswordResetLessonTest extends IntegrationTest {
         checkAssignment(url("PasswordReset/reset/login"), Map.of("email", "tom@webgoat-cloud.org", "password", "123456"), true);
     }
 
-    @Test
     public void sendEmailShouldBeAvailabeInWebWolf() {
-        startLesson("PasswordReset");
-        clickForgotEmailLink(getWebgoatUser() + "@webgoat.org");
+
+    	clickForgotEmailLink(getWebgoatUser() + "@webgoat.org");
 
         var responseBody = RestAssured.given()
                 .when()
@@ -36,6 +76,12 @@ public class PasswordResetLessonTest extends IntegrationTest {
                 .extract().response().getBody().asString();
 
         Assertions.assertThat(responseBody).contains("Hi, you requested a password reset link");
+    }
+    
+    @AfterEach
+    public void shutdown() {
+    	//this will run only once after the list of dynamic tests has run, this is to test if the lesson is marked complete
+    	checkResults("/PasswordReset");
     }
 
     private void changePassword(String link) {
