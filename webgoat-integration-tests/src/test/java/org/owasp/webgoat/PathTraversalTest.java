@@ -41,10 +41,10 @@ public class PathTraversalTest extends IntegrationTest {
     @TestFactory
     Iterable<DynamicTest> testPathTraversal() {
     	return Arrays.asList(
-    			dynamicTest("assignement 1 - profile upload",()-> assignment1()),
-    			dynamicTest("assignement 2 - profile upload fix",()-> assignment2()),
-    			dynamicTest("assignement 3 - profile upload remove user input",()-> assignment3()),
-    			dynamicTest("assignement 4 - profile upload random pic",()-> assignment4())
+    			dynamicTest("assignment 1 - profile upload",()-> assignment1()),
+    			dynamicTest("assignment 2 - profile upload fix",()-> assignment2()),
+    			dynamicTest("assignment 3 - profile upload remove user input",()-> assignment3()),
+    			dynamicTest("assignment 4 - profile upload random pic",()-> assignment4())
     			);
     }
     
