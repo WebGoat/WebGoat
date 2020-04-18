@@ -51,6 +51,6 @@ public class SqlOnlyInputValidationOnKeywords extends AssignmentEndpoint {
             return failed(this).feedback("SqlOnlyInputValidationOnKeywords-failed").build();
         }
         AttackResult attackResult = lesson6a.injectableQuery(userId);
-        return new AttackResult(attackResult.isLessonCompleted(), attackResult.getFeedback(), attackResult.getOutput(), getClass().getSimpleName());
+        return new AttackResult(attackResult.isLessonCompleted(), attackResult.getFeedback(), attackResult.getOutput(), getClass().getSimpleName(), true);
     }
 }
