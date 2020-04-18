@@ -2,6 +2,7 @@ package org.owasp.webgoat.challenges.challenge8;
 
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.challenges.Flag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,11 @@ public class Assignment8 extends AssignmentEndpoint {
         int categories = votes.entrySet().stream().mapToInt(e -> e.getKey() * e.getValue()).reduce(0, (a, b) -> a + b);
         var json = Map.of("average", (int) Math.ceil((double) categories / totalNumberOfVotes));
         return ResponseEntity.ok(json);
+    }
+
+    @GetMapping("/challenge/8/notUsed")
+    public AttackResult notUsed() {
+        throw new IllegalStateException("Should never be called, challenge specific method");
     }
 }
 
