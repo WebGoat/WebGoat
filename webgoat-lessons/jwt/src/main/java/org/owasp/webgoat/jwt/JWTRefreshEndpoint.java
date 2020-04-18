@@ -26,6 +26,7 @@ import io.jsonwebtoken.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
+import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +83,7 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
 
     @PostMapping("/JWT/refresh/checkout")
     @ResponseBody
-    public ResponseEntity<?> checkout(@RequestHeader(value = "Authorization", required = false) String token) {
+    public ResponseEntity<AttackResult> checkout(@RequestHeader(value = "Authorization", required = false) String token) {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

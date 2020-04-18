@@ -27,8 +27,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.lessons.Lesson;
-import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.session.Course;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +37,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -75,16 +74,26 @@ public class CourseConfiguration {
 
     private String getPath(Class<? extends AssignmentEndpoint> e) {
         for (Method m : e.getMethods()) {
-            if (m.getReturnType() == AttackResult.class) {
+            if (methodReturnTypeIsOfTypeAttackResult(m)) {
                 var mapping = getMapping(m);
-                if (mapping == null) {
-                    log.error("AttackResult method found without mapping in: {}", e.getSimpleName());
-                } else {
+                if (mapping != null) {
                     return mapping;
                 }
             }
         }
-        return "none";
+        throw new IllegalStateException("Assignment endpoint: " + e + " has no mapping like @GetMapping/@PostMapping etc," +
+                "with return type 'AttackResult' or 'ResponseEntity<AttackResult>' please consider adding one");
+    }
+
+    private boolean methodReturnTypeIsOfTypeAttackResult(Method m) {
+        if (m.getReturnType() == AttackResult.class) {
+            return true;
+        }
+        var genericType = m.getGenericReturnType();
+        if (genericType instanceof ParameterizedType) {
+            return ((ParameterizedType) m.getGenericReturnType()).getActualTypeArguments()[0] == AttackResult.class;
+        }
+        return false;
     }
 
     private String getMapping(Method m) {
@@ -100,9 +109,9 @@ public class CourseConfiguration {
             paths = ArrayUtils.addAll(m.getAnnotation(PutMapping.class).value(), m.getAnnotation(PutMapping.class).path());
         }
         if (paths == null) {
-            return "";
+            return null;
         } else {
-            return Arrays.stream(paths).filter(path -> !"".equals(path)).findFirst().orElseGet(() -> "");
+            return Arrays.stream(paths).filter(path -> !"".equals(path)).findFirst().orElse("");
         }
     }
 
