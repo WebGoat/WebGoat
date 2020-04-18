@@ -23,7 +23,6 @@
 
 package org.owasp.webgoat.sql_injection.mitigation;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;

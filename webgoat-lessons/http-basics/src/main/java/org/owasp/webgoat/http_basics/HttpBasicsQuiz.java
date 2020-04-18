@@ -38,7 +38,7 @@ public class HttpBasicsQuiz extends AssignmentEndpoint {
 
     @PostMapping("/HttpBasics/attack2")
     @ResponseBody
-    public AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num, HttpServletRequest request) throws IOException {
+    public AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num) throws IOException {
         if ("POST".equals(answer.toUpperCase()) && magic_answer.equals(magic_num)) {
             return success(this).build();
         } else {
