@@ -2,7 +2,7 @@ services:
 - docker
 language: java
 jdk:
-- openjdk11
+- openjdk13
 install: "/bin/true"
 script:
 - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
