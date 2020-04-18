@@ -37,7 +37,7 @@ Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/rel
 java -jar webgoat-server-8.0.0.VERSION.jar [--server.port=8080] [--server.address=localhost]
 ```
 
-The latest version of WebGoat needs Java 11. By default WebGoat starts on port 8080 with `--server.port` you can specify a different port. With `server.address` you
+The latest version of WebGoat needs Java 11 or above. By default WebGoat starts on port 8080 with `--server.port` you can specify a different port. With `server.address` you
 can bind it to a different address (default localhost)
 
 
