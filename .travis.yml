@@ -27,6 +27,7 @@ before_deploy:
 jobs:
   include:
     - stage: deploy
+      if: branch = master AND env(TRAVIS_TAG) IS present
       jdk: openjdk11
       skip_cleanup: true
       script: bash scripts/deploy-webgoat.sh
@@ -34,6 +35,7 @@ jobs:
         repo: WebGoat/WebGoat
         tags: true
     - stage: releases
+      if: branch = master AND env(TRAVIS_TAG) IS present
       jdk: openjdk11
       skip_cleanup: true
       overwrite: true
