@@ -6,7 +6,7 @@
 === Prevents other types of attacks from being stored in the database
 * Stored XSS
 * Information leakage
-* Logic errors – business rule validation
+* Logic errors - business rule validation
 * SQL injection
 
 === Often the database is considered trusted
