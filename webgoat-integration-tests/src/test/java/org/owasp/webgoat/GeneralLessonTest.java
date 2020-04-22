@@ -77,6 +77,17 @@ public class GeneralLessonTest extends IntegrationTest {
         checkAssignment(url("/WebGoat/VulnerableComponents/attack1"), params, true);
         checkResults("/VulnerableComponents/");
     }
+    
+    @Test
+    public void insecureLogin() {
+    	startLesson("InsecureLogin");
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("username", "CaptainJack");
+        params.put("password", "BlackPearl");
+        checkAssignment(url("/WebGoat/InsecureLogin/task"), params, true);
+        checkResults("/InsecureLogin/");
+    }
 
     @Test
     public void securePasswords() {
