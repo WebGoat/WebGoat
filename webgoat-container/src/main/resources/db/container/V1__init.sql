@@ -1,6 +1,8 @@
-CREATE SCHEMA CONTAINER;
+-- This statement is here the schema is always created even if we use Flyway directly like in test-cases
+-- For the normal WebGoat server there is a bean which already provided the schema (and creates it see DatabaseInitialization)
+CREATE SCHEMA IF NOT EXISTS CONTAINER;
 
-CREATE SEQUENCE CONTAINER.HIBERNATE_SEQUENCE AS INTEGER START WITH 1;
+CREATE SEQUENCE CONTAINER.HIBERNATE_SEQUENCE;
 
 CREATE TABLE CONTAINER.ASSIGNMENT (
   ID BIGINT NOT NULL PRIMARY KEY,
