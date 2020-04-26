@@ -14,7 +14,7 @@ INSERT INTO employees VALUES ('34477','Abraham ', 'Holman',  'Development', 5000
 INSERT INTO employees VALUES ('37648','John',     'Smith',   'Marketing',   64350, '3SL99A');
 
 CREATE TABLE access_log (
-  id int not null primary key,
+  id int generated always as identity not null primary key,
   time varchar(50),
   action varchar(200)
 );
