@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.token.Sha512DigestUtils;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -19,7 +18,8 @@ import java.net.URI;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -77,6 +77,6 @@ public class ProfileUploadRetrievalTest extends LessonTest {
     public void unknownFileShouldGiveDirectoryContents() throws Exception {
         mockMvc.perform(get("/PathTraversal/random-picture?id=test"))
                 .andExpect(status().is(404))
-                .andExpect(content().string(containsString("cats"+File.separator+"8.jpg")));
+                .andExpect(content().string(containsString("cats" + File.separator + "8.jpg")));
     }
 }

@@ -6,6 +6,7 @@ import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.Base64;
-
-import static org.springframework.util.FileCopyUtils.copy;
-import static org.springframework.util.ResourceUtils.getFile;
 
 @RestController
 @AssignmentHints({
@@ -47,8 +47,8 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
     @PostConstruct
     public void initAssignment() {
         for (int i = 1; i <= 10; i++) {
-            try {
-                copy(getFile(getClass().getResource("/images/cats/" + i + ".jpg")), new File(catPicturesDirectory, i + ".jpg"));
+            try (InputStream is = new ClassPathResource("images/cats/" + i + ".jpg").getInputStream()) {
+                FileCopyUtils.copy(is, new FileOutputStream(new File(catPicturesDirectory, i + ".jpg")));
             } catch (Exception e) {
                 log.error("Unable to copy pictures" + e.getMessage());
             }
