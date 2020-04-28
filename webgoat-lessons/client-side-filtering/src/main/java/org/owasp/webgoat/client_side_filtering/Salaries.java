@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.client_side_filtering;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
@@ -33,22 +34,19 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.ServletException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-public class Salaries { // {extends Endpoint {
+@Slf4j
+public class Salaries {
 
     @Value("${webgoat.user.directory}")
     private String webGoatHomeDirectory;
@@ -69,27 +67,28 @@ public class Salaries { // {extends Endpoint {
 
     @GetMapping("clientSideFiltering/salaries")
     @ResponseBody
-    public List<Map<String, Object>> invoke() throws ServletException, IOException {
+    public List<Map<String, Object>> invoke() {
         NodeList nodes = null;
         File d = new File(webGoatHomeDirectory, "ClientSideFiltering/employees.xml");
         XPathFactory factory = XPathFactory.newInstance();
         XPath path = factory.newXPath();
-        InputSource inputSource = new InputSource(new FileInputStream(d));
+        try (InputStream is = new FileInputStream(d)) {
+            InputSource inputSource = new InputSource(is);
 
-        StringBuffer sb = new StringBuffer();
+            StringBuffer sb = new StringBuffer();
 
-        sb.append("/Employees/Employee/UserID | ");
-        sb.append("/Employees/Employee/FirstName | ");
-        sb.append("/Employees/Employee/LastName | ");
-        sb.append("/Employees/Employee/SSN | ");
-        sb.append("/Employees/Employee/Salary ");
+            sb.append("/Employees/Employee/UserID | ");
+            sb.append("/Employees/Employee/FirstName | ");
+            sb.append("/Employees/Employee/LastName | ");
+            sb.append("/Employees/Employee/SSN | ");
+            sb.append("/Employees/Employee/Salary ");
 
-        String expression = sb.toString();
-
-        try {
+            String expression = sb.toString();
             nodes = (NodeList) path.evaluate(expression, inputSource, XPathConstants.NODESET);
         } catch (XPathExpressionException e) {
-            e.printStackTrace();
+            log.error("Unable to parse xml", e);
+        } catch (IOException e) {
+            log.error("Unable to read employees.xml at location: '{}'", d);
         }
         int columns = 5;
         List json = new ArrayList();
