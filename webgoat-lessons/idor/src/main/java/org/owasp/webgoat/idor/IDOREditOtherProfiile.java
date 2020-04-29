@@ -36,7 +36,7 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
     @Autowired
     private UserSessionData userSessionData;
 
-    @PutMapping(path = "IDOR/profile/{userId}", consumes = "application/json")
+    @PutMapping(path = "/IDOR/profile/{userId}", consumes = "application/json")
     @ResponseBody
     public AttackResult completed(@PathVariable("userId") String userId, @RequestBody UserProfile userSubmittedProfile) {
 

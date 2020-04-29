@@ -37,7 +37,7 @@ public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint {
     @Autowired
     UserSessionData userSessionData;
 
-    @PostMapping("IDOR/profile/alt-path")
+    @PostMapping("/IDOR/profile/alt-path")
     @ResponseBody
     public AttackResult completed(@RequestParam String url) {
         try {
