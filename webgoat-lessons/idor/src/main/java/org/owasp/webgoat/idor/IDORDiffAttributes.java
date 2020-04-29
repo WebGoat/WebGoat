@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 @AssignmentHints({"idor.hints.idorDiffAttributes1", "idor.hints.idorDiffAttributes2", "idor.hints.idorDiffAttributes3"})
 public class IDORDiffAttributes extends AssignmentEndpoint {
 
-    @PostMapping("IDOR/diff-attributes")
+    @PostMapping("/IDOR/diff-attributes")
     @ResponseBody
     public AttackResult completed(@RequestParam String attributes) {
         attributes = attributes.trim();

@@ -1081,6 +1081,17 @@ span.show-next-page, span.show-prev-page {
   padding:5px;
 }
 
+/* same look but not the behaviour */
+.nonattack-container {
+  position: relative;
+  background-color: #f1f1f1;
+  border: 2px solid #a66;
+  border-radius: 12px;
+  padding: 7px;
+  margin-top:7px;
+  padding:5px;
+}
+
 /* ERROR NOTIFICATION */
 #error-notification-container {
   display: none;

@@ -43,7 +43,7 @@ public class IDORViewOtherProfile extends AssignmentEndpoint {
     @Autowired
     UserSessionData userSessionData;
 
-    @GetMapping(path = "IDOR/profile/{userId}", produces = {"application/json"})
+    @GetMapping(path = "/IDOR/profile/{userId}", produces = {"application/json"})
     @ResponseBody
     public AttackResult completed(@PathVariable("userId") String userId, HttpServletResponse resp) {
         Map<String, Object> details = new HashMap<>();

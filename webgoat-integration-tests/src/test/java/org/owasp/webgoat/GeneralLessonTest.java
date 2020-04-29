@@ -166,4 +166,16 @@ public class GeneralLessonTest extends IntegrationTest {
 
     }
     
+    @Test
+    public void lessonTemplate() {
+    	startLesson("LessonTemplate");
+    	Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("param1", "secr37Value");
+        params.put("param2", "Main");
+        checkAssignment(url("/lesson-template/sample-attack"), params, true);
+        checkResults("/lesson-template/");
+    	
+    }
+    
 }
