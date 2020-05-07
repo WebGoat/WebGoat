@@ -28,6 +28,7 @@ package org.owasp.webgoat;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.util.StringUtils;
 
@@ -38,6 +39,7 @@ import org.springframework.util.StringUtils;
  * @date 2/21/17
  */
 @SpringBootApplication(scanBasePackages = "org.owasp.webgoat")
+@ServletComponentScan
 @Slf4j
 public class StartWebGoat extends SpringBootServletInitializer {
 

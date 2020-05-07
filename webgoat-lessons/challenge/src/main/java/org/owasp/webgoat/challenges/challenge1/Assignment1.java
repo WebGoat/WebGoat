@@ -46,7 +46,7 @@ public class Assignment1 extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
         boolean ipAddressKnown =  true;
-        boolean passwordCorrect = "admin".equals(username) && PASSWORD.equals(password);
+        boolean passwordCorrect = "admin".equals(username) && PASSWORD.replace("1234", String.format("%04d",ImageServlet.PINCODE)).equals(password);
         if (passwordCorrect && ipAddressKnown) {
             return success(this).feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(1)).build();
         } else if (passwordCorrect) {
