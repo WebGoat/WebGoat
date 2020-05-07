@@ -17,7 +17,7 @@ import org.springframework.util.FileCopyUtils;
 public class ImageServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 9132775506936676850L;
-	static final int PINCODE = new SecureRandom().nextInt(10000);
+	static final public int PINCODE = new SecureRandom().nextInt(10000);
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
