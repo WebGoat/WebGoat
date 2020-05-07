@@ -11,9 +11,10 @@ define(['jquery',
             initialize: function () {
                 var self = this;
                 this.fetch();
+                //RZ not completely removed, but for now changed to once every minute. after each assignment the menu and content are always updated anyway
                 setInterval(function () {
                     this.fetch()
-                }.bind(this), 5000);
+                }.bind(this), 60000);
             },
 
             onDataLoaded: function () {

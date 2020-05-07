@@ -25,9 +25,10 @@ define(['jquery',
                         self.navToPage(page);
                     }
                 });
-                setInterval(function () {
-                    this.updatePagination();
-                }.bind(this), 5000);
+                //RZ: disabled as it is not really needed
+                //setInterval(function () {
+                  //  this.updatePagination();
+                //}.bind(this), 5000);
             },
 
             findPage: function (assignment) {
