@@ -29,12 +29,14 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
 import org.owasp.webgoat.challenges.challenge1.Assignment1;
+import org.owasp.webgoat.challenges.challenge1.ImageServlet;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.net.InetAddress;
 
 import static org.mockito.Mockito.when;
+import static org.owasp.webgoat.challenges.SolutionConstants.PASSWORD;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -62,7 +64,7 @@ public class Assignment1Test extends AssignmentEndpointTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/challenge/1")
                 .header("X-Forwarded-For", host)
                 .param("username", "admin")
-                .param("password", SolutionConstants.PASSWORD))
+                .param("password", SolutionConstants.PASSWORD.replace("1234", String.format("%04d",ImageServlet.PINCODE))))
                 .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("flag: " + Flag.FLAGS.get(1))))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
     }

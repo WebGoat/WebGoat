@@ -3,6 +3,7 @@ package org.owasp.webgoat;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import io.restassured.RestAssured;
+import static org.owasp.webgoat.challenges.SolutionConstants.PASSWORD;
+
 
 public class ChallengeTest extends IntegrationTest {
 	
@@ -17,10 +20,21 @@ public class ChallengeTest extends IntegrationTest {
     public void testChallenge1() {
     	startLesson("Challenge1");      
     	
+    	byte[] resultBytes = 
+        		RestAssured.given()
+                .when()
+                .relaxedHTTPSValidation()
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("/WebGoat/challenge/logo"))
+                .then()
+                .statusCode(200)
+                .extract().asByteArray();
+    	
+    	String pincode = new String(Arrays.copyOfRange(resultBytes, 81216, 81220));
     	Map<String, Object> params = new HashMap<>();
         params.clear();
         params.put("username", "admin");
-        params.put("password", "!!webgoat_admin_1234!!");
+        params.put("password", PASSWORD.replace("1234", pincode));
        
     	
         checkAssignment(url("/WebGoat/challenge/1"), params, true);
