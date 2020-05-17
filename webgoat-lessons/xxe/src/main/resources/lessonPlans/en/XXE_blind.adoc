@@ -4,8 +4,7 @@ In some cases you will see no output because although your attack might have wor
 Or the resource you are trying to read contains illegal XML character which causes the parser to fail.
 Let's start with an example, in this case we reference an external DTD which we control on our own server.
 
-As an attacker you have WebWolf under your control (*this can be any server under your control.*), you can for example
-use this server to ping it using `webWolfRootLink:landing[noLink]`
+As an attacker you have WebWolf under your control (*this can be any server under your control.*), you can for example use this server to ping it using `webWolfRootLink:landing[noLink]`
 
 How do we use this endpoint to verify whether we can perform XXE?
 
@@ -50,5 +49,4 @@ Now in WebWolf browse to 'Incoming requests' and you will see:
 }
 ----
 
-So with the XXE we are able to ping our own server which means XXE injection is possible. So with the XXE injection
-we are basically able to reach the same effect as we did in the beginning with the curl command.
+So with the XXE we are able to ping our own server which means XXE injection is possible. So with the XXE injection we are basically able to reach the same effect as we did in the beginning with the curl command.
