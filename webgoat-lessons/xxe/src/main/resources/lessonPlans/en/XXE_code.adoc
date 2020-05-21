@@ -22,36 +22,34 @@ This piece of code defines a new `XmlMapper` (`ObjectMapper`) which is a popular
 /**
  * @since 2.4
  */
-public XmlMapper(XMLInputFactory inputF) {  // <2>
-  this(new XmlFactory(inputF)); //<3>
+public XmlMapper(XMLInputFactory inputF) {  // <1>
+  this(new XmlFactory(inputF)); //<2>
 }
 ----
-<2> This is the 'constructor' we called from the listing above (1)
-<3> Call to another 'constructor' and initialize a new instance of `XmlFactory`
+<1> This is the 'constructor' we called from the listing above (1)
+<2> Call to another 'constructor' and initialize a new instance of `XmlFactory`
 
 Let's take a look at the source code of `XMLFactory`
 
 [source, java]
 ----
-public XmlFactory(XMLInputFactory xmlIn) { // <4>
-  this(xmlIn, null);}// <5>
+public XmlFactory(XMLInputFactory xmlIn) { // <1>
+  this(xmlIn, null);}// <2>
 
-protected XmlFactory(XMLInputFactory xmlIn, XMLOutputFactory xmlOut, ...){ // <6>
-  if (xmlIn == null) { //<7>
+protected XmlFactory(XMLInputFactory xmlIn, XMLOutputFactory xmlOut, ...){ // <3>
+  if (xmlIn == null) { //<4>
     xmlIn = XMLInputFactory.newInstance();
     // as per [dataformat-xml#190], disable external entity expansion by default
-    xmlIn.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE); // <8>
+    xmlIn.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE); // <5>
     // and ditto wrt [dataformat-xml#211], SUPPORT_DTD
-    xmlIn.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);// <9>
+    xmlIn.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);// <6>
   }
 }
 ----
-<4> This is the 'constructor' definition of the new instance created in 3
-<5> Call to another 'constructor' defined in 6
-<8> XXE protection
-<9> XXE protection
+<1> This is the 'constructor' definition of the new instance created in 3
+<2> Call to another 'constructor' defined in 3
 
-In 7 we know `if (xmlIn == null)` will not be true because if we look at our declaration at the top we created our own instance `XMLInputFactory.newInstance()` which is not `null`. This means that we have a XML parser which is by default **not** secured against XXE injection. The interesting part at 8 and 9 is the extra protection nested inside the if statement.
+In 4 we know `if (xmlIn == null)` will not be true because if we look at our declaration at the top we created our own instance `XMLInputFactory.newInstance()` which is not `null`. This means that we have a XML parser which is by default **not** secured against XXE injection. The interesting part at 5 and 6 is the extra protection nested inside the if statement.
 
 If we look at the Spring Boot framework for example how they initialize the same parser:
 

@@ -69,3 +69,5 @@ Content-Type: application/xml
 
 <!DOCTYPE user [<!ENTITY root SYSTEM "file:///"> ]><comment><text>&root;This is my first message</text></comment>
 ----
+
+In some company networks some network devices might drop this payload completely if it was sent over HTTP. In that case no response is returned on the `POST` and the endpoint never receives the request. However, these kind of protections are of limited use, as the same request would pass successfully in an HTTPS setup, where that payload would be encrypted.
