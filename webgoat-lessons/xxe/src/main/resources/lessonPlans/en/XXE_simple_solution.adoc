@@ -49,4 +49,4 @@ Content-Type: application/xml
 ----
 Line 7 contains the input entered in text box if we would use the comment form.
 
-To solve the lesson you have to intercept the complete the outgoing request and replace the complete body with the solution. See our lessons about intercepting HTTP traffic.
+To solve the lesson you have to intercept the complete outgoing request and replace the complete body with the solution. See our lessons about intercepting HTTP traffic.
