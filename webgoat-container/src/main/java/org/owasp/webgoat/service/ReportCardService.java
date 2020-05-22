@@ -67,7 +67,7 @@ public class ReportCardService {
     @GetMapping(path = "/service/reportcard.mvc", produces = "application/json")
     @ResponseBody
     public ReportCard reportCard() {
-        ReportCard reportCard = new ReportCard();
+        final ReportCard reportCard = new ReportCard();
         reportCard.setTotalNumberOfLessons(course.getTotalOfLessons());
         reportCard.setTotalNumberOfAssignments(course.getTotalOfAssignments());
 
@@ -76,7 +76,7 @@ public class ReportCardService {
         reportCard.setNumberOfLessonsSolved(userTracker.numberOfLessonsSolved());
         for (Lesson lesson : course.getLessons()) {
             LessonTracker lessonTracker = userTracker.getLessonTracker(lesson);
-            LessonStatistics lessonStatistics = new LessonStatistics();
+            final LessonStatistics lessonStatistics = new LessonStatistics();
             lessonStatistics.setName(pluginMessages.getMessage(lesson.getTitle()));
             lessonStatistics.setNumberOfAttempts(lessonTracker.getNumberOfAttempts());
             lessonStatistics.setSolved(lessonTracker.isLessonSolved());
@@ -87,7 +87,7 @@ public class ReportCardService {
 
     @Getter
     @Setter
-    private class ReportCard {
+    private final class ReportCard {
 
         private int totalNumberOfLessons;
         private int totalNumberOfAssignments;
@@ -99,7 +99,7 @@ public class ReportCardService {
 
     @Setter
     @Getter
-    private class LessonStatistics {
+    private final class LessonStatistics {
         private String name;
         private boolean solved;
         private int numberOfAttempts;

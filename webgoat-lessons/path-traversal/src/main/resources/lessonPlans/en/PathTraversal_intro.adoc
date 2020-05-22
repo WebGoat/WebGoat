@@ -1,0 +1,24 @@
+=== Path traversal
+
+A path(directory) traversal is a vulnerability where an attacker is able to access or store files and directories outside
+the location where the application is running. This may lead to reading files from other directories and in case of a file
+upload overwriting critical system files.
+
+=== How does it work?
+
+For example let's assume we have an application which hosts some files and they can be requested in the following
+format: `http://example.com/file=report.pdf` now as an attacker you are interested in other files of course so
+you try `http://example.com/file=../../../../../etc/passwd`. In this case you try walk up to the root of the filesystem
+and then go into `/etc/passwd` to gain access to this file. The `../` is called dot-dot-slash which is another name
+for this attack.
+
+Of course this is a very simple example and in most cases this will not work as frameworks implemented controls for
+this, so we need to get a little more creative and start encoding `../` before the request is sent to the server.
+For example if we URL encode `../` you will get `%2e%2e%2f` and the web server receiving this request will decode
+it again to `../`.
+
+Also note that avoiding applications filtering those encodings double encoding might work as well. Double encoding
+might be necessary in the case where you have a system A which calls system B. System A will only decode once and
+will call B with the still encoded URL.
+
+

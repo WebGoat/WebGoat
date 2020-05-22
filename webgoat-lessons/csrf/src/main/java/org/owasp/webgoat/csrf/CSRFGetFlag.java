@@ -30,10 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -51,7 +48,7 @@ public class CSRFGetFlag {
 
     @RequestMapping(path = "/csrf/basic-get-flag", produces = {"application/json"}, method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> invoke(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public Map<String, Object> invoke(HttpServletRequest req) {
 
         Map<String, Object> response = new HashMap<>();
 
@@ -61,7 +58,7 @@ public class CSRFGetFlag {
 
 
         if (referer.equals("NULL")) {
-            if (req.getParameter("csrf").equals("true")) {
+            if ("true".equals(req.getParameter("csrf"))) {
                 Random random = new Random();
                 userSessionData.setValue("csrf-get-success", random.nextInt(65536));
                 response.put("success", true);

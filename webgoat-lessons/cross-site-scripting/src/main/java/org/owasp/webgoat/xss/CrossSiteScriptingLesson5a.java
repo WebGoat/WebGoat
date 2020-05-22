@@ -45,8 +45,8 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
                                   @RequestParam Integer QTY4, @RequestParam String field1,
                                   @RequestParam String field2) {
 
-        if (field2.toLowerCase().matches("<script>.*(console\\.log\\(.*\\)|alert\\(.*\\))<\\/script>")) {
-            return trackProgress(failed().feedback("xss-reflected-5a-failed-wrong-field").build());
+        if (field2.toLowerCase().matches(".*<script>.*(console\\.log\\(.*\\)|alert\\(.*\\));?<\\/script>.*")) {
+            return failed(this).feedback("xss-reflected-5a-failed-wrong-field").build();
         }
 
         double totalSale = QTY1.intValue() * 69.99 + QTY2.intValue() * 27.99 + QTY3.intValue() * 1599.99 + QTY4.intValue() * 299.99;
@@ -64,19 +64,19 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
         }
 
         if (field1.toLowerCase().matches("<script>.*(console\\.log\\(.*\\)|alert\\(.*\\))<\\/script>")) {
-            //return trackProgress()
+            //return )
             userSessionData.setValue("xss-reflected-5a-complete", "true");
             if (field1.toLowerCase().contains("console.log")) {
-                return trackProgress(success().feedback("xss-reflected-5a-success-console").output(cart.toString()).build());
+                return success(this).feedback("xss-reflected-5a-success-console").output(cart.toString()).build();
             } else {
-                return trackProgress(success().feedback("xss-reflected-5a-success-alert").output(cart.toString()).build());
+                return success(this).feedback("xss-reflected-5a-success-alert").output(cart.toString()).build();
             }
         } else {
             userSessionData.setValue("xss-reflected1-complete", "false");
-            return trackProgress(success()
+            return success(this)
                     .feedback("xss-reflected-5a-failure")
                     .output(cart.toString())
-                    .build());
+                    .build();
         }
     }
 }

@@ -28,32 +28,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class LessonProgressService {
 
-    private UserTrackerRepository userTrackerRepository;
-    private WebSession webSession;
-
-    /**
-     * <p>LessonProgressService.</p>
-     *
-     * @return a {@link LessonInfoModel} object.
-     */
-    @RequestMapping(value = "/service/lessonprogress.mvc", produces = "application/json")
-    @ResponseBody
-    public Map getLessonInfo() {
-        Map json = new HashMap();
-        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
-        if (webSession.getCurrentLesson() != null) {
-            LessonTracker lessonTracker = userTracker.getLessonTracker(webSession.getCurrentLesson());
-            String successMessage = "";
-            boolean lessonCompleted = false;
-            if (lessonTracker != null) {
-                lessonCompleted = isLessonComplete(lessonTracker.getLessonOverview(), webSession.getCurrentLesson());
-                successMessage = "LessonCompleted"; //@todo we still use this??
-            }
-            json.put("lessonCompleted", lessonCompleted);
-            json.put("successMessage", successMessage);
-        }
-        return json;
-    }
+    private final UserTrackerRepository userTrackerRepository;
+    private final WebSession webSession;
 
     /**
      * Endpoint for fetching the complete lesson overview which informs the user about whether all the assignments are solved.

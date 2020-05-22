@@ -51,9 +51,9 @@ public class SqlInjectionLesson6b extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String userid_6b) throws IOException {
         if (userid_6b.equals(getPassword())) {
-            return trackProgress(success().build());
+            return success(this).build();
         } else {
-            return trackProgress(failed().build());
+            return failed(this).build();
         }
     }
 

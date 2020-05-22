@@ -24,7 +24,6 @@ package org.owasp.webgoat.idor;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 
 import org.owasp.webgoat.session.UserSessionData;
@@ -65,12 +64,12 @@ public class IDORLogin extends AssignmentEndpoint {
             if ("tom".equals(username) && idorUserInfo.get("tom").get("password").equals(password)) {
                 userSessionData.setValue("idor-authenticated-as", username);
                 userSessionData.setValue("idor-authenticated-user-id", idorUserInfo.get(username).get("id"));
-                return trackProgress(success().feedback("idor.login.success").feedbackArgs(username).build());
+                return success(this).feedback("idor.login.success").feedbackArgs(username).build();
             } else {
-                return trackProgress(failed().feedback("idor.login.failure").build());
+                return failed(this).feedback("idor.login.failure").build();
             }
         } else {
-            return trackProgress(failed().feedback("idor.login.failure").build());
+            return failed(this).feedback("idor.login.failure").build();
         }
     }
 }

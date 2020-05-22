@@ -45,10 +45,4 @@ public class IDOR extends Lesson {
     public String getTitle() {
         return "idor.title";
     }
-
-    @Override
-    public String getId() {
-        return "IDOR";
-    }
-
 }

@@ -115,6 +115,7 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("source-highlighter", "coderay");
         attributes.put("backend", "xhtml");
+        attributes.put("icons", org.asciidoctor.Attributes.FONT_ICONS);
 
         Map<String, Object> options = new HashMap<>();
         options.put("attributes", attributes);

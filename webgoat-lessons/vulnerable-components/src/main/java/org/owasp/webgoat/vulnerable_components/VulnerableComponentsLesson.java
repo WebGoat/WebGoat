@@ -66,12 +66,12 @@ public class VulnerableComponentsLesson extends AssignmentEndpoint {
         try {
 //        	System.out.println("Payload:" + payload);
             Contact expl = (Contact) xstream.fromXML(payload);
-            return trackProgress(success().feedback("vulnerable-components.fromXML").feedbackArgs(expl.toString()).build());
+            return success(this).feedback("vulnerable-components.fromXML").feedbackArgs(expl.toString()).build();
         } catch (com.thoughtworks.xstream.converters.ConversionException ex) {
             if (ex.getMessage().contains("Integer")) {
-                return trackProgress(success().feedback("vulnerable-components.success").build());
+                return success(this).feedback("vulnerable-components.success").build();
             }
-            return trackProgress(failed().feedback("vulnerable-components.close").build());
+            return failed(this).feedback("vulnerable-components.close").build();
         }
     }
 }

@@ -88,9 +88,9 @@ public class StoredXssComments extends AssignmentEndpoint {
         userComments.put(webSession.getUserName(), comments);
 
         if (comment.getText().contains(phoneHomeString)) {
-            return (success().feedback("xss-stored-comment-success").build());
+            return (success(this).feedback("xss-stored-comment-success").build());
         } else {
-            return (failed().feedback("xss-stored-comment-failure").build());
+            return (failed(this).feedback("xss-stored-comment-failure").build());
         }
     }
 

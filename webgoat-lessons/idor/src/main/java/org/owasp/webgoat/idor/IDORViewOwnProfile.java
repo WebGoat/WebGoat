@@ -27,16 +27,19 @@ import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Slf4j
 public class IDORViewOwnProfile {
 
     @Autowired
     UserSessionData userSessionData;
 
-    @GetMapping(path = "IDOR/own", produces = {"application/json"})
+    @GetMapping(path = {"/IDOR/own", "/IDOR/profile"}, produces = {"application/json"})
     @ResponseBody
     public Map<String, Object> invoke() {
         Map<String,Object> details = new HashMap<>();
@@ -54,7 +57,7 @@ public class IDORViewOwnProfile {
                 details.put("error","You do not have privileges to view the profile. Authenticate as tom first please.");
             }
         }catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            log.error("something went wrong", ex.getMessage());
         }
         return details;
     }

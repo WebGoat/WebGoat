@@ -12,14 +12,13 @@
         <div class="container-fluid">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <img th:src="@{/images/webgoat2.png}" class="img-thumbnail"/>
+                    <img th:src="@{/challenge/logo}" class="img-thumbnail"/>
                 </div>
                 <div class="panel-body">
                     <form class="attack-form" accept-charset="UNKNOWN"
                           method="POST" name="form"
                           action="/WebGoat/challenge/1"
-                          style="width: 200px;"
-                          enctype="application/json;charset=UTF-8">
+                          style="width: 200px;">
 
                         <div class="form-group">
                             <label for="exampleInputEmail1" th:text="#{username}">Username</label>

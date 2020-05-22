@@ -71,25 +71,25 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
 
                         if (results.getRow() > 1) {
                             // more than one record, the user succeeded
-                            return trackProgress(success().feedback("sql-injection.8.success").output(output.toString()).build());
+                            return success(this).feedback("sql-injection.8.success").output(output.toString()).build();
                         } else {
                             // only one record
-                            return trackProgress(failed().feedback("sql-injection.8.one").output(output.toString()).build());
+                            return failed(this).feedback("sql-injection.8.one").output(output.toString()).build();
                         }
 
                     } else {
                         // no results
-                        return trackProgress(failed().feedback("sql-injection.8.no.results").build());
+                        return failed(this).feedback("sql-injection.8.no.results").build();
                     }
                 } else {
-                    return trackProgress(failed().feedback("sql-injection.error").build());
+                    return failed(this).feedback("sql-injection.error").build();
                 }
             } catch (SQLException e) {
-                return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
+                return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
             }
 
         } catch (Exception e) {
-            return trackProgress(failed().feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build());
+            return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 

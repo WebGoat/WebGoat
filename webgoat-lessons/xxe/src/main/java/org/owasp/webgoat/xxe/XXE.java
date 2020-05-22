@@ -38,9 +38,4 @@ public class XXE extends Lesson {
     public String getTitle() {
         return "xxe.title";
     }
-
-    @Override
-    public String getId() {
-        return "XXE";
-    }
 }

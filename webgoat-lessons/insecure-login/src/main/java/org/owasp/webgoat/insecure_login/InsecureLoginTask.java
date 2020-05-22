@@ -23,12 +23,8 @@
 package org.owasp.webgoat.insecure_login;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @RestController
 public class InsecureLoginTask extends AssignmentEndpoint {
@@ -37,8 +33,8 @@ public class InsecureLoginTask extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String username, @RequestParam String password) {
     	if (username.toString().equals("CaptainJack") && password.toString().equals("BlackPearl")) {
-    		return trackProgress(success().build());
+    		return success(this).build();
     	}
-        return trackProgress(failed().build());
+        return failed(this).build();
     }
 }

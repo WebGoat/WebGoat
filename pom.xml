@@ -6,7 +6,7 @@
     <groupId>org.owasp.webgoat</groupId>
     <artifactId>webgoat-parent</artifactId>
     <packaging>pom</packaging>
-    <version>v8.0.0.M26</version>
+    <version>v8.1.0</version>
 
     <name>WebGoat Parent Pom</name>
     <description>Parent Pom for the WebGoat Project. A deliberately insecure Web Application</description>
@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.0.RELEASE</version>
+        <version>2.2.2.RELEASE</version>
     </parent>
 
     <licenses>
@@ -127,7 +127,6 @@
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-io.version>2.6</commons-io.version>
         <guava.version>18.0</guava.version>
-        <hsqldb.version>2.3.4</hsqldb.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.4</lombok.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -135,7 +134,7 @@
         <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
-        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
     </properties>
 
     <modules>
@@ -144,6 +143,7 @@
         <module>webgoat-server</module>
         <module>webwolf</module>
         <module>webgoat-integration-tests</module>
+		<module>docker</module><!-- copy required jars in preparation of docker all-in-one build -->
     </modules>
 
     <dependencies>
@@ -151,7 +151,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-            <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -162,22 +161,50 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
         </dependency>
     </dependencies>
 
-    <build>
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<configuration>
+				<source>11</source>
+				<target>11</target>
+				<encoding>UTF-8</encoding>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-checkstyle-plugin</artifactId>
+			<version>3.1.0</version>
+			<configuration>
+				<encoding>UTF-8</encoding>
+				<consoleOutput>true</consoleOutput>
+				<failsOnError>true</failsOnError>
+				<configLocation>config/checkstyle/checkstyle.xml</configLocation>
+				<suppressionsLocation>config/checkstyle/suppressions.xml</suppressionsLocation>
+				<suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+			</configuration>
+		</plugin>
+	</plugins>
+</build>
+
+<profiles>
+	<profile>
+		<id>defaultProfile</id>
+		<activation>
+			<activeByDefault>true</activeByDefault>
+		</activation>		
+	</profile>
+	<profile>
+		<id>owasp</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+		</activation>
+		    <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -191,8 +218,52 @@
                     <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                 </configuration>
             </plugin>
+            <plugin>
+      				<groupId>org.apache.maven.plugins</groupId>
+      				<artifactId>maven-pmd-plugin</artifactId>
+      				<version>3.13.0</version>
+      				<configuration>
+      					<targetJdk>11</targetJdk>
+      					<failurePriority>1</failurePriority><!-- 5 means fail even on the lowest
+      						priority, 0 means never fail -->
+      					<rulesets>
+      						<ruleset>${maven.multiModuleProjectDirectory}/pmd-ruleset.xml</ruleset>
+      					</rulesets>
+      					<failOnViolation>true</failOnViolation>
+      					<printFailingErrors>true</printFailingErrors>
+      				</configuration>
+      				<executions>
+      					<execution>
+      						<goals>
+      							<goal>check</goal>
+      						</goals>
+      					</execution>
+      				</executions>
+      			</plugin>
+      			<plugin>
+      				<groupId>org.owasp</groupId>
+      				<artifactId>dependency-check-maven</artifactId>
+      				<version>5.3.2</version>
+      				<configuration>
+      					<failBuildOnCVSS>7</failBuildOnCVSS>
+      					<skipProvidedScope>true</skipProvidedScope>
+                          <skipRuntimeScope>true</skipRuntimeScope>
+      					<suppressionFiles>
+                              <suppressionFile>project-suppression.xml</suppressionFile>
+                          </suppressionFiles>
+      				</configuration>
+      				<executions>
+      					<execution>
+      						<goals>
+      							<goal>check</goal>
+      						</goals>
+      					</execution>
+      				</executions>
+      			</plugin>
         </plugins>
     </build>
+	</profile>
+</profiles>
 
     <repositories>
         <repository>

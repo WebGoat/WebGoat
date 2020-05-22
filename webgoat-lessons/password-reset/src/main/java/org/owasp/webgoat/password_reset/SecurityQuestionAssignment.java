@@ -71,10 +71,10 @@ public class SecurityQuestionAssignment extends AssignmentEndpoint {
         if (answer.isPresent()) {
             triedQuestions.incr(question);
             if (triedQuestions.isComplete()) {
-                return trackProgress(success().output("<b>" + answer + "</b>").build());
+                return success(this).output("<b>" + answer + "</b>").build();
             }
         }
-        return informationMessage()
+        return informationMessage(this)
                 .feedback("password-questions-one-successful")
                 .output(answer.orElse("Unknown question, please try again..."))
                 .build();

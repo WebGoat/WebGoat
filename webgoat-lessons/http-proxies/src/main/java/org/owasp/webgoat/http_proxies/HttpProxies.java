@@ -44,9 +44,4 @@ public class HttpProxies extends Lesson {
     public String getTitle() {
         return "2.http-proxies.title";//second lesson in GENERAL
     }
-
-    @Override
-    public String getId() {
-        return "HttpProxies";
-    }
 }

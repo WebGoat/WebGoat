@@ -5,10 +5,10 @@ Do not be bothered by the incubator status on this project, use it if you are do
 link: https://www.owasp.org/index.php/OWASP_Java_Encoder_Project
 
 === General XSS prevention Cheat Sheet
-link: https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
+link: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
 
 === DOM XSS Prevention Cheat Sheet
-link: https://www.owasp.org/index.php/DOM_based_XSS_Prevention_Cheat_Sheet
+link: https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html
 
 === XSS Filter Evasion
 Good to know your enemy ...

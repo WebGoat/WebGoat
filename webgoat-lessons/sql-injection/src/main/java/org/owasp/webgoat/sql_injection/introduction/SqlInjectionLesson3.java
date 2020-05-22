@@ -70,16 +70,16 @@ public class SqlInjectionLesson3 extends AssignmentEndpoint {
                 if (results.getString("department").equals("Sales")) {
                     output.append("<span class='feedback-positive'>" + query + "</span>");
                     output.append(SqlInjectionLesson8.generateTable(results));
-                    return trackProgress(success().output(output.toString()).build());
+                    return success(this).output(output.toString()).build();
                 } else {
-                    return trackProgress(failed().output(output.toString()).build());
+                    return failed(this).output(output.toString()).build();
                 }
 
             } catch (SQLException sqle) {
-                return trackProgress(failed().output(sqle.getMessage()).build());
+                return failed(this).output(sqle.getMessage()).build();
             }
         } catch (Exception e) {
-            return trackProgress(failed().output(this.getClass().getName() + " : " + e.getMessage()).build());
+            return failed(this).output(this.getClass().getName() + " : " + e.getMessage()).build();
         }
     }
 }

@@ -41,10 +41,4 @@ public class CSRF extends Lesson {
 
     @Override
     public String getTitle() { return "csrf.title"; }
-
-    @Override
-    public String getId() {
-        return "CSRF";
-    }
-
 }

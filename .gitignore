@@ -15,6 +15,7 @@
 /.externalToolBuilders/
 .project
 */target/*
+*.pmd
 mongo-data/*
 .classpath
 .idea/

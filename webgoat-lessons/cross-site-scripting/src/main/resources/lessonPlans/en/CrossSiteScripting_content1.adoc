@@ -16,11 +16,11 @@ And if not properly protected, sensitive data (such as your authentication cooki
 
 
 ==== Quick examples:
-* From the browser address bar (chrome, Firefox)
+* From the JavaScript console in the developer tools of the browser (chrome, Firefox)
 +
 ----
-javascript:alert("XSS Test");
-javascript:alert(document.cookie);
+alert("XSS Test");
+alert(document.cookie);
 ----
 * Any data field that is returned to the client is potentially injectable
 +
@@ -31,4 +31,4 @@ javascript:alert(document.cookie);
 == Try It!  Using Chrome or Firefox 
 
 * Open a second tab and use the same url as this page you are currently on (or any url within this instance of WebGoat)
-* Then, in the address bar on each tab, type `javascript:alert(document.cookie);` *NOTE:* If you /cut/paste you will need to add the `javascript:` back in.
+* Then, on that second that open the browser developer tools and open the javascript console. And type:  `alert(document.cookie);` .

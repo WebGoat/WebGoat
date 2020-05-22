@@ -24,17 +24,14 @@ package org.owasp.webgoat.ssrf;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.sun.net.httpserver.Authenticator.Success;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -64,22 +61,22 @@ public class SSRFTask2 extends AssignmentEndpoint {
                 }
                 in.close();
 
-                return trackProgress(success()
+                return success(this)
                         .feedback("ssrf.success")
                         .output(html.toString())
-                        .build());
+                        .build();
             } else {
                 html.append("<img class=\"image\" alt=\"image post\" src=\"images/cat.jpg\">");
-                return trackProgress(failed()
+                return failed(this)
                         .feedback("ssrf.failure")
                         .output(html.toString())
-                        .build());
+                        .build();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return trackProgress(failed()
+            return failed(this)
                     .output(e.getMessage())
-                    .build());
+                    .build();
         }
     }
 }

@@ -43,7 +43,7 @@ public class IDORViewOtherProfile extends AssignmentEndpoint {
     @Autowired
     UserSessionData userSessionData;
 
-    @GetMapping(path = "IDOR/profile/{userId}", produces = {"application/json"})
+    @GetMapping(path = "/IDOR/profile/{userId}", produces = {"application/json"})
     @ResponseBody
     public AttackResult completed(@PathVariable("userId") String userId, HttpServletResponse resp) {
         Map<String, Object> details = new HashMap<>();
@@ -56,14 +56,14 @@ public class IDORViewOtherProfile extends AssignmentEndpoint {
                 UserProfile requestedProfile = new UserProfile(userId);
                 // secure code would ensure there was a horizontal access control check prior to dishing up the requested profile
                 if (requestedProfile.getUserId().equals("2342388")) {
-                    return trackProgress(success().feedback("idor.view.profile.success").output(requestedProfile.profileToMap().toString()).build());
+                    return success(this).feedback("idor.view.profile.success").output(requestedProfile.profileToMap().toString()).build();
                 } else {
-                    return trackProgress(failed().feedback("idor.view.profile.close1").build());
+                    return failed(this).feedback("idor.view.profile.close1").build();
                 }
             } else {
-                return trackProgress(failed().feedback("idor.view.profile.close2").build());
+                return failed(this).feedback("idor.view.profile.close2").build();
             }
         }
-        return trackProgress(failed().build());
+        return failed(this).build();
     }
 }

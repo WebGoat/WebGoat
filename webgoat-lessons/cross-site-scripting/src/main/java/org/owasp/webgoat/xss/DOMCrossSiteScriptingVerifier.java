@@ -42,9 +42,9 @@ public class DOMCrossSiteScriptingVerifier extends AssignmentEndpoint {
         String answer = (String) userSessionData.getValue("randValue");
 
         if (successMessage.equals(answer)) {
-            return trackProgress(success().feedback("xss-dom-message-success").build());
+            return success(this).feedback("xss-dom-message-success").build();
         } else {
-            return trackProgress(failed().feedback("xss-dom-message-failure").build());
+            return failed(this).feedback("xss-dom-message-failure").build();
         }
     }
 }

@@ -38,6 +38,10 @@ public class Scoreboard {
         List<WebGoatUser> allUsers = userRepository.findAll();
         List<Ranking> rankings = new ArrayList<>();
         for (WebGoatUser user : allUsers) {
+        	if (user.getUsername().startsWith("csrf-")) {
+        		//the csrf- assignment specific users do not need to be in the overview
+        		continue;
+        	}
             UserTracker userTracker = userTrackerRepository.findByUser(user.getUsername());
             rankings.add(new Ranking(user.getUsername(), challengesSolved(userTracker)));
         }

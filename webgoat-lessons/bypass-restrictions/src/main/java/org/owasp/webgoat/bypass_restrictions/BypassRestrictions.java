@@ -37,9 +37,4 @@ public class BypassRestrictions extends Lesson {
     public String getTitle() {
         return "bypass-restrictions.title";
     }
-
-    @Override
-    public String getId() {
-        return "BypassRestrictions";
-    }
 }

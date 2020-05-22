@@ -38,17 +38,17 @@ public class HttpBasicsQuiz extends AssignmentEndpoint {
 
     @PostMapping("/HttpBasics/attack2")
     @ResponseBody
-    public AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num, HttpServletRequest request) throws IOException {
+    public AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num) throws IOException {
         if ("POST".equals(answer.toUpperCase()) && magic_answer.equals(magic_num)) {
-            return trackProgress(success().build());
+            return success(this).build();
         } else {
             if (!"POST".equals(answer.toUpperCase())) {
-                return trackProgress(failed().feedback("http-basics.incorrect").build());
+                return failed(this).feedback("http-basics.incorrect").build();
             }
             if (!magic_answer.equals(magic_num)) {
-                return trackProgress(failed().feedback("http-basics.magic").build());
+                return failed(this).feedback("http-basics.magic").build();
             }
         }
-        return trackProgress(failed().build());
+        return failed(this).build();
     }
 }

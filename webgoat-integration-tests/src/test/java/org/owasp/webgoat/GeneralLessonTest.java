@@ -4,7 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +60,33 @@ public class GeneralLessonTest extends IntegrationTest {
         checkAssignment(url("/WebGoat/cia/quiz"), params, true);
         checkResults("/cia/");
 
+    }
+    
+    @Test
+    public void vulnerableComponents() {
+    	String solution = "<contact>\n" + 
+    			"    <java.lang.Integer>1</java.lang.Integer>\n" + 
+    			"    <firstName>Bruce</firstName>\n" + 
+    			"    <lastName>Mayhew</lastName>\n" + 
+    			"    <email>webgoat@owasp.org</email>\n" + 
+    			"</contact>";
+    	startLesson("VulnerableComponents");
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("payload", solution);
+        checkAssignment(url("/WebGoat/VulnerableComponents/attack1"), params, true);
+        checkResults("/VulnerableComponents/");
+    }
+    
+    @Test
+    public void insecureLogin() {
+    	startLesson("InsecureLogin");
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("username", "CaptainJack");
+        params.put("password", "BlackPearl");
+        checkAssignment(url("/WebGoat/InsecureLogin/task"), params, true);
+        checkResults("/InsecureLogin/");
     }
 
     @Test
@@ -137,6 +164,18 @@ public class GeneralLessonTest extends IntegrationTest {
         checkAssignment(url("/auth-bypass/verify-account"), params, true);
         checkResults("/auth-bypass/");
 
+    }
+    
+    @Test
+    public void lessonTemplate() {
+    	startLesson("LessonTemplate");
+    	Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("param1", "secr37Value");
+        params.put("param2", "Main");
+        checkAssignment(url("/lesson-template/sample-attack"), params, true);
+        checkResults("/lesson-template/");
+    	
     }
     
 }

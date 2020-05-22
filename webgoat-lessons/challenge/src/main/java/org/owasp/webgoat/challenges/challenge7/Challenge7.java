@@ -20,9 +20,4 @@ public class Challenge7 extends Lesson {
     public String getTitle() {
         return "challenge7.title";
     }
-
-    @Override
-    public String getId() {
-        return "Challenge7";
-    }
 }

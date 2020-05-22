@@ -35,16 +35,11 @@ public class ChromeDevTools extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
-      return Category.GENERAL;
+        return Category.GENERAL;
     }
 
     @Override
     public String getTitle() {
-      return "3.chrome-dev-tools.title";//3rd lesson in General
+        return "3.chrome-dev-tools.title";//3rd lesson in General
     }
-
-    @Override
-    public String getId() {
-      return "ChromeDevTools";
-    }
-  }
+}

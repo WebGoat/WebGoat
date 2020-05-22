@@ -61,18 +61,18 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
         ResetLinkAssignment.resetLinks.add(resetLink);
         String host = request.getHeader("host");
         if (hasText(email)) {
-            if (email.equals(ResetLinkAssignment.TOM_EMAIL) && host.contains("9090")) { //User indeed changed the host header.
+            if (email.equals(ResetLinkAssignment.TOM_EMAIL) && (host.contains("9090")||host.contains("webwolf"))) { //User indeed changed the host header.
                 ResetLinkAssignment.userToTomResetLink.put(getWebSession().getUserName(), resetLink);
                 fakeClickingLinkEmail(host, resetLink);
             } else {
                 try {
                     sendMailToUser(email, host, resetLink);
                 } catch (Exception e) {
-                    return failed().output("E-mail can't be send. please try again.").build();
+                    return failed(this).output("E-mail can't be send. please try again.").build();
                 }
             }
         }
-        return success().feedback("email.send").feedbackArgs(email).build();
+        return success(this).feedback("email.send").feedbackArgs(email).build();
     }
 
     private void sendMailToUser(String email, String host, String resetLink) {

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.dummy.insecure.framework.VulnerableTaskHolder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.deserialization.SerializationHelper;
 
 public class DeserializationTest extends IntegrationTest {

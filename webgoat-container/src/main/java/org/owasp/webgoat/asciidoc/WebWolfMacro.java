@@ -3,7 +3,6 @@ package org.owasp.webgoat.asciidoc;
 import org.asciidoctor.ast.AbstractBlock;
 import org.asciidoctor.extension.InlineMacroProcessor;
 import org.springframework.core.env.Environment;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -38,14 +37,23 @@ public class WebWolfMacro extends InlineMacroProcessor {
     }
 
     /**
-     * Look at the remote address from received from the browser first. This way it will also work if you run
-     * the browser in a Docker container and WebGoat on your local machine.
+     * Determine the host from the hostname and ports that were used. 
+     * The purpose is to make it possible to use the application behind a reverse proxy. For instance in the docker
+     * compose/stack version with webgoat webwolf and nginx proxy. 
+     * You do not have to use the indicated hostname, but if you do, you should define two hosts aliases
+     * 127.0.0.1 www.webgoat.local www.webwolf.locaal
      */
     private String determineHost(String host, String port) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = request.getRemoteAddr();
-        String hostname = StringUtils.hasText(ip) ? ip : host;
-        return "http://" + hostname + ":" + port + (includeWebWolfContext() ? "/WebWolf" : "");
+        host = request.getHeader("Host");
+        int semicolonIndex = host.indexOf(":");
+        if (semicolonIndex==-1 || host.endsWith(":80")) {
+        	host = host.replace(":80", "").replace("www.webgoat.local", "www.webwolf.local");
+        } else {
+        	host = host.substring(0, semicolonIndex);
+        	host = host.concat(":").concat(port);
+        }
+        return "http://" + host + (includeWebWolfContext() ? "/WebWolf" : "");
     }
 
     protected boolean includeWebWolfContext() {

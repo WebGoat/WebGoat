@@ -47,22 +47,22 @@ public class MissingFunctionACHiddenMenus extends AssignmentEndpoint {
     public AttackResult completed(String hiddenMenu1, String hiddenMenu2) {
         //overly simple example for success. See other existing lesssons for ways to detect 'success' or 'failure'
         if (hiddenMenu1.equals("Users") && hiddenMenu2.equals("Config")) {
-            return trackProgress(success()
+            return success(this)
                     .output("")
                     .feedback("access-control.hidden-menus.success")
-                    .build());
+                    .build();
         }
 
         if (hiddenMenu1.equals("Config") && hiddenMenu2.equals("Users")) {
-            return trackProgress(failed()
+            return failed(this)
                     .output("")
                     .feedback("access-control.hidden-menus.close")
-                    .build());
+                    .build();
         }
 
-        return trackProgress(failed()
+        return failed(this)
                 .feedback("access-control.hidden-menus.failure")
                 .output("")
-                .build());
+                .build();
     }
 }

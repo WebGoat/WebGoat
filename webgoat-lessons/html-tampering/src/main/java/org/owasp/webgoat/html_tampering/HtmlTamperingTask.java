@@ -24,11 +24,8 @@ package org.owasp.webgoat.html_tampering;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @RestController
 @AssignmentHints({"hint1", "hint2", "hint3"})
@@ -38,8 +35,8 @@ public class HtmlTamperingTask extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String QTY, @RequestParam String Total) {
         if (Float.parseFloat(QTY) * 2999.99 > Float.parseFloat(Total) + 1) {
-            return trackProgress(success().feedback("html-tampering.tamper.success").build());
+            return success(this).feedback("html-tampering.tamper.success").build();
         }
-        return trackProgress(failed().feedback("html-tampering.tamper.failure").build());
+        return failed(this).feedback("html-tampering.tamper.failure").build();
     }
 }

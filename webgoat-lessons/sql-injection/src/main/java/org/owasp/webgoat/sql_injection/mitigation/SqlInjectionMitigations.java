@@ -37,9 +37,4 @@ public class SqlInjectionMitigations extends Lesson {
     public String getTitle() {
         return "3.sql.mitigation.title";
     }
-
-    @Override
-    public String getId() {
-        return "SqlInjectionMitigations";
-    }
 }

@@ -1,0 +1,27 @@
+== Proxy from ZAP to https
+
+The OWASP ZAP proxy can also be configured to proxy *https* requests. It will terminate the https connection in OWASP Zap and then proxy it to the target using its own keystore. You can even proxy to sites with mutual TLS. In that case you configure OWASP ZAP with the keystore and key to use for the connection.
+
+Go to Tools/Options/Client Certificate if you want to proxy to a mutual TLS https site.
+Go to Tools/Options/Connection if you want to set timeouts and want to force the use of TLSv1.2 e.g.
+
+
+=== Export the certificate
+
+Depending on the local installation of tools, ZAP can start a browser directly with some adjusted options like network settings and certificate adjustments. However, this step should be done if you want to start your browser independently of ZAP. To be able to use the browser, the browser needs the certificate, which can be exported here:
+
+image::images/rootca.png[ZAP root CA,style="lesson-image"]
+image::images/savecerts.png[ZAP save CA,style="lesson-image"]
+
+
+
+=== Import the OWASP ZAP root certificate
+
+. Go to your Firefox Preferences (Mac, Linux) or Options (Windows) from the menu.`
+. Search for _certificates_
+. Click _View certificates_
+. Import the ZAP root certificate that was saved (see previous page)
+
+image::images/firefoxsettingscerts.png[Firefox Certificates,width="75%",style="lesson-image"]
+
+image::images/importcerts.png[Firefox Cetificate import,width="75%",style="lesson-image"]

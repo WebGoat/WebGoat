@@ -37,9 +37,4 @@ public class SqlInjectionAdvanced extends Lesson {
     public String getTitle() {
         return "2.sql.advanced.title";
     }
-
-    @Override
-    public String getId() {
-        return "SqlInjectionAdvanced";
-    }
 }
