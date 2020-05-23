@@ -9,11 +9,11 @@ In this section we touch upon refreshing an access token.
 
 === Types of tokens
 
-In general there are two type of tokens: access token and a refresh token. The access token is used for making API
+In general there are two types of tokens: an access token and a refresh token. The access token is used for making API
 calls towards the server. Access tokens have a limited life span, that's where the refresh token comes in. Once
-the access token is no longer valid a request can me made towards the server to get a new access token by presenting
+the access token is no longer valid a request can be made towards the server to get a new access token by presenting
 the refresh token. The refresh token can expire but their life span is much longer. This solves the problem of a user
-having to authenticate again with their credentials. Whether you should use a refresh token and access token depends,
+having to authenticate again with their credentials. Whether you should use a refresh token and an access token depends,
 below can find a couple of points to keep in mind while choosing which tokens to use.
 
 So a normal flow can look like:
@@ -53,7 +53,7 @@ client can use the new access token to make the API call.
 Regardless of the chosen solution you should store enough information on the server side to validate whether the user
 is still trusted. You can think of many things, like store the ip address, keep track of how many times the refresh
 token is used (using the refresh token multiple times in the valid time window of the access token might indicate strange
-behavior, you can revoke all the tokens an let the user authenticate again).
+behavior, you can revoke all the tokens and let the user authenticate again).
 Also keep track of which access token belonged to which refresh token otherwise an attacker might
 be able to get a new access token for a different user with the refresh token of the attacker
 (see https://emtunc.org/blog/11/2017/jwt-refresh-token-manipulation/ for a nice write up about how this attack works)
