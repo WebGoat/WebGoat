@@ -33,7 +33,7 @@ first thing that all hackers claim.*
 Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```Shell
-java -jar webgoat-server-8.0.0.VERSION.jar [--server.port=8080] [--server.address=localhost]
+java -jar webgoat-server-8.1.0.jar [--server.port=8080] [--server.address=localhost]
 ```
 
 The latest version of WebGoat needs Java 11 or above. By default WebGoat starts on port 8080 with `--server.port` you can specify a different port. With `server.address` you
@@ -120,20 +120,6 @@ To change IP address add the following variable to WebGoat/webgoat-container/src
 
 ```
 server.address=x.x.x.x
-```
-
-# Building a new Docker image
-
-NOTE: Travis will create a new Docker image automatically when making a new release.
-
-```Shell
-cd WebGoat/
-mvn install
-cd webgoat-server
-docker build -t webgoat/webgoat-8.0 .
-docker tag webgoat/webgoat-8.0 webgoat/webgoat-8.0:8.0
-docker login
-docker push webgoat/webgoat-8.0
 ```
 
 # Run Instructions:
