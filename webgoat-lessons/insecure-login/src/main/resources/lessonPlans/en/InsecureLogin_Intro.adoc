@@ -4,4 +4,4 @@ Encryption is a very important tool for secure communication. In this lesson, we
 
 == Goals
 * The user should have a basic understanding of packet sniffer usage
-* The user will be able to intercept and read an unencrypted requests
+* The user will be able to intercept and read unencrypted requests
