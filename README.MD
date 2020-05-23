@@ -123,6 +123,3 @@ To change IP address add the following variable to WebGoat/webgoat-container/src
 server.address=x.x.x.x
 ```
 
-# Run Instructions:
-
-Once installed connect to http://localhost:8080/WebGoat and http://localhost:9090/WebWolf
