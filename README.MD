@@ -28,19 +28,7 @@ first thing that all hackers claim.*
 
 # Installation Instructions:
 
-## 1. Standalone
-
-Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
-
-```Shell
-java -jar webgoat-server-8.1.0.jar [--server.port=8080] [--server.address=localhost]
-```
-
-The latest version of WebGoat needs Java 11 or above. By default WebGoat starts on port 8080 with `--server.port` you can specify a different port. With `server.address` you
-can bind it to a different address (default localhost)
-
-
-## 2. Run using Docker
+## 1. Run using Docker
 
 Every release is also published on [DockerHub]((https://hub.docker.com/r/webgoat/webgoat-8.0/)).
 
@@ -83,6 +71,19 @@ WebGoat will be located at: http://www.webgoat.local/WebGoat
 WebWolf will be located at: http://www.webwolf.local/WebWolf
 
 **Important**: the current directory on your host will be mapped into the container for keeping state.
+
+## 2. Standalone
+
+Download the latest WebGoat and WebWolf release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
+
+```Shell
+java -jar webgoat-server-8.1.0.jar [--server.port=8080] [--server.address=localhost]
+java -jar webwolf-8.1.0.jar [--server.port=9090] [--server.address=localhost]
+```
+
+The latest version of WebGoat needs Java 11 or above. By default WebGoat and WebWolf start on port 8080 and 9090 with `--server.port` you can specify a different port. With `server.address` you
+can bind it to a different address (default localhost)
+
 
 
 ## 3. Run from the sources
