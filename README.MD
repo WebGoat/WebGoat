@@ -37,7 +37,7 @@ Every release is also published on [DockerHub]((https://hub.docker.com/r/webgoat
 The easiest way to start WebGoat as a Docker container is to use the all-in-one docker container. This is a docker image that has WebGoat and WebWolf running inside.
 
 ```shell
-docker run -d -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam webgoat/goatandwolf
+docker run -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam webgoat/goatandwolf
 ```
 
 WebGoat will be located at: http://127.0.0.1:8080/WebGoat
