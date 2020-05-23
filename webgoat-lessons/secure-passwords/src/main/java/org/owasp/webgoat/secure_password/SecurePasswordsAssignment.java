@@ -55,17 +55,17 @@ public class SecurePasswordsAssignment extends AssignmentEndpoint {
         } else {
             output.append("<div style=\"background-color:green;width: 200px;border-radius: 12px;float: left;\">&nbsp;</div></br>");
         }
-        output.append("<b>Estimated cracking time: </b>" + calculateTime((long) strength.getCrackTimeSeconds().getOnlineNoThrottling10perSecond()));
+        output.append("<b>Estimated cracking time: </b>" + calculateTime((long) strength.getCrackTimeSeconds().getOnlineNoThrottling10perSecond()) + "</br>");
         if (strength.getFeedback().getWarning().length() != 0)
-            output.append("</br><b>Warning: </b>" + strength.getFeedback().getWarning());
+            output.append("<b>Warning: </b>" + strength.getFeedback().getWarning() + "</br>");
         // possible feedback: https://github.com/dropbox/zxcvbn/blob/master/src/feedback.coffee
         // maybe ask user to try also weak passwords to see and understand feedback?
         if (strength.getFeedback().getSuggestions().size() != 0) {
-            output.append("</br><b>Suggestions:</b></br><ul>");
+            output.append("<b>Suggestions:</b></br><ul>");
             for (String sug : strength.getFeedback().getSuggestions()) output.append("<li>" + sug + "</li>");
             output.append("</ul></br>");
         }
-        output.append("<b>Score: </b>" + strength.getScore() + "/5 </br>");
+        output.append("<b>Score: </b>" + strength.getScore() + "/4 </br>");
         output.append("<b>Estimated cracking time in seconds: </b>" + calculateTime((long) strength.getCrackTimeSeconds().getOnlineNoThrottling10perSecond()));
 
         if (strength.getScore() >= 4)
