@@ -1,4 +1,4 @@
-=== What is a XML entity?
+=== What is an XML entity?
 
 An XML Entity allows tags to be defined that will be replaced by content when the XML Document is parsed. In general there are three types of entities:
 
@@ -13,7 +13,7 @@ image::images/xxe-parser.png[XML parser]
 
 As you can see once the XML document is processed by the parser, it will replace the defined entity `js` with the defined constant "Jo Smith". As you can see this has many advantages as you can change `js` in one place to for example "John Smith".
 
-In a Java application XML can be used to get data from the client to the server, we are all familiar with JSON apis we can also use xml to get the information across. Most of the time the framework automatically populate the Java object based on the xml structure, for example:
+In a Java application XML can be used to get data from the client to the server, we are all familiar with JSON apis we can also use xml to get the information across. Most of the time the framework automatically populates the Java object based on the xml structure, for example:
 
 [role="lesson-image"]
 image::images/xxe-parser-java.png[XML parser]
