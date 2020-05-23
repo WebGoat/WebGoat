@@ -24,28 +24,23 @@ before_deploy:
   - cp -fa $WEBWOLF_TARGET_DIR/*.jar $WEBGOAT_ARTIFACTS_FOLDER/
   - echo "Contents of artifacts folder:"
   - ls $WEBGOAT_ARTIFACTS_FOLDER
-jobs:
-  include:
-    - stage: deploy
-      if: branch = master AND env(TRAVIS_TAG) IS present
-      jdk: openjdk11
-      skip_cleanup: true
-      script: bash scripts/deploy-webgoat.sh
-      on:
-        repo: WebGoat/WebGoat
-        tags: true
-    - stage: releases
-      if: branch = master AND env(TRAVIS_TAG) IS present
-      jdk: openjdk11
-      skip_cleanup: true
-      overwrite: true
-      api_key:
-        secure: pJOLBnl6427PcVg/tVy/qB18JC7b8cKpffau+IP0pjdSt7KUfBdBY3QuJ7mrM65zRoVILzggLckaew2PlRmYQRdumyWlyRn44XiJ9KO4n6Bsufbz+ictB4ggtozpp9+I9IIUh1TmqypL9lhkX2ONM9dSHmyblYpAAgMuYSK8FYc=
-      file_glob: true
-      file: "$WEBGOAT_ARTIFACTS_FOLDER/*"
-      on:
-        repo: WebGoat/WebGoat
-        tags: true
+deploy:
+  - provider: script
+    jdk: openjdk11
+    skip_cleanup: true
+    script: bash scripts/deploy-webgoat.sh
+    on:
+      tags: true
+  - provider: releases
+    jdk: openjdk11
+    skip_cleanup: true
+    overwrite: true
+    api_key:
+      secure: pJOLBnl6427PcVg/tVy/qB18JC7b8cKpffau+IP0pjdSt7KUfBdBY3QuJ7mrM65zRoVILzggLckaew2PlRmYQRdumyWlyRn44XiJ9KO4n6Bsufbz+ictB4ggtozpp9+I9IIUh1TmqypL9lhkX2ONM9dSHmyblYpAAgMuYSK8FYc=
+    file_glob: true
+    file: "$WEBGOAT_ARTIFACTS_FOLDER/*"
+    on:
+      tags: true
 env:
   global:
     #Docker login
