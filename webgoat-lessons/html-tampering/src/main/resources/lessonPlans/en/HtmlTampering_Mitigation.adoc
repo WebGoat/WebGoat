@@ -5,8 +5,8 @@ accepted the input as a given and did not calculate the price again. One of the 
 the price of the television in your database and calculate the total price again.
 
 
-In a real application you should never rely on client side validation it is important to verify all the input
-send by the client. Always remember: **NEVER TRUST INPUT SEND BY A CLIENT.**
+In a real application you should never rely on client side validation. It is important to verify all the input
+sent by the client. Always remember: **NEVER TRUST INPUT SENT BY A CLIENT.**
 
 ''''
 ==== References
