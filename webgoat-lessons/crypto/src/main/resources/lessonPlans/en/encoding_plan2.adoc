@@ -4,9 +4,13 @@
 
 Also other encodings are used. 
 
+=== URL encoding
+
+URL encoding is used a lot when sending form data and request parameters to the server. Since spaces are not allowed in a URL, this is then replaced by %20. Similar replacements are made for other characters.
+
 === HTML encoding
 
-HTML encoding is used a lot when sending form data and request parameters to the server. Since spaces are not allowed in a URL, this is then replaced by %20.
+HTML encoding ensures that text is displayed as-is in the browser and not interpreted by the browser as HTML.
 
 === UUEncode
 
