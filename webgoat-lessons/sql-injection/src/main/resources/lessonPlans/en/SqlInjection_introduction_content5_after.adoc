@@ -1,6 +1,6 @@
-{nbsp} +
+== Examples
 
-==== Here are some examples of what a hacker could supply to the input field to perform actions on the database that go further than just reading the data of a single user:
+Here are some examples of what a hacker could supply to the input field to perform actions on the database that go further than just reading the data of a single user:
 
 * `+Smith’ OR '1' = '1+` +
 results in `+SELECT * FROM users WHERE name = 'Smith' OR TRUE;+` and that way will return all entries from the users table
