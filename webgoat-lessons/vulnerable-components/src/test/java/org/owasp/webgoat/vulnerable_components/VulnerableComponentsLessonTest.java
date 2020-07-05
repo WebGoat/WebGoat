@@ -22,37 +22,57 @@
 
 package org.owasp.webgoat.vulnerable_components;
 
-import org.junit.Before;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.owasp.webgoat.assignments.AssignmentEndpointTest;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.StreamException;
 
-/**
- * @author nbaars
- * @date 2/7/17
- */
-@RunWith(MockitoJUnitRunner.class)
-public class VulnerableComponentsLessonTest extends AssignmentEndpointTest {
+public class VulnerableComponentsLessonTest {
 
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup() {
-        VulnerableComponentsLesson vulnerableComponentsLesson = new VulnerableComponentsLesson();
-        init(vulnerableComponentsLesson);
-        this.mockMvc = standaloneSetup(vulnerableComponentsLesson).build();
-    }
-
+	String strangeContact = "<contact class='dynamic-proxy'>\n" + 
+			"<interface>org.owasp.webgoat.vulnerable_components.Contact</interface>\n" + 
+			"  <handler class='java.beans.EventHandler'>\n" + 
+			"    <target class='java.lang.ProcessBuilder'>\n" + 
+			"      <command>\n" + 
+			"        <string>calc.exe</string>\n" + 
+			"      </command>\n" + 
+			"    </target>\n" + 
+			"    <action>start</action>\n" + 
+			"  </handler>\n" + 
+			"</contact>";
+	String contact = "<contact>\n"+
+			"</contact>";
+    
     @Test
-    public void success() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/VulnerableComponents/attack1").content("Test"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("http-proxies.intercept.success"))))
-//                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
+    public void testTransformation() throws Exception {
+    	XStream xstream = new XStream();
+        xstream.setClassLoader(Contact.class.getClassLoader());
+        xstream.alias("contact", ContactImpl.class);
+        xstream.ignoreUnknownElements();
+        assertNotNull(xstream.fromXML(contact));
+    }
+    
+    @Test
+    public void testIllegalTransformation() throws Exception {
+    	XStream xstream = new XStream();
+        xstream.setClassLoader(Contact.class.getClassLoader());
+        xstream.alias("contact", ContactImpl.class);
+        xstream.ignoreUnknownElements();
+        Exception e = assertThrows(RuntimeException.class, ()->((Contact)xstream.fromXML(strangeContact)).getFirstName());
+        assertTrue(e.getCause().getMessage().contains("calc.exe"));
+    }
+    
+    @Test
+    public void testIllegalPayload() throws Exception {
+    	XStream xstream = new XStream();
+        xstream.setClassLoader(Contact.class.getClassLoader());
+        xstream.alias("contact", ContactImpl.class);
+        xstream.ignoreUnknownElements();
+        Exception e = assertThrows(StreamException.class, ()->((Contact)xstream.fromXML("bullssjfs")).getFirstName());
+        assertTrue(e.getCause().getMessage().contains("START_DOCUMENT"));
     }
 }
