@@ -22,31 +22,14 @@
 
 package org.owasp.webgoat.vulnerable_components;
 
-import com.thoughtworks.xstream.converters.Converter;
-import com.thoughtworks.xstream.converters.MarshallingContext;
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import lombok.Data;
 
-public class ContactConverter implements Converter {
+@Data
+public class ContactImpl implements Contact {
 
-    public boolean canConvert(Class clazz) {
-        return clazz.equals(Contact.class);
-    }
-
-    public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
-        Contact contact = (Contact) value;
-        writer.startNode("firstName");
-        writer.setValue(contact.getFirstName());
-        writer.endNode();
-    }
-
-    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-        Contact contact = new ContactImpl();
-        reader.moveDown();
-        contact.setFirstName(reader.getValue());
-        reader.moveUp();
-        return contact;
-    }
+	private Integer id;
+	private String firstName;
+	private String lastName;
+	private String email;
 
 }
