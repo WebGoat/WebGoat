@@ -11,26 +11,26 @@ To make a long answer short: this is *not* a valid protection against CSRF.
 One example why this protection is not enough can be found https://bugs.chromium.org/p/chromium/issues/detail?id=490015[here].
 Turns out `Navigator.sendBeacon()` was allowed to send POST request with an arbitrary content-type.
 
-[qoute, developer.mozilla.org]
+[quote, 'developer.mozilla.org']
 ____
 The navigator.sendBeacon() method can be used to asynchronously transfer a small amount of
 data over HTTP to a web server. This method addresses the needs of analytics and diagnostics
 code that typically attempts to send data to a web server prior to the unloading of the
-document. Sending the data any sooner may result in a missed opportunity to gather data..."
+document. Sending the data any sooner may result in a missed opportunity to gather data...
 ____
 
 {nbsp} +
 For example:
 
 [source]
-----
+--
 function postBeacon() {
     var data= new Blob([JSON.stringify({"author" :"WebGoat"})], {type : 'application/json'});
     navigator.sendBeacon("http://localhost:8083", data)
 }
-----
+--
 
-[quote, Eduardo Vela]
+[quote, 'Eduardo Vela']
 ____
 I think Content-Type restrictions are useful for websites that are accidentally safe against CSRF. They are not meant to be, but they are because they happen to only accept XML or JSON payloads.
 

@@ -10,8 +10,6 @@
 
 * It's really difficult to keep components up to date
  
-====
-
 For the components analyzed in 25,000 applications it was found that:
 
 *  8% of  2 year old components did not have a newer version
