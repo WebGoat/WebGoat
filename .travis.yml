@@ -47,3 +47,5 @@ addons:
     build_command: "mvn -DskipTests=true package"
     branch_pattern: coverity_scan
 
+after_success:
+  - bash <(curl -s https://copilot.blackducksoftware.com/ci/travis/scripts/upload)
