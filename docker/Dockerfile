@@ -5,10 +5,12 @@ ENV webgoat_version_env=${webgoat_version}
 
 RUN apt-get update && apt-get install 
 RUN useradd --home-dir /home/webgoat --create-home -U webgoat
+RUN cd /home/webgoat/; 
+RUN chgrp -R 0 /home/webgoat
+RUN chmod -R g=u /home/webgoat
 RUN apt-get -y install apt-utils nginx
 
 USER webgoat
-RUN cd /home/webgoat/; mkdir -p .webgoat-${webgoat_version}
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /usr/share/nginx/html/

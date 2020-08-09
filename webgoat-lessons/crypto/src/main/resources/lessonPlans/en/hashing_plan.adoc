@@ -13,7 +13,7 @@ For these hashes it is possible to change the payload in such a way that it stil
 == Salted Hashes
 
 Plain passwords should obviously not be stored in a database. And the same goes for plain hashes.
-The https://owasp.org/www-project-cheat-sheets/cheatsheets/Password_Storage_Cheat_Sheet.html[OWASP Password Storage Cheat Sheet,window=_blank] explains what should be used when password related information needs to be stored securely.
+The https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html[OWASP Password Storage Cheat Sheet,window=_blank] explains what should be used when password related information needs to be stored securely.
 
 == Assignment
 
