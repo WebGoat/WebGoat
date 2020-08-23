@@ -28,7 +28,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "5.7.0",
         "bootstrap": "4.2.1",
-        "jquery": "3.3.1",
+        "jquery": "3.5.0",
         "jquery.easing": "^1.4.1",
         "magnific-popup": "^1.1.0"
     },
