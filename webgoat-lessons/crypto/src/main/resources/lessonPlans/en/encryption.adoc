@@ -2,7 +2,7 @@
  
 == Symmetric encryption 
 
-Symmetric encryption is based on a shared secret that is used for both encryption as well as decryption. Both parties involved in exchanging secrets therefore share the same key.
+Symmetric encryption is based on a shared secret that is used for both encryption as well as decryption. Therefore, both parties (that are involved in exchanging secrets) share the same key.
 
 Example protocols are:
 
@@ -27,6 +27,6 @@ Here is a short description of what happens if you open your browser and go to a
 * The browser now generates random bytes to be used to generate a symmetric key and encrypts this with the public key of the server. So only the server can decrypt it.
 * At the end of this process both the browser and the webserver will use the exchanged symmetric key (in the asymmetric key exchange process) to encrypt and decrypt messages that are sent back and forth between the browser and the webserver.
 
-Symmetric keys are used because they can be used more safely for large amounts of data.
+Symmetric keys are used because it can be used more easily with large sets of data and requires less processing power in doing so. However, the information on these pages is just for a basic understanding of cryptography. Look on the internet for more detailed information about these topics.
 
 
