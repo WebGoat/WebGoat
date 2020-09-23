@@ -50,5 +50,15 @@ public class AccessControlTest extends IntegrationTest {
         private boolean admin;
         private String userHash;
     }
+	
+   public class test {
+	private String AWS_SECRET_KEY = "TestKeyPassPwasdlfsdfasdfd";
+	private String AWS_ACCESS_KEY = "askdfhlksfdjadslkfjsfklj1232l3klsdkfjdsf";
+	private String DSA_PRIVATE_KEY = "My Private Key is here";
+	private String gpg_key = "8sa7d8sa7d0sa7dsa7d98sad7sa6d7sa6d98sads8a7d0sad7sa87d89sa7d98sa7d98sa7d8sad";
+	private String git_token = "3cb43625bb5a9a7f58498517asdsadas7sa7d687a5sd78sa6d";
+	private String ssh_key = "Y2QwMWU0ZWUtOWZkMy00YjIxLThkMmYtMmVkYWFhZTBhMDI2OjEwZmYxMTQ3LWY4ZTAtNDU3ZC05ZGRlLWZhMWMzN2E1MWRjMA==";
+	private String AKC_TOKEN = "sakdfjlsdf";
+   }
     
 }
