@@ -7,7 +7,7 @@ on:
     # The branches below must be a subset of the branches above
     branches: [develop]
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '0 0 0/1 ? * * *'
 
 jobs:
   analyze:
