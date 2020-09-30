@@ -101,7 +101,7 @@ Open a command shell/window:
 git clone git@github.com:WebGoat/WebGoat.git
 ```
 
-Now let's start by compiling the project.
+Now let's start compiling the project.
 
 ```Shell
 cd WebGoat
