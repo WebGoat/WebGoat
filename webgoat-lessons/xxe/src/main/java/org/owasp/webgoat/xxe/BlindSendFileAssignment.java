@@ -83,6 +83,9 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
 
         try {
             Comment comment = comments.parseXml(commentStr);
+            if (CONTENTS.contains(comment.getText())) {
+                comment.setText("Nice try, you need to send the file to WebWolf");
+            }
             comments.addComment(comment, false);
         } catch (Exception e) {
             return failed(this).output(e.toString()).build();
