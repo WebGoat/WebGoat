@@ -81,7 +81,7 @@ public class BlindSendFileAssignmentTest extends LessonTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/xxe/blind")
                 .content(String.format(content, targetFile.toString())))
                 .andExpect(status().isOk());
-        assertThat(comments.getComments().iterator().next().getText()).isEqualTo("Nice try, you need to send the file to WebWolf");
+        assertThat(comments.getComments()).extracting(c -> c.getText()).containsAnyOf("Nice try, you need to send the file to WebWolf");
     }
 
     @Test
