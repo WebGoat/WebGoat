@@ -1,0 +1,22 @@
+== Availability
+
+Availability is "the property of being accessible and usable on demand by an authorized entity." In other words all the information should be available and accessible for authorized persons whenever it is needed.
+
+{nbsp} +
+
+=== Examples that compromise availability:
+
+** denial-of-service attacks (Dos)
+** server crashes
+** even fire or natural disasters
+
+{nbsp} +
+
+=== Examples of methods ensuring availability
+
+** intrusion detection systems
+** network traffic control
+** firewalls
+** physically and geographically isolated location
+*** fire- and waterproof
+** hardware maintenance

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package org.owasp.webgoat.service;
 
-import com.google.common.collect.Lists;
-import org.owasp.webgoat.lessons.AbstractLesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.Hint;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,42 +41,22 @@ public class HintService {
      */
     @GetMapping(path = URL_HINTS_MVC, produces = "application/json")
     @ResponseBody
-    public List<Hint> showHint() {
-        AbstractLesson l = webSession.getCurrentLesson();
-        List<Hint> hints = createLessonHints(l);
-        hints.addAll(createAssignmentHints(l));
-        return hints;
-
+    public List<Hint> getHints() {
+        Lesson l = webSession.getCurrentLesson();
+        return createAssignmentHints(l);
     }
 
-    private List<Hint> createLessonHints(AbstractLesson l) {
-        if ( l != null ) {
-            return l.getHints().stream().map(h -> createHint(h, l.getName(), null)).collect(toList());
+    private List<Hint> createAssignmentHints(Lesson l) {
+        if (l != null) {
+            return l.getAssignments().stream()
+                    .map(a -> createHint(a))
+                    .flatMap(hints -> hints.stream())
+                    .collect(toList());
         }
-        return Lists.newArrayList();
+        return List.of();
     }
 
-    private List<Hint> createAssignmentHints(AbstractLesson l) {
-        List<Hint> hints = Lists.newArrayList();
-        if ( l != null) {
-            List<Assignment> assignments = l.getAssignments();
-            assignments.stream().forEach(a -> { a.getHints(); createHints(a, hints);});
-        }
-        return hints;
-    }
-
-    private void createHints(Assignment a, List<Hint> hints) {
-        hints.addAll(a.getHints().stream().map(h -> createHint(h, null, a.getPath())).collect(toList()));
-    }
-
-    private Hint createHint(String hintText, String lesson, String assignmentName) {
-        Hint hint = new Hint();
-        hint.setHint(hintText);
-        if (lesson != null) {
-            hint.setLesson(lesson);
-        } else {
-            hint.setAssignmentPath(assignmentName);
-        }
-        return hint;
+    private List<Hint> createHint(Assignment a) {
+        return a.getHints().stream().map(h -> new Hint(h, a.getPath())).collect(toList());
     }
 }

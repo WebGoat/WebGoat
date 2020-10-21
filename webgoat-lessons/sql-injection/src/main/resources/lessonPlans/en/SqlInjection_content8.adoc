@@ -4,9 +4,9 @@
 -------------------------------------------------------
 CREATE PROCEDURE ListCustomers(@Country nvarchar(30)) 
 AS 
-SELECT City, COUNT(*)
-FROM Customers 
-WHERE Country LIKE @Country GROUP BY City
+SELECT city, COUNT(*)
+FROM customers
+WHERE country LIKE @Country GROUP BY city
 
 
 EXEC ListCustomers ‘USA’
@@ -17,7 +17,7 @@ EXEC ListCustomers ‘USA’
 CREATE PROEDURE getUser(@lastName nvarchar(25)) 
 AS 
 declare @sql nvarchar(255)
-set @sql = 'select * from users where 
-            LastName = + @LastName + ' 
+set @sql = 'SELECT * FROM users WHERE
+            lastname = + @LastName + '
 exec sp_executesql @sql 
 -------------------------------------------------------

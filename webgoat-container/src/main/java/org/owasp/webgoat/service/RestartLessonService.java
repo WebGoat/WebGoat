@@ -21,11 +21,13 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
  * projects.
  */
+
 package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.flywaydb.core.Flyway;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.users.UserTracker;
 import org.owasp.webgoat.users.UserTrackerRepository;
@@ -34,33 +36,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-/**
- * <p>RestartLessonService class.</p>
- *
- * @author rlawson
- * @version $Id: $Id
- */
 @Controller
 @AllArgsConstructor
 @Slf4j
 public class RestartLessonService {
 
     private final WebSession webSession;
-    private UserTrackerRepository userTrackerRepository;
+    private final UserTrackerRepository userTrackerRepository;
+    private final Flyway flywayLessons;
 
-    /**
-     * Returns current lesson
-     *
-     * @return a {@link java.lang.String} object.
-     */
     @RequestMapping(path = "/service/restartlesson.mvc", produces = "text/text")
     @ResponseStatus(value = HttpStatus.OK)
     public void restartLesson() {
-        AbstractLesson al = webSession.getCurrentLesson();
+        Lesson al = webSession.getCurrentLesson();
         log.debug("Restarting lesson: " + al);
 
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
         userTracker.reset(al);
         userTrackerRepository.save(userTracker);
+
+        flywayLessons.clean();
+        flywayLessons.migrate();
     }
 }

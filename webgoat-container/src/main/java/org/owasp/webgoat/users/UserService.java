@@ -30,16 +30,28 @@ public class UserService implements UserDetailsService {
     }
 
     public void addUser(String username, String password) {
+        //get user if there exists one by the name
+        WebGoatUser webGoatUser = userRepository.findByUsername(username);
+        //if user exists it will be updated, otherwise created
         userRepository.save(new WebGoatUser(username, password));
-        userTrackerRepository.save(new UserTracker(username));
+        //if user previously existed it will not get another tracker
+        if (webGoatUser == null) {
+            userTrackerRepository.save(new UserTracker(username));
+        }
     }
 
     public void addUser(String username, String password, String role) {
-        userRepository.save(new WebGoatUser(username,password,role));
-        userTrackerRepository.save(new UserTracker(username));
+        //get user if there exists one by the name
+        WebGoatUser webGoatUser = userRepository.findByUsername(username);
+        //if user exists it will be updated, otherwise created
+        userRepository.save(new WebGoatUser(username, password, role));
+        //if user previously existed it will not get another tracker
+        if (webGoatUser == null) {
+            userTrackerRepository.save(new UserTracker(username));
+        }
     }
 
-    public List<WebGoatUser> getAllUsers () {
+    public List<WebGoatUser> getAllUsers() {
         return userRepository.findAll();
     }
 

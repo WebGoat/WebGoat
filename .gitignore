@@ -15,6 +15,7 @@
 /.externalToolBuilders/
 .project
 */target/*
+*.pmd
 mongo-data/*
 .classpath
 .idea/
@@ -51,3 +52,4 @@ webgoat.lck
 webgoat.log
 webgoat.properties
 webgoat.script
+TestClass.class

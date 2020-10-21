@@ -1,0 +1,40 @@
+= Signing 
+
+A signature is a hash that can be used to check the validity of some data. The signature can be supplied separately from the data that it validates, or in the case of CMS or SOAP can be included in the same file. (Where parts of that file contain the data and parts contain the signature).
+
+Signing is used when integrity is important. It is meant to be a guarantee that data sent from A to B was not altered. So A signs the data by calculating the hash of the data and encrypting that hash using an asymmetric private key. B can then verify the data by calculating the hash of the data and decrypting the signature to compare if both hashes are the same.
+ 
+== RAW signatures 
+
+A raw signature is usually calculated as follows: 
+
+* create a hash of the data (e.g. SHA-256 hash)
+* encrypt the hash using an asymmetric private key (e.g. RSA 2048 bit key)
+* (optionally) encode the binary encrypted hash using base64 encoding
+
+B will have to get the certificate with the public key as well. This might have been exchanged before. So at least 3 files are involved: the data, the signature and the certificate.
+
+== CMS signatures
+
+A CMS signature is a standardized way to send data + signature + certificate with the public key all in one file from A to B. As long as the certificate is valid and not revoked, B can use the supplied public key to verify the signature.
+
+== SOAP signatures
+
+A SOAP signature also contains data and the signature and optionally the certificate. All in one XML payload. There are special steps involved in calculating the hash of the data. This has to do with the fact that the SOAP XML sent from system to system might introduce extra elements or timestamps. 
+Also, SOAP Signing offers the possibility to sign different parts of the message by different parties.
+
+
+== Email signatures
+
+Sending emails is not very difficult. You have to fill in some data and send it to a server that forwards it, and eventually it will end up at its destination. However, it is possible to send emails with a FROM field that is not your own email address. In order to guarantee to your receiver that you really sent this email, you can sign your email. A trusted third party will check your identity and issue an email signing certificate. You install the private key in your email application and configure it to sign emails that you send out. The certificate is issued on a specific email address and all others that receive this email will see an indication that the sender is verified, because their tools will verify the signature using the public certificate that was issued by the trusted third party.
+
+== PDF or Word or other signatures
+
+Adobe PDF documents and Microsoft Word documents are also examples of things that support signing. The signature is also inside the same document as the data so there is some description on what is part of the data and what is part of the metadata.
+Governments usually send official documents with a PDF that contains a certificate.
+
+== Assignment
+
+Here is a simple assignment. A private RSA key is sent to you. Determine the modulus of the RSA key as a hex string, and calculate a signature for that hex string using the key.
+
+

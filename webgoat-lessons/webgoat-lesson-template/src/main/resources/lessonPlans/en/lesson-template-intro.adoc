@@ -1,19 +1,9 @@
+This lesson describes the steps needed to add a new lesson to WebGoat. In general there are four steps:
 
-== Lesson Template Intro
+- Write the content, in WebGoat we use AsciiDoc as a format.
+- Create a lesson class
+- Write html glue page so WebGoat knows how the content should be displayed
+- Add one of more assignments within the lesson
 
-This is the lesson template intro.
-
-=== Sub-heading
-
-Check asciidoc for syntax, but more = means smaller headings.  You can *bold* text and other things.
-
-=== Structuring files
-
-You should set up all content so that it is these *.adoc files.
-
-=== Images
-
-Images can be refereneced as below including setting style (recommended to use lesson-image as the style). The root is {lesson}/src/main/resources
-
-image::images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
+Let's see how to create a new lesson.
 

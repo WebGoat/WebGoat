@@ -26,6 +26,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
  * for free software projects.
  */
+
 package org.owasp.webgoat.service;
 
 import lombok.AllArgsConstructor;
@@ -67,21 +68,20 @@ public class LabelService {
      * We use Springs session locale resolver which also gives us the option to change the local later on. For
      * now it uses the accept-language from the HttpRequest. If this language is not found it will default back
      * to messages.properties.
-     *
+     * <p>
      * Note although it is possible to use Spring language interceptor we for now opt for this solution, the UI
      * will always need to fetch the labels with the new language set by the user. So we don't need to intercept each
      * and every request to see if the language param has been set in the request.
      *
      * @param lang the language to fetch labels for (optional)
      * @return a map of labels
-     * @throws Exception
      */
     @GetMapping(path = URL_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Properties> fetchLabels(@RequestParam(value = "lang", required = false) String lang, HttpServletRequest request) {
+    public ResponseEntity<Properties> fetchLabels(@RequestParam(value = "lang", required = false) String lang) {
         if (!StringUtils.isEmpty(lang)) {
             Locale locale = Locale.forLanguageTag(lang);
-            ((SessionLocaleResolver)localeResolver).setDefaultLocale(locale);
+            ((SessionLocaleResolver) localeResolver).setDefaultLocale(locale);
             log.debug("Language provided: {} leads to Locale: {}", lang, locale);
         }
         Properties allProperties = new Properties();

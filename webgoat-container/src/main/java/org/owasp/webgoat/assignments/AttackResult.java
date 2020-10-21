@@ -31,6 +31,7 @@ import org.owasp.webgoat.i18n.PluginMessages;
 
 public class AttackResult {
 
+
     public static class AttackResultBuilder {
 
         private boolean lessonCompleted;
@@ -39,6 +40,8 @@ public class AttackResult {
         private String feedbackResourceBundleKey;
         private String output;
         private Object[] outputArgs;
+        private AssignmentEndpoint assignment;
+        private boolean attemptWasMade = false;
 
         public AttackResultBuilder(PluginMessages messages) {
             this.messages = messages;
@@ -76,8 +79,18 @@ public class AttackResult {
             return this;
         }
 
+        public AttackResultBuilder attemptWasMade() {
+            this.attemptWasMade = true;
+            return this;
+        }
+
         public AttackResult build() {
-            return new AttackResult(lessonCompleted, messages.getMessage(feedbackResourceBundleKey, feedbackArgs), messages.getMessage(output, output, outputArgs));
+            return new AttackResult(lessonCompleted, messages.getMessage(feedbackResourceBundleKey, feedbackArgs), messages.getMessage(output, output, outputArgs), assignment.getClass().getSimpleName(), attemptWasMade);
+        }
+
+        public AttackResultBuilder assignment(AssignmentEndpoint assignment) {
+            this.assignment = assignment;
+            return this;
         }
     }
 
@@ -87,11 +100,17 @@ public class AttackResult {
     private String feedback;
     @Getter
     private String output;
+    @Getter
+    private final String assignment;
+    @Getter
+    private boolean attemptWasMade;
 
-    public AttackResult(boolean lessonCompleted, String feedback, String output) {
+    public AttackResult(boolean lessonCompleted, String feedback, String output, String assignment, boolean attemptWasMade) {
         this.lessonCompleted = lessonCompleted;
         this.feedback = StringEscapeUtils.escapeJson(feedback);
         this.output = StringEscapeUtils.escapeJson(output);
+        this.assignment = assignment;
+        this.attemptWasMade = attemptWasMade;
     }
 
     public static AttackResultBuilder builder(PluginMessages messages) {

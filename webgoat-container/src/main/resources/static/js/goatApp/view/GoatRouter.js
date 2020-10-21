@@ -1,13 +1,18 @@
+/*
+ * Define the libraries that are used by the GoatRouter script. All define '' names should refer to the
+ * names in the main.js require.config paths name parts.
+ * The names of the function arguments is used as the object returned from loading the specified framework.
+ */
+
 define(['jquery',
-    'libs/jquery-vuln',
-    'jqueryui',
+	'libs/jquery-vuln',
+	'jqueryuivuln',
     'underscore',
     'backbone',
     'goatApp/controller/LessonController',
     'goatApp/controller/MenuController',
     'goatApp/view/LessonContentView',
     'goatApp/view/MenuView',
-    'goatApp/view/DeveloperControlsView',
     'goatApp/view/TitleView'
 ], function ($,
              $vuln,
@@ -18,7 +23,6 @@ define(['jquery',
              MenuController,
              LessonContentView,
              MenuView,
-             DeveloperControlsView,
              TitleView) {
 
     function getContentElement() {
@@ -26,16 +30,19 @@ define(['jquery',
     };
 
     function render(view) {
-        $('div.pages').hide();
+    	$('div.pages').hide();
         //TODO this works for now because we only have one page we should rewrite this a bit
         if (view != null) {
-            $('#report-card-page').show();
+        	$('#report-card-page').show();
         } else {
-            $('#lesson-title').show();
-            $('#lesson-page').show();
+        	$('#lesson-title').show();
+        	$('#lesson-page').show();
         }
     };
 
+    /*
+     * Definition of Goat App Router.
+     */
     var GoatAppRouter = Backbone.Router.extend({
 
          routes: {
@@ -74,7 +81,11 @@ define(['jquery',
 
         },
 
+        /* 
+         * Constructor of Goat App Router invoked by goatApp.js new Router().
+         */
         initialize: function () {
+        	console.log('initialize goat app router');
             this.menuController = new MenuController({menuView: new MenuView()});
             this.titleView = new TitleView();
             this.lessonController = new LessonController({lessonContentView: new LessonContentView(), titleView: this.titleView}),

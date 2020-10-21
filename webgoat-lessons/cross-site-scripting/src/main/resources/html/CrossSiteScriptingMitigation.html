@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScriptingMitigation_plan.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content8.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content8a.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content9.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content8b.adoc"></div>
+	<div class="attack-container" style="height: 100%; border: none !important;min-height: 450px;">
+		<form id="codesubmit" style="height: 100%; min-height: 350px;" class="attack-form" accept-charset="UNKNOWN" method="POST" name="form" action="/WebGoat/CrossSiteScripting/attack3">
+			<div>
+				<div id="editor" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; height: 350px;" name="editor"></div>
+				<script th:src="@{/js/libs/ace.js}" type="text/javascript" charset="utf-8"></script>
+				<script th:src="@{/lesson_js/assignment3.js}" type="text/javascript" charset="utf-8"></script>
+			</div>
+			<input type="hidden" name="editor"/>
+			<div class="input-group" style="position: absolute; top: 365px;">
+				<button class="btn btn-primary" type="submit">Submit</button>
+			</div>
+		</form>
+		<br />
+		<div class="attack-feedback" style="margin-top: 50px;"></div>
+		<div class="attack-output"></div>
+	</div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content8c.adoc"></div>
+	<div class="attack-container" style="height: 100%; border: none !important;min-height: 450px;">
+		<form id="codesubmit2" style="height: 100%; min-height: 350px;" class="attack-form" accept-charset="UNKNOWN" method="POST" name="form" action="/WebGoat/CrossSiteScripting/attack4">
+			<div>
+				<div id="editor2" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; height: 350px;" name="editor2"></div>
+				<script th:src="@{/js/libs/ace.js}" type="text/javascript" charset="utf-8"></script>
+				<script th:src="@{/lesson_js/assignment4.js}" type="text/javascript" charset="utf-8"></script>
+			</div>
+			<input type="hidden" name="editor2"/>
+			<div class="input-group" style="position: absolute; top: 365px;">
+				<button class="btn btn-primary" type="submit">Submit</button>
+			</div>
+		</form>
+		<br />
+		<div class="attack-feedback" style="margin-top: 50px;"></div>
+		<div class="attack-output"></div>
+	</div>
+</div>
+
+</html>

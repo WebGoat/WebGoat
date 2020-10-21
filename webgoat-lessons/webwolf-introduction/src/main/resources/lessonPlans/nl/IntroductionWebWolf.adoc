@@ -1,0 +1,25 @@
+== Wat is WebWolf
+
+WebWolf is een web applicatie die onder jouw controle staat. En die jou als hacker in staat stelt om requests naar deze server te sturen.
+
+Daarnaast kun je WebWolf gebruiken als tool bij de oefeningen waarin email wordt gebruikt. Het simuleert je email inbox.
+
+WebWolf is bij een aantal opdrachten benodigd. Bv. bij de authentication flaws en de XXE XML Entity Injection voorbeelden. 
+
+Bij de introductie wordt de email functionaliteit uitgetest en daarmee wordt de totale setup van de workshop uitgetest.
+
+De lessen waarbij WebWolf nodig is, zijn gemarkeerd met:
+
+{nbsp}
+
+image::images/wolf-enabled.png[width=115,height=128]
+
+{nbsp}
+
+WebWolf heeft de volgende onderdelen:
+
+* Hosting van bestanden waarmee URL resources kunnen worden gemaakt
+* Email inbox
+* Log van binnenkomende requests die zijn uitgelokt op WebWolf
+
+Klik webWolfLink:here[] om WebWolf te starten. Je kunt dan met dezelfde gebruiker inloggen als waarmee je je in WebGoat hebt aangemeld.

@@ -1,0 +1,36 @@
+== Step 1: writing content
+
+Each lesson can consist of multiple pages with content (text) to explain the vulnerability at hand. The content
+is written in AsciiDoc[https://asciidoctor.org/docs/asciidoc-writers-guide/] which makes it very easy to write content (if you know Markdown you know asciidoc).
+
+You can find excellent tutorials online for the asciidoc syntax we are just showing a basic overview below.
+Below we will describe some of the constructs which are quite often used within WebGoat.
+
+=== Sub-heading
+
+Check asciidoc for syntax, but more = means smaller headings.  You can *bold* text and other things.
+
+=== Structuring files
+
+You should set up all content so that it is these *.adoc files. The asciidoc files should be place in the
+directory `{lesson}/src/main/resources/lessonPlans/en` the last part depends on the locale.
+
+=== Images
+
+Images can be referenced as below including setting style (recommended to use lesson-image as the style). The root is `{lesson}/src/main/resources/images`
+
+image::images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
+
+=== Code block
+
+Code blocks can be written as follows:
+
+```
+[source]
+----
+public class A {
+
+  private String test;
+}
+----
+```

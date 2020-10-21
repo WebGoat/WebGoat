@@ -1,0 +1,14 @@
+=== Path traversal while uploading files
+
+The developer again became aware of the vulnerability by not validating the input of the `full name` input field.
+A fix was made in an attempt to solve this vulnerability.
+
+Again the same assignment but can you bypass the implemented fix?
+
+|===
+|OS |Location
+
+|`operatingSystem:os[]`
+|`webGoatTempDir:temppath[]PathTraversal/`
+
+|===

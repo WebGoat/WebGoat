@@ -1,6 +1,6 @@
 package org.owasp.webgoat.service;
 
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +31,7 @@ public class LessonTitleService {
     public
     @ResponseBody
     String showPlan() {
-        AbstractLesson lesson = webSession.getCurrentLesson();
+        Lesson lesson = webSession.getCurrentLesson();
         return lesson != null ? lesson.getTitle() : "";
     }
 

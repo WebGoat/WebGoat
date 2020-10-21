@@ -1,24 +1,15 @@
 define(['jquery',
     'underscore',
-    'libs/backbone',
+    'backbone',
     'goatApp/model/LessonContentModel',
     'goatApp/view/LessonContentView',
-//    'goatApp/view/PlanView',
-//    'goatApp/view/SourceView',
-//    'goatApp/view/SolutionView',
     'goatApp/view/HintView',
     'goatApp/view/HelpControlsView',
-    'goatApp/view/ParamView',
-    'goatApp/model/ParamModel',
-    'goatApp/view/DeveloperControlsView',
     'goatApp/support/GoatUtils',
     'goatApp/view/UserAndInfoView',
     'goatApp/view/MenuButtonView',
     'goatApp/model/LessonInfoModel',
-    'goatApp/view/TitleView',
-    'goatApp/model/LessonProgressModel',
-    'goatApp/view/LessonProgressView',
-    'goatApp/view/LessonOverviewView'
+    'goatApp/view/TitleView'
     ],
     function($,
         _,
@@ -27,27 +18,18 @@ define(['jquery',
         LessonContentView,
         HintView,
         HelpControlsView,
-        ParamView,
-        ParamModel,
-        DeveloperControlsView,
         GoatUtils,
         UserAndInfoView,
         MenuButtonView,
         LessonInfoModel,
-        TitleView,
-        LessonProgressModel,
-        LessonProgressView,
-        LessonOverviewView
+        TitleView
     ) {
         'use strict'
 
         var Controller = function(options) {
             this.lessonContent = new LessonContentModel();
-            this.lessonProgressModel = new LessonProgressModel();
-            this.lessonProgressView = new LessonProgressView(this.lessonProgressModel);
             this.lessonContentView = options.lessonContentView;
             this.titleView = options.titleView;
-            this.developerControlsView = new DeveloperControlsView();
 
             _.extend(Controller.prototype,Backbone.Events);
 
@@ -107,7 +89,6 @@ define(['jquery',
                 this.listenTo(this.helpControlsView,'hints:show',this.showHintsView);
 
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
-                this.listenTo(this.developerControlsView, 'dev:labels', this.restartLesson);
 
                 this.helpControlsView.render();
                 this.showHintsView();
@@ -129,18 +110,9 @@ define(['jquery',
                     //TODO: consider moving hintView as child of lessonContentView ...
                     this.createLessonHintView();
 
-                    //TODO: instantiate model with values (not sure why was not working before)
-                    var paramModel = new ParamModel({});
-                    paramModel.set('scrParam',this.lessonContent.get('scrParam'));
-                    paramModel.set('menuParam',this.lessonContent.get('menuParam'));
-                    paramModel.set('stageParam',this.lessonContent.get('stageParam'));
-                    paramModel.set('numParam',this.lessonContent.get('numParam'));
-                    this.paramView = new ParamView({model:paramModel});
-
                     $('.lesson-help').hide();
                 }
                 //this.trigger('menu:reload');
-                this.lessonProgressModel.completed();
             };
 
             this.createLessonHintView = function () {
@@ -177,6 +149,7 @@ define(['jquery',
                     self.loadLesson(self.name);
                     self.updateMenu();
                     self.callPaginationUpdate();
+                    self.lessonContentView.resetLesson();
                 });
             };
 
@@ -190,9 +163,6 @@ define(['jquery',
             }
 
         };
-
-
-
 
         return Controller;
 });

@@ -1,6 +1,6 @@
 == Try It!   DOM-Based XSS
 
-Some attacks are 'blind'. Fortunately, you have the server running here so you will be able to tell if you are successful.
+Some attacks are "blind". Fortunately, you have the server running here so you will be able to tell if you are successful.
 Use the route you just found and see if you can use the fact that it reflects a parameter from the route without encoding to execute an internal function in WebGoat.
 The function you want to execute is ...
 

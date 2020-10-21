@@ -1,0 +1,30 @@
+=== Filter requests in history panel
+
+In the main ZAP window click on Filter, see image below
+
+image::images/zap-exclude.png[Exclude internal APIs from WebGoat,style="lesson-image"]
+
+{nbsp}
+{nbsp}
+
+Then in the `URL Inc Regex` box type:
+
+[source]
+----
+.*WebGoat.*
+----
+
+And in the `URL Exc Regex` box type:
+
+[source]
+----
+.*lesson.*.mvc
+----
+
+Click 'Apply to close the window, ZAP will now no longer show internal WebGoat requests.
+
+
+
+
+
+

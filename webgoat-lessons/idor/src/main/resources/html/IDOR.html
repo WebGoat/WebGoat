@@ -22,8 +22,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/IDOR/login"
-              enctype="application/json;charset=UTF-8">
+              action="/WebGoat/IDOR/login">
             <table>
                 <tr>
                     <td>user/pass</td>
@@ -48,7 +47,7 @@
     <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
     <div class="adoc-content" th:replace="doc:IDOR_viewDiffs.adoc"></div>
-    <div class="attack-container">
+    <div class="nonattack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
         <!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
@@ -58,8 +57,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN"
               method="GET" name="form"
-              action="/WebGoat/IDOR/profile"
-              enctype="application/json;charset=UTF-8">
+              action="/WebGoat/IDOR/profile">
             <script th:src="@{/lesson_js/idor.js}" />
 
             <input name="View Profile" value="View Profile" type="button" onclick="onViewProfile();" />
@@ -82,8 +80,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form"
               method="POST" name="diff-form"
-              action="IDOR/diff-attributes"
-              enctype="application/json;charset=UTF-8">
+              action="IDOR/diff-attributes">
             <input name="attributes" type="text" />
             <input name="Submit Diffs" value="Submit Diffs" type="submit" />
         </form>
@@ -110,8 +107,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/IDOR/profile/alt-path"
-              enctype="application/json;charset=UTF-8">
+              action="/WebGoat/IDOR/profile/alt-path">
             <div class="adoc-content" th:replace="doc:IDOR_inputAltPath.adoc"></div>
             <input name="url" value="WebGoat/" type="text"/>
             <input name="submit" value="Submit" type="SUBMIT"/>
@@ -128,7 +124,7 @@
     <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
     <div class="adoc-content" th:replace="doc:IDOR_viewOtherProfile.adoc"></div>
-    <div class="attack-container">
+    <div class="nonattack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
         <!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
@@ -138,8 +134,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN" id="view-other"
               method="GET" name="view-other-profile"
-              action="/WebGoat/IDOR/profile/{userId}"
-              enctype="application/json;charset=UTF-8">
+              action="/WebGoat/IDOR/profile/{userId}">
             <script th:src="@{/lesson_js/idor.js}" />
 
             <input name="View Profile" value="View Profile" type="submit" />
@@ -163,8 +158,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN" id="edit-other"
               method="GET" name="edit-other-profile"
-              action="/WebGoat/IDOR/profile/{userId}"
-              enctype="application/json;charset=UTF-8">
+              action="/WebGoat/IDOR/profile/{userId}">
             <script th:src="@{/lesson_js/idor.js}" />
 
             <input name="View Profile" value="View Profile" type="submit" />

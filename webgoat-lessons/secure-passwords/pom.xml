@@ -1,0 +1,19 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>secure-passwords</artifactId>
+    <packaging>jar</packaging>
+    <parent>
+        <groupId>org.owasp.webgoat.lesson</groupId>
+        <artifactId>webgoat-lessons-parent</artifactId>
+        <version>v8.1.0</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.nulab-inc</groupId>
+            <artifactId>zxcvbn</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,13 @@
+
+== HTTP Proxy Setup
+
+Since this is an OWASP project, we'll be using OWASP ZAP. If you are comfortable using another proxy (e.g. Burp), you can skip this. Otherwise, this will show you how to set up ZAP to act as a proxy on your localhost.
+
+=== link:start.mvc#lesson/HttpProxies.lesson/2[Setting up ZAP 2.8.0]
+
+* First download and install ZAP 2.8.0 for your operating system
+* Start ZAP 
+* Configure the proxy to use a free port, e.g. 8090
+* Start the brower directly from ZAP
+
+

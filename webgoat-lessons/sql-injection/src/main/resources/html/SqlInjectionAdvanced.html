@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/assignments.css}"/>
 
-
+<!-- 1 -->
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:SqlInjectionAdvanced_plan.adoc"></div>
 </div>
 
-
+<!-- 2 -->
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:SqlInjection_content6.adoc"></div>
 </div>
 
+<!-- 3 -->
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:SqlInjection_content6a.adoc"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/SqlInjection/attack6a"
-              enctype="application/json;charset=UTF-8">
+              action="/WebGoat/SqlInjectionAdvanced/attack6a">
             <table>
                 <tr>
                     <td>Name:</td>
@@ -29,16 +30,10 @@
                     <td></td>
                 </tr>
             </table>
-        </form>
-        <div class="attack-feedback"></div>
-        <div class="attack-output"></div>
-    </div>
-    <div class="attack-container">
-        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        </form>        
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/SqlInjection/attack6b"
-              enctype="application/json;charset=UTF-8">
+              action="/WebGoat/SqlInjectionAdvanced/attack6b">
             <table>
                 <tr>
                     <td>Password:</td>
@@ -54,7 +49,7 @@
     </div>
 </div>
 
-
+<!-- 4 -->
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:SqlInjection_content6c.adoc"></div>
 </div>
@@ -84,8 +79,8 @@
                                 <div class="col-lg-12">
                                     <form id="login-form" class="attack-form" accept-charset="UNKNOWN"
                                           method="POST" name="form"
-                                          action="SqlInjection/challenge"
-                                          enctype="application/json;charset=UTF-8" role="form">
+                                          action="/WebGoat/SqlInjectionAdvanced/challenge_Login"
+                                          role="form">
                                         <div class="form-group">
                                             <input type="text" name="username_login" id="username4" tabindex="1"
                                                    class="form-control" placeholder="Username" value=""/>
@@ -120,8 +115,8 @@
                                     </form>
                                     <form id="register-form" class="attack-form" accept-charset="UNKNOWN"
                                           method="PUT" name="form"
-                                          action="SqlInjection/challenge"
-                                          enctype="application/json;charset=UTF-8" style="display: none;" role="form">
+                                          action="/WebGoat/SqlInjectionAdvanced/challenge"
+                                          style="display: none;" role="form">
                                         <div class="form-group">
                                             <input type="text" name="username_reg" id="username" tabindex="1"
                                                    class="form-control" placeholder="Username" value=""/>
@@ -160,6 +155,29 @@
         <div class="attack-feedback"></div>
         <div class="attack-output"></div>
     </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <span id="quiz_id" data-quiz_id="sql_injection"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/quiz.css}"/>
+    <script th:src="@{/js/quiz.js}" language="JavaScript"></script>
+    <link rel="import" type="application/json" th:href="@{/lesson_js/questions.json}"/>
+    <div class="adoc-content" th:replace="doc:SqlInjection_quiz.adoc"></div>
+        <div class="attack-container">
+            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+            <div class="container-fluid">
+                <form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
+                      method="POST" name="form"
+                      action="/WebGoat/SqlInjectionAdvanced/quiz"
+                      role="form">
+                    <div id="q_container"></div>
+                    <br />
+                <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>
+                </form>
+            </div>
+            <div class="attack-feedback"></div>
+            <div class="attack-output"></div>
+        </div>
 </div>
 
 

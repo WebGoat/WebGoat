@@ -1,0 +1,22 @@
+
+== Setting up ZAP 2.8.0
+
+. First download and install ZAP 2.8.0 for your operating system
+. Start ZAP 
+. Configure the proxy to use a free port, e.g. 8090
+
+=== Start ZAP
+
+image::images/zap-start.png[ZAP start,style="lesson-image"]
+
+=== Configure Proxy's Port
+
+* Select Tools > Options from the menu
+* Select Local Proxy on the left
+* Choose an available port ... Since WebGoat is (or will be) using port 8080, use something different like 8090
+* Click OK
+
+image::images/zap-local-proxy-8090.png[ZAP local proxy,style="lesson-image"]
+
+In the options menu, you can also change the language. By default it is set with the language setting of your operating system. The examples are shown in English.
+

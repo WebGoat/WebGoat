@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScriptingStored_plan.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content7.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content7b.adoc"></div>
+
+	<!-- comment area -->
+	<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/stored-xss.css}"/>
+	<script th:src="@{/lesson_js/stored-xss.js}" language="JavaScript"></script>
+
+	<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+
+	<div class="container-fluid">
+		<div class="panel post">
+			<div class="post-heading">
+				<div class="pull-left image">
+					<img th:src="@{/images/avatar1.png}"
+						 class="img-circle avatar" alt="user profile image"/>
+				</div>
+				<div class="pull-left meta">
+					<div class="title h5">
+						<a href="#"><b>John Doe</b></a>
+						uploaded a photo.
+					</div>
+					<h6 class="text-muted time">24 days ago</h6>
+				</div>
+			</div>
+
+			<div class="post-image">
+				<img th:src="@{images/cat.jpg}" class="image" alt="image post"/>
+			</div>
+
+			<div class="post-description">
+
+			</div>
+			<div class="post-footer">
+				<div class="input-group">
+					<input class="form-control" id="commentInput" placeholder="Add a comment" type="text"/>
+					<span class="input-group-addon">
+                                <i id="postComment" class="fa fa-edit" style="font-size: 20px"></i>
+                            </span>
+				</div>
+				<ul class="comments-list">
+					<div id="list">
+					</div>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- end comments -->
+
+	<div class="adoc-content" th:replace="doc:CrossSiteScripting_content7c.adoc"></div>
+
+	<div class="attack-container">
+		<!-- this will be where they can store the additional comment -->
+		<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+
+		<form class="attack-form" accept-charset="UNKNOWN"
+			  method="POST" name="DOMFollowUp"
+			  action="/WebGoat/CrossSiteScripting/stored-xss-follow-up">
+			<input name="successMessage" value="" type="TEXT" />
+			<input name="submitMessage" value="Submit" type="SUBMIT"/>
+		</form>
+		<div class="attack-feedback"></div>
+		<div class="attack-output"></div>
+	</div>
+</div>
+
+</html>

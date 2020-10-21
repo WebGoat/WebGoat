@@ -1,4 +1,4 @@
-== Parameterized Queries – Java Example
+== Parameterized Queries - Java Example
 [source,java]
 -------------------------------------------------------
 public static String loadAccount() {
@@ -15,10 +15,10 @@ public static String loadAccount() {
        if (results.getRow() <= 2) {
          data = processAccount(results);
        } else {
-         // Handle the error – Database integrity issue
+         // Handle the error - Database integrity issue
        }
      } else {
-       // Handle the error – no records found }
+       // Handle the error - no records found }
      }
   } catch (SQLException sqle) {
     // Log and handle the SQL Exception }

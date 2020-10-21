@@ -3,7 +3,9 @@ package org.owasp.webgoat.service;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.owasp.webgoat.assignments.LessonTrackerInterceptor;
 import org.owasp.webgoat.session.Course;
+import org.owasp.webgoat.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -53,6 +55,10 @@ public class LabelServiceTest {
     public MockMvc mockMvc;
     @MockBean
     private Course course;
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private LessonTrackerInterceptor interceptor;
 
     @Test
     @WithMockUser(username = "guest", password = "guest")

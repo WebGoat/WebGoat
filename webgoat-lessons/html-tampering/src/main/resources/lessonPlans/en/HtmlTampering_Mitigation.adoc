@@ -11,4 +11,4 @@ send by the client. Always remember: **NEVER TRUST INPUT SEND BY A CLIENT.**
 ''''
 ==== References
 
-https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html

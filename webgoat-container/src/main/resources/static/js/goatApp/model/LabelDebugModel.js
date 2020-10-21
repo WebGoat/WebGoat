@@ -32,7 +32,6 @@ define([
 		labelStatusLoaded: function(data) {
 			this.enabled = data.enabled;
 			this.label = this.enabled ? this.labels['disable'] : this.labels['enable'];
-			this.trigger('plugins:loaded', this, data);
 		}
 
 	});

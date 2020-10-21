@@ -22,6 +22,7 @@
  * projects.
  * <p>
  */
+
 package org.owasp.webgoat.i18n;
 
 import lombok.AllArgsConstructor;

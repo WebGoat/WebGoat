@@ -1,13 +1,13 @@
-== Parameterized Queries – .NET
+== Parameterized Queries - .NET
 -------------------------------------------------------
 public static bool isUsernameValid(string username) {
-	RegEx r = new Regex(“^[A-Za-z0-9]{16}$”);
+	RegEx r = new Regex("^[A-Za-z0-9]{16}$");
 	Return r.isMatch(username);
 }
 
 // SqlConnection conn is set and opened elsewhere for brevity.
 try {
-	string selectString = “SELECT * FROM user_table WHERE username = @userID”;
+	string selectString = "SELECT * FROM user_table WHERE username = @userID";
 	SqlCommand cmd = new SqlCommand( selectString, conn );
 	if ( isUsernameValid( uid ) ) {
 		cmd.Parameters.Add( "@userID", SqlDbType.VarChar, 16 ).Value = uid;
@@ -18,5 +18,5 @@ try {
 		}
 	} else { // handle invalid input }
 }
-catch (Exception e) { // Handle all exceptions… }
+catch (Exception e) { // Handle all exceptions... }
 -------------------------------------------------------

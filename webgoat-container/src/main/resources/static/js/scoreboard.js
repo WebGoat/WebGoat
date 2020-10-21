@@ -13,8 +13,9 @@ js/main.js << main file for require.js
 require.config({
   baseUrl: "js/",
   paths: {
-    jquery: 'libs/jquery-2.2.4.min',
-    jqueryui: 'libs/jquery-ui-1.10.4',
+    jquery: 'libs/jquery.min',
+    jqueryuivuln: 'libs/jquery-ui-1.10.4',
+    jqueryui: 'libs/jquery-ui.min',
     underscore: 'libs/underscore-min',
     backbone: 'libs/backbone-min',
     text: 'libs/text',
@@ -23,7 +24,7 @@ require.config({
   },
 
   map: {
-    'libs/jquery-base' : {'jquery':'libs/jquery-2.2.4.min'},
+    'libs/jquery-base' : {'jquery':'libs/jquery.min'},
     'libs/jquery-vuln' : {'jquery':'libs/jquery-2.1.4.min'}
   },
 
