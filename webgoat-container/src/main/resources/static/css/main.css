@@ -1094,17 +1094,9 @@ cookie-container {
     margin: 3px;
 }
 
-@keyframes blink {
-    50% {
-        border-color: white;
-    }
-}
-
 .cur-page {
-    animation: blink 1.5s 2 forwards;
-    border: 3px solid blue;
-    color: #aaa;
-    background-color: lightsalmon;
+    border-bottom: 2px solid #000;
+    color:#aaa;
 }
 
 span.show-next-page, span.show-prev-page {
