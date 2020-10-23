@@ -63,7 +63,7 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
             userSessionData.setValue("xss-reflected1-complete", (Object) "false");
         }
 
-        if (field1.toLowerCase().matches("<script>.*(console\\.log\\(.*\\)|alert\\(.*\\))<\\/script>")) {
+        if (field1.toLowerCase().matches("<script>.*(console\\.log\\(.*\\);?|alert\\(.*\\));?<\\/script>")) {
             //return )
             userSessionData.setValue("xss-reflected-5a-complete", "true");
             if (field1.toLowerCase().contains("console.log")) {
@@ -73,7 +73,7 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
             }
         } else {
             userSessionData.setValue("xss-reflected1-complete", "false");
-            return success(this)
+            return failed(this)
                     .feedback("xss-reflected-5a-failure")
                     .output(cart.toString())
                     .build();
