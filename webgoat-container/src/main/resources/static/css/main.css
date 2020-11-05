@@ -1072,6 +1072,10 @@ span.show-next-page, span.show-prev-page {
     cursor: pointer;
 }
 
+.no-underline:hover {
+    text-decoration: none;
+}
+
 /* attack ... */
 
 .attack-feedback {
