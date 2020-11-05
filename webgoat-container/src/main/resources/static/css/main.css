@@ -1061,7 +1061,8 @@ cookie-container {
 }
 
 span.show-next-page, span.show-prev-page {
-    font-size: 1.3em;
+    font-size: 1.1em;
+    align-content: space-evenly;
 }
 
 .show-prev-page {
