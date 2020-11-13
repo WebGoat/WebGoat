@@ -1022,10 +1022,9 @@ cookie-container {
     display: inline-block;
     background-color: #555;
     border-radius: 8px;
-    min-width: 20px;
+    min-width: 25px;
     text-align: center;
     font-weight: bold;
-    padding-top: 2px;
 }
 
 .attack-link.solved-false {
@@ -1057,12 +1056,13 @@ cookie-container {
 }
 
 .cur-page {
-    border-bottom: 2px solid #000;
+    border: 3px solid #000;
     color:#aaa;
 }
 
 span.show-next-page, span.show-prev-page {
-    font-size: 1.3em;
+    font-size: 1.1em;
+    align-content: space-evenly;
 }
 
 .show-prev-page {
@@ -1071,6 +1071,10 @@ span.show-next-page, span.show-prev-page {
 
 .show-prev-page:hover {
     cursor: pointer;
+}
+
+.no-underline:hover {
+    text-decoration: none;
 }
 
 /* attack ... */

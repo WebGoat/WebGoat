@@ -1,9 +1,9 @@
 <div>
-    <div class="page-nav-wrapper"><span class="glyphicon-class glyphicon glyphicon-circle-arrow-left show-prev-page"></span></div>
     <div class="page-link-wrapper">
+        <span class="glyphicon-class glyphicon glyphicon-circle-arrow-left show-prev-page"></span>
         <% var baseUrl = overview.baseUrl; %>
         <% _.each(overview.pages, function(page,index) { %>
-            <a href="<%=overview.baseUrl%>/<%=index%>"  alt="Page <%=index++ %>">
+            <a href="<%=overview.baseUrl%>/<%=index%>"  alt="Page <%=index++ %>" class="no-underline">
             <% if (page.content === 'assignment') { %>
                 <div class="<%=page.pageClass%> <%=page.solvedClass%> <%=page.curPageClass%>"><%=index++%></div>
             <% } else { %>
@@ -11,6 +11,6 @@
             <% } %>
             </a>
         <% }); %>
+        <span class="glyphicon-class glyphicon glyphicon-circle-arrow-right show-next-page"></span>
     </div>
-    <div class="page-nav-wrapper"><span class="glyphicon-class glyphicon glyphicon-circle-arrow-right show-next-page"></span></div>
 </div>
