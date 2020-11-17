@@ -22,5 +22,5 @@ Since you always have the urge to be the most earning employee, you want to expl
 Use the form below and try to retrieve all employee data from the *employees* table. You should not need to know any specific names or TANs to get the information you need. +
 You already found out that the query performing your request looks like this:
 ------------------------------------------------------------
-"SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "';
+"SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
 ------------------------------------------------------------
