@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.owasp.webgoat</groupId>
         <artifactId>webgoat-parent</artifactId>
-        <version>v8.1.0</version>
+        <version>${revision}</version>
     </parent>
 
     <build>
