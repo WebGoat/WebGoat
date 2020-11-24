@@ -98,7 +98,7 @@ public class LessonMenuService {
             for (Lesson lesson : lessons) {
             	if (excludeLessons.contains(lesson.getName())) {
             		continue;
-            	}System.err.println(lesson.getName());
+            	}
                 LessonMenuItem lessonItem = new LessonMenuItem();
                 lessonItem.setName(lesson.getTitle());
                 lessonItem.setLink(lesson.getLink());
