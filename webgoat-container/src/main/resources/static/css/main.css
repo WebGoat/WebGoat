@@ -1185,7 +1185,7 @@ div.scoreboard-username {
     color: aliceblue;
     padding: 4px;
     padding-left: 8px;
-    font-size: x-large;
+    font-size: medium;
     border-radius: 6px;
 }
 
@@ -1203,7 +1203,7 @@ div.captured-flag {
     background-color: #444;
     color: white;
     padding: 4px;
-    font-size: x-large;
+    font-size: medium;
     display: inline-block;
 }
 
@@ -1214,13 +1214,6 @@ div.captured-flag {
 
 .fa-flag {
     color: red
-}
-
-.appseceu-banner {
-    background: url('img/owasp_logo.jpg') no-repeat 0px 0px;
-    height: 117px;
-    width: 1268px;
-    margin-bottom: 20px;
 }
 
 #content {
