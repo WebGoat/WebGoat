@@ -47,6 +47,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+import java.util.Arrays;
+
 @RunWith(MockitoJUnitRunner.class)
 public class LessonMenuServiceTest {
 
@@ -64,7 +66,7 @@ public class LessonMenuServiceTest {
 
     @Before
     public void setup() {
-        this.mockMvc = standaloneSetup(new LessonMenuService(course, webSession, userTrackerRepository)).build();
+        this.mockMvc = standaloneSetup(new LessonMenuService(course, webSession, userTrackerRepository, Arrays.asList("none"), Arrays.asList("none"))).build();
     }
 
     @Test

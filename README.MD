@@ -81,9 +81,15 @@ java -jar webgoat-server-8.1.0.jar [--server.port=8080] [--server.address=localh
 java -jar webwolf-8.1.0.jar [--server.port=9090] [--server.address=localhost]
 ```
 
-The latest version of WebGoat needs Java 11 or above. By default WebGoat and WebWolf start on port 8080 and 9090 with `--server.port` you can specify a different port. With `server.address` you
-can bind it to a different address (default localhost)
-
+The latest version of WebGoat needs Java 11 or above. By default WebGoat and WebWolf start on port 8080,9000 and 9090 with the environment variable WEBGOAT_PORT, WEBWOLF_PORT and WEBGOAT_HSQLPORT you can set different values.
+```Shell
+export WEBGOAT_PORT=18080
+export WEBGOAT_HSQLPORT=19001
+export WEBWOLF_PORT=19090
+java -jar webgoat-server-8.1.0.jar
+java -jar webwolf-8.1.0.jar 
+```
+Use set in stead of export on Windows cmd. 
 
 
 ## 3. Run from the sources
@@ -123,3 +129,17 @@ To change IP address add the following variable to WebGoat/webgoat-container/src
 server.address=x.x.x.x
 ```
 
+## 4. Run with custom menu
+
+For specialist only. There is a way to set up WebGoat with a personalized menu. You can leave out some menu categories or individual lessons by setting environment variables.
+
+For instance running as a jar on a Linux/MacOS it will look like:
+```Shell
+export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
+export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
+java -jar webgoat-server/target/webgoat-server-v8.2.0-SNAPSHOT.jar
+```
+Or in a docker run it would (once this version is pushed into docker hub) look like:
+```Shell
+docker run -d -p 80:8888 -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/goatandwolf
+```
