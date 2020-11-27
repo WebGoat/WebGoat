@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,15 @@ public class Scoreboard {
             UserTracker userTracker = userTrackerRepository.findByUser(user.getUsername());
             rankings.add(new Ranking(user.getUsername(), challengesSolved(userTracker)));
         }
+        /* sort on number of captured flags to present an ordered ranking */
+        rankings.sort(new Comparator<Ranking>() {
+
+			@Override
+			public int compare(Ranking o1, Ranking o2) {
+				
+				return o2.getFlagsCaptured().size() - o1.getFlagsCaptured().size();
+			}
+		});
         return rankings;
     }
 
