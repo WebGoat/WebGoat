@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.jwt.JWTSecretKeyEndpoint;
 
@@ -86,7 +86,7 @@ public class JWTLessonTest extends IntegrationTest {
     	
     	String secret = getSecretToken(accessToken);
     	
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -126,7 +126,7 @@ public class JWTLessonTest extends IntegrationTest {
         		.concat(new String(Base64.getUrlEncoder().encode(bodyObject.toString().getBytes())).toString())
         		.concat(".").replace("=", "");
         
-        Assert.assertThat(
+        MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -154,7 +154,7 @@ public class JWTLessonTest extends IntegrationTest {
 				.concat(new String(Base64.getUrlEncoder().encode(body.getBytes())).toString())
 				.concat(".").replace("=", "");
 
-		Assert.assertThat(RestAssured.given()
+		MatcherAssert.assertThat(RestAssured.given()
 				.when().relaxedHTTPSValidation()
 				.cookie("JSESSIONID", getWebGoatCookie())
 				.header("Authorization","Bearer "+replacedToken)
@@ -180,7 +180,7 @@ public class JWTLessonTest extends IntegrationTest {
 				.claim("Role", new String[] {"Manager", "Project Administrator"})
 				.signWith(SignatureAlgorithm.HS256, "deletingTom").compact();
 		
-		Assert.assertThat(RestAssured.given()
+		MatcherAssert.assertThat(RestAssured.given()
 				.when().relaxedHTTPSValidation()
 				.cookie("JSESSIONID", getWebGoatCookie())
 				.post(url("/WebGoat/JWT/final/delete?token="+token))
