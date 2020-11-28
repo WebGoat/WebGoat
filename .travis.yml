@@ -8,7 +8,19 @@ dist: xenial
 jdk:
   - openjdk11
   - openjdk15
-install: true
+addons:
+  firefox: latest
+install:  
+  - if [ $TRAVIS_OS_NAME == 'linux' ]; then
+       wget -N https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz -P ~/
+       tar -xzf ~/geckodriver-v0.26.0-linux64.tar.gz -C ~/
+       rm ~/geckodriver-v0.26.0-linux64.tar.gz
+       sudo mv -f ~/geckodriver /usr/local/share
+       sudo chmod +x /usr/local/share/geckodriver
+       sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver
+    else 
+       true
+    fi
 script:
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
     else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
