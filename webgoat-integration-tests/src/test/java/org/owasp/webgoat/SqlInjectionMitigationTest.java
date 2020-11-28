@@ -58,8 +58,9 @@ public class SqlInjectionMitigationTest extends IntegrationTest {
                 .contentType(ContentType.JSON)
                 .get(url("/WebGoat/SqlInjectionMitigations/servers?column=unknown"))
                 .then()
+                .log().all()
                 .statusCode(500)
-                .body("message", containsString("select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by"));
+                .body("trace", containsString("select id, hostname, ip, mac, status, description from servers  where status <> 'out of order' order by"));
 
         params.clear();
         params.put("ip", "104.130.219.202");

@@ -4,10 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.Getter;
 import org.hamcrest.CoreMatchers;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +46,6 @@ public abstract class IntegrationTest {
 
     private static boolean started = false;
 
-    @BeforeClass
     @BeforeAll
     public static void beforeAll() {
         if (WG_SSL) {
@@ -91,7 +87,6 @@ public abstract class IntegrationTest {
         return WEBWOLF_URL + url;
     }
 
-    @Before
     @BeforeEach
     public void login() {
 
@@ -143,7 +138,6 @@ public abstract class IntegrationTest {
                 .cookie("WEBWOLFSESSION");
     }
 
-    @After
     @AfterEach
     public void logout() {
         RestAssured.given()
@@ -193,7 +187,7 @@ public abstract class IntegrationTest {
      * @param expectedResult
      */
     public void checkAssignment(String url, Map<String, ?> params, boolean expectedResult) {
-        Assert.assertThat(
+        MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -215,7 +209,7 @@ public abstract class IntegrationTest {
      * @param expectedResult
      */
     public void checkAssignmentWithPUT(String url, Map<String, ?> params, boolean expectedResult) {
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -231,7 +225,7 @@ public abstract class IntegrationTest {
     public void checkResults(String prefix) {
         checkResults();
 
-        Assert.assertThat(RestAssured.given()
+        MatcherAssert.assertThat(RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
@@ -242,7 +236,7 @@ public abstract class IntegrationTest {
     }
 
     public void checkResults() {
-        Assert.assertThat(RestAssured.given()
+    	MatcherAssert.assertThat(RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
@@ -252,7 +246,7 @@ public abstract class IntegrationTest {
     }
 
     public void checkAssignment(String url, ContentType contentType, String body, boolean expectedResult) {
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -266,7 +260,7 @@ public abstract class IntegrationTest {
     }
 
     public void checkAssignmentWithGet(String url, Map<String, ?> params, boolean expectedResult) {
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()

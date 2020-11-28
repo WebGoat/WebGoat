@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
@@ -49,7 +49,7 @@ public class PathTraversalTest extends IntegrationTest {
     }
     
     public void assignment1() throws IOException {
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -63,7 +63,7 @@ public class PathTraversalTest extends IntegrationTest {
     }
 
     public void assignment2() throws IOException {
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -77,7 +77,7 @@ public class PathTraversalTest extends IntegrationTest {
     }
 
     public void assignment3() throws IOException {
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()

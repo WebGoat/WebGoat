@@ -3,7 +3,7 @@ package org.owasp.webgoat;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -38,7 +38,7 @@ public class GeneralLessonTest extends IntegrationTest {
     @Test
     public void httpProxies() {
         startLesson("HttpProxies");
-        Assert.assertThat(RestAssured.given()
+        MatcherAssert.assertThat(RestAssured.given()
                 .when().relaxedHTTPSValidation().cookie("JSESSIONID", getWebGoatCookie()).header("x-request-intercepted", "true")
                 .contentType(ContentType.JSON)
                 .get(url("HttpProxies/intercept-request?changeMe=Requests are tampered easily"))
@@ -114,7 +114,7 @@ public class GeneralLessonTest extends IntegrationTest {
         checkResults("/auth-bypass/");
 
         startLesson("HttpProxies");
-        Assert.assertThat(RestAssured.given().when().relaxedHTTPSValidation().cookie("JSESSIONID", getWebGoatCookie()).header("x-request-intercepted", "true")
+        MatcherAssert.assertThat(RestAssured.given().when().relaxedHTTPSValidation().cookie("JSESSIONID", getWebGoatCookie()).header("x-request-intercepted", "true")
                 .contentType(ContentType.JSON)
                 .get(url("/WebGoat/HttpProxies/intercept-request?changeMe=Requests are tampered easily")).then()
                 .statusCode(200).extract().path("lessonCompleted"), CoreMatchers.is(true));
