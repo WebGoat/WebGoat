@@ -33,8 +33,9 @@ deploy:
     cleanup: false
     script: bash scripts/deploy-webgoat.sh
     on:
-      tags: true
+      os: linux
       jdk: openjdk11
+      tags: true
   - provider: releases
     cleanup: false
     overwrite: true
@@ -43,6 +44,7 @@ deploy:
     file_glob: true
     file: "$WEBGOAT_ARTIFACTS_FOLDER/*"
     on:
+      os: linux
       jdk: openjdk11
       tags: true
 env:
