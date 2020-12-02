@@ -5,7 +5,7 @@ os: linux
 dist: xenial
 jdk:
   - openjdk11
-  - openjdk13
+  - openjdk15
 install: "/bin/true"
 script:
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
@@ -50,6 +50,8 @@ env:
     #Docker password
     - secure: aly5TKBUK9sIiqtMbytNNPZHQhC0a7Yond5tEtuJ8fO+j/KZB4Uro3I6BhzYjGWFb5Kndd0j2TXHPFvtOl402J1CmFsY3v0BhilQd0g6zOssp5T0A73m8Jgq4ItV8wQJJy2bQsXqL1B+uFYieYPiMchj7JxWW0vBn7TV5b68l6U=
 notifications:
+  on:
+    jdk: openjdk11
   slack:
     rooms:
       secure: cDG2URRy7SEipMLyhodwjRBtsPBmfngFB4FyNaIhhr+2/SGyKvGhfW75YA9V+eC7J40KllxQhiIvrxngKDRABb3L1O72Sdj8mZSi8TVsUNLOdamJXHKGUwNSPWXv/1s2m+uC20cgxl66o31vxdV33uvxLdvGOd5e5qOKTsKP7UE=
