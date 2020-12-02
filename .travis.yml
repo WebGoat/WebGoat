@@ -8,7 +8,7 @@ dist: xenial
 jdk:
   - openjdk11
   - openjdk15
-install: "/bin/true"
+install: true
 script:
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
     else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
