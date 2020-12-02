@@ -28,12 +28,12 @@ before_deploy:
   - cp -fa $WEBWOLF_TARGET_DIR/*.jar $WEBGOAT_ARTIFACTS_FOLDER/
   - echo "Contents of artifacts folder:"
   - ls $WEBGOAT_ARTIFACTS_FOLDER
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then exit 1 ; fi
 deploy:
   - provider: script
     cleanup: false
     script: bash scripts/deploy-webgoat.sh
     on:
+      condition: $TRAVIS_OS_NAME == 'linux'
       jdk: openjdk11
       tags: true
   - provider: releases
@@ -44,6 +44,7 @@ deploy:
     file_glob: true
     file: "$WEBGOAT_ARTIFACTS_FOLDER/*"
     on:
+      condition: $TRAVIS_OS_NAME == 'linux'
       jdk: openjdk11
       tags: true
 env:
