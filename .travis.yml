@@ -34,7 +34,6 @@ deploy:
       tags: true
       jdk: openjdk11
   - provider: releases
-    jdk: openjdk11
     cleanup: false
     overwrite: true
     token:
@@ -42,6 +41,7 @@ deploy:
     file_glob: true
     file: "$WEBGOAT_ARTIFACTS_FOLDER/*"
     on:
+      jdk: openjdk11
       tags: true
 env:
   global:
@@ -50,8 +50,6 @@ env:
     #Docker password
     - secure: aly5TKBUK9sIiqtMbytNNPZHQhC0a7Yond5tEtuJ8fO+j/KZB4Uro3I6BhzYjGWFb5Kndd0j2TXHPFvtOl402J1CmFsY3v0BhilQd0g6zOssp5T0A73m8Jgq4ItV8wQJJy2bQsXqL1B+uFYieYPiMchj7JxWW0vBn7TV5b68l6U=
 notifications:
-  on:
-    jdk: openjdk11
   slack:
     rooms:
       secure: cDG2URRy7SEipMLyhodwjRBtsPBmfngFB4FyNaIhhr+2/SGyKvGhfW75YA9V+eC7J40KllxQhiIvrxngKDRABb3L1O72Sdj8mZSi8TVsUNLOdamJXHKGUwNSPWXv/1s2m+uC20cgxl66o31vxdV33uvxLdvGOd5e5qOKTsKP7UE=
