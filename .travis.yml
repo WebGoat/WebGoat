@@ -1,7 +1,9 @@
 services:
   - docker
 language: java
-os: linux
+os: 
+  - linux
+  - osx
 dist: xenial
 jdk:
   - openjdk11
