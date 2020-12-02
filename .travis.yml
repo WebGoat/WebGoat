@@ -1,6 +1,8 @@
 services:
   - docker
 language: java
+os: linux
+dist: xenial
 jdk:
   - openjdk11
   - openjdk13
@@ -26,16 +28,16 @@ before_deploy:
   - ls $WEBGOAT_ARTIFACTS_FOLDER
 deploy:
   - provider: script
-    jdk: openjdk11
-    skip_cleanup: true
+    cleanup: false
     script: bash scripts/deploy-webgoat.sh
     on:
       tags: true
+      jdk: openjdk11
   - provider: releases
     jdk: openjdk11
-    skip_cleanup: true
+    cleanup: false
     overwrite: true
-    api_key:
+    token:
       secure: pJOLBnl6427PcVg/tVy/qB18JC7b8cKpffau+IP0pjdSt7KUfBdBY3QuJ7mrM65zRoVILzggLckaew2PlRmYQRdumyWlyRn44XiJ9KO4n6Bsufbz+ictB4ggtozpp9+I9IIUh1TmqypL9lhkX2ONM9dSHmyblYpAAgMuYSK8FYc=
     file_glob: true
     file: "$WEBGOAT_ARTIFACTS_FOLDER/*"
