@@ -3,7 +3,7 @@ This lesson describes the steps needed to add a new lesson to WebGoat. In genera
 - Write the content, in WebGoat we use AsciiDoc as a format.
 - Create a lesson class
 - Write html glue page so WebGoat knows how the content should be displayed
-- Add one of more assignments within the lesson
+- Add one or more assignments within the lesson
 
 Let's see how to create a new lesson.
 
