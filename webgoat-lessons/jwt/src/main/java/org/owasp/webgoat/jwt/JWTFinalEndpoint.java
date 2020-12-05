@@ -84,62 +84,6 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
     private JWTFinalEndpoint(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-
-    @PostMapping(path="/JWT/encode",produces=MediaType.TEXT_HTML_VALUE)
-    @ResponseBody
-    public String encode(@RequestParam("jsonHeader") String jsonHeader,
-    		@RequestParam("jsonPayload") String jsonPayload,
-    		@RequestParam("jsonSecret") String jsonSecret) throws NoSuchAlgorithmException {		
-		
-    	//System.out.println(jsonHeader);
-    	//System.out.println(jsonPayload);
-		String encodedHeader;
-		String encodedPayload;
-		String encodedSignature;
-		try {
-			encodedHeader = TextCodec.BASE64URL.encode(jsonHeader);
-			encodedPayload = TextCodec.BASE64URL.encode(jsonPayload);
-			if (jsonHeader.toLowerCase().contains("none")) {
-				encodedSignature="";
-			} else {
-				encodedSignature = TextCodec.BASE64URL.encode(getJWTSignature(jsonHeader, encodedHeader, encodedPayload, jsonSecret));
-			}
-		} catch (Exception e) {
-			encodedHeader="";
-			encodedPayload="signature type not supported in this tool, try jwt.io";
-			encodedSignature = "";
-		}
-		String result = "{\"encodedHeader\":\""+encodedHeader+"\",\"encodedPayload\":\""+encodedPayload+"\",\"encodedSignature\":\""+encodedSignature+"\"}";
-		//System.out.println(result);
-		return result;
-    }
-       
-    private byte[] getJWTSignature(String jsonHeader, String encodedHeader, String encodedPayload, String jsonSecret) throws NoSuchAlgorithmException, InvalidKeyException {
-    	String message = encodedHeader+"."+encodedPayload;
-  	  	String algorithm = "HmacSHA256";
-    	if (jsonHeader.equals("HS512")) {
-    		algorithm = "HmacSHA512";
-    	} 
-    	Mac macInstance = Mac.getInstance(algorithm);
-        SecretKeySpec secret_key = new SecretKeySpec(TextCodec.BASE64.decode(jsonSecret), algorithm);
-        macInstance.init(secret_key);
-
-        return macInstance.doFinal(message.getBytes(StandardCharsets.UTF_8));
-    }
-    
-    @PostMapping(path="/JWT/decode",produces=MediaType.TEXT_HTML_VALUE)
-    @ResponseBody
-    public String decode(@RequestParam("jwtToken") String jwtToken) throws NoSuchAlgorithmException {		
-		try {
-			String encodedHeader = jwtToken.substring(0, jwtToken.indexOf("."));
-			String encodedPayload = jwtToken.substring(jwtToken.indexOf(".")+1, jwtToken.lastIndexOf("."));
-			String jsonHeader = TextCodec.BASE64URL.decodeToString(encodedHeader);
-			String jsonPayload = TextCodec.BASE64URL.decodeToString(encodedPayload);
-			return "{\"jsonHeader\":\""+jsonHeader.replace("\"", "\\\"")+"\",\"jsonPayload\":\""+jsonPayload.replace("\"", "\\\"").replace("\t","").replace("\r", "").replace("\n", "")+"\"}";
-		} catch (Exception e) {
-			return "{\"jsonHeader\":\"\",\"jsonPayload\":\"\"}";
-		}
-    }
     
     @PostMapping("/JWT/final/follow/{user}")
     public @ResponseBody

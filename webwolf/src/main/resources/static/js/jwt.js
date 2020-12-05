@@ -8,10 +8,8 @@ $(document).ready(() => {
             url: '/WebWolf/jwt/decode',
             data: JSON.stringify({encoded: token, secretKey: secretKey}),
             success: function (data) {
-                if (data.validToken) {
-                    $('#tokenHeader').val(data.header);
-                    $('#tokenPayload').val(data.payload);
-                }
+                $('#tokenHeader').val(data.header);
+                $('#tokenPayload').val(data.payload);
                 updateSignature(data);
             },
             contentType: "application/json",
@@ -69,11 +67,10 @@ function parseJson(text) {
     return true;
 }
 
-
 function updateSignature(data) {
     if (data.signatureValid) {
-        $('#signatureValid').val("Signature valid");
+        $('#signatureValid').html("Signature valid");
     } else {
-        $('#signatureValid').val("Signature invalid");
+        $('#signatureValid').html("Signature invalid");
     }
 }
