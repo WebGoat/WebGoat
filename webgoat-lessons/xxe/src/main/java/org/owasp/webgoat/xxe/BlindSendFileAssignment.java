@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -75,14 +77,18 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     @PostMapping(path = "xxe/blind", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult addComment(@RequestBody String commentStr) {
+    public AttackResult addComment(HttpServletRequest request, @RequestBody String commentStr) {
         //Solution is posted as a separate comment
         if (commentStr.contains(CONTENTS)) {
             return success(this).build();
         }
 
         try {
-            Comment comment = comments.parseXml(commentStr);
+        	boolean secure = false;
+        	if (null != request.getSession().getAttribute("applySecurity")) {
+        		secure = true;
+        	}
+            Comment comment = comments.parseXml(commentStr, secure);
             if (CONTENTS.contains(comment.getText())) {
                 comment.setText("Nice try, you need to send the file to WebWolf");
             }

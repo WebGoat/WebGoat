@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -84,9 +85,15 @@ public class Comments {
      * XmlMapper bean defined above will be used automatically and the Comment class can be directly used in the
      * controller method (instead of a String)
      */
-    protected Comment parseXml(String xml) throws JAXBException, XMLStreamException {
+    protected Comment parseXml(String xml, boolean secure) throws JAXBException, XMLStreamException {
         var jc = JAXBContext.newInstance(Comment.class);
         var xif = XMLInputFactory.newInstance();
+        
+        if (secure) {
+        	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
+        	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");  // compliant
+        }
+        
         var xsr = xif.createXMLStreamReader(new StringReader(xml));
 
         var unmarshaller = jc.createUnmarshaller();
