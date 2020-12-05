@@ -31,6 +31,21 @@ public class XXETest extends IntegrationTest {
         checkResults("xxe/");
     }
 
+    /*
+     * This test is to verify that all is secure when XXE security patch is applied.
+     */
+    @Test
+    public void xxeSecure() throws IOException {
+        startLesson("XXE");
+        webGoatHomeDirectory = getWebGoatServerPath();
+        webwolfFileDir = getWebWolfServerPath();
+        RestAssured.given().when().relaxedHTTPSValidation()
+		.cookie("JSESSIONID", getWebGoatCookie()).get(url("/xxe/applysecurity"));
+        checkAssignment(url("/WebGoat/xxe/simple"), ContentType.XML, xxe3, false);
+        checkAssignment(url("/WebGoat/xxe/content-type"), ContentType.XML, xxe4, false);
+        checkAssignment(url("/WebGoat/xxe/blind"), ContentType.XML, "<comment><text>" + getSecret() + "</text></comment>", false);
+    }
+    
     /**
      * This performs the steps of the exercise before the secret can be committed in the final step.
      *
@@ -68,7 +83,9 @@ public class XXETest extends IntegrationTest {
                 .then()
                 .extract().response().getBody().asString();
         result = result.replace("%20", " ");
-        result = result.substring(result.lastIndexOf("WebGoat 8.0 rocks... ("), result.lastIndexOf("WebGoat 8.0 rocks... (") + 33);
+        if (-1 != result.lastIndexOf("WebGoat 8.0 rocks... (")) {
+        	result = result.substring(result.lastIndexOf("WebGoat 8.0 rocks... ("), result.lastIndexOf("WebGoat 8.0 rocks... (") + 33);
+        }
         return result;
     }
 }

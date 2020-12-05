@@ -34,6 +34,8 @@ import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @AssignmentHints({"xxe.hints.content.type.xxe.1", "xxe.hints.content.type.xxe.2"})
 public class ContentTypeAssignment extends AssignmentEndpoint {
@@ -50,7 +52,7 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
 
     @PostMapping(path = "xxe/content-type")
     @ResponseBody
-    public AttackResult createNewUser(@RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
+    public AttackResult createNewUser(HttpServletRequest request, @RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
         AttackResult attackResult = failed(this).build();
 
         if (APPLICATION_JSON_VALUE.equals(contentType)) {
@@ -61,7 +63,11 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
         if (null != contentType && contentType.contains(MediaType.APPLICATION_XML_VALUE)) {
             String error = "";
             try {
-                Comment comment = comments.parseXml(commentStr);
+            	boolean secure = false;
+            	if (null != request.getSession().getAttribute("applySecurity")) {
+            		secure = true;
+            	}
+                Comment comment = comments.parseXml(commentStr, secure);
                 comments.addComment(comment, false);
                 if (checkSolution(comment)) {
                     attackResult = success(this).build();
