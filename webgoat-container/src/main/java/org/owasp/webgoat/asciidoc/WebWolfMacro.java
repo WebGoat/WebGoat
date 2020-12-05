@@ -41,7 +41,7 @@ public class WebWolfMacro extends InlineMacroProcessor {
      * The purpose is to make it possible to use the application behind a reverse proxy. For instance in the docker
      * compose/stack version with webgoat webwolf and nginx proxy. 
      * You do not have to use the indicated hostname, but if you do, you should define two hosts aliases
-     * 127.0.0.1 www.webgoat.local www.webwolf.locaal
+     * 127.0.0.1 www.webgoat.local www.webwolf.local
      */
     private String determineHost(String host, String port) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();

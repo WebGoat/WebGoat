@@ -1,0 +1,12 @@
+== Decoding a JWT token
+
+Let's try decoding a JWT token, for this you can use the webWolfLink:jwt[noLink] inside WebWolf.
+Given the following token:
+
+[source]
+----
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDcwOTk2MDgsInVzZXJfbmFtZSI6InVzZXIiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI5YmM5MmE0NC0wYjFhLTRjNWUtYmU3MC1kYTUyMDc1YjlhODQiLCJjbGllbnRfaWQiOiJteS1jbGllbnQtd2l0aC1zZWNyZXQifQ.N9TsIXpvMoICVeGI9mEOPVlYODjMOCis--yB-34BOOw
+----
+
+Copy and paste the following token and decode the token, can you find the user inside the token?
+
