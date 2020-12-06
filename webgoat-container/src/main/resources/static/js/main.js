@@ -49,6 +49,10 @@ require.config({
     underscore: {
       exports: "_"
     },
+    bootstrap: {
+	    deps: ['jquery'],
+        exports: 'Bootstrap'
+    },
     backbone: {
       deps: ['underscore', 'jquery'],
       exports: 'Backbone'
@@ -67,6 +71,6 @@ require([
 	'underscore',
 	'backbone',
 	'bootstrap',
-	'goatApp/goatApp'], function($,jqueryBase,jqueryVuln,jqueryui,_,Backbone,bootstrap,Goat){
+	'goatApp/goatApp'], function($,jqueryBase,jqueryVuln,jqueryui,_,Backbone,Bootstrap,Goat){
     Goat.initApp();
 });
