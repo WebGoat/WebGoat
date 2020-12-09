@@ -14,7 +14,7 @@ SonarQube also shows you what you could do to fix this.
 
 image::images/xxe-suggested-fix.png[XXE suggested fix]
 
-If you click on the link below, you can try to do the XXE challenges again and you will notice that the vulnerabilities are mitigated.
+If you click on the button below, you can try to do the XXE challenges again and you will notice that the vulnerabilities are mitigated.
 
 
 

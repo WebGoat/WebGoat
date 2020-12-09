@@ -118,7 +118,7 @@ public class SimpleXXE extends AssignmentEndpoint {
 		if (applySecurity == null) {
 			request.getSession().setAttribute("applySecurity", "true");
 		}
-		return "xxe security will be applied";
+		return "xxe security patch is now applied, you can try the previous challenges and see the effect!";
     }
 
 }
