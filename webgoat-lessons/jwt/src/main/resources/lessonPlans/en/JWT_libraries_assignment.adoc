@@ -1,0 +1,45 @@
+== Code review
+
+Now let's look at a code review and try to think on an attack with the `alg: none`, so we use the following token:
+
+[source]
+----
+eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.
+----
+
+[source%linenums, java]
+----
+try {
+   Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parseClaimsJws(accessToken);
+   Claims claims = (Claims) jwt.getBody();
+   String user = (String) claims.get("user");
+   boolean isAdmin = Boolean.valueOf((String) claims.get("admin"));
+   if (isAdmin) {
+     removeAllUsers();
+   } else {
+     log.error("You are not an admin user");
+   }
+} catch (JwtException e) {
+  throw new InvalidTokenException(e);
+}
+----
+
+[source%linenums, java]
+----
+try {
+   Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
+   Claims claims = (Claims) jwt.getBody();
+   String user = (String) claims.get("user");
+   boolean isAdmin = Boolean.valueOf((String) claims.get("admin"));
+   if (isAdmin) {
+     removeAllUsers();
+   } else {
+     log.error("You are not an admin user");
+   }
+} catch (JwtException e) {
+  throw new InvalidTokenException(e);
+}
+----
+
+Can you spot the weakness?
+

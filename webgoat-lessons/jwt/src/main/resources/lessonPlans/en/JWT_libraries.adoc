@@ -1,0 +1,68 @@
+== JWT libraries
+
+There are a number of JWT libraries available in the Java ecosystem. Let's look at one of them:
+
+
+The contents of our token is:
+
+[source]
+----
+header:
+
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+
+claims:
+
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022
+}
+----
+
+[source]
+----
+var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.NFvYpuwbF6YWbPyaNAGEPw9wbhiQSovvSrD89B8K7Ng";
+
+Jwts.parser().setSigningKey("test").parseClaimsJws(token);
+----
+
+will work!
+
+Let's change the header to `{"alg":"none","typ":"JWT"}`
+Using the same source as above gives:
+
+[source]
+----
+var token = " eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.NFvYpuwbF6YWbPyaNAGEPw9wbhiQSovvSrD89B8K7Ng";
+
+Jwts.parser().setSigningKey("test").parseClaimsJws(token);
+----
+
+will result in:
+
+[souce]
+----
+io.jsonwebtoken.MalformedJwtException: JWT string has a digest/signature, but the header does not reference a valid signature algorithm.
+----
+
+removing the signature completely (leaving the last `.`)
+
+[source]
+----
+var token = "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.";
+
+Jwts.parser().setSigningKey("test").parseClaimsJws(token);
+----
+
+will result in:
+
+[source]
+----
+io.jsonwebtoken.UnsupportedJwtException: Unsigned Claims JWTs are not supported.
+----
+
+This is what you would expect from the library!

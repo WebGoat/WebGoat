@@ -62,7 +62,7 @@
                                     <i class="fa fa-user"></i> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-left">
-                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                    <li role="presentation"><a data-toggle="dropdown" role="menuitem" tabindex="-1"
                                                                onclick="javascript:loginVotes('Guest')"
                                                                th:text="Guest">current</a></li>
                                     <li role="presentation"><a role="menuitem" tabindex="-1"
@@ -97,6 +97,38 @@
 
         <br/>
 
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="lesson-page-solution">
+        <div class="adoc-content" th:replace="doc:JWT_signing_solution.adoc"></div>
+    </div>
+</div>
+
+
+<div class="lesson-page-wrapper">
+    <span id="quiz_id" data-quiz_id="jwt"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/quiz.css}"/>
+    <script th:src="@{/js/quiz.js}" language="JavaScript"></script>
+    <link rel="import" type="application/json" th:href="@{/lesson_js/questions_jwt.json}"/>
+    <div class="adoc-content" th:replace="doc:JWT_libraries_assignment.adoc"></div>
+    <div class="attack-container">
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="container-fluid">
+            <form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  action="/WebGoat/JWT/quiz"
+                  role="form">
+                <div id="q_container"></div>
+                <br/>
+                <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>
+            </form>
+        </div>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
     </div>
 </div>
 
@@ -311,6 +343,10 @@
         <div class="attack-feedback"></div>
         <div class="attack-output"></div>
     </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:JWT_mitigation.adoc"></div>
 </div>
 </body>
 

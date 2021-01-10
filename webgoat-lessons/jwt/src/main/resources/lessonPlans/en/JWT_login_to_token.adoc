@@ -6,7 +6,7 @@ image::images/jwt_diagram.png[style="lesson-image"]
 
 {nbsp} +
 
-In this flow you can see the user logs in with a username and password on a successful authentication the server
+In this flow, you can see the user logs in with a username and password on successful authentication the server
 returns. The server creates a new token and returns this one to the client. When the client makes a successive
 call toward the server it attaches the new token in the "Authorization" header.
 The server reads the token and first validates the signature after a successful verification the server uses the
@@ -14,6 +14,6 @@ information in the token to identify the user.
 
 === Claims
 
-The token contains claims to identify the user and all other information necessary for the server to fulfil the request.
-Be aware not to store sensitive information in the token and always send them over a secure channel.
+The token contains claims to identify the user and all other information necessary for the server to fulfill the request.
+Be aware not to store sensitive information in the token and always send it over a secure channel.
 
