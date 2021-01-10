@@ -33,7 +33,7 @@ JSON parse error: Unexpected character '{' (code 123) in prolog; expected
       Unexpected character '{' (code 123) in prolog; expected '<'\n at [row,col {unknown-source}]: [1,1]“
 ----
 
-This error message appears because we are still sending a json message towards the endpoint, so if we intercept and change change the json message to a xml message:
+This error message appears because we are still sending a json message towards the endpoint, so if we intercept and change the json message to a xml message:
 
 [source]
 ----

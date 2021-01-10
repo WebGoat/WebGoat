@@ -14,49 +14,30 @@ class JWTTokenTest {
     void encodeCorrectTokenWithoutSignature() {
         var headers = Map.of("alg", "HS256", "typ", "JWT");
         var payload = Map.of("test", "test");
-        var token = JWTToken.builder().header(toString(headers)).payload(toString(payload)).build();
+        var token = JWTToken.encode(toString(headers), toString(payload), "");
 
-        token.encode();
-
-        assertThat(token.getEncoded()).isEqualTo("eyJhbGciOiJIUzI1NiJ9.eyJ0ZXN0IjoidGVzdCJ9");
+        assertThat(token.getEncoded()).isEqualTo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0IjoidGVzdCJ9");
     }
 
     @Test
     void encodeCorrectTokenWithSignature() {
         var headers = Map.of("alg", "HS256", "typ", "JWT");
         var payload = Map.of("test", "test");
-        var token = JWTToken.builder()
-                .header(toString(headers))
-                .payload(toString(payload))
-                .secretKey("test")
-                .build();
+        var token = JWTToken.encode(toString(headers), toString(payload), "webgoat");
 
-        token.encode();
-
-        assertThat(token.getEncoded()).isEqualTo("eyJhbGciOiJIUzI1NiJ9.eyJ0ZXN0IjoidGVzdCJ9.KOobRHDYyaesV_doOk11XXGKSONwzllraAaqqM4VFE4");
+        assertThat(token.getEncoded()).isEqualTo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0IjoidGVzdCJ9.axNp9BkswwK_YRF2URJ5P1UejQNYZbK4qYcMnkusg6I");
     }
 
     @Test
     void encodeTokenWithNonJsonInput() {
-        var token = JWTToken.builder()
-                .header("aaa")
-                .payload("bbb")
-                .secretKey("test")
-                .build();
+        var token = JWTToken.encode("aaa", "bbb", "test");
 
-        token.encode();
-
-        assertThat(token.getEncoded()).isEqualTo("eyJhbGciOiJIUzI1NiJ9.YmJi.VAcRegquayARuahZZ1ednXpbAyv7KEFnyjNJlxLNX0I");
+        assertThat(token.getEncoded()).isNullOrEmpty();
     }
 
     @Test
     void decodeValidSignedToken() {
-        var token = JWTToken.builder()
-                .encoded("eyJhbGciOiJIUzI1NiJ9.eyJ0ZXN0IjoidGVzdCJ9.KOobRHDYyaesV_doOk11XXGKSONwzllraAaqqM4VFE4")
-                .secretKey("test")
-                .build();
-
-        token.decode();
+        var token = JWTToken.decode("eyJhbGciOiJIUzI1NiJ9.eyJ0ZXN0IjoidGVzdCJ9.KOobRHDYyaesV_doOk11XXGKSONwzllraAaqqM4VFE4", "test");
 
         assertThat(token.getHeader()).contains("\"alg\" : \"HS256\"");
         assertThat(token.isSignatureValid()).isTrue();
@@ -64,12 +45,28 @@ class JWTTokenTest {
 
     @Test
     void decodeInvalidSignedToken() {
-        var token = JWTToken.builder().encoded("eyJhbGciOiJIUzI1NiJ9.eyJ0ZXsdfdfsaasfddfasN0IjoidGVzdCJ9.KOobRHDYyaesV_doOk11XXGKSONwzllraAaqqM4VFE4").build();
+        var token = JWTToken.decode("eyJhbGciOiJIUzI1NiJ9.eyJ0ZXsdfdfsaasfddfasN0IjoidGVzdCJ9.KOobRHDYyaesV_doOk11XXGKSONwzllraAaqqM4VFE4", "");
 
-        token.decode();
-
-        assertThat(token.getHeader()).contains("\"alg\":\"HS256\"");
+        assertThat(token.getHeader()).contains("{\n" +
+                "  \"alg\" : \"HS256\"\n" +
+                "}");
         assertThat(token.getPayload()).contains("{\"te");
+    }
+
+    @Test
+    void onlyEncodeWhenHeaderOrPayloadIsPresent() {
+        var token = JWTToken.encode("", "", "");
+
+        assertThat(token.getEncoded()).isNullOrEmpty();
+    }
+
+    @Test
+    void encodeAlgNone() {
+        var headers = Map.of("alg", "none");
+        var payload = Map.of("test", "test");
+        var token = JWTToken.encode(toString(headers), toString(payload), "test");
+
+        assertThat(token.getEncoded()).isEqualTo("eyJhbGciOiJub25lIn0.eyJ0ZXN0IjoidGVzdCJ9");
     }
 
     @SneakyThrows

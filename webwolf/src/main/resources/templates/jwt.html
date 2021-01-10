@@ -22,34 +22,39 @@
 
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         <div class="form-group">
-            <label for="encodedToken">Encoded</label>
-            <form name="encodedTokenForm" id="encodedTokenForm" action="/WebWolf/jwt/encode" method="POST">
-            <textarea class="form-control" style="font-size: 14pt; font-family:monospace;" id="encodedToken" rows="4"
+            <label for="token">Encoded</label>
+            <form id="decodeForm">
+            <textarea class="form-control" style="font-size: 14pt; font-family:monospace;" id="token" name="token"
+                      rows="4"
                       placeholder="Paste token here" spellcheck="false"></textarea>
             </form>
         </div>
-        <div class="form-group">
-            <label>Decoded</label>
-            <div class="row">
-                <div class="col-xs-6 col-md-5">Header</div>
-                <div class="col-xs-6 col-md-7">Payload</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6 col-md-5">
-                    <textarea class="form-control" style="font-size: 14pt; font-family:monospace;" id="tokenHeader"
-                              rows="12"></textarea>
+        <form id="encodeForm">
+            <div class="form-group">
+                <label>Decoded</label>
+                <div class="row">
+                    <div class="col-xs-6 col-md-5">Header</div>
+                    <div class="col-xs-6 col-md-7">Payload</div>
                 </div>
-                <div class="col-xs-6 col-md-7">
-                    <textarea class="form-control" style="font-size: 14pt; font-family:monospace;" id="tokenPayload"
+                <div class="row">
+                    <div class="col-xs-6 col-md-5">
+                    <textarea class="form-control" style="font-size: 14pt; font-family:monospace;" id="header"
+                              name="header"
                               rows="12"></textarea>
+                    </div>
+                    <div class="col-xs-6 col-md-7">
+                    <textarea class="form-control" style="font-size: 14pt; font-family:monospace;" id="payload"
+                              name="payload"
+                              rows="12"></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
 
         <br/>
         <div class="input-group">
-            <span class="input-group-addon" id="header">Secret key</span>
-            <input type="text" class="form-control" id="secretKey">
+            <span class="input-group-addon">Secret key</span>
+            <input type="text" value="webgoat" class="form-control" id="secretKey">
         </div>
 
         <div class="input-group">

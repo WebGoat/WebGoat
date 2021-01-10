@@ -1,28 +1,33 @@
 package org.owasp.webwolf.jwt;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.*;
-import org.jose4j.jws.AlgorithmIdentifiers;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
-import org.jose4j.jwx.CompactSerializer;
 import org.jose4j.keys.HmacKey;
 import org.jose4j.lang.JoseException;
-import org.springframework.util.StringUtils;
 
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.jose4j.jwx.CompactSerializer.serialize;
 import static org.springframework.util.Base64Utils.decodeFromUrlSafeString;
+import static org.springframework.util.StringUtils.hasText;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 public class JWTToken {
 
     private static final Pattern jwtPattern = Pattern.compile("(.*)\\.(.*)\\.(.*)");
@@ -30,59 +35,92 @@ public class JWTToken {
     private String encoded = "";
     private String secretKey;
     private String header;
+    private boolean validHeader;
+    private boolean validPayload;
+    private boolean validToken;
     private String payload;
     private boolean signatureValid = true;
 
-    public void decode() {
-        parseToken(encoded.trim().replace(System.getProperty("line.separator"), ""));
-        signatureValid = validateSignature(secretKey, encoded);
+    public static JWTToken decode(String jwt, String secretKey) {
+        var token = parseToken(jwt.trim().replace(System.getProperty("line.separator"), ""));
+        return token.toBuilder().signatureValid(validateSignature(secretKey, jwt)).build();
     }
 
-    public void encode() {
+    private static Map<String, Object> parse(String header) {
+        var reader = new ObjectMapper();
+        try {
+            return reader.readValue(header, TreeMap.class);
+        } catch (JsonProcessingException e) {
+            return Map.of();
+        }
+    }
+
+    private static String write(String originalValue, Map<String, Object> data) {
+        var writer = new ObjectMapper().writerWithDefaultPrettyPrinter();
+        try {
+            if (data.isEmpty()) {
+                return originalValue;
+            }
+            return writer.writeValueAsString(data);
+        } catch (JsonProcessingException e) {
+            return originalValue;
+        }
+    }
+
+    public static JWTToken encode(String header, String payloadAsString, String secretKey) {
+        var headers = parse(header);
+        var payload = parse(payloadAsString);
+
+        var builder = JWTToken.builder()
+                .header(write(header, headers))
+                .payload(write(payloadAsString, payload))
+                .validHeader(!hasText(header) || !headers.isEmpty())
+                .validToken(true)
+                .validPayload(!hasText(payloadAsString) || !payload.isEmpty());
+
         JsonWebSignature jws = new JsonWebSignature();
-        jws.setPayload(payload);
-        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.HMAC_SHA256);
-        jws.setDoKeyValidation(false);
-        if (StringUtils.hasText(secretKey)) {
+        jws.setPayload(payloadAsString);
+        headers.forEach((k, v) -> jws.setHeader(k, v));
+        if (!headers.isEmpty()) { //otherwise e30 meaning {} will be shown as header
+            builder.encoded(serialize(new String[]{jws.getHeaders().getEncodedHeader(), jws.getEncodedPayload()}));
+        }
+
+        //Only sign when valid header and payload
+        if (!headers.isEmpty() && !payload.isEmpty() && hasText(secretKey)) {
+            jws.setDoKeyValidation(false);
             jws.setKey(new HmacKey(secretKey.getBytes(UTF_8)));
             try {
-                encoded = jws.getCompactSerialization();
-                signatureValid = true;
+                builder.encoded(jws.getCompactSerialization());
+                builder.signatureValid(true);
             } catch (JoseException e) {
-                header = "";
-                payload = "";
+                //Do nothing
             }
-        } else {
-            var encodedHeader = jws.getHeaders().getEncodedHeader();
-            var encodedPayload = jws.getEncodedPayload();
-            encoded = CompactSerializer.serialize(new String[]{encodedHeader, encodedPayload});
         }
+        return builder.build();
     }
 
-    private boolean parseToken(String jwt) {
+    private static JWTToken parseToken(String jwt) {
         var matcher = jwtPattern.matcher(jwt);
-        var mapper = new ObjectMapper();
+        var builder = JWTToken.builder().encoded(jwt);
 
         if (matcher.matches()) {
-            try {
-                var prettyPrint = mapper.writerWithDefaultPrettyPrinter();
-                this.header = prettyPrint.writeValueAsString(mapper.readValue(decodeFromUrlSafeString(matcher.group(1)), Map.class));
-                this.payload = prettyPrint.writeValueAsString(mapper.readValue(decodeFromUrlSafeString(matcher.group(2)), Map.class));
-                return true;
-            } catch (Exception e) {
-                this.header = new String(decodeFromUrlSafeString(matcher.group(1)));
-                this.payload = new String(decodeFromUrlSafeString(matcher.group(2)));
-                return false;
-            }
+            var header = new String(decodeFromUrlSafeString(matcher.group(1)), UTF_8);
+            var payloadAsString = new String(decodeFromUrlSafeString(matcher.group(2)), UTF_8);
+            var headers = parse(header);
+            var payload = parse(payloadAsString);
+            builder.header(write(header, headers));
+            builder.payload(write(payloadAsString, payload));
+            builder.validHeader(!headers.isEmpty());
+            builder.validPayload(!payload.isEmpty());
+            builder.validToken(!headers.isEmpty() && !payload.isEmpty());
         } else {
-            this.header = "error";
-            this.payload = "error";
+            builder.validToken(false);
         }
-        return false;
+        return builder.build();
     }
 
-    private boolean validateSignature(String secretKey, String jwt) {
-        if (StringUtils.hasText(secretKey)) {
+    private static boolean validateSignature(String secretKey, String jwt) {
+        if (hasText(secretKey)) {
             JwtConsumer jwtConsumer = new JwtConsumerBuilder()
                     .setSkipAllValidators()
                     .setVerificationKey(new HmacKey(secretKey.getBytes(UTF_8)))
