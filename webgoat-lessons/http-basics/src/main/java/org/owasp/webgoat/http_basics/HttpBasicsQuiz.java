@@ -38,11 +38,11 @@ public class HttpBasicsQuiz extends AssignmentEndpoint {
 
     @PostMapping("/HttpBasics/attack2")
     @ResponseBody
-    public AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num) throws IOException {
-        if ("POST".equals(answer.toUpperCase()) && magic_answer.equals(magic_num)) {
+    public AttackResult completed(@RequestParam String answer, @RequestParam String magic_answer, @RequestParam String magic_num) {
+        if ("POST".equalsIgnoreCase(answer) && magic_answer.equals(magic_num)) {
             return success(this).build();
         } else {
-            if (!"POST".equals(answer.toUpperCase())) {
+            if (!"POST".equalsIgnoreCase(answer)) {
                 return failed(this).feedback("http-basics.incorrect").build();
             }
             if (!magic_answer.equals(magic_num)) {
