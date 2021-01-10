@@ -34,10 +34,10 @@ public class HttpBasicsLesson extends AssignmentEndpoint {
     @PostMapping("/HttpBasics/attack1")
     @ResponseBody
     public AttackResult completed(@RequestParam String person) {
-        if (!person.equals("")) {
+        if (!person.isBlank()) {
             return success(this)
                 .feedback("http-basics.reversed")
-                .feedbackArgs(new StringBuffer(person).reverse().toString())
+                .feedbackArgs(new StringBuilder(person).reverse().toString())
                 .build();
         } else {
             return failed(this).feedback("http-basics.empty").build();
