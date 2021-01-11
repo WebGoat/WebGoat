@@ -1,7 +1,7 @@
 == Introducing WebWolf
 
 You only need WebWolf if a lesson specifies you can use it. For a lot of lessons you use WebGoat without
-starting WebWolf. If you need to do an exercise with WebWolf make sure it is running along side WebGoat. Lessons
+starting WebWolf. If you need to do an exercise with WebWolf make sure it is running alongside WebGoat. Lessons
 where you can use WebWolf are marked with the following icon (top right in assignment):
 
 {nbsp}
