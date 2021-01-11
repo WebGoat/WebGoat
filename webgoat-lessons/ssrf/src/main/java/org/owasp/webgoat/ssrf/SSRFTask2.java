@@ -51,6 +51,7 @@ public class SSRFTask2 extends AssignmentEndpoint {
             StringBuffer html = new StringBuffer();
 
             if (url.matches("http://ifconfig.pro")) {
+                try {
                 URL u = new URL(url);
                 URLConnection urlConnection = u.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -60,6 +61,10 @@ public class SSRFTask2 extends AssignmentEndpoint {
                     html.append(inputLine);
                 }
                 in.close();
+                } catch (Exception e) {
+                    //in case the external site is down, the test and lesson should still be ok
+                    html.append("<html><body>Altough the http://ifconfig.pro site is down, you still managed to solve this exercise the right way!</body></html>");
+                }
 
                 return success(this)
                         .feedback("ssrf.success")
