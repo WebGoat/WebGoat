@@ -8,5 +8,5 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: gitleaks-action
-      uses: zricethezav/gitleaks-action@v1.2
+      uses: zricethezav/gitleaks-action@v1.2.0
 
