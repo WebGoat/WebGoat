@@ -11,20 +11,13 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.bonigarcia.wdm.config.DriverManagerType;
+
 public class SeleniumTest extends IntegrationTest {
 
-	private static String OS = System.getProperty("os.name").toLowerCase();
-
 	static {
-		if (null == System.getProperty("webdriver.gecko.driver")) {
-			if (OS.indexOf("win") > -1) {
-				System.setProperty("webdriver.gecko.driver", "C:\\Program Files\\Mozilla Firefox\\geckodriver.exe");
-			} else if (OS.indexOf("mac") > -1) {
-				System.setProperty("webdriver.gecko.driver", "/Applications/Firefox.app/Contents/MacOS/geckodriver");
-			} else {
-				System.setProperty("webdriver.gecko.driver","/usr/local/bin/geckodriver");
-			}
-		}
+		WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
 	}
 	private WebDriver driver;
 

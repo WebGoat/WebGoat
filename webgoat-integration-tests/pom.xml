@@ -15,6 +15,12 @@
 	    <artifactId>selenium-java</artifactId>
 	    <scope>test</scope>
 	</dependency>
+	<dependency>
+    	<groupId>io.github.bonigarcia</groupId>
+    	<artifactId>webdrivermanager</artifactId>
+    	<version>4.2.2</version>
+    	<scope>test</scope>
+	</dependency>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
             <artifactId>webgoat-server</artifactId>
