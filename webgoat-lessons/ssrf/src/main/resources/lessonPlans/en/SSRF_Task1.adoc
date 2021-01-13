@@ -1,2 +1,2 @@
 === Find and modify the request to display Jerry 
-lick the button and figure out what happened.
+Click the button and figure out what happened.

@@ -35,8 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AssignmentEndpoint {
 
     @Autowired
-    private UserTrackerRepository userTrackerRepository;
-    @Autowired
     private WebSession webSession;
     @Autowired
     private UserSessionData userSessionData;

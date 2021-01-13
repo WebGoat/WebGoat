@@ -53,12 +53,6 @@ public class LabelServiceTest {
 
     @Autowired
     public MockMvc mockMvc;
-    @MockBean
-    private Course course;
-    @MockBean
-    private UserService userService;
-    @MockBean
-    private LessonTrackerInterceptor interceptor;
 
     @Test
     @WithMockUser(username = "guest", password = "guest")

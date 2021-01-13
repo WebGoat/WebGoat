@@ -26,7 +26,7 @@ public class SSRFTest1 extends LessonTest {
     private SSRF ssrf;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(ssrf);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
