@@ -12,4 +12,4 @@ jobs:
         fetch-depth: '0'
 
     - name: gitleaks-action
-      uses: jtheiner/gitleaks-action-1@master
+      uses: jtheiner/gitleaks-action@master
