@@ -17,7 +17,11 @@ import io.github.bonigarcia.wdm.config.DriverManagerType;
 public class SeleniumTest extends IntegrationTest {
 
 	static {
-		WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
+		try {
+			WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
+		} catch (Exception e) {
+			//sometimes a 403 cause an ExceptionInInitializerError
+		}
 	}
 	private WebDriver driver;
 
@@ -54,10 +58,8 @@ public class SeleniumTest extends IntegrationTest {
 
 	@AfterEach
 	public void tearDown() {
-		try {
+		if (null != driver) {
 			driver.close();
-		} catch (Exception e) {
-
 		}
 	}
 
