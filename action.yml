@@ -1,0 +1,13 @@
+name: Gitleaks
+description: Run Gitleaks on Push and PR events
+branding:
+  color: purple
+  icon: eye
+outputs:
+  result: # id of output
+    description: 'Gitleaks log output'
+  exitcode: # id of output
+    description: 'Success for failure value from scan'
+runs:
+  using: "docker"
+  image: "Dockerfile"
