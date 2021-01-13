@@ -1,7 +1,10 @@
 name: gitleaks
 
-on: [push,pull_request]
-
+on:
+ push:
+    branches:
+      - main
+ 
 jobs:
   gitleaks:
     runs-on: ubuntu-latest
