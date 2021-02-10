@@ -53,3 +53,8 @@ webgoat.log
 webgoat.properties
 webgoat.script
 TestClass.class
+/webgoat-lessons/*/*.jfrog_vscode
+/webgoat-integration-tests/.jfrog_vscode/
+/package-lock.json
+docs/package-lock.json
+docs/node_modules
