@@ -1,8 +1,6 @@
 == What is XSS?
 
-Cross-Site Scripting (also commonly known as XSS) is a vulnerability/flaw that combines ...
-# the allowance of html/script tags as input that are ...
-# rendered into a browser without encoding or sanitization
+Cross-Site Scripting (also commonly known as XSS) is a vulnerability/flaw that combines the allowance of html/script tags as input that are rendered into a browser without encoding or sanitization
 
 === Cross-Site Scripting (XSS) is the most prevalent and pernicious web application security issue
 
@@ -11,12 +9,12 @@ coverage of fixes also tends to be a problem. We will talk more about the defens
 
 === XSS has significant impact
 
-Especially as 'Rich Internet Applications' are more and more common place, privileged function calls linked to via JavaScript may be compromised.
+Especially as 'Rich Internet Applications' are more and more commonplace, privileged function calls linked to via JavaScript may be compromised.
 And if not properly protected, sensitive data (such as your authentication cookies) can be stolen and used for someone else's purpose.
 
 
 ==== Quick examples:
-* From the JavaScript console in the developer tools of the browser (chrome, Firefox)
+* From the JavaScript console in the developer tools of the browser (Chrome, Firefox)
 +
 ----
 alert("XSS Test");
@@ -28,7 +26,7 @@ alert(document.cookie);
 <script>alert("XSS Test")</script>
 ----
 
-== Try It!  Using Chrome or Firefox 
+== Try It!  Using Chrome or Firefox
 
 * Open a second tab and use the same url as this page you are currently on (or any url within this instance of WebGoat)
 * Then, on that second that open the browser developer tools and open the javascript console. And type:  `alert(document.cookie);` .

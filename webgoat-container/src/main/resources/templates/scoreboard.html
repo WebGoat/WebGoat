@@ -7,14 +7,6 @@
     <meta http-equiv="Cache-Control" CONTENT="no-cache"/>
     <meta http-equiv="Cache-Control" CONTENT="no-store"/>
 
-    <!--[if lt IE 7]>
-    <id class="no-js lt-ie9 lt-ie8 lt-ie7"/> <![endif]-->
-    <!--[if IE 7]>
-    <id class="no-js lt-ie9 lt-ie8"/> <![endif]-->
-    <!--[if IE 8]>
-    <id class="no-js lt-ie9"/> <![endif]-->
-    <!--[if gt IE 8]><!-->
-
     <!--  CSS -->
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
 
@@ -28,13 +20,35 @@
     <meta http-equiv="Content-Type" content="text/id; charset=ISO-8859-1"/>
     <title>WebGoat</title>
 </head>
-<body class="scoreboard-page">
+<!--  <body class="scoreboard-page"> -->
+<body>
+<header id="header">
+        <!--logo start-->
+        <div class="brand">
+            <a th:href="@{/welcome.mvc}" class="logo"><span>Web</span>Goat</a>
+        </div>
+        <!--logo end-->
+        <div id="lesson-title-wrapper">
+			<h1 id="lesson-title">WebGoat challenges ranking</h1>
+        </div><!--lesson title end-->
+        <div class="user-nav pull-right" id="user-and-info-nav" style="margin-right: 75px;">
+        </div>
+    </header>
+<section id="container">
+<!--main content start-->
+    <section class="main-content-wrapper">
+        <section id="main-content">
 
 <div id="scoreboard-wrapper">
     <div id="scoreboard">
         <!-- will use _ template here -->
     </div>
 </div>
+
+</section>
+</section>
+</section>
+
 </body>
 
 

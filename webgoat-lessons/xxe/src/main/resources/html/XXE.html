@@ -1,6 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
-<script th:src="@{/lesson_js/xxe.js}" language="JavaScript"></script>
+<header>
+<script th:src="@{/lesson_js/xxe.js}"></script>
+</header>
+<body>
 
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:XXE_plan.adoc"></div>
@@ -216,5 +218,11 @@
     <div class="adoc-content" th:replace="doc:XXE_mitigation.adoc"></div>
 </div>
 
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:XXE_static_code_analysis.adoc"></div>
+    <br/>
+    <a id="submitlink" class="btn btn-primary" href="" onclick="javascript:$('#patchbutton').load('/WebGoat/xxe/applysecurity');return false;"><span id="patchbutton">Apply XXE security patch</span></a>
+</div>
 
+</body>
 </html>

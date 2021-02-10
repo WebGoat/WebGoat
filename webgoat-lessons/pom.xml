@@ -5,12 +5,12 @@
     <groupId>org.owasp.webgoat.lesson</groupId>
     <artifactId>webgoat-lessons-parent</artifactId>
     <packaging>pom</packaging>
-    <version>v8.1.0</version>
+    <version>${revision}</version>
 
     <parent>
         <groupId>org.owasp.webgoat</groupId>
         <artifactId>webgoat-parent</artifactId>
-        <version>v8.1.0</version>
+        <version>${revision}</version>
     </parent>
 
     <modules>

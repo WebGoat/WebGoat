@@ -75,6 +75,16 @@ public class BlindSendFileAssignmentTest extends LessonTest {
     }
 
     @Test
+    public void simpleXXEShouldNotWork() throws Exception {
+        File targetFile = new File(webGoatHomeDirectory, "/XXE/secret.txt");
+        String content = "<?xml version=\"1.0\" standalone=\"yes\" ?><!DOCTYPE user [<!ENTITY root SYSTEM \"file:///%s\"> ]><comment><text>&root;</text></comment>";
+        mockMvc.perform(MockMvcRequestBuilders.post("/xxe/blind")
+                .content(String.format(content, targetFile.toString())))
+                .andExpect(status().isOk());
+        assertThat(comments.getComments()).extracting(c -> c.getText()).containsAnyOf("Nice try, you need to send the file to WebWolf");
+    }
+
+    @Test
     public void solve() throws Exception {
         File targetFile = new File(webGoatHomeDirectory, "/XXE/secret.txt");
         //Host DTD on WebWolf site

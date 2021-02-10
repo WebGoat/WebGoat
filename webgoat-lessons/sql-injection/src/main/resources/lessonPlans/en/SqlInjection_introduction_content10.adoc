@@ -1,10 +1,10 @@
 == Compromising Availability
-After successfully compromising confidentiality and integrity in the previous lessons, we now are going to compromise the third element of the CIA triad: *availability*.
+After successfully compromising confidentiality and integrity in the previous lessons, we are now going to compromise the third element of the CIA triad: *availability*.
 
 There are many different ways to violate availability.
-If an account is deleted or the password gets changed, the actual owner cannot access it anymore.
-Attackers could also try to delete parts of the database making it useless or even dropping the whole database.
-Another way to compromise availability would be to per example revoke access-rights from admins or any other users, so that nobody gets access to (specific parts of) the database.
+If an account is deleted or its password gets changed, the actual owner cannot access this account anymore.
+Attackers could also try to delete parts of the database, or even drop the whole database, in order to make the data inaccessible. 
+Revoking the access rights of admins or other users is yet another way to compromise availability; this would prevent these users from accessing either specific parts of the database or even the entire database as a whdle.
 
 === It is your turn!
 Now you are the top earner in your company.

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
@@ -53,7 +53,7 @@ public class IDORTest extends IntegrationTest {
     }
     
     private void profile() {
-    	Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -70,7 +70,7 @@ public class IDORTest extends IntegrationTest {
         params.put("url", "WebGoat/IDOR/profile/2342384");
         checkAssignment(url("/WebGoat/IDOR/profile/alt-path"), params, true);
         
-        Assert.assertThat(
+        MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -80,7 +80,7 @@ public class IDORTest extends IntegrationTest {
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
         
-        Assert.assertThat(
+        MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()

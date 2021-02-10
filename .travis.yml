@@ -1,10 +1,14 @@
 services:
   - docker
 language: java
+os: 
+  - linux
+  - osx
+dist: xenial
 jdk:
   - openjdk11
-  - openjdk13
-install: "/bin/true"
+  - openjdk15
+install: true
 script:
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
     else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
@@ -26,20 +30,22 @@ before_deploy:
   - ls $WEBGOAT_ARTIFACTS_FOLDER
 deploy:
   - provider: script
-    jdk: openjdk11
-    skip_cleanup: true
+    cleanup: false
     script: bash scripts/deploy-webgoat.sh
     on:
+      condition: $TRAVIS_OS_NAME == 'linux'
+      jdk: openjdk11
       tags: true
   - provider: releases
-    jdk: openjdk11
-    skip_cleanup: true
+    cleanup: false
     overwrite: true
-    api_key:
+    token:
       secure: pJOLBnl6427PcVg/tVy/qB18JC7b8cKpffau+IP0pjdSt7KUfBdBY3QuJ7mrM65zRoVILzggLckaew2PlRmYQRdumyWlyRn44XiJ9KO4n6Bsufbz+ictB4ggtozpp9+I9IIUh1TmqypL9lhkX2ONM9dSHmyblYpAAgMuYSK8FYc=
     file_glob: true
     file: "$WEBGOAT_ARTIFACTS_FOLDER/*"
     on:
+      condition: $TRAVIS_OS_NAME == 'linux'
+      jdk: openjdk11
       tags: true
 env:
   global:

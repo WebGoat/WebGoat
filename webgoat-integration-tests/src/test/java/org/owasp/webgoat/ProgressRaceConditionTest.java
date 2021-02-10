@@ -2,6 +2,8 @@ package org.owasp.webgoat;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import lombok.extern.log4j.Log4j;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,26 +20,37 @@ public class ProgressRaceConditionTest extends IntegrationTest {
 
     @Test
     public void runTests() throws InterruptedException {
+    	int NUMBER_OF_CALLS = 40;
+    	int NUMBER_OF_PARALLEL_THREADS = 5;
         startLesson("Challenge1");
 
-        Callable<Response> call = () ->
-                RestAssured.given()
+        Callable<Response> call = () -> {
+        		//System.out.println("thread "+Thread.currentThread().getName());
+                return RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .formParams(Map.of("flag", "test"))
                         .post(url("/challenge/flag/"));
-        ExecutorService executorService = Executors.newFixedThreadPool(20);
-        List<? extends Callable<Response>> flagCalls = IntStream.range(0, 20).mapToObj(i -> call).collect(Collectors.toList());
+                
+        };
+        ExecutorService executorService = Executors.newWorkStealingPool(NUMBER_OF_PARALLEL_THREADS); 
+        List<? extends Callable<Response>> flagCalls = IntStream.range(0, NUMBER_OF_CALLS).mapToObj(i -> call).collect(Collectors.toList());
         var responses = executorService.invokeAll(flagCalls);
 
         //A certain amount of parallel calls should fail as optimistic locking in DB is applied
-        Assertions.assertThat(responses.stream().filter(r -> {
+        long countStatusCode500 = responses.stream().filter(r -> {
             try {
-                return r.get().getStatusCode() == 500;
+            	//System.err.println(r.get().getStatusCode());
+                return r.get().getStatusCode() != 200;
             } catch (InterruptedException | ExecutionException e) {
+            	//System.err.println(e);
                 throw new IllegalStateException(e);
             }
-        }).count()).isGreaterThan(8);
+        }).count();
+        System.out.println("counted status 500: "+countStatusCode500);
+        Assertions.assertThat(countStatusCode500).isLessThanOrEqualTo((NUMBER_OF_CALLS - (NUMBER_OF_CALLS/NUMBER_OF_PARALLEL_THREADS)));
+        Assertions.assertThat(countStatusCode500).isGreaterThan((NUMBER_OF_CALLS/NUMBER_OF_PARALLEL_THREADS)); 
+    	
     }
 }

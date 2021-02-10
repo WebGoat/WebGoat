@@ -37,12 +37,6 @@
             <a th:href="@{/welcome.mvc}" class="logo"><span>Web</span>Goat</a>
         </div>
         <!--logo end-->
-        <div class="toggle-navigation toggle-left">
-            <button type="button" class="btn btn-default" id="toggle-menu" data-toggle="tooltip" data-placement="right"
-                    title="Toggle Navigation">
-                <i class="fa fa-bars"></i>
-            </button>
-        </div><!--toggle navigation end-->
         <div id="lesson-title-wrapper">
 
         </div><!--lesson title end-->
@@ -109,14 +103,10 @@
 
     <!--main content start-->
     <section class="main-content-wrapper">
-        <section id="main-content"> <!--ng-controller="goatLesson"-->
+        <section id="main-content">
             <div id="lesson-page" class="pages">
                 <div class="row">
                     <div class="col-md-8">
-                        <!--<div class="col-md-12" align="left">-->
-                        <!---->
-                        <!--&lt;!&ndash; hints moved into lesson template &ndash;&gt;-->
-                        <!--</div>-->
                         <div class="col-md-12" align="left">
                             <div id="lesson-content-wrapper" class="panel">
                                 <div class="" id="error-notification-container">
@@ -126,10 +116,6 @@
                                     </div>
                                 </div>
                                 <div class="" id="help-controls">
-                                    <button class="btn btn-primary btn-xs btn-danger help-button"
-                                            id="show-source-button">
-                                        <i class="fa fa-code"></i>
-                                    </button>
                                     <button class="btn btn-primary btn-xs btn-danger help-button"
                                             id="show-hints-button" th:text="#{show.hints}">Show hints
                                     </button>

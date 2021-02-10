@@ -104,22 +104,13 @@ img {
     font-weight: 700;
 }
 
-#header .toggle-navigation button:hover,
-#header .toggle-navigation button:active,
 #header button#toggle-mail:hover,
 #header button#toggle-mail:active {
     background: #e84c3d;
 }
 
-#header .toggle-navigation button:hover i,
 #header button#toggle-mail:hover i {
     color: #F6F6F6;
-}
-
-#header .toggle-navigation.toggle-left {
-    margin-top: 5px;
-    margin-left: 20px;
-    display: inline-block;
 }
 
 #header .btn-default {
@@ -157,7 +148,7 @@ img {
 
 #header #lesson-title-wrapper {
     display: inline-block;
-    margin: 0 0 0 20px;
+    margin: 0 0 0 30px;
 }
 
 #header .pull-right {
@@ -210,14 +201,6 @@ img {
     font-weight: 300;
     font-size: 42px;
     font-family: 'Source Sans Pro', Arial, sans-serif;
-}
-
-.main-content-toggle-left {
-    margin-left: 0;
-}
-
-.main-content-toggle-right {
-    margin-right: 240px;
 }
 
 /*==========================================================================
@@ -797,25 +780,8 @@ fieldset[disabled] .btn-warning.active {
         padding-left: 0;
     }
 
-    #header .toggle-navigation.toggle-left {
-        float: left;
-    }
-
-    .sidebar {
-        margin-left: -240px;
-    }
-
-    .sidebar-toggle {
-        margin-left: 0;
-        width: 100%;
-    }
-
     .main-content-wrapper {
         margin-left: 0;
-    }
-
-    .main-content-toggle-left {
-        margin-left: 660px;
     }
 
     .sidebarRight {
@@ -929,10 +895,6 @@ cookie-container {
 #menu-container {
     overflow-y: scroll auto;
     overflow-x: hidden;
-}
-
-.sidebar-toggle {
-    margin-left: -240px;
 }
 
 #menu-container ul,
@@ -1060,10 +1022,9 @@ cookie-container {
     display: inline-block;
     background-color: #555;
     border-radius: 8px;
-    min-width: 20px;
+    min-width: 25px;
     text-align: center;
     font-weight: bold;
-    padding-top: 2px;
 }
 
 .attack-link.solved-false {
@@ -1094,21 +1055,14 @@ cookie-container {
     margin: 3px;
 }
 
-@keyframes blink {
-    50% {
-        border-color: white;
-    }
-}
-
 .cur-page {
-    animation: blink 1.5s 2 forwards;
-    border: 3px solid blue;
-    color: #aaa;
-    background-color: lightsalmon;
+    border: 3px solid #000;
+    color:#aaa;
 }
 
 span.show-next-page, span.show-prev-page {
-    font-size: 1.3em;
+    font-size: 1.1em;
+    align-content: space-evenly;
 }
 
 .show-prev-page {
@@ -1117,6 +1071,10 @@ span.show-next-page, span.show-prev-page {
 
 .show-prev-page:hover {
     cursor: pointer;
+}
+
+.no-underline:hover {
+    text-decoration: none;
 }
 
 /* attack ... */
@@ -1227,7 +1185,7 @@ div.scoreboard-username {
     color: aliceblue;
     padding: 4px;
     padding-left: 8px;
-    font-size: x-large;
+    font-size: medium;
     border-radius: 6px;
 }
 
@@ -1245,7 +1203,7 @@ div.captured-flag {
     background-color: #444;
     color: white;
     padding: 4px;
-    font-size: x-large;
+    font-size: medium;
     display: inline-block;
 }
 
@@ -1256,13 +1214,6 @@ div.captured-flag {
 
 .fa-flag {
     color: red
-}
-
-.appseceu-banner {
-    background: url('img/owasp_logo.jpg') no-repeat 0px 0px;
-    height: 117px;
-    width: 1268px;
-    margin-bottom: 20px;
 }
 
 #content {

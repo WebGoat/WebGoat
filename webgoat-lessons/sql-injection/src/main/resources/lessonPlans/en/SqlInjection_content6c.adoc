@@ -1,7 +1,7 @@
 == Blind SQL injection
 
 Blind SQL injection is a type of SQL injection attack that asks the database true or false
-questions and determines the answer based on the applications response. This attack is often used when the web
+questions and determines the answer based on the application's response. This attack is often used when the web
 application is configured to show generic error messages, but has not mitigated the code that is vulnerable to SQL
 injection.
 

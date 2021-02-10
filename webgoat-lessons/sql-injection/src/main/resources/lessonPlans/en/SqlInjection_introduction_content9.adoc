@@ -2,13 +2,12 @@
 After compromising the confidentiality of data in the previous lesson, this time we are gonna compromise the *integrity*
 of data by using SQL *query chaining*.
 
-The integrity of any data can be compromised, if an attacker per example changes information that he should not even be
+If a severe enough vulnerability exists, SQL injection may be used to compromise the integrity of any data in the database. Successful SQL injection may allow an attacker to change information that he should not even be
 able to access.
 
 === What is SQL query chaining?
-Query chaining is exactly what it sounds like. When query chaining, you try to append one or more queries to the end of
-the actual query. You can do this by using the *;* metacharacter which marks the end of a query and that way allows to
-start another one right after it within the same line.
+Query chaining is exactly what it sounds like. With query chaining, you try to append one or more queries to the end of
+the actual query. You can do this by using the *;* metacharacter. A *;* marks the end of a SQL statement; it allows one to start another query right after the initial query without the need to even start a new line.
 
 === It is your turn!
 You just found out that Tobi and Bob both seem to earn more money than you!

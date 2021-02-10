@@ -1,0 +1,21 @@
+=== Find XXE issues with static code analysis
+
+Static code analysis can help identify vulnerabilities in code. A well known tool for static code analysis is SonarQube. When you run a code scan on the source code of WebGoat, you will get something like:
+
+image::images/sonar-issues.png[Sonar OWASP issues,300,200] 
+If you select the XXE category it will show you the location of the XXE vulnerability. 
+
+image::images/sonar-issue-xxe.png[XXE issue in Comments class]
+
+
+The next step is to identify whether this is a true issue or a false positive. As you already know from the challenge exercise, this is a real issue. In this case it is put in intentionally. 
+
+SonarQube also shows you what you could do to fix this.
+
+image::images/xxe-suggested-fix.png[XXE suggested fix]
+
+If you click on the button below, you can try to do the XXE challenges again and you will notice that the vulnerabilities are mitigated.
+
+
+
+

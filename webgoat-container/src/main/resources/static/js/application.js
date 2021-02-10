@@ -3,8 +3,6 @@ var app = function() {
     var init = function() {
 
         tooltips();
-        toggleMenuLeft();
-        toggleMenuRight();
         // menu is handled by angular
         //menu();
         togglePanel();
@@ -28,38 +26,6 @@ var app = function() {
 
     };
 
-    var toggleMenuLeft = function() {
-        $('#toggle-left').bind('click', function(e) {
-            if (!$('.sidebarRight').hasClass('.sidebar-toggle-right')) {
-                $('.sidebarRight').removeClass('sidebar-toggle-right');
-                $('.main-content-wrapper').removeClass('main-content-toggle-right');
-            }
-            $('.sidebar').toggleClass('sidebar-toggle');
-            $('.main-content-wrapper').toggleClass('main-content-toggle-left');
-            e.stopPropagation();
-        });
-    };
-
-    var toggleMenuRight = function() {
-        $('#toggle-right').bind('click', function(e) {
-
-            if (!$('.sidebar').hasClass('.sidebar-toggle')) {
-                $('.sidebar').addClass('sidebar-toggle');
-                $('.main-content-wrapper').addClass('main-content-toggle-left');
-            }
-            
-            $('.sidebarRight').toggleClass('sidebar-toggle-right animated bounceInRight');
-            $('.main-content-wrapper').toggleClass('main-content-toggle-right');
-
-            if ( $(window).width() < 660 ) {
-                $('.sidebar').removeClass('sidebar-toggle');
-                $('.main-content-wrapper').removeClass('main-content-toggle-left main-content-toggle-right');
-             };
-
-            e.stopPropagation();
-        });
-    };
-
     var closePanel = function() {
         $('.actions > .fa-times').click(function() {
             $(this).parent().parent().parent().fadeOut();
@@ -67,17 +33,6 @@ var app = function() {
 
     }
 
-    /*
-    var menu = function() {
-        $("#leftside-navigation .sub-menu a").click(function(e) {
-            $("#leftside-navigation ul ul").slideUp();
-            if (!$(this).next().is(":visible")) {
-                $(this).next().slideDown();
-            }
-              e.stopPropagation();
-        });
-    };
-    */
     //End functions
 
     //Dashboard functions

@@ -42,8 +42,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints({"csrf-login-hint1", "csrf-login-hint2", "csrf-login-hint3"})
 public class CSRFLogin extends AssignmentEndpoint {
 
-    @Autowired
-    private UserTrackerRepository userTrackerRepository;
+    private final UserTrackerRepository userTrackerRepository;
+
+    public CSRFLogin(UserTrackerRepository userTrackerRepository) {
+        this.userTrackerRepository = userTrackerRepository;
+    }
 
     @PostMapping(path = "/csrf/login", produces = {"application/json"})
     @ResponseBody

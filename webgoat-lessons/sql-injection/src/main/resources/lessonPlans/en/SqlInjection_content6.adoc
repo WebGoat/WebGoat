@@ -5,7 +5,7 @@
 /* */ 	 are inline comments
 -- , # 	 are line comments
 
-Example: SELECT * FROM users WHERE name = 'admin' --AND pass = 'pass'
+Example: SELECT * FROM users WHERE name = 'admin' -- AND pass = 'pass'
 ----
 
 

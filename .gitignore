@@ -58,3 +58,4 @@ TestClass.class
 /package-lock.json
 docs/package-lock.json
 docs/node_modules
+**/*.flattened-pom.xml

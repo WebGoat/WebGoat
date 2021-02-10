@@ -108,7 +108,9 @@ define(['jquery',
 		},
 
 		onLessonClick: function (elementId) {
-			$('#'+this.curLessonLinkId).removeClass('selected').parent().removeClass('selected');
+			if (this.curLessonLinkId) {
+				$('#'+this.curLessonLinkId).removeClass('selected').parent().removeClass('selected');
+			}
 			//update
 			$('#'+elementId).addClass('selected').parent().addClass('selected');
 			this.curLessonLinkId = elementId;
