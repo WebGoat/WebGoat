@@ -35,6 +35,8 @@ public class JWTLessonTest extends IntegrationTest {
     public void solveAssignment() throws IOException, InvalidKeyException, NoSuchAlgorithmException {
 
     	startLesson("JWT");
+
+    	decodingToken();
   
         resetVotes();
                 
@@ -73,6 +75,31 @@ public class JWTLessonTest extends IntegrationTest {
     	}
     	return null;
     }
+
+	private void decodingToken() throws IOException, NoSuchAlgorithmException, InvalidKeyException {
+
+		String accessToken = RestAssured.given()
+				.when()
+				.relaxedHTTPSValidation()
+				.cookie("JSESSIONID", getWebGoatCookie())
+				.get(url("/WebGoat/JWT/secret/gettoken"))
+				.then()
+				.extract().response().asString();
+
+		String secret = getSecretToken(accessToken);
+
+		MatcherAssert.assertThat(
+				RestAssured.given()
+						.when()
+						.relaxedHTTPSValidation()
+						.cookie("JSESSIONID", getWebGoatCookie())
+						.formParam("token", generateToken(secret))
+						.post(url("/WebGoat/JWT/secret"))
+						.then()
+						.statusCode(200)
+						.extract().path("lessonCompleted"), CoreMatchers.is(true));
+
+	}
     
     private void findPassword() throws IOException, NoSuchAlgorithmException, InvalidKeyException {
     	
