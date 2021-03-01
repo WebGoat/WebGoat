@@ -45,6 +45,8 @@ public class JWTLessonTest extends IntegrationTest {
         buyAsTom();
         
         deleteTom();
+
+		quiz();
         
         checkResults("/JWT/");
 
@@ -76,25 +78,14 @@ public class JWTLessonTest extends IntegrationTest {
     	return null;
     }
 
-	private void decodingToken() throws IOException, NoSuchAlgorithmException, InvalidKeyException {
-
-		String accessToken = RestAssured.given()
-				.when()
-				.relaxedHTTPSValidation()
-				.cookie("JSESSIONID", getWebGoatCookie())
-				.get(url("/WebGoat/JWT/secret/gettoken"))
-				.then()
-				.extract().response().asString();
-
-		String secret = getSecretToken(accessToken);
-
+	private void decodingToken() {
 		MatcherAssert.assertThat(
 				RestAssured.given()
 						.when()
 						.relaxedHTTPSValidation()
 						.cookie("JSESSIONID", getWebGoatCookie())
-						.formParam("token", generateToken(secret))
-						.post(url("/WebGoat/JWT/secret"))
+						.formParam("jwt-encode-user", "user")
+						.post(url("/WebGoat/JWT/decode"))
 						.then()
 						.statusCode(200)
 						.extract().path("lessonCompleted"), CoreMatchers.is(true));
@@ -214,6 +205,14 @@ public class JWTLessonTest extends IntegrationTest {
 				.then()
 				.statusCode(200)
 				.extract().path("lessonCompleted"), CoreMatchers.is(true));
+	}
+
+	private void quiz() { 
+		Map<String, Object> params = new HashMap<>();
+		params.put("question_0_solution", "Solution 1");
+		params.put("question_1_solution", "Solution 2");
+
+		checkAssignment(url("/WebGoat/JWT/quiz"), params, true);
 	}
     
 }
