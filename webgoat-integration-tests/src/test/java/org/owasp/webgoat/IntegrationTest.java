@@ -236,12 +236,14 @@ public abstract class IntegrationTest {
     }
 
     public void checkResults() {
-    	MatcherAssert.assertThat(RestAssured.given()
+        var result = RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/lessonoverview.mvc"))
-                .then()
+                .andReturn();
+
+    	MatcherAssert.assertThat(result.then()
                 .statusCode(200).extract().jsonPath().getList("solved"), CoreMatchers.everyItem(CoreMatchers.is(true)));
     }
 

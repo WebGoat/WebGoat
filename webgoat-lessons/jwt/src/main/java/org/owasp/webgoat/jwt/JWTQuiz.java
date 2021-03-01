@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 
 @RestController
 public class JWTQuiz extends AssignmentEndpoint {
@@ -40,8 +39,6 @@ public class JWTQuiz extends AssignmentEndpoint {
             return failed(this).build();
         }
     }
-
-
 
     @GetMapping("/JWT/quiz")
     @ResponseBody
