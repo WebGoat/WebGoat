@@ -135,6 +135,9 @@
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
         <revision>v8.2.0-SNAPSHOT</revision>
+	<sonar.moduleKey>${project.groupId}:${project.artifactId}
+	</sonar.moduleKey>
+	<skipTests>true</skipTests>
     </properties>
 
     <modules>
