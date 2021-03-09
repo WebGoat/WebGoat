@@ -135,6 +135,9 @@
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
         <revision>v8.2.0-SNAPSHOT</revision>
+	<sonar.projectKey>jorgetf16-sudo_WebGoat</sonar.projectKey>
+  	<sonar.organization>jorgetf16-sudo</sonar.organization>
+ 	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <modules>
