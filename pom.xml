@@ -118,6 +118,12 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
+	<sonar.projectKey>mdsPractica_WebGoat</sonar.projectKey>
+  	<sonar.organization>mdspractica</sonar.organization>
+  	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+	<sonar.moduleKey>${project.groupId}:${project.artifactId}
+	</sonar.moduleKey>
+	<skipTests>true</skipTests>
         <!-- This build number will be ubdated by Travis-CI -->
         <build.number>build</build.number>
 
