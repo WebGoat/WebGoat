@@ -60,7 +60,8 @@ public class Assignment5 extends AssignmentEndpoint {
             PreparedStatement statement = connection.prepareStatement(entrada);
             statement.setString(1, username_login);
             statement.setString(2, password_login);
-            ResultSet resultSet = statement.executeQuery(entrada);
+            ResultSet resultSet = statement.executeQuery();
+
 
             if (resultSet.next()) {
                 return success(this).feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(5)).build();
