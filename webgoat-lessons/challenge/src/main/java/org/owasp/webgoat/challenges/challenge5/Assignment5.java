@@ -61,7 +61,7 @@ public class Assignment5 extends AssignmentEndpoint {
             statement.setString(1, username_login);
             statement.setString(2, password_login);
             ResultSet resultSet = statement.executeQuery();
-
+            statement.close();
 
             if (resultSet.next()) {
                 return success(this).feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(5)).build();
