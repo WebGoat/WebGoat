@@ -61,23 +61,27 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
 
             try (Connection connection = dataSource.getConnection()) {
                 String checkUserQuery = "select userid from sql_challenge_users where userid = ?";
+
                 java.sql.PreparedStatement statement = connection.prepareStatement(checkUserQuery);
                 statement.setString(1, username_reg);
-                java.sql.ResultSet resultSet = statement.executeQuery();
+                try(java.sql.ResultSet resultSet = statement.executeQuery()) {
 
-                if (resultSet.next()) {
-                    if (username_reg.contains("tom'")) {
-                        attackResult = success(this).feedback("user.exists").build();
+                    if (resultSet.next()) {
+                        if (username_reg.contains("tom'")) {
+                            attackResult = success(this).feedback("user.exists").build();
+                        } else {
+                            attackResult = failed(this).feedback("user.exists").feedbackArgs(username_reg).build();
+                        }
                     } else {
-                        attackResult = failed(this).feedback("user.exists").feedbackArgs(username_reg).build();
+                        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)");
+                        preparedStatement.setString(1, username_reg);
+                        preparedStatement.setString(2, email_reg);
+                        preparedStatement.setString(3, password_reg);
+                        preparedStatement.execute();
+                        attackResult = success(this).feedback("user.created").feedbackArgs(username_reg).build();
                     }
-                } else {
-                    PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)");
-                    preparedStatement.setString(1, username_reg);
-                    preparedStatement.setString(2, email_reg);
-                    preparedStatement.setString(3, password_reg);
-                    preparedStatement.execute();
-                    attackResult = success(this).feedback("user.created").feedbackArgs(username_reg).build();
+                }catch (SQLException e){
+                    attackResult = failed(this).output("Something went wrong").build();
                 }
             } catch (SQLException e) {
                 attackResult = failed(this).output("Something went wrong").build();
