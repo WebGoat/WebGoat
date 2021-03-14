@@ -81,7 +81,7 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
                         preparedStatement.execute();
                         attackResult = success(this).feedback("user.created").feedbackArgs(username_reg).build();
                     }
-                }finally {
+                }finally {                    
                     resultSet.close();
                     pstmt.close();
                 }
