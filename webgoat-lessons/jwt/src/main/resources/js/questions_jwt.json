@@ -9,7 +9,7 @@
       }
     },
     {
-      "text": "What is the result of the first code snippet?",
+      "text": "What is the result of the second code snippet?",
       "solutions": {
         "1": "Throws an exception in line 13",
         "2": "Invoked the method removeAllUsers at line 8",
