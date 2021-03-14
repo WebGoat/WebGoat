@@ -30,8 +30,6 @@ import static org.springframework.util.StringUtils.hasText;
 @Builder(toBuilder = true)
 public class JWTToken {
 
-    private static final Pattern jwtPattern = Pattern.compile("(.*)\\.(.*)\\.(.*)");
-
     private String encoded = "";
     private String secretKey;
     private String header;
@@ -100,12 +98,12 @@ public class JWTToken {
     }
 
     private static JWTToken parseToken(String jwt) {
-        var matcher = jwtPattern.matcher(jwt);
+        var token = jwt.split("\\.");
         var builder = JWTToken.builder().encoded(jwt);
 
-        if (matcher.matches()) {
-            var header = new String(decodeFromUrlSafeString(matcher.group(1)), UTF_8);
-            var payloadAsString = new String(decodeFromUrlSafeString(matcher.group(2)), UTF_8);
+        if (token.length >= 2) {
+            var header = new String(decodeFromUrlSafeString(token[0]), UTF_8);
+            var payloadAsString = new String(decodeFromUrlSafeString(token[1]), UTF_8);
             var headers = parse(header);
             var payload = parse(payloadAsString);
             builder.header(write(header, headers));
