@@ -11,7 +11,7 @@ public class SqlInjectionLessonTest extends IntegrationTest {
     public static final String sql_3 = "update employees set department='Sales' where last_name='Barnett'";
     public static final String sql_4_drop = "alter table employees drop column phone";
     public static final String sql_4_add = "alter table employees add column phone varchar(20)";
-    public static final String sql_5 = "grant alter table to UnauthorizedUser";
+    public static final String sql_5 = "grant select on grant_rights to unauthorized_user";
     public static final String sql_9_account = " ' ";
     public static final String sql_9_operator = "or";
     public static final String sql_9_injection = "'1'='1";
