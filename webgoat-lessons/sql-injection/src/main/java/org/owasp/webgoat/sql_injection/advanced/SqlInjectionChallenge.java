@@ -57,38 +57,38 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
         AttackResult attackResult = checkArguments(username_reg, email_reg, password_reg);
 
 
-        PreparedStatement pstmt = null;
-        ResultSet resultSet = null;
+         resultSet = null;
 
         if (attackResult == null) {
 
             try (Connection connection = dataSource.getConnection()) {
-
+                
                 String checkUserQuery = "select userid from sql_challenge_users where userid = ? ";
-                pstmt = connection.prepareStatement( checkUserQuery );                
+                PreparedStatement pstmt = connection.prepareStatement( checkUserQuery );      
                 pstmt.setString( 1, username_reg);
-                resultSet = pstmt.executeQuery();
+                ResultSet resultSet = pstmt.executeQuery();  
+                try{        
 
-
-                if (resultSet.next()) {
-                    if (username_reg.contains("tom'")) {
-                        attackResult = success(this).feedback("user.exists").build();
+                    if (resultSet.next()) {
+                        if (username_reg.contains("tom'")) {
+                            attackResult = success(this).feedback("user.exists").build();
+                        } else {
+                            attackResult = failed(this).feedback("user.exists").feedbackArgs(username_reg).build();
+                        }
                     } else {
-                        attackResult = failed(this).feedback("user.exists").feedbackArgs(username_reg).build();
+                        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)");
+                        preparedStatement.setString(1, username_reg);
+                        preparedStatement.setString(2, email_reg);
+                        preparedStatement.setString(3, password_reg);
+                        preparedStatement.execute();
+                        attackResult = success(this).feedback("user.created").feedbackArgs(username_reg).build();
                     }
-                } else {
-                    PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)");
-                    preparedStatement.setString(1, username_reg);
-                    preparedStatement.setString(2, email_reg);
-                    preparedStatement.setString(3, password_reg);
-                    preparedStatement.execute();
-                    attackResult = success(this).feedback("user.created").feedbackArgs(username_reg).build();
+                }finally {
+                    resultSet.close();
+                    pstmt.close();
                 }
             } catch (SQLException e) {
                 attackResult = failed(this).output("Something went wrong").build();
-            }finally {
-                pstmt.close();
-                resultSet.close();
             }
         }
         return attackResult;
