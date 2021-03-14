@@ -57,8 +57,6 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
         AttackResult attackResult = checkArguments(username_reg, email_reg, password_reg);
 
 
-         resultSet = null;
-
         if (attackResult == null) {
 
             try (Connection connection = dataSource.getConnection()) {
