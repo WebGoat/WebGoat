@@ -56,14 +56,17 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
     public AttackResult registerNewUser(@RequestParam String username_reg, @RequestParam String email_reg, @RequestParam String password_reg) throws Exception {
         AttackResult attackResult = checkArguments(username_reg, email_reg, password_reg);
 
-        if (attackResult == null) {
 
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+
+        if (attackResult == null) {
 
             try (Connection connection = dataSource.getConnection()) {
                 String checkUserQuery = "select userid from sql_challenge_users where userid = ? ";
-                PreparedStatement pstmt = connection.prepareStatement( checkUserQuery );
+                pstmt = connection.prepareStatement( checkUserQuery );                
                 pstmt.setString( 1, username_reg);
-                ResultSet resultSet = pstmt.executeQuery();
+                resultSet = pstmt.executeQuery();
 
                 if (resultSet.next()) {
                     if (username_reg.contains("tom'")) {
@@ -81,6 +84,9 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
                 }
             } catch (SQLException e) {
                 attackResult = failed(this).output("Something went wrong").build();
+            }finally {
+                pstmt.close();
+                resultSet.close();
             }
         }
         return attackResult;
