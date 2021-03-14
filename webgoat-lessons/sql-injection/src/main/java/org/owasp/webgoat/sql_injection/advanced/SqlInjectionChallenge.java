@@ -58,6 +58,7 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
 
 
         if (attackResult == null) {
+            //null quitados
 
             try (Connection connection = dataSource.getConnection()) {
                 
