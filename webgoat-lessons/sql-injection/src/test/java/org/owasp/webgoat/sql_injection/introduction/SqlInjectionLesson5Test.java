@@ -23,15 +23,21 @@
 package org.owasp.webgoat.sql_injection.introduction;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
 import org.owasp.webgoat.sql_injection.SqlLessonTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import javax.sql.DataSource;
+
+import java.sql.SQLException;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -41,28 +47,34 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SqlInjectionLesson5Test extends SqlLessonTest {
 
+    @Autowired
+    private DataSource dataSource;
+
+    @After
+    public void removeGrant() throws SQLException {
+        dataSource.getConnection().prepareStatement("revoke select on grant_rights from unauthorized_user cascade").execute();
+    }
+
     @Test
     public void grantSolution() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack5")
-                .param("query","grant alter table to unauthorizedUser"))
+                .param("query", "grant select on grant_rights to unauthorized_user"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.output", CoreMatchers.containsString("grant")))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
     }
 
     @Test
-    public void grantSolutionWithSingleQuotes() throws Exception {
+    public void differentTableShouldNotSolveIt() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack5")
-                .param("query","grant alter table to 'unauthorizedUser';"))
+                .param("query", "grant select on users to unauthorized_user"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.output", CoreMatchers.containsString("grant")))
-                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
+                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 
     @Test
-    public void grantSolutionWrong() throws Exception {
+    public void noGrantShouldNotSolveIt() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack5")
-                .param("query","grant alter table to me"))
+                .param("query", "select * from grant_rights"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
