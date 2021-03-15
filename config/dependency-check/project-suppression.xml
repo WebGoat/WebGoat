@@ -32,6 +32,8 @@
         <cpe>cpe:/a:xstream_project:xstream</cpe>
         <cve>CVE-2017-7957</cve>
         <cve>CVE-2016-3674</cve>
+        <cve>CVE-2020-26217</cve>
+        <cve>CVE-2020-26258</cve>
     </suppress>
     <suppress base="true"><!-- webgoat-server -->
         <cpe>cpe:/a:postgresql:postgresql</cpe>
