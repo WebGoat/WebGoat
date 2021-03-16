@@ -65,6 +65,7 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
 
             try (Connection connection = dataSource.getConnection()) {
                 Query checkUserQuery = entityManager.createQuery("SELECT userid from sql_challenge_users where userid = :user");
+                //String checkUserQuery = "select userid from sql_challenge_users where userid = '" + username_reg + "'";
                 checkUserQuery.setParameter("user",username_reg);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(String.valueOf(checkUserQuery));
