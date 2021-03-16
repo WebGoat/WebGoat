@@ -35,6 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.sql.DataSource;
 import java.sql.*;
 
+//Nuestros imports
+import javax.persistence.Query;
+import javax.persistence.EntityManager;
+
 /**
  * @author nbaars
  * @since 4/8/17.
@@ -45,6 +49,7 @@ import java.sql.*;
 public class SqlInjectionChallenge extends AssignmentEndpoint {
 
     private final DataSource dataSource;
+    private EntityManager entityManager;
 
     public SqlInjectionChallenge(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -58,11 +63,12 @@ public class SqlInjectionChallenge extends AssignmentEndpoint {
 
         if (attackResult == null) {
 
-
             try (Connection connection = dataSource.getConnection()) {
-                String checkUserQuery = "select userid from sql_challenge_users where userid = '" + username_reg + "'";
+                Query checkUserQuery = entityManager.createQuery("SELECT userid from sql_challenge_users where userid = :user");
+                //String checkUserQuery = "select userid from sql_challenge_users where userid = '" + username_reg + "'";
+                checkUserQuery.setParameter("user",username_reg);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(checkUserQuery);
+                ResultSet resultSet = statement.executeQuery(String.valueOf(checkUserQuery));
 
                 if (resultSet.next()) {
                     if (username_reg.contains("tom'")) {
