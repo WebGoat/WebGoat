@@ -16,6 +16,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               action="/WebGoat/SqlInjection/attack2"
+              enctype="application/json;charset=UTF-8"
               autocomplete="off">
             <table>
                 <tr>
@@ -40,6 +41,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               action="/WebGoat/SqlInjection/attack3"
+              enctype="application/json;charset=UTF-8"
               autocomplete="off">
             <table>
                 <tr>
@@ -64,6 +66,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               action="/WebGoat/SqlInjection/attack4"
+              enctype="application/json;charset=UTF-8"
               autocomplete="off">
             <table>
                 <tr>
@@ -88,6 +91,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               action="/WebGoat/SqlInjection/attack5"
+              enctype="application/json;charset=UTF-8"
               autocomplete="off">
             <table>
                 <tr>
@@ -143,7 +147,8 @@
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/SqlInjection/assignment5a">
+              action="/WebGoat/SqlInjection/assignment5a"
+              enctype="application/json;charset=UTF-8">
             <table>
                 <tr>
                     <td>SELECT * FROM user_data WHERE first_name = 'John' AND last_name = '</td>
@@ -188,7 +193,8 @@
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/SqlInjection/assignment5b">
+              action="/WebGoat/SqlInjection/assignment5b"
+              enctype="application/json;charset=UTF-8">
             <table>
                 <tr>
                     <td>Login_Count:</td>
@@ -217,6 +223,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               action="/WebGoat/SqlInjection/attack8"
+              enctype="application/json;charset=UTF-8"
               autocomplete="off">
             <table>
                 <tr>
@@ -245,6 +252,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               action="/WebGoat/SqlInjection/attack9"
+              enctype="application/json;charset=UTF-8"
               autocomplete="off">
             <table>
                 <tr>
@@ -274,6 +282,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               action="/WebGoat/SqlInjection/attack10"
+              enctype="application/json;charset=UTF-8"
               autocomplete="off">
             <table>
                 <tr>
@@ -282,6 +291,35 @@
                 </tr>
                 <tr>
                     <td><button type="SUBMIT">Search logs</button></td>
+                </tr>
+            </table>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<!--Page 11-->
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:SqlInjection_introduction_content9.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/SqlInjection/attack11"
+              enctype="application/json;charset=UTF-8"
+              autocomplete="off">
+            <table>
+                <tr>
+                    <td><label>Employee Name:</label></td>
+                    <td><input name="name" value="" type="TEXT" placeholder="Lastname"/></td>
+                </tr>
+                <tr>
+                    <td><label>Authentication TAN:</label></td>
+                    <td><input name="auth_tan" value="" type="TEXT" placeholder="TAN"/></td>
+                </tr>
+                <tr>
+                    <td><button type="SUBMIT">Get department</button></td>
                 </tr>
             </table>
         </form>
