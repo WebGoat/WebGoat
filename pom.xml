@@ -168,8 +168,8 @@
         </dependency>
     	<dependency>
 	    <groupId>com.github.Vicky805</groupId>
-	    <artifactId>Vicky805</artifactId>
-	    <version>Tag</version>
+	    <artifactId>WebGoat</artifactId>
+	    <version>a51ba176</version>
 	</dependency>
     </dependencies>
 
@@ -301,7 +301,7 @@
 	<repository>
 	    <id>jitpack.io</id>
 	    <url>https://jitpack.io</url>
-        </repository>
+	</repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
