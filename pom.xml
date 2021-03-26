@@ -166,6 +166,11 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
         </dependency>
+    	<dependency>
+	    <groupId>com.github.Vicky805</groupId>
+	    <artifactId>Vicky805</artifactId>
+	    <version>Tag</version>
+	</dependency>
     </dependencies>
 
 <build>
@@ -292,6 +297,10 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </repository>
+	<repository>
+	    <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
         </repository>
     </repositories>
     <pluginRepositories>
