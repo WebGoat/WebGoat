@@ -126,7 +126,7 @@
         <commons-collections.version>3.2.1</commons-collections.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-io.version>2.6</commons-io.version>
-        <guava.version>18.0</guava.version>
+        <guava.version>23.0</guava.version>
         <lombok.version>1.18.4</lombok.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
