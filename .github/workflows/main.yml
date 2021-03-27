@@ -18,3 +18,8 @@ jobs:
       - uses: ShiftLeftSecurity/scan-action@master
         with:
           type: "credscan,java,depscan"
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Run the Maven verify phase
+        run: mvn --batch-mode --update-snapshots verify
