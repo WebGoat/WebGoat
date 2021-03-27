@@ -66,29 +66,29 @@ jobs:
           files: |
             webgoat-server/target/*.jar
             webwolf/target/*.jar
-        body: |
-          ## Version 8.
+          body: |
+            ## Version 8.
 
-          ### New functionality
+            ### New functionality
 
-          - test
+            - test
 
-          ### Bug fixes
+            ### Bug fixes
 
-          - [#743 - Character encoding errors](https://github.com/WebGoat/WebGoat/issues/743)
-
-
-          ## Contributors
-
-          Special thanks to the following contributors providing us with a pull request:
-
-          - Person 1
-          - Person 2
-
-          And everyone who provided feedback through Github.
+            - [#743 - Character encoding errors](https://github.com/WebGoat/WebGoat/issues/743)
 
 
-          Team WebGoat
+            ## Contributors
+
+            Special thanks to the following contributors providing us with a pull request:
+
+            - Person 1
+            - Person 2
+
+            And everyone who provided feedback through Github.
+
+
+            Team WebGoat
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Release
