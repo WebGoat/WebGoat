@@ -26,6 +26,7 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -DskipTests
   docker:
+    name: "Docker build & push"
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -34,6 +35,10 @@ jobs:
       - name: "Get tag name"
         id: tag
         uses: dawidd6/action-get-tag@v1
+      - name: "Set up QEMU"
+        uses: docker/setup-qemu-action@v1
+      - name: "Set up Docker Buildx"
+        uses: docker/setup-buildx-action@v1
       - name: "Login to dockerhub"
         uses: docker/login-action@v1
         with:
@@ -42,13 +47,17 @@ jobs:
       - name: "Build and push"
         uses: docker/build-push-action@v2
         with:
+          run: cd docker
           context: .
           file: docker/Dockerfile
           push: false #todo enable
+          platforms: linux/amd64
           tags: |
             webgoat/goatandwolf:${{ steps.tag.outputs.tag }}
           build-args: |
             webgoat_version=${{ steps.tag.outputs.tag }}
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
   github_release:
     name: Create Release
     runs-on: ubuntu-latest
@@ -67,7 +76,7 @@ jobs:
             webgoat-server/target/*.jar
             webwolf/target/*.jar
           body: |
-            ## Version 8.
+            ## Version ${{ steps.tag.outputs.tag }}
 
             ### New functionality
 
@@ -91,14 +100,3 @@ jobs:
             Team WebGoat
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.tag.outputs.tag }}
-          release_name: ${{ steps.tag.outputs.tag }}
-
-          draft: false
-          prerelease: false
