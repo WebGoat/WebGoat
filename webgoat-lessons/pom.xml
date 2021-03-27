@@ -78,7 +78,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <version>4.1.3.RELEASE</version>
+            <version>5.4.5</version>
             <scope>test</scope>
         </dependency>
         <!-- Please do not add lesson dependent libraries here, place them in the corresponding lesson -->
