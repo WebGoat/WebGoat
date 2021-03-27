@@ -245,7 +245,7 @@
             <plugin>
       				<groupId>org.apache.maven.plugins</groupId>
       				<artifactId>maven-pmd-plugin</artifactId>
-      				<version>3.13.0</version>
+      				<version>3.14.0</version>
       				<configuration>
       					<targetJdk>11</targetJdk>
       					<failurePriority>1</failurePriority><!-- 5 means fail even on the lowest
