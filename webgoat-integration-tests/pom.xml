@@ -18,7 +18,7 @@
 	<dependency>
     	<groupId>io.github.bonigarcia</groupId>
     	<artifactId>webdrivermanager</artifactId>
-    	<version>4.3.1</version>
+    	<version>4.2.2</version>
     	<scope>test</scope>
 	</dependency>
         <dependency>
