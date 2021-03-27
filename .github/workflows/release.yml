@@ -28,6 +28,9 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: "Get tag name"
+        id: tag
+        uses: dawidd6/action-get-tag@v1
       - name: "Login to DockerHub"
         uses: docker/login-action@v1
         with:
