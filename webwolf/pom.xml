@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>3.3.7</version>
+            <version>4.6.0-1</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
