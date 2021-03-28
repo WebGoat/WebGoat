@@ -50,7 +50,5 @@ public class ProgressRaceConditionTest extends IntegrationTest {
         }).count();
         System.out.println("counted status 500: "+countStatusCode500);
         Assertions.assertThat(countStatusCode500).isLessThanOrEqualTo((NUMBER_OF_CALLS - (NUMBER_OF_CALLS/NUMBER_OF_PARALLEL_THREADS)));
-        Assertions.assertThat(countStatusCode500).isGreaterThan((NUMBER_OF_CALLS/NUMBER_OF_PARALLEL_THREADS)); 
-    	
     }
 }
