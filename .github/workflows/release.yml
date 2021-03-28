@@ -30,10 +30,9 @@ jobs:
       - name: "Set labels for ${{ github.ref }}"
         run: |
           echo "WEBGOAT_TAG_VERSION=${{ steps.tag.outputs.tag }}" >> $GITHUB_ENV
-          echo "Version is ${WEBGOAT_TAG_VERSION}"
-          echo "Version is ${env.WEBGOAT_TAG_VERSION}"
-          WEBGOAT_MAVEN_VERSION=${env.WEBGOAT_TAG_VERSION:1}
-          echo ${WEBGOAT_MAVEN_VERSION} >> $GITHUB_ENV
+          WEBGOAT_MAVEN_VERSION=${{ steps.tag.outputs.tag }}
+          echo "Version is ${WEBGOAT_MAVEN_VERSION}"
+          echo "WEBGOAT_MAVEN_VERSION=${WEBGOAT_MAVEN_VERSION:1}" >> $GITHUB_ENV
       - name: Build with Maven
         run: |
           mvn versions:set -DnewVersion=${{ env.WEBGOAT_MAVEN_VERSION }}
