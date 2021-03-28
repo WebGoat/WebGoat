@@ -17,7 +17,7 @@ jobs:
 
       - uses: ShiftLeftSecurity/scan-action@master
         with:
-          type: "credscan,java,depscan"
+          type: "credscan,java,depscan,bash,yaml"
       - uses: actions/setup-java@v1
         with:
           java-version: 11
