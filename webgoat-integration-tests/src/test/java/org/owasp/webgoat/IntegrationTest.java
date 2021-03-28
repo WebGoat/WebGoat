@@ -3,6 +3,7 @@ package org.owasp.webgoat;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 
+@Slf4j
 public abstract class IntegrationTest {
 
     protected static int WG_PORT = 8080;
@@ -262,6 +264,7 @@ public abstract class IntegrationTest {
     }
 
     public void checkAssignmentWithGet(String url, Map<String, ?> params, boolean expectedResult) {
+        log.info("Checking assignment for: {}", url);
     	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
