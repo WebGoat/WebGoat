@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ContentTypeAssignment extends AssignmentEndpoint {
 
     private static final String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
-    private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files"};
+    private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files", "pagefile.sys"};
 
     @Value("${webgoat.server.directory}")
     private String webGoatHomeDirectory;
@@ -83,9 +83,9 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
 
    private boolean checkSolution(Comment comment) {
        String[] directoriesToCheck = OS.isFamilyMac() || OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
-       boolean success = true;
+       boolean success = false;
        for (String directory : directoriesToCheck) {
-           success &= org.apache.commons.lang3.StringUtils.contains(comment.getText(), directory);
+           success |= org.apache.commons.lang3.StringUtils.contains(comment.getText(), directory);
        }
        return success;
    } 
