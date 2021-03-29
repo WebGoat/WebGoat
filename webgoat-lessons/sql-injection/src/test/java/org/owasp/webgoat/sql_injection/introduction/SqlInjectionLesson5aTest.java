@@ -57,7 +57,7 @@ public class SqlInjectionLesson5aTest extends SqlLessonTest {
                 .param("operator", "").param("injection", ""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(false)))
-                .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("NoResultsMatched")))))
+                .andExpect(jsonPath("$.feedback", is(messages.getMessage("NoResultsMatched"))))
                 .andExpect(jsonPath("$.output").doesNotExist());
     }
 
