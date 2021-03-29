@@ -47,9 +47,7 @@ class JWTTokenTest {
     void decodeInvalidSignedToken() {
         var token = JWTToken.decode("eyJhbGciOiJIUzI1NiJ9.eyJ0ZXsdfdfsaasfddfasN0IjoidGVzdCJ9.KOobRHDYyaesV_doOk11XXGKSONwzllraAaqqM4VFE4", "");
 
-        assertThat(token.getHeader()).contains("{\n" +
-                "  \"alg\" : \"HS256\"\n" +
-                "}");
+        assertThat(token.getHeader()).contains("\"alg\" : \"HS256\"");
         assertThat(token.getPayload()).contains("{\"te");
     }
 
