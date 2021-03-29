@@ -85,7 +85,7 @@ public class SqlInjectionLesson6aTest extends SqlLessonTest {
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lessonCompleted", is(false)))
-                .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.6a.no.results")))));
+                .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.6a.no.results"))));
     }
 
     @Test
