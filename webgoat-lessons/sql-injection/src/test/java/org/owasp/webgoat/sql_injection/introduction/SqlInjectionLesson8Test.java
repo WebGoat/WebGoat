@@ -96,11 +96,6 @@ public class SqlInjectionLesson8Test extends SqlLessonTest {
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(false)))
-                .andExpect(jsonPath("$.feedback", is(modifySpan(messages.getMessage("sql-injection.error")))))
                 .andExpect(jsonPath("$.output", containsString("feedback-negative")));
-    }
-
-    public static String modifySpan(String message) {
-        return message.replace("</span>", "<\\/span>");
     }
 }
