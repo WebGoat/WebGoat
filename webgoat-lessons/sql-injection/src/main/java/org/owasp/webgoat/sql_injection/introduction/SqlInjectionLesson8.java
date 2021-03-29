@@ -82,14 +82,14 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
                         return failed(this).feedback("sql-injection.8.no.results").build();
                     }
                 } else {
-                    return failed(this).feedback("sql-injection.error").build();
+                    return failed(this).build();
                 }
             } catch (SQLException e) {
-                return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+                return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
             }
 
         } catch (Exception e) {
-            return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+            return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 

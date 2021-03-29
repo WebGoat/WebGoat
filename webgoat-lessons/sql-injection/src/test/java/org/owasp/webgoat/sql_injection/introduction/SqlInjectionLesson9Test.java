@@ -151,7 +151,7 @@ public class SqlInjectionLesson9Test extends SqlLessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(false)))
-                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.error")))))
+                    .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.error"))))
                     .andExpect(jsonPath("$.output", containsString("feedback-negative")));
         } catch (AssertionError e) {
             if (!e.getMessage().contains(completedError)) throw e;

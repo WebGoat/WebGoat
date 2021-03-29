@@ -75,7 +75,7 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
                 }
             } catch (SQLException e) {
                 if (tableExists(connection)) {
-                    return failed(this).feedback("sql-injection.error").output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build();
+                    return failed(this).output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build();
                 } else {
                     return success(this).feedback("sql-injection.10.success").build();
                 }
