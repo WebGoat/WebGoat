@@ -103,8 +103,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        run: |
-          git checkout develop
 
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -115,9 +113,10 @@ jobs:
       - name: Set version to next snapshot
         run: |
           mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion}-SNAPSHOT versions:commit
+
       - name: Commit pom.xml
-        uses: actions/checkout@v2
         run: |
+          git checkout develop
           find . -name 'pom.xml' | xargs git add
           git commit -m "Updating to the new development version"
           git push origin develop
