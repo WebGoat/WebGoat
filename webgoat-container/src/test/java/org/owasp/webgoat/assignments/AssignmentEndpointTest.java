@@ -60,7 +60,6 @@ public class AssignmentEndpointTest {
 
     public void init(AssignmentEndpoint a) {
         messages.setBasenames("classpath:/i18n/messages", "classpath:/i18n/WebGoatLabels");
-        ReflectionTestUtils.setField(a, "userTrackerRepository", userTrackerRepository);
         ReflectionTestUtils.setField(a, "userSessionData", userSessionData);
         ReflectionTestUtils.setField(a, "webSession", webSession);
         ReflectionTestUtils.setField(a, "messages", pluginMessages);
