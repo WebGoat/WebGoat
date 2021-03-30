@@ -2,22 +2,19 @@ package org.owasp.webgoat.users;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
 @ActiveProfiles({"test", "webgoat"})
-public class UserTrackerRepositoryTest {
+class UserTrackerRepositoryTest {
 
     private class TestLesson extends Lesson {
 
@@ -42,9 +39,8 @@ public class UserTrackerRepositoryTest {
     private UserTrackerRepository userTrackerRepository;
 
     @Test
-    public void saveUserTracker() {
+    void saveUserTracker() {
         UserTracker userTracker = new UserTracker("test");
-        LessonTracker lessonTracker = userTracker.getLessonTracker(new TestLesson());
 
         userTrackerRepository.save(userTracker);
 
@@ -53,7 +49,7 @@ public class UserTrackerRepositoryTest {
     }
 
     @Test
-    public void solvedAssignmentsShouldBeSaved() {
+    void solvedAssignmentsShouldBeSaved() {
         UserTracker userTracker = new UserTracker("test");
         TestLesson lesson = new TestLesson();
         userTracker.getLessonTracker(lesson);
@@ -68,7 +64,7 @@ public class UserTrackerRepositoryTest {
     }
 
     @Test
-    public void saveAndLoadShouldHaveCorrectNumberOfAttemtps() {
+    void saveAndLoadShouldHaveCorrectNumberOfAttempts() {
         UserTracker userTracker = new UserTracker("test");
         TestLesson lesson = new TestLesson();
         userTracker.getLessonTracker(lesson);
