@@ -22,13 +22,8 @@
 
 package org.owasp.webgoat.challenges;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.IntStream;
-
-import javax.annotation.PostConstruct;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.session.WebSession;
@@ -42,8 +37,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.IntStream;
 
 /**
  * @author nbaars
