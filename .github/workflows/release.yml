@@ -4,6 +4,8 @@ on:
     tags:
       - v*
 jobs:
+  environment:
+    name: release
 #  release:
 #    name: Release WebGoat
 #    runs-on: ubuntu-latest
@@ -103,6 +105,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        token: ${{ WEBGOAT_DEPLOYER_TOKEN }}
         with:
           ref: develop
 
