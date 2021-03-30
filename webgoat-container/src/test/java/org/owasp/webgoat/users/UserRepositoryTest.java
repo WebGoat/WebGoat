@@ -1,23 +1,20 @@
 package org.owasp.webgoat.users;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
 @ActiveProfiles({"test", "webgoat"})
-public class UserRepositoryTest {
+class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
 
     @Test
-    public void userShouldBeSaved() {
+    void userShouldBeSaved() {
         WebGoatUser user = new WebGoatUser("test", "password");
         userRepository.saveAndFlush(user);
 

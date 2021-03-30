@@ -1,6 +1,6 @@
 package org.owasp.webgoat.plugins;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.owasp.webgoat.i18n.Language;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.session.WebSession;
@@ -37,8 +37,8 @@ public abstract class LessonTest {
     @MockBean
     private Language language;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         when(webSession.getUserName()).thenReturn("unit-test");
         when(language.getLocale()).thenReturn(Locale.getDefault());
     }

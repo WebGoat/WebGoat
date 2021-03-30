@@ -38,6 +38,7 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 import java.util.Locale;
 
+//Do not remove is the base class for all assignments tests
 public class AssignmentEndpointTest {
 
     @Mock
