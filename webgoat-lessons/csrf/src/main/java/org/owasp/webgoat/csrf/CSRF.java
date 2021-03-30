@@ -22,12 +22,9 @@
 
 package org.owasp.webgoat.csrf;
 
-import com.beust.jcommander.internal.Lists;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * Created by jason on 9/29/17.

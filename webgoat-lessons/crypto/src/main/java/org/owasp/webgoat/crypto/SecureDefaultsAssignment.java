@@ -22,8 +22,6 @@
 
 package org.owasp.webgoat.crypto;
 
-import java.security.NoSuchAlgorithmException;
-
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -31,6 +29,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.NoSuchAlgorithmException;
 
 @RestController
 @AssignmentHints({"crypto-secure-defaults.hints.1", "crypto-secure-defaults.hints.2", "crypto-secure-defaults.hints.3"})

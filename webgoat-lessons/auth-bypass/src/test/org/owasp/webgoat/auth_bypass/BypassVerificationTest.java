@@ -27,7 +27,7 @@ package org.owasp.webgoat.auth_bypass;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
@@ -43,12 +43,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class BypassVerificationTest extends AssignmentEndpointTest {
 
     private MockMvc mockMvc;
 
-    @Before
+    @BeforeEach
     public void setup() {
         VerifyAccount verifyAccount = new VerifyAccount();
         init(verifyAccount);

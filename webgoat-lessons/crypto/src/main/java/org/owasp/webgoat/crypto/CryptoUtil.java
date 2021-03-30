@@ -1,5 +1,8 @@
 package org.owasp.webgoat.crypto;
 
+import lombok.extern.slf4j.Slf4j;
+
+import javax.xml.bind.DatatypeConverter;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.InvalidAlgorithmParameterException;
@@ -16,10 +19,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAKeyGenParameterSpec;
 import java.util.Base64;
-
-import javax.xml.bind.DatatypeConverter;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CryptoUtil {

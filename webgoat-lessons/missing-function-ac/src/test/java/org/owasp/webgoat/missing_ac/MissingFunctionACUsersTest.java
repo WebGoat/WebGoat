@@ -23,11 +23,11 @@
 package org.owasp.webgoat.missing_ac;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.users.UserService;
 import org.owasp.webgoat.users.WebGoatUser;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -42,13 +42,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MissingFunctionACUsersTest {
     private MockMvc mockMvc;
     @Mock
     private UserService userService;
 
-    @Before
+    @BeforeEach
     public void setup() {
         MissingFunctionACUsers usersController = new MissingFunctionACUsers();
         this.mockMvc = standaloneSetup(usersController).build();
