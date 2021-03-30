@@ -118,6 +118,8 @@ jobs:
 
       - name: Commit pom.xml
         run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           find . -name 'pom.xml' | xargs git add
           git commit -m "Updating to the new development version"
           git push
