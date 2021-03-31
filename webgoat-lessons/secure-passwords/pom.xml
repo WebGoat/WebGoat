@@ -13,7 +13,7 @@
         <dependency>
             <groupId>com.nulab-inc</groupId>
             <artifactId>zxcvbn</artifactId>
-            <version>1.2.5</version>
+            <version>1.4.0</version>
         </dependency>
     </dependencies>
 </project>
