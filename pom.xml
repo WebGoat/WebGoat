@@ -13,6 +13,10 @@
     <inceptionYear>2006</inceptionYear>
     <url>https://github.com/WebGoat/WebGoat</url>
 
+    <prerequisites>
+        <maven>3.2.5</maven>
+    </prerequisites>
+
     <organization>
         <name>OWASP</name>
         <url>https://github.com/WebGoat/WebGoat/</url>
