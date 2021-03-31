@@ -24,8 +24,8 @@
                     <phase>install</phase>
                     <configuration>
                         <target>
-                            <copy file="../webgoat-server/target/webgoat-server-${project.version}.jar" tofile="webgoat-server-${project.version}.jar"/>
-							<copy file="../webwolf/target/webwolf-${project.version}.jar" tofile="webwolf-${project.version}.jar"/>
+                            <copy file="../webgoat-server/target/webgoat-server-${project.version}.jar" tofile="target/webgoat-server-${project.version}.jar"/>
+							<copy file="../webwolf/target/webwolf-${project.version}.jar" tofile="target/webwolf-${project.version}.jar"/>
                         </target>
                     </configuration>
                     <goals>
