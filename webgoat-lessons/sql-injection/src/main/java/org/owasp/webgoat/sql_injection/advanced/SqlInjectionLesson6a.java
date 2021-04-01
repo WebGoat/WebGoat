@@ -78,7 +78,7 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
                     String appendingWhenSucceded;
                     if (usedUnion)
-                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by appending a new Sql Statement?";
+                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by appending a new SQL Statement?";
                     else
                         appendingWhenSucceded = "Well done! Can you also figure out a solution, by using a UNION?";
                     results.last();
