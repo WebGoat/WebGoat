@@ -41,7 +41,7 @@ import java.sql.Statement;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint-advanced-6a-1", "SqlStringInjectionHint-advanced-6a-2", "SqlStringInjectionHint-advanced-6a-3",
-        "SqlStringInjectionHint-advanced-6a-4"})
+        "SqlStringInjectionHint-advanced-6a-4", "SqlStringInjectionHint-advanced-6a-5"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     private final DataSource dataSource;
