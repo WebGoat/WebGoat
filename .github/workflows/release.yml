@@ -16,10 +16,10 @@ jobs:
         id: tag
         uses: dawidd6/action-get-tag@v1
 
-      - name: Set up JDK 11
+      - name: Set up JDK 15
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 15
           architecture: x64
 
       - name: Cache Maven packages
@@ -111,10 +111,10 @@ jobs:
           ref: develop
           token: ${{ secrets.WEBGOAT_DEPLOYER_TOKEN }}
 
-      - name: Set up JDK 11
+      - name: Set up JDK 15
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 15
           architecture: x64
 
       - name: Set version to next snapshot
