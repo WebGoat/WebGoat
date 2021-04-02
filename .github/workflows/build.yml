@@ -1,9 +1,24 @@
 name: "Build"
 on:
+  pull_request:
+    paths-ignore:
+      - '.txt'
+      - '*.MD'
+      - '*.md'
+      - 'LICENSE'
+      - 'docs/**'
   push:
-    branches: [ '*' ]
+    branches:
+      - master
+      - develop
     tags-ignore:
       - '*'
+    paths-ignore:
+      - '.txt'
+      - '*.MD'
+      - '*.md'
+      - 'LICENSE'
+      - 'docs/**'
 
 jobs:
   build:
