@@ -1,6 +1,6 @@
 package org.owasp.webgoat.asciidoc;
 
-import org.asciidoctor.ast.AbstractBlock;
+import org.asciidoctor.ast.ContentNode;
 import org.asciidoctor.extension.InlineMacroProcessor;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -17,12 +17,16 @@ import java.util.Map;
  */
 public class WebWolfMacro extends InlineMacroProcessor {
 
+    public WebWolfMacro(String macroName) {
+        super(macroName);
+    }
+
     public WebWolfMacro(String macroName, Map<String, Object> config) {
         super(macroName, config);
     }
 
     @Override
-	public String process(AbstractBlock parent, String target, Map<String, Object> attributes) {
+	public String process(ContentNode contentNode, String target, Map<String, Object> attributes) {
         Environment env = EnvironmentExposure.getEnv();
         String hostname = determineHost(env.getProperty("webwolf.host"), env.getProperty("webwolf.port"));
 
