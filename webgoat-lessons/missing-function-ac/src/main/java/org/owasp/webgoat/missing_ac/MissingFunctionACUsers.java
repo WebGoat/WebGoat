@@ -83,7 +83,7 @@ public class MissingFunctionACUsers {
     //@PreAuthorize()
     public WebGoatUser addUser(@RequestBody WebGoatUser newUser) {
         try {
-            userService.addUser(newUser.getUsername(),newUser.getPassword(),newUser.getRole());
+            userService.addUser(newUser.getUsername(),newUser.getPassword());
             return userService.loadUserByUsername(newUser.getUsername());
         } catch (Exception ex) {
             log.error("Error creating new User", ex);

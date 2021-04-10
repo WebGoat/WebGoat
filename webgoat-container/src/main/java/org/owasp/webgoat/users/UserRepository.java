@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<WebGoatUser, String> {
 
     List<WebGoatUser> findAll();
 
+    boolean existsByUsername(String username);
+
 }

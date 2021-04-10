@@ -22,11 +22,11 @@
 
 package org.owasp.webgoat.missing_ac;
 
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,9 +36,9 @@ import java.util.HashMap;
 public class Users {
 
     private UserSessionData userSessionData;
-    private DataSource dataSource;
+    private LessonDataSource dataSource;
 
-    public Users(UserSessionData userSessionData, DataSource dataSource) {
+    public Users(UserSessionData userSessionData, LessonDataSource dataSource) {
         this.userSessionData = userSessionData;
         this.dataSource = dataSource;
     }

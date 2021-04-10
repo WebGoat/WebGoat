@@ -25,14 +25,10 @@ package org.owasp.webgoat.sql_injection.mitigation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.owasp.webgoat.LessonDataSource;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +44,7 @@ import java.util.List;
 @Slf4j
 public class Servers {
 
-    private final DataSource dataSource;
+    private final LessonDataSource dataSource;
 
     @AllArgsConstructor
     @Getter
@@ -62,7 +58,7 @@ public class Servers {
         private String description;
     }
 
-    public Servers(DataSource dataSource) {
+    public Servers(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

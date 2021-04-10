@@ -23,6 +23,7 @@
 
 package org.owasp.webgoat.sql_injection.advanced;
 
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -41,9 +41,9 @@ import java.sql.Statement;
 @RestController
 public class SqlInjectionLesson6b extends AssignmentEndpoint {
 
-    private final DataSource dataSource;
+    private final LessonDataSource dataSource;
 
-    public SqlInjectionLesson6b(DataSource dataSource) {
+    public SqlInjectionLesson6b(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
