@@ -12,11 +12,11 @@ Your task is to use JDBC to connect to a database and request data from it.
 *Some tips before you start:* +
 For connecting to the database, you can simply assume the constants *DBURL*, *DBUSER* and *DBPW* as given. +
 The content of your query does not matter, as long as the SQL is valid and meets the requirements. +
-All the code you write gets inserted into the main method of a java class with the name "TestClass" that already imports *java.sql.** for your.
+All the code you write gets inserted into the main method of a Java class with the name "TestClass" that already imports *java.sql.** for you.
 
-Not creative enough to think of your own query? How about you try to retrieve the data for a user with a specific name from a fictional database table called *users*.
+Not creative enough to think of your own query? How about you try to retrieve the data of a user with a specific name from a fictional database table called *users*.
 
-For example; following coding would compile without any error (but of course does not meet the requirements to complete this lesson).
+For example; the following code would compile without any error (but of course does not meet the requirements to complete this lesson).
 
 [source,java]
 -------------------------------------------------------
