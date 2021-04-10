@@ -23,6 +23,7 @@
 package org.owasp.webgoat.sql_injection.mitigation;
 
 import lombok.extern.slf4j.Slf4j;
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -31,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,9 +42,9 @@ import java.sql.SQLException;
 @Slf4j
 public class SqlInjectionLesson13 extends AssignmentEndpoint {
 
-    private final DataSource dataSource;
+    private final LessonDataSource dataSource;
 
-    public SqlInjectionLesson13(DataSource dataSource) {
+    public SqlInjectionLesson13(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

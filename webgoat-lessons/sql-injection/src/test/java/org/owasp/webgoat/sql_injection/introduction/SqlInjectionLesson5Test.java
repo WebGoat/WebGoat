@@ -22,17 +22,16 @@
 
 package org.owasp.webgoat.sql_injection.introduction;
 
-import org.aspectj.lang.annotation.After;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.sql_injection.SqlLessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -42,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SqlInjectionLesson5Test extends SqlLessonTest {
 
     @Autowired
-    private DataSource dataSource;
+    private LessonDataSource dataSource;
 
     @AfterEach
     public void removeGrant() throws SQLException {
