@@ -22,11 +22,11 @@
 
 package org.owasp.webgoat.sql_injection.introduction;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.sql_injection.SqlLessonTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -34,7 +34,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class SqlInjectionLesson5aTest extends SqlLessonTest {
 
     @Test
@@ -49,7 +49,7 @@ public class SqlInjectionLesson5aTest extends SqlLessonTest {
                 .andExpect(jsonPath("$.output", containsString("<p>USERID, FIRST_NAME")));
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void unknownAccount() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/assignment5a")
@@ -57,7 +57,7 @@ public class SqlInjectionLesson5aTest extends SqlLessonTest {
                 .param("operator", "").param("injection", ""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(false)))
-                .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("NoResultsMatched")))))
+                .andExpect(jsonPath("$.feedback", is(messages.getMessage("NoResultsMatched"))))
                 .andExpect(jsonPath("$.output").doesNotExist());
     }
 

@@ -32,11 +32,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static java.sql.ResultSet.*;
+import static java.sql.ResultSet.CONCUR_UPDATABLE;
+import static java.sql.ResultSet.TYPE_SCROLL_SENSITIVE;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint.8.1", "SqlStringInjectionHint.8.2", "SqlStringInjectionHint.8.3", "SqlStringInjectionHint.8.4", "SqlStringInjectionHint.8.5"})
@@ -82,14 +87,14 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
                         return failed(this).feedback("sql-injection.8.no.results").build();
                     }
                 } else {
-                    return failed(this).feedback("sql-injection.error").build();
+                    return failed(this).build();
                 }
             } catch (SQLException e) {
-                return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+                return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
             }
 
         } catch (Exception e) {
-            return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+            return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 

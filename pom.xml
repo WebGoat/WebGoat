@@ -6,12 +6,16 @@
     <groupId>org.owasp.webgoat</groupId>
     <artifactId>webgoat-parent</artifactId>
     <packaging>pom</packaging>
-    <version>8.2.1-SNAPSHOT</version>
+    <version>8.2.0-SNAPSHOT</version>
 
     <name>WebGoat Parent Pom</name>
     <description>Parent Pom for the WebGoat Project. A deliberately insecure Web Application</description>
     <inceptionYear>2006</inceptionYear>
     <url>https://github.com/WebGoat/WebGoat</url>
+
+    <prerequisites>
+        <maven>3.2.5</maven>
+    </prerequisites>
 
     <organization>
         <name>OWASP</name>
@@ -115,8 +119,8 @@
         <!-- Use UTF-8 Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
 
         <!-- This build number will be ubdated by Travis-CI -->
         <build.number>build</build.number>
@@ -134,7 +138,7 @@
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
-        <revision>8.2.0-SNAPSHOT</revision>
+        <java.version>15</java.version>
     </properties>
 
     <modules>
@@ -189,16 +193,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>15</source>
+                    <target>15</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.2</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <consoleOutput>true</consoleOutput>
@@ -213,7 +218,7 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.14.0</version>
                 <configuration>
-                    <targetJdk>11</targetJdk>
+                    <targetJdk>15</targetJdk>
                     <failurePriority>1</failurePriority><!-- 5 means fail even on the lowest priority, 0 means never fail -->
                     <rulesets>
                         <!--suppress UnresolvedMavenProperty -->
@@ -244,7 +249,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>5.3.2</version>
+                        <version>6.1.3</version>
                         <configuration>
                             <failBuildOnCVSS>7</failBuildOnCVSS>
                             <skipProvidedScope>true</skipProvidedScope>

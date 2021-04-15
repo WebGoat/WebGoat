@@ -48,14 +48,14 @@ public class SqlInjectionChallengeLogin extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult login(@RequestParam String username_login, @RequestParam String password_login) throws Exception {
         try (var connection = dataSource.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("select password from sql_challenge_users where userid = ? and password = ?");
+            var statement = connection.prepareStatement("select password from sql_challenge_users where userid = ? and password = ?");
             statement.setString(1, username_login);
             statement.setString(2, password_login);
-            ResultSet resultSet = statement.executeQuery();
+            var resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 return ("tom".equals(username_login)) ? success(this).build()
-                        : success(this).feedback("ResultsButNotTom").build();
+                        : failed(this).feedback("ResultsButNotTom").build();
             } else {
                 return failed(this).feedback("NoResultsMatched").build();
             }

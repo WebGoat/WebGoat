@@ -22,14 +22,14 @@
 
 package org.owasp.webgoat.vulnerable_components;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.StreamException;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.Test;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.StreamException;
 
 public class VulnerableComponentsLessonTest {
 
@@ -57,6 +57,7 @@ public class VulnerableComponentsLessonTest {
     }
     
     @Test
+    @Disabled
     public void testIllegalTransformation() throws Exception {
     	XStream xstream = new XStream();
         xstream.setClassLoader(Contact.class.getClassLoader());

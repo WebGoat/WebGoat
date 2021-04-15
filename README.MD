@@ -82,8 +82,8 @@ java -jar webgoat-server-8.1.0.jar [--server.port=8080] [--server.address=localh
 java -jar webwolf-8.1.0.jar [--server.port=9090] [--server.address=localhost]
 ```
 
-The latest version of WebGoat needs Java 11 or above. By default WebGoat and WebWolf start on port 8080, 9000 and 9090 with the environment variable WEBGOAT_PORT, WEBWOLF_PORT and WEBGOAT_HSQLPORT you can set different values.
 
+The latest version of WebGoat needs Java 15 or above. By default WebGoat and WebWolf start on port 8080,9000 and 9090 with the environment variable WEBGOAT_PORT, WEBWOLF_PORT and WEBGOAT_HSQLPORT you can set different values.
 ```Shell
 export WEBGOAT_PORT=18080
 export WEBGOAT_HSQLPORT=19001
@@ -98,7 +98,7 @@ Use set instead of export if you're using Windows cmd.
 
 ### Prerequisites:
 
-* Java 11
+* Java 15
 * Maven > 3.2.1
 * Your favorite IDE
 * Git, or Git support in your IDE

@@ -32,12 +32,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint-advanced-6a-1", "SqlStringInjectionHint-advanced-6a-2", "SqlStringInjectionHint-advanced-6a-3",
-        "SqlStringInjectionHint-advanced-6a-4"})
+        "SqlStringInjectionHint-advanced-6a-4", "SqlStringInjectionHint-advanced-6a-5"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     private final DataSource dataSource;
@@ -74,7 +78,7 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
                     String appendingWhenSucceded;
                     if (usedUnion)
-                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by appending a new Sql Statement?";
+                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by appending a new SQL Statement?";
                     else
                         appendingWhenSucceded = "Well done! Can you also figure out a solution, by using a UNION?";
                     results.last();

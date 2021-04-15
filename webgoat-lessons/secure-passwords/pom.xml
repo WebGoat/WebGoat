@@ -6,14 +6,14 @@
     <parent>
         <groupId>org.owasp.webgoat.lesson</groupId>
         <artifactId>webgoat-lessons-parent</artifactId>
-        <version>8.2.1-SNAPSHOT</version>
+        <version>8.2.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>com.nulab-inc</groupId>
             <artifactId>zxcvbn</artifactId>
-            <version>1.2.5</version>
+            <version>1.4.0</version>
         </dependency>
     </dependencies>
 </project>

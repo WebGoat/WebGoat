@@ -6,19 +6,19 @@
     <parent>
         <groupId>org.owasp.webgoat.lesson</groupId>
         <artifactId>webgoat-lessons-parent</artifactId>
-        <version>8.2.1-SNAPSHOT</version>
+        <version>8.2.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.7.0</version>
+            <version>0.9.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <version>4.1.3.RELEASE</version>
+            <version>5.4.5</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

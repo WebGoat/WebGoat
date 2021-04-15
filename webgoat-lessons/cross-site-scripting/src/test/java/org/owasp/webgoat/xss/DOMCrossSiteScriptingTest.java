@@ -23,36 +23,33 @@
 package org.owasp.webgoat.xss;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
-import org.owasp.webgoat.lessons.Assignment;
-import org.owasp.webgoat.xss.DOMCrossSiteScripting;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
-
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
     private MockMvc mockMvc;
     private String randVal = "12034837";
 
-    @Before
+    @BeforeEach
     public void setup() {
         DOMCrossSiteScripting domXss = new DOMCrossSiteScripting();
         init(domXss);
         this.mockMvc = standaloneSetup(domXss).build();
         CrossSiteScripting xss = new CrossSiteScripting();
-        when(userSessionData.getValue("randValue")).thenReturn(randVal);
+        lenient().when(userSessionData.getValue("randValue")).thenReturn(randVal);
     }
 
     @Test

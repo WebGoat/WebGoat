@@ -1,12 +1,12 @@
 package org.owasp.webgoat.client_side_filtering;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -18,13 +18,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author nbaars
  * @since 5/2/17.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class ClientSideFilteringAssignmentTest extends LessonTest {
 
     @Autowired
     private ClientSideFiltering clientSideFiltering;
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(clientSideFiltering);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();

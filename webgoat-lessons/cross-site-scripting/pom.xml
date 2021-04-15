@@ -6,14 +6,14 @@
     <parent>
         <groupId>org.owasp.webgoat.lesson</groupId>
         <artifactId>webgoat-lessons-parent</artifactId>
-        <version>8.2.1-SNAPSHOT</version>
+        <version>8.2.0-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>
             <!-- jsoup HTML parser library @ https://jsoup.org/ -->
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.11.3</version>
+            <version>1.13.1</version>
         </dependency>
     </dependencies>
     <build>

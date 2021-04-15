@@ -25,7 +25,10 @@ package org.owasp.webgoat.client_side_filtering;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"ClientSideFilteringHint1", "ClientSideFilteringHint2", "ClientSideFilteringHint3", "ClientSideFilteringHint4"})

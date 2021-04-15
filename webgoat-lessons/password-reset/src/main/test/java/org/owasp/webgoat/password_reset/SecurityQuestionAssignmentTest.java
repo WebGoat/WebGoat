@@ -2,7 +2,7 @@ package org.owasp.webgoat.password_reset;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.owasp.webgoat.plugins.LessonTest;
@@ -15,13 +15,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class SecurityQuestionAssignmentTest extends LessonTest {
 
     @Autowired
     private PasswordReset passwordReset;
 
-    @Before
+    @BeforeEach
     public void setup() {
         Mockito.when(webSession.getCurrentLesson()).thenReturn(passwordReset);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();

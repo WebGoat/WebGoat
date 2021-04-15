@@ -1,17 +1,16 @@
 package org.owasp.webgoat.challenges.challenge1;
 
-import java.io.IOException;
-import java.security.SecureRandom;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
+import org.springframework.util.FileCopyUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.MediaType;
-import org.springframework.util.FileCopyUtils;
+import java.io.IOException;
+import java.security.SecureRandom;
 
 @WebServlet(name = "ImageServlet", urlPatterns = "/challenge/logo")
 public class ImageServlet extends HttpServlet {

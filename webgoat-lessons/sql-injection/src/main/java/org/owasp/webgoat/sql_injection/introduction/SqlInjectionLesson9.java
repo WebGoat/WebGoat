@@ -75,14 +75,14 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
                 }
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
-                return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+                return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
             }
 
             return checkSalaryRanking(connection, output);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+            return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 
@@ -103,7 +103,7 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
                 }
             }
         } catch (SQLException e) {
-            return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+            return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 

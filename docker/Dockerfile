@@ -1,6 +1,6 @@
-FROM openjdk:11.0.1-jre-slim-stretch
+FROM openjdk:15.0.2-slim
 
-ARG webgoat_version=v8.2.0-SNAPSHOT
+ARG webgoat_version=8.2.1-SNAPSHOT
 ENV webgoat_version_env=${webgoat_version}
 
 RUN apt-get update && apt-get install 
@@ -14,8 +14,8 @@ USER webgoat
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /usr/share/nginx/html/
-COPY webgoat-server-${webgoat_version}.jar /home/webgoat/webgoat.jar
-COPY webwolf-${webgoat_version}.jar /home/webgoat/webwolf.jar
+COPY target/webgoat-server-${webgoat_version}.jar /home/webgoat/webgoat.jar
+COPY target/webwolf-${webgoat_version}.jar /home/webgoat/webwolf.jar
 COPY start.sh /home/webgoat
 
 EXPOSE 8080
