@@ -1,22 +1,19 @@
 FROM openjdk:15.0.2-slim
 
-ARG webgoat_version=8.2.1-SNAPSHOT
+ARG webgoat_version=8.2.0-SNAPSHOT
 ENV webgoat_version_env=${webgoat_version}
 
-RUN apt-get update && apt-get install 
-RUN useradd --home-dir /home/webgoat --create-home -U webgoat
-RUN cd /home/webgoat/; 
-RUN chgrp -R 0 /home/webgoat
-RUN chmod -R g=u /home/webgoat
+RUN apt-get update
+RUN useradd -ms /bin/bash webgoat
 RUN apt-get -y install apt-utils nginx
 
 USER webgoat
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY index.html /usr/share/nginx/html/
-COPY target/webgoat-server-${webgoat_version}.jar /home/webgoat/webgoat.jar
-COPY target/webwolf-${webgoat_version}.jar /home/webgoat/webwolf.jar
-COPY start.sh /home/webgoat
+COPY --chown=webgoat nginx.conf /etc/nginx/nginx.conf
+COPY --chown=webgoat index.html /usr/share/nginx/html/
+COPY --chown=webgoat target/webgoat-server-${webgoat_version}.jar /home/webgoat/webgoat.jar
+COPY --chown=webgoat target/webwolf-${webgoat_version}.jar /home/webgoat/webwolf.jar
+COPY --chown=webgoat start.sh /home/webgoat
 
 EXPOSE 8080
 EXPOSE 9090
