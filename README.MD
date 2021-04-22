@@ -44,7 +44,7 @@ docker run -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amsterdam 
 WebGoat will be located at: http://127.0.0.1:8080/WebGoat
 WebWolf will be located at: http://127.0.0.1:9090/WebWolf
 
-**Important**: Choose the correct timezone, so that the docker container and your host are in the same timezone. As it important for the validity of JWT tokens used in certain exercises.
+**Important**: Choose the correct timezone, so that the docker container and your host are in the same timezone. As it is important for the validity of JWT tokens used in certain exercises.
 
 
 ## 2. Standalone
@@ -56,7 +56,7 @@ java -jar webgoat-server-8.1.0.jar [--server.port=8080] [--server.address=localh
 java -jar webwolf-8.1.0.jar [--server.port=9090] [--server.address=localhost]
 ```
 
-The latest version of WebGoat needs Java 15 or above. By default, WebGoat uses port 8080, the database uses 9000 and WebWolf use port 9090 with the environment variable WEBGOAT_PORT, WEBWOLF_PORT and WEBGOAT_HSQLPORT you can set different values.
+The latest version of WebGoat needs Java 15 or above. By default, WebGoat and Webwolf start on port 8080, 9000 and 9090 with the environment variable WEBGOAT_PORT, WEBGOAT_HSQLPORT and WEBWOLF_PORT you can set different values.
 ```Shell
 export WEBGOAT_PORT=18080
 export WEBGOAT_HSQLPORT=19001
@@ -65,7 +65,7 @@ java -jar webgoat-server-8.1.0.jar
 java -jar webwolf-8.1.0.jar 
 ```
 
-Use `set` instead of export on Windows cmd. 
+Use `set` instead of export if you're using Windows cmd. 
 
 
 ## 3. Run from the sources
@@ -99,7 +99,7 @@ mvn -pl webgoat-server spring-boot:run
 ... you should be running webgoat on localhost:8080/WebGoat momentarily
 
 
-To change IP address add the following variable to WebGoat/webgoat-container/src/main/resources/application.properties file
+To change the IP address add the following variable to the WebGoat/webgoat-container/src/main/resources/application.properties file:
 
 ```
 server.address=x.x.x.x
@@ -107,18 +107,15 @@ server.address=x.x.x.x
 
 ## 4. Run with custom menu
 
-For specialist only. There is a way to set up WebGoat with a personalized menu. You can leave out some menu categories or individual lessons by setting environment variables.
+For specialist only. There is a way to set up WebGoat with a personalized menu. You can leave out some menu categories or individual lessons by setting certain environment variables.
 
-For instance running as a jar on a Linux/macOS it will look like:
-
+For instance running as a jar on a Linux/macOS it will look like this:
 ```Shell
 export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
 export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
 java -jar webgoat-server/target/webgoat-server-v8.2.0-SNAPSHOT.jar
 ```
-
-Or in a docker run it would (once this version is pushed into docker hub) look like:
-
+Or in a docker run it would (once this version is pushed into docker hub) look like this:
 ```Shell
 docker run -d -p 80:8888 -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/goatandwolf
 ```
