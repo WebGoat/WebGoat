@@ -1,6 +1,6 @@
 == Decoding a JWT token
 
-Let's try decoding a JWT token, for this you can use the webWolfLink:JWT[] functionality inside WebWolf.
+Let's try decoding a JWT token, for this you can use the webWolfLink:JWT[target=jwt] functionality inside WebWolf.
 Given the following token:
 
 [source]
