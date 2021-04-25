@@ -16,7 +16,11 @@ public class WebGoatTmpDirMacro extends InlineMacroProcessor {
     }
 
     @Override
-	public String process(ContentNode contentNode, String target, Map<String, Object> attributes) {
-        return EnvironmentExposure.getEnv().getProperty("webgoat.server.directory");
+	public Object process(ContentNode contentNode, String target, Map<String, Object> attributes) {
+        var env = EnvironmentExposure.getEnv().getProperty("webgoat.server.directory");
+
+        //see https://discuss.asciidoctor.org/How-to-create-inline-macro-producing-HTML-In-AsciidoctorJ-td8313.html for why quoted is used
+        return createPhraseNode(contentNode, "quoted", env);
+
     }
 }

@@ -16,7 +16,10 @@ public class WebGoatVersionMacro extends InlineMacroProcessor {
     }
 
     @Override
-	public String process(ContentNode contentNode, String target, Map<String, Object> attributes) {
-        return EnvironmentExposure.getEnv().getProperty("webgoat.build.version");
+	public Object process(ContentNode contentNode, String target, Map<String, Object> attributes) {
+        var webgoatVersion = EnvironmentExposure.getEnv().getProperty("webgoat.build.version");
+
+        //see https://discuss.asciidoctor.org/How-to-create-inline-macro-producing-HTML-In-AsciidoctorJ-td8313.html for why quoted is used
+        return createPhraseNode(contentNode, "quoted", webgoatVersion);
     }
 }
