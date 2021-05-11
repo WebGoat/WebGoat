@@ -8,6 +8,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.owasp.webwolf.WebWolf;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
@@ -47,7 +48,7 @@ public abstract class IntegrationTest {
 
     private static boolean started = false;
 
-    @BeforeEach
+    @BeforeAll
     public static void beforeAll() {
         if (WG_SSL) {
             WEBGOAT_URL = WEBGOAT_URL.replace("http:", "https:");
