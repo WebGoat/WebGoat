@@ -10,25 +10,25 @@ import org.owasp.webgoat.deserialization.SerializationHelper;
 
 public class DeserializationTest extends IntegrationTest {
 
-	private static String OS = System.getProperty("os.name").toLowerCase();
-    
+    private static String OS = System.getProperty("os.name").toLowerCase();
+
     @Test
     public void runTests() throws IOException {
         startLesson("InsecureDeserialization");
-        
+
         Map<String, Object> params = new HashMap<>();
         params.clear();
-                
-        if (OS.indexOf("win")>-1) {
-        	params.put("token", SerializationHelper.toString(new VulnerableTaskHolder("wait", "ping localhost -n 5")));
+
+        if (OS.indexOf("win") > -1) {
+            params.put("token", SerializationHelper.toString(new VulnerableTaskHolder("wait", "ping localhost -n 5")));
         } else {
             params.put("token", SerializationHelper.toString(new VulnerableTaskHolder("wait", "sleep 5")));
         }
-        checkAssignment(url("/WebGoat/InsecureDeserialization/task"),params,true);
-        
+        checkAssignment(url("/WebGoat/InsecureDeserialization/task"), params, true);
+
         checkResults("/InsecureDeserialization/");
-    
+
     }
-    
-    
+
+
 }

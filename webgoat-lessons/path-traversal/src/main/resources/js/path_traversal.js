@@ -60,3 +60,19 @@ function newRandomPicture() {
         document.getElementById("randomCatPicture").src = "data:image/png;base64," + result;
     });
 }
+
+webgoat.customjs.profileZipSlip = function () {
+    var picture = document.getElementById("uploadedFileZipSlip").files[0];
+    var formData = new FormData();
+    formData.append("uploadedFileZipSlip", picture);
+    formData.append("fullName", $("#fullNameZipSlip").val());
+    formData.append("email", $("#emailZipSlip").val());
+    formData.append("password", $("#passwordZipSlip").val());
+    return formData;
+}
+
+webgoat.customjs.profileZipSlipRetrieval = function () {
+    $.get("PathTraversal/zip-slip", function (result, status) {
+        document.getElementById("previewZipSlip").src = "data:image/png;base64," + result;
+    });
+}

@@ -84,6 +84,7 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
                 extensionRegistry.inlineMacro("webGoatVersion", WebGoatVersionMacro.class);
                 extensionRegistry.inlineMacro("webGoatTempDir", WebGoatTmpDirMacro.class);
                 extensionRegistry.inlineMacro("operatingSystem", OperatingSystemMacro.class);
+                extensionRegistry.inlineMacro("username", UsernameMacro.class);
 
                 StringWriter writer = new StringWriter();
                 asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
