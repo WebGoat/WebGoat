@@ -12,7 +12,7 @@
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.5</version> <!-- do not update necessary for lesson -->
+            <version>1.4.17</version> <!-- do not update necessary for lesson -->
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
