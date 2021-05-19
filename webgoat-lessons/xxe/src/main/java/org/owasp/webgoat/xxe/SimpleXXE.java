@@ -74,7 +74,7 @@ public class SimpleXXE extends AssignmentEndpoint {
         		secure = true;
         	}
             Comment comment = comments.parseXml(commentStr, secure);
-            System.err.println("Comment " + comment);
+            //System.err.println("Comment " + comment);
             comments.addComment(comment, false);
             if (checkSolution(comment)) {
                 return success(this).build();

@@ -50,8 +50,8 @@ public class SeleniumTest extends IntegrationTest {
 				driver.findElement(By.name("agree")).click();
 				driver.findElement(By.className("btn-primary")).click();
 			}
-		} catch (IllegalStateException e) {
-			System.err.println("Web driver not found here: "+System.getProperty("webdriver.gecko.driver"));
+		} catch (Exception e) {
+			System.err.println("Selenium test failed "+System.getProperty("webdriver.gecko.driver")+", message: "+e.getMessage());
 		}
 
 	}
