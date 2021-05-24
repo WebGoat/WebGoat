@@ -108,7 +108,10 @@ public class PathTraversalTest extends IntegrationTest {
     }
 
     public void assignment5() throws IOException {
-        var webGoatDirectory = new File(System.getProperty("user.dir") + "/target/.webgoat/PathTraversal/" + getWebgoatUser());
+        var webGoatHome = System.getProperty("user.dir") + "/target/.webgoat/PathTraversal/" + getWebgoatUser();
+        webGoatHome = webGoatHome.replaceAll("^[a-zA-Z]:", ""); //Remove C: from the home directory on Windows
+
+        var webGoatDirectory = new File(webGoatHome);
         var zipFile = new File(webGoatDirectory, "upload.zip");
         try (var zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
             ZipEntry e = new ZipEntry("../../../../../../../../../../" + webGoatDirectory.toString() + "/image.jpg");
