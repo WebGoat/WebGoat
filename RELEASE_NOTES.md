@@ -1,5 +1,44 @@
 # WebGoat release notes 
 
+## Version 8.2.0
+
+### New functionality
+
+- Add new zip slip lesson (part of path traversal)
+- SQL lessons are now separate for each user, database are now per user and no longer shared across users
+- Moved to Java 15 & Spring Boot 2.4 & moved to JUnit 5
+
+### Bug fixes
+
+- [#974 SQL injection Intro 5 not solvable](https://github.com/WebGoat/WebGoat/issues/974)
+- [#962 SQL-Lesson 5 (Advanced) Solvable with wrong anwser](https://github.com/WebGoat/WebGoat/issues/962)
+- [#961 SQl-Injection lesson 4 not deleting created row](https://github.com/WebGoat/WebGoat/issues/961)
+- [#949 Challenge: Admin password reset always solvable](https://github.com/WebGoat/WebGoat/issues/949)
+- [#923 - Upgrade to Java 15](https://github.com/WebGoat/WebGoat/issues/923)
+- [#922 - Vulnerable components lesson](https://github.com/WebGoat/WebGoat/issues/922)
+- [#891 - Update the OWASP website with the new all-in-one Docker container](https://github.com/WebGoat/WebGoat/issues/891)
+- [#844 - Suggestion: Update navigation](https://github.com/WebGoat/WebGoat/issues/844)
+- [#843 - Bypass front-end restrictions: Field restrictions - confusing text in form](https://github.com/WebGoat/WebGoat/issues/843)
+- [#841 - XSS - Reflected XSS confusing instruction and success messages](https://github.com/WebGoat/WebGoat/issues/841)
+- [#839 - SQL Injection (mitigation) Order by clause confusing](https://github.com/WebGoat/WebGoat/issues/839)
+- [#838 - SQL mitigation (filtering) can only be passed by updating table](https://github.com/WebGoat/WebGoat/issues/838)
+
+## Contributors
+
+Special thanks to the following contributors providing us with a pull request:
+
+- nicholas-quirk
+- VijoPlays
+- aolle
+- trollingHeifer
+- maximmasiutin
+- toshihue
+- avivmu
+- KellyMarchewa 
+- NatasG
+- gabe-sky
+
+
 ## Version 8.1.0
 
 ### New functionality
