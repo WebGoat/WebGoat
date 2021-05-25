@@ -24,7 +24,6 @@ package org.owasp.webgoat.jwt.votes;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author nbaars

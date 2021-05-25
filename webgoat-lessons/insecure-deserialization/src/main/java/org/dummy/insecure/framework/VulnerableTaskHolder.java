@@ -1,13 +1,13 @@
 package org.dummy.insecure.framework;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class VulnerableTaskHolder implements Serializable {

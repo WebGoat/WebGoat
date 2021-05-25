@@ -32,15 +32,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.empty;
@@ -84,9 +89,15 @@ public class Comments {
      * XmlMapper bean defined above will be used automatically and the Comment class can be directly used in the
      * controller method (instead of a String)
      */
-    protected Comment parseXml(String xml) throws JAXBException, XMLStreamException {
+    protected Comment parseXml(String xml, boolean secure) throws JAXBException, XMLStreamException {
         var jc = JAXBContext.newInstance(Comment.class);
         var xif = XMLInputFactory.newInstance();
+        
+        if (secure) {
+        	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
+        	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");  // compliant
+        }
+        
         var xsr = xif.createXMLStreamReader(new StringReader(xml));
 
         var unmarshaller = jc.createUnmarshaller();

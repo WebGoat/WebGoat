@@ -1,35 +1,40 @@
 {
-  "questions": [{
-    "text": "How could an intruder harm the security goal of confidentiality?",
-    "solutions": {
-      "1": "By deleting all the databases.",
-      "2": "By stealing a database where general configuration information for the system is stored.",
-      "3": "By stealing a database where names and emails are stored and uploading it to a website.",
-      "4": "Confidentiality can't be harmed by an intruder."
+  "questions": [
+    {
+      "text": "How could an intruder harm the security goal of confidentiality?",
+      "solutions": {
+        "1": "By deleting all the databases.",
+        "2": "By stealing a database where general configuration information for the system is stored.",
+        "3": "By stealing a database where names and emails are stored and uploading it to a website.",
+        "4": "Confidentiality can't be harmed by an intruder."
+      }
+    },
+    {
+      "text": "How could an intruder harm the security goal of integrity?",
+      "solutions": {
+        "1": "By changing the names and emails of one or more users stored in a database.",
+        "2": "By listening to incoming and outgoing network traffic.",
+        "3": "By bypassing the access control mechanisms used to manage database access.",
+        "4": "Integrity can only be harmed when the intruder has physical access to the database."
+      }
+    },
+    {
+      "text": "How could an intruder harm the security goal of availability?",
+      "solutions": {
+        "1": "By exploiting a software bug that allows the attacker to bypass the normal authentication mechanisms for a database.",
+        "2": "By redirecting sensitive emails to other individuals.",
+        "3": "Availability can only be harmed by unplugging the power supply of the storage devices.",
+        "4": "By launching a denial of service attack on the servers."
+      }
+    },
+    {
+      "text": "What happens if at least one of the CIA security goals is harmed?",
+      "solutions": {
+        "1": "All three goals must be harmed for the system's security to be compromised; harming just one goal has no effect on the system's security.",
+        "2": "The system's security is compromised even if only one goal is harmed.",
+        "3": "It is acceptable if an attacker reads or changes data since at least some of the data is still available. The system's security is compromised only if its availability is harmed.",
+        "4": "It is acceptable if an attacker changes data or makes it unavailable, but reading sensitive data is not tolerable. The system's security is compromised only if its confidentiality is harmed."
+      }
     }
-  }, {
-    "text": "How could an intruder harm the security goal of integrity?",
-    "solutions": {
-      "1": "By changing the names and emails of one or more users stored in a database.",
-      "2": "By listening to incoming and outgoing network traffic.",
-      "3": "By bypassing authentication mechanisms that are in place to manage database access.",
-      "4": "Integrity can only be harmed when the intruder has physical access to the database storage."
-    }
-  }, {
-    "text": "How could an intruder harm the security goal of availability?",
-    "solutions": {
-      "1": "By exploiting bugs in the systems software to bypass authentication mechanisms for databases.",
-      "2": "By redirecting emails with sensitive data to other individuals.",
-      "3": "Availability can only be harmed by unplugging the power supply of the storage devices.",
-      "4": "By launching a denial of service attack on the servers."
-    }
-  }, {
-    "text": "What happens if at least one of the CIA security goals is harmed?",
-    "solutions": {
-      "1": "A system can be considered safe until all the goals are harmed. Harming one goal has no effect on the systems security.",
-      "2": "The systems security is compromised even if only one goal is harmed.",
-      "3": "It's not that bad when an attacker reads or changes data, at least some data is still available, hence only when the goal of availability is harmed the security of the system is compromised.",
-      "4": "It shouldn't be a problem if an attacker changes data or makes it unavailable, but reading sensitive data is not tolerable. Theres only a problem when confidentiality is harmed."
-    }
-  }]
+  ]
 }

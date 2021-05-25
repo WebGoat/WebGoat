@@ -1,6 +1,7 @@
 package org.owasp.webgoat.session;
 
-import org.junit.Test;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.users.LessonTracker;
@@ -9,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
- * Copyright (c) 2002 - 20014 Bruce Mayhew
+ * Copyright (c) 2002 - 2014 Bruce Mayhew
  * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
@@ -42,20 +42,20 @@ import static org.mockito.Mockito.when;
  * @version $Id: $Id
  * @since November 25, 2016
  */
-public class LessonTrackerTest {
+class LessonTrackerTest {
 
     @Test
-    public void allAssignmentsSolvedShouldMarkLessonAsComplete() {
+    void allAssignmentsSolvedShouldMarkLessonAsComplete() {
         Lesson lesson = mock(Lesson.class);
         when(lesson.getAssignments()).thenReturn(List.of(new Assignment("assignment", "assignment", List.of(""))));
         LessonTracker lessonTracker = new LessonTracker(lesson);
         lessonTracker.assignmentSolved("assignment");
 
-        assertTrue(lessonTracker.isLessonSolved());
+        Assertions.assertThat(lessonTracker.isLessonSolved()).isTrue();
     }
 
     @Test
-    public void noAssignmentsSolvedShouldMarkLessonAsInComplete() {
+    void noAssignmentsSolvedShouldMarkLessonAsInComplete() {
         Lesson lesson = mock(Lesson.class);
         Assignment a1 = new Assignment("a1");
         Assignment a2 = new Assignment("a2");
@@ -70,7 +70,7 @@ public class LessonTrackerTest {
     }
 
     @Test
-    public void solvingSameAssignmentShouldNotAddItTwice() {
+    void solvingSameAssignmentShouldNotAddItTwice() {
         Lesson lesson = mock(Lesson.class);
         Assignment a1 = new Assignment("a1");
         List<Assignment> assignments = List.of(a1);

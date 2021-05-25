@@ -4,42 +4,24 @@
 
     <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_plan.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_plan.adoc"></div>
 	</div>
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content0.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content0.adoc"></div>
 	</div>
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content1.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content1.adoc"></div>
 	</div>
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content1a.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content1a.adoc"></div>
 	</div>
 
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-        <!-- include content here. Content will be presented via asciidocs files,
-        which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content2.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content2.adoc"></div>
 		<div class="attack-container">
 			<!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
 			<div id="lessonContent">
-                <!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
-                <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
-                <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
-					<table>
+        			<table>
 						<tr>
 							<td>Clicking go will execute a jquery-ui close dialog:</td>
 							<td><input id="closetext" value="OK<script>alert('XSS')</script>" type="TEXT" /><input
@@ -67,10 +49,7 @@
 		<div class="attack-container">
 			<!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
 			<div id="lessonContent">
-                <!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
-                <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
-                <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
-					<table>
+        			<table>
 						<tr>
 							<td>Clicking go will execute a jquery-ui close dialog:</td>
 							<td><input id="closetext2" value="OK<script>alert('XSS')</script>" type="TEXT" /><input
@@ -95,53 +74,29 @@
 
 		</div>
 	</div>
-
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content3.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content3.adoc"></div>
 	</div>
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content4.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content4.adoc"></div>
 	</div>
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content4a.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content4a.adoc"></div>
 	</div>
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content4b.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content4b.adoc"></div>
 	</div>
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content4c.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content4c.adoc"></div>
 	</div>
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content5.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content5.adoc"></div>
 	</div>
+	
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content5a.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content5a.adoc"></div>
 		<div class="attack-container">
 			<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-			<!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
-            <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
-            <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
 			<form class="attack-form" accept-charset="UNKNOWN"
 				method="POST" name="form"
 				action="/WebGoat/VulnerableComponents/attack1">
@@ -165,10 +120,7 @@
 		</div>
 	</div>
 	<div class="lesson-page-wrapper">
-        <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
-		<!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
-		which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-		<div class="adoc-content" th:replace="doc:VulnerableComponents_content6.adoc"></div>
+        <div class="adoc-content" th:replace="doc:VulnerableComponents_content6.adoc"></div>
 	</div>
 	
 </html>

@@ -1,11 +1,11 @@
 package org.owasp.webgoat.cia;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -19,13 +19,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Benedikt Stuhrmann
  * @since 13/03/19.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class CIAQuizTest extends LessonTest {
 
     @Autowired
     private CIA cia;
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(cia);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();

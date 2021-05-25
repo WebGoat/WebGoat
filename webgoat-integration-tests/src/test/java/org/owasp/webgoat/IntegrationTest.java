@@ -3,14 +3,12 @@ package org.owasp.webgoat;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.CoreMatchers;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.owasp.webwolf.WebWolf;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
@@ -21,6 +19,7 @@ import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 
+@Slf4j
 public abstract class IntegrationTest {
 
     protected static int WG_PORT = 8080;
@@ -49,7 +48,6 @@ public abstract class IntegrationTest {
 
     private static boolean started = false;
 
-    @BeforeClass
     @BeforeAll
     public static void beforeAll() {
         if (WG_SSL) {
@@ -91,7 +89,6 @@ public abstract class IntegrationTest {
         return WEBWOLF_URL + url;
     }
 
-    @Before
     @BeforeEach
     public void login() {
 
@@ -143,7 +140,6 @@ public abstract class IntegrationTest {
                 .cookie("WEBWOLFSESSION");
     }
 
-    @After
     @AfterEach
     public void logout() {
         RestAssured.given()
@@ -193,7 +189,7 @@ public abstract class IntegrationTest {
      * @param expectedResult
      */
     public void checkAssignment(String url, Map<String, ?> params, boolean expectedResult) {
-        Assert.assertThat(
+        MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -215,7 +211,7 @@ public abstract class IntegrationTest {
      * @param expectedResult
      */
     public void checkAssignmentWithPUT(String url, Map<String, ?> params, boolean expectedResult) {
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -231,7 +227,7 @@ public abstract class IntegrationTest {
     public void checkResults(String prefix) {
         checkResults();
 
-        Assert.assertThat(RestAssured.given()
+        MatcherAssert.assertThat(RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
@@ -242,17 +238,19 @@ public abstract class IntegrationTest {
     }
 
     public void checkResults() {
-        Assert.assertThat(RestAssured.given()
+        var result = RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/lessonoverview.mvc"))
-                .then()
+                .andReturn();
+
+    	MatcherAssert.assertThat(result.then()
                 .statusCode(200).extract().jsonPath().getList("solved"), CoreMatchers.everyItem(CoreMatchers.is(true)));
     }
 
     public void checkAssignment(String url, ContentType contentType, String body, boolean expectedResult) {
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -266,7 +264,8 @@ public abstract class IntegrationTest {
     }
 
     public void checkAssignmentWithGet(String url, Map<String, ?> params, boolean expectedResult) {
-        Assert.assertThat(
+        log.info("Checking assignment for: {}", url);
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()

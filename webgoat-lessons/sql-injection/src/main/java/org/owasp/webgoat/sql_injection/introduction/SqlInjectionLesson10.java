@@ -23,6 +23,7 @@
 
 package org.owasp.webgoat.sql_injection.introduction;
 
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -31,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,9 +41,9 @@ import java.sql.Statement;
 @AssignmentHints(value = {"SqlStringInjectionHint.10.1", "SqlStringInjectionHint.10.2", "SqlStringInjectionHint.10.3", "SqlStringInjectionHint.10.4", "SqlStringInjectionHint.10.5", "SqlStringInjectionHint.10.6"})
 public class SqlInjectionLesson10 extends AssignmentEndpoint {
 
-    private final DataSource dataSource;
+    private final LessonDataSource dataSource;
 
-    public SqlInjectionLesson10(DataSource dataSource) {
+    public SqlInjectionLesson10(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -75,7 +75,7 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
                 }
             } catch (SQLException e) {
                 if (tableExists(connection)) {
-                    return failed(this).feedback("sql-injection.error").output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build();
+                    return failed(this).output("<span class='feedback-negative'>" + e.getMessage() + "</span><br>" + output.toString()).build();
                 } else {
                     return success(this).feedback("sql-injection.10.success").build();
                 }

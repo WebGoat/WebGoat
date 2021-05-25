@@ -1,27 +1,24 @@
 package org.owasp.webgoat.xxe;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.plugins.LessonTest;
-import org.owasp.webgoat.xxe.Comments;
-import org.owasp.webgoat.xxe.XXE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.File;
 import java.util.List;
 
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author nbaars
  * @since 5/4/17.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class BlindSendFileAssignmentTest extends LessonTest {
 
     @Autowired
@@ -43,14 +40,15 @@ public class BlindSendFileAssignmentTest extends LessonTest {
     
     private int port;
 
-    @Rule
-    public WireMockRule webwolfServer = new WireMockRule(wireMockConfig().dynamicPort());
+    private WireMockServer webwolfServer;
 
-    @Before
+    @BeforeEach
     public void setup() {
+        this.webwolfServer = new WireMockServer(options().dynamicPort());
+        webwolfServer.start();
+        this.port = webwolfServer.port();
         when(webSession.getCurrentLesson()).thenReturn(xxe);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        port = webwolfServer.port();
     }
 
     @Test
@@ -72,6 +70,16 @@ public class BlindSendFileAssignmentTest extends LessonTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("assignment.not.solved"))))
                 .andExpect(jsonPath("$.output", CoreMatchers.startsWith("javax.xml.bind.UnmarshalException\\n - with linked exception:\\n[javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,22]\\nMessage:")));
+    }
+
+    @Test
+    public void simpleXXEShouldNotWork() throws Exception {
+        File targetFile = new File(webGoatHomeDirectory, "/XXE/secret.txt");
+        String content = "<?xml version=\"1.0\" standalone=\"yes\" ?><!DOCTYPE user [<!ENTITY root SYSTEM \"file:///%s\"> ]><comment><text>&root;</text></comment>";
+        mockMvc.perform(MockMvcRequestBuilders.post("/xxe/blind")
+                .content(String.format(content, targetFile.toString())))
+                .andExpect(status().isOk());
+        assertThat(comments.getComments()).extracting(c -> c.getText()).containsAnyOf("Nice try, you need to send the file to WebWolf");
     }
 
     @Test
@@ -130,7 +138,7 @@ public class BlindSendFileAssignmentTest extends LessonTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("assignment.not.solved"))));
 
-        List<LoggedRequest> requests = findAll(getRequestedFor(urlMatching("/landing.*")));
+        List<LoggedRequest> requests = webwolfServer.findAll(getRequestedFor(urlMatching("/landing.*")));
         assertThat(requests.size()).isEqualTo(1);
         String text = requests.get(0).getQueryParams().get("text").firstValue();
 

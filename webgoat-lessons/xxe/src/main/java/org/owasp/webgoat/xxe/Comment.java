@@ -26,6 +26,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -38,6 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @AllArgsConstructor
 @NoArgsConstructor
 @XmlRootElement
+@ToString
 public class Comment {
     private String user;
     private String dateTime;

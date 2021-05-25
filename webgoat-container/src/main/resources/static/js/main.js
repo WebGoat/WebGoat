@@ -29,6 +29,7 @@ require.config({
     jqueryui: 'libs/jquery-ui.min',
     underscore: 'libs/underscore-min',
     backbone: 'libs/backbone-min',
+    bootstrap: 'libs/bootstrap.min',
     text: 'libs/text',
     templates: 'goatApp/templates',
     polyglot: 'libs/polyglot.min'
@@ -48,6 +49,10 @@ require.config({
     underscore: {
       exports: "_"
     },
+    bootstrap: {
+	    deps: ['jquery'],
+        exports: 'Bootstrap'
+    },
     backbone: {
       deps: ['underscore', 'jquery'],
       exports: 'Backbone'
@@ -65,6 +70,7 @@ require([
 	'jqueryui', 
 	'underscore',
 	'backbone',
-	'goatApp/goatApp'], function($,jqueryBase,jqueryVuln,jqueryui,_,Backbone,Goat){
+	'bootstrap',
+	'goatApp/goatApp'], function($,jqueryBase,jqueryVuln,jqueryui,_,Backbone,Bootstrap,Goat){
     Goat.initApp();
 });

@@ -5,7 +5,7 @@
 /* */ 	 are inline comments
 -- , # 	 are line comments
 
-Example: SELECT * FROM users WHERE name = 'admin' --AND pass = 'pass'
+Example: SELECT * FROM users WHERE name = 'admin' -- AND pass = 'pass'
 ----
 
 
@@ -46,7 +46,7 @@ The UNION ALL Syntax also allows duplicate Values.
 
 === Joins
 
-The Join operator is used to combine rows from two ore more tables, based on a related column
+The Join operator is used to combine rows from two or more tables, based on a related column
 
 [source]
 -----

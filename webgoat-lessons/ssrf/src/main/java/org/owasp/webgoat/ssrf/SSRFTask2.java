@@ -30,10 +30,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 
 
 @RestController
@@ -47,36 +48,31 @@ public class SSRFTask2 extends AssignmentEndpoint {
     }
 
     protected AttackResult furBall(String url) {
-        try {
-            StringBuffer html = new StringBuffer();
-
-            if (url.matches("http://ifconfig.pro")) {
-                URL u = new URL(url);
-                URLConnection urlConnection = u.openConnection();
-                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                String inputLine;
-
-                while ((inputLine = in.readLine()) != null) {
-                    html.append(inputLine);
-                }
-                in.close();
-
-                return success(this)
-                        .feedback("ssrf.success")
-                        .output(html.toString())
-                        .build();
-            } else {
-                html.append("<img class=\"image\" alt=\"image post\" src=\"images/cat.jpg\">");
-                return failed(this)
-                        .feedback("ssrf.failure")
-                        .output(html.toString())
-                        .build();
+        if (url.matches("http://ifconfig.pro")) {
+            String html;
+            try (InputStream in = new URL(url).openStream()) {
+                html = new String(in.readAllBytes(), StandardCharsets.UTF_8)
+                        .replaceAll("\n","<br>"); // Otherwise the \n gets escaped in the response
+            } catch (MalformedURLException e) {
+                return getFailedResult(e.getMessage());
+            } catch (IOException e) {
+                //in case the external site is down, the test and lesson should still be ok
+                html = "<html><body>Although the http://ifconfig.pro site is down, you still managed to solve" +
+                        " this exercise the right way!</body></html>";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return failed(this)
-                    .output(e.getMessage())
+            return success(this)
+                    .feedback("ssrf.success")
+                    .output(html)
                     .build();
         }
+        var html = "<img class=\"image\" alt=\"image post\" src=\"images/cat.jpg\">";
+        return getFailedResult(html);
+    }
+
+    private AttackResult getFailedResult(String errorMsg) {
+        return failed(this)
+                .feedback("ssrf.failure")
+                .output(errorMsg)
+                .build();
     }
 }

@@ -2,7 +2,7 @@
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
- * Copyright (c) 2002 - 20014 Bruce Mayhew
+ * Copyright (c) 2002 - 2014 Bruce Mayhew
  * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
@@ -36,6 +36,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.function.Function;
+
 @Controller
 @AllArgsConstructor
 @Slf4j
@@ -43,7 +45,7 @@ public class RestartLessonService {
 
     private final WebSession webSession;
     private final UserTrackerRepository userTrackerRepository;
-    private final Flyway flywayLessons;
+    private final Function<String, Flyway> flywayLessons;
 
     @RequestMapping(path = "/service/restartlesson.mvc", produces = "text/text")
     @ResponseStatus(value = HttpStatus.OK)
@@ -55,7 +57,8 @@ public class RestartLessonService {
         userTracker.reset(al);
         userTrackerRepository.save(userTracker);
 
-        flywayLessons.clean();
-        flywayLessons.migrate();
+        var flyway = flywayLessons.apply(webSession.getUserName());
+        flyway.clean();
+        flyway.migrate();
     }
 }

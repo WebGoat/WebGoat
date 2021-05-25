@@ -22,12 +22,13 @@
 
 package org.owasp.webgoat.xss;
 
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.*;
-
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 //@RestController
 @Deprecated

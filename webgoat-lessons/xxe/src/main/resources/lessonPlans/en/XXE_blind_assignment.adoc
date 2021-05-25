@@ -11,6 +11,6 @@ In the previous page we showed you how you can ping a server with a XXE attack, 
 
 |===
 
-Try to upload this file using WebWolf landing page for example: `webWolfRootLink:landing?text=contents_file[noLink]`
+Try to upload this file using WebWolf landing page for example: `webWolfRootLink:landing?text=contents_file[noLink,target=landing]`
 (NOTE: this endpoint is under your full control)
 Once you obtained the contents of the file post it as a new comment on the page and you will solve the lesson.

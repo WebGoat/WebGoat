@@ -22,19 +22,14 @@
 
 package org.owasp.webgoat.vulnerable_components;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+public interface Contact {
 
-@XStreamAlias("contact")
-public class Contact {
-    @XStreamAlias("name")
-    String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+	public Integer getId();
+	public void setId(Integer id);
+	public String getFirstName();
+	public void setFirstName(String firstName);
+	public String getLastName();
+	public void setLastName(String lastName);
+	public String getEmail();
+	public void setEmail(String email);
 }

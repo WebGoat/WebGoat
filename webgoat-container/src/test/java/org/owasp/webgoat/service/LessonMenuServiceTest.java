@@ -23,12 +23,12 @@ package org.owasp.webgoat.service;
 
 import com.beust.jcommander.internal.Lists;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.Course;
@@ -39,6 +39,8 @@ import org.owasp.webgoat.users.UserTrackerRepository;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.owasp.webgoat.service.LessonMenuService.URL_LESSONMENU_MVC;
@@ -47,7 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class LessonMenuServiceTest {
 
     @Mock(lenient=true)
@@ -62,13 +64,13 @@ public class LessonMenuServiceTest {
     private WebSession webSession;
     private MockMvc mockMvc;
 
-    @Before
-    public void setup() {
-        this.mockMvc = standaloneSetup(new LessonMenuService(course, webSession, userTrackerRepository)).build();
+    @BeforeEach
+    void setup() {
+        this.mockMvc = standaloneSetup(new LessonMenuService(course, webSession, userTrackerRepository, Arrays.asList("none"), Arrays.asList("none"))).build();
     }
 
     @Test
-    public void lessonsShouldBeOrdered() throws Exception {
+    void lessonsShouldBeOrdered() throws Exception {
         Lesson l1 = Mockito.mock(Lesson.class);
         Lesson l2 = Mockito.mock(Lesson.class);
         when(l1.getTitle()).thenReturn("ZA");
@@ -86,7 +88,7 @@ public class LessonMenuServiceTest {
     }
 
     @Test
-    public void lessonCompleted() throws Exception {
+    void lessonCompleted() throws Exception {
         Lesson l1 = Mockito.mock(Lesson.class);
         when(l1.getTitle()).thenReturn("ZA");
         when(lessonTracker.isLessonSolved()).thenReturn(true);

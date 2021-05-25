@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.sql_injection.advanced;
 
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -31,18 +32,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import java.sql.*;
 
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint-advanced-6a-1", "SqlStringInjectionHint-advanced-6a-2", "SqlStringInjectionHint-advanced-6a-3",
-        "SqlStringInjectionHint-advanced-6a-4"})
+        "SqlStringInjectionHint-advanced-6a-4", "SqlStringInjectionHint-advanced-6a-5"})
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
-    private final DataSource dataSource;
+    private final LessonDataSource dataSource;
 
-    public SqlInjectionLesson6a(DataSource dataSource) {
+    public SqlInjectionLesson6a(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -74,7 +74,7 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
                     String appendingWhenSucceded;
                     if (usedUnion)
-                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by appending a new Sql Statement?";
+                        appendingWhenSucceded = "Well done! Can you also figure out a solution, by appending a new SQL Statement?";
                     else
                         appendingWhenSucceded = "Well done! Can you also figure out a solution, by using a UNION?";
                     results.last();

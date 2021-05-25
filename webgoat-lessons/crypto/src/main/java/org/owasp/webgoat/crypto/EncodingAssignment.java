@@ -22,11 +22,6 @@
 
 package org.owasp.webgoat.crypto;
 
-import java.util.Base64;
-import java.util.Random;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.http.MediaType;
@@ -35,6 +30,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
+import java.util.Random;
 
 @RestController
 public class EncodingAssignment extends AssignmentEndpoint {

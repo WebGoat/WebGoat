@@ -23,6 +23,7 @@
 package org.owasp.webgoat.sql_injection.advanced;
 
 import lombok.extern.slf4j.Slf4j;
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -32,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import java.sql.*;
 
 /**
@@ -44,9 +44,9 @@ import java.sql.*;
 @Slf4j
 public class SqlInjectionChallenge extends AssignmentEndpoint {
 
-    private final DataSource dataSource;
+    private final LessonDataSource dataSource;
 
-    public SqlInjectionChallenge(DataSource dataSource) {
+    public SqlInjectionChallenge(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

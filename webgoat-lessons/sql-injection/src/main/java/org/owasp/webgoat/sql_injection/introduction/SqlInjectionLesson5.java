@@ -23,6 +23,7 @@
 
 package org.owasp.webgoat.sql_injection.introduction;
 
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -30,10 +31,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint5-a"})
 public class SqlInjectionLesson5 extends AssignmentEndpoint {
+
+    private final LessonDataSource dataSource;
+
+    public SqlInjectionLesson5(LessonDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @PostConstruct
+    public void createUser() {
+        // HSQLDB does not support CREATE USER with IF NOT EXISTS so we need to do it in code (DROP first will throw error if user does not exists)
+        try (Connection connection = dataSource.getConnection()) {
+            try (var statement = connection.prepareStatement("CREATE USER unauthorized_user PASSWORD test")) {
+                statement.execute();
+            }
+        } catch (Exception e) {
+            //user already exists continue
+        }
+    }
 
     @PostMapping("/SqlInjection/attack5")
     @ResponseBody
@@ -42,19 +67,29 @@ public class SqlInjectionLesson5 extends AssignmentEndpoint {
     }
 
     protected AttackResult injectableQuery(String query) {
-        try {
-            String regex = "(?i)^(grant alter table to [']?unauthorizedUser[']?)(?:[;]?)$";
-            StringBuffer output = new StringBuffer();
-
-            // user completes lesson if the query is correct
-            if (query.matches(regex)) {
-                output.append("<span class='feedback-positive'>" + query + "</span>");
-                return success(this).output(output.toString()).build();
-            } else {
-                return failed(this).output(output.toString()).build();
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                statement.executeQuery(query);
+                if (checkSolution(connection)) {
+                    return success(this).build();
+                }
+                return failed(this).output("Your query was: " + query).build();
             }
         } catch (Exception e) {
-            return failed(this).output(this.getClass().getName() + " : " + e.getMessage()).build();
+            return failed(this).output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query).build();
         }
+    }
+
+    private boolean checkSolution(Connection connection) {
+        try {
+            var stmt = connection.prepareStatement("SELECT * FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES WHERE TABLE_NAME = ? AND GRANTEE = ?");
+            stmt.setString(1, "GRANT_RIGHTS");
+            stmt.setString(2, "UNAUTHORIZED_USER");
+            var resultSet = stmt.executeQuery();
+            return resultSet.next();
+        } catch (SQLException throwables) {
+            return false;
+        }
+
     }
 }

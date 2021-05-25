@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.sql_injection.introduction;
 
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -31,7 +32,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.*;
 
@@ -40,9 +40,9 @@ import java.sql.*;
 @AssignmentHints(value = {"SqlStringInjectionHint5b1", "SqlStringInjectionHint5b2", "SqlStringInjectionHint5b3", "SqlStringInjectionHint5b4"})
 public class SqlInjectionLesson5b extends AssignmentEndpoint {
 
-    private final DataSource dataSource;
+    private final LessonDataSource dataSource;
 
-    public SqlInjectionLesson5b(DataSource dataSource) {
+    public SqlInjectionLesson5b(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

@@ -22,7 +22,7 @@
 
 package org.owasp.webgoat.sql_injection;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.owasp.webgoat.sql_injection.introduction.SqlInjection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class SqlLessonTest extends LessonTest {
     @Autowired
     private SqlInjection sql = new SqlInjection();
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(sql);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();

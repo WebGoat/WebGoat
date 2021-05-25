@@ -1,61 +1,39 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
-<header>
-<script>
-$(document).ready(
-		function(){
-				$("#secrettoken").load('/WebGoat/JWT/secret/gettoken');
-		}
-	);
-	
-</script>
-
-
-</header>
 <body>
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:JWT_plan.adoc"></div>
 </div>
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:JWT_structure.adoc"></div>
-			<form id="encode" class="attack-form" method="POST" name="form"	action="/WebGoat/JWT/encode" >
-			<table width="100%"><tbody>
-			<tr><td>JWT header: </td><td width="100%"><input class="form-control" id="jsonHeader" name="jsonHeader" value='{  "alg":"HS256",  "typ":"JWT"}' type="TEXT"/></td></tr>
-			
-			<tr><td>JWT payload: </td><td width="100%">
-			<textarea class="form-control" rows="7" id="jsonPayload" name="jsonPayload" >
-{  	
-	"exp": 1416471934,  "user_name": "user",  
-	"scope": [    "read",    "write"  ],  
-	"authorities": [    "ROLE_ADMIN",    "ROLE_USER"  ],  
-	"jti": "9bc92a44-0b1a-4c5e-be70-da52075b9a84",  
-	"client_id": "my-client-with-secret"
-}
-			</textarea>
-			</td></tr>
-			<tr><td align="center">.</td></tr>
-			<tr><td>encryption key: </td><td width="100%"><input class="form-control" id="jsonSecret" name="jsonSecret" value="secret" type="TEXT"/></td></tr>
-			<tr><td><input name="SUBMIT" value="generate JWT token" type="SUBMIT"/></td></tr>			
-			</tbody></table>
-			</form>
-			<form id="decode" class="attack-form" method="POST" name="form"	action="/WebGoat/JWT/decode" >			
-			<table width=100%><tbody>
-			<tr><td>JWT token: </td><td width="100%">
-				<span id="encodedHeader" style="color: orange;font-family:courier">eyAgImFsZyI6IkhTMjU2IiwgICJ0eXAiOiJKV1QifQ</span>
-				<span style="color: black;font-family:courier"><b>.//header</b></span><br/>
-				<div id="encodedPayload" style="color: green;font-family:courier;width:50%">eyAgCQ0KCSJleHAiOiAxNDE2NDcxOTM0LCAgInVzZXJfbmFtZSI6ICJ1c2Vy
-				IiwgIA0KCSJzY29wZSI6IFsgICAgInJlYWQiLCAgICAid3JpdGUiICBdLCAg
-				DQoJImF1dGhvcml0aWVzIjogWyAgICAiUk9MRV9BRE1JTiIsICAgICJST0xF
-				X1VTRVIiICBdLCAgDQoJImp0aSI6ICI5YmM5MmE0NC0wYjFhLTRjNWUtYmU3
-				MC1kYTUyMDc1YjlhODQiLCAgDQoJImNsaWVudF9pZCI6ICJteS1jbGllbnQt
-				d2l0aC1zZWNyZXQiDQp9DQoJCQk<span style="color: black;font-family:courier"><b>. //payload</b></span></div>
-				<span id="encodedSignature" style="color: blue;font-family:courier">gc32RepP65NANPLQP31Aq7QPbpWKBOiaS9UXczYVZLE</span><span style="color: black;font-family:courier"><b>//signature</b></span></td></tr>
-			<tr><td>JWT token: </td><td width="100%"><input class="form-control" id="jwtToken" name="jwtToken" value='' type="text"/></td></tr>
-			<tr><td><input name="SUBMIT" value="decode JWT token" type="SUBMIT"/></td></tr>			
-			</tbody></table>
-			</form>			
 </div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:JWT_decode.adoc"></div>
+    <div class="attack-container">
+        <img th:src="@{/images/wolf-enabled.png}" class="webwolf-enabled"/>
+        <form id="decode" class="attack-form" method="POST" name="form" action="/WebGoat/JWT/decode">
+            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+            <br>
+            <div class="row">
+                <div class="col-lg-10">
+                        <span>
+                            <span>
+                                 Username:
+                            </span>
+                        <input type="text" name="jwt-encode-user">
+                               <button type="SUBMIT">Submit</button>
+                            </span>
+                </div>
+            </div>
+            <br>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:JWT_login_to_token.adoc"></div>
 </div>
@@ -63,7 +41,6 @@ $(document).ready(
     <div class="adoc-content" th:replace="doc:JWT_signing.adoc"></div>
 
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
-    <script th:src="@{/lesson_js/bootstrap.min.js}" language="JavaScript"></script>
     <script th:src="@{/lesson_js/jwt-voting.js}" language="JavaScript"></script>
     <div class="attack-container">
         <div class="attack-feedback"></div>
@@ -85,7 +62,7 @@ $(document).ready(
                                     <i class="fa fa-user"></i> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-left">
-                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                    <li role="presentation"><a data-toggle="dropdown" role="menuitem" tabindex="-1"
                                                                onclick="javascript:loginVotes('Guest')"
                                                                th:text="Guest">current</a></li>
                                     <li role="presentation"><a role="menuitem" tabindex="-1"
@@ -124,8 +101,41 @@ $(document).ready(
 </div>
 
 <div class="lesson-page-wrapper">
+    <div class="lesson-page-solution">
+        <div class="adoc-content" th:replace="doc:JWT_signing_solution.adoc"></div>
+    </div>
+</div>
+
+
+<div class="lesson-page-wrapper">
+    <span id="quiz_id" data-quiz_id="jwt"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/quiz.css}"/>
+    <script th:src="@{/js/quiz.js}" language="JavaScript"></script>
+    <link rel="import" type="application/json" th:href="@{/lesson_js/questions_jwt.json}"/>
+    <div class="adoc-content" th:replace="doc:JWT_libraries_assignment.adoc"></div>
+    <div class="attack-container">
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="container-fluid">
+            <form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  action="/WebGoat/JWT/quiz"
+                  role="form">
+                <div id="q_container"></div>
+                <br/>
+                <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>
+            </form>
+        </div>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="doc:JWT_weak_keys"></div>
-    <div id="secrettoken" ></div>
+    <script th:src="@{/lesson_js/jwt-weak-keys.js}" language="JavaScript"></script>
+    <pre id="secrettoken"></pre>
 
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
@@ -225,9 +235,11 @@ $(document).ready(
                                 <td class="col-sm-1 col-md-1" style="text-align: center">
                                     <input type="text" class="form-control" id="quantity2" value="2"></input>
                                 </td>
-                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span id="piecePrice2">4.99</span></strong>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span
+                                        id="piecePrice2">4.99</span></strong>
                                 </td>
-                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span id="totalPrice2">9.98</span></strong></td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span
+                                        id="totalPrice2">9.98</span></strong></td>
                                 <td class="col-md-1">
                                     <button type="button" class="btn btn-danger">
                                         <span class="glyphicon glyphicon-remove"></span> Remove
@@ -242,7 +254,8 @@ $(document).ready(
                                 <td>  </td>
                                 <td><h5>Subtotal<br></br>Estimated shipping</h5>
                                     <h3>Total</h3></td>
-                                <td class="text-right"><h5><strong>$<span id="subtotalJwt">24.59</span><br></br>$6.94</strong></h5>
+                                <td class="text-right"><h5><strong>$<span
+                                        id="subtotalJwt">24.59</span><br></br>$6.94</strong></h5>
                                     <h3>$<span id="totalJwt">31.53</span></h3></td>
                             </tr>
                             <tr>
@@ -332,44 +345,10 @@ $(document).ready(
         <div class="attack-output"></div>
     </div>
 </div>
-<script>
 
-string_chop =  function(str, size){
-    if (str == null) return [];
-    str = String(str);
-    size = ~~size;
-    var strArray = str.match(new RegExp('.{1,' + size + '}', 'g'));
-    var strResult = "";
-    var i;
-    for (i = 0; i < strArray.length; i++) {
-    	strResult = strResult + strArray[i] + "\n";
-    }
-    return strResult;
-}
-
-$('#encode').submit(function () {
-    $.post('/WebGoat/JWT/encode', $('#encode').serialize(), function (data, textStatus) {
-    	var obj = JSON.parse(data);
-    	document.getElementById("jwtToken").value=obj.encodedHeader+"."+obj.encodedPayload+"."+obj.encodedSignature;
-    	document.getElementById("encodedHeader").innerHTML=obj.encodedHeader;
-    	document.getElementById("encodedPayload").innerHTML=string_chop(obj.encodedPayload, 80);
-    	document.getElementById("encodedSignature").innerHTML=obj.encodedSignature;
-    	
-    });
-    return false;
-});
-
-$('#decode').submit(function () {
-    $.post('/WebGoat/JWT/decode', $('#decode').serialize(), function (data, textStatus) {
-    	var obj = JSON.parse(data);
-    	document.getElementById("jsonHeader").value=obj.jsonHeader;
-    	document.getElementById("jsonPayload").value=obj.jsonPayload;
-    	document.getElementById("jsonSignature").value="";
-    });
-    return false;
-});
-
-</script>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:JWT_mitigation.adoc"></div>
+</div>
 </body>
 
 </html>

@@ -5,7 +5,7 @@
  * This file is part of WebGoat, an Open Web Application Security Project
  * utility. For details, please see http://www.owasp.org/
  * <p>
- * Copyright (c) 2002 - 20014 Bruce Mayhew
+ * Copyright (c) 2002 - 2014 Bruce Mayhew
  * <p>
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -40,6 +40,7 @@ import org.owasp.webgoat.session.WebSession;
 import org.owasp.webgoat.users.LessonTracker;
 import org.owasp.webgoat.users.UserTracker;
 import org.owasp.webgoat.users.UserTrackerRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -65,6 +66,12 @@ public class LessonMenuService {
     private final WebSession webSession;
     private UserTrackerRepository userTrackerRepository;
 
+    @Value("#{'${exclude.categories}'.split(',')}")
+    private List<String> excludeCategories;
+
+    @Value("#{'${exclude.lessons}'.split(',')}")
+    private List<String> excludeLessons;
+    
     /**
      * Returns the lesson menu which is used to build the left nav
      *
@@ -79,6 +86,9 @@ public class LessonMenuService {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
 
         for (Category category : categories) {
+        	if (excludeCategories.contains(category.name())) { 
+        		continue;
+        	}
             LessonMenuItem categoryItem = new LessonMenuItem();
             categoryItem.setName(category.getName());
             categoryItem.setType(LessonMenuItemType.CATEGORY);
@@ -86,6 +96,9 @@ public class LessonMenuService {
             List<Lesson> lessons = course.getLessons(category);
             lessons = lessons.stream().sorted(Comparator.comparing(l -> l.getTitle())).collect(Collectors.toList());
             for (Lesson lesson : lessons) {
+            	if (excludeLessons.contains(lesson.getName())) {
+            		continue;
+            	}
                 LessonMenuItem lessonItem = new LessonMenuItem();
                 lessonItem.setName(lesson.getTitle());
                 lessonItem.setLink(lesson.getLink());

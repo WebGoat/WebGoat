@@ -23,6 +23,7 @@
 
 package org.owasp.webgoat.sql_injection.introduction;
 
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -31,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,9 +44,9 @@ import static org.hsqldb.jdbc.JDBCResultSet.TYPE_SCROLL_SENSITIVE;
 @AssignmentHints(value = {"SqlStringInjectionHint.9.1", "SqlStringInjectionHint.9.2", "SqlStringInjectionHint.9.3", "SqlStringInjectionHint.9.4", "SqlStringInjectionHint.9.5"})
 public class SqlInjectionLesson9 extends AssignmentEndpoint {
 
-    private final DataSource dataSource;
+    private final LessonDataSource dataSource;
 
-    public SqlInjectionLesson9(DataSource dataSource) {
+    public SqlInjectionLesson9(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -75,14 +75,14 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
                 }
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
-                return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+                return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
             }
 
             return checkSalaryRanking(connection, output);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+            return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 
@@ -103,7 +103,7 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
                 }
             }
         } catch (SQLException e) {
-            return failed(this).feedback("sql-injection.error").output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
+            return failed(this).output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>").build();
         }
     }
 

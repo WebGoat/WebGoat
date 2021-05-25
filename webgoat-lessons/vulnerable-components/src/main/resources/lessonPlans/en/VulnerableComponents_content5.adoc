@@ -8,7 +8,7 @@ Ref: http://www.pcworld.com/article/3004633/business-security/thousands-of-java-
 
 === Dinis Cruz and Alvaro Munoz exploit of XStream
 XStream, a relatively common XML and JSON parsing library, has a nasty little remote code execution. +
-Ref: https://web.archive.org/web/20190718132219/http://blog.diniscruz.com/2013/12/xstream-remote-code-execution-exploit.html[Dinis Cruz Blog] +
+Ref: https://diniscruz.blogspot.com/2013/12/xstream-remote-code-execution-exploit.html[Dinis Cruz Blog] +
 https://github.com/pwntester/XStreamPOC[pwntester/XStreamPOC]  
 
 You may want to read the article(s) before trying this lesson.  Let's see if you can figure out how to exploit this in WebGoat.

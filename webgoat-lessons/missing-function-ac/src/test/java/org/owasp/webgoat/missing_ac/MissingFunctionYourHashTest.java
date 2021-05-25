@@ -23,11 +23,12 @@
 package org.owasp.webgoat.missing_ac;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.assignments.AssignmentEndpointTest;
 import org.owasp.webgoat.users.UserService;
 import org.owasp.webgoat.users.WebGoatUser;
@@ -41,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@RunWith(MockitoJUnitRunner.Silent.class)
+@ExtendWith(MockitoExtension.class)
 public class MissingFunctionYourHashTest extends AssignmentEndpointTest {
     private MockMvc mockMvc;
     private DisplayUser mockDisplayUser;
@@ -49,7 +50,7 @@ public class MissingFunctionYourHashTest extends AssignmentEndpointTest {
     @Mock
     protected UserService userService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MissingFunctionACYourHash yourHashTest = new MissingFunctionACYourHash();
         init(yourHashTest);

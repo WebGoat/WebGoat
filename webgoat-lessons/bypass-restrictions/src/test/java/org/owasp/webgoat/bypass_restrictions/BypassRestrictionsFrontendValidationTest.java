@@ -1,11 +1,11 @@
 package org.owasp.webgoat.bypass_restrictions;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -18,20 +18,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author nbaars
  * @since 6/16/17.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class BypassRestrictionsFrontendValidationTest extends LessonTest {
 
     @Autowired
     private BypassRestrictions bypassRestrictions;
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(bypassRestrictions);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
     @Test
-    public void noChangesShouldNotPassTheLesson() throws Exception {
+    void noChangesShouldNotPassTheLesson() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/BypassRestrictions/frontendValidation")
                 .param("field1", "abc")
                 .param("field2", "123")
@@ -45,7 +45,7 @@ public class BypassRestrictionsFrontendValidationTest extends LessonTest {
     }
 
     @Test
-    public void bypassAllFieldShouldPass() throws Exception {
+    void bypassAllFieldShouldPass() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/BypassRestrictions/frontendValidation")
                 .param("field1", "abcd")
                 .param("field2", "1234")
@@ -59,7 +59,7 @@ public class BypassRestrictionsFrontendValidationTest extends LessonTest {
     }
 
     @Test
-    public void notBypassingAllFieldShouldNotPass() throws Exception {
+    void notBypassingAllFieldShouldNotPass() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/BypassRestrictions/frontendValidation")
                 .param("field1", "abc")
                 .param("field2", "1234")

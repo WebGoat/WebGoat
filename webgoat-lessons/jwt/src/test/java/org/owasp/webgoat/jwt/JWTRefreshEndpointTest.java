@@ -24,13 +24,13 @@ package org.owasp.webgoat.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -44,13 +44,13 @@ import static org.owasp.webgoat.jwt.JWTRefreshEndpoint.PASSWORD;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class JWTRefreshEndpointTest extends LessonTest {
 
     @Autowired
     private JWT jwt;
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(jwt);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();

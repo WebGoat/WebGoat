@@ -1,17 +1,15 @@
 package org.owasp.webgoat.crypto;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 
+import javax.xml.bind.DatatypeConverter;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import javax.xml.bind.DatatypeConverter;
-
-import org.junit.jupiter.api.Test;
-
-import lombok.extern.slf4j.Slf4j;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @Slf4j
 public class CryptoUtilTest {

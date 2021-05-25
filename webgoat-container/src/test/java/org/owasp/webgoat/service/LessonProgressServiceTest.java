@@ -1,11 +1,11 @@
 package org.owasp.webgoat.service;
 
 import org.assertj.core.util.Maps;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Assignment;
 import org.owasp.webgoat.session.WebSession;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
- * Copyright (c) 2002 - 20014 Bruce Mayhew
+ * Copyright (c) 2002 - 2014 Bruce Mayhew
  * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
@@ -54,8 +54,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @version $Id: $Id
  * @since November 25, 2016
  */
-@RunWith(MockitoJUnitRunner.class)
-public class LessonProgressServiceTest {
+@ExtendWith(MockitoExtension.class)
+class LessonProgressServiceTest {
 
     private MockMvc mockMvc;
 
@@ -70,8 +70,8 @@ public class LessonProgressServiceTest {
     @Mock
     private WebSession websession;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         Assignment assignment = new Assignment("test", "test", List.of());
         when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
         when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
@@ -82,7 +82,7 @@ public class LessonProgressServiceTest {
     }
 
     @Test
-    public void jsonLessonOverview() throws Exception {
+    void jsonLessonOverview() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/service/lessonoverview.mvc").accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].assignment.name", is("test")))

@@ -1,10 +1,10 @@
 package org.owasp.webgoat.service;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.i18n.PluginMessages;
 import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.Course;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ReportCardServiceTest {
 
     private MockMvc mockMvc;
@@ -45,15 +45,15 @@ public class ReportCardServiceTest {
     @Mock
     private PluginMessages pluginMessages;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         this.mockMvc = standaloneSetup(new ReportCardService(websession, userTrackerRepository, course, pluginMessages)).build();
         when(pluginMessages.getMessage(anyString())).thenReturn("Test");
     }
 
     @Test
     @WithMockUser(username = "guest", password = "guest")
-    public void withLessons() throws Exception {
+    void withLessons() throws Exception {
         when(lesson.getTitle()).thenReturn("Test");
         when(course.getTotalOfLessons()).thenReturn(1);
         when(course.getTotalOfAssignments()).thenReturn(10);

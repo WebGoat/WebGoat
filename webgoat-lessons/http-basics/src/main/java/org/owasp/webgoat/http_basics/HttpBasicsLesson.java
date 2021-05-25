@@ -25,7 +25,10 @@ package org.owasp.webgoat.http_basics;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"http-basics.hints.http_basics_lesson.1"})
@@ -34,10 +37,10 @@ public class HttpBasicsLesson extends AssignmentEndpoint {
     @PostMapping("/HttpBasics/attack1")
     @ResponseBody
     public AttackResult completed(@RequestParam String person) {
-        if (!person.equals("")) {
+        if (!person.isBlank()) {
             return success(this)
                 .feedback("http-basics.reversed")
-                .feedbackArgs(new StringBuffer(person).reverse().toString())
+                .feedbackArgs(new StringBuilder(person).reverse().toString())
                 .build();
         } else {
             return failed(this).feedback("http-basics.empty").build();

@@ -22,14 +22,13 @@
 
 package org.owasp.webgoat.ssrf;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.Matchers.is;
@@ -41,14 +40,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author afry 
  * @since 12/28/18.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class SSRFTest2 extends LessonTest {
 
     @Autowired
     private SSRF ssrf;
 
-    @Before
-    public void setup() throws Exception {
+    @BeforeEach
+    public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(ssrf);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }

@@ -1,11 +1,10 @@
 package org.owasp.webgoat.challenges.challenge7;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
-import java.io.*;
 
 /**
  * MD5 hash generator.

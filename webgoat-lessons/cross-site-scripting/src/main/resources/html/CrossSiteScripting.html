@@ -48,9 +48,8 @@
 			<form class="attack-form" accept-charset="UNKNOWN"
 				  method="GET" name="xss-5a"
 				  action="/WebGoat/CrossSiteScripting/attack5a">
-				<hr width="90%" />
 				<center>
-					<h1>Shopping Cart</h1>
+					<h4>Shopping Cart</h4>
 				</center>
 				<table width="90%" cellspacing="0" cellpadding="2" border="1"
 					   align="center">
@@ -92,18 +91,9 @@
 					</tr>
 					</tbody>
 				</table>
-				<br />
-				<table width="90%" cellspacing="0" cellpadding="2" border="0"
+				<table width="90%" cellspacing="0" cellpadding="2"
 					   align="center">
 					<tbody>
-					<tr>
-						<td>The total charged to your credit card:</td>
-						<td>$0.00</td>
-						<td><input name="SUBMIT" value="UpdateCart" type="SUBMIT" /></td>
-					</tr>
-					<tr>
-						<td colspan="2">&nbsp;</td>
-					</tr>
 					<tr>
 						<td>Enter your credit card number:</td>
 						<td><input name="field1" value="4128 3214 0002 1999"
@@ -113,8 +103,9 @@
 						<td>Enter your three digit access code:</td>
 						<td><input name="field2" value="111" type="TEXT" /></td>
 					</tr>
+					<br/>
 					<tr>
-						<td colspan="2" align="center"><input name="SUBMIT"
+						<td colspan="3" align="center"><input name="SUBMIT" class="btn btn-primary"
 															  value="Purchase" type="SUBMIT" /></td>
 					</tr>
 					</tbody>

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.jwt.JWTSecretKeyEndpoint;
 
@@ -35,6 +35,8 @@ public class JWTLessonTest extends IntegrationTest {
     public void solveAssignment() throws IOException, InvalidKeyException, NoSuchAlgorithmException {
 
     	startLesson("JWT");
+
+    	decodingToken();
   
         resetVotes();
                 
@@ -43,6 +45,8 @@ public class JWTLessonTest extends IntegrationTest {
         buyAsTom();
         
         deleteTom();
+
+		quiz();
         
         checkResults("/JWT/");
 
@@ -73,6 +77,20 @@ public class JWTLessonTest extends IntegrationTest {
     	}
     	return null;
     }
+
+	private void decodingToken() {
+		MatcherAssert.assertThat(
+				RestAssured.given()
+						.when()
+						.relaxedHTTPSValidation()
+						.cookie("JSESSIONID", getWebGoatCookie())
+						.formParam("jwt-encode-user", "user")
+						.post(url("/WebGoat/JWT/decode"))
+						.then()
+						.statusCode(200)
+						.extract().path("lessonCompleted"), CoreMatchers.is(true));
+
+	}
     
     private void findPassword() throws IOException, NoSuchAlgorithmException, InvalidKeyException {
     	
@@ -86,7 +104,7 @@ public class JWTLessonTest extends IntegrationTest {
     	
     	String secret = getSecretToken(accessToken);
     	
-        Assert.assertThat(
+    	MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -126,7 +144,7 @@ public class JWTLessonTest extends IntegrationTest {
         		.concat(new String(Base64.getUrlEncoder().encode(bodyObject.toString().getBytes())).toString())
         		.concat(".").replace("=", "");
         
-        Assert.assertThat(
+        MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -154,7 +172,7 @@ public class JWTLessonTest extends IntegrationTest {
 				.concat(new String(Base64.getUrlEncoder().encode(body.getBytes())).toString())
 				.concat(".").replace("=", "");
 
-		Assert.assertThat(RestAssured.given()
+		MatcherAssert.assertThat(RestAssured.given()
 				.when().relaxedHTTPSValidation()
 				.cookie("JSESSIONID", getWebGoatCookie())
 				.header("Authorization","Bearer "+replacedToken)
@@ -180,13 +198,21 @@ public class JWTLessonTest extends IntegrationTest {
 				.claim("Role", new String[] {"Manager", "Project Administrator"})
 				.signWith(SignatureAlgorithm.HS256, "deletingTom").compact();
 		
-		Assert.assertThat(RestAssured.given()
+		MatcherAssert.assertThat(RestAssured.given()
 				.when().relaxedHTTPSValidation()
 				.cookie("JSESSIONID", getWebGoatCookie())
 				.post(url("/WebGoat/JWT/final/delete?token="+token))
 				.then()
 				.statusCode(200)
 				.extract().path("lessonCompleted"), CoreMatchers.is(true));
+	}
+
+	private void quiz() { 
+		Map<String, Object> params = new HashMap<>();
+		params.put("question_0_solution", "Solution 1");
+		params.put("question_1_solution", "Solution 3");
+
+		checkAssignment(url("/WebGoat/JWT/quiz"), params, true);
 	}
     
 }

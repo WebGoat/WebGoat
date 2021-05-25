@@ -22,11 +22,14 @@
 
 package org.owasp.webgoat.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SigningKeyResolverAdapter;
 import io.jsonwebtoken.impl.TextCodec;
 import lombok.extern.slf4j.Slf4j;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -6,7 +6,7 @@ Answer: No it does not
 Let us take a look at the following statement:
 
 ----
-SELECT * FROM users ORDER BY lastname;
+"SELECT * FROM users ORDER BY " + sortColumName + ";"
 ----
 
 If we look at the specification of the SQL grammar the definition is as follows:
@@ -38,10 +38,10 @@ SELECT * FROM users ORDER BY (CASE WHEN (TRUE) THEN lastname ELSE firstname)
 ----
 
 So we can substitute any kind of boolean operation in the `when(....)` part. The statement will just work because
-it is a valid query whether you use a prepared statement or not an order by clause can by definition contain a
+it is a valid query whether you use a prepared statement or not. An order by clause can by definition contain an
 expression.
 
 === Mitigation
 
 If you need to provide a sorting column in your web application you should implement a whitelist to validate the value
-of the `order by` statement it should always be limited to something like 'firstname' or 'lastname'.
+of the `order by` statement. It should always be limited to something like 'first name' or 'last name'.

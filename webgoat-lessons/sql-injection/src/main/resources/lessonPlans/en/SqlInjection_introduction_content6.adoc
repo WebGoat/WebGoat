@@ -2,7 +2,7 @@
 
 === A successful SQL injection exploit can:
 * Read and modify sensitive data from the database
-* Execute administration operations on the database
+* Execute administrative operations on the database
 ** Shutdown auditing or the DBMS
 ** Truncate tables and logs
 ** Add users

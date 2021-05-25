@@ -22,10 +22,10 @@
 
 package org.owasp.webgoat.sql_injection.introduction;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.sql_injection.SqlLessonTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Benedikt Stuhrmann
  * @since 11/07/18.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class SqlInjectionLesson10Test extends SqlLessonTest {
 
     private String completedError = "JSON path \"lessonCompleted\"";
@@ -49,7 +49,7 @@ public class SqlInjectionLesson10Test extends SqlLessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(false)))
-                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.10.entries")))));
+                    .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.entries"))));
         } catch (AssertionError e) {
             if (!e.getMessage().contains(completedError)) throw e;
 
@@ -58,7 +58,7 @@ public class SqlInjectionLesson10Test extends SqlLessonTest {
 
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("lessonCompleted", is(true)))
-                    .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.10.success")))));
+                    .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.success"))));
         }
     }
 
@@ -69,6 +69,6 @@ public class SqlInjectionLesson10Test extends SqlLessonTest {
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lessonCompleted", is(true)))
-                .andExpect(jsonPath("$.feedback", is(SqlInjectionLesson8Test.modifySpan(messages.getMessage("sql-injection.10.success")))));
+                .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.success"))));
     }
 }

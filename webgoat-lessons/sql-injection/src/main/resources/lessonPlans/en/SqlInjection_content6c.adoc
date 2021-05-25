@@ -1,7 +1,7 @@
 == Blind SQL injection
 
 Blind SQL injection is a type of SQL injection attack that asks the database true or false
-questions and determines the answer based on the applications response. This attack is often used when the web
+questions and determines the answer based on the application's response. This attack is often used when the web
 application is configured to show generic error messages, but has not mitigated the code that is vulnerable to SQL
 injection.
 
@@ -9,7 +9,7 @@ injection.
 
 Let us first start with the difference between a normal SQL injection and a blind SQL injection. In a normal
 SQL injection the error messages from the database are displayed and gives enough information to find out how
-the query is working. Or in the case of an UNION based SQL injection the application does not reflect the information
+the query is working. Or in the case of a UNION based SQL injection the application does not reflect the information
 directly on the web page. So in the case where nothing is displayed you will need to start asking the database questions
 based on a true or false statement. That is why a blind SQL injection is much more difficult to exploit.
 
@@ -18,7 +18,7 @@ There are several different types of blind SQL injections: content-based and tim
 
 === Example
 
-In this case we are trying to ask the database a boolean question based on for example an unique id, for example
+In this case we are trying to ask the database a boolean question based on a unique id, for example
 suppose we have the following url: `https://my-shop.com?article=4`
 On the server side this query will be translated as follows:
 
@@ -39,7 +39,7 @@ If the browser responds with a page not found or something else you know a blind
 You can now change the SQL query and test for example: `https://shop.example.com?article=4 AND 1=2` which will not return
 anything because the query returns false.
 
-So but how do we actually take advantage of this? Above we only asked the database for trivial question but you can
+How do we actually take advantage of this? Above we only asked the database a trivial question but you can
 for example also use the following url: `https://shop.example.com?article=4 AND substring(database_version(),1,1) = 2`
 
 Most of the time you start by finding which type of database is used, based on the type of database you can find
@@ -50,8 +50,8 @@ system tables cannot be queried with the user used to connect from the web appli
 
 
 Another way is called a time-based SQL injection, in this case you will ask the database to wait before returning
-the result. You might need to use this if you are totally blind so there is no difference between the response you
-can use for example:
+the result. You might need to use this if you are totally blind. This means there is no difference between the response data.
+To achieve this kind of SQL injection you could use:
 
 ----
 article = 4; sleep(10) --

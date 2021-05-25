@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,7 +26,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
- * Copyright (c) 2002 - 20014 Bruce Mayhew
+ * Copyright (c) 2002 - 2014 Bruce Mayhew
  * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
@@ -75,14 +76,21 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
 
     @PostMapping(path = "xxe/blind", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult addComment(@RequestBody String commentStr) {
+    public AttackResult addComment(HttpServletRequest request, @RequestBody String commentStr) {
         //Solution is posted as a separate comment
         if (commentStr.contains(CONTENTS)) {
             return success(this).build();
         }
 
         try {
-            Comment comment = comments.parseXml(commentStr);
+        	boolean secure = false;
+        	if (null != request.getSession().getAttribute("applySecurity")) {
+        		secure = true;
+        	}
+            Comment comment = comments.parseXml(commentStr, secure);
+            if (CONTENTS.contains(comment.getText())) {
+                comment.setText("Nice try, you need to send the file to WebWolf");
+            }
             comments.addComment(comment, false);
         } catch (Exception e) {
             return failed(this).output(e.toString()).build();

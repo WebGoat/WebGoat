@@ -9,6 +9,6 @@ Again the same assignment but can you bypass the implemented fix?
 |OS |Location
 
 |`operatingSystem:os[]`
-|`webGoatTempDir:temppath[]PathTraversal/`
+|`webGoatTempDir:temppath[]PathTraversal/username:user[]`
 
 |===

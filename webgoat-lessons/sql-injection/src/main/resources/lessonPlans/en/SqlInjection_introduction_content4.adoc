@@ -1,18 +1,17 @@
 === Data Control Language (DCL)
 
-Data control language is used to create privileges to allow users to access and manipulate the database.
+Data control language is used to implement access control logic in a database. DCL can be used to revoke and grant user privileges on database objects such as tables, views, and functions.
 
-If an attacker uses SQL injection of the DCL type to manipulate your database, he will violate the following of the three protection goals in information security: confidentiality (grant) & availability (revoke) (Unwanted people could grand themselves admin privileges or revoke the admin rights from an administrator)
+If an attacker successfully "injects" DCL type SQL commands into a database, he can violate the  confidentiality (using GRANT commands) and availability (using REVOKE commands) of a system. For example, the attacker could grant himself admin privileges on the database or revoke the privileges of the true administrator.
 
 
-* DCL commands are used for providing security to database objects.
-* GRANT - allow users access privileges to the database
-* REVOKE - withdraw users access privileges given by using the GRANT command
+* DCL commands are used to implement access control on database objects.
+* GRANT -  give a user access privileges on database objects
+* REVOKE - withdraw user privileges that were previously given using GRANT
 * Example:
-** GRANT CREATE TABLE +
-   TO operator;
+** GRANT CREATE TABLE TO operator;
 ** This statement gives all users of the operator-role the privilege to create new tables in the database.
 
 
-Try to grant the usergroup "UnauthorizedUser" the right to alter tables:
+Try to grant rights to the table `grant_rights` to user `unauthorized_user`:
 

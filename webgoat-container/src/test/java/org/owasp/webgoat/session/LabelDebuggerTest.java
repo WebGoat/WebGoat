@@ -1,45 +1,43 @@
 package org.owasp.webgoat.session;
 
-import org.junit.Test;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-public class LabelDebuggerTest {
+class LabelDebuggerTest {
 
     @Test
-    public void testSetEnabledTrue() throws Exception {
+    void testSetEnabledTrue() {
         LabelDebugger ld = new LabelDebugger();
         ld.setEnabled(true);
-        assertTrue(ld.isEnabled());
+        Assertions.assertThat(ld.isEnabled()).isTrue();
     }
 
     @Test
-    public void testSetEnabledFalse() throws Exception {
+    void testSetEnabledFalse() {
         LabelDebugger ld = new LabelDebugger();
         ld.setEnabled(false);
-        assertFalse(ld.isEnabled());
+        Assertions.assertThat((ld.isEnabled())).isFalse();
     }
 
     @Test
-    public void testSetEnabledNullThrowsException() {
+    void testSetEnabledNullThrowsException() {
         LabelDebugger ld = new LabelDebugger();
         ld.setEnabled(true);
-        assertTrue(ld.isEnabled());
+        Assertions.assertThat((ld.isEnabled())).isTrue();
     }
 
     @Test
-    public void testEnableIsTrue() {
+    void testEnableIsTrue() {
         LabelDebugger ld = new LabelDebugger();
         ld.enable();
-        assertTrue(ld.isEnabled());
+        Assertions.assertThat((ld.isEnabled())).isTrue();
     }
 
     @Test
-    public void testDisableIsFalse() {
+    void testDisableIsFalse() {
         LabelDebugger ld = new LabelDebugger();
         ld.disable();
-        assertFalse(ld.isEnabled());
+        Assertions.assertThat((ld.isEnabled())).isFalse();
     }
 
 

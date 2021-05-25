@@ -23,6 +23,7 @@
 package org.owasp.webgoat.challenges.challenge5;
 
 import lombok.extern.slf4j.Slf4j;
+import org.owasp.webgoat.LessonDataSource;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.owasp.webgoat.challenges.Flag;
@@ -40,9 +41,9 @@ import java.sql.ResultSet;
 @Slf4j
 public class Assignment5 extends AssignmentEndpoint {
 
-    private final DataSource dataSource;
+    private final LessonDataSource dataSource;
 
-    public Assignment5(DataSource dataSource) {
+    public Assignment5(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
