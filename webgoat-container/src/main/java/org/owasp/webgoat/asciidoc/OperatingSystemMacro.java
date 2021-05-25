@@ -17,6 +17,9 @@ public class OperatingSystemMacro extends InlineMacroProcessor {
 
     @Override
     public Object process(ContentNode contentNode, String target, Map<String, Object> attributes) {
-        return System.getProperty("os.name");
+        var osName = System.getProperty("os.name");
+
+        //see https://discuss.asciidoctor.org/How-to-create-inline-macro-producing-HTML-In-AsciidoctorJ-td8313.html for why quoted is used
+        return createPhraseNode(contentNode, "quoted", osName);
     }
 }

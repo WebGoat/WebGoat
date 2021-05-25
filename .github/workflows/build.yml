@@ -11,6 +11,7 @@ on:
     branches:
       - master
       - develop
+      - release/*
     tags-ignore:
       - '*'
     paths-ignore:
