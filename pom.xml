@@ -9,6 +9,9 @@
     <artifactId>webgoat-parent</artifactId>
     <packaging>pom</packaging>
     <version>8.2.0-SNAPSHOT</version>
+	
+	
+	
 
     <name>WebGoat Parent Pom</name>
     <description>Parent Pom for the WebGoat Project. A deliberately insecure Web Application</description>
