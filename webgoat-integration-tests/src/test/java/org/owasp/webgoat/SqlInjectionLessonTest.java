@@ -44,6 +44,10 @@ public class SqlInjectionLessonTest extends IntegrationTest {
         checkAssignment(url("/WebGoat/SqlInjection/attack4"), params, true);
 
         params.clear();
+        params.put("query", sql_4_drop);
+        checkAssignment(url("/WebGoat/SqlInjection/attack4"), params, false);
+
+        params.clear();
         params.put("query", sql_5);
         checkAssignment(url("/WebGoat/SqlInjection/attack5"), params, true);
 
@@ -72,7 +76,14 @@ public class SqlInjectionLessonTest extends IntegrationTest {
         params.put("action_string", sql_13);
         checkAssignment(url("/WebGoat/SqlInjection/attack10"), params, true);
 
+        params.clear();
+        params.put("name", sql_12_a);
+        params.put("auth_tan", sql_12_b);
+        checkAssignment(url("/WebGoat/SqlInjection/attack11"), params, true);
+
         checkResults("/SqlInjection/");
 
     }
 }
+
+
