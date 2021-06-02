@@ -36,7 +36,7 @@ jobs:
       
     - name: Build with Maven
       if: matrix.language == 'java'
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -DskipTests
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
