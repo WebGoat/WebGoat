@@ -139,6 +139,9 @@
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
         <java.version>15</java.version>
+  	<sonar.projectKey>JohnNattakit_WebGoat</sonar.projectKey>
+	<sonar.organization>johnnattakit</sonar.organization>
+	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <modules>
