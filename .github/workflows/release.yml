@@ -90,7 +90,7 @@ jobs:
         with:
           context: ./docker
           file: docker/Dockerfile
-          push: false #todo enable
+          push: true 
           platforms: linux/amd64
           tags: |
             webgoat/goatandwolf:${{ env.WEBGOAT_TAG_VERSION }}
