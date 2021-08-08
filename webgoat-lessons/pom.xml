@@ -41,6 +41,7 @@
         <module>webgoat-lesson-template</module>
 		<module>crypto</module>
         <module>path-traversal</module>
+        <module>spoof-cookie</module>
     </modules>
 
     <dependencies>
