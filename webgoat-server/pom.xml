@@ -151,6 +151,11 @@
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat.lesson</groupId>
+            <artifactId>spoof-cookie</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat.lesson</groupId>
             <artifactId>webgoat-lesson-template</artifactId>
             <version>${project.version}</version>
         </dependency>
