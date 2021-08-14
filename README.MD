@@ -50,8 +50,8 @@ WebWolf will be located at: http://127.0.0.1:9090/WebWolf
 Download the latest WebGoat and WebWolf release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```shell
-java -jar webgoat-server-8.2.1.jar [--server.port=8080] [--server.address=localhost] [--hsqldb.port=9001]
-java -jar webwolf-8.2.1.jar [--server.port=9090] [--server.address=localhost] [--hsqldb.port=9001]
+java -Dfile.encoding=UTF-8 -jar webgoat-server-8.2.1.jar [--server.port=8080] [--server.address=localhost] [--hsqldb.port=9001]
+java -Dfile.encoding=UTF-8 -jar webwolf-8.2.1.jar [--server.port=9090] [--server.address=localhost] [--hsqldb.port=9001]
 ```
 
 WebGoat will be located at: http://127.0.0.1:8080/WebGoat and 
