@@ -31,18 +31,22 @@ first thing that all hackers claim.*
 
 ## 1. Run using Docker
 
-Every release is also published on [DockerHub]((https://hub.docker.com/r/webgoat/webgoat-8.0/)).
+Every release is also published on [DockerHub](https://hub.docker.com/r/webgoat/goatandwolf).
 
 The easiest way to start WebGoat as a Docker container is to use the all-in-one docker container. This is a docker image that has WebGoat and WebWolf running inside.
 
 ```shell
+
 docker run -it -p 127.0.0.1:80:8888 -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amsterdam webgoat/goatandwolf:v8.2.1
 ```
 
-WebGoat will be located at: http://127.0.0.1:8080/WebGoat
-WebWolf will be located at: http://127.0.0.1:9090/WebWolf
+The landing page will be located at: http://localhost  
+WebGoat will be located at: http://localhost:8080/WebGoat  
+WebWolf will be located at: http://localhost:9090/WebWolf
 
-**Important**: Choose the correct timezone, so that the docker container and your host are in the same timezone. As it is important for the validity of JWT tokens used in certain exercises.
+**Important**: *Change the ports if necessary, for example use `127.0.0.1:7777:9090` to map WebWolf to `http://localhost:7777/WebGoat`*  
+
+**Important**: *Choose the correct timezone, so that the docker container and your host are in the same timezone. As it is important for the validity of JWT tokens used in certain exercises.*
 
 
 ## 2. Standalone
@@ -54,8 +58,8 @@ java -Dfile.encoding=UTF-8 -jar webgoat-server-8.2.1.jar [--server.port=8080] [-
 java -Dfile.encoding=UTF-8 -jar webwolf-8.2.1.jar [--server.port=9090] [--server.address=localhost] [--hsqldb.port=9001]
 ```
 
-WebGoat will be located at: http://127.0.0.1:8080/WebGoat and 
-WebWolf will be located at: http://127.0.0.1:9090/WebWolf (change ports if necessary)
+WebGoat will be located at: http://localhost:8080/WebGoat and   
+WebWolf will be located at: http://localhost:9090/WebWolf (change ports if necessary)
 
 ## 3. Run from the sources
 
