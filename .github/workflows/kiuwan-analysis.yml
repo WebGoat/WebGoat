@@ -1,0 +1,26 @@
+name: Kiuwan
+on:
+  push:
+    branches:
+      - develop
+      - feature/test-codeql
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v1
+      - name: Kiuwan Baseline Analysis
+        uses: lsacera/KiuwanBaselineAction@v1.0
+        with:
+          # Name of Kiuwan project
+          project: webgoat
+          # Label for the analysis
+          label: master
+          # Username for kiuwan platform
+          userid: ${{ secrets.KIUWAN_USER }}
+          # Password for kiuwan platform
+          password: ${{ secrets.KIUWAN_PASS }}

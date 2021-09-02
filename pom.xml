@@ -191,6 +191,26 @@
 				<suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
 			</configuration>
 		</plugin>
+    <!-- SpotBugs Static Analysis -->
+    <plugin>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-maven-plugin</artifactId>
+      <version>4.0.4</version>
+      <configuration>
+        <effort>Max</effort>
+        <threshold>medium</threshold>
+        <failOnError>true</failOnError>
+        <includeFilterFile>${session.executionRootDirectory}/spotbugs-security-include.xml</includeFilterFile>
+        <excludeFilterFile>${session.executionRootDirectory}/spotbugs-security-exclude.xml</excludeFilterFile>
+        <plugins>
+          <plugin>
+            <groupId>com.h3xstream.findsecbugs</groupId>
+            <artifactId>findsecbugs-plugin</artifactId>
+            <version>1.11.0</version>
+          </plugin>
+        </plugins>
+      </configuration>
+    </plugin>
 	</plugins>
 </build>
 
