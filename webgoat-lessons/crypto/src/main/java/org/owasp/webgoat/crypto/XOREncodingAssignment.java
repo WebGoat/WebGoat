@@ -22,6 +22,8 @@
 
 package org.owasp.webgoat.crypto;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -36,8 +38,12 @@ public class XOREncodingAssignment extends AssignmentEndpoint {
 
     @PostMapping("/crypto/encoding/xor")
     @ResponseBody
-    public AttackResult completed(@RequestParam String answer_pwd1) {
-        if (answer_pwd1!=null && answer_pwd1.equals("databasepassword")) {
+    public AttackResult completed(@RequestParam String answer_pwd1) throws NoSuchAlgorithmException {
+
+      // Forced new Kiuwan vulnerability
+      MessageDigest md = MessageDigest.getInstance("MD5");
+
+      if (answer_pwd1!=null && answer_pwd1.equals("databasepassword")) {
         	return success(this)
         				.feedback("crypto-encoding-xor.success")
         				.build();
