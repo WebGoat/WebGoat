@@ -25,4 +25,4 @@ jobs:
           # Password for kiuwan platform
           password: ${{ secrets.KIUWAN_PASS }}
           # Advanced params for kiuwan platform
-          advancedparams: '-wr'
+          advancedparams: '-wr -as completeDelivery -bn test-gh-action'
