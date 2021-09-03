@@ -24,3 +24,5 @@ jobs:
           userid: ${{ secrets.KIUWAN_USER }}
           # Password for kiuwan platform
           password: ${{ secrets.KIUWAN_PASS }}
+          # Advanced params for kiuwan platform
+          advancedparams: '-wr'
