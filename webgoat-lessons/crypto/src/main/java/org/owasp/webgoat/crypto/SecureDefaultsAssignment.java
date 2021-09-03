@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.crypto;
 
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
@@ -39,6 +40,10 @@ public class SecureDefaultsAssignment extends AssignmentEndpoint {
     @PostMapping("/crypto/secure/defaults")
     @ResponseBody
     public AttackResult completed(@RequestParam String secretFileName,  @RequestParam String secretText) throws NoSuchAlgorithmException {
+
+      // Forced new Kiuwan vulnerability
+      MessageDigest md = MessageDigest.getInstance("MD5");
+
         if (secretFileName!=null && secretFileName.equals("default_secret")) {
         	if (secretText!=null && HashingAssignment.getHash(secretText, "SHA-256").equalsIgnoreCase("34de66e5caf2cb69ff2bebdc1f3091ecf6296852446c718e38ebfa60e4aa75d2")) {
         		return success(this)

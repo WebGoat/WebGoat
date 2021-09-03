@@ -11,14 +11,14 @@
 #
 name: "CodeQL"
 
-on:
-  push:
-    branches: [ develop, feature/test-codeql ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ develop, feature/test-codeql ]
-  schedule:
-    - cron: '17 19 * * 6'
+#on:
+#  push:
+#    branches: [ develop, feature/test-codeql ]
+#  pull_request:
+#    # The branches below must be a subset of the branches above
+#    branches: [ develop, feature/test-codeql ]
+#  schedule:
+#    - cron: '17 19 * * 6'
 
 jobs:
   analyze:

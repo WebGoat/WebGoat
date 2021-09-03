@@ -1,11 +1,11 @@
 name: Sonarcloud
-on:
-  push:
-    branches:
-      - develop
-      - feature/test-codeql
-  pull_request:
-    types: [opened, synchronize, reopened]
+#on:
+#  push:
+#    branches:
+#      - develop
+#      - feature/test-codeql
+#  pull_request:
+#    types: [opened, synchronize, reopened]
 jobs:
   build:
     name: Build
