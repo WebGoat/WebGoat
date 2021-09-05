@@ -39,7 +39,7 @@ import java.sql.Statement;
 
 
 @RestController
-@AssignmentHints(value = {"SqlStringInjectionHint5-a"})
+@AssignmentHints(value = {"SqlStringInjectionHint5-1", "SqlStringInjectionHint5-2", "SqlStringInjectionHint5-3", "SqlStringInjectionHint5-4"})
 public class SqlInjectionLesson5 extends AssignmentEndpoint {
 
     private final LessonDataSource dataSource;
@@ -50,7 +50,7 @@ public class SqlInjectionLesson5 extends AssignmentEndpoint {
 
     @PostConstruct
     public void createUser() {
-        // HSQLDB does not support CREATE USER with IF NOT EXISTS so we need to do it in code (DROP first will throw error if user does not exists)
+        // HSQLDB does not support CREATE USER with IF NOT EXISTS so we need to do it in code (using DROP first will throw error if user does not exists)
         try (Connection connection = dataSource.getConnection()) {
             try (var statement = connection.prepareStatement("CREATE USER unauthorized_user PASSWORD test")) {
                 statement.execute();

@@ -1,5 +1,7 @@
 == Exploiting http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7285[CVE-2013-7285] (XStream)
 
+NOTE: This lesson only works when you are using the Docker image of WebGoat.
+
 WebGoat uses an XML document to add contacts to a contacts database.  
 [source,xml]
 ----

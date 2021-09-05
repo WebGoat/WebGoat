@@ -15,12 +15,11 @@ At the moment we use Gitflow, for a release you create a new release branch and 
 
 ```
 git checkout develop
-git flow release start <version>
-mvn versions:set <<version>  
-git commit -am "New release, updating pom.xml" 
+git flow release start <version> 
 git flow release publish
 
 <<Make changes if necessary>>
+<<Update RELEASE_NOTES.md>>
 
 git flow release finish <version>
 git push origin develop

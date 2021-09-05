@@ -1,5 +1,25 @@
 # WebGoat release notes 
 
+## Version 8.2.2
+
+### New functionality
+
+- Docker image now supports nginx when browsing to http://localhost a landing page is shown. 
+
+### Bug fixes
+
+- [#1039 jwt-7-Code review](https://github.com/WebGoat/WebGoat/issues/1039)
+- [#1031 SQL Injection (intro) 5: Data Control Language (DCL) the wiki's solution is not correct](https://github.com/WebGoat/WebGoat/issues/1031)
+- [#1027 Webgoat 8.2.1 Vulnerable_Components_12 Shows internal server error](https://github.com/WebGoat/WebGoat/issues/1027)
+
+
+## Version 8.2.1
+
+### New functionality
+
+- New Docker image for arm64 architecture is now available (for Apple M1)
+
+
 ## Version 8.2.0
 
 ### New functionality
