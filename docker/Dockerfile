@@ -1,4 +1,4 @@
-FROM openjdk:16-slim
+FROM openjdk:15-slim
 
 ARG webgoat_version=8.2.1-SNAPSHOT
 ENV webgoat_version_env=${webgoat_version}
