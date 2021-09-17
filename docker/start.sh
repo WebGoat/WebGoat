@@ -16,7 +16,7 @@ java \
  --add-opens java.base/java.io=ALL-UNNAMED \
  -jar webgoat.jar --webgoat.build.version="$1" --server.address=0.0.0.0 > webgoat.log &
 
-sleep 10
+sleep 30
 
 echo "Starting WebWolf..."
 java -Duser.home=/home/webgoat -Dfile.encoding=UTF-8 -jar webwolf.jar --webgoat.build.version=$1 --server.address=0.0.0.0 > webwolf.log &
