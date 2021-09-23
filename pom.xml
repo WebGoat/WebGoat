@@ -8,6 +8,12 @@
     <packaging>pom</packaging>
     <version>8.2.1-SNAPSHOT</version>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.4</version>
+    </parent>
+
     <name>WebGoat Parent Pom</name>
     <description>Parent Pom for the WebGoat Project. A deliberately insecure Web Application</description>
     <inceptionYear>2006</inceptionYear>
@@ -21,12 +27,6 @@
         <name>OWASP</name>
         <url>https://github.com/WebGoat/WebGoat/</url>
     </organization>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.3</version>
-    </parent>
 
     <licenses>
         <license>
@@ -122,22 +122,21 @@
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
 
-        <!-- This build number will be ubdated by Travis-CI -->
-        <build.number>build</build.number>
-
         <!-- Shared properties with plugins and version numbers across submodules-->
         <activation.version>1.1.1</activation.version>
+        <asciidoctorj.version>2.5.2</asciidoctorj.version>
         <commons-collections.version>3.2.1</commons-collections.version>
-        <commons-lang3.version>3.4</commons-lang3.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-io.version>2.6</commons-io.version>
         <guava.version>30.1-jre</guava.version>
         <lombok.version>1.18.20</lombok.version>
+        <wiremock.version>2.27.2</wiremock.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
         <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <java.version>15</java.version>
     </properties>
 

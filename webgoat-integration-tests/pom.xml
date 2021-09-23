@@ -10,17 +10,17 @@
     </parent>
 
     <dependencies>
-    	<dependency>
+        <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-	    <artifactId>selenium-java</artifactId>
-	    <scope>test</scope>
-	</dependency>
-	<dependency>
-    	<groupId>io.github.bonigarcia</groupId>
-    	<artifactId>webdrivermanager</artifactId>
-    	<version>4.3.1</version>
-    	<scope>test</scope>
-	</dependency>
+            <artifactId>selenium-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>4.3.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
             <artifactId>webgoat-server</artifactId>
@@ -43,16 +43,16 @@
             <artifactId>webwolf</artifactId>
             <version>${project.version}</version>
         </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -62,14 +62,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <forkCount>0</forkCount>
-                    <reuseForks>true</reuseForks>
+                    <!-- Otherwise test will fail with JDK16 -->
                     <argLine>
-                        --illegal-access=permit
+                        --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.beans=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>
