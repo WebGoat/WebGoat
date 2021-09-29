@@ -1,0 +1,14 @@
+name: "Check CLA signed"
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  rebase:
+    name: signed
+    if: github.repository == 'WebGoat/WebGoat' && github.event.issue.pull_request != '' && contains(github.event.comment.body, '/cla') && github.event.comment.author_association == 'MEMBER'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recheck CLA
+        run: |
+          echo "Rechecking PR ${{ github.event.number }}"
+          curl "https://cla-assistant.io/check/WebGoat/WebGoat?pullRequest=${{ github.event.number }}
