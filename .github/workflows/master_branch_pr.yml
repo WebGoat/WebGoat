@@ -16,3 +16,5 @@ jobs:
             It looks like this pull request has been made against the ${{github.event.pull_request.head.repo.full_name}} `master` branch.
             Since we use Git Flow all commits to master are through are from the develop branch.
             You do not need to close this PR, you can change the target branch to `development` by clicking the _"Edit"_ button at the top of this page.
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          allow-repeats: false
