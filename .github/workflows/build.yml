@@ -46,12 +46,12 @@ jobs:
         run: mvn clean install
 
   notify-slack:
-    if: github.event_name == 'push' && (success() || failure())
+    if: github.repository == 'WebGoat/WebGoat' && github.event_name == 'push' && (success() || failure())
     needs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - name: "Slack workflow notification"
+      - name: "Slack workflow notification fork test"
         uses: Gamesight/slack-workflow-status@master
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}

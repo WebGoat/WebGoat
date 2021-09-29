@@ -110,11 +110,6 @@
         <url>https://github.com/WebGoat/WebGoat/issues</url>
     </issueManagement>
 
-    <ciManagement>
-        <system>Travis CI</system>
-        <url>https://travis-ci.org/WebGoat/WebGoat</url>
-    </ciManagement>
-
     <properties>
         <!-- Use UTF-8 Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
