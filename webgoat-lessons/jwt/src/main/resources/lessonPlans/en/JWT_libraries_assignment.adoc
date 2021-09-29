@@ -7,6 +7,22 @@ Now let's look at a code review and try to think on an attack with the `alg: non
 eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlciI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.
 ----
 
+which after decoding becomes:
+
+[source]
+----
+{
+  "alg" : "none",
+  "typ" : "JWT"
+},
+{
+  "admin" : true,
+  "iat" : 1516239022,
+  "sub" : "1234567890",
+  "user" : "John Doe"
+}
+----
+
 [source%linenums, java]
 ----
 try {
@@ -30,7 +46,7 @@ try {
    Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
    Claims claims = (Claims) jwt.getBody();
    String user = (String) claims.get("user");
-   boolean isAdmin = Boolean.valueOf((String) claims.get("admin"));
+   booelean isAdmin = Boolean.valueOf((String) claims.get("admin"));
    if (isAdmin) {
      removeAllUsers();
    } else {

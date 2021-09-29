@@ -210,7 +210,7 @@ public class JWTLessonTest extends IntegrationTest {
 	private void quiz() { 
 		Map<String, Object> params = new HashMap<>();
 		params.put("question_0_solution", "Solution 1");
-		params.put("question_1_solution", "Solution 3");
+		params.put("question_1_solution", "Solution 2");
 
 		checkAssignment(url("/WebGoat/JWT/quiz"), params, true);
 	}
