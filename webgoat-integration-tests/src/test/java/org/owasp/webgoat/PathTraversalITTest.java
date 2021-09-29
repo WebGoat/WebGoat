@@ -24,9 +24,8 @@ import java.util.zip.ZipOutputStream;
 
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-public class PathTraversalTest extends IntegrationTest {
+class PathTraversalITTest extends IntegrationTest {
 
-    //the JUnit5 way
     @TempDir
     Path tempDir;
 
@@ -35,8 +34,7 @@ public class PathTraversalTest extends IntegrationTest {
     @BeforeEach
     @SneakyThrows
     public void init() {
-        fileToUpload = Files.createFile(
-                tempDir.resolve("test.jpg")).toFile();
+        fileToUpload = Files.createFile(tempDir.resolve("test.jpg")).toFile();
         Files.write(fileToUpload.toPath(), "This is a test".getBytes());
         startLesson("PathTraversal");
     }
@@ -52,7 +50,7 @@ public class PathTraversalTest extends IntegrationTest {
         );
     }
 
-    public void assignment1() throws IOException {
+    private void assignment1() throws IOException {
         MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
@@ -66,7 +64,7 @@ public class PathTraversalTest extends IntegrationTest {
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
     }
 
-    public void assignment2() throws IOException {
+    private void assignment2() throws IOException {
         MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
@@ -80,7 +78,7 @@ public class PathTraversalTest extends IntegrationTest {
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
     }
 
-    public void assignment3() throws IOException {
+    private void assignment3() throws IOException {
         MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()
@@ -93,7 +91,7 @@ public class PathTraversalTest extends IntegrationTest {
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
     }
 
-    public void assignment4() throws IOException {
+    private void assignment4() throws IOException {
         var uri = "/WebGoat/PathTraversal/random-picture?id=%2E%2E%2F%2E%2E%2Fpath-traversal-secret";
         RestAssured.given().urlEncodingEnabled(false)
                 .when()
@@ -102,17 +100,17 @@ public class PathTraversalTest extends IntegrationTest {
                 .get(uri)
                 .then()
                 .statusCode(200)
-                .content(CoreMatchers.is("You found it submit the SHA-512 hash of your username as answer"));
+                .body(CoreMatchers.is("You found it submit the SHA-512 hash of your username as answer"));
 
         checkAssignment("/WebGoat/PathTraversal/random", Map.of("secret", Sha512DigestUtils.shaHex(getWebgoatUser())), true);
     }
 
-    public void assignment5() throws IOException {
-        var webGoatHome = System.getProperty("user.dir") + "/target/.webgoat/PathTraversal/" + getWebgoatUser();
+    private void assignment5() throws IOException {
+        var webGoatHome = System.getProperty("java.io.tmpdir") + "/webgoat/PathTraversal/" + getWebgoatUser();
         webGoatHome = webGoatHome.replaceAll("^[a-zA-Z]:", ""); //Remove C: from the home directory on Windows
 
         var webGoatDirectory = new File(webGoatHome);
-        var zipFile = new File(webGoatDirectory, "upload.zip");
+        var zipFile = new File(tempDir.toFile(), "upload.zip");
         try (var zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
             ZipEntry e = new ZipEntry("../../../../../../../../../../" + webGoatDirectory.toString() + "/image.jpg");
             zos.putNextEntry(e);
@@ -132,7 +130,7 @@ public class PathTraversalTest extends IntegrationTest {
     }
 
     @AfterEach
-    public void shutdown() {
+    void shutdown() {
         //this will run only once after the list of dynamic tests has run, this is to test if the lesson is marked complete
         checkResults("/PathTraversal");
     }

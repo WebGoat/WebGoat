@@ -8,7 +8,7 @@ curl -o cat.jpg http://localhost:8080/WebGoat/images/cats/1.jpg
 zip profile.zip cat.jpg
 ----
 
-Now let's upload this as our profile image, we can see nothing happens as mentioned in the assignment there is a bug in the software and the result we see on the screen is:
+Now let's upload this as our profile image, we can see nothing happens as mentioned in the assignment there is a bug in the software, and the result we see on the screen is:
 
 [source]
 ----

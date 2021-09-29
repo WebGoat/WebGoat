@@ -17,13 +17,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <forkCount>0</forkCount>
-                    <reuseForks>true</reuseForks>
-                    <argLine>
-                        --illegal-access=permit
-                    </argLine>
-                </configuration>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -70,7 +64,7 @@
         <dependency>
             <groupId>org.asciidoctor</groupId>
             <artifactId>asciidoctorj</artifactId>
-            <version>2.4.3</version>
+            <version>${asciidoctorj.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

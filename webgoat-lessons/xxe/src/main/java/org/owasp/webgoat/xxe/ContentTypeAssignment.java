@@ -23,6 +23,7 @@
 package org.owasp.webgoat.xxe;
 
 import org.apache.commons.exec.OS;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -67,17 +68,17 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
         if (null != contentType && contentType.contains(MediaType.APPLICATION_XML_VALUE)) {
             String error = "";
             try {
-            	boolean secure = false;
-            	if (null != request.getSession().getAttribute("applySecurity")) {
-            		secure = true;
-            	}
+                boolean secure = false;
+                if (null != request.getSession().getAttribute("applySecurity")) {
+                    secure = true;
+                }
                 Comment comment = comments.parseXml(commentStr, secure);
                 comments.addComment(comment, false);
                 if (checkSolution(comment)) {
                     attackResult = success(this).build();
                 }
             } catch (Exception e) {
-                error = org.apache.commons.lang.exception.ExceptionUtils.getFullStackTrace(e);
+                error = ExceptionUtils.getStackTrace(e);
                 attackResult = failed(this).feedback("xxe.content.type.feedback.xml").output(error).build();
             }
         }
@@ -85,13 +86,13 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
         return attackResult;
     }
 
-   private boolean checkSolution(Comment comment) {
-       String[] directoriesToCheck = OS.isFamilyMac() || OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
-       boolean success = false;
-       for (String directory : directoriesToCheck) {
-           success |= org.apache.commons.lang3.StringUtils.contains(comment.getText(), directory);
-       }
-       return success;
-   } 
+    private boolean checkSolution(Comment comment) {
+        String[] directoriesToCheck = OS.isFamilyMac() || OS.isFamilyUnix() ? DEFAULT_LINUX_DIRECTORIES : DEFAULT_WINDOWS_DIRECTORIES;
+        boolean success = false;
+        for (String directory : directoriesToCheck) {
+            success |= org.apache.commons.lang3.StringUtils.contains(comment.getText(), directory);
+        }
+        return success;
+    }
 
 }
