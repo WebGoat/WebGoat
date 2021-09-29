@@ -1,0 +1,5 @@
+=== More about logging
+
+There are a few things you should take care for when you log information:
+
+1. What is the goal...
