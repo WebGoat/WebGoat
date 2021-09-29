@@ -1,7 +1,7 @@
 # Contributing
 ![GitHub contributors](https://img.shields.io/github/contributors/WebGoat/WebGoat.svg)](https://github.com/WebGoat/WebGoat/graphs/contributors)
-![GitHub issues by-label "help wanted"](https://img.shields.io/github/issues/bkimminich/juice-shop/help%20wanted.svg)
-![GitHub issues by-label "good first issue"](https://img.shields.io/github/issues/bkimminich/juice-shop/good%20first%20issue.svg)
+![GitHub issues by-label "help wanted"](https://img.shields.io/github/issues/WebGoat/WebGoat/help%20wanted.svg)
+![GitHub issues by-label "good first issue"](https://img.shields.io/github/issues/WebGoat/WebGoat/good%20first%20issue.svg)
 
 This document describes how you can contribute to WebGoat. Please read it carefully.
 
@@ -16,7 +16,7 @@ This document describes how you can contribute to WebGoat. Please read it carefu
 There are a couple of ways on how you can contribute to the project:
 
 * **File [issues](https://github.com/WebGoat/WebGoat/issues "Webgoat Issues")** for missing content or errors. Explain what you think is missing and give a suggestion as to where it could be added.
-* **Create a [Pull Request (PR)](https://github.com/WebGoat/WebGoat/pulls "Create a pull request")**. This is a direct contribution to the project and may be merged after review. You should ideally [create an issue](https://github.com/OWASP/owasp-mstg/issues "MSTG Issues") for any PR you would like to submit, as we can first review the merit of the PR and avoid any unnecessary work. This is of course not needed for small modifications such as correcting typos.
+* **Create a [Pull Request (PR)](https://github.com/WebGoat/WebGoat/pulls "Create a pull request")**. This is a direct contribution to the project and may be merged after review. You should ideally [create an issue](https://github.com/WebGoat/WebGoat/issues "WebGoat Issues") for any PR you would like to submit, as we can first review the merit of the PR and avoid any unnecessary work. This is of course not needed for small modifications such as correcting typos.
 * **Help out financially** by donating via [OWASP donations](https://owasp.org/donate/?reponame=www-project-webgoat&title=OWASP+WebGoat).
 
 ## How to get your PR Accepted
@@ -28,7 +28,7 @@ The minimum requirements for code contributions are:
 2. All new and changed code _should_ have a corresponding unit and/or integration test.
 3. New and changed lessons _must_ have a corresponding integration test.
 4. [Status checks](https://docs.github.com/en/github/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks) should pass for your last commit.
-5. All Git commits within a PR _must_ be [signed off](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--s) to indicate the contributor's agreement with the [Developer Certificate of Origin](https://developercertificate.org/).
+5. All Git commits within a PR _must_ be [signed off](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--s) or [`/signoff` is provided as a comment](https://github.com/JasonEtco/signoff-commit-action) to indicate the contributor's agreement with the [Developer Certificate of Origin](https://developercertificate.org/).
 
 Additionally, the following guidelines can help:
 
@@ -38,21 +38,6 @@ Pull requests should be as small/atomic as possible. Large, wide-sweeping change
 
 * If you are making spelling corrections in the docs, don't modify other files.
 * If you are adding new functions don't '*cleanup*' unrelated functions. That cleanup belongs in another pull request.
-
-#### Squash your commits to a single commit
-
-To keep the history of the project clean, you should make one commit per pull request.
-If you already have multiple commits, you can add the commits together (squash them) with the following commands in Git Bash:
-
-1. Open `Git Bash` (or `Git Shell`)
-2. Enter following command to squash the recent {N} commits: `git reset --soft HEAD~{N} && git commit` (replace `{N}` with the number of commits you want to squash)
-3. Press <kbd>i</kbd> to get into Insert-mode
-4. Enter the commit message of the new commit
-5. After adding the message, press <kbd>ESC</kbd> to get out of the Insert-mode
-6. Write `:wq` and press <kbd>Enter</kbd> to save the new message or write `:q!` to discard your changes
-7. Enter `git push --force` to push the new commit to the remote repository
-
-For example, if you want to squash the last 5 commits, use `git reset --soft HEAD~5 && git commit`
 
 ### Don't mix code changes with whitespace cleanup
 
@@ -101,7 +86,7 @@ Furthermore, the pixel shortage is over. We want to see:
 6. Create a branch so that you can cleanly work on the chosen issue: `git checkout -b FixingIssue66`
 7. Open your favorite editor and start making modifications. We recommend using the IntelliJ Idea <TODO : LINK HERE>.
 8. After your modifications are done, push them to your forked repository. This can be done by executing the command `git add MYFILE` for every file you have modified, followed by `git commit -m '<issue-number>:Your Commit Message'` to commit the modifications and `git push` to push your modifications to GitHub.
-9. Create a Pull Request (PR) by going to your fork, <https://github.com/Your_Github_Handle/owasp-mstg> and click on the "New Pull Request" button. The target branch should typically be the Master branch. When submitting a PR, be sure to follow the checklist that is provided in the PR template. The checklist itself will be filled out by the reviewer.
+9. Create a Pull Request (PR) by going to your fork, <https://github.com/Your_Github_Handle/WebGoat> and click on the "New Pull Request" button. The target branch should typically be the Master branch. When submitting a PR, be sure to follow the checklist that is provided in the PR template. The checklist itself will be filled out by the reviewer.
 10. Your PR will be reviewed and comments may be given. In order to process a comment, simply make modifications to the same branch as before and push them to your repository. GitHub will automatically detect these changes and add them to your existing PR.
 11. When starting on a new PR in the future, make sure to always keep your local repo up to date:
 
