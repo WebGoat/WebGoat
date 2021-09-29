@@ -128,4 +128,15 @@ public class JWTSecretKeyEndpointTest extends LessonTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("jwt-invalid-token"))));
     }
+
+    @Test
+    void unsignedToken() throws Exception {
+        Claims claims = createClaims("WebGoat");
+        String token = Jwts.builder().setClaims(claims).compact();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/secret")
+                .param("token", token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("jwt-invalid-token"))));
+    }
 }
