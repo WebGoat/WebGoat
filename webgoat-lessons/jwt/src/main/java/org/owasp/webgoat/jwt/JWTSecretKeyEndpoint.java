@@ -75,7 +75,7 @@ public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult login(@RequestParam String token) {
         try {
-            Jwt jwt = Jwts.parser().setSigningKey(JWT_SECRET).parse(token);
+            Jwt jwt = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
             Claims claims = (Claims) jwt.getBody();
             if (!claims.keySet().containsAll(expectedClaims)) {
                 return failed(this).feedback("jwt-secret-claims-missing").build();
