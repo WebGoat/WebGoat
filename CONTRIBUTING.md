@@ -1,5 +1,5 @@
 # Contributing
-![GitHub contributors](https://img.shields.io/github/contributors/WebGoat/WebGoat.svg)](https://github.com/WebGoat/WebGoat/graphs/contributors)
+[![GitHub contributors](https://img.shields.io/github/contributors/WebGoat/WebGoat.svg)](https://github.com/WebGoat/WebGoat/graphs/contributors)
 ![GitHub issues by-label "help wanted"](https://img.shields.io/github/issues/WebGoat/WebGoat/help%20wanted.svg)
 ![GitHub issues by-label "good first issue"](https://img.shields.io/github/issues/WebGoat/WebGoat/good%20first%20issue.svg)
 
@@ -28,7 +28,7 @@ The minimum requirements for code contributions are:
 2. All new and changed code _should_ have a corresponding unit and/or integration test.
 3. New and changed lessons _must_ have a corresponding integration test.
 4. [Status checks](https://docs.github.com/en/github/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks) should pass for your last commit.
-5. All Git commits within a PR _must_ be [signed off](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--s) or [`/signoff` is provided as a comment](https://github.com/JasonEtco/signoff-commit-action) to indicate the contributor's agreement with the [Developer Certificate of Origin](https://developercertificate.org/).
+5. All Git commits within a PR _must_ be [signed off](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--s) or [`/signoff` is provided as a comment](https://github.com/JasonEtco/signoff-commit-action) to indicate the contributor's agreement with the [Developer Certificate of Origin](https://developercertificate.org/). Alternatively you commit one signoff commit at the end of your commits by means of `git commit -m "Sign off" --amend --signof`.
 
 Additionally, the following guidelines can help:
 
