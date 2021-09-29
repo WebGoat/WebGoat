@@ -7,13 +7,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Comment PR'
-        uses: actions/github-script@0.3.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-            github.issues.createComment({ issue_number, owner, repo, body: 'Hello world ! 👋' });
       - name: Post PR comment
         uses: mshick/add-pr-comment@v1
         with:
