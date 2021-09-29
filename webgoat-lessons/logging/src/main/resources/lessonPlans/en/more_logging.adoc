@@ -1,5 +1,8 @@
 === More about logging
 
-There are a few things you should take care for when you log information:
-
-1. What is the goal...
+TOPICS TO DISCUSS:
+- Log spoofing (old lesson, see YouTube)
+- Logging sensitive information (GDPR rules etc)
+- Think about access logs, if you pass query parameters they are visible. We can create a lesson where an access log file is dynamically shown (we can show the access logs and logs files in WebGoat directly as menu option). The lesson would then be to change the password with oldPassword=...&newPassword.. and then you find them in the log file.
+- Explain log levels
+- exception handling (maybe an example of logging exception towards the client with cryptography and why this is a bad idea)
