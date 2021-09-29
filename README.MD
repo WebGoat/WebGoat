@@ -30,6 +30,8 @@ first thing that all hackers claim.*
 
 # Installation instructions:
 
+For more details check [the Contribution guide](/CONTRIBUTING.md)
+
 ## 1. Run using Docker
 
 Every release is also published on [DockerHub](https://hub.docker.com/r/webgoat/goatandwolf).
