@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class JWTQuiz extends AssignmentEndpoint {
 
-    private final String[] solutions = {"Solution 1", "Solution 3"};
+    private final String[] solutions = {"Solution 1", "Solution 2"};
     private final boolean[] guesses = new boolean[solutions.length];
 
     @PostMapping("/JWT/quiz")
