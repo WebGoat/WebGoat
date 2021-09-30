@@ -1,4 +1,4 @@
-name: "Testing and linting"
+name: "Branch build"
 on:
   push:
     branches-ignore:
