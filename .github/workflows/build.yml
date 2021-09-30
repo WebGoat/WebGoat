@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        java: [15]
+        java: [16]
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK ${{ matrix.java }}
@@ -44,15 +44,3 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven
         run: mvn clean install
-
-  notify-slack:
-    if: github.repository == 'WebGoat/WebGoat' && github.event_name == 'push' && (success() || failure())
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Slack workflow notification"
-        uses: Gamesight/slack-workflow-status@master
-        with:
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
