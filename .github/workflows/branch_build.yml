@@ -24,7 +24,7 @@ jobs:
           key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ubuntu-latest-m2
       - name: Test with Maven
-        run: mvn clean install -DskipTests
+        run: mvn install -DskipTests
 
   testing:
     needs: install-notest
