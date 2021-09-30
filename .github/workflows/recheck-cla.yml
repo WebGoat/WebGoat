@@ -1,0 +1,13 @@
+name: Automatic recheck CLA assistant
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  rebase:
+    name: CLA-Assistant
+    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/cla')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the latest code
+        run: |
+          echo "Test"
