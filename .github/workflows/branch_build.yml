@@ -11,11 +11,11 @@ jobs:
     name: "Package and linting"
     steps:
       - uses: actions/checkout@v2
-      - name: set up JDK 15
+      - name: set up JDK 16
         uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
-          java-version: 15
+          java-version: 16
           architecture: x64
       - name: Cache Maven packages
         uses: actions/cache@v2.1.5
@@ -36,11 +36,11 @@ jobs:
           - mvn -pl webgoat-integration-tests test
     steps:
       - uses: actions/checkout@v2
-      - name: set up JDK 15
+      - name: set up JDK 16
         uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
-          java-version: 15
+          java-version: 16
           architecture: x64
       - name: Cache Maven packages
         uses: actions/cache@v2.1.5
