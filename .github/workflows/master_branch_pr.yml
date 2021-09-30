@@ -10,7 +10,6 @@ jobs:
       - uses: wow-actions/auto-comment@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
           pullRequestOpened: |
             👋 @{{ author }}
             It looks like this pull request has been made against the ${{github.event.pull_request.head.repo.full_name}} `master` branch.
