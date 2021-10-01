@@ -16,7 +16,7 @@ public class XSSTest extends IntegrationTest {
 
         Map<String, Object> params = new HashMap<>();
         params.clear();
-        params.put("answer_xss_1", "yes");
+        params.put("checkboxAttack1", "value");
         checkAssignment(url("/CrossSiteScripting/attack1"), params, true);
 
         params.clear();
