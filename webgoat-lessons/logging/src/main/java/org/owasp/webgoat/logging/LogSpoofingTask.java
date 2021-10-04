@@ -35,9 +35,10 @@ public class LogSpoofingTask extends AssignmentEndpoint {
     @PostMapping("/logging/logspoofingtask")
     @ResponseBody
     public AttackResult completed(@RequestParam String username, @RequestParam String password) {
-    	if (username.toString().equals("CaptainJack") && password.toString().equals("BlackPearl")) {
-    		return success(this).build();
+        //@nanne can you help here?
+        if (username.equals("admin <br/> Login succeeded for username: admin")) { //how about <p> and <div>? or do we render it differently?
+    		return success(this).output(username).build();
     	}
-        return failed(this).build();
+        return failed(this).output(username).build();
     }
 }
