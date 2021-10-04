@@ -28,5 +28,6 @@ alert(document.cookie);
 
 == Try It!  Using Chrome or Firefox
 
-* Open a second tab and use the same url as this page you are currently on (or any url within this instance of WebGoat)
-* Then, on that second that open the browser developer tools and open the javascript console. And type:  `alert(document.cookie);` .
+* Open a second tab and use the same url as this page you are currently on (or any URL within this instance of WebGoat).
+* Then, on that second tab open the browser developer tools and open the javascript console. And type:  `alert(document.cookie);`.
+* The cookies should be the same on each tab.
