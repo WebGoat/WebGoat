@@ -1,5 +1,7 @@
 === More About Logging (2)
 
+By now it should be clear that using simple encoding/decoding is not a way to protect sensitive information in a log. Instead it is better to use different techniques: not logging it at all, blanking it out, or encrypting it with another shared secret.
+
 There are a few more topics we might want to cover here:
 
 - How to work with log-levels
