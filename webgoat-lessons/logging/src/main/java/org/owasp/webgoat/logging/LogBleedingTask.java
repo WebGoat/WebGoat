@@ -29,14 +29,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.Base64;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @RestController
 public class LogBleedingTask extends AssignmentEndpoint {
     private static final Logger LOG
             = Logger.getLogger(LogBleedingTask.class.getName());
-    private String password;
+    private String password = Base64.getEncoder().encodeToString(UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
 
 
     @PostMapping("/LogSpoofing/log-bleeding")
