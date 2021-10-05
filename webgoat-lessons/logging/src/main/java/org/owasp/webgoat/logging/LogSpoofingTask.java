@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.logging;
 
+import org.apache.logging.log4j.util.Strings;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,9 +37,16 @@ public class LogSpoofingTask extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String username, @RequestParam String password) {
         //@nanne can you help here?
-        if (username.equals("admin <br/> Login succeeded for username: admin")) { //how about <p> and <div>? or do we render it differently?
-    		return success(this).output(username).build();
-    	}
+        if (Strings.isEmpty(username)) {
+            return failed(this).output(username).build();
+        }
+        username.replace("\n", "<br/>");
+        if (username.contains("<p>") || username.contains("<div>")) {
+            return failed(this).output("Try to think of something simple ").build();
+        }
+        if (username.indexOf("<br/>") < username.indexOf("admin")) {
+            return success(this).output(username).build();
+        }
         return failed(this).output(username).build();
     }
 }
