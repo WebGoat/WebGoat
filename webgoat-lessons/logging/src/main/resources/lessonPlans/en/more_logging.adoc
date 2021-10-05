@@ -1,35 +1,29 @@
 === More About Logging
 
-As you can tell by now, log-spoofing can become an issue when users try to spoof logs. There are various ways to do this other than a form-post. Think of URL-parameters, or crafted JSON payloads for instance. But there is more to log-security than just sanitization against spoofing attacks. Here we discuss only a few:
+There are a few more topics we might want to cover here:
 
-- How to handle sensitive information
 - How to work with log-levels
 - How to do Exception Handling
 - How to use logging for other purposes
 - Some resources to read up on.
 
-==== Logging Sensitive Information
-
-In the previous exercise, we saw only the username passing by, but no password. Why? Because we want to make sure that an application log does not contain any sensitive information. Let's make sure that when our logs get compromised, we do not have to fear authentication information to be reused.
-
-Similarly, we should not log any other sensitive information, such as symmetric or private keys.
-
-TOPICS TO DISCUSS:
-- Logging sensitive information (GDPR rules etc)
-- Think about access logs, if you pass query parameters they are visible. We can create a lesson where an access log file is dynamically shown (we can show the access logs and logs files in WebGoat directly as menu option). The lesson would then be to change the password with oldPassword=...&newPassword.. and then you find them in the log file.
-
 ==== Log Levels
 Explain log levels
-
-
-
 
 ==== Exception Handling
  exception handling (maybe an example of logging exception towards the client with cryptography and why this is a bad idea)
 
 
 ==== Audit Logging, Security Event Monitoring, and Application Logs
+Note that logging is often used for more than just application debugging. Application logs are often used as a feed for other purposes, think of:
 
+ - Audit logging: here specific events need to be recorded by your application log in order to recreate the order of events that were TODO: CONTINUE HERE!
+ - Security Event Monitoring
+ - Fraud Detection
+ - GDPR requests for information
+ - Compliance monitoring
+ - Business process monitoring
+ - ...etc.
 
 ==== More reading
 

@@ -1,0 +1,13 @@
+=== More About Logging
+
+As you can tell by now, log-spoofing can become an issue when users try to spoof logs. There are various ways to do this other than a form-post. Think of URL-parameters, or crafted JSON payloads for instance. But there is more to log-security than just sanitization against spoofing attacks. Let's have a look at logging sensitive information.
+
+==== Logging Sensitive Information
+
+In the previous exercise, we saw only the username passing by, but no password. Why? Because we want to make sure that an application log does not contain any sensitive information. Let's make sure that when our logs get compromised, we do not have to fear authentication information to be reused.
+
+Similarly, we should not log any other sensitive information, such as symmetric or private keys.
+
+TOPICS TO DISCUSS:
+- Logging sensitive information (GDPR rules etc)
+- Think about access logs, if you pass query parameters they are visible. We can create a lesson where an access log file is dynamically shown (we can show the access logs and logs files in WebGoat directly as menu option). The lesson would then be to change the password with oldPassword=...&newPassword.. and then you find them in the log file.
