@@ -1,11 +1,5 @@
 name: Kiuwan
-on:
-  push:
-    branches:
-      - develop
-      - feature/test-codeql
-  pull_request:
-    types: [opened, synchronize, reopened]
+on: [workflow_dispatch]
 jobs:
   build:
     name: Build

@@ -1,7 +1,5 @@
 name: "Automatic Rebase"
-on:
-  issue_comment:
-    types: [created]
+on: [workflow_dispatch]
 jobs:
   rebase:
     name: Rebase

@@ -1,12 +1,5 @@
 name: Semgrep
-
-#on:
-#  # Scan changed files in PRs, block on new issues only (existing issues ignored)
-#  pull_request: {}
-#
-#  # Scan all files on branches, block on any issues
-#  push:
-#    branches: [ develop, feature/test-codeql ]
+on: [workflow_dispatch]
 
 jobs:
   semgrep:

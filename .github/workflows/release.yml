@@ -1,8 +1,5 @@
 name: "Release Pipeline"
-on:
-  push:
-    tags:
-      - v*
+on: [workflow_dispatch]
 jobs:
   release:
     name: Release WebGoat
