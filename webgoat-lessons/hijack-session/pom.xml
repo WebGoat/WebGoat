@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>hijack-session</artifactId>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>org.owasp.webgoat.lesson</groupId>
+		<artifactId>webgoat-lessons-parent</artifactId>
+		<version>8.2.3-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<jacoco.version>0.8.7</jacoco.version>
+	</properties>
+
+	<profiles>
+		<profile>
+			<!-- mvn clean verify -Pcoverage -->
+			<id>coverage</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>${jacoco.version}</version>
+						<executions>
+							<execution>
+								<id>default-prepare-agent</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>default-report</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+								<configuration>
+									<dataFile>${project.build.directory}/jacoco.exec</dataFile>
+									<outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+									<excludes>
+										<exclude>**/HijackSession.*</exclude>
+									</excludes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
