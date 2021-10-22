@@ -1,5 +1,5 @@
 # WebGoat 8: A deliberately insecure Web Application
-
+test 1
 
 [![Build](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml/badge.svg)](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/WebGoat/WebGoat/badge.svg?branch=develop&service=github)](https://coveralls.io/github/WebGoat/WebGoat?branch=master)
@@ -109,4 +109,3 @@ Or in a docker run it would (once this version is pushed into docker hub) look l
 ```Shell
 docker run -d -p 80:8888 -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/goatandwolf
 ```
-edit
