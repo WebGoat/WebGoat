@@ -1,5 +1,5 @@
 # WebGoat 8: A deliberately insecure Web Application
-test 1
+test 2
 
 [![Build](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml/badge.svg)](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/WebGoat/WebGoat/badge.svg?branch=develop&service=github)](https://coveralls.io/github/WebGoat/WebGoat?branch=master)
