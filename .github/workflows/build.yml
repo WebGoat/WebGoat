@@ -1,4 +1,4 @@
-name: "Pull request build"
+name: "Build"
 on:
   pull_request:
     paths-ignore:
@@ -8,10 +8,6 @@ on:
       - 'LICENSE'
       - 'docs/**'
   push:
-    branches:
-      - master
-      - develop
-      - release/*
     tags-ignore:
       - '*'
     paths-ignore:
@@ -23,6 +19,12 @@ on:
 
 jobs:
   build:
+    if: |
+      ${{
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' &&
+      github.event.pull_request.head.repo.full_name != github.repository)
+      }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -43,4 +45,4 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn package
