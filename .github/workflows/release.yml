@@ -39,7 +39,7 @@ jobs:
       - name: Build with Maven
         run: |
           mvn versions:set -DnewVersion=${{ env.WEBGOAT_MAVEN_VERSION }}
-          mvn clean install -DskipTests
+          mvn install -DskipTests
 
       - name: "Create release"
         uses: softprops/action-gh-release@v1
