@@ -1,5 +1,12 @@
 name: "Pull request build"
 on:
+  pull_request:
+    paths-ignore:
+      - '.txt'
+      - '*.MD'
+      - '*.md'
+      - 'LICENSE'
+      - 'docs/**'
   push:
     branches:
       - master
