@@ -6,6 +6,7 @@ on:
       - develop
       - release/*
 jobs:
+  if: ${{ github.push.repository != github.repository }}
   install-notest:
     runs-on: ubuntu-latest
     name: "Package and linting"
