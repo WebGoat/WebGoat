@@ -57,6 +57,11 @@
             <email>rene.zubcevic@owasp.org</email>
         </developer>
         <developer>
+            <id>aolle</id>
+            <name>Àngel Ollé Blázquez</name>
+            <email>angel@olleb.com</email>
+        </developer>
+        <developer>
             <id>jwayman</id>
             <name>Jeff Wayman</name>
             <email/>
