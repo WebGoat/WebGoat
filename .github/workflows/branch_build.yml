@@ -1,0 +1,52 @@
+name: "Branch build"
+on:
+  push:
+    branches-ignore:
+      - master
+      - develop
+      - release/*
+jobs:
+  install-notest:
+    runs-on: ubuntu-latest
+    name: "Package and linting"
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 16
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 16
+          architecture: x64
+      - name: Cache Maven packages
+        uses: actions/cache@v2.1.5
+        with:
+          path: ~/.m2
+          key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ubuntu-latest-m2
+      - name: Test with Maven
+        run: mvn install -DskipTests
+
+  testing:
+    needs: install-notest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        args:
+          - mvn -pl '!webgoat-integration-tests' test
+          - mvn -pl webgoat-integration-tests test
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 16
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 16
+          architecture: x64
+      - name: Cache Maven packages
+        uses: actions/cache@v2.1.5
+        with:
+          path: ~/.m2
+          key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ubuntu-latest-m2
+      - name: Test with Maven
+        run: ${{ matrix.args }}
