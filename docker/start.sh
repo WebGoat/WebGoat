@@ -3,7 +3,7 @@
 cd /home/webgoat 
 service nginx start
 sleep 1
-echo "Starting WebGoat..."
+echo "Starting WebGoat...."
 
 java \
  -Duser.home=/home/webgoat \
