@@ -21,8 +21,8 @@ jobs:
   build:
     if: |
       ${{
-      github.event_name == 'pull_request' ||
-      (github.event.name == 'push' && github.event.repository == 'WebGoat/WebGoat')
+      (github.event.name == 'push' && github.event.repository == 'WebGoat/WebGoat') ||
+      github.event_name == 'pull_request'
       }}
     runs-on: ${{ matrix.os }}
     strategy:
