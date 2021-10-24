@@ -7,7 +7,7 @@ on:
       - release/*
 jobs:
   install-notest:
-    if: ${{ github.push.repository != github.repository }}
+    if: "github.repository != 'WebGoat/WebGoat'"
     runs-on: ubuntu-latest
     name: "Package and linting"
     steps:
@@ -28,7 +28,7 @@ jobs:
         run: mvn install -DskipTests
 
   testing:
-    if: ${{ github.push.repository != github.repository }}
+    if: "github.repository != 'WebGoat/WebGoat'"
     needs: install-notest
     runs-on: ubuntu-latest
     strategy:
