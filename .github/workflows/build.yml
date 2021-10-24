@@ -19,11 +19,7 @@ on:
 
 jobs:
   build:
-    if: |
-      ${{
-      (github.event.name == 'push' && github.event.repository == 'WebGoat/WebGoat') ||
-      github.event_name == 'pull_request'
-      }}
+    if: (github.event.name == 'push' && github.event.repository == 'WebGoat/WebGoat')
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
