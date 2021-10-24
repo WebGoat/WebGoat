@@ -1,6 +1,10 @@
-name: "Build"
+name: "Pull request build"
 on:
   push:
+    branches:
+      - master
+      - develop
+      - release/*
     tags-ignore:
       - '*'
     paths-ignore:
