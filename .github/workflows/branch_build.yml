@@ -6,8 +6,8 @@ on:
       - develop
       - release/*
 jobs:
-  if: github.push.repository != github.repository
   install-notest:
+    if: ${{ github.push.repository != github.repository }}
     runs-on: ubuntu-latest
     name: "Package and linting"
     steps:
@@ -28,6 +28,7 @@ jobs:
         run: mvn install -DskipTests
 
   testing:
+    if: ${{ github.push.repository != github.repository }}
     needs: install-notest
     runs-on: ubuntu-latest
     strategy:
