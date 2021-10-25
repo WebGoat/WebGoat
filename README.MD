@@ -1,5 +1,3 @@
-Robert Edit 10/26/2021
-
 # WebGoat 8: A deliberately insecure Web Application
 
 [![Pull request build](https://github.com/WebGoat/WebGoat/actions/workflows/pr_build.yml/badge.svg?branch=develop)](https://github.com/WebGoat/WebGoat/actions/workflows/pr_build.yml)
