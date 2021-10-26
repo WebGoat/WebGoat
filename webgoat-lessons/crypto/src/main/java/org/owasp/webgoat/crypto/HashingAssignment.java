@@ -49,8 +49,8 @@ public class HashingAssignment extends AssignmentEndpoint {
     @ResponseBody
     public String getMd5(HttpServletRequest request) throws NoSuchAlgorithmException {
 		
-		String unescapedmd5Hash = (String) request.getSession().getAttribute("md5Hash");
-		String md5Hash = StringEscapeUtils.escapeHtml4(unescapedmd5Hash);
+		String unescapedMd5Hash = (String) request.getSession().getAttribute("md5Hash");
+		String md5Hash = StringEscapeUtils.escapeHtml4(unescapedMd5Hash);
 
 		if (md5Hash == null) {
 			
