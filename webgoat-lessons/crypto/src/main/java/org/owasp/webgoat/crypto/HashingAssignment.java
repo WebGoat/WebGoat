@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.google.common.html.HtmlEscapers;
+import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
@@ -50,7 +50,7 @@ public class HashingAssignment extends AssignmentEndpoint {
     public String getMd5(HttpServletRequest request) throws NoSuchAlgorithmException {
 		
 		String unescapedmd5Hash = (String) request.getSession().getAttribute("md5Hash");
-		String md5Hash = HtmlEscapers.htmlEscaper().escape(unescapedmd5Hash);
+		String md5Hash = StringEscapeUtils.escapeHtml4(unescapedmd5Hash);
 
 		if (md5Hash == null) {
 			
