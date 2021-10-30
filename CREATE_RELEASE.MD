@@ -23,7 +23,7 @@ git flow release publish
 
 git flow release finish <version>
 git push origin develop
-git push origin master
+git push origin main
 git push --tags
 ```
 

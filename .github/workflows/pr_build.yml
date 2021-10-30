@@ -9,7 +9,7 @@ on:
       - 'docs/**'
   push:
     branches:
-      - master
+      - main
       - release/*
     tags-ignore:
       - '*'
