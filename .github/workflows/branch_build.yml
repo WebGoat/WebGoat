@@ -2,7 +2,7 @@ name: "Branch build"
 on:
   push:
     branches-ignore:
-      - master
+      - main
       - develop
       - release/*
 jobs:
