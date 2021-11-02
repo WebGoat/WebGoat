@@ -1,6 +1,3 @@
-/*  css for lessons */
-/* not efficient loading, but at least easier to maintain */
-
 .hidden-menu-item {
     display:none;
     visibility:hidden;
