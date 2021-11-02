@@ -45,7 +45,6 @@ public class MissingFunctionACHiddenMenus extends AssignmentEndpoint {
     @PostMapping(path = "/access-control/hidden-menu", produces = {"application/json"})
     @ResponseBody
     public AttackResult completed(String hiddenMenu1, String hiddenMenu2) {
-        //overly simple example for success. See other existing lesssons for ways to detect 'success' or 'failure'
         if (hiddenMenu1.equals("Users") && hiddenMenu2.equals("Config")) {
             return success(this)
                     .output("")
