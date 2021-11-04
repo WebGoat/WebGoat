@@ -22,23 +22,22 @@
 
 package org.owasp.webgoat.missing_ac;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.users.WebGoatUser;
 
-@ExtendWith(MockitoExtension.class)
-public class DisplayUserTest {
+import static org.owasp.webgoat.missing_ac.MissingFunctionAC.PASSWORD_SALT_SIMPLE;
+
+class DisplayUserTest {
 
     @Test
-    public void TestDisplayUserCreation() {
-        DisplayUser displayUser = new DisplayUser(new WebGoatUser("user1","password1"));
-        assert(!displayUser.isAdmin());
+    void testDisplayUserCreation() {
+        DisplayUser displayUser = new DisplayUser(new User("user1", "password1", true), PASSWORD_SALT_SIMPLE);
+        Assertions.assertThat(displayUser.isAdmin()).isTrue();
     }
 
     @Test
-    public void TesDisplayUserHash() {
-        DisplayUser displayUser = new DisplayUser(new WebGoatUser("user1","password1"));
-        assert(displayUser.getUserHash().equals("cplTjehjI/e5ajqTxWaXhU5NW9UotJfXj+gcbPvfWWc="));
+    void testDisplayUserHash() {
+        DisplayUser displayUser = new DisplayUser(new User("user1", "password1", false), PASSWORD_SALT_SIMPLE);
+        Assertions.assertThat(displayUser.getUserHash()).isEqualTo("cplTjehjI/e5ajqTxWaXhU5NW9UotJfXj+gcbPvfWWc=");
     }
 }

@@ -12,4 +12,4 @@ It will likely take multiple steps and multiple attempts to get this one:
 - You'll need to do some guessing too.
 - You may need to use another browser/account along the way.
 
-Start with the information you already gathered (hidden menu items) to see if you can pull the list of users and then provide the 'Hash' for your user account.
+Start with the information you already gathered (hidden menu items) to see if you can pull the list of users and then provide the 'hash' for Jerry's account.
