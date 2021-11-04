@@ -1,8 +1,8 @@
 package org.owasp.webgoat.missing_ac;
 
-import org.owasp.webgoat.users.WebGoatUser;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.Getter;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 
@@ -31,55 +31,32 @@ import java.util.Base64;
  * projects.
  * <p>
  */
-
+@Getter
 public class DisplayUser {
     //intended to provide a display version of WebGoatUser for admins to view user attributes
-
 
     private String username;
     private boolean admin;
     private String userHash;
 
-    public DisplayUser(WebGoatUser user) {
+    public DisplayUser(User user, String passwordSalt) {
         this.username = user.getUsername();
-        this.admin = false;
+        this.admin = user.isAdmin();
 
-        for (GrantedAuthority authority : user.getAuthorities()) {
-            this.admin = (authority.getAuthority().contains("WEBGOAT_ADMIN")) ? true : false;
-        }
-
-        // create userHash on the fly
-        //TODO: persist userHash
         try {
-            this.userHash = genUserHash(user.getUsername(), user.getPassword());
+            this.userHash = genUserHash(user.getUsername(), user.getPassword(), passwordSalt);
         } catch (Exception ex) {
-            //TODO: implement better fallback operation
             this.userHash = "Error generating user hash";
         }
-
     }
 
-    protected String genUserHash(String username, String password) throws Exception {
+    protected String genUserHash(String username, String password, String passwordSalt) throws Exception {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         // salting is good, but static & too predictable ... short too for a salt
-        String salted = password + "DeliberatelyInsecure1234" + username;
+        String salted = password + passwordSalt + username;
         //md.update(salted.getBytes("UTF-8")); // Change this to "UTF-16" if needed
-        byte[] hash = md.digest(salted.getBytes("UTF-8"));
-        String encoded = Base64.getEncoder().encodeToString(hash);
-        return encoded;
-    }
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public String getUserHash() {
-        return userHash;
+        byte[] hash = md.digest(salted.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(hash);
     }
 
 }

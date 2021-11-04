@@ -27,7 +27,10 @@ import org.owasp.webgoat.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MissingFunctionAC  extends Lesson {
+public class MissingFunctionAC extends Lesson {
+
+    public static final String PASSWORD_SALT_SIMPLE = "DeliberatelyInsecure1234";
+    public static final String PASSWORD_SALT_ADMIN = "DeliberatelyInsecure1235";
 
     @Override
     public Category getDefaultCategory() {
