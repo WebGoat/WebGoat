@@ -1,4 +1,4 @@
-== Setting up browser
+=== Setting up browser
 
 If you use the latest ZAP version (>= 2.8.0) you only need to start ZAP and click the browser button to be able to
 proxy, see image below:
