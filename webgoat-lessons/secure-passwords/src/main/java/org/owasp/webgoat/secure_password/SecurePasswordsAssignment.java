@@ -69,7 +69,6 @@ public class SecurePasswordsAssignment extends AssignmentEndpoint {
             output.append("</ul></br>");
         }
         output.append("<b>Score: </b>" + strength.getScore() + "/4 </br>");
-        output.append("<b>Estimated cracking time in seconds: </b>" + calculateTime((long) strength.getCrackTimeSeconds().getOnlineNoThrottling10perSecond()));
 
         if (strength.getScore() >= 4)
             return success(this).feedback("securepassword-success").output(output.toString()).build();
