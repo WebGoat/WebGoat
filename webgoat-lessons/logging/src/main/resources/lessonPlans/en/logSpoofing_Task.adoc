@@ -1,0 +1,5 @@
+=== Let's try
+
+- The goal of this challenge is to make it look like username "admin" succeeded in logging in.
+- The red area below shows what will be logged in the web server's log file.
+- Want to go beyond? Try to elevate your attack by adding a script to the log file.
