@@ -2,20 +2,21 @@ name: "Branch build"
 on:
   push:
     branches-ignore:
-      - master
+      - main
       - develop
       - release/*
 jobs:
   install-notest:
+    if: "github.repository != 'WebGoat/WebGoat'"
     runs-on: ubuntu-latest
     name: "Package and linting"
     steps:
       - uses: actions/checkout@v2
-      - name: set up JDK 16
+      - name: set up JDK 17
         uses: actions/setup-java@v2
         with:
-          distribution: 'zulu'
-          java-version: 16
+          distribution: 'temurin'
+          java-version: 17
           architecture: x64
       - name: Cache Maven packages
         uses: actions/cache@v2.1.5
@@ -27,6 +28,7 @@ jobs:
         run: mvn install -DskipTests
 
   testing:
+    if: "github.repository != 'WebGoat/WebGoat'"
     needs: install-notest
     runs-on: ubuntu-latest
     strategy:
@@ -36,11 +38,11 @@ jobs:
           - mvn -pl webgoat-integration-tests test
     steps:
       - uses: actions/checkout@v2
-      - name: set up JDK 16
+      - name: set up JDK 17
         uses: actions/setup-java@v2
         with:
-          distribution: 'zulu'
-          java-version: 16
+          distribution: 'temurin'
+          java-version: 17
           architecture: x64
       - name: Cache Maven packages
         uses: actions/cache@v2.1.5

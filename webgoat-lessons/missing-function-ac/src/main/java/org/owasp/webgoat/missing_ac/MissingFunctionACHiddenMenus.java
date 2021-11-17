@@ -25,8 +25,6 @@ package org.owasp.webgoat.missing_ac;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.UserSessionData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,15 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AssignmentHints({"access-control.hidden-menus.hint1","access-control.hidden-menus.hint2","access-control.hidden-menus.hint3"})
 public class MissingFunctionACHiddenMenus extends AssignmentEndpoint {
-    //UserSessionData is bound to session and can be used to persist data across multiple assignments
-    @Autowired
-    UserSessionData userSessionData;
-
 
     @PostMapping(path = "/access-control/hidden-menu", produces = {"application/json"})
     @ResponseBody
     public AttackResult completed(String hiddenMenu1, String hiddenMenu2) {
-        //overly simple example for success. See other existing lesssons for ways to detect 'success' or 'failure'
         if (hiddenMenu1.equals("Users") && hiddenMenu2.equals("Config")) {
             return success(this)
                     .output("")

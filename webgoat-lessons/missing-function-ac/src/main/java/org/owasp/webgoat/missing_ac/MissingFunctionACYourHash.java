@@ -22,35 +22,33 @@
 
 package org.owasp.webgoat.missing_ac;
 
+import lombok.RequiredArgsConstructor;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.users.UserService;
-import org.owasp.webgoat.users.WebGoatUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.owasp.webgoat.missing_ac.MissingFunctionAC.PASSWORD_SALT_SIMPLE;
+
 @RestController
-@AssignmentHints({"access-control.hash.hint1","access-control.hash.hint2","access-control.hash.hint3",
-        "access-control.hash.hint4","access-control.hash.hint5","access-control.hash.hint6","access-control.hash.hint7",
-        "access-control.hash.hint8","access-control.hash.hint9","access-control.hash.hint10","access-control.hash.hint11","access-control.hash.hint12"})
+@AssignmentHints({"access-control.hash.hint1", "access-control.hash.hint2", "access-control.hash.hint3", "access-control.hash.hint4", "access-control.hash.hint5"})
+@RequiredArgsConstructor
 public class MissingFunctionACYourHash extends AssignmentEndpoint {
 
-    @Autowired
-    private UserService userService;
+    private final MissingAccessControlUserRepository userRepository;
+
 
     @PostMapping(path = "/access-control/user-hash", produces = {"application/json"})
     @ResponseBody
-    public AttackResult completed(String userHash) {
-        String currentUser = getWebSession().getUserName();
-        WebGoatUser user = userService.loadUserByUsername(currentUser);
-        DisplayUser displayUser = new DisplayUser(user);
+    public AttackResult simple(String userHash) {
+        User user = userRepository.findByUsername("Jerry");
+        DisplayUser displayUser = new DisplayUser(user, PASSWORD_SALT_SIMPLE);
         if (userHash.equals(displayUser.getUserHash())) {
             return success(this).feedback("access-control.hash.success").build();
         } else {
-            return failed(this).feedback("access-control.hash.close").build();
+            return failed(this).build();
         }
     }
 }

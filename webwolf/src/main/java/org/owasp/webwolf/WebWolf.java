@@ -26,10 +26,12 @@ import java.io.IOException;
 import java.net.Socket;
 
 import org.owasp.webwolf.requests.WebWolfTraceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 public class WebWolf {
@@ -42,22 +44,21 @@ public class WebWolf {
     public static void main(String[] args) {
         System.setProperty("spring.config.name", "application-webwolf");
 
-        String webwolfPort  = System.getenv("WEBWOLF_PORT");
-        String webGoatHost = null==System.getenv("WEBGOAT_HOST")?"127.0.0.1":System.getenv("WEBGOAT_HOST");
-        String webWolfHost = null==System.getenv("WEBWOLF_HOST")?"127.0.0.1":System.getenv("WEBWOLF_HOST");
+        String webwolfPort = System.getenv("WEBWOLF_PORT");
+        String webWolfHost = null == System.getenv("WEBWOLF_HOST") ? "127.0.0.1" : System.getenv("WEBWOLF_HOST");
         String fileEncoding = System.getProperty("file.encoding");
 
-        int wolfPort = webwolfPort == null?9090:Integer.parseInt(webwolfPort);
-        
-        if (null==fileEncoding || !fileEncoding.equals("UTF-8")) {
-        	System.out.println("It seems the application is startd on a OS with non default UTF-8 encoding:"+fileEncoding);
-        	System.out.println("Please add: -Dfile.encoding=UTF-8");
-        	System.exit(-1);
+        int wolfPort = webwolfPort == null ? 9090 : Integer.parseInt(webwolfPort);
+
+        if (null == fileEncoding || !fileEncoding.equals("UTF-8")) {
+            System.out.println("It seems the application is started on a OS with non default UTF-8 encoding:" + fileEncoding);
+            System.out.println("Please add: -Dfile.encoding=UTF-8");
+            System.exit(-1);
         }
 
-        if (isAlreadyRunning(webGoatHost, wolfPort)) {
-        	System.out.println("Port "+webWolfHost+":"+wolfPort+" is in use. Use environment value WEBWOLF_PORT to set a different value.");
-        	System.exit(-1);
+        if (isAlreadyRunning(webWolfHost, wolfPort)) {
+            System.out.println("Port " + webWolfHost + ":" + wolfPort + " is in use. Use environment value WEBWOLF_PORT to set a different value.");
+            System.exit(-1);
         }
         SpringApplication.run(WebWolf.class, args);
     }

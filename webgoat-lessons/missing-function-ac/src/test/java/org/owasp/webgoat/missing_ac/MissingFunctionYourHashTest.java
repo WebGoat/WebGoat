@@ -25,56 +25,40 @@ package org.owasp.webgoat.missing_ac;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.assignments.AssignmentEndpointTest;
-import org.owasp.webgoat.users.UserService;
+import org.owasp.webgoat.plugins.LessonTest;
 import org.owasp.webgoat.users.WebGoatUser;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.owasp.webgoat.missing_ac.MissingFunctionAC.PASSWORD_SALT_SIMPLE;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@ExtendWith(MockitoExtension.class)
-public class MissingFunctionYourHashTest extends AssignmentEndpointTest {
-    private MockMvc mockMvc;
-    private DisplayUser mockDisplayUser;
-
-    @Mock
-    protected UserService userService;
+class MissingFunctionYourHashTest extends LessonTest {
+    @Autowired
+    private MissingFunctionAC ac;
 
     @BeforeEach
-    public void setUp() {
-        MissingFunctionACYourHash yourHashTest = new MissingFunctionACYourHash();
-        init(yourHashTest);
-        this.mockMvc = standaloneSetup(yourHashTest).build();
-        this.mockDisplayUser = new DisplayUser(new WebGoatUser("user", "userPass"));
-        ReflectionTestUtils.setField(yourHashTest, "userService", userService);
-        when(userService.loadUserByUsername(any())).thenReturn(new WebGoatUser("user", "userPass"));
+    public void setup() {
+        when(webSession.getCurrentLesson()).thenReturn(ac);
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
     @Test
-    public void HashDoesNotMatch() throws Exception {
+    void hashDoesNotMatch() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/access-control/user-hash")
                 .param("userHash", "42"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("Keep trying, this one may take several attempts")))
                 .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 
     @Test
-    public void hashMatches() throws Exception {
+    void hashMatches() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/access-control/user-hash")
-                .param("userHash", "2340928sadfajsdalsNfwrBla="))
+                .param("userHash", "SVtOlaa+ER+w2eoIIVE5/77umvhcsh5V8UyDLUa1Itg="))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("Keep trying, this one may take several attempts")))
-                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
     }
 }

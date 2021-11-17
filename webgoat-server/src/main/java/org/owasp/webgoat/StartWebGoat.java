@@ -50,26 +50,26 @@ public class StartWebGoat extends SpringBootServletInitializer {
     public static void main(String[] args) {
         log.info("Starting WebGoat with args: {}", StringUtils.arrayToCommaDelimitedString(args));
         System.setProperty("spring.config.name", "application-webgoat");
-       
-        String webgoatPort  = System.getenv("WEBGOAT_PORT");
-        String databasePort = System.getenv("WEBGOAT_HSQLPORT"); 
-        String webGoatHost = null==System.getenv("WEBGOAT_HOST")?"127.0.0.1":System.getenv("WEBGOAT_HOST");
-        int goatPort = webgoatPort == null?8080:Integer.parseInt(webgoatPort);
-        int dbPort = databasePort == null?9001:Integer.parseInt(databasePort);
-        
+
+        String webgoatPort = System.getenv("WEBGOAT_PORT");
+        String databasePort = System.getenv("WEBGOAT_HSQLPORT");
+        String webGoatHost = null == System.getenv("WEBGOAT_HOST") ? "127.0.0.1" : System.getenv("WEBGOAT_HOST");
+        int goatPort = webgoatPort == null ? 8080 : Integer.parseInt(webgoatPort);
+        int dbPort = databasePort == null ? 9001 : Integer.parseInt(databasePort);
+
         if (isAlreadyRunning(webGoatHost, goatPort)) {
-        	log.error("Port {}:{} is already in use", webGoatHost, goatPort);
-        	System.out.println("Port "+webGoatHost+":"+goatPort+" is in use. Use environment value WEBGOAT_PORT to set a different value.");
-        	System.exit(-1);
+            log.error("Port {}:{} is already in use", webGoatHost, goatPort);
+            System.out.println("Port " + webGoatHost + ":" + goatPort + " is in use. Use environment value WEBGOAT_PORT to set a different value.");
+            System.exit(-1);
         }
         if (isAlreadyRunning(webGoatHost, dbPort)) {
-        	log.error("Port {}:{} is already in use", webGoatHost, goatPort);
-        	System.out.println("Port "+webGoatHost+":"+goatPort+" is in use. Use environment value WEBGOAT_HSQLPORT to set a different value.");
-        	System.exit(-1);
+            log.error("Port {}:{} is already in use", webGoatHost, goatPort);
+            System.out.println("Port " + webGoatHost + ":" + goatPort + " is in use. Use environment value WEBGOAT_HSQLPORT to set a different value.");
+            System.exit(-1);
         }
         SpringApplication.run(StartWebGoat.class, args);
     }
-    
+
     private static boolean isAlreadyRunning(String host, int port) {
         try (var ignored = new Socket(host, port)) {
             return true;

@@ -9,8 +9,7 @@ on:
       - 'docs/**'
   push:
     branches:
-      - master
-      - develop
+      - main
       - release/*
     tags-ignore:
       - '*'
@@ -27,13 +26,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        java: [16]
+        java: [17]
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v2
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: ${{ matrix.java }}
           architecture: x64
       - name: Cache Maven packages
@@ -43,4 +42,4 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn package

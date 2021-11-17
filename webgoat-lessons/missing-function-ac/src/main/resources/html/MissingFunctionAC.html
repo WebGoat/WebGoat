@@ -1,82 +1,115 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <div class="lesson-page-wrapper">
-        <div class="adoc-content" th:replace="doc:missing-function-ac-01-intro.adoc"></div>
-    </div>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:missing-function-ac-01-intro.adoc"></div>
+</div>
 
-    <div class="lesson-page-wrapper">
-        <div class="adoc-content" th:replace="doc:missing-function-ac-02-client-controls.adoc"></div>
+<div class="lesson-page-wrapper">
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/ac.css}"/>
+    <div class="adoc-content" th:replace="doc:missing-function-ac-02-client-controls.adoc"></div>
 
-        <script th:src="@{/lesson_js/missing-function-ac.js}" > </script>
+    <div class="attack-container">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
 
-        <div class="attack-container">
-            <div id="ac-menu-wrapper">
-                <div id="ac-menu">
-                    <h3 class="menu-header">Account</h3>
-                    <div class="menu-section">
-                        <ul>
-                            <li>My Profile</li>
-                            <li>Privacy/Security</li>
-                            <li>Log Out</li>
-                        </ul>
-                    </div>
-                    <h3 class="menu-header">Messages</h3>
-                        <div class="menu-section">
-                            <ul>
-                                <li>Unread Messages (3)</li>
-                                <li>Compose Message</li>
-                            </ul>
-                        </div>
-                    <h3 class="hidden-menu-item menu-header">Admin</h3>
-                        <div class="menu-section hidden-menu-item">
-                            <ul>
-                                <li><a href="/users">Users</a></li>
-                                <li><a href="/config">Config</a></li>
-                            </ul>
-                        </div>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">WebGoat</a>
                 </div>
+
+                <div class="collapse navbar-collapse" id="alignment-example">
+
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="about-us">
+                                <li><a href="#">My Profile</a></li>
+                                <li><a href="#">Privacy/Security</a></li>
+                                <li><a href="#">Log Out</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Messages<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="messages">
+                                <li><a href="#">Unread Messages (3)</a></li>
+                                <li><a href="#">Compose Message</a></li>
+                            </ul>
+                        </li>
+                        <li class="hidden-menu-item dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="admin">
+                                <li><a href="/access-control/users">Users</a></li>
+                                <li><a href="/access-control/users-admin-fix">Users</a></li>
+                                <li><a href="/access-control/config">Config</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
+        </nav>
 
+        <br/>
+
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/access-control/hidden-menu">
+
+            <p>Hidden item 1 <input name="hiddenMenu1" value="" type="TEXT"/></p>
+            <p>Hidden item 2 <input name="hiddenMenu2" value="" type="TEXT"/></p>
             <br/>
+            <input name="submit" value="Submit" type="SUBMIT"/>
 
-            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-            <form class="attack-form" accept-charset="UNKNOWN"
-                  method="POST" name="form"
-                  action="/WebGoat/access-control/hidden-menu">
+        </form>
 
-                <p>Hidden Item 1 <input name="hiddenMenu1" value="" type="TEXT" /></p>
-                <p>Hidden Item 2 <input name="hiddenMenu2" value="" type="TEXT" /></p>
-                <br/>
-                <input name="submit" value="Submit" type="SUBMIT"/>
-
-            </form>
-
-            <div class="attack-feedback"></div>
-            <div class="attack-output"></div>
-        </div>
-
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
     </div>
 
-    <div class="lesson-page-wrapper">
+</div>
 
-        <div class="adoc-content" th:replace="doc:missing-function-ac-03-users.adoc"></div>
+<div class="lesson-page-wrapper">
 
-        <div class="attack-container">
-            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-            <form class="attack-form" accept-charset="UNKNOWN"
-                  method="POST" name="form"
-                  action="/WebGoat/access-control/user-hash">
+    <div class="adoc-content" th:replace="doc:missing-function-ac-03-users.adoc"></div>
 
-                <p>Your Hash: <input name="userHash" value="" type="TEXT" /></p>
-                <br/>
-                <input name="submit" value="Submit" type="SUBMIT"/>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/access-control/user-hash">
 
-            </form>
+            <p>Your Hash: <input name="userHash" value="" type="TEXT"/></p>
+            <br/>
+            <input name="submit" value="Submit" type="SUBMIT"/>
 
-            <div class="attack-feedback"></div>
-            <div class="attack-output"></div>
-        </div>
+        </form>
 
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
     </div>
+
+</div>
+
+<div class="lesson-page-wrapper">
+
+    <div class="adoc-content" th:replace="doc:missing-function-ac-04-users-fixed.adoc"></div>
+
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/access-control/user-hash-fix">
+
+            <p>Your Hash: <input name="userHash" value="" type="TEXT"/></p>
+            <br/>
+            <input name="submit" value="Submit" type="SUBMIT"/>
+
+        </form>
+
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+
+</div>
 
 </html>

@@ -43,6 +43,7 @@
         <module>path-traversal</module>
         <module>spoof-cookie</module>
         <module>hijack-session</module>
+        <module>logging</module>
     </modules>
 
     <dependencies>

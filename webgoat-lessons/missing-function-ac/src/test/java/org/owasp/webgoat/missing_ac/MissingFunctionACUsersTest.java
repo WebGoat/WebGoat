@@ -28,53 +28,53 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.users.UserService;
-import org.owasp.webgoat.users.WebGoatUser;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.owasp.webgoat.plugins.LessonTest;
+import org.owasp.webgoat.session.WebSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@ExtendWith(MockitoExtension.class)
-public class MissingFunctionACUsersTest {
-    private MockMvc mockMvc;
-    @Mock
-    private UserService userService;
+class MissingFunctionACUsersTest extends LessonTest {
+
+    @Autowired
+    private MissingFunctionAC ac;
 
     @BeforeEach
-    public void setup() {
-        MissingFunctionACUsers usersController = new MissingFunctionACUsers();
-        this.mockMvc = standaloneSetup(usersController).build();
-        ReflectionTestUtils.setField(usersController,"userService",userService);
-        when(userService.getAllUsers()).thenReturn(getUsersList());
+    void setup() {
+        when(webSession.getCurrentLesson()).thenReturn(ac);
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
     @Test
-    public void TestContentTypeApplicationJSON () throws  Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/users")
-                .header("Content-type","application/json"))
+    void getUsers() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/access-control/users")
+                .header("Content-type", "application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].username", CoreMatchers.is("user1")))
-                .andExpect(jsonPath("$[0].userHash",CoreMatchers.is("cplTjehjI/e5ajqTxWaXhU5NW9UotJfXj+gcbPvfWWc=")))
-                .andExpect(jsonPath("$[1].admin",CoreMatchers.is(true)));
-
+                .andExpect(jsonPath("$[0].username", CoreMatchers.is("Tom")))
+                .andExpect(jsonPath("$[0].userHash", CoreMatchers.is("Mydnhcy00j2b0m6SjmPz6PUxF9WIeO7tzm665GiZWCo=")))
+                .andExpect(jsonPath("$[0].admin", CoreMatchers.is(false)));
     }
 
-    private List<WebGoatUser> getUsersList() {
-        List <WebGoatUser> tempUsers = new ArrayList<>();
-        tempUsers.add(new WebGoatUser("user1","password1"));
-        tempUsers.add(new WebGoatUser("user2","password2","WEBGOAT_ADMIN"));
-        tempUsers.add(new WebGoatUser("user3","password3", "WEBGOAT_USER"));
-        return tempUsers;
+    @Test
+    void addUser() throws Exception {
+        var user = """
+                {"username":"newUser","password":"newUser12","admin": "true"}
+                """;
+        mockMvc.perform(MockMvcRequestBuilders.post("/access-control/users")
+                .header("Content-type", "application/json").content(user))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/access-control/users")
+                .header("Content-type", "application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(4)));
     }
-
-
-
 }

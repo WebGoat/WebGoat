@@ -19,10 +19,6 @@
     <inceptionYear>2006</inceptionYear>
     <url>https://github.com/WebGoat/WebGoat</url>
 
-    <prerequisites>
-        <maven>3.2.5</maven>
-    </prerequisites>
-
     <organization>
         <name>OWASP</name>
         <url>https://github.com/WebGoat/WebGoat/</url>
@@ -59,6 +55,11 @@
             <id>zubcevic</id>
             <name>René Zubcevic</name>
             <email>rene.zubcevic@owasp.org</email>
+        </developer>
+        <developer>
+            <id>aolle</id>
+            <name>Àngel Ollé Blázquez</name>
+            <email>angel@olleb.com</email>
         </developer>
         <developer>
             <id>jwayman</id>
@@ -114,11 +115,10 @@
         <!-- Use UTF-8 Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
         <!-- Shared properties with plugins and version numbers across submodules-->
-        <activation.version>1.1.1</activation.version>
         <asciidoctorj.version>2.5.2</asciidoctorj.version>
         <commons-collections.version>3.2.1</commons-collections.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
@@ -132,7 +132,7 @@
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-        <java.version>15</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <modules>

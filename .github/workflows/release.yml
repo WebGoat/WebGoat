@@ -39,7 +39,7 @@ jobs:
       - name: Build with Maven
         run: |
           mvn versions:set -DnewVersion=${{ env.WEBGOAT_MAVEN_VERSION }}
-          mvn clean install -DskipTests
+          mvn install -DskipTests
 
       - name: "Create release"
         uses: softprops/action-gh-release@v1
@@ -94,7 +94,7 @@ jobs:
           context: ./docker
           file: docker/Dockerfile
           push: true 
-          platforms: linux/amd64, linux/arm64
+          platforms: linux/amd64, linux/arm64, linux/arm/v7
           tags: |
             webgoat/goatandwolf:${{ env.WEBGOAT_TAG_VERSION }}
             webgoat/goatandwolf:latest
