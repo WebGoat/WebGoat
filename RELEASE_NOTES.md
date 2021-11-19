@@ -1,5 +1,11 @@
 # WebGoat release notes 
 
+## Unreleased
+
+### New functionality
+
+- Update the Docker startup script, it is now possible to pass `skip-nginx` or set `SKIP_NGINX` as environment variable.
+
 ## Version 8.2.2
 
 ### New functionality
