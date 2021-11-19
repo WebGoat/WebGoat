@@ -1,4 +1,4 @@
-# WebGoat 8: A deliberately insecure Web Application
+# WebGoat 8: A deliberately insecure Web Applications
 
 [![Build](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml/badge.svg)](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/WebGoat/WebGoat/badge.svg?branch=develop&service=github)](https://coveralls.io/github/WebGoat/WebGoat?branch=master)
