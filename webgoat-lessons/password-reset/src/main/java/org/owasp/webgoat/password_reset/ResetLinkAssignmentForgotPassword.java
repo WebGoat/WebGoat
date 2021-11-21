@@ -52,7 +52,7 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
     private final String webWolfMailURL;
 
     public ResetLinkAssignmentForgotPassword(RestTemplate restTemplate,
-                                             @Value("${webwolf.url.mail}") String webWolfMailURL) {
+                                             @Value("${webwolf.mail.url}") String webWolfMailURL) {
         this.restTemplate = restTemplate;
         this.webWolfMailURL = webWolfMailURL;
     }
