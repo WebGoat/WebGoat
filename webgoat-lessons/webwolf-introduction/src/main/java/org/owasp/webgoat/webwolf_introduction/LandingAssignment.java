@@ -43,7 +43,7 @@ import java.net.URISyntaxException;
 @RestController
 public class LandingAssignment extends AssignmentEndpoint {
 
-    @Value("${webwolf.url.landingpage}")
+    @Value("${webwolf.landingpage.url}")
     private String landingPageUrl;
 
     @PostMapping("/WebWolf/landing")
