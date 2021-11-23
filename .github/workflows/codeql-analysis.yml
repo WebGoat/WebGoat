@@ -18,6 +18,9 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ develop ]
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 jobs:
   analyze:
     name: Analyze
