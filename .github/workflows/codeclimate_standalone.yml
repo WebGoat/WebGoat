@@ -1,0 +1,35 @@
+# This is a basic workflow that is manually triggered
+
+name: CodeClimate Standalone workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on: [push, pull_request, workflow_call]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  code-quality:
+    name: Code Climate Standalone
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Code Climate
+        uses: erzz/codeclimate-standalone@v0.0.3
+        with:
+          html_report: true
+          info_threshold: 10
+          minor_threshold: 5
+          major_threshold: 1
+          critical_threshold: 0
+          blocker_threshold: 0
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Code Climate Report
+          path: |
+            codeclimate-report.json
+            codeclimate-report.html
