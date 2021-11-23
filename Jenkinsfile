@@ -1,5 +1,9 @@
 pipeline{
-  agent any
+  agent {
+    node {
+      label "qx-pro-03-ovh"
+    }
+  }
   stages {
     stage("Build") {
       tools {
