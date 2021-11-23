@@ -13,7 +13,7 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   code-quality:
@@ -22,7 +22,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          architecture: x64
       - name: Run Code Climate
         uses: erzz/codeclimate-standalone@v0.0.3
         with:
