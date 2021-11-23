@@ -1,7 +1,7 @@
 pipeline{
   agent any
   stages {
-    stage("SonarCloud Analysis") {
+    stage("Build") {
       steps{
         script {
           withSonarQubeEnv('sonar-pro') {
