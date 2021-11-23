@@ -40,7 +40,7 @@ pipeline{
             maven: 'Maven 3',
             ) {
               if (isUnix()) {
-                bat "mvn org.owasp:dependency-check-maven:$DEPENDENCY_CHECK_VERSION:check -Dformat=XML " +
+                sh "mvn org.owasp:dependency-check-maven:$DEPENDENCY_CHECK_VERSION:check -Dformat=XML " +
                     "-DdataDirectory=/opt/qalitax/jenkins-node/workspace/dependency-check-data/$DEPENDENCY_CHECK_VERSION " +
                     "-DassemblyAnalyzerEnabled=false " +
                     "-DfailOnError=false"
