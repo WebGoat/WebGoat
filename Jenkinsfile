@@ -30,13 +30,13 @@ pipeline{
             maven: 'Maven 3',
             ) {
               if (isUnix()) {
-                bat "mvn org.owasp:dependency-check-maven:$DEPENDENCY_CHECK_VERSION:check -Dformat=all " +
-                    "-DdataDirectory=$DEPENDENCY_CHECK_DATA/$DEPENDENCY_CHECK_VERSION " +
+                bat "mvn org.owasp:dependency-check-maven:$DEPENDENCY_CHECK_VERSION:check -Dformat=XML " +
+                    "-DdataDirectory=/opt/qalitax/jenkins-node/workspace/dependency-check-data/$DEPENDENCY_CHECK_VERSION " +
                     "-DassemblyAnalyzerEnabled=false " +
                     "-DfailOnError=false"
               } else {
                 bat "mvn org.owasp:dependency-check-maven:$DEPENDENCY_CHECK_VERSION:check -Dformat=all " +
-                    "-DdataDirectory=$DEPENDENCY_CHECK_DATA/$DEPENDENCY_CHECK_VERSION " +
+                    "-DdataDirectory=/opt/qalitax/jenkins-node/workspace/dependency-check-data/$DEPENDENCY_CHECK_VERSION  " +
                     "-DassemblyAnalyzerEnabled=false " +
                     "-DfailOnError=false"
               }

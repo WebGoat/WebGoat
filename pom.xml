@@ -212,7 +212,7 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.14.0</version>
                 <configuration>
-                    <targetJdk>11</targetJdk>
+                    <targetJdk>15</targetJdk>
                     <failurePriority>1</failurePriority><!-- 5 means fail even on the lowest priority, 0 means never fail -->
                     <rulesets>
                         <!--suppress UnresolvedMavenProperty -->
