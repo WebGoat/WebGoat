@@ -11,10 +11,10 @@ pipeline{
             ) {
               // Run the maven build
               if (isUnix()) {
-                sh "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true -Pdev"
+                sh "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true"
                 sh "mvn org.jacoco:jacoco-maven-plugin:report"
               } else {
-                bat "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true -Pdev"
+                bat "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true"
                 bat "mvn org.jacoco:jacoco-maven-plugin:report"
               }
             }
