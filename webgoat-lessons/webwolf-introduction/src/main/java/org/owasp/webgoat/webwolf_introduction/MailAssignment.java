@@ -43,7 +43,7 @@ public class MailAssignment extends AssignmentEndpoint {
     private final String webWolfURL;
     private RestTemplate restTemplate;
 
-    public MailAssignment(RestTemplate restTemplate, @Value("${webwolf.url.mail}") String webWolfURL) {
+    public MailAssignment(RestTemplate restTemplate, @Value("${webwolf.mail.url}") String webWolfURL) {
         this.restTemplate = restTemplate;
         this.webWolfURL = webWolfURL;
     }

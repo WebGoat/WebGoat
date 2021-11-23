@@ -37,8 +37,6 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
-import static org.springframework.util.StringUtils.hasText;
-
 /**
  * Part of the password reset assignment. Used to send the e-mail.
  *
@@ -49,11 +47,17 @@ import static org.springframework.util.StringUtils.hasText;
 public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
 
     private final RestTemplate restTemplate;
+    private String webWolfHost;
+    private String webWolfPort;
     private final String webWolfMailURL;
 
     public ResetLinkAssignmentForgotPassword(RestTemplate restTemplate,
-                                             @Value("${webwolf.url.mail}") String webWolfMailURL) {
+                                             @Value("${webwolf.host}") String webWolfHost,
+                                             @Value("${webwolf.port}") String webWolfPort,
+                                             @Value("${webwolf.mail.url}") String webWolfMailURL) {
         this.restTemplate = restTemplate;
+        this.webWolfHost = webWolfHost;
+        this.webWolfPort = webWolfPort;
         this.webWolfMailURL = webWolfMailURL;
     }
 
@@ -63,18 +67,17 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
         String resetLink = UUID.randomUUID().toString();
         ResetLinkAssignment.resetLinks.add(resetLink);
         String host = request.getHeader("host");
-        if (hasText(email)) {
-            if (email.equals(ResetLinkAssignment.TOM_EMAIL) && (host.contains("9090")||host.contains("webwolf"))) { //User indeed changed the host header.
-                ResetLinkAssignment.userToTomResetLink.put(getWebSession().getUserName(), resetLink);
-                fakeClickingLinkEmail(host, resetLink);
-            } else {
-                try {
-                    sendMailToUser(email, host, resetLink);
-                } catch (Exception e) {
-                    return failed(this).output("E-mail can't be send. please try again.").build();
-                }
+        if (ResetLinkAssignment.TOM_EMAIL.equals(email) && (host.contains(webWolfPort) || host.contains(webWolfHost))) { //User indeed changed the host header.
+            ResetLinkAssignment.userToTomResetLink.put(getWebSession().getUserName(), resetLink);
+            fakeClickingLinkEmail(host, resetLink);
+        } else {
+            try {
+                sendMailToUser(email, host, resetLink);
+            } catch (Exception e) {
+                return failed(this).output("E-mail can't be send. please try again.").build();
             }
         }
+
         return success(this).feedback("email.send").feedbackArgs(email).build();
     }
 
