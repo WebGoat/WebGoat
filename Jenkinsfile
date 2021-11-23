@@ -2,6 +2,9 @@ pipeline{
   agent any
   stages {
     stage("Build") {
+      tools {
+        jdk "JDK 15 ORACLE"
+      }
       steps{
         script {
           withSonarQubeEnv('sonar-pro') {
@@ -23,6 +26,9 @@ pipeline{
       }
     }
     stage("Dependency Check") {
+      tools {
+        jdk "JDK 15 ORACLE"
+      }
       steps {
         script {
           withMaven(
@@ -45,6 +51,9 @@ pipeline{
       }
     }
     stage("SonarQube Analysis") {
+      tools {
+        jdk "JDK 15 ORACLE"
+      }
       steps {
         script {
           withSonarQubeEnv('sonar-pro') {
