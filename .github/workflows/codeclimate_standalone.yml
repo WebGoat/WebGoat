@@ -4,8 +4,16 @@ name: CodeClimate Standalone workflow
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
-on: [push, pull_request, workflow_call]
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    tags:
+      - '*'
+  pull_request:
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   code-quality:
