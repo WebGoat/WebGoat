@@ -67,7 +67,7 @@ WebWolf will be located at: http://localhost:9090/WebWolf (change ports if neces
 
 ### Prerequisites:
 
-* Java 16
+* Java 17
 * Maven > 3.2.1
 * Your favorite IDE
 * Git, or Git support in your IDE
