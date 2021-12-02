@@ -1,0 +1,41 @@
+name: Dependabot Jira
+
+  on:
+   pull_request:
+    paths-ignore:
+      - '.txt'
+      - '*.MD'
+      - '*.md'
+      - 'LICENSE'
+      - 'docs/**'
+
+  env:
+    JIRA_BASE_URL: #Jira URL
+    JIRA_USER_EMAIL: #jira user email
+    JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+    JIRA_PROJECT: #Jira project key
+    JIRA_ISSUE_TYPE: #Jira issue type
+
+  jobs:
+    create_jira:
+      name: Dependabot Jira
+      runs-on: ubuntu-latest
+      if: github.event.pull_request.user.login == 'dependabot[bot]' #id dependabot user
+      steps:
+      - name: Login to Jira
+        uses: atlassian/gajira-login@v2.0.0
+        env:
+          JIRA_BASE_URL: ${{ env.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ env.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Create Jira Issue
+        id: create
+        uses: atlassian/gajira-create@v2.0.1
+        with:
+          project: ${{ env.JIRA_PROJECT }}
+          issuetype: ${{ env.JIRA_ISSUE_TYPE }}
+          summary: |
+            [${{github.event.repository.name }}] ${{github.event.pull_request.title }}
+          description: |
+            ${{github.event.pull_request.html_url }}
