@@ -1,4 +1,4 @@
-name: Dependabot Jira
+  name: Dependabot Jira
 
   on:
    pull_request:
