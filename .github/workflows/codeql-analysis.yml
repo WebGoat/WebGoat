@@ -76,3 +76,9 @@ jobs:
       uses: peter-murray/github-security-report-action@v2
       with:
         token: ${{ secrets.SECURITY_TOKEN }}
+
+    - name: Archive report
+      uses: actions/upload-artifact@v2
+      with:
+        name: security-report
+        path: WebGoat/summary.pdf
