@@ -77,8 +77,8 @@ jobs:
       with:
         token: ${{ secrets.SECURITY_TOKEN }}
 
-    - name: Archive report
+    - name: save security report
       uses: actions/upload-artifact@v2
       with:
         name: security-report
-        path: /**/*.pdf
+        path: home/runner/work/WebGoat/**/*.pdf
