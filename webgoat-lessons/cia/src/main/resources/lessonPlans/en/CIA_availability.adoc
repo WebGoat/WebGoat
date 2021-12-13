@@ -19,6 +19,6 @@ Availability is "the property of being accessible and usable on demand by an aut
 ** network traffic control
 ** firewalls
 ** physical security of hardware and underlying infrastructure
-*** protections against fire, water, and other elements
+*** protection against fire, water, and other elements
 ** hardware maintenance
 ** redundancy
