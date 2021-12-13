@@ -1,6 +1,6 @@
 === Solution
 
-First let's create a zip file with an image inside:
+First, let's create a zip file with an image inside:
 
 [source]
 ----
@@ -8,16 +8,16 @@ curl -o cat.jpg http://localhost:8080/WebGoat/images/cats/1.jpg
 zip profile.zip cat.jpg
 ----
 
-Now let's upload this as our profile image, we can see nothing happens as mentioned in the assignment there is a bug in the software, and the result we see on the screen is:
+Now let's upload this as our profile image. We can see nothing happens as mentioned in the assignment there is a bug in the software, and the result we see on the screen is:
 
 [source]
 ----
-Zip file extracted successfully, failed to copy image. Please contact our helpdesk.
+Zip file extracted successfully failed to copy the image. Please get in touch with our helpdesk.
 ----
 
-Let's create a zip file which traverses all the way to the top and then back into the given directory in the assignment.
+Let's create a zip file that traverses to the top and then back into the given directory in the assignment.
 
-First create the directory structure:
+First, create the directory structure:
 
 [source, subs="macros"]
 ----
@@ -27,11 +27,11 @@ curl -o username:user[] http://localhost:8080/WebGoat/images/cats/1.jpg
 zip profile.zip ../../../../../../../..webGoatTempDir:temppath[]PathTraversal/username:user[]/username:user[].jpg
 ----
 
-Now if we upload this zip file, the assignment will be solved.
+Now, if we upload this zip file, it solves the assignment.
 
 === Why did this work?
 
-In the code the developers used the following fragment:
+In the code, the developers used the following fragment:
 
 [source%linenums]
 ----
@@ -45,12 +45,4 @@ while (entries.hasMoreElements()) {
 }
 ----
 
-The fix is to make sure the resulting file in line 5 resides in the directory you expect. You can use the following method in Java:
-
-[source]
-----
-File profilePicture = new File(uploadDirectory, e.getName());
-if (profilePicture.
-
-----
-
+The fix is to make sure the resulting file in line 5 resides in the directory you expect. Same as with the path traversal mitigation, use `profilePicture.getCanonicalPath()` to ensure the path is the same as you expect it to be.
