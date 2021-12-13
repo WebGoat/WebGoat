@@ -1,7 +1,7 @@
 === Path traversal while uploading files
 
-In this assignment the goal is to overwrite a specific file on the file system. Of course WebGoat cares about the users
-so you need to upload your file to the following location which is outside the normal upload location.
+In this assignment, the goal is to overwrite a specific file on the file system. Of course, WebGoat cares about the users
+so you need to upload your file to the following location outside the usual upload location.
 
 |===
 |OS |Location
