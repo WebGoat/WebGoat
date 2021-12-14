@@ -1,7 +1,7 @@
 == Concept 
 
 After learning what Cross-Site Scripting (XSS) is and how it works,
-you will know learn how you can defend against it.
+you will know to learn how you can defend against it.
 
 == Goals
 

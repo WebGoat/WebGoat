@@ -1,6 +1,6 @@
 == Concept 
 
-After taking a look at Reflected XSS in the previous lesson. We are now gonna take a closer look at another form of Cross-Site Scripting Attack: Stored XSS.
+After looking at Reflected XSS in the previous lesson, we are now going to take a closer look at another form of Cross-Site Scripting Attack: Stored XSS.
 
 == Goals
 * The user will learn what Stored XSS is

@@ -1,6 +1,6 @@
 == Reflective XSS
 
-See the HTML file below which passes data to a JSP file.
+See the HTML file below, which passes data to a JSP file.
 
 [source,html]
 -------------------------------------------------------
@@ -49,7 +49,7 @@ Here is the JSP file:
 
 
 As you can see the JSP file prints unfiltered user input which is never a good idea.
-You want people to accesses the page like this:
+You want people to access the page like this:
 
 ----
 http://hostname.com/mywebapp/main.jsp?first_name=John&last_name=Smith
@@ -62,7 +62,7 @@ http://hostname.com/mywebapp/main.jsp?first_name=<script>alert("XSS Test")</scri
 
 === It is your turn!
 
-Try to prevent this kind of XSS by escaping the url parameters in the JSP file:
+Try to prevent this kind of XSS by escaping the URL parameters in the JSP file:
 
 
 

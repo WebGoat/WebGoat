@@ -1,6 +1,6 @@
 == Concept 
 
-This lesson describes what Cross-Site Scripting (XSS) is and how it can be used to perform tasks that were not the original intent of the developer.
+This lesson describes what Cross-Site Scripting (XSS) is and how it can be used to perform tasks that were not the developer's original intent.
 
 == Goals
 
