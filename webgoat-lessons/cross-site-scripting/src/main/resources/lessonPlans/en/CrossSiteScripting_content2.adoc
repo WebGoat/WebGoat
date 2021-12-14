@@ -4,11 +4,11 @@
 
 * Input fields that echo user data
 
-* Error messages that return user supplied text
+* Error messages that return user-supplied text
 
-* Hidden fields that contain user supplied data
+* Hidden fields that contain user-supplied data
 
-* Any page that displays user supplied data
+* Any page that displays user-supplied data
 ** Message boards
 ** Free form comments
 
