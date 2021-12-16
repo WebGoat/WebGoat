@@ -23,8 +23,10 @@
 package org.owasp.webgoat.client_side_filtering;
 
 import com.beust.jcommander.internal.Lists;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
