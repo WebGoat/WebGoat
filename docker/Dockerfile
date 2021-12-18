@@ -3,6 +3,8 @@ FROM eclipse-temurin:17_35-jdk-focal
 RUN apt-get update
 RUN useradd -ms /bin/bash webgoat
 RUN apt-get -y install apt-utils nginx
+RUN chgrp -R 0 /home/webgoat
+RUN chmod -R g=u /home/webgoat
 
 USER webgoat
 
