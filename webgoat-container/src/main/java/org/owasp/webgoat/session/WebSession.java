@@ -5,8 +5,6 @@ import org.owasp.webgoat.users.WebGoatUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * *************************************************************************************************
@@ -39,9 +37,10 @@ import java.sql.SQLException;
  */
 public class WebSession implements Serializable {
 
-	private static final long serialVersionUID = -4270066103101711560L;
-	private final WebGoatUser currentUser;
-    private Lesson currentLesson;
+    private static final long serialVersionUID = -4270066103101711560L;
+    private final WebGoatUser currentUser;
+    private transient Lesson currentLesson;
+    private boolean securityEnabled;
 
     public WebSession() {
         this.currentUser = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -72,5 +71,13 @@ public class WebSession implements Serializable {
      */
     public String getUserName() {
         return currentUser.getUsername();
+    }
+
+    public void toggleSecurity() {
+        this.securityEnabled = !this.securityEnabled;
+    }
+
+    public boolean isSecurityEnabled() {
+        return securityEnabled;
     }
 }

