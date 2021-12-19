@@ -25,7 +25,7 @@ jobs:
           key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ubuntu-latest-m2
       - name: Test with Maven
-        run: mvn install -DskipTests
+        run: mvn --no-transfer-progress install -DskipTests
 
   testing:
     if: "github.repository != 'WebGoat/WebGoat'"
@@ -34,8 +34,8 @@ jobs:
     strategy:
       matrix:
         args:
-          - mvn -pl '!webgoat-integration-tests' test
-          - mvn -pl webgoat-integration-tests test
+          - mvn --no-transfer-progress -pl '!webgoat-integration-tests' test
+          - mvn --no-transfer-progress -pl webgoat-integration-tests test
     steps:
       - uses: actions/checkout@v2
       - name: set up JDK 17

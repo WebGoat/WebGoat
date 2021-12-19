@@ -38,8 +38,8 @@ jobs:
           echo "WEBGOAT_MAVEN_VERSION=${WEBGOAT_MAVEN_VERSION:1}" >> $GITHUB_ENV
       - name: Build with Maven
         run: |
-          mvn versions:set -DnewVersion=${{ env.WEBGOAT_MAVEN_VERSION }}
-          mvn install -DskipTests
+          mvn --no-transfer-progress versions:set -DnewVersion=${{ env.WEBGOAT_MAVEN_VERSION }}
+          mvn --no-transfer-progress install -DskipTests
 
       - name: "Create release"
         uses: softprops/action-gh-release@v1
