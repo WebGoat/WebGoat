@@ -66,14 +66,4 @@ public class Assignment {
         this.hints = hints;
     }
 
-    /**
-     * Set path is here to overwrite stored paths.
-     * Since a stored path can no longer be used in a lesson while
-     * the lesson (name) itself is still part of the lesson.
-     *
-     * @param pathName the path
-     */
-    public void setPath(String pathName) {
-        this.path = pathName;
-    }
 }

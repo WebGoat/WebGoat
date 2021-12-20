@@ -29,7 +29,7 @@
 
 package org.owasp.webgoat.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.i18n.Messages;
 import org.owasp.webgoat.i18n.PluginMessages;
@@ -44,7 +44,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -56,13 +55,13 @@ import java.util.Properties;
  */
 @RestController
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LabelService {
 
     public static final String URL_LABELS_MVC = "/service/labels.mvc";
-    private LocaleResolver localeResolver;
-    private Messages messages;
-    private PluginMessages pluginMessages;
+    private final LocaleResolver localeResolver;
+    private final Messages messages;
+    private final PluginMessages pluginMessages;
 
     /**
      * We use Springs session locale resolver which also gives us the option to change the local later on. For
@@ -79,12 +78,12 @@ public class LabelService {
     @GetMapping(path = URL_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Properties> fetchLabels(@RequestParam(value = "lang", required = false) String lang) {
-        if (!StringUtils.isEmpty(lang)) {
-            Locale locale = Locale.forLanguageTag(lang);
+        if (StringUtils.hasText(lang)) {
+            var locale = Locale.forLanguageTag(lang);
             ((SessionLocaleResolver) localeResolver).setDefaultLocale(locale);
             log.debug("Language provided: {} leads to Locale: {}", lang, locale);
         }
-        Properties allProperties = new Properties();
+        var allProperties = new Properties();
         allProperties.putAll(messages.getMessages());
         allProperties.putAll(pluginMessages.getMessages());
         return new ResponseEntity<>(allProperties, HttpStatus.OK);

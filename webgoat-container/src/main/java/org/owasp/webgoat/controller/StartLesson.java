@@ -31,19 +31,14 @@
 
 package org.owasp.webgoat.controller;
 
-import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.session.Course;
 import org.owasp.webgoat.session.WebSession;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Optional;
 
 
 @Controller
@@ -52,7 +47,7 @@ public class StartLesson {
     private final WebSession ws;
     private final Course course;
 
-    public StartLesson(final WebSession ws, final Course course) {
+    public StartLesson(WebSession ws, Course course) {
         this.ws = ws;
         this.course = course;
     }
@@ -64,29 +59,30 @@ public class StartLesson {
      */
     @RequestMapping(path = "startlesson.mvc", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView start() {
-        ModelAndView model = new ModelAndView();
+        var model = new ModelAndView();
 
         model.addObject("course", course);
         model.addObject("lesson", ws.getCurrentLesson());
         model.setViewName("lesson_content");
+
         return model;
     }
 
     @RequestMapping(value = {"*.lesson"}, produces = "text/html")
     public ModelAndView lessonPage(HttpServletRequest request) {
-        // I will set here the thymeleaf fragment location based on the resource requested.
-        ModelAndView model = new ModelAndView();
-        SecurityContext context = SecurityContextHolder.getContext(); //TODO this should work with the security roles of Spring
-        //GrantedAuthority authority = context.getAuthentication().getAuthorities().iterator().next();
-        String path = request.getRequestURL().toString(); // we now got /a/b/c/AccessControlMatrix.lesson
-        String lessonName = path.substring(path.lastIndexOf('/') + 1, path.indexOf(".lesson"));
-        List<? extends Lesson> lessons = course.getLessons();
-        Optional<? extends Lesson> lesson = lessons.stream()
+        var model = new ModelAndView("lesson_content");
+        var path = request.getRequestURL().toString(); // we now got /a/b/c/AccessControlMatrix.lesson
+        var lessonName = path.substring(path.lastIndexOf('/') + 1, path.indexOf(".lesson"));
+
+        course.getLessons()
+                .stream()
                 .filter(l -> l.getId().equals(lessonName))
-                .findFirst();
-        ws.setCurrentLesson(lesson.get());
-        model.setViewName("lesson_content");
-        model.addObject("lesson", lesson.get());
+                .findFirst()
+                .ifPresent(lesson -> {
+                    ws.setCurrentLesson(lesson);
+                    model.addObject("lesson", lesson);
+                });
+
         return model;
     }
 

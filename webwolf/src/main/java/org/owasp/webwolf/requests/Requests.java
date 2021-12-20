@@ -26,8 +26,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTrace.Request;
@@ -39,7 +39,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Instant;
-import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
@@ -51,7 +50,7 @@ import static java.util.stream.Collectors.toList;
  * @since 8/13/17.
  */
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @RequestMapping(value = "/WebWolf/requests")
 public class Requests {
@@ -69,14 +68,14 @@ public class Requests {
 
     @GetMapping
     public ModelAndView get() {
-        ModelAndView m = new ModelAndView("requests");
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Tracert> traces = traceRepository.findAllTraces().stream()
+        var model = new ModelAndView("requests");
+        var user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var traces = traceRepository.findAllTraces().stream()
         		.filter(t -> allowedTrace(t, user))
                 .map(t -> new Tracert(t.getTimestamp(), path(t), toJsonString(t))).collect(toList());
-        m.addObject("traces", traces);
+        model.addObject("traces", traces);
 
-        return m;
+        return model;
     }
     
     private boolean allowedTrace(HttpTrace t, UserDetails user) {
