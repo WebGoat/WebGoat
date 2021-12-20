@@ -41,6 +41,9 @@ jobs:
         java-version: '17'
       if: matrix.language == 'java'
 
+    # deLombok
+    - name: Delombok WebGoat
+      uses: advanced-security/delombok-action@webgoat
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
