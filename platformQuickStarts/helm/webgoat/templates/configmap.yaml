@@ -1,0 +1,13 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ .Values.webgoat_server.name }}-configmap
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.webgoat_server.name }} 
+data:
+  TZ: 'Europe/Amsterdam'
+  EXCLUDE_CATEGORIES: 'CLIENT_SIDE'
+  EXCLUDE_LESSONS: 'SqlInjectionAdvanced'
+  WEBWOLF_HOST: '{{ .Values.webgoat_server.name }}-service'
+  WEBWOLF_PORT: '9090'

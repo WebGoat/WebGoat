@@ -6,9 +6,6 @@ metadata:
   name: {{ .Values.webgoat_server.name }}-wolf
   namespace: {{ .Values.namespace }}
 spec:
-  tls:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
   path: /
   port:
     targetPort: 9090

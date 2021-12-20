@@ -16,6 +16,10 @@ spec:
       labels:
         app: {{ .Values.webgoat_server.name }} 
     spec:
+      volumes:
+        - name: webgoat-volume-1
+          #persistentVolumeClaim:
+          #  claimName: {{ .Values.webgoat_server.name }}-pvc 
       containers:
         - resources:
             limits:
@@ -32,7 +36,15 @@ spec:
               protocol: TCP
           image: {{ .Values.webgoat_server.image }}
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: webgoat-volume-1
+              mountPath: /home/webgoat/.webgoat-8.2.3-SNAPSHOT 
           terminationMessagePolicy: File
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.webgoat_server.name }}-configmap 
+            - secretRef:
+                name: {{ .Values.webgoat_server.name }}-secret      
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
