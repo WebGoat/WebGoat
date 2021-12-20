@@ -1,15 +1,21 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "webgoat.fullname" . }}
   labels:
-    {{- include "webgoat.labels" . | nindent 4 }}
+    app: {{ .Values.webgoat_server.name }}
+    app.kubernetes.io/part-of: {{ .Values.webgoat_server.name }}
+  name: {{ .Values.webgoat_server.name }}-service
+  namespace: {{ .Values.namespace }}
 spec:
-  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: 8080
-      protocol: TCP
-      name: webgoat
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: 9090-tcp
+    port: 9090
+    protocol: TCP
+    targetPort: 9090
   selector:
-    {{- include "webgoat.selectorLabels" . | nindent 4 }}
+    app: {{ .Values.webgoat_server.name }}
+  sessionAffinity: None

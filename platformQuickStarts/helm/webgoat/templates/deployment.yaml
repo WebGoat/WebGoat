@@ -1,61 +1,47 @@
 apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: {{ include "webgoat.fullname" . }}
+  name: {{ .Values.webgoat_server.name }}
+  namespace: {{ .Values.namespace }}
   labels:
-    {{- include "webgoat.labels" . | nindent 4 }}
+    app.kubernetes.io/part-of: {{ .Values.webgoat_server.name }} 
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 1
   selector:
     matchLabels:
-      {{- include "webgoat.selectorLabels" . | nindent 6 }}
+      app: {{ .Values.webgoat_server.name }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "webgoat.selectorLabels" . | nindent 8 }}
+        app: {{ .Values.webgoat_server.name }} 
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "webgoat.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+            requests:
+              memory: "1Gi"
+              cpu: "0.5"
+          name: webgoat
           ports:
-            - name: webgoat
-              containerPort: 8080
+            - containerPort: 8080
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /WebGoat
-              port: webgoat
-          readinessProbe:
-            httpGet:
-              path: /WebGoat
-              port: webgoat
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+            - containerPort: 9090
+              protocol: TCP
+          image: {{ .Values.webgoat_server.image }}
+          imagePullPolicy: IfNotPresent
+          terminationMessagePolicy: File
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
