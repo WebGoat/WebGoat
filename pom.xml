@@ -189,6 +189,16 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>15</source>
+                    <target>15</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.version}</version>
                 <configuration>
@@ -229,7 +239,7 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
-                        <id>Restrict-bad-log4j-versions</id>
+                        <id>restrict-log4j-versions</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>enforce</goal>
@@ -237,8 +247,8 @@
                         <configuration>
                             <rules>
                                 <bannedDependencies>
-                                    <excludes>
-                                        <exclude>org.apache.logging.log4j:log4j-core:(,2.15.0)</exclude>
+                                    <excludes combine.children="append">
+                                        <exclude>org.apache.logging.log4j:log4j-core</exclude>
                                     </excludes>
                                 </bannedDependencies>
                             </rules>
