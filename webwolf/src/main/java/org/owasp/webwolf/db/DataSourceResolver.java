@@ -94,7 +94,7 @@ public class DataSourceResolver {
     }
 
     public void healthCheck(RestTemplate restTemplate) {
-        log.info("Checking database availability.");
+        log.info("Checking database availability (make sure WebGoat is running)...");
         JsonNode json = restTemplate.getForObject(baseUrl + dbHealthPath, JsonNode.class);
         String status = getDsHealthStatus(json);
         if (!status.equals("UP")) {
