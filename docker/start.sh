@@ -51,8 +51,9 @@ function write_start_message() {
        \  /\  /  |  __/ | |_) | | |__| | | (_) | | (_| | | |_
         \/  \/    \___| |_.__/   \_____|  \___/   \__,_|  \__|
   " >> webgoat.log
-  echo "WebGoat and WebWolf successfully started..." >> webgoat.log
-  pidof nginx >/dev/null && echo "Browse to http://localhost to get started" >> webgoat.log ||  echo "Browse to http://localhost:8080/WebGoat or http://localhost:9090/WebWolf to get started" >> webgoat.log
+  echo $'WebGoat and WebWolf successfully started...\n' >> webgoat.log
+  echo "NOTE: port numbers mentioned below may vary depending on your port mappings while starting the Docker container" >> webgoat.log
+  pidof nginx >/dev/null && echo "Browse to http://localhost to get started" >> webgoat.log || echo "Browse to http://localhost:8080/WebGoat or http://localhost:9090/WebWolf to get started." >> webgoat.log
 }
 
 function tail_log_file() {
