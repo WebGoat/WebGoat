@@ -56,8 +56,8 @@ WebWolf will be located at: http://localhost:9090/WebWolf
 Download the latest WebGoat and WebWolf release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```shell
-java -Dfile.encoding=UTF-8 -jar webgoat-server-8.2.2.jar [--server.port=8080] [--server.address=localhost] [--hsqldb.port=9001]
-java -Dfile.encoding=UTF-8 -jar webwolf-8.2.2.jar [--server.port=9090] [--server.address=localhost] [--hsqldb.port=9001]
+java -Dfile.encoding=UTF-8 -Dserver.port=8080 -Dserver.address=localhost -Dhsqldb.port=9001 -jar webgoat-server-8.2.2.jar 
+java -Dfile.encoding=UTF-8 -Dserver.port=9090 -Dserver.address=localhost -jar webwolf-8.2.2.jar
 ```
 
 WebGoat will be located at: http://localhost:8080/WebGoat and   
@@ -68,7 +68,6 @@ WebWolf will be located at: http://localhost:9090/WebWolf (change ports if neces
 ### Prerequisites:
 
 * Java 17
-* Maven > 3.2.1
 * Your favorite IDE
 * Git, or Git support in your IDE
 
@@ -83,18 +82,25 @@ Now let's start by compiling the project.
 ```Shell
 cd WebGoat
 git checkout <<branch_name>>
-mvn clean install
+# On Linux/Mac:
+./mvnw clean install 
+# On Windows:
+./mvnw.cmd clean install
 ```
 
 Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 
 ```Shell
-mvn -pl webgoat-server spring-boot:run
+# On Linux/Mac:
+./mvnw -pl webgoat-server spring-boot:run
+# On Widows:
+./mvnw.cmd -pl webgoat-server spring-boot:run
+
 ```
-... you should be running webgoat on localhost:8080/WebGoat momentarily
+... you should be running WebGoat on localhost:8080/WebGoat momentarily
 
 
-To change the IP address add the following variable to the WebGoat/webgoat-container/src/main/resources/application.properties file:
+To change the IP address add the following variable to the `WebGoat/webgoat-container/src/main/resources/application.properties file`:
 
 ```
 server.address=x.x.x.x
