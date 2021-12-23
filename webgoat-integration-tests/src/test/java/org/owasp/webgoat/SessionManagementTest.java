@@ -42,6 +42,6 @@ class SessionManagementTest extends IntegrationTest {
     void hijackSessionTest() {
         startLesson("HijackSession");
         
-        checkAssignment(HIJACK_LOGIN_CONTEXT_PATH, Map.of("username", "webgoat", "password", "webgoat"), false);
+        checkAssignment(url(HIJACK_LOGIN_CONTEXT_PATH), Map.of("username", "webgoat", "password", "webgoat"), false);
     }
 }
