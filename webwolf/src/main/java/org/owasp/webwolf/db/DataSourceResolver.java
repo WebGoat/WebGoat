@@ -65,13 +65,24 @@ public class DataSourceResolver {
     @Value("${webgoat.actuator.configprops.path:/configprops}")
     private String configPropsPath;
     
+    @Value("${hsqldb.address}")
+    private String hsqlHost;
+
     @Autowired
     ApplicationContext ctx;
 
     @Bean
     @DependsOn("dsConfigDiscovery")
     public DataSource dataSource(DataSourceProperties dataSourceProperties) {
-        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(dataSourceProperties.getUrl());
+        String connectString = dataSourceProperties.getUrl();
+        /** 
+         * Replace the server address as reported by webgoat by the one that is given 
+         * to WebWolf as the address of WebGoat. In case it doesn't run locally.
+         */
+        if (connectString!=null) {
+            connectString = connectString.replace("0.0.0.0", hsqlHost);
+        }
+        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(connectString);
         driverManagerDataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
         return driverManagerDataSource;
     }
