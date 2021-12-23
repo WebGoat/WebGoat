@@ -47,8 +47,19 @@ spec:
           image: {{ .Values.webgoat_server.image }}
           command:
             - 'java'
-          args: ["-Duser.home=/home/webgoat","-Dfile.encoding=UTF-8","-jar","/home/webgoat/webgoat.jar","--server.address=0.0.0.0"]
-          #  - '--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.beans=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED -Duser.home=/home/webgoat -Dfile.encoding=UTF-8 -jar /home/webgoat/webgoat.jar --server.address=0.0.0.0'
+          args: ["-Duser.home=/home/webgoat",
+                 "--add-opens","java.base/java.lang=ALL-UNNAMED",
+                 "--add-opens","java.base/java.util=ALL-UNNAMED",
+                 "--add-opens","java.base/java.lang.reflect=ALL-UNNAMED",
+                 "--add-opens","java.base/java.text=ALL-UNNAMED",
+                 "--add-opens","java.desktop/java.beans=ALL-UNNAMED",
+                 "--add-opens","java.desktop/java.awt.font=ALL-UNNAMED",
+                 "--add-opens","java.base/sun.nio.ch=ALL-UNNAMED",
+                 "--add-opens","java.base/java.io=ALL-UNNAMED",
+                 "-Djava.io.tmpdir=/home/webgoat/.webgoat-8.2.3-SNAPSHOT",
+                 "-Dfile.encoding=UTF-8",
+                 "-jar","/home/webgoat/webgoat.jar",
+                 "--server.address=0.0.0.0"]
           imagePullPolicy: Always
           volumeMounts:
             - name: webgoat-volume-1
@@ -121,7 +132,11 @@ spec:
           image: {{ .Values.webwolf_server.image }}
           command:
             - 'java'
-          args: ["-Duser.home=/home/webgoat","-Dfile.encoding=UTF-8","-jar","/home/webgoat/webwolf.jar","--server.address=0.0.0.0"]
+          args: ["-Duser.home=/home/webgoat",
+                "-Djava.io.tmpdir=/home/webgoat/.webgoat-8.2.3-SNAPSHOT",
+                "-Dfile.encoding=UTF-8",
+                "-jar","/home/webgoat/webwolf.jar",
+                "--server.address=0.0.0.0"]
           imagePullPolicy: Always
           volumeMounts:
             - name: webgoat-volume-1
