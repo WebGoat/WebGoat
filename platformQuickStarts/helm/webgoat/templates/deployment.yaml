@@ -1,11 +1,10 @@
-apiVersion: apps/v1
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: {{ .Values.webgoat_server.name }}
-  namespace: {{ .Values.namespace }}
   labels:
     app.kubernetes.io/part-of: {{ .Values.webgoat_server.name }} 
+  name: {{ .Values.webgoat_server.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -18,8 +17,8 @@ spec:
     spec:
       volumes:
         - name: webgoat-volume-1
-          #persistentVolumeClaim:
-          #  claimName: {{ .Values.webgoat_server.name }}-pvc 
+          persistentVolumeClaim:
+            claimName: {{ .Values.webgoat_server.name }}-pvc 
       containers:
         - resources:
             limits:
@@ -32,10 +31,25 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
-            - containerPort: 9090
-              protocol: TCP
+          #livenessProbe:
+          #  failureThreshold: 3
+          #  periodSeconds: 10
+          #  httpGet:
+          #    path: /WebGoat
+          #    port: 8080
+          #readinessProbe:
+          #  failureThreshold: 3
+          #  periodSeconds: 10
+          #  initialDelaySeconds: 60
+          ##  httpGet:
+           #   path: /WebGoat
+           #   port: 8080
           image: {{ .Values.webgoat_server.image }}
-          imagePullPolicy: IfNotPresent
+          command:
+            - 'java'
+          args: ["-Duser.home=/home/webgoat","-Dfile.encoding=UTF-8","-jar","/home/webgoat/webgoat.jar","--server.address=0.0.0.0"]
+          #  - '--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.beans=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED -Duser.home=/home/webgoat -Dfile.encoding=UTF-8 -jar /home/webgoat/webgoat.jar --server.address=0.0.0.0'
+          imagePullPolicy: Always
           volumeMounts:
             - name: webgoat-volume-1
               mountPath: /home/webgoat/.webgoat-8.2.3-SNAPSHOT 
@@ -45,6 +59,77 @@ spec:
                 name: {{ .Values.webgoat_server.name }}-configmap 
             - secretRef:
                 name: {{ .Values.webgoat_server.name }}-secret      
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.webgoat_server.name }} 
+  name: {{ .Values.webwolf_server.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.webwolf_server.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.webwolf_server.name }} 
+    spec:
+      volumes:
+        - name: webgoat-volume-1
+          persistentVolumeClaim:
+            claimName: {{ .Values.webgoat_server.name }}-pvc 
+      containers:
+        - resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+            requests:
+              memory: "1Gi"
+              cpu: "0.5"
+          name: webwolf
+          ports:
+            - containerPort: 9090
+              protocol: TCP
+          #livenessProbe:
+          #  failureThreshold: 3
+          #  periodSeconds: 10
+          #  httpGet:
+          #    path: /WebWolf
+          #    port: 9090
+          #readinessProbe:
+            #failureThreshold: 3
+            #periodSeconds: 10
+            #initialDelaySeconds: 100
+            #httpGet:
+            #  path: /WebWolf
+            #  port: 9090
+          image: {{ .Values.webwolf_server.image }}
+          command:
+            - 'java'
+          args: ["-Duser.home=/home/webgoat","-Dfile.encoding=UTF-8","-jar","/home/webgoat/webwolf.jar","--server.address=0.0.0.0"]
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: webgoat-volume-1
+              mountPath: /home/webgoat/.webgoat-8.2.3-SNAPSHOT 
+          terminationMessagePolicy: File
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.webwolf_server.name }}-configmap   
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
