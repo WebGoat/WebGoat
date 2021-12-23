@@ -56,14 +56,14 @@ spec:
                  "--add-opens","java.desktop/java.awt.font=ALL-UNNAMED",
                  "--add-opens","java.base/sun.nio.ch=ALL-UNNAMED",
                  "--add-opens","java.base/java.io=ALL-UNNAMED",
-                 "-Djava.io.tmpdir=/home/webgoat/.webgoat-8.2.3-SNAPSHOT",
+                 "-Djava.io.tmpdir=/home/webgoat/.webgoat-{{ .Chart.AppVersion }}",
                  "-Dfile.encoding=UTF-8",
                  "-jar","/home/webgoat/webgoat.jar",
                  "--server.address=0.0.0.0"]
           imagePullPolicy: Always
           volumeMounts:
             - name: webgoat-volume-1
-              mountPath: /home/webgoat/.webgoat-8.2.3-SNAPSHOT 
+              mountPath: /home/webgoat/.webgoat-{{ .Chart.AppVersion }} 
           terminationMessagePolicy: File
           envFrom:
             - configMapRef:
@@ -133,14 +133,14 @@ spec:
           command:
             - 'java'
           args: ["-Duser.home=/home/webgoat",
-                "-Djava.io.tmpdir=/home/webgoat/.webgoat-8.2.3-SNAPSHOT",
+                "-Djava.io.tmpdir=/home/webgoat/.webgoat-{{ .Chart.AppVersion }}",
                 "-Dfile.encoding=UTF-8",
                 "-jar","/home/webgoat/webwolf.jar",
                 "--server.address=0.0.0.0"]
           imagePullPolicy: Always
           volumeMounts:
             - name: webgoat-volume-1
-              mountPath: /home/webgoat/.webgoat-8.2.3-SNAPSHOT 
+              mountPath: /home/webgoat/.webgoat-{{ .Chart.AppVersion }} 
           terminationMessagePolicy: File
           envFrom:
             - configMapRef:

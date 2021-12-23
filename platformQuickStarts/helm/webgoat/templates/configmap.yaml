@@ -9,5 +9,5 @@ data:
   TZ: 'Europe/Amsterdam'
   EXCLUDE_CATEGORIES: 'CLIENT_SIDE'
   EXCLUDE_LESSONS: 'SqlInjectionAdvanced'
-  WEBWOLF_HOST: 'webwolf-1-wolf-demo-project.apps-crc.testing'
+  WEBWOLF_HOST: '{{ .Values.webwolf_server.name }}-wolf-{{ .Values.namespace }}{{ .Values.urlpostfix }}'
   WEBWOLF_PORT: '80'

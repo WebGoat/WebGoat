@@ -6,4 +6,4 @@ type: application
  
 version: 0.1.0
  
-appVersion: "openshift"
+appVersion: "8.2.3-SNAPSHOT"

@@ -5,6 +5,9 @@ This helm chart can be used on a OpenShift Code Ready Container environment or a
 With the OpenShift CRC (Code Ready Container) cluster you run an entire environment on your local machine. (> 4 vCPU, >8GB mem)
 
 See the Red Hat documentation for general understanding of OpenShift. Make sure helm is installed as well.
+
+https://developers.redhat.com/developer-sandbox
+
 ## CRC commands
 
     crc config set cpus 6
@@ -21,6 +24,14 @@ The example without modification uses *demo-project* as the project/namespace fo
 ## Helm install this example on your local Code Ready Container environment
 
     helm install goat1 ./webgoat
+
+## Helm install on single node Developer Sandbox (cloud)
+
+    oc login --token=sha256~phDWy6Wm_oJQW6kmOHEbLkRdDIXU6b70hRVmdSYWolM --server=https://api.sandbox-m2.rz9k.p1.openshiftapps.com:6443 
+    helm install --set namespace=renezubcevic-dev --set accessMode=ReadWriteOnce --set urlpostfix=.apps.sandbox-m2.rz9k.p1.openshiftapps.com goat1 ./webgoat
+
+A code ready container looks the same for all developers on their local machine, but a developer sandbox requires other credentials from your account in the cloud and different namespace and urlpostfix and also a different access mode for the persistent storage.
+Of course the token here is a fake.
 
 ## uninstall 
 

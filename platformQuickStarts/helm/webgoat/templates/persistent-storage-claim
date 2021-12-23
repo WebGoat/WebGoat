@@ -5,7 +5,7 @@ metadata:
   namespace: '{{ .Values.namespace }}'
 spec:
   accessModes:
-    - ReadWriteMany
+    - '{{ .Values.accessMode }}'
   resources:
     requests:
       storage: 1Gi
