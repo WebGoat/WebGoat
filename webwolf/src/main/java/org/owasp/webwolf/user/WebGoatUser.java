@@ -42,13 +42,9 @@ import java.util.Collections;
 @Entity
 public class WebGoatUser implements UserDetails {
 
-    public static final String ROLE_USER = "WEBGOAT_USER";
-    public static final String ROLE_ADMIN = "WEBGOAT_ADMIN";
-
     @Id
     private String username;
     private String password;
-    private String role = ROLE_USER;
     @Transient
     private User user;
 
@@ -66,7 +62,7 @@ public class WebGoatUser implements UserDetails {
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(getRole()));
+        return Collections.emptyList();
     }
 
     @Override

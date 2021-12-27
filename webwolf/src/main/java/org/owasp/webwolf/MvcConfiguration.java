@@ -23,17 +23,12 @@
 package org.owasp.webwolf;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 import java.io.File;
 
 /**
@@ -44,22 +39,22 @@ import java.io.File;
 public class MvcConfiguration implements WebMvcConfigurer {
 
     @Value("${webwolf.fileserver.location}")
-    private String fileLocatation;
+    private String fileLocation;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/files/**").addResourceLocations("file:///" + fileLocatation + "/");
+        registry.addResourceHandler("/files/**").addResourceLocations("file:///" + fileLocation + "/");
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login").setViewName("webwolf-login");
         registry.addViewController("/WebWolf/home").setViewName("home");
     }
 
     @PostConstruct
     public void createDirectory() {
-        File file = new File(fileLocatation);
+        File file = new File(fileLocation);
         if (!file.exists()) {
             file.mkdirs();
         }

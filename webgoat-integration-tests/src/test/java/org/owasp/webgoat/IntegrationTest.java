@@ -9,6 +9,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.owasp.server.StartWebGoat;
 import org.owasp.webwolf.WebWolf;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 

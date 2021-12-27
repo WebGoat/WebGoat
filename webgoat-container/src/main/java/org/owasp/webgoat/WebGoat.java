@@ -34,8 +34,11 @@ package org.owasp.webgoat;
 import org.owasp.webgoat.session.UserSessionData;
 import org.owasp.webgoat.session.WebSession;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.client.RestTemplate;
@@ -43,6 +46,9 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 
 @Configuration
+@ComponentScan("org.owasp.webgoat")
+@PropertySource("classpath:webgoat.properties")
+@EnableAutoConfiguration
 public class WebGoat {
 
     @Bean(name = "pluginTargetDirectory")

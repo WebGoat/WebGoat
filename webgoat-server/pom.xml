@@ -10,13 +10,18 @@
     </parent>
 
     <properties>
-        <start-class>org.owasp.webgoat.StartWebGoat</start-class>
+        <start-class>org.owasp.server.StartWebGoat</start-class>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
             <artifactId>webgoat-container</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat</groupId>
+            <artifactId>webwolf</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -174,10 +179,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -187,12 +188,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <excludeDevtools>true</excludeDevtools>
+                    <mainClass>org.owasp.server.StartWebGoat</mainClass>
                     <!-- See http://docs.spring.io/spring-boot/docs/current/reference/html/howto-build.html#howto-extract-specific-libraries-when-an-executable-jar-runs -->
                     <requiresUnpack>
-                        <dependency>
-                            <groupId>org.thymeleaf.extra</groupId>
-                            <artifactId>thymeleaf-extras-springsecurity5++</artifactId>
-                        </dependency>
                         <dependency>
                             <groupId>org.asciidoctor</groupId>
                             <artifactId>asciidoctorj</artifactId>

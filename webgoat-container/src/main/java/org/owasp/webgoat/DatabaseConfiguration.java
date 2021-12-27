@@ -1,25 +1,33 @@
 package org.owasp.webgoat;
 
+import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.configuration.FluentConfiguration;
-import org.owasp.webgoat.service.RestartLessonService;
-import org.springframework.beans.factory.annotation.Value;
+import org.owasp.webgoat.LessonDataSource;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @Configuration
+@RequiredArgsConstructor
 public class DatabaseConfiguration {
 
-    private String driverClassName;
+    private final DataSourceProperties properties;
 
-    public DatabaseConfiguration(@Value("${spring.datasource.driver-class-name}") String driverClassName) {
-        this.driverClassName = driverClassName;
+    @Bean
+    @Primary
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(properties.getDriverClassName());
+        dataSource.setUrl(properties.getUrl());
+        dataSource.setUsername(properties.getUsername());
+        dataSource.setPassword(properties.getPassword());
+        return dataSource;
     }
 
     /**
@@ -29,11 +37,11 @@ public class DatabaseConfiguration {
      */
 
     @Bean(initMethod = "migrate")
-    public Flyway flyWayContainer(DataSource dataSource) {
+    public Flyway flyWayContainer() {
         return Flyway
                 .configure()
-                .configuration(Map.of("driver", driverClassName))
-                .dataSource(dataSource)
+                .configuration(Map.of("driver", properties.getDriverClassName()))
+                .dataSource(dataSource())
                 .schemas("container")
                 .locations("db/container")
                 .load();
@@ -43,14 +51,14 @@ public class DatabaseConfiguration {
     public Function<String, Flyway> flywayLessons(LessonDataSource lessonDataSource) {
         return schema -> Flyway
                 .configure()
-                .configuration(Map.of("driver", driverClassName))
+                .configuration(Map.of("driver", properties.getDriverClassName()))
                 .schemas(schema)
                 .dataSource(lessonDataSource)
                 .load();
     }
 
     @Bean
-    public LessonDataSource lessonDataSource(DataSource dataSource) {
-        return new LessonDataSource(dataSource);
+    public LessonDataSource lessonDataSource() {
+        return new LessonDataSource(dataSource());
     }
 }
