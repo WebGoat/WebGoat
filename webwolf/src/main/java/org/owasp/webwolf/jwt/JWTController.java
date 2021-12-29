@@ -13,19 +13,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 public class JWTController {
 
-    @GetMapping("/WebWolf/jwt")
+    @GetMapping("/jwt")
     public ModelAndView jwt() {
         return new ModelAndView("jwt");
     }
 
-    @PostMapping(value = "/WebWolf/jwt/decode", consumes = APPLICATION_FORM_URLENCODED_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/jwt/decode", consumes = APPLICATION_FORM_URLENCODED_VALUE, produces = APPLICATION_JSON_VALUE)
     public JWTToken decode(@RequestBody MultiValueMap<String, String> formData) {
         var jwt = formData.getFirst("token");
         var secretKey = formData.getFirst("secretKey");
         return JWTToken.decode(jwt, secretKey);
     }
 
-    @PostMapping(value = "/WebWolf/jwt/encode", consumes = APPLICATION_FORM_URLENCODED_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/jwt/encode", consumes = APPLICATION_FORM_URLENCODED_VALUE, produces = APPLICATION_JSON_VALUE)
     public JWTToken encode(@RequestBody MultiValueMap<String, String> formData) {
         var header = formData.getFirst("header");
         var payload = formData.getFirst("payload");

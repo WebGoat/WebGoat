@@ -32,7 +32,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan("org.owasp.webwolf")
-@PropertySource("classpath:webwolf.properties")
+@PropertySource("classpath:application-webwolf.properties")
 @EnableAutoConfiguration
 public class WebWolf {
 

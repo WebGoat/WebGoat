@@ -52,7 +52,7 @@ import static java.util.stream.Collectors.toList;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping(value = "/WebWolf/requests")
+@RequestMapping(value = "/requests")
 public class Requests {
 
     private final WebWolfTraceRepository traceRepository;

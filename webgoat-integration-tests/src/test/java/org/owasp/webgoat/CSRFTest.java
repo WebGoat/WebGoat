@@ -57,7 +57,7 @@ public class CSRFTest extends IntegrationTest {
     @SneakyThrows
     public void init() {
         startLesson("CSRF");
-        webwolfFileDir = getWebWolfServerPath();
+        webwolfFileDir = getWebWolfFileServerLocation();
         uploadTrickHtml("csrf3.html", trickHTML3.replace("WEBGOATURL", url("/csrf/basic-get-flag")));
         uploadTrickHtml("csrf4.html", trickHTML4.replace("WEBGOATURL", url("/csrf/review")));
         uploadTrickHtml("csrf7.html", trickHTML7.replace("WEBGOATURL", url("/csrf/feedback/message")));
@@ -67,10 +67,10 @@ public class CSRFTest extends IntegrationTest {
     @TestFactory
     Iterable<DynamicTest> testCSRFLesson() {
         return Arrays.asList(
-                dynamicTest("assignement 3", () -> checkAssignment3(callTrickHtml("csrf3.html"))),
-                dynamicTest("assignement 4", () -> checkAssignment4(callTrickHtml("csrf4.html"))),
-                dynamicTest("assignement 7", () -> checkAssignment7(callTrickHtml("csrf7.html"))),
-                dynamicTest("assignement 8", () -> checkAssignment8(callTrickHtml("csrf8.html")))
+                dynamicTest("assignment 3", () -> checkAssignment3(callTrickHtml("csrf3.html"))),
+                dynamicTest("assignment 4", () -> checkAssignment4(callTrickHtml("csrf4.html"))),
+                dynamicTest("assignment 7", () -> checkAssignment7(callTrickHtml("csrf7.html"))),
+                dynamicTest("assignment 8", () -> checkAssignment8(callTrickHtml("csrf8.html")))
         );
     }
 
@@ -117,7 +117,6 @@ public class CSRFTest extends IntegrationTest {
     }
 
     private void checkAssignment3(String goatURL) {
-
         String flag = RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
@@ -155,9 +154,7 @@ public class CSRFTest extends IntegrationTest {
     }
 
     private void checkAssignment7(String goatURL) {
-
         Map<String, Object> params = new HashMap<>();
-        params.clear();
         params.put("{\"name\":\"WebGoat\",\"email\":\"webgoat@webgoat.org\",\"content\":\"WebGoat is the best!!", "\"}");
 
         String flag = RestAssured.given()

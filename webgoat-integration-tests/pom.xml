@@ -27,23 +27,6 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.owasp.webgoat</groupId>
-            <artifactId>webgoat-server</artifactId>
-            <version>${project.version}</version>
-            <classifier>internal</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.owasp.webgoat</groupId>
-            <artifactId>webwolf</artifactId>
-            <version>${project.version}</version>
-            <classifier>internal</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.owasp.webgoat</groupId>
-            <artifactId>webwolf</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -62,7 +45,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <!-- Otherwise test will fail with JDK16 -->
                     <argLine>
                         --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.beans=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED
                     </argLine>

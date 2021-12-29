@@ -76,7 +76,6 @@ class LessonProgressServiceTest {
         when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
         when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
         when(websession.getCurrentLesson()).thenReturn(lesson);
-        when(lesson.getAssignments()).thenReturn(List.of(assignment));
         when(lessonTracker.getLessonOverview()).thenReturn(Maps.newHashMap(assignment, true));
         this.mockMvc = MockMvcBuilders.standaloneSetup(new LessonProgressService(userTrackerRepository, websession)).build();
     }

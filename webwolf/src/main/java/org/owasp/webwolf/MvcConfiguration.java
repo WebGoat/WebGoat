@@ -49,7 +49,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("webwolf-login");
-        registry.addViewController("/WebWolf/home").setViewName("home");
+        registry.addViewController("/home").setViewName("home");
     }
 
     @PostConstruct

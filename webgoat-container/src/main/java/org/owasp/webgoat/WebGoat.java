@@ -47,7 +47,7 @@ import java.io.File;
 
 @Configuration
 @ComponentScan("org.owasp.webgoat")
-@PropertySource("classpath:webgoat.properties")
+@PropertySource("classpath:application-webgoat.properties")
 @EnableAutoConfiguration
 public class WebGoat {
 

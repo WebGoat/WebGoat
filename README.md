@@ -39,14 +39,8 @@ The easiest way to start WebGoat as a Docker container is to use the all-in-one 
 
 ```shell
 
-docker run -it -p 127.0.0.1:80:8888 -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amsterdam webgoat/goatandwolf:v8.2.2
+docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amsterdam webgoat/goatandwolf:v8.2.2
 ```
-
-The landing page will be located at: http://localhost  
-WebGoat will be located at: http://localhost:8080/WebGoat  
-WebWolf will be located at: http://localhost:9090/WebWolf
-
-**Important**: *Change the ports if necessary, for example use `127.0.0.1:7777:9090` to map WebWolf to `http://localhost:7777/WebGoat`*  
 
 **Important**: *Choose the correct timezone, so that the docker container and your host are in the same timezone. As it is important for the validity of JWT tokens used in certain exercises.*
 

@@ -39,8 +39,8 @@ import static java.util.Optional.ofNullable;
 @Slf4j
 public class StartWebGoat {
 
-    public static final String WEBGOAT_PORT = "WEBGOAT_PORT";
-    public static final String WEBWOLF_PORT = "WEBWOLF_PORT";
+    public static final String WEBGOAT_PORT = "webgoat.port";
+    public static final String WEBWOLF_PORT = "webwolf.port";
 
     private static final int MAX_PORT = 9999;
 

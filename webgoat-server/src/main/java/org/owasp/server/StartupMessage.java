@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @NoArgsConstructor
-public class Ready {
+public class StartupMessage {
 
     private String port;
     private String address;

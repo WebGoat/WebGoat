@@ -29,20 +29,21 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.owasp.webwolf.WebWolf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DataJpaTest
-@ExtendWith(SpringExtension.class)
 public class MailboxRepositoryTest {
-
 
     @Autowired
     private MailboxRepository mailboxRepository;
 
     @Test
-    public void emailShouldBeSaved() {
+    void emailShouldBeSaved() {
         Email email = new Email();
         email.setTime(LocalDateTime.now());
         email.setTitle("test");
@@ -53,7 +54,7 @@ public class MailboxRepositoryTest {
     }
 
     @Test
-    public void savedEmailShouldBeFoundByReceipient() {
+    void savedEmailShouldBeFoundByReceipient() {
         Email email = new Email();
         email.setTime(LocalDateTime.now());
         email.setTitle("test");

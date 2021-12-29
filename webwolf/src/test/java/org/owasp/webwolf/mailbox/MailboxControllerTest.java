@@ -85,7 +85,7 @@ public class MailboxControllerTest {
                 .time(LocalDateTime.now())
                 .build();
         this.mvc.perform(post("/mail").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(email)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -100,7 +100,7 @@ public class MailboxControllerTest {
                 .build();
         Mockito.when(mailbox.findByRecipientOrderByTimeDesc("test1234")).thenReturn(Lists.newArrayList(email));
 
-        this.mvc.perform(get("/WebWolf/mail"))
+        this.mvc.perform(get("/mail"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("mailbox"))
                 .andExpect(content().string(containsString("Click this mail")))
@@ -119,7 +119,7 @@ public class MailboxControllerTest {
                 .build();
         Mockito.when(mailbox.findByRecipientOrderByTimeDesc("test1234")).thenReturn(Lists.newArrayList(email));
 
-        this.mvc.perform(get("/WebWolf/mail"))
+        this.mvc.perform(get("/mail"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("mailbox"))
                 .andExpect(content().string(not(containsString("Click this mail"))));

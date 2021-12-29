@@ -88,12 +88,6 @@ public class SimpleXXE extends AssignmentEndpoint {
         return success;
     }
 
-    @RequestMapping(path = "/xxe/tmpdir", consumes = ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
-    @ResponseBody
-    public String getWebGoatHomeDirectory() {
-        return webGoatHomeDirectory;
-    }
-
     @RequestMapping(path = "/xxe/sampledtd", consumes = ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
     public String getSampleDTDFile() {

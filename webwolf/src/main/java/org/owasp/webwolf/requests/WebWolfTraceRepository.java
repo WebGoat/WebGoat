@@ -42,8 +42,8 @@ import java.util.List;
 public class WebWolfTraceRepository implements HttpTraceRepository {
 
     private final EvictingQueue<HttpTrace> traces = EvictingQueue.create(10000);
-    private final List<String> exclusionList = List.of("/tmpdir", "/WebWolf/home", "/WebWolf/mail", "/WebWolf/files",
-            "/images/", "/login", "/favicon.ico", "/js/", "/webjars/", "/WebWolf/requests", "/css/", "/mail");
+    private final List<String> exclusionList = List.of("/tmpdir", "/home", "/files",
+            "/images/", "/favicon.ico", "/js/", "/webjars/", "/requests", "/css/", "/mail");
 
     @Override
     public List<HttpTrace> findAll() {
