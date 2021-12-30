@@ -121,4 +121,10 @@ public abstract class Lesson {
     public final String getId() {
         return this.getClass().getSimpleName();
     }
+
+    public final String getPackage() {
+        var packageName = this.getClass().getPackageName();
+        return packageName.substring(packageName.lastIndexOf(".") + 1);
+    }
+
 }

@@ -31,6 +31,7 @@
 
 package org.owasp.webgoat.container;
 
+import lombok.RequiredArgsConstructor;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
@@ -39,6 +40,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -52,15 +54,19 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+import java.io.IOException;
 import java.util.Set;
 
 /**
  * Configuration for Spring MVC
  */
 @Configuration
+@RequiredArgsConstructor
 public class MvcConfiguration implements WebMvcConfigurer {
 
     private static final String UTF8 = "UTF-8";
+
+    private final ResourcePatternResolver resourcePatternResolver;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -101,8 +107,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(Language language) {
-        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(language);
+    public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(ResourceLoader resourceLoader) {
+        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(resourceLoader);
         resolver.setCacheable(false);
         resolver.setOrder(1);
         resolver.setCharacterEncoding(UTF8);
@@ -131,16 +137,22 @@ public class MvcConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/fonts/**").addResourceLocations("classpath:/webgoat/static/fonts/");
 
         //WebGoat lessons
-        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");
-        registry.addResourceHandler("/lesson_js/**").addResourceLocations("classpath:/js/");
-        registry.addResourceHandler("/lesson_css/**").addResourceLocations("classpath:/css/");
-        registry.addResourceHandler("/video/**").addResourceLocations("classpath:/video/");
+        try {
+            resourcePatternResolver.getResources("classpath:/lessons/*");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/lessons/xxe/images/");
+        registry.addResourceHandler("/lesson_js/**").addResourceLocations("classpath:/lessons/xxe/js/");
+        registry.addResourceHandler("/lesson_css/**").addResourceLocations("classpath:/lessons/xxe/css/");
+        registry.addResourceHandler("/video/**").addResourceLocations("classpath:/lessons/xxe/video/");
 
     }
 
     @Bean
-    public PluginMessages pluginMessages(Messages messages, Language language) {
-        PluginMessages pluginMessages = new PluginMessages(messages, language);
+    public PluginMessages pluginMessages(Messages messages, Language language,
+                                         ResourcePatternResolver resourcePatternResolver) {
+        PluginMessages pluginMessages = new PluginMessages(messages, language, resourcePatternResolver);
         pluginMessages.setDefaultEncoding("UTF-8");
         pluginMessages.setBasenames("i18n/WebGoatLabels");
         pluginMessages.setFallbackToSystemLocale(false);

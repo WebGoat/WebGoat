@@ -34,8 +34,14 @@ package org.owasp.webgoat.container;
 import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.extension.JavaExtensionRegistry;
-import org.owasp.webgoat.container.asciidoc.*;
+import org.owasp.webgoat.container.asciidoc.OperatingSystemMacro;
+import org.owasp.webgoat.container.asciidoc.UsernameMacro;
+import org.owasp.webgoat.container.asciidoc.WebGoatTmpDirMacro;
+import org.owasp.webgoat.container.asciidoc.WebGoatVersionMacro;
+import org.owasp.webgoat.container.asciidoc.WebWolfMacro;
+import org.owasp.webgoat.container.asciidoc.WebWolfRootMacro;
 import org.owasp.webgoat.container.i18n.Language;
+import org.springframework.core.io.ResourceLoader;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
@@ -63,53 +69,32 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
 
     private static final Asciidoctor asciidoctor = create();
     private static final String PREFIX = "doc:";
-    private final Language language;
+    private final ResourceLoader resourceLoader;
 
-    public AsciiDoctorTemplateResolver(Language language) {
-        this.language = language;
+    public AsciiDoctorTemplateResolver(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
         setResolvablePatterns(Set.of(PREFIX + "*"));
     }
 
     @Override
     protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
         var templateName = resourceName.substring(PREFIX.length());
-        try (InputStream is = readInputStreamOrFallbackToEnglish(templateName, language)) {
-            if (is == null) {
-                log.warn("Resource name: {} not found, did you add the adoc file?", templateName);
-                return new StringTemplateResource("");
-            } else {
-                JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
-                extensionRegistry.inlineMacro("webWolfLink", WebWolfMacro.class);
-                extensionRegistry.inlineMacro("webWolfRootLink", WebWolfRootMacro.class);
-                extensionRegistry.inlineMacro("webGoatVersion", WebGoatVersionMacro.class);
-                extensionRegistry.inlineMacro("webGoatTempDir", WebGoatTmpDirMacro.class);
-                extensionRegistry.inlineMacro("operatingSystem", OperatingSystemMacro.class);
-                extensionRegistry.inlineMacro("username", UsernameMacro.class);
 
-                StringWriter writer = new StringWriter();
-                asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
-                return new StringTemplateResource(writer.getBuffer().toString());
-            }
+        try (InputStream is = resourceLoader.getResource("classpath:/" + templateName).getInputStream()) {
+            JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
+            extensionRegistry.inlineMacro("webWolfLink", WebWolfMacro.class);
+            extensionRegistry.inlineMacro("webWolfRootLink", WebWolfRootMacro.class);
+            extensionRegistry.inlineMacro("webGoatVersion", WebGoatVersionMacro.class);
+            extensionRegistry.inlineMacro("webGoatTempDir", WebGoatTmpDirMacro.class);
+            extensionRegistry.inlineMacro("operatingSystem", OperatingSystemMacro.class);
+            extensionRegistry.inlineMacro("username", UsernameMacro.class);
+
+            StringWriter writer = new StringWriter();
+            asciidoctor.convert(new InputStreamReader(is), writer, createAttributes());
+            return new StringTemplateResource(writer.getBuffer().toString());
         } catch (IOException e) {
-            //no html yet
-            return new StringTemplateResource("");
+            return new StringTemplateResource("<div>Unable to find documentation for: " + templateName + " </div>");
         }
-    }
-
-    /**
-     * The resource name is for example HttpBasics_content1.adoc. This is always located in the following directory:
-     * <code>plugin/HttpBasics/lessonPlans/en/HttpBasics_content1.adoc</code>
-     */
-    private String computeResourceName(String resourceName, String language) {
-        return String.format("lessonPlans/%s/%s", language, resourceName);
-    }
-
-    private InputStream readInputStreamOrFallbackToEnglish(String resourceName, Language language) {
-        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName, language.getLocale().getLanguage()));
-        if (is == null) {
-            is = Thread.currentThread().getContextClassLoader().getResourceAsStream(computeResourceName(resourceName, "en"));
-        }
-        return is;
     }
 
     private Map<String, Object> createAttributes() {

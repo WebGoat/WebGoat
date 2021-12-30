@@ -1,4 +1,4 @@
-package org.owasp.webgoat.xxe;
+package org.owasp.webgoat.lessons.xxe;
 
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;

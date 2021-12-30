@@ -20,32 +20,43 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.xxe;
+package org.owasp.webgoat.lessons.xxe;
 
+import lombok.extern.slf4j.Slf4j;
+import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
-/**
- * @author nbaars
- * @since 5/4/17.
- */
-@RestController
-@RequestMapping("xxe/comments")
-public class CommentsEndpoint {
+@Slf4j
+public class Ping {
 
+    @Value("${webgoat.user.directory}")
+    private String webGoatHomeDirectory;
     @Autowired
-    private Comments comments;
+    private WebSession webSession;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public Collection<Comment> retrieveComments() {
-        return comments.getComments();
+    public String logRequest(@RequestHeader("User-Agent") String userAgent, @RequestParam(required = false) String text) {
+        String logLine = String.format("%s %s %s", "GET", userAgent, text);
+        log.debug(logLine);
+        File logFile = new File(webGoatHomeDirectory, "/XXE/log" + webSession.getUserName() + ".txt");
+        try {
+            try (PrintWriter pw = new PrintWriter(logFile)) {
+                pw.println(logLine);
+            }
+        } catch (FileNotFoundException e) {
+            log.error("Error occurred while writing the logfile", e);
+        }
+        return "";
     }
-
 }

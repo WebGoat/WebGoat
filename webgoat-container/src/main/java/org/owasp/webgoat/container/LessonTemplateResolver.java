@@ -69,7 +69,8 @@ public class LessonTemplateResolver extends FileTemplateResolver {
         byte[] resource = resources.get(templateName);
         if (resource == null) {
             try {
-                resource = resourceLoader.getResource("classpath:/html/" + templateName + ".html").getInputStream().readAllBytes();
+                resource =
+                        resourceLoader.getResource("classpath:/" + templateName).getInputStream().readAllBytes();
             } catch (IOException e) {
                 e.printStackTrace();
             }

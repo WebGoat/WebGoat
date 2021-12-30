@@ -20,28 +20,30 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.xxe;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+package org.owasp.webgoat.lessons.xxe;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * @author nbaars
- * @since 4/8/17.
- */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @XmlRootElement
-@ToString
-public class Comment {
-    private String user;
-    private String dateTime;
-    private String text;
+public class User {
+
+    private String username = "";
+    private String password = "";
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 }

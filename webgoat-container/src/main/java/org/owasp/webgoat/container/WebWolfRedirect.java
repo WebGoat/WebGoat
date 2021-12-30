@@ -1,4 +1,4 @@
-package org.owasp.webgoat.container.webwolf;
+package org.owasp.webgoat.container;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -16,6 +16,6 @@ public class WebWolfRedirect {
     public ModelAndView openWebWolf() {
         var url = applicationContext.getEnvironment().getProperty("webwolf.url");
 
-        return new ModelAndView("redirect:" + url);
+        return new ModelAndView("redirect:" + url + "/home");
     }
 }

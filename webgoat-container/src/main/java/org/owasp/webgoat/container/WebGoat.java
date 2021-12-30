@@ -46,7 +46,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 
 @Configuration
-@ComponentScan("org.owasp.webgoat.container")
+@ComponentScan(basePackages = { "org.owasp.webgoat.container", "org.owasp.webgoat.lessons"})
 @PropertySource("classpath:application-webgoat.properties")
 @EnableAutoConfiguration
 public class WebGoat {
