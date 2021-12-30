@@ -15,7 +15,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
   # Generate issues and save results
-    - uses: amitgupta7/ghas-reports-action@main
+    - uses: amitgupta7/ghas-reports-action@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
