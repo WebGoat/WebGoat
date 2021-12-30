@@ -30,7 +30,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.owasp.webgoat.assignments.AssignmentEndpointTest;
+import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;

@@ -25,7 +25,7 @@ package org.owasp.webgoat.sql_injection.mitigation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.LessonDataSource;
+import org.owasp.webgoat.container.LessonDataSource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 

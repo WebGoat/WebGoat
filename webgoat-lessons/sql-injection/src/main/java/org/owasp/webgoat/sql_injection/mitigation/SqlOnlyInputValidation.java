@@ -23,9 +23,9 @@
 
 package org.owasp.webgoat.sql_injection.mitigation;
 
-import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.container.assignments.AssignmentHints;
+import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.sql_injection.advanced.SqlInjectionLesson6a;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

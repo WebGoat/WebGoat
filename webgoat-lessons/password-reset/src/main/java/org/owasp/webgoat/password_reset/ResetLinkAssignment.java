@@ -23,9 +23,9 @@
 package org.owasp.webgoat.password_reset;
 
 import com.beust.jcommander.internal.Maps;
-import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.container.assignments.AssignmentHints;
+import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.password_reset.resetlink.PasswordChangeForm;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

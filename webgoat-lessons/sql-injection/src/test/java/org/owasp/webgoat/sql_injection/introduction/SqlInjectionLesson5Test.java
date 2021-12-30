@@ -26,7 +26,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.owasp.webgoat.LessonDataSource;
+import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.sql_injection.SqlLessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

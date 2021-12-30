@@ -1,6 +1,6 @@
 package org.owasp.webgoat.missing_ac;
 
-import org.owasp.webgoat.LessonDataSource;
+import org.owasp.webgoat.container.LessonDataSource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

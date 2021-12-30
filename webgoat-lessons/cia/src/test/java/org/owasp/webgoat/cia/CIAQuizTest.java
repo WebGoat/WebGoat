@@ -3,7 +3,7 @@ package org.owasp.webgoat.cia;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.owasp.webgoat.plugins.LessonTest;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MvcResult;

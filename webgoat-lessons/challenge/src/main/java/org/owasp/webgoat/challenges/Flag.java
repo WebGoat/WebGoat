@@ -24,11 +24,11 @@ package org.owasp.webgoat.challenges;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.WebSession;
-import org.owasp.webgoat.users.UserTracker;
-import org.owasp.webgoat.users.UserTrackerRepository;
+import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.container.assignments.AttackResult;
+import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.users.UserTracker;
+import org.owasp.webgoat.container.users.UserTrackerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;

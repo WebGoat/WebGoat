@@ -22,11 +22,11 @@
 
 package org.owasp.webgoat.auth_bypass;
 
-import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.UserSessionData;
-import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.container.assignments.AssignmentHints;
+import org.owasp.webgoat.container.assignments.AttackResult;
+import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.assignments.AssignmentEndpointTest;
+import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
 import org.owasp.webgoat.hijacksession.cas.Authentication;
 import org.owasp.webgoat.hijacksession.cas.HijackSessionAuthenticationProvider;
 import org.springframework.test.util.ReflectionTestUtils;

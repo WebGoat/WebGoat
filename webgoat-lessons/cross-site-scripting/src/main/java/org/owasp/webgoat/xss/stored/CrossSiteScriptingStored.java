@@ -22,8 +22,8 @@
 
 package org.owasp.webgoat.xss.stored;
 
-import org.owasp.webgoat.lessons.Category;
-import org.owasp.webgoat.lessons.Lesson;
+import org.owasp.webgoat.container.lessons.Category;
+import org.owasp.webgoat.container.lessons.Lesson;
 
 public class CrossSiteScriptingStored extends Lesson {
     @Override

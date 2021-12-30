@@ -23,7 +23,7 @@
 package org.owasp.webgoat.xxe;
 
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestHeader;

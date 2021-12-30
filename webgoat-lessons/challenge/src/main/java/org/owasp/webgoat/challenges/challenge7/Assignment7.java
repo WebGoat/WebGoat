@@ -1,8 +1,8 @@
 package org.owasp.webgoat.challenges.challenge7;
 
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.challenges.Email;
 import org.owasp.webgoat.challenges.SolutionConstants;
 import org.springframework.beans.factory.annotation.Autowired;

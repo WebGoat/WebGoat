@@ -9,7 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
-import org.owasp.webgoat.lessons.Assignment;
+import org.owasp.webgoat.container.lessons.Assignment;
 
 import java.io.IOException;
 import java.nio.file.Files;

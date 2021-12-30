@@ -1,9 +1,9 @@
 package org.owasp.webgoat.path_traversal;
 
 import lombok.SneakyThrows;
-import org.owasp.webgoat.assignments.AssignmentHints;
-import org.owasp.webgoat.assignments.AttackResult;
-import org.owasp.webgoat.session.WebSession;
+import org.owasp.webgoat.container.assignments.AssignmentHints;
+import org.owasp.webgoat.container.assignments.AttackResult;
+import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;

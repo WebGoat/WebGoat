@@ -1,7 +1,7 @@
 package org.owasp.webgoat.challenges.challenge1;
 
-import org.owasp.webgoat.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.assignments.AttackResult;
+import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.challenges.Flag;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -10,7 +10,7 @@
     </parent>
 
     <properties>
-        <start-class>org.owasp.server.StartWebGoat</start-class>
+        <start-class>org.owasp.webgoat.server.StartWebGoat</start-class>
     </properties>
 
     <dependencies>
@@ -188,7 +188,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <excludeDevtools>true</excludeDevtools>
-                    <mainClass>org.owasp.server.StartWebGoat</mainClass>
+                    <mainClass>org.owasp.webgoat.server.StartWebGoat</mainClass>
                     <!-- See http://docs.spring.io/spring-boot/docs/current/reference/html/howto-build.html#howto-extract-specific-libraries-when-an-executable-jar-runs -->
                     <requiresUnpack>
                         <dependency>

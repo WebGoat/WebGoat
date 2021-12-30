@@ -22,8 +22,8 @@
 
 package org.owasp.webgoat.csrf;
 
-import org.owasp.webgoat.i18n.PluginMessages;
-import org.owasp.webgoat.session.UserSessionData;
+import org.owasp.webgoat.container.i18n.PluginMessages;
+import org.owasp.webgoat.container.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
