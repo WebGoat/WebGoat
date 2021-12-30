@@ -1,5 +1,6 @@
 package org.owasp.webgoat;
 
+import com.google.common.io.Files;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 import org.owasp.webwolf.WebWolf;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.util.SocketUtils;
 
@@ -22,9 +24,6 @@ import static io.restassured.RestAssured.given;
 
 @Slf4j
 public abstract class IntegrationTest {
-
-    @TempDir
-    private static Path tempDir;
 
     @Getter
     private static int webGoatPort;
@@ -46,12 +45,12 @@ public abstract class IntegrationTest {
             webGoatPort = SocketUtils.findAvailableTcpPort();
             webWolfPort = SocketUtils.findAvailableTcpPort();
             started = true;
-            var dbUrl = "jdbc:hsqldb:file:" + tempDir + "/webgoat";
-            SpringApplicationBuilder wgs = new SpringApplicationBuilder(WebGoat.class)
+            var dbUrl = "jdbc:hsqldb:file:" + Files.createTempDir() + "/webgoat";
+            var wgs = new SpringApplicationBuilder(WebGoat.class)
                     .properties(Map.of("WEBGOAT_PORT", webGoatPort, "WEBWOLF_PORT", webWolfPort,
                             "spring.datasource.url", dbUrl));
             wgs.run();
-            SpringApplicationBuilder wws = new SpringApplicationBuilder(WebWolf.class)
+            var wws = new SpringApplicationBuilder(WebWolf.class)
                     .properties(Map.of("WEBWOLF_PORT", webWolfPort, "spring.datasource.url", dbUrl));
             wws.run();
         }
