@@ -139,9 +139,6 @@
 
     <modules>
         <module>webgoat-container</module>
-        <module>webgoat-lessons</module>
-        <module>webgoat-server</module>
-        <module>webwolf</module>
         <module>webgoat-integration-tests</module>
     </modules>
 
