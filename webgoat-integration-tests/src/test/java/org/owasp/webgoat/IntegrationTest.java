@@ -1,7 +1,6 @@
 package org.owasp.webgoat;
 
 import io.restassured.RestAssured;
-import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import lombok.Getter;
 import org.hamcrest.CoreMatchers;
@@ -11,49 +10,36 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 
 public abstract class IntegrationTest {
 
-    public static String getWebGoatPort() {
-        return Objects.requireNonNull(System.getProperty("webgoatport"));
-    }
-
-    public static String getWebWolfPort() {
-        return Objects.requireNonNull(System.getProperty("webwolfport"));
-    }
-
-    public String getWebGoatCookie() {
-        return webGoatCookie;
-    }
-
-    public String getWebWolfCookie() {
-        return webWolfCookie;
-    }
-
-    public String getWebgoatUser() {
-        return webgoatUser;
-    }
-
+    private static String webGoatPort = Objects.requireNonNull(System.getProperty("webgoatport"));
+    @Getter
+    private static String webWolfPort = Objects.requireNonNull(System.getProperty("webwolfport"));
+    private static boolean useSSL  = false;
+    private static String webgoatUrl = (useSSL ? "https:" : "http:") + "//localhost:" + webGoatPort + "/WebGoat/";
+    private static String webWolfUrl = (useSSL ? "https:" : "http:") + "//localhost:" + webWolfPort + "/";
+    @Getter
     private String webGoatCookie;
+    @Getter
     private String webWolfCookie;
     @Getter
-    private String webgoatUser = "webgoat";
+    private String user = "webgoat";
 
     protected String url(String url) {
         url = url.replaceFirst("/WebGoat/", "");
         url = url.replaceFirst("/WebGoat", "");
         url = url.startsWith("/") ? url.replaceFirst("/", "") : url;
-        return "http://localhost:" + getWebGoatPort() + "/WebGoat/" + url;
+        return webgoatUrl + url;
     }
 
     protected String webWolfUrl(String url) {
         url = url.replaceFirst("/WebWolf/", "");
         url = url.replaceFirst("/WebWolf", "");
         url = url.startsWith("/") ? url.replaceFirst("/", "") : url;
-        return "http://localhost:" + getWebWolfPort() + "/" + url;
+        return webWolfUrl + url;
     }
 
     @BeforeEach
@@ -61,7 +47,7 @@ public abstract class IntegrationTest {
         String location = given()
                 .when()
                 .relaxedHTTPSValidation()
-                .formParam("username", webgoatUser)
+                .formParam("username", user)
                 .formParam("password", "password")
                 .post(url("login")).then()
                 .cookie("JSESSIONID")
@@ -71,7 +57,7 @@ public abstract class IntegrationTest {
             webGoatCookie = RestAssured.given()
                     .when()
                     .relaxedHTTPSValidation()
-                    .formParam("username", webgoatUser)
+                    .formParam("username", user)
                     .formParam("password", "password")
                     .formParam("matchingPassword", "password")
                     .formParam("agree", "agree")
@@ -85,7 +71,7 @@ public abstract class IntegrationTest {
             webGoatCookie = given()
                     .when()
                     .relaxedHTTPSValidation()
-                    .formParam("username", webgoatUser)
+                    .formParam("username", user)
                     .formParam("password", "password")
                     .post(url("login")).then()
                     .cookie("JSESSIONID")
@@ -96,7 +82,7 @@ public abstract class IntegrationTest {
         webWolfCookie = RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
-                .formParam("username", webgoatUser)
+                .formParam("username", user)
                 .formParam("password", "password")
                 .post(webWolfUrl("login"))
                 .then()

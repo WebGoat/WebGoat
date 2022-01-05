@@ -37,14 +37,14 @@ public class SeleniumIT extends IntegrationTest {
 			driver.get(url("/login"));
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			// Login
-			driver.findElement(By.name("username")).sendKeys(getWebgoatUser());
+			driver.findElement(By.name("username")).sendKeys(this.getUser());
 			driver.findElement(By.name("password")).sendKeys("password");
 			driver.findElement(By.className("btn")).click();
 
 			// Check if user exists. If not, create user.
 			if (driver.getCurrentUrl().equals(url("/login?error"))) {
 				driver.get(url("/registration"));
-				driver.findElement(By.id("username")).sendKeys(getWebgoatUser());
+				driver.findElement(By.id("username")).sendKeys(this.getUser());
 				driver.findElement(By.id("password")).sendKeys("password");
 				driver.findElement(By.id("matchingPassword")).sendKeys("password");
 				driver.findElement(By.name("agree")).click();

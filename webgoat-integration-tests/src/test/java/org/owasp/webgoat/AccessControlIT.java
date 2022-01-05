@@ -40,7 +40,7 @@ public class AccessControlIT extends IntegrationTest {
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .contentType(ContentType.JSON)
-                .body(String.format(userTemplate, getWebgoatUser(), getWebgoatUser()))
+                .body(String.format(userTemplate, this.getUser(), this.getUser()))
                 .post(url("/WebGoat/access-control/users"))
                 .then()
                 .statusCode(HttpStatus.SC_OK);

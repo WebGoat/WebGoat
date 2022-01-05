@@ -19,7 +19,7 @@ public class WebWolfIT extends IntegrationTest {
         //Assignment 3
         Map<String, Object> params = new HashMap<>();
         params.clear();
-        params.put("email", getWebgoatUser()+"@webgoat.org");
+        params.put("email", this.getUser()+"@webgoat.org");
         checkAssignment(url("/WebGoat/WebWolf/mail/send"), params, false);
         
         String responseBody = RestAssured.given()
@@ -31,7 +31,7 @@ public class WebWolfIT extends IntegrationTest {
                 .extract().response().getBody().asString();
         
         String uniqueCode = responseBody.replace("%20", " ");
-        uniqueCode = uniqueCode.substring(21+uniqueCode.lastIndexOf("your unique code is: "),uniqueCode.lastIndexOf("your unique code is: ")+(21+getWebgoatUser().length()));
+        uniqueCode = uniqueCode.substring(21+uniqueCode.lastIndexOf("your unique code is: "),uniqueCode.lastIndexOf("your unique code is: ")+(21+ this.getUser().length()));
         params.clear();
         params.put("uniqueCode", uniqueCode);
         checkAssignment(url("/WebGoat/WebWolf/mail"), params, true);

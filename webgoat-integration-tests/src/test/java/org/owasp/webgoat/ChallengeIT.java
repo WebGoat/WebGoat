@@ -64,7 +64,7 @@ public class ChallengeIT extends IntegrationTest {
                         .then()
                         .statusCode(200)
                         .extract().jsonPath()
-                        .get("find { it.username == \"" + getWebgoatUser() + "\" }.flagsCaptured");
+                        .get("find { it.username == \"" + this.getUser() + "\" }.flagsCaptured");
         assertTrue(capturefFlags.contains("Admin lost password"));
     }
 
@@ -105,7 +105,7 @@ public class ChallengeIT extends IntegrationTest {
                         .then()
                         .statusCode(200)
                         .extract().jsonPath()
-                        .get("find { it.username == \"" + getWebgoatUser() + "\" }.flagsCaptured");
+                        .get("find { it.username == \"" + this.getUser() + "\" }.flagsCaptured");
         assertTrue(capturefFlags.contains("Without password"));
     }
 

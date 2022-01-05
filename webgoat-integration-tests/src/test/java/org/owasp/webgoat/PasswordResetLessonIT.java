@@ -34,8 +34,8 @@ public class PasswordResetLessonIT extends IntegrationTest {
     			);
     }
 	public void assignment2() {
-		checkAssignment(url("PasswordReset/simple-mail/reset"), Map.of("emailReset", getWebgoatUser()+"@webgoat.org"), false);
-		checkAssignment(url("PasswordReset/simple-mail"), Map.of("email", getWebgoatUser()+"@webgoat.org", "password", StringUtils.reverse(getWebgoatUser())), true);
+		checkAssignment(url("PasswordReset/simple-mail/reset"), Map.of("emailReset", this.getUser()+"@webgoat.org"), false);
+		checkAssignment(url("PasswordReset/simple-mail"), Map.of("email", this.getUser()+"@webgoat.org", "password", StringUtils.reverse(this.getUser())), true);
 	}
 	
 	public void assignment4() {
@@ -61,7 +61,7 @@ public class PasswordResetLessonIT extends IntegrationTest {
     }
 
     public void sendEmailShouldBeAvailableInWebWolf() {
-    	clickForgotEmailLink(getWebgoatUser() + "@webgoat.org");
+    	clickForgotEmailLink(this.getUser() + "@webgoat.org");
 
         var responseBody = RestAssured.given()
                 .when()

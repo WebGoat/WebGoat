@@ -61,7 +61,7 @@ public class CSRFIT extends IntegrationTest {
         uploadTrickHtml("csrf3.html", trickHTML3.replace("WEBGOATURL", url("/csrf/basic-get-flag")));
         uploadTrickHtml("csrf4.html", trickHTML4.replace("WEBGOATURL", url("/csrf/review")));
         uploadTrickHtml("csrf7.html", trickHTML7.replace("WEBGOATURL", url("/csrf/feedback/message")));
-        uploadTrickHtml("csrf8.html", trickHTML8.replace("WEBGOATURL", url("/login")).replace("USERNAME", getWebgoatUser()));
+        uploadTrickHtml("csrf8.html", trickHTML8.replace("WEBGOATURL", url("/login")).replace("USERNAME", this.getUser()));
     }
 
     @TestFactory
@@ -86,8 +86,8 @@ public class CSRFIT extends IntegrationTest {
 
         //remove any left over html
         Path webWolfFilePath = Paths.get(webwolfFileDir);
-        if (webWolfFilePath.resolve(Paths.get(getWebgoatUser(), htmlName)).toFile().exists()) {
-            Files.delete(webWolfFilePath.resolve(Paths.get(getWebgoatUser(), htmlName)));
+        if (webWolfFilePath.resolve(Paths.get(this.getUser(), htmlName)).toFile().exists()) {
+            Files.delete(webWolfFilePath.resolve(Paths.get(this.getUser(), htmlName)));
         }
 
         //upload trick html
@@ -107,7 +107,7 @@ public class CSRFIT extends IntegrationTest {
                 .relaxedHTTPSValidation()
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .cookie("WEBWOLFSESSION", getWebWolfCookie())
-                .get(webWolfUrl("/files/" + getWebgoatUser() + "/" + htmlName))
+                .get(webWolfUrl("/files/" + this.getUser() + "/" + htmlName))
                 .then()
                 .extract().response().getBody().asString();
         result = result.substring(8 + result.indexOf("action=\""));
@@ -183,7 +183,7 @@ public class CSRFIT extends IntegrationTest {
 
         Map<String, Object> params = new HashMap<>();
         params.clear();
-        params.put("username", "csrf-" + getWebgoatUser());
+        params.put("username", "csrf-" + this.getUser());
         params.put("password", "password");
 
         //login and get the new cookie
@@ -248,7 +248,7 @@ public class CSRFIT extends IntegrationTest {
         RestAssured.given()
                 .when()
                 .relaxedHTTPSValidation()
-                .formParam("username", "csrf-" + getWebgoatUser())
+                .formParam("username", "csrf-" + this.getUser())
                 .formParam("password", "password")
                 .formParam("matchingPassword", "password")
                 .formParam("agree", "agree")

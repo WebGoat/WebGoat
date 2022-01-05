@@ -53,8 +53,8 @@ public class XXEIT extends IntegrationTest {
     private String getSecret() throws IOException {
         //remove any left over DTD
         Path webWolfFilePath = Paths.get(webWolfFileServerLocation);
-        if (webWolfFilePath.resolve(Paths.get(getWebgoatUser(), "blind.dtd")).toFile().exists()) {
-            Files.delete(webWolfFilePath.resolve(Paths.get(getWebgoatUser(), "blind.dtd")));
+        if (webWolfFilePath.resolve(Paths.get(this.getUser(), "blind.dtd")).toFile().exists()) {
+            Files.delete(webWolfFilePath.resolve(Paths.get(this.getUser(), "blind.dtd")));
         }
         String secretFile = webGoatHomeDirectory.concat("/XXE/secret.txt");
         String dtd7String = dtd7.replace("WEBWOLFURL", webWolfUrl("/landing")).replace("SECRET", secretFile);
@@ -69,7 +69,7 @@ public class XXEIT extends IntegrationTest {
                 .then()
                 .extract().response().getBody().asString();
         //upload attack
-        String xxe7String = xxe7.replace("WEBWOLFURL", webWolfUrl("/files")).replace("USERNAME", getWebgoatUser());
+        String xxe7String = xxe7.replace("WEBWOLFURL", webWolfUrl("/files")).replace("USERNAME", this.getUser());
         checkAssignment(url("/WebGoat/xxe/blind?send=test"), ContentType.XML, xxe7String, false);
 
         //read results from WebWolf

@@ -103,11 +103,11 @@ class PathTraversalIT extends IntegrationTest {
                 .body(CoreMatchers.is("You found it submit the SHA-512 hash of your username as answer"));
 
         checkAssignment(url("/WebGoat/PathTraversal/random"), Map.of("secret",
-                Sha512DigestUtils.shaHex(getWebgoatUser())), true);
+                Sha512DigestUtils.shaHex(this.getUser())), true);
     }
 
     private void assignment5() throws IOException {
-        var webGoatHome = webGoatServerDirectory() + "PathTraversal/" + getWebgoatUser();
+        var webGoatHome = webGoatServerDirectory() + "PathTraversal/" + this.getUser();
         webGoatHome = webGoatHome.replaceAll("^[a-zA-Z]:", ""); //Remove C: from the home directory on Windows
 
         var webGoatDirectory = new File(webGoatHome);
