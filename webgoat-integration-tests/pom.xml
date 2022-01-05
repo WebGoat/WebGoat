@@ -9,7 +9,32 @@
         <version>8.2.3-SNAPSHOT</version>
     </parent>
 
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <webgoat.port>8080</webgoat.port>
+                <webwolf.port>9090</webwolf.port>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
+        <dependency>
+            <groupId>org.bitbucket.b_c</groupId>
+            <artifactId>jose4j</artifactId>
+            <version>0.7.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.webgoat</groupId>
+            <artifactId>webgoat-container</artifactId>
+            <version>${project.version}</version>
+            <classifier>internal</classifier>
+        </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -20,11 +45,6 @@
             <artifactId>webdrivermanager</artifactId>
             <version>4.3.1</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.owasp.webgoat</groupId>
-            <artifactId>webgoat-server</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,14 +61,91 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>com.bazaarvoice.maven.plugins</groupId>
+                <artifactId>process-exec-maven-plugin</artifactId>
+                <version>0.9</version>
+                <executions>
+                    <execution>
+                        <id>start-jar</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <workingDir></workingDir>
+                            <arguments>
+                                <argument>java</argument>
+                                <argument>-jar</argument>
+                                <argument>-Dspring.datasource.url=jdbc:hsqldb:file:${java.io.tmpdir}/webgoat</argument>
+                                <argument>-Dwebgoat.port=${webgoat.port}</argument>
+                                <argument>-Dwebwolf.port=${webwolf.port}</argument>
+                                <argument>--add-opens</argument><argument>java.base/java.lang=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument><argument>java.base/java.util=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument><argument>java.base/java.lang.reflect=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument><argument>java.base/java.text=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument><argument>java.desktop/java.beans=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument><argument>java.desktop/java.awt.font=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument><argument>java.base/sun.nio.ch=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument><argument>java.base/java.io=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument><argument>java.base/java.util=ALL-UNNAMED</argument>
+                                <argument>
+                                    ${project.basedir}/../webgoat-container/target/webgoat-container-${project.version}.jar
+                                </argument>
+                            </arguments>
+                            <waitForInterrupt>false</waitForInterrupt>
+                            <healthcheckUrl>http://localhost:${webgoat.port}/WebGoat/</healthcheckUrl>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-jar-process</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop-all</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>reserve-container-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>webgoat.port</portName>
+                                <portName>webwolf.port</portName>
+                                <portName>jmxPort</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
+                <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
-                    <argLine>
-                        --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.beans=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED
-                    </argLine>
+                    <argLine>-Xmx512m -Dwebgoatport=${webgoat.port} -Dwebwolfport=${webwolf.port}</argLine>
+                    <includes>**/*IT.java</includes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

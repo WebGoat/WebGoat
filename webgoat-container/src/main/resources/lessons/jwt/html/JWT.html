@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_plan.adoc"></div>
+</div>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_structure.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_decode.adoc"></div>
+    <div class="attack-container">
+        <img th:src="@{/images/wolf-enabled.png}" class="webwolf-enabled"/>
+        <form id="decode" class="attack-form" method="POST" name="form" action="/WebGoat/JWT/decode">
+            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+            <br>
+            <div class="row">
+                <div class="col-lg-10">
+                        <span>
+                            <span>
+                                 Username:
+                            </span>
+                        <input type="text" name="jwt-encode-user">
+                               <button type="SUBMIT">Submit</button>
+                            </span>
+                </div>
+            </div>
+            <br>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_login_to_token.adoc"></div>
+</div>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_signing.adoc"></div>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
+    <script th:src="@{/lesson_js/jwt-voting.js}" language="JavaScript"></script>
+    <div class="attack-container">
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST"
+              successCallback="jwtSigningCallback"
+              action="/WebGoat/JWT/votings">
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="well">
+                        <div class="pull-right">
+                            <div class="dropdown">
+                                <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"
+                                        title="Change user">
+                                    <i class="fa fa-user"></i> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li role="presentation"><a data-toggle="dropdown" role="menuitem" tabindex="-1"
+                                                               onclick="javascript:loginVotes('Guest')"
+                                                               th:text="Guest">current</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               onclick="javascript:loginVotes('Tom')"
+                                                               th:text="Tom">current</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               onclick="javascript:loginVotes('Jerry')"
+                                                               th:text="Jerry">current</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               onclick="javascript:loginVotes('Sylvester')"
+                                                               th:text="Sylvester">current</a></li>
+                                </ul>
+                                <button type="button" class="btn btn-default fa fa-refresh" title="Refresh votes"
+                                        onclick="javascript:getVotings()"/>
+                                <button type="submit" class="btn btn-default fa fa-trash-o" title="Reset votes"/>
+                            </div>
+                            <div>
+                                <p class="text-right">Welcome back, <b><span id="name"></span></b></p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>Vote for your favorite</h3>
+                        </div>
+                        <div id="votesList" class="list-group">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <br/>
+
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="lesson-page-solution">
+        <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_signing_solution.adoc"></div>
+    </div>
+</div>
+
+
+<div class="lesson-page-wrapper">
+    <span id="quiz_id" data-quiz_id="jwt"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/quiz.css}"/>
+    <script th:src="@{/js/quiz.js}" language="JavaScript"></script>
+    <link rel="import" type="application/json" th:href="@{/lesson_js/questions_jwt.json}"/>
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_libraries_assignment.adoc"></div>
+    <div class="attack-container">
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="container-fluid">
+            <form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  action="/WebGoat/JWT/quiz"
+                  role="form">
+                <div id="q_container"></div>
+                <br/>
+                <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>
+            </form>
+        </div>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="lesson-page-solution">
+        <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_libraries_assignment2.adoc"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="lesson-page-solution">
+        <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_libraries_solution.adoc"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_weak_keys"></div>
+    <script th:src="@{/lesson_js/jwt-weak-keys.js}" language="JavaScript"></script>
+    <pre id="secrettoken"></pre>
+
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" method="POST" name="form" action="/WebGoat/JWT/secret">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
+                                                      style="font-size:20px"></i></div>
+                    <input type="text" class="form-control" id="flag" name="token"
+                           placeholder="XXX.YYY.ZZZ"/>
+                </div>
+                <div class="input-group" style="margin-top: 10px">
+                    <button type="submit" class="btn btn-primary">Submit token</button>
+                </div>
+            </div>
+
+        </form>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_refresh.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_refresh_assignment.adoc"></div>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
+    <script th:src="@{/lesson_js/bootstrap.min.js}" language="JavaScript"></script>
+    <script th:src="@{/lesson_js/jwt-buy.js}" language="JavaScript"></script>
+    <script th:src="@{/lesson_js/jwt-refresh.js}" language="JavaScript"></script>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST"
+              additionalHeaders="addBearerToken"
+              action="/WebGoat/JWT/refresh/checkout">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-10 col-md-offset-1">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Total</th>
+                                <th> </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="col-sm-8 col-md-6">
+                                    <div class="media">
+                                        <img class="media-object" th:src="@{/images/product-icon.png}"
+                                             style="width: 72px; height: 72px;"></img>
+                                        <div class="media-body">
+                                            <h4 class="media-heading"><a href="#">Learn to defend your application with
+                                                WebGoat</a></h4>
+                                            <h5 class="media-heading"> by <a href="#">WebGoat Publishing</a></h5>
+                                            <span>Status: </span><span
+                                                class="text-success"><strong>In Stock</strong></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-sm-1 col-md-1" style="text-align: center">
+                                    <input type="text" class="form-control" id="quantity1" value="3"></input>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$
+                                    <span id="piecePrice1">4.87</span></strong>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span
+                                        id="totalPrice1">14.61</span></strong></td>
+                                <td class="col-sm-1 col-md-1">
+                                    <button type="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove"></span> Remove
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-6">
+                                    <div class="media">
+                                        <img class="media-object"
+                                             th:src="@{/images/product-icon.png}"
+                                             style="width: 72px; height: 72px;"></img>
+                                        <div class="media-body">
+                                            <h4 class="media-heading"><a href="#">Pentesting for professionals</a></h4>
+                                            <h5 class="media-heading"> by <a href="#">WebWolf Publishing</a></h5>
+                                            <span>Status: </span><span class="text-warning"><strong>Leaves warehouse in 2 - 3 weeks</strong></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-sm-1 col-md-1" style="text-align: center">
+                                    <input type="text" class="form-control" id="quantity2" value="2"></input>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span
+                                        id="piecePrice2">4.99</span></strong>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong>$<span
+                                        id="totalPrice2">9.98</span></strong></td>
+                                <td class="col-md-1">
+                                    <button type="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove"></span> Remove
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td><h5>Subtotal<br></br>Estimated shipping</h5>
+                                    <h3>Total</h3></td>
+                                <td class="text-right"><h5><strong>$<span
+                                        id="subtotalJwt">24.59</span><br></br>$6.94</strong></h5>
+                                    <h3>$<span id="totalJwt">31.53</span></h3></td>
+                            </tr>
+                            <tr>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>
+                                    <button type="button" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-success">
+                                        Checkout <span class="glyphicon glyphicon-play"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_final.adoc"></div>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
+    <script th:src="@{/lesson_js/bootstrap.min.js}" language="JavaScript"></script>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST"
+              action="/WebGoat/JWT/final/delete?token=eyJ0eXAiOiJKV1QiLCJraWQiOiJ3ZWJnb2F0X2tleSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJXZWJHb2F0IFRva2VuIEJ1aWxkZXIiLCJpYXQiOjE1MjQyMTA5MDQsImV4cCI6MTYxODkwNTMwNCwiYXVkIjoid2ViZ29hdC5vcmciLCJzdWIiOiJqZXJyeUB3ZWJnb2F0LmNvbSIsInVzZXJuYW1lIjoiSmVycnkiLCJFbWFpbCI6ImplcnJ5QHdlYmdvYXQuY29tIiwiUm9sZSI6WyJDYXQiXX0.CgZ27DzgVW8gzc0n6izOU638uUCi6UhiOJKYzoEZGE8">
+            <div class="container-fluid">
+                <div id="toast"></div>
+                <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                    <div class="card card-inverse card-info">
+                        <img th:src="@{/images/jerry.png}" class="card-img-top"></img>
+                        <div class="card-block">
+                            <figure class="profile profile-inline">
+                                <img th:src="@{/images/jerry.png}" class="profile-avatar" alt=""></img>
+                            </figure>
+                            <h4 class="card-title">Jerry</h4>
+                            <div class="card-text">
+                                Jerry is a small, brown, house mouse.
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <small>Last updated 12 minutes ago</small>
+                            <button class="btn btn-info float-right btn-sm">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                    <div class="card card-inverse card-info">
+                        <img th:src="@{/images/tom.png}" class="card-img-top"></img>
+                        <div class="card-block">
+                            <figure class="profile profile-inline">
+                                <img th:src="@{/images/tom.png}" class="profile-avatar" alt=""></img>
+                            </figure>
+                            <h4 class="card-title">Tom</h4>
+                            <div class="card-text">
+                                Tom is a grey and white domestic short hair cat.
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <small>Last updated 12 days ago</small>
+                            <button type="button" class="btn btn-info float-right btn-sm"
+                                    onclick="javascript:follow('Tom')">Follow
+                            </button>
+                            <button class="btn btn-info float-right btn-sm">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_mitigation.adoc"></div>
+</div>
+</body>
+
+</html>

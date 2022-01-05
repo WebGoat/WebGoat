@@ -1,7 +1,10 @@
 package org.owasp.webgoat.container;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
+import org.owasp.webgoat.container.lessons.LessonScanner;
+import org.owasp.webgoat.container.service.RestartLessonService;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +12,18 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class DatabaseConfiguration {
 
     private final DataSourceProperties properties;
+    private final LessonScanner lessonScanner;
 
     @Bean
     @Primary
@@ -34,7 +41,6 @@ public class DatabaseConfiguration {
      * specific tables we use. This way we clean the data in the lesson database quite easily see {@link RestartLessonService#restartLesson()}
      * for how we clean the lesson related tables.
      */
-
     @Bean(initMethod = "migrate")
     public Flyway flyWayContainer() {
         return Flyway
@@ -53,6 +59,7 @@ public class DatabaseConfiguration {
                 .configuration(Map.of("driver", properties.getDriverClassName()))
                 .schemas(schema)
                 .dataSource(lessonDataSource)
+                .locations("lessons")
                 .load();
     }
 

@@ -1,0 +1,17 @@
+FROM eclipse-temurin:17_35-jdk-focal
+
+RUN useradd -ms /bin/bash webgoat
+RUN chgrp -R 0 /home/webgoat
+RUN chmod -R g=u /home/webgoat
+
+USER webgoat
+
+COPY --chown=webgoat target/webgoat-container-*.jar /home/webgoat/webgoat.jar
+COPY --chown=webgoat start.sh /home/webgoat
+RUN chmod +x /home/webgoat/start.sh
+
+EXPOSE 8080
+EXPOSE 9090
+
+WORKDIR /home/webgoat
+ENTRYPOINT ["./start.sh"]

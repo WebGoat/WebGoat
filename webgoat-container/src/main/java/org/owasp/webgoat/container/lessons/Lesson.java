@@ -24,7 +24,9 @@ package org.owasp.webgoat.container.lessons;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -124,7 +126,13 @@ public abstract class Lesson {
 
     public final String getPackage() {
         var packageName = this.getClass().getPackageName();
-        return packageName.substring(packageName.lastIndexOf(".") + 1);
+        //package name is the direct package name below lessons (any subpackage will be removed)
+        return packageName.replaceAll("org.owasp.webgoat.lessons.", "").replaceAll("\\..*", "");
+
+
+
     }
+
+
 
 }

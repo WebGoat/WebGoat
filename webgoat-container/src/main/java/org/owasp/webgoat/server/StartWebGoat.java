@@ -33,6 +33,8 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.util.SocketUtils;
 
+import java.lang.reflect.Method;
+
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
@@ -58,7 +60,7 @@ public class StartWebGoat {
     }
 
     private static void setEnvironmentVariableForPort(String name, String defaultValue) {
-        ofNullable(System.getenv(name))
+        ofNullable(System.getProperty(name))
                 .or(() -> of(defaultValue))
                 .map(Integer::parseInt)
                 .map(port -> findPort(port))

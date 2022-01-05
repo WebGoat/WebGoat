@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
 @DataJpaTest
-@ActiveProfiles({"test", "webgoat"})
+@ActiveProfiles("webgoat-test")
 class UserTrackerRepositoryTest {
 
     private class TestLesson extends Lesson {

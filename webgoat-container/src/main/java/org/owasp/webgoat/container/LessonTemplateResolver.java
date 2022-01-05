@@ -74,7 +74,7 @@ public class LessonTemplateResolver extends FileTemplateResolver {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            resources.put(resourceName, resource);
+            resources.put(templateName, resource);
         }
         return new StringTemplateResource(new String(resource, StandardCharsets.UTF_8));
     }

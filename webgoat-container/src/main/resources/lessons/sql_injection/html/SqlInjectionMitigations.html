@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/assignments.css}"/>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content7.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content8.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content9.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content10.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_jdbc_completion.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN" method="POST" name="form" action="/WebGoat/SqlInjectionMitigations/attack10a">
+            <div>
+                <p>Connection conn = DriverManager.<input type="text" name="field1" id="field1" />(DBURL, DBUSER, DBPW);</p>
+                <p><input type="text" name="field2" id="field2" /> = conn.<input type="text" name="field3" id="field3" />("SELECT status FROM users WHERE name=<input type="text" name="field4" id="field4" /> AND mail=<input type="text" name="field5" id="field5" />");</p>
+                <p><input type="text" name="field6" id="field6" />;</p>
+                <p><input type="text" name="field7" id="field7" />;</p>
+            </div>
+            <div class="input-group" style="margin-top: 10px">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_jdbc_newcode.adoc"></div>
+    <div class="attack-container" style="border: none !important; height: 100%; min-height: 300px;">
+        <form id="codesubmit" style="height: 100%; min-height: 300px;" class="attack-form" accept-charset="UNKNOWN" method="POST" name="form" action="/WebGoat/SqlInjectionMitigations/attack10b">
+            <div>
+                <div id="editor" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; height: 300px;" name="editor"></div>
+                <script th:src="@{/js/libs/ace.js}" type="text/javascript" charset="utf-8"></script>
+                <script th:src="@{/lesson_js/assignment10b.js}" type="text/javascript" charset="utf-8"></script>
+            </div>
+            <input type="hidden" name="editor"/>
+            <div class="input-group" style="position: absolute; top: 310px;">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
+        <br />
+        <div class="attack-feedback" style="margin-top: 40px;"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content11.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content12.adoc"></div>
+</div>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content12a.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/SqlOnlyInputValidation/attack"
+              enctype="application/json;charset=UTF-8">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input name="userid_sql_only_input_validation" value="" type="TEXT"/></td>
+                    <td><input
+                            name="Get Account Info" value="Get Account Info" type="SUBMIT"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content12b.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/SqlOnlyInputValidationOnKeywords/attack"
+              enctype="application/json;charset=UTF-8">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input name="userid_sql_only_input_validation_on_keywords" value="" type="TEXT"/></td>
+                    <td><input
+                            name="Get Account Info" value="Get Account Info" type="SUBMIT"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content13.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_order_by.adoc"></div>
+    <script th:src="@{/lesson_js/assignment13.js}" language="JavaScript"></script>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/SqlInjectionMitigations/attack12a">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3>List of servers
+                                <div class="pull-right">
+                                    <button id="btn-admin" class="btn btn-default"><span
+                                            class="glyphicon glyphicon-pencil"></span> Edit
+                                    </button>
+                                </div>
+                            </h3>
+                        </div>
+                        <div id="toolbar-admin" class="panel-body">
+                            <div class="btn-toolbar" role="toolbar" aria-label="admin">
+                                <div class="btn-group pull-right" role="group">
+                                    <button id="btn-online" type="button" class="btn btn-success">Online</button>
+                                    <button id="btn-offline" type="button" class="btn btn-warning">Offline</button>
+                                    <button id="btn-out-of-order" type="button" class="btn btn-danger">Out Of Order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th class="col-check"></th>
+                                <th></th>
+                                <th>Hostname <span onclick="getServers('hostname')"><i
+                                        class="fa fa-fw fa-sort"></i></span>
+                                </th>
+                                <th>IP <span onclick="getServers('ip')"><i class="fa fa-fw fa-sort"></i></span></th>
+                                <th>MAC <span onclick="getServers('mac')"><i class="fa fa-fw fa-sort"></i></span></th>
+                                <th>Status <span onclick="getServers('status')"><i class="fa fa-fw fa-sort"></i></span>
+                                </th>
+                                <th>Description <span onclick="getServers('description')"><i
+                                        class="fa fa-fw fa-sort"></i></span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="servers">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+            </div>
+        </form>
+        <form class="attack-form" method="POST" name="form" action="/WebGoat/SqlInjectionMitigations/attack12a">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">IP address webgoat-prd server:</div>
+                    <input type="text" class="form-control" id="ip" name="ip"
+                           placeholder="192.1.0.12"/>
+                </div>
+                <div class="input-group" style="margin-top: 10px">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content14.adoc"></div>
+</div>
+
+</html>

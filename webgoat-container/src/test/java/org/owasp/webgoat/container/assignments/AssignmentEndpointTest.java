@@ -33,6 +33,7 @@ import org.owasp.webgoat.container.session.UserSessionData;
 import org.owasp.webgoat.container.users.UserTracker;
 import org.owasp.webgoat.container.session.WebSession;
 import org.owasp.webgoat.container.users.UserTrackerRepository;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
@@ -50,8 +51,6 @@ public class AssignmentEndpointTest {
     protected WebSession webSession;
     @Mock
     protected UserSessionData userSessionData;
-    @Mock
-    private ResourcePatternResolver resourcePatternResolver;
 
     private Language language = new Language(new FixedLocaleResolver()) {
         @Override
@@ -60,7 +59,7 @@ public class AssignmentEndpointTest {
         }
     };
     protected Messages messages = new Messages(language);
-    protected PluginMessages pluginMessages = new PluginMessages(messages, language, resourcePatternResolver);
+    protected PluginMessages pluginMessages = new PluginMessages(messages, language, new ClassPathXmlApplicationContext());
 
     public void init(AssignmentEndpoint a) {
         messages.setBasenames("classpath:/i18n/messages", "classpath:/i18n/WebGoatLabels");

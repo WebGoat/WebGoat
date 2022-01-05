@@ -9,6 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 @DataJpaTest
+@ActiveProfiles("webgoat-test")
 class UserRepositoryTest {
 
     @Autowired

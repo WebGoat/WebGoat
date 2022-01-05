@@ -32,9 +32,11 @@
 package org.owasp.webgoat.container;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.xml.resolver.apps.resolver;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
+import org.owasp.webgoat.container.lessons.LessonScanner;
 import org.owasp.webgoat.container.session.LabelDebugger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -47,14 +49,21 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.FileTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
+import org.thymeleaf.templateresource.ITemplateResource;
+import org.thymeleaf.templateresource.StringTemplateResource;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -66,7 +75,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
     private static final String UTF8 = "UTF-8";
 
-    private final ResourcePatternResolver resourcePatternResolver;
+    private final LessonScanner lessonScanner;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -84,6 +93,30 @@ public class MvcConfiguration implements WebMvcConfigurer {
         return resolver;
     }
 
+    /**
+     * Responsible for loading lesson templates based on Thymeleaf, for example:
+     *
+     * <div th:include="/lessons/spoofcookie/templates/spoofcookieform.html" id="content"></div>
+     */
+    @Bean
+    public ITemplateResolver lessonThymeleafTemplateResolver(ResourceLoader resourceLoader) {
+        var resolver = new FileTemplateResolver() {
+            @Override
+            protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
+               try (var is = resourceLoader.getResource("classpath:" + resourceName).getInputStream()) {
+                    return new StringTemplateResource(new String(is.readAllBytes(), StandardCharsets.UTF_8));
+               } catch (IOException e) {
+                   return null;
+               }
+            }
+        };
+        resolver.setOrder(1);
+        return resolver;
+    }
+
+    /**
+     * Loads all normal WebGoat specific Thymeleaf templates
+     */
     @Bean
     public ITemplateResolver springThymeleafTemplateResolver(ApplicationContext applicationContext) {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
@@ -91,12 +124,14 @@ public class MvcConfiguration implements WebMvcConfigurer {
         resolver.setSuffix(".html");
         resolver.setTemplateMode(TemplateMode.HTML);
         resolver.setOrder(2);
-        resolver.setCacheable(false);
         resolver.setCharacterEncoding(UTF8);
         resolver.setApplicationContext(applicationContext);
         return resolver;
     }
 
+    /**
+     * Loads the html for the complete lesson, see lesson_content.html
+     */
     @Bean
     public LessonTemplateResolver lessonTemplateResolver(ResourceLoader resourceLoader) {
         LessonTemplateResolver resolver = new LessonTemplateResolver(resourceLoader);
@@ -106,6 +141,9 @@ public class MvcConfiguration implements WebMvcConfigurer {
         return resolver;
     }
 
+    /**
+     * Loads the lesson asciidoc.
+     */
     @Bean
     public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(ResourceLoader resourceLoader) {
         AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(resourceLoader);
@@ -118,12 +156,13 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public SpringTemplateEngine thymeleafTemplateEngine(ITemplateResolver springThymeleafTemplateResolver,
                                                         LessonTemplateResolver lessonTemplateResolver,
-                                                        AsciiDoctorTemplateResolver asciiDoctorTemplateResolver) {
+                                                        AsciiDoctorTemplateResolver asciiDoctorTemplateResolver,
+                                                        ITemplateResolver lessonThymeleafTemplateResolver) {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setEnableSpringELCompiler(true);
         engine.addDialect(new SpringSecurityDialect());
         engine.setTemplateResolvers(
-                Set.of(lessonTemplateResolver, asciiDoctorTemplateResolver, springThymeleafTemplateResolver));
+                Set.of(lessonTemplateResolver, asciiDoctorTemplateResolver, lessonThymeleafTemplateResolver, springThymeleafTemplateResolver));
         return engine;
     }
 
@@ -137,16 +176,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/fonts/**").addResourceLocations("classpath:/webgoat/static/fonts/");
 
         //WebGoat lessons
-        try {
-            resourcePatternResolver.getResources("classpath:/lessons/*");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/lessons/xxe/images/");
-        registry.addResourceHandler("/lesson_js/**").addResourceLocations("classpath:/lessons/xxe/js/");
-        registry.addResourceHandler("/lesson_css/**").addResourceLocations("classpath:/lessons/xxe/css/");
-        registry.addResourceHandler("/video/**").addResourceLocations("classpath:/lessons/xxe/video/");
-
+        registry.addResourceHandler("/images/**").addResourceLocations(lessonScanner.applyPattern("classpath:/lessons/%s/images/").toArray(String[]::new));
+        registry.addResourceHandler("/lesson_js/**").addResourceLocations(lessonScanner.applyPattern("classpath:/lessons/%s/js/").toArray(String[]::new));
+        registry.addResourceHandler("/lesson_css/**").addResourceLocations(lessonScanner.applyPattern("classpath:/lessons/%s/css/").toArray(String[]::new));
+        registry.addResourceHandler("/lesson_templates/**").addResourceLocations(lessonScanner.applyPattern("classpath:/lessons/%s/templates/").toArray(String[]::new));
+        registry.addResourceHandler("/video/**").addResourceLocations(lessonScanner.applyPattern("classpath:/lessons/%s/video/").toArray(String[]::new));
     }
 
     @Bean

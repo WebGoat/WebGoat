@@ -1,58 +1,46 @@
 package org.owasp.webgoat;
 
-import com.google.common.io.Files;
 import io.restassured.RestAssured;
+import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.owasp.webgoat.container.WebGoat;
-import org.owasp.webgoat.webwolf.WebWolf;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.util.SocketUtils;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 
-@Slf4j
 public abstract class IntegrationTest {
 
-    @Getter
-    private static int webGoatPort;
-    @Getter
-    private static int webWolfPort;
+    public static String getWebGoatPort() {
+        return Objects.requireNonNull(System.getProperty("webgoatport"));
+    }
 
-    @Getter
+    public static String getWebWolfPort() {
+        return Objects.requireNonNull(System.getProperty("webwolfport"));
+    }
+
+    public String getWebGoatCookie() {
+        return webGoatCookie;
+    }
+
+    public String getWebWolfCookie() {
+        return webWolfCookie;
+    }
+
+    public String getWebgoatUser() {
+        return webgoatUser;
+    }
+
     private String webGoatCookie;
-    @Getter
     private String webWolfCookie;
     @Getter
-    private String webgoatUser = UUID.randomUUID().toString();
-
-    private static boolean started = false;
-
-    @BeforeAll
-    public static void beforeAll() {
-        if (!started) {
-            webGoatPort = SocketUtils.findAvailableTcpPort();
-            webWolfPort = SocketUtils.findAvailableTcpPort();
-            started = true;
-            var dbUrl = "jdbc:hsqldb:file:" + Files.createTempDir() + "/webgoat";
-            var wgs = new SpringApplicationBuilder(WebGoat.class)
-                    .properties(Map.of("WEBGOAT_PORT", webGoatPort, "WEBWOLF_PORT", webWolfPort,
-                            "spring.datasource.url", dbUrl));
-            wgs.run();
-            var wws = new SpringApplicationBuilder(WebWolf.class)
-                    .properties(Map.of("WEBWOLF_PORT", webWolfPort, "spring.datasource.url", dbUrl));
-            wws.run();
-        }
-    }
+    private String webgoatUser = "webgoat";
 
     protected String url(String url) {
         url = url.replaceFirst("/WebGoat/", "");
@@ -129,7 +117,7 @@ public abstract class IntegrationTest {
     }
 
     public void startLesson(String lessonName) {
-        startLesson(lessonName, true);
+        startLesson(lessonName, false);
     }
 
     public void startLesson(String lessonName, boolean restart) {
@@ -219,7 +207,6 @@ public abstract class IntegrationTest {
     }
 
     public void checkAssignmentWithGet(String url, Map<String, ?> params, boolean expectedResult) {
-        log.info("Checking assignment for: {}", url);
         MatcherAssert.assertThat(
                 RestAssured.given()
                         .when()

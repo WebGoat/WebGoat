@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_plan.adoc"></div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content0.adoc"></div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content1.adoc"></div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content1a.adoc"></div>
+	</div>
+
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content2.adoc"></div>
+		<div class="attack-container">
+			<!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
+			<div id="lessonContent">
+        			<table>
+						<tr>
+							<td>Clicking go will execute a jquery-ui close dialog:</td>
+							<td><input id="closetext" value="OK<script>alert('XSS')</script>" type="TEXT" /><input
+								name="SUBMIT" value="Go!" type="SUBMIT" onclick="webgoat.customjs.vuln_jquery_ui()" /></td>
+							<td></td>
+						</tr>
+					</table>
+					<script th:inline="javascript">
+					/*<![CDATA[*/
+					webgoat.customjs.vuln_jquery_ui = function()
+					{
+						webgoat.customjs.jqueryVuln('#dialog').dialog({ closeText: webgoat.customjs.jquery('#closetext').val() });
+		        	};
+					/*]]>*/
+						</script>
+				<div id="dialog" title="jquery-ui-1.10.4">This dialog should have exploited a known flaw in jquery-ui:1.10.4 and allowed a XSS attack to occur</div>
+				<!-- do not remove the two following div's, this is where your feedback/output will land -->
+				<div class="attack-feedback"></div>
+				<div class="attack-output"></div>
+				<!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
+			</div>
+
+		</div>
+		<div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content2a.adoc"></div>
+		<div class="attack-container">
+			<!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
+			<div id="lessonContent">
+        			<table>
+						<tr>
+							<td>Clicking go will execute a jquery-ui close dialog:</td>
+							<td><input id="closetext2" value="OK<script>alert('XSS')</script>" type="TEXT" /><input
+								name="SUBMIT" value="Go!" type="SUBMIT" onclick="webgoat.customjs.jquery_ui()" /></td>
+							<td></td>
+						</tr>
+					</table>
+					<script th:inline="javascript">
+					/*<![CDATA[*/
+					webgoat.customjs.jquery_ui = function()
+					{
+						webgoat.customjs.jquery('#dialog2').dialog({ closeText: webgoat.customjs.jquery('#closetext2').val() });
+		        	};
+					/*]]>*/
+						</script>
+				<div id="dialog2" title="jquery-ui-1.12.0">This dialog should have prevented the above exploit using the EXACT same code in WebGoat but using a later version of jquery-ui.</div>
+				<!-- do not remove the two following div's, this is where your feedback/output will land -->
+				<div class="attack-feedback"></div>
+				<div class="attack-output"></div>
+				<!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
+			</div>
+
+		</div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content3.adoc"></div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content4.adoc"></div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content4a.adoc"></div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content4b.adoc"></div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content4c.adoc"></div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content5.adoc"></div>
+	</div>
+	
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content5a.adoc"></div>
+		<div class="attack-container">
+			<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+			<form class="attack-form" accept-charset="UNKNOWN"
+				method="POST" name="form"
+				action="/WebGoat/VulnerableComponents/attack1">
+				<div id="lessonContent">
+					<form accept-charset="UNKNOWN" method="POST" name="form"
+						action="#attack/307/100">
+						<table>
+							<tr>
+								<td>Enter the contact's xml representation:</td>
+								<td><textarea name="payload" value="" type="TEXT" rows="15" cols="60"/></td>
+								<td><input name="SUBMIT" value="Go!" type="SUBMIT"/></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</form>
+			<!-- do not remove the two following div's, this is where your feedback/output will land -->
+			<div class="attack-feedback"></div>
+			<div class="attack-output"></div>
+			<!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
+		</div>
+	</div>
+	<div class="lesson-page-wrapper">
+        <div class="adoc-content" th:replace="doc:lessons/vulnerable_components/documentation/VulnerableComponents_content6.adoc"></div>
+	</div>
+	
+</html>

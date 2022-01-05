@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/assignments.css}"/>
+
+<!-- 1 -->
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjectionAdvanced_plan.adoc"></div>
+</div>
+
+<!-- 2 -->
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content6.adoc"></div>
+</div>
+
+<!-- 3 -->
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content6a.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/SqlInjectionAdvanced/attack6a">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input name="userid_6a" value="" type="TEXT"/></td>
+                    <td><input
+                            name="Get Account Info" value="Get Account Info" type="SUBMIT"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>        
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/SqlInjectionAdvanced/attack6b">
+            <table>
+                <tr>
+                    <td>Password:</td>
+                    <td><input name="userid_6b" value="" type="TEXT"/></td>
+                    <td><input
+                            name="Check Dave's Password:" value="Check Password" type="SUBMIT"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<!-- 4 -->
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_content6c.adoc"></div>
+</div>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_challenge.adoc"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge.css}"/>
+    <script th:src="@{/lesson_js/challenge.js}" language="JavaScript"></script>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-login">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <a href="#" class="active" id="login-form-link">Login</a>
+                                </div>
+                                <div class="col-xs-6">
+                                    <a href="#" id="register-form-link">Register</a>
+                                </div>
+                            </div>
+                            <hr/>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form id="login-form" class="attack-form" accept-charset="UNKNOWN"
+                                          method="POST" name="form"
+                                          action="/WebGoat/SqlInjectionAdvanced/challenge_Login"
+                                          role="form">
+                                        <div class="form-group">
+                                            <input type="text" name="username_login" id="username4" tabindex="1"
+                                                   class="form-control" placeholder="Username" value=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password_login" id="password4" tabindex="2"
+                                                   class="form-control" placeholder="Password"/>
+                                        </div>
+                                        <div class="form-group text-center">
+                                            <input type="checkbox" tabindex="3" class="" name="remember" id="remember"/>
+                                            <label for="remember"> Remember me</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-sm-offset-3">
+                                                    <input type="submit" name="login-submit" id="login-submit"
+                                                           tabindex="4" class="form-control btn-primary"
+                                                           value="Log In"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="text-center">
+                                                        <a href="#" tabindex="5" class="forgot-password">Forgot
+                                                            Password?</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <form id="register-form" class="attack-form" accept-charset="UNKNOWN"
+                                          method="PUT" name="form"
+                                          action="/WebGoat/SqlInjectionAdvanced/challenge"
+                                          style="display: none;" role="form">
+                                        <div class="form-group">
+                                            <input type="text" name="username_reg" id="username" tabindex="1"
+                                                   class="form-control" placeholder="Username" value=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" name="email_reg" id="email" tabindex="1"
+                                                   class="form-control" placeholder="Email Address" value=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password_reg" id="password" tabindex="2"
+                                                   class="form-control" placeholder="Password"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="confirm_password_reg" id="confirm-password"
+                                                   tabindex="2" class="form-control" placeholder="Confirm Password"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-sm-offset-3">
+                                                    <input type="submit" name="register-submit" id="register-submit"
+                                                           tabindex="4" class="form-control btn btn-primary"
+                                                           value="Register Now"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <span id="quiz_id" data-quiz_id="sql_injection"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/quiz.css}"/>
+    <script th:src="@{/js/quiz.js}" language="JavaScript"></script>
+    <link rel="import" type="application/json" th:href="@{/lesson_js/questions.json}"/>
+    <div class="adoc-content" th:replace="doc:lessons/sql_injection/documentation/SqlInjection_quiz.adoc"></div>
+        <div class="attack-container">
+            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+            <div class="container-fluid">
+                <form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
+                      method="POST" name="form"
+                      action="/WebGoat/SqlInjectionAdvanced/quiz"
+                      role="form">
+                    <div id="q_container"></div>
+                    <br />
+                <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>
+                </form>
+            </div>
+            <div class="attack-feedback"></div>
+            <div class="attack-output"></div>
+        </div>
+</div>
+
+
+</html>

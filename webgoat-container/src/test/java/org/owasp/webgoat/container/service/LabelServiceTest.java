@@ -3,6 +3,7 @@ package org.owasp.webgoat.container.service;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.assignments.LessonTrackerInterceptor;
+import org.owasp.webgoat.container.lessons.LessonScanner;
 import org.owasp.webgoat.container.users.UserService;
 import org.owasp.webgoat.container.users.UserTrackerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,8 @@ class LabelServiceTest {
     private UserTrackerRepository userTrackerRepository;
     @MockBean
     private LessonTrackerInterceptor lessonTrackerInterceptor;
+    @MockBean
+    private LessonScanner lessonScanner;
 
     @Test
     @WithMockUser(username = "guest", password = "guest")
@@ -67,11 +70,4 @@ class LabelServiceTest {
                 .andExpect(jsonPath("password", CoreMatchers.is("Password")));
     }
 
-    @Test
-    @WithMockUser(username = "guest", password = "guest")
-    void withLocale() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(URL_LABELS_MVC).param("lang", "nl"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("password", CoreMatchers.is("Wachtwoord")));
-    }
 }
