@@ -35,7 +35,7 @@ jobs:
                 console.log("pull request comment")
               }
               if (context.eventName === 'issue_comment') {
-                console.log("issue request)
+                console.log("issue request")
               }
               console.log(context)
 
