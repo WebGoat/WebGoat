@@ -1,0 +1,45 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ .Values.modsec_server.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.modsec_server.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.modsec_server.name }} 
+    spec:
+      containers:
+        - resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+            requests:
+              memory: "1Gi"
+              cpu: "0.5"
+          name: modsec
+          ports:
+            - containerPort: 8001
+              protocol: TCP
+          image: {{ .Values.modsec_server.image }}
+          imagePullPolicy: Always
+          terminationMessagePolicy: File
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.modsec_server.name }}-configmap-modsec
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600

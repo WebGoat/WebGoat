@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ .Values.modsec_server.name }}-configmap-modsec
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.modsec_server.name }} 
+data:
+  PARANOIA: '1'
+  EXECUTING_PARANOIA: '2'
+  ANOMALYIN: '5'
+  ANOMALYOUT: '5'
+  ALLOWED_METHODS: 'GET POST'
+  ALLOWED_REQUEST_CONTENT_TYPE: "text/xml|application/xml|text/plain"
+  MAX_FILE_SIZE: '5242880'
+  PORT: '8001'
+  RESTRICTED_EXTENSIONS: '.conf/'
+  BACKEND: 'http://{{ .Values.webgoat_server.name }}-service:8080' 

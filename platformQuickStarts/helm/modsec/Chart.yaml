@@ -1,0 +1,9 @@
+apiVersion: v2
+name: modsec
+description: ModSecurity Core Rule Set
+ 
+type: application
+ 
+version: 0.1.0
+ 
+appVersion: "latest"

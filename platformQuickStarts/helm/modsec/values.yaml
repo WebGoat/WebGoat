@@ -1,0 +1,13 @@
+namespace: demo-project
+urlpostfix: .apps-crc.testing
+accessMode: ReadWriteMany
+ 
+modsec_server:
+  name: modsec-1
+  #image: docker.io/franbuehler/modsecurity-crs-rp
+  #image: docker.io/owasp/modsecurity-crs
+  image: docker.io/chrira/modsecurity-crs-rp:openshift
+
+webgoat_server:
+  name: webgoat-1
+
