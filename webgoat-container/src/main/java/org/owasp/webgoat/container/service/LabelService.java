@@ -59,30 +59,15 @@ import java.util.Properties;
 public class LabelService {
 
     public static final String URL_LABELS_MVC = "/service/labels.mvc";
-    private final LocaleResolver localeResolver;
     private final Messages messages;
     private final PluginMessages pluginMessages;
 
     /**
-     * We use Springs session locale resolver which also gives us the option to change the local later on. For
-     * now it uses the accept-language from the HttpRequest. If this language is not found it will default back
-     * to messages.properties.
-     * <p>
-     * Note although it is possible to use Spring language interceptor we for now opt for this solution, the UI
-     * will always need to fetch the labels with the new language set by the user. So we don't need to intercept each
-     * and every request to see if the language param has been set in the request.
-     *
-     * @param lang the language to fetch labels for (optional)
-     * @return a map of labels
+     * @return a map of all the labels
      */
     @GetMapping(path = URL_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Properties> fetchLabels(@RequestParam(value = "lang", required = false) String lang) {
-        if (StringUtils.hasText(lang)) {
-            var locale = Locale.forLanguageTag(lang);
-            ((SessionLocaleResolver) localeResolver).setDefaultLocale(locale);
-            log.debug("Language provided: {} leads to Locale: {}", lang, locale);
-        }
+    public ResponseEntity<Properties> fetchLabels() {
         var allProperties = new Properties();
         allProperties.putAll(messages.getMessages());
         allProperties.putAll(pluginMessages.getMessages());
