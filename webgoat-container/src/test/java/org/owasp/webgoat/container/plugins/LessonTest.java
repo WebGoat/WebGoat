@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.owasp.webgoat.container.WebGoat;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.PluginMessages;
+import org.owasp.webgoat.container.lessons.Initializeable;
 import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
 
@@ -38,6 +41,8 @@ public abstract class LessonTest {
     protected PluginMessages messages;
     @Autowired
     private Function<String, Flyway> flywayLessons;
+    @Autowired
+    private List<Initializeable> lessonInitializers;
     @MockBean
     protected WebSession webSession;
     @MockBean
@@ -47,8 +52,11 @@ public abstract class LessonTest {
 
     @BeforeEach
     void init() {
-        when(webSession.getUserName()).thenReturn("unit-test");
+        var user = new WebGoatUser("unit-test", "test");
+        when(webSession.getUserName()).thenReturn(user.getUsername());
+        when(webSession.getUser()).thenReturn(user);
         when(language.getLocale()).thenReturn(Locale.getDefault());
+        lessonInitializers.forEach(init -> init.initialize(webSession.getUser()));
     }
 
     @PostConstruct

@@ -61,7 +61,7 @@ public class SimpleXXE extends AssignmentEndpoint {
 
 
     @Autowired
-    private Comments comments;
+    private CommentsCache comments;
 
     @PostMapping(path = "xxe/simple", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody

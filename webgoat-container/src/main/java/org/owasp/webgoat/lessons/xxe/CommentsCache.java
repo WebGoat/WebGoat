@@ -23,12 +23,11 @@
 package org.owasp.webgoat.lessons.xxe;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.owasp.webgoat.container.session.WebSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -40,47 +39,50 @@ import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-/**
- * @author nbaars
- * @since 5/3/17.
- */
 @Component
 @Scope("singleton")
-public class Comments {
+public class CommentsCache {
 
-    @Autowired
-    protected WebSession webSession;
+    static class Comments extends ArrayList<Comment> {
+        void sort() {
+            sort(Comparator.comparing(Comment::getDateTime).reversed());
+        }
+    }
 
-    protected static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd, HH:mm:ss");
+    private static final Comments comments = new Comments();
+    private static final Map<WebGoatUser, Comments> userComments = new HashMap<>();
+    private static final DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd, HH:mm:ss");
 
-    private static final Map<String, List<Comment>> userComments = new HashMap<>();
-    private static final List<Comment> comments = new ArrayList<>();
+    private final WebSession webSession;
 
-    static {
+    public CommentsCache(WebSession webSession) {
+        this.webSession = webSession;
+        initDefaultComments();
+    }
+
+    void initDefaultComments() {
         comments.add(new Comment("webgoat", DateTime.now().toString(fmt), "Silly cat...."));
         comments.add(new Comment("guest", DateTime.now().toString(fmt), "I think I will use this picture in one of my projects."));
         comments.add(new Comment("guest", DateTime.now().toString(fmt), "Lol!! :-)."));
     }
 
-    protected Collection<Comment> getComments() {
-        Collection<Comment> allComments = Lists.newArrayList();
-        Collection<Comment> xmlComments = userComments.get(webSession.getUserName());
-        if (xmlComments != null) {
-            allComments.addAll(xmlComments);
+    protected Comments getComments() {
+        Comments allComments = new Comments();
+        Comments commentsByUser = userComments.get(webSession.getUser());
+        if (commentsByUser != null) {
+            allComments.addAll(commentsByUser);
         }
         allComments.addAll(comments);
-        return allComments.stream().sorted(Comparator.comparing(Comment::getDateTime).reversed()).collect(Collectors.toList());
+        allComments.sort();
+        return allComments;
     }
 
     /**
@@ -92,12 +94,12 @@ public class Comments {
     protected Comment parseXml(String xml) throws JAXBException, XMLStreamException {
         var jc = JAXBContext.newInstance(Comment.class);
         var xif = XMLInputFactory.newInstance();
-        
+
         if (webSession.isSecurityEnabled()) {
-        	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
-        	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");  // compliant
+            xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
+            xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");  // compliant
         }
-        
+
         var xsr = xif.createXMLStreamReader(new StringReader(xml));
 
         var unmarshaller = jc.createUnmarshaller();
@@ -119,9 +121,15 @@ public class Comments {
         if (visibleForAllUsers) {
             comments.add(comment);
         } else {
-            List<Comment> comments = userComments.getOrDefault(webSession.getUserName(), new ArrayList<>());
+            var comments = userComments.getOrDefault(webSession.getUserName(), new Comments());
             comments.add(comment);
-            userComments.put(webSession.getUserName(), comments);
+            userComments.put(webSession.getUser(), comments);
         }
+    }
+
+    public void reset(WebGoatUser user) {
+        comments.clear();
+        userComments.remove(user);
+        initDefaultComments();
     }
 }

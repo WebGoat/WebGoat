@@ -40,7 +40,7 @@ import java.util.Collection;
 public class CommentsEndpoint {
 
     @Autowired
-    private Comments comments;
+    private CommentsCache comments;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

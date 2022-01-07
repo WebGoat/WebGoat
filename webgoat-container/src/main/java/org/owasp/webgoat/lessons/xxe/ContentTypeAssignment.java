@@ -53,7 +53,7 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
     @Autowired
     private WebSession webSession;
     @Autowired
-    private Comments comments;
+    private CommentsCache comments;
 
     @PostMapping(path = "xxe/content-type")
     @ResponseBody

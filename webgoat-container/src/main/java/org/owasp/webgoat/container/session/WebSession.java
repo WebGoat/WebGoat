@@ -73,6 +73,10 @@ public class WebSession implements Serializable {
         return currentUser.getUsername();
     }
 
+    public WebGoatUser getUser() {
+        return currentUser;
+    }
+
     public void toggleSecurity() {
         this.securityEnabled = !this.securityEnabled;
     }

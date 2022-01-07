@@ -6,9 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.owasp.webgoat.container.lessons.Initializeable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.List;
 import java.util.function.Function;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -29,7 +31,7 @@ class UserServiceTest {
     @Test
     void shouldThrowExceptionWhenUserIsNotFound() {
         when(userRepository.findByUsername(any())).thenReturn(null);
-        UserService userService = new UserService(userRepository, userTrackerRepository, jdbcTemplate, flywayLessons);
+        UserService userService = new UserService(userRepository, userTrackerRepository, jdbcTemplate, flywayLessons, List.of());
         Assertions.assertThatThrownBy(() -> userService.loadUserByUsername("unknown")).isInstanceOf(UsernameNotFoundException.class);
     }
 }

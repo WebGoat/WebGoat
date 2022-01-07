@@ -1,14 +1,13 @@
 package org.owasp.webgoat;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import org.junit.jupiter.api.Test;
-
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 
 public class XXEIT extends IntegrationTest {
 
@@ -29,7 +28,7 @@ public class XXEIT extends IntegrationTest {
      */
     @Test
     public void xxeSecure() throws IOException {
-        startLesson("XXE", true);
+        startLesson("XXE");
         webGoatHomeDirectory = webGoatServerDirectory();
         webWolfFileServerLocation = getWebWolfFileServerLocation();
         RestAssured.given()
@@ -43,7 +42,7 @@ public class XXEIT extends IntegrationTest {
         checkAssignment(url("/WebGoat/xxe/content-type"), ContentType.XML, xxe4, false);
         checkAssignment(url("/WebGoat/xxe/blind"), ContentType.XML, "<comment><text>" + getSecret() + "</text></comment>", false);
     }
-    
+
     /**
      * This performs the steps of the exercise before the secret can be committed in the final step.
      *
@@ -56,7 +55,7 @@ public class XXEIT extends IntegrationTest {
         if (webWolfFilePath.resolve(Paths.get(this.getUser(), "blind.dtd")).toFile().exists()) {
             Files.delete(webWolfFilePath.resolve(Paths.get(this.getUser(), "blind.dtd")));
         }
-        String secretFile = webGoatHomeDirectory.concat("/XXE/secret.txt");
+        String secretFile = webGoatHomeDirectory.concat("/XXE/" + getUser() + "/secret.txt");
         String dtd7String = dtd7.replace("WEBWOLFURL", webWolfUrl("/landing")).replace("SECRET", secretFile);
 
         //upload DTD
@@ -70,7 +69,7 @@ public class XXEIT extends IntegrationTest {
                 .extract().response().getBody().asString();
         //upload attack
         String xxe7String = xxe7.replace("WEBWOLFURL", webWolfUrl("/files")).replace("USERNAME", this.getUser());
-        checkAssignment(url("/WebGoat/xxe/blind?send=test"), ContentType.XML, xxe7String, false);
+        checkAssignment(url("/WebGoat/xxe/blind"), ContentType.XML, xxe7String, false);
 
         //read results from WebWolf
         String result = RestAssured.given()
@@ -82,7 +81,7 @@ public class XXEIT extends IntegrationTest {
                 .extract().response().getBody().asString();
         result = result.replace("%20", " ");
         if (-1 != result.lastIndexOf("WebGoat 8.0 rocks... (")) {
-        	result = result.substring(result.lastIndexOf("WebGoat 8.0 rocks... ("), result.lastIndexOf("WebGoat 8.0 rocks... (") + 33);
+            result = result.substring(result.lastIndexOf("WebGoat 8.0 rocks... ("), result.lastIndexOf("WebGoat 8.0 rocks... (") + 33);
         }
         return result;
     }

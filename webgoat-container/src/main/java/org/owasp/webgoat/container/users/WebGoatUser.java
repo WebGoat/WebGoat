@@ -85,6 +85,13 @@ public class WebGoatUser implements UserDetails {
         return this.user.isEnabled();
     }
 
+    public boolean equals(Object obj) {
+        return obj instanceof WebGoatUser ? this.user.equals(((WebGoatUser)obj).user) : false;
+    }
+
+    public int hashCode() {
+        return user.hashCode();
+    }
 
 }
 

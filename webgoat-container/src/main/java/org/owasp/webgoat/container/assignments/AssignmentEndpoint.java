@@ -27,11 +27,13 @@ package org.owasp.webgoat.container.assignments;
 
 import lombok.Getter;
 import org.owasp.webgoat.container.i18n.PluginMessages;
+import org.owasp.webgoat.container.lessons.Initializeable;
 import org.owasp.webgoat.container.session.UserSessionData;
 import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AssignmentEndpoint {
+public abstract class AssignmentEndpoint implements Initializeable {
 
     @Autowired
     private WebSession webSession;
@@ -81,5 +83,9 @@ public abstract class AssignmentEndpoint {
 
     protected AttackResult.AttackResultBuilder informationMessage(AssignmentEndpoint assignment) {
         return AttackResult.builder(messages).lessonCompleted(false).assignment(assignment);
+    }
+
+    @Override
+    public void initialize(WebGoatUser user) {
     }
 }

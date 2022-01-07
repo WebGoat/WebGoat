@@ -18,7 +18,7 @@ public abstract class IntegrationTest {
     private static String webGoatPort = Objects.requireNonNull(System.getProperty("webgoatport"));
     @Getter
     private static String webWolfPort = Objects.requireNonNull(System.getProperty("webwolfport"));
-    private static boolean useSSL  = false;
+    private static boolean useSSL = false;
     private static String webgoatUrl = (useSSL ? "https:" : "http:") + "//localhost:" + webGoatPort + "/WebGoat/";
     private static String webWolfUrl = (useSSL ? "https:" : "http:") + "//localhost:" + webWolfPort + "/";
     @Getter
