@@ -18,6 +18,7 @@ public class WebWolfRootMacro extends WebWolfMacro {
         super(macroName, config);
     }
 
+    @Override
     protected boolean includeWebWolfContext() {
         return false;
     }

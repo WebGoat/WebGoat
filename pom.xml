@@ -128,6 +128,7 @@
         <commons-collections.version>3.2.1</commons-collections.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-io.version>2.6</commons-io.version>
+        <commons-text.version>1.9</commons-text.version>
         <guava.version>30.1-jre</guava.version>
         <jjwt.version>0.9.1</jjwt.version>
         <jose4j.version>0.7.6</jose4j.version>

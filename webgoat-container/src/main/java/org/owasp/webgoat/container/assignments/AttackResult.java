@@ -26,8 +26,9 @@
 package org.owasp.webgoat.container.assignments;
 
 import lombok.Getter;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.owasp.webgoat.container.i18n.PluginMessages;
+
+import static org.apache.commons.text.StringEscapeUtils.escapeJson;
 
 public class AttackResult {
 
@@ -107,8 +108,8 @@ public class AttackResult {
 
     public AttackResult(boolean lessonCompleted, String feedback, String output, String assignment, boolean attemptWasMade) {
         this.lessonCompleted = lessonCompleted;
-        this.feedback = StringEscapeUtils.escapeJson(feedback);
-        this.output = StringEscapeUtils.escapeJson(output);
+        this.feedback = escapeJson(feedback);
+        this.output = escapeJson(output);
         this.assignment = assignment;
         this.attemptWasMade = attemptWasMade;
     }

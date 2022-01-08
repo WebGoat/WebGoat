@@ -27,7 +27,7 @@ public class WebWolfMacro extends InlineMacroProcessor {
     @Override
     public Object process(ContentNode contentNode, String linkText, Map<String, Object> attributes) {
         var env = EnvironmentExposure.getEnv();
-        var hostname = determineHost(env.getProperty("webwolf.host"), env.getProperty("webwolf.port"));
+        var hostname = determineHost(env.getProperty("webwolf.port"));
         var target = (String) attributes.getOrDefault("target", "home");
         var href = hostname + "/" + target;
 
@@ -44,7 +44,7 @@ public class WebWolfMacro extends InlineMacroProcessor {
     }
 
     private boolean displayCompleteLinkNoFormatting(Map<String, Object> attributes) {
-        return attributes.values().stream().filter(a -> a.equals("noLink")).findFirst().isPresent();
+        return attributes.values().stream().anyMatch(a -> a.equals("noLink"));
     }
 
     /**
@@ -54,9 +54,9 @@ public class WebWolfMacro extends InlineMacroProcessor {
      * You do not have to use the indicated hostname, but if you do, you should define two hosts aliases
      * 127.0.0.1 www.webgoat.local www.webwolf.local
      */
-    private String determineHost(String host, String port) {
+    private String determineHost(String port) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        host = request.getHeader("Host");
+        String host = request.getHeader("Host");
         int semicolonIndex = host.indexOf(":");
         if (semicolonIndex == -1 || host.endsWith(":80")) {
             host = host.replace(":80", "").replace("www.webgoat.local", "www.webwolf.local");

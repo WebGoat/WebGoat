@@ -32,7 +32,6 @@
 package org.owasp.webgoat.container;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.xml.resolver.apps.resolver;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
@@ -55,7 +54,6 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
@@ -89,7 +87,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public ViewResolver viewResolver(SpringTemplateEngine thymeleafTemplateEngine) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(thymeleafTemplateEngine);
-        resolver.setCharacterEncoding("UTF-8");
+        resolver.setCharacterEncoding(StandardCharsets.UTF_8.displayName());
         return resolver;
     }
 
@@ -209,8 +207,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
     @Bean
     public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        return slr;
+        return new SessionLocaleResolver();
     }
 
     @Bean

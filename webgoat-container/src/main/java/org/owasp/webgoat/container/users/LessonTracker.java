@@ -76,7 +76,7 @@ public class LessonTracker {
      * @param solvedAssignment the assignment which the user solved
      */
     public void assignmentSolved(String solvedAssignment) {
-        getAssignment(solvedAssignment).ifPresent(a -> solvedAssignments.add(a));
+        getAssignment(solvedAssignment).ifPresent(solvedAssignments::add);
     }
 
     /**
@@ -106,7 +106,7 @@ public class LessonTracker {
     public Map<Assignment, Boolean> getLessonOverview() {
         List<Assignment> notSolved = allAssignments.stream()
                 .filter(i -> !solvedAssignments.contains(i))
-                .collect(Collectors.toList());
+                .toList();
         Map<Assignment, Boolean> overview = notSolved.stream().collect(Collectors.toMap(a -> a, b -> false));
         overview.putAll(solvedAssignments.stream().collect(Collectors.toMap(a -> a, b -> true)));
         return overview;

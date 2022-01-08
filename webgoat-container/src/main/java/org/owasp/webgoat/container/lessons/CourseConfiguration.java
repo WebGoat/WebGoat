@@ -67,9 +67,11 @@ public class CourseConfiguration {
         var endpoints = assignmentsByPackage.get(lesson.getClass().getPackageName());
         if (CollectionUtils.isEmpty(endpoints)) {
             log.warn("Lesson: {} has no endpoints, is this intentionally?", lesson.getTitle());
-            return new ArrayList();
+            return new ArrayList<>();
         }
-        return endpoints.stream().map(e -> new Assignment(e.getClass().getSimpleName(), getPath(e.getClass()), getHints(e.getClass()))).collect(toList());
+        return endpoints.stream()
+                .map(e -> new Assignment(e.getClass().getSimpleName(), getPath(e.getClass()), getHints(e.getClass())))
+                .toList();
     }
 
     private String getPath(Class<? extends AssignmentEndpoint> e) {

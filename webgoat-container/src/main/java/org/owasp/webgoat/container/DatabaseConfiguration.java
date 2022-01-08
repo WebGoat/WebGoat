@@ -12,8 +12,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 

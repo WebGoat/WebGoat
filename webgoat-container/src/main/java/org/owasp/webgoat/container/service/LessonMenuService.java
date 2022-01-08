@@ -30,9 +30,9 @@
 package org.owasp.webgoat.container.service;
 
 import lombok.AllArgsConstructor;
-import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Category;
+import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.lessons.LessonMenuItem;
 import org.owasp.webgoat.container.lessons.LessonMenuItemType;
 import org.owasp.webgoat.container.session.Course;
@@ -49,7 +49,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * <p>LessonMenuService class.</p>
@@ -71,7 +70,7 @@ public class LessonMenuService {
 
     @Value("#{'${exclude.lessons}'.split(',')}")
     private List<String> excludeLessons;
-    
+
     /**
      * Returns the lesson menu which is used to build the left nav
      *
@@ -86,19 +85,19 @@ public class LessonMenuService {
         UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
 
         for (Category category : categories) {
-        	if (excludeCategories.contains(category.name())) { 
-        		continue;
-        	}
+            if (excludeCategories.contains(category.name())) {
+                continue;
+            }
             LessonMenuItem categoryItem = new LessonMenuItem();
             categoryItem.setName(category.getName());
             categoryItem.setType(LessonMenuItemType.CATEGORY);
             // check for any lessons for this category
             List<Lesson> lessons = course.getLessons(category);
-            lessons = lessons.stream().sorted(Comparator.comparing(l -> l.getTitle())).collect(Collectors.toList());
+            lessons = lessons.stream().sorted(Comparator.comparing(Lesson::getTitle)).toList();
             for (Lesson lesson : lessons) {
-            	if (excludeLessons.contains(lesson.getName())) {
-            		continue;
-            	}
+                if (excludeLessons.contains(lesson.getName())) {
+                    continue;
+                }
                 LessonMenuItem lessonItem = new LessonMenuItem();
                 lessonItem.setName(lesson.getTitle());
                 lessonItem.setLink(lesson.getLink());
@@ -118,14 +117,14 @@ public class LessonMenuService {
     private boolean lessonCompleted(Map<Assignment, Boolean> map, Lesson currentLesson) {
         boolean result = true;
         for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {
-        	    Assignment storedAssignment = entry.getKey();
-            	for (Assignment lessonAssignment: currentLesson.getAssignments()) {
-            		if (lessonAssignment.getName().equals(storedAssignment.getName())) {
-            			result = result && entry.getValue();
-            			break;
-            		}
-            	}
-            
+            Assignment storedAssignment = entry.getKey();
+            for (Assignment lessonAssignment : currentLesson.getAssignments()) {
+                if (lessonAssignment.getName().equals(storedAssignment.getName())) {
+                    result = result && entry.getValue();
+                    break;
+                }
+            }
+
         }
         return result;
     }

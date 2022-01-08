@@ -42,7 +42,7 @@ public class LessonMenuItem {
 
     private String name;
     private LessonMenuItemType type;
-    private List<LessonMenuItem> children = new ArrayList<LessonMenuItem>();
+    private List<LessonMenuItem> children = new ArrayList<>();
     private boolean complete;
     private String link;
     private int ranking;

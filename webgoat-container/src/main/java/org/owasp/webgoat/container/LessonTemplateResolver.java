@@ -31,6 +31,7 @@
 
 package org.owasp.webgoat.container;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ResourceLoader;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
@@ -47,11 +48,12 @@ import java.util.Set;
  * Dynamically resolve a lesson. In the html file this can be invoked as:
  *
  * <code>
- *    <div th:case="true" th:replace="lesson:__${lesson.class.simpleName}__"></div>
+ * <div th:case="true" th:replace="lesson:__${lesson.class.simpleName}__"></div>
  * </code>
- *
+ * <p>
  * Thymeleaf will invoke this resolver based on the prefix and this implementation will resolve the html in the plugins directory
  */
+@Slf4j
 public class LessonTemplateResolver extends FileTemplateResolver {
 
     private static final String PREFIX = "lesson:";
@@ -65,14 +67,13 @@ public class LessonTemplateResolver extends FileTemplateResolver {
 
     @Override
     protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
-        var templateName = resourceName.substring(PREFIX.length());;
+        var templateName = resourceName.substring(PREFIX.length());
         byte[] resource = resources.get(templateName);
         if (resource == null) {
             try {
-                resource =
-                        resourceLoader.getResource("classpath:/" + templateName).getInputStream().readAllBytes();
+                resource = resourceLoader.getResource("classpath:/" + templateName).getInputStream().readAllBytes();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Unable to find lesson HTML: {}", template);
             }
             resources.put(templateName, resource);
         }

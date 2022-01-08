@@ -3,14 +3,14 @@ package org.owasp.webgoat.container.users;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.owasp.webgoat.container.i18n.PluginMessages;
+import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.session.Course;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * Temp endpoint just for the CTF.
@@ -39,38 +39,35 @@ public class Scoreboard {
         List<WebGoatUser> allUsers = userRepository.findAll();
         List<Ranking> rankings = new ArrayList<>();
         for (WebGoatUser user : allUsers) {
-        	if (user.getUsername().startsWith("csrf-")) {
-        		//the csrf- assignment specific users do not need to be in the overview
-        		continue;
-        	}
+            if (user.getUsername().startsWith("csrf-")) {
+                //the csrf- assignment specific users do not need to be in the overview
+                continue;
+            }
             UserTracker userTracker = userTrackerRepository.findByUser(user.getUsername());
             rankings.add(new Ranking(user.getUsername(), challengesSolved(userTracker)));
         }
         /* sort on number of captured flags to present an ordered ranking */
-        rankings.sort(new Comparator<Ranking>() {
-
-			@Override
-			public int compare(Ranking o1, Ranking o2) {
-				
-				return o2.getFlagsCaptured().size() - o1.getFlagsCaptured().size();
-			}
-		});
+        rankings.sort((o1, o2) -> o2.getFlagsCaptured().size() - o1.getFlagsCaptured().size());
         return rankings;
     }
 
     private List<String> challengesSolved(UserTracker userTracker) {
         List<String> challenges = List.of("Challenge1", "Challenge2", "Challenge3", "Challenge4", "Challenge5", "Challenge6", "Challenge7", "Challenge8", "Challenge9");
         return challenges.stream()
-                .map(c -> userTracker.getLessonTracker(c))
-                .filter(l -> l.isPresent()).map(l -> l.get())
-                .filter(l -> l.isLessonSolved())
-                .map(l -> l.getLessonName())
-                .map(l -> toLessonTitle(l))
-                .collect(Collectors.toList());
+                .map(userTracker::getLessonTracker)
+                .flatMap(Optional::stream)
+                .filter(LessonTracker::isLessonSolved)
+                .map(LessonTracker::getLessonName)
+                .map(this::toLessonTitle)
+                .toList();
     }
 
     private String toLessonTitle(String id) {
-        String titleKey = course.getLessons().stream().filter(l -> l.getId().equals(id)).findFirst().get().getTitle();
+        String titleKey = course.getLessons().stream()
+                .filter(l -> l.getId().equals(id))
+                .findFirst()
+                .map(Lesson::getTitle)
+                .orElse("No title");
         return pluginMessages.getMessage(titleKey, titleKey);
     }
 }

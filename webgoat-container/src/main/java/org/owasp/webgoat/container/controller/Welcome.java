@@ -32,8 +32,7 @@
 package org.owasp.webgoat.container.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +55,7 @@ public class Welcome {
      * @param request a {@link javax.servlet.http.HttpServletRequest} object.
      * @return a {@link org.springframework.web.servlet.ModelAndView} object.
      */
-    @RequestMapping(path = {"welcome.mvc"}, method = RequestMethod.GET)
+    @GetMapping(path = {"welcome.mvc"})
     public ModelAndView welcome(HttpServletRequest request) {
 
         // set the welcome attribute
@@ -69,8 +68,6 @@ public class Welcome {
         
         //go ahead and send them to webgoat (skip the welcome page)
         ModelAndView model = new ModelAndView();
-        //model.setViewName("welcome");
-        //model.setViewName("main_new");
         model.setViewName("forward:/attack?start=true");
         return model;
     }

@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-public class AccessControlIT extends IntegrationTest {
+class AccessControlIT extends IntegrationTest {
 
     @Test
-    public void testLesson() {
+    void testLesson() {
         startLesson("MissingFunctionAC", true);
         assignment1();
         assignment2();

@@ -1,12 +1,10 @@
 package org.owasp.webgoat.container.session;
 
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.lessons.Category;
+import org.owasp.webgoat.container.lessons.Lesson;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * ************************************************************************************************
@@ -41,9 +39,9 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class Course {
 
-    private List<? extends Lesson> lessons;
+    private List<Lesson> lessons;
 
-    public Course(List<? extends Lesson> lessons) {
+    public Course(List<Lesson> lessons) {
         this.lessons = lessons;
     }
 
@@ -53,7 +51,7 @@ public class Course {
      * @return The categories value
      */
     public List<Category> getCategories() {
-        return lessons.parallelStream().map(l -> l.getCategory()).distinct().sorted().collect(toList());
+        return lessons.parallelStream().map(Lesson::getCategory).distinct().sorted().toList();
     }
 
     /**
@@ -72,7 +70,7 @@ public class Course {
      *
      * @return a {@link java.util.List} object.
      */
-    public List<? extends Lesson> getLessons() {
+    public List<Lesson> getLessons() {
         return this.lessons;
     }
 
@@ -83,7 +81,7 @@ public class Course {
      * @return a {@link java.util.List} object.
      */
     public List<Lesson> getLessons(Category category) {
-        return this.lessons.stream().filter(l -> l.getCategory() == category).collect(toList());
+        return this.lessons.stream().filter(l -> l.getCategory() == category).toList();
     }
 
     public void setLessons(List<Lesson> lessons) {

@@ -30,6 +30,6 @@ public class LessonScanner {
     }
 
     public List<String> applyPattern(String pattern) {
-        return lessons.stream().map(lesson -> String.format(pattern, lesson)).collect(Collectors.toList());
+        return lessons.stream().map(lesson -> String.format(pattern, lesson)).toList();
     }
 }

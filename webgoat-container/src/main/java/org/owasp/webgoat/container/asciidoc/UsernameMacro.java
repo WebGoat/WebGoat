@@ -21,8 +21,8 @@ public class UsernameMacro extends InlineMacroProcessor {
     public Object process(ContentNode contentNode, String target, Map<String, Object> attributes) {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         var username = "unknown";
-        if (auth.getPrincipal() instanceof WebGoatUser) {
-            username = ((WebGoatUser) auth.getPrincipal()).getUsername();
+        if (auth.getPrincipal() instanceof WebGoatUser webGoatUser) {
+            username = webGoatUser.getUsername();
         }
 
         //see https://discuss.asciidoctor.org/How-to-create-inline-macro-producing-HTML-In-AsciidoctorJ-td8313.html for why quoted is used

@@ -40,7 +40,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -75,13 +74,13 @@ public class LabelDebugService {
 
     /**
      * Sets the enabled flag on the label debugger to the given parameter
+     *
      * @param enabled {@link org.owasp.webgoat.container.session.LabelDebugger} object
-     * @throws Exception unhandled exception
      * @return a {@link org.springframework.http.ResponseEntity} object.
      */
     @RequestMapping(value = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE, params = KEY_ENABLED)
     public @ResponseBody
-    ResponseEntity<Map<String, Object>> setDebuggingStatus(@RequestParam("enabled") Boolean enabled) throws Exception {
+    ResponseEntity<Map<String, Object>> setDebuggingStatus(@RequestParam("enabled") Boolean enabled) {
         log.debug("Setting label debugging to {} ", labelDebugger.isEnabled());
         Map<String, Object> result = createResponse(enabled);
         labelDebugger.setEnabled(enabled);
@@ -93,9 +92,6 @@ public class LabelDebugService {
      * @return a {@link java.util.Map} object.
      */
     private Map<String, Object> createResponse(Boolean enabled) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put(KEY_SUCCESS, Boolean.TRUE);
-        result.put(KEY_ENABLED, enabled);
-        return result;
+        return Map.of(KEY_SUCCESS, Boolean.TRUE, KEY_ENABLED, enabled);
     }
 }

@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * <p>HintService class.</p>
@@ -49,14 +48,14 @@ public class HintService {
     private List<Hint> createAssignmentHints(Lesson l) {
         if (l != null) {
             return l.getAssignments().stream()
-                    .map(a -> createHint(a))
-                    .flatMap(hints -> hints.stream())
-                    .collect(toList());
+                    .map(this::createHint)
+                    .flatMap(Collection::stream)
+                    .toList();
         }
         return List.of();
     }
 
     private List<Hint> createHint(Assignment a) {
-        return a.getHints().stream().map(h -> new Hint(h, a.getPath())).collect(toList());
+        return a.getHints().stream().map(h -> new Hint(h, a.getPath())).toList();
     }
 }

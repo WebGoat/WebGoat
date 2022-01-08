@@ -51,8 +51,8 @@ public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        if (o != null && o instanceof AttackResult) {
-            trackProgress((AttackResult) o);
+        if (o instanceof AttackResult attackResult) {
+            trackProgress(attackResult);
         }
         return o;
     }

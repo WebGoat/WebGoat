@@ -40,7 +40,6 @@ import org.owasp.webgoat.container.asciidoc.WebGoatTmpDirMacro;
 import org.owasp.webgoat.container.asciidoc.WebGoatVersionMacro;
 import org.owasp.webgoat.container.asciidoc.WebWolfMacro;
 import org.owasp.webgoat.container.asciidoc.WebWolfRootMacro;
-import org.owasp.webgoat.container.i18n.Language;
 import org.springframework.core.io.ResourceLoader;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
