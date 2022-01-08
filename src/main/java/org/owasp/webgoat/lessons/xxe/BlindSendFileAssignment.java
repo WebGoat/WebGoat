@@ -66,7 +66,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint {
         userToFileContents.put(user, fileContents);
         File targetDirectory = new File(webGoatHomeDirectory, "/XXE/" + user.getUsername());
         if (!targetDirectory.exists()) {
-            targetDirectory.mkdir();
+            targetDirectory.mkdirs();
         }
         try {
             Files.writeString(new File(targetDirectory, "secret.txt").toPath(), fileContents, UTF_8);

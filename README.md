@@ -39,7 +39,7 @@ The easiest way to start WebGoat as a Docker container is to use the all-in-one 
 
 ```shell
 
-docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amsterdam webgoat/goatandwolf:v8.2.2
+docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amsterdam webgoat/webgoat:v8.2.2
 ```
 
 **Important**: *Choose the correct timezone, so that the docker container and your host are in the same timezone. As it is important for the validity of JWT tokens used in certain exercises.*
@@ -50,12 +50,10 @@ docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amster
 Download the latest WebGoat and WebWolf release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```shell
-java -Dfile.encoding=UTF-8 -Dserver.port=8080 -Dserver.address=localhost -Dhsqldb.port=9001 -jar webgoat-server-8.2.2.jar 
-java -Dfile.encoding=UTF-8 -Dserver.port=9090 -Dserver.address=localhost -jar webwolf-8.2.2.jar
+java -Dfile.encoding=UTF-8 -jar webgoat-8.2.3.jar 
 ```
 
-WebGoat will be located at: http://localhost:8080/WebGoat and   
-WebWolf will be located at: http://localhost:9090/WebWolf (change ports if necessary)
+Click the link in the log to start WebGoat.
 
 ## 3. Run from the sources
 
@@ -86,9 +84,9 @@ Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 
 ```Shell
 # On Linux/Mac:
-./mvnw -pl webgoat-server spring-boot:run
-# On Widows:
-./mvnw.cmd -pl webgoat-server spring-boot:run
+./mvnw spring-boot:run
+# On Windows:
+./mvnw.cmd spring-boot:run
 
 ```
 ... you should be running WebGoat on localhost:8080/WebGoat momentarily
@@ -112,5 +110,5 @@ java -jar webgoat-server/target/webgoat-server-v8.2.2-SNAPSHOT.jar
 ```
 Or in a docker run it would (once this version is pushed into docker hub) look like this:
 ```Shell
-docker run -d -p 80:8888 -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/goatandwolf
+docker run -d -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/webgoat
 ```

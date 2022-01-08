@@ -6,6 +6,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.ContextStoppedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 @Slf4j
@@ -17,12 +18,12 @@ public class StartupMessage {
 
     @EventListener
     void onStartup(ApplicationReadyEvent event) {
+        if (StringUtils.hasText(port) && !StringUtils.hasText(System.getProperty("running.in.docker"))) {
+            log.info("Please browse to http://{}:{}/WebGoat to get started...", address, port);
+        }
         if (event.getApplicationContext().getApplicationName().contains("WebGoat")) {
             port = event.getApplicationContext().getEnvironment().getProperty("server.port");
             address = event.getApplicationContext().getEnvironment().getProperty("server.address");
-        }
-        if (event.getApplicationContext().getApplicationName().contains("WebWolf")) {
-            log.info("Please browse to http://{}:{}/WebGoat to get started...", address, port);
         }
     }
 

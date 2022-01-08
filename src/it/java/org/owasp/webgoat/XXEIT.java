@@ -88,7 +88,7 @@ public class XXEIT extends IntegrationTest {
 
     @Test
     public void runTests() throws IOException {
-        startLesson("XXE");
+        startLesson("XXE", true);
         webGoatHomeDirectory = webGoatServerDirectory();
         webWolfFileServerLocation = getWebWolfFileServerLocation();
         checkAssignment(url("/WebGoat/xxe/simple"), ContentType.XML, xxe3, true);
