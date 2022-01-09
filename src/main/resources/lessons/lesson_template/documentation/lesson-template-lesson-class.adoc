@@ -1,6 +1,6 @@
 === Step 2: adding a new lesson class
 
-Each lesson can contain multiple assignments, first let's define a lesson class in Java
+Each lesson can contain multiple assignments, first. Let's define a lesson class in Java:
 
 [source]
 ----
@@ -18,3 +18,4 @@ public class LessonTemplate extends Lesson {
 }
 ----
 
+Add the new lesson to a new package under `org.owasp.webgoat.lessons`.

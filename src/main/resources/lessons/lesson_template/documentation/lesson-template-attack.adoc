@@ -1,6 +1,6 @@
 === Step 4: Add an assignment to your lesson
 
-With an assignment a user can practise within a lesson. A lesson can consist of multiple assignment, each assignment
+With an assignment, a user can practice within a lesson. A lesson can consist of multiple assignments, each assignment
 needs to extend the class `AssignmentEndpoint`, let's look at an example:
 
 [source,java]
@@ -39,15 +39,17 @@ public class SampleAttack extends AssignmentEndpoint { // <3>
     }
 ----
 <1> Every assignment is just a Spring RestController
-<2> Each assignment can have a list of hints, the actual text needs to be placed in `WebGoatLabels.properties`
-<3> Each assignment needs to extend the class `AssignmentEndpoint` giving you some helpful methods you need when you want to mark an assignment as complete
-<4> As the assignment is a Spring based class you can autowire every component managed by Spring necessary for the assignment
+<2> Each assignment can have a list of hints. The actual text needs to be placed in `WebGoatLabels.properties` in the folder `src/main/resources/{lessonName}/i18n`
+<3> Each assignment needs to extend the class `AssignmentEndpoint`, giving you some helpful methods you need when you want to mark an assignment as complete
+<4> As the assignment is a Spring-based class, you can auto wire every component managed by Spring necessary for the assignment
 <5> Each assignment should at least have one mapping with the method signature (see 6)
-<6> When the user tries to solve an assignment you need return an `AttackResult`
+<6> When the user tries to solve an assignment, you need return an `AttackResult`
 <7> Returning a successful attack result when user solved the lesson
 <8> Returning a failed attack user did not solve the lesson
 
-As you can see an assignment is a REST controller which need to at least have one method with the following signature:
+{nbsp} +
+
+As you can see, an assignment is a REST controller which needs to at least have one method with the following signature:
 
 [source]
 ----
@@ -71,11 +73,11 @@ public List<Item> getItemsInBasket(@PathVariable("user") String user) {
 }
 ----
 
-=== Adding an assignment to the html page
+=== Adding an assignment to the HTML page
 
-We mentioned a lesson can consist of multiple assignments, WebGoat picks them up automatically and the UI displays
-a navigation bar on top of every lesson. A page with an assignment will be red in the beginning and will become
-green when the user solves the assignment. To make this work in the html we need to add:
+We mentioned a lesson could consist of multiple assignments, WebGoat picks them up automatically, and the UI displays
+a navigation bar on top of every lesson. A page with an assignment will be red initially and will become
+green when the user solves the assignment. To make this work we need to add to the HTML file:
 
 [source]
 ----
@@ -106,4 +108,4 @@ green when the user solves the assignment. To make this work in the html we need
 So the `action` of the form should match the method which defines the check if the lesson has been solved or not
 see `public AttackResult solved()`
 
-That's it you now successfully created your first WebGoat lesson including an assignment!
+That's it. You have now successfully created your first WebGoat lesson, including an assignment!
