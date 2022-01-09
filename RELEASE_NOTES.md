@@ -10,7 +10,7 @@
   - No longer add Maven dependencies in several places
   - H2 no longer needs to run as separate process, which solves the issue of WebWolf sharing and needing to configure the correct database connection.
 - More explicit paths in html files to reference `adoc` files, less magic.
-- Integrate WebWolf in WebWolf, the setup was way too complicated and needed configuration which could lead to mistakes and a not working application. This also simplifies the Docker configuration as there is only 1 Docker image.
+- Integrate WebWolf in WebGoat, the setup was way too complicated and needed configuration which could lead to mistakes and a not working application. This also simplifies the Docker configuration as there is only 1 Docker image.
 - Add WebWolf button in WebGoat
 - Move all lessons into `src/main/resources` 
 - WebGoat selects a port dynamically when starting. It will still start of port 8080 it will try another port to ease the user experience. 
