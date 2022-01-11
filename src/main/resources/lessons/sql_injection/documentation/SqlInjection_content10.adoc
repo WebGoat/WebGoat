@@ -6,7 +6,7 @@ public static String loadAccount() {
   String accountID = getParser().getStringParameter(ACCT_ID, "");
   String data = null;
   String query = "SELECT first_name, last_name, acct_id, balance FROM user_data WHERE acct_id = ?";
-  try (Connection connection = null;
+  try (Connection connection = dataSource.getConnection()) {
        PreparedStatement statement = connection.prepareStatement(query)) {
      statement.setString(1, accountID);
      ResultSet results = statement.executeQuery();
