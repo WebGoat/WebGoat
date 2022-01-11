@@ -95,8 +95,8 @@ jobs:
           push: true 
           platforms: linux/amd64, linux/arm64, linux/arm/v7
           tags: |
-            webgoat/webgoat:${{ env.WEBGOAT_TAG_VERSION }}
-            webgoat/webgoat:latest
+            webgoat/goatandwolf:${{ env.WEBGOAT_TAG_VERSION }}
+            webgoat/goatandwolf:latest
           build-args: |
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
 
