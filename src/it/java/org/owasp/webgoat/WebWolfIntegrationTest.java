@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import io.restassured.RestAssured;
 
-public class WebWolfIT extends IntegrationTest {
+public class WebWolfIntegrationTest extends IntegrationTest {
     
     @Test
     public void runTests() throws IOException {

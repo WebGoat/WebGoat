@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
-public class SqlInjectionMitigationIT extends IntegrationTest {
+public class SqlInjectionMitigationIntegrationTest extends IntegrationTest {
 
     @Test
     public void runTests() {

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class SqlInjectionLessonIT extends IntegrationTest {
+public class SqlInjectionLessonIntegrationTest extends IntegrationTest {
 
     public static final String sql_2 = "select department from employees where last_name='Franco'";
     public static final String sql_3 = "update employees set department='Sales' where last_name='Barnett'";

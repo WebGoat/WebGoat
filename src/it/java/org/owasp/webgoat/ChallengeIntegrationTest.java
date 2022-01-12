@@ -12,7 +12,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class ChallengeIT extends IntegrationTest {
+public class ChallengeIntegrationTest extends IntegrationTest {
 
     @Test
     public void testChallenge1() {

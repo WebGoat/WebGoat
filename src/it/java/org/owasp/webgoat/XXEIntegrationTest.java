@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class XXEIT extends IntegrationTest {
+public class XXEIntegrationTest extends IntegrationTest {
 
     private static final String xxe3 = """
             <?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE user [<!ENTITY xxe SYSTEM "file:///">]><comment><text>&xxe;test</text></comment>""";

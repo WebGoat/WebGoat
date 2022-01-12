@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class SqlInjectionAdvancedIT extends IntegrationTest {
+public class SqlInjectionAdvancedIntegrationTest extends IntegrationTest {
 
     @Test
     public void runTests() {

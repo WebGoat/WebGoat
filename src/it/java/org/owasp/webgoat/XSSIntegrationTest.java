@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class XSSIT extends IntegrationTest {
+public class XSSIntegrationTest extends IntegrationTest {
 
     
     @Test

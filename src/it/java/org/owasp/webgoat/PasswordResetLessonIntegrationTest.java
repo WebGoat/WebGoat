@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import java.util.Arrays;
 import java.util.Map;
 
-public class PasswordResetLessonIT extends IntegrationTest {
+public class PasswordResetLessonIntegrationTest extends IntegrationTest {
 
 	@BeforeEach
     @SneakyThrows

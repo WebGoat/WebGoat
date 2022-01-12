@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ProgressRaceConditionIT extends IntegrationTest {
+public class ProgressRaceConditionIntegrationTest extends IntegrationTest {
 
     @Test
     public void runTests() throws InterruptedException {

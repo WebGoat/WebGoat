@@ -14,7 +14,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
 
-public class SeleniumIT extends IntegrationTest {
+public class SeleniumIntegrationTest extends IntegrationTest {
 
 	static {
 		try {
@@ -73,27 +73,27 @@ public class SeleniumIT extends IntegrationTest {
 		driver.findElement(By.id("restart-lesson-button")).click();
 		driver.get(url("/start.mvc#lesson/SqlInjection.lesson/0"));
 		driver.get(url("/start.mvc#lesson/SqlInjection.lesson/1"));
-		driver.findElement(By.name("query")).sendKeys(SqlInjectionLessonIT.sql_2);
+		driver.findElement(By.name("query")).sendKeys(SqlInjectionLessonIntegrationTest.sql_2);
 		driver.findElement(By.name("query")).submit();
 
 		driver.get(url("/start.mvc#lesson/SqlInjection.lesson/2"));
-		driver.findElements(By.name("query")).get(1).sendKeys(SqlInjectionLessonIT.sql_3);
+		driver.findElements(By.name("query")).get(1).sendKeys(SqlInjectionLessonIntegrationTest.sql_3);
 		driver.findElements(By.name("query")).get(1).submit();
 
 		driver.get(url("/start.mvc#lesson/SqlInjection.lesson/3"));
-		driver.findElements(By.name("query")).get(2).sendKeys(SqlInjectionLessonIT.sql_4_drop);
+		driver.findElements(By.name("query")).get(2).sendKeys(SqlInjectionLessonIntegrationTest.sql_4_drop);
 		driver.findElements(By.name("query")).get(2).submit();
 
 		driver.get(url("/start.mvc#lesson/SqlInjection.lesson/3"));
 		driver.findElements(By.name("query")).get(2).clear();
-		driver.findElements(By.name("query")).get(2).sendKeys(SqlInjectionLessonIT.sql_4_add);
+		driver.findElements(By.name("query")).get(2).sendKeys(SqlInjectionLessonIntegrationTest.sql_4_add);
 		driver.findElements(By.name("query")).get(2).submit();
 		driver.findElements(By.name("query")).get(2).clear();
-		driver.findElements(By.name("query")).get(2).sendKeys(SqlInjectionLessonIT.sql_4_drop);
+		driver.findElements(By.name("query")).get(2).sendKeys(SqlInjectionLessonIntegrationTest.sql_4_drop);
 		driver.findElements(By.name("query")).get(2).submit();
 
 		driver.get(url("/start.mvc#lesson/SqlInjection.lesson/4"));
-		driver.findElements(By.name("query")).get(3).sendKeys(SqlInjectionLessonIT.sql_5);
+		driver.findElements(By.name("query")).get(3).sendKeys(SqlInjectionLessonIntegrationTest.sql_5);
 		driver.findElements(By.name("query")).get(3).submit();
 
 		driver.get(url("/start.mvc#lesson/SqlInjection.lesson/8"));
@@ -103,8 +103,8 @@ public class SeleniumIT extends IntegrationTest {
 		driver.findElement(By.name("Get Account Info")).click();
 
 		driver.get(url("/start.mvc#lesson/SqlInjection.lesson/9"));
-		driver.findElement(By.name("userid")).sendKeys(SqlInjectionLessonIT.sql_10_userid);
-		driver.findElement(By.name("login_count")).sendKeys(SqlInjectionLessonIT.sql_10_login_count);
+		driver.findElement(By.name("userid")).sendKeys(SqlInjectionLessonIntegrationTest.sql_10_userid);
+		driver.findElement(By.name("login_count")).sendKeys(SqlInjectionLessonIntegrationTest.sql_10_login_count);
 		driver.findElements(By.name("Get Account Info")).get(1).click();
 	}
 

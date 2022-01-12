@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-public class CSRFIT extends IntegrationTest {
+public class CSRFIntegrationTest extends IntegrationTest {
 
     private static final String trickHTML3 = "<!DOCTYPE html><html><body><form action=\"WEBGOATURL\" method=\"POST\">\n" +
             "<input type=\"hidden\" name=\"csrf\" value=\"thisisnotchecked\"/>\n" +

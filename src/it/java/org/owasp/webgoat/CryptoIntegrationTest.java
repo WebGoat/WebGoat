@@ -19,7 +19,7 @@ import org.owasp.webgoat.lessons.cryptography.HashingAssignment;
 
 import io.restassured.RestAssured;
 
-public class CryptoIT extends IntegrationTest {
+public class CryptoIntegrationTest extends IntegrationTest {
 
 	@Test
 	public void runTests() {

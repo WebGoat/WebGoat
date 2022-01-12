@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeserializationIT extends IntegrationTest {
+public class DeserializationIntegrationTest extends IntegrationTest {
 
     private static String OS = System.getProperty("os.name").toLowerCase();
 

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-class AccessControlIT extends IntegrationTest {
+class AccessControlIntegrationTest extends IntegrationTest {
 
     @Test
     void testLesson() {

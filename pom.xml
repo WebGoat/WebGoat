@@ -591,7 +591,7 @@
                         <logback.configurationFile>${basedir}/src/test/resources/logback-test.xml</logback.configurationFile>
                     </systemPropertyVariables>
                     <argLine>-Xmx512m -Dwebgoatport=${webgoat.port} -Dwebwolfport=${webwolf.port}</argLine>
-                    <includes>**/*IT.java</includes>
+                    <includes>**/*IntegrationTest.java</includes>
                 </configuration>
                 <executions>
                     <execution>
@@ -616,6 +616,9 @@
                     <argLine>
                         --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED
                     </argLine>
+                    <excludes>
+                        <exclude>**/*IntegrationTest.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>

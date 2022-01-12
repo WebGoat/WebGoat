@@ -19,7 +19,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.SneakyThrows;
 
-public class IDORIT extends IntegrationTest {
+public class IDORIntegrationTest extends IntegrationTest {
 	
 	@BeforeEach
     @SneakyThrows

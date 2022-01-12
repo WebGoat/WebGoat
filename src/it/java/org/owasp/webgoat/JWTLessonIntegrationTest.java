@@ -29,7 +29,7 @@ import io.jsonwebtoken.impl.TextCodec;
 import io.restassured.RestAssured;
 import org.owasp.webgoat.lessons.jwt.JWTSecretKeyEndpoint;
 
-public class JWTLessonIT extends IntegrationTest {
+public class JWTLessonIntegrationTest extends IntegrationTest {
 	
     @Test
     public void solveAssignment() throws IOException, InvalidKeyException, NoSuchAlgorithmException {

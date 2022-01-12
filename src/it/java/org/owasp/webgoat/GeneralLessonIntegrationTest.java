@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class GeneralLessonIT extends IntegrationTest {
+public class GeneralLessonIntegrationTest extends IntegrationTest {
 
     @Test
     public void httpBasics() {

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class SSRFIT extends IntegrationTest {
+public class SSRFIntegrationTest extends IntegrationTest {
     
     @Test
     public void runTests() throws IOException {
