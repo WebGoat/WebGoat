@@ -11,8 +11,6 @@ COPY --chown=webgoat target/webgoat-*.jar /home/webgoat/webgoat.jar
 EXPOSE 8080
 EXPOSE 9090
 
-CMD /home/webgoat
-
 WORKDIR /home/webgoat
 ENTRYPOINT [ "java", \
    "-Duser.home=/home/webgoat", \
