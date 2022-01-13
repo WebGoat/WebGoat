@@ -17,7 +17,6 @@
 - WebGoat logs URL after startup: `Please browse to http://127.0.0.1:8080/WebGoat to get started...`
 - Simplify `Dockerfile` as we no longer need a script to start everything
 - Maven build now start WebGoat jar with Maven plugin to make sure we run against the latest build.
-- Integration tests now 
 - Added `Initializable` interface for a lesson, an assignment can implement this interface to set it up for a specific user and to reset the assignment back to its original state when a reset lesson occurs. See `BlindSendFileAssignment` for an example.
 - Integration tests now use the same user. This saves a lot of time as before every test used a different user which triggered the Flyway migration to set up the database schema for the user. This migration took a lot of time.
 
