@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17_35-jdk-focal
+FROM docker.io/eclipse-temurin:17_35-jdk-focal
 
 RUN useradd -ms /bin/bash webgoat
 RUN chgrp -R 0 /home/webgoat
