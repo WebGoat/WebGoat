@@ -1,0 +1,17 @@
+name: Example: Policy check all commits and all Pull Requests to main
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+...
+    - name: Run Synopsys Detect
+      uses: synopsys-sig/detect-action@v0.3.0
+      env:
+        NODE_EXTRA_CA_CERTS: ${{ secrets.LOCAL_CA_CERT_PATH }}
+      with:
+          scan-mode: RAPID # Can be omitted, since this is the default value
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          detect-version: 7.9.0
+          blackduck-url: ${{ secrets.BLACKDUCK_URL }}
+          blackduck-api-token: ${{ secrets.BLACKDUCK_API_TOKEN }}
