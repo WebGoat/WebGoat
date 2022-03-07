@@ -8,7 +8,7 @@
 [![Discussions](https://img.shields.io/github/discussions/WebGoat/WebGoat)](https://github.com/WebGoat/WebGoat/discussions)
 TEST
 # Introduction
-
+test
 WebGoat is a deliberately insecure web application maintained by [OWASP](http://www.owasp.org/) designed to teach web
 application security lessons.
 
