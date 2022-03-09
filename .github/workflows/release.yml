@@ -11,7 +11,7 @@ jobs:
     environment:
       name: release
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v3
 
       - name: "Get tag name"
         id: tag
@@ -111,7 +111,7 @@ jobs:
     environment:
       name: release
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v3
         with:
           ref: develop
           token: ${{ secrets.WEBGOAT_DEPLOYER_TOKEN }}
