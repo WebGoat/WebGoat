@@ -78,8 +78,7 @@ public class FileServer {
         model.addAttribute("uploadSuccess", "File uploaded successful");
         return new ModelAndView(
                 new RedirectView("files", true),
-                model
-        );
+                model);
     }
 
     @AllArgsConstructor

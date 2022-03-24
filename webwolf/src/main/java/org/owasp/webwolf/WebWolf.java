@@ -43,7 +43,7 @@ public class WebWolf {
 
     public static void main(String[] args) {
         System.setProperty("spring.config.name", "application-webwolf");
-
+        String algo = "3";
         String webwolfPort = System.getenv("WEBWOLF_PORT");
         String webWolfHost = null == System.getenv("WEBWOLF_HOST") ? "127.0.0.1" : System.getenv("WEBWOLF_HOST");
         String fileEncoding = System.getProperty("file.encoding");
@@ -51,13 +51,15 @@ public class WebWolf {
         int wolfPort = webwolfPort == null ? 9090 : Integer.parseInt(webwolfPort);
 
         if (null == fileEncoding || !fileEncoding.equals("UTF-8")) {
-            System.out.println("It seems the application is started on a OS with non default UTF-8 encoding:" + fileEncoding);
+            System.out.println(
+                    "It seems the application is started on a OS with non default UTF-8 encoding:" + fileEncoding);
             System.out.println("Please add: -Dfile.encoding=UTF-8");
             System.exit(-1);
         }
 
         if (isAlreadyRunning(webWolfHost, wolfPort)) {
-            System.out.println("Port " + webWolfHost + ":" + wolfPort + " is in use. Use environment value WEBWOLF_PORT to set a different value.");
+            System.out.println("Port " + webWolfHost + ":" + wolfPort
+                    + " is in use. Use environment value WEBWOLF_PORT to set a different value.");
             System.exit(-1);
         }
         SpringApplication.run(WebWolf.class, args);
