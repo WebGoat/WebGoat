@@ -314,6 +314,11 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+   
+    <properties>
+      <sonar.organization>skayara</sonar.organization>
+      <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    </properties>
 
 
 </project>
