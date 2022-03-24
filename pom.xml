@@ -137,6 +137,8 @@
         <checkstyle.version>3.1.2</checkstyle.version>
         <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
         <skipTests>true</skipTests>
+        <sonar.organization>ineesdv-metodologias</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <modules>
