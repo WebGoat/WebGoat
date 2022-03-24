@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.owasp.webgoat</groupId>
@@ -64,17 +63,17 @@
         <developer>
             <id>jwayman</id>
             <name>Jeff Wayman</name>
-            <email/>
+            <email />
         </developer>
         <developer>
             <id>dcowden</id>
             <name>Dave Cowden</name>
-            <email/>
+            <email />
         </developer>
         <developer>
             <id>lawson89</id>
             <name>Richard Lawson</name>
-            <email/>
+            <email />
         </developer>
         <developer>
             <id>dougmorato</id>
@@ -135,6 +134,10 @@
         <thymeleaf.version>3.0.14.RELEASE</thymeleaf.version>
         <pmd.version>3.15.0</pmd.version>
         <checkstyle.version>3.1.2</checkstyle.version>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
+        <skipTests>true</skipTests>
+        <sonar.organization>diegodiaz1256</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <modules>
@@ -143,7 +146,7 @@
         <module>webgoat-server</module>
         <module>webwolf</module>
         <module>webgoat-integration-tests</module>
-        <module>docker</module><!-- copy required jars in preparation of docker all-in-one build -->
+        <module>docker</module> <!-- copy required jars in preparation of docker all-in-one build -->
     </modules>
 
 
@@ -175,8 +178,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
                 <version>1.2.5</version>
-                <configuration>
-                </configuration>
+                <configuration></configuration>
                 <executions>
                     <execution>
                         <id>flatten</id>
@@ -217,7 +219,7 @@
                 <configuration>
                     <targetJdk>${maven.compiler.target}</targetJdk>
                     <failurePriority>1
-                    </failurePriority><!-- 5 means fail even on the lowest priority, 0 means never fail -->
+                    </failurePriority> <!-- 5 means fail even on the lowest priority, 0 means never fail -->
                     <rulesets>
                         <!--suppress UnresolvedMavenProperty -->
                         <ruleset>${maven.multiModuleProjectDirectory}/config/pmd/pmd-ruleset.xml</ruleset>
