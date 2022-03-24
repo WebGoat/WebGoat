@@ -135,6 +135,10 @@
         <thymeleaf.version>3.0.14.RELEASE</thymeleaf.version>
         <pmd.version>3.15.0</pmd.version>
         <checkstyle.version>3.1.2</checkstyle.version>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
+        <skipTests>true</skipTests>
+        <sonar.organization>skayara</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <modules>
@@ -314,11 +318,7 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-   
-    <properties>
-      <sonar.organization>skayara</sonar.organization>
-      <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    </properties>
+
 
 
 </project>
