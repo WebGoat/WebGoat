@@ -43,7 +43,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    // si
     private final UserService userDetailsService;
 
     @Override
@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService); //.passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService); // .passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Bean
