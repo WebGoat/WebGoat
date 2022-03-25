@@ -1,6 +1,8 @@
 name: "Pull request build"
 on:
   pull_request:
+    branches-ignore:
+      - '*'
     paths-ignore:
       - '.txt'
       - '*.MD'
