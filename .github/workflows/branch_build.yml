@@ -19,7 +19,7 @@ jobs:
           java-version: 17
           architecture: x64
       - name: Cache Maven packages
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
@@ -45,7 +45,7 @@ jobs:
           java-version: 17
           architecture: x64
       - name: Cache Maven packages
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
