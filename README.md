@@ -1,5 +1,5 @@
 # Trabajo de metodologías 
-# Autores: Carlos, Inés y Marta
+# Autores: Carlos, Inés y Marta.
 
 # WebGoat 8: A deliberately insecure Web Application
 
