@@ -43,15 +43,17 @@ public class ProfileUploadBase extends AssignmentEndpoint {
         try {
             uploadDirectory.mkdirs();
             var uploadedFile = new File(uploadDirectory, fullName);
-            uploadedFile.createNewFile();
-            FileCopyUtils.copy(file.getBytes(), uploadedFile);
-
-            if (attemptWasMade(uploadDirectory, uploadedFile)) {
-                return solvedIt(uploadedFile);
+            if (uploadedFile.getCanonicalPath().startsWith(uploadDirectory.getCanonicalPath())){
+                  uploadedFile.createNewFile();
+                  FileCopyUtils.copy(file.getBytes(), uploadedFile);
+                  if (attemptWasMade(uploadDirectory, uploadedFile)) {
+                        return solvedIt(uploadedFile);
+                  }
+                  return informationMessage(this).feedback("path-traversal-profile-updated").feedbackArgs(uploadedFile.getAbsoluteFile()).build();
+            }else{
+                return failed(this).feedback("Path traversal detectado!!!!").build();
             }
-            return informationMessage(this).feedback("path-traversal-profile-updated").feedbackArgs(uploadedFile.getAbsoluteFile()).build();
-
-        } catch (IOException e) {
+    } catch (IOException e) {
             return failed(this).output(e.getMessage()).build();
         }
     }
