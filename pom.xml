@@ -117,7 +117,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-
+        <sonar.organization>sinanod</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
+        <skipTests>true</skipTests>
         <!-- Shared properties with plugins and version numbers across submodules-->
         <asciidoctorj.version>2.5.2</asciidoctorj.version>
         <commons-collections.version>3.2.1</commons-collections.version>
