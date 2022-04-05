@@ -28,7 +28,13 @@ public class ProfileUploadFix extends ProfileUploadBase {
     public AttackResult uploadFileHandler(
             @RequestParam("uploadedFileFix") MultipartFile file,
             @RequestParam(value = "fullNameFix", required = false) String fullName) {
-        return super.execute(file, fullName != null ? fullName.replace("../", "") : "");
+            if(fullName!=null){
+                if(fullName.matches("^[A-Za-z0-9 ]*$")){
+                    return super.execute(file, fullName);
+                }
+            }
+            return  null;
+
     }
 
     @GetMapping("/PathTraversal/profile-picture-fix")
