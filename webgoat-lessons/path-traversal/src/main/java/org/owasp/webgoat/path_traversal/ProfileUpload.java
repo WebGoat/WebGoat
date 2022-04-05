@@ -26,7 +26,13 @@ public class ProfileUpload extends ProfileUploadBase {
     @PostMapping(value = "/PathTraversal/profile-upload", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult uploadFileHandler(@RequestParam("uploadedFile") MultipartFile file, @RequestParam(value = "fullName", required = false) String fullName) {
-        return super.execute(file, fullName);
+        if(fullName!=null){
+            if(fullName.matches("^[A-Za-z0-9 ]*$")){
+                return super.execute(file, fullName);
+            }
+        }
+        return  null;
+
     }
 
     @GetMapping("/PathTraversal/profile-picture")
