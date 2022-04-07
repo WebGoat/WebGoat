@@ -31,10 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.Base64;
 
 @RestController
@@ -43,13 +40,16 @@ public class InsecureDeserializationTask extends AssignmentEndpoint {
 
     @PostMapping("/InsecureDeserialization/task")
     @ResponseBody
-    public AttackResult completed(@RequestParam String token) throws IOException {
+    public AttackResult completed(@RequestParam ObjectStreamClass token) throws IOException {
         String b64token;
         long before;
         long after;
         int delay;
+        if(!token.getName().equals(VulnerableTaskHolder.class.getName())){
+            throw new InvalidClassException("Unauthorized deserialization", token.getName());
+        }
 
-        b64token = token.replace('-', '+').replace('_', '/');
+        b64token = token.getName().replace('-', '+').replace('_', '/');
 
         try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
             before = System.currentTimeMillis();
