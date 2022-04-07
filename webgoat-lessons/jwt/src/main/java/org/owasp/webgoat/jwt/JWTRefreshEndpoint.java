@@ -55,7 +55,7 @@ import static org.springframework.http.ResponseEntity.ok;
  * @since 4/23/17.
  */
 @RestController
-@AssignmentHints({"jwt-refresh-hint1", "jwt-refresh-hint2", "jwt-refresh-hint3", "jwt-refresh-hint4"})
+@AssignmentHints({ "jwt-refresh-hint1", "jwt-refresh-hint2", "jwt-refresh-hint3", "jwt-refresh-hint4" })
 public class JWTRefreshEndpoint extends AssignmentEndpoint {
 
     public static final String PASSWORD = "bm5nhSkxCXZkKRy4";
@@ -96,12 +96,17 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
 
     @PostMapping("/JWT/refresh/checkout")
     @ResponseBody
-    public ResponseEntity<AttackResult> checkout(@RequestHeader(value = "Authorization", required = false) String token) {
+    public ResponseEntity<AttackResult> checkout(
+            @RequestHeader(value = "Authorization", required = false) String token) {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         try {
-            Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(token.replace("Bearer ", ""));
+
+            Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parseClaimsJws(token.replace("Bearer ", "")); // vulnerabilidad
+                                                                                                              // token
+                                                                                                              // jwt
+                                                                                                              // arreglada
             Claims claims = (Claims) jwt.getBody();
             String user = (String) claims.get("user");
             if ("Tom".equals(user)) {
@@ -118,7 +123,7 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
     @PostMapping("/JWT/refresh/newToken")
     @ResponseBody
     public ResponseEntity newToken(@RequestHeader(value = "Authorization", required = false) String token,
-                                   @RequestBody(required = false) Map<String, Object> json) {
+            @RequestBody(required = false) Map<String, Object> json) {
         if (token == null || json == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
