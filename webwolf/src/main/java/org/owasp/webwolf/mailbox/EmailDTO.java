@@ -29,7 +29,7 @@ public class EmailDTO{
     private String recipient;
   
   public Email map(){
-     Email email = new Email(this.id,this.time,this.contents,this.sender,this.tittle,this.recipient);
+     Email email = new Email(this.id,this.time,this.contents,this.sender,this.title,this.recipient);
      return email;
   }
 
