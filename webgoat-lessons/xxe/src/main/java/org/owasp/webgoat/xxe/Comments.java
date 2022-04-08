@@ -93,6 +93,11 @@ public class Comments {
         var jc = JAXBContext.newInstance(Comment.class);
         var xif = XMLInputFactory.newInstance();
         
+        // No permitir "External Entitities"
+        xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+        // No permitir <!DOCTYPE --- cosas --- >
+        xif.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+
         if (webSession.isSecurityEnabled()) {
         	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
         	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");  // compliant
