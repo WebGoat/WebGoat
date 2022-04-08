@@ -4,17 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class EmailDTO{
 
     @Id
