@@ -104,6 +104,8 @@ jobs:
       - name: "Image digest"
         run: echo ${{ steps.docker_build.outputs.digest }}
   new_version:
+    permissions:
+      contents: write  # for Git to git push
     if: github.repository == 'WebGoat/WebGoat'
     name: Update development version
     needs: [ release ]

@@ -20,6 +20,9 @@ on:
       - 'LICENSE'
       - 'docs/**'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
