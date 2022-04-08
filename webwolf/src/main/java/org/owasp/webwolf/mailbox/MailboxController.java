@@ -65,6 +65,7 @@ public class MailboxController {
         return () -> {
 
             Email email =  emailDTO.map();
+            
             mailboxRepository.save(email);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         };
