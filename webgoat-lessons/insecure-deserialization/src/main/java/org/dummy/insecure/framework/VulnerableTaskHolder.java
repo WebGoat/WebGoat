@@ -35,7 +35,8 @@ public class VulnerableTaskHolder implements Serializable {
 	 * Execute a task when de-serializing a saved or received object.
 	 * @author stupid develop
 	 */
-	private void readObject( ObjectInputStream stream ) throws Exception {
+    
+	private final void readObject( ObjectInputStream stream ) throws Exception {
         //unserialize data so taskName and taskAction are available
 		stream.defaultReadObject();
 		
