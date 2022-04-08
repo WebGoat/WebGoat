@@ -61,8 +61,10 @@ public class MailboxController {
     }
 
     @PostMapping(value = "/mail")
-    public Callable<ResponseEntity<?>> sendEmail(@RequestBody Email email) {
+    public Callable<ResponseEntity<?>> sendEmail(@RequestBody EmailDTO emailDTO) {
         return () -> {
+
+            Email email =  emailDTO.map();
             mailboxRepository.save(email);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         };
