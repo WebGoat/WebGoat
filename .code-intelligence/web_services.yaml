@@ -1,0 +1,19 @@
+## Configuration of services for web application fuzzing
+## Generated on 2022-04-08 with CI Fuzz 2.30.4
+##
+## Lines that start with "##" are explanations for the following
+## setting, lines that start with "#" are settings that can be enabled
+## by removing the "#".
+
+## A list of web services that have been configured with tha CI Fuzz
+## java agent (fuzzing_agent.jar). Web services configured here can
+## be referenced in a fuzz test of type "web_app".
+web_services:
+  ## Name to identify the web service.
+  - name: WebGoatLocalhost8080
+    ## Relative (to the project directory) path to an OpenAPI / Swagger
+    ## spec that is used by the fuzzer to generate HTTP requests. OpenAPI 
+    ## version 2 and 3 in json and yaml formats is supported.
+    ##
+    ## This option is not applicable to gRPC fuzzing.
+    #open_api_spec: relative_dir/api_swagger.json

@@ -1,0 +1,75 @@
+## Configuration for a CI Fuzz project
+## Generated on 2021-12-08 with CI Fuzz 2.26.2
+##
+## Lines that start with "##" are explanations for the following
+## setting, lines that start with "#" are settings that can be enabled
+## by removing the "#".
+
+## The fuzz targets are built and run in Docker containers. This setting
+## allows you to specify the Docker image that should be used for
+## building this project. It must contain all the dependencies required
+## to build the project.
+## If you're running ci-daemon on your local system, you can leave this
+## setting empty, in which case a distroless image is used and several
+## directories (/lib, /bin/, /usr, ...) from the host system are
+## automatically mounted into the container, effectively creating a
+## build environment from the host.
+build_container: cifuzz/builders:maven
+
+## The name of the container image used for running the fuzz tests. If
+## unspecified, the image of the build container is used.
+run_container: cifuzz/builders:maven
+
+## A list of paths which should be mounted from the host into the
+## build and run containers. The format is SOURCE-DIR:DEST-DIR, where
+## SOURCE-DIR will be bind-mounted from the host filesystem to DEST-DIR
+## in the container.
+## Environment variables in the paths are expanded from the host's
+## environment.
+#mounts:
+#  - $HOME/build:/build
+
+## The relative path to a script that builds the project. This script
+## be will automatically copied into the build container and executed to
+## build the project.
+## The path must be relative to the root of the project directory.
+build_script: ".code-intelligence/build.sh"
+
+
+
+## Paths to the fuzz targets to execute.
+#fuzz_tests:
+#  - .code-intelligence/fuzz_targets/*
+
+## Paths to web app fuzz target configs.
+web_app_target_configs:
+  - .code-intelligence/fuzz_targets/fuzzallendpoints.yaml
+
+## The sanitizers to use for the fuzz tests. Only applies to C/C++
+## targets. Note that the Undefined Behavior Sanitizer (UBSan) is
+## always used, regardless of this setting. By default, only
+## Address Sanitizer (and Undefined Behavior Sanitizer) is used.
+sanitizers:
+  - address
+
+## The fuzzing engines to use for the fuzz tests. By default, only
+## libfuzzer is used. Only valid for C/C++ targets.
+#engines:
+#  - libfuzzer
+#  - afl
+#  - afl_llvm_mode
+
+## The run time after which the fuzz tests are cancelled and
+## considered as having passed. The default is 30 minutes.
+max_runtime: "1h30m0s"
+
+## The number of parallel executions per fuzz test. The default is 1,
+## which means for each combination of fuzzing engine and sanitizer,
+## each fuzz target is executed once.
+parallel_executions: 1
+
+## By default, fuzz targets are seeded with an initial input corpus,
+## which consists of files of various data formats. This often improves
+## results, but could take a long time for slow fuzz targets. Set to
+## true if you don't want to use the initial input corpus.
+#no_initial_corpus: true
