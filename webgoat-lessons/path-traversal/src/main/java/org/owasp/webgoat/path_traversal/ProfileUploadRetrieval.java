@@ -94,7 +94,7 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
                 return ResponseEntity.ok()
                         .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
                         .location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
-                        .body(Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(catPicture)));
+                        .body(StringUtils.arrayToCommaDelimitedString(catPicture.getParentFile().listFiles()).getBytes());
             }
            
         } catch (IOException | URISyntaxException e) {
