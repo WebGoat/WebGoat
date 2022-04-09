@@ -49,7 +49,8 @@ public class Assignment5 extends AssignmentEndpoint {
 
     @PostMapping("/challenge/5")
     @ResponseBody
-    public AttackResult login(@RequestParam String username_login, @RequestParam String password_login) throws Exception {
+
+    /* public AttackResult login(@RequestParam String username_login, @RequestParam String password_login) throws Exception {
         if (!StringUtils.hasText(username_login) || !StringUtils.hasText(password_login)) {
             return failed(this).feedback("required4").build();
         }
@@ -66,6 +67,29 @@ public class Assignment5 extends AssignmentEndpoint {
                 return failed(this).feedback("challenge.close").build();
             }
         }
+    }*/
+
+    public AttackResult login(javax.servlet.http.HttpServletRequest request, java.sql.Connection connection) throws SQLException {
+        String username_login = request.getParameter("userid");
+        String password_login = request.getParameter("password");
+
+        if (!StringUtils.hasText(username_login) || !StringUtils.hasText(password_login)) {
+            return failed(this).feedback("required4").build();
+        }
+        if (!"Larry".equals(username_login)) {
+            return failed(this).feedback("user.not.larry").feedbackArgs(username_login).build();
+        }
+        try (var connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("select password from challenge_users where userid = ? AND password = ?");
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return success(this).feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(5)).build();
+            } else {
+                return failed(this).feedback("challenge.close").build();
+            }
+        }
     }
 }
+
 
