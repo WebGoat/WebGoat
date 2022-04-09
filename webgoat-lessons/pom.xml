@@ -76,6 +76,7 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
         <!-- Please do not add lesson dependent libraries here, place them in the corresponding lesson -->
     </dependencies>
     <dependencyManagement>

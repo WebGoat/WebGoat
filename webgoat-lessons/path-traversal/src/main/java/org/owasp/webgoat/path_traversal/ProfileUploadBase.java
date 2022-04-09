@@ -12,6 +12,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,8 +45,13 @@ public class ProfileUploadBase extends AssignmentEndpoint {
             uploadDirectory.mkdirs();
             var uploadedFile = new File(uploadDirectory, fullName);
             uploadedFile.createNewFile();
-            FileCopyUtils.copy(file.getBytes(), uploadedFile);
 
+            /*Solución vulnerabilidad Path Traversal*/
+            MultipartFile fileUnsafe = file;
+            File directory = new File(webGoatHomeDirectory);
+            if(FileUtils.directoryContains(directory, file.getResource().getFile())) {
+                FileCopyUtils.copy(file.getBytes(), uploadedFile);
+            }
             if (attemptWasMade(uploadDirectory, uploadedFile)) {
                 return solvedIt(uploadedFile);
             }
