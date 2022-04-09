@@ -5,6 +5,9 @@ on:
       - main
       - develop
       - release/*
+permissions:
+  contents: read
+
 jobs:
   install-notest:
     if: "github.repository != 'WebGoat/WebGoat'"
