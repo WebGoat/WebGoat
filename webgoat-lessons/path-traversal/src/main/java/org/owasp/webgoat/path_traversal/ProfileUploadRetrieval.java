@@ -96,9 +96,7 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
                         .location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
                         .body(Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(catPicture)));
             }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
-                    .body(StringUtils.arrayToCommaDelimitedString(catPicture.getParentFile().listFiles()).getBytes());
+           
         } catch (IOException | URISyntaxException e) {
             log.error("Image not found", e);
         }
