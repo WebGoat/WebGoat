@@ -33,13 +33,13 @@ For more details check [the Contribution guide](/CONTRIBUTING.md)
 
 ## 1. Run using Docker
 
-Every release is also published on [DockerHub](https://hub.docker.com/r/webgoat/goatandwolf).
+Every release is also published on [DockerHub](https://hub.docker.com/r/webgoat/webgoat).
 
 The easiest way to start WebGoat as a Docker container is to use the all-in-one docker container. This is a docker image that has WebGoat and WebWolf running inside.
 
 ```shell
 
-docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amsterdam webgoat/webgoat:v8.2.2
+docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amsterdam webgoat/webgoat
 ```
 
 **Important**: *Choose the correct timezone, so that the docker container and your host are in the same timezone. As it is important for the validity of JWT tokens used in certain exercises.*
@@ -76,8 +76,12 @@ cd WebGoat
 git checkout <<branch_name>>
 # On Linux/Mac:
 ./mvnw clean install 
+
 # On Windows:
 ./mvnw.cmd clean install
+
+# Using docker or podman, you can than build the container locally
+docker build -f Dockerfile . -t webgoat/webgoat
 ```
 
 Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
@@ -106,8 +110,8 @@ For instance running as a jar on a Linux/macOS it will look like this:
 ```Shell
 export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
 export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
-java -jar webgoat-server/target/webgoat-server-v8.2.2-SNAPSHOT.jar
-```
+java -jar target/webgoat-8.2.3-SNAPSHOT.jar
+
 Or in a docker run it would (once this version is pushed into docker hub) look like this:
 ```Shell
 docker run -d -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/webgoat

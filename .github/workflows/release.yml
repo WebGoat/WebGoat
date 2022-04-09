@@ -90,13 +90,13 @@ jobs:
       - name: "Build and push"
         uses: docker/build-push-action@v2.10.0
         with:
-          context: ./docker
-          file: docker/Dockerfile
+          context: ./
+          file: ./Dockerfile
           push: true 
           platforms: linux/amd64, linux/arm64, linux/arm/v7
           tags: |
-            webgoat/goatandwolf:${{ env.WEBGOAT_TAG_VERSION }}
-            webgoat/goatandwolf:latest
+            webgoat/webgoat:${{ env.WEBGOAT_TAG_VERSION }}
+            webgoat/webgoat:latest
           build-args: |
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
 
