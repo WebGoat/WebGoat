@@ -47,7 +47,6 @@ public class ProfileUploadBase extends AssignmentEndpoint {
             uploadedFile.createNewFile();
 
             /*Solución vulnerabilidad Path Traversal*/
-            MultipartFile fileUnsafe = file;
             File directory = new File(webGoatHomeDirectory);
             if(FileUtils.directoryContains(directory, file.getResource().getFile())) {
                 FileCopyUtils.copy(file.getBytes(), uploadedFile);
