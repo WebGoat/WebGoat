@@ -3,11 +3,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>path-traversal</artifactId>
     <packaging>jar</packaging>
-    <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
-    </dependency>
     <parent>
         <groupId>org.owasp.webgoat.lesson</groupId>
         <artifactId>webgoat-lessons-parent</artifactId>
