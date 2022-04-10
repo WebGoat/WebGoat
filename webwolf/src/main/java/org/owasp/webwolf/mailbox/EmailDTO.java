@@ -17,17 +17,17 @@ public class EmailDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idDTO;
     @JsonIgnore
-    private LocalDateTime time = LocalDateTime.now();
+    private LocalDateTime timeDTO = LocalDateTime.now();
     @Column(length = 1024)
-    private String contents;
-    private String sender;
-    private String title;
-    private String recipient;
+    private String contentsDTO;
+    private String senderDTO;
+    private String titleDTO;
+    private String recipientDTO;
   
   public Email map(){
-     Email email = new Email(this.id,this.time,this.contents,this.sender,this.title,this.recipient);
+     Email email = new Email(this.idDTO, this.timeDTO, this.contentsDTO, this.senderDTO, this.titleDTO, this.recipientDTO);
      return email;
   }
 
