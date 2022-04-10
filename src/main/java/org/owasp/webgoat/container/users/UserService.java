@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.List;
 import java.util.function.Function;
 
@@ -39,6 +39,8 @@ public class UserService implements UserDetailsService {
 
     public void addUser(String username, String password) {
         //get user if there exists one by the name
+        password = new BCryptPasswordEncoder().encode(password);
+
         var userAlreadyExists = userRepository.existsByUsername(username);
         var webGoatUser = userRepository.save(new WebGoatUser(username, password));
 
