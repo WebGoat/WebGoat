@@ -2,7 +2,6 @@ package org.owasp.webgoat.path_traversal;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
-									   
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
 import org.owasp.webgoat.assignments.AttackResult;
@@ -86,26 +85,24 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
             var id = request.getParameter("id");
             var catPicture = new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
 
-            if(FileUtils.directoryContains(catPicturesDirectory, catPicture)) {
-				if (catPicture.getName().toLowerCase().contains("path-traversal-secret.jpg")) {
-					return ResponseEntity.ok()
-							.contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
-							.body(FileCopyUtils.copyToByteArray(catPicture));
-				}
-				if (catPicture.exists()) {
-					return ResponseEntity.ok()
-							.contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
-							.location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
-							.body(Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(catPicture)));
-                }
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				
-                        .location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
-                        .body(StringUtils.arrayToCommaDelimitedString(catPicture.getParentFile().listFiles()).getBytes());
+            if (catPicture.getName().toLowerCase().contains("path-traversal-secret.jpg")) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+                        .body(FileCopyUtils.copyToByteArray(catPicture));
             }
-		} catch (IOException | URISyntaxException e) {
+            if (catPicture.exists()) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+                        .location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
+                        .body(Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(catPicture)));
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .location(new URI("/PathTraversal/random-picture?id=" + catPicture.getName()))
+                    .body(StringUtils.arrayToCommaDelimitedString(catPicture.getParentFile().listFiles()).getBytes());
+        } catch (IOException | URISyntaxException e) {
             log.error("Image not found", e);
         }
+
         return ResponseEntity.badRequest().build();
     }
 }
