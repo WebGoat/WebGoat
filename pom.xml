@@ -146,6 +146,10 @@
         <xml-resolver.version>1.2</xml-resolver.version>
         <xstream.version>1.4.5</xstream.version> <!-- do not update necessary for lesson -->
         <zxcvbn.version>1.5.2</zxcvbn.version>
+ 	<sonar.organization>li4n</sonar.organization>
+  	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+	<sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
+	<skipTests>true</skipTests>
     </properties>
 
     <dependencyManagement>
