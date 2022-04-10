@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 public class LogSpoofing extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.INSECURE_CONFIGURATION;
+        return Category.A9;
     }
 
     @Override

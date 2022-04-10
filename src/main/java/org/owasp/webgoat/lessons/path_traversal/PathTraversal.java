@@ -31,7 +31,7 @@ public class PathTraversal extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
-        return Category.INJECTION;
+        return Category.A3;
     }
 
     @Override

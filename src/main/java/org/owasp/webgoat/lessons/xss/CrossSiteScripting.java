@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 public class CrossSiteScripting extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.XSS;
+        return Category.A3;
     }
 
     @Override

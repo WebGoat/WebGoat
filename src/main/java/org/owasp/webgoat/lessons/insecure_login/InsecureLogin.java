@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 public class InsecureLogin extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.INSECURE_COMMUNICATION;
+        return Category.A7;
     }
 
     @Override

@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 public class SqlInjectionMitigations extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.INJECTION;
+        return Category.A3;
     }
 
     @Override

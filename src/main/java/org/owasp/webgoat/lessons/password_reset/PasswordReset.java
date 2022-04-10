@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 public class PasswordReset extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.AUTHENTICATION;
+        return Category.A7;
     }
 
     @Override

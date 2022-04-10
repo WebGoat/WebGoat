@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
 public class CSRF extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.REQUEST_FORGERIES;
+        return Category.A10;
     }
 
     @Override

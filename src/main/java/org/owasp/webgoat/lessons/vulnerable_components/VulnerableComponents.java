@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 public class VulnerableComponents extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.VULNERABLE_COMPONENTS;
+        return Category.A6;
     }
 
     @Override
