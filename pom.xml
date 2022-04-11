@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.2</version>
+        <version>2.6.6</version>
     </parent>
 
     <name>WebGoat</name>
@@ -140,7 +140,7 @@
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <pmd.version>3.15.0</pmd.version>
-        <thymeleaf.version>3.0.14.RELEASE</thymeleaf.version>
+        <thymeleaf.version>3.0.15.RELEASE</thymeleaf.version>
         <webdriver.version>4.3.1</webdriver.version>
         <wiremock.version>2.27.2</wiremock.version>
         <xml-resolver.version>1.2</xml-resolver.version>
