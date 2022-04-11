@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 public class Cryptography extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.GENERAL;
+        return Category.A2;
     }
 
     @Override

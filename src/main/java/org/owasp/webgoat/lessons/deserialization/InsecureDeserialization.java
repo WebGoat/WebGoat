@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 public class InsecureDeserialization extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.INSECURE_DESERIALIZATION;
+        return Category.A8;
     }
 
     @Override

@@ -77,7 +77,7 @@ public class LessonMenuServiceTest {
         when(l2.getTitle()).thenReturn("AA");
         when(lessonTracker.isLessonSolved()).thenReturn(false);
         when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1, l2));
-        when(course.getCategories()).thenReturn(Lists.newArrayList(Category.ACCESS_CONTROL));
+        when(course.getCategories()).thenReturn(Lists.newArrayList(Category.A1));
         when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
         when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
 
@@ -93,7 +93,7 @@ public class LessonMenuServiceTest {
         when(l1.getTitle()).thenReturn("ZA");
         when(lessonTracker.isLessonSolved()).thenReturn(true);
         when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1));
-        when(course.getCategories()).thenReturn(Lists.newArrayList(Category.ACCESS_CONTROL));
+        when(course.getCategories()).thenReturn(Lists.newArrayList(Category.A1));
         when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
         when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
 

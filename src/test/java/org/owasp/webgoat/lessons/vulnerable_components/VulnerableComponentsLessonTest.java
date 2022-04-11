@@ -26,8 +26,6 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.StreamException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.owasp.webgoat.lessons.vulnerable_components.Contact;
-import org.owasp.webgoat.lessons.vulnerable_components.ContactImpl;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;

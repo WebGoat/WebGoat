@@ -35,7 +35,7 @@ public class SecurePasswords extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
-        return Category.AUTHENTICATION;
+        return Category.A7;
     }
 
     @Override

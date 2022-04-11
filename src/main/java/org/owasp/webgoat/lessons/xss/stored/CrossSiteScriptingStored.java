@@ -28,7 +28,7 @@ import org.owasp.webgoat.container.lessons.Lesson;
 public class CrossSiteScriptingStored extends Lesson {
     @Override
     public Category getDefaultCategory() {
-        return Category.XSS;
+        return Category.A3;
     }
 
     @Override

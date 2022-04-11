@@ -38,7 +38,7 @@ public class IDOR extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
-        return Category.ACCESS_CONTROL;
+        return Category.A1;
     }
 
     @Override
