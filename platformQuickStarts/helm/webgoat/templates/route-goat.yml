@@ -17,3 +17,20 @@ spec:
     name: {{ .Values.webgoat_server.name }}-service
     weight: 100
   wildcardPolicy: None
+---
+  apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: {{ .Values.webgoat_server.name }}
+  name: {{ .Values.webgoat_server.name }}-wolf
+  namespace: {{ .Values.namespace }}
+spec:
+  path: /
+  port:
+    targetPort: 9090
+  to:
+    kind: Service
+    name: {{ .Values.webgoat_server.name }}-wolfservice
+    weight: 100
+  wildcardPolicy: None

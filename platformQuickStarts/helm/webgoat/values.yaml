@@ -4,11 +4,8 @@ accessMode: ReadWriteMany
  
 webgoat_server:
   name: webgoat-1
-  image: docker.io/webgoat/goatandwolf:openshift
+  image: docker.io/webgoat/webgoat:latest
 
 webwolf_server:
   name: webwolf-1
-  image: docker.io/webgoat/goatandwolf:openshift
-
-
-
+  image: docker.io/webgoat/webgoat:latest

@@ -12,10 +12,6 @@ spec:
     port: 8080
     protocol: TCP
     targetPort: 8080
-  - name: 9001-tcp
-    port: 9001
-    protocol: TCP
-    targetPort: 9001
   selector:
     app: {{ .Values.webgoat_server.name }}
   sessionAffinity: None
@@ -24,9 +20,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ .Values.webwolf_server.name }}
+    app: {{ .Values.webgoat_server.name }}
     app.kubernetes.io/part-of: {{ .Values.webgoat_server.name }}
-  name: {{ .Values.webwolf_server.name }}-service
+  name: {{ .Values.webgoat_server.name }}-wolfservice
   namespace: {{ .Values.namespace }}
 spec:
   ports:
@@ -35,5 +31,5 @@ spec:
     protocol: TCP
     targetPort: 9090
   selector:
-    app: {{ .Values.webwolf_server.name }}
+    app: {{ .Values.webgoat_server.name }}
   sessionAffinity: None

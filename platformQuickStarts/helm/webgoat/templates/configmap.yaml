@@ -9,5 +9,6 @@ data:
   TZ: 'Europe/Amsterdam'
   EXCLUDE_CATEGORIES: 'CLIENT_SIDE'
   EXCLUDE_LESSONS: 'SqlInjectionAdvanced'
-  WEBWOLF_HOST: '{{ .Values.webwolf_server.name }}-wolf-{{ .Values.namespace }}{{ .Values.urlpostfix }}'
+  WEBWOLF_HOST: '{{ .Values.webgoat_server.name }}-wolf-{{ .Values.namespace }}{{ .Values.urlpostfix }}'
   WEBWOLF_PORT: '80'
+  WEBGOAT_HOST: {{ .Values.webgoat_server.name }}-service
