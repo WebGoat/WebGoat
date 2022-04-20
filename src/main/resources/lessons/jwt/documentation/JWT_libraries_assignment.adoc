@@ -46,7 +46,7 @@ try {
    Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
    Claims claims = (Claims) jwt.getBody();
    String user = (String) claims.get("user");
-   booelean isAdmin = Boolean.valueOf((String) claims.get("admin"));
+   boolean isAdmin = Boolean.valueOf((String) claims.get("admin"));
    if (isAdmin) {
      removeAllUsers();
    } else {
