@@ -745,7 +745,7 @@ fieldset[disabled] .btn-warning.active {
 }
 
 .modal .modal-body.modal-scroll {
-    max-height: 375px;
+    max-height: auto;
     overflow-y: scroll auto;
 }
 
