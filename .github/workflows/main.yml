@@ -1,0 +1,24 @@
+
+name: CI
+on:
+  [push,pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v3
+      - name: Checkmarx AST Github Action
+      - uses: Checkmarx/ast-github-action@2.0.4
+        with:
+          base_uri: https://eu.ast.checkmarx.net
+          cx_tenant: cx_emea_se_amir_shahmiri_demo
+          cx_client_id: ${{ secrets.GH_ACTIONS }}
+          cx_client_secret: ${{ secrets.SECRET }}
+          project_name: ${{ github.repository }}
+          branch: ${{ github.ref }}
+          additional_params: --file-filter !readme --report-format sarif --output-name results
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
