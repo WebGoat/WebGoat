@@ -79,7 +79,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
     	//this will run only once after the list of dynamic tests has run, this is to test if the lesson is marked complete
     	checkResults("/PasswordReset");
     }
-
+//this is a stupid comment
     private void changePassword(String link) {
         RestAssured.given()
                 .when()
