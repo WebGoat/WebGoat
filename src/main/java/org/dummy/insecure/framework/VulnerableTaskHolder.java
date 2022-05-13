@@ -41,6 +41,7 @@ public class VulnerableTaskHolder implements Serializable {
 		stream.defaultReadObject();
 		
 		//do something with the data
+        //do something
 		log.info("restoring task: {}", taskName);
 		log.info("restoring time: {}", requestedExecutionTime);
 		
