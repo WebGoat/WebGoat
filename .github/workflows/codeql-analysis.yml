@@ -72,4 +72,4 @@ jobs:
     - uses: github/codeql-action/init@v2
       with:
       # Run extended queries including queries using machine learning
-        queries: security-extended
+        queries: security-and-quality
