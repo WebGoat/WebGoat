@@ -51,7 +51,7 @@ jobs:
         run: mvn --no-transfer-progress package
 
   build:
-    if: github.repository == 'WebGoat/WebGoat' && github.event_name == 'push'
+    if: github.repository == 'ChristopherMank/WebGoat' && github.event_name == 'push'
     runs-on: ubuntu-latest
     name: "Branch build"
     steps:
