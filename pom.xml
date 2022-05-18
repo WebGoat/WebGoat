@@ -119,7 +119,7 @@
         <webwolf.port>9090</webwolf.port>
 
         <!-- Shared properties with plugins and version numbers across submodules-->
-        <ant.version>1.6.5</ant.version>
+        <ant.version>1.10.0</ant.version>
         <asciidoctorj.version>2.5.2</asciidoctorj.version>
         <bootstrap.version>3.3.7</bootstrap.version>
         <cglib.version>2.2</cglib.version> <!-- do not update necessary for lesson -->
