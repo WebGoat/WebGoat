@@ -204,7 +204,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>28.2-jre</version>
+                <version>30.1-jre</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
