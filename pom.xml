@@ -123,12 +123,12 @@
         <asciidoctorj.version>2.5.2</asciidoctorj.version>
         <bootstrap.version>3.3.7</bootstrap.version>
         <cglib.version>2.2</cglib.version> <!-- do not update necessary for lesson -->
-        <checkstyle.version>3.1.2</checkstyle.version>
+        <checkstyle.version>3.16.5.2</checkstyle.version>
         <commons-collections.version>3.2.1</commons-collections.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-text.version>1.9</commons-text.version>
-        <guava.version>30.1-jre</guava.version>
+        <guava.version>28.2-jre</guava.version>
         <jjwt.version>0.9.1</jjwt.version>
         <jose4j.version>0.7.6</jose4j.version>
         <jsoup.version>1.14.3</jsoup.version>
