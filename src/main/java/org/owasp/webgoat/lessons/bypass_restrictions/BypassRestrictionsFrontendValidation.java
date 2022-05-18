@@ -38,7 +38,7 @@ public class BypassRestrictionsFrontendValidation extends AssignmentEndpoint {
         final String regex1 = "^[a-z]{3}$";
         final String regex2 = "^[0-9]{3}$";
         final String regex3 = "^[a-zA-Z0-9 ]*$";
-        final String regex4 = "^(one|two|three|four|five|six|seven|eight|nine)$";
+        final String regex4 = "^(one|two|three|four|five|six|seven|eight|nine|ten)$";
         final String regex5 = "^\\d{5}$";
         final String regex6 = "^\\d{5}(-\\d{4})?$";
         final String regex7 = "^[2-9]\\d{2}-?\\d{3}-?\\d{4}$";
