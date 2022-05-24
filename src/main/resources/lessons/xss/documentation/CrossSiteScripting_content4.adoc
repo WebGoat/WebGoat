@@ -1,0 +1,16 @@
+== Types of XSS
+
+=== Reflected
+* Malicious content from a user request is displayed to the user in a web browser
+* Malicious content is written into the page after from server response
+* Social engineering is required
+* Runs with browser privileges inherited from the user in a browser
+
+=== DOM-based (also technically reflected)
+* Client-side scripts use malicious content from a user request to write HTML to its page
+* Similar to reflected XSS
+* Runs with browser privileges inherited from the user in a browser
+
+=== Stored or persistent
+* Malicious content is stored on the server ( in a database, file system, or other objects) and later displayed to users in a web browser
+* Social engineering is not required

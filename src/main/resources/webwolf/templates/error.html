@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WebWolf</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+		<h1>WebWolf</h1>
+		<p>This is the general error page of WebWolf. It applies for all 404, 500 etc messages.</p>
+		<p>Sometimes you will end up on this page on purpose because of a fake call to WebGoat which is redirected to WebWolf.
+		In that situation, you are probably interested in seeing the detail of the request. Login to WebWolf and check the incoming requests.</p>
+		
+		<br/>
+		
+		<table>
+    <tr>
+        <td>Date: </td>
+        <td th:text="${timestamp}"/>
+    </tr>
+    <tr>
+        <td>Path: </td>
+        <td th:text="${path}"/>
+    </tr>
+    <tr>
+        <td>Status: </td>
+        <td th:text="${status}"/>
+    </tr>
+</table>
+	</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

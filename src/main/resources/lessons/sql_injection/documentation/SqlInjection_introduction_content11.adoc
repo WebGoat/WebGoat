@@ -1,0 +1,9 @@
+== Try It!   String SQL injection
+
+The query in the code builds a dynamic query as seen in the previous example.  The query is built by concatenating strings making it susceptible to String SQL injection:
+
+------------------------------------------------------------
+"SELECT * FROM user_data WHERE first_name = 'John' AND last_name = '" + lastName + "'";
+------------------------------------------------------------
+
+Try using the form below to retrieve all the users from the users table. You should not need to know any specific user name to get the complete list.

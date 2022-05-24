@@ -1,0 +1,46 @@
+**But I only have JSON APIs and no CORS enabled, how can those be susceptible to CSRF?**
+
+A lot of web applications implement no protection against CSRF they are somehow protected by the fact that
+they only work with `application/json` as content type. The only way to make a request with this content-type from the
+browser is with a XHR request. Before the browser can make such a request a preflight request will be made towards
+the server (remember the CSRF request will be cross origin). If the pre-flight response does not allow the cross origin
+request the browser will not make the call.
+
+To make a long answer short: this is *not* a valid protection against CSRF.
+
+One example why this protection is not enough can be found https://bugs.chromium.org/p/chromium/issues/detail?id=490015[here].
+Turns out `Navigator.sendBeacon()` was allowed to send POST request with an arbitrary content-type.
+
+[quote, 'developer.mozilla.org']
+____
+The navigator.sendBeacon() method can be used to asynchronously transfer a small amount of
+data over HTTP to a web server. This method addresses the needs of analytics and diagnostics
+code that typically attempts to send data to a web server prior to the unloading of the
+document. Sending the data any sooner may result in a missed opportunity to gather data...
+____
+
+{nbsp} +
+For example:
+
+[source]
+--
+function postBeacon() {
+    var data= new Blob([JSON.stringify({"author" :"WebGoat"})], {type : 'application/json'});
+    navigator.sendBeacon("http://localhost:8083", data)
+}
+--
+
+[quote, 'Eduardo Vela']
+____
+I think Content-Type restrictions are useful for websites that are accidentally safe against CSRF. They are not meant to be, but they are because they happen to only accept XML or JSON payloads.
+
+That said, it's somewhat obvious the websites depending on this behavior should be fixed, and any reputable pentesters will point that out. The issue is whether it's the browser responsibility to act as a nanny to weak websites, or we should leave weak websites as sacrifice for great justice. Survival of the fittest.
+
+IMHO, the answer is somewhere in between, and a good first step would be to document all these Same Origin Policy gotchas that websites might depend upon for security.
+
+But wrt to this bug in specific, if it never got fixed, I don't think it would be the end of the world. But then again, on this day and age, maybe there's a way to launch nuclear missiles with a XML RPC interface, so maybe it would be the end of the world.
+____
+
+{nbsp} +
+Both Firefox and Chrome fixed this issue, but it shows why you should implement a CSRF protection instead
+of relying on the content-type of your APIs.

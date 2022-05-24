@@ -1,0 +1,15 @@
+== Authentication Bypasses
+
+Authentication Bypasses happen in many ways but usually take advantage of some flaw in the configuration or logic. Tampering to achieve the right conditions.
+
+=== Hidden inputs
+
+The simplest form is a reliance on a hidden input in the web page/DOM.
+
+=== Removing Parameters
+
+Sometimes, if an attacker doesn't know the correct value of a parameter, they may remove it from the submission altogether to see what happens.
+
+=== Forced Browsing
+
+If an area of a site is not appropriately protected by configuration, that area of the site may be accessed by guessing/brute-forcing.

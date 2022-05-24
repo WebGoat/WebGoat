@@ -1,0 +1,40 @@
+== Introducing WebWolf
+
+You only need WebWolf if a lesson specifies you can use it. For a lot of lessons you use WebGoat without
+starting WebWolf. If you need to do an exercise with WebWolf make sure it is running alongside WebGoat. Lessons
+where you can use WebWolf are marked with the following icon (top right in assignment):
+
+{nbsp}
+
+image::images/wolf-enabled.png[width=115,height=128]
+
+{nbsp}
+
+Even if the icon is present, you are not obliged to use WebWolf, you can also use any intercepting tool you like.
+(`netcat` etc.)
+
+WebWolf is a separate web application which simulates an attacker's machine. It makes it possible for us to
+make a clear distinction between what takes place on the attacked website and the actions you need to do as
+an "attacker". WebWolf was introduced after a couple of workshops where we received feedback that there
+was no clear distinction between what was part of the "attackers" role and what was part of the "users" role on the
+website. The following items are supported in WebWolf:
+
+* Hosting a file
+* Receiving email
+* Landing page for incoming requests
+
+WebWolf runs as a separate web application. If you are using the Docker-compose file you can just point your browser webWolfLink:here[] to open WebWolf.
+If you want to use the standalone version, you will need to download the jar file and start it:
+
+```
+java -jar webwolf-<<version>>.jar [--server.port=9090] [--server.address=localhost]
+```
+
+By default WebWolf starts on port 9090 with `--server.port` you can specify a different port. With `server.address` you
+can bind it to a different address (default localhost)
+
+Note: if you start WebGoat as standalone application you need to start WebWolf as standalone application as well.
+
+
+This will start the application on port 9090, click webWolfLink:here[] to open WebWolf.
+The first thing you need to do is login with the user you registered on WebGoat.

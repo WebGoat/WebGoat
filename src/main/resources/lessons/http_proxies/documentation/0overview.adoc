@@ -1,0 +1,34 @@
+==== What's an HTTP Proxy
+
+A proxy is some forwarder application that connects your HTTP client to backend resources.
+HTTP clients can be browsers or applications like curl, SOAP UI, Postman, etc.
+Usually, these proxies are used for routing and getting internet access when there is no direct connection to the internet from the client itself.
+HTTP proxies are therefore also ideal when you are testing your application.
+You can always use the proxy log records to see what was actually sent from client to server.
+So you can check the request and response headers and the XML, JSON, or other payloads.
+
+HTTP Proxies receive requests from a client and relay them.
+They also typically record them.
+They act as a man-in-the-middle.
+It even works fine with or without HTTPS as long as your client or browser trusts the certificate of the HTTP Proxy.
+
+{nbsp} +
+
+==== ZAP Proxy Capabilities
+
+With ZAP, you can record traffic, inspect traffic, modify requests and responses from and to your browser, and get reports on a range of known vulnerabilities that ZAP detects through the inspection of the traffic.
+The passive and active reporting on security issues is usually used in Continuous Delivery pipelines that use a GUI-less ZAP.
+Here we will use ZAP interactively and mainly to see and modify requests to find vulnerabilities and solve assignments.
+ZAP has a graphical user interface but now also has a HUD Heads-On-Display, which uses a web socket connection between the browser, and the ZAP proxy.
+
+{nbsp} +
+
+==== Next pages
+
+You can go through all lesson pages or click on these links to skip some pages.
+
+* link:start.mvc#lesson/HttpProxies.lesson/1[Configuring] OWASP ZAP and browser
+* link:start.mvc#lesson/HttpProxies.lesson/5[Filtering] requests with ZAP
+* link:start.mvc#lesson/HttpProxies.lesson/6[A proxy assignment] with ZAP
+* link:start.mvc#lesson/HttpProxies.lesson/7[Replaying requests] with ZAP
+* link:start.mvc#lesson/HttpProxies.lesson/8[Replaying requests] with Burp

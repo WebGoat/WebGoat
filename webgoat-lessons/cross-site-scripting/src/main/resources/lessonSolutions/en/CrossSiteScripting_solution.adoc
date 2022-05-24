@@ -1,5 +1,0 @@
-= HTTP Basics 
- 
-== Solution 
-
-Solution goes here

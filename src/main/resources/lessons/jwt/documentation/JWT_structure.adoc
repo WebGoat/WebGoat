@@ -1,0 +1,17 @@
+== Structure of a JWT token
+
+Let's take a look at the structure of a JWT token:
+
+[role="lesson-image"]
+image::images/jwt_token.png[JWT]
+
+The token is base64 encoded and consists of three parts:
+
+ - header
+ - claims
+ - signature
+
+Both header and claims consist are respresented by a JSON object. The header describes the cryptographic operations applied to the JWT and optionally, additional properties of the JWT.
+The claims represent a JSON object whose members are the claims conveyed by the JWT.
+
+

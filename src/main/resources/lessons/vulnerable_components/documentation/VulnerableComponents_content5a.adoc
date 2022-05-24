@@ -1,0 +1,18 @@
+== Exploiting http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7285[CVE-2013-7285] (XStream)
+
+NOTE: This lesson only works when you are using the Docker image of WebGoat.
+
+WebGoat uses an XML document to add contacts to a contacts database.  
+[source,xml]
+----
+<contact>  
+    <id>1</id>
+    <firstName>Bruce</firstName>
+    <lastName>Mayhew</lastName>
+    <email>webgoat@owasp.org</email>
+</contact>  
+----
+
+The java interface that you need for the exercise is: org.owasp.webgoat.vulnerable_components.Contact.
+Start by sending the above contact to see what the normal response would be and then read the CVE vulnerability  documentation (search the Internet) and try to trigger the vulnerability.
+For this example, we will let you enter the XML directly versus intercepting the request and modifying the data.  You provide the XML representation of a contact and WebGoat will convert it a Contact object using `XStream.fromXML(xml)`.

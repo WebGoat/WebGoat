@@ -1,0 +1,30 @@
+= Spoofing an Authentication Cookie
+
+Bypass the authentication mechanism by spoofing an authentication cookie.
+
+*Notes about the login system*
+
+When an authentication cookie is sent, the system will log in the user directly if the cookie is valid.
+
+When a cookie is not sent, but credentials provided are correct, the system will create an authentication cookie.
+
+The login will be denied on any other cases.
+
+Pay attention to the feedback message that you will get during the attacks.
+
+Known credentials:
+
+[frame=ends]
+|===
+|user name |password
+
+|webgoat
+|webgoat
+
+|admin
+|admin
+|===
+
+*Goal*
+
+When you understand how the authentication cookie is generated, try to _spoof_ the cookie and login as Tom.

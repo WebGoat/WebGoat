@@ -1,0 +1,5 @@
+== Salary manager
+
+You are logged in as Moe Stooge, CSO of Goat Hills Financial. You have access to everyone in the company's information,
+except the CEO, Neville Bartholomew.  Or at least you should not have access to the CEO's information. For this assignment,
+examine the page's contents to see what extra information you can find.

@@ -1,0 +1,72 @@
+name: "Build"
+on:
+  pull_request:
+    paths-ignore:
+      - '.txt'
+      - '*.MD'
+      - '*.md'
+      - 'LICENSE'
+      - 'docs/**'
+  push:
+    branches:
+      - main
+      - develop
+      - release/*
+    tags-ignore:
+      - '*'
+    paths-ignore:
+      - '.txt'
+      - '*.MD'
+      - '*.md'
+      - 'LICENSE'
+      - 'docs/**'
+
+jobs:
+  pr-build:
+    if: >
+      github.event_name == 'pull_request' && !github.event.pull_request.draft && (
+        github.event.action == 'opened' ||
+        github.event.action == 'reopened' ||
+        github.event.action == 'synchronize' 
+      )
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          architecture: x64
+      - name: Cache Maven packages
+        uses: actions/cache@v3.0.2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2-
+      - name: Build with Maven
+        run: mvn --no-transfer-progress package
+
+  build:
+    if: github.repository == 'WebGoat/WebGoat' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    name: "Branch build"
+    steps:
+        - uses: actions/checkout@v3
+        - name: set up JDK 17
+          uses: actions/setup-java@v3
+          with:
+              distribution: 'temurin'
+              java-version: 17
+              architecture: x64
+        - name: Cache Maven packages
+          uses: actions/cache@v3.0.2
+          with:
+              path: ~/.m2
+              key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
+              restore-keys: ubuntu-latest-m2-
+        - name: Test with Maven
+          run: mvn --no-transfer-progress verify

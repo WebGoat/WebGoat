@@ -1,0 +1,24 @@
+== Availability
+
+Availability is "the property of being accessible and usable on demand by an authorized entity." In other words, authorized persons should have access to permitted resources at all times.
+
+{nbsp} +
+
+=== Examples that compromise availability:
+
+** denial-of-service attacks (DOS)
+** hardware failures
+** fire or other natural disasters
+** software or network misconfigurations
+
+{nbsp} +
+
+=== Examples of methods ensuring availability
+
+** intrusion detection systems (IDSs)
+** network traffic control
+** firewalls
+** physical security of hardware and underlying infrastructure
+*** protection against fire, water, and other elements
+** hardware maintenance
+** redundancy

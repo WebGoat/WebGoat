@@ -1,0 +1,3 @@
+Now it's time for a quiz! Answer the following question to check if you understood the topic.
+
+Today, most systems are protected by a firewall. A properly configured firewall can prevent malicious entities from accessing a system and helps protect an organization's resources. For this quiz, imagine a system that handles personal data but is not protected by a firewall:

@@ -1,0 +1,46 @@
+== XSS defense resources
+
+=== Java OWASP Encoder
+Do not be bothered by the incubator status on this project. Use it if you are doing Java web apps and defending against XSS. Use this
+link: https://www.owasp.org/index.php/OWASP_Java_Encoder_Project
+
+=== General XSS prevention Cheat Sheet
+link: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
+
+=== DOM XSS Prevention Cheat Sheet
+link: https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html
+
+=== XSS Filter Evasion
+Good to know your enemy ...
+link https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
+
+=== Javascript Framework Specifics
+
+Encoding in the client can be tricky. Here are some resources to help with that. If you do not see your framework below (e.g., Ember, React, ???) and would like to contribute or suggest something
+stop by https://github.com/WebGoat/WebGoat and file an issue (preferably with some recommendations/links) or fork and submit a pull request.
+
+==== jQuery
+be aware if you are using something like:
+
+_$selector.html(userInputHere)_,
+
+you are in danger. If you want to use that, ensure you are doing something more like:
+
+_$selector.html(someEncodeHtmlMethod(userInputHere))_
+
+OR
+
+_$selector.*text*(someEncodeHtmlMethod(userInputHere))_
+
+If you only want the text of what is output by the user (http://stackoverflow.com/questions/9735045/is-jquery-text-method-xss-safe#9735118)
+
+==== Backbone.js
+(One character can make such a difference)
+
+http://underscorejs.org/#template
+
+https://nvisium.com/blog/2015/05/21/dont-break-your-backbone-xss-mitigation.html
+
+==== Angular
+Angular has sought to escape by default, but the expression language has proven to have 'sandbox' escapes.  Best to check
+details of the version you are using and consult starting here: https://docs.angularjs.org/guide/security

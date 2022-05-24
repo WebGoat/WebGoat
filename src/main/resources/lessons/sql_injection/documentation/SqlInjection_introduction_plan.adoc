@@ -1,0 +1,14 @@
+== Concept 
+
+This lesson describes what Structured Query Language (SQL) is and how it can be manipulated to perform tasks that were not the original intent of the developer.
+
+=== Goals
+
+* The user will have a basic understanding of how SQL works and what it is used for
+* The user will have a basic understanding of what SQL injection is and how it works
+* The user will demonstrate knowledge on:
+** DML, DDL and DCL
+** String SQL injection
+** Numeric SQL injection
+** How SQL injection violates the CIA triad
+

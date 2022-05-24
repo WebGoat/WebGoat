@@ -1,0 +1,26 @@
+== Compromising confidentiality with String SQL injection
+If a system is vulnerable to SQL injections, aspects of that system's CIA triad can be easily compromised _(if you are unfamiliar with the CIA triad, check out the CIA triad lesson in the general category)_.
+In the following three lessons you will learn how to compromise each aspect of the CIA triad using techniques like _SQL string injections_ or _query chaining_.
+
+In this lesson we will look at *confidentiality*.
+Confidentiality can be easily compromised by an attacker using SQL injection; for example, successful SQL injection can allow the attacker to read sensitive data like credit card numbers from a database.
+
+=== What is String SQL injection?
+If an application builds SQL queries simply by concatenating user supplied strings to the query, the application is likely very susceptible to String SQL injection. +
+More specifically, if a user supplied string simply gets concatenated to a SQL query without any sanitization or preparation, then you may be able to modify the query's behavior by simply inserting quotation marks into an input field.
+For example, you could end the string parameter with quotation marks and input your own SQL after that.
+
+=== It is your turn!
+You are an employee named John *Smith* working for a big company.
+The company has an internal system that allows all employees to see their own internal data such as the department they work in and their salary.
+
+The system requires the employees to use a unique _authentication TAN_ to view their data. +
+Your current TAN is *3SL99A*.
+
+Since you always have the urge to be the most highly paid employee, you want to exploit the system so that instead of viewing your own internal data, _you want to take a look at the data of all your colleagues_ to check their current salaries.
+
+Use the form below and try to retrieve all employee data from the *employees* table. You should not need to know any specific names or TANs to get the information you need. +
+You already found out that the query performing your request looks like this:
+------------------------------------------------------------
+"SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
+------------------------------------------------------------

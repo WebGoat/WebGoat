@@ -1,0 +1,20 @@
+= Cryptography Basics 
+ 
+== Plain Hashing 
+
+Hashing is a type of cryptography which is mostly used to detect if the original data has been changed. A hash is generated from the original data. It is based on irreversible cryptographic techniques. 
+If the original data is changed by even one byte, the resulting hash is also different.
+
+So in a way it looks like a secure technique. However, it is NOT and even NEVER a good solution when using it for passwords. The problem here is that you can generate passwords from dictionaries and calculate all kinds of variants from these passwords. For each password you can calculate a hash. This can all be stored in large databases. So whenever you find a hash that could be a password, you just look up the hash in the database and find out the password.
+
+Some hashing algorithms should no longer be used: MD5, SHA-1
+For these hashes it is possible to change the payload in such a way that it still results in the same hash. This takes a lot of computing power, but is still a feasible option.
+
+== Salted Hashes
+
+Plain passwords should obviously not be stored in a database. And the same goes for plain hashes.
+The https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html[OWASP Password Storage Cheat Sheet,window=_blank] explains what should be used when password related information needs to be stored securely.
+
+== Assignment
+
+Now let's see if you can find what passwords matches which plain (unsalted) hashes.

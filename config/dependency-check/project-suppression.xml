@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+    <suppress base="true">
+        <notes><![CDATA[
+        This suppresses false positives identified on spring framework.
+        ]]></notes>
+        <cpe>cpe:/a:pivotal_software:spring_framework</cpe>
+        <cve>CVE-2020-5398</cve>
+    </suppress>
+    <suppress base="true">
+        <notes><![CDATA[
+        This suppresses false positives identified on spring framework.
+        ]]></notes>
+        <cpe>cpe:/a:redhat:undertow</cpe>
+        <cve>CVE-2019-14888</cve>
+    </suppress>
+    <suppress base="true">
+        <notes><![CDATA[
+        This suppresses false positives identified on spring framework.
+        ]]></notes>
+        <cpe>cpe:/a:pivotal_software:spring_security</cpe>
+        <cve>CVE-2018-1258</cve>
+    </suppress>
+    <suppress base="true">
+        <cpe>cpe:/a:jruby:jruby</cpe>
+        <cve>CVE-2018-1000613</cve>
+        <cve>CVE-2018-1000180</cve>
+        <cve>CVE-2017-18640</cve>
+        <cve>CVE-2011-4838</cve>
+    </suppress>
+    <suppress base="true"><!-- vulnerable components lesson -->
+        <cpe>cpe:/a:xstream_project:xstream</cpe>
+        <cve>CVE-2017-7957</cve>
+        <cve>CVE-2016-3674</cve>
+        <cve>CVE-2020-26217</cve>
+        <cve>CVE-2020-26258</cve>
+    </suppress>
+    <suppress base="true"><!-- webgoat-server -->
+        <cpe>cpe:/a:postgresql:postgresql</cpe>
+        <cve>CVE-2018-10936</cve>
+    </suppress>
+</suppressions>

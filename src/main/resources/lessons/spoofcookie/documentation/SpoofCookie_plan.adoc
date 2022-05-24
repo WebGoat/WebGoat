@@ -1,0 +1,18 @@
+= Spoofing an Authentication Cookie
+
+== Concept
+
+Authentication Cookies are used for services that require authentication, when the user logs in with a personal user name and password, the server validates the provided credentials and if those are valid, it creates a session.
+
+Every session usually has a unique ID that identifies the user's session; when the server returns the response to the user, it includes a Set-Cookie header that contains, among other things, the cookie name and value.
+
+The authentication cookie is typically stored on the client and server side.
+
+On the one hand, having the cookie stored on the client side implies that can be stolen by exploiting certain vulnerabilities or intercepted using man in the middle attacks or XSS. On the other, cookie values can be guessed if the algorithm for generating the cookie can be obtained.
+
+Many applications will automatically login a user if the right authentication cookie is provided.
+
+
+== Goals
+
+The user should be able to guess the cookie generation algorithm and bypass the authentication mechanism by logging in as a different user.

@@ -1,0 +1,29 @@
+== What is SQL injection?
+
+SQL injection (also called SQLi) is one of the most common web hacking techniques. *A SQL injection attack consists of insertion or "injection" of malicious code via the SQL query input from the client to the application.* If not dealt with correctly, SQL injection can seriously impact data integrity and security.
+
+SQL injections can occur when unfiltered data from the client, such as input from a search field, gets into the SQL interpreter of the application itself. If an application fails to either correctly sanitize user input (using prepared statements or similar) or filter the input against special characters, hackers can manipulate the underlying SQL statement to their advantage. +
+For example, if the input is not filtered for SQL metacharacters like *--* (which comments out the rest of the line) or *;* (which ends a SQL query), SQL injection may result.
+
+{nbsp} +
+
+== Example of SQL injection
+
+For example, consider a web application that allows users to retrieve user information simply by inputting a username into a form field. The input from the user is sent to the server and gets inserted into a SQL query which then is processed by a SQL interpreter.
+
+The SQL query to retrieve the user information from the database follows: +
+-------------------------------------------------------
+"SELECT * FROM users WHERE name = '" + userName + "'";
+-------------------------------------------------------
+
+The variable *userName* holds the input from the client and “injects” it into the query. +
+If the input were Smith the query would then become +
+-------------------------------------------------------
+"SELECT * FROM users WHERE name = 'Smith'";
+-------------------------------------------------------
+and would retrieve all data for the user with the name Smith.
+
+{nbsp} +
+If an attacker inputs data containing characters or strings that have a "special"  meaning to the SQL interpreter (such as *;*, *--*, or *'*), and the data is not correctly sanitized or validated, the attacker can modify the intended behavior of the SQL query in order to perform other (malicious) actions on the database.
+
+Here is an input field. Try typing some SQL in here to better understand how the query changes.
