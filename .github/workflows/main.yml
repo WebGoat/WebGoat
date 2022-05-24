@@ -1,0 +1,52 @@
+# This is a basic workflow to help you get started with Actions
+
+name: threatmodel
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  threagile_job:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Workspace
+        uses: actions/checkout@v3
+      
+       # Run Threagile
+      - name: Run Threagile
+        id: threagile
+        uses: threagile/run-threagile-action@v1
+        with:
+          model-file: 'threagile.yaml'
+
+      # Archive resulting files as artifacts
+      - name: Archive Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: threagile-report
+          path: threagile/output
+
+      # Optional step to link from repo's README.md if you want. This can also be committed to a separate branch if desired.
+      
+      - name: Run a multi-line script
+        run: |
+          git config --local user.email "sambit1989.sm26@gmail.com" # customize as desired
+          git config --local user.name "Sambit" # customize as desired
+          git add threagile/output/threagile_report.pdf
+          git add threagile/output/data-flow-diagram.png
+          git commit -m "Update threat model report and data-flow diagram by Threagile" # customize as desired
+          git push
