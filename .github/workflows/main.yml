@@ -39,14 +39,3 @@ jobs:
         with:
           name: threagile-report
           path: threagile/output
-
-      # Optional step to link from repo's README.md if you want. This can also be committed to a separate branch if desired.
-      
-      - name: Run a multi-line script
-        run: |
-          git config --local user.email "sambit1989.sm26@gmail.com" # customize as desired
-          git config --local user.name "Sambit" # customize as desired
-          git add threagile/output/threagile_report.pdf
-          git add threagile/output/data-flow-diagram.png
-          git commit -m "Update threat model report and data-flow diagram by Threagile" # customize as desired
-          git push
