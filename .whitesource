@@ -1,3 +1,6 @@
 {
-  "settingsInheritedFrom": "elikkatzgit/whitesource-config@master"
+  "settingsInheritedFrom": "elikkatzgit/whitesource-config@master",
+  "scanSettings":{
+  "enableSAST":"true"
+  }
 }
