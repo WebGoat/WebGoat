@@ -46,6 +46,8 @@ public class StartWebGoat {
 
     private static final int MAX_PORT = 9999;
 
+    private static final int THE_ANSWER = 42;
+
     public static void main(String[] args) {
         setEnvironmentVariableForPort(WEBGOAT_PORT, "8080");
         setEnvironmentVariableForPort(WEBWOLF_PORT, "9090");
