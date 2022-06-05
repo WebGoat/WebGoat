@@ -33,6 +33,7 @@ For more details check [the Contribution guide](/CONTRIBUTING.md)
 
 ## 1. Run using Docker
 
+
 Every release is also published on [DockerHub](https://hub.docker.com/r/webgoat/webgoat).
 
 The easiest way to start WebGoat as a Docker container is to use the all-in-one docker container. This is a docker image that has WebGoat and WebWolf running inside.
