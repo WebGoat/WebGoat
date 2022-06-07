@@ -4,7 +4,21 @@
 
 ### New functionality
 
-- Update the Docker startup script, it is now possible to pass `skip-nginx` or set `SKIP_NGINX` as environment variable.
+- New year's resolution: major refactoring of WebGoat to simplify the setup and improve building times.
+- Move away from multi-project setup:
+  - This has a huge performance benefit when building the application. Build time locally is now `Total time:  42.469 s` (depends on your local machine of course)
+  - No longer add Maven dependencies in several places
+  - H2 no longer needs to run as separate process, which solves the issue of WebWolf sharing and needing to configure the correct database connection.
+- More explicit paths in html files to reference `adoc` files, less magic.
+- Integrate WebWolf in WebGoat, the setup was way too complicated and needed configuration which could lead to mistakes and a not working application. This also simplifies the Docker configuration as there is only 1 Docker image.
+- Add WebWolf button in WebGoat
+- Move all lessons into `src/main/resources` 
+- WebGoat selects a port dynamically when starting. It will still start of port 8080 it will try another port to ease the user experience. 
+- WebGoat logs URL after startup: `Please browse to http://127.0.0.1:8080/WebGoat to get started...`
+- Simplify `Dockerfile` as we no longer need a script to start everything
+- Maven build now start WebGoat jar with Maven plugin to make sure we run against the latest build.
+- Added `Initializable` interface for a lesson, an assignment can implement this interface to set it up for a specific user and to reset the assignment back to its original state when a reset lesson occurs. See `BlindSendFileAssignment` for an example.
+- Integration tests now use the same user. This saves a lot of time as before every test used a different user which triggered the Flyway migration to set up the database schema for the user. This migration took a lot of time.
 
 ## Version 8.2.2
 

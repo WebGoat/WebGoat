@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/challenges/documentation/Challenge_introduction.adoc"></div>
+</div>
+<div class="lesson-page-wrapper">
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+
+        <div class="container-fluid">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <img th:src="@{/challenge/logo}" class="img-thumbnail"/>
+                </div>
+                <div class="panel-body">
+                    <form class="attack-form" accept-charset="UNKNOWN"
+                          method="POST" name="form"
+                          action="/WebGoat/challenge/1"
+                          style="width: 200px;">
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" th:text="#{username}">Username</label>
+                            <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"
+                                   id="exampleInputEmail1" placeholder="Username" name='username' value="admin"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1" th:text="#{password}">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1"
+                                   placeholder="Password"
+                                   name='password'/>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit" th:text="#{sign.in}">Sign in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <form class="attack-form" method="POST" name="form" action="/WebGoat/challenge/flag">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
+                                                      style="font-size:20px"></i></div>
+                    <input type="text" class="form-control" id="flag" name="flag"
+                           placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>
+                </div>
+                <div class="input-group" style="margin-top: 10px">
+                    <button type="submit" class="btn btn-primary">Submit flag</button>
+                </div>
+            </div>
+
+        </form>
+
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+
+</html>
