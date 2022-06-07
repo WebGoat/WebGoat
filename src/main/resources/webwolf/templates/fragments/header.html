@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>WebWolf</title>
+    <div th:fragment="header-css">
+        <link rel="icon" th:href="@{/css/img/webwolf.ico}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/webwolf.css}"/>
+        <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    </div>
+</head>
+<body>
+<div th:fragment="header">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" th:href="@{/home}">WebWolf</a>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/home}">Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/files}">Files</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/mail}">Mailbox</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/requests}">Incoming requests</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/jwt}">JWT</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+
+                <li><a href="#">
+                        <span sec:authorize="isAuthenticated()">
+                        <span class="glyphicon glyphicon-user"></span>
+                            <span th:text="${#authentication.name}"></span></span></a>
+                </li>
+                <li><a th:href="@{/logout}">
+                        <span sec:authorize="isAuthenticated()">
+                        Sign out</span></a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+</div>
+
+</body>
+</html>
