@@ -1,0 +1,45 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "name": "bcazrstorage1",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-06-01",
+      "location": "[parameters('location')]",
+      "properties": {
+        "accessTier": "Hot",
+        "minimumTlsVersion": "TLS1_1",
+        "supportsHttpsTrafficOnly": "false",
+        "allowBlobPublicAccess": "true"
+      },
+      "dependsOn": [],
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "tags": {},
+      "resources": [
+        {
+          "type": "blobServices/containers",
+          "apiVersion": "2019-06-01",
+          "name": "default/bcazrcontainer1",
+          "properties": {
+            "publicAccess": "Container"
+          },
+          "dependsOn": [
+            "bcazrstorage1"
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": {}
+}
