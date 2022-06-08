@@ -1,0 +1,34 @@
+# This workflow integrates ShiftLeft NG SAST with GitHub
+# Visit https://docs.shiftleft.io for help
+name: ShiftLeft
+
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    # We recommend triggering a scan when merging to your default branch
+    # as a best practice, especially if you'd like to compare the results
+    # of two scans (e.g., a feature branch against the default branch)
+    branches:
+      - main
+      - master
+jobs:
+  ngsast-build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download the ShiftLeft CLI and set permissions
+      run: |
+        curl https://cdn.shiftleft.io/download/sl > ${GITHUB_WORKSPACE}/sl && chmod a+rx ${GITHUB_WORKSPACE}/sl
+
+    # ShiftLeft requires Java 1.8
+    - name: Set up Java
+      uses: actions/setup-java@v1.4.3
+      with:
+        java-version: 1.8
+
+    - name: Analyze application with ShiftLeft
+      run: ${GITHUB_WORKSPACE}/sl analyze --app WebGoatJS --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --js --cpg $(pwd)
+      env:
+        SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
