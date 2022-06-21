@@ -1,0 +1,13 @@
+:linkattrs:
+
+== Refreshing a token
+
+It is important to implement a good strategy for refreshing an access token. This assignment is based on a vulnerability
+found in a private bug bounty program on Bugcrowd, you can read the full write up https://emtunc.org/blog/11/2017/jwt-refresh-token-manipulation/[here, window="_blank"]
+
+=== Assignment
+
+From a breach of last year the following logfile is available link:images/logs.txt[here]
+Can you find a way to order the books but let *Tom* pay for them?
+
+

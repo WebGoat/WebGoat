@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/html_tampering/documentation/HtmlTampering_Intro.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <!-- stripped down without extra comments -->
+    <div class="adoc-content" th:replace="doc:lessons/html_tampering/documentation/HtmlTampering_Task.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" accept-charset="UNKNOWN" id="task" name="task"
+              method="POST"
+              action="/WebGoat/HtmlTampering/task">
+            <script>
+                var regex = /^2999.99$/;
+                var price = 2999.99;
+                document.getElementById("total").innerHTML = '$' + price.toString();
+                var total = price * document.task.QTY.value;
+                document.getElementById("total").innerHTML = '$' + total;
+                document.getElementById("subtotal").innerHTML = '$' + total;
+                document.getElementById("totalAmount").innerHTML = '$' + total;
+
+                $('#remove').click(function () {
+                    document.getElementById("QTY").value = 1;
+                    update();
+                });
+
+                $("#QTY").on('change keydown paste input blur', function () {
+                    update();
+                });
+
+                function update() {
+                    price = $('#price').text();
+                    if (!regex.test(price.toString())) {
+                        alert('Data tampering is disallowed');
+                        document.getElementById("price").innerHTML = 2999.99;
+                        update();
+                    }
+                    var total = price * document.task.QTY.value;
+                    $('#total').text('$' + total.toFixed(2));
+                    $('#subtotal').text('$' + total.toFixed(2));
+                    $('#totalAmount').text('$' + total.toFixed(2));
+                    $('#Total').val(total.toFixed(2));
+                }
+            </script>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-10 col-md-offset-1">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Total</th>
+                                <th> </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="col-sm-8 col-md-6">
+                                    <div class="media">
+                                        <a class="thumbnail pull-left" href="#"> <img class="media-object"
+                                                                                      th:src="@{/images/samsung.jpg}"
+                                                                                      style="width: 72px; height: 72px;"></img>
+                                        </a>
+                                        <div class="media-body">
+                                            <h4 class="media-heading"><a href="#">55'' M5510 White Full HD Smart TV</a>
+                                            </h4>
+                                            <h5 class="media-heading"> by <a href="#">Samsung</a></h5>
+                                            <span>Status: </span><span
+                                                class="text-success"><strong>In Stock</strong></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input size="2" value="1" name="QTY" type="TEXT" id="QTY"/>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong><span
+                                        id="price">2999.99</span></strong></td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong><span
+                                        id="total">$2999.99</span></strong></td>
+                                <td class="col-sm-1 col-md-1">
+                                    <button type="submit" id="remove" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove" onclick="clear()"></span> Remove
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td><h5>Subtotal</h5></td>
+                                <td class="text-right"><h5><strong><span id="subtotal">$2999.99</span></strong></h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td><h5>Shipping costs</h5></td>
+                                <td class="text-right"><h5><strong>$0.00</strong></h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td><h3>Total</h3></td>
+                                <td class="text-right"><h3><strong><span id="totalAmount">$2999.99</span></strong></h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>
+                                    <button type="button" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                                    </button>
+                                </td>
+                                <td>
+                                    <div id="checkout">
+                                        <button type="submit" class="btn btn-success">
+                                            Checkout <span class="glyphicon glyphicon-play"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <input id="Total" name="Total" type="HIDDEN" value="2999.99"/>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br/><br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/html_tampering/documentation/HtmlTampering_Mitigation.adoc"></div>
+</div>
+</html>

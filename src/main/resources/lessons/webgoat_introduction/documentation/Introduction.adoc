@@ -1,0 +1,18 @@
+== What is WebGoat?
+---
+
+WebGoat is a deliberately insecure application that allows interested developers just like you to _test vulnerabilities_
+commonly found in Java-based applications that use common and popular open source components.
+
+Now, while we in no way condone causing intentional harm to any animal, goat or otherwise, we think learning everything
+you can about security vulnerabilities is essential to understanding just what happens when even a small bit of
+unintended code gets into your applications.
+
+What better way to do that than with your very own scapegoat?
+
+Feel free to do what you will with him. Hack, poke, prod and if it makes you feel better, scare him until your heart's content.
+Go ahead, and hack the goat. We promise he likes it.
+
+Thanks for your interest!
+
+*The WebGoat Team*

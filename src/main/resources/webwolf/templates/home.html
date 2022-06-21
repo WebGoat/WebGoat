@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div class="media">
+    <span class="media-left">
+        <img th:src="@{/images/wolf.png}" class="img-fluid"></img>
+    </span>
+        <div class="media-body">
+            <h1 class="media-heading">WebWolf</h1>
+            <br/>
+            <p>
+                Some challenges requires to have a local web server running. WebWolf is for you the attacker it
+                helps you while solving some of the assignments and challenges within
+                WebGoat. An assignment might for example require you to serve a file or connect back to your own
+                environment or to receive an e-mail.
+                In order to not let you run WebGoat open and connected to the internet we provided these tools in this
+                application, called WebWolf.
+            </p>
+        </div>
+    </div>
+
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+=== Zip Slip assignment
+
+This time the developers only allow you to upload zip files. However, they made a programming mistake in uploading the zip file will extract it, but it will not replace your image. Can you find a way to overwrite your current image bypassing the programming mistake?
+
+|===
+|OS |Location
+
+|`operatingSystem:os[]`
+|`webGoatTempDir:temppath[]PathTraversal/username:user[]`
+
+|===
+
+

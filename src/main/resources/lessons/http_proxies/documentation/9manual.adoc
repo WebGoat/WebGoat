@@ -1,0 +1,56 @@
+== Manually setting the proxy
+
+This section is only necessary if you want to use Burp or running the browser through ZAP is not working in both
+cases we need to do some extra configuration.
+In the latest release of Chrome and Firefox no longer proxy traffic from localhost by default.
+
+=== Option 1: Change settings of your browser
+
+- To proxy localhost (and related addresses) with newer Firefox versions (>= 67), the preference network. proxy.allow_hijacking_localhost (accessible through the about:config page) must be set to true.
+- To proxy localhost (and related addresses) with newer Chrome versions (>= 72) the command line argument --proxy-bypass-list=<-loopback> must be provided.
+
+=== Option 2: Use www.webgoat.local
+
+- Use the hostname of your machine instead of `localhost`. You can find or add a hostname in `/etc/hosts` on Linux and MacOSX and `C:\Windows\System32\drivers\etc` on Windows
+
+image::images/newlocalhost.png[Hosts file,style="lesson-image"]
+
+Then in your browser, use http://www.webgoat.local:8080/WebGoat as the address.
+
+=== Configure browser to use proxy
+
+To manually configure a proxy in the browser, follow one of the configurations below:
+
+==== Firefox Proxy Config
+
+. Go to your Firefox Preferences (Mac, Linux) or Options (Windows) from the menu.`
+. Select _Advanced_ on the left
+. Select _Network_ in the Advanced Pane
+. Click _Settings_
+. Select _Manual proxy configuration_
+.. input *127.0.0.1* as the proxy (or www.webgoat.local depending on the choice you made above)
+.. input *8090* as the port if running WebGoat locally, and you updated ZAP to 8090 (otherwise, use *8080*)
+.. check the _Use this proxy server for all protocols_ checkbox
+
+image::images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
+
+==== Chrome Proxy Config
+
+. Bring up Chrome's settings from the menu
+. In the _Search settings_ box, type in *proxy* and hit Enter/Return. This should bring up the Network heading with a _Change proxy settings_ button.
+. Click the _Change proxy settings_ button
+. Select the _proxies_ tab
+. Select Web Proxy (HTTP)
+. Input 127.0.0.1 (or www.webgoat.local depending on the choice you made) in the first box under _Web Proxy Server_ and your port # (8090 if running WebGoat locally, otherwise 8080) in the second box (to the right)
+. You may also want to clear the _Bypass proxy settings for these Hosts & Domains_ text input at the bottom but shouldn't need to
+
+
+image::images/chrome-manual-proxy.png[Chrome Proxy Config,700,447,style="lesson-image"]
+
+(Mac config image above)
+
+image::images/chrome-manual-proxy-win.png[Chrome Proxy, 394,346,style="lesson-image"]
+
+(Win config image above)
+
+

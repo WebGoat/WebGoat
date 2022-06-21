@@ -1,0 +1,20 @@
+== JWT signing
+
+Each JWT token should at least be signed before sending it to a client, if a token is not signed the client application
+would be able to change the contents of the token. The signing specifications are defined https://tools.ietf.org/html/rfc7515[here]
+the specific algorithms you can use are described https://tools.ietf.org/html/rfc7518[here]
+It basically comes down you use "HMAC with SHA-2 Functions" or "Digital Signature with RSASSA-PKCS1-v1_5/ECDSA/RSASSA-PSS" function
+for signing the token.
+
+=== Checking the signature
+
+One important step is to *verify the signature* before performing any other action, let's try to see some things you need
+to be aware of before validating the token.
+
+== Assignment
+
+Try to change the token you receive and become an admin user by changing the token and once you are admin reset the votes
+
+
+
+

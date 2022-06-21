@@ -1,0 +1,280 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<script th:src="@{/lesson_js/path_traversal.js}" language="JavaScript"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/path_traversal.css}"/>
+
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/path_traversal/documentation/PathTraversal_intro.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/path_traversal/documentation/PathTraversal_upload.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="upload-container">
+            <form class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  onsubmit='return false'
+                  contentType="false"
+                  successCallback="profileUploadCallback"
+                  failureCallback="profileUploadCallback"
+                  informationalCallback="profileUploadCallback"
+                  prepareData="profileUpload"
+                  enctype="multipart/form-data"
+                  action="/WebGoat/PathTraversal/profile-upload">
+                <div class="preview text-center">
+                    <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
+                         height="200" id="preview"/>
+                    <div class="browse-button">
+                        <i class="fa fa-pencil"></i>
+                        <input class="browse-input" type="file" required name="uploadedFile" id="uploadedFile"/>
+                    </div>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input class="form-control" type="text" id="fullName" name="fullName" required value="test"
+                           placeholder="Enter Your Full Name"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input class="form-control" type="email" id="email" name="email" required
+                           placeholder="Enter Your Email" value="test@test.com"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input class="form-control" type="password" id="password" name="password" required
+                           placeholder="Enter Password" value="test"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" value="Submit">Update</button>
+                </div>
+            </form>
+        </div>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/path_traversal/documentation/PathTraversal_upload_fix.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="upload-container">
+            <form class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  onsubmit='return false'
+                  contentType="false"
+                  successCallback="profileUploadCallbackFix"
+                  failureCallback="profileUploadCallbackFix"
+                  informationalCallback="profileUploadCallbackFix"
+                  prepareData="profileUploadFix"
+                  enctype="multipart/form-data"
+                  action="/WebGoat/PathTraversal/profile-upload-fix">
+                <div class="preview text-center">
+                    <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
+                         height="200" id="previewFix"/>
+                    <div class="browse-button">
+                        <i class="fa fa-pencil"></i>
+                        <input class="browse-input" type="file" required name="uploadedFile" id="uploadedFileFix"/>
+                    </div>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input class="form-control" type="text" id="fullNameFix" name="fullName" required value="test"
+                           placeholder="Enter Your Full Name"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input class="form-control" type="email" id="emailFix" name="email" required
+                           placeholder="Enter Your Email" value="test@test.com"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input class="form-control" type="password" id="passwordFix" name="password" required
+                           placeholder="Enter Password" value="test"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" value="Submit">Update</button>
+                </div>
+            </form>
+        </div>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/path_traversal/documentation/PathTraversal_upload_remove_user_input.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="upload-container">
+            <form class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  onsubmit='return false'
+                  contentType="false"
+                  successCallback="profileUploadCallbackRemoveUserInput"
+                  failureCallback="profileUploadCallbackRemoveUserInput"
+                  informationalCallback="profileUploadCallbackRemoveUserInput"
+                  prepareData="profileUploadRemoveUserInput"
+                  enctype="multipart/form-data"
+                  action="/WebGoat/PathTraversal/profile-upload-remove-user-input">
+                <div class="preview text-center">
+                    <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
+                         height="200" id="previewRemoveUserInput"/>
+                    <div class="browse-button">
+                        <i class="fa fa-pencil"></i>
+                        <input class="browse-input" type="file" required name="uploadedFile"
+                               id="uploadedFileRemoveUserInput"/>
+                    </div>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input class="form-control" type="text" id="fullNameRemoveUserInput" name="fullName" required
+                           value="test"
+                           placeholder="Enter Your Full Name"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input class="form-control" type="email" id="emailRemoveUserInput" name="email" required
+                           placeholder="Enter Your Email" value="test@test.com"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input class="form-control" type="password" id="passwordRemoveUserInput" name="password" required
+                           placeholder="Enter Password" value="test"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" value="Submit">Update</button>
+                </div>
+            </form>
+        </div>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/path_traversal/documentation/PathTraversal_retrieval.adoc"></div>
+    <div class="attack-container">
+
+        <div class="container-fluid">
+            <div class="input-group" style="margin-top: 10px">
+                <button class="btn btn-primary" onclick="newRandomPicture()">Show random cat picture
+                </button>
+            </div>
+            <br/>
+            <div>
+                <img id="randomCatPicture" th:src="@{/images/cats/1.jpg}" width="50%" height="50%"/>
+            </div>
+
+
+            <br/>
+            <form class="attack-form" method="POST" name="form" action="/WebGoat/PathTraversal/random">
+                <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
+                                                          style="font-size:20px"></i></div>
+                        <input type="text" class="form-control" id="pathTraversalSecret" name="secret"/>
+                    </div>
+                    <div class="input-group" style="margin-top: 10px">
+                        <button type="submit" class="btn btn-primary">Submit secret</button>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="attack-feedback"></div>
+            <div class="attack-output"></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/path_traversal/documentation/PathTraversal_zip_slip.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/path_traversal/documentation/PathTraversal_zip_slip_assignment.adoc"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="upload-container">
+            <form class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  onsubmit='return false'
+                  contentType="false"
+
+                  prepareData="profileZipSlip"
+                  enctype="multipart/form-data"
+                  action="/WebGoat/PathTraversal/zip-slip">
+                <div class="preview text-center">
+                    <img  th:src="@{|~/WebGoat/PathTraversal/zip-slip/profile-image/${#authentication.name}|}" width="1"
+                         height="1" />
+                    <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
+                         height="200" id="previewZipSlip"/>
+                    <div class="browse-button">
+                        <i class="fa fa-pencil"></i>
+                        <input class="browse-input" type="file" required name="uploadedFile"
+                               id="uploadedFileZipSlip"/>
+                    </div>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input class="form-control" type="text" id="fullNameZipSlip" name="fullName" required
+                           value="test"
+                           placeholder="Enter Your Full Name"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input class="form-control" type="email" id="emailZipSlip" name="email" required
+                           placeholder="Enter Your Email" value="test@test.com"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input class="form-control" type="password" id="passwordZipSlip" name="password" required
+                           placeholder="Enter Password" value="test"/>
+                    <span class="Error"></span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" value="Submit">Update</button>
+                </div>
+            </form>
+        </div>
+
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="lesson-page-solution">
+        <div class="adoc-content" th:replace="doc:lessons/path_traversal/documentation/PathTraversal_zip_slip_solution.adoc"></div>
+    </div>
+</div>
+
+</html>

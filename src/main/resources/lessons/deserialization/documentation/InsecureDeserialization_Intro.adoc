@@ -1,0 +1,10 @@
+
+== Concept
+
+This lesson describes what is Serialization and how it can be manipulated to perform tasks that were not the original intent of the developer.
+
+== Goals
+* The user should have a basic understanding of Java programming language
+* The user will be able to detect insecure deserialization vulnerabilities
+* The user will be able to exploit insecure deserialization vulnerabilities
+* Exploiting deserialization is slightly different in other programming languages such as PHP or Python, but the key concepts learnt here also applies to all of them

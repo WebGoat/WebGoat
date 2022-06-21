@@ -1,0 +1,8 @@
+
+Enter your name in the input field below and press "Go!" to submit.	The server will accept the request, reverse the
+input and display it back to the user, illustrating the basics of handling an HTTP request.
+
+== Try It!
+
+Enter your name in the input field below and press "Go!" to submit. The server will accept the request, reverse the input
+and display it back to the user, illustrating the basics of handling an HTTP request.

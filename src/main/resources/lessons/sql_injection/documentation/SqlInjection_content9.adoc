@@ -1,0 +1,25 @@
+== Parameterized Queries - Java Snippet
+[source,java]
+----
+public static bool isUsernameValid(string username) {
+    RegEx r = new Regex("^[A-Za-z0-9]{16}$");
+    return r.isMatch(username); 
+}
+
+// java.sql.Connection conn is set elsewhere for brevity.
+PreparedStatement ps = null;
+RecordSet rs = null;
+try {
+    pUserName = request.getParameter("UserName");
+    if ( isUsernameValid (pUsername) ) {
+        ps = conn.prepareStatement("SELECT * FROM user_table
+                                   WHERE username = ? ");
+        ps.setString(1, pUsername);
+        rs = ps.execute();
+        if ( rs.next() ) {
+            // do the work of making the user record active in some way
+        }
+    } else { // handle invalid input }
+}
+catch (...) { // handle all exceptions ... }
+----

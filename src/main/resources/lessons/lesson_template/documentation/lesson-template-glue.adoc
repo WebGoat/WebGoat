@@ -1,0 +1,34 @@
+=== Step 3: Write glue html page
+
+We mentioned a lesson could consist of multiple assignments, WebGoat picks them up automatically, and the UI displays
+a navigation bar on top of every lesson. A page with an assignment will be red initially and will become
+green when the user solves the assignment. To make this work we need to add:
+
+[source]
+----
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/lesson_template/documentation/
+lesson-template-intro.adoc"></div>
+  </div>
+  <div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/lesson_template/documentation/
+lesson-template-content.adoc"></div>
+  </div>
+  <div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/lesson_template/documentation/
+lesson-template-lesson-class.adoc"></div>
+  </div>
+</html>
+----
+
+This file needs to be places in: `/src/main/resources/{lesson}/html/`. The name of the file should be the same as
+the Java class we created in step 2.
+
+The snippet above will create three separate pages (navigation bar) with the adoc pages we created to create this lesson.
+
+That's it we create a basic lesson with only content. To make it all work, you need to make the lesson available in
+WebGoat.
+
+That's it. Start WebGoat, and your lesson will appear in the menu.

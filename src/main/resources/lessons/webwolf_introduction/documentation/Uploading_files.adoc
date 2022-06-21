@@ -1,0 +1,12 @@
+== Uploading files
+
+In this section you can upload files. These files will be available from outside
+the application. For example if you want to reference a DTD which you
+reference from an xml in an XXE attack, you can use WebWolf to serve this DTD.
+
+image::images/files.png[caption="Figure: ", style="lesson-image"]
+
+{nbsp}
+
+After uploading a file you can use the 'Link' to get the full URL to the uploaded
+file.

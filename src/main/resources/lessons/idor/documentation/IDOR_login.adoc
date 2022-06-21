@@ -1,0 +1,7 @@
+=== Authenticate First, Abuse Authorization Later
+
+Many access control issues are susceptible to attack from an authenticated-but-unauthorized user. So, let's start by legitimately authenticating. Then, we will look for ways to bypass or abuse Authorization.
+
+The id and password for the account in this case are 'tom' and 'cat' (It is an insecure app, right?).
+
+After authenticating, proceed to the next screen.

@@ -1,0 +1,3 @@
+== Confirm Flag
+
+Confirm the flag you should have gotten on the previous page below.

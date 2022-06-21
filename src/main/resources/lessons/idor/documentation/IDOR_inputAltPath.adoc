@@ -1,0 +1,1 @@
+Please input the alternate path to the Url to view your own profile.  Please start with 'WebGoat' (i.e. disregard 'http://localhost:8080/')

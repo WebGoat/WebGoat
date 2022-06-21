@@ -14,7 +14,9 @@
 /.settings/org.eclipse.wst.validation.prefs
 /.externalToolBuilders/
 .project
-/target
+*/target/*
+*.pmd
+mongo-data/*
 .classpath
 .idea/
 .settings/
@@ -29,6 +31,7 @@ src/main/webapp/plugin_lessons/*.jar
 src/main/webapp/users/*.props
 classes/*
 *.iml
+pom.xml.versionsBackup
 
 /*.iml
 .extract/*
@@ -37,3 +40,18 @@ webgoat-container/src/main/webapp/users/guest.org.owasp.webgoat.plugin.*.props
 webgoat-container/src/main/webapp/plugin_lessons/dist-*.pom
 webgoat-lessons/**/target
 **/*.jar
+**/.DS_Store
+webgoat-server/mongo-data/*
+webgoat-lessons/vulnerable-components/dependency-reduced-pom.xml
+**/.sts4-cache/*
+**/.vscode/*
+**/.factorypath
+/.sonatype
+**/bin/*
+webgoat.lck
+webgoat.log
+webgoat.properties
+webgoat.script
+TestClass.class
+**/*.flattened-pom.xml
+/.gitconfig

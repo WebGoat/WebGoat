@@ -1,0 +1,25 @@
+== Landing page
+
+This page will show all the requests made to '/landing/**'. This means
+you can use WebWolf as your landing page for harvesting cookies etc which
+is helpful when you perform a XSS lesson.
+
+image::images/requests.png[caption="Figure: ", style="lesson-image"]
+
+{nbsp}
+{nbsp}
+{nbsp}
+
+*For this exercise you need to login to WebWolf first.*
+
+{nbsp}
+{nbsp}
+
+Suppose we tricked a user to click on a link he/she received in an email, this link will open up our crafted
+password reset link page. The user does not notice any differences compared to the normal password reset page of the company.
+The user enters a new password and hits enter. The new password will be sent to your host. In this case the new
+password will be sent to WebWolf. Try to locate the unique code.
+
+Please be aware that after resetting the password the user will receive an error page. In a real attack scenario the
+user would probably see a normal success page (this is due to a limit what we can control with WebWolf)
+

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/webwolf_introduction/documentation/IntroductionWebWolf.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/webwolf_introduction/documentation/Uploading_files.adoc"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/webwolf_introduction/documentation/Receiving_mail.adoc"></div>
+    <div class="attack-container">
+        <img th:src="@{/images/wolf-enabled.png}" class="webwolf-enabled"/>
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        
+        
+        <form class="attack-form" accept-charset="UNKNOWN"  style="position:relative;top:150px"
+              method="POST" name="form"
+              action="/WebGoat/WebWolf/mail/">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   placeholder="Type in your unique code"
+                                   name='uniqueCode'/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary" type="submit">Go</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <br/>
+        <!-- <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>-->
+        <form class="attack-form" accept-charset="UNKNOWN"  style="position:relative;top:-50px"
+              method="POST" name="secondform"
+              action="/WebGoat/WebWolf/mail/send">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group input-group">
+          <span class="input-group-addon">
+            @
+          </span>
+                            <input class="form-control" placeholder="test1233@webgoat.org" name="email" type="email"
+                                   required=""/>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" id="btn-login">
+                            Send e-mail
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <br/>
+        
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="doc:lessons/webwolf_introduction/documentation/Landing_page.adoc"></div>
+    <div class="attack-container">
+        <img th:src="@{/images/wolf-enabled.png}" class="webwolf-enabled"/>
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <a href="/WebGoat/WebWolf/landing/password-reset" target="_blank">Click here to reset your password</a>
+
+        <br/>
+        <br/>
+        <form class="attack-form" accept-charset="UNKNOWN"
+              method="POST" name="form"
+              action="/WebGoat/WebWolf/landing/">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   placeholder="Type in your unique code"
+                                   name='uniqueCode'/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary" type="submit">Go</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <br/>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+</html>

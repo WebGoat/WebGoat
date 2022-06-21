@@ -1,0 +1,27 @@
+=== Automatic support from frameworks
+
+Most frameworks now have default support for preventing CSRF. For example with Angular an interceptor reads a token
+from a cookie by default XSRF-TOKEN and sets it as an HTTP header, X-XSRF-TOKEN. Since only code that runs on your domain
+could read the cookie, the backend can be certain that the HTTP request came from your client application and not an attacker.
+
+In order for this to work the backend server sets the token in a cookie. As the value of the cookie should be read
+by Angular (JavaScript) this cookie should not be marked with the http-only flag. On every request towards the server
+Angular will put the token in the X-XSRF-TOKEN as a HTTP header. The server can validate whether those two tokens
+match and this will ensure the server the request is running on the same domain.
+
+*Important: DEFINE A SEPARATE COOKIE, DO NOT REUSE THE SESSION COOKIE*
+
+Remember the session cookie should always be defined with http-only flag.
+
+== Custom headers not safe
+
+Another defense can be to add a custom request header to each call. This will work if all the interactions
+with the server are performed with JavaScript. On the server side you only need to check the presence of this header
+if this header is not present deny the request.
+Some frameworks offer this implementation by default however researcer Alex Infuhr found out that this can be bypassed
+as well. You can read about: https://insert-script.blogspot.com/2018/05/adobe-reader-pdf-client-side-request.html[Adobe Reader PDF - Client Side Request Injection]
+
+
+
+
+
