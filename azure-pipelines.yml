@@ -37,11 +37,3 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-
-#Call Detect, passing the Docker Image location
-bash <(curl -s -L https://detect.synopsys.com/detect7.sh) \
---blackduck.url=$(blackduck.url) \
---blackduck.api.token=$(blackduck.api.token) \
---detect.docker.image=<registryname>.azurecr.io/<containername>:$(Build.BuildId) \
---detect.project.name=$(Build.DefinitionName) \
---detect.project.version.name=$(Build.BuildNumber
