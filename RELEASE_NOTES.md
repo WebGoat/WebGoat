@@ -3,7 +3,7 @@
 ## Unreleased
 
 ### New functionality
-
+test
 - New year's resolution: major refactoring of WebGoat to simplify the setup and improve building times.
 - Move away from multi-project setup:
   - This has a huge performance benefit when building the application. Build time locally is now `Total time:  42.469 s` (depends on your local machine of course)
