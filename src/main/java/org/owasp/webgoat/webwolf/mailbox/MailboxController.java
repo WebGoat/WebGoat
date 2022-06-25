@@ -40,9 +40,7 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 
-public class MailRequestController{
- private string mail;   
-}
+
 public class MailboxController {
 
     private final MailboxRepository mailboxRepository;
