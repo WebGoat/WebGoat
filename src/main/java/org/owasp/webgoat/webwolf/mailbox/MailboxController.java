@@ -39,6 +39,10 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
+
+public class MailRequestController{
+ private string mail;   
+}
 public class MailboxController {
 
     private final MailboxRepository mailboxRepository;
@@ -57,7 +61,10 @@ public class MailboxController {
     }
 
     @PostMapping(value = "/mail")
-    public ResponseEntity<?> sendEmail(@RequestBody Email email) {
+  //  public ResponseEntity<?> sendEmail(@RequestBody Email email)
+     public ResponseEntity<?> sendEmail(@RequestBody MailRequestController email) 
+    {
+         
         mailboxRepository.save(email);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
