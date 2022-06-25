@@ -59,8 +59,8 @@ public class MailboxController {
     }
 
     @PostMapping(value = "/mail")
-  //  public ResponseEntity<?> sendEmail(@RequestBody Email email)
-     public ResponseEntity<?> sendEmail(@RequestBody MailRequestController email) 
+    public ResponseEntity<?> sendEmail(@RequestBody Email email)
+      
     {
          
         mailboxRepository.save(email);
