@@ -5,7 +5,7 @@ on:
 jobs:
   GGShield:
     name: GGSheild 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
