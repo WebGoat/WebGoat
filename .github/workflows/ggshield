@@ -1,7 +1,7 @@
 name: GGShield Manual
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
 jobs:
   GGShield:
     name: GGSheild 
