@@ -12,4 +12,5 @@ jobs:
     steps:
       - name: Docker
         run: |
+          ls -altr
           docker run -t --rm --platform linux/amd64 -v `pwd`:/scan -e GITGUARDIAN_API_KEY=$GITGUARDIAN_API_KEY gitguardian/ggshield:v1.12.0 ggshield secret scan path /scan --recursive -y 
