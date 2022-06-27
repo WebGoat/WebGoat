@@ -1,0 +1,15 @@
+name: GGShield Manual
+on:
+  push:
+    branches: [ main ]
+jobs:
+  GGShield:
+    name: GGSheild 
+    runs-on: self-hosted
+    env:
+      GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
+    steps:
+      - name: Docker
+        run: |
+          docker run -t --rm --platform linux/amd64 -v `pwd`:/scan -e GITGUARDIAN_API_KEY=$GITGUARDIAN_API_KEY gitguardian/ggshield:v1.12.0 ggshield secret scan path /scan --recursive -y 
