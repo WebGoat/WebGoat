@@ -1,7 +1,5 @@
 name: Truffle Docker Manual
-on:
-  push:
-    branches: [ main ]
+on: [push, pull_request]
 jobs:
   TruffleHog:
     name: Truffle
