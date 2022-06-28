@@ -1,0 +1,12 @@
+name: Truffle Docker Manual
+on:
+  push:
+    branches: [ main ]
+jobs:
+  TruffleHog:
+    name: Truffle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker
+        run: |
+          docker run -t -v "$PWD:/pwd" ghcr.io/trufflesecurity/trufflehog:latest filesystem --directory /pwd
