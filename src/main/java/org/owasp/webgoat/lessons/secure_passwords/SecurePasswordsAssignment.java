@@ -42,7 +42,7 @@ public class SecurePasswordsAssignment extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String password) {
         Zxcvbn zxcvbn = new Zxcvbn();
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
         DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         df.setMaximumFractionDigits(340);
         Strength strength = zxcvbn.measure(password);

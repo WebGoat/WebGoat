@@ -61,7 +61,7 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
         double totalSale = QTY1.intValue() * 69.99 + QTY2.intValue() * 27.99 + QTY3.intValue() * 1599.99 + QTY4.intValue() * 299.99;
 
         userSessionData.setValue("xss-reflected1-complete", "false");
-        StringBuffer cart = new StringBuffer();
+        StringBuilder cart = new StringBuilder();
         cart.append("Thank you for shopping at WebGoat. <br />Your support is appreciated<hr />");
         cart.append("<p>We have charged credit card:" + field1 + "<br />");
         cart.append("                             ------------------- <br />");

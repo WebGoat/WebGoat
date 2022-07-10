@@ -76,10 +76,14 @@ public class Salaries {
         File d = new File(webGoatHomeDirectory, "ClientSideFiltering/employees.xml");
         XPathFactory factory = XPathFactory.newInstance();
         XPath path = factory.newXPath();
+        int columns = 5;
+        List<Map<String, Object>> json = new ArrayList<>();
+        java.util.Map<String, Object> employeeJson = new HashMap<>();
+
         try (InputStream is = new FileInputStream(d)) {
             InputSource inputSource = new InputSource(is);
 
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
             sb.append("/Employees/Employee/UserID | ");
             sb.append("/Employees/Employee/FirstName | ");
@@ -89,21 +93,18 @@ public class Salaries {
 
             String expression = sb.toString();
             nodes = (NodeList) path.evaluate(expression, inputSource, XPathConstants.NODESET);
+            for (int i = 0; i < nodes.getLength(); i++) {
+                if (i % columns == 0) {
+                    employeeJson = new HashMap<>();
+                    json.add(employeeJson);
+                }
+                Node node = nodes.item(i);
+                employeeJson.put(node.getNodeName(), node.getTextContent());
+            }
         } catch (XPathExpressionException e) {
             log.error("Unable to parse xml", e);
         } catch (IOException e) {
             log.error("Unable to read employees.xml at location: '{}'", d);
-        }
-        int columns = 5;
-        List json = new ArrayList();
-        java.util.Map<String, Object> employeeJson = new HashMap<>();
-        for (int i = 0; i < nodes.getLength(); i++) {
-            if (i % columns == 0) {
-                employeeJson = new HashMap<>();
-                json.add(employeeJson);
-            }
-            Node node = nodes.item(i);
-            employeeJson.put(node.getNodeName(), node.getTextContent());
         }
         return json;
     }

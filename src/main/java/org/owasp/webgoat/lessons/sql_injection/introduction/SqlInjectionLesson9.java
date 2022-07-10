@@ -57,7 +57,7 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
     }
 
     protected AttackResult injectableQueryIntegrity(String name, String auth_tan) {
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
         String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
         try (Connection connection = dataSource.getConnection()) {
             try {
@@ -86,7 +86,7 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
         }
     }
 
-    private AttackResult checkSalaryRanking(Connection connection, StringBuffer output) {
+    private AttackResult checkSalaryRanking(Connection connection, StringBuilder output) {
         try {
             String query = "SELECT * FROM employees ORDER BY salary DESC";
             try (Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);

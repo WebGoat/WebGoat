@@ -831,7 +831,7 @@ var JavaHighlightRules = function() {
         "Readable|Runtime|StringBuilder|Math|IncompatibleClassChangeError|"+
         "NoSuchMethodError|ThreadLocal|RuntimePermission|ArithmeticException|"+
         "NullPointerException|Long|Integer|Short|Byte|Double|Number|Float|"+
-        "Character|Boolean|StackTraceElement|Appendable|StringBuffer|"+
+        "Character|Boolean|StackTraceElement|Appendable|StringBuilder|"+
         "Iterable|ThreadGroup|Runnable|Thread|IllegalMonitorStateException|"+
         "StackOverflowError|OutOfMemoryError|VirtualMachineError|"+
         "ArrayStoreException|ClassCastException|LinkageError|"+

@@ -72,7 +72,7 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
 
                 if ((results != null) && (results.first() == true)) {
                     ResultSetMetaData resultsMetaData = results.getMetaData();
-                    StringBuffer output = new StringBuffer();
+                    StringBuilder output = new StringBuilder();
 
                     output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
                     results.last();

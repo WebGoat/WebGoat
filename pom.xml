@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.6</version>
+        <version>2.7.1</version>
     </parent>
 
     <name>WebGoat</name>
@@ -119,7 +119,6 @@
         <webwolf.port>9090</webwolf.port>
 
         <!-- Shared properties with plugins and version numbers across submodules-->
-        <ant.version>1.6.5</ant.version>
         <asciidoctorj.version>2.5.2</asciidoctorj.version>
         <bootstrap.version>3.3.7</bootstrap.version>
         <cglib.version>2.2</cglib.version> <!-- do not update necessary for lesson -->
@@ -180,16 +179,6 @@
                 <groupId>cglib</groupId>
                 <artifactId>cglib-nodep</artifactId>
                 <version>${cglib.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ant</groupId>
-                <artifactId>ant-launcher</artifactId>
-                <version>${ant.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ant</groupId>
-                <artifactId>ant</artifactId>
-                <version>${ant.version}</version>
             </dependency>
             <dependency>
                 <groupId>xml-resolver</groupId>
@@ -451,14 +440,6 @@
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant-launcher</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant</artifactId>
         </dependency>
         <dependency>
             <groupId>xml-resolver</groupId>
