@@ -311,14 +311,14 @@ define(['module'], function (module) {
             typeof Packages !== 'undefined' && typeof java !== 'undefined')) {
         //Why Java, why is this so awkward?
         text.get = function (url, callback) {
-            var stringBuffer, line,
+            var stringBuilder, line,
                 encoding = "utf-8",
                 file = new java.io.File(url),
                 lineSeparator = java.lang.System.getProperty("line.separator"),
                 input = new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(file), encoding)),
                 content = '';
             try {
-                stringBuffer = new java.lang.StringBuffer();
+                stringBuilder = new java.lang.StringBuilder();
                 line = input.readLine();
 
                 // Byte Order Mark (BOM) - The Unicode Standard, version 3.0, page 324
@@ -334,15 +334,15 @@ define(['module'], function (module) {
                 }
 
                 if (line !== null) {
-                    stringBuffer.append(line);
+                    stringBuilder.append(line);
                 }
 
                 while ((line = input.readLine()) !== null) {
-                    stringBuffer.append(lineSeparator);
-                    stringBuffer.append(line);
+                    stringBuilder.append(lineSeparator);
+                    stringBuilder.append(line);
                 }
                 //Make sure we return a JavaScript string and not a Java string.
-                content = String(stringBuffer.toString()); //String
+                content = String(stringBuilder.toString()); //String
             } finally {
                 input.close();
             }

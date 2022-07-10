@@ -51,7 +51,7 @@ even if it is hidden it is easy to find the sensitive date. In this
 stage you will add a filter to the XPath queries. In this file you will find 
 following construct:<br><br></p>
 <code>
-	StringBuffer sb = new StringBuffer();<br>
+	StringBuilder sb = new StringBuilder();<br>
 	
 	sb.append("/Employees/Employee/UserID | ");<br>
 	sb.append("/Employees/Employee/FirstName | ");<br>
@@ -66,7 +66,7 @@ This string will be used for the XPath query. You have to guarantee that a mange
 can see employees which are working for him. To archive this you can use
 filters in XPath. Following code will exactly do this:</p>
 <code>
-	StringBuffer sb = new StringBuffer();<br>
+	StringBuilder sb = new StringBuilder();<br>
 	
 	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/UserID | ");<br>
 	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/FirstName | ");<br>

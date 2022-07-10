@@ -63,7 +63,7 @@ public class SqlInjectionLesson4 extends AssignmentEndpoint {
                 statement.executeUpdate(query);
                 connection.commit();
                 ResultSet results = statement.executeQuery("SELECT phone from employees;");
-                StringBuffer output = new StringBuffer();
+                StringBuilder output = new StringBuilder();
                 // user completes lesson if column phone exists
                 if (results.first()) {
                     output.append("<span class='feedback-positive'>" + query + "</span>");

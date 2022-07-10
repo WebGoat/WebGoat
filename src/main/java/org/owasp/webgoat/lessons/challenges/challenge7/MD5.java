@@ -517,7 +517,7 @@ public class MD5 {
      * @since ostermillerutils 1.00.00
      */
     private static String toHex(byte hash[]) {
-        StringBuffer buf = new StringBuffer(hash.length * 2);
+        StringBuilder buf = new StringBuilder(hash.length * 2);
         for (byte element : hash) {
             int intVal = element & 0xff;
             if (intVal < 0x10) {

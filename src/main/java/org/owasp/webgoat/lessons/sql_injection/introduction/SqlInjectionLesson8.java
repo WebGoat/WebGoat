@@ -56,7 +56,7 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
     }
 
     protected AttackResult injectableQueryConfidentiality(String name, String auth_tan) {
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
         String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
 
         try (Connection connection = dataSource.getConnection()) {
@@ -98,7 +98,7 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
         ResultSetMetaData resultsMetaData = results.getMetaData();
         int numColumns = resultsMetaData.getColumnCount();
         results.beforeFirst();
-        StringBuffer table = new StringBuffer();
+        StringBuilder table = new StringBuilder();
         table.append("<table>");
 
         if (results.next()) {

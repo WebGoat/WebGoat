@@ -43,7 +43,7 @@ public class SSRFTask1 extends AssignmentEndpoint {
 
     protected AttackResult stealTheCheese(String url) {
         try {
-            StringBuffer html = new StringBuffer();
+            StringBuilder html = new StringBuilder();
 
             if (url.matches("images/tom.png")) {
                 html.append("<img class=\"image\" alt=\"Tom\" src=\"images/tom.png\" width=\"25%\" height=\"25%\">");
