@@ -119,7 +119,7 @@
         <webwolf.port>9090</webwolf.port>
 
         <!-- Shared properties with plugins and version numbers across submodules-->
-        <asciidoctorj.version>2.5.2</asciidoctorj.version>
+        <asciidoctorj.version>2.5.3</asciidoctorj.version>
         <bootstrap.version>3.3.7</bootstrap.version>
         <cglib.version>2.2</cglib.version> <!-- do not update necessary for lesson -->
         <checkstyle.version>3.1.2</checkstyle.version>
@@ -337,8 +337,8 @@
                         <version>6.5.1</version>
                         <configuration>
                             <failBuildOnCVSS>7</failBuildOnCVSS>
-                            <skipProvidedScope>true</skipProvidedScope>
-                            <skipRuntimeScope>true</skipRuntimeScope>
+                            <skipProvidedScope>false</skipProvidedScope>
+                            <skipRuntimeScope>false</skipRuntimeScope>
                             <suppressionFiles>
                                 <!--suppress UnresolvedMavenProperty -->
                                 <suppressionFile>
@@ -536,14 +536,7 @@
                             <groupId>org.asciidoctor</groupId>
                             <artifactId>asciidoctorj</artifactId>
                         </dependency>
-                        <dependency>
-                            <groupId>org.jruby</groupId>
-                            <artifactId>jruby-complete</artifactId>
-                        </dependency>
                     </requiresUnpack>
-                    <jvmArguments>
-                        <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000-->
-                    </jvmArguments>
                 </configuration>
             </plugin>
             <plugin>

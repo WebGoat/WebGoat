@@ -41,15 +41,15 @@ import java.sql.*;
 public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
     private final LessonDataSource dataSource;
-
+    private static final String YOUR_QUERY_WAS = "<br> Your query was: ";
     public SqlInjectionLesson6a(LessonDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @PostMapping("/SqlInjectionAdvanced/attack6a")
     @ResponseBody
-    public AttackResult completed(@RequestParam String userid_6a) {
-        return injectableQuery(userid_6a);
+    public AttackResult completed(@RequestParam(value="userid_6a")  String userId) {
+        return injectableQuery(userId);
         // The answer: Smith' union select userid,user_name, password,cookie,cookie, cookie,userid from user_system_data --
     }
 
@@ -66,7 +66,7 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                     ResultSet.CONCUR_READ_ONLY)) {
                 ResultSet results = statement.executeQuery(query);
 
-                if ((results != null) && (results.first())) {
+                if ((results != null) && results.first()) {
                     ResultSetMetaData resultsMetaData = results.getMetaData();
                     StringBuilder output = new StringBuilder();
 
@@ -83,17 +83,16 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
                         output.append(appendingWhenSucceded);
                         return success(this).feedback("sql-injection.advanced.6a.success").feedbackArgs(output.toString()).output(" Your query was: " + query).build();
                     } else {
-                        return failed(this).output(output.toString() + "<br> Your query was: " + query).build();
+                        return failed(this).output(output.toString() + YOUR_QUERY_WAS + query).build();
                     }
                 } else {
-                    return failed(this).feedback("sql-injection.advanced.6a.no.results").output(" Your query was: " + query).build();
+                    return failed(this).feedback("sql-injection.advanced.6a.no.results").output(YOUR_QUERY_WAS + query).build();
                 }
             } catch (SQLException sqle) {
-                return failed(this).output(sqle.getMessage() + "<br> Your query was: " + query).build();
+                return failed(this).output(sqle.getMessage() + YOUR_QUERY_WAS + query).build();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            return failed(this).output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query).build();
+            return failed(this).output(this.getClass().getName() + " : " + e.getMessage() + YOUR_QUERY_WAS + query).build();
         }
     }
 }
