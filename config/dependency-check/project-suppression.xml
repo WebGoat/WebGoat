@@ -1,42 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-    <suppress base="true">
+    <suppress>
         <notes><![CDATA[
-        This suppresses false positives identified on spring framework.
+        This suppresses all CVE entries that have a score below CVSS 7.
         ]]></notes>
-        <cpe>cpe:/a:pivotal_software:spring_framework</cpe>
-        <cve>CVE-2020-5398</cve>
+        <cvssBelow>7</cvssBelow>
     </suppress>
-    <suppress base="true">
+    <suppress>
         <notes><![CDATA[
-        This suppresses false positives identified on spring framework.
+        file name: spring-tx-5.3.21.jar
         ]]></notes>
-        <cpe>cpe:/a:redhat:undertow</cpe>
-        <cve>CVE-2019-14888</cve>
-    </suppress>
-    <suppress base="true">
+        <sha1>13f4f564024d2f85502c151942307c3ca851a4f7</sha1>
+        <cve>CVE-2016-1000027</cve>
+     </suppress>
+     <suppress>
         <notes><![CDATA[
-        This suppresses false positives identified on spring framework.
+        file name: spring-core-5.3.21.jar
         ]]></notes>
-        <cpe>cpe:/a:pivotal_software:spring_security</cpe>
-        <cve>CVE-2018-1258</cve>
-    </suppress>
-    <suppress base="true">
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring\-core@.*$</packageUrl>
+        <cve>CVE-2016-1000027</cve>
+     </suppress>
+     <suppress>
+        <notes><![CDATA[
+        file name: spring-aop-5.3.21.jar
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring\-aop@.*$</packageUrl>
+        <cve>CVE-2016-1000027</cve>
+     </suppress>
+     <suppress>
+        <notes><![CDATA[
+        file name: spring-boot-starter-security-2.7.1.jar
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring\-boot\-starter\-security@.*$</packageUrl>
+        <cve>CVE-2022-22978</cve>
+     </suppress>
+     <suppress>
+        <notes><![CDATA[
+        file name: jruby-stdlib-9.2.20.1.jar: jopenssl.jar (shaded: rubygems:jruby-openssl:0.11.0)
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/rubygems/jruby\-openssl@.*$</packageUrl>
         <cpe>cpe:/a:jruby:jruby</cpe>
-        <cve>CVE-2018-1000613</cve>
-        <cve>CVE-2018-1000180</cve>
-        <cve>CVE-2017-18640</cve>
-        <cve>CVE-2011-4838</cve>
-    </suppress>
-    <suppress base="true"><!-- vulnerable components lesson -->
+        <cpe>cpe:/a:openssl:openssl</cpe>
+     </suppress>
+    <suppress>
+        <notes><![CDATA[
+        file name: xstream-1.4.5.jar
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.thoughtworks\.xstream/xstream@.*$</packageUrl>
         <cpe>cpe:/a:xstream_project:xstream</cpe>
-        <cve>CVE-2017-7957</cve>
-        <cve>CVE-2016-3674</cve>
-        <cve>CVE-2020-26217</cve>
-        <cve>CVE-2020-26258</cve>
-    </suppress>
-    <suppress base="true"><!-- webgoat-server -->
-        <cpe>cpe:/a:postgresql:postgresql</cpe>
-        <cve>CVE-2018-10936</cve>
-    </suppress>
+        <vulnerabilityName>CVE-2013-7285</vulnerabilityName>
+        <vulnerabilityName>CVE-2016-3674</vulnerabilityName>
+        <vulnerabilityName>CVE-2017-7957</vulnerabilityName>
+        <vulnerabilityName>CVE-2020-26217</vulnerabilityName>
+        <vulnerabilityName>CVE-2020-26258</vulnerabilityName>
+        <vulnerabilityName>CVE-2020-26259</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21341</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21342</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21343</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21344</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21345</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21346</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21347</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21348</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21349</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21350</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-21351</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-43859</vulnerabilityName>
+     </suppress>
+     <suppress>
+        <notes><![CDATA[
+        file name: spring-jcl-5.3.21.jar
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring\-.*@.*$</packageUrl>
+        <cve>CVE-2016-1000027</cve>
+     </suppress>
 </suppressions>
