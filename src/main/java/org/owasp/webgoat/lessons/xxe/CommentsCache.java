@@ -23,9 +23,6 @@
 package org.owasp.webgoat.lessons.xxe;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.owasp.webgoat.container.session.WebSession;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.context.annotation.Scope;
@@ -38,6 +35,8 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -59,7 +58,7 @@ public class CommentsCache {
 
     private static final Comments comments = new Comments();
     private static final Map<WebGoatUser, Comments> userComments = new HashMap<>();
-    private static final DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd, HH:mm:ss");
+    private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
 
     private final WebSession webSession;
 
@@ -69,9 +68,9 @@ public class CommentsCache {
     }
 
     void initDefaultComments() {
-        comments.add(new Comment("webgoat", DateTime.now().toString(fmt), "Silly cat...."));
-        comments.add(new Comment("guest", DateTime.now().toString(fmt), "I think I will use this picture in one of my projects."));
-        comments.add(new Comment("guest", DateTime.now().toString(fmt), "Lol!! :-)."));
+        comments.add(new Comment("webgoat", LocalDateTime.now().format(fmt), "Silly cat...."));
+        comments.add(new Comment("guest", LocalDateTime.now().format(fmt), "I think I will use this picture in one of my projects."));
+        comments.add(new Comment("guest", LocalDateTime.now().format(fmt), "Lol!! :-)."));
     }
 
     protected Comments getComments() {
@@ -116,7 +115,7 @@ public class CommentsCache {
     }
 
     public void addComment(Comment comment, boolean visibleForAllUsers) {
-        comment.setDateTime(DateTime.now().toString(fmt));
+        comment.setDateTime(LocalDateTime.now().format(fmt));
         comment.setUser(webSession.getUserName());
         if (visibleForAllUsers) {
             comments.add(comment);

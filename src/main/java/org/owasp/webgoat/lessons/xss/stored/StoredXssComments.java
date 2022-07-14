@@ -24,9 +24,6 @@ package org.owasp.webgoat.lessons.xss.stored;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.WebSession;
@@ -40,6 +37,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -55,7 +54,7 @@ public class StoredXssComments extends AssignmentEndpoint {
 
     @Autowired
     private WebSession webSession;
-    private static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd, HH:mm:ss");
+    private static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
 
     private static final Map<String, List<Comment>> userComments = new HashMap<>();
     private static final List<Comment> comments = new ArrayList<>();
@@ -63,10 +62,10 @@ public class StoredXssComments extends AssignmentEndpoint {
 
 
     static {
-        comments.add(new Comment("secUriTy", DateTime.now().toString(fmt), "<script>console.warn('unit test me')</script>Comment for Unit Testing"));
-        comments.add(new Comment("webgoat", DateTime.now().toString(fmt), "This comment is safe"));
-        comments.add(new Comment("guest", DateTime.now().toString(fmt), "This one is safe too."));
-        comments.add(new Comment("guest", DateTime.now().toString(fmt), "Can you post a comment, calling webgoat.customjs.phoneHome() ?"));
+        comments.add(new Comment("secUriTy", LocalDateTime.now().format(fmt), "<script>console.warn('unit test me')</script>Comment for Unit Testing"));
+        comments.add(new Comment("webgoat", LocalDateTime.now().format(fmt), "This comment is safe"));
+        comments.add(new Comment("guest", LocalDateTime.now().format(fmt), "This one is safe too."));
+        comments.add(new Comment("guest", LocalDateTime.now().format(fmt), "Can you post a comment, calling webgoat.customjs.phoneHome() ?"));
     }
 
     //TODO This assignment seems not to be in use in the UI
@@ -90,7 +89,7 @@ public class StoredXssComments extends AssignmentEndpoint {
         Comment comment = parseJson(commentStr);
 
         List<Comment> comments = userComments.getOrDefault(webSession.getUserName(), new ArrayList<>());
-        comment.setDateTime(DateTime.now().toString(fmt));
+        comment.setDateTime(LocalDateTime.now().format(fmt));
         comment.setUser(webSession.getUserName());
 
         comments.add(comment);
