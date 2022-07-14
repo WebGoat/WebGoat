@@ -23,9 +23,6 @@
 package org.owasp.webgoat.lessons.csrf;
 
 import com.google.common.collect.Lists;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -38,6 +35,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,7 +51,7 @@ public class ForgedReviews extends AssignmentEndpoint {
 
     @Autowired
     private WebSession webSession;
-    private static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd, HH:mm:ss");
+    private static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
 
     private static final Map<String, List<Review>> userReviews = new HashMap<>();
     private static final List<Review> REVIEWS = new ArrayList<>();
@@ -60,10 +59,10 @@ public class ForgedReviews extends AssignmentEndpoint {
 
 
     static {
-        REVIEWS.add(new Review("secUriTy", DateTime.now().toString(fmt), "This is like swiss cheese", 0));
-        REVIEWS.add(new Review("webgoat", DateTime.now().toString(fmt), "It works, sorta", 2));
-        REVIEWS.add(new Review("guest", DateTime.now().toString(fmt), "Best, App, Ever", 5));
-        REVIEWS.add(new Review("guest", DateTime.now().toString(fmt), "This app is so insecure, I didn't even post this review, can you pull that off too?", 1));
+        REVIEWS.add(new Review("secUriTy", LocalDateTime.now().format(fmt), "This is like swiss cheese", 0));
+        REVIEWS.add(new Review("webgoat", LocalDateTime.now().format(fmt), "It works, sorta", 2));
+        REVIEWS.add(new Review("guest", LocalDateTime.now().format(fmt), "Best, App, Ever", 5));
+        REVIEWS.add(new Review("guest", LocalDateTime.now().format(fmt), "This app is so insecure, I didn't even post this review, can you pull that off too?", 1));
     }
 
     @GetMapping(path = "/csrf/review", produces = MediaType.APPLICATION_JSON_VALUE, consumes = ALL_VALUE)
@@ -89,7 +88,7 @@ public class ForgedReviews extends AssignmentEndpoint {
 
         Review review = new Review();
         review.setText(reviewText);
-        review.setDateTime(DateTime.now().toString(fmt));
+        review.setDateTime(LocalDateTime.now().format(fmt));
         review.setUser(webSession.getUserName());
         review.setStars(stars);
         var reviews = userReviews.getOrDefault(webSession.getUserName(), new ArrayList<>());
