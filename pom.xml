@@ -293,7 +293,7 @@
                                     <goal>start</goal>
                                 </goals>
                                 <configuration>
-                                    <workingDir></workingDir>
+                                    <workingDir>${project.build.directory}</workingDir>
                                     <arguments>
                                         <argument>java</argument>
                                         <argument>-jar</argument>
