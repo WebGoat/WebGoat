@@ -293,7 +293,7 @@
                                     <goal>start</goal>
                                 </goals>
                                 <configuration>
-                                    <workingDir></workingDir>
+                                    <workingDir>${project.build.directory}</workingDir>
                                     <arguments>
                                         <argument>java</argument>
                                         <argument>-jar</argument>
@@ -582,7 +582,7 @@
                         <logback.configurationFile>${basedir}/src/test/resources/logback-test.xml</logback.configurationFile>
                     </systemPropertyVariables>
                     <argLine>-Xmx512m -Dwebgoatport=${webgoat.port} -Dwebwolfport=${webwolf.port}</argLine>
-                    <includes>**/*IntegrationTest.java</includes>
+                    <includes>org/owasp/webgoat/*Test</includes>
                 </configuration>
                 <executions>
                     <execution>
@@ -609,6 +609,8 @@
                     </argLine>
                     <excludes>
                         <exclude>**/*IntegrationTest.java</exclude>
+                        <exclude>src/it/java</exclude>
+                        <exclude>org/owasp/webgoat/*Test</exclude>
                     </excludes>
                 </configuration>
             </plugin>

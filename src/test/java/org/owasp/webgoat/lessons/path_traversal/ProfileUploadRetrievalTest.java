@@ -48,7 +48,7 @@ public class ProfileUploadRetrievalTest extends LessonTest {
         var uri = new URI("/PathTraversal/random-picture?id=%2E%2E%2F%2E%2E%2F");
         mockMvc.perform(get(uri))
                 .andExpect(status().is(404))
-                .andDo(MockMvcResultHandlers.print())
+                //.andDo(MockMvcResultHandlers.print())
                 .andExpect(content().string(containsString("path-traversal-secret.jpg")));
 
         //Retrieve the secret file (note: .jpg is added by the server)
