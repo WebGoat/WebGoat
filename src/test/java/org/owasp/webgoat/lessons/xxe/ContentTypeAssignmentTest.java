@@ -99,7 +99,7 @@ public class ContentTypeAssignmentTest extends LessonTest {
 
         mockMvc.perform(get("/xxe/comments").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
+                //.andDo(MockMvcResultHandlers.print())
                 .andExpect(jsonPath("$.[*]").value(Matchers.hasSize(numberOfComments)));
     }
 

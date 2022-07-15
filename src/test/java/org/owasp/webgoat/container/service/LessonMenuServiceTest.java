@@ -98,7 +98,7 @@ public class LessonMenuServiceTest {
         when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL_LESSONMENU_MVC))
-                .andExpect(status().isOk()).andDo(print())
+                .andExpect(status().isOk())//.andDo(print())
                 .andExpect(jsonPath("$[0].children[0].complete", CoreMatchers.is(true)));
     }
 }

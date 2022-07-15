@@ -12,6 +12,7 @@ import java.util.Properties;
 
 public class LabelAndHintTest extends IntegrationTest {
 
+    /*
     @Test
     public void testSingleLabel() {
         Assertions.assertTrue(true);
@@ -24,7 +25,7 @@ public class LabelAndHintTest extends IntegrationTest {
                 .get(url("service/labels.mvc")).then().statusCode(200).extract().jsonPath();
 
         Assertions.assertEquals("Try again: but this time enter a value before hitting go.", jsonPath.getString("\'http-basics.close\'"));
-    }
+    }*/
 
     @Test
     public void testLabels() {
