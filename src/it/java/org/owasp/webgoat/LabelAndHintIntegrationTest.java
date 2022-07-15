@@ -8,10 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
-public class LabelAndHintTest extends IntegrationTest {
+public class LabelAndHintIntegrationTest extends IntegrationTest {
 
+    final static String ESCAPE_JSON_PATH_CHAR = "\'";
 
     @Test
     public void testSingleLabel() {
@@ -24,14 +26,40 @@ public class LabelAndHintTest extends IntegrationTest {
                 .cookie("JSESSIONID", getWebGoatCookie())
                 .get(url("service/labels.mvc")).then().statusCode(200).extract().jsonPath();
 
-        Assertions.assertEquals("Try again: but this time enter a value before hitting go.", jsonPath.getString("\'http-basics.close\'"));
+        Assertions.assertEquals("Try again: but this time enter a value before hitting go.", jsonPath.getString(ESCAPE_JSON_PATH_CHAR+"http-basics.close"+ESCAPE_JSON_PATH_CHAR));
+    }
+
+    @Test
+    public void testHints() {
+        JsonPath jsonPathLabels = getLabels("en");
+        List<String> allLessons = List.of(
+                "HttpBasics",
+                "HttpProxies", "CIA", "InsecureLogin", "Cryptography", "PathTraversal",
+                "XXE", "JWT", "IDOR", "SSRF", "WebWolfIntroduction", "CrossSiteScripting", "CSRF", "HijackSession",
+                "SqlInjection", "SqlInjectionMitigations" ,"SqlInjectionAdvanced",
+                "Challenge1");
+        for (String lesson: allLessons) {
+            startLesson(lesson);
+            List<String> hintKeys = getHints();
+            for (String key : hintKeys) {
+                String keyValue = jsonPathLabels.getString(ESCAPE_JSON_PATH_CHAR + key + ESCAPE_JSON_PATH_CHAR);
+                //System.out.println("key: " + key + " ,value: " + keyValue);
+                Assertions.assertNotNull(keyValue);
+                Assertions.assertNotEquals(key, keyValue);
+            }
+        }
+        //Assertions.assertEquals("http-basics.hints.http_basics_lesson.1", ""+jsonPath.getList("hint").get(0));
     }
 
     @Test
     public void testLabels() {
 
+        JsonPath jsonPathLabels = getLabels("en");
         Properties propsDefault = getProperties("");
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        for (String key: propsDefault.stringPropertyNames()) {
+            String keyValue = jsonPathLabels.getString(ESCAPE_JSON_PATH_CHAR+key+ESCAPE_JSON_PATH_CHAR);
+            Assertions.assertNotNull(keyValue);
+        }
         checkLang(propsDefault,"nl");
         checkLang(propsDefault,"de");
         checkLang(propsDefault,"fr");
@@ -62,9 +90,9 @@ public class LabelAndHintTest extends IntegrationTest {
                 System.err.println("key: " + key + " in (" +lang+") is missing from default properties");
                 Assertions.fail();
             }
-            /*if (!jsonPath.getString("\'"+key+"\'").equals(propsLang.get(key))) {
+            /*if (!jsonPath.getString(ESCAPE_JSON_PATH_CHAR+key+ESCAPE_JSON_PATH_CHAR).equals(propsLang.get(key))) {
                 System.out.println("key: " + key + " in (" +lang+") has incorrect translation in label service");
-                System.out.println("actual:"+jsonPath.getString("\'"+key+"\'"));
+                System.out.println("actual:"+jsonPath.getString(ESCAPE_JSON_PATH_CHAR+key+ESCAPE_JSON_PATH_CHAR));
                 System.out.println("expected: "+propsLang.getProperty(key));
                 System.out.println();
                 //Assertions.fail();
@@ -84,6 +112,19 @@ public class LabelAndHintTest extends IntegrationTest {
                 .then()
                 //.log().all()
                 .statusCode(200).extract().jsonPath();
+    }
+
+    private List<String> getHints() {
+        JsonPath jsonPath = RestAssured.given()
+                .when()
+                .relaxedHTTPSValidation()
+                .contentType(ContentType.JSON)
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("service/hint.mvc"))
+                .then()
+                //.log().all()
+                .statusCode(200).extract().jsonPath();
+        return jsonPath.getList("hint");
     }
 
 }
