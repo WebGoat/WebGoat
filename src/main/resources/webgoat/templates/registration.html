@@ -31,14 +31,14 @@
                         <div class="col-sm-4">
                             <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"
                                    th:field="*{username}"
-                                   id="username" placeholder="Username" name='username'/>
+                                   id="username" th:placeholder="#{username}" name='username'/>
                         </div>
                         <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</span>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
                         <label for="password" class="col-sm-2 control-label" th:text="#{password}">Password</label>
                         <div class="col-sm-4">
-                            <input type="password" class="form-control" id="password" placeholder="Password"
+                            <input type="password" class="form-control" id="password" th:placeholder="#{password}"
                                    name='password' th:value="*{password}"/>
                         </div>
                         <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</span>
@@ -47,7 +47,7 @@
                         <label for="matchingPassword" class="col-sm-2 control-label" th:text="#{password.confirm}">Confirm
                             password</label>
                         <div class="col-sm-4">
-                            <input type="password" class="form-control" id="matchingPassword" placeholder="Password"
+                            <input type="password" class="form-control" id="matchingPassword" th:placeholder="#{password}"
                                    name='matchingPassword' th:value="*{matchingPassword}"/>
                         </div>
                         <span th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}">Password error</span>
@@ -55,22 +55,11 @@
                     </div>
 
                     <div class="form-group" th:classappend="${#fields.hasErrors('agree')}? 'has-error'">
-                        <label class="col-sm-2 control-label">Terms of use</label>
+                        <label class="col-sm-2 control-label" th:text="#{termsofuse}">Terms of use</label>
                         <div class="col-sm-6">
                             <div style="border: 1px solid #e5e5e5; height: 200px; overflow: auto; padding: 10px;">
-                                <p>
-                                    While running this program your machine will be extremely
-                                    vulnerable to attack. You should disconnect from the Internet while using
-                                    this program. WebGoat's default configuration binds to localhost to minimize
-                                    the exposure.
-                                </p>
-                                <p>
-                                    This program is for educational purposes only. If you attempt
-                                    these techniques without authorization, you are very likely to get caught. If
-                                    you are caught engaging in unauthorized hacking, most companies will fire you.
-                                    Claiming that you were doing security research will not work as that is the
-                                    first thing that all hackers claim.
-                                </p>
+                                <p th:text="#{register.condition.1}" >Condition1</p>
+                                <p th:text="#{register.condition.2}">Condition2</p>
                             </div>
                         </div>
                     </div>
@@ -79,8 +68,8 @@
                         <div class="col-sm-6 col-sm-offset-2">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="agree" value="agree"/>Agree with the terms and
-                                    conditions
+                                    <input type="checkbox" name="agree" value="agree"/><p th:text="#{terms.agree}">Agree with the terms and
+                                    conditions</p>
                                 </label>
                             </div>
                         </div>
