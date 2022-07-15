@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class LabelAndHintTest extends IntegrationTest {
 
-    /*
+
     @Test
     public void testSingleLabel() {
         Assertions.assertTrue(true);
@@ -25,7 +25,7 @@ public class LabelAndHintTest extends IntegrationTest {
                 .get(url("service/labels.mvc")).then().statusCode(200).extract().jsonPath();
 
         Assertions.assertEquals("Try again: but this time enter a value before hitting go.", jsonPath.getString("\'http-basics.close\'"));
-    }*/
+    }
 
     @Test
     public void testLabels() {
@@ -59,16 +59,16 @@ public class LabelAndHintTest extends IntegrationTest {
 
         for (String key: propsLang.stringPropertyNames()) {
             if (!propsDefault.containsKey(key)) {
-                System.out.println("key: " + key + " in (" +lang+") is missing from default properties");
+                System.err.println("key: " + key + " in (" +lang+") is missing from default properties");
                 Assertions.fail();
             }
-            if (!jsonPath.getString("\'"+key+"\'").equals(propsLang.get(key))) {
+            /*if (!jsonPath.getString("\'"+key+"\'").equals(propsLang.get(key))) {
                 System.out.println("key: " + key + " in (" +lang+") has incorrect translation in label service");
                 System.out.println("actual:"+jsonPath.getString("\'"+key+"\'"));
                 System.out.println("expected: "+propsLang.getProperty(key));
                 System.out.println();
                 //Assertions.fail();
-            }
+            }*/
         }
     }
 
