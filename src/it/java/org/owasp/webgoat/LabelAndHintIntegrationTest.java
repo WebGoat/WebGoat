@@ -90,13 +90,13 @@ public class LabelAndHintIntegrationTest extends IntegrationTest {
                 System.err.println("key: " + key + " in (" +lang+") is missing from default properties");
                 Assertions.fail();
             }
-            /*if (!jsonPath.getString(ESCAPE_JSON_PATH_CHAR+key+ESCAPE_JSON_PATH_CHAR).equals(propsLang.get(key))) {
+            if (!jsonPath.getString(ESCAPE_JSON_PATH_CHAR+key+ESCAPE_JSON_PATH_CHAR).equals(propsLang.get(key))) {
                 System.out.println("key: " + key + " in (" +lang+") has incorrect translation in label service");
                 System.out.println("actual:"+jsonPath.getString(ESCAPE_JSON_PATH_CHAR+key+ESCAPE_JSON_PATH_CHAR));
                 System.out.println("expected: "+propsLang.getProperty(key));
                 System.out.println();
-                //Assertions.fail();
-            }*/
+                Assertions.fail();
+            }
         }
     }
 
