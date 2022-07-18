@@ -31,26 +31,27 @@
 
 package org.owasp.webgoat.container;
 
+import io.undertow.util.Headers;
 import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.extension.JavaExtensionRegistry;
-import org.owasp.webgoat.container.asciidoc.OperatingSystemMacro;
-import org.owasp.webgoat.container.asciidoc.UsernameMacro;
-import org.owasp.webgoat.container.asciidoc.WebGoatTmpDirMacro;
-import org.owasp.webgoat.container.asciidoc.WebGoatVersionMacro;
-import org.owasp.webgoat.container.asciidoc.WebWolfMacro;
-import org.owasp.webgoat.container.asciidoc.WebWolfRootMacro;
+import org.owasp.webgoat.container.asciidoc.*;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
 import org.thymeleaf.templateresource.StringTemplateResource;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -100,11 +101,28 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("source-highlighter", "coderay");
         attributes.put("backend", "xhtml");
+        attributes.put("lang", determineLanguage());
         attributes.put("icons", org.asciidoctor.Attributes.FONT_ICONS);
 
         Map<String, Object> options = new HashMap<>();
         options.put("attributes", attributes);
 
         return options;
+    }
+
+    private String determineLanguage() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
+        Locale browserLocale = (Locale) request.getSession().getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+        if (null != browserLocale) {
+            return browserLocale.getLanguage();
+        } else {
+            String langHeader = request.getHeader(Headers.ACCEPT_LANGUAGE_STRING);
+            if (null != langHeader) {
+                return langHeader.substring(0,2);
+            } else {
+                return "en";
+            }
+        }
     }
 }
