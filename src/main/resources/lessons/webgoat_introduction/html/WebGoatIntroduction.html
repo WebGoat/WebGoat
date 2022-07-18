@@ -2,7 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/webgoat_introduction/documentation/Introduction.adoc"></div>
+    <div th:switch="${#strings.toLowerCase(#locale.language)}">
+        <div th:case="'nl'">
+            <div class="adoc-content" th:replace="doc:lessons/webgoat_introduction/documentation/Introduction_nl.adoc"></div>
+        </div>
+        <div th:case="*">
+            <div class="adoc-content" th:replace="doc:lessons/webgoat_introduction/documentation/Introduction.adoc"></div>
+        </div>
+    </div>
 </div>
 
 </html>

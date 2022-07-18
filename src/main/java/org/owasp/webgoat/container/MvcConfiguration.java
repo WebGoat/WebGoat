@@ -44,9 +44,11 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
@@ -61,6 +63,7 @@ import org.thymeleaf.templateresource.StringTemplateResource;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -197,6 +200,25 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        //localeResolver.setDefaultLocale(Locale.ENGLISH);
+        return localeResolver;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        lci.setParamName("lang");
+        return lci;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    @Bean
     public Messages messageSource(Language language) {
         Messages messages = new Messages(language);
         messages.setDefaultEncoding("UTF-8");
@@ -205,10 +227,10 @@ public class MvcConfiguration implements WebMvcConfigurer {
         return messages;
     }
 
-    @Bean
+    /*@Bean
     public LocaleResolver localeResolver() {
         return new SessionLocaleResolver();
-    }
+    }*/
 
     @Bean
     public LabelDebugger labelDebugger() {

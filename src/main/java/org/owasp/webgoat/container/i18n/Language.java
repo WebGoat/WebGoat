@@ -29,7 +29,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
-
 import java.util.Locale;
 
 /**
@@ -47,5 +46,4 @@ public class Language {
     public Locale getLocale() {
         return localeResolver.resolveLocale(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());
     }
-
 }
