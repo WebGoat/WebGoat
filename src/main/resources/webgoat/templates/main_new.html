@@ -80,7 +80,10 @@
                 <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="lang-button">
                     <div th:switch="${#locale.language}">
                         <div th:case="'nl'">
-                            <img th:src="@{${'/css/img/'}+${#strings.toLowerCase(#locale.language)}+${'lang.svg'}}"></img><span class="caret"></span>
+                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
+                        </div>
+                        <div th:case="'de'">
+                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
                         </div>
                         <div th:case="*">
                             <img th:src="@{${'/css/img/enlang.svg'}}"></img><span class="caret"></span>
@@ -90,18 +93,18 @@
                 <ul class="dropdown-menu dropdown-menu-left">
                     <li role="presentation">
                         <a role="menuitem" th:href="@{/start.mvc?lang=en#lesson/WebGoatIntroduction.lesson}">
-                            <img th:src="@{${'/css/img/enlang.svg'}}" alt="English" height="20"></img>English
+                            <img th:src="@{${'/css/img/enlang.svg'}}" alt="English" height="20"></img> English
                         </a>
                     </li>
                     <li role="presentation" class="divider"></li>
                     <li role="presentation">
                         <a role="menuitem" th:href="@{/start.mvc?lang=de#lesson/WebGoatIntroduction.lesson}">
-                            <img th:src="@{${'/css/img/delang.svg'}}" alt="Deutsch" height="20"></img>Deutsch
+                            <img th:src="@{${'/css/img/delang.svg'}}" alt="Deutsch" height="20"></img> Deutsch
                         </a>
                     </li>
                     <li role="presentation">
                         <a role="menuitem" th:href="@{/start.mvc?lang=nl#lesson/WebGoatIntroduction.lesson}">
-                            <img th:src="@{${'/css/img/nllang.svg'}}" alt="Nederlands" height="20"></img>Nederlands
+                            <img th:src="@{${'/css/img/nllang.svg'}}" alt="Nederlands" height="20"></img> Nederlands
                         </a>
                     </li>
                 </ul>
