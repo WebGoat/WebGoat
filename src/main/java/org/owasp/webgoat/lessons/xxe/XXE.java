@@ -31,7 +31,7 @@ public class XXE extends Lesson {
 
     @Override
     public Category getDefaultCategory() {
-        return Category.A5;
+        return Category.A3;
     }
 
     @Override
