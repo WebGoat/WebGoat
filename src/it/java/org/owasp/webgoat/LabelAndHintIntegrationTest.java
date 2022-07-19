@@ -27,6 +27,46 @@ public class LabelAndHintIntegrationTest extends IntegrationTest {
                 .get(url("service/labels.mvc")).then().statusCode(200).extract().jsonPath();
 
         Assertions.assertEquals("Try again: but this time enter a value before hitting go.", jsonPath.getString(ESCAPE_JSON_PATH_CHAR+"http-basics.close"+ESCAPE_JSON_PATH_CHAR));
+
+        // check if lang parameter overrules Accept-Language parameter
+        jsonPath = RestAssured.given()
+                .when()
+                .relaxedHTTPSValidation()
+                .contentType(ContentType.JSON)
+                .header("Accept-Language","en")
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("service/labels.mvc?lang=nl")).then().statusCode(200).extract().jsonPath();
+        Assertions.assertEquals("Gebruikersnaam", jsonPath.getString(ESCAPE_JSON_PATH_CHAR+"username"+ESCAPE_JSON_PATH_CHAR));
+
+        jsonPath = RestAssured.given()
+                .when()
+                .relaxedHTTPSValidation()
+                .contentType(ContentType.JSON)
+                .header("Accept-Language","en")
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("service/labels.mvc?lang=de")).then().statusCode(200).extract().jsonPath();
+        Assertions.assertEquals("Benutzername", jsonPath.getString(ESCAPE_JSON_PATH_CHAR+"username"+ESCAPE_JSON_PATH_CHAR));
+
+        // check if invalid language returns english
+        jsonPath = RestAssured.given()
+                .when()
+                .relaxedHTTPSValidation()
+                .contentType(ContentType.JSON)
+                .header("Accept-Language","nl")
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("service/labels.mvc?lang=xx")).then().statusCode(200).extract().jsonPath();
+        Assertions.assertEquals("Username", jsonPath.getString(ESCAPE_JSON_PATH_CHAR+"username"+ESCAPE_JSON_PATH_CHAR));
+
+        // check if invalid language returns english
+        jsonPath = RestAssured.given()
+                .when()
+                .relaxedHTTPSValidation()
+                .contentType(ContentType.JSON)
+                .header("Accept-Language","xx_YY")
+                .cookie("JSESSIONID", getWebGoatCookie())
+                .get(url("service/labels.mvc")).then().statusCode(200).extract().jsonPath();
+        Assertions.assertEquals("Username", jsonPath.getString(ESCAPE_JSON_PATH_CHAR+"username"+ESCAPE_JSON_PATH_CHAR));
+
     }
 
     @Test
