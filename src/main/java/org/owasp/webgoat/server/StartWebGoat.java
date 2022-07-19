@@ -31,25 +31,11 @@ import org.owasp.webgoat.webwolf.WebWolf;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.util.SocketUtils;
-
-import java.lang.reflect.Method;
-
-import static java.util.Optional.of;
-import static java.util.Optional.ofNullable;
 
 @Slf4j
 public class StartWebGoat {
 
-    public static final String WEBGOAT_PORT = "webgoat.port";
-    public static final String WEBWOLF_PORT = "webwolf.port";
-
-    private static final int MAX_PORT = 9999;
-
     public static void main(String[] args) {
-        setEnvironmentVariableForPort(WEBGOAT_PORT, "8080");
-        setEnvironmentVariableForPort(WEBWOLF_PORT, "9090");
-
         new SpringApplicationBuilder().parent(ParentConfig.class)
                 .web(WebApplicationType.NONE).bannerMode(Banner.Mode.OFF)
                 .child(WebGoat.class)
@@ -58,25 +44,4 @@ public class StartWebGoat {
                 .web(WebApplicationType.SERVLET)
                 .run(args);
     }
-
-    private static void setEnvironmentVariableForPort(String name, String defaultValue) {
-        ofNullable(System.getProperty(name))
-                .or(() -> of(defaultValue))
-                .map(Integer::parseInt)
-                .map(port -> findPort(port))
-                .ifPresent(port -> System.setProperty(name, port));
-    }
-
-    public static String findPort(int port) {
-        try {
-            if (port == MAX_PORT) {
-                log.error("No free port found from 8080 - {}", MAX_PORT);
-                return "" + port;
-            }
-            return "" + SocketUtils.findAvailableTcpPort(port, port);
-        } catch (IllegalStateException var4) {
-            return findPort(port + 1);
-        }
-    }
-
 }
