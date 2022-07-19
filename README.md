@@ -50,7 +50,7 @@ docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amster
 Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```shell
-java -Dfile.encoding=UTF-8 -jar webgoat-8.2.3.jar 
+java -Dfile.encoding=UTF-8 -Dwebgoat.port=8080 -Dwebwolf.port=9090 -jar webgoat-8.2.3.jar 
 ```
 
 Click the link in the log to start WebGoat.
