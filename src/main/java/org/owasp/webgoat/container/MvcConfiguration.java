@@ -145,8 +145,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
      * Loads the lesson asciidoc.
      */
     @Bean
-    public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(ResourceLoader resourceLoader) {
-        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(resourceLoader);
+    public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(Language language, ResourceLoader resourceLoader) {
+        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(language, resourceLoader);
         resolver.setCacheable(false);
         resolver.setOrder(1);
         resolver.setCharacterEncoding(UTF8);

@@ -24,7 +24,7 @@
 
     <!-- Require.js used to load js asynchronously -->
     <script src="js/libs/require.min.js" data-main="js/main"></script>
-    <meta http-equiv="Content-Type" content="text/id; charset=ISO-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/id; charset=UTF-8"/>
     <title>WebGoat</title>
 </head>
 <body>
@@ -85,6 +85,9 @@
                         <div th:case="'de'">
                             <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
                         </div>
+                        <div th:case="'fr'">
+                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
+                        </div>
                         <div th:case="*">
                             <img th:src="@{${'/css/img/enlang.svg'}}"></img><span class="caret"></span>
                         </div>
@@ -100,6 +103,11 @@
                     <li role="presentation">
                         <a role="menuitem" th:href="@{/start.mvc?lang=de#lesson/WebGoatIntroduction.lesson}">
                             <img th:src="@{${'/css/img/delang.svg'}}" alt="Deutsch" height="20"></img> Deutsch
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" th:href="@{/start.mvc?lang=fr#lesson/WebGoatIntroduction.lesson}">
+                            <img th:src="@{${'/css/img/frlang.svg'}}" alt="Français" height="20"></img> Français
                         </a>
                     </li>
                     <li role="presentation">

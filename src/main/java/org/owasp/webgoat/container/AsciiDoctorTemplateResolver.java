@@ -36,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.extension.JavaExtensionRegistry;
 import org.owasp.webgoat.container.asciidoc.*;
+import org.owasp.webgoat.container.i18n.Language;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -69,10 +70,13 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
 
     private static final Asciidoctor asciidoctor = create();
     private static final String PREFIX = "doc:";
+
+    private final Language language;
     private final ResourceLoader resourceLoader;
 
-    public AsciiDoctorTemplateResolver(ResourceLoader resourceLoader) {
+    public AsciiDoctorTemplateResolver(Language language, ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+        this.language = language;
         setResolvablePatterns(Set.of(PREFIX + "*"));
     }
 
@@ -80,7 +84,7 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
     protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
         var templateName = resourceName.substring(PREFIX.length());
 
-        try (InputStream is = resourceLoader.getResource("classpath:/" + templateName).getInputStream()) {
+        try (InputStream is = getInputStream(templateName)) {
             JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
             extensionRegistry.inlineMacro("webWolfLink", WebWolfMacro.class);
             extensionRegistry.inlineMacro("webWolfRootLink", WebWolfRootMacro.class);
@@ -94,6 +98,25 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
             return new StringTemplateResource(writer.getBuffer().toString());
         } catch (IOException e) {
             return new StringTemplateResource("<div>Unable to find documentation for: " + templateName + " </div>");
+        }
+    }
+
+    private InputStream getInputStream(String templateName) throws IOException {
+        if (resourceLoader.getResource("classpath:/" + computeResourceName(templateName, language.getLocale().getLanguage())).isFile()) {
+            return resourceLoader.getResource("classpath:/" + computeResourceName(templateName, language.getLocale().getLanguage())).getInputStream();
+        } else {
+            return resourceLoader.getResource("classpath:/" + templateName).getInputStream();
+        }
+    }
+    private String computeResourceName(String resourceName, String language) {
+        switch (language) {
+            case "nl":
+            case "fr":
+            case "de":
+                return resourceName.replace(".adoc", "_".concat(language).concat(".adoc"));
+            case "en":
+            default:
+                return resourceName;
         }
     }
 
