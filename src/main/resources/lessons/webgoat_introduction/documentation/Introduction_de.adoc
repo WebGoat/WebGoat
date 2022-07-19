@@ -15,4 +15,4 @@ Danke für dein Interesse!
 
 *Das WebGoat-Team*
 
-#Die meisten Texte sind auf Englisch. Sie können die Sprache über das Dropdown im Menü wechseln. Sie sind auch herzlich eingeladen, Texte zu übersetzen und WebGoat besser zu machen.#
+#Die meisten Texte sind auf Englisch. Sie können die Sprache über das Dropdown im Menü wechseln. Sie sind auch herzlich eingeladen, Texte zu übersetzen um WebGoat zu verbesseren.#

@@ -63,7 +63,6 @@ import org.thymeleaf.templateresource.StringTemplateResource;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -202,7 +201,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        //localeResolver.setDefaultLocale(Locale.ENGLISH);
         return localeResolver;
     }
 
@@ -226,11 +224,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
         messages.setFallbackToSystemLocale(false);
         return messages;
     }
-
-    /*@Bean
-    public LocaleResolver localeResolver() {
-        return new SessionLocaleResolver();
-    }*/
 
     @Bean
     public LabelDebugger labelDebugger() {
