@@ -48,6 +48,7 @@
                 </button>
             </a>
             <!-- user menu item -->
+            <div class="btn-group">
             <div class="dropdown" style="display:inline">
                 <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="user-menu">
                     <i class="fa fa-user"></i> <span class="caret"></span>
@@ -74,8 +75,10 @@
                     </li>
                 </ul>
             </div>
+            </div>
             <!-- language select menu item -->
             <!-- free flag images from https://flagicons.lipis.dev -->
+            <div class="btn-group">
             <div class="dropdown" style="display:inline">
                 <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="lang-button">
                     <div th:switch="${#locale.language}">
@@ -116,6 +119,7 @@
                         </a>
                     </li>
                 </ul>
+            </div>
             </div>
             <!-- reportcard menu item -->
             <div style="display:inline" id="settings">

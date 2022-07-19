@@ -109,14 +109,10 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
         }
     }
     private String computeResourceName(String resourceName, String language) {
-        switch (language) {
-            case "nl":
-            case "fr":
-            case "de":
-                return resourceName.replace(".adoc", "_".concat(language).concat(".adoc"));
-            case "en":
-            default:
-                return resourceName;
+        if (language.equals("en")) {
+            return resourceName;
+        } else {
+            return resourceName.replace(".adoc", "_".concat(language).concat(".adoc"));
         }
     }
 
