@@ -24,7 +24,7 @@
 
     <!-- Require.js used to load js asynchronously -->
     <script src="js/libs/require.min.js" data-main="js/main"></script>
-    <meta http-equiv="Content-Type" content="text/id; charset=ISO-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/id; charset=UTF-8"/>
     <title>WebGoat</title>
 </head>
 <body>
@@ -40,12 +40,15 @@
 
         </div><!--lesson title end-->
         <div class="user-nav pull-right" id="user-and-info-nav" style="margin-right: 75px;">
+            <!-- webwolf menu item -->
             <a th:href="@{/WebWolf}" target="_blank">
                 <button type="button" id="webwolf-button" class="btn btn-default right_nav_button"
                         title="WebWolf">
                     <img th:src="@{/css/img/wolf.svg}"></img>
                 </button>
             </a>
+            <!-- user menu item -->
+            <div class="btn-group">
             <div class="dropdown" style="display:inline">
                 <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="user-menu">
                     <i class="fa fa-user"></i> <span class="caret"></span>
@@ -68,9 +71,57 @@
                     </li>
                     <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">
                         <span th:text="#{build}">Build:</span><span>: </span>
-                        <span th:text="${@environment.getProperty('webgoat.build.number')}"></span></a></li>
+                        <span th:text="${@environment.getProperty('webgoat.build.number')}"></span></a>
+                    </li>
                 </ul>
             </div>
+            </div>
+            <!-- language select menu item -->
+            <!-- free flag images from https://flagicons.lipis.dev -->
+            <div class="btn-group">
+            <div class="dropdown" style="display:inline">
+                <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="lang-button">
+                    <div th:switch="${#locale.language}">
+                        <div th:case="'nl'">
+                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
+                        </div>
+                        <div th:case="'de'">
+                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
+                        </div>
+                        <div th:case="'fr'">
+                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
+                        </div>
+                        <div th:case="*">
+                            <img th:src="@{${'/css/img/enlang.svg'}}"></img><span class="caret"></span>
+                        </div>
+                    </div>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-left">
+                    <li role="presentation">
+                        <a role="menuitem" th:href="@{/start.mvc?lang=en#lesson/WebGoatIntroduction.lesson}">
+                            <img th:src="@{${'/css/img/enlang.svg'}}" alt="English" height="20"></img> English
+                        </a>
+                    </li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        <a role="menuitem" th:href="@{/start.mvc?lang=de#lesson/WebGoatIntroduction.lesson}">
+                            <img th:src="@{${'/css/img/delang.svg'}}" alt="Deutsch" height="20"></img> Deutsch
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" th:href="@{/start.mvc?lang=fr#lesson/WebGoatIntroduction.lesson}">
+                            <img th:src="@{${'/css/img/frlang.svg'}}" alt="Français" height="20"></img> Français
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" th:href="@{/start.mvc?lang=nl#lesson/WebGoatIntroduction.lesson}">
+                            <img th:src="@{${'/css/img/nllang.svg'}}" alt="Nederlands" height="20"></img> Nederlands
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            </div>
+            <!-- reportcard menu item -->
             <div style="display:inline" id="settings">
                 <!--<button type="button" id="admin-button" class="btn btn-default right_nav_button" title="Administrator">-->
                 <!--<i class="fa fa-cog"></i>-->
@@ -86,10 +137,12 @@
                 <!--<i class="fa fa-users"></i>-->
                 <!--</button>-->
             </div>
+            <!-- about menu item -->
             <button type="button" id="about-button" class="btn btn-default right_nav_button" th:title="#{about}"
                     data-toggle="modal" data-target="#about-modal">
                 <i class="fa fa-info"></i>
             </button>
+            <!-- mailto menu item -->
             <a th:href="'mailto:' + ${@environment.getProperty('webgoat.email')} + '?Subject=Webgoat%20feedback'" target="_top">
                 <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip"
                         th:title="#{contact}">

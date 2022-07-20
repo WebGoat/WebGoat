@@ -44,9 +44,11 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
@@ -143,8 +145,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
      * Loads the lesson asciidoc.
      */
     @Bean
-    public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(ResourceLoader resourceLoader) {
-        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(resourceLoader);
+    public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(Language language, ResourceLoader resourceLoader) {
+        AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(language, resourceLoader);
         resolver.setCacheable(false);
         resolver.setOrder(1);
         resolver.setCharacterEncoding(UTF8);
@@ -197,17 +199,30 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        return localeResolver;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        lci.setParamName("lang");
+        return lci;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    @Bean
     public Messages messageSource(Language language) {
         Messages messages = new Messages(language);
         messages.setDefaultEncoding("UTF-8");
         messages.setBasename("classpath:i18n/messages");
         messages.setFallbackToSystemLocale(false);
         return messages;
-    }
-
-    @Bean
-    public LocaleResolver localeResolver() {
-        return new SessionLocaleResolver();
     }
 
     @Bean

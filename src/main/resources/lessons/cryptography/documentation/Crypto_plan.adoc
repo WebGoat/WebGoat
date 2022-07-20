@@ -2,7 +2,13 @@
  
 == Concept 
 
-This lesson explains different types of cryptography techniques that are commonly used in web applications. 
+ifeval::["{lang}" == "nl"]
+Deze les behandelt verschillende cryptografische technieken die voorkomen in webapplicaties.
+endif::[]
+
+ifeval::["{lang}" != "nl"]
+This lesson explains different types of cryptography techniques that are commonly used in web applications.
+endif::[]
 
 == Goals
 

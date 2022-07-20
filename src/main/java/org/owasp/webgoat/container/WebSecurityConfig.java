@@ -31,6 +31,7 @@
 package org.owasp.webgoat.container;
 
 import lombok.AllArgsConstructor;
+import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +44,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 /**
  * Security configuration for WebGoat.

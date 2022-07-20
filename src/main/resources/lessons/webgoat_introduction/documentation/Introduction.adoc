@@ -1,6 +1,8 @@
 == What is WebGoat?
 ---
 
+Welcome `username:user[]`!
+
 WebGoat is a deliberately insecure application that allows interested developers just like you to _test vulnerabilities_
 commonly found in Java-based applications that use common and popular open source components.
 

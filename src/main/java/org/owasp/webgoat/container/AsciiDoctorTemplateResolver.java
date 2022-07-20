@@ -31,26 +31,28 @@
 
 package org.owasp.webgoat.container;
 
+import io.undertow.util.Headers;
 import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.extension.JavaExtensionRegistry;
-import org.owasp.webgoat.container.asciidoc.OperatingSystemMacro;
-import org.owasp.webgoat.container.asciidoc.UsernameMacro;
-import org.owasp.webgoat.container.asciidoc.WebGoatTmpDirMacro;
-import org.owasp.webgoat.container.asciidoc.WebGoatVersionMacro;
-import org.owasp.webgoat.container.asciidoc.WebWolfMacro;
-import org.owasp.webgoat.container.asciidoc.WebWolfRootMacro;
+import org.owasp.webgoat.container.asciidoc.*;
+import org.owasp.webgoat.container.i18n.Language;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
 import org.thymeleaf.templateresource.StringTemplateResource;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -68,10 +70,13 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
 
     private static final Asciidoctor asciidoctor = create();
     private static final String PREFIX = "doc:";
+
+    private final Language language;
     private final ResourceLoader resourceLoader;
 
-    public AsciiDoctorTemplateResolver(ResourceLoader resourceLoader) {
+    public AsciiDoctorTemplateResolver(Language language, ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+        this.language = language;
         setResolvablePatterns(Set.of(PREFIX + "*"));
     }
 
@@ -79,7 +84,7 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
     protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
         var templateName = resourceName.substring(PREFIX.length());
 
-        try (InputStream is = resourceLoader.getResource("classpath:/" + templateName).getInputStream()) {
+        try (InputStream is = getInputStream(templateName)) {
             JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
             extensionRegistry.inlineMacro("webWolfLink", WebWolfMacro.class);
             extensionRegistry.inlineMacro("webWolfRootLink", WebWolfRootMacro.class);
@@ -96,15 +101,47 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
         }
     }
 
+    private InputStream getInputStream(String templateName) throws IOException {
+        if (resourceLoader.getResource("classpath:/" + computeResourceName(templateName, language.getLocale().getLanguage())).isFile()) {
+            return resourceLoader.getResource("classpath:/" + computeResourceName(templateName, language.getLocale().getLanguage())).getInputStream();
+        } else {
+            return resourceLoader.getResource("classpath:/" + templateName).getInputStream();
+        }
+    }
+    private String computeResourceName(String resourceName, String language) {
+        if (language.equals("en")) {
+            return resourceName;
+        } else {
+            return resourceName.replace(".adoc", "_".concat(language).concat(".adoc"));
+        }
+    }
+
     private Map<String, Object> createAttributes() {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("source-highlighter", "coderay");
         attributes.put("backend", "xhtml");
+        attributes.put("lang", determineLanguage());
         attributes.put("icons", org.asciidoctor.Attributes.FONT_ICONS);
 
         Map<String, Object> options = new HashMap<>();
         options.put("attributes", attributes);
 
         return options;
+    }
+
+    private String determineLanguage() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
+        Locale browserLocale = (Locale) request.getSession().getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+        if (null != browserLocale) {
+            return browserLocale.getLanguage();
+        } else {
+            String langHeader = request.getHeader(Headers.ACCEPT_LANGUAGE_STRING);
+            if (null != langHeader) {
+                return langHeader.substring(0,2);
+            } else {
+                return "en";
+            }
+        }
     }
 }
