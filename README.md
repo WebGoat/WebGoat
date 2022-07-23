@@ -111,8 +111,10 @@ For instance running as a jar on a Linux/macOS it will look like this:
 export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
 export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
 java -jar target/webgoat-8.2.3-SNAPSHOT.jar
+```
 
 Or in a docker run it would (once this version is pushed into docker hub) look like this:
+
 ```Shell
 docker run -d -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/webgoat
 ```
