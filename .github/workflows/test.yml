@@ -53,5 +53,9 @@ jobs:
                       webdriver-manager
             - name: Run with Maven
               run: mvn --no-transfer-progress spring-boot:run &
+            - name: Wait to start
+              uses: ifaxity/wait-on-action@v1
+              with:
+                  resource: http://127.0.0.1:8080/WebGoat
             - name: Test with Robotframework
-              run: python3 -m robot --variable HEADLESS:"1" --variable WAITFORSTART:"30" --outputdir robotreport --timestampoutputs robot/goat.robot
+              run: python3 -m robot --variable HEADLESS:"1" --variable WAITFORSTART:"0" --outputdir robotreport --timestampoutputs robot/goat.robot
