@@ -2,9 +2,6 @@
 Documentation  Setup WebGoat Robotframework tests
 Library  SeleniumLibrary  timeout=100  run_on_failure=Capture Page Screenshot
 Library  String
-Library  Collections
-Library  OperatingSystem
-Library  Process
 
 Suite Setup  Initial_Page  ${ENDPOINT}  ${BROWSER}
 Suite Teardown  Close_Page
@@ -12,31 +9,18 @@ Suite Teardown  Close_Page
 *** Variables ***
 ${BROWSER}  chrome
 ${SLEEP}  100
-${WAITFORSTART}  100
 ${DELAY}  0.25
 ${ENDPOINT}  http://127.0.0.1:8080/WebGoat
 ${ENDPOINT_WOLF}  http://127.0.0.1:9090
 ${USERNAME}  robotuser
 ${PASSWORD}  password
 ${HEADLESS}  ${FALSE}
-${PROCESS}
 
 *** Keywords ***
 Initial_Page
   [Documentation]  Check the inital page
   [Arguments]  ${ENDPOINT}  ${BROWSER}
   Log To Console  Start WebGoat UI Testing
-  IF  ${HEADLESS}
-    TRY
-      ${PROCESS}=  Start Process  mvn  spring-boot:run  -f  ../pom.xml
-      set global variable  ${PROCESS}
-      Log To Console  ==> Start Java Process: ${PROCESS.pid}
-      Sleep  ${WAITFORSTART}
-    EXCEPT  AS  ${MESSAGE}
-      Log To Console  ==> exception occurred ${MESSAGE}
-    END
-  END
-  #Fail
   IF  ${HEADLESS}
       Open Browser  ${ENDPOINT}  ${BROWSER}  options=add_argument("-headless");add_argument("--start-maximized");add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webgoat
   ELSE
@@ -60,12 +44,10 @@ Close_Page
   [Documentation]  Closing the browser
   Log To Console  ==> Stop WebGoat UI Testing
   IF  ${HEADLESS}
+    Switch Browser  webgoat
     Close Browser
-  END
-  TRY
-     Terminate Process  ${PROCESS}
-  EXCEPT  AS  ${MESSAGE}
-     Log To Console  ==> exception occurred ${MESSAGE}
+    Switch Browser  webwolf
+    Close Browser
   END
 
 *** Test Cases ***
@@ -104,9 +86,7 @@ Check_Menu_Page
   Input Text     person  ${USERNAME}
   Click Button   Go!
   ${OUT_VALUE}   Get Text  xpath=//div[contains(@class, 'attack-feedback')]
-  Log to console  ==> ${OUT_VALUE}
   ${OUT_RESULT}  Evaluate  "resutobor" in """${OUT_VALUE}"""
-  Log to console  ==> ${OUT_RESULT}
   IF  not ${OUT_RESULT}
     Fail  "not ok"
   END
