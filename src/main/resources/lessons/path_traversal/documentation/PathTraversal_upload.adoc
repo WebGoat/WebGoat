@@ -7,6 +7,6 @@ so you need to upload your file to the following location outside the usual uplo
 |OS |Location
 
 |`operatingSystem:os[]`
-|`webGoatTempDir:temppath[]PathTraversal/username:user[]`
+|`webGoatTempDir:temppath[]PathTraversal`
 
 |===
