@@ -6,7 +6,7 @@ This time the developers only allow you to upload zip files. However, they made 
 |OS |Location
 
 |`operatingSystem:os[]`
-|`webGoatTempDir:temppath[]PathTraversal/username:user[]`
+|`webGoatTempDir:temppath[]PathTraversal`
 
 |===
 
