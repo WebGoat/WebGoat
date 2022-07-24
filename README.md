@@ -93,10 +93,10 @@ Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 ./mvnw.cmd spring-boot:run
 
 ```
-... you should be running WebGoat on localhost:8080/WebGoat momentarily
+... you should be running WebGoat on http://localhost:8080/WebGoat momentarily.
 
 
-To change the IP address add the following variable to the `WebGoat/webgoat-container/src/main/resources/application.properties file`:
+To change the IP address add the following variable to the `WebGoat/webgoat-container/src/main/resources/application.properties` file:
 
 ```
 server.address=x.x.x.x
