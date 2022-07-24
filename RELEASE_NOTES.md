@@ -19,6 +19,17 @@
 - Maven build now start WebGoat jar with Maven plugin to make sure we run against the latest build.
 - Added `Initializable` interface for a lesson, an assignment can implement this interface to set it up for a specific user and to reset the assignment back to its original state when a reset lesson occurs. See `BlindSendFileAssignment` for an example.
 - Integration tests now use the same user. This saves a lot of time as before every test used a different user which triggered the Flyway migration to set up the database schema for the user. This migration took a lot of time.
+- Updated introduction lesson to WebWolf.
+- Added language switch for support for multiple languages.
+- Removed logic to start WebGoat on a random port when port `8080` is taken. We would loop until we found a free port. We simplified this to just start on the specified port.
+- [#1039 New OWASP Top 10](https://github.com/WebGoat/WebGoat/issues/1093)
+- [#1193 Vulnerable component lesson - java.desktop does not "opens java.beans" to unnamed module](https://github.com/WebGoat/WebGoat/issues/1193)
+- [#1176 Minor: XXE lesson 12 patch not reset by 'lesson reset' while it IS reset by leaving/returning to lesson](https://github.com/WebGoat/WebGoat/issues/1176)
+- [#1134 "Exploiting XStream" assignment does not work](https://github.com/WebGoat/WebGoat/issues/1134)
+- [#1130 Typo: Using Indrect References](https://github.com/WebGoat/WebGoat/issues/1130)
+- [#1101 SQL lesson not correct](https://github.com/WebGoat/WebGoat/issues/1101)
+- [#1079 startup.sh issues of WebWolf - cannot connect to the WebGoat DB](https://github.com/WebGoat/WebGoat/issues/1079)
+- [#1065 New lesson about logging](https://github.com/WebGoat/WebGoat/issues/1065)
 
 ## Version 8.2.2
 
