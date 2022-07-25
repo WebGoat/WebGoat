@@ -8,8 +8,8 @@ on:
             - 'LICENSE'
             - 'docs/**'
     push:
-        tags-ignore:
-            - '*'
+#        tags-ignore:
+#            - '*'
         paths-ignore:
             - '.txt'
             - '*.MD'
