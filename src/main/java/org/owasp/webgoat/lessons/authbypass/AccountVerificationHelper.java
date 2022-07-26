@@ -20,7 +20,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.auth_bypass;
+package org.owasp.webgoat.lessons.authbypass;
 
 import java.util.HashMap;
 import java.util.Map;
