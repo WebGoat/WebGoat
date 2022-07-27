@@ -1,4 +1,4 @@
-== Qu'est-ce que WebGoat
+== Qu'est-ce que WebGoat?
 ---
 
 WebGoat est une application qui explique et teste diverses vulnérabilités du top 10 OWASP.
