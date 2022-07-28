@@ -24,6 +24,7 @@
 
     <!-- Require.js used to load js asynchronously -->
     <script src="js/libs/require.min.js" data-main="js/main"></script>
+    <script src="js/search.js" ></script>
     <meta http-equiv="Content-Type" content="text/id; charset=UTF-8"/>
     <title>WebGoat</title>
 </head>
@@ -150,6 +151,8 @@
                     <i class="fa fa-envelope"></i>
                 </button>
             </a>
+
+            <input class="form-control" type="text" id="search" name="search" th:placeholder="#{searchmenu}" onchange="search(this.value);" style="width:60%" />
 
 
         </div>
