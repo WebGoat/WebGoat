@@ -20,7 +20,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.client_side_filtering;
+package org.owasp.webgoat.lessons.clientsidefiltering;
 
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -30,15 +30,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author nbaars
+ * @since 4/6/17.
+ */
 @RestController
-@AssignmentHints({"ClientSideFilteringHint1", "ClientSideFilteringHint2", "ClientSideFilteringHint3", "ClientSideFilteringHint4"})
-public class ClientSideFilteringAssignment extends AssignmentEndpoint {
+@AssignmentHints({"client.side.filtering.free.hint1", "client.side.filtering.free.hint2", "client.side.filtering.free.hint3"})
+public class ClientSideFilteringFreeAssignment extends AssignmentEndpoint {
 
-    @PostMapping("/clientSideFiltering/attack1")
+    public static final String SUPER_COUPON_CODE = "get_it_for_free";
+
+    @PostMapping("/clientSideFiltering/getItForFree")
     @ResponseBody
-    public AttackResult completed(@RequestParam String answer) {
-        return "450000".equals(answer)
-                ? success(this).feedback("assignment.solved").build() :
-                failed(this).feedback("ClientSideFiltering.incorrect").build();
+    public AttackResult completed(@RequestParam String checkoutCode) {
+        if (SUPER_COUPON_CODE.equals(checkoutCode)) {
+            return success(this).build();
+        }
+        return failed(this).build();
     }
 }

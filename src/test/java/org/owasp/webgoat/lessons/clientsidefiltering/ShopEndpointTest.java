@@ -20,20 +20,20 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.client_side_filtering;
+package org.owasp.webgoat.lessons.clientsidefiltering;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.container.plugins.LessonTest;
-import org.owasp.webgoat.lessons.client_side_filtering.ShopEndpoint;
+import org.owasp.webgoat.lessons.clientsidefiltering.ShopEndpoint;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.is;
-import static org.owasp.webgoat.lessons.client_side_filtering.ClientSideFilteringFreeAssignment.SUPER_COUPON_CODE;
+import static org.owasp.webgoat.lessons.clientsidefiltering.ClientSideFilteringFreeAssignment.SUPER_COUPON_CODE;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
