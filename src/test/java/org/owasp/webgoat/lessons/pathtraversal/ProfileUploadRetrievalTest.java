@@ -1,11 +1,11 @@
-package org.owasp.webgoat.lessons.path_traversal;
+package org.owasp.webgoat.lessons.pathtraversal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.owasp.webgoat.container.plugins.LessonTest;
-import org.owasp.webgoat.lessons.path_traversal.PathTraversal;
+import org.owasp.webgoat.lessons.pathtraversal.PathTraversal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.token.Sha512DigestUtils;

@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.path_traversal;
+package org.owasp.webgoat.lessons.pathtraversal;
 
 import lombok.SneakyThrows;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
