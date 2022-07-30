@@ -20,26 +20,25 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.missing_ac;
+package org.owasp.webgoat.lessons.missingac;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.owasp.webgoat.lessons.missing_ac.DisplayUser;
-import org.owasp.webgoat.lessons.missing_ac.User;
+import org.owasp.webgoat.container.lessons.Category;
+import org.owasp.webgoat.container.lessons.Lesson;
+import org.springframework.stereotype.Component;
 
-import static org.owasp.webgoat.lessons.missing_ac.MissingFunctionAC.PASSWORD_SALT_SIMPLE;
+@Component
+public class MissingFunctionAC extends Lesson {
 
-class DisplayUserTest {
+    public static final String PASSWORD_SALT_SIMPLE = "DeliberatelyInsecure1234";
+    public static final String PASSWORD_SALT_ADMIN = "DeliberatelyInsecure1235";
 
-    @Test
-    void testDisplayUserCreation() {
-        DisplayUser displayUser = new DisplayUser(new User("user1", "password1", true), PASSWORD_SALT_SIMPLE);
-        Assertions.assertThat(displayUser.isAdmin()).isTrue();
+    @Override
+    public Category getDefaultCategory() {
+        return Category.A1;
     }
 
-    @Test
-    void testDisplayUserHash() {
-        DisplayUser displayUser = new DisplayUser(new User("user1", "password1", false), PASSWORD_SALT_SIMPLE);
-        Assertions.assertThat(displayUser.getUserHash()).isEqualTo("cplTjehjI/e5ajqTxWaXhU5NW9UotJfXj+gcbPvfWWc=");
+    @Override
+    public String getTitle() {
+        return "missing-function-access-control.title";
     }
 }
