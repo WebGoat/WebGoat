@@ -20,7 +20,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.webwolf_introduction;
+package org.owasp.webgoat.lessons.webwolfintroduction;
 
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -63,7 +63,7 @@ public class LandingAssignment extends AssignmentEndpoint {
         modelAndView.addObject("webwolfUrl", landingPageUrl);
         modelAndView.addObject("uniqueCode", StringUtils.reverse(getWebSession().getUserName()));
 
-        modelAndView.setViewName("lessons/webwolf_introduction/templates/webwolfPasswordReset.html");
+        modelAndView.setViewName("lessons/webwolfintroduction/templates/webwolfPasswordReset.html");
         return modelAndView;
     }
 }
