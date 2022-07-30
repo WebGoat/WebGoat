@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.password_reset.resetlink;
+package org.owasp.webgoat.lessons.passwordreset.resetlink;
 
 import lombok.Getter;
 import lombok.Setter;

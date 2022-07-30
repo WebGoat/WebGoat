@@ -1,10 +1,11 @@
-package org.owasp.webgoat.lessons.password_reset;
+package org.owasp.webgoat.lessons.passwordreset;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.container.plugins.LessonTest;
+import org.owasp.webgoat.lessons.passwordreset.PasswordReset;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;

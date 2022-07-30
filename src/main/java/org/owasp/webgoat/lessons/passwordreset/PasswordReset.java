@@ -20,7 +20,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.password_reset;
+package org.owasp.webgoat.lessons.passwordreset;
 
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
