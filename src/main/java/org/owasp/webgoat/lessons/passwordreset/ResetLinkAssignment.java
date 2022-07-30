@@ -20,13 +20,13 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.password_reset;
+package org.owasp.webgoat.lessons.passwordreset;
 
 import com.google.common.collect.Maps;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.lessons.password_reset.resetlink.PasswordChangeForm;
+import org.owasp.webgoat.lessons.passwordreset.resetlink.PasswordChangeForm;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -120,7 +120,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
         if (checkIfLinkIsFromTom(form.getResetLink())) {
             usersToTomPassword.put(getWebSession().getUserName(), form.getPassword());
         }
-        modelAndView.setViewName("lessons/password_reset/templates/success.html");
+        modelAndView.setViewName("lessons/passwordreset/templates/success.html");
         return modelAndView;
     }
 
