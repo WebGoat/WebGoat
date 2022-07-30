@@ -1,11 +1,11 @@
-package org.owasp.webgoat.lessons.chrome_dev_tools;
+package org.owasp.webgoat.lessons.chromedevtools;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.container.plugins.LessonTest;
-import org.owasp.webgoat.lessons.chrome_dev_tools.ChromeDevTools;
+import org.owasp.webgoat.lessons.chromedevtools.ChromeDevTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
