@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.http_proxies;
+package org.owasp.webgoat.lessons.httpproxies;
 
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
