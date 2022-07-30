@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.insecure_login;
+package org.owasp.webgoat.lessons.insecurelogin;
 
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
