@@ -20,7 +20,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.http_proxies;
+package org.owasp.webgoat.lessons.httpproxies;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
-import org.owasp.webgoat.lessons.http_proxies.HttpBasicsInterceptRequest;
+import org.owasp.webgoat.lessons.httpproxies.HttpBasicsInterceptRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 

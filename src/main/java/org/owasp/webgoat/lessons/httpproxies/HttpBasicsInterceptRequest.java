@@ -20,7 +20,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.http_proxies;
+package org.owasp.webgoat.lessons.httpproxies;
 
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
