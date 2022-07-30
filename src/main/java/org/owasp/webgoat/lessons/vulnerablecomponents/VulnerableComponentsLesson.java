@@ -20,7 +20,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.vulnerable_components;
+package org.owasp.webgoat.lessons.vulnerablecomponents;
 
 import com.thoughtworks.xstream.XStream;
 import org.apache.commons.lang3.StringUtils;

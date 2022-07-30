@@ -20,12 +20,14 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.vulnerable_components;
+package org.owasp.webgoat.lessons.vulnerablecomponents;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.StreamException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.owasp.webgoat.lessons.vulnerablecomponents.Contact;
+import org.owasp.webgoat.lessons.vulnerablecomponents.ContactImpl;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class VulnerableComponentsLessonTest {
 
 	String strangeContact = "<contact class='dynamic-proxy'>\n" + 
-			"<interface>org.owasp.webgoat.vulnerable_components.Contact</interface>\n" + 
+			"<interface>org.owasp.webgoat.vulnerablecomponents.Contact</interface>\n" + 
 			"  <handler class='java.beans.EventHandler'>\n" + 
 			"    <target class='java.lang.ProcessBuilder'>\n" + 
 			"      <command>\n" + 
