@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.client_side_filtering;
+package org.owasp.webgoat.lessons.clientsidefiltering;
 
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
