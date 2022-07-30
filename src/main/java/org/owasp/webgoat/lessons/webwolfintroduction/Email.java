@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.webwolf_introduction;
+package org.owasp.webgoat.lessons.webwolfintroduction;
 
 import lombok.Builder;
 import lombok.Data;
