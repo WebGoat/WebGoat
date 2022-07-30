@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.missing_ac;
+package org.owasp.webgoat.lessons.missingac;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

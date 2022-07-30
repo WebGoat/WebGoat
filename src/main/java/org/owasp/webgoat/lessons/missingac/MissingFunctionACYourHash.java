@@ -20,17 +20,18 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.missing_ac;
+package org.owasp.webgoat.lessons.missingac;
 
 import lombok.RequiredArgsConstructor;
+
+import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_SIMPLE;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import static org.owasp.webgoat.lessons.missing_ac.MissingFunctionAC.PASSWORD_SALT_SIMPLE;
 
 @RestController
 @AssignmentHints({"access-control.hash.hint1", "access-control.hash.hint2", "access-control.hash.hint3", "access-control.hash.hint4", "access-control.hash.hint5"})

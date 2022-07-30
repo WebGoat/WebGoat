@@ -1,18 +1,18 @@
-package org.owasp.webgoat.lessons.missing_ac;
+package org.owasp.webgoat.lessons.missingac;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
-import org.owasp.webgoat.lessons.missing_ac.DisplayUser;
-import org.owasp.webgoat.lessons.missing_ac.MissingFunctionAC;
-import org.owasp.webgoat.lessons.missing_ac.User;
+import org.owasp.webgoat.lessons.missingac.DisplayUser;
+import org.owasp.webgoat.lessons.missingac.MissingFunctionAC;
+import org.owasp.webgoat.lessons.missingac.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.when;
-import static org.owasp.webgoat.lessons.missing_ac.MissingFunctionAC.PASSWORD_SALT_ADMIN;
+import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_ADMIN;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

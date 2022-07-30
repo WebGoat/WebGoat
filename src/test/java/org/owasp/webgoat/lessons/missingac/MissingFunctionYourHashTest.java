@@ -20,53 +20,42 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.missing_ac;
+package org.owasp.webgoat.lessons.missingac;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
-import org.owasp.webgoat.lessons.missing_ac.MissingFunctionAC;
+import org.owasp.webgoat.lessons.missingac.MissingFunctionAC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class MissingFunctionACUsersTest extends LessonTest {
+class MissingFunctionYourHashTest extends LessonTest {
 
     @BeforeEach
-    void setup() {
+    public void setup() {
         when(webSession.getCurrentLesson()).thenReturn(new MissingFunctionAC());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
     @Test
-    void getUsers() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/access-control/users")
-                .header("Content-type", "application/json"))
+    void hashDoesNotMatch() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/access-control/user-hash")
+                .param("userHash", "42"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].username", CoreMatchers.is("Tom")))
-                .andExpect(jsonPath("$[0].userHash", CoreMatchers.is("Mydnhcy00j2b0m6SjmPz6PUxF9WIeO7tzm665GiZWCo=")))
-                .andExpect(jsonPath("$[0].admin", CoreMatchers.is(false)));
+                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
     }
 
     @Test
-    void addUser() throws Exception {
-        var user = """
-                {"username":"newUser","password":"newUser12","admin": "true"}
-                """;
-        mockMvc.perform(MockMvcRequestBuilders.post("/access-control/users")
-                .header("Content-type", "application/json").content(user))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/access-control/users")
-                .header("Content-type", "application/json"))
+    void hashMatches() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/access-control/user-hash")
+                .param("userHash", "SVtOlaa+ER+w2eoIIVE5/77umvhcsh5V8UyDLUa1Itg="))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", is(4)));
+                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
     }
 }

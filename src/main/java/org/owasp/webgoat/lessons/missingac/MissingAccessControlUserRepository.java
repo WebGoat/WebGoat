@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.missing_ac;
+package org.owasp.webgoat.lessons.missingac;
 
 import org.owasp.webgoat.container.LessonDataSource;
 import org.springframework.jdbc.core.RowMapper;
