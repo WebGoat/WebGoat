@@ -20,41 +20,35 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.chrome_dev_tools;
+package org.owasp.webgoat.lessons.chromedevtools;
 
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.springframework.http.ResponseEntity;
+import org.owasp.webgoat.container.session.UserSessionData;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Assignment where the user has to look through an HTTP Request
- * using the Developer Tools and find a specific number.
+ * This is just a class used to make the the HTTP request.
  *
  * @author TMelzer
  * @since 30.11.18
  */
 @RestController
-@AssignmentHints({"networkHint1", "networkHint2"})
-public class NetworkLesson extends AssignmentEndpoint {
+public class NetworkDummy extends AssignmentEndpoint {
 
-    @PostMapping(value = "/ChromeDevTools/network", params = {"network_num", "number"})
+    @PostMapping("/ChromeDevTools/dummy")
     @ResponseBody
-    public AttackResult completed(@RequestParam String network_num, @RequestParam String number) {
-        if (network_num.equals(number)) {
-            return success(this).feedback("network.success").output("").build();
+    public AttackResult completed(@RequestParam String successMessage) {
+        UserSessionData userSessionData = getUserSessionData();
+        String answer = (String) userSessionData.getValue("randValue");
+
+        if (successMessage != null && successMessage.equals(answer)) {
+            return success(this).feedback("xss-dom-message-success").build();
         } else {
-            return failed(this).feedback("network.failed").build();
+            return failed(this).feedback("xss-dom-message-failure").build();
         }
-    }
-
-    @PostMapping(path = "/ChromeDevTools/network", params = "networkNum")
-    @ResponseBody
-    public ResponseEntity<?> ok(@RequestParam String networkNum) {
-        return ResponseEntity.ok().build();
     }
 }
