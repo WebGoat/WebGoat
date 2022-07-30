@@ -1,8 +1,9 @@
-package org.owasp.webgoat.lessons.bypass_restrictions;
+package org.owasp.webgoat.lessons.bypassrestrictions;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
+import org.owasp.webgoat.lessons.bypassrestrictions.BypassRestrictions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
