@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.path_traversal;
+package org.owasp.webgoat.lessons.pathtraversal;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
@@ -51,7 +51,7 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
     @PostConstruct
     public void initAssignment() {
         for (int i = 1; i <= 10; i++) {
-            try (InputStream is = new ClassPathResource("lessons/path_traversal/images/cats/" + i + ".jpg").getInputStream()) {
+            try (InputStream is = new ClassPathResource("lessons/pathtraversal/images/cats/" + i + ".jpg").getInputStream()) {
                 FileCopyUtils.copy(is, new FileOutputStream(new File(catPicturesDirectory, i + ".jpg")));
             } catch (Exception e) {
                 log.error("Unable to copy pictures" + e.getMessage());
