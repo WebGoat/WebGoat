@@ -20,30 +20,21 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.http_basics;
+package org.owasp.webgoat.lessons.httpbasics;
 
-import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.container.assignments.AssignmentHints;
-import org.owasp.webgoat.container.assignments.AttackResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.owasp.webgoat.container.lessons.Category;
+import org.owasp.webgoat.container.lessons.Lesson;
+import org.springframework.stereotype.Component;
 
-@RestController
-@AssignmentHints({"http-basics.hints.http_basics_lesson.1"})
-public class HttpBasicsLesson extends AssignmentEndpoint {
+@Component
+public class HttpBasics extends Lesson {
+    @Override
+    public Category getDefaultCategory() {
+        return Category.GENERAL;
+    }
 
-    @PostMapping("/HttpBasics/attack1")
-    @ResponseBody
-    public AttackResult completed(@RequestParam String person) {
-        if (!person.isBlank()) {
-            return success(this)
-                .feedback("http-basics.reversed")
-                .feedbackArgs(new StringBuilder(person).reverse().toString())
-                .build();
-        } else {
-            return failed(this).feedback("http-basics.empty").build();
-        }
+    @Override
+    public String getTitle() {
+        return "1.http-basics.title";//first lesson in general
     }
 }
