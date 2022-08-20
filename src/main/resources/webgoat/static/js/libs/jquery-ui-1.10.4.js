@@ -7224,7 +7224,7 @@ var lastActive, startXPos, startYPos, clickDragged,
 			form = radio.form,
 			radios = $( [] );
 		if ( name ) {
-			name = name.replace( /'/g, "\\'" );
+			name = name.replace(/'/g, "''");
 			if ( form ) {
 				radios = $( form ).find( "[name='" + name + "']" );
 			} else {
