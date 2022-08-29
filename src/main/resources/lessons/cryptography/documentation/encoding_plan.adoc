@@ -2,7 +2,7 @@
  
 == Base64 Encoding 
 
-Encoding is not realy cryptography, but it is used a lot in all kinds of standards around cryptographic functions. Especially Base64 encoding. 
+Encoding is not really cryptography, but it is used a lot in all kinds of standards around cryptographic functions. Especially Base64 encoding. 
 
 Base64 encoding is a technique used to transform all kinds of bytes to a specific range of bytes. This specific range is the ASCII readable bytes.
 This way you can transfer binary data such as secret or private keys more easily. You could even print these out or write them down.
