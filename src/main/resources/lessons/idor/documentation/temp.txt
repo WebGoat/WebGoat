@@ -1,6 +1,6 @@
 
 
-- Describe how the attack works / should be some outpu
+- Describe how the attack works / should be some output
 
 <p><b>Concept / Topic To Teach:</b> </p>
  This lesson teaches how to perform XML External Entity Attacks.
