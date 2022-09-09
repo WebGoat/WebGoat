@@ -1,4 +1,4 @@
-name: Webgoat                                 # workflow 2name
+name: Webgoat                                 # workflow s2name
 
 on:
   push:                                       
