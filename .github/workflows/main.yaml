@@ -1,0 +1,18 @@
+name: Webgoat                                 # workflow 2name
+
+on:
+  push:                                       
+    branches:                                 # similar to "only" in GitLab
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This is a build step"
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: echo "This is a test step"
