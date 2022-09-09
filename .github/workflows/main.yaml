@@ -30,7 +30,6 @@ jobs:
           project: 'webgoat'
           path: '.'
           format: 'CSV'
-          others: ''
 
       - name: Upload Test results
         uses: actions/upload-artifact@master
