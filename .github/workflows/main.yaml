@@ -16,3 +16,24 @@ jobs:
     needs: build
     steps:
       - run: echo "This is a test step"
+  odc-backend:
+    runs-on: ubuntu-latest
+    name: depecheck_test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: 'webgoat'
+          path: '.'
+          format: 'CSV'
+          others: ''
+
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+           name: Depcheck report
+           path: ${{github.workspace}}/reports
