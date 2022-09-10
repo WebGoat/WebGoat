@@ -3,13 +3,24 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: echo "This is a build step"
+      - run: echo "Thiss is a build step"
 
   test:
     machine: true
     steps:
       - checkout
       - run: echo "This is a test step"
+
+  odc-backend:
+    machine: true
+    steps:
+      - checkout
+
+      - run: chmod +x ./run-depcheck.sh && ./run-depcheck.sh
+
+      - store_artifacts:
+          path: reports/dependency-check-report.csv
+          destination: depcheck-artifact
 
 workflows:
   version: 2
@@ -19,3 +30,7 @@ workflows:
       - test:
           requires:
             - build
+
+      - odc-backend:
+          requires:
+            - test
