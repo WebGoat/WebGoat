@@ -3,7 +3,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: echo "This is a build step"
+      - run: echo "Thiss is a build step"
 
   test:
     machine: true
