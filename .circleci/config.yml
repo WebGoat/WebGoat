@@ -16,7 +16,7 @@ jobs:
     steps:
       - checkout
 
-      - run: chmod +x ./run-depcheck.sh && ./run-depcheck.sh
+      - run: chmod +x ./webgoat/run-depcheck.sh && ./webgoat/run-depcheck.sh
 
       - store_artifacts:
           path: reports/dependency-check-report.csv
