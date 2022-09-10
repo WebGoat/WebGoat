@@ -1,0 +1,21 @@
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - run: echo "This is a build step"
+
+  test:
+    machine: true
+    steps:
+      - checkout
+      - run: echo "This is a test step"
+
+workflows:
+  version: 2
+  webgoat:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
