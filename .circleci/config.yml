@@ -16,10 +16,10 @@ jobs:
     steps:
       - checkout
 
-      - run: docker run --rm -v $(pwd):/src owasp/dependency-check --scan /src --format "CSV" --project "Webgoat" --failOnCVSS 8 --out /tmp
+      - run: docker run --rm -v $(pwd):/src owasp/dependency-check --scan /src --format "CSV" --project "Webgoat" --failOnCVSS 8 --out dependency-check-report.csv
 
       - store_artifacts:
-          path: /tmp/dependency-check-report.csv
+          path: dependency-check-report.csv
           destination: depcheck-artifact
 
 workflows:
