@@ -83,7 +83,7 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
     @Override
     protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
         var templateName = resourceName.substring(PREFIX.length());
-
+        log.debug("template used: {}", templateName);
         try (InputStream is = getInputStream(templateName)) {
             JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
             extensionRegistry.inlineMacro("webWolfLink", WebWolfMacro.class);
@@ -102,18 +102,26 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
     }
 
     private InputStream getInputStream(String templateName) throws IOException {
-        if (resourceLoader.getResource("classpath:/" + computeResourceName(templateName, language.getLocale().getLanguage())).isFile()) {
-            return resourceLoader.getResource("classpath:/" + computeResourceName(templateName, language.getLocale().getLanguage())).getInputStream();
+        log.debug("locale: {}",language.getLocale().getLanguage());
+        String computedResourceName = computeResourceName(templateName, language.getLocale().getLanguage());
+        if (resourceLoader.getResource("classpath:/" + computedResourceName).isReadable()/*isFile()*/) {
+            log.debug("localized file exists");
+            return resourceLoader.getResource("classpath:/" + computedResourceName).getInputStream();
         } else {
+            log.debug("using english template");
             return resourceLoader.getResource("classpath:/" + templateName).getInputStream();
         }
     }
     private String computeResourceName(String resourceName, String language) {
+        String computedResourceName;
         if (language.equals("en")) {
-            return resourceName;
+            computedResourceName = resourceName;
         } else {
-            return resourceName.replace(".adoc", "_".concat(language).concat(".adoc"));
+            computedResourceName = resourceName.replace(".adoc", "_".concat(language).concat(".adoc"));
         }
+        log.debug("computed local file name: {}", computedResourceName);
+        log.debug("file exists: {}",resourceLoader.getResource("classpath:/"+computedResourceName).isReadable());
+        return computedResourceName;
     }
 
     private Map<String, Object> createAttributes() {
@@ -134,12 +142,15 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
 
         Locale browserLocale = (Locale) request.getSession().getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
         if (null != browserLocale) {
+            log.debug("browser locale {}", browserLocale);
             return browserLocale.getLanguage();
         } else {
             String langHeader = request.getHeader(Headers.ACCEPT_LANGUAGE_STRING);
             if (null != langHeader) {
+                log.debug("browser locale {}", langHeader);
                 return langHeader.substring(0,2);
             } else {
+                log.debug("browser default english");
                 return "en";
             }
         }
