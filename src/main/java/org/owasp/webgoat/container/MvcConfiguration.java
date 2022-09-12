@@ -32,6 +32,7 @@
 package org.owasp.webgoat.container;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
@@ -71,6 +72,7 @@ import java.util.Set;
  */
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class MvcConfiguration implements WebMvcConfigurer {
 
     private static final String UTF8 = "UTF-8";
@@ -146,6 +148,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
      */
     @Bean
     public AsciiDoctorTemplateResolver asciiDoctorTemplateResolver(Language language, ResourceLoader resourceLoader) {
+        log.debug("template locale {}", language);
         AsciiDoctorTemplateResolver resolver = new AsciiDoctorTemplateResolver(language, resourceLoader);
         resolver.setCacheable(false);
         resolver.setOrder(1);
