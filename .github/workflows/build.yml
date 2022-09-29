@@ -70,3 +70,5 @@ jobs:
               restore-keys: ubuntu-latest-m2-
         - name: Test with Maven
           run: mvn --no-transfer-progress verify
+        - name: Test with Maven 2
+          run: mvn --no-transfer-progress verify
