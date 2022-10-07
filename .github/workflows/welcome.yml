@@ -10,7 +10,7 @@ jobs:
     if: github.repository == 'WebGoat/WebGoat'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/first-interaction@v1.1.0
+      - uses: actions/first-interaction@v1.1.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           issue-message: 'Thanks for submitting your first issue, we will have a look as quickly as possible.'
