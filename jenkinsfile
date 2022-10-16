@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage ('scan') {
+    stage('scan') {
       steps {
-        sh "docker run -v $(WORKSPACE)/:src --workdir /src returntocorp/smgrep-agent:v1 smgrep-agent --config p/ci"
+        sh "docker run -v $(WORKSPACE):/src --workdir /src returntocorp/smgrep-agent:v1 smgrep-agent --config p/ci"
       }
     }
   }
