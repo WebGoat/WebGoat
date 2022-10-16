@@ -13,7 +13,7 @@ pipeline {
           // SEMGREP_TIMEOUT = "300"
         } 
       steps {
-        sh 'brew install semgrep'
+        sh 'sudo python3 -m pip install semgrep'
         sh 'semgrep ci'
       }
     }
