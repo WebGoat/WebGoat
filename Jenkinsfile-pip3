@@ -13,6 +13,7 @@ pipeline {
           // SEMGREP_TIMEOUT = "300"
         } 
       steps {
+        //Launch Semgrep
         sh 'pip3 install semgrep'
         sh 'semgrep ci'
       }
