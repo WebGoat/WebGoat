@@ -13,6 +13,7 @@
     To completely disable a check, just comment it out or delete it from the file.
 
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
+making the changess
  -->
 
 <module name="Checker">
