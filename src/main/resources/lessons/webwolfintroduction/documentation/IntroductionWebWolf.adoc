@@ -1,0 +1,24 @@
+== Introducing WebWolf
+
+You only need WebWolf if a lesson specifies you can use it. For a lot of lessons you use WebGoat without
+using WebWolf. Lessons where you can use WebWolf are marked with the following icon (top right in assignment):
+
+{nbsp}
+
+image::images/wolf-enabled.png[width=115,height=128]
+
+{nbsp}
+
+Even if the icon is present, you are not obliged to use WebWolf, you can also use any intercepting tool you like.
+(`netcat` etc.)
+
+WebWolf opens in a new browser tab and is a separate web application which simulates an attacker's machine. It makes it possible for us to
+make a clear distinction between what takes place on the attacked website and the actions you need to do as
+an "attacker". WebWolf was introduced after a couple of workshops where we received feedback that there
+was no clear distinction between what was part of the "attackers" role and what was part of the "users" role on the
+website. The following items are supported in WebWolf:
+
+* Hosting a file
+* Receiving email
+* Landing page for incoming requests
+

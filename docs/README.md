@@ -1,5 +1,5 @@
 # WebGoat landing page
 
-Old Github page which now redirects to OWASP website.
+Old GitHub page which now redirects to OWASP website.
 
 

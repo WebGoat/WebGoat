@@ -1,0 +1,6 @@
+=== Retrieving other files with a path traversal
+
+Path traversals are not limited to file uploads; when retrieving files, it can be the case that a path traversal
+is possible to retrieve other files from the system. In this assignment, try to find a file called `path-traversal-secret.jpg`
+
+
