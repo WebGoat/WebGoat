@@ -6,5 +6,5 @@ lockLabel: false
 lockComment: >
   This thread has been automatically locked because it has not had
   recent activity after it was closed. :lock: Please open a new issue
-  for regressions or related bugs.
+  for regressions or related bugs.snyk test
 setLockReason: false
