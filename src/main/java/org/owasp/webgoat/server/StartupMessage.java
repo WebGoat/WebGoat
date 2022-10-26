@@ -31,3 +31,4 @@ public class StartupMessage {
     void onShutdown(ContextStoppedEvent event) {
     }
 }
+//testsnyk
