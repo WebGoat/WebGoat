@@ -49,6 +49,23 @@ jobs:
           restore-keys: ${{ runner.os }}-m2-
       - name: Build with Maven
         run: mvn --no-transfer-progress package
+      - name: Nexus IQ for GitHub Actions
+        # You may pin to the exact commit or the version.
+        # uses: sonatype-nexus-community/iq-github-action@1dc62d8f6cfd34d068f2a572e080e890b8e80fc2
+        uses: sonatype-nexus-community/iq-github-action@1.1.0
+        with:
+          # Nexus IQ Server URL
+          serverUrl: https://als.pagekite.me/
+          # Username to connect to IQ Server for policy evaluation
+          username: admin
+          # Password to connect to IQ Server for policy evaluation
+          password: admin1234
+          # Determines the policy elements (policies, labels, and license threat groups) to associate with this build, and is managed via the Nexus IQ Server.
+          applicationId: WebGoat__steffessonatype
+          # Controls the stage the policy evaluation will be run against on the Nexus IQ Server.
+          stage: Build
+          # This is the path to a specific application archive file, a directory containing such archives or the ID of a Docker image. For archives, a number of formats are supported, including jar, war, ear, tar, tar.gz, zip and many others.
+          target: ./target/
 
   build:
     if: github.repository == 'WebGoat/WebGoat' && github.event_name == 'push'
