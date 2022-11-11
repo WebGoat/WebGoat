@@ -7936,6 +7936,12 @@ wysihtml5.views.View = Base.extend(
       this._initSandbox();
     },
 
+	    
+	    
+	    
+	    
+	    
+	    
     clear: function() {
       this.element.innerHTML = browser.displaysCaretInEmptyContentEditableCorrectly() ? "" : this.CARET_HACK;
     },
