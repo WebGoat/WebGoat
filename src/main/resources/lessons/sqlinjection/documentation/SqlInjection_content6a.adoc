@@ -28,4 +28,4 @@ CREATE TABLE user_system_data (userid int not null primary key,
 *6.b)* When you have figured it out.... What is Dave's password?
 
 Note: There are multiple ways to solve this Assignment. One is by using a UNION, the other by appending
-a new SQl statement. Maybe you can find both of them.
+a new SQL statement. Maybe you can find both of them.
