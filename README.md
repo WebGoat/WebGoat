@@ -95,6 +95,8 @@ Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 ```
 ... you should be running WebGoat on http://localhost:8080/WebGoat momentarily.
 
+Note: The above link will redirect you to login page if you are not logged in. LogIn/Create account to proceed.
+
 
 To change the IP address add the following variable to the `WebGoat/webgoat-container/src/main/resources/application.properties` file:
 
