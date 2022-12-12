@@ -63,7 +63,7 @@ public class SecurityQuestionAssignment extends AssignmentEndpoint {
         questions.put("What are the last 5 digits of your drivers license?", "Is subject to change, and the last digit of your driver license might follow a specific pattern. (For example your birthday).");
         questions.put("What was your childhood nickname?", "Not all people had a nickname.");
         questions.put("Who was your childhood hero?", "Most Heroes we had as a child where quite obvious ones, like Superman for example.");
-        questions.put("On which wrist do you were your watch?", "There are only to possible real answers, so really easy to guess.");
+        questions.put("On which wrist do you wear your watch?", "There are only to possible real answers, so really easy to guess.");
         questions.put("What is your favorite color?", "Can easily be guessed.");
     }
 
