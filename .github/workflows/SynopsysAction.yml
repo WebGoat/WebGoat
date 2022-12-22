@@ -1,0 +1,29 @@
+name: Synopsys Security Testing
+
+on:
+  push:
+    branches: [ master, main ]
+
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: [self-hosted]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Synopsys Action
+        uses: synopsys-sig/synopsys-action@<version>
+        with:
+          blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
+          blackduck_url: ${{ secrets.BLACKDUCK_URL }}
+
+          # Optional parameter. By default, pushes will initiate a full "intelligent" scan and pull requests
+          # will initiate a rapid scan.
+          blackduck_scan_full: false
+          # Optional parameter. The values could be. ALL|NONE|BLOCKER|CRITICAL|MAJOR|MINOR|OK|TRIVIAL|UNSPECIFIED
+          # Single parameter
+          blackduck_scan_failure_severities: "[\"ALL\"]"
+          # multiple parameters
+          # blackduck_scan_failure_severities: "[\"BLOCKER\", \"CRITICAL\", \"TRIVIAL\"]"
