@@ -24,7 +24,7 @@ There are a couple of ways on how you can contribute to the project:
 Your PR is valuable to us, and to make sure we can integrate it smoothly, we have a few items for you to consider. In short:
 The minimum requirements for code contributions are:
 
-1. The code _must_ be compliant with the configured Checkstyle and PMD rules.
+1. The code _must_ be compliant with the configured Java Google Formatter, Checkstyle and PMD rules.
 2. All new and changed code _should_ have a corresponding unit and/or integration test.
 3. New and changed lessons _must_ have a corresponding integration test.
 4. [Status checks](https://docs.github.com/en/github/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks) should pass for your last commit.

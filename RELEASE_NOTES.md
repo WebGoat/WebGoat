@@ -6,9 +6,9 @@
 
 - New year's resolution: major refactoring of WebGoat to simplify the setup and improve building times.
 - Move away from multi-project setup:
-  - This has a huge performance benefit when building the application. Build time locally is now `Total time:  42.469 s` (depends on your local machine of course)
-  - No longer add Maven dependencies in several places
-  - H2 no longer needs to run as separate process, which solves the issue of WebWolf sharing and needing to configure the correct database connection.
+  * This has a huge performance benefit when building the application. Build time locally is now `Total time:  42.469 s` (depends on your local machine of course)
+  * No longer add Maven dependencies in several places
+  * H2 no longer needs to run as separate process, which solves the issue of WebWolf sharing and needing to configure the correct database connection.
 - More explicit paths in html files to reference `adoc` files, less magic.
 - Integrate WebWolf in WebGoat, the setup was way too complicated and needed configuration which could lead to mistakes and a not working application. This also simplifies the Docker configuration as there is only 1 Docker image.
 - Add WebWolf button in WebGoat
