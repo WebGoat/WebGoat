@@ -28,12 +28,9 @@ import io.jsonwebtoken.Jwts;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.owasp.webgoat.lessons.jwt.JWT;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -64,6 +61,22 @@ public class JWTVotesEndpointTest extends LessonTest {
         //Create new token and set alg to none and do not sign it
         Claims claims = Jwts.claims();
         claims.put("admin", "true");
+        claims.put("user", "Tom");
+        String token = Jwts.builder().setClaims(claims).setHeaderParam("alg", "none").compact();
+
+        //Call the reset endpoint
+        mockMvc.perform(MockMvcRequestBuilders.post("/JWT/votings")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(new Cookie("access_token", token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.lessonCompleted", is(true)));
+    }
+
+    @Test
+    public void solveAssignmentWithBoolean() throws Exception {
+        //Create new token and set alg to none and do not sign it
+        Claims claims = Jwts.claims();
+        claims.put("admin", true);
         claims.put("user", "Tom");
         String token = Jwts.builder().setClaims(claims).setHeaderParam("alg", "none").compact();
 
