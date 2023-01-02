@@ -516,8 +516,6 @@
         <artifactId>spotless-maven-plugin</artifactId>
         <version>2.29.0</version>
         <configuration>
-          <ratchetFrom>origin/main</ratchetFrom>
-          <!-- limit format enforcement to just the files changed by this feature branch -->
           <formats>
             <format>
               <includes>
