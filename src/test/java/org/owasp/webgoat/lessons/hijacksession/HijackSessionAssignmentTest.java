@@ -22,6 +22,15 @@
 
 package org.owasp.webgoat.lessons.hijacksession;
 
+import static org.hamcrest.Matchers.emptyString;
+import static org.hamcrest.Matchers.not;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
+import javax.servlet.http.Cookie;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,16 +45,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import javax.servlet.http.Cookie;
-
-import static org.hamcrest.Matchers.emptyString;
-import static org.hamcrest.Matchers.not;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-
 /***
  *
  * @author Angel Olle Blazquez
@@ -55,54 +54,53 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @ExtendWith(MockitoExtension.class)
 class HijackSessionAssignmentTest extends AssignmentEndpointTest {
 
-    private MockMvc mockMvc;
-    private static final String COOKIE_NAME = "hijack_cookie";
-    private static final String LOGIN_CONTEXT_PATH = "/HijackSession/login";
+  private MockMvc mockMvc;
+  private static final String COOKIE_NAME = "hijack_cookie";
+  private static final String LOGIN_CONTEXT_PATH = "/HijackSession/login";
 
-    @Mock
-    Authentication authenticationMock;
+  @Mock Authentication authenticationMock;
 
-    @Mock
-    HijackSessionAuthenticationProvider providerMock;
+  @Mock HijackSessionAuthenticationProvider providerMock;
 
-    HijackSessionAssignment assignment;
+  HijackSessionAssignment assignment;
 
-    @BeforeEach
-    void setup() {
-        assignment = new HijackSessionAssignment();
-        init(assignment);
-        ReflectionTestUtils.setField(assignment, "provider", new HijackSessionAuthenticationProvider());
-        mockMvc = standaloneSetup(assignment).build();
-    }
+  @BeforeEach
+  void setup() {
+    assignment = new HijackSessionAssignment();
+    init(assignment);
+    ReflectionTestUtils.setField(assignment, "provider", new HijackSessionAuthenticationProvider());
+    mockMvc = standaloneSetup(assignment).build();
+  }
 
-    @Test
-    void testValidCookie() throws Exception {
-        lenient().when(authenticationMock.isAuthenticated()).thenReturn(true);
-        lenient().when(providerMock.authenticate(any(Authentication.class))).thenReturn(authenticationMock);
-        ReflectionTestUtils.setField(assignment, "provider", providerMock);
+  @Test
+  void testValidCookie() throws Exception {
+    lenient().when(authenticationMock.isAuthenticated()).thenReturn(true);
+    lenient()
+        .when(providerMock.authenticate(any(Authentication.class)))
+        .thenReturn(authenticationMock);
+    ReflectionTestUtils.setField(assignment, "provider", providerMock);
 
-        Cookie cookie = new Cookie(COOKIE_NAME, "value");
+    Cookie cookie = new Cookie(COOKIE_NAME, "value");
 
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders
-            .post(LOGIN_CONTEXT_PATH)
-            .cookie(cookie)
-            .param("username", "")
-            .param("password", ""));
+    ResultActions result =
+        mockMvc.perform(
+            MockMvcRequestBuilders.post(LOGIN_CONTEXT_PATH)
+                .cookie(cookie)
+                .param("username", "")
+                .param("password", ""));
 
-        result.andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
+    result.andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
+  }
 
-    }
+  @Test
+  void testBlankCookie() throws Exception {
+    ResultActions result =
+        mockMvc.perform(
+            MockMvcRequestBuilders.post(LOGIN_CONTEXT_PATH)
+                .param("username", "webgoat")
+                .param("password", "webgoat"));
 
-    @Test
-    void testBlankCookie() throws Exception {
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders
-            .post(LOGIN_CONTEXT_PATH)
-            .param("username", "webgoat")
-            .param("password", "webgoat"));
-
-        result.andExpect(cookie().value(COOKIE_NAME, not(emptyString())));
-        result.andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
-
-    }
-
+    result.andExpect(cookie().value(COOKIE_NAME, not(emptyString())));
+    result.andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+  }
 }

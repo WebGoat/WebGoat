@@ -35,13 +35,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @Slf4j
 public class StartWebGoat {
 
-    public static void main(String[] args) {
-        new SpringApplicationBuilder().parent(ParentConfig.class)
-                .web(WebApplicationType.NONE).bannerMode(Banner.Mode.OFF)
-                .child(WebGoat.class)
-                .web(WebApplicationType.SERVLET)
-                .sibling(WebWolf.class).bannerMode(Banner.Mode.OFF)
-                .web(WebApplicationType.SERVLET)
-                .run(args);
-    }
+  public static void main(String[] args) {
+    new SpringApplicationBuilder()
+        .parent(ParentConfig.class)
+        .web(WebApplicationType.NONE)
+        .bannerMode(Banner.Mode.OFF)
+        .child(WebGoat.class)
+        .web(WebApplicationType.SERVLET)
+        .sibling(WebWolf.class)
+        .bannerMode(Banner.Mode.OFF)
+        .web(WebApplicationType.SERVLET)
+        .run(args);
+  }
 }

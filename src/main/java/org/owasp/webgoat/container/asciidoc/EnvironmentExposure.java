@@ -7,19 +7,20 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
- * Make environment available in the asciidoc code (which you cannot inject because it is handled by the framework)
+ * Make environment available in the asciidoc code (which you cannot inject because it is handled by
+ * the framework)
  */
 @Component
 public class EnvironmentExposure implements ApplicationContextAware {
 
-    private static ApplicationContext context;
+  private static ApplicationContext context;
 
-    public static Environment getEnv() {
-        return context.getEnvironment();
-    }
+  public static Environment getEnv() {
+    return context.getEnvironment();
+  }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        context = applicationContext;
-    }
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    context = applicationContext;
+  }
 }

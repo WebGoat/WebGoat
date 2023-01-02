@@ -22,7 +22,7 @@ The following steps are required when you want to add a new language
 4. Add a welcome page to the introduction lesson
    1. Copy Introduction_.adoc to Introduction_es.adoc (if in this case you want to add Spanish)
    2. Add a highlighted section that explains that most parts of WebGoat will still be in English and invite people to translate parts where it would be valuable
-5. Translate the main labels 
+5. Translate the main labels
    1. Copy messages.properties to messages_es.properties (if in this case you want to add Spanish)
    2. Translate the label values
 6. Optionally translate lessons by

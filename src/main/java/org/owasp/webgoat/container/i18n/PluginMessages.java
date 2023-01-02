@@ -25,11 +25,10 @@
 
 package org.owasp.webgoat.container.i18n;
 
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.io.support.ResourcePatternResolver;
-
 import java.io.IOException;
 import java.util.Properties;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
  * Message resource bundle for plugins.
@@ -38,49 +37,49 @@ import java.util.Properties;
  * @date 2/4/17
  */
 public class PluginMessages extends ReloadableResourceBundleMessageSource {
-    private static final String PROPERTIES_SUFFIX = ".properties";
+  private static final String PROPERTIES_SUFFIX = ".properties";
 
-    private final Language language;
-    private final ResourcePatternResolver resourcePatternResolver;
+  private final Language language;
+  private final ResourcePatternResolver resourcePatternResolver;
 
+  public PluginMessages(
+      Messages messages, Language language, ResourcePatternResolver resourcePatternResolver) {
+    this.language = language;
+    this.setParentMessageSource(messages);
+    this.setBasename("WebGoatLabels");
+    this.resourcePatternResolver = resourcePatternResolver;
+  }
 
-    public PluginMessages(Messages messages, Language language, ResourcePatternResolver resourcePatternResolver) {
-        this.language = language;
-        this.setParentMessageSource(messages);
-        this.setBasename("WebGoatLabels");
-        this.resourcePatternResolver = resourcePatternResolver;
+  @Override
+  protected PropertiesHolder refreshProperties(String filename, PropertiesHolder propHolder) {
+    Properties properties = new Properties();
+    long lastModified = System.currentTimeMillis();
+
+    try {
+      var resources =
+          resourcePatternResolver.getResources(
+              "classpath:/lessons/**/i18n" + "/WebGoatLabels" + PROPERTIES_SUFFIX);
+      for (var resource : resources) {
+        String sourcePath = resource.getURI().toString().replace(PROPERTIES_SUFFIX, "");
+        PropertiesHolder holder = super.refreshProperties(sourcePath, propHolder);
+        properties.putAll(holder.getProperties());
+      }
+    } catch (IOException e) {
+      logger.error("Unable to read plugin message", e);
     }
 
-    @Override
-    protected PropertiesHolder refreshProperties(String filename, PropertiesHolder propHolder) {
-        Properties properties = new Properties();
-        long lastModified = System.currentTimeMillis();
+    return new PropertiesHolder(properties, lastModified);
+  }
 
-        try {
-            var resources = resourcePatternResolver.getResources("classpath:/lessons/**/i18n" +
-                    "/WebGoatLabels" + PROPERTIES_SUFFIX);
-            for (var resource : resources) {
-                String sourcePath = resource.getURI().toString().replace(PROPERTIES_SUFFIX, "");
-                PropertiesHolder holder = super.refreshProperties(sourcePath, propHolder);
-                properties.putAll(holder.getProperties());
-            }
-        } catch (IOException e) {
-            logger.error("Unable to read plugin message", e);
-        }
+  public Properties getMessages() {
+    return getMergedProperties(language.getLocale()).getProperties();
+  }
 
-        return new PropertiesHolder(properties, lastModified);
-    }
+  public String getMessage(String code, Object... args) {
+    return getMessage(code, args, language.getLocale());
+  }
 
-
-    public Properties getMessages() {
-        return getMergedProperties(language.getLocale()).getProperties();
-    }
-
-    public String getMessage(String code, Object... args) {
-        return getMessage(code, args, language.getLocale());
-    }
-
-    public String getMessage(String code, String defaultValue, Object... args) {
-        return super.getMessage(code, args, defaultValue, language.getLocale());
-    }
+  public String getMessage(String code, String defaultValue, Object... args) {
+    return super.getMessage(code, args, defaultValue, language.getLocale());
+  }
 }

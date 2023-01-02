@@ -22,17 +22,15 @@
 
 package org.owasp.webgoat.webwolf.user;
 
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import java.util.Collection;
+import java.util.Collections;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-import java.util.Collection;
-import java.util.Collections;
+import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * @author nbaars
@@ -42,48 +40,43 @@ import java.util.Collections;
 @Entity
 public class WebGoatUser implements UserDetails {
 
-    @Id
-    private String username;
-    private String password;
-    @Transient
-    private User user;
+  @Id private String username;
+  private String password;
+  @Transient private User user;
 
-    protected WebGoatUser() {
-    }
+  protected WebGoatUser() {}
 
-    public WebGoatUser(String username, String password) {
-        this.username = username;
-        this.password = password;
-        createUser();
-    }
+  public WebGoatUser(String username, String password) {
+    this.username = username;
+    this.password = password;
+    createUser();
+  }
 
-    public void createUser() {
-        this.user = new User(username, password, getAuthorities());
-    }
+  public void createUser() {
+    this.user = new User(username, password, getAuthorities());
+  }
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
-    }
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return Collections.emptyList();
+  }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.user.isAccountNonExpired();
-    }
+  @Override
+  public boolean isAccountNonExpired() {
+    return this.user.isAccountNonExpired();
+  }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.user.isAccountNonLocked();
-    }
+  @Override
+  public boolean isAccountNonLocked() {
+    return this.user.isAccountNonLocked();
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.user.isCredentialsNonExpired();
-    }
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return this.user.isCredentialsNonExpired();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return this.user.isEnabled();
-    }
+  @Override
+  public boolean isEnabled() {
+    return this.user.isEnabled();
+  }
 }
-
-

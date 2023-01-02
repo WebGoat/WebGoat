@@ -31,14 +31,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AssignmentHints({"ClientSideFilteringHint1", "ClientSideFilteringHint2", "ClientSideFilteringHint3", "ClientSideFilteringHint4"})
+@AssignmentHints({
+  "ClientSideFilteringHint1",
+  "ClientSideFilteringHint2",
+  "ClientSideFilteringHint3",
+  "ClientSideFilteringHint4"
+})
 public class ClientSideFilteringAssignment extends AssignmentEndpoint {
 
-    @PostMapping("/clientSideFiltering/attack1")
-    @ResponseBody
-    public AttackResult completed(@RequestParam String answer) {
-        return "450000".equals(answer)
-                ? success(this).feedback("assignment.solved").build() :
-                failed(this).feedback("ClientSideFiltering.incorrect").build();
-    }
+  @PostMapping("/clientSideFiltering/attack1")
+  @ResponseBody
+  public AttackResult completed(@RequestParam String answer) {
+    return "450000".equals(answer)
+        ? success(this).feedback("assignment.solved").build()
+        : failed(this).feedback("ClientSideFiltering.incorrect").build();
+  }
 }
