@@ -2,7 +2,7 @@
 daysUntilStale: 90
 daysUntilClose: 14
 onlyLabels:
-  - waiting-for-input
+  - waiting for input
   - wontfix
 staleLabel: stale
 markComment: >
