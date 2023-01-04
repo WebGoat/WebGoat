@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.webwolf.mailbox;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,32 +35,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 @RestController
 @AllArgsConstructor
 @Slf4j
 public class MailboxController {
 
-    private final MailboxRepository mailboxRepository;
+  private final MailboxRepository mailboxRepository;
 
-    @GetMapping(value = "/mail")
-    public ModelAndView mail() {
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ModelAndView modelAndView = new ModelAndView();
-        List<Email> emails = mailboxRepository.findByRecipientOrderByTimeDesc(user.getUsername());
-        if (emails != null && !emails.isEmpty()) {
-            modelAndView.addObject("total", emails.size());
-            modelAndView.addObject("emails", emails);
-        }
-        modelAndView.setViewName("mailbox");
-        return modelAndView;
+  @GetMapping(value = "/mail")
+  public ModelAndView mail() {
+    UserDetails user =
+        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    ModelAndView modelAndView = new ModelAndView();
+    List<Email> emails = mailboxRepository.findByRecipientOrderByTimeDesc(user.getUsername());
+    if (emails != null && !emails.isEmpty()) {
+      modelAndView.addObject("total", emails.size());
+      modelAndView.addObject("emails", emails);
     }
+    modelAndView.setViewName("mailbox");
+    return modelAndView;
+  }
 
-    @PostMapping(value = "/mail")
-    public ResponseEntity<?> sendEmail(@RequestBody Email email) {
-        mailboxRepository.save(email);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
+  @PostMapping(value = "/mail")
+  public ResponseEntity<?> sendEmail(@RequestBody Email email) {
+    mailboxRepository.save(email);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
 }

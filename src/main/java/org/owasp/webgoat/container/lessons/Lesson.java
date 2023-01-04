@@ -22,115 +22,103 @@
 
 package org.owasp.webgoat.container.lessons;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
 public abstract class Lesson {
 
-    private static int count = 1;
-    private Integer id = null;
-    private List<Assignment> assignments;
+  private static int count = 1;
+  private Integer id = null;
+  private List<Assignment> assignments;
 
-    /**
-     * Constructor for the Lesson object
-     */
-    protected Lesson() {
-        id = ++count;
-    }
+  /** Constructor for the Lesson object */
+  protected Lesson() {
+    id = ++count;
+  }
 
+  /**
+   * getName.
+   *
+   * @return a {@link java.lang.String} object.
+   */
+  public String getName() {
+    String className = getClass().getName();
+    return className.substring(className.lastIndexOf('.') + 1);
+  }
 
-    /**
-     * <p>getName.</p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String getName() {
-        String className = getClass().getName();
-        return className.substring(className.lastIndexOf('.') + 1);
-    }
+  /**
+   * Gets the category attribute of the Lesson object
+   *
+   * @return The category value
+   */
+  public Category getCategory() {
+    return getDefaultCategory();
+  }
 
-    /**
-     * Gets the category attribute of the Lesson object
-     *
-     * @return The category value
-     */
-    public Category getCategory() {
-        return getDefaultCategory();
-    }
+  /**
+   * getDefaultCategory.
+   *
+   * @return a {@link org.owasp.webgoat.container.lessons.Category} object.
+   */
+  protected abstract Category getDefaultCategory();
 
-    /**
-     * <p>getDefaultCategory.</p>
-     *
-     * @return a {@link org.owasp.webgoat.container.lessons.Category} object.
-     */
-    protected abstract Category getDefaultCategory();
+  /**
+   * Gets the title attribute of the HelloScreen object
+   *
+   * @return The title value
+   */
+  public abstract String getTitle();
 
-    /**
-     * Gets the title attribute of the HelloScreen object
-     *
-     * @return The title value
-     */
-    public abstract String getTitle();
+  /**
+   * Returns the default "path" portion of a lesson's URL.
+   *
+   * <p>
+   *
+   * <p>Legacy webgoat lesson links are of the form "attack?Screen=Xmenu=Ystage=Z". This method
+   * returns the path portion of the url, i.e., "attack" in the string above.
+   *
+   * <p>Newer, Spring-Controller-based classes will override this method to return "*.do"-styled
+   * paths.
+   *
+   * @return a {@link java.lang.String} object.
+   */
+  protected String getPath() {
+    return "#lesson/";
+  }
 
-    /**
-     * <p>Returns the default "path" portion of a lesson's URL.</p>
-     * <p>
-     * <p>
-     * Legacy webgoat lesson links are of the form
-     * "attack?Screen=Xmenu=Ystage=Z". This method returns the path portion of
-     * the url, i.e., "attack" in the string above.
-     * <p>
-     * Newer, Spring-Controller-based classes will override this method to
-     * return "*.do"-styled paths.
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    protected String getPath() {
-        return "#lesson/";
-    }
+  /**
+   * Get the link that can be used to request this screen.
+   *
+   * <p>Rendering the link in the browser may result in Javascript sending additional requests to
+   * perform necessary actions or to obtain data relevant to the lesson or the element of the lesson
+   * selected by the user. Thanks to using the hash mark "#" and Javascript handling the clicks, the
+   * user will experience less waiting as the pages do not have to reload entirely.
+   *
+   * @return a {@link java.lang.String} object.
+   */
+  public String getLink() {
+    return String.format("%s%s.lesson", getPath(), getId());
+  }
 
-    /**
-     * Get the link that can be used to request this screen.
-     * <p>
-     * Rendering the link in the browser may result in Javascript sending
-     * additional requests to perform necessary actions or to obtain data
-     * relevant to the lesson or the element of the lesson selected by the
-     * user.  Thanks to using the hash mark "#" and Javascript handling the
-     * clicks, the user will experience less waiting as the pages do not have
-     * to reload entirely.
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public String getLink() {
-        return String.format("%s%s.lesson", getPath(), getId());
-    }
+  /**
+   * Description of the Method
+   *
+   * @return Description of the Return Value
+   */
+  public String toString() {
+    return getTitle();
+  }
 
-    /**
-     * Description of the Method
-     *
-     * @return Description of the Return Value
-     */
-    public String toString() {
-        return getTitle();
-    }
+  public final String getId() {
+    return this.getClass().getSimpleName();
+  }
 
-    public final String getId() {
-        return this.getClass().getSimpleName();
-    }
-
-    public final String getPackage() {
-        var packageName = this.getClass().getPackageName();
-        //package name is the direct package name below lessons (any subpackage will be removed)
-        return packageName.replaceAll("org.owasp.webgoat.lessons.", "").replaceAll("\\..*", "");
-
-
-
-    }
-
-
-
+  public final String getPackage() {
+    var packageName = this.getClass().getPackageName();
+    // package name is the direct package name below lessons (any subpackage will be removed)
+    return packageName.replaceAll("org.owasp.webgoat.lessons.", "").replaceAll("\\..*", "");
+  }
 }

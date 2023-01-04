@@ -33,24 +33,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService {
 
-    private UserRepository userRepository;
+  private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+  public UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
+
+  @Override
+  public WebGoatUser loadUserByUsername(final String username) throws UsernameNotFoundException {
+    WebGoatUser webGoatUser = userRepository.findByUsername(username);
+    if (webGoatUser == null) {
+      throw new UsernameNotFoundException("User not found");
     }
+    webGoatUser.createUser();
+    return webGoatUser;
+  }
 
-    @Override
-    public WebGoatUser loadUserByUsername(final String username) throws UsernameNotFoundException {
-        WebGoatUser webGoatUser = userRepository.findByUsername(username);
-        if (webGoatUser == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        webGoatUser.createUser();
-        return webGoatUser;
-    }
-
-
-    public void addUser(final String username, final String password) {
-        userRepository.save(new WebGoatUser(username, password));
-    }
+  public void addUser(final String username, final String password) {
+    userRepository.save(new WebGoatUser(username, password));
+  }
 }

@@ -44,13 +44,12 @@ docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=Europe/Amster
 
 **Important**: *Choose the correct timezone, so that the docker container and your host are in the same timezone. As it is important for the validity of JWT tokens used in certain exercises.*
 
-
 ## 2. Standalone
 
 Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```shell
-java -Dfile.encoding=UTF-8 -Dwebgoat.port=8080 -Dwebwolf.port=9090 -jar webgoat-8.2.3.jar 
+java -Dfile.encoding=UTF-8 -Dwebgoat.port=8080 -Dwebwolf.port=9090 -jar webgoat-8.2.3.jar
 ```
 
 Click the link in the log to start WebGoat.
@@ -75,7 +74,7 @@ Now let's start by compiling the project.
 cd WebGoat
 git checkout <<branch_name>>
 # On Linux/Mac:
-./mvnw clean install 
+./mvnw clean install
 
 # On Windows:
 ./mvnw.cmd clean install
@@ -93,10 +92,10 @@ Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.
 ./mvnw.cmd spring-boot:run
 
 ```
+
 ... you should be running WebGoat on http://localhost:8080/WebGoat momentarily.
 
 Note: The above link will redirect you to login page if you are not logged in. LogIn/Create account to proceed.
-
 
 To change the IP address add the following variable to the `WebGoat/webgoat-container/src/main/resources/application.properties` file:
 
@@ -109,6 +108,7 @@ server.address=x.x.x.x
 For specialist only. There is a way to set up WebGoat with a personalized menu. You can leave out some menu categories or individual lessons by setting certain environment variables.
 
 For instance running as a jar on a Linux/macOS it will look like this:
+
 ```Shell
 export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
 export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
@@ -120,3 +120,4 @@ Or in a docker run it would (once this version is pushed into docker hub) look l
 ```Shell
 docker run -d -p 8080:8080 -p 9090:9090 -e TZ=Europe/Amsterdam -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/webgoat
 ```
+

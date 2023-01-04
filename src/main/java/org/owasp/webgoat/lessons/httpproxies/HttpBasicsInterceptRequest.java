@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.lessons.httpproxies;
 
+import javax.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.http.HttpMethod;
@@ -32,22 +33,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
 
-    @RequestMapping(path = "/HttpProxies/intercept-request", method = {RequestMethod.POST, RequestMethod.GET})
-    @ResponseBody
-    public AttackResult completed(@RequestHeader(value = "x-request-intercepted", required = false) Boolean headerValue,
-                                  @RequestParam(value = "changeMe", required = false) String paramValue, HttpServletRequest request) {
-        if (HttpMethod.POST.matches(request.getMethod())) {
-            return failed(this).feedback("http-proxies.intercept.failure").build();
-        }
-        if (headerValue != null && paramValue != null && headerValue && "Requests are tampered easily".equalsIgnoreCase(paramValue)) {
-            return success(this).feedback("http-proxies.intercept.success").build();
-        } else {
-            return failed(this).feedback("http-proxies.intercept.failure").build();
-        }
+  @RequestMapping(
+      path = "/HttpProxies/intercept-request",
+      method = {RequestMethod.POST, RequestMethod.GET})
+  @ResponseBody
+  public AttackResult completed(
+      @RequestHeader(value = "x-request-intercepted", required = false) Boolean headerValue,
+      @RequestParam(value = "changeMe", required = false) String paramValue,
+      HttpServletRequest request) {
+    if (HttpMethod.POST.matches(request.getMethod())) {
+      return failed(this).feedback("http-proxies.intercept.failure").build();
     }
+    if (headerValue != null
+        && paramValue != null
+        && headerValue
+        && "Requests are tampered easily".equalsIgnoreCase(paramValue)) {
+      return success(this).feedback("http-proxies.intercept.success").build();
+    } else {
+      return failed(this).feedback("http-proxies.intercept.failure").build();
+    }
+  }
 }

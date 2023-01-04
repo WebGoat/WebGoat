@@ -47,6 +47,8 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
+      - name: Check code formatting
+        run: mvn --no-transfer-progress spotless:check
       - name: Build with Maven
         run: mvn --no-transfer-progress package
 
@@ -68,5 +70,8 @@ jobs:
               path: ~/.m2
               key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
               restore-keys: ubuntu-latest-m2-
+        - name: Check code formatting
+          #Fail fast
+          run: mvn --no-transfer-progress spotless:check
         - name: Test with Maven
           run: mvn --no-transfer-progress verify

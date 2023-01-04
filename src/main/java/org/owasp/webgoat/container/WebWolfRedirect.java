@@ -10,12 +10,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class WebWolfRedirect {
 
-    private final ApplicationContext applicationContext;
+  private final ApplicationContext applicationContext;
 
-    @GetMapping("/WebWolf")
-    public ModelAndView openWebWolf() {
-        var url = applicationContext.getEnvironment().getProperty("webwolf.url");
+  @GetMapping("/WebWolf")
+  public ModelAndView openWebWolf() {
+    var url = applicationContext.getEnvironment().getProperty("webwolf.url");
 
-        return new ModelAndView("redirect:" + url + "/home");
-    }
+    return new ModelAndView("redirect:" + url + "/home");
+  }
 }

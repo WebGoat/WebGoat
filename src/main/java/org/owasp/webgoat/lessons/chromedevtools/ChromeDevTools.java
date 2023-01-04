@@ -33,13 +33,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChromeDevTools extends Lesson {
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.GENERAL;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.GENERAL;
+  }
 
-    @Override
-    public String getTitle() {
-        return "3.chrome-dev-tools.title";//3rd lesson in General
-    }
+  @Override
+  public String getTitle() {
+    return "3.chrome-dev-tools.title"; // 3rd lesson in General
+  }
 }

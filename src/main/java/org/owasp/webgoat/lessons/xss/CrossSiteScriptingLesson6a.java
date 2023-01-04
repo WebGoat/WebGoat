@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -33,23 +32,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
-@AssignmentHints(value = {"xss-reflected-6a-hint-1", "xss-reflected-6a-hint-2", "xss-reflected-6a-hint-3", "xss-reflected-6a-hint-4"})
+@AssignmentHints(
+    value = {
+      "xss-reflected-6a-hint-1",
+      "xss-reflected-6a-hint-2",
+      "xss-reflected-6a-hint-3",
+      "xss-reflected-6a-hint-4"
+    })
 public class CrossSiteScriptingLesson6a extends AssignmentEndpoint {
-    @Autowired
-    UserSessionData userSessionData;
+  @Autowired UserSessionData userSessionData;
 
-    @PostMapping("/CrossSiteScripting/attack6a")
-    @ResponseBody
-    public AttackResult completed(@RequestParam String DOMTestRoute) {
+  @PostMapping("/CrossSiteScripting/attack6a")
+  @ResponseBody
+  public AttackResult completed(@RequestParam String DOMTestRoute) {
 
-        if (DOMTestRoute.matches("start\\.mvc#test(\\/|)")) {
-            //return )
-            return success(this).feedback("xss-reflected-6a-success").build();
-        } else {
-            return failed(this).feedback("xss-reflected-6a-failure").build();
-        }
+    if (DOMTestRoute.matches("start\\.mvc#test(\\/|)")) {
+      // return )
+      return success(this).feedback("xss-reflected-6a-success").build();
+    } else {
+      return failed(this).feedback("xss-reflected-6a-failure").build();
     }
-
+  }
 }

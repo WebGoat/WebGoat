@@ -13,21 +13,21 @@ import org.springframework.util.StringUtils;
 @NoArgsConstructor
 public class StartupMessage {
 
-    private String port;
-    private String address;
+  private String port;
+  private String address;
 
-    @EventListener
-    void onStartup(ApplicationReadyEvent event) {
-        if (StringUtils.hasText(port) && !StringUtils.hasText(System.getProperty("running.in.docker"))) {
-            log.info("Please browse to http://{}:{}/WebGoat to get started...", address, port);
-        }
-        if (event.getApplicationContext().getApplicationName().contains("WebGoat")) {
-            port = event.getApplicationContext().getEnvironment().getProperty("server.port");
-            address = event.getApplicationContext().getEnvironment().getProperty("server.address");
-        }
+  @EventListener
+  void onStartup(ApplicationReadyEvent event) {
+    if (StringUtils.hasText(port)
+        && !StringUtils.hasText(System.getProperty("running.in.docker"))) {
+      log.info("Please browse to http://{}:{}/WebGoat to get started...", address, port);
     }
+    if (event.getApplicationContext().getApplicationName().contains("WebGoat")) {
+      port = event.getApplicationContext().getEnvironment().getProperty("server.port");
+      address = event.getApplicationContext().getEnvironment().getProperty("server.address");
+    }
+  }
 
-    @EventListener
-    void onShutdown(ContextStoppedEvent event) {
-    }
+  @EventListener
+  void onShutdown(ContextStoppedEvent event) {}
 }
