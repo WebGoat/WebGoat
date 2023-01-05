@@ -229,8 +229,6 @@
                   enctype="multipart/form-data"
                   action="/WebGoat/PathTraversal/zip-slip">
                 <div class="preview text-center">
-                    <img  th:src="@{|~/WebGoat/PathTraversal/zip-slip/profile-image/${#authentication.name}|}" width="1"
-                         height="1" />
                     <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
                          height="200" id="previewZipSlip"/>
                     <div class="browse-button">

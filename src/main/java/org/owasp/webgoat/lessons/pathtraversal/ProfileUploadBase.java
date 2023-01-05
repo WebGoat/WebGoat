@@ -3,10 +3,14 @@ package org.owasp.webgoat.lessons.pathtraversal;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.commons.io.FilenameUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.WebSession;
@@ -32,14 +36,9 @@ public class ProfileUploadBase extends AssignmentEndpoint {
       return failed(this).feedback("path-traversal-profile-empty-name").build();
     }
 
-    var uploadDirectory =
-        new File(this.webGoatHomeDirectory, "/PathTraversal/" + webSession.getUserName());
-    if (uploadDirectory.exists()) {
-      FileSystemUtils.deleteRecursively(uploadDirectory);
-    }
+    File uploadDirectory = cleanupAndCreateDirectoryForUser();
 
     try {
-      uploadDirectory.mkdirs();
       var uploadedFile = new File(uploadDirectory, fullName);
       uploadedFile.createNewFile();
       FileCopyUtils.copy(file.getBytes(), uploadedFile);
@@ -55,6 +54,17 @@ public class ProfileUploadBase extends AssignmentEndpoint {
     } catch (IOException e) {
       return failed(this).output(e.getMessage()).build();
     }
+  }
+
+  @SneakyThrows
+  protected File cleanupAndCreateDirectoryForUser() {
+    var uploadDirectory =
+        new File(this.webGoatHomeDirectory, "/PathTraversal/" + webSession.getUserName());
+    if (uploadDirectory.exists()) {
+      FileSystemUtils.deleteRecursively(uploadDirectory);
+    }
+    Files.createDirectories(uploadDirectory.toPath());
+    return uploadDirectory;
   }
 
   private boolean attemptWasMade(File expectedUploadDirectory, File uploadedFile)
@@ -87,18 +97,25 @@ public class ProfileUploadBase extends AssignmentEndpoint {
     var profileDirectoryFiles = profilePictureDirectory.listFiles();
 
     if (profileDirectoryFiles != null && profileDirectoryFiles.length > 0) {
-      try (var inputStream = new FileInputStream(profileDirectoryFiles[0])) {
-        return Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(inputStream));
-      } catch (IOException e) {
-        return defaultImage();
-      }
+      return Arrays.stream(profileDirectoryFiles)
+          .filter(file -> FilenameUtils.isExtension(file.getName(), List.of("jpg", "png")))
+          .findFirst()
+          .map(
+              file -> {
+                try (var inputStream = new FileInputStream(profileDirectoryFiles[0])) {
+                  return Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(inputStream));
+                } catch (IOException e) {
+                  return defaultImage();
+                }
+              })
+          .orElse(defaultImage());
     } else {
       return defaultImage();
     }
   }
 
   @SneakyThrows
-  private byte[] defaultImage() {
+  protected byte[] defaultImage() {
     var inputStream = getClass().getResourceAsStream("/images/account.png");
     return Base64.getEncoder().encode(FileCopyUtils.copyToByteArray(inputStream));
   }
