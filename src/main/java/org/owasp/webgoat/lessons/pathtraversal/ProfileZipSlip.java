@@ -13,13 +13,19 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -29,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
   "path-traversal-zip-slip.hint3",
   "path-traversal-zip-slip.hint4"
 })
+@Slf4j
 public class ProfileZipSlip extends ProfileUploadBase {
 
   public ProfileZipSlip(
@@ -52,11 +59,8 @@ public class ProfileZipSlip extends ProfileUploadBase {
   @SneakyThrows
   private AttackResult processZipUpload(MultipartFile file) {
     var tmpZipDirectory = Files.createTempDirectory(getWebSession().getUserName());
-    var uploadDirectory =
-        new File(getWebGoatHomeDirectory(), "/PathTraversal/" + getWebSession().getUserName());
+    cleanupAndCreateDirectoryForUser();
     var currentImage = getProfilePictureAsBase64();
-
-    Files.createDirectories(uploadDirectory.toPath());
 
     try {
       var uploadedZipFile = tmpZipDirectory.resolve(file.getOriginalFilename());
