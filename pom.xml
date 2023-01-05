@@ -10,7 +10,7 @@
   </parent>
   <groupId>org.owasp.webgoat</groupId>
   <artifactId>webgoat</artifactId>
-  <version>2023.2</version>
+  <version>2023.3</version>
   <packaging>jar</packaging>
 
   <name>WebGoat</name>

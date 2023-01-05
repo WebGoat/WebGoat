@@ -46,7 +46,7 @@ jobs:
         with:
           draft: false
           files: |
-            webgoat/target/webgoat-${{ env.WEBGOAT_MAVEN_VERSION }}.jar
+            target/webgoat-${{ env.WEBGOAT_MAVEN_VERSION }}.jar
           body: |
             ## Version ${{ steps.tag.outputs.tag }}
 
@@ -57,6 +57,8 @@ jobs:
             ### Bug fixes
 
             - [#743 - Character encoding errors](https://github.com/WebGoat/WebGoat/issues/743)
+              
+            Full change log: https://github.com/WebGoat/WebGoat/compare/${{ steps.tag.outputs.tag }}...${{ steps.tag.outputs.tag }}  
 
 
             ## Contributors
