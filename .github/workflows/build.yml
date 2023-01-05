@@ -3,56 +3,66 @@ on:
   pull_request:
     paths-ignore:
       - '.txt'
-      - '*.MD'
-      - '*.md'
       - 'LICENSE'
       - 'docs/**'
   push:
     branches:
-      - master
+      - main
       - develop
       - release/*
     tags-ignore:
       - '*'
     paths-ignore:
       - '.txt'
-      - '*.MD'
-      - '*.md'
       - 'LICENSE'
       - 'docs/**'
 
 jobs:
-  build:
+  pr-build:
+    if: >
+      github.event_name == 'pull_request' && !github.event.pull_request.draft && (
+        github.event.action == 'opened' ||
+        github.event.action == 'reopened' ||
+        github.event.action == 'synchronize' 
+      )
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        java: [15]
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+          java-version: 17
           architecture: x64
       - name: Cache Maven packages
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v3.2.2
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          restore-keys: ${{ runner.os }}-m2-
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn --no-transfer-progress verify
 
-  notify-slack:
-    if: github.event_name == 'push' && (success() || failure())
-    needs:
-      - build
+  build:
+    if: github.repository == 'WebGoat/WebGoat' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    name: "Branch build"
     steps:
-      - name: "Slack workflow notification"
-        uses: Gamesight/slack-workflow-status@master
-        with:
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
+        - uses: actions/checkout@v3
+        - name: set up JDK 17
+          uses: actions/setup-java@v3
+          with:
+              distribution: 'temurin'
+              java-version: 17
+              architecture: x64
+        - name: Cache Maven packages
+          uses: actions/cache@v3.2.2
+          with:
+              path: ~/.m2
+              key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
+              restore-keys: ubuntu-latest-m2-
+        - name: Test with Maven
+          run: mvn --no-transfer-progress verify
