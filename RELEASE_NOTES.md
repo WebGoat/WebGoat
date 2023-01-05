@@ -1,10 +1,15 @@
 # WebGoat release notes
 
-## Unreleased
+## Version 2023.0
+
+With great pleasure, we present you with a new release of WebGoat **2023.0**. Finally, it has been a while. This year starts with a new release of WebGoat. This year we will undoubtedly release more often. From this release on, we began to use a new versioning scheme (https://calver.org/#scheme).
+
+A big thanks to René Zubcevic and Àngel Ollé Blázquez for keeping the project alive this last year, and hopefully, we can make
+many more releases this year.
 
 ### New functionality
 
-- New year's resolution: major refactoring of WebGoat to simplify the setup and improve building times.
+- New year's resolution(2022): major refactoring of WebGoat to simplify the setup and improve building times.
 - Move away from multi-project setup:
   * This has a huge performance benefit when building the application. Build time locally is now `Total time:  42.469 s` (depends on your local machine of course)
   * No longer add Maven dependencies in several places
@@ -22,14 +27,27 @@
 - Updated introduction lesson to WebWolf.
 - Added language switch for support for multiple languages.
 - Removed logic to start WebGoat on a random port when port `8080` is taken. We would loop until we found a free port. We simplified this to just start on the specified port.
+- Add Google formatter for all our code, a PR now checks whether the code adheres to the standard.
+- Renaming of all packages and folders.
 - [#1039 New OWASP Top 10](https://github.com/WebGoat/WebGoat/issues/1093)
+- [#1065 New lesson about logging](https://github.com/WebGoat/WebGoat/issues/1065)
+
+### Bug fixes
+
+
 - [#1193 Vulnerable component lesson - java.desktop does not "opens java.beans" to unnamed module](https://github.com/WebGoat/WebGoat/issues/1193)
 - [#1176 Minor: XXE lesson 12 patch not reset by 'lesson reset' while it IS reset by leaving/returning to lesson](https://github.com/WebGoat/WebGoat/issues/1176)
 - [#1134 "Exploiting XStream" assignment does not work](https://github.com/WebGoat/WebGoat/issues/1134)
 - [#1130 Typo: Using Indrect References](https://github.com/WebGoat/WebGoat/issues/1130)
 - [#1101 SQL lesson not correct](https://github.com/WebGoat/WebGoat/issues/1101)
 - [#1079 startup.sh issues of WebWolf - cannot connect to the WebGoat DB](https://github.com/WebGoat/WebGoat/issues/1079)
-- [#1065 New lesson about logging](https://github.com/WebGoat/WebGoat/issues/1065)
+- [#1379 Move XXE to A05:2021-_Security_ Misconfiguration](https://github.com/WebGoat/WebGoat/issues/1379)
+- [#1298 SocketUtils is deprecated and will be removed in Spring Security 6](https://github.com/WebGoat/WebGoat/issues/1298)
+- [#1248 Rewrite the WebWolf Introduction Lesson with the new changes](https://github.com/WebGoat/WebGoat/issues/1248)
+- [#1200 Type cast error in sample code at JWT token section](https://github.com/WebGoat/WebGoat/issues/1200)
+- [#1173 --server.port=9000 is not respected on Windows (both cmd as Powershell)](https://github.com/WebGoat/WebGoat/issues/1173)
+- [#1103 (A1) path traversel lesson 7 seems broken](https://github.com/WebGoat/WebGoat/issues/1103)
+- [#986 - User registration not persistant](https://github.com/WebGoat/WebGoat/issues/986)
 
 ## Version 8.2.2
 
