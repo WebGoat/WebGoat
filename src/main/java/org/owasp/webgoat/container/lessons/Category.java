@@ -60,7 +60,6 @@ public enum Category {
     this.ranking = ranking;
   }
 
-  /** {@inheritDoc} */
   @Override
   public String toString() {
     return getName();
