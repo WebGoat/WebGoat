@@ -62,7 +62,7 @@ This way, you can start where you left off. If you remove the container, you nee
 Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```shell
-java -Dfile.encoding=UTF-8 -Dwebgoat.port=8080 -Dwebwolf.port=9090 -jar webgoat-2023.1.jar
+java -Dfile.encoding=UTF-8 -Dwebgoat.port=8080 -Dwebwolf.port=9090 -jar webgoat-2023.0.jar
 ```
 
 Click the link in the log to start WebGoat.
@@ -125,7 +125,7 @@ For instance running as a jar on a Linux/macOS it will look like this:
 ```Shell
 export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
 export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
-java -jar target/webgoat-2023.1-SNAPSHOT.jar
+java -jar target/webgoat-2023.0-SNAPSHOT.jar
 ```
 
 Or in a docker run it would (once this version is pushed into docker hub) look like this:
