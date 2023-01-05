@@ -46,7 +46,7 @@ jobs:
         with:
           draft: false
           files: |
-            webgoat/target/webgoat-${{ env.WEBGOAT_MAVEN_VERSION }}.jar
+            target/webgoat-${{ env.WEBGOAT_MAVEN_VERSION }}.jar
           body: |
             ## Version ${{ steps.tag.outputs.tag }}
 
