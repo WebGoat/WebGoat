@@ -1,0 +1,39 @@
+
+name: Synopsys Security Testing
+
+on:
+  push:
+    # At this time, it is recommended to run Polaris only on pushes to main branches
+    # Pull request analysis will be supported by Polaris in the future
+    branches: [ master, main ]
+
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:x
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Synopsys Action
+        uses: synopsys-sig/synopsys-action@<version>
+        with:
+          polaris_serverUrl: ${{ secrets.POLARIS_SERVER_URL }}
+          polaris_accessToken: ${{ secrets.POLARIS_ACCESS_TOKEN }}
+          polaris_application_name:"somename"
+          polaris_project_name: "someproj"
+          polaris_assessment_types: "["SCA", "SAST"]"
+
+          # Optional parameter to specify path to synopsys bridge.
+          # This can be used if you want to pre-configure your GitHub Runner with the
+          # Synopsys Bridge software
+          # The default is either /{user_home}/synopsys-bridge or in linux /usr/synopsys-bridge
+          #synopsys_bridge_path: "/path_to_bridge_executable"
+
+          # Optional parameter, but usually specified - the location of the Synopsys Bridge software
+          # The Synopsys Bridge software distribution is platform specific - this must match the host OS
+          # of your runner. For example in this case, we are using the latest version for Linux.
+          bridge_download_url: ${{ env.LINUX_BRIDGE_URL }}
+        env:
+          LINUX_BRIDGE_URL: "https://sig-repo.synopsys.com/artifactory/bds-integrations-release/com/synopsys/integration/synopsys-action/0.1.72/ci-package-0.1.72-linux64.zip"
