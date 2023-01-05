@@ -1,6 +1,6 @@
 # WebGoat release notes
 
-## Version 2023.0
+## Version 2023.1
 
 With great pleasure, we present you with a new release of WebGoat **2023.0**. Finally, it has been a while. This year starts with a new release of WebGoat. This year we will undoubtedly release more often. From this release on, we began to use a new versioning scheme (https://calver.org/#scheme).
 
