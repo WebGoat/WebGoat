@@ -1,0 +1,21 @@
+
+name: Synopsys Security Testing
+
+on:
+  push:
+    # At this time, it is recommended to run Polaris only on pushes to main branches
+    # Pull request analysis will be supported by Polaris in the future
+    branches: [ master, main ]
+
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  security:
+    - name: Run Synopsys Detect
+      uses: synopsys-sig/detect-action@v0.3.0
+      with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          detect-version: 7.9.0
+          blackduck-url: ${{ secrets.BLACKDUCK_URL }}
+          blackduck-api-token: ${{ secrets.BLACKDUCK_API_TOKEN }}
