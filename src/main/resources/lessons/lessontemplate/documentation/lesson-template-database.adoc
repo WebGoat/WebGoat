@@ -1,0 +1,25 @@
+=== Database
+
+If the new lesson needs to store or uses a database, you can add a create script in the directory `/src/main/resources/{lesson}/db/migration` folder.
+The file name needs to follow a specific convention: `V2019_11_10_1__new-lesson.sql`, so the first part is just the current date.
+In this file, you can for example, create tables and insert some data, for example:
+
+[source]
+----
+CREATE TABLE servers(
+  id varchar(10),
+  hostname varchar(20),
+  ip varchar(20),
+  mac varchar(20),
+  status varchar(20),
+  description varchar(40)
+);
+
+INSERT INTO servers VALUES ('1', 'webgoat-dev', '192.168.4.0', 'AA:BB:11:22:CC:DD', 'online', 'Development server');
+INSERT INTO servers VALUES ('2', 'webgoat-tst', '192.168.2.1', 'EE:FF:33:44:AB:CD', 'online', 'Test server');
+INSERT INTO servers VALUES ('3', 'webgoat-acc', '192.168.3.3', 'EF:12:FE:34:AA:CC', 'offline', 'Acceptance server');
+INSERT INTO servers VALUES ('4', 'webgoat-pre-prod', '192.168.6.4', 'EF:12:FE:34:AA:CC', 'offline', 'Pre-production server');
+INSERT INTO servers VALUES ('4', 'webgoat-prd', '104.130.219.202', 'FA:91:EB:82:DC:73', 'out of order', 'Production server');
+----
+
+Creating a database will automatically allow WebGoat to reset the database to its original state.

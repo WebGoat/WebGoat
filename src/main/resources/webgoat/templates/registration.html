@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{login.page.title}">Login Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}"/>
+</head>
+<body>
+<section id="container">
+    <header id="header">
+        <div class="brand">
+            <a th:href="@{/start.mvc}" class="logo"><span>Web</span>Goat</a>
+        </div>
+        <div class="lessonTitle">
+        </div>
+
+    </header>
+    <section class="main-content-wrapper">
+
+        <section id="main-content">
+            <br/><br/>
+            <fieldset>
+                <legend th:text="#{register.title}">Please Sign Up</legend>
+                <form class="form-horizontal" action="#" th:action="@{/register.mvc}" th:object="${userForm}"
+                      method='POST'>
+
+                    <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error'">
+                        <label for="username" class="col-sm-2 control-label" th:text="#{username}">Username</label>
+                        <div class="col-sm-4">
+                            <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"
+                                   th:field="*{username}"
+                                   id="username" th:placeholder="#{username}" name='username'/>
+                        </div>
+                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+                        <label for="password" class="col-sm-2 control-label" th:text="#{password}">Password</label>
+                        <div class="col-sm-4">
+                            <input type="password" class="form-control" id="password" th:placeholder="#{password}"
+                                   name='password' th:value="*{password}"/>
+                        </div>
+                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</span>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('matchingPassword')}? 'has-error'">
+                        <label for="matchingPassword" class="col-sm-2 control-label" th:text="#{password.confirm}">Confirm
+                            password</label>
+                        <div class="col-sm-4">
+                            <input type="password" class="form-control" id="matchingPassword" th:placeholder="#{password}"
+                                   name='matchingPassword' th:value="*{matchingPassword}"/>
+                        </div>
+                        <span th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}">Password error</span>
+
+                    </div>
+
+                    <div class="form-group" th:classappend="${#fields.hasErrors('agree')}? 'has-error'">
+                        <label class="col-sm-2 control-label" th:text="#{termsofuse}">Terms of use</label>
+                        <div class="col-sm-6">
+                            <div style="border: 1px solid #e5e5e5; height: 200px; overflow: auto; padding: 10px;">
+                                <p th:text="#{register.condition.1}" >Condition1</p>
+                                <p th:text="#{register.condition.2}">Condition2</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" th:classappend="${#fields.hasErrors('agree')}? 'has-error'">
+                        <div class="col-sm-6 col-sm-offset-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="agree" value="agree"/><p th:text="#{terms.agree}">Agree with the terms and
+                                    conditions</p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button type="submit" class="btn btn-primary" th:text="#{sign.up}">Sign up</button>
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </section>
+    </section>
+</section>
+
+
+</body>
+</html>

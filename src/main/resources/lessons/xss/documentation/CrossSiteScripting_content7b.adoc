@@ -1,0 +1,6 @@
+See the comments below.
+
+Add a comment with a JavaScript payload. Again ... you want to call the _webgoat.customjs.phoneHome_ function.
+
+As an attacker (offensive security), keep in mind that most apps will not have such a straightforwardly named compromise.
+Also, you may have to find a way to load your JavaScript dynamically to achieve the goal of extracting data fully.

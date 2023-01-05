@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<script type="text/javascript" th:src="@{/js/fileUpload.js}"></script>
+
+<div class="container">
+
+
+    <div class="alert alert-info fade in">
+
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <p>
+            Upload a file which you need to host as an attacker.
+        </p>
+        <p>
+            Each file will be available under the following url:
+            <span th:text="${webwolf_url}">http://localhost:9090/WebWolf/</span>/files/{username}/{filename}.
+        </p>
+        <p>
+            You can copy and paste the location from the table below.
+        </p>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>Upload a file</strong>
+            <small></small>
+        </div>
+        <div class="panel-body">
+
+            <!-- Standard Form -->
+            <form th:action="@{/fileupload}" method="post" enctype="multipart/form-data">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="file" name="file"/>
+                    </div>
+                    <button type="submit" class="btn btn-md btn-primary">Upload files</button>
+                </div>
+            </form>
+            <div class="fileUploadAlert alert-success top10" role="alert">
+                <span th:text="${uploadSuccess}"></span>
+            </div>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead class="thead-inverse">
+        <tr>
+            <th>Filename</th>
+            <th>Size</th>
+            <th>Link</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="f : ${files}">
+            <td th:text="${f.name}">filename</td>
+            <td th:text="${f.size}">size</td>
+            <td><a th:id="fileLink" th:href="@{'/' + ${f.link}}">link</a>
+                    <span class="fa fa-files-o" title="Click to copy to clipboard"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

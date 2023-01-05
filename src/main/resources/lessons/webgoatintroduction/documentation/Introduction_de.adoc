@@ -1,0 +1,18 @@
+== Was ist WebGoat?
+---
+
+WebGoat ist eine Anwendung, die verschiedene Schwachstellen aus den OWASP Top 10 erklärt und testet.
+
+Es enthält Lektionen, Übungen und Herausforderungen (Challenges). Die Lektionen sind in verschiedene Kategorien unterteilt und enthalten Seiten mit Informationen und Übungen. Sie sollten die Herausforderungen zuletzt versuchen. Diese sind knifflig und enthalten keine Hinweise.
+
+Ziel von WebGoat ist es, alles rund um das Thema Websicherheit spielerisch zu lernen und zu erleben. Dies ist sowohl für Entwickler als auch für Tester geeignet.
+
+Fühlen Sie sich frei, WebGoat einem gründlichen Test zu unterziehen und Ihre Kenntnisse und Erfahrungen in diesem Bereich zu verbessern.
+
+Sie sollten versuchen, die WebGoat-Anwendungsübungen mit einer Hacking-Mentalität zu lösen.
+
+Danke für dein Interesse!
+
+*Das WebGoat-Team*
+
+#Die meisten Texte sind auf Englisch. Sie können die Sprache über das Dropdown im Menü wechseln. Sie sind auch herzlich eingeladen, Texte zu übersetzen um WebGoat zu verbesseren.#

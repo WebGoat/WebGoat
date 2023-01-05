@@ -1,5 +1,0 @@
-= Crypto Basics 
- 
-== Solution 
-
-Solution goes here

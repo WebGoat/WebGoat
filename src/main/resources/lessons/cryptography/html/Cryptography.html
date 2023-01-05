@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<header>
+<script>
+/**
+ * JavaScript to load initial assignment tokens 
+ */
+function initialise() {
+	$("#sha256token").load('/WebGoat/crypto/hashing/sha256');
+	$("#md5token").load('/WebGoat/crypto/hashing/md5');
+	$("#basicauthtoken").load('/WebGoat/crypto/encoding/basic');
+	$("#privatekey").load('/WebGoat/crypto/signing/getprivate');
+}
+$(document).ready(initialise);
+</script>
+</header>
+<body>
+	<!-- 1. overview -->
+	<div class="lesson-page-wrapper">
+		<div class="adoc-content" th:replace="doc:lessons/cryptography/documentation/Crypto_plan.adoc"></div>
+	</div>
+	<!-- 2. encoding -->
+	<div class="lesson-page-wrapper">
+		<div class="adoc-content" th:replace="doc:lessons/cryptography/documentation/encoding_plan.adoc"></div>
+		<!-- 2. assignment -->
+		<div class="attack-container">
+			<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+			Now suppose you have intercepted the following header:<br/>
+			<div id="basicauthtoken" ></div><br/>
+			<form class="attack-form" method="POST" name="form"	action="/WebGoat/crypto/encoding/basic-auth">
+			Then what was the username 
+			<input name="answer_user" value="" type="TEXT"/>
+			and what was the password: 
+			<input name="answer_pwd" value="" type="TEXT"/>
+			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
+			</form>
+			<div class="attack-feedback"></div>
+			<div class="attack-output"></div>
+		</div>		
+	</div>
+	<!-- 3. encoding xor -->
+	<div class="lesson-page-wrapper">
+		<div class="adoc-content" th:replace="doc:lessons/cryptography/documentation/encoding_plan2.adoc"></div>
+		<!-- 3. assignment xor -->
+		<div class="attack-container">
+			<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+			<form class="attack-form" method="POST" name="form"	action="/WebGoat/crypto/encoding/xor">
+			Suppose you found the database password encoded as {xor}Oz4rPj0+LDovPiwsKDAtOw==<br/>
+			What would be the actual password
+			<input name="answer_pwd1" value="" type="TEXT"/><br/>
+			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
+			</form>
+			<div class="attack-feedback"></div>
+			<div class="attack-output"></div>
+		</div>
+	</div>
+
+	<!-- 4. hashing -->
+	<div class="lesson-page-wrapper">
+		<div class="adoc-content" th:replace="doc:lessons/cryptography/documentation/hashing_plan.adoc"></div>
+		<!-- 4. weak hashing exercise -->
+		<div class="attack-container">
+			<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+			<form class="attack-form" method="POST" name="form"	action="/WebGoat/crypto/hashing">
+			Which password belongs to this hash: <div id="md5token" ></div>
+			<input name="answer_pwd1" value="" type="TEXT"/><br/>
+			Which password belongs to this hash: <div id="sha256token" ></div>
+			<input name="answer_pwd2" value="" type="TEXT"/>
+			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
+			</form>
+			<div class="attack-feedback"></div>
+			<div class="attack-output"></div>
+		</div>		
+	</div>
+	
+	<!-- 5. encryption -->
+	<div class="lesson-page-wrapper">
+		<div class="adoc-content" th:replace="doc:lessons/cryptography/documentation/encryption.adoc"></div>
+	</div>
+
+	<!-- 6. signing -->
+	<div class="lesson-page-wrapper">
+		<div class="adoc-content" th:replace="doc:lessons/cryptography/documentation/signing.adoc"></div>
+		<!-- 6. assignment -->
+		<div class="attack-container">
+			<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+			Now suppose you have the following private key:<br/>
+			<pre><div id="privatekey" ></div></pre><br/>
+			<form class="attack-form" method="POST" name="form"	action="/WebGoat/crypto/signing/verify">
+			Then what was the modulus of the public key 
+			<input name="modulus" value="" type="TEXT"/>
+			and now provide a signature for us based on that modulus 
+			<input name="signature" value="" type="TEXT"/>
+			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
+			</form>
+			<div class="attack-feedback"></div>
+			<div class="attack-output"></div>
+		</div>
+	</div>
+	
+	<!-- 7. keystores -->
+	<div class="lesson-page-wrapper">
+		<div class="adoc-content" th:replace="doc:lessons/cryptography/documentation/keystores.adoc"></div>
+	</div>
+	
+	<!-- 8. security defaults -->
+	<div class="lesson-page-wrapper">
+		<div class="adoc-content" th:replace="doc:lessons/cryptography/documentation/defaults.adoc"></div>
+		<!-- 8. assignment -->
+		<div class="attack-container">
+			<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+			<form class="attack-form" method="POST" name="form"	action="/WebGoat/crypto/secure/defaults">
+			What is the unencrypted message<br/>
+			<input name="secretText" value="" type="TEXT"/><br/>
+			and what is the name of the file that stored the password <br/>
+			<input name="secretFileName" value="" type="TEXT"/>
+			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
+			</form>
+			<div class="attack-feedback"></div>
+			<div class="attack-output"></div>
+		</div>
+	</div>
+	<!-- 9. postquantum -->
+	<div class="lesson-page-wrapper">
+		<div class="adoc-content" th:replace="doc:lessons/cryptography/documentation/postquantum.adoc"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+== Try it
+
+As the previous page described, sometimes applications rely on client-side controls to control access (obscurity). If you can find invisible items, try them and see what happens. Yes, it can be that simple!
+
+=== Gathering User Info
+
+Often data dumps originate from vulnerabilities such as SQL injection, but they can also come from poor or lacking access control.
+
+It will likely take multiple steps and multiple attempts to get this one:
+
+- Pay attention to the comments and leaked info.
+- You'll need to do some guessing too.
+- You may need to use another browser/account along the way.
+
+Start with the information you already gathered (hidden menu items) to see if you can pull the list of users and then provide the 'hash' for Jerry's account.
