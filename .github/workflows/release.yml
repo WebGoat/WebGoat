@@ -13,10 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: "Get tag name"
-        id: tag
-        uses: dawidd6/action-get-tag@v1
-
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -33,8 +29,8 @@ jobs:
 
       - name: "Set labels for ${{ github.ref }}"
         run: |
-          echo "WEBGOAT_TAG_VERSION=${{ steps.tag.outputs.tag }}" >> $GITHUB_ENV
-          WEBGOAT_MAVEN_VERSION=${{ steps.tag.outputs.tag }}
+          echo "WEBGOAT_TAG_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+          WEBGOAT_MAVEN_VERSION=${{ github.ref_name }}
           echo "WEBGOAT_MAVEN_VERSION=${WEBGOAT_MAVEN_VERSION:1}" >> $GITHUB_ENV
       - name: Build with Maven
         run: |
@@ -94,7 +90,7 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
-          push: true 
+          push: true
           platforms: linux/amd64, linux/arm64, linux/arm/v7
           tags: |
             webgoat/webgoat:${{ env.WEBGOAT_TAG_VERSION }}
@@ -105,19 +101,14 @@ jobs:
       - name: "Image digest"
         run: echo ${{ steps.docker_build.outputs.digest }}
   new_version:
-    permissions:
-      contents: write  # for Git to git push
     if: github.repository == 'WebGoat/WebGoat'
-    name: Update development version
+    name: Update to next SNAPSHOT version
     needs: [ release ]
     runs-on: ubuntu-latest
-    environment:
-      name: release
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: develop
-          token: ${{ secrets.WEBGOAT_DEPLOYER_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -129,10 +120,18 @@ jobs:
         run: |
           mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion}-SNAPSHOT versions:commit
 
-      - name: Commit pom.xml
-        run: |
-          git config user.name webgoat-github
-          git config user.email owasp.webgoat@gmail.com
-          find . -name 'pom.xml' | xargs git add
-          git commit -m "Updating to the new development version"
-          git push
+      - name: Push the changes to new branch
+        uses: devops-infra/action-commit-push@v0.9.2
+        with:
+            github_token: "${{ secrets.GITHUB_TOKEN }}"
+            add_timestamp: true
+            commit_message: "Updating to the new development version"
+            force: false
+
+      - name: Create PR
+        uses: devops-infra/action-pull-request@v0.5.3
+        with:
+            github_token: "${{ secrets.GITHUB_TOKEN }}"
+            title: ${{ github.event.commits[0].message }}
+            target_branch: main
+

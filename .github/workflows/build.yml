@@ -8,8 +8,6 @@ on:
   push:
     branches:
       - main
-      - develop
-      - release/*
     tags-ignore:
       - '*'
     paths-ignore:
