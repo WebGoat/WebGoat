@@ -86,7 +86,7 @@ For example: `Fix #545` or `Closes #10`
 
     ```bash
     $ git fetch upstream
-    $ git merge upstream/develop
+    $ git merge upstream/main
     ```
 
     See also the following article for further explanation on "[How to Keep a Downstream git Repository Current with Upstream Repository Changes](https://medium.com/sweetmeat/how-to-keep-a-downstream-git-repository-current-with-upstream-repository-changes-10b76fad6d97 "How to Keep a Downstream git Repository Current with Upstream Repository Changes")".
