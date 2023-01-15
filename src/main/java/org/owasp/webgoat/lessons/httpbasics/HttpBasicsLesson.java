@@ -34,16 +34,16 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints({"http-basics.hints.http_basics_lesson.1"})
 public class HttpBasicsLesson extends AssignmentEndpoint {
 
-    @PostMapping("/HttpBasics/attack1")
-    @ResponseBody
-    public AttackResult completed(@RequestParam String person) {
-        if (!person.isBlank()) {
-            return success(this)
-                .feedback("http-basics.reversed")
-                .feedbackArgs(new StringBuilder(person).reverse().toString())
-                .build();
-        } else {
-            return failed(this).feedback("http-basics.empty").build();
-        }
+  @PostMapping("/HttpBasics/attack1")
+  @ResponseBody
+  public AttackResult completed(@RequestParam String person) {
+    if (!person.isBlank()) {
+      return success(this)
+          .feedback("http-basics.reversed")
+          .feedbackArgs(new StringBuilder(person).reverse().toString())
+          .build();
+    } else {
+      return failed(this).feedback("http-basics.empty").build();
     }
+  }
 }

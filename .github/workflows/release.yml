@@ -17,15 +17,15 @@ jobs:
         id: tag
         uses: dawidd6/action-get-tag@v1
 
-      - name: Set up JDK 15
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 15
+          java-version: 17
           architecture: x64
 
       - name: Cache Maven packages
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v3.2.3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -46,7 +46,7 @@ jobs:
         with:
           draft: false
           files: |
-            webgoat/target/webgoat-${{ env.WEBGOAT_MAVEN_VERSION }}.jar
+            target/webgoat-${{ env.WEBGOAT_MAVEN_VERSION }}.jar
           body: |
             ## Version ${{ steps.tag.outputs.tag }}
 
@@ -57,6 +57,8 @@ jobs:
             ### Bug fixes
 
             - [#743 - Character encoding errors](https://github.com/WebGoat/WebGoat/issues/743)
+              
+            Full change log: https://github.com/WebGoat/WebGoat/compare/${{ steps.tag.outputs.tag }}...${{ steps.tag.outputs.tag }}  
 
 
             ## Contributors

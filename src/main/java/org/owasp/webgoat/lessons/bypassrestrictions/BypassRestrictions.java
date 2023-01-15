@@ -28,13 +28,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BypassRestrictions extends Lesson {
-    @Override
-    public Category getDefaultCategory() {
-        return Category.CLIENT_SIDE;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.CLIENT_SIDE;
+  }
 
-    @Override
-    public String getTitle() {
-        return "bypass-restrictions.title";
-    }
+  @Override
+  public String getTitle() {
+    return "bypass-restrictions.title";
+  }
 }

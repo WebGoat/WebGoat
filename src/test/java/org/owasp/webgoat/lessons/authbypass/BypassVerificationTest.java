@@ -25,54 +25,57 @@
 
 package org.owasp.webgoat.lessons.authbypass;
 
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
-import org.owasp.webgoat.lessons.authbypass.VerifyAccount;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @ExtendWith(MockitoExtension.class)
 public class BypassVerificationTest extends AssignmentEndpointTest {
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @BeforeEach
-    public void setup() {
-        VerifyAccount verifyAccount = new VerifyAccount();
-        init(verifyAccount);
-        this.mockMvc = standaloneSetup(verifyAccount).build();
-    }
+  @BeforeEach
+  public void setup() {
+    VerifyAccount verifyAccount = new VerifyAccount();
+    init(verifyAccount);
+    this.mockMvc = standaloneSetup(verifyAccount).build();
+  }
 
-    @Test
-    public void placeHolder() {
-        assert (true);
-    }
+  @Test
+  public void placeHolder() {
+    assert (true);
+  }
 
-//TODO: Finish tests below ... getting null on injected/mocked userSession for some reason (in AssignmentEndpoint:58 even though it it mocked via AssignmentEncpointTest and works in other tests)
-//    @Test
-//    public void testCheatingDetection() throws Exception {
-//       ResultActions results = mockMvc.perform(MockMvcRequestBuilders.post("/auth-bypass/verify-account")
-//               .param("secQuestion0","Dr. Watson")
-//               .param("secQuestion1","Baker Street")
-//               .param("verifyMethod","SEC_QUESTIONS")
-//               .param("userId","1223445"));
-//
-//        results.andExpect(status().isOk())
-//                .andExpect(jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("verify-account.cheated"))));
-//    }
+  // TODO: Finish tests below ... getting null on injected/mocked userSession for some reason (in
+  // AssignmentEndpoint:58 even though it it mocked via AssignmentEncpointTest and works in other
+  // tests)
+  //    @Test
+  //    public void testCheatingDetection() throws Exception {
+  //       ResultActions results =
+  // mockMvc.perform(MockMvcRequestBuilders.post("/auth-bypass/verify-account")
+  //               .param("secQuestion0","Dr. Watson")
+  //               .param("secQuestion1","Baker Street")
+  //               .param("verifyMethod","SEC_QUESTIONS")
+  //               .param("userId","1223445"));
+  //
+  //        results.andExpect(status().isOk())
+  //                .andExpect(jsonPath("$.feedback",
+  // CoreMatchers.is(messages.getMessage("verify-account.cheated"))));
+  //    }
 
-//    @Test
-//    public void success() {
-//
-//    }
+  //    @Test
+  //    public void success() {
+  //
+  //    }
 
-//    @Test
-//    public void failure() {
-//
-//    }
+  //    @Test
+  //    public void failure() {
+  //
+  //    }
 
 }

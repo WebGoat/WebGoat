@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -32,24 +31,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
-@AssignmentHints(value = {"SqlOnlyInputValidation-1", "SqlOnlyInputValidation-2", "SqlOnlyInputValidation-3"})
+@AssignmentHints(
+    value = {"SqlOnlyInputValidation-1", "SqlOnlyInputValidation-2", "SqlOnlyInputValidation-3"})
 public class SqlOnlyInputValidation extends AssignmentEndpoint {
 
-    private final SqlInjectionLesson6a lesson6a;
+  private final SqlInjectionLesson6a lesson6a;
 
-    public SqlOnlyInputValidation(SqlInjectionLesson6a lesson6a) {
-        this.lesson6a = lesson6a;
-    }
+  public SqlOnlyInputValidation(SqlInjectionLesson6a lesson6a) {
+    this.lesson6a = lesson6a;
+  }
 
-    @PostMapping("/SqlOnlyInputValidation/attack")
-    @ResponseBody
-    public AttackResult attack(@RequestParam("userid_sql_only_input_validation") String userId) {
-        if (userId.contains(" ")) {
-            return failed(this).feedback("SqlOnlyInputValidation-failed").build();
-        }
-        AttackResult attackResult = lesson6a.injectableQuery(userId);
-        return new AttackResult(attackResult.isLessonCompleted(), attackResult.getFeedback(), attackResult.getOutput(), getClass().getSimpleName(), true);
+  @PostMapping("/SqlOnlyInputValidation/attack")
+  @ResponseBody
+  public AttackResult attack(@RequestParam("userid_sql_only_input_validation") String userId) {
+    if (userId.contains(" ")) {
+      return failed(this).feedback("SqlOnlyInputValidation-failed").build();
     }
+    AttackResult attackResult = lesson6a.injectableQuery(userId);
+    return new AttackResult(
+        attackResult.isLessonCompleted(),
+        attackResult.getFeedback(),
+        attackResult.getOutput(),
+        getClass().getSimpleName(),
+        true);
+  }
 }

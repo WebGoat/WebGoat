@@ -1,10 +1,9 @@
 package org.owasp.webgoat.lessons.passwordreset.resetlink;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author nbaars
@@ -14,9 +13,9 @@ import javax.validation.constraints.Size;
 @Setter
 public class PasswordChangeForm {
 
-    @NotNull
-    @Size(min = 6, max = 10)
-    private String password;
-    private String resetLink;
+  @NotNull
+  @Size(min = 6, max = 10)
+  private String password;
 
+  private String resetLink;
 }

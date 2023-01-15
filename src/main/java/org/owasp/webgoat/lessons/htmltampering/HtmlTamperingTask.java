@@ -34,12 +34,12 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints({"hint1", "hint2", "hint3"})
 public class HtmlTamperingTask extends AssignmentEndpoint {
 
-    @PostMapping("/HtmlTampering/task")
-    @ResponseBody
-    public AttackResult completed(@RequestParam String QTY, @RequestParam String Total) {
-        if (Float.parseFloat(QTY) * 2999.99 > Float.parseFloat(Total) + 1) {
-            return success(this).feedback("html-tampering.tamper.success").build();
-        }
-        return failed(this).feedback("html-tampering.tamper.failure").build();
+  @PostMapping("/HtmlTampering/task")
+  @ResponseBody
+  public AttackResult completed(@RequestParam String QTY, @RequestParam String Total) {
+    if (Float.parseFloat(QTY) * 2999.99 > Float.parseFloat(Total) + 1) {
+      return success(this).feedback("html-tampering.tamper.success").build();
     }
+    return failed(this).feedback("html-tampering.tamper.failure").build();
+  }
 }

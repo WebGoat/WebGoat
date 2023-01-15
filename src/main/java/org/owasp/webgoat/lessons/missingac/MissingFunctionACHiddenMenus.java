@@ -29,33 +29,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by jason on 1/5/17.
- */
+/** Created by jason on 1/5/17. */
 @RestController
-@AssignmentHints({"access-control.hidden-menus.hint1","access-control.hidden-menus.hint2","access-control.hidden-menus.hint3"})
+@AssignmentHints({
+  "access-control.hidden-menus.hint1",
+  "access-control.hidden-menus.hint2",
+  "access-control.hidden-menus.hint3"
+})
 public class MissingFunctionACHiddenMenus extends AssignmentEndpoint {
 
-    @PostMapping(path = "/access-control/hidden-menu", produces = {"application/json"})
-    @ResponseBody
-    public AttackResult completed(String hiddenMenu1, String hiddenMenu2) {
-        if (hiddenMenu1.equals("Users") && hiddenMenu2.equals("Config")) {
-            return success(this)
-                    .output("")
-                    .feedback("access-control.hidden-menus.success")
-                    .build();
-        }
-
-        if (hiddenMenu1.equals("Config") && hiddenMenu2.equals("Users")) {
-            return failed(this)
-                    .output("")
-                    .feedback("access-control.hidden-menus.close")
-                    .build();
-        }
-
-        return failed(this)
-                .feedback("access-control.hidden-menus.failure")
-                .output("")
-                .build();
+  @PostMapping(
+      path = "/access-control/hidden-menu",
+      produces = {"application/json"})
+  @ResponseBody
+  public AttackResult completed(String hiddenMenu1, String hiddenMenu2) {
+    if (hiddenMenu1.equals("Users") && hiddenMenu2.equals("Config")) {
+      return success(this).output("").feedback("access-control.hidden-menus.success").build();
     }
+
+    if (hiddenMenu1.equals("Config") && hiddenMenu2.equals("Users")) {
+      return failed(this).output("").feedback("access-control.hidden-menus.close").build();
+    }
+
+    return failed(this).feedback("access-control.hidden-menus.failure").output("").build();
+  }
 }

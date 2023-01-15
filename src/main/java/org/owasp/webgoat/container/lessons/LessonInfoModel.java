@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * <p>LessonInfoModel class.</p>
+ * LessonInfoModel class.
  *
  * @author dm
  * @version $Id: $Id
@@ -13,9 +13,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class LessonInfoModel {
 
-    private String lessonTitle;
-    private boolean hasSource;
-    private boolean hasSolution;
-    private boolean hasPlan;
-
+  private String lessonTitle;
+  private boolean hasSource;
+  private boolean hasSolution;
+  private boolean hasPlan;
 }

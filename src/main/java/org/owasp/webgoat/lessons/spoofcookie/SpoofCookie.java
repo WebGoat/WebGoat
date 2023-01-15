@@ -35,13 +35,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpoofCookie extends Lesson {
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.A1;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.A1;
+  }
 
-    @Override
-    public String getTitle() {
-        return "spoofcookie.title";
-    }
+  @Override
+  public String getTitle() {
+    return "spoofcookie.title";
+  }
 }

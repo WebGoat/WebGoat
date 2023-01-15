@@ -29,13 +29,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class XXE extends Lesson {
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.A3;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.A5;
+  }
 
-    @Override
-    public String getTitle() {
-        return "xxe.title";
-    }
+  @Override
+  public String getTitle() {
+    return "xxe.title";
+  }
 }

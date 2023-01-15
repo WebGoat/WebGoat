@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Challenge1 extends Lesson {
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.CHALLENGE;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.CHALLENGE;
+  }
 
-    @Override
-    public String getTitle() {
-        return "challenge1.title";
-    }
+  @Override
+  public String getTitle() {
+    return "challenge1.title";
+  }
 }

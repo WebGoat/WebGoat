@@ -22,40 +22,40 @@
 
 package org.owasp.webgoat.lessons.missingac;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.owasp.webgoat.container.plugins.LessonTest;
-import org.owasp.webgoat.lessons.missingac.MissingFunctionAC;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.owasp.webgoat.container.plugins.LessonTest;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 class MissingFunctionYourHashTest extends LessonTest {
 
-    @BeforeEach
-    public void setup() {
-        when(webSession.getCurrentLesson()).thenReturn(new MissingFunctionAC());
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+  @BeforeEach
+  public void setup() {
+    when(webSession.getCurrentLesson()).thenReturn(new MissingFunctionAC());
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+  }
 
-    @Test
-    void hashDoesNotMatch() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/access-control/user-hash")
-                .param("userHash", "42"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
-    }
+  @Test
+  void hashDoesNotMatch() throws Exception {
+    mockMvc
+        .perform(MockMvcRequestBuilders.post("/access-control/user-hash").param("userHash", "42"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+  }
 
-    @Test
-    void hashMatches() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/access-control/user-hash")
+  @Test
+  void hashMatches() throws Exception {
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/access-control/user-hash")
                 .param("userHash", "SVtOlaa+ER+w2eoIIVE5/77umvhcsh5V8UyDLUa1Itg="))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
-    }
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
+  }
 }

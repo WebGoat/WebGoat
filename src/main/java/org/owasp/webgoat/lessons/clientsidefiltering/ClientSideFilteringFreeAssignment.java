@@ -35,17 +35,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 4/6/17.
  */
 @RestController
-@AssignmentHints({"client.side.filtering.free.hint1", "client.side.filtering.free.hint2", "client.side.filtering.free.hint3"})
+@AssignmentHints({
+  "client.side.filtering.free.hint1",
+  "client.side.filtering.free.hint2",
+  "client.side.filtering.free.hint3"
+})
 public class ClientSideFilteringFreeAssignment extends AssignmentEndpoint {
 
-    public static final String SUPER_COUPON_CODE = "get_it_for_free";
+  public static final String SUPER_COUPON_CODE = "get_it_for_free";
 
-    @PostMapping("/clientSideFiltering/getItForFree")
-    @ResponseBody
-    public AttackResult completed(@RequestParam String checkoutCode) {
-        if (SUPER_COUPON_CODE.equals(checkoutCode)) {
-            return success(this).build();
-        }
-        return failed(this).build();
+  @PostMapping("/clientSideFiltering/getItForFree")
+  @ResponseBody
+  public AttackResult completed(@RequestParam String checkoutCode) {
+    if (SUPER_COUPON_CODE.equals(checkoutCode)) {
+      return success(this).build();
     }
+    return failed(this).build();
+  }
 }
