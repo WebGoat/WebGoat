@@ -55,3 +55,8 @@ webgoat.script
 TestClass.class
 **/*.flattened-pom.xml
 /.gitconfig
+
+
+**/*.js
+**/*.html
+**/*.css
