@@ -60,10 +60,10 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
         StringBuilder output = new StringBuilder();
         String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
         try (Connection connection = dataSource.getConnection()) {
-            // nosemgrep
             try {
                 Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
                 SqlInjectionLesson8.log(connection, query);
+                // nosemgrep
                 ResultSet results = statement.executeQuery(query);
                 var test = results.getRow() != 0;
                 if (results.getStatement() != null) {
