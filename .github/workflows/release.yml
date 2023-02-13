@@ -129,7 +129,7 @@ jobs:
             force: false
 
       - name: Create PR
-        uses: devops-infra/action-pull-request@v0.5.3
+        uses: devops-infra/action-pull-request@v0.5.5
         with:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
             title: ${{ github.event.commits[0].message }}
