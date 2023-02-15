@@ -536,6 +536,11 @@
             <flexmark></flexmark>
           </markdown>
           <java>
+            <includes>
+              <include>src/main/java/**/*.java</include>
+              <include>src/test/java/**/*.java</include>
+              <include>src/it/java/**/*.java</include>
+            </includes>
             <removeUnusedImports></removeUnusedImports>
             <googleJavaFormat>
               <style>GOOGLE</style>

@@ -61,7 +61,8 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.clear();
     params.put(
         "question_0_solution",
-        "Solution 3: By stealing a database where names and emails are stored and uploading it to a website.");
+        "Solution 3: By stealing a database where names and emails are stored and uploading it to a"
+            + " website.");
     params.put(
         "question_1_solution",
         "Solution 1: By changing the names and emails of one or more users stored in a database.");
