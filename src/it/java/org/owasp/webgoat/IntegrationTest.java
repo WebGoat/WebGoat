@@ -26,7 +26,7 @@ public abstract class IntegrationTest {
     @Getter
     private String webWolfCookie;
     @Getter
-    private String user = "webgoat";
+    private final String user = "webgoat";
 
     protected String url(String url) {
         url = url.replaceFirst("/WebGoat/", "");
