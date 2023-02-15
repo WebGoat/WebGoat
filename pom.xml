@@ -10,7 +10,7 @@
   </parent>
   <groupId>org.owasp.webgoat</groupId>
   <artifactId>webgoat</artifactId>
-  <version>2023.3</version>
+  <version>2023.4-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>WebGoat</name>
@@ -675,7 +675,7 @@
                     <argument>${project.build.directory}/webgoat-${project.version}.jar</argument>
                   </arguments>
                   <waitForInterrupt>false</waitForInterrupt>
-                  <healthcheckUrl>http://localhost:${webgoat.port}/WebGoat/</healthcheckUrl>
+                  <healthcheckUrl>http://localhost:${webgoat.port}/WebGoat/actuator/health</healthcheckUrl>
                 </configuration>
               </execution>
               <execution>
