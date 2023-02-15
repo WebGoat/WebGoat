@@ -57,6 +57,7 @@ import org.springframework.web.servlet.ModelAndView;
 })
 public class ResetLinkAssignment extends AssignmentEndpoint {
 
+  private static final String VIEW_FORMATTER = "lessons/passwordreset/templates/%s.html";
   static final String PASSWORD_TOM_9 =
       "somethingVeryRandomWhichNoOneWillEverTypeInAsPasswordForTom";
   static final String TOM_EMAIL = "tom@webgoat-cloud.org";
@@ -65,15 +66,18 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
   static List<String> resetLinks = new ArrayList<>();
 
   static final String TEMPLATE =
-      "Hi, you requested a password reset link, please use this <a target='_blank'"
-          + " href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your"
-          + " password.\n"
-          + " \n\n"
-          + "If you did not request this password change you can ignore this message.\n"
-          + "If you have any comments or questions, please do not hesitate to reach us at"
-          + " support@webgoat-cloud.org\n\n"
-          + "Kind regards, \n"
-          + "Team WebGoat";
+      """
+          Hi, you requested a password reset link, please use this <a target='_blank'
+           href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your
+           password.
+
+          If you did not request this password change you can ignore this message.
+          If you have any comments or questions, please do not hesitate to reach us at
+           support@webgoat-cloud.org
+
+          Kind regards,
+          Team WebGoat
+          """;
 
   @PostMapping("/PasswordReset/reset/login")
   @ResponseBody
@@ -98,17 +102,11 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
       form.setResetLink(link);
       model.addAttribute("form", form);
       modelAndView.addObject("form", form);
-      modelAndView.setViewName("password_reset"); // Display html page for changing password
+      modelAndView.setViewName(
+          VIEW_FORMATTER.formatted("password_reset")); // Display html page for changing password
     } else {
-      modelAndView.setViewName("password_link_not_found");
+      modelAndView.setViewName(VIEW_FORMATTER.formatted("password_link_not_found"));
     }
-    return modelAndView;
-  }
-
-  @GetMapping("/PasswordReset/reset/change-password")
-  public ModelAndView illegalCall() {
-    ModelAndView modelAndView = new ModelAndView();
-    modelAndView.setViewName("password_link_not_found");
     return modelAndView;
   }
 
@@ -120,17 +118,17 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
       bindingResult.rejectValue("password", "not.empty");
     }
     if (bindingResult.hasErrors()) {
-      modelAndView.setViewName("password_reset");
+      modelAndView.setViewName(VIEW_FORMATTER.formatted("password_reset"));
       return modelAndView;
     }
     if (!resetLinks.contains(form.getResetLink())) {
-      modelAndView.setViewName("password_link_not_found");
+      modelAndView.setViewName(VIEW_FORMATTER.formatted("password_link_not_found"));
       return modelAndView;
     }
     if (checkIfLinkIsFromTom(form.getResetLink())) {
       usersToTomPassword.put(getWebSession().getUserName(), form.getPassword());
     }
-    modelAndView.setViewName("lessons/passwordreset/templates/success.html");
+    modelAndView.setViewName(VIEW_FORMATTER.formatted("success"));
     return modelAndView;
   }
 
