@@ -1,7 +1,5 @@
 package org.owasp.webgoat;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.hamcrest.Matchers.lessThan;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.restassured.RestAssured;
