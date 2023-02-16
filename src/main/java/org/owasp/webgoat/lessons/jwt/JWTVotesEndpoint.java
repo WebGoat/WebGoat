@@ -58,10 +58,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author nbaars
- * @since 4/23/17.
- */
 @RestController
 @AssignmentHints({
   "jwt-change-token-hint1",
