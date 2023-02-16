@@ -1,0 +1,29 @@
+FROM lscr.io/linuxserver/webtop:ubuntu-xfce
+LABEL NAME = "WebGoat: A deliberately insecure Web Application"
+MAINTAINER "WebGoat team"
+
+WORKDIR /config
+
+COPY target/webgoat-*.jar /config/webgoat.jar
+COPY config/desktop/start_webgoat.sh /config/start_webgoat.sh
+COPY config/desktop/start_zap.sh /config/start_zap.sh
+COPY config/desktop/WebGoat.txt /config/Desktop/
+
+RUN \
+ curl -LO https://github.com/zaproxy/zaproxy/releases/download/v2.12.0/ZAP_2.12.0_Linux.tar.gz && \
+ tar zfxv ZAP_2.12.0_Linux.tar.gz && \
+ rm -rf ZAP_2.12.0_Linux.tar.gz && \
+ curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jre_aarch64_linux_hotspot_17.0.6_10.tar.gz && \
+ tar zfxv OpenJDK17U-jre_aarch64_linux_hotspot_17.0.6_10.tar.gz && \
+ rm -rf OpenJDK17U-jre_aarch64_linux_hotspot_17.0.6_10.tar.gz && \
+ chmod +x /config/start_webgoat.sh && \
+ chmod +x /config/start_zap.sh && \
+ apt-get update &&  \
+ apt-get --yes install vim nano && \
+ echo "JAVA_HOME=/config/jdk-17.0.6+10-jre/" >> .bash_aliases && \
+ echo "PATH=$PATH:$JAVA_HOME/bin" >> .bash_aliases
+
+
+ENV JAVA_HOME=/home/webgoat/jdk-17.0.6+10-jre
+
+WORKDIR /config/Desktop
