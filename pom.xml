@@ -655,8 +655,9 @@
                     <argument>java</argument>
                     <argument>-jar</argument>
                     <argument>-Dlogging.pattern.console=</argument>
+                    <argument>-Dwebgoat.server.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
+                    <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dspring.main.banner-mode=off</argument>
-                    <argument>-Dspring.datasource.url=jdbc:hsqldb:file:${java.io.tmpdir}/webgoat</argument>
                     <argument>-Dwebgoat.port=${webgoat.port}</argument>
                     <argument>-Dwebwolf.port=${webwolf.port}</argument>
                     <argument>--add-opens</argument>
