@@ -48,14 +48,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry security =
         http.authorizeRequests()
-            .antMatchers("/css/**", "/images/**", "/js/**", "/fonts/**", "/webjars/**", "/home")
-            .permitAll()
-            .antMatchers(HttpMethod.GET, "/mail/**", "/requests/**")
+            .antMatchers(HttpMethod.POST, "/fileupload")
             .authenticated()
-            .antMatchers("/files")
+            .antMatchers(HttpMethod.GET, "/files", "/mail", "/requests")
             .authenticated()
+            .and()
+            .authorizeRequests()
             .anyRequest()
             .permitAll();
+
     security.and().csrf().disable().formLogin().loginPage("/login").failureUrl("/login?error=true");
     security.and().formLogin().loginPage("/login").defaultSuccessUrl("/home", true).permitAll();
     security.and().logout().permitAll();
