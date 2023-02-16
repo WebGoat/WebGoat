@@ -22,7 +22,12 @@
 
 package org.owasp.webgoat.lessons.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SigningKeyResolverAdapter;
 import io.jsonwebtoken.impl.TextCodec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,34 +36,12 @@ import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- *
- * <pre>
- *  {
- *      "typ": "JWT",
- *      "kid": "webgoat_key",
- *      "alg": "HS256"
- *  }
- *  {
- *       "iss": "WebGoat Token Builder",
- *       "iat": 1524210904,
- *       "exp": 1618905304,
- *       "aud": "webgoat.org",
- *       "sub": "jerry@webgoat.com",
- *       "username": "Jerry",
- *       "Email": "jerry@webgoat.com",
- *       "Role": [
- *       "Cat"
- *       ]
- *  }
- * </pre>
- *
- * @author nbaars
- * @since 4/23/17.
- */
 @RestController
 @AssignmentHints({
   "jwt-final-hint1",
