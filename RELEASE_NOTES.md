@@ -1,5 +1,18 @@
 # WebGoat release notes
 
+## Version 2023.4
+
+### New functionality
+
+- [#1422 Add Docker Linux Desktop variant with all tools installed](https://github.com/WebGoat/WebGoat/issues/1422). Thanks to the [OWASP WrongSecrets project](https://owasp.org/www-project-wrongsecrets/) we now have a Docker Linux desktop image with all the tools installed. No need to install any tools locally only run the new Docker image. See README.md for details on how to start it.
+- [#1411 JWT: looks that buy as Tom also works with alg:none](https://github.com/WebGoat/WebGoat/issues/1411).
+
+### Bug fixes
+
+- [#1410 WebWolf: JWT decode is broken](https://github.com/WebGoat/WebGoat/issues/1410).
+- [#1396 password_reset return 500 Error](https://github.com/WebGoat/WebGoat/issues/1396).
+- [#1379 Move XXE to A05:2021-Security Misconfiguration](https://github.com/WebGoat/WebGoat/issues/1379).
+
 ## Version 2023.3
 
 With great pleasure, we present you with a new release of WebGoat **2023.3**. Finally, it has been a while. This year starts with a new release of WebGoat. This year we will undoubtedly release more often. From this release on, we began to use a new versioning scheme (https://calver.org/#scheme).
