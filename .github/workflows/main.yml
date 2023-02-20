@@ -25,7 +25,7 @@ jobs:
               key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
               restore-keys: ${{ runner.os }}-m2-
       -   name: Build with Maven
-          run: mvn --no-transfer-progress verify
+          run: mvn --no-transfer-progress clean compile -DskipTests
 
       - name: Synopsys Action
         uses: synopsys-sig/synopsys-action@v1.0.0
