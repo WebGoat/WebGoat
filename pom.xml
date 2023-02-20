@@ -108,7 +108,6 @@
   </issueManagement>
 
   <properties>
-
     <!-- Shared properties with plugins and version numbers across submodules-->
     <asciidoctorj.version>2.5.3</asciidoctorj.version>
     <bootstrap.version>3.3.7</bootstrap.version>
@@ -120,6 +119,7 @@
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons-text.version>1.9</commons-text.version>
     <guava.version>30.1-jre</guava.version>
+    <jacoco.version>0.8.8</jacoco.version>
     <java.version>17</java.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
@@ -488,9 +488,9 @@
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <argLine>--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
-                        --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
-                        --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED
-                        --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED</argLine>
+          --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
+          --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+          --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED</argLine>
           <excludes>
             <exclude>**/*IntegrationTest.java</exclude>
             <exclude>src/it/java</exclude>
@@ -727,6 +727,82 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <!-- run with: mvn test -Pcoverage -->
+      <id>coverage</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${maven-surefire-plugin.version}</version>
+            <configuration>
+              <argLine>--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
+          --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
+          --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+          --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED
+          ${surefire.jacoco.args}</argLine>
+              <excludes>
+                <exclude>**/*IntegrationTest.java</exclude>
+                <exclude>src/it/java</exclude>
+                <exclude>org/owasp/webgoat/*Test</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version>
+            <executions>
+              <execution>
+                <id>before-unit-test</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <destFile>${project.build.directory}/jacoco/jacoco-ut.exec</destFile>
+                  <propertyName>surefire.jacoco.args</propertyName>
+                </configuration>
+              </execution>
+              <execution>
+                <id>check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <rule>
+                      <element>BUNDLE</element>
+                      <limits>
+                        <limit>
+                          <counter>CLASS</counter>
+                          <value>COVEREDCOUNT</value>
+                          <minimum>0.6</minimum>
+                        </limit>
+                      </limits>
+                    </rule>
+                  </rules>
+                  <dataFile>${project.build.directory}/jacoco/jacoco-ut.exec</dataFile>
+                </configuration>
+              </execution>
+              <execution>
+                <id>after-unit-test</id>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+                <phase>test</phase>
+                <configuration>
+                  <dataFile>${project.build.directory}/jacoco/jacoco-ut.exec</dataFile>
+                  <outputDirectory>${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
-
 </project>
