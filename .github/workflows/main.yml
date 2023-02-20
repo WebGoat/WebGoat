@@ -7,7 +7,7 @@ on:
     # Pull request analysis will be supported by Polaris in the future
     branches: [ master, main ]
 
-jobs:
+jobs:      
   build:
     runs-on: ubuntu-latest
     steps:      
