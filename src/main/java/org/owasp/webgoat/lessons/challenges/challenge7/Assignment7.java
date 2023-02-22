@@ -8,9 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.challenges.Email;
-import org.owasp.webgoat.lessons.challenges.Flag;
+import org.owasp.webgoat.lessons.challenges.Flags;
 import org.owasp.webgoat.lessons.challenges.SolutionConstants;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -44,10 +43,16 @@ public class Assignment7 extends AssignmentEndpoint {
           + "Kind regards, \n"
           + "Team WebGoat";
 
-  @Autowired private RestTemplate restTemplate;
+  private final Flags flags;
+  private final RestTemplate restTemplate;
+  private final String webWolfMailURL;
 
-  @Value("${webwolf.mail.url}")
-  private String webWolfMailURL;
+  public Assignment7(
+      Flags flags, RestTemplate restTemplate, @Value("${webwolf.mail.url}") String webWolfMailURL) {
+    this.flags = flags;
+    this.restTemplate = restTemplate;
+    this.webWolfMailURL = webWolfMailURL;
+  }
 
   @GetMapping("/challenge/7/reset-password/{link}")
   public ResponseEntity<String> resetPassword(@PathVariable(value = "link") String link) {
@@ -58,7 +63,7 @@ public class Assignment7 extends AssignmentEndpoint {
                   + "<img src='/WebGoat/images/hi-five-cat.jpg'>"
                   + "<br/><br/>Here is your flag: "
                   + "<b>"
-                  + Flag.FLAGS.get(7)
+                  + flags.getFlag(7)
                   + "</b>");
     }
     return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT)

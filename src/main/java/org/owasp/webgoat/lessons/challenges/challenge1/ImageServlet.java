@@ -4,8 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import javax.servlet.http.HttpServlet;
+import java.util.Random;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ImageServlet extends HttpServlet {
+public class ImageServlet {
 
-  private static final long serialVersionUID = 9132775506936676850L;
-  public static final int PINCODE = new SecureRandom().nextInt(10000);
+  public static final int PINCODE = new Random().nextInt(10000);
 
   @RequestMapping(
       method = {GET, POST},
