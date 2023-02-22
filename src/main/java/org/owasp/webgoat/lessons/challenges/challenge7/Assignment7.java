@@ -9,7 +9,6 @@ import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.challenges.Email;
 import org.owasp.webgoat.lessons.challenges.Flags;
-import org.owasp.webgoat.lessons.challenges.SolutionConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -31,6 +30,8 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @Slf4j
 public class Assignment7 extends AssignmentEndpoint {
+
+  public static final String ADMIN_PASSWORD_LINK = "375afe1104f4a487a73823c50a9292a2";
 
   private static final String TEMPLATE =
       "Hi, you requested a password reset link, please use this <a target='_blank'"
@@ -56,15 +57,13 @@ public class Assignment7 extends AssignmentEndpoint {
 
   @GetMapping("/challenge/7/reset-password/{link}")
   public ResponseEntity<String> resetPassword(@PathVariable(value = "link") String link) {
-    if (link.equals(SolutionConstants.ADMIN_PASSWORD_LINK)) {
+    if (link.equals(ADMIN_PASSWORD_LINK)) {
       return ResponseEntity.accepted()
           .body(
               "<h1>Success!!</h1>"
                   + "<img src='/WebGoat/images/hi-five-cat.jpg'>"
                   + "<br/><br/>Here is your flag: "
-                  + "<b>"
-                  + flags.getFlag(7)
-                  + "</b>");
+                  + flags.getFlag(7));
     }
     return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT)
         .body("That is not the reset link for admin");
@@ -99,6 +98,6 @@ public class Assignment7 extends AssignmentEndpoint {
   @GetMapping(value = "/challenge/7/.git", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
   @ResponseBody
   public ClassPathResource git() {
-    return new ClassPathResource("challenge7/git.zip");
+    return new ClassPathResource("lessons/challenges/challenge7/git.zip");
   }
 }
