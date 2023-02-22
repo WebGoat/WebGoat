@@ -42,6 +42,7 @@ jobs:
         debug: true
 
     - name: Delombok
+      if: matrix.language == 'java'
       uses: advanced-security/delombok@main
 
     - run: mvn clean package -B -DskipTests
