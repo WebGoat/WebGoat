@@ -45,10 +45,11 @@ jobs:
       if: matrix.language == 'java'
       uses: advanced-security/delombok@main
 
-    - run: mvn clean package -B -DskipTests
+    - name: Build with Maven
       if: matrix.language == 'java'
+      run: mvn clean package -B -DskipTests
 
-    - name: Perform CodeQL Analysis
+    - name: Perform CodeQL analysis
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
