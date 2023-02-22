@@ -43,16 +43,18 @@ Pull requests should be as small/atomic as possible. Large, wide-sweeping change
 ### Write a good commit message
 
 * We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and use the following types:
-  - fix: 
-  - feat: 
+
+  - fix:
+  - feat:
   - build:
-  - chore: 
+  - chore:
   - ci:
   - docs:
   - refactor:
   - test:
-   
+
   Using this style of commits makes it possible to create our release notes automatically.
+
 * Explain why you make the changes. [More infos about a good commit message.](https://betterprogramming.pub/stop-writing-bad-commit-messages-8df79517177d)
 
 * If you fix an issue with your commit, please close the issue by [adding one of the keywords and the issue number](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) to your commit message.
