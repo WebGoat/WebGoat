@@ -10,11 +10,6 @@ jobs:
   submit-dependencies:
     name: Submit Dependencies
     runs-on: ubuntu-latest
-    permissions:
-      repository-projects: write
-      actions: read
-      contents: read
-      security-events: write
 
     steps:
     - name: Checkout repository
