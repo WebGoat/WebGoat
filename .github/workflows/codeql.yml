@@ -26,6 +26,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        queries: security-extended
+        debug: true
+
     - name: Setup JDK 17
       if: matrix.language == 'java'
       uses: actions/setup-java@v3
@@ -33,13 +40,6 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
         cache: 'maven'
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
-        queries: security-extended
-        debug: true
 
     - name: Delombok
       if: matrix.language == 'java'
