@@ -39,7 +39,6 @@ jobs:
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
     steps:
-
     - name: Checkout repository
       uses: actions/checkout@v3
 				
@@ -59,7 +58,7 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
 
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
-        # queries: security-extended,security-and-quality
+        queries: security-extended
 
     - name: Delombok
       uses: advanced-security/delombok@main
