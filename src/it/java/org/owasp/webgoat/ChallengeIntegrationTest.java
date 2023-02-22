@@ -7,12 +7,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 public class ChallengeIntegrationTest extends IntegrationTest {
 
   @Test
-  public void testChallenge1() {
+  void testChallenge1() {
     startLesson("Challenge1");
 
     byte[] resultBytes =
@@ -67,7 +69,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
   }
 
   @Test
-  public void testChallenge5() {
+  void testChallenge5() {
     startLesson("Challenge5");
 
     Map<String, Object> params = new HashMap<>();
@@ -106,5 +108,63 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .jsonPath()
             .get("find { it.username == \"" + this.getUser() + "\" }.flagsCaptured");
     assertTrue(capturefFlags.contains("Without password"));
+  }
+
+  @Test
+  void testChallenge7() {
+    startLesson("Challenge7");
+    cleanMailbox();
+
+    // One should first be able to download git.zip from WebGoat
+    RestAssured.given()
+        .when()
+        .relaxedHTTPSValidation()
+        .cookie("JSESSIONID", getWebGoatCookie())
+        .get(url("/WebGoat/challenge/7/.git"))
+        .then()
+        .statusCode(200)
+        .extract()
+        .asString();
+
+    // Should send an email to WebWolf inbox this should give a hint to the link being static
+    RestAssured.given()
+        .when()
+        .relaxedHTTPSValidation()
+        .cookie("JSESSIONID", getWebGoatCookie())
+        .formParams("email", getUser() + "@webgoat.org")
+        .post(url("/WebGoat/challenge/7"))
+        .then()
+        .statusCode(200)
+        .extract()
+        .asString();
+
+    // Check whether email has been received
+    var responseBody =
+        RestAssured.given()
+            .when()
+            .relaxedHTTPSValidation()
+            .cookie("WEBWOLFSESSION", getWebWolfCookie())
+            .get(webWolfUrl("/mail"))
+            .then()
+            .extract()
+            .response()
+            .getBody()
+            .asString();
+    Assertions.assertThat(responseBody).contains("Hi, you requested a password reset link");
+
+    // Call reset link with admin link
+    String result =
+        RestAssured.given()
+            .when()
+            .relaxedHTTPSValidation()
+            .cookie("JSESSIONID", getWebGoatCookie())
+            .get(url("/challenge/7/reset-password/{link}"), "375afe1104f4a487a73823c50a9292a2")
+            .then()
+            .statusCode(HttpStatus.ACCEPTED.value())
+            .extract()
+            .asString();
+
+    String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
+    checkAssignment(url("/WebGoat/challenge/flag"), Map.of("flag", flag), true);
   }
 }
