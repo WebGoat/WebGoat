@@ -48,7 +48,7 @@ jobs:
 
     - name: Delombok
       if: matrix.language == 'java'
-      uses: advanced-security/delombok@main
+      uses: ctcampbellcom/delombok@v1.0
 
     - name: Build with Maven
       if: matrix.language == 'java'
