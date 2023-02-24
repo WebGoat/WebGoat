@@ -11,6 +11,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.http.HttpStatus;
 
 public abstract class IntegrationTest {
 
@@ -251,5 +252,15 @@ public abstract class IntegrationTest {
         .response()
         .getBody()
         .asString();
+  }
+
+  public void cleanMailbox() {
+    RestAssured.given()
+        .when()
+        .relaxedHTTPSValidation()
+        .cookie("WEBWOLFSESSION", getWebWolfCookie())
+        .delete(webWolfUrl("/mail"))
+        .then()
+        .statusCode(HttpStatus.ACCEPTED.value());
   }
 }
