@@ -117,7 +117,7 @@
     <commons-collections.version>3.2.1</commons-collections.version>
     <commons-io.version>2.6</commons-io.version>
     <commons-lang3.version>3.12.0</commons-lang3.version>
-    <commons-text.version>1.9</commons-text.version>
+    <commons-text.version>1.10.0</commons-text.version>
     <guava.version>30.1-jre</guava.version>
     <jacoco.version>0.8.8</jacoco.version>
     <java.version>17</java.version>
