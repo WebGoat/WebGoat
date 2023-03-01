@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -448,7 +449,8 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
                     <systemPropertyVariables>
-                        <logback.configurationFile>${basedir}/src/test/resources/logback-test.xml</logback.configurationFile>
+                        <logback.configurationFile>${basedir}/src/test/resources/logback-test.xml
+                        </logback.configurationFile>
                     </systemPropertyVariables>
                     <argLine>-Xmx512m -Dwebgoatport=${webgoat.port} -Dwebwolfport=${webwolf.port}</argLine>
                     <includes>org/owasp/webgoat/*Test</includes>
@@ -474,9 +476,10 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <argLine>--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
-          --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
-          --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED
-          --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED</argLine>
+                        --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
+                        --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                        --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED
+                    </argLine>
                     <excludes>
                         <exclude>**/*IntegrationTest.java</exclude>
                         <exclude>src/it/java</exclude>
@@ -652,8 +655,10 @@
                                         <argument>java</argument>
                                         <argument>-jar</argument>
                                         <argument>-Dlogging.pattern.console=</argument>
-                                        <argument>-Dwebgoat.server.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
-                                        <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
+                                        <argument>-Dwebgoat.server.directory=${java.io.tmpdir}/webgoat_${webgoat.port}
+                                        </argument>
+                                        <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}
+                                        </argument>
                                         <argument>-Dspring.main.banner-mode=off</argument>
                                         <argument>-Dwebgoat.port=${webgoat.port}</argument>
                                         <argument>-Dwebwolf.port=${webwolf.port}</argument>
@@ -678,7 +683,8 @@
                                         <argument>${project.build.directory}/webgoat-${project.version}.jar</argument>
                                     </arguments>
                                     <waitForInterrupt>false</waitForInterrupt>
-                                    <healthcheckUrl>http://localhost:${webgoat.port}/WebGoat/actuator/health</healthcheckUrl>
+                                    <healthcheckUrl>http://localhost:${webgoat.port}/WebGoat/actuator/health
+                                    </healthcheckUrl>
                                 </configuration>
                             </execution>
                             <execution>
@@ -710,7 +716,9 @@
                             <skipRuntimeScope>false</skipRuntimeScope>
                             <suppressionFiles>
                                 <!--suppress UnresolvedMavenProperty -->
-                                <suppressionFile>${maven.multiModuleProjectDirectory}/config/dependency-check/project-suppression.xml</suppressionFile>
+                                <suppressionFile>
+                                    ${maven.multiModuleProjectDirectory}/config/dependency-check/project-suppression.xml
+                                </suppressionFile>
                             </suppressionFiles>
                         </configuration>
                         <executions>
@@ -737,11 +745,15 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
-                            <argLine>--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
-          --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
-          --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED
-          --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED
-          ${surefire.jacoco.args}</argLine>
+                            <argLine>--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens
+                                java.base/java.io=ALL-UNNAMED
+                                --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
+                                --add-opens java.base/java.util=ALL-UNNAMED --add-opens
+                                java.base/java.lang.reflect=ALL-UNNAMED
+                                --add-opens java.base/java.text=ALL-UNNAMED --add-opens
+                                java.desktop/java.awt.font=ALL-UNNAMED
+                                ${surefire.jacoco.args}
+                            </argLine>
                             <excludes>
                                 <exclude>**/*IntegrationTest.java</exclude>
                                 <exclude>src/it/java</exclude>
@@ -793,7 +805,9 @@
                                 <phase>test</phase>
                                 <configuration>
                                     <dataFile>${project.build.directory}/jacoco/jacoco-ut.exec</dataFile>
-                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report</outputDirectory>
+                                    <outputDirectory>
+                                        ${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report
+                                    </outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
