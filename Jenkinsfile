@@ -9,8 +9,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'mvn spotless:apply'
         sh 'mvn -DskipTests clean install'
+        archiveArtifacts 'bom.xml'
       }
     }
 
