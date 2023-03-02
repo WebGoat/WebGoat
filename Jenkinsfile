@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh '''mvn spotless:apply
 mvn -DskipTests clean install'''
-        archiveArtifacts 'bom.xml'
+        archiveArtifacts 'target/bom.xml'
       }
     }
 
