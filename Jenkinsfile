@@ -18,7 +18,7 @@ pipeline {
       steps {
         sh 'mvn org.owasp:dependency-check-maven:check'
         withSonarQubeEnv('SonarQube') {
-          sh 'mvn -DskipTests clean package sonar:sonar -Dsonar.dependencyCheck.jsonReportPath=target/dependency-check-report.json -Dsonar.dependencyCheck.xmlReportPath=target/dependency-check-report.xml -Dsonar.dependencyCheck.htmlReportPath=target/dependency-check-report.html'
+          sh 'mvn -DskipTests package sonar:sonar -Dsonar.dependencyCheck.jsonReportPath=target/dependency-check-report.json -Dsonar.dependencyCheck.xmlReportPath=target/dependency-check-report.xml -Dsonar.dependencyCheck.htmlReportPath=target/dependency-check-report.html'
         }
 
       }
