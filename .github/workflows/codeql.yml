@@ -47,7 +47,7 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        queries: +security-experimental
+        queries: +security-extended
         debug: true
 
     - name: Build with Maven
