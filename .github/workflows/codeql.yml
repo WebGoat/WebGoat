@@ -78,9 +78,9 @@ jobs:
     - name: Upload sarif as a Build Artifact
       uses: actions/upload-artifact@v2.2.0
       with:
-        name: sarif-results/${{matrix.language}}.sarif
+        name: ${{matrix.language}}.sarif
         path: sarif-results/${{matrix.language}}.sarif
-        retention-days: 1
+        retention-days: 30
 
 
 
