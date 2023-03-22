@@ -43,6 +43,8 @@ public class WebGoatUser implements UserDetails {
   @Id private String username;
   private String password;
   @Transient private User user;
+    
+  private String password = "asadfh@#$SE123";
 
   protected WebGoatUser() {}
 
