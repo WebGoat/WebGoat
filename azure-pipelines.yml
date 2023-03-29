@@ -13,7 +13,7 @@ steps:
 - script: echo Hello, world!
 - task: SynopsysDetectTask@7
   inputs:
-    BlackDuckService: 'kyle-bd'
+    BlackDuckService: 'us1a-imp-hub11'
     DetectArguments: |
       --blackduck.trust.cert=true
       --detect.project.name=WebGoat-Azure
