@@ -14,12 +14,7 @@ steps:
 - task: SynopsysDetectTask@7
   inputs:
     BlackDuckService: 'us1a-imp-hub11'
-    DetectArguments: |
-      --blackduck.trust.cert=true
-      --detect.project.name=WebGoat-Azure
-      --detect.project.version.name=Released_1.0
-      --detect.project.version.phase=RELEASED
-      --detect.code.location.name=WebGoat-Released_1.0-ADO
+    DetectArguments: '--blackduck.trust.cert=true --detect.project.name=WebGoat-Azure --detect.project.version.name=Released_1.0 --detect.project.version.phase=RELEASED --detect.code.location.name=WebGoat-Released_1.0-ADO'
     DetectVersion: 'latest'
   displayName: 'Run a one-line script'
 
