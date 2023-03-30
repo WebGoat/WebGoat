@@ -34,7 +34,7 @@ jobs:
           polaris_accessToken: ${{ secrets.POLARIS_ACCESS_TOKEN }}
           polaris_application_name: "APAC-SG-github-demo2"
           polaris_project_name: "WebGoat"
-          polaris_assessment_types: '["SAST", "SCA"]'
+          polaris_assessment_types: "SCA,SAST"
 
           
 
