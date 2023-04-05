@@ -1,0 +1,9 @@
+name: "Main Branch CodeQL configuration"
+#------------------------------------------------------
+# You can utilize existing query suites in addition to
+# customizations your team has built, or utilize your
+# own query suites, like this one for the OWASP Top Ten
+#------------------------------------------------------
+queries:
+    #- uses: security-and-quality
+    - uses: ./.github/configurations/owasp-top-ten.qls
