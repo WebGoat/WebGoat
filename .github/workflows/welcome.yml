@@ -7,7 +7,7 @@ on:
 
 jobs:
   greeting:
-    if: github.repository == 'tdupoiron/WebGoat'
+    if: github.repository == 'tdupoiron/WebGoat-maven'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/first-interaction@v1.1.1
