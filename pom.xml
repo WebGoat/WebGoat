@@ -119,7 +119,7 @@
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons-text.version>1.10.0</commons-text.version>
     <guava.version>31.1-jre</guava.version>
-    <jacoco.version>0.8.8</jacoco.version>
+    <jacoco.version>0.8.9</jacoco.version>
     <java.version>17</java.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
