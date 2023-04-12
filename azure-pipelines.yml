@@ -10,7 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
 - task: SynopsysDetectTask@7
   inputs:
     BlackDuckService: 'bd-imp-eval06'
@@ -22,9 +21,3 @@ steps:
       --detect.code.location.name=WebGoat-Released_1.0-ADO
       --detect.diagnostic=true
     DetectVersion: 'latest'
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
