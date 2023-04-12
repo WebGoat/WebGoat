@@ -12,7 +12,7 @@ pool:
 steps:
 - task: SynopsysDetectTask@7
   inputs:
-    BlackDuckService: 'us1a-imp-hub11'
+    BlackDuckService: 'bd-imp-eval06'
     DetectArguments: |
       --blackduck.trust.cert=true
       --detect.project.name=WebGoat-Azure
