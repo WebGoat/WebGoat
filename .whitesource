@@ -30,4 +30,5 @@
       "enabled": true
     }
   }
+ "enableReachability": true
 }
