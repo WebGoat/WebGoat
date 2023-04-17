@@ -10,9 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Handler which sets the correct schema for the currently bounded user. This way users are not
- * seeing each other data and we can reset data for just one particular user.
+ * seeing each other data, and we can reset data for just one particular user.
  */
-@Slf4j
 public class LessonConnectionInvocationHandler implements InvocationHandler {
 
   private final Connection targetConnection;
