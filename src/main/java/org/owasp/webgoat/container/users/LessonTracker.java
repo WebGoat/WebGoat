@@ -1,8 +1,20 @@
 package org.owasp.webgoat.container.users;
 
-import java.util.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Version;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
-import javax.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Lesson;
@@ -39,10 +51,11 @@ import org.owasp.webgoat.container.lessons.Lesson;
  * @since October 29, 2003
  */
 @Entity
+@EqualsAndHashCode
 public class LessonTracker {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Getter private String lessonName;

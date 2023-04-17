@@ -1,8 +1,8 @@
 package org.owasp.webgoat.container.asciidoc;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 import org.asciidoctor.ast.ContentNode;
 import org.asciidoctor.extension.InlineMacroProcessor;
 import org.springframework.web.context.request.RequestContextHolder;

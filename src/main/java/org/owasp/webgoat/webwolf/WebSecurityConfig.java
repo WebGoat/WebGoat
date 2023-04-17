@@ -29,54 +29,49 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-/** Security configuration for WebGoat. */
+/** Security configuration for WebWolf. */
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
   private final UserService userDetailsService;
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry security =
-        http.authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/fileupload")
-            .authenticated()
-            .antMatchers(HttpMethod.GET, "/files", "/mail", "/requests")
-            .authenticated()
-            .and()
-            .authorizeRequests()
-            .anyRequest()
-            .permitAll();
-
-    security.and().csrf().disable().formLogin().loginPage("/login").failureUrl("/login?error=true");
-    security.and().formLogin().loginPage("/login").defaultSuccessUrl("/home", true).permitAll();
-    security.and().logout().permitAll();
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(
+        auth -> auth.requestMatchers(HttpMethod.POST, "/fileupload").authenticated());
+    http.authorizeHttpRequests(
+        auth ->
+            auth.requestMatchers(HttpMethod.GET, "/files", "/mail", "/requests").authenticated());
+    http.authorizeHttpRequests().anyRequest().permitAll();
+    http.csrf().disable().formLogin().loginPage("/login").failureUrl("/login?error=true");
+    http.formLogin().loginPage("/login").defaultSuccessUrl("/home", true).permitAll();
+    http.logout().permitAll();
+    return http.build();
   }
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService); // .passwordEncoder(bCryptPasswordEncoder());
+    auth.userDetailsService(userDetailsService);
   }
 
   @Bean
-  @Override
-  public UserDetailsService userDetailsServiceBean() throws Exception {
+  public UserDetailsService userDetailsServiceBean() {
     return userDetailsService;
   }
 
-  @Override
   @Bean
-  protected AuthenticationManager authenticationManager() throws Exception {
-    return super.authenticationManager();
+  public AuthenticationManager authenticationManager(
+      AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
   }
 
   @Bean

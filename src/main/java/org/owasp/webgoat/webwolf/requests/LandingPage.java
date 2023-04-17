@@ -22,8 +22,8 @@
 
 package org.owasp.webgoat.webwolf.requests;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.concurrent.Callable;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

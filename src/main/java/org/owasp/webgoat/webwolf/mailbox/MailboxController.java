@@ -24,7 +24,6 @@ package org.owasp.webgoat.webwolf.mailbox;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,7 +37,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class MailboxController {
 
   private final MailboxRepository mailboxRepository;

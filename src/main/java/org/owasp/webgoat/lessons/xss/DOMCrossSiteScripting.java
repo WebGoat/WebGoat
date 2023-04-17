@@ -22,8 +22,8 @@
 
 package org.owasp.webgoat.lessons.xss;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.SecureRandom;
-import javax.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.UserSessionData;

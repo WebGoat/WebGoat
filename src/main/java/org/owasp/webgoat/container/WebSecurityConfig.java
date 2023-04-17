@@ -37,50 +37,49 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 /** Security configuration for WebGoat. */
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
   private final UserService userDetailsService;
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry security =
-        http.authorizeRequests()
-            .antMatchers(
-                "/css/**",
-                "/images/**",
-                "/js/**",
-                "fonts/**",
-                "/plugins/**",
-                "/registration",
-                "/register.mvc",
-                "/actuator/**")
-            .permitAll()
-            .anyRequest()
-            .authenticated();
-    security
-        .and()
-        .formLogin()
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(
+        auth ->
+            auth.requestMatchers(
+                    "/css/**",
+                    "/images/**",
+                    "/js/**",
+                    "fonts/**",
+                    "/plugins/**",
+                    "/registration",
+                    "/register.mvc",
+                    "/actuator/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated());
+    http.formLogin()
         .loginPage("/login")
         .defaultSuccessUrl("/welcome.mvc", true)
         .usernameParameter("username")
         .passwordParameter("password")
         .permitAll();
-    security.and().logout().deleteCookies("JSESSIONID").invalidateHttpSession(true);
-    security.and().csrf().disable();
+    http.logout().deleteCookies("JSESSIONID").invalidateHttpSession(true);
+    http.csrf().disable();
 
     http.headers().cacheControl().disable();
     http.exceptionHandling().authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login"));
+    return http.build();
   }
 
   @Autowired
@@ -89,15 +88,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  @Override
-  public UserDetailsService userDetailsServiceBean() throws Exception {
+  public UserDetailsService userDetailsServiceBean() {
     return userDetailsService;
   }
 
-  @Override
   @Bean
-  protected AuthenticationManager authenticationManager() throws Exception {
-    return super.authenticationManager();
+  public AuthenticationManager authenticationManager(
+      AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
   }
 
   @SuppressWarnings("deprecation")

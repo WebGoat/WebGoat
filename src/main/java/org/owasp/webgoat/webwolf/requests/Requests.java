@@ -32,8 +32,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.actuate.trace.http.HttpTrace;
-import org.springframework.boot.actuate.trace.http.HttpTrace.Request;
+import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -78,8 +77,8 @@ public class Requests {
     return model;
   }
 
-  private boolean allowedTrace(HttpTrace t, UserDetails user) {
-    Request req = t.getRequest();
+  private boolean allowedTrace(HttpExchange t, UserDetails user) {
+    HttpExchange.Request req = t.getRequest();
     boolean allowed = true;
     /* do not show certain traces to other users in a classroom setup */
     if (req.getUri().getPath().contains("/files")
@@ -95,11 +94,11 @@ public class Requests {
     return allowed;
   }
 
-  private String path(HttpTrace t) {
+  private String path(HttpExchange t) {
     return (String) t.getRequest().getUri().getPath();
   }
 
-  private String toJsonString(HttpTrace t) {
+  private String toJsonString(HttpExchange t) {
     try {
       return objectMapper.writeValueAsString(t);
     } catch (JsonProcessingException e) {
