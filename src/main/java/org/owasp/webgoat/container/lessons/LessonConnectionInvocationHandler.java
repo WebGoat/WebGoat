@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
-import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
