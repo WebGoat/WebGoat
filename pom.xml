@@ -7,6 +7,15 @@
     <artifactId>webgoat-parent</artifactId>
     <packaging>pom</packaging>
     <version>8.2.3-SNAPSHOT</version>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctorj</artifactId>
+                <version>2.5.3</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

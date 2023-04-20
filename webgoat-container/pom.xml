@@ -69,7 +69,6 @@
         <dependency>
             <groupId>org.asciidoctor</groupId>
             <artifactId>asciidoctorj</artifactId>
-            <version>${asciidoctorj.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
