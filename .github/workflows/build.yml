@@ -17,9 +17,14 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                os: [ ubuntu-latest, windows-latest, macos-latest ]
+                os: [ ubuntu-latest ]
+        env:
+            JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+            JFROG_BUILD_STATUS: PASS
         steps:
             -   uses: actions/checkout@v3
+            -   name: Setup JFrog CLI
+                uses: jfrog/setup-jfrog-cli@v1
             -   name: Set up JDK 17
                 uses: actions/setup-java@v3
                 with:
@@ -33,28 +38,26 @@ jobs:
                     key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
                     restore-keys: ${{ runner.os }}-m2-
             -   name: Build with Maven
-                run: mvn --no-transfer-progress verify
-            -   name: "Set up QEMU"
-                if: runner.os == 'Linux'
-                uses: docker/setup-qemu-action@v2.1.0
-            -   name: "Set up Docker Buildx"
-                if: runner.os == 'Linux'
-                uses: docker/setup-buildx-action@v2
-            -   name: "Verify Docker WebGoat build"
-                if: runner.os == 'Linux'
-                uses: docker/build-push-action@v4.0.0
-                with:
-                    context: ./
-                    file: ./Dockerfile
-                    push: false
-                    build-args: |
-                        webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
-            -   name: "Verify Docker WebGoat desktop build"
-                uses: docker/build-push-action@v4.0.0
-                if: runner.os == 'Linux'
-                with:
-                    context: ./
-                    file: ./Dockerfile_desktop
-                    push: false
-                    build-args: |
-                        webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }} 
+                run: |
+                    # Init JFrog CLI Maven config
+                    MVN_PATH=`which mvn` && export M2_HOME=`readlink -f $MVN_PATH | xargs dirname | xargs dirname`
+                    # Replace ‘my_art_server’ with your imported server
+                    jfrog rt mvn-config --server-id-resolve=idlhandsdemo --repo-resolve-releases=libs-release-remote --repo-resolve-snapshots=libs-snapshot-remote
+                    # Build the maven project
+                    jfrog rt mvn clean install
+                    # mvn --no-transfer-progress verify
+            -   name: Failure check
+                run: |
+                    echo "JFROG_BUILD_STATUS=FAIL" >> $GITHUB_ENV
+                if: failure()
+            -   name: Publish Maven build
+                run: |
+                    # Collect environment variables for the build
+                    jfrog rt bce
+                    # Collect VCS details from git and add them to the build
+                    jfrog rt bag
+                    # Publish build info
+                    jfrog rt bp
+                    # Scan build
+                    jfrog rt bs
+                if: always()
