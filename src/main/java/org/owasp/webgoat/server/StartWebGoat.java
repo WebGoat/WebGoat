@@ -24,7 +24,7 @@
  */
 
 package org.owasp.webgoat.server;
-
+// this is a sample secret: password=password123, admin:admin, administratorpass password:qwerty123
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.WebGoat;
 import org.owasp.webgoat.webwolf.WebWolf;
