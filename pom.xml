@@ -113,7 +113,7 @@
     <bootstrap.version>5.2.3</bootstrap.version>
     <cglib.version>2.2</cglib.version>
     <!-- do not update necessary for lesson -->
-    <checkstyle.version>3.1.2</checkstyle.version>
+    <checkstyle.version>3.2.1</checkstyle.version>
     <commons-collections.version>3.2.1</commons-collections.version>
     <commons-io.version>2.11.0</commons-io.version>
     <commons-lang3.version>3.12.0</commons-lang3.version>
@@ -124,7 +124,7 @@
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
     <jquery.version>3.5.1</jquery.version>
-    <jsoup.version>1.15.4</jsoup.version>
+    <jsoup.version>1.16.1</jsoup.version>
     <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
     <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
