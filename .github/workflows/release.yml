@@ -104,7 +104,7 @@ jobs:
           context: ./
           file: ./Dockerfile_desktop
           push: true
-          platforms: linux/amd64, linux/arm64, linux/arm/v7
+          platforms: linux/amd64, linux/arm64
           tags: |
             webgoat/webgoat-desktop:${{ env.WEBGOAT_TAG_VERSION }}
             webgoat/webgoat-desktop:latest
