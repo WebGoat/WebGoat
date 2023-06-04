@@ -4,38 +4,38 @@
         <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
         <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
         which go in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-        <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/lesson-template-intro.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/lesson-template-intro.adoc}"></div>
     </div>
 
     <div class="lesson-page-wrapper">
         <!-- reuse the above lesson-page-wrapper block for each 'page' of content in your lesson -->
         <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
         which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-        <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/lesson-template-content.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/lesson-template-content.adoc}"></div>
     </div>
 
     <div class="lesson-page-wrapper">
         <!-- reuse the above lesson-page-wrapper block for each 'page' of content in your lesson -->
         <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
         which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-        <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/lesson-template-video.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/lesson-template-video.adoc}"></div>
         <!-- can use multiple adoc's in a page-wrapper if you want ... or not-->
-        <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/lesson-template-video-more.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/lesson-template-video-more.adoc}"></div>
     </div>
 
     <div class="lesson-page-wrapper">
-        <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/lesson-template-lesson-class.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/lesson-template-lesson-class.adoc}"></div>
     </div>
 
     <div class="lesson-page-wrapper">
-        <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/lesson-template-glue.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/lesson-template-glue.adoc}"></div>
     </div>
 
     <div class="lesson-page-wrapper">
         <!-- reuse the above lesson-page-wrapper block for each 'page' of content in your lesson -->
         <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
         which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-        <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/lesson-template-attack.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/lesson-template-attack.adoc}"></div>
 
         <!-- WebGoat will automatically style and scaffold some functionality by using the div.attack-container as below -->
         <div class="attack-container">
@@ -71,7 +71,7 @@
         see other lessons for other more complex examples -->
 
     <div class="lesson-page-wrapper">
-        <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/lesson-template-database.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/lesson-template-database.adoc}"></div>
     </div>
 
 </html>

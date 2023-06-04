@@ -22,9 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.*;
-import javax.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;

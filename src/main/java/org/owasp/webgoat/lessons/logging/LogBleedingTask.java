@@ -22,10 +22,10 @@
 
 package org.owasp.webgoat.lessons.logging;
 
+import jakarta.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.UUID;
-import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.util.Strings;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;

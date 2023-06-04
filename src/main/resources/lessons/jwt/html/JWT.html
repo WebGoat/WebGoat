@@ -3,14 +3,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_plan.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_plan.adoc}"></div>
 </div>
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_structure.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_structure.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_decode.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_decode.adoc}"></div>
     <div class="attack-container">
         <img th:src="@{/images/wolf-enabled.png}" class="webwolf-enabled"/>
         <form id="decode" class="attack-form" method="POST" name="form" action="/WebGoat/JWT/decode">
@@ -35,10 +35,10 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_login_to_token.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_login_to_token.adoc}"></div>
 </div>
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_signing.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_signing.adoc}"></div>
 
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
     <script th:src="@{/lesson_js/jwt-voting.js}" language="JavaScript"></script>
@@ -102,7 +102,7 @@
 
 <div class="lesson-page-wrapper">
     <div class="lesson-page-solution">
-        <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_signing_solution.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_signing_solution.adoc}"></div>
     </div>
 </div>
 
@@ -112,7 +112,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/quiz.css}"/>
     <script th:src="@{/js/quiz.js}" language="JavaScript"></script>
     <link rel="import" type="application/json" th:href="@{/lesson_js/questions_jwt.json}"/>
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_libraries_assignment.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_libraries_assignment.adoc}"></div>
     <div class="attack-container">
         <div class="attack-feedback"></div>
         <div class="attack-output"></div>
@@ -134,18 +134,18 @@
 
 <div class="lesson-page-wrapper">
     <div class="lesson-page-solution">
-        <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_libraries_assignment2.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_libraries_assignment2.adoc}"></div>
     </div>
 </div>
 
 <div class="lesson-page-wrapper">
     <div class="lesson-page-solution">
-        <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_libraries_solution.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_libraries_solution.adoc}"></div>
     </div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_weak_keys"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_weak_keys}"></div>
     <script th:src="@{/lesson_js/jwt-weak-keys.js}" language="JavaScript"></script>
     <pre id="secrettoken"></pre>
 
@@ -173,11 +173,11 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_refresh.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_refresh.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_refresh_assignment.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_refresh_assignment.adoc}"></div>
 
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
     <script th:src="@{/lesson_js/bootstrap.min.js}" language="JavaScript"></script>
@@ -299,7 +299,7 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_final.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_final.adoc}"></div>
 
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/jwt.css}"/>
     <script th:src="@{/lesson_js/bootstrap.min.js}" language="JavaScript"></script>
@@ -359,7 +359,7 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/jwt/documentation/JWT_mitigation.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/jwt/documentation/JWT_mitigation.adoc}"></div>
 </div>
 </body>
 

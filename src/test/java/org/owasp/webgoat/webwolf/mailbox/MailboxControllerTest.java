@@ -24,6 +24,7 @@ package org.owasp.webgoat.webwolf.mailbox;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -38,15 +39,18 @@ import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.owasp.webgoat.webwolf.WebSecurityConfig;
 import org.owasp.webgoat.webwolf.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(MailboxController.class)
+@Import(WebSecurityConfig.class)
 public class MailboxControllerTest {
 
   @Autowired private MockMvc mvc;
@@ -63,7 +67,6 @@ public class MailboxControllerTest {
   }
 
   @Test
-  @WithMockUser
   public void sendingMailShouldStoreIt() throws Exception {
     Email email =
         Email.builder()
@@ -76,6 +79,7 @@ public class MailboxControllerTest {
     this.mvc
         .perform(
             post("/mail")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(email)))
         .andExpect(status().isCreated());

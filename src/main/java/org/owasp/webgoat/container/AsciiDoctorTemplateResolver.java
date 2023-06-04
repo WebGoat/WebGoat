@@ -33,6 +33,7 @@ package org.owasp.webgoat.container;
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
 import io.undertow.util.Headers;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,7 +42,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.extension.JavaExtensionRegistry;
@@ -60,7 +60,7 @@ import org.thymeleaf.templateresource.StringTemplateResource;
  * Thymeleaf resolver for AsciiDoc used in the lesson, can be used as follows inside a lesson file:
  *
  * <p><code>
- * <div th:replace="doc:AccessControlMatrix_plan.adoc"></div>
+ * <div th:replace="~{doc:AccessControlMatrix_plan.adoc}"></div>
  * </code>
  */
 @Slf4j

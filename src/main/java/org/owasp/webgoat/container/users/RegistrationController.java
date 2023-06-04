@@ -1,11 +1,10 @@
 package org.owasp.webgoat.container.users;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,6 @@ public class RegistrationController {
 
   private UserValidator userValidator;
   private UserService userService;
-  private AuthenticationManager authenticationManager;
 
   @GetMapping("/registration")
   public String showForm(UserForm userForm) {

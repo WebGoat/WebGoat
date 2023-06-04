@@ -50,12 +50,13 @@ public class DatabaseConfiguration {
   }
 
   @Bean
-  public Function<String, Flyway> flywayLessons(LessonDataSource lessonDataSource) {
+  public Function<String, Flyway> flywayLessons() {
     return schema ->
         Flyway.configure()
             .configuration(Map.of("driver", properties.getDriverClassName()))
             .schemas(schema)
-            .dataSource(lessonDataSource)
+            .cleanDisabled(false)
+            .dataSource(dataSource())
             .locations("lessons")
             .load();
   }

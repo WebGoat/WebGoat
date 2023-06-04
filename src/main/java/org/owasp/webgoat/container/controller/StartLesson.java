@@ -31,7 +31,7 @@
  */
 package org.owasp.webgoat.container.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.session.Course;
 import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.stereotype.Controller;

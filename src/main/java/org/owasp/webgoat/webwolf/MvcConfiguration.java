@@ -22,8 +22,8 @@
 
 package org.owasp.webgoat.webwolf;
 
+import jakarta.annotation.PostConstruct;
 import java.io.File;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
