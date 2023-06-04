@@ -29,9 +29,9 @@ public class ProgressRaceConditionIntegrationTest extends IntegrationTest {
               .relaxedHTTPSValidation()
               .cookie("JSESSIONID", getWebGoatCookie())
               .formParams(Map.of("flag", "test"))
-              .post(url("/challenge/flag/"));
+              .post(url("/challenge/flag"));
         };
-    ExecutorService executorService = Executors.newWorkStealingPool(NUMBER_OF_PARALLEL_THREADS);
+    ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_PARALLEL_THREADS);
     List<? extends Callable<Response>> flagCalls =
         IntStream.range(0, NUMBER_OF_CALLS).mapToObj(i -> call).collect(Collectors.toList());
     var responses = executorService.invokeAll(flagCalls);

@@ -24,10 +24,10 @@ package org.owasp.webgoat.webwolf;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
