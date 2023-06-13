@@ -140,7 +140,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <thymeleaf.version>3.1.1.RELEASE</thymeleaf.version>
-    <webdriver.version>5.3.2</webdriver.version>
+    <webdriver.version>5.3.3</webdriver.version>
     <webgoat.port>8080</webgoat.port>
     <webwolf.port>9090</webwolf.port>
     <wiremock.version>2.27.2</wiremock.version>
