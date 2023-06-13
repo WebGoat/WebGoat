@@ -48,6 +48,7 @@ jobs:
                         robotframework
                         robotframework-SeleniumLibrary
                         webdriver-manager
+                        selenium==4.9.1
             -   name: Run with Maven
                 run: mvn --no-transfer-progress spring-boot:run &
             -   name: Wait to start
