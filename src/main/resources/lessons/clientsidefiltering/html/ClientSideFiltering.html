@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/clientsidefiltering/documentation/ClientSideFiltering_plan.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/clientsidefiltering/documentation/ClientSideFiltering_plan.adoc}"></div>
 </div>
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/clientsidefiltering/documentation/ClientSideFiltering_assignment.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/clientsidefiltering/documentation/ClientSideFiltering_assignment.adoc}"></div>
 
     <br/>
 
@@ -74,7 +74,7 @@
     </div>
 </div>
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/clientsidefiltering/documentation/ClientSideFiltering_final.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/clientsidefiltering/documentation/ClientSideFiltering_final.adoc}"></div>
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/clientSideFilteringFree.css}"/>
     <script th:src="@{/lesson_js/clientSideFilteringFree.js}" language="JavaScript"></script>
     <div class="attack-container">

@@ -2,10 +2,10 @@ package org.owasp.webgoat.container.plugins;
 
 import static org.mockito.Mockito.when;
 
+import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
-import javax.annotation.PostConstruct;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.owasp.webgoat.container.WebGoat;

@@ -22,9 +22,9 @@
 
 package org.owasp.webgoat.lessons.idor;
 
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;

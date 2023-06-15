@@ -13,6 +13,7 @@ committers.
 ```
 mvn versions:set 
 << update release notes >>
+mvn verify
 git commit ....
 git tag v2023.01 
 git push --tags

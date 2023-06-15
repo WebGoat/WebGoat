@@ -5,19 +5,19 @@
 <body>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_plan.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_plan.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_intro.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_intro.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_simple_introduction.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_simple_introduction.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_simple.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_simple.adoc}"></div>
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/xxe.css}"/>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
@@ -77,16 +77,16 @@
 
 <div class="lesson-page-wrapper">
     <div class="lesson-page-solution">
-        <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_simple_solution.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_simple_solution.adoc}"></div>
     </div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_code.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_code.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_changing_content_type.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_changing_content_type.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
@@ -144,20 +144,20 @@
 
 <div class="lesson-page-wrapper">
     <div class="lesson-page-solution">
-        <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_changing_content_type_solution.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_changing_content_type_solution.adoc}"></div>
     </div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_overflow.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_overflow.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_blind.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_blind.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_blind_assignment.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_blind_assignment.adoc}"></div>
     <div class="attack-container">
         <img th:src="@{/images/wolf-enabled.png}" class="webwolf-enabled"/>
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
@@ -215,11 +215,11 @@
 
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_mitigation.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_mitigation.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/xxe/documentation/XXE_static_code_analysis.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/xxe/documentation/XXE_static_code_analysis.adoc}"></div>
     <br/>
     <a id="submitlink" class="btn btn-primary" href="" onclick="javascript:$('#patchbutton').load('/WebGoat/service/enable-security.mvc');return false;"><span id="patchbutton">Apply XXE security patch</span></a>
 </div>

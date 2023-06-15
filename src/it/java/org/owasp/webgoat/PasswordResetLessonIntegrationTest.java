@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import io.restassured.RestAssured;
 import java.util.Arrays;
 import java.util.Map;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.TestFactory;
 public class PasswordResetLessonIntegrationTest extends IntegrationTest {
 
   @BeforeEach
-  @SneakyThrows
   public void init() {
     startLesson("/PasswordReset");
   }

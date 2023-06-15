@@ -20,29 +20,33 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.xxe;
+package org.owasp.webgoat.lessons.challenges;
 
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.container.assignments.AttackResult;
+import org.owasp.webgoat.container.session.WebSession;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author nbaars
- * @since 4/8/17.
- */
-@Getter
-@Setter
+@RestController
 @AllArgsConstructor
-@NoArgsConstructor
-@XmlRootElement(name = "comment")
-@XmlType
-@ToString
-public class Comment {
-  private String user;
-  private String dateTime;
-  private String text;
+public class FlagController extends AssignmentEndpoint {
+
+  private final WebSession webSession;
+  private final Flags flags;
+
+  @PostMapping(path = "/challenge/flag", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public AttackResult postFlag(@RequestParam String flag) {
+    Flag expectedFlag = flags.getFlag(webSession.getCurrentLesson());
+    if (expectedFlag.isCorrect(flag)) {
+      return success(this).feedback("challenge.flag.correct").build();
+    } else {
+      return failed(this).feedback("challenge.flag.incorrect").build();
+    }
+  }
 }

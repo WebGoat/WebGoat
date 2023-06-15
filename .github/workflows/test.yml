@@ -37,7 +37,7 @@ jobs:
                     architecture: x64
             #Uses an action to set up a cache using a certain key based on the hash of the dependencies
             -   name: Cache Maven packages
-                uses: actions/cache@v3.2.5
+                uses: actions/cache@v3.3.1
                 with:
                     path: ~/.m2
                     key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
@@ -48,6 +48,8 @@ jobs:
                         robotframework
                         robotframework-SeleniumLibrary
                         webdriver-manager
+                        selenium==4.9.1
+                    # TODO https://github.com/robotframework/SeleniumLibrary/issues/1835
             -   name: Run with Maven
                 run: mvn --no-transfer-progress spring-boot:run &
             -   name: Wait to start
