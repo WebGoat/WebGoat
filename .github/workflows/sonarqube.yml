@@ -37,6 +37,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn verify sonar:sonar \
           -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.organization==siguser \
-          -Dsonar.projectKey==siguser_webgoat-gh
+          -Dsonar.organization=siguser \
+          -Dsonar.projectKey=siguser_webgoat-gh
 
