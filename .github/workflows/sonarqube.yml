@@ -58,7 +58,7 @@ jobs:
             -Dsonar.projectKey=siguser_webgoat-gh
             -Dsonar.organization=siguser
             # Comma-separated paths to directories containing main source files.
-            #-Dsonar.sources= # optional, default is project base directory
+            #-Dsonar.sources=. # optional, default is project base directory
             # When you need the analysis to take place in a directory other than the one from which it was launched
             #-Dsonar.projectBaseDir= # optional, default is .
             # Comma-separated paths to directories containing test source files.
