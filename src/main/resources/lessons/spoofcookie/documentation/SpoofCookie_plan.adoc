@@ -2,17 +2,26 @@
 
 == Concept
 
-Authentication Cookies are used for services that require authentication, when the user logs in with a personal user name and password, the server validates the provided credentials and if those are valid, it creates a session.
+Authentication cookies are used for services that require authentication. When a user logs in with a personal username and password, the server verifies the provided credentials. If they are valid, it creates a session.
 
-Every session usually has a unique ID that identifies the user's session; when the server returns the response to the user, it includes a Set-Cookie header that contains, among other things, the cookie name and value.
+Typically, each session is assigned a unique ID that identifies the user's session. When the server sends a response back to the user, it includes a "Set-Cookie" header that contains, among other things, the cookie name and value.
 
-The authentication cookie is typically stored on the client and server side.
+The authentication cookie is usually stored on both the client and server sides.
 
-On the one hand, having the cookie stored on the client side implies that can be stolen by exploiting certain vulnerabilities or intercepted using man in the middle attacks or XSS. On the other, cookie values can be guessed if the algorithm for generating the cookie can be obtained.
+On one hand, storing the cookie on the client side means it can be susceptible to theft through exploiting certain vulnerabilities or interception via man-in-the-middle attacks or XSS. On the other hand, the cookie values can be guessed if the algorithm used to generate the cookie is obtained.
 
-Many applications will automatically login a user if the right authentication cookie is provided.
-
+Many applications will automatically log in a user if the correct authentication cookie is provided.
 
 == Goals
 
-The user should be able to guess the cookie generation algorithm and bypass the authentication mechanism by logging in as a different user.
+The user should not be able to guess the cookie generation algorithm and bypass the authentication mechanism by logging in as a different user.
+
+== Rationale
+
+It is crucial for the security of the authentication system that the cookie generation algorithm remains secure and not easily guessable. If an attacker can predict or determine the algorithm, they may be able to generate valid authentication cookies for different users, thereby bypassing the authentication mechanism and impersonating other users.
+
+To mitigate this risk, it is essential to employ robust and cryptographically secure algorithms for generating authentication cookies. These algorithms should use strong randomization and hashing techniques to ensure the uniqueness and unpredictability of the generated cookies.
+
+Additionally, implementing measures such as session expiration and regular rotation of authentication cookies can further enhance security. By frequently changing the cookie values and enforcing session timeouts, the window of opportunity for attackers to exploit any potential vulnerabilities is significantly reduced.
+
+Overall, protecting the confidentiality and integrity of the authentication cookie generation algorithm is paramount to prevent unauthorized access and maintain the integrity of the authentication mechanism.
