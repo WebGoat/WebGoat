@@ -97,7 +97,8 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
           .feedback("idor.edit.profile.failure3")
           .output(currentUserProfile.profileToMap().toString())
           .build();
-    } else if (userSubmittedProfile.getUserId().equals(authUserId)) {
+    } else if (userSubmittedProfile.getUserId() != null
+        && userSubmittedProfile.getUserId().equals(authUserId)) {
       return failed(this).feedback("idor.edit.profile.failure4").build();
     }
 
