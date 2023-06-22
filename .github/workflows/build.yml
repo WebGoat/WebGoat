@@ -1,31 +1,35 @@
-name: "Pull requests build"
+name: "Sonar-enabled build"
+
 on:
+    push:
+        branches:
+        - main
     pull_request:
+        types: [opened, synchronize, reopened]
         paths-ignore:
             - '.txt'
             - 'LICENSE'
             - 'docs/**'
 
 jobs:
-    pr-build:
-        if: >
-            github.event_name == 'pull_request' && !github.event.pull_request.draft && (
-              github.event.action == 'opened' ||
-              github.event.action == 'reopened' ||
-              github.event.action == 'synchronize' 
-            )
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ ubuntu-latest, windows-latest, macos-latest ]
+    sonar-build:
+        runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v3
+                with:
+                    fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis            
             -   name: Set up JDK 17
                 uses: actions/setup-java@v3
                 with:
                     distribution: 'temurin'
                     java-version: 17
                     architecture: x64
+            - name: Cache SonarQube packages
+              uses: actions/cache@v1
+              with:
+                path: ~/.sonar/cache
+                key: ${{ runner.os }}-sonar
+                restore-keys: ${{ runner.os }}-sonar
             -   name: Cache Maven packages
                 uses: actions/cache@v3.3.1
                 with:
@@ -33,28 +37,9 @@ jobs:
                     key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
                     restore-keys: ${{ runner.os }}-m2-
             -   name: Build with Maven
-                run: mvn --no-transfer-progress verify
-            -   name: "Set up QEMU"
-                if: runner.os == 'Linux'
-                uses: docker/setup-qemu-action@v2.2.0
-            -   name: "Set up Docker Buildx"
-                if: runner.os == 'Linux'
-                uses: docker/setup-buildx-action@v2
-            -   name: "Verify Docker WebGoat build"
-                if: runner.os == 'Linux'
-                uses: docker/build-push-action@v4.1.0
-                with:
-                    context: ./
-                    file: ./Dockerfile
-                    push: false
-                    build-args: |
-                        webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
-            -   name: "Verify Docker WebGoat desktop build"
-                uses: docker/build-push-action@v4.1.0
-                if: runner.os == 'Linux'
-                with:
-                    context: ./
-                    file: ./Dockerfile_desktop
-                    push: false
-                    build-args: |
-                        webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }} 
+                env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+                  SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+                run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dmaven.test.skip=true -Dsonar.projectKey="$SONAR_PROJECT_KEY"
