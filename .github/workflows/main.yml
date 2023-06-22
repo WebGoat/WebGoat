@@ -28,11 +28,11 @@ jobs:
           run: mvn --no-transfer-progress clean compile -DskipTests
 
       - name: Synopsys Action
-        uses: synopsys-sig/synopsys-action@v1.1.0
+        uses: synopsys-sig/synopsys-action@v1.2.0
         with:
           polaris_serverUrl: ${{ secrets.POLARIS_SEVER_URL }}
           polaris_accessToken: ${{ secrets.POLARIS_ACCESS_TOKEN }}
-          polaris_application_name: "APAC-SG-github-demo2"
+          polaris_application_name: "APAC-SG-github-demo"
           polaris_project_name: "WebGoat"
           polaris_assessment_types: "SCA,SAST"
 
