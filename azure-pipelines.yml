@@ -18,21 +18,22 @@ steps:
   displayName: 'Coverity Download'
  
 
-- task: synopsys-coverity@1
-  inputs:
-    coverityService: testing.coverity
-    projectName: 'SRH-Webgoat'
-    streamName: 'Release'
-    checkIssues: false
-    issueView: 'Outstanding Issues'
-    issueStatus: 'success'
-    coverityRunType: 'custom'
-    customCoverityCommands: 'coverity scan -o commit.connect.url=$COV_URL -o commit.connect.stream=$COV_STREAM'
-    allowUntrusted: true
-  displayName: 'Coverity Scan'
+#- task: synopsys-coverity@1
+#  inputs:
+#    coverityService: testing.coverity
+#    projectName: 'SRH-Webgoat'
+#    streamName: 'Release'
+#    checkIssues: false
+#    issueView: 'Outstanding Issues'
+#    issueStatus: 'success'
+#    coverityRunType: 'custom'
+#    customCoverityCommands: 'coverity scan -o commit.connect.url=$COV_URL -o commit.connect.stream=$COV_STREAM'
+#    allowUntrusted: true
+#  displayName: 'Coverity Scan'
 
 
 - task: SynopsysDetectTask@8
   inputs:
-    BlackDuckService: testing.blackduck
+    BlackDuckService: 'testing.blackduck'
     DetectArguments: '--detect.project.name=srh-webgoat --detect.project.version.name=Release'
+    DetectVersion: 'latest'
