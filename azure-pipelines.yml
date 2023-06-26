@@ -20,6 +20,7 @@ steps:
 
 - task: synopsys-coverity@1
   inputs:
+    coverityService: testing.coverity.synopsys.com
     projectName: '$(Build.Repository.Name)'
     streamName: '$(Build.Repository.Name)-$(Build.SourceBranchName)'
     checkIssues: true
