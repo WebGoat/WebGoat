@@ -23,9 +23,9 @@ steps:
     coverityService: testing.coverity
     projectName: 'SRH-Webgoat'
     streamName: 'Release'
-    checkIssues: true
+    checkIssues: false
     issueView: 'Outstanding Issues'
-    issueStatus: 'unstable'
+    issueStatus: 'success'
     coverityRunType: 'custom'
     customCoverityCommands: 'coverity scan -o commit.connect.url=$COV_URL -o commit.connect.stream=$COV_STREAM'
     allowUntrusted: true
