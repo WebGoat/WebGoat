@@ -21,8 +21,8 @@ steps:
 - task: synopsys-coverity@1
   inputs:
     coverityService: testing.coverity
-    projectName: '$(Build.Repository.Name)'
-    streamName: '$(Build.Repository.Name)-$(Build.SourceBranchName)'
+    projectName: 'SRH-Webgoat'
+    streamName: 'Release'
     checkIssues: true
     issueView: 'Outstanding Issues'
     issueStatus: 'unstable'
