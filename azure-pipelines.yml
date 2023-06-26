@@ -1,0 +1,31 @@
+pool:
+  vmImage: ubuntu-latest
+ 
+variables:
+- name: COVERITY_TOOLKIT
+  value: cov-analysis-linux64-2023.6.0
+- name: COVERITY_TOOL_HOME
+  value: $(Agent.TempDirectory)/$(COVERITY_TOOLKIT)
+ 
+steps:
+ 
+- script: |
+    set -x
+    curl -fLsS --user $COV_USER:$COVERITY_PASSPHRASE $COV_URL/downloadFile.htm?fn=$COVERITY_TOOLKIT.tar.gz | tar -C $(Agent.TempDirectory) -xzf -
+    curl -fLsS --user $COV_USER:$COVERITY_PASSPHRASE -o $COVERITY_TOOL_HOME/bin/license.dat $COV_URL/downloadFile.htm?fn=license.dat
+  env:
+    COVERITY_PASSPHRASE: $(COVERITY_PASSPHRASE)
+  displayName: 'Coverity Download'
+ 
+
+- task: synopsys-coverity@1
+  inputs:
+    projectName: '$(Build.Repository.Name)'
+    streamName: '$(Build.Repository.Name)-$(Build.SourceBranchName)'
+    checkIssues: true
+    issueView: 'Outstanding Issues'
+    issueStatus: 'unstable'
+    coverityRunType: 'custom'
+    customCoverityCommands: 'coverity scan -o commit.connect.url=$COV_URL -o commit.connect.stream=$COV_STREAM'
+    allowUntrusted: true
+  displayName: 'Coverity Scan'
