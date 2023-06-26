@@ -35,4 +35,4 @@ steps:
 - task: SynopsysDetectTask@8
   inputs:
     BlackDuckService: testing.blackduck
-    DetectArguments: '--detect.project.name=srh-webgoat --detect.project.version.name='Release'
+    DetectArguments: '--detect.project.name=srh-webgoat --detect.project.version.name=Release'
