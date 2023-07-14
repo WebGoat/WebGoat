@@ -1,6 +1,9 @@
 kind: pipeline
-type: docker
+type: vm
 name: default
+
+pool:
+    use: testpool
 
 steps:
     - name: WebGoat mvn compile
