@@ -1,0 +1,9 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+    - name: WebGoat mvn compile
+      image: maven:latest
+      commands:
+          - mvn clean compile
