@@ -15,7 +15,8 @@
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  *
- * Getting Source ==============
+ * Getting Source
+ * ==============
  *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
@@ -23,8 +24,6 @@
 package org.owasp.webgoat.lessons.idor;
 
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -56,7 +55,6 @@ public class IDORViewOtherProfile extends AssignmentEndpoint {
       produces = {"application/json"})
   @ResponseBody
   public AttackResult completed(@PathVariable("userId") String userId, HttpServletResponse resp) {
-    Map<String, Object> details = new HashMap<>();
 
     if (userSessionData.getValue("idor-authenticated-as").equals("tom")) {
       // going to use session auth to view this one
@@ -66,7 +64,8 @@ public class IDORViewOtherProfile extends AssignmentEndpoint {
         UserProfile requestedProfile = new UserProfile(userId);
         // secure code would ensure there was a horizontal access control check prior to dishing up
         // the requested profile
-        if (requestedProfile.getUserId().equals("2342388")) {
+        if (requestedProfile.getUserId() != null
+            && requestedProfile.getUserId().equals("2342388")) {
           return success(this)
               .feedback("idor.view.profile.success")
               .output(requestedProfile.profileToMap().toString())
