@@ -109,7 +109,7 @@
 
   <properties>
     <!-- Shared properties with plugins and version numbers across submodules-->
-    <asciidoctorj.version>2.5.3</asciidoctorj.version>
+    <asciidoctorj.version>2.5.10</asciidoctorj.version>
     <!-- Upgrading needs UI work in WebWolf -->
     <bootstrap.version>3.3.7</bootstrap.version>
     <cglib.version>3.3.0</cglib.version>
@@ -132,7 +132,7 @@
     <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
-    <maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <pmd.version>3.15.0</pmd.version>
@@ -243,7 +243,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.22</version>
+        <version>1.23.0</version>
       </dependency>
       <dependency>
         <groupId>org.jruby</groupId>
