@@ -15,7 +15,8 @@
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  *
- * Getting Source ==============
+ * Getting Source
+ * ==============
  *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
@@ -68,7 +69,7 @@ public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint {
         return failed(this).feedback("idor.view.own.profile.failure2").build();
       }
     } catch (Exception ex) {
-      return failed(this).feedback("an error occurred with your request").build();
+      return failed(this).output("an error occurred with your request").build();
     }
   }
 }
