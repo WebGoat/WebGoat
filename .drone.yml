@@ -16,9 +16,9 @@ steps:
           LW_API_SECRET:
               from_secret: lacework_api_secret
       commands:
-          - lacework --noninteractive -a "${LW_ACCOUNT}" -k "${LW_API_KEY}" -s "${LW_API_SECRET}" component install sca"
-          - lacework --noninteractive -a "${LW_ACCOUNT}" -k "${LW_API_KEY}" -s "${LW_API_SECRET}" version
-          - lacework --noninteractive -a "${LW_ACCOUNT}" -k "${LW_API_KEY}" -s "${LW_API_SECRET}" component list
+          - lacework --noninteractive component install sca
+          - lacework --noninteractive version
+          - lacework --noninteractive component list
       when:
           branch:
               - main
