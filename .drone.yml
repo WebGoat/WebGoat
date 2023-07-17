@@ -6,6 +6,22 @@ pool:
     use: testpool
 
 steps:
+    - name: Inititialize Lacework CLI
+      image: lacework/lacework-cli
+      environment:
+          LW_ACCOUNT:
+              from_secret: lacework_account
+          LW_API_KEY:
+              from_secret: lacework_api_key
+          LW_API_SECRET:
+              from_secret: lacework_api_secret
+      commands:
+          - lacework --noninteractive -a "${LW_ACCOUNT}" -k "${LW_API_KEY}" -s "${LW_API_SECRET}" component install sca"
+          - lacework --noninteractive -a "${LW_ACCOUNT}" -k "${LW_API_KEY}" -s "${LW_API_SECRET}" version
+          - lacework --noninteractive -a "${LW_ACCOUNT}" -k "${LW_API_KEY}" -s "${LW_API_SECRET}" component list
+      when:
+          branch:
+              - main
     - name: WebGoat mvn compile
       image: maven:latest
       commands:
