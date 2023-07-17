@@ -6,7 +6,11 @@ pool:
     use: testpool
 
 steps:
-    - name: Run Lacework SCA
+    - name: Show env
+      commands:
+          - env
+
+    - name: Run Lacework SCA on Push to main
       image: lacework/lacework-cli
       environment:
           LW_ACCOUNT:
@@ -23,6 +27,29 @@ steps:
       when:
           branch:
               - main
+          event:
+              - push
+
+    - name: Run Lacework SCA on
+      image: lacework/lacework-cli
+      environment:
+          LW_ACCOUNT:
+              from_secret: lacework_account
+          LW_API_KEY:
+              from_secret: lacework_api_key
+          LW_API_SECRET:
+              from_secret: lacework_api_secret
+      commands:
+          - lacework --noninteractive component install sca
+          - lacework --noninteractive version
+          - lacework --noninteractive component list
+          - lacework --noninteractive sca git . --save-results -o sca.sarif --formats sarif --deployment ci --secret
+      when:
+          branch:
+              - main
+          event:
+              - pull_request
+
     - name: WebGoat mvn compile
       image: maven:latest
       commands:
