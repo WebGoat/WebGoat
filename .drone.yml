@@ -6,7 +6,7 @@ pool:
     use: testpool
 
 steps:
-    - name: Inititialize Lacework CLI
+    - name: Run Lacework SCA
       image: lacework/lacework-cli
       environment:
           LW_ACCOUNT:
@@ -19,6 +19,7 @@ steps:
           - lacework --noninteractive component install sca
           - lacework --noninteractive version
           - lacework --noninteractive component list
+          - lacework --noninteractive sca git . --save-results -o sca.sarif --formats sarif --deployment ci --secret
       when:
           branch:
               - main
