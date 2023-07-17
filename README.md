@@ -1,3 +1,5 @@
+# FIX-4711
+
 # WebGoat 8: A deliberately insecure Web Application
 
 [![Build](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml)
@@ -17,16 +19,16 @@ This program is a demonstration of common server-side application flaws. The
 exercises are intended to be used by people to learn about application security and
 penetration testing techniques.
 
-**WARNING 1:** *While running this program your machine will be extremely
+**WARNING 1:** _While running this program your machine will be extremely
 vulnerable to attack. You should disconnect from the Internet while using
-this program.*  WebGoat's default configuration binds to localhost to minimize
+this program._ WebGoat's default configuration binds to localhost to minimize
 the exposure.
 
-**WARNING 2:** *This program is for educational purposes only. If you attempt
+**WARNING 2:** _This program is for educational purposes only. If you attempt
 these techniques without authorization, you are very likely to get caught. If
 you are caught engaging in unauthorized hacking, most companies will fire you.
 Claiming that you were doing security research will not work as that is the
-first thing that all hackers claim.*
+first thing that all hackers claim._
 
 ![WebGoat](docs/images/webgoat.png)
 
@@ -80,9 +82,9 @@ Click the link in the log to start WebGoat.
 
 ### Prerequisites:
 
-* Java 17
-* Your favorite IDE
-* Git, or Git support in your IDE
+-   Java 17
+-   Your favorite IDE
+-   Git, or Git support in your IDE
 
 Open a command shell/window:
 
@@ -142,4 +144,3 @@ Or in a docker run it would (once this version is pushed into docker hub) look l
 ```Shell
 docker run -d -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/webgoat
 ```
-
