@@ -42,6 +42,7 @@ public class AccountVerificationHelper {
   static {
     secQuestionStore.put(verifyUserId, userSecQuestions);
   }
+
   // end 'data store set up'
 
   // this is to aid feedback in the attack process and is not intended to be part of the
@@ -68,6 +69,7 @@ public class AccountVerificationHelper {
 
     return likely;
   }
+
   // end of cheating check ... the method below is the one of real interest. Can you find the flaw?
 
   public boolean verifyAccount(Integer userId, HashMap<String, String> submittedQuestions) {
