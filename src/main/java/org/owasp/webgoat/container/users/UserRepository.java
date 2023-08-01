@@ -1,8 +1,7 @@
 package org.owasp.webgoat.container.users;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author nbaars
@@ -10,10 +9,9 @@ import java.util.List;
  */
 public interface UserRepository extends JpaRepository<WebGoatUser, String> {
 
-    WebGoatUser findByUsername(String username);
+  WebGoatUser findByUsername(String username);
 
-    List<WebGoatUser> findAll();
+  List<WebGoatUser> findAll();
 
-    boolean existsByUsername(String username);
-
+  boolean existsByUsername(String username);
 }

@@ -1,4 +1,5 @@
 == Parameterized Queries - Java Snippet
+
 [source,java]
 ----
 public static bool isUsernameValid(string username) {
@@ -12,14 +13,39 @@ RecordSet rs = null;
 try {
     pUserName = request.getParameter("UserName");
     if ( isUsernameValid (pUsername) ) {
-        ps = conn.prepareStatement("SELECT * FROM user_table
-                                   WHERE username = ? ");
+        ps = conn.prepareStatement("SELECT * FROM user_table WHERE username = ? ");
         ps.setString(1, pUsername);
         rs = ps.execute();
         if ( rs.next() ) {
             // do the work of making the user record active in some way
         }
-    } else { // handle invalid input }
+    } else {
+        // handle invalid input
+    }
 }
 catch (...) { // handle all exceptions ... }
 ----
+
+== Important
+
+Use the prepared statement correctly; parameters should be set with `ps.set..()` and DO NOT use the following statement:
+
+[source,java]
+----
+String insertStatement = "INSERT INTO USERS (id, name, email) VALUES (%s, %s, %s)".format("1", "webgoat", "webgoat@owasp.org");
+PreparedStatement statement = conn.prepareStatement(insertStatement);
+statement.executeUpdate();
+----
+
+(For the sake of the example, we assume that the passed values are based on user input).
+The example above is not the correct way to use a prepared statement, use:
+
+[source,java]
+----
+PreparedStatement statement = conn.prepareStatement("INSERT INTO USERS (id, name, email) VALUES (?, ?, ?)");
+statement.setString(1, "1");
+statement.setString(2, "webgoat");
+statement.setString(3, "webgoat@owasp.org");
+statement.executeUpdate();
+----
+

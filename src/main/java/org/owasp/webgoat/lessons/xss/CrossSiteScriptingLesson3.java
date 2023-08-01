@@ -31,48 +31,59 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-//@RestController
+// @RestController
 @Deprecated
-//TODO This assignment seems not to be in use in the UI
+// TODO This assignment seems not to be in use in the UI
 // it is there to make sure the lesson can be marked complete
 // in order to restore it, make it accessible through the UI and uncomment RestController
-@AssignmentHints(value = {"xss-mitigation-3-hint1", "xss-mitigation-3-hint2", "xss-mitigation-3-hint3", "xss-mitigation-3-hint4"})
+@AssignmentHints(
+    value = {
+      "xss-mitigation-3-hint1",
+      "xss-mitigation-3-hint2",
+      "xss-mitigation-3-hint3",
+      "xss-mitigation-3-hint4"
+    })
 public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
 
-    @PostMapping("/CrossSiteScripting/attack3")
-    @ResponseBody
-    public AttackResult completed(@RequestParam String editor) {
-        String unescapedString = org.jsoup.parser.Parser.unescapeEntities(editor, true);
-        try {
-            if (editor.isEmpty()) return failed(this).feedback("xss-mitigation-3-no-code").build();
-            Document doc = Jsoup.parse(unescapedString);
-            String[] lines = unescapedString.split("<html>");
+  @PostMapping("/CrossSiteScripting/attack3")
+  @ResponseBody
+  public AttackResult completed(@RequestParam String editor) {
+    String unescapedString = org.jsoup.parser.Parser.unescapeEntities(editor, true);
+    try {
+      if (editor.isEmpty()) return failed(this).feedback("xss-mitigation-3-no-code").build();
+      Document doc = Jsoup.parse(unescapedString);
+      String[] lines = unescapedString.split("<html>");
 
-            String include = (lines[0]);
-            String fistNameElement = doc.select("body > table > tbody > tr:nth-child(1) > td:nth-child(2)").first().text();
-            String lastNameElement = doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").first().text();
+      String include = (lines[0]);
+      String fistNameElement =
+          doc.select("body > table > tbody > tr:nth-child(1) > td:nth-child(2)").first().text();
+      String lastNameElement =
+          doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").first().text();
 
-            Boolean includeCorrect = false;
-            Boolean firstNameCorrect = false;
-            Boolean lastNameCorrect = false;
+      Boolean includeCorrect = false;
+      Boolean firstNameCorrect = false;
+      Boolean lastNameCorrect = false;
 
-            if (include.contains("<%@") && include.contains("taglib") && include.contains("uri=\"https://www.owasp.org/index.php/OWASP_Java_Encoder_Project\"") && include.contains("%>")) {
-                includeCorrect = true;
-            }
-            if (fistNameElement.equals("${e:forHtml(param.first_name)}")) {
-                firstNameCorrect = true;
-            }
-            if (lastNameElement.equals("${e:forHtml(param.last_name)}")) {
-                lastNameCorrect = true;
-            }
+      if (include.contains("<%@")
+          && include.contains("taglib")
+          && include.contains("uri=\"https://www.owasp.org/index.php/OWASP_Java_Encoder_Project\"")
+          && include.contains("%>")) {
+        includeCorrect = true;
+      }
+      if (fistNameElement.equals("${e:forHtml(param.first_name)}")) {
+        firstNameCorrect = true;
+      }
+      if (lastNameElement.equals("${e:forHtml(param.last_name)}")) {
+        lastNameCorrect = true;
+      }
 
-            if (includeCorrect && firstNameCorrect && lastNameCorrect) {
-                return success(this).feedback("xss-mitigation-3-success").build();
-            } else {
-                return failed(this).feedback("xss-mitigation-3-failure").build();
-            }
-        } catch (Exception e) {
-            return failed(this).output(e.getMessage()).build();
-        }
+      if (includeCorrect && firstNameCorrect && lastNameCorrect) {
+        return success(this).feedback("xss-mitigation-3-success").build();
+      } else {
+        return failed(this).feedback("xss-mitigation-3-failure").build();
+      }
+    } catch (Exception e) {
+      return failed(this).output(e.getMessage()).build();
     }
+  }
 }

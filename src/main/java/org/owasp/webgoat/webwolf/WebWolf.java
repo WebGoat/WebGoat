@@ -23,7 +23,7 @@
 package org.owasp.webgoat.webwolf;
 
 import org.owasp.webgoat.webwolf.requests.WebWolfTraceRepository;
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+import org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,9 +36,8 @@ import org.springframework.context.annotation.PropertySource;
 @EnableAutoConfiguration
 public class WebWolf {
 
-    @Bean
-    public HttpTraceRepository traceRepository() {
-        return new WebWolfTraceRepository();
-    }
-
+  @Bean
+  public HttpExchangeRepository traceRepository() {
+    return new WebWolfTraceRepository();
+  }
 }

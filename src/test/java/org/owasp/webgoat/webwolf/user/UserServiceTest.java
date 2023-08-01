@@ -39,41 +39,39 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
-    @Mock
-    private UserRepository mockUserRepository;
+  @Mock private UserRepository mockUserRepository;
 
-    @InjectMocks
-    private UserService sut;
+  @InjectMocks private UserService sut;
 
-    @Test
-    public void testLoadUserByUsername(){
-        var username = "guest";
-        var password = "123";
-        WebGoatUser user = new WebGoatUser(username, password);
-        when(mockUserRepository.findByUsername(username)).thenReturn(user);
+  @Test
+  public void testLoadUserByUsername() {
+    var username = "guest";
+    var password = "123";
+    WebGoatUser user = new WebGoatUser(username, password);
+    when(mockUserRepository.findByUsername(username)).thenReturn(user);
 
-        var webGoatUser = sut.loadUserByUsername(username);
+    var webGoatUser = sut.loadUserByUsername(username);
 
-        Assertions.assertThat(username).isEqualTo(webGoatUser.getUsername());
-        Assertions.assertThat(password).isEqualTo(webGoatUser.getPassword());
-    }
+    Assertions.assertThat(username).isEqualTo(webGoatUser.getUsername());
+    Assertions.assertThat(password).isEqualTo(webGoatUser.getPassword());
+  }
 
-    @Test
-    public void testLoadUserByUsername_NULL(){
-        var username = "guest";
-        
-        when(mockUserRepository.findByUsername(username)).thenReturn(null);
+  @Test
+  public void testLoadUserByUsername_NULL() {
+    var username = "guest";
 
-        assertThrows(UsernameNotFoundException.class, ()->sut.loadUserByUsername(username));
-    }
+    when(mockUserRepository.findByUsername(username)).thenReturn(null);
 
-    @Test
-    public void testAddUser(){
-        var username = "guest";
-        var password = "guest";
+    assertThrows(UsernameNotFoundException.class, () -> sut.loadUserByUsername(username));
+  }
 
-        sut.addUser(username, password);
+  @Test
+  public void testAddUser() {
+    var username = "guest";
+    var password = "guest";
 
-        verify(mockUserRepository, times(1)).save(any(WebGoatUser.class));
-    }
+    sut.addUser(username, password);
+
+    verify(mockUserRepository, times(1)).save(any(WebGoatUser.class));
+  }
 }

@@ -1,8 +1,11 @@
-FROM docker.io/eclipse-temurin:17-jre-focal
+FROM docker.io/eclipse-temurin:19-jre-focal
+LABEL NAME = "WebGoat: A deliberately insecure Web Application"
+MAINTAINER "WebGoat team"
 
-RUN useradd -ms /bin/bash webgoat
-RUN chgrp -R 0 /home/webgoat
-RUN chmod -R g=u /home/webgoat
+RUN \
+  useradd -ms /bin/bash webgoat && \
+  chgrp -R 0 /home/webgoat && \
+  chmod -R g=u /home/webgoat
 
 USER webgoat
 
@@ -24,6 +27,8 @@ ENTRYPOINT [ "java", \
    "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", \
    "--add-opens", "java.base/java.io=ALL-UNNAMED", \
    "--add-opens", "java.base/java.util=ALL-UNNAMED", \
+   "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", \
+   "--add-opens", "java.base/java.io=ALL-UNNAMED", \
    "-Drunning.in.docker=true", \
    "-Dwebgoat.host=0.0.0.0", \
    "-Dwebwolf.host=0.0.0.0", \

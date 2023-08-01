@@ -5,7 +5,7 @@ You can include multiple adoc files in one page, by including them in the same `
 [source]
 ----
 <div class="lesson-page-wrapper">
-  <div class="adoc-content" th:replace="doc:lesson-template-video.adoc"></div>
-  <div class="adoc-content" th:replace="doc:lesson-template-video-more.adoc"></div>
+  <div class="adoc-content" th:replace="~{doc:lesson-template-video.adoc}"></div>
+  <div class="adoc-content" th:replace="~{doc:lesson-template-video-more.adoc}"></div>
 </div>
 ----

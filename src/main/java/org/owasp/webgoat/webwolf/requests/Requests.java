@@ -22,15 +22,17 @@
 
 package org.owasp.webgoat.webwolf.requests;
 
+import static java.util.stream.Collectors.toList;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.actuate.trace.http.HttpTrace;
-import org.springframework.boot.actuate.trace.http.HttpTrace.Request;
+import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -38,13 +40,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.Instant;
-
-import static java.util.stream.Collectors.toList;
-
 /**
- * Controller for fetching all the HTTP requests from WebGoat to WebWolf for a specific
- * user.
+ * Controller for fetching all the HTTP requests from WebGoat to WebWolf for a specific user.
  *
  * @author nbaars
  * @since 8/13/17.
@@ -55,52 +52,58 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping(value = "/requests")
 public class Requests {
 
-    private final WebWolfTraceRepository traceRepository;
-    private final ObjectMapper objectMapper;
+  private final WebWolfTraceRepository traceRepository;
+  private final ObjectMapper objectMapper;
 
-    @AllArgsConstructor
-    @Getter
-    private class Tracert {
-        private final Instant date;
-        private final String path;
-        private final String json;
+  @AllArgsConstructor
+  @Getter
+  private class Tracert {
+    private final Instant date;
+    private final String path;
+    private final String json;
+  }
+
+  @GetMapping
+  public ModelAndView get() {
+    var model = new ModelAndView("requests");
+    var user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    var traces =
+        traceRepository.findAllTraces().stream()
+            .filter(t -> allowedTrace(t, user))
+            .map(t -> new Tracert(t.getTimestamp(), path(t), toJsonString(t)))
+            .collect(toList());
+    model.addObject("traces", traces);
+
+    return model;
+  }
+
+  private boolean allowedTrace(HttpExchange t, UserDetails user) {
+    HttpExchange.Request req = t.getRequest();
+    boolean allowed = true;
+    /* do not show certain traces to other users in a classroom setup */
+    if (req.getUri().getPath().contains("/files")
+        && !req.getUri().getPath().contains(user.getUsername())) {
+      allowed = false;
+    } else if (req.getUri().getPath().contains("/landing")
+        && req.getUri().getQuery() != null
+        && req.getUri().getQuery().contains("uniqueCode")
+        && !req.getUri().getQuery().contains(StringUtils.reverse(user.getUsername()))) {
+      allowed = false;
     }
 
-    @GetMapping
-    public ModelAndView get() {
-        var model = new ModelAndView("requests");
-        var user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        var traces = traceRepository.findAllTraces().stream()
-        		.filter(t -> allowedTrace(t, user))
-                .map(t -> new Tracert(t.getTimestamp(), path(t), toJsonString(t))).collect(toList());
-        model.addObject("traces", traces);
+    return allowed;
+  }
 
-        return model;
-    }
-    
-    private boolean allowedTrace(HttpTrace t, UserDetails user) {
-    	Request req = t.getRequest();
-    	boolean allowed = true;
-    	/* do not show certain traces to other users in a classroom setup */
-    	if (req.getUri().getPath().contains("/files") && !req.getUri().getPath().contains(user.getUsername())) {
-    		allowed = false;
-    	} else if (req.getUri().getPath().contains("/landing") && req.getUri().getQuery()!=null && req.getUri().getQuery().contains("uniqueCode") && !req.getUri().getQuery().contains(StringUtils.reverse(user.getUsername()))) {
-    		allowed = false;
-    	}
-    	    	
-    	return allowed;
-    }
+  private String path(HttpExchange t) {
+    return (String) t.getRequest().getUri().getPath();
+  }
 
-    private String path(HttpTrace t) {
-        return (String) t.getRequest().getUri().getPath();
+  private String toJsonString(HttpExchange t) {
+    try {
+      return objectMapper.writeValueAsString(t);
+    } catch (JsonProcessingException e) {
+      log.error("Unable to create json", e);
     }
-
-    private String toJsonString(HttpTrace t) {
-        try {
-            return objectMapper.writeValueAsString(t);
-        } catch (JsonProcessingException e) {
-            log.error("Unable to create json", e);
-        }
-        return "No request(s) found";
-    }
+    return "No request(s) found";
+  }
 }

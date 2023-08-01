@@ -22,11 +22,10 @@
 
 package org.owasp.webgoat.lessons.challenges;
 
-import lombok.Builder;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * @author nbaars
@@ -36,9 +35,9 @@ import java.time.LocalDateTime;
 @Data
 public class Email implements Serializable {
 
-    private LocalDateTime time;
-    private String contents;
-    private String sender;
-    private String title;
-    private String recipient;
+  private LocalDateTime time;
+  private String contents;
+  private String sender;
+  private String title;
+  private String recipient;
 }

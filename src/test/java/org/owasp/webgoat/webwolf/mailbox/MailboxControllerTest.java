@@ -22,101 +22,113 @@
 
 package org.owasp.webgoat.webwolf.mailbox;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.owasp.webgoat.webwolf.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.owasp.webgoat.webwolf.WebSecurityConfig;
+import org.owasp.webgoat.webwolf.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
 @WebMvcTest(MailboxController.class)
+@Import(WebSecurityConfig.class)
 public class MailboxControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
-    @MockBean
-    private MailboxRepository mailbox;
-    @MockBean
-    private UserService userService;
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired private MockMvc mvc;
+  @MockBean private MailboxRepository mailbox;
+  @MockBean private UserService userService;
+  @Autowired private ObjectMapper objectMapper;
 
-    @JsonIgnoreProperties("time")
-    public static class EmailMixIn {
-    }
+  @JsonIgnoreProperties("time")
+  public static class EmailMixIn {}
 
-    @BeforeEach
-    public void setup() {
-        objectMapper.addMixIn(Email.class, EmailMixIn.class);
-    }
+  @BeforeEach
+  public void setup() {
+    objectMapper.addMixIn(Email.class, EmailMixIn.class);
+  }
 
-    @Test
-    @WithMockUser
-    public void sendingMailShouldStoreIt() throws Exception {
-        Email email = Email.builder()
-                .contents("This is a test mail")
-                .recipient("test1234@webgoat.org")
-                .sender("hacker@webgoat.org")
-                .title("Click this mail")
-                .time(LocalDateTime.now())
-                .build();
-        this.mvc.perform(post("/mail").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(email)))
-                .andExpect(status().isCreated());
-    }
+  @Test
+  public void sendingMailShouldStoreIt() throws Exception {
+    Email email =
+        Email.builder()
+            .contents("This is a test mail")
+            .recipient("test1234@webgoat.org")
+            .sender("hacker@webgoat.org")
+            .title("Click this mail")
+            .time(LocalDateTime.now())
+            .build();
+    this.mvc
+        .perform(
+            post("/mail")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(email)))
+        .andExpect(status().isCreated());
+  }
 
-    @Test
-    @WithMockUser(username = "test1234")
-    public void userShouldBeAbleToReadOwnEmail() throws Exception {
-        Email email = Email.builder()
-                .contents("This is a test mail")
-                .recipient("test1234@webgoat.org")
-                .sender("hacker@webgoat.org")
-                .title("Click this mail")
-                .time(LocalDateTime.now())
-                .build();
-        Mockito.when(mailbox.findByRecipientOrderByTimeDesc("test1234")).thenReturn(Lists.newArrayList(email));
+  @Test
+  @WithMockUser(username = "test1234")
+  public void userShouldBeAbleToReadOwnEmail() throws Exception {
+    Email email =
+        Email.builder()
+            .contents("This is a test mail")
+            .recipient("test1234@webgoat.org")
+            .sender("hacker@webgoat.org")
+            .title("Click this mail")
+            .time(LocalDateTime.now())
+            .build();
+    Mockito.when(mailbox.findByRecipientOrderByTimeDesc("test1234"))
+        .thenReturn(Lists.newArrayList(email));
 
-        this.mvc.perform(get("/mail"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("mailbox"))
-                .andExpect(content().string(containsString("Click this mail")))
-                .andExpect(content().string(containsString(DateTimeFormatter.ofPattern("h:mm a").format(email.getTimestamp()))));
-    }
+    this.mvc
+        .perform(get("/mail"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("mailbox"))
+        .andExpect(content().string(containsString("Click this mail")))
+        .andExpect(
+            content()
+                .string(
+                    containsString(
+                        DateTimeFormatter.ofPattern("h:mm a").format(email.getTimestamp()))));
+  }
 
-    @Test
-    @WithMockUser(username = "test1233")
-    public void differentUserShouldNotBeAbleToReadOwnEmail() throws Exception {
-        Email email = Email.builder()
-                .contents("This is a test mail")
-                .recipient("test1234@webgoat.org")
-                .sender("hacker@webgoat.org")
-                .title("Click this mail")
-                .time(LocalDateTime.now())
-                .build();
-        Mockito.when(mailbox.findByRecipientOrderByTimeDesc("test1234")).thenReturn(Lists.newArrayList(email));
+  @Test
+  @WithMockUser(username = "test1233")
+  public void differentUserShouldNotBeAbleToReadOwnEmail() throws Exception {
+    Email email =
+        Email.builder()
+            .contents("This is a test mail")
+            .recipient("test1234@webgoat.org")
+            .sender("hacker@webgoat.org")
+            .title("Click this mail")
+            .time(LocalDateTime.now())
+            .build();
+    Mockito.when(mailbox.findByRecipientOrderByTimeDesc("test1234"))
+        .thenReturn(Lists.newArrayList(email));
 
-        this.mvc.perform(get("/mail"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("mailbox"))
-                .andExpect(content().string(not(containsString("Click this mail"))));
-    }
-
+    this.mvc
+        .perform(get("/mail"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("mailbox"))
+        .andExpect(content().string(not(containsString("Click this mail"))));
+  }
 }

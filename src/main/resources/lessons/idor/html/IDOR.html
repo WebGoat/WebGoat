@@ -4,14 +4,14 @@
     <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
     <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-    <div class="adoc-content" th:replace="doc:lessons/idor/documentation/IDOR_intro.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_intro.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
     <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
     <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-    <div class="adoc-content" th:replace="doc:lessons/idor/documentation/IDOR_login.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_login.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
@@ -46,7 +46,7 @@
     <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
     <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-    <div class="adoc-content" th:replace="doc:lessons/idor/documentation/IDOR_viewDiffs.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_viewDiffs.adoc}"></div>
     <div class="nonattack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
@@ -76,7 +76,7 @@
         <!-- using attack-form class on your form will allow your request to be ajaxified and stay within the display framework for webgoat -->
         <!-- you can write your own custom forms, but standard form submission will take you to your endpoint and outside of the WebGoat framework -->
         <!-- of course, you can write your own ajax submission /handling in your own javascript if you like -->
-        <div class="adoc-content" th:replace="doc:lessons/idor/documentation/IDOR_whatDiffs.adoc"></div>
+        <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_whatDiffs.adoc}"></div>
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form"
               method="POST" name="diff-form"
@@ -96,7 +96,7 @@
     <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
     <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-    <div class="adoc-content" th:replace="doc:lessons/idor/documentation/IDOR_viewOwnAltPath.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_viewOwnAltPath.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
@@ -108,7 +108,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               action="/WebGoat/IDOR/profile/alt-path">
-            <div class="adoc-content" th:replace="doc:lessons/idor/documentation/IDOR_inputAltPath.adoc"></div>
+            <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_inputAltPath.adoc}"></div>
             <input name="url" value="WebGoat/" type="text"/>
             <input name="submit" value="Submit" type="SUBMIT"/>
         </form>
@@ -123,7 +123,7 @@
     <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
     <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-    <div class="adoc-content" th:replace="doc:lessons/idor/documentation/IDOR_viewOtherProfile.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_viewOtherProfile.adoc}"></div>
     <div class="nonattack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
@@ -147,7 +147,7 @@
         <!-- ... of course, you can move them if you want to, but that will not look consistent to other lessons -->
     </div>
 
-    <div class="adoc-content" th:replace="doc:lessons/idor/documentation/IDOR_editOtherProfile.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_editOtherProfile.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <!-- using attack-form class on your form, will allow your request to be ajaxified and stay within the display framework for webgoat -->
@@ -176,7 +176,7 @@
     <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
     <!-- include content here, or can be placed in another location. Content will be presented via asciidocs files,
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-    <div class="adoc-content" th:replace="doc:lessons/idor/documentation/IDOR_mitigation.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_mitigation.adoc}"></div>
 </div>
 
 </html>

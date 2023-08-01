@@ -28,13 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.owasp.webgoat.lessons.spoofcookie.encoders.EncDec;
 
 /***
  *
@@ -44,47 +42,47 @@ import org.owasp.webgoat.lessons.spoofcookie.encoders.EncDec;
 
 class EncDecTest {
 
-    @ParameterizedTest
-    @DisplayName("Encode test")
-    @MethodSource("providedForEncValues")
-    void testEncode(String decoded, String encoded) {
-        String result = EncDec.encode(decoded);
+  @ParameterizedTest
+  @DisplayName("Encode test")
+  @MethodSource("providedForEncValues")
+  void testEncode(String decoded, String encoded) {
+    String result = EncDec.encode(decoded);
 
-        assertTrue(result.endsWith(encoded));
-    }
+    assertTrue(result.endsWith(encoded));
+  }
 
-    @ParameterizedTest
-    @DisplayName("Decode test")
-    @MethodSource("providedForDecValues")
-    void testDecode(String decoded, String encoded) {
-        String result = EncDec.decode(encoded);
+  @ParameterizedTest
+  @DisplayName("Decode test")
+  @MethodSource("providedForDecValues")
+  void testDecode(String decoded, String encoded) {
+    String result = EncDec.decode(encoded);
 
-        assertThat(decoded, is(result));
-    }
+    assertThat(decoded, is(result));
+  }
 
-    @Test
-    @DisplayName("null encode test")
-    void testNullEncode() {
-        assertNull(EncDec.encode(null));
-    }
+  @Test
+  @DisplayName("null encode test")
+  void testNullEncode() {
+    assertNull(EncDec.encode(null));
+  }
 
-    @Test
-    @DisplayName("null decode test")
-    void testNullDecode() {
-        assertNull(EncDec.decode(null));
-    }
+  @Test
+  @DisplayName("null decode test")
+  void testNullDecode() {
+    assertNull(EncDec.decode(null));
+  }
 
-    private static Stream<Arguments> providedForEncValues() {
-        return Stream.of(
-            Arguments.of("webgoat", "YxNmY2NzYyNjU3Nw=="),
-            Arguments.of("admin", "2ZTY5NmQ2NDYx"),
-            Arguments.of("tom", "2ZDZmNzQ="));
-    }
+  private static Stream<Arguments> providedForEncValues() {
+    return Stream.of(
+        Arguments.of("webgoat", "YxNmY2NzYyNjU3Nw=="),
+        Arguments.of("admin", "2ZTY5NmQ2NDYx"),
+        Arguments.of("tom", "2ZDZmNzQ="));
+  }
 
-    private static Stream<Arguments> providedForDecValues() {
-        return Stream.of(
-            Arguments.of("webgoat", "NjI2MTcwNGI3YTQxNGE1OTU2NzQ3NDYxNmY2NzYyNjU3Nw=="),
-            Arguments.of("admin", "NjI2MTcwNGI3YTQxNGE1OTU2NzQ2ZTY5NmQ2NDYx"),
-            Arguments.of("tom", "NjI2MTcwNGI3YTQxNGE1OTU2NzQ2ZDZmNzQ="));
-    }
+  private static Stream<Arguments> providedForDecValues() {
+    return Stream.of(
+        Arguments.of("webgoat", "NjI2MTcwNGI3YTQxNGE1OTU2NzQ3NDYxNmY2NzYyNjU3Nw=="),
+        Arguments.of("admin", "NjI2MTcwNGI3YTQxNGE1OTU2NzQ2ZTY5NmQ2NDYx"),
+        Arguments.of("tom", "NjI2MTcwNGI3YTQxNGE1OTU2NzQ2ZDZmNzQ="));
+  }
 }

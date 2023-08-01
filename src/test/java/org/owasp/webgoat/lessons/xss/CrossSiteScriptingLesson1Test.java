@@ -23,6 +23,10 @@
 
 package org.owasp.webgoat.lessons.xss;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,44 +37,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-
 /**
- *
  * @author Angel Olle Blazquez
- *
  */
-
 @ExtendWith(MockitoExtension.class)
 class CrossSiteScriptingLesson1Test extends AssignmentEndpointTest {
 
-    private static final String CONTEXT_PATH = "/CrossSiteScripting/attack1";
+  private static final String CONTEXT_PATH = "/CrossSiteScripting/attack1";
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @BeforeEach
-    public void setup() {
-        CrossSiteScriptingLesson1 crossSiteScriptingLesson1 = new CrossSiteScriptingLesson1();
-        init(crossSiteScriptingLesson1);
-        mockMvc = standaloneSetup(crossSiteScriptingLesson1).build();
-    }
+  @BeforeEach
+  public void setup() {
+    CrossSiteScriptingLesson1 crossSiteScriptingLesson1 = new CrossSiteScriptingLesson1();
+    init(crossSiteScriptingLesson1);
+    mockMvc = standaloneSetup(crossSiteScriptingLesson1).build();
+  }
 
-    @Test
-    void success() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(CONTEXT_PATH)
-            .param("checkboxAttack1", "value"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
-    }
+  @Test
+  void success() throws Exception {
+    mockMvc
+        .perform(MockMvcRequestBuilders.post(CONTEXT_PATH).param("checkboxAttack1", "value"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
+  }
 
-    @Test
-    void failure() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(CONTEXT_PATH))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
-    }
-
+  @Test
+  void failure() throws Exception {
+    mockMvc
+        .perform(MockMvcRequestBuilders.post(CONTEXT_PATH))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
+  }
 }

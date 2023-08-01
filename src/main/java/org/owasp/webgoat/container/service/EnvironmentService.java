@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class EnvironmentService {
 
-    private final ApplicationContext context;
+  private final ApplicationContext context;
 
-    @GetMapping("/server-directory")
-    public String homeDirectory() {
-        return context.getEnvironment().getProperty("webgoat.server.directory");
-    }
-
+  @GetMapping("/server-directory")
+  public String homeDirectory() {
+    return context.getEnvironment().getProperty("webgoat.server.directory");
+  }
 }
