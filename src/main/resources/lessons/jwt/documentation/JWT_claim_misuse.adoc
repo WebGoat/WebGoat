@@ -1,0 +1,21 @@
+== JWT claim misuse
+
+JWT claim misuse refers to the improper or unauthorized manipulation of the claims within a JSON Web Token (JWT). A JWT is a compact and self-contained way to represent information between two parties. It consists of the header, the payload (claims), and the signature.
+
+JWT claim misuse can happen in different ways:
+
+- **Unauthorized claims**: A malicious user might try to add unauthorized claims to a JWT to gain access to certain features or resources they are not entitled to—for example, a regular user attempts to modify their JWT to claim administrator privileges.
+
+- **Tampering claims**: An attacker might try to modify the values of existing claims in the JWT to manipulate their own identity or alter their permissions. For instance, they are changing the "user_id" claim to impersonate a different user.
+
+- **Excessive claims**: An attacker could try to include many unnecessary or fake claims in a JWT to increase the token size and possibly disrupt the system's performance or cause other issues.
+
+- **Expired or altered expiration claims**: If an attacker can modify the "exp" claim to extend the token's expiration time, they can effectively gain access beyond their intended session.
+
+- **Replay attacks**: An attacker might try to reuse a valid JWT from an old session to impersonate the original user or exploit time-limited functionality.
+
+- **Key claim manipulation**: In some cases, the "kid" (key ID) claim may be misused, as explained in the previous answer. An attacker might try manipulating the "kid" claim to use a different key for signature verification.
+
+To prevent JWT claim misuse, it is essential to implement proper validation and verification mechanisms on both the client and server sides. Validate the claims to ensure they are valid, authorized, and relevant to the user's context. Additionally, always verify the signature of the JWT to ensure the token's integrity and protect against tampering. Following best practices for JWT implementation, secure key management, and regular key rotation will also help mitigate the risk of JWT claim misuse.
+
+In the following two sections, we will dive into some examples of header claim misuses to give you an idea of how they work and how to protect an application.

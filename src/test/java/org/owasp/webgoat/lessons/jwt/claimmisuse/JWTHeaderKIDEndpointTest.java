@@ -1,4 +1,4 @@
-package org.owasp.webgoat.lessons.jwt;
+package org.owasp.webgoat.lessons.jwt.claimmisuse;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
@@ -14,10 +14,11 @@ import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
+import org.owasp.webgoat.lessons.jwt.JWT;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class JWTFinalEndpointTest extends LessonTest {
+public class JWTHeaderKIDEndpointTest extends LessonTest {
 
   private static final String TOKEN_JERRY =
       "eyJraWQiOiJ3ZWJnb2F0X2tleSIsImFsZyI6IkhTNTEyIn0.eyJhdWQiOiJ3ZWJnb2F0Lm9yZyIsImVtYWlsIjoiamVycnlAd2ViZ29hdC5jb20iLCJ1c2VybmFtZSI6IkplcnJ5In0.xBc5FFwaOcuxjdr_VJ16n8Jb7vScuaZulNTl66F2MWF1aBe47QsUosvbjWGORNcMPiPNwnMu1Yb0WZVNrp2ZXA";
@@ -42,7 +43,7 @@ public class JWTFinalEndpointTest extends LessonTest {
             .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, key)
             .compact();
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/JWT/final/delete").param("token", token).content(""))
+        .perform(MockMvcRequestBuilders.post("/JWT/kid/delete").param("token", token).content(""))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.lessonCompleted", is(true)));
   }
@@ -51,9 +52,7 @@ public class JWTFinalEndpointTest extends LessonTest {
   public void withJerrysKeyShouldNotSolveAssignment() throws Exception {
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/JWT/final/delete")
-                .param("token", TOKEN_JERRY)
-                .content(""))
+            MockMvcRequestBuilders.post("/JWT/kid/delete").param("token", TOKEN_JERRY).content(""))
         .andExpect(status().isOk())
         .andExpect(
             jsonPath(
@@ -64,7 +63,7 @@ public class JWTFinalEndpointTest extends LessonTest {
   public void shouldNotBeAbleToBypassWithSimpleToken() throws Exception {
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/JWT/final/delete")
+            MockMvcRequestBuilders.post("/JWT/kid/delete")
                 .param("token", ".eyJ1c2VybmFtZSI6IlRvbSJ9.")
                 .content(""))
         .andExpect(status().isOk())
