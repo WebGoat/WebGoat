@@ -9,7 +9,7 @@ jobs:
       continue-on-error: true
       run: |
         echo "----------Download Latest Sonarscanner CLI-----------"
-        curl -q "https://github.com/SonarSource/sonar-scanner-cli/releases/tag/5.0.1.3006"
+        curl -q "https://github.com/SonarSource/sonar-scanner-cli/archive/refs/tags/5.0.1.3006.zip"
         echo "----------SonarCloud Code Analysis-----------"
         sonar-scanner -Dsonar.token=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=${{ secrets.SONAR_ORG }} -Dsonar.projectKey=${{ secrets.Project_Key }} -Dsonar.sources=src
-        
+        https://github.com/SonarSource/sonar-scanner-cli/archive/refs/tags/5.0.1.3006.zip
