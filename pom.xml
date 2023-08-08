@@ -201,6 +201,17 @@
         <version>${jjwt.version}</version>
       </dependency>
       <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>jwks-rsa</artifactId>
+        <version>0.22.1</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+      <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>java-jwt</artifactId>
+        <version>4.4.0</version>
+      </dependency>
+      <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
@@ -345,6 +356,15 @@
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>jwks-rsa</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
