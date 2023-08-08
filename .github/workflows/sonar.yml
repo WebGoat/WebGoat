@@ -16,7 +16,7 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: GITHUB_WORKSPACE
+        projectBaseDir: WebGoat
         args: >
           -Dsonar.organization=${{ secrets.SONAR_ORG }}
           -Dsonar.projectKey=${{ secrets.Project_Key }}
