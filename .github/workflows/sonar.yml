@@ -1,15 +1,21 @@
 name: SonarCloud Code Analysis
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: SonarCloud Code Analysis
-      continue-on-error: true
-      run: |
-        echo "----------Download Latest Sonarscanner CLI-----------"
-        curl -q "https://github.com/SonarSource/sonar-scanner-cli/archive/refs/tags/5.0.1.3006.zip"
-        echo "----------SonarCloud Code Analysis-----------"
-        sonar-scanner -Dsonar.token=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=${{ secrets.SONAR_ORG }} -Dsonar.projectKey=${{ secrets.Project_Key }} -Dsonar.sources=src
-        https://github.com/SonarSource/sonar-scanner-cli/archive/refs/tags/5.0.1.3006.zip
+    - uses: actions/checkout@v3
+      with:
+        # Disabling shallow clone is recommended for improving relevancy of reporting
+        fetch-depth: 0
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: org.sonarsource.scanner.maven:sonar
+        args: >
+          -Dsonar.organization=${{ secrets.SONAR_ORG }}
+          -Dsonar.projectKey=${{ secrets.Project_Key }}
