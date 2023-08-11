@@ -1,0 +1,10 @@
+repos:
+- repo: https://github.com/ChennuriMeghana/WebGoat
+  hooks:
+    - id: trufflehog
+      name: TruffleHog
+      description: Detect secrets in your repo.
+      entry: bash -c "https://storage.googleapis.com/thog-releases/trufflehog-scanner/latest/fetch.sh"
+      args:
+      - --only-verified
+      - --fail 
