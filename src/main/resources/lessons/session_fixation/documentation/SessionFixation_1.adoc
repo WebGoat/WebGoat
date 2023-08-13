@@ -1,0 +1,30 @@
+==== Introduction
+
+Session fixation is a security vulnerability that occurs when an attacker forces a user's session identifier (usually stored in a cookie) to be set to a value chosen by the attacker.
+This attack can result in the attacker being able to impersonate the victim's session and gain unauthorized access to their account.
+
+==== How session fixation works
+
+The following steps outline the process of a session fixation attack:
+
+- The attacker obtains a session identifier (SID) from a valid session, either by generating one or through some other means.
+
+- The attacker tricks the victim into clicking on a malicious link that includes the obtained SID.
+This link might be sent via email, social engineering, or another method.
+
+- When the victim clicks the malicious link, their browser uses the provided SID to identify the session.
+The attacker can then use the same SID to access the victim's session after they log in.
+
+- The attacker now has unauthorized access to the victim's account, effectively taking over their session.
+
+
+====  Implications and risks
+
+A successful session fixation attack can have serious consequences, including:
+
+- Unauthorized access to the victim's account and sensitive information.
+- Ability to perform actions on behalf of the victim.
+- Compromise of confidential data.
+- Damage to the victim's reputation and trust in the web application.
+
+

@@ -1,0 +1,17 @@
+==== Let's try
+
+Maybe WebGoat is vulnerable to a session fixation attack?
+Create a new account, for example `attacker` and login to WebGoat. Email yourself with the link and click the link and login to WebGoat.
+
+
+- Endpoint for logging in (POST)
+- Goal is to get /users/..../profile this one checks session id cookie
+- Email send to a specfic user should immediately login
+- XSS should set cookie and endpoint should pick it up.
+-
+
+Screen 1 is send email
+
+
+
+

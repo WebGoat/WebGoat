@@ -1,0 +1,10 @@
+In this lesson, you will learn about a common web application vulnerability called "Session Fixation." Session fixation is an attack that allows an attacker to set a victim's session identifier, potentially giving them unauthorized access to the victim's account.
+We will explore how this attack works, its implications, and how to defend against it.
+
+Goals:
+
+By the end of this lesson, you will be able to:
+
+- Explain what a session fixation attack is and how it works.
+- Understand the potential risks and consequences of a successful session fixation attack.
+- Implement countermeasures to defend against session fixation attacks in a web application.

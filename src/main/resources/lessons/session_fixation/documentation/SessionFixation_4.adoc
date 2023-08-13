@@ -1,0 +1,3 @@
+=== No longer hackable?
+
+Someone submitted a bug report and the developers made some improvements. Can you still hack them?

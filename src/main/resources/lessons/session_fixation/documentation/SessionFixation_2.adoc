@@ -1,0 +1,15 @@
+==== Preventing session fixation attacks
+
+Most modern web frameworks do a pretty decent job fixing the problem automatically.
+Please read up on your framework before.
+
+To defend against session fixation attacks, web developers can implement the following countermeasures:
+
+- Never trust an url parameter: Never pass session identifiers via URLs, as these can be easily manipulated.
+- Session regeneration: always change the session identifier upon significant events, such as login or privilege level change.
+- Session timeout: Implement a session timeout mechanism that automatically logs out inactive users after a specified period.
+This will help when an attacker sends an email to a victim with a link.
+This way the link containing the session-id is already timed out.
+- Random session identifiers: Generate session identifiers using a strong random number generator to make them difficult to guess or predict.
+- Cookie attributes: Set `secure` and `HttpOnly` attributes for cookies to prevent manipulation and unauthorized access.
+
