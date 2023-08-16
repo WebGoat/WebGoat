@@ -1,0 +1,49 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'java', 'javascript' ]
+
+    env:
+      CODEQL_EXTRACTOR_JAVA_RUN_ANNOTATION_PROCESSORS: true
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # WebGoat requires Java/JDK 11
+    - name: Set up JDK 1.11
+      if: matrix.language == 'java'
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.11
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        # [optional] enabled extended queries
+        queries: +security-extended     # or `+security-and-quality` can be used
+
+    # Use mvn command
+    - name: Build Code
+      if: matrix.language == 'java'
+      run: |
+        mvn clean install --file pom.xml
+
+    # Run the Analysis
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
