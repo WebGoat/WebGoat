@@ -43,6 +43,10 @@ public abstract class IntegrationTest {
     return webWolfUrl + url;
   }
 
+  protected String webWolfFileUrl(String fileName) {
+    return webWolfUrl("/files") + "/" + getUser() + "/" + fileName;
+  }
+
   @BeforeEach
   public void login() {
     String location =
