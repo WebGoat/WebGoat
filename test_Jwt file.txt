@@ -18,7 +18,7 @@ public class App
 
     private static void ok1() {
         Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        // ok: jjwt-none-alg
+        // ok: jjwt-none-alig
         String jws = Jwts.builder()
                 .setSubject("Bob")
                 .signWith(key)
