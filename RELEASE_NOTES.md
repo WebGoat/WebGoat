@@ -1,4 +1,5 @@
 # WebGoat release notes
+test
 
 ## Version 2023.4
 
