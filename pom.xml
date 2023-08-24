@@ -142,6 +142,7 @@
     <thymeleaf.version>3.1.1.RELEASE</thymeleaf.version>
     <webdriver.version>5.3.2</webdriver.version>
     <webgoat.port>8080</webgoat.port>
+    <webjars-locator-core.version>0.53</webjars-locator-core.version>
     <webwolf.port>9090</webwolf.port>
     <wiremock.version>2.27.2</wiremock.version>
     <xml-resolver.version>1.2</xml-resolver.version>
@@ -240,6 +241,11 @@
         <groupId>org.webjars</groupId>
         <artifactId>jquery</artifactId>
         <version>${jquery.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.webjars</groupId>
+        <artifactId>webjars-locator-core</artifactId>
+        <version>${webjars-locator-core.version}</version>
       </dependency>
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
@@ -393,6 +399,10 @@
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>jquery</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>webjars-locator-core</artifactId>
     </dependency>
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
