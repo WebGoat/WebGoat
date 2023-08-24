@@ -18,14 +18,4 @@ steps:
     bridge_polaris_application_name: 'kyleh'
     bridge_polaris_project_name: 'ADO-Test'
     bridge_polaris_assessment_types: 'SAST,SCA'
-- task: SynopsysDetectTask@7
-  inputs:
-    BlackDuckService: 'bd-imp-eval06'
-    DetectArguments: |
-      --blackduck.trust.cert=true
-      --detect.project.name=WebGoat-Azure
-      --detect.project.version.name=Released_1.0
-      --detect.project.version.phase=RELEASED
-      --detect.code.location.name=WebGoat-Released_1.0-ADO
-      --detect.diagnostic=true
-    DetectVersion: 'latest'
+
