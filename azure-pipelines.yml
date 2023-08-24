@@ -10,6 +10,14 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: SynopsysSecurityScan@1
+  inputs:
+    scanType: 'polaris'
+    bridge_polaris_serverUrl: 'https://poc.polaris.synopsys.com'
+    bridge_polaris_accessToken: 's4jpgckfat47f3dcaebrc486lifb7s832g043p4g2b2kgub3rsekmsjhva2hh52apsgaffa1jlp96'
+    bridge_polaris_application_name: 'kyleh'
+    bridge_polaris_project_name: 'ADO-Test'
+    bridge_polaris_assessment_types: 'SAST,SCA'
 - task: SynopsysDetectTask@7
   inputs:
     BlackDuckService: 'bd-imp-eval06'
