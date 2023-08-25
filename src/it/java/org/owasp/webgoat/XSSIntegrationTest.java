@@ -75,6 +75,42 @@ public class XSSIntegrationTest extends IntegrationTest {
             + " the browser executes.");
     checkAssignment(url("/CrossSiteScripting/quiz"), params, true);
 
-    checkResults("/CrossSiteScripting/");
+    params.clear();
+    params.put(
+        "editor",
+        "<%@ taglib uri=\"https://www.owasp.org/index.php/OWASP_Java_Encoder_Project\" %>"
+            + "<html>"
+            + "<head>"
+            + "<title>Using GET and POST Method to Read Form Data</title>"
+            + "</head>"
+            + "<body>"
+            + "<h1>Using POST Method to Read Form Data</h1>"
+            + "<table>"
+            + "<tbody>"
+            + "<tr>"
+            + "<td><b>First Name:</b></td>"
+            + "<td>${e:forHtml(param.first_name)}</td>"
+            + "</tr>"
+            + "<tr>"
+            + "<td><b>Last Name:</b></td>"
+            + "<td>${e:forHtml(param.last_name)}</td>"
+            + "</tr>"
+            + "</tbody>"
+            + "</table>"
+            + "</body>"
+            + "</html>");
+    checkAssignment(url("/CrossSiteScripting/attack3"), params, true);
+
+    params.clear();
+    params.put(
+        "editor2",
+        "Policy.getInstance(\"antisamy-slashdot.xml\");"
+            + "Sammy s = new AntiSamy();"
+            + "s.scan(newComment,\"\");"
+            + "CleanResults();"
+            + "MyCommentDAO.addComment(threadID, userID).getCleanHTML());");
+    checkAssignment(url("/CrossSiteScripting/attack4"), params, true);
+
+    checkResults("/CrossSiteScripting");
   }
 }
