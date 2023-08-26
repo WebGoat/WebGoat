@@ -22,20 +22,15 @@
 
 package org.owasp.webgoat.lessons.xss;
 
-import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-// @RestController
-@Deprecated
-// TODO This assignment seems not to be in use in the UI
-// it is there to make sure the lesson can be marked complete
-// in order to restore it, make it accessible through the UI and uncomment RestController@Slf4j
-@Slf4j
+@RestController
 @AssignmentHints(value = {"xss-mitigation-4-hint1"})
 public class CrossSiteScriptingLesson4 extends AssignmentEndpoint {
 
@@ -44,7 +39,6 @@ public class CrossSiteScriptingLesson4 extends AssignmentEndpoint {
   public AttackResult completed(@RequestParam String editor2) {
 
     String editor = editor2.replaceAll("\\<.*?>", "");
-    log.debug(editor);
 
     if ((editor.contains("Policy.getInstance(\"antisamy-slashdot.xml\"")
             || editor.contains(".scan(newComment, \"antisamy-slashdot.xml\"")
@@ -54,10 +48,8 @@ public class CrossSiteScriptingLesson4 extends AssignmentEndpoint {
         && editor.contains("CleanResults")
         && editor.contains("MyCommentDAO.addComment(threadID, userID")
         && editor.contains(".getCleanHTML());")) {
-      log.debug("true");
       return success(this).feedback("xss-mitigation-4-success").build();
     } else {
-      log.debug("false");
       return failed(this).feedback("xss-mitigation-4-failed").build();
     }
   }

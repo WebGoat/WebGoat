@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StoredCrossSiteScriptingVerifier extends AssignmentEndpoint {
 
-  // TODO This assignment seems not to be in use in the UI
   @PostMapping("/CrossSiteScriptingStored/stored-xss-follow-up")
   @ResponseBody
   public AttackResult completed(@RequestParam String successMessage) {
@@ -47,8 +46,3 @@ public class StoredCrossSiteScriptingVerifier extends AssignmentEndpoint {
     }
   }
 }
-
-// something like ...
-// http://localhost:8080/WebGoat/start.mvc#test/testParam=foobar&_someVar=234902384lotslsfjdOf9889080GarbageHere%3Cscript%3Ewebgoat.customjs.phoneHome();%3C%2Fscript%3E
-// or
-// http://localhost:8080/WebGoat/start.mvc#test/testParam=foobar&_someVar=234902384lotslsfjdOf9889080GarbageHere<script>webgoat.customjs.phoneHome();<%2Fscript>

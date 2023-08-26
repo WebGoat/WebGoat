@@ -116,16 +116,16 @@
     <!-- do not update necessary for lesson -->
     <checkstyle.version>3.3.0</checkstyle.version>
     <commons-collections.version>3.2.1</commons-collections.version>
-    <commons-io.version>2.11.0</commons-io.version>
+    <commons-io.version>2.13.0</commons-io.version>
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons-text.version>1.10.0</commons-text.version>
-    <guava.version>31.1-jre</guava.version>
+    <guava.version>32.1.1-jre</guava.version>
     <jacoco.version>0.8.10</jacoco.version>
     <java.version>17</java.version>
     <jaxb.version>2.3.1</jaxb.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
-    <jquery.version>3.6.4</jquery.version>
+    <jquery.version>3.7.0</jquery.version>
     <jsoup.version>1.16.1</jsoup.version>
     <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
@@ -142,12 +142,13 @@
     <thymeleaf.version>3.1.1.RELEASE</thymeleaf.version>
     <webdriver.version>5.3.3</webdriver.version>
     <webgoat.port>8080</webgoat.port>
+    <webjars-locator-core.version>0.53</webjars-locator-core.version>
     <webwolf.port>9090</webwolf.port>
     <wiremock.version>2.27.2</wiremock.version>
     <xml-resolver.version>1.2</xml-resolver.version>
     <xstream.version>1.4.5</xstream.version>
     <!-- do not update necessary for lesson -->
-    <zxcvbn.version>1.7.0</zxcvbn.version>
+    <zxcvbn.version>1.8.0</zxcvbn.version>
   </properties>
 
   <dependencyManagement>
@@ -201,6 +202,17 @@
         <version>${jjwt.version}</version>
       </dependency>
       <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>jwks-rsa</artifactId>
+        <version>0.22.1</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+      <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>java-jwt</artifactId>
+        <version>4.4.0</version>
+      </dependency>
+      <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
@@ -231,6 +243,11 @@
         <version>${jquery.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.webjars</groupId>
+        <artifactId>webjars-locator-core</artifactId>
+        <version>${webjars-locator-core.version}</version>
+      </dependency>
+      <dependency>
         <groupId>com.github.tomakehurst</groupId>
         <artifactId>wiremock</artifactId>
         <version>${wiremock.version}</version>
@@ -248,7 +265,7 @@
       <dependency>
         <groupId>org.jruby</groupId>
         <artifactId>jruby</artifactId>
-        <version>9.4.2.0</version>
+        <version>9.4.3.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -347,6 +364,15 @@
       <artifactId>jjwt</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>jwks-rsa</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
@@ -373,6 +399,10 @@
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>jquery</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>webjars-locator-core</artifactId>
     </dependency>
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
@@ -532,7 +562,7 @@
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
-        <version>2.33.0</version>
+        <version>2.38.0</version>
         <configuration>
           <formats>
             <format>
