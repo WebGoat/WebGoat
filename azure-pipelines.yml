@@ -10,6 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+
 - task: SynopsysSecurityScan@1
   inputs:
     scanType: 'polaris'
