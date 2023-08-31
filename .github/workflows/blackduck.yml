@@ -1,0 +1,54 @@
+# example workflow for Black Duck scans using the Synopsys Action
+# https://github.com/marketplace/actions/synopsys-action
+name: blackduck
+on:
+  push:
+    branches: [ main, master, develop, stage, release ]
+  pull_request:
+    branches: [ main, master, develop, stage, release ]
+  workflow_dispatch:
+jobs:
+  blackduck:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v3
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: 17
+        distribution: microsoft
+        cache: maven
+    - name: Maven Build
+      run: mvn -B -DskipTests package
+    - name: Black Duck Full Scan
+      if: ${{ github.event_name != 'pull_request' }}
+      uses: synopsys-sig/synopsys-action@v1.3.0
+      env:
+        DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
+        DETECT_PROJECT_VERSION_NAME: ${{ github.ref_name }}
+        DETECT_CODE_LOCATION_NAME: ${{ github.event.repository.name }}-${{ github.ref_name }}
+      with:
+        blackduck_url: ${{ vars.BLACKDUCK_URL }}
+        blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
+        blackduck_scan_full: true
+        blackduck_scan_failure_severities: 'BLOCKER'
+    - name: Black Duck PR Scan
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: synopsys-sig/synopsys-action@v1.3.0
+      env:
+        DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
+        DETECT_PROJECT_VERSION_NAME: ${{ github.base_ref }}
+        DETECT_CODE_LOCATION_NAME: ${{ github.event.repository.name }}-${{ github.base_ref }}
+      with:
+        blackduck_url: ${{ vars.BLACKDUCK_URL }}
+        blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
+        blackduck_scan_full: false
+        blackduck_automation_prcomment: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+#    - name: Save Logs
+#      if: always()
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: bridge-logs
+#        path: ${{ github.workspace }}/.bridge
