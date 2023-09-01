@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.lessons.xxe;
 
+import static io.github.pixee.security.XMLInputFactorySecurity.hardenFactory;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
@@ -95,7 +96,7 @@ public class CommentsCache {
    */
   protected Comment parseXml(String xml) throws XMLStreamException, JAXBException {
     var jc = JAXBContext.newInstance(Comment.class);
-    var xif = XMLInputFactory.newInstance();
+    var xif = hardenFactory(XMLInputFactory.newInstance());
 
     if (webSession.isSecurityEnabled()) {
       xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
