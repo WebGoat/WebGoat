@@ -24,6 +24,21 @@
 
     <!-- Require.js used to load js asynchronously -->
     <script src="js/libs/require.min.js" data-main="js/main"></script>
+    <script>
+        // JavaScript code for showing/hiding the hidden page
+        document.addEventListener('DOMContentLoaded', function() {
+            const showPageButton = document.getElementById('showPageButton');
+            const hiddenPage = document.getElementById('hiddenPage');
+
+            showPageButton.addEventListener('click', function() {
+                if (hiddenPage.style.display === 'none') {
+                    hiddenPage.style.display = 'block'; // Show the content
+                } else {
+                    hiddenPage.style.display = 'none'; // Hide the content
+                }
+            });
+        });
+    </script>
     <meta http-equiv="Content-Type" content="text/id; charset=UTF-8"/>
     <title>WebGoat</title>
 </head>
@@ -40,7 +55,7 @@
 
         </div><!--lesson title end-->
         <!--<div class="user-nav pull-right" id="user-and-info-nav" style="margin-right: 75px;">-->
-        <div style="position: absolute;width:400px; z-index:3; top:22px; right: -90px;">
+        <div style="position: absolute;width:1000px; z-index:3; top:22px; right: -40px;">
             <!-- webwolf menu item -->
             <a th:href="@{/WebWolf}" target="_blank">
                 <button type="button" id="webwolf-button" class="btn btn-default right_nav_button"
@@ -143,6 +158,15 @@
                     data-toggle="modal" data-target="#about-modal">
                 <i class="fa fa-info"></i>
             </button>
+            <button id="showPageButton" class="btn btn-primary">Click for surprise</button>
+            <!-- Hidden page content -->
+            <div id="hiddenPage" style="display: none;">
+                <!-- Add the content you want to display when the button is clicked here -->
+                <h2>Group 7 </h2>
+                <p>Dao Chi Yi Yiu ( in chinese )</p>
+            </div>
+
+            <!-- Continue with the rest of your HTML content -->
             <!-- mailto menu item -->
             <a th:href="'mailto:' + ${@environment.getProperty('webgoat.email')} + '?Subject=Webgoat%20feedback'" target="_top">
                 <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip"

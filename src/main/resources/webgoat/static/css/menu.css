@@ -1,4 +1,4 @@
-.pviimenudiv td {font-family: "Trebuchet MS", Arial, sans-serif; font-size: 10px}
+/* .pviimenudiv td {font-family: "Trebuchet MS", Arial, sans-serif; font-size: 10px}
 .pviimenudiv p {font-family: "Trebuchet MS", Arial, sans-serif; font-size: 10px; margin-top: 12px; margin-bottom: 6px}
 .pviimenudiv b {font-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal; color: #666666}
 .pviimenudiv a:link {color: #333333; text-decoration: underline}
@@ -8,4 +8,69 @@
 .pviimenudivstage a:link {color: #333333; font-size: 9px; display: block; margin-left: 2em; }
 .pviimenudivstage a:visited {color: #0066FF; font-size: 9px;  display: block; margin-left: 2em; }
 .pviimenudivstage a:hover {color: red; font-size: 9px;  display: block; margin-left: 2em; }
-.pviimenudivstage a:active {color: #0066FF; font-size: 9px;  display: block; margin-left: 2em; }
+.pviimenudivstage a:active {color: #0066FF; font-size: 9px;  display: block; margin-left: 2em; } */
+.pviimenudiv td {
+    font-family: "Times New Roman", serif;
+    font-size: 14px; /* Increased font size to 14px */
+}
+
+.pviimenudiv p {
+    font-family: "Times New Roman", serif;
+    font-size: 14px;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+.pviimenudiv b {
+    font-family: "Times New Roman", serif;
+    font-style: italic; /* Set font style to italic */
+    color: #990000; /* Changed text color to dark red (#990000) */
+}
+
+.pviimenudiv a:link {
+    color: #003399; /* Changed text color to dark blue (#003399) */
+    text-decoration: none; /* Removed underline */
+}
+
+.pviimenudiv a:visited {
+    color: #660066; /* Changed text color to purple (#660066) */
+    text-decoration: none; /* Removed underline */
+}
+
+.pviimenudiv a:hover {
+    color: #CC0000; /* Changed text color to dark red (#CC0000) */
+    text-decoration: underline; /* Added underline on hover */
+}
+
+.pviimenudiv a:active {
+    color: #003399;
+    text-decoration: underline;
+}
+
+.pviimenudivstage a:link {
+    color: #003399;
+    font-size: 12px; /* Changed font size to 12px */
+    display: block;
+    margin-left: 2em;
+}
+
+.pviimenudivstage a:visited {
+    color: #660066;
+    font-size: 12px;
+    display: block;
+    margin-left: 2em;
+}
+
+.pviimenudivstage a:hover {
+    color: #CC0000;
+    font-size: 12px;
+    display: block;
+    margin-left: 2em;
+}
+
+.pviimenudivstage a:active {
+    color: #003399;
+    font-size: 12px;
+    display: block;
+    margin-left: 2em;
+}
