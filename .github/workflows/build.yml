@@ -58,3 +58,8 @@ jobs:
                     push: false
                     build-args: |
                         webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }} 
+                            - name: SonarQube Scan
+            -  uses: sonarsource/sonarqube-scan-action@master
+               env:
+                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                    SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
