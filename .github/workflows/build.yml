@@ -2,6 +2,7 @@ name: "build project"
 on:
   push:
     branches:
+    - '*'
 
 jobs:
   push-build:
