@@ -1,8 +1,10 @@
 name: "build project"
 on:
   push:
-    branches:
-    - '*'
+    paths-ignore:
+              - '.txt'
+              - 'LICENSE'
+              - 'docs/**'
 
 jobs:
   push-build:
