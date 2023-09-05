@@ -22,7 +22,7 @@ jobs:
            # Add the rules that Semgrep uses by setting the SEMGREP_RULES environment variable. 
           # SEMGREP_RULES: p/default # more at semgrep.dev/explore
            SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }} 
-      - name: Snyk SCA Scanning
+      - name: Semgrep Security Gtaing
         continue-on-error: true
         run: |   
          Semgrepcount=$(curl -X GET --header 'Content-Type: application/json' --header 'Authorization: token ${{ secrets.SEMGREP_APP_TOKEN }}' 'https://semgrep.dev/api/v1/deployments/severities/findings')
@@ -32,15 +32,15 @@ jobs:
          echo "HIGH = $HIGH"
          echo "MEDIUM = $MEDIUM"
          echo "LOW = $LOW"
-         if [ $CRITICAL -gt 0 ]
+         if [ $HIGH -gt 0 ]
          then
-           curl -H 'Content-Type: application/json' -d '{"text": "<Application Name> has Critical Issues in Semgrep"}'         
-           echo "##[error]Application has critical issues"
+           curl -H 'Content-Type: application/json' -d '{"text": "<Application Name> has HIGH Issues in Semgrep"}'         
+           echo "##[error]Application has HIGH issues"
            #exit 1
-         elif [ $HIGH -gt 0 ]
+         elif [ $MEDIUM -gt 0 ]
          then
-           curl -H 'Content-Type: application/json' -d '{"text": "<Application Name> has High Issues in Semgrep"}'         
-           echo "##[error]Application has High issues"
+           curl -H 'Content-Type: application/json' -d '{"text": "<Application Name> has MEDIUM Issues in Semgrep"}'         
+           echo "##[error]Application has MEDIUM issues"
            #exit 1
          else
           echo "PASSED"
