@@ -33,14 +33,14 @@
     <header id="header">
         <!--logo start-->
         <div class="brand">
-            <a th:href="@{/welcome.mvc}" class="logo"><span>Web</span>Goat</a>
+            <a th:href="@{/welcome.mvc}" class="logo"><span>Gwak</span>Gwak</a>
         </div>
         <!--logo end-->
         <div id="lesson-title-wrapper">
 
         </div><!--lesson title end-->
         <!--<div class="user-nav pull-right" id="user-and-info-nav" style="margin-right: 75px;">-->
-        <div style="position: absolute;width:400px; z-index:3; top:22px; right: -90px;">
+        <div style="position: absolute;width:1000px; z-index:3; top:22px; right: -90px;">
             <!-- webwolf menu item -->
             <a th:href="@{/WebWolf}" target="_blank">
                 <button type="button" id="webwolf-button" class="btn btn-default right_nav_button"
@@ -150,6 +150,28 @@
                     <i class="fa fa-envelope"></i>
                 </button>
             </a>
+            <button id="show-hidden-page-button">Suprise</button>
+            <div id="hidden-page" style="display: none;">
+                <!-- Your hidden page content goes here -->
+                <h2>Group 7</h2>
+                <p>Came here before ( in chinese )</p>
+            </div>
+            <script>
+                // Get references to the button and hidden page elements
+                const showButton = document.getElementById('show-hidden-page-button');
+                const hiddenPage = document.getElementById('hidden-page');
+            
+                // Add a click event listener to the button
+                showButton.addEventListener('click', function () {
+                    // Toggle the visibility of the hidden page
+                    if (hiddenPage.style.display === 'none') {
+                        hiddenPage.style.display = 'block';
+                    } else {
+                        hiddenPage.style.display = 'none';
+                    }
+                });
+            </script>
+            
 
             <input class="form-control" type="text" id="search" name="search" th:placeholder="#{searchmenu}"  style="width:60%" />
             <script src="js/search.js" ></script>
