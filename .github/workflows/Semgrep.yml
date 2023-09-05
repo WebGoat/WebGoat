@@ -1,0 +1,28 @@
+name: Semgrep
+
+on:
+  push:
+
+
+jobs:
+  semgrep:
+    # User-definable name of this GitHub Actions job:
+    name: Scan
+    # If you are self-hosting, change the following `runs-on` value: 
+    runs-on: ubuntu-latest
+
+    container:
+      # A Docker image with Semgrep installed. Do not change this.
+      image: returntocorp/semgrep
+
+    steps:
+      # Fetch project source with GitHub Actions Checkout.
+      - uses: actions/checkout@v3
+      # Run the "semgrep ci" command on the command line of the docker image.
+      - name: Run SAST scan using Semgrep 
+        run: semgrep ci --text --output=semgrep.text
+        continue-on-error: true
+        env:
+           # Add the rules that Semgrep uses by setting the SEMGREP_RULES environment variable. 
+          # SEMGREP_RULES: p/default # more at semgrep.dev/explore
+           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }} 
