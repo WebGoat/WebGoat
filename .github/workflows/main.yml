@@ -2,8 +2,6 @@ name: "Build Process"
 
 on:
   push:
-    branches-ignore:
-      - '*'
 
 jobs:
   build:
