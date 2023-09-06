@@ -31,15 +31,14 @@ jobs:
       - name: Build with Maven
         run: mvn --no-transfer-progress verify
 
-      - name: Set up QEMU 
+      - name: Set up Docker
         if: runner.os == 'Linux'
-        uses: docker/setup-qemu-action@v2.2.0
+        run: |
+          docker --version  # Check Docker is installed
+          docker build -t my-docker-image .  # Replace with your Docker image name
+          docker run my-docker-image  # Replace with your Docker image name
 
-      - name: Set up Docker Buildx 
-        if: runner.os == 'Linux'
-        uses: docker/setup-buildx-action@v2
-
-      - name: Verify Docker WebGoat build 
+      - name: Verify Docker WebGoat build (Linux only)
         if: runner.os == 'Linux'
         uses: docker/build-push-action@v4.1.1
         with:
@@ -49,7 +48,7 @@ jobs:
           build-args: |
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
 
-      - name: Verify Docker WebGoat desktop build 
+      - name: Verify Docker WebGoat desktop build (Linux only)
         uses: docker/build-push-action@v4.1.1
         if: runner.os == 'Linux'
         with:
