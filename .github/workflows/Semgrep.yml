@@ -25,7 +25,7 @@ jobs:
       - name: Semgrep Security Gtaing
         continue-on-error: true
         run: |   
-         Semgrepcount=$(curl -X GET --header 'Content-Type: application/json' --header 'Authorization: token ${{ secrets.SEMGREP_APP_TOKEN }}' 'https://semgrep.dev/orgs/pr/findings?tab=open&repo=RekhaPrasanna%2FWebGoat')
+         Semgrepcount=$(curl -X GET --header 'Content-Type: application/json' --header 'Authorization: token ${{ secrets.SEMGREP_APP_TOKEN }}' 'https://semgrep.dev/api/v1/orgs/pr/findings?tab=open&repo=RekhaPrasanna%2FWebGoat')
          HIGH=$(echo "$Semgrepcount" | jq .issueCountsBySeverity.high )
          MEDIUM=$(echo "$Semgrepcount" | jq .issueCountsBySeverity.medium )
          LOW=$(echo "$Semgrepcount" | jq .issueCountsBySeverity.low )
