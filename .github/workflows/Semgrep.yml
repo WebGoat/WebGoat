@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v3
       # Run the "semgrep ci" command on the command line of the docker image.
       - name: Run SAST scan using Semgrep 
-        run: semgrep ci --severity --text --output=semgrep.text
+        run: semgrep ci --no-suppress-errors --text --output=semgrep.text
         continue-on-error: true
         env:
            # Add the rules that Semgrep uses by setting the SEMGREP_RULES environment variable. 
