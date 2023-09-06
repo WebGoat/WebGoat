@@ -39,7 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
   "access-control.hash.hint9",
   "access-control.hash.hint10",
   "access-control.hash.hint11",
-  "access-control.hash.hint12"
+  "access-control.hash.hint12",
+  "access-control.hash.hint13"
 })
 public class MissingFunctionACYourHashAdmin extends AssignmentEndpoint {
 
