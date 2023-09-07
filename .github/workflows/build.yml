@@ -58,3 +58,12 @@ jobs:
           push: false
           build-args: |
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
+
+      # Add the Docker image build and push step from the first workflow here
+      - name: Build and Push Docker Image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: yjdocker0411/my-webgoat
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
