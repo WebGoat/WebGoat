@@ -1,6 +1,6 @@
 name: Semgrep
 on:
-  push:
+  pull_request: {}
 jobs:
   semgrep:
     # User-definable name of this GitHub Actions job:
