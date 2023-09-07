@@ -4,7 +4,7 @@ on:
     branches:
       - '*'
 
-jobs:
+jobs: 
   push-build:
     runs-on: ${{ matrix.os }}
     strategy:
