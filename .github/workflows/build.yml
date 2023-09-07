@@ -12,17 +12,17 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # Updated to version 2
+        uses: actions/checkout@v2
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2  # Updated to version 2
+        uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: 17
           architecture: x64
 
       - name: Cache Maven packages
-        uses: actions/cache@v2  # Updated to version 2
+        uses: actions/cache@v2
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -58,12 +58,17 @@ jobs:
           push: false
           build-args: |
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
-    
-    # Add the Docker image build and push step from the first workflow here
-      - name: Build and Push Docker Image
-        uses: mr-smithers-excellent/docker-build-push@v6
-        with:
-          image: yjdocker0411/my-webgoat
-          registry: docker.io
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Set up Docker (for Windows and macOS)
+      if: runner.os == 'windows-latest' || runner.os == 'macos-latest'
+      uses: actions/setup-docker@v2
+      with:
+        docker-version: '20.10.8'  # Specify the desired Docker version
+
+    - name: Build and Push Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: yjdocker0411/my-webgoat
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
