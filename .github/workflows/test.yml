@@ -21,7 +21,7 @@ jobs:
         name: "Robot framework test"
         steps:
             # Uses an default action to checkout the code
-            -   uses: actions/checkout@v3
+            -   uses: actions/checkout@v4
             # Uses an action to add Python to the VM
             -   name: Setup Pyton
                 uses: actions/setup-python@v4
