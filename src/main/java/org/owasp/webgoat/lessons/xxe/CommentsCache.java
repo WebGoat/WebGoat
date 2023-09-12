@@ -98,6 +98,7 @@ public class CommentsCache {
     var xif = XMLInputFactory.newInstance();
 
     xif.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+    xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
 
     if (webSession.isSecurityEnabled()) {
       xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
