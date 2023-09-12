@@ -29,6 +29,7 @@
 				"GitHub.copilot-labs",
 				"GitHub.vscode-codeql",
 				"MS-SarifVSCode.sarif-viewer"
+				"Gruntfuggly.triggertaskonsave"
 			]
 		}
 	}

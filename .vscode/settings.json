@@ -1,0 +1,19 @@
+{
+    "yaml.schemas": {
+    
+        "https://json.schemastore.org/github-workflow.json": [
+            "*.github/workflows/*.yaml",
+            "*.github/workflows/*.yml",
+        ],
+        "https://json.schemastore.org/github-action.json": [
+            "action.yaml",
+            "action.yml",
+        ]
+    },
+
+    "triggerTaskOnSave.tasks": {
+        "Format with Spotless": [
+            "src/main/java/org/owasp/**/*.java"
+        ]
+    }
+}
