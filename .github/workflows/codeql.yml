@@ -64,7 +64,6 @@ jobs:
           # queries: security-extended,security-and-quality
 
       - name: Build with Maven
-        if: matrix.language == 'java'
         run: mvn -DskipTests --no-transfer-progress verify
 
       - name: Perform CodeQL Analysis
