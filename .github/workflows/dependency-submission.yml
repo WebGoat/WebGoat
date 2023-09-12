@@ -7,9 +7,9 @@ on:
   #  branches:
   #    - main
   #
-  #pull_request:
-  #  branches:
-  #    - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   dependency-check:
@@ -35,3 +35,11 @@ jobs:
                 
       - name: Maven Dependency Tree Scan and Submission
         uses: advanced-security/maven-dependency-submission-action@v3.0.2
+
+      - name: Dependency Review for PR
+        if: github.event_name == 'pull_request' # Only useful to run on PRs
+        uses: actions/dependency-review-action@v3
+        with:
+          fail-on-severity: high
+          # Use comma-separated names to pass list arguments:
+          deny-licenses: LGPL-2.0, BSD-2-Clause
