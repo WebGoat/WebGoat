@@ -11,11 +11,10 @@ on:
 
 jobs:
   dependency-check:
-    name: Dependency Check and Submission for ${{ github.head_ref || github.ref_name }}
+    name: Dependency Check and Submission
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
-      cancel-in-progress: true
     permissions:
       contents: write
     strategy:
