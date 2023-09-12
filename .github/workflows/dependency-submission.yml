@@ -4,19 +4,18 @@ on:
   workflow_dispatch:
 
   push:
-  #  branches:
-  #    - main
-  #
+    branches:
+
   pull_request:
     branches:
       - main
 
 jobs:
   dependency-check:
-    name: Dependency Check and Submission for ${{ github.sha }}
+    name: Dependency Check and Submission for ${{ github.ref_name }}
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.sha }}
+      group: ${{ github.workflow }}-${{ github.ref_name }}
       cancel-in-progress: true
     permissions:
       contents: write
