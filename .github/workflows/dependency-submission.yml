@@ -15,6 +15,9 @@ jobs:
   dependency-check:
     name: Dependency Check and Submission
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
     permissions:
       contents: write
     strategy:
