@@ -70,7 +70,7 @@ jobs:
 
       - name: Build with Maven
         if: matrix.language == 'java'
-        run: mvn --no-transfer-progress verify
+        run: mvn -DskipTests --no-transfer-progress verify
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
