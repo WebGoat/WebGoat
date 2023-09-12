@@ -99,7 +99,7 @@ public class CommentsCache {
 
     xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, false); // Compliant
     xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, false); // compliant
-  
+
     var xsr = xif.createXMLStreamReader(new StringReader(xml));
 
     var unmarshaller = jc.createUnmarshaller();
