@@ -4,9 +4,7 @@ on:
   workflow_dispatch:
 
   push:
-  #  branches:
-  #    - main
-  
+
   pull_request:
     branches:
       - main
@@ -15,6 +13,8 @@ jobs:
   dependency-check:
     name: Dependency Check and Submission
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
     permissions:
       contents: write
     strategy:
@@ -40,6 +40,6 @@ jobs:
         if: github.event_name == 'pull_request' # Only useful to run on PRs
         uses: actions/dependency-review-action@v3
         with:
-          fail-on-severity: high
+          fail-on-severity: moderate
           # Use comma-separated names to pass list arguments:
           deny-licenses: LGPL-2.0, BSD-2-Clause
