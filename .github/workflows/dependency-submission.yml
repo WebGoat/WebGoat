@@ -13,10 +13,10 @@ on:
 
 jobs:
   dependency-check:
-    name: Dependency Check and Submission for ${{ github.ref }}
+    name: Dependency Check and Submission for ${{ github.sha }}
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: ${{ github.workflow }}-${{ github.sha }}
       cancel-in-progress: true
     permissions:
       contents: write
