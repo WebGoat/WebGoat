@@ -40,6 +40,6 @@ jobs:
         if: github.event_name == 'pull_request' # Only useful to run on PRs
         uses: actions/dependency-review-action@v3
         with:
-          fail-on-severity: high
+          fail-on-severity: moderate
           # Use comma-separated names to pass list arguments:
           deny-licenses: LGPL-2.0, BSD-2-Clause
