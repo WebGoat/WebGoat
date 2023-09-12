@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"command": "mvn spotless:apply",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "Format with Spotless",
+			"detail": "Format the project using spotless rules"
+		}
+	]
+}

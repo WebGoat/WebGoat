@@ -26,7 +26,8 @@
 				"vscjava.vscode-java-dependency",
 				"vscjava.vscode-java-test",
 				"redhat.vscode-yaml",
-				"GitHub.copilot-labs"
+				"GitHub.copilot-labs",
+				"Gruntfuggly.triggertaskonsave"
 			]
 		}
 	}
