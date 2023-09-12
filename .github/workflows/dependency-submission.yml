@@ -1,0 +1,35 @@
+name: Maven Dependency Submission
+
+on:
+  workflow_dispatch:
+
+  #push:
+  #  branches:
+  #    - main
+  #
+  #pull_request:
+  #  branches:
+  #    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: true
+      matrix:
+        java-version: [17]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' https://github.com/marketplace/actions/setup-java-jdk#supported-distributions
+          java-version: ${{ matrix.java-version }}
+          architecture: x64
+                
+      - name: Maven Dependency Tree Dependency Submission
+        uses: advanced-security/maven-dependency-submission-action@v3.0.2
