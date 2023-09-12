@@ -23,6 +23,10 @@
 package org.owasp.webgoat.lessons.vulnerablecomponents;
 
 import com.thoughtworks.xstream.XStream;
+
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -54,7 +58,10 @@ public class VulnerableComponentsLesson extends AssignmentEndpoint {
                 .replace("> ", ">")
                 .replace(" <", "<");
       }
-      contact = (Contact) xstream.fromXML(payload);
+      ByteArrayInputStream input = new ByteArrayInputStream(payload.getBytes());
+      ObjectInputStream ois = new ObjectInputStream(input);
+      contact = (Contact) ois.readObject();
+      //contact = (Contact) xstream.fromXML(payload);
     } catch (Exception ex) {
       return failed(this).feedback("vulnerable-components.close").output(ex.getMessage()).build();
     }
