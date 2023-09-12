@@ -15,8 +15,8 @@ jobs:
   dependency-check:
     name: Dependency Check and Submission
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    #permissions:
+    #  contents: write
     strategy:
       fail-fast: true
       matrix:
