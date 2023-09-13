@@ -52,7 +52,7 @@ public class HashingAssignment extends AssignmentEndpoint {
 
       String secret = SECRETS[new Random().nextInt(SECRETS.length)];
 
-      MessageDigest md = MessageDigest.getInstance("MD5");
+      MessageDigest md = MessageDigest.getInstance("AES-128");
       md.update(secret.getBytes());
       byte[] digest = md.digest();
       md5Hash = DatatypeConverter.printHexBinary(digest).toUpperCase();
