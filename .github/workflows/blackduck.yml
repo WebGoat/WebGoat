@@ -23,7 +23,7 @@ jobs:
       run: mvn -B -DskipTests package
     - name: Black Duck Full Scan
       if: ${{ github.event_name != 'pull_request' }}
-      uses: synopsys-sig/synopsys-action@v1.3.0
+      uses: synopsys-sig/synopsys-action@v1.4.0
       env:
         DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
         DETECT_PROJECT_VERSION_NAME: ${{ github.ref_name }}
@@ -35,7 +35,7 @@ jobs:
         blackduck_scan_failure_severities: 'BLOCKER'
     - name: Black Duck PR Scan
       if: ${{ github.event_name == 'pull_request' }}
-      uses: synopsys-sig/synopsys-action@v1.3.0
+      uses: synopsys-sig/synopsys-action@v1.4.0
       env:
         DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
         DETECT_PROJECT_VERSION_NAME: ${{ github.base_ref }}
