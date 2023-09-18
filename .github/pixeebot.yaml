@@ -1,1 +1,2 @@
-allow_llm_access: true
+ai:
+  allow_llm_access: true
