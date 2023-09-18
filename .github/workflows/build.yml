@@ -36,7 +36,7 @@ jobs:
                 run: mvn --no-transfer-progress verify
             -   name: "Set up QEMU"
                 if: runner.os == 'Linux'
-                uses: docker/setup-qemu-action@v2.2.0
+                uses: docker/setup-qemu-action@v3.0.0
             -   name: "Set up Docker Buildx"
                 if: runner.os == 'Linux'
                 uses: docker/setup-buildx-action@v2
