@@ -2,6 +2,8 @@ name: Synopsys Security Testing
 
 on:  
   workflow_dispatch:
+  schedule:
+  - cron: "0 9 1 * *"
   push:
     # At this time, it is recommended to run Polaris only on pushes to main branches
     # Pull request analysis will be supported by Polaris in the future
