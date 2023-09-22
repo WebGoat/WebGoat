@@ -37,4 +37,13 @@ public class SqlInjection extends Lesson {
   public String getTitle() {
     return "1.sql.injection.title";
   }
+    
+  void deadcode(Object o) throws Exception {
+      if(o == null) {
+        throw new Exception();
+      }
+      if(o == null) {
+        log("o is null");
+      }
+  }
 }
