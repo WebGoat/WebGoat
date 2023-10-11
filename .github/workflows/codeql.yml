@@ -24,6 +24,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 17
+        distribution: temurin
 
     - run: git checkout HEAD^2
       if: ${{ github.event_name == 'pull_request' }}
