@@ -16,31 +16,30 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 2
 
-    - name: Set up JDK 15
-      uses: actions/setup-java@v1
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
       with:
-        java-version: 15
+        java-version: 17
 
     - run: git checkout HEAD^2
       if: ${{ github.event_name == 'pull_request' }}
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
          languages: java
-    - run: |
-       mvn clean install -DskipTests
+    
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
      
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
-    - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/analyze@v2
       with:
-        category: codeql-provided
+        category: "/language:java"
 
     - uses: pmd/pmd-github-action@v1
       id: pmd
