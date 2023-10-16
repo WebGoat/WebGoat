@@ -28,7 +28,7 @@ jobs:
         polaris_project_name: ${{ github.event.repository.name }}
         polaris_assessment_types: 'SAST,SCA'
         polaris_prComment_enabled: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: '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'
 #    - name: Save Logs
 #      if: always()
 #      uses: actions/upload-artifact@v3
