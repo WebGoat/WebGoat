@@ -24,7 +24,7 @@ jobs:
       with:
         polaris_serverUrl: ${{ vars.POLARIS_SERVERURL }}
         polaris_accessToken: ${{ secrets.POLARIS_ACCESSTOKEN }}
-        polaris_application_name: chuckaude-${{ github.event.repository.name }}
+        polaris_application_name: kyleh
         polaris_project_name: ${{ github.event.repository.name }}
         polaris_assessment_types: 'SAST,SCA'
         polaris_prComment_enabled: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
