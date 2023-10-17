@@ -1,0 +1,84 @@
+name: CI Fuzz
+# Set an action secret called "CI_FUZZ_API_TOKEN" with an API token
+# generated in CI Fuzz web interface.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  # The fuzzing server gRPC URL.
+  FUZZING_SERVER_ADDRESS: grpc.code-intelligence.com:443
+  # The fuzzing server HTTP URL.
+  WEB_APP_ADDRESS: https://app.code-intelligence.com
+  # Directory in which the repository will be cloned.
+  CHECKOUT_DIR: checkout-dir/
+  CIFUZZ_DOWNLOAD_URL: "https://github.com/CodeIntelligenceTesting/cifuzz/releases/latest/download/cifuzz_installer_linux_amd64"
+  CIFUZZ_INSTALL_DIR: ./cifuzz
+  FUZZING_ARTIFACT: fuzzing-artifact.tar.gz
+jobs:
+  fuzz_tests:
+    runs-on: ubuntu-latest
+    # Configure your build environment here
+    # container: example/docker_image
+    steps:
+      - id: checkout
+        name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          path: ${{ env.CHECKOUT_DIR }}
+      - id: install-cifuzz
+        name: Install cifuzz
+        run: |
+          curl --fail --silent --show-error --location -o cifuzz_installer "$CIFUZZ_DOWNLOAD_URL"
+          chmod u+x cifuzz_installer
+          ./cifuzz_installer --install-dir $CIFUZZ_INSTALL_DIR
+      - id: build-fuzzers
+        name: Build Fuzzers
+        env:
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+        run: |
+          export cifuzz_DIR="$GITHUB_WORKSPACE/$CIFUZZ_INSTALL_DIR/share/cmake"
+          cd $CHECKOUT_DIR/
+          $GITHUB_WORKSPACE/$CIFUZZ_INSTALL_DIR/bin/cifuzz bundle \
+            --commit $GITHUB_SHA \
+            --branch $BRANCH_NAME \
+            --output $GITHUB_WORKSPACE/$CHECKOUT_DIR/$FUZZING_ARTIFACT
+        shell: "bash"
+      - id: start-fuzzing
+        name: Start Fuzzing
+        uses: CodeIntelligenceTesting/github-actions/start-fuzzing@v5
+        with:
+          ci_fuzz_api_token: ${{ secrets.CI_FUZZ_API_TOKEN }}
+          fuzzing_server_address: ${{ env.FUZZING_SERVER_ADDRESS }}
+          fuzzing_artifact: ${{ env.CHECKOUT_DIR }}/${{ env.FUZZING_ARTIFACT }}
+          checkout_directory: ${{ env.CHECKOUT_DIR }}
+      - id: monitor-fuzzing
+        name: Fuzzing
+        uses: CodeIntelligenceTesting/github-actions/monitor-fuzzing@v5
+        with:
+          ci_fuzz_api_token: ${{ secrets.CI_FUZZ_API_TOKEN }}
+          test_collection_run: ${{ steps.start-fuzzing.outputs.test_collection_run }}
+          fuzzing_server_address: ${{ env.FUZZING_SERVER_ADDRESS }}
+          dashboard_address: ${{ env.WEB_APP_ADDRESS }}
+      - id: save-results
+        name: Save Fuzz Test Results
+        uses: CodeIntelligenceTesting/github-actions/save-results@v5
+        if: ${{ success() || failure() }}
+        with:
+          ci_fuzz_api_token: ${{ secrets.CI_FUZZ_API_TOKEN }}
+          test_collection_run: ${{ steps.start-fuzzing.outputs.test_collection_run }}
+          fuzzing_server_address: ${{ env.FUZZING_SERVER_ADDRESS }}
+          dashboard_address: ${{ env.WEB_APP_ADDRESS }}
+      - id: upload-artifact
+        uses: actions/upload-artifact@v2
+        if: ${{ (success() || failure()) }}
+        with:
+          name: ci_fuzz_results
+          path: |
+            findings.json
+            coverage.json
+            web_app_address.txt
