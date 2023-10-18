@@ -1,0 +1,24 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+ 
+pool:
+  vmImage: ubuntu-latest
+ 
+steps:
+- script: echo Starting Fossa  Test!
+  displayName: 'Display process start'
+ 
+- script: |
+     curl https://raw.githubusercontent.com/fossas/spectrometer/master/install.sh | bash
+     
+     cd $(Build.Repository.LocalPath)
+
+     fossa analyze --fossa-api-key $(FOSSA_API_KEY) 
+     fossa test --timeout 600 --fossa-api-key $(FOSSA_API_KEY)
+     
+  displayName: 'FOSSA Scan'
