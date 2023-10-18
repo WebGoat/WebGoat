@@ -18,7 +18,7 @@ steps:
      
      cd $(Build.Repository.LocalPath)
 
-     fossa analyze --fossa-api-key $(FOSSA_API_KEY) 
-     fossa test --timeout 600 --fossa-api-key $(FOSSA_API_KEY)
+     fossa analyze --fossa-api-key $(FOSSAAPIKEY) 
+     fossa test --timeout 600 --fossa-api-key $(FOSSAAPIKEY)
      
   displayName: 'FOSSA Scan'
