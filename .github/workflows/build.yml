@@ -5,6 +5,9 @@ on:
             - '.txt'
             - 'LICENSE'
             - 'docs/**'
+    push:
+      branches:
+        - "!main"
 
 jobs:
     pr-build:
