@@ -8,7 +8,6 @@ updates:
         directory: "/"
         schedule:
             interval: "weekly"
-        openjdk_version: "17"
         ignore:
           - dependency-name: "org.webjars:bootstrap" # First the WebWolf UI needs to be refactored due to breaking changes
     -   package-ecosystem: "docker"
