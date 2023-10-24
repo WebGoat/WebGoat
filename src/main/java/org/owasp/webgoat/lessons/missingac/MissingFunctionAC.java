@@ -29,16 +29,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class MissingFunctionAC extends Lesson {
 
-    public static final String PASSWORD_SALT_SIMPLE = "DeliberatelyInsecure1234";
-    public static final String PASSWORD_SALT_ADMIN = "DeliberatelyInsecure1235";
+  public static final String PASSWORD_SALT_SIMPLE = "DeliberatelyInsecure1234";
+  public static final String PASSWORD_SALT_ADMIN = "DeliberatelyInsecure1235";
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.A1;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.A1;
+  }
 
-    @Override
-    public String getTitle() {
-        return "missing-function-access-control.title";
-    }
+  @Override
+  public String getTitle() {
+    return "missing-function-access-control.title";
+  }
 }

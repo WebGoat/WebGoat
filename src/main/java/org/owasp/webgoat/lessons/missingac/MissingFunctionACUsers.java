@@ -22,6 +22,12 @@
 
 package org.owasp.webgoat.lessons.missingac;
 
+import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_ADMIN;
+import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_SIMPLE;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.session.WebSession;
@@ -34,70 +40,75 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_ADMIN;
-import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_SIMPLE;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-/**
- * Created by jason on 1/5/17.
- */
+/** Created by jason on 1/5/17. */
 @Controller
 @AllArgsConstructor
 @Slf4j
 public class MissingFunctionACUsers {
 
-    private final MissingAccessControlUserRepository userRepository;
-    private final WebSession webSession;
+  private final MissingAccessControlUserRepository userRepository;
+  private final WebSession webSession;
 
-    @GetMapping(path = {"access-control/users"})
-    public ModelAndView listUsers() {
+  @GetMapping(path = {"access-control/users"})
+  public ModelAndView listUsers() {
 
-        ModelAndView model = new ModelAndView();
-        model.setViewName("list_users");
-        List<User> allUsers = userRepository.findAllUsers();
-        model.addObject("numUsers", allUsers.size());
-        //add display user objects in place of direct users
-        List<DisplayUser> displayUsers = new ArrayList<>();
-        for (User user : allUsers) {
-            displayUsers.add(new DisplayUser(user, PASSWORD_SALT_SIMPLE));
-        }
-        model.addObject("allUsers", displayUsers);
+    ModelAndView model = new ModelAndView();
+    model.setViewName("list_users");
+    List<User> allUsers = userRepository.findAllUsers();
+    model.addObject("numUsers", allUsers.size());
+    // add display user objects in place of direct users
+    List<DisplayUser> displayUsers = new ArrayList<>();
+    for (User user : allUsers) {
+      displayUsers.add(new DisplayUser(user, PASSWORD_SALT_SIMPLE));
+    }
+    model.addObject("allUsers", displayUsers);
 
-        return model;
+    return model;
+  }
+
+  @GetMapping(
+      path = {"access-control/users"},
+      consumes = "application/json")
+  @ResponseBody
+  public ResponseEntity<List<DisplayUser>> usersService() {
+    return ResponseEntity.ok(
+        userRepository.findAllUsers().stream()
+            .map(user -> new DisplayUser(user, PASSWORD_SALT_SIMPLE))
+            .collect(Collectors.toList()));
+  }
+
+  @GetMapping(
+      path = {"access-control/users-admin-fix"},
+      consumes = "application/json")
+  @ResponseBody
+  public ResponseEntity<List<DisplayUser>> usersFixed() {
+    var currentUser = userRepository.findByUsername(webSession.getUserName());
+    if (currentUser != null && currentUser.isAdmin()) {
+      return ResponseEntity.ok(
+          userRepository.findAllUsers().stream()
+              .map(user -> new DisplayUser(user, PASSWORD_SALT_ADMIN))
+              .collect(Collectors.toList()));
+    }
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+  }
+
+  @PostMapping(
+      path = {"access-control/users", "access-control/users-admin-fix"},
+      consumes = "application/json",
+      produces = "application/json")
+  @ResponseBody
+  public User addUser(@RequestBody User newUser) {
+    try {
+      userRepository.save(newUser);
+      return newUser;
+    } catch (Exception ex) {
+      log.error("Error creating new User", ex);
+      return null;
     }
 
-    @GetMapping(path = {"access-control/users"}, consumes = "application/json")
-    @ResponseBody
-    public ResponseEntity<List<DisplayUser>> usersService() {
-        return ResponseEntity.ok(userRepository.findAllUsers().stream().map(user -> new DisplayUser(user, PASSWORD_SALT_SIMPLE)).collect(Collectors.toList()));
-    }
+    // @RequestMapping(path = {"user/{username}","/"}, method = RequestMethod.DELETE, consumes =
+    // "application/json", produces = "application/json")
+    // TODO implement delete method with id param and authorization
 
-    @GetMapping(path = {"access-control/users-admin-fix"}, consumes = "application/json")
-    @ResponseBody
-    public ResponseEntity<List<DisplayUser>> usersFixed() {
-        var currentUser = userRepository.findByUsername(webSession.getUserName());
-        if (currentUser != null && currentUser.isAdmin()) {
-            return ResponseEntity.ok(userRepository.findAllUsers().stream().map(user -> new DisplayUser(user, PASSWORD_SALT_ADMIN)).collect(Collectors.toList()));
-        }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-    }
-
-    @PostMapping(path = {"access-control/users", "access-control/users-admin-fix"}, consumes = "application/json", produces = "application/json")
-    @ResponseBody
-    public User addUser(@RequestBody User newUser) {
-        try {
-            userRepository.save(newUser);
-            return newUser;
-        } catch (Exception ex) {
-            log.error("Error creating new User", ex);
-            return null;
-        }
-
-        //@RequestMapping(path = {"user/{username}","/"}, method = RequestMethod.DELETE, consumes = "application/json", produces = "application/json")
-        //TODO implement delete method with id param and authorization
-
-    }
+  }
 }

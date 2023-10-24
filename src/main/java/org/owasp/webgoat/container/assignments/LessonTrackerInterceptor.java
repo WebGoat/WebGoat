@@ -36,39 +36,46 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
 
-    private UserTrackerRepository userTrackerRepository;
-    private WebSession webSession;
+  private UserTrackerRepository userTrackerRepository;
+  private WebSession webSession;
 
-    public LessonTrackerInterceptor(UserTrackerRepository userTrackerRepository, WebSession webSession) {
-        this.userTrackerRepository = userTrackerRepository;
-        this.webSession = webSession;
+  public LessonTrackerInterceptor(
+      UserTrackerRepository userTrackerRepository, WebSession webSession) {
+    this.userTrackerRepository = userTrackerRepository;
+    this.webSession = webSession;
+  }
+
+  @Override
+  public boolean supports(
+      MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> clazz) {
+    return true;
+  }
+
+  @Override
+  public Object beforeBodyWrite(
+      Object o,
+      MethodParameter methodParameter,
+      MediaType mediaType,
+      Class<? extends HttpMessageConverter<?>> aClass,
+      ServerHttpRequest serverHttpRequest,
+      ServerHttpResponse serverHttpResponse) {
+    if (o instanceof AttackResult attackResult) {
+      trackProgress(attackResult);
     }
+    return o;
+  }
 
-    @Override
-    public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> clazz) {
-        return true;
+  protected AttackResult trackProgress(AttackResult attackResult) {
+    UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
+    if (userTracker == null) {
+      userTracker = new UserTracker(webSession.getUserName());
     }
-
-    @Override
-    public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        if (o instanceof AttackResult attackResult) {
-            trackProgress(attackResult);
-        }
-        return o;
+    if (attackResult.assignmentSolved()) {
+      userTracker.assignmentSolved(webSession.getCurrentLesson(), attackResult.getAssignment());
+    } else {
+      userTracker.assignmentFailed(webSession.getCurrentLesson());
     }
-
-
-    protected AttackResult trackProgress(AttackResult attackResult) {
-        UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
-        if (userTracker == null) {
-            userTracker = new UserTracker(webSession.getUserName());
-        }
-        if (attackResult.assignmentSolved()) {
-            userTracker.assignmentSolved(webSession.getCurrentLesson(), attackResult.getAssignment());
-        } else {
-            userTracker.assignmentFailed(webSession.getCurrentLesson());
-        }
-        userTrackerRepository.saveAndFlush(userTracker);
-        return attackResult;
-    }
+    userTrackerRepository.saveAndFlush(userTracker);
+    return attackResult;
+  }
 }

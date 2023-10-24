@@ -35,57 +35,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AssignmentEndpoint implements Initializeable {
 
-    @Autowired
-    private WebSession webSession;
-    @Autowired
-    private UserSessionData userSessionData;
-    @Getter
-    @Autowired
-    private PluginMessages messages;
+  @Autowired private WebSession webSession;
+  @Autowired private UserSessionData userSessionData;
+  @Getter @Autowired private PluginMessages messages;
 
-    protected WebSession getWebSession() {
-        return webSession;
-    }
+  protected WebSession getWebSession() {
+    return webSession;
+  }
 
-    protected UserSessionData getUserSessionData() {
-        return userSessionData;
-    }
+  protected UserSessionData getUserSessionData() {
+    return userSessionData;
+  }
 
-    /**
-     * Convenience method for create a successful result:
-     * <p>
-     * - Assignment is set to solved
-     * - Feedback message is set to 'assignment.solved'
-     * <p>
-     * Of course you can overwrite these values in a specific lesson
-     *
-     * @return a builder for creating a result from a lesson
-     * @param assignment
-     */
-    protected AttackResult.AttackResultBuilder success(AssignmentEndpoint assignment) {
-        return AttackResult.builder(messages).lessonCompleted(true).attemptWasMade().feedback("assignment.solved").assignment(assignment);
-    }
+  /**
+   * Convenience method for create a successful result:
+   *
+   * <p>- Assignment is set to solved - Feedback message is set to 'assignment.solved'
+   *
+   * <p>Of course you can overwrite these values in a specific lesson
+   *
+   * @return a builder for creating a result from a lesson
+   * @param assignment
+   */
+  protected AttackResult.AttackResultBuilder success(AssignmentEndpoint assignment) {
+    return AttackResult.builder(messages)
+        .lessonCompleted(true)
+        .attemptWasMade()
+        .feedback("assignment.solved")
+        .assignment(assignment);
+  }
 
-    /**
-     * Convenience method for create a failed result:
-     * <p>
-     * - Assignment is set to not solved
-     * - Feedback message is set to 'assignment.not.solved'
-     * <p>
-     * Of course you can overwrite these values in a specific lesson
-     *
-     * @return a builder for creating a result from a lesson
-     * @param assignment
-     */
-    protected AttackResult.AttackResultBuilder failed(AssignmentEndpoint assignment) {
-        return AttackResult.builder(messages).lessonCompleted(false).attemptWasMade().feedback("assignment.not.solved").assignment(assignment);
-    }
+  /**
+   * Convenience method for create a failed result:
+   *
+   * <p>- Assignment is set to not solved - Feedback message is set to 'assignment.not.solved'
+   *
+   * <p>Of course you can overwrite these values in a specific lesson
+   *
+   * @return a builder for creating a result from a lesson
+   * @param assignment
+   */
+  protected AttackResult.AttackResultBuilder failed(AssignmentEndpoint assignment) {
+    return AttackResult.builder(messages)
+        .lessonCompleted(false)
+        .attemptWasMade()
+        .feedback("assignment.not.solved")
+        .assignment(assignment);
+  }
 
-    protected AttackResult.AttackResultBuilder informationMessage(AssignmentEndpoint assignment) {
-        return AttackResult.builder(messages).lessonCompleted(false).assignment(assignment);
-    }
+  protected AttackResult.AttackResultBuilder informationMessage(AssignmentEndpoint assignment) {
+    return AttackResult.builder(messages).lessonCompleted(false).assignment(assignment);
+  }
 
-    @Override
-    public void initialize(WebGoatUser user) {
-    }
+  @Override
+  public void initialize(WebGoatUser user) {}
 }

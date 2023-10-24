@@ -5,6 +5,4 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("org.owasp.webgoat.server")
-public class ParentConfig {
-
-}
+public class ParentConfig {}

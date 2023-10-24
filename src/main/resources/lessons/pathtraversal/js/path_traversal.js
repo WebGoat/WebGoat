@@ -70,9 +70,3 @@ webgoat.customjs.profileZipSlip = function () {
     formData.append("password", $("#passwordZipSlip").val());
     return formData;
 }
-
-webgoat.customjs.profileZipSlipRetrieval = function () {
-    $.get("PathTraversal/zip-slip", function (result, status) {
-        document.getElementById("previewZipSlip").src = "data:image/png;base64," + result;
-    });
-}

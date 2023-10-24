@@ -39,16 +39,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class NetworkDummy extends AssignmentEndpoint {
 
-    @PostMapping("/ChromeDevTools/dummy")
-    @ResponseBody
-    public AttackResult completed(@RequestParam String successMessage) {
-        UserSessionData userSessionData = getUserSessionData();
-        String answer = (String) userSessionData.getValue("randValue");
+  @PostMapping("/ChromeDevTools/dummy")
+  @ResponseBody
+  public AttackResult completed(@RequestParam String successMessage) {
+    UserSessionData userSessionData = getUserSessionData();
+    String answer = (String) userSessionData.getValue("randValue");
 
-        if (successMessage != null && successMessage.equals(answer)) {
-            return success(this).feedback("xss-dom-message-success").build();
-        } else {
-            return failed(this).feedback("xss-dom-message-failure").build();
-        }
+    if (successMessage != null && successMessage.equals(answer)) {
+      return success(this).feedback("xss-dom-message-success").build();
+    } else {
+      return failed(this).feedback("xss-dom-message-failure").build();
     }
+  }
 }

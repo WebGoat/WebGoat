@@ -9,13 +9,13 @@ import org.owasp.webgoat.container.lessons.Lesson;
  */
 public class ChallengeIntro extends Lesson {
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.CHALLENGE;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.CHALLENGE;
+  }
 
-    @Override
-    public String getTitle() {
-        return "challenge0.title";
-    }
+  @Override
+  public String getTitle() {
+    return "challenge0.title";
+  }
 }

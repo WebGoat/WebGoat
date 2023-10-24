@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class CIA extends Lesson {
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.GENERAL;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.GENERAL;
+  }
 
-    @Override
-    public String getTitle() {
-        return "4.cia.title";//4th lesson in general
-    }
+  @Override
+  public String getTitle() {
+    return "4.cia.title"; // 4th lesson in general
+  }
 }

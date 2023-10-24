@@ -36,13 +36,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class HijackSession extends Lesson {
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.A1;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.A1;
+  }
 
-    @Override
-    public String getTitle() {
-        return "hijacksession.title";
-    }
+  @Override
+  public String getTitle() {
+    return "hijacksession.title";
+  }
 }
