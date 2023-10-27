@@ -19,3 +19,4 @@ steps:
     bridge_polaris_application_name: 'kyleh'
     bridge_polaris_project_name: 'ADO-Test'
     bridge_polaris_assessment_types: 'SAST,SCA'
+
