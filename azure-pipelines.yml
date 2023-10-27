@@ -20,3 +20,8 @@ steps:
     bridge_polaris_project_name: 'ADO-Test'
     bridge_polaris_assessment_types: 'SAST,SCA'
 
+- task: SynopsysDetectTask@9
+  inputs:
+    BlackDuckService: 'us1a-imp-hub11'
+    DetectArguments: '--detect.project.name=ADOTesting --detect.project.version.name=1 --detect.trust.cert=true'
+    DetectVersion: 'latest'
