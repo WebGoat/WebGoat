@@ -1,12 +1,11 @@
 package org.owasp.webgoat;
 
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.restassured.RestAssured;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 public class WebWolfIntegrationTest extends IntegrationTest {
 

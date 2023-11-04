@@ -4,11 +4,9 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.SneakyThrows;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
@@ -26,9 +24,8 @@ public class IDORIntegrationTest extends IntegrationTest {
   @TestFactory
   Iterable<DynamicTest> testIDORLesson() {
     return Arrays.asList(
-            dynamicTest("assignment 2 - login", this::loginIDOR),
-            dynamicTest("profile", this::profile)
-    );
+        dynamicTest("assignment 2 - login", this::loginIDOR),
+        dynamicTest("profile", this::profile));
   }
 
   @AfterEach
@@ -70,7 +67,7 @@ public class IDORIntegrationTest extends IntegrationTest {
     params.put("url", "WebGoat/IDOR/profile/2342384");
     checkAssignment(url("IDOR/profile/alt-path"), params, true);
 
-    //assignment 5a
+    // assignment 5a
     MatcherAssert.assertThat(
         RestAssured.given()
             .when()
@@ -83,7 +80,7 @@ public class IDORIntegrationTest extends IntegrationTest {
             .path("lessonCompleted"),
         CoreMatchers.is(true));
 
-    //assignment 5b
+    // assignment 5b
     MatcherAssert.assertThat(
         RestAssured.given()
             .when()

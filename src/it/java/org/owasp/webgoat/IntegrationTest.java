@@ -16,14 +16,16 @@ import org.springframework.http.HttpStatus;
 public abstract class IntegrationTest {
 
   private static String webGoatPort = Objects.requireNonNull(System.getProperty("webgoatport"));
-  private static String webGoatContext = Objects.requireNonNull(System.getProperty("webgoat.context","/WebGoat/") );
+  private static String webGoatContext =
+      Objects.requireNonNull(System.getProperty("webgoat.context", "/WebGoat/"));
 
   @Getter
   private static String webWolfPort = Objects.requireNonNull(System.getProperty("webwolfport"));
-  private static String webWolfContext = Objects.requireNonNull(System.getProperty("webwolf.context","/WebWolf/") );
 
+  private static String webWolfContext =
+      Objects.requireNonNull(System.getProperty("webwolf.context", "/WebWolf/"));
 
-    private static boolean useSSL = false;
+  private static boolean useSSL = false;
   private static String webgoatUrl =
       (useSSL ? "https:" : "http:") + "//localhost:" + webGoatPort + webGoatContext;
   private static String webWolfUrl =

@@ -138,8 +138,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
             .cookie("JSESSIONID", getWebGoatCookie())
             .header("x-request-intercepted", "true")
             .contentType(ContentType.JSON)
-            .get(
-                url("HttpProxies/intercept-request?changeMe=Requests are tampered easily"))
+            .get(url("HttpProxies/intercept-request?changeMe=Requests are tampered easily"))
             .then()
             .statusCode(200)
             .extract()

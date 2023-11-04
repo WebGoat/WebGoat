@@ -58,8 +58,7 @@ class AccessControlIntegrationTest extends IntegrationTest {
             .jsonPath()
             .get("find { it.username == \"Jerry\" }.userHash");
 
-    checkAssignment(
-        url("access-control/user-hash-fix"), Map.of("userHash", userHash), true);
+    checkAssignment(url("access-control/user-hash-fix"), Map.of("userHash", userHash), true);
   }
 
   private void assignment2() {
