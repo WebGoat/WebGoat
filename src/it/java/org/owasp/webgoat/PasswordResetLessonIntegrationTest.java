@@ -11,12 +11,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
+import org.springframework.http.HttpHeaders;
 
 public class PasswordResetLessonIntegrationTest extends IntegrationTest {
 
   @BeforeEach
   public void init() {
-    startLesson("/PasswordReset");
+    startLesson("PasswordReset");
   }
 
   @TestFactory
@@ -85,7 +86,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/WebWolf/mail"))
+            .get(webWolfUrl("mail"))
             .then()
             .extract()
             .response()
@@ -119,7 +120,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/WebWolf/requests"))
+            .get(webWolfUrl("requests"))
             .then()
             .extract()
             .response()
@@ -136,7 +137,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   private void clickForgotEmailLink(String user) {
     RestAssured.given()
         .when()
-        .header("host", String.format("%s:%s", "localhost", getWebWolfPort()))
+        .header(HttpHeaders.HOST, String.format("%s:%s", "127.0.0.1", getWebWolfPort()))
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .formParams("email", user)
