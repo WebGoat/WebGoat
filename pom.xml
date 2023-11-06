@@ -265,7 +265,7 @@
       <dependency>
         <groupId>org.jruby</groupId>
         <artifactId>jruby</artifactId>
-        <version>9.4.3.0</version>
+        <version>9.4.5.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
