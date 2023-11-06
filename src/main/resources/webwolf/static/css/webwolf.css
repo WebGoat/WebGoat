@@ -39,11 +39,11 @@ footer {
     margin-bottom: 10px;
 }
 
-#accordion .panel-heading {
+#accordion .card-heading {
     padding: 0;
 }
 
-#accordion .panel-title > a {
+#accordion .card-title > a {
     display: block;
     padding: 0.4em 0.6em;
     outline: none;
@@ -51,14 +51,14 @@ footer {
     text-decoration: none;
 }
 
-#accordion .panel-title > a.accordion-toggle::before, #accordion a[data-toggle="collapse"]::before {
+#accordion .card-title > a.accordion-toggle::before, #accordion a[data-bs-toggle="collapse"]::before {
     content: "\e113";
     float: left;
     font-family: 'Glyphicons Halflings';
     margin-right: 1em;
 }
 
-#accordion .panel-title > a.accordion-toggle.collapsed::before, #accordion a.collapsed[data-toggle="collapse"]::before {
+#accordion .card-title > a.accordion-toggle.collapsed::before, #accordion a.collapsed[data-bs-toggle="collapse"]::before {
     content: "\e114";
 }
 

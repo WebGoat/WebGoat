@@ -14,7 +14,7 @@
 
     <div class="alert alert-info fade in">
 
-        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <a href="#" class="close" data-bs-dismiss="alert">&times;</a>
         <p>
             Challenges in which you need to call your hacker machine WebWolf offers a simple httpd
             server functionality which only logs the incoming request. You can use the following URL:
@@ -28,19 +28,19 @@
 
 
     <h3>Requests</h3>
-    <div th:each="trace,iter : ${traces}" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" th:id="'heading' + ${iter.index}">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+    <div th:each="trace,iter : ${traces}" class="card-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="card">
+            <div class="card-heading" role="tab" th:id="'heading' + ${iter.index}">
+                <h4 class="card-title">
+                    <a class="collapsed" role="button" data-bs-toggle="collapse" data-bs-parent="#accordion"
                        th:href="'#collapse' + ${iter.index}" aria-expanded="false" th:aria-controls="'collapse' + ${iter.index}">
                         <span th:utext="${trace.date}"/> | <span th:utext="${trace.path}"/>
                     </a>
                 </h4>
             </div>
-            <div th:id="'collapse' + ${iter.index}" class="panel-collapse collapse" role="tabpanel"
+            <div th:id="'collapse' + ${iter.index}" class="card-collapse collapse" role="tabcard"
                  th:aria-labelledby="'heading' + ${iter.index}">
-                <div class="panel-body">
+                <div class="card-body">
                     <div>
                         <pre th:utext="${trace.json}"/>
                     </div>

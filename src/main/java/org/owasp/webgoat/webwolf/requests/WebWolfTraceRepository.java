@@ -25,7 +25,6 @@ package org.owasp.webgoat.webwolf.requests;
 import com.google.common.collect.EvictingQueue;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository;
 
@@ -36,7 +35,6 @@ import org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository;
  * @author nbaars
  * @since 8/13/17.
  */
-@Slf4j
 public class WebWolfTraceRepository implements HttpExchangeRepository {
 
   private final EvictingQueue<HttpExchange> traces = EvictingQueue.create(10000);
@@ -46,7 +44,6 @@ public class WebWolfTraceRepository implements HttpExchangeRepository {
           "/home",
           "/files",
           "/images/",
-          "/favicon.ico",
           "/js/",
           "/webjars/",
           "/requests",

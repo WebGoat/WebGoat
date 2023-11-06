@@ -14,7 +14,7 @@
 
     <div class="alert alert-info fade in">
 
-        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <a href="#" class="close" data-bs-dismiss="alert">&times;</a>
         <p>
             Upload a file which you need to host as an attacker.
         </p>
@@ -27,11 +27,11 @@
         </p>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading"><strong>Upload a file</strong>
+    <div class="card">
+        <div class="card-heading"><strong>Upload a file</strong>
             <small></small>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
 
             <!-- Standard Form -->
             <form th:action="@{/fileupload}" method="post" enctype="multipart/form-data">

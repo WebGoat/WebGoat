@@ -55,6 +55,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
   public void addViewControllers(ViewControllerRegistry registry) {
     registry.addViewController("/login").setViewName("webwolf-login");
     registry.addViewController("/home").setViewName("home");
+    registry.addViewController("/").setViewName("home");
   }
 
   @PostConstruct
