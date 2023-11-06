@@ -1,3 +1,4 @@
+
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
@@ -25,14 +26,12 @@
 
 package org.owasp.webgoat.server;
 
-import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.WebGoat;
 import org.owasp.webgoat.webwolf.WebWolf;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@Slf4j
 public class StartWebGoat {
 
   public static void main(String[] args) {

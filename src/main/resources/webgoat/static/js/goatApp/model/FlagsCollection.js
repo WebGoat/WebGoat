@@ -7,7 +7,7 @@ define(['jquery',
 		Backbone,
 		FlagModel) {
 	return Backbone.Collection.extend({
-		url:'/WebGoat/scoreboard-data',
+		url:'scoreboard-data',
 		model:FlagModel
 	});
 });

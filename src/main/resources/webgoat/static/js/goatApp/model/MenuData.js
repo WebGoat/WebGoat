@@ -3,7 +3,7 @@
 define(['jquery','underscore','backbone'], function($,_,Backbone) {
 
 var menuData = Backbone.Model.extend({
-		urlRoot:'/webgoat/service/lessonmenu.mvc',
+		urlRoot:'service/lessonmenu.mvc',
 		defaults: {
 			items:null,
 			selectedItem:null
