@@ -39,6 +39,6 @@ require.config({
   }
 });
 
-require(['jquery','jqueryvuln','jqueryui', 'underscore','backbone','goatApp/scoreboardApp'], function($,jqueryBase,jqueryVuln,jqueryui,_,Backbone,ScoreboardApp){
+require(['underscore','backbone','goatApp/scoreboardApp'], function(_,Backbone,ScoreboardApp){
     ScoreboardApp.initApp();
 });
