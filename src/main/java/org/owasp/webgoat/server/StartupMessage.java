@@ -23,15 +23,17 @@ public class StartupMessage {
     if (event.getApplicationContext().getApplicationName().contains("WebGoat")) {
       port = event.getApplicationContext().getEnvironment().getProperty("server.port");
       address = event.getApplicationContext().getEnvironment().getProperty("server.address");
-      contextPath = event.getApplicationContext().getEnvironment().getProperty("server.servlet.context-path");
+      contextPath =
+          event.getApplicationContext().getEnvironment().getProperty("server.servlet.context-path");
     } else if (event.getApplicationContext().getApplicationName().contains("WebWolf")) {
-        port = event.getApplicationContext().getEnvironment().getProperty("server.port");
-        address = event.getApplicationContext().getEnvironment().getProperty("server.address");
-        contextPath = event.getApplicationContext().getEnvironment().getProperty("server.servlet.context-path");
+      port = event.getApplicationContext().getEnvironment().getProperty("server.port");
+      address = event.getApplicationContext().getEnvironment().getProperty("server.address");
+      contextPath =
+          event.getApplicationContext().getEnvironment().getProperty("server.servlet.context-path");
     }
     if (StringUtils.hasText(port)
-              && !StringUtils.hasText(System.getProperty("running.in.docker"))) {
-        log.warn("Please browse to http://{}:{}{} to get started...", address, port, contextPath);
+        && !StringUtils.hasText(System.getProperty("running.in.docker"))) {
+      log.warn("Please browse to http://{}:{}{} to get started...", address, port, contextPath);
     }
   }
 
