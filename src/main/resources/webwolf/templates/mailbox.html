@@ -13,26 +13,27 @@
 <div class="container">
 
 
-    <div class="alert alert-info fade in">
-
-        <a href="#" class="close" data-bs-dismiss="alert">&times;</a>
+    <div class="alert alert-info alert-dismissible fade show">
+        <div>
         <p>
             The mailbox of you as an attacker, all the mail send to {user}@{random} will be send to this mailbox.
         </p>
         <p>
             Only the user part is important the domain can be anything
         </p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-3 col-md-2">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                            Mail <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
+                    <div class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="mybutton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mail
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="mybutton">
                             <li><a class="dropdown-item" href="#">Mail</a></li>
                             <li><a class="dropdown-item" href="#">Contacts</a></li>
                             <li><a class="dropdown-item" href="#">Tasks</a></li>
@@ -82,19 +83,20 @@
                 </div>
                 <div class="col-sm-9 col-md-10">
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item"><a class="nav-link active" href="#home" data-bs-toggle="tab"><span class="bi bi-inbox">
-                </span>Primary</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#profile" data-bs-toggle="tab"><span class="bi bi-user"></span>
-                            Social</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#messages" data-bs-toggle="tab"><span class="bi bi-tags"></span>
-                            Promotions</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#settings" data-bs-toggle="tab"><span class="bi bi-plus no-margin">
-                </span></a></li>
-                    </ul>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Primary</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Social</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab" aria-controls="messages" aria-selected="false">Promotions</button>
+                        </li>
+                      </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane fade in active" id="home">
+                        <div class="tab-pane fade show active" id="home" aria-labelledby="home-tab">
                             <ul class="list-group">
                             <li th:each="mail : ${emails}" class="list-group-item">
                                 <a href="#" class="showMail list-group-item">
@@ -106,10 +108,12 @@
                                           th:text="${mail.shortSender}">WebGoat</span>
                                     <span class="" th:text="${mail.title}">Title</span>
                                     <span class="text-muted" style="font-size: 11px;" th:text="${mail.summary}">- summary</span>
-                                    <span class="badge" th:text="${mail.time}">12:10 AM</span>
+                                    
                                     <span class="pull-right">
                                         <span class="bi bi-paperclip"></span>
+                                        <span class="bg-primary text-white rounded-pill" th:text="${mail.time}">12:10 AM</span>
                                     </span>
+
                                 </a>
                                     <!---->
                                     <div class="left15 contents card top10" style="display:none" >
@@ -121,10 +125,8 @@
                                             <pre th:utext="${mail.contents}"/>
                                          </div>
                                     </div>
-
-                                </li>
+                            </li>
                             </ul>
-
                         </div>
                         <div class="tab-pane fade in" id="profile">
                             <div class="list-group">

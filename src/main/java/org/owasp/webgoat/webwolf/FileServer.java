@@ -58,6 +58,9 @@ public class FileServer {
   @Value("${server.address}")
   private String server;
 
+  @Value("${server.servlet.context-path}")
+  private String contextPath;
+
   @Value("${server.port}")
   private int port;
 
@@ -117,7 +120,7 @@ public class FileServer {
     }
 
     modelAndView.addObject("files", uploadedFiles);
-    modelAndView.addObject("webwolf_url", "http://" + server + ":" + port);
+    modelAndView.addObject("webwolf_url", "http://" + server + ":" + port + contextPath);
     return modelAndView;
   }
 }

@@ -11,20 +11,20 @@
 
 <div class="container">
 
-
-    <div class="alert alert-info fade in">
-
-        <a href="#" class="close" data-bs-dismiss="alert">&times;</a>
-        <p>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <div>
+            <p>
             Upload a file which you need to host as an attacker.
-        </p>
-        <p>
+            </p>
+            <p>
             Each file will be available under the following url:
             <span th:text="${webwolf_url}">http://localhost:9090/WebWolf/</span>/files/{username}/{filename}.
-        </p>
-        <p>
-            You can copy and paste the location from the table below.
-        </p>
+            </p>
+            <p>
+                You can copy and paste the location from the table below.
+            </p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <div class="card">

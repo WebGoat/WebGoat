@@ -12,9 +12,8 @@
 <div class="container">
 
 
-    <div class="alert alert-info fade in">
-
-        <a href="#" class="close" data-bs-dismiss="alert">&times;</a>
+    <div class="alert alert-info alert-dismissible fade show">
+        <div>
         <p>
             Challenges in which you need to call your hacker machine WebWolf offers a simple httpd
             server functionality which only logs the incoming request. You can use the following URL:
@@ -24,6 +23,8 @@
             This is by no means a substitution of httpd but it offers enough functionality to callback to a safe
             environment and does not require you to host your own httpd server on your local machine.
         </p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
 
@@ -34,6 +35,7 @@
                 <h4 class="card-title">
                     <a class="collapsed" role="button" data-bs-toggle="collapse" data-bs-parent="#accordion"
                        th:href="'#collapse' + ${iter.index}" aria-expanded="false" th:aria-controls="'collapse' + ${iter.index}">
+                        <i class="bi bi-chevron-down"></i> <!-- FontAwesome icon -->
                         <span th:utext="${trace.date}"/> | <span th:utext="${trace.path}"/>
                     </a>
                 </h4>
