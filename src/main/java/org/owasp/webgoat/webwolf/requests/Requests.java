@@ -65,7 +65,7 @@ public class Requests {
   @GetMapping
   public ModelAndView get(Authentication authentication) {
     var model = new ModelAndView("requests");
-    String username = authentication.getName();
+    String username = (null != authentication) ? authentication.getName() : "anonymous";
     var traces =
         traceRepository.findAllTraces().stream()
             .filter(t -> allowedTrace(t, username))

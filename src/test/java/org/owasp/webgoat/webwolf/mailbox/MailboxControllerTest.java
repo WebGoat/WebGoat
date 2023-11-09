@@ -57,8 +57,7 @@ public class MailboxControllerTest {
   @Autowired private MockMvc mvc;
   @MockBean private MailboxRepository mailbox;
 
-  @MockBean
-  private ClientRegistrationRepository clientRegistrationRepository;
+  @MockBean private ClientRegistrationRepository clientRegistrationRepository;
   @MockBean private UserService userService;
   @Autowired private ObjectMapper objectMapper;
 

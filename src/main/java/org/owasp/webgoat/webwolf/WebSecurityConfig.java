@@ -58,7 +58,13 @@ public class WebSecurityConfig {
                       "/js/**",
                       "/images/**")
                   .permitAll();
-              auth.requestMatchers(HttpMethod.GET, "/fileupload/**","/files/**","/landing/**","/PasswordReset/**").permitAll();
+              auth.requestMatchers(
+                      HttpMethod.GET,
+                      "/fileupload/**",
+                      "/files/**",
+                      "/landing/**",
+                      "/PasswordReset/**")
+                  .permitAll();
               auth.requestMatchers(HttpMethod.POST, "/files", "/mail", "/requests").permitAll();
               auth.anyRequest().authenticated();
             })

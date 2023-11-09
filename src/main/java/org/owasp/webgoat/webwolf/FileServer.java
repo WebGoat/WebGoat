@@ -97,7 +97,7 @@ public class FileServer {
 
   @GetMapping(value = "/files")
   public ModelAndView getFiles(HttpServletRequest request, Authentication authentication) {
-    String username = authentication.getName();
+    String username = (null != authentication) ? authentication.getName() : "anonymous";
     File destinationDir = new File(fileLocation, username);
 
     ModelAndView modelAndView = new ModelAndView();
