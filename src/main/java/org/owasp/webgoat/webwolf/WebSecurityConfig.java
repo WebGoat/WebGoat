@@ -78,10 +78,10 @@ public class WebSecurityConfig {
                     .usernameParameter("username")
                     .passwordParameter("password")
                     .permitAll())
-        .oauth2Login(
-            oidc -> {
-              oidc.defaultSuccessUrl("/home");
-            })
+//        .oauth2Login(
+//            oidc -> {
+//              oidc.defaultSuccessUrl("/home");
+//            })
         .logout(logout -> logout.deleteCookies("WEBWOLFSESSION").invalidateHttpSession(true))
         .exceptionHandling(
             handling ->
