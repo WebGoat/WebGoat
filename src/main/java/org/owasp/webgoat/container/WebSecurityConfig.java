@@ -78,10 +78,10 @@ public class WebSecurityConfig {
                     .usernameParameter("username")
                     .passwordParameter("password")
                     .permitAll())
-//        .oauth2Login(
-//            oidc -> {
-//              oidc.defaultSuccessUrl("/welcome.mvc");
-//            })
+        //        .oauth2Login(
+        //            oidc -> {
+        //              oidc.defaultSuccessUrl("/welcome.mvc");
+        //            })
         .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
         .csrf(csrf -> csrf.disable())
         .headers(headers -> headers.disable())
