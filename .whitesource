@@ -1,0 +1,14 @@
+{
+  "scanSettingsSAST": {
+    "enableScan": true,
+    "scanPullRequests": true,
+    "incrementalScan": true,
+    "snippetSize":10,
+    "baseBranches": ["master","integration"]
+  },
+  "checkRunSettingsSAST": {
+    "checkRunConclusionLevel": "failure",
+    "useMendCheckNames":true,
+    "severityThreshold": "high"
+  }
+}
