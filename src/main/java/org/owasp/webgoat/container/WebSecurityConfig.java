@@ -66,6 +66,7 @@ public class WebSecurityConfig {
                         "/plugins/**",
                         "/registration",
                         "/register.mvc",
+                        "/login-oauth",
                         "/actuator/**")
                     .permitAll()
                     .anyRequest()
@@ -80,7 +81,8 @@ public class WebSecurityConfig {
                     .permitAll())
         .oauth2Login(
             oidc -> {
-              oidc.defaultSuccessUrl("/welcome.mvc");
+              oidc.defaultSuccessUrl("/login-oauth.mvc");
+              oidc.loginPage("/login");
             })
         .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
         .csrf(csrf -> csrf.disable())
