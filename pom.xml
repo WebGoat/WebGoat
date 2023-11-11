@@ -140,8 +140,10 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <thymeleaf.version>3.1.1.RELEASE</thymeleaf.version>
     <webdriver.version>5.3.3</webdriver.version>
+    <webgoat.context>/</webgoat.context>
     <webgoat.port>8080</webgoat.port>
     <webjars-locator-core.version>0.53</webjars-locator-core.version>
+    <webwolf.context>/</webwolf.context>
     <webwolf.port>9090</webwolf.port>
     <wiremock.version>2.27.2</wiremock.version>
     <xml-resolver.version>1.2</xml-resolver.version>
@@ -514,7 +516,7 @@
           <systemPropertyVariables>
             <logback.configurationFile>${basedir}/src/test/resources/logback-test.xml</logback.configurationFile>
           </systemPropertyVariables>
-          <argLine>-Xmx512m -Dwebgoatport=${webgoat.port} -Dwebwolfport=${webwolf.port}</argLine>
+          <argLine>-Xmx512m -Dwebgoatport=${webgoat.port} -Dwebwolfport=${webwolf.port} -Dwebwolfcontext=${webwolf.context} -Dwebgoatcontext=${webgoat.context}</argLine>
           <includes>org/owasp/webgoat/*Test</includes>
         </configuration>
         <executions>
@@ -711,7 +713,9 @@
                     <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dspring.main.banner-mode=off</argument>
                     <argument>-Dwebgoat.port=${webgoat.port}</argument>
+                    <argument>-Dwebgoat.context=${webgoat.context}</argument>
                     <argument>-Dwebwolf.port=${webwolf.port}</argument>
+                    <argument>-Dwebwolf.context=${webwolf.context}</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.lang=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>

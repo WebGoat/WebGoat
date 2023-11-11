@@ -17,13 +17,13 @@ public abstract class IntegrationTest {
 
   private static String webGoatPort = Objects.requireNonNull(System.getProperty("webgoatport"));
   private static String webGoatContext =
-      Objects.requireNonNull(System.getProperty("webgoat.context", "/WebGoat/"));
+      Objects.requireNonNull(System.getProperty("webgoatcontext"));
 
   @Getter
   private static String webWolfPort = Objects.requireNonNull(System.getProperty("webwolfport"));
 
   private static String webWolfContext =
-      Objects.requireNonNull(System.getProperty("webwolf.context", "/WebWolf/"));
+      Objects.requireNonNull(System.getProperty("webwolfcontext"));
 
   private static boolean useSSL = false;
   private static String webgoatUrl =
