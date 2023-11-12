@@ -58,7 +58,8 @@ public class LandingAssignment extends AssignmentEndpoint {
   public ModelAndView openPasswordReset(HttpServletRequest request) throws URISyntaxException {
     URI uri = new URI(request.getRequestURL().toString());
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.addObject("webwolfUrl", landingPageUrl);
+    modelAndView.addObject(
+        "webwolfLandingPageUrl", landingPageUrl.replace("//landing", "/landing"));
     modelAndView.addObject("uniqueCode", StringUtils.reverse(getWebSession().getUserName()));
 
     modelAndView.setViewName("lessons/webwolfintroduction/templates/webwolfPasswordReset.html");

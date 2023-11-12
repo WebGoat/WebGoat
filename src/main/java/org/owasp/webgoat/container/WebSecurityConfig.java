@@ -65,9 +65,7 @@ public class WebSecurityConfig {
                         "fonts/**",
                         "/plugins/**",
                         "/registration",
-                        "/register.mvc",
-                        "/login-oauth",
-                        "/actuator/**")
+                        "/register.mvc")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
