@@ -47,7 +47,7 @@
           <span class="input-group-addon">
             @
           </span>
-                            <input class="form-control" placeholder="test1233@webgoat.org" name="email" type="email"
+                            <input class="form-control" th:attr="placeholder=${username + '@webgoat.org'}" name="email" type="email"
                                    required=""/>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block" id="btn-login">
