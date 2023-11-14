@@ -4,7 +4,7 @@ Library  SeleniumLibrary  timeout=100  run_on_failure=Capture Page Screenshot
 Library  String
 
 Suite Setup  Initial_Page  ${ENDPOINT}  ${BROWSER}
-Suite Teardown  Close_Page
+#Suite Teardown  Close_Page
 
 *** Variables ***
 ${BROWSER}  chrome
@@ -26,18 +26,10 @@ Initial_Page
   ELSE
       Open Browser  ${ENDPOINT}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webgoat
   END
-  IF  ${HEADLESS}
-      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_argument("-headless");add_argument("--start-maximized");add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
-  ELSE
-      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
-  END
   Switch Browser  webgoat
   Maximize Browser Window
   Set Window Size  ${1400}  ${1000}
-  Switch Browser  webwolf
-  Maximize Browser Window
-  Set Window Size  ${1400}  ${1000}
-  Set Window Position  ${400}  ${200}
+  Set Window Position  ${0}  ${0}
   Set Selenium Speed  ${DELAY}
 
 Close_Page
@@ -91,6 +83,18 @@ Check_Menu_Page
     Fail  "not ok"
   END
 
+Open_WebWolf
+  Log To Console  Start WebWolf UI Testing
+  IF  ${HEADLESS}
+      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_argument("-headless");add_argument("--start-maximized");add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
+  ELSE
+      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
+  END
+  Switch Browser  webwolf
+  Maximize Browser Window
+  Set Window Size  ${1400}  ${1000}
+  Set Window Position  ${500}  ${200}
+
 Check_WebWolf
   Switch Browser  webwolf
   location should be  ${ENDPOINT_WOLF}/login
@@ -99,4 +103,16 @@ Check_WebWolf
   Click Button  Sign In
   Go To  ${ENDPOINT_WOLF}/mail
   Go To  ${ENDPOINT_WOLF}/requests
+  Go To  ${ENDPOINT_WOLF}/files
 
+Check_JWT_Page
+  Go To  ${ENDPOINT_WOLF}/jwt
+  Click Element  token
+  Input Text     token  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+  Input Text     secretKey  none
+  ${OUT_VALUE}   Get Value  xpath=//textarea[@id='token']
+  Log To Console  Found token ${OUT_VALUE}
+  ${OUT_RESULT}  Evaluate  "ImuPnHvLdU7ULKfbD4aJU" in """${OUT_VALUE}"""
+  IF  not ${OUT_RESULT}
+    Fail  "not ok, failed JWT"
+  END

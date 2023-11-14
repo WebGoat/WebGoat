@@ -19,7 +19,7 @@ $(document).ready(() => {
 
 function call(encode) {
     return () => {
-        var url = encode ? '/jwt/encode' : '/jwt/decode';
+        var url = encode ? 'jwt/encode' : 'jwt/decode';
         var formData = encode ? $('#encodeForm').getFormData() : $('#decodeForm').getFormData();
         formData["secretKey"] = $('#secretKey').val();
 
