@@ -22,6 +22,7 @@
 package org.owasp.webgoat.webwolf;
 
 import lombok.AllArgsConstructor;
+import org.owasp.webgoat.container.AjaxAuthenticationEntryPoint;
 import org.owasp.webgoat.webwolf.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,16 +47,39 @@ public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests(
-        auth -> auth.requestMatchers(HttpMethod.POST, "/fileupload").authenticated());
-    http.authorizeHttpRequests(
-        auth ->
-            auth.requestMatchers(HttpMethod.GET, "/files", "/mail", "/requests").authenticated());
-    http.authorizeHttpRequests().anyRequest().permitAll();
-    http.csrf().disable().formLogin().loginPage("/login").failureUrl("/login?error=true");
-    http.formLogin().loginPage("/login").defaultSuccessUrl("/home", true).permitAll();
-    http.logout().permitAll();
-    return http.build();
+    return http.authorizeHttpRequests(
+            auth -> {
+              auth.requestMatchers("/css/**", "/webjars/**", "/favicon.ico", "/js/**", "/images/**")
+                  .permitAll();
+              auth.requestMatchers(
+                      HttpMethod.GET,
+                      "/fileupload/**",
+                      "/files/**",
+                      "/landing/**",
+                      "/PasswordReset/**")
+                  .permitAll();
+              auth.requestMatchers(HttpMethod.POST, "/files", "/mail", "/requests").permitAll();
+              auth.anyRequest().authenticated();
+            })
+        .csrf(csrf -> csrf.disable())
+        .formLogin(
+            login ->
+                login
+                    .loginPage("/login")
+                    .failureUrl("/login?error=true")
+                    .defaultSuccessUrl("/home", true)
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .permitAll())
+        .oauth2Login(
+            oidc -> {
+              oidc.defaultSuccessUrl("/home");
+            })
+        .logout(logout -> logout.deleteCookies("WEBWOLFSESSION").invalidateHttpSession(true))
+        .exceptionHandling(
+            handling ->
+                handling.authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login")))
+        .build();
   }
 
   @Autowired

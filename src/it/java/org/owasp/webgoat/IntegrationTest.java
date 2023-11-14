@@ -15,36 +15,37 @@ import org.springframework.http.HttpStatus;
 
 public abstract class IntegrationTest {
 
-  private static String webGoatPort = Objects.requireNonNull(System.getProperty("webgoatport"));
+  private static String webGoatPort =
+      Objects.requireNonNull(System.getProperty("webgoatport", "8080"));
+  private static String webGoatContext =
+      Objects.requireNonNull(System.getProperty("webgoatcontext", "/WebGoat/"));
 
   @Getter
-  private static String webWolfPort = Objects.requireNonNull(System.getProperty("webwolfport"));
+  private static String webWolfPort =
+      Objects.requireNonNull(System.getProperty("webwolfport", "9090"));
+
+  private static String webWolfContext =
+      Objects.requireNonNull(System.getProperty("webwolfcontext", "/WebWolf/"));
 
   private static boolean useSSL = false;
   private static String webgoatUrl =
-      (useSSL ? "https:" : "http:") + "//localhost:" + webGoatPort + "/WebGoat/";
+      (useSSL ? "https:" : "http:") + "//localhost:" + webGoatPort + webGoatContext;
   private static String webWolfUrl =
-      (useSSL ? "https:" : "http:") + "//localhost:" + webWolfPort + "/";
+      (useSSL ? "https:" : "http:") + "//localhost:" + webWolfPort + webWolfContext;
   @Getter private String webGoatCookie;
   @Getter private String webWolfCookie;
   @Getter private final String user = "webgoat";
 
   protected String url(String url) {
-    url = url.replaceFirst("/WebGoat/", "");
-    url = url.replaceFirst("/WebGoat", "");
-    url = url.startsWith("/") ? url.replaceFirst("/", "") : url;
     return webgoatUrl + url;
   }
 
   protected String webWolfUrl(String url) {
-    url = url.replaceFirst("/WebWolf/", "");
-    url = url.replaceFirst("/WebWolf", "");
-    url = url.startsWith("/") ? url.replaceFirst("/", "") : url;
     return webWolfUrl + url;
   }
 
   protected String webWolfFileUrl(String fileName) {
-    return webWolfUrl("/files") + "/" + getUser() + "/" + fileName;
+    return webWolfUrl("files") + "/" + getUser() + "/" + fileName;
   }
 
   @BeforeEach
@@ -235,7 +236,7 @@ public abstract class IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/file-server-location"))
+            .get(webWolfUrl("file-server-location"))
             .then()
             .extract()
             .response()
@@ -250,7 +251,7 @@ public abstract class IntegrationTest {
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
-        .get(url("/server-directory"))
+        .get(url("server-directory"))
         .then()
         .extract()
         .response()
@@ -263,7 +264,7 @@ public abstract class IntegrationTest {
         .when()
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
-        .delete(webWolfUrl("/mail"))
+        .delete(webWolfUrl("mail"))
         .then()
         .statusCode(HttpStatus.ACCEPTED.value());
   }

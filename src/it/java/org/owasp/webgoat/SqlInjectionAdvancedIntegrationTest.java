@@ -16,27 +16,27 @@ public class SqlInjectionAdvancedIntegrationTest extends IntegrationTest {
     params.put("password_reg", "password");
     params.put("email_reg", "someone@microsoft.com");
     params.put("confirm_password", "password");
-    checkAssignmentWithPUT(url("/WebGoat/SqlInjectionAdvanced/challenge"), params, true);
+    checkAssignmentWithPUT(url("SqlInjectionAdvanced/challenge"), params, true);
 
     params.clear();
     params.put("username_login", "tom");
     params.put("password_login", "thisisasecretfortomonly");
-    checkAssignment(url("/WebGoat/SqlInjectionAdvanced/challenge_Login"), params, true);
+    checkAssignment(url("SqlInjectionAdvanced/challenge_Login"), params, true);
 
     params.clear();
     params.put("userid_6a", "'; SELECT * FROM user_system_data;--");
-    checkAssignment(url("/WebGoat/SqlInjectionAdvanced/attack6a"), params, true);
+    checkAssignment(url("SqlInjectionAdvanced/attack6a"), params, true);
 
     params.clear();
     params.put(
         "userid_6a",
         "Smith' union select userid,user_name, user_name,user_name,password,cookie,userid from"
             + " user_system_data --");
-    checkAssignment(url("/WebGoat/SqlInjectionAdvanced/attack6a"), params, true);
+    checkAssignment(url("SqlInjectionAdvanced/attack6a"), params, true);
 
     params.clear();
     params.put("userid_6b", "passW0rD");
-    checkAssignment(url("/WebGoat/SqlInjectionAdvanced/attack6b"), params, true);
+    checkAssignment(url("SqlInjectionAdvanced/attack6b"), params, true);
 
     params.clear();
     params.put(
@@ -54,7 +54,7 @@ public class SqlInjectionAdvancedIntegrationTest extends IntegrationTest {
     params.put(
         "question_4_solution",
         "Solution 4: The database registers 'Robert' ); DROP TABLE Students;--'.");
-    checkAssignment(url("/WebGoat/SqlInjectionAdvanced/quiz"), params, true);
+    checkAssignment(url("SqlInjectionAdvanced/quiz"), params, true);
 
     checkResults("/SqlInjectionAdvanced/");
   }

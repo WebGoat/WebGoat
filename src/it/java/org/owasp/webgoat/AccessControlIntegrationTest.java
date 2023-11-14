@@ -25,7 +25,7 @@ class AccessControlIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .contentType(ContentType.JSON)
-        .get(url("/WebGoat/access-control/users-admin-fix"))
+        .get(url("access-control/users-admin-fix"))
         .then()
         .statusCode(HttpStatus.SC_FORBIDDEN);
 
@@ -40,7 +40,7 @@ class AccessControlIntegrationTest extends IntegrationTest {
         .cookie("JSESSIONID", getWebGoatCookie())
         .contentType(ContentType.JSON)
         .body(String.format(userTemplate, this.getUser(), this.getUser()))
-        .post(url("/WebGoat/access-control/users"))
+        .post(url("access-control/users"))
         .then()
         .statusCode(HttpStatus.SC_OK);
 
@@ -51,15 +51,14 @@ class AccessControlIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .contentType(ContentType.JSON)
-            .get(url("/WebGoat/access-control/users-admin-fix"))
+            .get(url("access-control/users-admin-fix"))
             .then()
             .statusCode(200)
             .extract()
             .jsonPath()
             .get("find { it.username == \"Jerry\" }.userHash");
 
-    checkAssignment(
-        url("/WebGoat/access-control/user-hash-fix"), Map.of("userHash", userHash), true);
+    checkAssignment(url("access-control/user-hash-fix"), Map.of("userHash", userHash), true);
   }
 
   private void assignment2() {
@@ -69,18 +68,18 @@ class AccessControlIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .contentType(ContentType.JSON)
-            .get(url("/WebGoat/access-control/users"))
+            .get(url("access-control/users"))
             .then()
             .statusCode(200)
             .extract()
             .jsonPath()
             .get("find { it.username == \"Jerry\" }.userHash");
 
-    checkAssignment(url("/WebGoat/access-control/user-hash"), Map.of("userHash", userHash), true);
+    checkAssignment(url("access-control/user-hash"), Map.of("userHash", userHash), true);
   }
 
   private void assignment1() {
     var params = Map.of("hiddenMenu1", "Users", "hiddenMenu2", "Config");
-    checkAssignment(url("/WebGoat/access-control/hidden-menu"), params, true);
+    checkAssignment(url("access-control/hidden-menu"), params, true);
   }
 }

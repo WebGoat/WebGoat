@@ -4,11 +4,9 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.SneakyThrows;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.TestFactory;
 public class IDORIntegrationTest extends IntegrationTest {
 
   @BeforeEach
-  @SneakyThrows
   public void init() {
     startLesson("IDOR");
   }
@@ -27,56 +24,63 @@ public class IDORIntegrationTest extends IntegrationTest {
   @TestFactory
   Iterable<DynamicTest> testIDORLesson() {
     return Arrays.asList(
-        dynamicTest("login", () -> loginIDOR()), dynamicTest("profile", () -> profile()));
+        dynamicTest("assignment 2 - login", this::loginIDOR),
+        dynamicTest("profile", this::profile));
   }
 
   @AfterEach
-  public void shutdown() throws IOException {
+  public void shutdown() {
     checkResults("/IDOR");
   }
 
-  private void loginIDOR() throws IOException {
+  private void loginIDOR() {
 
     Map<String, Object> params = new HashMap<>();
-    params.clear();
     params.put("username", "tom");
     params.put("password", "cat");
 
-    checkAssignment(url("/WebGoat/IDOR/login"), params, true);
+    checkAssignment(url("IDOR/login"), params, true);
   }
 
   private void profile() {
+
+    // View profile - assignment 3a
     MatcherAssert.assertThat(
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/WebGoat/IDOR/profile"))
+            .get(url("IDOR/profile"))
             .then()
             .statusCode(200)
             .extract()
             .path("userId"),
         CoreMatchers.is("2342384"));
+
+    // Show difference - assignment 3b
     Map<String, Object> params = new HashMap<>();
-    params.clear();
     params.put("attributes", "userId,role");
-    checkAssignment(url("/WebGoat/IDOR/diff-attributes"), params, true);
+    checkAssignment(url("IDOR/diff-attributes"), params, true);
+
+    // View profile another way - assignment 4
     params.clear();
     params.put("url", "WebGoat/IDOR/profile/2342384");
-    checkAssignment(url("/WebGoat/IDOR/profile/alt-path"), params, true);
+    checkAssignment(url("IDOR/profile/alt-path"), params, true);
 
+    // assignment 5a
     MatcherAssert.assertThat(
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/WebGoat/IDOR/profile/2342388"))
+            .get(url("IDOR/profile/2342388"))
             .then()
             .statusCode(200)
             .extract()
             .path("lessonCompleted"),
         CoreMatchers.is(true));
 
+    // assignment 5b
     MatcherAssert.assertThat(
         RestAssured.given()
             .when()
@@ -86,7 +90,7 @@ public class IDORIntegrationTest extends IntegrationTest {
             .body(
                 "{\"role\":\"1\", \"color\":\"red\", \"size\":\"large\", \"name\":\"Buffalo Bill\","
                     + " \"userId\":\"2342388\"}")
-            .put(url("/WebGoat/IDOR/profile/2342388"))
+            .put(url("IDOR/profile/2342388"))
             .then()
             .statusCode(200)
             .extract()

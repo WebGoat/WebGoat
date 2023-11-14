@@ -22,7 +22,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/IDOR/login">
+              action="IDOR/login">
             <table>
                 <tr>
                     <td>user/pass</td>
@@ -57,7 +57,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN"
               method="GET" name="form"
-              action="/WebGoat/IDOR/profile">
+              action="IDOR/profile">
             <script th:src="@{/lesson_js/idor.js}" />
 
             <input name="View Profile" value="View Profile" type="button" onclick="onViewProfile();" />
@@ -107,7 +107,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="/WebGoat/IDOR/profile/alt-path">
+              action="IDOR/profile/alt-path">
             <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_inputAltPath.adoc}"></div>
             <input name="url" value="WebGoat/" type="text"/>
             <input name="submit" value="Submit" type="SUBMIT"/>
@@ -134,7 +134,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN" id="view-other"
               method="GET" name="view-other-profile"
-              action="/WebGoat/IDOR/profile/{userId}">
+              action="IDOR/profile/{userId}">
             <script th:src="@{/lesson_js/idor.js}" />
 
             <input name="View Profile" value="View Profile" type="submit" />
@@ -158,7 +158,7 @@
         <!-- modify the action to point to the intended endpoint -->
         <form class="attack-form" accept-charset="UNKNOWN" id="edit-other"
               method="GET" name="edit-other-profile"
-              action="/WebGoat/IDOR/profile/{userId}">
+              action="IDOR/profile/{userId}">
             <script th:src="@{/lesson_js/idor.js}" />
 
             <input name="View Profile" value="View Profile" type="submit" />

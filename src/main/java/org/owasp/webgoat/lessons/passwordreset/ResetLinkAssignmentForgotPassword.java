@@ -48,16 +48,19 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
   private final RestTemplate restTemplate;
   private String webWolfHost;
   private String webWolfPort;
+  private String webWolfURL;
   private final String webWolfMailURL;
 
   public ResetLinkAssignmentForgotPassword(
       RestTemplate restTemplate,
       @Value("${webwolf.host}") String webWolfHost,
       @Value("${webwolf.port}") String webWolfPort,
+      @Value("${webwolf.url}") String webWolfURL,
       @Value("${webwolf.mail.url}") String webWolfMailURL) {
     this.restTemplate = restTemplate;
     this.webWolfHost = webWolfHost;
     this.webWolfPort = webWolfPort;
+    this.webWolfURL = webWolfURL;
     this.webWolfMailURL = webWolfMailURL;
   }
 
@@ -67,12 +70,12 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
       @RequestParam String email, HttpServletRequest request) {
     String resetLink = UUID.randomUUID().toString();
     ResetLinkAssignment.resetLinks.add(resetLink);
-    String host = request.getHeader("host");
+    String host = request.getHeader(HttpHeaders.HOST);
     if (ResetLinkAssignment.TOM_EMAIL.equals(email)
         && (host.contains(webWolfPort)
-            || host.contains(webWolfHost))) { // User indeed changed the host header.
+            && host.contains(webWolfHost))) { // User indeed changed the host header.
       ResetLinkAssignment.userToTomResetLink.put(getWebSession().getUserName(), resetLink);
-      fakeClickingLinkEmail(host, resetLink);
+      fakeClickingLinkEmail(webWolfURL, resetLink);
     } else {
       try {
         sendMailToUser(email, host, resetLink);
@@ -97,13 +100,13 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
     this.restTemplate.postForEntity(webWolfMailURL, mail, Object.class);
   }
 
-  private void fakeClickingLinkEmail(String host, String resetLink) {
+  private void fakeClickingLinkEmail(String webWolfURL, String resetLink) {
     try {
       HttpHeaders httpHeaders = new HttpHeaders();
       HttpEntity httpEntity = new HttpEntity(httpHeaders);
       new RestTemplate()
           .exchange(
-              String.format("http://%s/PasswordReset/reset/reset-password/%s", host, resetLink),
+              String.format("%s/PasswordReset/reset/reset-password/%s", webWolfURL, resetLink),
               HttpMethod.GET,
               httpEntity,
               Void.class);
