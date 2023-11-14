@@ -49,14 +49,7 @@ public class WebSecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http.authorizeHttpRequests(
             auth -> {
-              auth.requestMatchers(
-                      "/",
-                      "/home",
-                      "/css/**",
-                      "/webjars/**",
-                      "/favicon.ico",
-                      "/js/**",
-                      "/images/**")
+              auth.requestMatchers("/css/**", "/webjars/**", "/favicon.ico", "/js/**", "/images/**")
                   .permitAll();
               auth.requestMatchers(
                       HttpMethod.GET,

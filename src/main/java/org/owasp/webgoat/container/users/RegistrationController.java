@@ -52,7 +52,6 @@ public class RegistrationController {
       throws ServletException {
     log.info("register oauth user in database");
     userService.addUser(authentication.getName(), UUID.randomUUID().toString());
-
-    return "redirect:/attack";
+    return "redirect:/welcome.mvc";
   }
 }
