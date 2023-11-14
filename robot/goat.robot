@@ -93,9 +93,10 @@ Check_Menu_Page
 
 Check_WebWolf
   Switch Browser  webwolf
-  location should be  ${ENDPOINT_WOLF}/
-  Go To  ${ENDPOINT_WOLF}/mail
+  location should be  ${ENDPOINT_WOLF}/login
   Input Text  username  ${USERNAME}
   Input Text  password  ${PASSWORD}
   Click Button  Sign In
+  Go To  ${ENDPOINT_WOLF}/mail
+  Go To  ${ENDPOINT_WOLF}/requests
 
