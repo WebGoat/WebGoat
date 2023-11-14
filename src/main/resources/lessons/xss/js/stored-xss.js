@@ -3,7 +3,7 @@ $(document).ready(function () {
         var commentInput = $("#commentInput").val();
         $.ajax({
             type: 'POST',
-            url: '/WebGoat/CrossSiteScriptingStored/stored-xss',
+            url: 'CrossSiteScriptingStored/stored-xss',
             data: JSON.stringify({text: commentInput}),
             contentType: "application/json",
             dataType: 'json'
@@ -32,7 +32,7 @@ $(document).ready(function () {
 
     function getChallenges() {
         $("#list").empty();
-        $.get('/WebGoat/CrossSiteScriptingStored/stored-xss', function (result, status) {
+        $.get('CrossSiteScriptingStored/stored-xss', function (result, status) {
             for (var i = 0; i < result.length; i++) {
                 var comment = html.replace('USER', result[i].user);
                 comment = comment.replace('DATETIME', result[i].dateTime);

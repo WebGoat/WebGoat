@@ -72,7 +72,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put(
         "question_3_solution",
         "Solution 2: The systems security is compromised even if only one goal is harmed.");
-    checkAssignment(url("/WebGoat/cia/quiz"), params, true);
+    checkAssignment(url("cia/quiz"), params, true);
     checkResults("/cia/");
   }
 
@@ -95,7 +95,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
       Map<String, Object> params = new HashMap<>();
       params.clear();
       params.put("payload", solution);
-      checkAssignment(url("/WebGoat/VulnerableComponents/attack1"), params, true);
+      checkAssignment(url("VulnerableComponents/attack1"), params, true);
       checkResults("/VulnerableComponents/");
     }
   }
@@ -107,7 +107,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.clear();
     params.put("username", "CaptainJack");
     params.put("password", "BlackPearl");
-    checkAssignment(url("/WebGoat/InsecureLogin/task"), params, true);
+    checkAssignment(url("InsecureLogin/task"), params, true);
     checkResults("/InsecureLogin/");
   }
 
@@ -117,7 +117,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     Map<String, Object> params = new HashMap<>();
     params.clear();
     params.put("password", "ajnaeliclm^&&@kjn.");
-    checkAssignment(url("/WebGoat/SecurePasswords/assignment"), params, true);
+    checkAssignment(url("SecurePasswords/assignment"), params, true);
     checkResults("SecurePasswords/");
 
     startLesson("AuthBypass");
@@ -127,7 +127,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("jsEnabled", "1");
     params.put("verifyMethod", "SEC_QUESTIONS");
     params.put("userId", "12309746");
-    checkAssignment(url("/WebGoat/auth-bypass/verify-account"), params, true);
+    checkAssignment(url("auth-bypass/verify-account"), params, true);
     checkResults("/auth-bypass/");
 
     startLesson("HttpProxies");
@@ -138,8 +138,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
             .cookie("JSESSIONID", getWebGoatCookie())
             .header("x-request-intercepted", "true")
             .contentType(ContentType.JSON)
-            .get(
-                url("/WebGoat/HttpProxies/intercept-request?changeMe=Requests are tampered easily"))
+            .get(url("HttpProxies/intercept-request?changeMe=Requests are tampered easily"))
             .then()
             .statusCode(200)
             .extract()
@@ -165,7 +164,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
             .header("webgoat-requested-by", "dom-xss-vuln")
             .header("X-Requested-With", "XMLHttpRequest")
             .formParams(params)
-            .post(url("/WebGoat/CrossSiteScripting/phone-home-xss"))
+            .post(url("CrossSiteScripting/phone-home-xss"))
             .then()
             .statusCode(200)
             .extract()
@@ -174,12 +173,12 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
 
     params.clear();
     params.put("successMessage", secretNumber);
-    checkAssignment(url("/WebGoat/ChromeDevTools/dummy"), params, true);
+    checkAssignment(url("ChromeDevTools/dummy"), params, true);
 
     params.clear();
     params.put("number", "24");
     params.put("network_num", "24");
-    checkAssignment(url("/WebGoat/ChromeDevTools/network"), params, true);
+    checkAssignment(url("ChromeDevTools/network"), params, true);
 
     checkResults("/ChromeDevTools/");
   }
@@ -194,7 +193,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("jsEnabled", "1");
     params.put("verifyMethod", "SEC_QUESTIONS");
     params.put("userId", "12309746");
-    checkAssignment(url("/auth-bypass/verify-account"), params, true);
+    checkAssignment(url("auth-bypass/verify-account"), params, true);
     checkResults("/auth-bypass/");
   }
 
@@ -205,7 +204,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.clear();
     params.put("param1", "secr37Value");
     params.put("param2", "Main");
-    checkAssignment(url("/lesson-template/sample-attack"), params, true);
+    checkAssignment(url("lesson-template/sample-attack"), params, true);
     checkResults("/lesson-template/");
   }
 }

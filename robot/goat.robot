@@ -11,7 +11,7 @@ ${BROWSER}  chrome
 ${SLEEP}  100
 ${DELAY}  0.25
 ${ENDPOINT}  http://127.0.0.1:8080/WebGoat
-${ENDPOINT_WOLF}  http://127.0.0.1:9090
+${ENDPOINT_WOLF}  http://127.0.0.1:9090/WebWolf
 ${USERNAME}  robotuser
 ${PASSWORD}  password
 ${HEADLESS}  ${FALSE}
@@ -27,9 +27,9 @@ Initial_Page
       Open Browser  ${ENDPOINT}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webgoat
   END
   IF  ${HEADLESS}
-      Open Browser  ${ENDPOINT_WOLF}/WebWolf  ${BROWSER}  options=add_argument("-headless");add_argument("--start-maximized");add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
+      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_argument("-headless");add_argument("--start-maximized");add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
   ELSE
-      Open Browser  ${ENDPOINT_WOLF}/WebWolf  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
+      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
   END
   Switch Browser  webgoat
   Maximize Browser Window
@@ -93,9 +93,10 @@ Check_Menu_Page
 
 Check_WebWolf
   Switch Browser  webwolf
-  location should be  ${ENDPOINT_WOLF}/WebWolf
-  Go To  ${ENDPOINT_WOLF}/mail
+  location should be  ${ENDPOINT_WOLF}/login
   Input Text  username  ${USERNAME}
   Input Text  password  ${PASSWORD}
   Click Button  Sign In
+  Go To  ${ENDPOINT_WOLF}/mail
+  Go To  ${ENDPOINT_WOLF}/requests
 

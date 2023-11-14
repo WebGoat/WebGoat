@@ -57,8 +57,8 @@ define(['jquery',
 
                 isAttackSolved = function (path) {
                     //strip
-                    var newPath = path.replace(/^\/WebGoat/,'');
-                    var newPath = newPath.replace(/\//g,'');
+                    //var newPath = path.replace(/^\/WebGoat/,'');
+                    var newPath = path.replace(/\//g,'');
                     if (typeof solvedMap[newPath] !== 'undefined') {
                         return true;
                     }
@@ -82,9 +82,9 @@ define(['jquery',
                         for (var i=0; i< $assignmentForms.length; i++) {
                             //normalize path
                             var action = $assignmentForms.attr('action');
-                            if (action.endsWith("/WebGoat/WebWolf/mail/")) {
+                            if (action.endsWith("WebWolf/mail/")) {
                             	//fix for now. the find does not seem to work properly and gets confused with two /mail
-                            	action = "/WebGoat/WebWolf/mail/send";                            	
+                            	action = "WebWolf/mail/send";                            	
                             } 
                             if (action.indexOf("?")>-1) {     
                             	//used to also mark forms like JWT assignment 8 complete

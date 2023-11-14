@@ -34,6 +34,9 @@ package org.owasp.webgoat.container;
 import java.io.File;
 import org.owasp.webgoat.container.session.UserSessionData;
 import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.users.UserRepository;
+import org.owasp.webgoat.container.users.WebGoatUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +45,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -49,6 +54,8 @@ import org.springframework.web.client.RestTemplate;
 @PropertySource("classpath:application-webgoat.properties")
 @EnableAutoConfiguration
 public class WebGoat {
+
+  @Autowired private UserRepository userRepository;
 
   @Bean(name = "pluginTargetDirectory")
   public File pluginTargetDirectory(@Value("${webgoat.user.directory}") final String webgoatHome) {
@@ -58,7 +65,14 @@ public class WebGoat {
   @Bean
   @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
   public WebSession webSession() {
-    return new WebSession();
+    WebGoatUser webGoatUser = null;
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    if (principal instanceof WebGoatUser) {
+      webGoatUser = (WebGoatUser) principal;
+    } else if (principal instanceof DefaultOAuth2User) {
+      webGoatUser = userRepository.findByUsername(((DefaultOAuth2User) principal).getName());
+    }
+    return new WebSession(webGoatUser);
   }
 
   @Bean

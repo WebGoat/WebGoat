@@ -22,7 +22,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/WebGoat/challenge/logo"))
+            .get(url("challenge/logo"))
             .then()
             .statusCode(200)
             .extract()
@@ -34,14 +34,14 @@ public class ChallengeIntegrationTest extends IntegrationTest {
     params.put("username", "admin");
     params.put("password", "!!webgoat_admin_1234!!".replace("1234", pincode));
 
-    checkAssignment(url("/WebGoat/challenge/1"), params, true);
+    checkAssignment(url("challenge/1"), params, true);
     String result =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .formParams(params)
-            .post(url("/WebGoat/challenge/1"))
+            .post(url("challenge/1"))
             .then()
             .statusCode(200)
             .extract()
@@ -50,7 +50,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
     String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
     params.clear();
     params.put("flag", flag);
-    checkAssignment(url("/WebGoat/challenge/flag"), params, true);
+    checkAssignment(url("challenge/flag"), params, true);
 
     checkResults("/challenge/1");
 
@@ -59,7 +59,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/WebGoat/scoreboard-data"))
+            .get(url("scoreboard-data"))
             .then()
             .statusCode(200)
             .extract()
@@ -83,7 +83,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .formParams(params)
-            .post(url("/WebGoat/challenge/5"))
+            .post(url("challenge/5"))
             .then()
             .statusCode(200)
             .extract()
@@ -92,7 +92,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
     String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
     params.clear();
     params.put("flag", flag);
-    checkAssignment(url("/WebGoat/challenge/flag"), params, true);
+    checkAssignment(url("challenge/flag"), params, true);
 
     checkResults("/challenge/5");
 
@@ -101,7 +101,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/WebGoat/scoreboard-data"))
+            .get(url("scoreboard-data"))
             .then()
             .statusCode(200)
             .extract()
@@ -120,7 +120,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
-        .get(url("/WebGoat/challenge/7/.git"))
+        .get(url("challenge/7/.git"))
         .then()
         .statusCode(200)
         .extract()
@@ -132,7 +132,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .formParams("email", getUser() + "@webgoat.org")
-        .post(url("/WebGoat/challenge/7"))
+        .post(url("challenge/7"))
         .then()
         .statusCode(200)
         .extract()
@@ -144,7 +144,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/mail"))
+            .get(webWolfUrl("mail"))
             .then()
             .extract()
             .response()
@@ -158,13 +158,13 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/challenge/7/reset-password/{link}"), "375afe1104f4a487a73823c50a9292a2")
+            .get(url("challenge/7/reset-password/{link}"), "375afe1104f4a487a73823c50a9292a2")
             .then()
             .statusCode(HttpStatus.ACCEPTED.value())
             .extract()
             .asString();
 
     String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
-    checkAssignment(url("/WebGoat/challenge/flag"), Map.of("flag", flag), true);
+    checkAssignment(url("challenge/flag"), Map.of("flag", flag), true);
   }
 }

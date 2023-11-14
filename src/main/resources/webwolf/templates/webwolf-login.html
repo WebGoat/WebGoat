@@ -3,7 +3,6 @@
 >
 <head>
     <title>WebWolf</title>
-    <link rel="icon" href="/css/img/favicon.ico"/>
     <div th:replace="~{fragments/header :: header-css}"/>
 </head>
 <body>
@@ -47,6 +46,12 @@
                     </div>
                 </fieldset>
             </form>
+        </div>
+        <div th:if="${oauth}">
+        <h3 class="form-signin-heading">Login with OAuth 2.0</h3>
+            <table class="table table-striped">
+                <tr><td></tr><a href="oauth2/authorization/github">GitHub</a></td></tr>
+            </table>
         </div>
     </div>
 

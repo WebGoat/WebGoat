@@ -32,10 +32,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.owasp.webgoat.webwolf.user.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,6 +57,9 @@ public class FileServer {
   @Value("${server.address}")
   private String server;
 
+  @Value("${server.servlet.context-path}")
+  private String contextPath;
+
   @Value("${server.port}")
   private int port;
 
@@ -71,9 +73,11 @@ public class FileServer {
   }
 
   @PostMapping(value = "/fileupload")
-  public ModelAndView importFile(@RequestParam("file") MultipartFile myFile) throws IOException {
-    var user = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    var destinationDir = new File(fileLocation, user.getUsername());
+  public ModelAndView importFile(
+      @RequestParam("file") MultipartFile myFile, Authentication authentication)
+      throws IOException {
+    String username = authentication.getName();
+    var destinationDir = new File(fileLocation, username);
     destinationDir.mkdirs();
     myFile.transferTo(new File(destinationDir, myFile.getOriginalFilename()));
     log.debug("File saved to {}", new File(destinationDir, myFile.getOriginalFilename()));
@@ -92,15 +96,13 @@ public class FileServer {
   }
 
   @GetMapping(value = "/files")
-  public ModelAndView getFiles(HttpServletRequest request) {
-    WebGoatUser user =
-        (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    String username = user.getUsername();
+  public ModelAndView getFiles(HttpServletRequest request, Authentication authentication) {
+    String username = (null != authentication) ? authentication.getName() : "anonymous";
     File destinationDir = new File(fileLocation, username);
 
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("files");
-    File changeIndicatorFile = new File(destinationDir, user.getUsername() + "_changed");
+    File changeIndicatorFile = new File(destinationDir, username + "_changed");
     if (changeIndicatorFile.exists()) {
       modelAndView.addObject("uploadSuccess", request.getParameter("uploadSuccess"));
     }
@@ -117,7 +119,7 @@ public class FileServer {
     }
 
     modelAndView.addObject("files", uploadedFiles);
-    modelAndView.addObject("webwolf_url", "http://" + server + ":" + port);
+    modelAndView.addObject("webwolf_url", "http://" + server + ":" + port + contextPath);
     return modelAndView;
   }
 }

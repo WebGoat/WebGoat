@@ -45,10 +45,10 @@ public class XXEIntegrationTest extends IntegrationTest {
         .get(url("service/enable-security.mvc"))
         .then()
         .statusCode(200);
-    checkAssignment(url("/WebGoat/xxe/simple"), ContentType.XML, xxe3, false);
-    checkAssignment(url("/WebGoat/xxe/content-type"), ContentType.XML, xxe4, false);
+    checkAssignment(url("xxe/simple"), ContentType.XML, xxe3, false);
+    checkAssignment(url("xxe/content-type"), ContentType.XML, xxe4, false);
     checkAssignment(
-        url("/WebGoat/xxe/blind"),
+        url("xxe/blind"),
         ContentType.XML,
         "<comment><text>" + getSecret() + "</text></comment>",
         false);
@@ -68,7 +68,7 @@ public class XXEIntegrationTest extends IntegrationTest {
     }
     String secretFile = webGoatHomeDirectory.concat("/XXE/" + getUser() + "/secret.txt");
     String dtd7String =
-        dtd7.replace("WEBWOLFURL", webWolfUrl("/landing")).replace("SECRET", secretFile);
+        dtd7.replace("WEBWOLFURL", webWolfUrl("landing")).replace("SECRET", secretFile);
 
     // upload DTD
     RestAssured.given()
@@ -76,7 +76,7 @@ public class XXEIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .multiPart("file", "blind.dtd", dtd7String.getBytes())
-        .post(webWolfUrl("/fileupload"))
+        .post(webWolfUrl("fileupload"))
         .then()
         .extract()
         .response()
@@ -84,8 +84,8 @@ public class XXEIntegrationTest extends IntegrationTest {
         .asString();
     // upload attack
     String xxe7String =
-        xxe7.replace("WEBWOLFURL", webWolfUrl("/files")).replace("USERNAME", this.getUser());
-    checkAssignment(url("/WebGoat/xxe/blind"), ContentType.XML, xxe7String, false);
+        xxe7.replace("WEBWOLFURL", webWolfUrl("files")).replace("USERNAME", this.getUser());
+    checkAssignment(url("xxe/blind"), ContentType.XML, xxe7String, false);
 
     // read results from WebWolf
     String result =
@@ -93,7 +93,7 @@ public class XXEIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/WebWolf/requests"))
+            .get(webWolfUrl("requests"))
             .then()
             .extract()
             .response()
@@ -114,10 +114,10 @@ public class XXEIntegrationTest extends IntegrationTest {
     startLesson("XXE", true);
     webGoatHomeDirectory = webGoatServerDirectory();
     webWolfFileServerLocation = getWebWolfFileServerLocation();
-    checkAssignment(url("/WebGoat/xxe/simple"), ContentType.XML, xxe3, true);
-    checkAssignment(url("/WebGoat/xxe/content-type"), ContentType.XML, xxe4, true);
+    checkAssignment(url("xxe/simple"), ContentType.XML, xxe3, true);
+    checkAssignment(url("xxe/content-type"), ContentType.XML, xxe4, true);
     checkAssignment(
-        url("/WebGoat/xxe/blind"),
+        url("xxe/blind"),
         ContentType.XML,
         "<comment><text>" + getSecret() + "</text></comment>",
         true);
