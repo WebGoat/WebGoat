@@ -23,7 +23,7 @@ Initial_Page
   [Arguments]  ${ENDPOINT}  ${BROWSER}
   Log To Console  Start WebGoat UI Testing
   IF  ${HEADLESS}
-      Open Browser  ${ENDPOINT}  ${BROWSER}  options=add_argument("-headless");add_argument("--start-maximized");add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webgoat
+      Open Browser  ${ENDPOINT}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'});add_argument("-headless");add_argument("--start-maximized")  alias=webgoat
   ELSE
       Open Browser  ${ENDPOINT}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webgoat
   END
@@ -34,7 +34,7 @@ Initial_Page
   Set Selenium Speed  ${DELAY}
   Log To Console  Start WebWolf UI Testing
   IF  ${HEADLESS}
-      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'});add_argument("--headless");add_argument("--start-maximized");  alias=webwolf
+      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'});add_argument("-headless");add_argument("--start-maximized")  alias=webwolf
   ELSE
       Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
   END
