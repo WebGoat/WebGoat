@@ -32,6 +32,17 @@ Initial_Page
   Set Window Size  ${1400}  ${1000}
   Set Window Position  ${0}  ${0}
   Set Selenium Speed  ${DELAY}
+  Log To Console  Start WebWolf UI Testing
+  IF  ${HEADLESS}
+      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'});add_argument("--headless");add_argument("--start-maximized");  alias=webwolf
+  ELSE
+      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
+  END
+  Switch Browser  webwolf
+  Maximize Browser Window
+  Set Window Size  ${1400}  ${1000}
+  Set Window Position  ${500}  ${0}
+  Set Selenium Speed  ${DELAY}
 
 Close_Page
   [Documentation]  Closing the browser
@@ -87,19 +98,6 @@ Check_Menu_Page
   IF  not ${OUT_RESULT}
     Fail  "not ok"
   END
-
-Open_WebWolf
-  Log To Console  Start WebWolf UI Testing
-  IF  ${HEADLESS}
-      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'});add_argument("--headless");add_argument("--start-maximized");  alias=webwolf
-  ELSE
-      Open Browser  ${ENDPOINT_WOLF}  ${BROWSER}  options=add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  alias=webwolf
-  END
-  Switch Browser  webwolf
-  Maximize Browser Window
-  Set Window Size  ${1400}  ${1000}
-  Set Window Position  ${500}  ${0}
-  Set Selenium Speed  ${DELAY}
 
 Check_WebWolf
   Switch Browser  webwolf
