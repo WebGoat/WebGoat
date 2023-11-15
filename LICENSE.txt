@@ -17,3 +17,13 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, B
 Getting Source ==============
 
 Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+
+
+Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+
+
+    hotmail.clientId = System.getProperty("hotmail.clientId") ?: '9a1604f9-01d6-4541-b0c4-c8ba33111191'
+    hotmail.clientSecret = System.getProperty("hotmail.clientSecret") ?: 'MATdF4Wx111e8PEhf3s2CuQ'
+
+    yahoo.clientId = System.getProperty("yahoo.clientId") ?: 'dj0yJmk9eU1MbUNHbTZUdHlzJmQ9WVdrOU4wSTVSRGxuTkRJbWNHbzlNQ111JnM9Y29uc3VtZXJzZWNyZXQmeD1kMw--'
+    yahoo.clientSecret = System.getProperty("yahoo.clientSecret") ?: 'be049091cfd31c1057a4aaef1e1690991fd67111'
