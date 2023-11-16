@@ -43,6 +43,12 @@
                 <div class="text-center"><a th:href="@{/registration}" th:text="#{register.new}"></a></div>
             </form>
             <br/><br/>
+            <div th:if="${oauth}">
+            <h3 class="form-signin-heading">Login with OAuth 2.0</h3>
+                <table class="table table-striped">
+                    <tr><td></tr><a href="oauth2/authorization/github">GitHub</a></td></tr>
+                </table>
+            </div>
         </section>
     </section>
 </section>

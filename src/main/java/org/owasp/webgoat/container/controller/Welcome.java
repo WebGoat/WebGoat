@@ -29,8 +29,8 @@
  */
 package org.owasp.webgoat.container.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,7 +49,7 @@ public class Welcome {
   /**
    * welcome.
    *
-   * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+   * @param request a {@link jakarta.servlet.http.HttpServletRequest} object.
    * @return a {@link org.springframework.web.servlet.ModelAndView} object.
    */
   @GetMapping(path = {"welcome.mvc"})

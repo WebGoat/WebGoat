@@ -32,10 +32,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.actuate.trace.http.HttpTrace;
-import org.springframework.boot.actuate.trace.http.HttpTrace.Request;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.boot.actuate.web.exchanges.HttpExchange;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,12 +63,12 @@ public class Requests {
   }
 
   @GetMapping
-  public ModelAndView get() {
+  public ModelAndView get(Authentication authentication) {
     var model = new ModelAndView("requests");
-    var user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    String username = (null != authentication) ? authentication.getName() : "anonymous";
     var traces =
         traceRepository.findAllTraces().stream()
-            .filter(t -> allowedTrace(t, user))
+            .filter(t -> allowedTrace(t, username))
             .map(t -> new Tracert(t.getTimestamp(), path(t), toJsonString(t)))
             .collect(toList());
     model.addObject("traces", traces);
@@ -78,28 +76,27 @@ public class Requests {
     return model;
   }
 
-  private boolean allowedTrace(HttpTrace t, UserDetails user) {
-    Request req = t.getRequest();
+  private boolean allowedTrace(HttpExchange t, String username) {
+    HttpExchange.Request req = t.getRequest();
     boolean allowed = true;
     /* do not show certain traces to other users in a classroom setup */
-    if (req.getUri().getPath().contains("/files")
-        && !req.getUri().getPath().contains(user.getUsername())) {
+    if (req.getUri().getPath().contains("/files") && !req.getUri().getPath().contains(username)) {
       allowed = false;
     } else if (req.getUri().getPath().contains("/landing")
         && req.getUri().getQuery() != null
         && req.getUri().getQuery().contains("uniqueCode")
-        && !req.getUri().getQuery().contains(StringUtils.reverse(user.getUsername()))) {
+        && !req.getUri().getQuery().contains(StringUtils.reverse(username))) {
       allowed = false;
     }
 
     return allowed;
   }
 
-  private String path(HttpTrace t) {
+  private String path(HttpExchange t) {
     return (String) t.getRequest().getUri().getPath();
   }
 
-  private String toJsonString(HttpTrace t) {
+  private String toJsonString(HttpExchange t) {
     try {
       return objectMapper.writeValueAsString(t);
     } catch (JsonProcessingException e) {

@@ -6,19 +6,19 @@
     <!-- reuse this lesson-page-wrapper block for each 'page' of content in your lesson -->
     <!-- include content here. Content will be presented via asciidocs files,
     which you put in src/main/resources/plugin/lessonplans/{lang}/{fileName}.adoc -->
-    <div class="adoc-content" th:replace="doc:lessons/bypassrestrictions/documentation/BypassRestrictions_Intro.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/bypassrestrictions/documentation/BypassRestrictions_Intro.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
     <!-- stripped down without extra comments -->
-    <div class="adoc-content" th:replace="doc:lessons/bypassrestrictions/documentation/BypassRestrictions_FieldRestrictions.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/bypassrestrictions/documentation/BypassRestrictions_FieldRestrictions.adoc}"></div>
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/bypass-restrictions.css}"/>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <div class="container-fluid">
             <form class="attack-form" accept-charset="UNKNOWN" name="fieldRestrictions"
                   method="POST"
-                  action="/WebGoat/BypassRestrictions/FieldRestrictions">
+                  action="BypassRestrictions/FieldRestrictions">
 
                 <div class="bypass-input-container"><b>Select field with two possible value</b>
                     <div class="input-group">
@@ -59,14 +59,14 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/bypassrestrictions/documentation/BypassRestrictions_FrontendValidation.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/bypassrestrictions/documentation/BypassRestrictions_FrontendValidation.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
 
         <form class="attack-form" accept-charset="UNKNOWN" name="frontendValidation"
               id="frontendValidation"
               method="POST"
-              action="/WebGoat/BypassRestrictions/frontendValidation/"
+              action="BypassRestrictions/frontendValidation"
               onsubmit="return validate()">
             <div>
                 <strong>Field 1:</strong> exactly three lowercase characters(^[a-z]{3}$)

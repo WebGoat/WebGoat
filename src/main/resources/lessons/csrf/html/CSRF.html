@@ -3,27 +3,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_intro.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_intro.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_GET.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_GET.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_Get_Flag.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_Get_Flag.adoc}"></div>
 
     <form accept-charset="UNKNOWN" id="basic-csrf-get"
           method="POST" name="form1"
           target="_blank"
           successCallback=""
-          action="/WebGoat/csrf/basic-get-flag">
+          action="csrf/basic-get-flag">
         <input name="csrf" type="hidden" value="false"/>
         <input type="submit" name="submit"/>
 
     </form>
 
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_Basic_Get-1.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_Basic_Get-1.adoc}"></div>
 
     <div class="attack-container">
         <img th:src="@{/images/wolf-enabled.png}" class="webwolf-enabled"/>
@@ -35,7 +35,7 @@
         <form class="attack-form" accept-charset="UNKNOWN" id="confirm-flag-1"
               method="POST" name="form2"
               successCallback=""
-              action="/WebGoat/csrf/confirm-flag-1">
+              action="csrf/confirm-flag-1">
 
             Confirm Flag Value:
             <input type="text" length="6" name="confirmFlagVal" value=""/>
@@ -54,7 +54,7 @@
 
 <div class="lesson-page-wrapper">
 
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_Reviews.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_Reviews.adoc}"></div>
 
     <!-- comment area -->
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/reviews.css}"/>
@@ -93,7 +93,7 @@
                             <form class="attack-form" accept-charset="UNKNOWN" id="csrf-review"
                                   method="POST" name="review-form"
                                   successCallback=""
-                                  action="/WebGoat/csrf/review">
+                                  action="csrf/review">
                                 <input class="form-control" id="reviewText" name="reviewText" placeholder="Add a Review"
                                        type="text"/>
                                 <input class="form-control" id="reviewStars" name="stars" type="text"/>
@@ -121,15 +121,15 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_Frameworks.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_Frameworks.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_JSON.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_JSON.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_ContentType.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_ContentType.adoc}"></div>
 
     <script th:src="@{/lesson_js/feedback.js}" language="JavaScript"></script>
     <div style="container-fluid; background-color: #f1f1f1; border: 2px solid #a66;
@@ -146,7 +146,7 @@
                             <form class="attack-form" accept-charset="UNKNOWN" id="csrf-feedback"
                                   method="POST"
                                   prepareData="feedback"
-                                  action="/WebGoat/csrf/feedback/message"
+                                  action="csrf/feedback/message"
                                   contentType="application/json">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -212,7 +212,7 @@
         </div>
         <form class="attack-form" accept-charset="UNKNOWN" id="confirm-flag-feedback"
               method="POST" name="form2"
-              action="/WebGoat/csrf/feedback">
+              action="csrf/feedback">
 
             Confirm Flag Value:
             <input type="text" length="6" name="confirmFlagVal" value=""/>
@@ -227,7 +227,7 @@
 </div>
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_Login.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_Login.adoc}"></div>
 
     <div class="attack-container">
         <div class="assignment-success">
@@ -236,7 +236,7 @@
         </div>
         <form class="attack-form" accept-charset="UNKNOWN" id="confirm-flag-login"
               method="POST" name="form2"
-              action="/WebGoat/csrf/login">
+              action="csrf/login">
 
             Press the button below when your are logged in as the other user<br/>
 
@@ -251,7 +251,7 @@
 
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/csrf/documentation/CSRF_Impact_Defense.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/csrf/documentation/CSRF_Impact_Defense.adoc}"></div>
 </div>
 
 

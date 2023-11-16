@@ -1,7 +1,17 @@
 version: 2
 updates:
-  # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "daily"
+    -   package-ecosystem: "github-actions"
+        directory: "/"
+        schedule:
+            interval: "weekly"
+    -   package-ecosystem: "maven"
+        directory: "/"
+        schedule:
+            interval: "weekly"
+        ignore:
+          - dependency-name: "org.webjars:bootstrap" # First the WebWolf UI needs to be refactored due to breaking changes
+    -   package-ecosystem: "docker"
+        directory: "/"
+        schedule:
+            interval: "weekly"
+

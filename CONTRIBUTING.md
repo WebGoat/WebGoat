@@ -3,6 +3,7 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/WebGoat/WebGoat.svg)](https://github.com/WebGoat/WebGoat/graphs/contributors)
 ![GitHub issues by-label "help wanted"](https://img.shields.io/github/issues/WebGoat/WebGoat/help%20wanted.svg)
 ![GitHub issues by-label "good first issue"](https://img.shields.io/github/issues/WebGoat/WebGoat/good%20first%20issue.svg)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
 This document describes how you can contribute to WebGoat. Please read it carefully.
 
@@ -40,6 +41,19 @@ Pull requests should be as small/atomic as possible. Large, wide-sweeping change
 * If you are adding new functions don't '*cleanup*' unrelated functions. That cleanup belongs in another pull request.
 
 ### Write a good commit message
+
+* We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and use the following types:
+
+  - fix:
+  - feat:
+  - build:
+  - chore:
+  - ci:
+  - docs:
+  - refactor:
+  - test:
+
+  Using this style of commits makes it possible to create our release notes automatically.
 
 * Explain why you make the changes. [More infos about a good commit message.](https://betterprogramming.pub/stop-writing-bad-commit-messages-8df79517177d)
 
@@ -86,7 +100,7 @@ For example: `Fix #545` or `Closes #10`
 
     ```bash
     $ git fetch upstream
-    $ git merge upstream/develop
+    $ git merge upstream/main
     ```
 
     See also the following article for further explanation on "[How to Keep a Downstream git Repository Current with Upstream Repository Changes](https://medium.com/sweetmeat/how-to-keep-a-downstream-git-repository-current-with-upstream-repository-changes-10b76fad6d97 "How to Keep a Downstream git Repository Current with Upstream Repository Changes")".

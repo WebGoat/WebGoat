@@ -1,23 +1,24 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <div th:replace="fragments/header :: header-css"/>
+    <div th:replace="~{fragments/header :: header-css}"/>
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"/>
+<div th:replace="~{fragments/header :: header}"/>
 
 <script type="text/javascript" th:src="@{/js/jwt.js}"></script>
 
 
 <div class="container">
 
-    <div class="alert alert-info fade in">
-
-        <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <div class="alert alert-info alert-dismissible fade show">
+        <div>
         <p>
             Decode or encode a JWT some of the exercises need to encode or decode a new token
         </p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

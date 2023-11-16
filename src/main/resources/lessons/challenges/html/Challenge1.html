@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/challenges/documentation/Challenge_introduction.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/challenges/documentation/Challenge_introduction.adoc}"></div>
 </div>
 <div class="lesson-page-wrapper">
     <div class="attack-container">
@@ -17,7 +17,7 @@
                 <div class="panel-body">
                     <form class="attack-form" accept-charset="UNKNOWN"
                           method="POST" name="form"
-                          action="/WebGoat/challenge/1"
+                          action="challenge/1"
                           style="width: 200px;">
 
                         <div class="form-group">
@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <form class="attack-form" method="POST" name="form" action="/WebGoat/challenge/flag">
+        <form class="attack-form" method="POST" name="form" action="challenge/flag">
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"

@@ -3,7 +3,6 @@ package org.owasp.webgoat.container.session;
 import java.io.Serializable;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.users.WebGoatUser;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * *************************************************************************************************
@@ -40,13 +39,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class WebSession implements Serializable {
 
   private static final long serialVersionUID = -4270066103101711560L;
-  private final WebGoatUser currentUser;
+  private WebGoatUser currentUser;
   private transient Lesson currentLesson;
   private boolean securityEnabled;
 
-  public WebSession() {
-    this.currentUser =
-        (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  public WebSession(WebGoatUser webGoatUser) {
+    this.currentUser = webGoatUser;
   }
 
   /**

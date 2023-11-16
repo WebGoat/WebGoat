@@ -22,11 +22,11 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
+import jakarta.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.annotation.PostConstruct;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;

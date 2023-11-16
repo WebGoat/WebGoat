@@ -25,9 +25,8 @@ package org.owasp.webgoat.webwolf.requests;
 import com.google.common.collect.EvictingQueue;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.actuate.trace.http.HttpTrace;
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+import org.springframework.boot.actuate.web.exchanges.HttpExchange;
+import org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository;
 
 /**
  * Keep track of all the incoming requests, we are only keeping track of request originating from
@@ -36,17 +35,15 @@ import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
  * @author nbaars
  * @since 8/13/17.
  */
-@Slf4j
-public class WebWolfTraceRepository implements HttpTraceRepository {
+public class WebWolfTraceRepository implements HttpExchangeRepository {
 
-  private final EvictingQueue<HttpTrace> traces = EvictingQueue.create(10000);
+  private final EvictingQueue<HttpExchange> traces = EvictingQueue.create(10000);
   private final List<String> exclusionList =
       List.of(
           "/tmpdir",
           "/home",
           "/files",
           "/images/",
-          "/favicon.ico",
           "/js/",
           "/webjars/",
           "/requests",
@@ -54,11 +51,11 @@ public class WebWolfTraceRepository implements HttpTraceRepository {
           "/mail");
 
   @Override
-  public List<HttpTrace> findAll() {
+  public List<HttpExchange> findAll() {
     return List.of();
   }
 
-  public List<HttpTrace> findAllTraces() {
+  public List<HttpExchange> findAllTraces() {
     return new ArrayList<>(traces);
   }
 
@@ -67,7 +64,7 @@ public class WebWolfTraceRepository implements HttpTraceRepository {
   }
 
   @Override
-  public void add(HttpTrace httpTrace) {
+  public void add(HttpExchange httpTrace) {
     var path = httpTrace.getRequest().getUri().getPath();
     if (!isInExclusionList(path)) {
       traces.add(httpTrace);

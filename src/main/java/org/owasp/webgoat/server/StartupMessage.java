@@ -15,16 +15,18 @@ public class StartupMessage {
 
   private String port;
   private String address;
+  private String contextPath;
 
   @EventListener
   void onStartup(ApplicationReadyEvent event) {
+
+    port = event.getApplicationContext().getEnvironment().getProperty("server.port");
+    address = event.getApplicationContext().getEnvironment().getProperty("server.address");
+    contextPath =
+        event.getApplicationContext().getEnvironment().getProperty("server.servlet.context-path");
     if (StringUtils.hasText(port)
         && !StringUtils.hasText(System.getProperty("running.in.docker"))) {
-      log.info("Please browse to http://{}:{}/WebGoat to get started...", address, port);
-    }
-    if (event.getApplicationContext().getApplicationName().contains("WebGoat")) {
-      port = event.getApplicationContext().getEnvironment().getProperty("server.port");
-      address = event.getApplicationContext().getEnvironment().getProperty("server.address");
+      log.warn("Please browse to http://{}:{}{} to get started...", address, port, contextPath);
     }
   }
 

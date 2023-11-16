@@ -35,6 +35,6 @@ public class CrossSiteScripting extends Lesson {
 
   @Override
   public String getTitle() {
-    return "xss.title";
+    return "4.xss.title";
   }
 }

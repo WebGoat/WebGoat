@@ -87,15 +87,12 @@ public class SimpleXXETest extends LessonTest {
   }
 
   @Test
-  public void postingPlainTextShouldShwoException() throws Exception {
+  public void postingPlainTextShouldThrowException() throws Exception {
     mockMvc
         .perform(MockMvcRequestBuilders.post("/xxe/simple").content("test"))
         .andExpect(status().isOk())
         .andExpect(
-            jsonPath(
-                "$.output",
-                CoreMatchers.startsWith(
-                    "javax.xml.bind.UnmarshalException\\n - with linked exception")))
+            jsonPath("$.output", CoreMatchers.startsWith("jakarta.xml.bind.UnmarshalException")))
         .andExpect(
             jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("assignment.not.solved"))));
   }
