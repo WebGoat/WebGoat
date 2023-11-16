@@ -121,6 +121,7 @@ Check_JWT_Page
   Log To Console  Found token ${OUT_VALUE}
   ${OUT_RESULT}  Evaluate  "ImuPnHvLdU7ULKfbD4aJU" in """${OUT_VALUE}"""
   Log To Console  Found token ${OUT_RESULT}
+  Capture Page Screenshot
 
 Check_Files_Page
   Go To  ${ENDPOINT_WOLF}/files
