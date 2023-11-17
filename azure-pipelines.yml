@@ -17,5 +17,5 @@ steps:
     bridge_polaris_serverUrl: 'https://poc.polaris.synopsys.com'
     bridge_polaris_accessToken: $(POLARISTOKEN)
     bridge_polaris_application_name: 'kyleh'
-    bridge_polaris_project_name: 'ADO-Test-WebGoat'
+    bridge_polaris_project_name: 'ADO-Test-WebGoat-1'
     bridge_polaris_assessment_types: 'SAST,SCA'
