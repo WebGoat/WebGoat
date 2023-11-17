@@ -15,13 +15,7 @@ steps:
   inputs:
     scanType: 'polaris'
     bridge_polaris_serverUrl: 'https://poc.polaris.synopsys.com'
-    bridge_polaris_accessToken: 's4jpgckfat47f3dcaebrc486lgbiub36hb9ka4tqn2ebj6bfeeqhf9nukgguctd0eocsk8b7l8t5c'
+    bridge_polaris_accessToken: $(POLARISTOKEN)
     bridge_polaris_application_name: 'kyleh'
-    bridge_polaris_project_name: 'ADO-Test'
+    bridge_polaris_project_name: 'ADO-Test-WebGoat'
     bridge_polaris_assessment_types: 'SAST,SCA'
-
-- task: SynopsysDetectTask@9
-  inputs:
-    BlackDuckService: 'us1a-imp-hub11'
-    DetectArguments: '--detect.project.name=ADOTesting --detect.project.version.name=1 --detect.trust.cert=true'
-    DetectVersion: 'latest'
