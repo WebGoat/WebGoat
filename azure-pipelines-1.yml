@@ -14,7 +14,7 @@ steps:
   inputs:
     scanType: 'polaris'
     bridge_polaris_serverUrl: 'https://poc.polaris.synopsys.com'
-    bridge_polaris_accessToken: '$(PolarisToken)'
+    bridge_polaris_accessToken: 's4jpgckfat47f3dcaebrc486lgmkikhai2pkb3dahsoecu1tg9c25v3smatn2u8nirve6eaa48k7u'
     bridge_polaris_application_name: 'kyleh'
     bridge_polaris_project_name: 'AzureIssueTest-1'
     bridge_polaris_assessment_types: 'SAST,SCA'
