@@ -33,8 +33,11 @@ require.config({
     bootstrap: 'libs/bootstrap.min',
     text: 'libs/text',
     templates: 'goatApp/templates',
-    polyglot: 'libs/polyglot.min'
+    polyglot: 'libs/polyglot.min',
+    search: 'search'
   },
+
+  deps: ['search'],
 
   shim: {
 	"jqueryui": {
