@@ -8,12 +8,6 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-resources:
-  repositories:
-    - repository: AzureBoardsScript
-      ref: master
-      type: git
-      name: Implementations
 steps:
 - checkout: self
 - task: SynopsysSecurityScan@1
@@ -22,15 +16,7 @@ steps:
     bridge_polaris_serverUrl: 'https://poc.polaris.synopsys.com'
     bridge_polaris_accessToken: '$(PolarisToken)'
     bridge_polaris_application_name: 'kyleh'
-    bridge_polaris_project_name: 'AzureIssueTest'
+    bridge_polaris_project_name: 'AzureIssueTest-1'
     bridge_polaris_assessment_types: 'SAST,SCA'
     bridge_polaris_branch_name: '$(Build.SourceBranchName)'
 - checkout: AzureBoardsScript
-
-- task: PythonScript@0
-  inputs:
-    scriptSource: 'filePath'
-    scriptPath: '$(Build.SourcesDirectory)/AzureBoardsScript/polaris_azure_ci.py'
-    arguments: '--config "AzureBoardsScript/polaris-azure.conf" --polaris-application-name "kyleh" --polaris-project-name "AzureIssueTest" --polaris-branch-name $(Build.SourceBranchName) --polaris-severities-filter "''''critical'''',''''high'''',''''medium'''',''''low'''',''''info''''" --azure-project-name "PolarisTickets" --azure-iteration-path "iteration 2" --azure-area-path "area path test"'
-- script: cat AzureBoardsScript/logs/synopsys-azure.log
-  condition: always()
