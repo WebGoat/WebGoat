@@ -15,7 +15,7 @@ resources:
       type: git
       name: Implementations
 steps:
-
+- checkout: self
 - task: SynopsysSecurityScan@1
   inputs:
     scanType: 'polaris'
