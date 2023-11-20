@@ -19,4 +19,3 @@ steps:
     bridge_polaris_project_name: 'AzureIssueTest-1'
     bridge_polaris_assessment_types: 'SAST,SCA'
     bridge_polaris_branch_name: '$(Build.SourceBranchName)'
-- checkout: AzureBoardsScript
