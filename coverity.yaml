@@ -1,4 +1,4 @@
 capture:
   build:
-    clean-command: mvn clean
-    build-command: mvn install 
+    clean-command: mvnw clean
+    build-command: mvnw install 
