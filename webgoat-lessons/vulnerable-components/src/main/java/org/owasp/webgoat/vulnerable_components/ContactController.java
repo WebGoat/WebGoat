@@ -3,6 +3,7 @@ package org.owasp.webgoat.vulnerable_components;
 
 import com.thoughtworks.xstream.XStream;
 import io.github.pixee.security.xstream.HardeningConverter;
+import java.sql.PreparedStatement;
 import org.owasp.webgoat.LessonDataSource;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +24,10 @@ public final class ContactController {
     String getContactPhone(@RequestParam String userId) throws SQLException {
       // get the phone number from the database
       Connection conn = dataSource.getConnection();
-      String sql = "select phone from contacts where userid = '" + userId + "'";
-      Statement statement = conn.createStatement();
-      ResultSet rs = statement.executeQuery(sql);
+      String sql = "select phone from contacts where userid = ?";
+      PreparedStatement statement = conn.prepareStatement(sql);
+      statement.setString(1, userId);
+      ResultSet rs = statement.execute();
       if(!rs.next()) {
          throw new IllegalArgumentException("invalid contact");
       }
