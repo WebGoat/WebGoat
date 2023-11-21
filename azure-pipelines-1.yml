@@ -9,7 +9,7 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 steps:
-- checkout: self
+#- checkout: self
 - task: SynopsysSecurityScan@1
   inputs:
     scanType: 'polaris'
