@@ -10,6 +10,7 @@ pool:
   vmImage: ubuntu-latest
 steps:
 #- checkout: self
+- script: mvn install
 - task: SynopsysSecurityScan@1
   inputs:
     scanType: 'polaris'
