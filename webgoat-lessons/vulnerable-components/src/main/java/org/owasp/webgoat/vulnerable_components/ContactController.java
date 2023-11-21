@@ -2,6 +2,7 @@ package org.owasp.webgoat.vulnerable_components;
 
 
 import com.thoughtworks.xstream.XStream;
+import io.github.pixee.security.xstream.HardeningConverter;
 import org.owasp.webgoat.LessonDataSource;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,7 @@ public final class ContactController {
         // get the xml from our partner to update our contact record
         Connection connection = dataSource.getConnection();
         XStream xstream = new XStream();
+        xstream.registerConverter(new HardeningConverter());
         Contact contact = (Contact) xstream.fromXML(xml);
         String sql = "update contacts set phone = ? where userid = ?";
         PreparedStatement stmt = connection.prepareStatement(sql);
