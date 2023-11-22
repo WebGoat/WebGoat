@@ -9,7 +9,7 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 steps:
-#- checkout: self
+- checkout: self
 - script: java -version
 - script:  mvn -v
 - script: mvn package
