@@ -727,7 +727,7 @@
                   <arguments>
                     <argument>java</argument>
                     <argument>-jar</argument>
-                    <!--argument>-Dlogging.pattern.console=</argument-->
+                    <argument>-Dlogging.pattern.console=</argument>
                     <argument>-Dwebgoat.server.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dspring.main.banner-mode=off</argument>
