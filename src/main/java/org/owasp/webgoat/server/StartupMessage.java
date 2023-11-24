@@ -17,6 +17,11 @@ public class StartupMessage {
   private String address;
   private String contextPath;
 
+  private String applicationName;
+
+  private static boolean useSSL =
+      Boolean.valueOf(System.getenv().getOrDefault("WEBGOAT_SSLENABLED", "true"));
+
   @EventListener
   void onStartup(ApplicationReadyEvent event) {
 
@@ -24,9 +29,25 @@ public class StartupMessage {
     address = event.getApplicationContext().getEnvironment().getProperty("server.address");
     contextPath =
         event.getApplicationContext().getEnvironment().getProperty("server.servlet.context-path");
-    if (StringUtils.hasText(port)
+    applicationName =
+        event.getApplicationContext().getEnvironment().getProperty("spring.application.name");
+    if (StringUtils.hasText(applicationName)
         && !StringUtils.hasText(System.getProperty("running.in.docker"))) {
-      log.warn("Please browse to http://{}:{}{} to get started...", address, port, contextPath);
+      if (applicationName.equals("WebGoat")) {
+        log.warn(
+            "Please browse to "
+                + (useSSL ? "https://" : "http://")
+                + "{}:{}{} to start using WebGoat...",
+            address,
+            port,
+            contextPath);
+      } else {
+        log.warn(
+            "Please browse to http://{}:{}{} to start using WebWolf...",
+            address,
+            port,
+            contextPath);
+      }
     }
   }
 

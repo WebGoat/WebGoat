@@ -253,6 +253,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
     Overview[] assignments =
         RestAssured.given()
             .cookie("JSESSIONID", getWebGoatCookie())
+            .relaxedHTTPSValidation()
             .get(url("service/lessonoverview.mvc"))
             .then()
             .extract()
