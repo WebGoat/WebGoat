@@ -142,7 +142,7 @@
     <webdriver.version>5.3.3</webdriver.version>
     <webgoat.context>/</webgoat.context>
     <webgoat.port>8080</webgoat.port>
-    <webgoat.sslenabled>true</webgoat.sslenabled>
+    <webgoat.sslenabled>false</webgoat.sslenabled>
     <webjars-locator-core.version>0.53</webjars-locator-core.version>
     <webwolf.context>/</webwolf.context>
     <webwolf.port>9090</webwolf.port>
@@ -731,10 +731,6 @@
                     <argument>-Dwebgoat.server.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dspring.main.banner-mode=off</argument>
-                    <argument>-Dwebgoat.port=${webgoat.port}</argument>
-                    <argument>-Dwebgoat.context=${webgoat.context}</argument>
-                    <argument>-Dwebwolf.port=${webwolf.port}</argument>
-                    <argument>-Dwebwolf.context=${webwolf.context}</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.lang=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
@@ -760,7 +756,6 @@
                     <argument>${project.build.directory}/webgoat-${project.version}.jar</argument>
                   </arguments>
                   <waitForInterrupt>false</waitForInterrupt>
-                  <waitAfterLaunch>120</waitAfterLaunch>
                 </configuration>
               </execution>
               <execution>
