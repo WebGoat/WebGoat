@@ -38,13 +38,13 @@ public class StartupMessage {
             "Please browse to "
                 + (useSSL ? "https://" : "http://")
                 + "{}:{}{} to start using WebGoat...",
-            address,
+            event.getApplicationContext().getEnvironment().getProperty("webgoat.host"),
             port,
             contextPath);
       } else {
         log.warn(
             "Please browse to http://{}:{}{} to start using WebWolf...",
-            address,
+            event.getApplicationContext().getEnvironment().getProperty("webwolf.host"),
             port,
             contextPath);
       }

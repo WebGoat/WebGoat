@@ -11,8 +11,6 @@ USER webgoat
 
 COPY --chown=webgoat target/webgoat-*.jar /home/webgoat/webgoat.jar
 
-ENV WEBGOAT_HOST=0.0.0.0
-ENV WEBWOLF_HOST=0.0.0.0
 EXPOSE 8080
 EXPOSE 9090
 
@@ -32,4 +30,4 @@ ENTRYPOINT [ "java", \
    "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", \
    "--add-opens", "java.base/java.io=ALL-UNNAMED", \
    "-Drunning.in.docker=true", \
-   "-jar", "webgoat.jar" ]
+   "-jar", "webgoat.jar", "--server.address", "0.0.0.0" ]
