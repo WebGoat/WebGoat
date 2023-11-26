@@ -43,8 +43,10 @@ Every release is also published on [DockerHub](https://hub.docker.com/r/webgoat/
 ```shell
 docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat/webgoat
 ```
+
 For some lessons you need the container run in the same timezone. For this you can set the TZ environment variable.
 E.g.
+
 ```shell
 docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=America/Boise webgoat/webgoat
 ```
@@ -55,11 +57,13 @@ you can use custom host entries. For example:
 ```shell
 127.0.0.1 www.webgoat.local www.webwolf.local
 ```
+
 Then you can run the container with:
-    
+
 ```shell
 docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e WEBGOAT_HOST=www.webgoat.local -e WEBWOLF_HOST=www.webwolf.local -e TZ=America/Boise webgoat/webgoat
 ```
+
 Then visit http://www.webgoat.local:8080/WebGoat/ and http://www.webwolf.local:9090/WebWolf/
 
 ## 2. Run using Docker with complete Linux Desktop
