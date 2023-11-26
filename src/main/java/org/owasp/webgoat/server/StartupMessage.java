@@ -31,8 +31,7 @@ public class StartupMessage {
         event.getApplicationContext().getEnvironment().getProperty("server.servlet.context-path");
     applicationName =
         event.getApplicationContext().getEnvironment().getProperty("spring.application.name");
-    if (StringUtils.hasText(applicationName)
-        && !StringUtils.hasText(System.getProperty("running.in.docker"))) {
+    if (StringUtils.hasText(applicationName)) {
       if (applicationName.equals("WebGoat")) {
         log.warn(
             "Please browse to "

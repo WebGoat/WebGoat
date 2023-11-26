@@ -1,4 +1,4 @@
-FROM docker.io/eclipse-temurin:21-jre-ubi9-minimal
+FROM docker.io/eclipse-temurin:21-jdk-ubi9-minimal
 LABEL NAME = "WebGoat: A deliberately insecure Web Application"
 MAINTAINER "WebGoat team"
 
@@ -13,6 +13,8 @@ COPY --chown=webgoat target/webgoat-*.jar /home/webgoat/webgoat.jar
 
 EXPOSE 8080
 EXPOSE 9090
+
+ENV TZ=Europe/Amsterdam
 
 WORKDIR /home/webgoat
 ENTRYPOINT [ "java", \
