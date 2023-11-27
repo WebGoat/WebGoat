@@ -44,19 +44,27 @@ Every release is also published on [DockerHub](https://hub.docker.com/r/webgoat/
 docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat/webgoat
 ```
 
-If you want to reuse the container, give it a name:
+For some lessons you need the container run in the same timezone. For this you can set the TZ environment variable.
+E.g.
 
 ```shell
-docker run --name webgoat -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat/webgoat
+docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=America/Boise webgoat/webgoat
 ```
 
-As long as you don't remove the container you can use:
+If you want to use OWASP ZAP or another proxy, you can no longer use 127.0.0.1 or localhost. but
+you can use custom host entries. For example:
 
 ```shell
-docker start webgoat
+127.0.0.1 www.webgoat.local www.webwolf.local
 ```
 
-This way, you can start where you left off. If you remove the container, you need to use `docker run` again.
+Then you can run the container with:
+
+```shell
+docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e WEBGOAT_HOST=www.webgoat.local -e WEBWOLF_HOST=www.webwolf.local -e TZ=America/Boise webgoat/webgoat
+```
+
+Then visit http://www.webgoat.local:8080/WebGoat/ and http://www.webwolf.local:9090/WebWolf/
 
 ## 2. Run using Docker with complete Linux Desktop
 
@@ -71,7 +79,8 @@ docker run -p 127.0.0.1:3000:3000 webgoat/webgoat-desktop
 Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
 
 ```shell
-java -Dfile.encoding=UTF-8 -Dwebgoat.port=8080 -Dwebwolf.port=9090 -jar webgoat-2023.5.jar
+export TZ=Europe/Amsterdam # or your timezone
+java -Dfile.encoding=UTF-8 -jar webgoat-2023.5.jar
 ```
 
 Click the link in the log to start WebGoat.
@@ -80,7 +89,7 @@ Click the link in the log to start WebGoat.
 
 ### Prerequisites:
 
-* Java 17
+* Java 17 or 21
 * Your favorite IDE
 * Git, or Git support in your IDE
 
@@ -132,9 +141,10 @@ For specialist only. There is a way to set up WebGoat with a personalized menu. 
 For instance running as a jar on a Linux/macOS it will look like this:
 
 ```Shell
+export TZ=Europe/Amsterdam # or your timezone
 export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
 export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
-java -jar target/webgoat-2023.4-SNAPSHOT.jar
+java -jar target/webgoat-2023.6-SNAPSHOT.jar
 ```
 
 Or in a docker run it would (once this version is pushed into docker hub) look like this:

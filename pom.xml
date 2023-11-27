@@ -141,10 +141,9 @@
     <thymeleaf.version>3.1.1.RELEASE</thymeleaf.version>
     <webdriver.version>5.3.3</webdriver.version>
     <webgoat.context>/</webgoat.context>
-    <webgoat.port>8080</webgoat.port>
+    <webgoat.sslenabled>false</webgoat.sslenabled>
     <webjars-locator-core.version>0.53</webjars-locator-core.version>
     <webwolf.context>/</webwolf.context>
-    <webwolf.port>9090</webwolf.port>
     <wiremock.version>2.27.2</wiremock.version>
     <xml-resolver.version>1.2</xml-resolver.version>
     <xstream.version>1.4.5</xstream.version>
@@ -513,10 +512,19 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
+          <environmentVariables>
+            <WEBGOAT_SSLENABLED>${webgoat.sslenabled}</WEBGOAT_SSLENABLED>
+            <WEBGOAT_HOST>127.0.0.1</WEBGOAT_HOST>
+            <WEBGOAT_PORT>${webgoat.port}</WEBGOAT_PORT>
+            <WEBGOAT_CONTEXT>${webgoat.context}</WEBGOAT_CONTEXT>
+            <WEBWOLF_HOST>127.0.0.1</WEBWOLF_HOST>
+            <WEBWOLF_PORT>${webwolf.port}</WEBWOLF_PORT>
+            <WEBWOLF_CONTEXT>${webwolf.context}</WEBWOLF_CONTEXT>
+          </environmentVariables>
           <systemPropertyVariables>
             <logback.configurationFile>${basedir}/src/test/resources/logback-test.xml</logback.configurationFile>
           </systemPropertyVariables>
-          <argLine>-Xmx512m -Dwebgoatport=${webgoat.port} -Dwebwolfport=${webwolf.port} -Dwebwolfcontext=${webwolf.context} -Dwebgoatcontext=${webgoat.context}</argLine>
+          <argLine>-Xmx512m</argLine>
           <includes>org/owasp/webgoat/*Test</includes>
         </configuration>
         <executions>
@@ -557,7 +565,6 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>${checkstyle.version}</version>
         <configuration>
-          <encoding>UTF-8</encoding>
           <consoleOutput>true</consoleOutput>
           <failsOnError>true</failsOnError>
           <configLocation>config/checkstyle/checkstyle.xml</configLocation>
@@ -686,16 +693,15 @@
                   <portNames>
                     <portName>webgoat.port</portName>
                     <portName>webwolf.port</portName>
-                    <portName>jmxPort</portName>
                   </portNames>
                 </configuration>
               </execution>
             </executions>
           </plugin>
           <plugin>
-            <groupId>com.bazaarvoice.maven.plugins</groupId>
+            <groupId>org.honton.chas</groupId>
             <artifactId>process-exec-maven-plugin</artifactId>
-            <version>0.9</version>
+            <version>0.9.2</version>
             <executions>
               <execution>
                 <id>start-jar</id>
@@ -703,8 +709,18 @@
                   <goal>start</goal>
                 </goals>
                 <phase>pre-integration-test</phase>
+
                 <configuration>
                   <workingDir>${project.build.directory}</workingDir>
+                  <environment>
+                    <WEBGOAT_SSLENABLED>${webgoat.sslenabled}</WEBGOAT_SSLENABLED>
+                    <WEBGOAT_HOST>127.0.0.1</WEBGOAT_HOST>
+                    <WEBGOAT_PORT>${webgoat.port}</WEBGOAT_PORT>
+                    <WEBGOAT_CONTEXT>${webgoat.context}</WEBGOAT_CONTEXT>
+                    <WEBWOLF_HOST>127.0.0.1</WEBWOLF_HOST>
+                    <WEBWOLF_PORT>${webwolf.port}</WEBWOLF_PORT>
+                    <WEBWOLF_CONTEXT>${webwolf.context}</WEBWOLF_CONTEXT>
+                  </environment>
                   <arguments>
                     <argument>java</argument>
                     <argument>-jar</argument>
@@ -712,10 +728,6 @@
                     <argument>-Dwebgoat.server.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dspring.main.banner-mode=off</argument>
-                    <argument>-Dwebgoat.port=${webgoat.port}</argument>
-                    <argument>-Dwebgoat.context=${webgoat.context}</argument>
-                    <argument>-Dwebwolf.port=${webwolf.port}</argument>
-                    <argument>-Dwebwolf.context=${webwolf.context}</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.lang=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
@@ -741,8 +753,6 @@
                     <argument>${project.build.directory}/webgoat-${project.version}.jar</argument>
                   </arguments>
                   <waitForInterrupt>false</waitForInterrupt>
-                  <waitAfterLaunch>120</waitAfterLaunch>
-                  <healthcheckUrl>http://localhost:${webgoat.port}/WebGoat/actuator/health</healthcheckUrl>
                 </configuration>
               </execution>
               <execution>
@@ -767,7 +777,6 @@
           <plugin>
             <groupId>org.owasp</groupId>
             <artifactId>dependency-check-maven</artifactId>
-            <version>8.4.3</version>
             <configuration>
               <failBuildOnCVSS>7</failBuildOnCVSS>
               <skipProvidedScope>false</skipProvidedScope>
@@ -816,7 +825,6 @@
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.version}</version>
             <executions>
               <execution>
                 <id>before-unit-test</id>

@@ -69,7 +69,6 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
 
     // WebWolf
     var link = getPasswordResetLinkFromLandingPage();
-
     // WebGoat
     changePassword(link);
     checkAssignment(
@@ -137,7 +136,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   private void clickForgotEmailLink(String user) {
     RestAssured.given()
         .when()
-        .header(HttpHeaders.HOST, String.format("%s:%s", "127.0.0.1", getWebWolfPort()))
+        .header(HttpHeaders.HOST, String.format("%s:%s", getWebWolfHost(), getWebWolfPort()))
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .formParams("email", user)
