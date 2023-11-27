@@ -1,4 +1,4 @@
-FROM docker.io/eclipse-temurin:19-jre-focal
+FROM docker.io/eclipse-temurin:21-jdk-ubi9-minimal
 LABEL NAME = "WebGoat: A deliberately insecure Web Application"
 MAINTAINER "WebGoat team"
 
@@ -13,6 +13,8 @@ COPY --chown=webgoat target/webgoat-*.jar /home/webgoat/webgoat.jar
 
 EXPOSE 8080
 EXPOSE 9090
+
+ENV TZ=Europe/Amsterdam
 
 WORKDIR /home/webgoat
 ENTRYPOINT [ "java", \
@@ -30,8 +32,4 @@ ENTRYPOINT [ "java", \
    "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", \
    "--add-opens", "java.base/java.io=ALL-UNNAMED", \
    "-Drunning.in.docker=true", \
-   "-Dwebgoat.host=0.0.0.0", \
-   "-Dwebwolf.host=0.0.0.0", \
-   "-Dwebgoat.port=8080", \
-   "-Dwebwolf.port=9090", \
-   "-jar", "webgoat.jar" ]
+   "-jar", "webgoat.jar", "--server.address", "0.0.0.0" ]
