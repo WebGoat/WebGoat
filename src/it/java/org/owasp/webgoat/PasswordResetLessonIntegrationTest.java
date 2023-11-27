@@ -69,7 +69,6 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
 
     // WebWolf
     var link = getPasswordResetLinkFromLandingPage();
-    System.out.println(link);
     // WebGoat
     changePassword(link);
     checkAssignment(
@@ -127,7 +126,6 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
             .getBody()
             .asString();
     int startIndex = responseBody.lastIndexOf("/PasswordReset/reset/reset-password/");
-    System.out.println(responseBody);
     var link =
         responseBody.substring(
             startIndex + "/PasswordReset/reset/reset-password/".length(),
