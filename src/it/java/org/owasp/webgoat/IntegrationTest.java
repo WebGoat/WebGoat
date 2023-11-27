@@ -20,15 +20,20 @@ public abstract class IntegrationTest {
 
   @Getter private static String webWolfPort = System.getenv().getOrDefault("WEBWOLF_PORT", "9090");
 
+  @Getter
+  private static String webWolfHost = System.getenv().getOrDefault("WEBWOLF_HOST", "127.0.0.1");
+
+  @Getter
+  private static String webGoatHost = System.getenv().getOrDefault("WEBGOAT_HOST", "127.0.0.1");
+
   private static String webWolfContext =
       System.getenv().getOrDefault("WEBWOLF_CONTEXT", "/WebWolf/");
 
   private static boolean useSSL =
       Boolean.valueOf(System.getenv().getOrDefault("WEBGOAT_SSLENABLED", "false"));
   private static String webgoatUrl =
-      (useSSL ? "https:" : "http:") + "//localhost:" + webGoatPort + webGoatContext;
-  private static String webWolfUrl =
-      (useSSL ? "http:" : "http:") + "//localhost:" + webWolfPort + webWolfContext;
+      (useSSL ? "https://" : "http://") + webGoatHost + ":" + webGoatPort + webGoatContext;
+  private static String webWolfUrl = "http://" + webWolfHost + ":" + webWolfPort + webWolfContext;
   @Getter private String webGoatCookie;
   @Getter private String webWolfCookie;
   @Getter private final String user = "webgoat";
