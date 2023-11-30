@@ -16,6 +16,12 @@ public class Flags {
   }
 
   public Flag getFlag(Lesson forLesson) {
+    String myNum = "42.0";
+    float myFloat = new Float(myNum);  // Noncompliant
+    float myFloatValue = (new Float(myNum)).floatValue();  // Noncompliant
+    int myInteger = Integer.valueOf(myNum); // Noncompliant
+    int myIntegerValue = Integer.valueOf(myNum).intValue(); // Noncompliant
+
     String lessonName = forLesson.getName();
     int challengeNumber = Integer.valueOf(lessonName.substring(lessonName.length() - 1));
     return FLAGS.get(challengeNumber);
