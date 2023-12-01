@@ -35,9 +35,8 @@ phases:
       - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Medium')
       - echo "high alerts are $high_alerts"
       - S3_BUCKET_NAME="codebuild-test-hbucket"
-      - S3_OBJECT_KEY="codebuildh"
-      - aws s3 cp payload.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY/
-      - echo "JSON Report uploaded to S3: s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY/"
+      - aws s3 cp payload.json s3://codebuild-test-hbucket/codebuildh/
+      - echo "JSON Report uploaded to S3: s3://codebuild-test-hbucket/codebuildh/"
 
 
 artifacts:
