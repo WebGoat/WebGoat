@@ -25,7 +25,7 @@ phases:
          \"report\": . }" zap-scan-results.json > payload.json
       - S3_BUCKET_NAME="codebuild-test-hbucket"
       - S3_OBJECT_KEY="log/zap-scan-results.json"
-      - aws s3 cp zap-scan-results.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
+      - aws s3 cp payload.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
       - echo "Report uploaded to S3: s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY"
 artifacts:
   files:
