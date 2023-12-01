@@ -22,8 +22,6 @@ phases:
       - echo -n "\"build_id\": $CODEBUILD_BUILD_ID," >> payload.json
       - echo -n "\"source_commitid\": $CODEBUILD_RESOLVED_SOURCE_VERSION," >> payload.json
       - echo "\"report\": . }" >> payload.json
-      - S3_BUCKET_NAME="codebuild-test-hbucket"
-      - S3_OBJECT_KEY="log/zap-scan-results.json"
       - aws s3 cp payload.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
       - echo "Report uploaded to S3: s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY"
 artifacts:
