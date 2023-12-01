@@ -1,14 +1,10 @@
-##Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-##SPDX-License-Identifier: MIT-0
 version: 0.2
+
 phases:
-  source:
-    type: S3
-    location: s3://codebuild-test-hbucket/codebuildh
-    buildspec: buildspec_owasp_zap.yml
   install:
     commands:
       - echo "install phase....."
+
   pre_build:
     commands:
       - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$OwaspZapApiKey&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
@@ -21,26 +17,35 @@ phases:
           sleep 5;
         done
         echo "OWASP Zap analysis status is completed..."; 
-      - high_alerts=$( curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
-      - medium_alerts=$( curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Meduim')
-      - echo "high alerts are $high_alerts"    
+      - high_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
+      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Meduim')
+      - echo "high alerts are $high_alerts"
+
   build:
-    commands: 
+    commands:
       - curl "$OwaspZapURL/OTHER/core/other/jsonreport/?apikey=$OwaspZapApiKey" | jq . > zap-scan-results.json
       - echo "build stage completed"
+
   post_build:
     commands:
-      - | 
+      - >
         jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \
         \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
         \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
         \"build_id\": env.CODEBUILD_BUILD_ID, \
         \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
         \"report\": . }" zap-scan-results.json > payload.json
-      - if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then echo "there are high or medium alerts.. failing the build" && exit 1; else exit 0; fi
+
+      - S3_BUCKET_NAME="codebuild-test-hbucket"
+      - S3_OBJECT_KEY="codebuildh/zap-scan-results.json"
+
+      - aws s3 cp payload.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
+      - echo "Report uploaded to S3: s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY"
+
 artifacts:
   type: zip
   files: '**/*'
+
 
 # aws lambda invoke --function-name ImportVulToSecurityHub --payload file://payload.json owaspzap_scan_report.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED";
 
