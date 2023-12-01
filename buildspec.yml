@@ -1,25 +1,43 @@
 version: 0.2
-
 phases:
   install:
-    runtime-versions:
-      java: corretto17
+    commands:
+      - echo "install phase....."
   pre_build:
     commands:
-      - echo Nothing to do in the pre_build phase...
+      - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$OwaspZapApiKey&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
+      - |
+        stat=50;
+        while [ "$stat" != 100 ]; do
+          stat=$(curl "$OwaspZapURL/JSON/ascan/view/status/?apikey=$OwaspZapApiKey&scanId=$scanid" | jq -r '.status');
+          echo "OWASP ZAP scan status is $stat"
+          echo "OWASP Zap analysis status is in progress...";
+          sleep 5;
+        done
+        echo "OWASP Zap analysis status is completed..."; 
+      - high_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
+      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Medium')
+      - echo "high alerts are $high_alerts"    
   build:
-    commands:
-      - echo Build started on `date`
-      - pwd && ls && whoami
-      - ./mvnw clean install
+    commands: 
+      - curl "$OwaspZapURL/OTHER/core/other/jsonreport/?apikey=$OwaspZapApiKey" | jq . > zap-scan-results.json
+      - echo "build stage completed"
   post_build:
     commands:
-      - echo Build completed on `date`
-      - aws s3 cp target/webgoat-2023.6-SNAPSHOT.jar s3://codebuild-test-hbucket/codebuildh/
-      - aws s3 cp buildspec_owasp_zap.yml s3://codebuild-test-hbucket/codebuildh/
+      - | 
+        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \
+        \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
+        \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
+        \"build_id\": env.CODEBUILD_BUILD_ID, \
+        \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
+        \"report\": . }" zap-scan-results.json > payload.json
+      - high_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
+      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Medium')
+      - echo "high alerts are $high_alerts"
+      - S3_BUCKET_NAME="codebuild-test-hbucket"
+      - S3_OBJECT_KEY="codebuildh/zap-scan-results.json"
+      - aws s3 cp payload.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
+      - echo "JSON Report uploaded to S3: s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY"
 artifacts:
-  files:
-    - target/webgoat-2023.6-SNAPSHOT.jar
-    - appspec.yml
-    - start.sh
-  name: WebGoatBuild-$(date +%Y-%m-%d)
+  type: zip
+  files: '**/*'
