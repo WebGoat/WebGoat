@@ -15,15 +15,7 @@ phases:
       - ./mvnw clean install
   post_build:
     commands:
-      - echo "{\"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\"," > payload.json
-      - echo -n "\"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\")," >> payload.json
-      - echo -n "\"source_repository\": $CODEBUILD_SOURCE_REPO_URL," >> payload.json
-      - echo -n "\"source_branch\": $(git rev-parse HEAD)," >> payload.json
-      - echo -n "\"build_id\": $CODEBUILD_BUILD_ID," >> payload.json
-      - echo -n "\"source_commitid\": $CODEBUILD_RESOLVED_SOURCE_VERSION," >> payload.json
-      - echo "\"report\": . }" >> payload.json
-      - aws s3 cp payload.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
-      - echo "Report uploaded to S3: s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY"
+      - echo Build completed on `data`
 artifacts:
   files:
     - target/webgoat-2023.6-SNAPSHOT.jar
