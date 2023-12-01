@@ -1,10 +1,13 @@
 version: 0.2
 
 phases:
+  source:
+    type: S3
+    location: s3://codebuild-test-hbucket/codebuildh/
+    buildspec: buildspec_owasp_zap.yml
   install:
     commands:
       - echo "install phase....."
-
   pre_build:
     commands:
       - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$OwaspZapApiKey&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
