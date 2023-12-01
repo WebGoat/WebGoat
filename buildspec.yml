@@ -17,12 +17,12 @@ phases:
     commands:
       - echo Build completed on `date`
       - >
-   jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \
-   \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
-   \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
-   \"build_id\": env.CODEBUILD_BUILD_ID, \
-   \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
-   \"report\": . }" zap-scan-results.json > payload.json
+        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \
+        \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
+        \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
+        \"build_id\": env.CODEBUILD_BUILD_ID, \
+        \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
+        \"report\": . }" zap-scan-results.json > payload.json
       - S3_BUCKET_NAME="codebuild-test-hbucket"
       - S3_OBJECT_KEY="log/zap-scan-results.json"
       - aws s3 cp payload.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
