@@ -15,7 +15,6 @@ phases:
       - ./mvnw clean install
   post_build:
     commands:
-      - echo Build completed on `date`
       - echo "{\"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\"," > payload.json
       - echo -n "\"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\")," >> payload.json
       - echo -n "\"source_repository\": $CODEBUILD_SOURCE_REPO_URL," >> payload.json
