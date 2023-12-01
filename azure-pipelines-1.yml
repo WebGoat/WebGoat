@@ -1,24 +1,34 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - develop
-
 pool:
   vmImage: ubuntu-latest
+resources:
+  repositories:
+    - repository: AzureBoardsScript
+      ref: master
+      type: git
+      name: Implementations
+variables:
+  - group: polaris-Kyle
 steps:
 - checkout: self
-- script: java -version
-- script:  mvn -v
-- script: mvn package
-- task: SynopsysSecurityScan@1
+- bash: |
+    curl -fLsS -o bridge.zip $BRIDGECLI_LINUX64 && unzip -qo -d $(Agent.TempDirectory) bridge.zip && rm -f bridge.zip
+    $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
+      polaris.assessment.types='SAST,SCA' \
+      polaris.application.name='kyleh' \
+      polaris.project.name='ADO-BashTest' \
+      polaris.branch.name=Bash \
+      project.directory=WebGoat-Kyle
+  env:
+    BRIDGE_POLARIS_ACCESSTOKEN: $(BRIDGE_POLARIS_ACCESSTOKEN)
+- checkout: AzureBoardsScript
+- task: CmdLine@2
   inputs:
-    scanType: 'polaris'
-    bridge_polaris_serverUrl: 'https://poc.polaris.synopsys.com'
-    bridge_polaris_accessToken: 's4jpgckfat47f3dcaebrc486lgmkikhai2pkb3dahsoecu1tg9c25v3smatn2u8nirve6eaa48k7u'
-    bridge_polaris_application_name: 'kyleh'
-    bridge_polaris_project_name: 'AzureIssueTest-1'
-    bridge_polaris_assessment_types: 'SAST,SCA'
-    bridge_polaris_branch_name: '$(Build.SourceBranchName)'
+    script: |
+     ls 
+     cd Implementations/AzureBoardsScript
+     ls
+     python polaris_azure_ci.py --config "polaris-azure.conf" --polaris-application-name "kyleh" --polaris-project-name "ADO-BashTest" --polaris-branch-name Bash --polaris-severities-filter "''''critical'''',''''high'''',''''medium'''',''''low'''',''''info''''" --azure-project-name "PolarisTickets" --azure-iteration-path "iteration 2" --azure-area-path "area path test"
+     cat logs/synopsys-azure.log
+
