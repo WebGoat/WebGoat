@@ -75,7 +75,6 @@ textarea {
 /*Mailbox*/
 body {
     margin: 0 0 10px;
-    font-family: 'Font Awesome 5 Free';
     font-size: medium;
 }
 .nav-tabs .glyphicon:not(.no-margin) { margin-right:10px; }
