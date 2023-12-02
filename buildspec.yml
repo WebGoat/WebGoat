@@ -4,19 +4,10 @@ phases:
   pre_build:
     commands:
       - echo "Pre-build phase..."
+      - sudo apt-get update
+      - sudo apt-get install -y zaproxy
   build:
     commands:
       - echo "Running OWASP ZAP scan..."
-      - sudo apt-get update
-      - sudo apt-get install -y zaproxy
-      - zap-cli --version
       - ./run_zap_scan.sh
-  post_build:
-    commands:
-      - echo "Post-build phase..."
       - aws s3 cp zap-scan-results.json s3://codebuild-test-hbucket/zap-results/
-artifacts:
-  files:
-    - target/webgoat-2023.6-SNAPSHOT.jar
-    - appspec.yml
-    - start.sh
