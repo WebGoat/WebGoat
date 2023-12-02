@@ -11,11 +11,11 @@ phases:
   build:
     commands:
       - echo "Running OWASP ZAP scan..."
-      - sudo apt-get update
-      - sudo apt-get install -y zaproxy
+      - apt-get update
+      - apt-get install -y zaproxy
       - zap-cli --version
       - ./run_zap_scan.sh
   post_build:
     commands:
       - echo "Post-build phase..."
-      - aws s3 cp zap-scan-results.json s3://codebuild-test-hbucket/zap-results/
+      - aws s3 cp zap-scan-results.json s3://codebuild-test-hbucket/codebuildh/
