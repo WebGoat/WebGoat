@@ -1,7 +1,6 @@
 version: 0.2
 
 phases:
-  pre_build:
   install:
     runtime-versions:
       java: corretto17
