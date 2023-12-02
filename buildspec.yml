@@ -2,10 +2,14 @@ version: 0.2
 
 phases:
   pre_build:
+  install:
+    runtime-versions:
+      java: corretto17
+  pre_build:
     commands:
       - echo "Pre-build phase..."
-      - sudo apt-get update
-      - sudo apt-get install -y zaproxy
+      - apt-get update
+      - apt-get install -y zaproxy
   build:
     commands:
       - echo "Running OWASP ZAP scan..."
