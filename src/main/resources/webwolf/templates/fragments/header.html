@@ -13,33 +13,29 @@
 <body>
 <div th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <div class="navbar-item">
-                <a class="navbar-brand" th:href="@{/home}">WebWolf</a>
-            </div>
+        <a class="navbar-brand" th:href="@{/home}">WebWolf</a>
 
-            <ul class="nav navbar-nav">
-                <li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/files}">Files</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/mail}">Mailbox</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/requests}">Incoming requests</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/jwt}">JWT</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-
-                <li class="nav-item"><a class="nav-link" href="#">
+        <ul class="nav navbar-nav">
+            <li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/files}">Files</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/mail}">Mailbox</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/requests}">Incoming requests</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/jwt}">JWT</a></li>
+        </ul>
+        <ul class="navbar-nav position-absolute end-0 mx-3">
+            <li class="nav-item"><a class="nav-link" href="#">
                         <span sec:authorize="isAuthenticated()">
                         <span class="glyphicon glyphicon-user"></span>
                             <span th:text="${#authentication.name}"></span></span></a>
-                </li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">
+            </li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/logout}">
                         <span sec:authorize="isAuthenticated()">
                         Sign out</span></a>
-                </li>
-            </ul>
-        </div>
+            </li>
+        </ul>
+</div>
 
-    </nav>
+</nav>
 </div>
 
 </body>

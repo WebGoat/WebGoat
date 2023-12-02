@@ -9,16 +9,15 @@
 
 <script type="text/javascript" th:src="@{/js/fileUpload.js}"></script>
 
-<div class="container">
-
+<div class="container mt-1">
     <div class="alert alert-info alert-dismissible fade show" role="alert">
         <div>
             <p>
-            Upload a file which you need to host as an attacker.
+                Upload a file which you need to host as an attacker.
             </p>
             <p>
-            Each file will be available under the following url:
-            <span th:text="${webwolf_url}">http://localhost:9090/WebWolf/</span>/files/{username}/{filename}.
+                Each file will be available under the following url:
+                <span th:text="${webwolf_url}">http://localhost:9090/WebWolf/</span>/files/{username}/{filename}.
             </p>
             <p>
                 You can copy and paste the location from the table below.
@@ -28,25 +27,24 @@
     </div>
 
     <div class="card">
-        <div class="card-heading"><strong>Upload a file</strong>
-            <small></small>
-        </div>
         <div class="card-body">
-
-            <!-- Standard Form -->
+            <h5 class="card-title"><strong>Upload a file</strong></h5>
             <form th:action="@{/fileupload}" method="post" enctype="multipart/form-data">
-                <div class="form-inline">
-                    <div class="form-group">
-                        <input type="file" name="file"/>
+                <fieldset>
+                    <div class="mb-3">
+                        <input type="file" class="form-control" name="file"/>
                     </div>
-                    <button type="submit" class="btn btn-md btn-primary">Upload files</button>
-                </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-md btn-primary">Upload files</button>
+                    </div>
+                </fieldset>
             </form>
-            <div class="fileUploadAlert alert-success top10" role="alert">
-                <span th:text="${uploadSuccess}"></span>
-            </div>
         </div>
     </div>
+</div>
+
+
+<div class="container mt-3">
 
     <table class="table">
         <thead class="thead-inverse">
@@ -61,12 +59,11 @@
             <td th:text="${f.name}">filename</td>
             <td th:text="${f.size}">size</td>
             <td><a th:id="fileLink" th:href="@{'/' + ${f.link}}">link</a>
-                    <span class="fa fa-files-o" title="Click to copy to clipboard"></span>
+                <span class="fa fa-files-o" title="Click to copy to clipboard"></span>
             </td>
         </tr>
         </tbody>
     </table>
-
 </div>
 </body>
 </html>
