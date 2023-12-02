@@ -6,11 +6,16 @@ phases:
       java: corretto17
   pre_build:
     commands:
+      - REGION=ap-northeast-2
       - echo "Pre-build phase..."
-      - apt-get update
-      - apt-get install -y zaproxy
   build:
     commands:
       - echo "Running OWASP ZAP scan..."
+      - sudo apt-get update
+      - sudo apt-get install -y zaproxy
+      - zap-cli --version
       - ./run_zap_scan.sh
+  post_build:
+    commands:
+      - echo "Post-build phase..."
       - aws s3 cp zap-scan-results.json s3://codebuild-test-hbucket/zap-results/
