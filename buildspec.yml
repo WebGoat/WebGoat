@@ -31,9 +31,7 @@ phases:
         \"build_id\": env.CODEBUILD_BUILD_ID, \
         \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
         \"report\": . }" zap-scan-results.json > payload.json
-      - high_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
-      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Medium')
-      - echo "high alerts are $high_alerts"
+      - if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then echo "there are high or medium alerts.. failing the build" && exit 1; else exit 0; fi
       - S3_BUCKET_NAME="codebuild-test-hbucket"
       - S3_OBJECT_KEY="codebuildh/zap-scan-results.json"
       - aws s3 cp payload.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
