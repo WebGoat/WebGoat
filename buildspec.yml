@@ -18,10 +18,10 @@ phases:
       - wget https://github.com/zaproxy/zaproxy/releases/download/v2.10.0/ZAP_2.10.0_Linux.tar.gz
       - tar -xzf ZAP_2.10.0_Linux.tar.gz
       - export PATH=$PATH:$PWD/ZAP_2.10.0
-      - ./test-artifact/run_zap_scan.sh
+      - ./run_zap_scan.sh
   post_build:
     commands:
       - echo "Post-build phase..."
-      - aws s3 cp zap-scan-results.json arn:aws:s3:::codebuild-test-hbucket
+      - aws s3 cp zap-scan-results.json s3:::codebuild-test-hbucket
 artifacts:
   files: '**/*'
