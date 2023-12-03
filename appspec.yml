@@ -1,11 +1,20 @@
 version: 0.0
 os: linux
+# destination에 아티팩트가 unzip된 결과가 생성될 디렉토리명을 넣어준다.
 files:
-  - source: /
+  - source:  /
     destination: /home/ec2-user/scripts/zip
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
 
 hooks:
+  # 주의 할 점은 빈칸 yml파일 특성상 빈칸 개수를 중시해야하고 Tab을 쓰면 안된다는점
+  # AfterInstall은 배포를 완료한 후 실행되는 스크립트를 명시하며 
+  # ApplicationStart나 ValidateService 등을 대신 쓸 수 있다.
   AfterInstall:
-    - location: scripts/run_zap.sh
-      timeout: 1800
-      runas: root
+    - location: start.sh
+      timeout: 60
+      runas: ec2-user
