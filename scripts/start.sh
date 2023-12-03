@@ -21,4 +21,10 @@ fi
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/deploy.log
+
+# OWASP ZAP 실행 부분 추가
+echo "> OWASP ZAP 실행"    >> /home/ec2-user/deploy.log
+./home/ec2-user/ZAP_2.10.0/zap.sh -quickurl http://localhost:8080/WebGoat/start.mvc#lesson/WebGoatIntroduction.lesson
+
+# 기존의 Java 애플리케이션 실행 명령
 nohup java -jar $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy_err.log &
