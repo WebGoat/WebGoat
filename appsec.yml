@@ -1,0 +1,11 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html
+
+hooks:
+  AfterInstall:
+    - location: scripts/run_zap.sh
+      timeout: 1800
+      runas: root
