@@ -1,12 +1,14 @@
 #!/bin/bash
 
-# This script is responsible for running OWASP ZAP scan on the application
+# Get the current directory
+CURRENT_DIR="$(pwd)"
+TARGET_URL="$(http://localhost:8080/WebGoat/start.mvc#lesson/WebGoatIntroduction.lesson)"
 
-# Navigate to the OWASP ZAP directory (replace with the actual path)
-cd ZAP_2.10.0
+# Navigate to the OWASP ZAP directory
+cd "${CURRENT_DIR}ZAP_2.10.0"
 
 # Run OWASP ZAP scan on the target URL (replace with your actual URL)
-./zap.sh -quickurl http://localhost:8080/WebGoat/start.mvc#lesson/WebGoatIntroduction.lesson
+./zap.sh -quickurl "${TARGET_URL}"
 
 # Save the report to a specific location (replace with the actual path)
-./zap.sh -exportreport /zap-report.html -format html
+./zap.sh -exportreport "${CURRENT_DIR}/zap-report.html" -format html
