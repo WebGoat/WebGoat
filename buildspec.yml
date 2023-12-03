@@ -1,39 +1,23 @@
-##Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-##SPDX-License-Identifier: MIT-0
 version: 0.2
+
 phases:
-  install:
-    commands:
-      - echo "install phase....."
-  pre_build:
-    commands:
-      - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$OwaspZapApiKey&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
-      - |
-        stat=50;
-        while [ "$stat" != 100 ]; do
-          stat=$(curl "$OwaspZapURL/JSON/ascan/view/status/?apikey=$OwaspZapApiKey&scanId=$scanid" | jq -r '.status');
-          echo "OWASP ZAP scan status is $stat"
-          echo "OWASP Zap analysis status is in progress...";
-          sleep 5;
-        done
-        echo "OWASP Zap analysis status is completed..."; 
-      - high_alerts=$( curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
-      - medium_alerts=$( curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Meduim')
-      - echo "high alerts are $high_alerts"    
-  build:
-    commands: 
-      - curl "$OwaspZapURL/OTHER/core/other/jsonreport/?apikey=$OwaspZapApiKey" | jq . > zap-scan-results.json
-      - echo "build stage completed"
-  post_build:
-    commands:
-      - | 
-        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \
-        \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
-        \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
-        \"build_id\": env.CODEBUILD_BUILD_ID, \
-        \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
-        \"report\": . }" zap-scan-results.json > payload.json
-      - if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then echo "there are high or medium alerts.. failing the build" && exit 1; else exit 0; fi
-artifacts:
-  type: zip
-  files: '**/*'
+    install:
+        commands:
+            - pip3 install -q awscli --upgrade --user
+            - pip3 install boto3
+            - yum -q install -y jq
+            - wget -qO /tmp/owasp-zap.zip "https://github.com/zaproxy/zaproxy/releases/download/v2.10.0/ZAP_2.10.0_Linux.tar.gz"
+            - tar -zxvf /tmp/owasp-zap.zip -C /tmp
+    pre_build:
+        commands:
+            - echo Start OWASP ZAP scan...
+            - /tmp/ZAP_2.10.0/zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true
+            - sleep 7
+            - ./../../../../../../../tmp/ZAP_2.10.0/zap.sh -quickurl http://localhost:8080/WebGoat/start.mvc#lesson/WebGoatIntroduction.lesson
+            - sleep 5
+            - export OWASP_ZAP_REPORT_PATH=/tmp/zap_report.json
+            - /tmp/ZAP_2.10.0/zap.sh -last_scan_report $OWASP_ZAP_REPORT_PATH -report json
+            - cat $OWASP_ZAP_REPORT_PATH
+            - if [ $(grep -c 'High' $OWASP_ZAP_REPORT_PATH) -gt 0 ]; then CODEBUILD_BUILD_SUCCEEDING=0; fi
+            - echo OWASP ZAP scan completed on `date`
+            - if [ "$CODEBUILD_BUILD_SUCCEEDING" -eq 0 ]; then exit 1; fi
