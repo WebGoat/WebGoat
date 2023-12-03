@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/html
+    destination: /home/ec2-user/scripts/zip
 
 hooks:
   AfterInstall:
