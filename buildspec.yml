@@ -1,23 +1,23 @@
 version: 0.2
 
 phases:
-    install:
-        commands:
-            - pip3 install -q awscli --upgrade --user
-            - pip3 install boto3
-            - yum -q install -y jq
-            - wget -qO /tmp/owasp-zap.zip "https://github.com/zaproxy/zaproxy/releases/download/v2.10.0/ZAP_2.10.0_Linux.tar.gz"
-            - tar -zxvf /tmp/owasp-zap.zip -C /tmp
-    pre_build:
-        commands:
-            - echo Start OWASP ZAP scan...
-            - /tmp/ZAP_2.10.0/zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true
-            - sleep 7
-            - ./../../../../../../../tmp/ZAP_2.10.0/zap.sh -quickurl http://localhost:8080/WebGoat/start.mvc#lesson/WebGoatIntroduction.lesson
-            - sleep 5
-            - export OWASP_ZAP_REPORT_PATH=/tmp/zap_report.json
-            - /tmp/ZAP_2.10.0/zap.sh -last_scan_report $OWASP_ZAP_REPORT_PATH -report json
-            - cat $OWASP_ZAP_REPORT_PATH
-            - if [ $(grep -c 'High' $OWASP_ZAP_REPORT_PATH) -gt 0 ]; then CODEBUILD_BUILD_SUCCEEDING=0; fi
-            - echo OWASP ZAP scan completed on `date`
-            - if [ "$CODEBUILD_BUILD_SUCCEEDING" -eq 0 ]; then exit 1; fi
+  install:
+    runtime-versions:
+      java: corretto17
+  pre_build:
+    commands:
+      - REGION=ap-northeast-2
+      - echo Nothing to do in the pre_build phase…
+  build:
+    commands:
+      - echo Build started on `date`
+      - pwd && ls && whoami
+      - ./mvnw clean install
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - target/webgoat-2023.6-SNAPSHOT.jar
+    - appspec.yml
+    - start.sh
