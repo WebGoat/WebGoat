@@ -3,7 +3,7 @@
 # This script is responsible for running OWASP ZAP scan on the application
 
 # Navigate to the OWASP ZAP directory (replace with the actual path)
-cd /path/to/ZAP_2.10.0
+cd /home/ec2-user/ZAP_2.10.0
 
 # Run OWASP ZAP scan on the target URL (replace with your actual URL)
 ./zap.sh -quickurl http://localhost:8080/WebGoat/start.mvc#lesson/WebGoatIntroduction.lesson
