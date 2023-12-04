@@ -6,7 +6,7 @@
 cd /home/ec2-user/ZAP_2.10.0
 
 # Run OWASP ZAP scan on the target URL (replace with your actual URL)
-./zap.sh -quickurl http://localhost:8080/WebGoat/start.mvc#lesson/WebGoatIntroduction.lesson
+./zap.sh -quickurl http://127.0.0.1:8080/WebGoat/start.mvc?username=guest1#lesson/WebGoatIntroduction.lesson
 
 # Save the report to a specific location (replace with the actual path)
 REPORT_PATH="/home/ec2-user/build/zap-report.html"
