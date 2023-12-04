@@ -6,7 +6,6 @@ import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
-import org.owasp.webgoat.container.lessons.LessonScanner;
 import org.owasp.webgoat.container.service.RestartLessonService;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +19,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 public class DatabaseConfiguration {
 
   private final DataSourceProperties properties;
-  private final LessonScanner lessonScanner;
 
   @Bean
   @Primary
