@@ -1,6 +1,6 @@
 # WebGoat release notes
 
-## Version 2023.6
+## Version 2023.7
 
 ### 🚀 New functionality
 
