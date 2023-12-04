@@ -51,16 +51,15 @@
         <tr>
             <th>Filename</th>
             <th>Size</th>
-            <th>Link</th>
+            <th>Creation time</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="f : ${files}">
-            <td th:text="${f.name}">filename</td>
-            <td th:text="${f.size}">size</td>
-            <td><a th:id="fileLink" th:href="@{'/' + ${f.link}}">link</a>
-                <span class="fa fa-files-o" title="Click to copy to clipboard"></span>
+            <td><a th:id="fileLink" th:href="@{'/' + ${f.link}}" th:text="${f.name}">link</a>
             </td>
+            <td th:text="${f.size}">size</td>
+            <td th:text="${f.creationTime}">creation time</td>
         </tr>
         </tbody>
     </table>
