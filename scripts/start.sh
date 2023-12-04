@@ -6,7 +6,7 @@ JAR_NAME=$(basename $BUILD_JAR)
 echo "> 빌드 파일명: $JAR_NAME" >> /home/ec2-user/deploy.log
 
 # 애플리케이션을 배포할 경로 설정
-DEPLOY_PATH=/home/ec2-user/
+DEPLOY_PATH=/home/ec2-user/WebGoat
 echo "> 빌드 파일 복사" >> /home/ec2-user/deploy.log
 cp $BUILD_JAR $DEPLOY_PATH
 
@@ -34,4 +34,4 @@ nohup java -jar $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy
 
 # WebGoat 서버 실행 명령
 echo "> WebGoat 서버 실행" >> /home/ec2-user/deploy.log
-nohup java -jar $DEPLOY_PATHwebgoat-server-8.2.2.jar >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy_err.log &
+nohup java -jar $DEPLOY_PATH/webgoat-server-8.2.2.jar >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy_err.log &
