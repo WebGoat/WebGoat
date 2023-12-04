@@ -1,5 +1,25 @@
 # WebGoat release notes
 
+## Version 2023.6
+
+### 🚀 New functionality
+
+- Consistent environment values and url references (#1677)
+- Show directly requested file in requests overview
+- Show creating time in file upload overview
+
+### 🐞 Bug fixes
+
+- Fix startup message (#1687)
+- Fix/state of software supply chain links (#1683)
+- Fix WebWolf UI (#1686)
+
+### 🔄 Technical tasks
+
+- bump actions/setup-java from 3 to 4 (#1690)
+- bump commons-io:commons-io from 2.14.0 to 2.15.1 (#1689)
+- bump com.diffplug.spotless:spotless-maven-plugin (#1688)
+
 ## Version 2023.5
 
 ### New functionality
