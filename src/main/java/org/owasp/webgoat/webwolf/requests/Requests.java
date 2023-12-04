@@ -22,8 +22,6 @@
 
 package org.owasp.webgoat.webwolf.requests;
 
-import static java.util.stream.Collectors.toList;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
@@ -67,10 +65,10 @@ public class Requests {
     var model = new ModelAndView("requests");
     String username = (null != authentication) ? authentication.getName() : "anonymous";
     var traces =
-        traceRepository.findAllTraces().stream()
+        traceRepository.findAll().stream()
             .filter(t -> allowedTrace(t, username))
             .map(t -> new Tracert(t.getTimestamp(), path(t), toJsonString(t)))
-            .collect(toList());
+            .toList();
     model.addObject("traces", traces);
 
     return model;
@@ -93,7 +91,7 @@ public class Requests {
   }
 
   private String path(HttpExchange t) {
-    return (String) t.getRequest().getUri().getPath();
+    return t.getRequest().getUri().getPath();
   }
 
   private String toJsonString(HttpExchange t) {
