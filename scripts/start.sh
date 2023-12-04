@@ -34,4 +34,5 @@ nohup java -jar $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy
 
 # WebGoat 서버 실행 명령
 echo "> WebGoat 서버 실행" >> /home/ec2-user/deploy.log
-nohup java -jar $DEPLOY_PATH/webgoat-server-8.2.2.jar >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy_err.log &
+nohup $JAVA_HOME/bin/java -jar $DEPLOY_PATH/webgoat-server-8.2.2.jar >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy_err.log &
+
