@@ -1,5 +1,11 @@
 version: 0.2
 
+env:
+  variables:
+    OwaspZapURL: "http://your-owasp-zap-url"  # 실제 OWASP ZAP URL로 대체
+    OwaspZapApiKey: "your-owasp-zap-api-key"   # 실제 OWASP ZAP API 키로 대체
+    ApplicationURL: "http://your-application-url"  # 실제 웹 애플리케이션 URL로 대체
+
 phases:
   source:
     type: S3
@@ -21,7 +27,7 @@ phases:
         done
         echo "OWASP Zap analysis status is completed..."; 
       - high_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
-      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Meduim')
+      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Medium')
       - echo "high alerts are $high_alerts"
 
   build:
@@ -48,7 +54,6 @@ phases:
 artifacts:
   type: zip
   files: '**/*'
-
 
 # aws lambda invoke --function-name ImportVulToSecurityHub --payload file://payload.json owaspzap_scan_report.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED";
 
