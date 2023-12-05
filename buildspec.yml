@@ -3,10 +3,9 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto17
+      java: openjdk11
   pre_build:
     commands:
-      - REGION=ap-northeast-2
       - echo Nothing to do in the pre_build phase…
   build:
     commands:
@@ -18,9 +17,8 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - target/webgoat-2023.6-SNAPSHOT.jar
-    - echo Artifacts...
-    - build/libs/*.jar 
-    - appspec.yml   # CodeDeploy 적용 시 추가
-    - scripts/**    # CodeDeploy 적용 시 추가
+    - target/*.jar
+    - appspec.yml
+    - scripts/**
+  name: WebGoat_Build
   discard-paths: yes
