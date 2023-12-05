@@ -23,7 +23,7 @@ jobs:
             # Uses an default action to checkout the code
             -   uses: actions/checkout@v3
             # Uses an action to add Python to the VM
-            -   name: Setup Pyton
+            -   name: Setup Python
                 uses: actions/setup-python@v4
                 with:
                     python-version: '3.7'
