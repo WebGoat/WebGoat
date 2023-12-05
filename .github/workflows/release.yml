@@ -8,6 +8,8 @@ jobs:
     if: github.repository == 'WebGoat/WebGoat'
     name: Release WebGoat
     runs-on: ubuntu-latest
+    permissions:
+        contents: write
     environment:
       name: release
     steps:
@@ -91,7 +93,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          platforms: linux/amd64, linux/arm64, linux/arm/v7
+          platforms: linux/amd64, linux/arm64
           tags: |
             webgoat/webgoat:${{ env.WEBGOAT_TAG_VERSION }}
             webgoat/webgoat:latest
