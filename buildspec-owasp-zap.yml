@@ -9,7 +9,7 @@ env:
 phases:
   source:
     type: S3
-    location: s3://codebuild-test-hbucket/codebuildh
+    location: s3://codebuild-test-hbucket/reports
     buildspec: buildspec_owasp_zap.yml
   install:
     commands:
