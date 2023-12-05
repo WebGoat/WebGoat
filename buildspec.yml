@@ -20,5 +20,6 @@ artifacts:
     - target/*.jar
     - appspec.yml
     - scripts/**
+    - buildspec_owasp_zap.yml
   name: WebGoat_Build
   discard-paths: yes
