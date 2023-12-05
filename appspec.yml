@@ -4,6 +4,7 @@ os: linux
 files:
   - source:  /
     destination: /home/ec2-user/build/
+    overwrite: yes
 permissions:
   - object: /
     owner: ec2-user
