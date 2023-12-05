@@ -110,7 +110,7 @@
   <properties>
     <!-- Shared properties with plugins and version numbers across submodules-->
     <asciidoctorj.version>2.5.10</asciidoctorj.version>
-    <bootstrap.version>5.3.1</bootstrap.version>
+    <bootstrap.version>5.3.2</bootstrap.version>
     <cglib.version>3.3.0</cglib.version>
     <!-- do not update necessary for lesson -->
     <checkstyle.version>3.3.1</checkstyle.version>
