@@ -1,11 +1,5 @@
 version: 0.2
 
-env:
-  variables:
-    OwaspZapURL: "http://your-owasp-zap-url"  # 실제 OWASP ZAP URL로 대체
-    OwaspZapApiKey: "your-owasp-zap-api-key"   # 실제 OWASP ZAP API 키로 대체
-    ApplicationURL: "http://your-application-url"  # 실제 웹 애플리케이션 URL로 대체
-
 phases:
   source:
     type: S3
@@ -16,44 +10,34 @@ phases:
       - echo "install phase....."
   pre_build:
     commands:
-      - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$OwaspZapApiKey&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
-      - |
-        stat=50;
-        while [ "$stat" != 100 ]; do
-          stat=$(curl "$OwaspZapURL/JSON/ascan/view/status/?apikey=$OwaspZapApiKey&scanId=$scanid" | jq -r '.status');
-          echo "OWASP ZAP scan status is $stat"
-          echo "OWASP Zap analysis status is in progress...";
-          sleep 5;
-        done
-        echo "OWASP Zap analysis status is completed..."; 
-      - high_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
-      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Medium')
-      - echo "high alerts are $high_alerts"
-
+      - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
+      - tar -xzf ZAP_2.14.0_Linux.tar.gz
+      - sudo mv ZAP_2.13.0 /usr/ec2-user/build
+      - chmod -R 775 $CODEBUILD_SRC_DIR/owasp-zap/bin/owasp-zap.sh
+      - echo "stage pre_build completed"
   build:
-    commands:
-      - curl "$OwaspZapURL/OTHER/core/other/jsonreport/?apikey=$OwaspZapApiKey" | jq . > zap-scan-results.json
-      - echo "build stage completed"
-
+    commands: 
+      - cd owasp-zap/bin
+      - $CODEBUILD_SRC_DIR/owasp-zap/bin/owasp-zap.sh --project "webgoat" --format JSON --prettyPrint --enableExperimental --scan $CODEBUILD_SRC_DIR --exclude '$CODEBUILD_SRC_DIR/owasp-zap/'
+      - echo "OWASP ZAP analysis status is completed..."; 
+      - high_risk_dependency=$( cat owasp-zap-report.json | grep -c "HIGHEST" )
   post_build:
     commands:
-      - >
-        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \
+      - |
+        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Dependency-Check\", \
         \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
         \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
         \"build_id\": env.CODEBUILD_BUILD_ID, \
         \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
-        \"report\": . }" zap-scan-results.json > payload.json
-
-      - S3_BUCKET_NAME="codebuild-test-hbucket"
-      - S3_OBJECT_KEY="codebuildh/zap-scan-results.json"
-
-      - aws s3 cp payload.json s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
-      - echo "Report uploaded to S3: s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY"
-
+        \"report\": . }" owasp-zap-report.json > payload.json
+      - pwd && ls && whoami
+      - |
+        if [[ $high_risk_dependency -gt 0 ]]; then
+          echo "there are high or medium alerts.. failing the build"
+          exit 1; 
+        fi
 artifacts:
-  type: zip
-  files: '**/*'
+  files: $CODEBUILD_SRC_DIR/owasp-zap/bin/*.json
 
 # aws lambda invoke --function-name ImportVulToSecurityHub --payload file://payload.json owaspzap_scan_report.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED";
 
