@@ -19,6 +19,6 @@ artifacts:
   files:
     - target/*.jar
     - appspec.yml
-    - script/start.sh
+    - scripts/**
     - buildspec-owasp-zap.yml
   discard-paths: yes
