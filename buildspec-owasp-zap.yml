@@ -10,7 +10,7 @@ phases:
   source:
     type: S3
     location: s3://codebuild-test-hbucket/reports
-    buildspec: buildspec_owasp_zap.yml
+    buildspec: buildspec-owasp-zap.yml
   install:
     commands:
       - echo "install phase....."
