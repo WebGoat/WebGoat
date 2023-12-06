@@ -15,4 +15,4 @@ hooks:
   # AfterInstall은 배포를 완료한 후 실행되는 스크립트를 명시하며 
   # ApplicationStart나 ValidateService 등을 대신 쓸 수 있다.
   AfterInstall:
-    - location: scripts/start.sh
+    - location: start.sh
