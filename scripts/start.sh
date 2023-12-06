@@ -30,5 +30,5 @@ nohup java -jar $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy
 
 # 서버 실행 명령
 echo "> 서버 실행" >> /home/ec2-user/deploy.log
-nohup java -jar "$DEPLOY_JAR" --server.port=8080 --server.address=43.200.16.60
+nohup java -jar "$DEPLOY_JAR" --server.port=8080 --server.address=43.200.16.60 > /dev/null 2> /dev/null < /dev/null &
 # nohup $JAVA_HOME/bin/java -jar $DEPLOY_PATH/webgoat-2023.6-SNAPSHOT.jar >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy_err.log &
