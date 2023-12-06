@@ -16,5 +16,4 @@ hooks:
   # ApplicationStart나 ValidateService 등을 대신 쓸 수 있다.
   AfterInstall:
     - location: start.sh
-      timeout: 60
       runas: ec2-user
