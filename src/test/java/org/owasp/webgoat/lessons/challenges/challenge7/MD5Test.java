@@ -23,8 +23,7 @@
 
 package org.owasp.webgoat.lessons.challenges.challenge7;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,7 +36,7 @@ public class MD5Test {
   @DisplayName("MD5 test")
   @MethodSource("providedForMD5Values")
   void testMD5(String in, String out) {
-    assertEquals(MD5.getHashString(in.getBytes()), out);
+    assertThat(out).isEqualTo(MD5.getHashString(in.getBytes()));
   }
 
   private static Stream<Arguments> providedForMD5Values() {
