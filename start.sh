@@ -1,8 +1,4 @@
 #!/bin/bash
-cd /home/ec2-user/build/
-java -jar webgoat-2023.6-SNAPSHOT.jar —server.port=9090 —server.address=43.200.16.60 
-
-#!/bin/bash
 
 # 빌드된 JAR 파일의 경로와 이름 설정
 BUILD_JAR=$(ls /home/ec2-user/build/*.jar)
