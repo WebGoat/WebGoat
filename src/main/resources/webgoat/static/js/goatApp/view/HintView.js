@@ -49,7 +49,7 @@ function($,
 				this.hideShowPrevNextButtons();
 			}
 			this.displayHint(this.curHint);
-			
+
 		},
 
         /**

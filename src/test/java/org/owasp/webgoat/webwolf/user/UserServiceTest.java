@@ -62,7 +62,8 @@ public class UserServiceTest {
 
     when(mockUserRepository.findByUsername(username)).thenReturn(null);
 
-    assertThatExceptionOfType(UsernameNotFoundException.class).isThrownBy(() -> sut.loadUserByUsername(username));
+    assertThatExceptionOfType(UsernameNotFoundException.class)
+        .isThrownBy(() -> sut.loadUserByUsername(username));
   }
 
   @Test

@@ -51,4 +51,4 @@ jobs:
                     file: ./Dockerfile_desktop
                     push: false
                     build-args: |
-                        webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }} 
+                        webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}

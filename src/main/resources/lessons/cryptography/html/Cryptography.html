@@ -4,7 +4,7 @@
 <header>
 <script>
 /**
- * JavaScript to load initial assignment tokens 
+ * JavaScript to load initial assignment tokens
  */
 function initialise() {
 	$("#sha256token").load('crypto/hashing/sha256');
@@ -29,15 +29,15 @@ $(document).ready(initialise);
 			Now suppose you have intercepted the following header:<br/>
 			<div id="basicauthtoken" ></div><br/>
 			<form class="attack-form" method="POST" name="form"	action="crypto/encoding/basic-auth">
-			Then what was the username 
+			Then what was the username
 			<input name="answer_user" value="" type="TEXT"/>
-			and what was the password: 
+			and what was the password:
 			<input name="answer_pwd" value="" type="TEXT"/>
 			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
 			</form>
 			<div class="attack-feedback"></div>
 			<div class="attack-output"></div>
-		</div>		
+		</div>
 	</div>
 	<!-- 3. encoding xor -->
 	<div class="lesson-page-wrapper">
@@ -71,9 +71,9 @@ $(document).ready(initialise);
 			</form>
 			<div class="attack-feedback"></div>
 			<div class="attack-output"></div>
-		</div>		
+		</div>
 	</div>
-	
+
 	<!-- 5. encryption -->
 	<div class="lesson-page-wrapper">
 		<div class="adoc-content" th:replace="~{doc:lessons/cryptography/documentation/encryption.adoc}"></div>
@@ -88,9 +88,9 @@ $(document).ready(initialise);
 			Now suppose you have the following private key:<br/>
 			<pre><div id="privatekey" ></div></pre><br/>
 			<form class="attack-form" method="POST" name="form"	action="crypto/signing/verify">
-			Then what was the modulus of the public key 
+			Then what was the modulus of the public key
 			<input name="modulus" value="" type="TEXT"/>
-			and now provide a signature for us based on that modulus 
+			and now provide a signature for us based on that modulus
 			<input name="signature" value="" type="TEXT"/>
 			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
 			</form>
@@ -98,12 +98,12 @@ $(document).ready(initialise);
 			<div class="attack-output"></div>
 		</div>
 	</div>
-	
+
 	<!-- 7. keystores -->
 	<div class="lesson-page-wrapper">
 		<div class="adoc-content" th:replace="~{doc:lessons/cryptography/documentation/keystores.adoc}"></div>
 	</div>
-	
+
 	<!-- 8. security defaults -->
 	<div class="lesson-page-wrapper">
 		<div class="adoc-content" th:replace="~{doc:lessons/cryptography/documentation/defaults.adoc}"></div>

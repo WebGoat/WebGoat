@@ -52,5 +52,3 @@ image::images/chrome-manual-proxy.png[Chrome Proxy Config,700,447,style="lesson-
 image::images/chrome-manual-proxy-win.png[Chrome Proxy, 394,346,style="lesson-image"]
 
 (Win config image above)
-
-

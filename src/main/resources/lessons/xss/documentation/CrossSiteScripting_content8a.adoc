@@ -38,7 +38,3 @@ it can run maliciously.
 |/  |\&#x2F;|
 
 |===
-
-
-
-
