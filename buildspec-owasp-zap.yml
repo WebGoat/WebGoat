@@ -1,10 +1,6 @@
 version: 0.2
 
 phases:
-  source:
-    type: S3
-    location: s3://codebuild-test-hbucket/reports
-    buildspec: buildspec-owasp-zap.yml
   install:
     commands:
       - echo "install phase....."
@@ -12,7 +8,7 @@ phases:
     commands:
       - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
       - tar -xzf ZAP_2.14.0_Linux.tar.gz
-      - sudo mv ZAP_2.13.0 /usr/ec2-user/build
+      - sudo mv ZAP_2.14.0 /usr/ec2-user/build
       - chmod -R 775 $CODEBUILD_SRC_DIR/owasp-zap/bin/owasp-zap.sh
       - echo "stage pre_build completed"
   build:
