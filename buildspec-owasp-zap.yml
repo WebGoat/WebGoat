@@ -1,5 +1,4 @@
-##Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-##SPDX-License-Identifier: MIT-0
+# 수정된 코드
 version: 0.2
 phases:
   install:
@@ -10,13 +9,25 @@ phases:
       - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2_14_0_unix.sh
       - tar -zxvf ZAP_2.14.0_Linux.tar.gz
       - chmod +x /home/ec2-user/ZAP_2.14.0/zap.sh
-      - echo "OWASP Zap analysis status is completed..."
+      - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$OwaspZapApiKey&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
+      - |
+        stat=50;
+        while [ "$stat" != 100 ]; do
+          stat=$(curl "$OwaspZapURL/JSON/ascan/view/status/?apikey=$OwaspZapApiKey&scanId=$scanid" | jq -r '.status');
+          echo "OWASP ZAP scan status is $stat"
+          echo "OWASP Zap analysis status is in progress...";
+          sleep 5;
+        done
+        echo "OWASP Zap analysis status is completed..."; 
+      - high_alerts=$( curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
+      - medium_alerts=$( curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Meduim')
+      - echo "high alerts are $high_alerts" 
   build:
     commands: 
-      - cd ZAP_2.14.0
-      - $CODEBUILD_SRC_DIR/ZAP_2.14.0/zap.sh --project "WebGoat" --format JSON --prettyPrint --enableExperimental --scan $CODEBUILD_SRC_DIR --exclude '$CODEBUILD_SRC_DIR/ZAP_2.14.0/'
-      - echo "build stage completed..."
-      - high_risk_dependency=$( cat zap-scan-results.json | grep -c "HIGHEST" )
+      - cd /home/ec2-user/ZAP_2.14.0/
+      - /home/ec2-user/ZAP_2.14.0/zap.sh --project "webgoat" --format JSON --prettyPrint --enableExperimental --scan /home/ec2-user/
+      - curl "$OwaspZapURL/OTHER/core/other/jsonreport/?apikey=$OwaspZapApiKey" | jq . > zap-scan-results.json
+      - echo "build stage completed"
   post_build:
     commands:
       - | 
@@ -29,6 +40,6 @@ phases:
       - if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then echo "there are high or medium alerts.. failing the build" && exit 1; else exit 0; fi
 artifacts:
   type: zip
-  files: $CODEBUILD_SRC_DIR/ZAP_2.14.0/*.json
+  files: ZAP_2.14.0/*.json
 
 # aws lambda invoke --function-name ImportVulToSecurityHub --payload file://payload.json owaspzap_scan_report.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED";
