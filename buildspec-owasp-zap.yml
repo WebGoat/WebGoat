@@ -9,7 +9,7 @@ phases:
     commands:
       - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2_14_0_unix.sh
       - tar -zxvf ZAP_2.14.0_Linux.tar.gz
-      - chmod +x /home/ec2-user/zap.sh
+      - chmod +x /home/ec2-user/ZAP_2.14.0/zap.sh
       - echo "OWASP Zap analysis status is completed..."
   build:
     commands: 
@@ -29,6 +29,6 @@ phases:
       - if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then echo "there are high or medium alerts.. failing the build" && exit 1; else exit 0; fi
 artifacts:
   type: zip
-  files: '**/*'
+  files: $CODEBUILD_SRC_DIR/ZAP_2.14.0/*.json
 
 # aws lambda invoke --function-name ImportVulToSecurityHub --payload file://payload.json owaspzap_scan_report.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED";
