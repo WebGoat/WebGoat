@@ -1,4 +1,3 @@
-# 수정된 코드
 version: 0.2
 phases:
   install:
@@ -6,9 +5,8 @@ phases:
       - echo "install phase....."
   pre_build:
     commands:
-      - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2_14_0_unix.sh
-      - tar -zxvf ZAP_2.14.0_Linux.tar.gz
-      - chmod +x /home/ec2-user/ZAP_2.14.0/zap.sh
+      - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2_14_0_unix.sh -O zap.sh
+      - chmod +x /home/ec2-user/zap.sh
       - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$OwaspZapApiKey&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
       - |
         stat=50;
@@ -24,8 +22,7 @@ phases:
       - echo "high alerts are $high_alerts" 
   build:
     commands: 
-      - cd /home/ec2-user/ZAP_2.14.0/
-      - /home/ec2-user/ZAP_2.14.0/zap.sh --project "DAST-group" --format JSON --prettyPrint --enableExperimental --scan /home/ec2-user/
+      - /home/ec2-user/zap.sh --project "DAST-group" --format JSON --prettyPrint --enableExperimental --scan /home/ec2-user/
       - curl "$OwaspZapURL/OTHER/core/other/jsonreport/?apikey=$OwaspZapApiKey" | jq . > zap-scan-results.json
       - echo "build stage completed"
   post_build:
@@ -40,6 +37,6 @@ phases:
       - if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then echo "there are high or medium alerts.. failing the build" && exit 1; else exit 0; fi
 artifacts:
   type: zip
-  files: ZAP_2.14.0/*.json
+  files: OWASP_ZAP/*.json
 
 # aws lambda invoke --function-name ImportVulToSecurityHub --payload file://payload.json owaspzap_scan_report.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED";
