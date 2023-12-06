@@ -215,4 +215,3 @@ Special thanks to the following contributors providing us with a pull request:
 And everyone who provided feedback through Github.
 
 Team WebGoat
-

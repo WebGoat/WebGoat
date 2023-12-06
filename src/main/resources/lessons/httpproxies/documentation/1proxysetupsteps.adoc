@@ -7,5 +7,3 @@ Otherwise, this will show you how to set up ZAP as a proxy on your local host.
 * First download and install https://www.zaproxy.org/download/[ZAP] for your operating system
 * Start ZAP
 * Start the browser directly from ZAP
-
-

@@ -56,4 +56,3 @@ To achieve this kind of SQL injection you could use:
 ----
 article = 4; sleep(10) --
 ----
-

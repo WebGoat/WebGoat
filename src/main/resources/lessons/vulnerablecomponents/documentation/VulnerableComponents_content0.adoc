@@ -10,4 +10,3 @@
 ** Some repositories allow you to remove published artifacts
 * Many different packaging systems; even for the same language
 * Different coordinates systems and level of granularity
-

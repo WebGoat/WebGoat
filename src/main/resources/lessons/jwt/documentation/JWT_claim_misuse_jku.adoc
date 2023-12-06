@@ -56,4 +56,3 @@ Instead, use static keys that are securely managed and updated regularly.
 - **Audit and monitoring**: Regularly audit JWT usage, monitor for suspicious activity, and implement anomaly detection mechanisms.
 
 - **Security testing**: Regularly perform security testing, including penetration testing and code reviews, to identify and remediate potential vulnerabilities.
-

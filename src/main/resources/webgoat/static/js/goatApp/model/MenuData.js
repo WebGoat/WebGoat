@@ -15,7 +15,7 @@ var menuData = Backbone.Model.extend({
 				this.setDataItems(menuItems);
 			});
 		},
-	
+
 		update: function() {
 			var self = this;
 			this.fetch().then(function(menuItems) {
