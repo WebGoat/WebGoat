@@ -22,11 +22,9 @@
 
 package org.owasp.webgoat.lessons.spoofcookie.encoders;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,7 +46,7 @@ class EncDecTest {
   void testEncode(String decoded, String encoded) {
     String result = EncDec.encode(decoded);
 
-    assertTrue(result.endsWith(encoded));
+    assertThat(result.endsWith(encoded)).isTrue();
   }
 
   @ParameterizedTest
@@ -63,13 +61,13 @@ class EncDecTest {
   @Test
   @DisplayName("null encode test")
   void testNullEncode() {
-    assertNull(EncDec.encode(null));
+    assertThat(EncDec.encode(null)).isNull();
   }
 
   @Test
   @DisplayName("null decode test")
   void testNullDecode() {
-    assertNull(EncDec.decode(null));
+    assertThat(EncDec.decode(null)).isNull();
   }
 
   private static Stream<Arguments> providedForEncValues() {
