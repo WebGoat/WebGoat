@@ -16,5 +16,4 @@ hooks:
   # ApplicationStart나 ValidateService 등을 대신 쓸 수 있다.
   ApplicationStart:
     - location: start.sh
-      timeout: 300
       runas: ec2-user
