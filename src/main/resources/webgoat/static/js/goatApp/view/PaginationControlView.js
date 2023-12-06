@@ -84,16 +84,16 @@ define(['jquery',
                             var action = $assignmentForms.attr('action');
                             if (action.endsWith("WebWolf/mail/")) {
                             	//fix for now. the find does not seem to work properly and gets confused with two /mail
-                            	action = "WebWolf/mail/send";                            	
-                            } 
-                            if (action.indexOf("?")>-1) {     
+                            	action = "WebWolf/mail/send";
+                            }
+                            if (action.indexOf("?")>-1) {
                             	//used to also mark forms like JWT assignment 8 complete
                             	action = action.substring(0,action.indexOf("?"));
                             }
                             if (action && isAttackSolved(action)) {
                             } else {
                             	solvedClass = 'solved-false';
-                            }                           
+                            }
                         }
                         pages.push({solvedClass:solvedClass,content:'assignment',curPageClass:curPageClass,pageClass:pageClass});
                     }

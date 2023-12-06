@@ -86,6 +86,3 @@ Now we can replace the token in the cookie and perform the reset again. One thin
 For more information take a look at the following video:
 
 video::wt3UixCiPfo[youtube, height=480, width=100%]
-
-
-

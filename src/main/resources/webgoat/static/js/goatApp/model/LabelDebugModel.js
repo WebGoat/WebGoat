@@ -5,17 +5,17 @@ define([
 	return Backbone.Model.extend({
 		id: 'label-status',
 		url: 'service/debug/labels.mvc',
-		
+
 		label: '',
 		labels: {
 			enable: 'Enable label debugging',
 			disable: 'Disable label debugging'
 		},
-		
+
 		initialize: function() {
 			this.load();
 		},
-		
+
 		fetch: function(options) {
             options || (options = {});
             var data = (options.data || {});
@@ -24,7 +24,7 @@ define([
             }
             return Backbone.Collection.prototype.fetch.call(this, options);
 		},
-		
+
 		load: function () {
 			this.fetch().then(this.labelStatusLoaded.bind(this));
 		},

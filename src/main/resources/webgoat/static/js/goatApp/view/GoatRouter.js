@@ -81,7 +81,7 @@ define(['jquery',
 
         },
 
-        /* 
+        /*
          * Constructor of Goat App Router invoked by goatApp.js new Router().
          */
         initialize: function () {

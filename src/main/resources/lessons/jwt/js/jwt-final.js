@@ -6,4 +6,3 @@ function follow(user) {
         $("#toast").append(result);
     })
 }
-

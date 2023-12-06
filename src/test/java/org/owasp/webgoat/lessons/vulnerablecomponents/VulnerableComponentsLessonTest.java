@@ -24,6 +24,7 @@ package org.owasp.webgoat.lessons.vulnerablecomponents;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.StreamException;
 import org.junit.jupiter.api.Disabled;

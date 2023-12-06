@@ -20,4 +20,3 @@
 
 * It is not reasonable to expect a developer to continually research each component.
 * Developers are not security experts; they already have a day job.
-
