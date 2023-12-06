@@ -25,7 +25,7 @@ phases:
   build:
     commands: 
       - cd /home/ec2-user/ZAP_2.14.0/
-      - /home/ec2-user/ZAP_2.14.0/zap.sh --project "webgoat" --format JSON --prettyPrint --enableExperimental --scan /home/ec2-user/
+      - /home/ec2-user/ZAP_2.14.0/zap.sh --project "DAST-group" --format JSON --prettyPrint --enableExperimental --scan /home/ec2-user/
       - curl "$OwaspZapURL/OTHER/core/other/jsonreport/?apikey=$OwaspZapApiKey" | jq . > zap-scan-results.json
       - echo "build stage completed"
   post_build:
