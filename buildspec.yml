@@ -22,3 +22,4 @@ artifacts:
     - scripts/**
     - buildspec-owasp-zap.yml
   discard-paths: yes
+  name: WebGoat_build
