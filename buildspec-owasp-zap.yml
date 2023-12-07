@@ -22,12 +22,12 @@ phases:
   post_build:
     commands:
       - | 
-        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \
-        \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": \"$CODEBUILD_SOURCE_REPO_URL\", \
-        \"source_branch\": \"$CODEBUILD_SOURCE_VERSION\", \
-        \"build_id\": \"$CODEBUILD_BUILD_ID\", \
-        \"source_commitid\": \"$CODEBUILD_RESOLVED_SOURCE_VERSION\", \
-        \"report\": . }" zap-scan-results.json > payload.json
+        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-ZAP\", \
+        \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
+        \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
+        \"build_id\": env.CODEBUILD_BUILD_ID, \
+        \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
+        \"report\": . }" zap-scan-report.json > payload.json
       # if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then echo "there are high or medium alerts.. failing the build" && exit 1;
 artifacts:
   files: s3://codebuild-test-hbucket/*.json
