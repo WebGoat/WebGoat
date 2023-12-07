@@ -5,7 +5,7 @@ phases:
       - echo "install phase....."
   pre_build:
     commands:
-      - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2_14_0_Linux.tar.gz
+      - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
       - tar xvzf ZAP_2.14.0_Linux.tar.gz ZAP_2.14.0/
       - cd ZAP_2.14.0/
       - chmod +x ./zap.sh
