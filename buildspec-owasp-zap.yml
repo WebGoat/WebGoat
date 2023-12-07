@@ -11,7 +11,7 @@ phases:
       - JAR_NAME=$(basename /home/ec2-user/build/webgoat-2023.6-SNAPSHOT.jar)
       - DEPLOY_JAR=/home/ec2-user/build/$JAR_NAME
       - echo "DEPLOY_JAR is set to $DEPLOY_JAR"
-      - cd $DEPLOY_JAR
+      - cd build
       - echo "OWASP Zap analysis status is completed..."
   build:
     commands: 
