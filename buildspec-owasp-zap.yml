@@ -12,7 +12,7 @@ phases:
   build:
     commands: 
       - nohup java -jar "$DEPLOY_JAR" --server.port=8080 --server.address=43.200.16.60 > /dev/null 2> /dev/null < /dev/null &
-      - sh ./zap.sh -cmd -quickurl http://localhost:8080/WebGoat -quickout zap-scan-reports.json -quickprogress
+      - sudo sh ./zap.sh -cmd -quickurl http://localhost:8080/WebGoat -quickout zap-scan-reports.json -quickprogress
       - echo "build stage completed"
       - high_alerts=$( cat zap-scan-reports.json | jq -r '.alertsSummary.High')
       - medium_alerts=$( cat zap-scan-reports.json | jq -r '.alertsSummary.Medium')
