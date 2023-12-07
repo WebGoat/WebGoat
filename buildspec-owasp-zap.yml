@@ -11,18 +11,17 @@ phases:
       - JAR_NAME=$(basename /home/ec2-user/build/webgoat-2023.6-SNAPSHOT.jar)
       - DEPLOY_JAR=/home/ec2-user/build/$JAR_NAME
       - echo "DEPLOY_JAR is set to $DEPLOY_JAR"
+      - cd $DEPLOY_JAR
       - echo "OWASP Zap analysis status is completed..."
   build:
     commands: 
       - nohup java -jar "$DEPLOY_JAR" --server.port=8080 --server.address=43.200.16.60 > /dev/null 2> /dev/null < /dev/null &
-      - cd /home/ec2-user/build
-      - ./zap.sh -cmd -quickurl http://localhost:8080/WebGoat -quickout zap-scan-reports.json -quickprogress
+      - /home/ec2-user/ZAP_2.14.0/zap.sh -cmd -quickurl http://localhost:8080/WebGoat -quickout zap-scan-reports.json -quickprogress
       - echo "build stage completed"
       - high_alerts=$( cat zap-scan-reports.json | jq -r '.alertsSummary.High')
       - medium_alerts=$( cat zap-scan-reports.json | jq -r '.alertsSummary.Medium')
   post_build:
     commands:
-      - cd /home/ec2-user/build
       - | 
         jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \"build_id\": env.CODEBUILD_BUILD_ID, \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \"report\": . }" zap-scan-reports.json > payload.json
       # - if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then
