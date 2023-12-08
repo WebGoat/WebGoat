@@ -1,8 +1,10 @@
 version: 0.2
+
 phases:
   install:
     commands:
       - echo "install phase....."
+
   pre_build:
     commands:
       # OWASP ZAP 설치
@@ -11,44 +13,50 @@ phases:
       - rm ZAP_2.14.0_Linux.tar.gz
       - cd ZAP_2.14.0
       - chmod +x ./zap.sh
+
+      # webgoat 실행
       - JAR_NAME=$(basename /home/ec2-user/build/webgoat-2023.6-SNAPSHOT.jar)
       - DEPLOY_JAR=/home/ec2-user/build/$JAR_NAME
-      - echo "DEPLOY_JAR is set to $DEPLOY_JAR"
-      - echo "OWASP Zap analysis status is completed..."
+      - nohup java -jar "$DEPLOY_JAR" --server.port=8080 --server.address=43.200.16.60 > /dev/null 2> /dev/null < /dev/null &
 
-      # OWASP ZAP API 키 생성
-      - owasp_zap_api_key=$(./zap.sh -newapikey)
-      - echo "OWASP ZAP API Key: $owasp_zap_api_key"
-
-      # AWS Systems Manager Parameter Store에서 OWASP ZAP API 키 가져오기
-      - owasp_zap_api_key=$(aws ssm put-parameter --name OwaspZapApiKey --value "$owasp_zap_api_key" --type SecureString)
-      
-      - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$owasp_zap_api_key&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
+      # OWASP Zap analysis status 확인
+      - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$OwaspZapApiKey&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
       - |
         stat=50;
         while [ "$stat" != 100 ]; do
-          stat=$(curl "$OwaspZapURL/JSON/ascan/view/status/?apikey=$owasp_zap_api_key&scanId=$scanid" | jq -r '.status');
+          stat=$(curl "$OwaspZapURL/JSON/ascan/view/status/?apikey=$OwaspZapApiKey&scanId=$scanid" | jq -r '.status');
           echo "OWASP ZAP scan status is $stat"
           echo "OWASP Zap analysis status is in progress...";
           sleep 5;
         done
         echo "OWASP Zap analysis status is completed..."; 
-      - high_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$owasp_zap_api_key&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
-      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$owasp_zap_api_key&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Medium')
-      - echo "high alerts are $high_alerts"
+
+      - high_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
+      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$OwaspZapApiKey&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Medium')
+      - echo "high alerts are $high_alerts"    
+
   build:
     commands: 
-      - nohup java -jar "$DEPLOY_JAR" --server.port=8080 --server.address=43.200.16.60 > /dev/null 2> /dev/null < /dev/null &
-      - /home/ec2-user/ZAP_2.14.0/zap.sh -cmd -quickurl http://localhost:8080/WebGoat -quickout /home/ec2-user/report/zap-scan-reports.json -quickprogress
+      - curl "$OwaspZapURL/OTHER/core/other/jsonreport/?apikey=$OwaspZapApiKey" | jq . > zap-scan-results.json
       - echo "build stage completed"
-      - high_alerts=$( cat zap-scan-reports.json | jq -r '.alertsSummary.High')
-      - medium_alerts=$( cat zap-scan-reports.json | jq -r '.alertsSummary.Medium')
+
   post_build:
     commands:
       - | 
-        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \"build_id\": env.CODEBUILD_BUILD_ID, \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \"report\": . }" zap-scan-reports.json > payload.json
-      # - if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then
-      #  echo "there are high or medium alerts.. failing the build" && exit 1;
-      #  fi
+        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"OWASP-Zap\", \
+        \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
+        \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
+        \"build_id\": env.CODEBUILD_BUILD_ID, \
+        \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
+        \"report\": . }" zap-scan-results.json > payload.json
+        aws lambda invoke --function-name ImportVulToSecurityHub --payload file://payload.json owaspzap_scan_report.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED";
+
+      - if [ $high_alerts -gt 0 ] || [ $medium_alerts -gt 0 ]; then 
+          echo "there are high or medium alerts.. failing the build" && exit 1; 
+        else 
+          exit 0; 
+        fi
+
 artifacts:
-  files: /home/ec2-user/report/*.json
+  type: zip
+  files: '**/*'
