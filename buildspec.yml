@@ -16,6 +16,7 @@ phases:
     commands:
       - echo Build completed on `date`
 artifacts:
+  type: none
   files:
     - target/*.jar
     - appspec.yml
