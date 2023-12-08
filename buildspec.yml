@@ -15,7 +15,7 @@ phases:
       - chmod +x ./zap.sh
 
       # webgoat 실행
-      - nohup java -jar "$DEPLOY_JAR" --server.port=8080 --server.address=43.200.16.60 > /dev/null 2> /dev/null < /dev/null &
+      - ./zap.sh -cmd -quickurl http://localhost:8080 -quickout /home/ec2-user/zap-scan-results.json -quickprogress
   build:
     commands:
       - echo Build started on `date`
