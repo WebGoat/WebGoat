@@ -7,15 +7,6 @@ phases:
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase…
-      # OWASP ZAP 설치
-      - wget -q https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
-      - tar -zxvf ZAP_2.14.0_Linux.tar.gz
-      - rm ZAP_2.14.0_Linux.tar.gz
-      - cd ZAP_2.14.0
-      - chmod +x ./zap.sh
-
-      # webgoat 실행
-      - ./zap.sh -cmd -quickurl http://localhost:8080 -quickout /home/ec2-user/zap-scan-results.json -quickprogress
   build:
     commands:
       - echo Build started on `date`
