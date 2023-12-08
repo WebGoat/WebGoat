@@ -5,18 +5,34 @@ phases:
       - echo "install phase....."
   pre_build:
     commands:
-      - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
-      - tar xvzf ZAP_2.14.0_Linux.tar.gz ZAP_2.14.0/
-      - chmod +x ZAP_2.14.0/zap.sh
+      - wget -q https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
+      - tar -zxvf ZAP_2.14.0_Linux.tar.gz
+      - rm ZAP_2.14.0_Linux.tar.gz
+      - cd ZAP_2.14.0
+      - chmod +x ./zap.sh
       - JAR_NAME=$(basename /home/ec2-user/build/webgoat-2023.6-SNAPSHOT.jar)
       - DEPLOY_JAR=/home/ec2-user/build/$JAR_NAME
       - echo "DEPLOY_JAR is set to $DEPLOY_JAR"
-      - cd build
       - echo "OWASP Zap analysis status is completed..."
+      
+      - owasp_zap_api_key=$(aws ssm get-parameter --name OwaspZapApiKey --with-decryption --query Parameter.Value --output text)
+      - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$owasp_zap_api_key&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
+      - |
+        stat=50;
+        while [ "$stat" != 100 ]; do
+          stat=$(curl "$OwaspZapURL/JSON/ascan/view/status/?apikey=$owasp_zap_api_key&scanId=$scanid" | jq -r '.status');
+          echo "OWASP ZAP scan status is $stat"
+          echo "OWASP Zap analysis status is in progress...";
+          sleep 5;
+        done
+        echo "OWASP Zap analysis status is completed..."; 
+      - high_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$owasp_zap_api_key&baseurl=$ApplicationURL" | jq -r '.alertsSummary.High')
+      - medium_alerts=$(curl "$OwaspZapURL/JSON/alert/view/alertsSummary/?apikey=$owasp_zap_api_key&baseurl=$ApplicationURL" | jq -r '.alertsSummary.Medium')
+      - echo "high alerts are $high_alerts"
   build:
     commands: 
       - nohup java -jar "$DEPLOY_JAR" --server.port=8080 --server.address=43.200.16.60 > /dev/null 2> /dev/null < /dev/null &
-      - /home/ec2-user/ZAP_2.14.0/zap.sh -cmd -quickurl http://localhost:8080/WebGoat -quickout zap-scan-reports.json -quickprogress
+      - /home/ec2-user/ZAP_2.14.0/zap.sh -cmd -quickurl http://localhost:8080/WebGoat -quickout /home/ec2-user/report/zap-scan-reports.json -quickprogress
       - echo "build stage completed"
       - high_alerts=$( cat zap-scan-reports.json | jq -r '.alertsSummary.High')
       - medium_alerts=$( cat zap-scan-reports.json | jq -r '.alertsSummary.Medium')
@@ -28,4 +44,4 @@ phases:
       #  echo "there are high or medium alerts.. failing the build" && exit 1;
       #  fi
 artifacts:
-  files: /home/ec2-user/build/*.json
+  files: /home/ec2-user/report/*.json
