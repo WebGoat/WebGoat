@@ -15,7 +15,7 @@ phases:
       - chmod +x ./zap.sh
 
       # webgoat 실행
-      - java -jar webgoat-2023.6-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null &
+      - java -jar webgoat-2023.6-SNAPSHOT.jar
 
       # OWASP Zap analysis status 확인
       - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$OwaspZapApiKey&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
