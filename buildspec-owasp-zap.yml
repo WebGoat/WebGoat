@@ -5,6 +5,7 @@ phases:
       - echo "install phase....."
   pre_build:
     commands:
+      # OWASP ZAP 설치
       - wget -q https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
       - tar -zxvf ZAP_2.14.0_Linux.tar.gz
       - rm ZAP_2.14.0_Linux.tar.gz
@@ -14,8 +15,14 @@ phases:
       - DEPLOY_JAR=/home/ec2-user/build/$JAR_NAME
       - echo "DEPLOY_JAR is set to $DEPLOY_JAR"
       - echo "OWASP Zap analysis status is completed..."
+
+      # OWASP ZAP API 키 생성
+      - owasp_zap_api_key=$(./zap.sh -newapikey)
+      - echo "OWASP ZAP API Key: $owasp_zap_api_key"
+
+      # AWS Systems Manager Parameter Store에서 OWASP ZAP API 키 가져오기
+      - owasp_zap_api_key=$(aws ssm put-parameter --name OwaspZapApiKey --value "$owasp_zap_api_key" --type SecureString)
       
-      - owasp_zap_api_key=$(aws ssm get-parameter --name OwaspZapApiKey --with-decryption --query Parameter.Value --output text)
       - scanid=$(curl "$OwaspZapURL/JSON/ascan/action/scan/?apikey=$owasp_zap_api_key&url=$ApplicationURL&recurse=true&inScopeOnly=&scanPolicyName=&method=&postData=&contextId=" | jq -r '.scan')
       - |
         stat=50;
