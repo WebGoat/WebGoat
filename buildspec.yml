@@ -10,6 +10,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION!!!!!!!!!!!!
+      - aws codebuild batch-get-projects --names Build     
       - pwd && ls && whoami
       - ./mvnw clean install
   post_build:
