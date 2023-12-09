@@ -12,12 +12,6 @@ phases:
       - echo Build started on `date`
       - pwd && ls && whoami
       - ./mvnw clean install
-      # OWASP ZAP 설치
-      - wget -q https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
-      - tar -zxvf ZAP_2.14.0_Linux.tar.gz
-      - rm ZAP_2.14.0_Linux.tar.gz
-      - cd ZAP_2.14.0
-      - chmod +x ./zap.sh
   post_build:
     commands:
       - echo Build completed on `date`
