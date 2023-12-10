@@ -1,0 +1,11 @@
+== Restablecimiento de contraseña con autenticación de dos factores (2FA)
+
+Un excelente ejemplo de elusión de autenticación es (https://henryhoggard.co.uk/blog/Paypal-2FA-Bypass). El usuario no pudo recibir un SMS con un código, así que optó por un método alternativo que implicaba preguntas de seguridad. Utilizando un proxy, eliminó por completo los parámetros y tuvo éxito.
+
+image::images/paypal-2fa-bypass.png[Paypal 2FA bypass,1397,645,style="lesson-image"]
+
+=== El escenario
+
+Cuando restableces tu contraseña desde un lugar o dispositivo no reconocido por tu proveedor, te solicitarán responder a las preguntas de seguridad que configuraste. El inconveniente adicional es que estas preguntas de seguridad también están almacenadas en otro dispositivo, que no tienes contigo y del cual no recuerdas las respuestas.
+
+Ya has proporcionado tu nombre de usuario/correo electrónico y has optado por el método de verificación alternativo.
