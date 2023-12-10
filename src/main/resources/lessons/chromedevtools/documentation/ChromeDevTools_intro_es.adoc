@@ -1,0 +1,17 @@
+== Herramientas de Desarrollo de Google Chrome
+
+Para completar ciertas tareas, a veces es necesario examinar el código fuente de JavaScript o ejecutar un comando de JavaScript por tu cuenta.
+Para hacer eso, Google Chrome tiene un conjunto de herramientas que te permiten hacer eso y mucho más.
+Aunque estas herramientas no son exclusivas de Google Chrome, casi todos los navegadores modernos tienen un conjunto propio.
+Nuestra introducción se centrará en las que se encuentran en Google Chrome.
+Sin embargo, aún puedes utilizar el navegador que prefieras, como Firefox o Safari, aunque algunos pasos de este tutorial pueden ser diferentes para ti.
+
+Ten en cuenta que este tutorial no está diseñado para enseñar todo sobre estas herramientas.
+Se centrará únicamente en los conocimientos esenciales para completar tareas específicas.
+Además, si ya estás familiarizado con estas herramientas, puedes saltar estas lecciones sin problema.
+
+Para comenzar: *abre las herramientas de desarrollo*. Hay varias formas de abrirlas:
+
+1. Haz clic derecho en cualquier parte de la ventana del navegador y selecciona la opción _"Inspeccionar"_.
+2. Ve al menú del navegador (tres puntos en la esquina superior derecha), luego ve a _"Más herramientas"_ y selecciona la opción _"Herramientas de desarrollo"_.
+3. Utiliza el atajo de teclado _Ctrl + Shift + I_.
