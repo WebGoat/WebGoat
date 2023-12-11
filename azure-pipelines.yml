@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - develop
 
@@ -14,23 +9,26 @@ resources:
       ref: master
       type: git
       name: Implementations
+variables:
+  - group: polaris-Kyle
 steps:
 - checkout: self
-- task: SynopsysSecurityScan@1
-  inputs:
-    scanType: 'polaris'
-    bridge_polaris_serverUrl: 'https://poc.polaris.synopsys.com'
-    bridge_polaris_accessToken: $(POLARISTOKEN)
-    bridge_polaris_application_name: 'kyleh'
-    bridge_polaris_project_name: 'ADO-Test-WebGoat-1'
-    bridge_polaris_assessment_types: 'SAST,SCA'
-    bridge_polaris_branch_name: '$(Build.SourceBranchName)'
-    bridge_blackduck_scan_full: True
+- bash: |
+    curl -fLsS -o bridge.zip $BRIDGECLI_LINUX64 && unzip -qo -d $(Agent.TempDirectory) bridge.zip && rm -f bridge.zip
+    $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
+      polaris.assessment.types='SAST,SCA' \
+      polaris.application.name='kyleh' \
+      polaris.project.name='ADO-BashTest' \
+      polaris.branch.name=Bash \
+      project.directory=WebGoat-Kyle
+  env:
+    BRIDGE_POLARIS_ACCESSTOKEN: $(BRIDGE_POLARIS_ACCESSTOKEN)
 - checkout: AzureBoardsScript
-- task: PythonScript@0
+- task: CmdLine@2
   inputs:
-    scriptSource: 'filePath'
-    scriptPath: '$(Build.SourcesDirectory)/AzureBoardsScript/polaris_azure_ci.py'
-    arguments: '--config "AzureBoardsScript/polaris-azure.conf" --polaris-application-name "kyleh" --polaris-project-name "ADO-Test-WebGoat-1" --polaris-branch-name $(Build.SourceBranchName) --polaris-severities-filter "''''critical'''',''''high'''',''''medium'''',''''low'''',''''info''''" --azure-project-name "PolarisTickets" --azure-iteration-path "iteration 2" --azure-area-path "area path test"'
-- script: cat AzureBoardsScript/logs/synopsys-azure.log
-  condition: always()
+    script: |
+     ls 
+     cd Implementations/AzureBoardsScript
+     ls
+     python polaris_azure_ci.py --config "polaris-azure.conf" --polaris-application-name "kyleh" --polaris-project-name "ADO-BashTest" --polaris-branch-name Bash --polaris-severities-filter "''''critical'''',''''high'''',''''medium'''',''''low'''',''''info''''" --azure-project-name "PolarisTickets" --azure-iteration-path "iteration 2" --azure-area-path "area path test"
+     cat logs/synopsys-azure.log
