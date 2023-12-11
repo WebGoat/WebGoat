@@ -23,8 +23,8 @@ steps:
       polaris.project.name='ADO-BashTest' \
       polaris.branch.name=Bash
       project.directory=WebGoat-Kyle
-    env:
-      BRIDGE_POLARIS_ACCESSTOKEN: $(BRIDGE_POLARIS_ACCESSTOKEN)
+  env:
+    BRIDGE_POLARIS_ACCESSTOKEN: $(BRIDGE_POLARIS_ACCESSTOKEN)
 - bash: |
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
       polaris.assessment.types='SCA' \
