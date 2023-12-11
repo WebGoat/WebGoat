@@ -1,3 +1,4 @@
 capture:
   build:
+    clean-command: mvn clean
     build-command: mvn install 
