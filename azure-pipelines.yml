@@ -14,7 +14,7 @@ variables:
 steps:
 - checkout: self
 - bash: |
-    ls 
+    cd WebGoat-Kyle
     curl -fLsS -o bridge.zip $BRIDGECLI_LINUX64 && unzip -qo -d $(Agent.TempDirectory) bridge.zip && rm -f bridge.zip
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
       polaris.assessment.types='SAST,SCA' \
@@ -28,8 +28,6 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-     ls 
      cd Implementations/AzureBoardsScript
-     ls
      python polaris_azure_ci.py --config "polaris-azure.conf" --polaris-application-name "kyleh" --polaris-project-name "ADO-BashTest" --polaris-branch-name Bash --polaris-severities-filter "''''critical'''',''''high'''',''''medium'''',''''low'''',''''info''''" --azure-project-name "PolarisTickets" --azure-iteration-path "iteration 2" --azure-area-path "area path test"
      cat logs/synopsys-azure.log
