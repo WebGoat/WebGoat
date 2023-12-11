@@ -120,7 +120,7 @@
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons-text.version>1.9</commons-text.version>
     <guava.version>30.1-jre</guava.version>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.7.6</jose4j.version>
     <jquery.version>3.5.1</jquery.version>
@@ -131,8 +131,8 @@
     <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <pmd.version>3.15.0</pmd.version>
     <!-- Use UTF-8 Encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -595,8 +595,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>11</source>
-          <target>11</target>
+          <source>17</source>
+          <target>17</target>
         </configuration>
       </plugin>
     </plugins>
