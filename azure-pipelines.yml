@@ -20,8 +20,7 @@ steps:
       polaris.assessment.types='SAST,SCA' \
       polaris.application.name='kyleh' \
       polaris.project.name='ADO-BashTest' \
-      polaris.branch.name=Bash \
-      project.directory=WebGoat-Kyle
+      polaris.branch.name=Bash 
   env:
     BRIDGE_POLARIS_ACCESSTOKEN: $(BRIDGE_POLARIS_ACCESSTOKEN)
 - checkout: AzureBoardsScript
