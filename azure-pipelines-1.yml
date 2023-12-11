@@ -20,7 +20,16 @@ steps:
 - bash: |
     curl -fLsS -o bridge.zip $BRIDGECLI_LINUX64 && unzip -qo -d $(Agent.TempDirectory) bridge.zip && rm -f bridge.zip
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
-      polaris.assessment.types='SAST,SCA' \
+      polaris.assessment.types='SAST' \
+      polaris.application.name='kyleh' \
+      polaris.project.name='ADO-BashTest' \
+      polaris.branch.name=Bash \
+      project.directory=WebGoat-Kyle
+  env:
+    BRIDGE_POLARIS_ACCESSTOKEN: $(BRIDGE_POLARIS_ACCESSTOKEN)
+- bash: |
+    $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
+      polaris.assessment.types='SCA' \
       polaris.application.name='kyleh' \
       polaris.project.name='ADO-BashTest' \
       polaris.branch.name=Bash \
