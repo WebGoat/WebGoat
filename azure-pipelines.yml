@@ -9,6 +9,11 @@ resources:
 variables:
   - group: polaris-Kyle
 steps:
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '17'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
 - checkout: self
 - bash: |
     cd WebGoat-Kyle
@@ -18,6 +23,8 @@ steps:
       polaris.application.name='kyleh' \
       polaris.project.name='ADO-BashTest' \
       polaris.branch.name=Bash 
+    env:
+      BRIDGE_POLARIS_ACCESSTOKEN: $(BRIDGE_POLARIS_ACCESSTOKEN)
 - bash: |
     cd WebGoat-Kyle
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
