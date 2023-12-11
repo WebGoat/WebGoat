@@ -25,6 +25,7 @@ steps:
     bridge_polaris_project_name: 'ADO-Test-WebGoat-1'
     bridge_polaris_assessment_types: 'SAST,SCA'
     bridge_polaris_branch_name: '$(Build.SourceBranchName)'
+    bridge_blackduck_scan_full: True
 - checkout: AzureBoardsScript
 - task: PythonScript@0
   inputs:
