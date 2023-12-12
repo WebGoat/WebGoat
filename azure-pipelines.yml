@@ -21,14 +21,14 @@ steps:
       polaris.assessment.types='SAST' \
       polaris.application.name='kyleh' \
       polaris.project.name='ADO-BashTest' \
-      polaris.branch.name=Bash
+      polaris.branch.name=Bash \
       project.directory=WebGoat-Kyle
 - bash: |
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
       polaris.assessment.types='SCA' \
       polaris.application.name='kyleh' \
       polaris.project.name='ADO-BashTest' \
-      polaris.branch.name=Bash
+      polaris.branch.name=Bash \
       project.directory=WebGoat-Kyle
 - checkout: AzureBoardsScript
 - task: CmdLine@2
