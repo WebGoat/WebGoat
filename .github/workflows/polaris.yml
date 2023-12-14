@@ -22,7 +22,7 @@ jobs:
     - name: Synopsys Action
       uses: synopsys-sig/synopsys-action@v1.5.0
       with:
-        polaris_serverUrl: ${{ vars.POLARIS_SERVERURL }}
+        polaris_serverUrl: poc.polaris.synopsys.com #${{ vars.POLARIS_SERVERURL }}
         polaris_accessToken: ${{ secrets.POLARIS_ACCESSTOKEN }}
         polaris_application_name: mustaqim-app #mustaqimRahman-${{ github.event.repository.name }}
         polaris_project_name: Webgoat #${{ github.event.repository.name }}
