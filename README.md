@@ -28,7 +28,7 @@ you are caught engaging in unauthorized hacking, most companies will fire you.
 Claiming that you were doing security research will not work as that is the
 first thing that all hackers claim.*
 
-![GOAT!](WebGoat/goat_new.jpg)
+![GOAT!](goat_new.jpg)
 
 # Installation instructions:
 
