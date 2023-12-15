@@ -17,15 +17,3 @@
 7 ![Homepage screenshot][WebGoat/webgoat.JPG]
 
 8. When to Webgoat repository Settings on Github - Branches - Toggled Require a pull request before merging - - Name Branch name pattern as 'main' - Create rule
-
-
-
-
-
-
-
-
-
-[def]: webgoat.jpeg
-[homepage]: webgoat.JPG
-[def2]: WebGoat/webgoat.JPG
