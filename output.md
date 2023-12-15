@@ -14,19 +14,6 @@
 
 6. Follow to http://8080/WebGoat
 
-7 ![!\[Homepage\](webgoat.JPG)]
+7 ![Homepage screenshot][WebGoat/webgoat.JPG]
 
-8. When to Webgoat repository Settings on Github - Branches - Toggled Require a pull request before merging - Toggle Require approvals - Name Branch name pattern as 'main' - Create rule
-
-9. 
-
-
-
-
-
-
-
-
-
-[def]: webgoat.jpeg
-[homepage]: webgoat.JPG
+8. When to Webgoat repository Settings on Github - Branches - Toggled Require a pull request before merging - - Name Branch name pattern as 'main' - Create rule
