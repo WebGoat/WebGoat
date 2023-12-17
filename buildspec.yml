@@ -12,6 +12,7 @@ phases:
       - echo Build started on `date`
       - pwd && ls && whoami
       - ./mvnw clean install
+      - aws lambda invoke --function-name zap-scan
   post_build:
     commands:
       - echo Build completed on `date`
@@ -21,5 +22,4 @@ artifacts:
     - target/*.jar
     - appspec.yml
     - scripts/**
-    - buildspec-owasp-zap.yml
   discard-paths: yes
