@@ -13,7 +13,7 @@ phases:
       - pwd && ls && whoami
       - ./mvnw clean install
       - java -jar webgoat-2023.6-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null &
-      - aws lambda invoke --function-name zap-scan --outfile codebuild-result.json
+      - aws lambda invoke --function-name zap-scan -output json > codebuild-result.json
   post_build:
     commands:
       - echo Build completed on `date`
