@@ -1,3 +1,5 @@
+trigger:
+- stage
 pool:
   vmImage: ubuntu-latest
 resources:
@@ -35,7 +37,7 @@ steps:
       polaris.project.name='GitHub' \
       polaris.branch.name=1 \
       project.directory=WebGoat-Kyle \
-      blackduck.search.depth=5
+      detect.detector.search.depth=5
 - checkout: AzureBoardsScript
 - task: CmdLine@2
   inputs:
