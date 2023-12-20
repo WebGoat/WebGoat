@@ -34,7 +34,8 @@ steps:
       polaris.application.name='kyleh' \
       polaris.project.name='GitHub' \
       polaris.branch.name=1 \
-      project.directory=WebGoat-Kyle
+      project.directory=WebGoat-Kyle \
+      detect.search.depth=5
 - checkout: AzureBoardsScript
 - task: CmdLine@2
   inputs:
