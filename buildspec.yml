@@ -23,4 +23,5 @@ artifacts:
     - target/*.jar
     - appspec.yml
     - scripts/**
+    - *.py
   discard-paths: yes
