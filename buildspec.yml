@@ -12,8 +12,6 @@ phases:
       - echo Build started on `date`
       - pwd && ls && whoami
       - ./mvnw clean install
-      - python3 zap_start.py
-      - python3 zap_scan.py
   post_build:
     commands:
       - echo Build completed on `date`
@@ -23,6 +21,4 @@ artifacts:
     - target/*.jar
     - appspec.yml
     - scripts/**
-    - zap_start.py
-    - zap_scan.py
   discard-paths: yes
