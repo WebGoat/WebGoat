@@ -21,7 +21,7 @@ kill_process("zap.sh")
 
 # ZAP
 zap_command = [
-    "/home/ec2-user/zap.sh", "-daemon", "-host", "0.0.0.0", "-port", "8090",
+    "zap.sh", "-daemon", "-host", "0.0.0.0", "-port", "8090",
     "-config", "api.disablekey=true",
     "-config", "api.addrs.addr.name=.*",
     "-config", "api.addrs.addr.regex=true",
