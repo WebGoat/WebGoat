@@ -17,11 +17,11 @@ def kill_process(process_name):
 kill_process("webgoat-2023.6-SNAPSHOT.jar")
 
 # Kill existing ZAP process
-kill_process("zap.sh")
+kill_process("/home/ec2-user/ZAP_2.14.0/zap.sh")
 
 # ZAP
 zap_command = [
-    "zap.sh", "-daemon", "-host", "0.0.0.0", "-port", "8090",
+    "/home/ec2-user/ZAP_2.14.0/zap.sh", "-daemon", "-host", "0.0.0.0", "-port", "8090",
     "-config", "api.disablekey=true",
     "-config", "api.addrs.addr.name=.*",
     "-config", "api.addrs.addr.regex=true",
