@@ -6,7 +6,7 @@ target_sites = [
     "http://43.200.16.60:8080/WebGoat/"
 ]
 
-for site_url in target_sites:
+for site_url in target_sites: 
     # Quick scan
     zap_command = [
         "./zap-cli", "quick-scan",
