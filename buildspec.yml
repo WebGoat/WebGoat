@@ -20,9 +20,4 @@ artifacts:
   files:
     - target/*.jar
     - appspec.yml
-    - zap-2.14.0.jar
-    - zap.sh
-    - zap-cli
-    - zap_start.py
-    - zap_scan.py
   discard-paths: yes
