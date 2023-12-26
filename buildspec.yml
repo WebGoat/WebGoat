@@ -20,7 +20,7 @@ artifacts:
   files:
     - target/*.jar
     - appspec.yml
-    - scripts/**
+    - zap-2.14.0.jar
     - zap.sh
     - zap-cli
     - zap_start.py
