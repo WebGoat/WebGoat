@@ -18,11 +18,11 @@ phases:
 artifacts:
   type: none
   files:
-    - target/*.jar
+    - webgoat-2023.6-SNAPSHOT.jar
     - appspec.yml
-    - zap/*
+    - zap
     - zap-cli
     - zap.sh
     - zap_start.py
     - zap_scan.py
-  discard-paths: yes
+  #discard-paths: yes
