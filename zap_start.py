@@ -33,7 +33,7 @@ time.sleep(20)
 
 # Run WebGoat without Docker
 webgoat_command = [
-    "java", "-jar", "webgoat-2023.6-SNAPSHOT.jar",
+    "java", "-jar", "target/webgoat-2023.6-SNAPSHOT.jar",
 ]
 webgoat_process = subprocess.Popen(webgoat_command)
 time.sleep(45)
