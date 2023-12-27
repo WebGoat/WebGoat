@@ -17,7 +17,7 @@ def kill_process(process_name):
 kill_process("webgoat-2023.6-SNAPSHOT.jar")
 
 # Kill existing ZAP process
-kill_process("./zap/zap.sh")
+kill_process("zap/zap.sh")
 
 # ZAP
 zap_command = [
