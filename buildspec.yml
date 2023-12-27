@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      - pip3 install --user zap-cli==0.10.0
+      - pip3 install --upgrade git+https://github.com/Grunny/zap-cli.git
       - export PATH=$PATH:$HOME/.local/bin
   pre_build:
     commands:
