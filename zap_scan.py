@@ -5,11 +5,11 @@ from datetime import datetime
 target_sites = [
     "http://43.200.16.60:8080/WebGoat/"
 ]
-time.sleep(20)
+time.sleep(30)
 for site_url in target_sites: 
     # Quick scan
     zap_command = [
-        "zap-cli", "quick-scan",
+        "./zap-cli", "quick-scan",
         site_url,
     ]
     subprocess.run(zap_command)
