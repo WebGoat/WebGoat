@@ -4,8 +4,6 @@ phases:
   install:
     runtime-versions:
       java: corretto17
-    commands:
-      - pip3 install zap-cli
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase…
@@ -22,7 +20,7 @@ artifacts:
   files:
     - target/*.jar
     - appspec.yml
-    - zap/**
+    - zap/**/*
     - zap-cli
     - zap.sh
     - zap_start.py
