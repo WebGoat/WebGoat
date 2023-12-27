@@ -4,6 +4,9 @@ phases:
   install:
     runtime-versions:
       java: corretto17
+    commands:
+      - pip3 install --user zap-cli==0.10.0
+      - export PATH=$PATH:$HOME/.local/bin
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase…
