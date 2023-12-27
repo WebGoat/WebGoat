@@ -21,6 +21,7 @@ for site_url in target_sites:
 
     # Generate ZAP report in HTML format
     report_command = [
+        "cd", "zap",
         "zap-cli", "report",
         "-o", f"./{report_filename}",
         "-f", "html",
