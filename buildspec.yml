@@ -6,7 +6,7 @@ phases:
       java: corretto17
     commands:
       - pip3 install --upgrade git+https://github.com/Grunny/zap-cli.git
-      - export PATH=$PATH:$HOME/.local/bin/zap-cli
+      - export PATH=$PATH:$HOME/.local/bin
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase…
