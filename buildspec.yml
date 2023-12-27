@@ -6,7 +6,7 @@ phases:
       java: corretto17
     commands:
       - pip3 install --upgrade git+https://github.com/Grunny/zap-cli.git
-      - export PATH=$PATH:$HOME/.local/bin
+      - export PATH=$PATH:$HOME/.local/bin/zap-cli
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase…
@@ -24,8 +24,6 @@ artifacts:
     - target/*.jar
     - appspec.yml
     - zap/**/*
-    - zap-cli
-    - zap.sh
     - zap_start.py
     - zap_scan.py
   #discard-paths: yes
