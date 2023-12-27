@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      - pip3 install zap-cli==0.10.0
+      - pip3 install zap-cli
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase…
