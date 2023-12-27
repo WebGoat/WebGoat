@@ -9,7 +9,7 @@ target_sites = [
 for site_url in target_sites: 
     # Quick scan
     zap_command = [
-        "./zap/zap-cli", "quick-scan",
+        "zap/zap-cli", "quick-scan",
         site_url,
     ]
     subprocess.run(zap_command)
@@ -20,7 +20,7 @@ for site_url in target_sites:
 
     # Generate ZAP report in HTML format
     report_command = [
-        "./zap/zap-cli", "report",
+        "zap/zap-cli", "report",
         "-o", f"./{report_filename}",
         "-f", "html",
     ]
