@@ -21,6 +21,7 @@ artifacts:
     - target/*.jar
     - appspec.yml
     - zap/*
+    - zap-cli
     - zap.sh
     - zap_start.py
     - zap_scan.py
