@@ -27,21 +27,6 @@ for site_url in target_sites:
     ]
     subprocess.run(report_command)
 
-    # Check if High risk findings exist
-    with open(report_filename, "r") as html_file:
-        soup = BeautifulSoup(html_file, 'html.parser')
-
-    # Find the High risk row
-    high_row = soup.find('td', class_='risk-3')
-
-    # Check if the number of Medium alerts is greater than 0
-    high_alerts = high_row.find_next('td').find('div').get_text()
-    
-    # If Medium risk findings exist, stop further execution
-    if int(high_alerts) > 0:
-        print("High risk findings detected. Stopping execution.")
-        break
-
     # Upload the report to S3 bucket
     s3_upload_command = [
         "aws", "s3", "cp",
@@ -50,7 +35,7 @@ for site_url in target_sites:
     ]
     subprocess.run(s3_upload_command)
 
-    # Remove the local report file
+    #rm file
     time.sleep(1)
     rm_file_command = [
         "rm", f"/home/ec2-user/{report_filename}",
