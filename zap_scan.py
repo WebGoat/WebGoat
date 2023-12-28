@@ -1,5 +1,6 @@
 import subprocess
 import time
+from bs4 import BeautifulSoup
 from datetime import datetime
 
 target_sites = [
@@ -21,22 +22,37 @@ for site_url in target_sites:
     # Generate ZAP report in HTML format
     report_command = [
         "zap-cli", "report",
-        "-o", report_filename,  # Save report in the current working directory
+        "-o", f"/home/ec2-user/{report_filename}",
         "-f", "html",
     ]
     subprocess.run(report_command)
 
+    # Check if High risk findings exist
+    with open(report_filename, "r") as html_file:
+        soup = BeautifulSoup(html_file, 'html.parser')
+
+    # Find the High risk row
+    high_row = soup.find('td', class_='risk-3')
+
+    # Check if the number of Medium alerts is greater than 0
+    high_alerts = high_row.find_next('td').find('div').get_text()
+    
+    # If Medium risk findings exist, stop further execution
+    if int(high_alerts) > 0:
+        print("High risk findings detected. Stopping execution.")
+        break
+
     # Upload the report to S3 bucket
     s3_upload_command = [
         "aws", "s3", "cp",
-        report_filename,  # Use the correct path and filename here
+        f"/home/ec2-user/{report_filename}",
         f"s3://dast-hbucket/{report_filename}",
     ]
     subprocess.run(s3_upload_command)
 
     # Remove the local report file
-    time.sleep(10)
+    time.sleep(1)
     rm_file_command = [
-        "rm", report_filename,
+        "rm", f"/home/ec2-user/{report_filename}",
     ]
     subprocess.run(rm_file_command)
