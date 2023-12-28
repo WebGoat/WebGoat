@@ -22,7 +22,7 @@ for site_url in target_sites:
     # Generate ZAP report in HTML format
     report_command = [
         "zap-cli", "report",
-        "-o", f"/home/ec2-user/{report_filename}",
+        "-o", report_filename,
         "-f", "html",
     ]
     subprocess.run(report_command)
@@ -32,10 +32,10 @@ for site_url in target_sites:
         soup = BeautifulSoup(html_file, 'html.parser')
 
     # Find the High risk row
-    medium_row = soup.find('td', class_='risk-3')
+    high_row = soup.find('td', class_='risk-3')
 
     # Check if the number of High alerts is greater than 0
-    high_alerts = medium_row.find_next('td').find('div').get_text()
+    high_alerts = high_row.find_next('td').find('div').get_text()
     
     # If High risk findings exist, stop further execution
     if int(high_alerts) > 0:
@@ -45,7 +45,7 @@ for site_url in target_sites:
     # Upload the report to S3 bucket
     s3_upload_command = [
         "aws", "s3", "cp",
-        f"/home/ec2-user/{report_filename}",
+        report_filename,
         f"s3://dast-hbucket/{report_filename}",
     ]
     subprocess.run(s3_upload_command)
@@ -53,6 +53,6 @@ for site_url in target_sites:
     # Remove the local report file
     time.sleep(1)
     rm_file_command = [
-        "rm", f"/home/ec2-user/{report_filename}",
+        "rm", report_filename,
     ]
     subprocess.run(rm_file_command)
