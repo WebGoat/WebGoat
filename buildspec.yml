@@ -16,13 +16,13 @@ phases:
       - pwd && ls && whoami
       - ./mvnw clean install
   post_build:
-  commands:
-    - aws ssm send-command \
+    commands:
+      - aws ssm send-command \
         --document-name "AWS-RunShellScript" \
         --targets "Key=instanceids,Values=i-0594735cb2923b48d" \
         --parameters "commands=['python3 zap_start.py', 'python3 zap_scan.py']" \
         --region ap-northeast-2
-    - echo Build completed on `date`
+      - echo Build completed on `date`
 artifacts:
   type: none
   files:
