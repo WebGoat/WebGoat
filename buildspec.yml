@@ -23,6 +23,6 @@ artifacts:
   files:
     - target/*.jar
     - appspec.yml
-    - zap_start.py
-    - zap_scan.py
+    # zap_start.py
+    # zap_scan.py
   #discard-paths: yes
