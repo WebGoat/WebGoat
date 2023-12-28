@@ -1,6 +1,5 @@
 import subprocess
 import time
-from bs4 import BeautifulSoup
 from datetime import datetime
 
 target_sites = [
