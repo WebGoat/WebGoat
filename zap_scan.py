@@ -21,7 +21,7 @@ for site_url in target_sites:
     # Generate ZAP report in HTML format
     report_command = [
         "zap-cli", "report",
-        "-o", f"/home/ec2-user/{report_filename}",
+        "-o", report_filename,  # Save report in the current working directory
         "-f", "html",
     ]
     subprocess.run(report_command)
@@ -29,14 +29,14 @@ for site_url in target_sites:
     # Upload the report to S3 bucket
     s3_upload_command = [
         "aws", "s3", "cp",
-        f"/home/ec2-user/{report_filename}",
+        report_filename,  # Use the correct path and filename here
         f"s3://dast-hbucket/{report_filename}",
     ]
     subprocess.run(s3_upload_command)
 
-    #rm file
+    # Remove the local report file
     time.sleep(10)
     rm_file_command = [
-        "rm", f"/home/ec2-user/{report_filename}",
+        "rm", report_filename,
     ]
     subprocess.run(rm_file_command)
