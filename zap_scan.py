@@ -51,7 +51,7 @@ for site_url in target_sites:
     subprocess.run(s3_upload_command)
 
     # Remove the local report file
-    time.sleep(1)
+    time.sleep(10)
     rm_file_command = [
         "rm", report_filename,
     ]
