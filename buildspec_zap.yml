@@ -11,7 +11,7 @@ phases:
       - echo "build phase....."
   post_build:
     commands:
-      - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0594735cb2923b48d" --parameters "commands=['python3 /home/ec2-user/zap_start.py', 'python3 /home/ec2-user/zap.py']" --region ap-northeast-2
+      - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0594735cb2923b48d" --parameters "commands=['python3 /home/ec2-user/zap_start.py', 'python3 /home/ec2-user/zap_scan.py']" --region ap-northeast-2
       - echo Build completed on `date`
       #- |
       #  aws lambda invoke \
