@@ -2,18 +2,20 @@ version: 0.2
 phases:
   install:
     commands:
-      - pip3 install beautifulsoup4
       - echo "install phase....."
   pre_build:
     commands:
       - echo "pre build phase....."
   build:
     commands:
-      # aws lambda invoke --function-name zap-scan --invocation-type RequestResponse --log-type Tail /tmp/${report_filename}
-      #- sudo yum -y update
-      #- sudo yum install -y tree
-      #- tree -L 2
+      - echo "build phase....."
   post_build:
     commands:
       - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0594735cb2923b48d" --parameters "commands=['python3 /home/ec2-user/zap_start.py', 'python3 /home/ec2-user/zap_scan.py']" --region ap-northeast-2
       - echo Build completed on `date`
+      #- |
+      #  aws lambda invoke \
+      #    --function-name YourLambdaFunctionName \
+      #    --invocation-type RequestResponse \
+      #    --log-type Tail \
+      #    s3://dast-hbucket/${report_filename}
