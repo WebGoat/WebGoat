@@ -2,6 +2,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - pip3 install beautifulsoup4
       - echo "install phase....."
   pre_build:
     commands:
