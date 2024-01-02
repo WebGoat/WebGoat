@@ -1,0 +1,38 @@
+# included templates
+include:
+  # Docker template
+  - project: "to-be-continuous/docker"
+    ref: "5.7"
+    file: "templates/gitlab-ci-docker.yml"
+  # Gitleaks template
+  - project: "to-be-continuous/gitleaks"
+    ref: "2.3"
+    file: "templates/gitlab-ci-gitleaks.yml"
+  # Maven template
+  - project: "to-be-continuous/maven"
+    ref: "3.8"
+    file: "templates/gitlab-ci-maven.yml"
+  # Renovate template
+  - project: "to-be-continuous/renovate"
+    ref: "1.1"
+    file: "templates/gitlab-ci-renovate.yml"
+
+
+# secret variables
+# (define the variables below in your GitLab group/project variables)
+# RENOVATE_TOKEN: A GitLab access token to allow Renovate crawl your projects. [See doc](https://docs.renovatebot.com/modules/platform/gitlab/#authentication)
+# GITHUB_COM_TOKEN: A GitHub access token to allow Renovate fetch changelogs. [See doc](https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs)
+
+
+# your pipeline stages
+stages:
+  - build
+  - test
+  - package-build
+  - package-test
+  - infra
+  - deploy
+  - acceptance
+  - publish
+  - infra-prod
+  - production
