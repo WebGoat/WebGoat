@@ -1,5 +1,5 @@
 trigger:
-- stage
+- develop
 pool:
   vmImage: ubuntu-latest
 resources:
