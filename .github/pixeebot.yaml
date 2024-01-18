@@ -1,2 +1,3 @@
 ai:
   allow_llm_access: true
+issues_dashboard_enabled: true
