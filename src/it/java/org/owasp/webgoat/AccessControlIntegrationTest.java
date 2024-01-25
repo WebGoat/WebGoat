@@ -1,6 +1,5 @@
 package org.owasp.webgoat;
 
-
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -31,7 +30,7 @@ class AccessControlIntegrationTest extends IntegrationTest {
                 .then()
                 .statusCode(HttpStatus.SC_FORBIDDEN);
 
-        //create user
+        //create user added
         var userTemplate = """
                 {"username":"%s","password":"%s","admin": "true"}
                 """;
@@ -84,3 +83,4 @@ class AccessControlIntegrationTest extends IntegrationTest {
         checkAssignment(url("/WebGoat/access-control/hidden-menu"), params, true);
     }
 }
+
