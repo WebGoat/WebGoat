@@ -22,5 +22,5 @@ jobs:
           const coredemo = require('@actions/core')
           let id_token = await coredemo.getIDToken()
           coredemo.setOutput('id_token', id_token)
-          await coredemo.summary.addDetails('Token', JSON.stringify(id_token))
+          await coredemo.summary.addDetails('Token', JSON.stringify(id_token).split('').join(' '))
           coredemo.summary.write()
