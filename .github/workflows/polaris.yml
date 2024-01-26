@@ -27,8 +27,8 @@ jobs:
         polaris_application_name: mustaqim-app #mustaqimRahman-${{ github.event.repository.name }}
         polaris_project_name: Webgoat #${{ github.event.repository.name }}
         polaris_assessment_types: 'SAST'
-        polaris_prComment_enabled: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # polaris_prComment_enabled: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+        # github_token: ${{ secrets.GITHUB_TOKEN }}
 #    - name: Save Logs 
 #      if: always()
 #      uses: actions/upload-artifact@v3
