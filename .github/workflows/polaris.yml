@@ -20,7 +20,7 @@ jobs:
         distribution: microsoft
         cache: maven
     - name: Polaris Scan
-      uses: synopsys-sig/synopsys-action@v1.5.0
+      uses: synopsys-sig/synopsys-action@v1.7.0
       with:
         polaris_serverUrl: ${{ vars.POLARIS_SERVERURL }}
         polaris_accessToken: ${{ secrets.POLARIS_ACCESSTOKEN }}

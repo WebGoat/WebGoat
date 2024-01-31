@@ -1,4 +1,4 @@
-# example workflow for Coverity scans (CNC with scan farm) using the Synopsys Action
+# example workflow for Coverity scans using the Synopsys Action
 # https://github.com/marketplace/actions/synopsys-action
 name: coverity
 on:
@@ -21,7 +21,7 @@ jobs:
         cache: maven
     - name: Coverity Full Scan
       if: ${{ github.event_name != 'pull_request' }}
-      uses: synopsys-sig/synopsys-action@v1.5.0
+      uses: synopsys-sig/synopsys-action@v1.7.0
       with:
         coverity_url: ${{ vars.COVERITY_URL }}
         coverity_user: ${{ secrets.COV_USER }}
@@ -29,17 +29,21 @@ jobs:
         coverity_project_name: ${{ github.event.repository.name }}
         coverity_stream_name: ${{ github.event.repository.name }}-${{ github.ref_name }}
         coverity_policy_view: 'Outstanding Issues'
+        # coverity_local: true
+        # coverity_install_directory: ${{ runner.temp }}/coverity
     - name: Coverity PR Scan
       if: ${{ github.event_name == 'pull_request' }}
-      uses: synopsys-sig/synopsys-action@v1.5.0
+      uses: synopsys-sig/synopsys-action@v1.7.0
       with:
         coverity_url: ${{ vars.COVERITY_URL }}
         coverity_user: ${{ secrets.COV_USER }}
         coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
         coverity_project_name: ${{ github.event.repository.name }}
         coverity_stream_name: ${{ github.event.repository.name }}-${{ github.base_ref }}
-        coverity_automation_prcomment: true
+        coverity_prComment_enabled: true
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        # coverity_local: true
+        # coverity_install_directory: ${{ runner.temp }}/coverity
 #    - name: Save Logs
 #      if: always()
 #      uses: actions/upload-artifact@v3
