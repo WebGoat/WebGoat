@@ -122,7 +122,7 @@
     <jacoco.version>0.8.11</jacoco.version>
     <java.version>17</java.version>
     <jaxb.version>2.3.1</jaxb.version>
-    <jjwt.version>0.9.1</jjwt.version>
+    <jjwt.version>0.12.5</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
     <jquery.version>3.7.0</jquery.version>
     <jsoup.version>1.17.2</jsoup.version>
