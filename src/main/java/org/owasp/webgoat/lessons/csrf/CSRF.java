@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 public class CSRF extends Lesson {
   @Override
   public Category getDefaultCategory() {
-    return Category.A10;
+    return Category.A5;
   }
 
   @Override
