@@ -23,7 +23,7 @@ jobs:
                   distribution: 'temurin'
                   java-version: '17'
             - name: Pre-commit checks
-              uses: pre-commit/action@v3.0.0
+              uses: pre-commit/action@v3.0.1
             - name: pre-commit-ci-lite
               uses: pre-commit-ci/lite-action@v1.0.1
               if: always()
