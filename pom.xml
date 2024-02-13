@@ -573,67 +573,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-        <version>2.41.1</version>
-        <configuration>
-          <formats>
-            <format>
-              <includes>
-                <include>.gitignore</include>
-              </includes>
-              <trimTrailingWhitespace></trimTrailingWhitespace>
-              <endWithNewline></endWithNewline>
-              <indent>
-                <tabs>true</tabs>
-                <spacesPerTab>4</spacesPerTab>
-              </indent>
-            </format>
-          </formats>
-          <markdown>
-            <includes>
-              <include>**/*.md</include>
-            </includes>
-            <flexmark></flexmark>
-          </markdown>
-          <java>
-            <includes>
-              <include>src/main/java/**/*.java</include>
-              <include>src/test/java/**/*.java</include>
-              <include>src/it/java/**/*.java</include>
-            </includes>
-            <removeUnusedImports></removeUnusedImports>
-            <googleJavaFormat>
-              <style>GOOGLE</style>
-              <reflowLongStrings>true</reflowLongStrings>
-            </googleJavaFormat>
-          </java>
-          <pom>
-            <sortPom>
-              <encoding>UTF-8</encoding>
-              <lineSeparator>${line.separator}</lineSeparator>
-              <expandEmptyElements>true</expandEmptyElements>
-              <spaceBeforeCloseEmptyElement>false</spaceBeforeCloseEmptyElement>
-              <keepBlankLines>true</keepBlankLines>
-              <nrOfIndentSpace>2</nrOfIndentSpace>
-              <indentBlankLines>false</indentBlankLines>
-              <indentSchemaLocation>false</indentSchemaLocation>
-              <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
-              <sortProperties>true</sortProperties>
-              <sortModules>true</sortModules>
-              <sortExecutions>true</sortExecutions>
-            </sortPom>
-          </pom>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <version>3.3.0</version>
