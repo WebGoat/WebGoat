@@ -3,7 +3,6 @@ package org.owasp.webgoat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.restassured.RestAssured;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -11,21 +10,20 @@ import org.junit.jupiter.api.Test;
 public class WebWolfIntegrationTest extends IntegrationTest {
 
   @Test
-  public void runTests() throws IOException {
+  public void runTests() {
     startLesson("WebWolfIntroduction");
 
     // Assignment 3
     Map<String, Object> params = new HashMap<>();
-    params.clear();
     params.put("email", this.getUser() + "@webgoat.org");
-    checkAssignment(url("/WebGoat/WebWolf/mail/send"), params, false);
+    checkAssignment(url("WebWolf/mail/send"), params, false);
 
     String responseBody =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/WebWolf/mail"))
+            .get(webWolfUrl("mail"))
             .then()
             .extract()
             .response()
@@ -39,7 +37,7 @@ public class WebWolfIntegrationTest extends IntegrationTest {
             uniqueCode.lastIndexOf("your unique code is: ") + (21 + this.getUser().length()));
     params.clear();
     params.put("uniqueCode", uniqueCode);
-    checkAssignment(url("/WebGoat/WebWolf/mail"), params, true);
+    checkAssignment(url("WebWolf/mail"), params, true);
 
     // Assignment 4
     RestAssured.given()
@@ -47,7 +45,7 @@ public class WebWolfIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .queryParams(params)
-        .get(url("/WebGoat/WebWolf/landing/password-reset"))
+        .get(url("WebWolf/landing/password-reset"))
         .then()
         .statusCode(200);
     RestAssured.given()
@@ -55,7 +53,7 @@ public class WebWolfIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .queryParams(params)
-        .get(webWolfUrl("/landing"))
+        .get(webWolfUrl("landing"))
         .then()
         .statusCode(200);
     responseBody =
@@ -63,7 +61,7 @@ public class WebWolfIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/WebWolf/requests"))
+            .get(webWolfUrl("requests"))
             .then()
             .extract()
             .response()
@@ -72,7 +70,7 @@ public class WebWolfIntegrationTest extends IntegrationTest {
     assertTrue(responseBody.contains(uniqueCode));
     params.clear();
     params.put("uniqueCode", uniqueCode);
-    checkAssignment(url("/WebGoat/WebWolf/landing"), params, true);
+    checkAssignment(url("WebWolf/landing"), params, true);
 
     checkResults("/WebWolf");
   }

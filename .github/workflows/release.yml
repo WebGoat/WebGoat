@@ -8,20 +8,22 @@ jobs:
     if: github.repository == 'WebGoat/WebGoat'
     name: Release WebGoat
     runs-on: ubuntu-latest
+    permissions:
+        contents: write
     environment:
       name: release
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 17
           architecture: x64
 
       - name: Cache Maven packages
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v4.0.0
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -44,7 +46,7 @@ jobs:
           files: |
             target/webgoat-${{ env.WEBGOAT_MAVEN_VERSION }}.jar
           body: |
-            ## Version ${{ steps.tag.outputs.tag }}
+           ## Version ${{ github.ref_name }}
 
             ### New functionality
 
@@ -53,8 +55,8 @@ jobs:
             ### Bug fixes
 
             - [#743 - Character encoding errors](https://github.com/WebGoat/WebGoat/issues/743)
-              
-            Full change log: https://github.com/WebGoat/WebGoat/compare/${{ steps.tag.outputs.tag }}...${{ steps.tag.outputs.tag }}  
+
+            Full change log: https://github.com/WebGoat/WebGoat/compare/${{ github.ref_name }}...${{ github.ref_name }}
 
 
             ## Contributors
@@ -72,26 +74,26 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Set up QEMU"
-        uses: docker/setup-qemu-action@v2.1.0
+        uses: docker/setup-qemu-action@v2.2.0
         with:
           platforms: all
 
       - name: "Set up Docker Buildx"
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: "Login to dockerhub"
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@v3.0.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: "Build and push WebGoat"
-        uses: docker/build-push-action@v4.0.0
+        uses: docker/build-push-action@v5.1.0
         with:
           context: ./
           file: ./Dockerfile
           push: true
-          platforms: linux/amd64, linux/arm64, linux/arm/v7
+          platforms: linux/amd64, linux/arm64
           tags: |
             webgoat/webgoat:${{ env.WEBGOAT_TAG_VERSION }}
             webgoat/webgoat:latest
@@ -99,12 +101,12 @@ jobs:
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
 
       - name: "Build and push WebGoat desktop"
-        uses: docker/build-push-action@v4.0.0
+        uses: docker/build-push-action@v5.1.0
         with:
           context: ./
           file: ./Dockerfile_desktop
           push: true
-          platforms: linux/amd64, linux/arm64, linux/arm/v7
+          platforms: linux/amd64, linux/arm64
           tags: |
             webgoat/webgoat-desktop:${{ env.WEBGOAT_TAG_VERSION }}
             webgoat/webgoat-desktop:latest
@@ -121,7 +123,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 17
@@ -145,4 +147,3 @@ jobs:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
             title: ${{ github.event.commits[0].message }}
             target_branch: main
-

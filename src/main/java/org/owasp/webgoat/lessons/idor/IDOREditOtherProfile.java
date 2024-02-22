@@ -15,7 +15,8 @@
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  *
- * Getting Source ==============
+ * Getting Source
+ * ==============
  *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
@@ -45,7 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
   "idor.hints.otherProfile8",
   "idor.hints.otherProfile9"
 })
-public class IDOREditOtherProfiile extends AssignmentEndpoint {
+public class IDOREditOtherProfile extends AssignmentEndpoint {
 
   @Autowired private UserSessionData userSessionData;
 
@@ -69,7 +70,7 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
       // we will persist in the session object for now in case we want to refer back or use it later
       userSessionData.setValue("idor-updated-other-profile", currentUserProfile);
       if (currentUserProfile.getRole() <= 1
-          && currentUserProfile.getColor().toLowerCase().equals("red")) {
+          && currentUserProfile.getColor().equalsIgnoreCase("red")) {
         return success(this)
             .feedback("idor.edit.profile.success1")
             .output(currentUserProfile.profileToMap().toString())
@@ -77,16 +78,16 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
       }
 
       if (currentUserProfile.getRole() > 1
-          && currentUserProfile.getColor().toLowerCase().equals("red")) {
-        return success(this)
+          && currentUserProfile.getColor().equalsIgnoreCase("red")) {
+        return failed(this)
             .feedback("idor.edit.profile.failure1")
             .output(currentUserProfile.profileToMap().toString())
             .build();
       }
 
       if (currentUserProfile.getRole() <= 1
-          && !currentUserProfile.getColor().toLowerCase().equals("red")) {
-        return success(this)
+          && !currentUserProfile.getColor().equalsIgnoreCase("red")) {
+        return failed(this)
             .feedback("idor.edit.profile.failure2")
             .output(currentUserProfile.profileToMap().toString())
             .build();
@@ -97,7 +98,8 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
           .feedback("idor.edit.profile.failure3")
           .output(currentUserProfile.profileToMap().toString())
           .build();
-    } else if (userSubmittedProfile.getUserId().equals(authUserId)) {
+    } else if (userSubmittedProfile.getUserId() != null
+        && userSubmittedProfile.getUserId().equals(authUserId)) {
       return failed(this).feedback("idor.edit.profile.failure4").build();
     }
 

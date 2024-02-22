@@ -2,50 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>WebWolf</title>
-    <div th:replace="fragments/header :: header-css"/>
+    <div th:replace="~{fragments/header :: header-css}"/>
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"/>
+<div th:replace="~{fragments/header :: header}"/>
 
 <script type="text/javascript" th:src="@{/js/mail.js}"></script>
 
 <div class="container">
 
 
-    <div class="alert alert-info fade in">
-
-        <a href="#" class="close" data-dismiss="alert">&times;</a>
-        <p>
-            The mailbox of you as an attacker, all the mail send to {user}@{random} will be send to this mailbox.
+    <div class="alert alert-info alert-dismissible fade show mt-3">
+        <div>
+        <The mailbox of you as an attacker, all the mail send to <th:block th:text="${username}" />@webgoat.org will be send to this mailbox.
         </p>
         <p>
             Only the user part is important the domain can be anything
         </p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-body">
             <div class="row">
                 <div class="col-sm-3 col-md-2">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            Mail <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Mail</a></li>
-                            <li><a href="#">Contacts</a></li>
-                            <li><a href="#">Tasks</a></li>
+                    <div class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="mybutton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mail
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="mybutton">
+                            <li><a class="dropdown-item" href="#">Mail</a></li>
+                            <li><a class="dropdown-item" href="#">Contacts</a></li>
+                            <li><a class="dropdown-item" href="#">Tasks</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-9 col-md-10">
-                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="Refresh" onclick="refreshEmails()">
-                           <span class="glyphicon glyphicon-refresh"></span>   
+                    <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" title="Refresh" onclick="refreshEmails()">
+                           <i class="bi bi-repeat"></i>   
                     </button>
                     <!-- Single button -->
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <button type="button" class="btn btn-secundary dropdown-toggle" data-bs-toggle="dropdown">
                             More <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
@@ -59,11 +59,11 @@
                     <div class="pull-right">
                         <span class="text-muted"><b>1</b>–<b><span th:text="${total}"> 50</span> </b> of <b><span th:utext="${total}"></span></b></span>
                         <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            <button type="button" class="btn btn-secundary">
+                                <span class="bi bi-chevron-left"></span>
                             </button>
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            <button type="button" class="btn btn-secundary">
+                                <span class="bi bi-chevron-right"></span>
                             </button>
                         </div>
                     </div>
@@ -75,54 +75,57 @@
                     <a href="#" class="btn btn-danger btn-sm btn-block" role="button">COMPOSE</a>
                     <hr/>
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#"><span class="badge pull-right" th:utext="${total}">42</span>
+                        <li class="active"><a class="nav-link active"href="#"><span class="badge pull-right" th:utext="${total}">42</span>
                             Inbox </a>
                         </li>
                     </ul>
                 </div>
                 <div class="col-sm-9 col-md-10">
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-inbox">
-                </span>Primary</a></li>
-                        <li><a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>
-                            Social</a></li>
-                        <li><a href="#messages" data-toggle="tab"><span class="glyphicon glyphicon-tags"></span>
-                            Promotions</a></li>
-                        <li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-plus no-margin">
-                </span></a></li>
-                    </ul>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Primary</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Social</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab" aria-controls="messages" aria-selected="false">Promotions</button>
+                        </li>
+                      </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane fade in active" id="home">
-                            <span th:each="mail : ${emails}" class="list-group">
+                        <div class="tab-pane fade show active" id="home" aria-labelledby="home-tab">
+                            <ul class="list-group">
+                            <li th:each="mail : ${emails}" class="list-group-item">
                                 <a href="#" class="showMail list-group-item">
 
 
-                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="bi bi-star-empty"></span>
                                     <span class="name"
                                           style="min-width: 120px; display: inline-block;"
                                           th:text="${mail.shortSender}">WebGoat</span>
                                     <span class="" th:text="${mail.title}">Title</span>
                                     <span class="text-muted" style="font-size: 11px;" th:text="${mail.summary}">- summary</span>
-                                    <span class="badge" th:text="${mail.time}">12:10 AM</span>
+
                                     <span class="pull-right">
-                                        <span class="glyphicon glyphicon-paperclip"></span>
+                                        <span class="bi bi-paperclip"></span>
+                                        <span class="bg-primary text-white rounded-pill" th:text="${mail.time}">12:10 AM</span>
                                     </span>
+
                                 </a>
                                     <!---->
-                                    <div class="left15 contents panel panel-default top10" style="display:none" >
-                                        <div class="panel-heading" >
+                                    <div class="left15 contents card top10" style="display:none" >
+                                        <div class="card-heading" >
                                             <b><span th:text="${mail.title}"></span></b>
                                             <b><span class="pull-right" th:text="${mail.sender}"></span></b>
                                         </div>
-                                         <div class="panel-body">
+                                         <div class="card-body">
                                             <pre th:utext="${mail.contents}"/>
                                          </div>
                                     </div>
-
-                            </span>
-
+                            </li>
+                            </ul>
                         </div>
                         <div class="tab-pane fade in" id="profile">
                             <div class="list-group">

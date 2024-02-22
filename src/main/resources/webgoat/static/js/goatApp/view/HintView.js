@@ -49,11 +49,11 @@ function($,
 				this.hideShowPrevNextButtons();
 			}
 			this.displayHint(this.curHint);
-			
+
 		},
 
         /**
-		 * Select the hints, we get '/WebGoat/HttpBasics/attack1' in the json (nav) we need to select all the hints
+		 * Select the hints, we get 'HttpBasics/attack1' in the json (nav) we need to select all the hints
 		 * from the model where the assignment name is contained in the assignmentPath. We do this not to mess
 		 * with contextRoots etc and try to select the name from the url.
 		 *

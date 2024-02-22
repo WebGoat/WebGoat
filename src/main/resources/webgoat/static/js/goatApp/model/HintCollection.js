@@ -2,7 +2,7 @@ define(['jquery',
 	'underscore',
 	'backbone',
 	'goatApp/model/HintModel'],
-	
+
 	function($,
 	_,
 	Backbone,

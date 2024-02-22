@@ -3,7 +3,7 @@ define(['jquery',
 	'backbone',
 	'goatApp/model/MenuCollection',
 	'goatApp/view/MenuItemView',
-	'goatApp/support/GoatUtils'], 
+	'goatApp/support/GoatUtils'],
 	function(
 		$,
 		_,
@@ -70,7 +70,7 @@ define(['jquery',
 						lessonItem.append(lessonLink);
 						//check for lab/stages
 						categoryLessonList.append(lessonItem);
-						if (lessons[j].complete) { 
+						if (lessons[j].complete) {
 							lessonItem.append($('<span>',{class:'glyphicon glyphicon-check lesson-complete'}));
 						}
 						var stages = lessons[j].children;

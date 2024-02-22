@@ -14,7 +14,10 @@ import io.restassured.RestAssured;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Calendar;
@@ -23,6 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.jose4j.jwk.JsonWebKeySet;
+import org.jose4j.jwk.RsaJsonWebKey;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.lessons.jwt.JWTSecretKeyEndpoint;
 
@@ -40,7 +45,9 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
 
     buyAsTom();
 
-    deleteTom();
+    deleteTomThroughKidClaim();
+
+    deleteTomThroughJkuClaim();
 
     quiz();
 
@@ -81,7 +88,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .formParam("jwt-encode-user", "user")
-            .post(url("/WebGoat/JWT/decode"))
+            .post(url("JWT/decode"))
             .then()
             .statusCode(200)
             .extract()
@@ -96,7 +103,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/WebGoat/JWT/secret/gettoken"))
+            .get(url("JWT/secret/gettoken"))
             .then()
             .extract()
             .response()
@@ -110,7 +117,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .formParam("token", generateToken(secret))
-            .post(url("/WebGoat/JWT/secret"))
+            .post(url("JWT/secret"))
             .then()
             .statusCode(200)
             .extract()
@@ -124,7 +131,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/WebGoat/JWT/votings/login?user=Tom"))
+            .get(url("JWT/votings/login?user=Tom"))
             .then()
             .extract()
             .cookie("access_token");
@@ -157,7 +164,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .cookie("access_token", replacedToken)
-            .post(url("/WebGoat/JWT/votings"))
+            .post(url("JWT/votings"))
             .then()
             .statusCode(200)
             .extract()
@@ -198,7 +205,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .header("Authorization", "Bearer " + replacedToken)
-            .post(url("/WebGoat/JWT/refresh/checkout"))
+            .post(url("JWT/refresh/checkout"))
             .then()
             .statusCode(200)
             .extract()
@@ -206,8 +213,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
         CoreMatchers.is(true));
   }
 
-  private void deleteTom() {
-
+  private void deleteTomThroughKidClaim() {
     Map<String, Object> header = new HashMap();
     header.put(Header.TYPE, Header.JWT_TYPE);
     header.put(
@@ -232,7 +238,54 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .post(url("/WebGoat/JWT/final/delete?token=" + token))
+            .post(url("JWT/kid/delete?token=" + token))
+            .then()
+            .statusCode(200)
+            .extract()
+            .path("lessonCompleted"),
+        CoreMatchers.is(true));
+  }
+
+  private void deleteTomThroughJkuClaim() throws NoSuchAlgorithmException {
+    KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+    keyPairGenerator.initialize(2048);
+    KeyPair keyPair = keyPairGenerator.generateKeyPair();
+    var jwks = new JsonWebKeySet(new RsaJsonWebKey((RSAPublicKey) keyPair.getPublic()));
+    RestAssured.given()
+        .when()
+        .relaxedHTTPSValidation()
+        .cookie("WEBWOLFSESSION", getWebWolfCookie())
+        .multiPart("file", "jwks.json", jwks.toJson().getBytes())
+        .post(webWolfUrl("fileupload"))
+        .then()
+        .extract()
+        .response()
+        .getBody()
+        .asString();
+
+    Map<String, Object> header = new HashMap();
+    header.put(Header.TYPE, Header.JWT_TYPE);
+    header.put(JwsHeader.JWK_SET_URL, webWolfFileUrl("jwks.json"));
+    String token =
+        Jwts.builder()
+            .setHeader(header)
+            .setIssuer("WebGoat Token Builder")
+            .setAudience("webgoat.org")
+            .setIssuedAt(Calendar.getInstance().getTime())
+            .setExpiration(Date.from(Instant.now().plusSeconds(60)))
+            .setSubject("tom@webgoat.org")
+            .claim("username", "Tom")
+            .claim("Email", "tom@webgoat.org")
+            .claim("Role", new String[] {"Manager", "Project Administrator"})
+            .signWith(SignatureAlgorithm.RS256, keyPair.getPrivate())
+            .compact();
+
+    MatcherAssert.assertThat(
+        RestAssured.given()
+            .when()
+            .relaxedHTTPSValidation()
+            .cookie("JSESSIONID", getWebGoatCookie())
+            .post(url("JWT/jku/delete?token=" + token))
             .then()
             .statusCode(200)
             .extract()
@@ -245,6 +298,6 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
     params.put("question_0_solution", "Solution 1");
     params.put("question_1_solution", "Solution 2");
 
-    checkAssignment(url("/WebGoat/JWT/quiz"), params, true);
+    checkAssignment(url("JWT/quiz"), params, true);
   }
 }

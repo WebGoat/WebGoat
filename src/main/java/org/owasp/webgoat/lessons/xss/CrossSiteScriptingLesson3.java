@@ -15,7 +15,8 @@
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  *
- * Getting Source ==============
+ * Getting Source
+ * ==============
  *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
@@ -30,12 +31,9 @@ import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-// @RestController
-@Deprecated
-// TODO This assignment seems not to be in use in the UI
-// it is there to make sure the lesson can be marked complete
-// in order to restore it, make it accessible through the UI and uncomment RestController
+@RestController
 @AssignmentHints(
     value = {
       "xss-mitigation-3-hint1",
@@ -60,9 +58,9 @@ public class CrossSiteScriptingLesson3 extends AssignmentEndpoint {
       String lastNameElement =
           doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").first().text();
 
-      Boolean includeCorrect = false;
-      Boolean firstNameCorrect = false;
-      Boolean lastNameCorrect = false;
+      boolean includeCorrect = false;
+      boolean firstNameCorrect = false;
+      boolean lastNameCorrect = false;
 
       if (include.contains("<%@")
           && include.contains("taglib")

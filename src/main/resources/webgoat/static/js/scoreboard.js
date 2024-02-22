@@ -14,6 +14,7 @@ require.config({
   baseUrl: "js/",
   paths: {
     jquery: 'libs/jquery.min',
+    jqueryvuln: 'libs/jquery-2.1.4.min',
     jqueryuivuln: 'libs/jquery-ui-1.10.4',
     jqueryui: 'libs/jquery-ui.min',
     underscore: 'libs/underscore-min',
@@ -21,11 +22,6 @@ require.config({
     text: 'libs/text',
     templates: 'goatApp/templates',
     polyglot: 'libs/polyglot.min'
-  },
-
-  map: {
-    'libs/jquery-base' : {'jquery':'libs/jquery.min'},
-    'libs/jquery-vuln' : {'jquery':'libs/jquery-2.1.4.min'}
   },
 
   shim: {
@@ -43,6 +39,6 @@ require.config({
   }
 });
 
-require(['jquery','libs/jquery-base','libs/jquery-vuln','jqueryui', 'underscore','backbone','goatApp/scoreboardApp'], function($,jqueryBase,jqueryVuln,jqueryui,_,Backbone,ScoreboardApp){
+require(['underscore','backbone','goatApp/scoreboardApp'], function(_,Backbone,ScoreboardApp){
     ScoreboardApp.initApp();
 });

@@ -24,4 +24,3 @@ With the same XXE attack we can perform a DOS service attack towards the server.
 When XML parser loads this document, it sees that it includes one root element, "lolz", that contains the text "&lol9;". However, "&lol9;" is a defined entity that expands to a string containing ten "&lol8;" strings. Each "&lol8;" string is a defined entity that expands to ten "&lol7;" strings, and so on. After all the entity expansions have been processed, this small (< 1 KB) block of XML will actually take up almost 3 gigabytes of memory.
 
 This is called a "Billion laughs", more information can be found here: https://en.wikipedia.org/wiki/Billion_laughs
-

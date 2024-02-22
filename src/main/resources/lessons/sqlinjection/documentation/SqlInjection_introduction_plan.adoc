@@ -1,4 +1,4 @@
-== Concept 
+== Concept
 
 This lesson describes what Structured Query Language (SQL) is and how it can be manipulated to perform tasks that were not the original intent of the developer.
 
@@ -11,4 +11,3 @@ This lesson describes what Structured Query Language (SQL) is and how it can be 
 ** String SQL injection
 ** Numeric SQL injection
 ** How SQL injection violates the CIA triad
-

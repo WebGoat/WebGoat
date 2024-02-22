@@ -25,7 +25,7 @@ package org.owasp.webgoat.lessons.xxe;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.exec.OS;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;

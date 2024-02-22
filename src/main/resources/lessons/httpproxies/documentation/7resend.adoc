@@ -26,5 +26,3 @@ image::images/zap_edit_and_send.png[Open/Resend with Request Editor,style="lesso
 ++++
 
 image::images/zap_edit_and_response.png[Open/Resend response,style="lesson-image"]
-
-

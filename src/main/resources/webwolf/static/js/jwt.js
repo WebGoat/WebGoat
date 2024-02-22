@@ -11,17 +11,43 @@
 
 
 $(document).ready(() => {
-    $('#payload').on('input', call(true));
-    $('#header').on('input', call(true));
-    $('#secretKey').on('input', call(true));
-    $('#token').on('input', call(false));
+let tokeninput = document.getElementById('token');
+let headerinput = document.getElementById('header');
+let secretKeyinput = document.getElementById('secretKey');
+let payloadinput = document.getElementById('payload');
+let timeout = null;
+
+tokeninput.addEventListener('keyup', function (e) {
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+        call(false);
+    }, 1000);
+});
+headerinput.addEventListener('keyup', function (e) {
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+        call(true);
+    }, 1000);
+});
+secretKeyinput.addEventListener('keyup', function (e) {
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+        call(true);
+    }, 1000);
+});
+payloadinput.addEventListener('keyup', function (e) {
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+        call(true);
+    }, 1000);
+});
 });
 
 function call(encode) {
-    return () => {
-        var url = encode ? '/jwt/encode' : '/jwt/decode';
+        var url = encode ? 'jwt/encode' : 'jwt/decode';
         var formData = encode ? $('#encodeForm').getFormData() : $('#decodeForm').getFormData();
         formData["secretKey"] = $('#secretKey').val();
+        console.log(formData);
 
         $.ajax({
             type: 'POST',
@@ -33,7 +59,6 @@ function call(encode) {
             contentType: "application/x-www-form-urlencoded",
             dataType: 'json'
         });
-    }
 }
 
 function update(token) {

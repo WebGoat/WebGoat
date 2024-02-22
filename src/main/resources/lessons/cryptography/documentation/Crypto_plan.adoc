@@ -1,6 +1,6 @@
-= Cryptography Basics 
- 
-== Concept 
+= Cryptography Basics
+
+== Concept
 
 ifeval::["{lang}" == "nl"]
 Deze les behandelt verschillende cryptografische technieken die voorkomen in webapplicaties.
@@ -14,22 +14,20 @@ endif::[]
 
 The goal is to get familiar with the following forms of techniques:
 
-* link:start.mvc#lesson/Crypto.lesson/1[Encoding]
+* link:start.mvc#lesson/Cryptography.lesson/1[Encoding]
 
-* link:start.mvc#lesson/Crypto.lesson/3[Hashing]
+* link:start.mvc#lesson/Cryptography.lesson/3[Hashing]
 
-* link:start.mvc#lesson/Crypto.lesson/4[Encryption]
+* link:start.mvc#lesson/Cryptography.lesson/4[Encryption]
 
-* link:start.mvc#lesson/Crypto.lesson/5[Signing]
+* link:start.mvc#lesson/Cryptography.lesson/5[Signing]
 
-* link:start.mvc#lesson/Crypto.lesson/6[Keystores]
+* link:start.mvc#lesson/Cryptography.lesson/6[Keystores]
 
-* link:start.mvc#lesson/Crypto.lesson/7[Security defaults]
+* link:start.mvc#lesson/Cryptography.lesson/7[Security defaults]
 
-* link:start.mvc#lesson/Crypto.lesson/8[Post quantum crypto]
+* link:start.mvc#lesson/Cryptography.lesson/8[Post quantum crypto]
 
 === Assignments
 
 After the explanation of an item there will be several assignments.
-
-

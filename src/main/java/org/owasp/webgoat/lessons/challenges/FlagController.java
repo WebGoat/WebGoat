@@ -26,8 +26,6 @@ import lombok.AllArgsConstructor;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.WebSession;
-import org.owasp.webgoat.container.users.UserTracker;
-import org.owasp.webgoat.container.users.UserTrackerRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,25 +36,17 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class FlagController extends AssignmentEndpoint {
 
-  private final UserTrackerRepository userTrackerRepository;
   private final WebSession webSession;
   private final Flags flags;
 
   @PostMapping(path = "/challenge/flag", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public AttackResult postFlag(@RequestParam String flag) {
-    UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
     Flag expectedFlag = flags.getFlag(webSession.getCurrentLesson());
-    final AttackResult attackResult;
     if (expectedFlag.isCorrect(flag)) {
-      userTracker.assignmentSolved(
-          webSession.getCurrentLesson(), "Assignment" + expectedFlag.number());
-      attackResult = success(this).feedback("challenge.flag.correct").build();
+      return success(this).feedback("challenge.flag.correct").build();
     } else {
-      userTracker.assignmentFailed(webSession.getCurrentLesson());
-      attackResult = failed(this).feedback("challenge.flag.incorrect").build();
+      return failed(this).feedback("challenge.flag.incorrect").build();
     }
-    userTrackerRepository.save(userTracker);
-    return attackResult;
   }
 }

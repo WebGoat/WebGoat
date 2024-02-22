@@ -1,4 +1,4 @@
-== Concept 
+== Concept
 
 This lesson describes what Cross-Site Scripting (XSS) is and how it can be used to perform tasks that were not the developer's original intent.
 
@@ -9,6 +9,3 @@ This lesson describes what Cross-Site Scripting (XSS) is and how it can be used 
 * The user will demonstrate knowledge on:
 ** Reflected XSS injection
 ** DOM-based XSS injection
-
-
-

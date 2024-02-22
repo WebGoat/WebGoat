@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  */
 class SessionManagementIT extends IntegrationTest {
 
-  private static final String HIJACK_LOGIN_CONTEXT_PATH = "/WebGoat/HijackSession/login";
+  private static final String HIJACK_LOGIN_CONTEXT_PATH = "HijackSession/login";
 
   @Test
   void hijackSessionTest() {

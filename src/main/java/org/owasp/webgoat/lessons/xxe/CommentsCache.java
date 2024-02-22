@@ -26,6 +26,8 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDateTime;
@@ -36,8 +38,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import org.owasp.webgoat.container.session.WebSession;
@@ -93,7 +93,7 @@ public class CommentsCache {
    * progress etc). In real life the XmlMapper bean defined above will be used automatically and the
    * Comment class can be directly used in the controller method (instead of a String)
    */
-  protected Comment parseXml(String xml) throws JAXBException, XMLStreamException {
+  protected Comment parseXml(String xml) throws XMLStreamException, JAXBException {
     var jc = JAXBContext.newInstance(Comment.class);
     var xif = XMLInputFactory.newInstance();
 
