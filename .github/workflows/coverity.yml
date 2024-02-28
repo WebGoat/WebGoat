@@ -21,7 +21,7 @@ jobs:
         cache: maven
     - name: Coverity Full Scan
       if: ${{ github.event_name != 'pull_request' }}
-      uses: synopsys-sig/synopsys-action@v1.7.0
+      uses: synopsys-sig/synopsys-action@v1.8.0
       with:
         coverity_url: ${{ vars.COVERITY_URL }}
         coverity_user: ${{ secrets.COV_USER }}
@@ -33,7 +33,7 @@ jobs:
         # coverity_install_directory: ${{ runner.temp }}/coverity
     - name: Coverity PR Scan
       if: ${{ github.event_name == 'pull_request' }}
-      uses: synopsys-sig/synopsys-action@v1.7.0
+      uses: synopsys-sig/synopsys-action@v1.8.0
       with:
         coverity_url: ${{ vars.COVERITY_URL }}
         coverity_user: ${{ secrets.COV_USER }}
