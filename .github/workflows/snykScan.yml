@@ -1,4 +1,4 @@
-name: Snyk Scan
+name: Example workflow using Snyk
 on: push
 jobs:
   security:
@@ -9,5 +9,3 @@ jobs:
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: monitor
