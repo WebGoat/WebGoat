@@ -6,6 +6,6 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+        uses: java
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
