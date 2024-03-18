@@ -31,20 +31,30 @@ import org.owasp.webgoat.webwolf.WebWolf;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ApplicationContext;
 
 @Slf4j
 public class StartWebGoat {
 
   public static void main(String[] args) {
-    new SpringApplicationBuilder()
-        .parent(ParentConfig.class)
-        .web(WebApplicationType.NONE)
-        .bannerMode(Banner.Mode.OFF)
-        .child(WebGoat.class)
-        .web(WebApplicationType.SERVLET)
-        .sibling(WebWolf.class)
-        .bannerMode(Banner.Mode.OFF)
-        .web(WebApplicationType.SERVLET)
-        .run(args);
+    var parentBuilder =
+        new SpringApplicationBuilder()
+            .parent(ParentConfig.class)
+            .web(WebApplicationType.NONE)
+            .bannerMode(Banner.Mode.OFF);
+    parentBuilder.child(WebWolf.class).web(WebApplicationType.SERVLET).run(args);
+    ApplicationContext webGoatContext =
+        parentBuilder.child(WebGoat.class).web(WebApplicationType.SERVLET).run(args);
+
+    printStartUpMessage(webGoatContext);
+  }
+
+  private static void printStartUpMessage(ApplicationContext webGoatContext) {
+    var url = webGoatContext.getEnvironment().getProperty("webgoat.url");
+    var sslEnabled =
+        webGoatContext.getEnvironment().getProperty("server.ssl.enabled", Boolean.class);
+    log.warn(
+        "Please browse to " + "{} to start using WebGoat...",
+        sslEnabled ? url.replace("http", "https") : url);
   }
 }

@@ -1,8 +1,8 @@
 package org.owasp.webgoat.container.users;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.owasp.webgoat.container.i18n.PluginMessages;
@@ -35,19 +35,15 @@ public class Scoreboard {
 
   @GetMapping("/scoreboard-data")
   public List<Ranking> getRankings() {
-    List<WebGoatUser> allUsers = userRepository.findAll();
-    List<Ranking> rankings = new ArrayList<>();
-    for (WebGoatUser user : allUsers) {
-      if (user.getUsername().startsWith("csrf-")) {
-        // the csrf- assignment specific users do not need to be in the overview
-        continue;
-      }
-      UserTracker userTracker = userTrackerRepository.findByUser(user.getUsername());
-      rankings.add(new Ranking(user.getUsername(), challengesSolved(userTracker)));
-    }
-    /* sort on number of captured flags to present an ordered ranking */
-    rankings.sort((o1, o2) -> o2.getFlagsCaptured().size() - o1.getFlagsCaptured().size());
-    return rankings;
+    return userRepository.findAll().stream()
+        .filter(user -> !user.getUsername().startsWith("csrf-"))
+        .map(
+            user ->
+                new Ranking(
+                    user.getUsername(),
+                    challengesSolved(userTrackerRepository.findByUser(user.getUsername()))))
+        .sorted((o1, o2) -> o2.getFlagsCaptured().size() - o1.getFlagsCaptured().size())
+        .collect(Collectors.toList());
   }
 
   private List<String> challengesSolved(UserTracker userTracker) {

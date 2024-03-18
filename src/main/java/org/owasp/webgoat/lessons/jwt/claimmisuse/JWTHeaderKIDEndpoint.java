@@ -20,9 +20,14 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.jwt;
+package org.owasp.webgoat.lessons.jwt.claimmisuse;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SigningKeyResolverAdapter;
 import io.jsonwebtoken.impl.TextCodec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,52 +36,32 @@ import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- *
- * <pre>
- *  {
- *      "typ": "JWT",
- *      "kid": "webgoat_key",
- *      "alg": "HS256"
- *  }
- *  {
- *       "iss": "WebGoat Token Builder",
- *       "iat": 1524210904,
- *       "exp": 1618905304,
- *       "aud": "webgoat.org",
- *       "sub": "jerry@webgoat.com",
- *       "username": "Jerry",
- *       "Email": "jerry@webgoat.com",
- *       "Role": [
- *       "Cat"
- *       ]
- *  }
- * </pre>
- *
- * @author nbaars
- * @since 4/23/17.
- */
 @RestController
 @AssignmentHints({
-  "jwt-final-hint1",
-  "jwt-final-hint2",
-  "jwt-final-hint3",
-  "jwt-final-hint4",
-  "jwt-final-hint5",
-  "jwt-final-hint6"
+  "jwt-kid-hint1",
+  "jwt-kid-hint2",
+  "jwt-kid-hint3",
+  "jwt-kid-hint4",
+  "jwt-kid-hint5",
+  "jwt-kid-hint6"
 })
-public class JWTFinalEndpoint extends AssignmentEndpoint {
+@RequestMapping("/JWT/kid")
+public class JWTHeaderKIDEndpoint extends AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 
-  private JWTFinalEndpoint(LessonDataSource dataSource) {
+  private JWTHeaderKIDEndpoint(LessonDataSource dataSource) {
     this.dataSource = dataSource;
   }
 
-  @PostMapping("/JWT/final/follow/{user}")
+  @PostMapping("/follow/{user}")
   public @ResponseBody String follow(@PathVariable("user") String user) {
     if ("Jerry".equals(user)) {
       return "Following yourself seems redundant";
@@ -85,7 +70,7 @@ public class JWTFinalEndpoint extends AssignmentEndpoint {
     }
   }
 
-  @PostMapping("/JWT/final/delete")
+  @PostMapping("/delete")
   public @ResponseBody AttackResult resetVotes(@RequestParam("token") String token) {
     if (StringUtils.isEmpty(token)) {
       return failed(this).feedback("jwt-invalid-token").build();

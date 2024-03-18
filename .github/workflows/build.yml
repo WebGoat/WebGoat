@@ -1,21 +1,14 @@
-name: "Build"
+name: "Main / Pull requests build"
 on:
-  pull_request:
-    paths-ignore:
-      - '.txt'
-      - 'LICENSE'
-      - 'docs/**'
-  push:
-    branches:
-      - main
-      - develop
-      - release/*
-    tags-ignore:
-      - '*'
-    paths-ignore:
-      - '.txt'
-      - 'LICENSE'
-      - 'docs/**'
+    pull_request:
+        paths-ignore:
+            - '.txt'
+            - 'LICENSE'
+            - 'docs/**'
+        branches: [main]
+    push:
+        branches:
+            - main
 
 jobs:
   pr-build:

@@ -22,9 +22,9 @@
 
 package org.owasp.webgoat.lessons.webwolfintroduction;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -58,7 +58,8 @@ public class LandingAssignment extends AssignmentEndpoint {
   public ModelAndView openPasswordReset(HttpServletRequest request) throws URISyntaxException {
     URI uri = new URI(request.getRequestURL().toString());
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.addObject("webwolfUrl", landingPageUrl);
+    modelAndView.addObject(
+        "webwolfLandingPageUrl", landingPageUrl.replace("//landing", "/landing"));
     modelAndView.addObject("uniqueCode", StringUtils.reverse(getWebSession().getUserName()));
 
     modelAndView.setViewName("lessons/webwolfintroduction/templates/webwolfPasswordReset.html");

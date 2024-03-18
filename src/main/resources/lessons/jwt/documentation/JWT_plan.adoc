@@ -1,6 +1,6 @@
 = JWT Tokens
- 
-== Concept 
+
+== Concept
 
 This lesson teaches about using JSON Web Tokens (JWT) for authentication and the common pitfalls you need to be aware of
  when using JWT.
@@ -34,5 +34,3 @@ the validity and integrity of the token in a secure way, all of this in a statel
 and portable approach (portable in the way that client and server technologies can
 be different including also the transport channel even if HTTP is the most often used)
 -------------------------------------------------------
-
-

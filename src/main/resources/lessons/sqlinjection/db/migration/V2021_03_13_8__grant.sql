@@ -11,4 +11,3 @@ INSERT INTO grant_rights VALUES ('89762','Tobi',     'Barnett', 'Development', 7
 INSERT INTO grant_rights VALUES ('96134','Bob',      'Franco',  'Marketing',   83700);
 INSERT INTO grant_rights VALUES ('34477','Abraham ', 'Holman',  'Development', 50000);
 INSERT INTO grant_rights VALUES ('37648','John',     'Smith',   'Marketing',   64350);
-

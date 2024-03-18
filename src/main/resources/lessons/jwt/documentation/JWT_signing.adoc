@@ -14,7 +14,3 @@ to be aware of before validating the token.
 == Assignment
 
 Try to change the token you receive and become an admin user by changing the token and once you are admin reset the votes
-
-
-
-

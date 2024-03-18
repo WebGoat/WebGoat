@@ -22,20 +22,23 @@
 
 package org.owasp.webgoat.webwolf;
 
+import static java.util.Comparator.comparing;
 import static org.springframework.http.MediaType.ALL_VALUE;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import javax.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import java.util.TimeZone;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.owasp.webgoat.webwolf.user.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,11 +55,17 @@ import org.springframework.web.servlet.view.RedirectView;
 @Slf4j
 public class FileServer {
 
+  private static final DateTimeFormatter dateTimeFormatter =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
   @Value("${webwolf.fileserver.location}")
   private String fileLocation;
 
   @Value("${server.address}")
   private String server;
+
+  @Value("${server.servlet.context-path}")
+  private String contextPath;
 
   @Value("${server.port}")
   private int port;
@@ -71,9 +80,11 @@ public class FileServer {
   }
 
   @PostMapping(value = "/fileupload")
-  public ModelAndView importFile(@RequestParam("file") MultipartFile myFile) throws IOException {
-    var user = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    var destinationDir = new File(fileLocation, user.getUsername());
+  public ModelAndView importFile(
+      @RequestParam("file") MultipartFile myFile, Authentication authentication)
+      throws IOException {
+    String username = authentication.getName();
+    var destinationDir = new File(fileLocation, username);
     destinationDir.mkdirs();
     myFile.transferTo(new File(destinationDir, myFile.getOriginalFilename()));
     log.debug("File saved to {}", new File(destinationDir, myFile.getOriginalFilename()));
@@ -83,41 +94,47 @@ public class FileServer {
         new ModelMap().addAttribute("uploadSuccess", "File uploaded successful"));
   }
 
-  @AllArgsConstructor
-  @Getter
-  private class UploadedFile {
-    private final String name;
-    private final String size;
-    private final String link;
-  }
-
   @GetMapping(value = "/files")
-  public ModelAndView getFiles(HttpServletRequest request) {
-    WebGoatUser user =
-        (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    String username = user.getUsername();
+  public ModelAndView getFiles(
+      HttpServletRequest request, Authentication authentication, TimeZone timezone) {
+    String username = (null != authentication) ? authentication.getName() : "anonymous";
     File destinationDir = new File(fileLocation, username);
 
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("files");
-    File changeIndicatorFile = new File(destinationDir, user.getUsername() + "_changed");
+    File changeIndicatorFile = new File(destinationDir, username + "_changed");
     if (changeIndicatorFile.exists()) {
       modelAndView.addObject("uploadSuccess", request.getParameter("uploadSuccess"));
     }
     changeIndicatorFile.delete();
 
-    var uploadedFiles = new ArrayList<>();
+    record UploadedFile(String name, String size, String link, String creationTime) {}
+
+    var uploadedFiles = new ArrayList<UploadedFile>();
     File[] files = destinationDir.listFiles(File::isFile);
     if (files != null) {
       for (File file : files) {
         String size = FileUtils.byteCountToDisplaySize(file.length());
         String link = String.format("files/%s/%s", username, file.getName());
-        uploadedFiles.add(new UploadedFile(file.getName(), size, link));
+        uploadedFiles.add(
+            new UploadedFile(file.getName(), size, link, getCreationTime(timezone, file)));
       }
     }
 
-    modelAndView.addObject("files", uploadedFiles);
-    modelAndView.addObject("webwolf_url", "http://" + server + ":" + port);
+    modelAndView.addObject(
+        "files",
+        uploadedFiles.stream().sorted(comparing(UploadedFile::creationTime).reversed()).toList());
+    modelAndView.addObject("webwolf_url", "http://" + server + ":" + port + contextPath);
     return modelAndView;
+  }
+
+  private String getCreationTime(TimeZone timezone, File file) {
+    try {
+      FileTime creationTime = (FileTime) Files.getAttribute(file.toPath(), "creationTime");
+      ZonedDateTime zonedDateTime = creationTime.toInstant().atZone(timezone.toZoneId());
+      return dateTimeFormatter.format(zonedDateTime);
+    } catch (IOException e) {
+      return "unknown";
+    }
   }
 }

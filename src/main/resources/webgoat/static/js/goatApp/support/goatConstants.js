@@ -19,7 +19,7 @@ var goatConstants = {
 			lessonPlanService: 'service/lessonplan.mvc',
 			menuService: 'service/lessonmenu.mvc',
 			lessonTitleService: 'service/lessontitle.mvc',
-			restartLessonService: 'service/restartlesson.mvc'	
+			restartLessonService: 'service/restartlesson.mvc'
 		}
 	},
 	getMessages: function() {
@@ -35,5 +35,3 @@ var goatConstants = {
 		}
 	}
 };
-
-

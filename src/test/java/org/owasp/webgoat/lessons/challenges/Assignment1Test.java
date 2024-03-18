@@ -37,20 +37,17 @@ import org.owasp.webgoat.lessons.challenges.challenge1.ImageServlet;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-/**
- * @author nbaars
- * @since 5/2/17.
- */
 @ExtendWith(MockitoExtension.class)
 class Assignment1Test extends AssignmentEndpointTest {
 
   private MockMvc mockMvc;
+  private Flags flags;
 
   @BeforeEach
   void setup() {
-    Assignment1 assignment1 = new Assignment1();
+    flags = new Flags();
+    Assignment1 assignment1 = new Assignment1(flags);
     init(assignment1);
-    new Flag().initFlags();
     this.mockMvc = standaloneSetup(assignment1).build();
   }
 
@@ -67,8 +64,7 @@ class Assignment1Test extends AssignmentEndpointTest {
                     "password",
                     SolutionConstants.PASSWORD.replace(
                         "1234", String.format("%04d", ImageServlet.PINCODE))))
-        .andExpect(
-            jsonPath("$.feedback", CoreMatchers.containsString("flag: " + Flag.FLAGS.get(1))))
+        .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("flag: " + flags.getFlag(1))))
         .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
   }
 
@@ -83,26 +79,4 @@ class Assignment1Test extends AssignmentEndpointTest {
             jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("assignment.not.solved"))))
         .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
   }
-
-  //    @Test
-  //    public void correctPasswordXForwardHeaderMissing() throws Exception {
-  //        mockMvc.perform(MockMvcRequestBuilders.post("/challenge/1")
-  //                .param("username", "admin")
-  //                .param("password", SolutionConstants.PASSWORD))
-  //                .andExpect(jsonPath("$.feedback",
-  // CoreMatchers.is(messages.getMessage("ip.address.unknown"))))
-  //                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
-  //    }
-
-  //    @Test
-  //    public void correctPasswordXForwardHeaderWrong() throws Exception {
-  //        mockMvc.perform(MockMvcRequestBuilders.post("/challenge/1")
-  //                .header("X-Forwarded-For", "127.0.1.2")
-  //                .param("username", "admin")
-  //                .param("password", SolutionConstants.PASSWORD))
-  //                .andExpect(jsonPath("$.feedback",
-  // CoreMatchers.is(messages.getMessage("ip.address.unknown"))))
-  //                .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
-  //    }
-
 }

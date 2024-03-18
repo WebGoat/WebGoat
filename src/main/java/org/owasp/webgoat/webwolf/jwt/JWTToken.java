@@ -1,11 +1,11 @@
 package org.owasp.webgoat.webwolf.jwt;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.springframework.util.Base64Utils.decodeFromUrlSafeString;
 import static org.springframework.util.StringUtils.hasText;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Base64;
 import java.util.Map;
 import java.util.TreeMap;
 import lombok.AllArgsConstructor;
@@ -103,8 +103,8 @@ public class JWTToken {
     var builder = JWTToken.builder().encoded(jwt);
 
     if (token.length >= 2) {
-      var header = new String(decodeFromUrlSafeString(token[0]), UTF_8);
-      var payloadAsString = new String(decodeFromUrlSafeString(token[1]), UTF_8);
+      var header = new String(Base64.getUrlDecoder().decode(token[0]), UTF_8);
+      var payloadAsString = new String(Base64.getUrlDecoder().decode(token[1]), UTF_8);
       var headers = parse(header);
       var payload = parse(payloadAsString);
       builder.header(write(header, headers));

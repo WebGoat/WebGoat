@@ -11,4 +11,3 @@ define([
 		model: AssignmentStatusModel
 	});
 });
-

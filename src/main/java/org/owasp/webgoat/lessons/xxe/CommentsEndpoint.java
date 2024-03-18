@@ -23,7 +23,7 @@
 package org.owasp.webgoat.lessons.xxe;
 
 import java.util.Collection;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,9 +36,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("xxe/comments")
+@AllArgsConstructor
 public class CommentsEndpoint {
 
-  @Autowired private CommentsCache comments;
+  private final CommentsCache comments;
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody

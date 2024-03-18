@@ -15,18 +15,20 @@
  * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  *
- * Getting Source ==============
+ * Getting Source
+ * ==============
  *
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
 package org.owasp.webgoat.lessons.spoofcookie;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
+import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.spoofcookie.encoders.EncDec;
 import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
@@ -44,6 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 
+@AssignmentHints({"spoofcookie.hint1", "spoofcookie.hint2", "spoofcookie.hint3"})
 @RestController
 public class SpoofCookieAssignment extends AssignmentEndpoint {
 

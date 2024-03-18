@@ -21,4 +21,3 @@ The user enters a new password and hits enter. The new password will be sent to 
 password will be sent to WebWolf. Try to locate the unique code.
 
 Please be aware that the user will receive an error page after resetting the password. In a real attack scenario the user would probably see a normal success page (this is due to a limit on what we can control with WebWolf)
-

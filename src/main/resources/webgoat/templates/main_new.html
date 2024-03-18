@@ -15,12 +15,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/coderay.css}"/>
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/asciidoctor-default.css}"/>-->
-
     <!--  end of CSS -->
-
-    <!-- JS -->
-    <!-- <script src="js/modernizr.min.js"></script>-->
 
     <!-- Require.js used to load js asynchronously -->
     <script src="js/libs/require.min.js" data-main="js/main"></script>
@@ -39,8 +34,9 @@
         <div id="lesson-title-wrapper">
 
         </div><!--lesson title end-->
-        <!--<div class="user-nav pull-right" id="user-and-info-nav" style="margin-right: 75px;">-->
-        <div style="position: absolute;width:400px; z-index:3; top:22px; right: -90px;">
+        <div style="position: absolute;width:600px; z-index:3; top:22px; right: -90px;">
+            <input class="form-control" type="text" id="search" name="search" th:placeholder="#{searchmenu}"  style="width:200px;display:inline-block" />
+
             <!-- webwolf menu item -->
             <a th:href="@{/WebWolf}" target="_blank">
                 <button type="button" id="webwolf-button" class="btn btn-default right_nav_button"
@@ -151,8 +147,7 @@
                 </button>
             </a>
 
-            <input class="form-control" type="text" id="search" name="search" th:placeholder="#{searchmenu}"  style="width:60%" />
-            <script src="js/search.js" ></script>
+
 
         </div>
     </header>
@@ -229,7 +224,7 @@
 <!-- About WebGoat Modal -->
 <div class="modal" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content" th:replace="about :: about"></div>
+        <div class="modal-content" th:replace="~{about :: about}"></div>
     </div>
 </div>
 </body>

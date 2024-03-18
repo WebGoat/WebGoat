@@ -6,4 +6,3 @@ finding somewhere that you want to execute the CSRF attack. The classic example 
 
 But we're keeping it simple here.  In this case, you just need to trigger a review submission on behalf of the currently
 logged in user.
-

@@ -9,16 +9,16 @@ green when the user solves the assignment. To make this work we need to add:
 <html xmlns:th="http://www.thymeleaf.org">
 
   <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/
-lesson-template-intro.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/
+lesson-template-intro.adoc}"></div>
   </div>
   <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/
-lesson-template-content.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/
+lesson-template-content.adoc}"></div>
   </div>
   <div class="lesson-page-wrapper">
-    <div class="adoc-content" th:replace="doc:lessons/lessontemplate/documentation/
-lesson-template-lesson-class.adoc"></div>
+    <div class="adoc-content" th:replace="~{doc:lessons/lessontemplate/documentation/
+lesson-template-lesson-class.adoc}"></div>
   </div>
 </html>
 ----

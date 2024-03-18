@@ -49,10 +49,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author nbaars
- * @since 4/23/17.
- */
 @RestController
 @AssignmentHints({
   "jwt-refresh-hint1",
@@ -85,9 +81,7 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
   }
 
   private Map<String, Object> createNewTokens(String user) {
-    Map<String, Object> claims = new HashMap<>();
-    claims.put("admin", "false");
-    claims.put("user", user);
+    Map<String, Object> claims = Map.of("admin", "false", "user", user);
     String token =
         Jwts.builder()
             .setIssuedAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toDays(10)))
@@ -114,6 +108,9 @@ public class JWTRefreshEndpoint extends AssignmentEndpoint {
       Claims claims = (Claims) jwt.getBody();
       String user = (String) claims.get("user");
       if ("Tom".equals(user)) {
+        if ("none".equals(jwt.getHeader().get("alg"))) {
+          return ok(success(this).feedback("jwt-refresh-alg-none").build());
+        }
         return ok(success(this).build());
       }
       return ok(failed(this).feedback("jwt-refresh-not-tom").feedbackArgs(user).build());

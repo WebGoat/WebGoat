@@ -12,5 +12,5 @@
 * Runs with browser privileges inherited from the user in a browser
 
 === Stored or persistent
-* Malicious content is stored on the server ( in a database, file system, or other objects) and later displayed to users in a web browser
+* Malicious content is stored on the server (in a database, file system, or other objects) and later displayed to users in a web browser
 * Social engineering is not required

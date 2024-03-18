@@ -3,16 +3,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="lesson-page-wrapper">
-	<div class="adoc-content" th:replace="doc:lessons/xss/documentation/CrossSiteScriptingStored_plan.adoc"></div>
+	<div class="adoc-content" th:replace="~{doc:lessons/xss/documentation/CrossSiteScriptingStored_plan.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
-	<div class="adoc-content" th:replace="doc:lessons/xss/documentation/CrossSiteScripting_content7.adoc"></div>
+	<div class="adoc-content" th:replace="~{doc:lessons/xss/documentation/CrossSiteScripting_content7.adoc}"></div>
 </div>
 
 <div class="lesson-page-wrapper">
 
-	<div class="adoc-content" th:replace="doc:lessons/xss/documentation/CrossSiteScripting_content7b.adoc"></div>
+	<div class="adoc-content" th:replace="~{doc:lessons/xss/documentation/CrossSiteScripting_content7b.adoc}"></div>
 
 	<!-- comment area -->
 	<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/stored-xss.css}"/>
@@ -59,7 +59,7 @@
 	</div>
 	<!-- end comments -->
 
-	<div class="adoc-content" th:replace="doc:lessons/xss/documentation/CrossSiteScripting_content7c.adoc"></div>
+	<div class="adoc-content" th:replace="~{doc:lessons/xss/documentation/CrossSiteScripting_content7c.adoc}"></div>
 
 	<div class="attack-container">
 		<!-- this will be where they can store the additional comment -->
@@ -67,7 +67,7 @@
 
 		<form class="attack-form" accept-charset="UNKNOWN"
 			  method="POST" name="DOMFollowUp"
-			  action="/WebGoat/CrossSiteScripting/stored-xss-follow-up">
+			  action="CrossSiteScriptingStored/stored-xss-follow-up">
 			<input name="successMessage" value="" type="TEXT" />
 			<input name="submitMessage" value="Submit" type="SUBMIT"/>
 		</form>

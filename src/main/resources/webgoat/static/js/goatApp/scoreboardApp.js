@@ -1,17 +1,16 @@
-define(['jquery',
-        'underscore',
-        'backbone',
+define(['underscore',
         'goatApp/support/goatAsyncErrorHandler',
         'goatApp/view/ScoreboardView'],
-    function ($,
+    function (
          _,
-         Backbone,
          asyncErrorHandler,
          ScoreboardView) {
         'use strict'
-        return {
-            initApp: function () {
-                scoreboard = new ScoreboardView();
+        class ScoreboardApp {
+            initApp() {
+                asyncErrorHandler.init();
+                this.scoreboard = new ScoreboardView();
             }
-        };
+        }
+        return new ScoreboardApp();
     });
