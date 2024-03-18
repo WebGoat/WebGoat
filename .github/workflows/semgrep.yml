@@ -30,6 +30,6 @@ jobs:
 
     steps:
       # Fetch project source with GitHub Actions Checkout.
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # Run the "semgrep scan" command on the command line of the docker image.
-      - run: semgrep scan --config auto --output scan_results.json --json
+      - run: semgrep scan --config auto #--output scan_results.json --json
