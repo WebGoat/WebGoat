@@ -1,5 +1,4 @@
-# Name of this GitHub Actions workflow.
-name: Semgrep OSS scan
+name: Semgrep WebGoat
 
 on:
   # Scan changed files in PRs (diff-aware scanning):
@@ -30,7 +29,7 @@ jobs:
 
     steps:
       # Fetch project source with GitHub Actions Checkout.
-      - uses: actions/checkout@v4
+      # - uses: actions/checkout@v4
       # Run the "semgrep scan" command on the command line of the docker image.
       # - run: semgrep scan --config auto #--output scan_results.json --json
       - name: run scan on diff files only
@@ -40,4 +39,3 @@ jobs:
           do
             semgrep $file
           done
-      
