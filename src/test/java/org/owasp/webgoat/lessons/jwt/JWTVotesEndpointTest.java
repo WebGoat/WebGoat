@@ -34,8 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.Cookie;
 import java.util.Map;
-import javax.servlet.http.Cookie;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -250,7 +250,7 @@ public class JWTVotesEndpointTest extends LessonTest {
 
     mockMvc
         .perform(
-            MockMvcRequestBuilders.get("/JWT/votings/").cookie(new Cookie("access_token", token)))
+            MockMvcRequestBuilders.get("/JWT/votings").cookie(new Cookie("access_token", token)))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].numberOfVotes").doesNotExist())
         .andExpect(jsonPath("$[0].votingAllowed").doesNotExist())

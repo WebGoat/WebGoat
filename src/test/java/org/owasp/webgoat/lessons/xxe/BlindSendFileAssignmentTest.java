@@ -78,13 +78,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
         .andExpect(
             jsonPath("$.feedback", CoreMatchers.is(messages.getMessage("assignment.not.solved"))))
         .andExpect(
-            jsonPath(
-                "$.output",
-                CoreMatchers.startsWith(
-                    "javax.xml.bind.UnmarshalException\\n"
-                        + " - with linked exception:\\n"
-                        + "[javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,22]\\n"
-                        + "Message:")));
+            jsonPath("$.output", CoreMatchers.startsWith("jakarta.xml.bind.UnmarshalException")));
   }
 
   @Test

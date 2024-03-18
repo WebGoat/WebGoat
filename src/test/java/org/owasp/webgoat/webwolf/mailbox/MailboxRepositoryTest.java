@@ -22,7 +22,7 @@
 
 package org.owasp.webgoat.webwolf.mailbox;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -58,6 +58,6 @@ public class MailboxRepositoryTest {
 
     List<Email> emails = mailboxRepository.findByRecipientOrderByTimeDesc("someone@webwolf.org");
 
-    assertEquals(emails.size(), 1);
+    assertThat(emails.size()).isEqualTo(1);
   }
 }

@@ -5,7 +5,7 @@
  */
 
 define(['jquery',
-	'libs/jquery-vuln',
+	'jqueryvuln',
 	'jqueryuivuln',
     'underscore',
     'backbone',
@@ -66,7 +66,7 @@ define(['jquery',
                 console.log('phoneHome invoked');
                 webgoat.customjs.jquery.ajax({
                     method: "POST",
-                    url: "/WebGoat/CrossSiteScripting/phone-home-xss",
+                    url: "CrossSiteScripting/phone-home-xss",
                     data: {param1: 42, param2: 24},
                     headers: {
                         "webgoat-requested-by": "dom-xss-vuln"
@@ -81,7 +81,7 @@ define(['jquery',
 
         },
 
-        /* 
+        /*
          * Constructor of Goat App Router invoked by goatApp.js new Router().
          */
         initialize: function () {

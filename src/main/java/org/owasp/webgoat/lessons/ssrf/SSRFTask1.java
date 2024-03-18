@@ -44,12 +44,12 @@ public class SSRFTask1 extends AssignmentEndpoint {
     try {
       StringBuilder html = new StringBuilder();
 
-      if (url.matches("images/tom.png")) {
+      if (url.matches("images/tom\\.png")) {
         html.append(
             "<img class=\"image\" alt=\"Tom\" src=\"images/tom.png\" width=\"25%\""
                 + " height=\"25%\">");
         return failed(this).feedback("ssrf.tom").output(html.toString()).build();
-      } else if (url.matches("images/jerry.png")) {
+      } else if (url.matches("images/jerry\\.png")) {
         html.append(
             "<img class=\"image\" alt=\"Jerry\" src=\"images/jerry.png\" width=\"25%\""
                 + " height=\"25%\">");

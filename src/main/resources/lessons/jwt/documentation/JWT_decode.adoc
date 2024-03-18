@@ -9,4 +9,3 @@ eyJhbGciOiJIUzI1NiJ9.ew0KICAiYXV0aG9yaXRpZXMiIDogWyAiUk9MRV9BRE1JTiIsICJST0xFX1V
 ----
 
 Copy and paste the following token and decode the token, can you find the user inside the token?
-

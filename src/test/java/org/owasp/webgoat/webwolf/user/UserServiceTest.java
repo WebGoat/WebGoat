@@ -22,7 +22,7 @@
 
 package org.owasp.webgoat.webwolf.user;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -62,7 +62,8 @@ public class UserServiceTest {
 
     when(mockUserRepository.findByUsername(username)).thenReturn(null);
 
-    assertThrows(UsernameNotFoundException.class, () -> sut.loadUserByUsername(username));
+    assertThatExceptionOfType(UsernameNotFoundException.class)
+        .isThrownBy(() -> sut.loadUserByUsername(username));
   }
 
   @Test

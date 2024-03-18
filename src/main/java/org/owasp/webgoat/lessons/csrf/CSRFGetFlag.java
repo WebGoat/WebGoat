@@ -22,15 +22,14 @@
 
 package org.owasp.webgoat.lessons.csrf;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import javax.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.i18n.PluginMessages;
 import org.owasp.webgoat.container.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,10 +40,9 @@ public class CSRFGetFlag {
   @Autowired UserSessionData userSessionData;
   @Autowired private PluginMessages pluginMessages;
 
-  @RequestMapping(
+  @PostMapping(
       path = "/csrf/basic-get-flag",
-      produces = {"application/json"},
-      method = RequestMethod.POST)
+      produces = {"application/json"})
   @ResponseBody
   public Map<String, Object> invoke(HttpServletRequest req) {
 

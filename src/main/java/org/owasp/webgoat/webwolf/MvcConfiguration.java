@@ -22,10 +22,12 @@
 
 package org.owasp.webgoat.webwolf;
 
+import jakarta.annotation.PostConstruct;
 import java.io.File;
-import javax.annotation.PostConstruct;
+import org.owasp.webgoat.container.UserInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -55,6 +57,12 @@ public class MvcConfiguration implements WebMvcConfigurer {
   public void addViewControllers(ViewControllerRegistry registry) {
     registry.addViewController("/login").setViewName("webwolf-login");
     registry.addViewController("/home").setViewName("home");
+    registry.addViewController("/").setViewName("home");
+  }
+
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(new UserInterceptor());
   }
 
   @PostConstruct

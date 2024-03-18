@@ -3,16 +3,15 @@
 >
 <head>
     <title>WebWolf</title>
-    <link rel="icon" href="/css/img/favicon.ico"/>
-    <div th:replace="fragments/header :: header-css"/>
+    <div th:replace="~{fragments/header :: header-css}"/>
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"/>
+<div th:replace="~{fragments/header :: header}"/>
 
 <div class="container">
 
-    <div class="row" style="margin-top:20px">
+    <div class="row" style="margin-top:100px">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3" th:style="'background:url(' + @{/images/wolf.png} + ') no-repeat right;'">
             <form th:action="@{/login}" method="post">
                 <fieldset>
@@ -29,12 +28,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <input type="text" name="username" id="username" class="form-control input-lg"
+                    <div class="input-group mb-3">
+                        <input type="text" name="username" id="username" class="form-control"
                                placeholder="Username WebGoat" required="true" autofocus="true"/>
                     </div>
-                    <div class="form-group">
-                        <input type="password" name="password" id="password" class="form-control input-lg"
+                    <div class="input-group mb-3">
+                        <input type="password" name="password" id="password" class="form-control"
                                placeholder="Password WebGoat" required="true"/>
                     </div>
 
@@ -45,15 +44,20 @@
                         <div class="col-xs-6 col-sm-6 col-md-6">
                         </div>
                     </div>
-                    <!--<div><b><a th:href="@{/registration}" th:text="#{register.new}"></a></b></div>-->
                 </fieldset>
             </form>
+        </div>
+        <div th:if="${oauth}">
+        <h3 class="form-signin-heading">Login with OAuth 2.0</h3>
+            <table class="table table-striped">
+                <tr><td></tr><a href="oauth2/authorization/github">GitHub</a></td></tr>
+            </table>
         </div>
     </div>
 
 </div>
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="~{fragments/footer :: footer}"/>
 
 </body>
 </html>

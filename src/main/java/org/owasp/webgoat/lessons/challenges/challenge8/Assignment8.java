@@ -1,13 +1,14 @@
 package org.owasp.webgoat.lessons.challenges.challenge8;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.lessons.challenges.Flag;
+import org.owasp.webgoat.lessons.challenges.Flags;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author nbaars
- * @since 4/8/17.
- */
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class Assignment8 extends AssignmentEndpoint {
 
   private static final Map<Integer, Integer> votes = new HashMap<>();
@@ -32,6 +30,8 @@ public class Assignment8 extends AssignmentEndpoint {
     votes.put(4, 150);
     votes.put(5, 300);
   }
+
+  private final Flags flags;
 
   @GetMapping(value = "/challenge/8/vote/{stars}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
@@ -47,7 +47,7 @@ public class Assignment8 extends AssignmentEndpoint {
     Integer allVotesForStar = votes.getOrDefault(nrOfStars, 0);
     votes.put(nrOfStars, allVotesForStar + 1);
     return ResponseEntity.ok()
-        .header("X-Flag", "Thanks for voting, your flag is: " + Flag.FLAGS.get(8))
+        .header("X-FlagController", "Thanks for voting, your flag is: " + flags.getFlag(8))
         .build();
   }
 
