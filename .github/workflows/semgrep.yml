@@ -33,3 +33,4 @@ jobs:
       - uses: actions/checkout@v3
       # Run the "semgrep scan" command on the command line of the docker image.
       - run: semgrep scan --config auto
+      
