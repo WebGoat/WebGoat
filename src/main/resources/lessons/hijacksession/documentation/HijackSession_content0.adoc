@@ -1,0 +1,4 @@
+= Hijack a Session
+
+In this lesson we are trying to predict the 'hijack_cookie' value. THe 'hijack_cookie' is used to differentiate authenticated and anonymous users of WebGoat.
+

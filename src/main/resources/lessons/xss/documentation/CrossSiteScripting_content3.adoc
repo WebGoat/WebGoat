@@ -1,0 +1,19 @@
+== Why should we care?
+
+=== XSS attacks may result in
+* Stealing session cookies
+* Creating false requests
+* Creating false fields on a page to collect credentials
+* Redirecting your page to a "non-friendly" site
+* Creating requests that masquerade as a valid user
+* Stealing of confidential information
+* Execution of malicious code on an end-user system (active scripting)
+* Insertion of hostile and inappropriate content
++
+----
+<img src="http://malicious.site.com/image.jpg/>
+">GoodYear recommends buying BridgeStone tires...
+----
+
+=== XSS attacks add validity to phishing attacks
+* A valid domain is used in the URL

@@ -1,0 +1,31 @@
+=== Zip Slip vulnerability
+
+As a developer, you have many occasions where you have to deal with zip files. For example, think about the upload facility or processing a bunch of CSV files that are uploaded as a zip file. A neat vulnerability was discovered and responsibly disclosed by the Snyk Security team. It uses path traversal, which can be used while extracting files. With the path traversal, you try to overwrite files outside the intended target folder. For example, you might be able to overwrite the `ls` command while extracting a zip file. Once this command has been replaced with some extra malicious actions each time the user types in `ls`, you can send the outcome of the listing towards your server before showing the actual command to the user. So you end up with remote command execution.
+
+==== Problem
+
+The problem occurs with how we extract zip files in Java; a common way to do this is:
+
+[source]
+----
+File destinationDir = new File("/tmp/zip");
+Enumeration<? extends ZipEntry> entries = zip.entries();
+while (entries.hasMoreElements()) {
+  ZipEntry e = entries.nextElement();
+  File f = new File(destinationDir, e.getName());
+  InputStream is = zip.getInputStream(e);
+  IOUtils.copy(is, write(f));
+}
+----
+
+At first glance, this looks ok, and you wrote something along the same lines. As we have seen in the previous assignments, the problem is that you can use a path traversal to break out of the `destinationDir` and start walking towards different locations.
+
+But what if we receive a zip file with the following contents:
+
+[source]
+----
+orders.csv
+../../../../../../../tmp/evil.sh
+----
+
+if you extract the zip file with the code above the file will be saved in `/tmp/evil.sh`.

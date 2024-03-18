@@ -1,0 +1,12 @@
+=== Path traversal while retrieving files
+
+Finally, the upload is no longer vulnerable at least help us to verify :-)
+In this assignment, you need to get the contents of the following file:
+
+|===
+|OS |Location
+
+|`operatingSystem:os[]`
+|`webGoatTempDir:temppath[]PathTraversal/secret.txt`
+
+|===
