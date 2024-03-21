@@ -1,5 +1,5 @@
 # example workflow for Polaris scans using the Synopsys Action
-# https://github.com/marketplace/actions/synopsys-action
+# https://github.com/marketplace/actions/synopsys-action 
 name: polaris
 on:
   push:
