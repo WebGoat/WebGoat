@@ -1,0 +1,41 @@
+name: Node.js Tests with Docker
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t my-node-app .
+
+      - name: Start Docker container
+        run: |
+          docker run --name node-app-container -d my-node-app
+          echo "::set-output name=container_id::$(docker ps -qf name=node-app-container)"
+
+      - name: Wait for services to start
+        run: sleep 10s
+
+      - name: Run tests
+        run: docker exec $(docker ps -qf name=node-app-container) npm test
+
+  cleanup:
+    needs: [build_and_test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stop and remove Docker container
+        if: ${{ always() }}
+        run: |
+          docker stop ${{ needs.build_and_test.outputs.container_id }}
+          docker rm ${{ needs.build_and_test.outputs.container_id }}
