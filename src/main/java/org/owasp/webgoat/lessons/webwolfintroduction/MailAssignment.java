@@ -52,7 +52,7 @@ public class MailAssignment extends AssignmentEndpoint {
   @PostMapping("/WebWolf/mail/send")
   @ResponseBody
   public AttackResult sendEmail(@RequestParam String email) {
-    String username = email.substring(0, email.indexOf("@"));
+    String username = email.substring(0, email.indexOf('@'));
     if (username.equalsIgnoreCase(getWebSession().getUserName())) {
       Email mailEvent =
           Email.builder()

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.restassured.RestAssured;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
@@ -28,11 +27,9 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .extract()
             .asByteArray();
 
-    String pincode = new String(Arrays.copyOfRange(resultBytes, 81216, 81220));
-    Map<String, Object> params = new HashMap<>();
-    params.clear();
-    params.put("username", "admin");
-    params.put("password", "!!webgoat_admin_1234!!".replace("1234", pincode));
+    String pin = new String(Arrays.copyOfRange(resultBytes, 81216, 81220));
+    Map<String, Object> params =
+        Map.of("username", "admin", "password", "!!webgoat_admin_%s!!".formatted(pin));
 
     checkAssignment(url("challenge/1"), params, true);
     String result =
@@ -48,9 +45,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .asString();
 
     String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
-    params.clear();
-    params.put("flag", flag);
-    checkAssignment(url("challenge/flag"), params, true);
+    checkAssignment(url("challenge/flag"), Map.of("flag", flag), true);
 
     checkResults("/challenge/1");
 
@@ -72,10 +67,8 @@ public class ChallengeIntegrationTest extends IntegrationTest {
   void testChallenge5() {
     startLesson("Challenge5");
 
-    Map<String, Object> params = new HashMap<>();
-    params.clear();
-    params.put("username_login", "Larry");
-    params.put("password_login", "1' or '1'='1");
+    Map<String, Object> params =
+        Map.of("username_login", "Larry", "password_login", "1' or '1'='1");
 
     String result =
         RestAssured.given()
@@ -90,9 +83,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .asString();
 
     String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
-    params.clear();
-    params.put("flag", flag);
-    checkAssignment(url("challenge/flag"), params, true);
+    checkAssignment(url("challenge/flag"), Map.of("flag", flag), true);
 
     checkResults("/challenge/5");
 

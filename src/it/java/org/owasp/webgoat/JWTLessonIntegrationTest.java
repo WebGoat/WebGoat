@@ -136,10 +136,10 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .extract()
             .cookie("access_token");
 
-    String header = accessToken.substring(0, accessToken.indexOf("."));
+    String header = accessToken.substring(0, accessToken.indexOf('.'));
     header = new String(Base64.getUrlDecoder().decode(header.getBytes(Charset.defaultCharset())));
 
-    String body = accessToken.substring(1 + accessToken.indexOf("."), accessToken.lastIndexOf("."));
+    String body = accessToken.substring(1 + accessToken.indexOf('.'), accessToken.lastIndexOf('.'));
     body = new String(Base64.getUrlDecoder().decode(body.getBytes(Charset.defaultCharset())));
 
     ObjectMapper mapper = new ObjectMapper();
@@ -152,9 +152,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
     String replacedToken =
         new String(Base64.getUrlEncoder().encode(headerNode.toString().getBytes()))
             .concat(".")
-            .concat(
-                new String(Base64.getUrlEncoder().encode(bodyObject.toString().getBytes()))
-                    .toString())
+            .concat(new String(Base64.getUrlEncoder().encode(bodyObject.toString().getBytes())))
             .concat(".")
             .replace("=", "");
 
@@ -195,7 +193,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
     String replacedToken =
         new String(Base64.getUrlEncoder().encode(headerNode.toString().getBytes()))
             .concat(".")
-            .concat(new String(Base64.getUrlEncoder().encode(body.getBytes())).toString())
+            .concat(new String(Base64.getUrlEncoder().encode(body.getBytes())))
             .concat(".")
             .replace("=", "");
 

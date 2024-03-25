@@ -61,9 +61,7 @@ class Assignment1Test extends AssignmentEndpointTest {
                 .header("X-Forwarded-For", host)
                 .param("username", "admin")
                 .param(
-                    "password",
-                    SolutionConstants.PASSWORD.replace(
-                        "1234", String.format("%04d", ImageServlet.PINCODE))))
+                    "password", SolutionConstants.PASSWORD.replace("1234", "" + ImageServlet.PIN)))
         .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("flag: " + flags.getFlag(1))))
         .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
   }

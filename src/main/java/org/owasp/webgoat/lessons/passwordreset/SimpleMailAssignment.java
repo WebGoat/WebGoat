@@ -79,7 +79,7 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
   }
 
   private String extractUsername(String email) {
-    int index = email.indexOf("@");
+    int index = email.indexOf('@');
     return email.substring(0, index == -1 ? email.length() : index);
   }
 
