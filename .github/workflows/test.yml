@@ -61,7 +61,7 @@ jobs:
             # send report to forks only due to limits on permission tokens
             -   name: Send report to commit
                 if: github.repository != 'WebGoat/WebGoat' && github.event_name == 'push'
-                uses: joonvena/robotframework-reporter-action@v2.2
+                uses: joonvena/robotframework-reporter-action@v2.4
                 with:
                     gh_access_token: ${{ secrets.GITHUB_TOKEN }}
                     report_path: 'robotreport'
