@@ -75,7 +75,7 @@ public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
     } else {
       userTracker.assignmentFailed(webSession.getCurrentLesson());
     }
-    userTrackerRepository.save(userTracker);
+    userTrackerRepository.saveAndFlush(userTracker);
 
     return attackResult;
   }
