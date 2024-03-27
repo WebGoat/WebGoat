@@ -39,11 +39,11 @@ public abstract class IntegrationTest {
   @Getter private final String user = "webgoat";
 
   protected String url(String url) {
-    return "http://localhost:8080/WebGoat/" + url;
+    return webgoatUrl + url;
   }
 
   protected String webWolfUrl(String url) {
-    return "http://localhost:9090/WebWolf/" + url;
+    return webWolfUrl + url;
   }
 
   protected String webWolfFileUrl(String fileName) {
@@ -60,8 +60,6 @@ public abstract class IntegrationTest {
             .formParam("password", "password")
             .post(url("login"))
             .then()
-            .log()
-            .all()
             .cookie("JSESSIONID")
             .statusCode(302)
             .extract()
