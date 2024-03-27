@@ -77,15 +77,15 @@ public class UserTracker {
    * @return a lesson tracker created if not already present
    */
   public LessonTracker getLessonTracker(Lesson lesson) {
-    Optional<LessonTracker> lessonTracker =
-        lessonTrackers.stream().filter(l -> l.getLessonName().equals(lesson.getId())).findFirst();
-    if (!lessonTracker.isPresent()) {
-      LessonTracker newLessonTracker = new LessonTracker(lesson);
-      lessonTrackers.add(newLessonTracker);
-      return newLessonTracker;
-    } else {
-      return lessonTracker.get();
-    }
+    return lessonTrackers.stream()
+        .filter(l -> l.getLessonName().equals(lesson.getId()))
+        .findFirst()
+        .orElseGet(
+            () -> {
+              LessonTracker newLessonTracker = new LessonTracker(lesson);
+              lessonTrackers.add(newLessonTracker);
+              return newLessonTracker;
+            });
   }
 
   /**

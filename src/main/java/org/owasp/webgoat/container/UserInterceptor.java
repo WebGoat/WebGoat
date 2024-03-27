@@ -25,8 +25,7 @@ public class UserInterceptor implements HandlerInterceptor {
       HttpServletRequest request,
       HttpServletResponse response,
       Object handler,
-      ModelAndView modelAndView)
-      throws Exception {
+      ModelAndView modelAndView) {
     if (null != modelAndView) {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       if (null != authentication) {
@@ -46,8 +45,7 @@ public class UserInterceptor implements HandlerInterceptor {
 
   @Override
   public void afterCompletion(
-      HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-      throws Exception {
+      HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
     // Do nothing
   }
 }

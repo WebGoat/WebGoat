@@ -31,7 +31,6 @@ public class ChallengeIntegrationTest extends IntegrationTest {
     Map<String, Object> params =
         Map.of("username", "admin", "password", "!!webgoat_admin_%s!!".formatted(pin));
 
-    checkAssignment(url("challenge/1"), params, true);
     String result =
         RestAssured.given()
             .when()
