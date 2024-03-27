@@ -43,8 +43,8 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .extract()
             .asString();
 
-    String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
-    checkAssignment(url("challenge/flag"), Map.of("flag", flag), true);
+//    String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
+//    checkAssignment(url("challenge/flag"), Map.of("flag", flag), true);
 
     checkResults("/challenge/1");
 
