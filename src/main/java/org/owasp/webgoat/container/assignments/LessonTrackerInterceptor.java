@@ -70,11 +70,6 @@ public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
     if (userTracker == null) {
       userTracker = new UserTracker(webSession.getUserName());
     }
-    System.out.println(
-        "Tracking progress: "
-            + attackResult.assignmentSolved()
-            + " "
-            + attackResult.getAssignment());
     if (attackResult.assignmentSolved()) {
       userTracker.assignmentSolved(webSession.getCurrentLesson(), attackResult.getAssignment());
     } else {
