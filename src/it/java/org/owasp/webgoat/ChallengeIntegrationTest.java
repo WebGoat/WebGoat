@@ -42,11 +42,10 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .statusCode(200)
             .extract()
             .asString();
-
-//    String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
-//    checkAssignment(url("challenge/flag"), Map.of("flag", flag), true);
-
     checkResults("/challenge/1");
+
+    String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
+    checkAssignment(url("challenge/flag"), Map.of("flag", flag), true);
 
     List<String> capturefFlags =
         RestAssured.given()
