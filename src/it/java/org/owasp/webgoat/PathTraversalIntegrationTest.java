@@ -135,8 +135,6 @@ class PathTraversalIT extends IntegrationTest {
             .multiPart("uploadedFileZipSlip", "upload.zip", Files.readAllBytes(zipFile.toPath()))
             .post(url("PathTraversal/zip-slip"))
             .then()
-            .log()
-            .all()
             .statusCode(200)
             .extract()
             .path("lessonCompleted"),

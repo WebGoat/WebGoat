@@ -54,7 +54,6 @@ public class Assignment1 extends AssignmentEndpoint {
     boolean passwordCorrect =
         "admin".equals(username)
             && PASSWORD.replace("1234", "" + ImageServlet.PIN).equals(password);
-    System.out.println("passwordCorrect = " + passwordCorrect);
     if (passwordCorrect && ipAddressKnown) {
       return success(this).feedback("challenge.solved").feedbackArgs(flags.getFlag(1)).build();
     } else if (passwordCorrect) {

@@ -179,8 +179,6 @@ public abstract class IntegrationTest {
             .cookie("JSESSIONID", getWebGoatCookie())
             .get(url("service/lessonoverview.mvc"))
             .then()
-            .log()
-            .all()
             .statusCode(200)
             .extract()
             .jsonPath()
@@ -198,7 +196,7 @@ public abstract class IntegrationTest {
             .andReturn();
 
     MatcherAssert.assertThat(
-        result.then().log().all().statusCode(200).extract().jsonPath().getList("solved"),
+        result.then().statusCode(200).extract().jsonPath().getList("solved"),
         CoreMatchers.everyItem(CoreMatchers.is(true)));
   }
 

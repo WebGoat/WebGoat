@@ -28,7 +28,6 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .asByteArray();
 
     String pin = new String(Arrays.copyOfRange(resultBytes, 81216, 81220));
-    System.out.println("PIN: " + pin);
     Map<String, Object> params =
         Map.of("username", "admin", "password", "!!webgoat_admin_%s!!".formatted(pin));
 
