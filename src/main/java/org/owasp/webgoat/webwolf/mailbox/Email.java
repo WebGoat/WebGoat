@@ -73,6 +73,6 @@ public class Email implements Serializable {
   }
 
   public String getShortSender() {
-    return sender.substring(0, sender.indexOf("@"));
+    return sender.substring(0, sender.indexOf('@'));
   }
 }

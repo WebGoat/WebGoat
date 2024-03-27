@@ -88,7 +88,7 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
   }
 
   private void sendMailToUser(String email, String host, String resetLink) {
-    int index = email.indexOf("@");
+    int index = email.indexOf('@');
     String username = email.substring(0, index == -1 ? email.length() : index);
     PasswordResetEmail mail =
         PasswordResetEmail.builder()
