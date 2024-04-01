@@ -34,7 +34,7 @@ jobs:
     #    shell: bash
     steps:
       - name: Test SCA
-        run: (sourceanalyzer && echo Found SCA) || (echo No SCA)
+        run: (/app/sca/bin/sourceanalyzer && echo Found SCA) || (echo No SCA)
 
   cleanup:
     needs: [container-test-job]
