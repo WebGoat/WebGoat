@@ -26,9 +26,9 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWD }}
       volumes:
       - fortify.license:/app/sca/fortify.license
-    #steps:
-    #- name: listar diretório corrente
-    #  run: ls
+    steps:
+    - name: listar diretório corrente
+      run: ls
 
   cleanup:
     needs: [container-test-job]
