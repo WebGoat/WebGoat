@@ -30,7 +30,7 @@ jobs:
       - ./:/app/sca/
     steps:
       - name: ls
-        run: ls /app/sca/
+        run: sh ls /app/sca/
 
   cleanup:
     needs: [container-test-job]
