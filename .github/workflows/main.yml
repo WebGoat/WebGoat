@@ -16,6 +16,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Wait for services to start
       run: sleep 10s
+    - name: pwd
+      run: pwd
 
   container-test-job:
     runs-on: ubuntu-latest
