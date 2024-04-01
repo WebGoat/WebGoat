@@ -28,12 +28,12 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWD }}
       volumes:
       - ./:/app/sca/
-    defaults:
-      run:
-        shell: bash
+    #defaults:
+    #  run:
+    #    shell: bash
     steps:
-      - name: sourceanalyzer
-        run: /app/sca/bin/sourceanalyzer
+      - name: Check for dockerenv file
+        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
 
   cleanup:
     needs: [container-test-job]
