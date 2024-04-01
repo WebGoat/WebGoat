@@ -32,8 +32,8 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: sourcealanyzer
-        run: sourcealanyzer
+      - name: sourceanalyzer
+        run: sourceanalyzer
 
   cleanup:
     needs: [container-test-job]
