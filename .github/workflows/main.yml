@@ -29,8 +29,8 @@ jobs:
       volumes:
       - ./:/app/sca/
     steps:
-    - name: listar diretório corrente
-      run: ls
+    - name: Run sourceanalyzer
+      run: sourceanalyzer
 
   cleanup:
     needs: [container-test-job]
