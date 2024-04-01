@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: docker.io/fortifydocker/scancentral-sast-sensor:23.1.0
+      options: --user root
       credentials:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWD }}
