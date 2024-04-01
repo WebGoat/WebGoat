@@ -11,20 +11,17 @@ on:
 jobs:
   container-test-job:
     runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Wait for services to start
+      run: sleep 10s
+
     container:
       image: docker.io/fortifydocker/scancentral-sast-sensor:23.1.0
       credentials:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWD }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Wait for services to start
-        run: sleep 10s
-
-      - name: Run tests
-        run: ls
 
   cleanup:
     needs: [container-test-job]
