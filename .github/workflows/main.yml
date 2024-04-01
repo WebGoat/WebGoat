@@ -25,7 +25,7 @@ jobs:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWD }}
       volumes:
-      - fortify.license:/app/sca/fortify.license
+      - ../../fortify.license:/app/sca/fortify.license
     steps:
     - name: listar diretório corrente
       run: ls
