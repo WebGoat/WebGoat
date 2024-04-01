@@ -33,7 +33,7 @@ jobs:
         shell: bash
     steps:
       - name: sourceanalyzer
-        run: sourceanalyzer
+        run: /app/sca/bin/sourceanalyzer
 
   cleanup:
     needs: [container-test-job]
