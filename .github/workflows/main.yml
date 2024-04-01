@@ -17,11 +17,11 @@ jobs:
     - name: Wait for services to start
       run: sleep 10s
 
-    container:
-      image: docker.io/fortifydocker/scancentral-sast-sensor:23.1.0
-      credentials:
-        username: ${{ secrets.DOCKER_USER }}
-        password: ${{ secrets.DOCKER_PASSWD }}
+    #container:
+    #  image: docker.io/fortifydocker/scancentral-sast-sensor:23.1.0
+    #  credentials:
+    #    username: ${{ secrets.DOCKER_USER }}
+    #    password: ${{ secrets.DOCKER_PASSWD }}
 
   cleanup:
     needs: [container-test-job]
