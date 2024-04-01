@@ -32,8 +32,8 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: ls
-        run: sh ls /app/sca/
+      - name: sourcealanyzer
+        run: sourcealanyzer
 
   cleanup:
     needs: [container-test-job]
