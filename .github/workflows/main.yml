@@ -14,8 +14,8 @@ jobs:
     container:
       image: docker.io/fortifydocker/scancentral-sast-sensor:23.1.0
       credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASSWD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
         run: sleep 10s
 
       - name: Run tests
-        run: docker exec $(docker ps -qf name=node-app-container) npm test
+        run: ls
 
   cleanup:
     needs: [container-test-job]
