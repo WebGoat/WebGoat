@@ -28,6 +28,9 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWD }}
       volumes:
       - ./:/app/sca/
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: ls
         run: sh ls /app/sca/
