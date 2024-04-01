@@ -29,8 +29,8 @@ jobs:
       volumes:
       - ./:/app/sca/
     steps:
-    - name: pwd
-      run: pwd
+      - name: ls
+        run: ls /app/sca/
 
   cleanup:
     needs: [container-test-job]
