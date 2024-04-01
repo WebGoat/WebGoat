@@ -33,8 +33,8 @@ jobs:
     #  run:
     #    shell: bash
     steps:
-      - name: Check for dockerenv file
-        run: (find / -name sourceanalyzer && echo Found SCA) || (echo No SCA)
+      - name: Test SCA
+        run: (sourceanalyzer && echo Found SCA) || (echo No SCA)
 
   cleanup:
     needs: [container-test-job]
