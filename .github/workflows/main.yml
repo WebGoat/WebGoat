@@ -24,9 +24,11 @@ jobs:
       credentials:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWD }}
-    steps:
-    - name: listar diretório corrente
-      run: ls
+      volumes:
+      - fortify.license:/app/sca/fortify.license
+    #steps:
+    #- name: listar diretório corrente
+    #  run: ls
 
   cleanup:
     needs: [container-test-job]
