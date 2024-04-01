@@ -29,8 +29,8 @@ jobs:
       volumes:
       - ./:/app/sca/
     steps:
-    - name: Run sourceanalyzer
-      run: sourceanalyzer
+    - name: pwd
+      run: pwd
 
   cleanup:
     needs: [container-test-job]
