@@ -151,14 +151,11 @@
     <zxcvbn.version>1.8.0</zxcvbn.version>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-
-      <dependency>
-        <groupId>org.ow2.asm</groupId>
-        <artifactId>asm</artifactId>
-        <version>9.5</version>
-      </dependency>
+  <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.13.1</version>
+  </dependency>
 
       <dependency>
         <groupId>org.apache.commons</groupId>
