@@ -36,7 +36,9 @@ jobs:
     #    shell: bash
     steps:
       - name: Testes
-        run: find / -name sourceanalyzer
+        run: |
+          ls -la /opt/
+          ls -la /tmp
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Fortify SCA scan
