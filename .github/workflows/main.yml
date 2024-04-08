@@ -37,7 +37,7 @@ jobs:
     steps:
       - name: Testes
         run: |
-          ls -la /tmp/fortify
+          ls -la /tmp/20.2/
           ls -la /tmp/
           echo $PATH
       - name: Checkout code
