@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: docker.io/fortifydocker/scancentral-sast-sensor:23.1.0
-      env: 
-        PATH: /snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/app/sca/bin
       options: --user root
       credentials:
         username: ${{ secrets.DOCKER_USER }}
@@ -27,6 +25,8 @@ jobs:
     #  run:
     #    shell: bash
     steps:
+      - name: instal tar
+        run: apt install tar
       - name: Testes
         run: (which tar && echo Found SCA) || (echo No SCA)
       - name: Checkout code
