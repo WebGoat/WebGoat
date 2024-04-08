@@ -11,6 +11,14 @@ on:
       - dev
 
 jobs:
+  checkout-code:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: pwd
+      run: pwd
+      
   container-test-job:
     runs-on: ubuntu-latest
     container:
@@ -29,8 +37,6 @@ jobs:
         run: yum install tar
       - name: Testes
         run: (which tar && echo Found SCA) || (echo No SCA)
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Wait for services to start
         run: sleep 10s
       - name: ls
