@@ -30,7 +30,7 @@ jobs:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWD }}
       volumes:
-      - ./:/tmp
+      - /home/runner/work/WebGoat/WebGoat:/tmp
     #defaults:
     #  run:
     #    shell: bash
