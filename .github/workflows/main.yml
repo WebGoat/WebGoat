@@ -24,7 +24,7 @@ jobs:
   container-test-job:
     runs-on: ubuntu-latest
     container:
-      image: docker.io/evernow/fortify-sca:22.1
+      image: docker.io/evernow/fortify-sca:20.2
       options: --user root
       credentials:
         username: ${{ secrets.DOCKER_USER }}
