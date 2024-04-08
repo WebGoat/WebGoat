@@ -37,6 +37,7 @@ jobs:
     steps:
       - name: Testes
         run: |
+          /tmp/installFortify.sh
           ls -la /tmp/20.2/
           ls -la /tmp/
           echo $PATH
