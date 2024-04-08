@@ -35,6 +35,8 @@ jobs:
     #  run:
     #    shell: bash
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: ls
         run: ls -la /tmp
       - name: Testes
