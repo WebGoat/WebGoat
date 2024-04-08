@@ -37,8 +37,9 @@ jobs:
     steps:
       - name: Testes
         run: |
-          ls -la /opt/
+          ls -la /opt/fortify
           ls -la /tmp
+          echo $PATH
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Fortify SCA scan
