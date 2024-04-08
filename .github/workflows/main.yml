@@ -9,16 +9,6 @@ on:
       - main
 
 jobs:
-  checkout-code:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Wait for services to start
-      run: sleep 10s
-    - name: ls
-      run: ls
-
   container-test-job:
     runs-on: ubuntu-latest
     container:
@@ -33,6 +23,12 @@ jobs:
     #  run:
     #    shell: bash
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Wait for services to start
+        run: sleep 10s
+      - name: ls
+        run: ls
       - name: Test SCA
         run: echo 'ls /app/sca/'
         #(ls /app/sca/ && echo Found SCA) || (echo No SCA)
