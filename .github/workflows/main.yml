@@ -26,7 +26,7 @@ jobs:
     #    shell: bash
     steps:
       - name: Testes
-        run: (ls -la /app/sca && echo Found SCA) || (echo No SCA)
+        run: (sourceanalyzer && echo Found SCA) || (echo No SCA)
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Wait for services to start
