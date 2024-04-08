@@ -26,7 +26,7 @@ jobs:
     #    shell: bash
     steps:
       - name: Testes
-        run: ls -la
+        run: ls -la /app/sca
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Wait for services to start
