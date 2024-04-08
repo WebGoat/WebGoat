@@ -25,6 +25,8 @@ jobs:
     #  run:
     #    shell: bash
     steps:
+      - name: Testes
+        run: df -h
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Wait for services to start
