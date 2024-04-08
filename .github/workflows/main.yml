@@ -24,13 +24,13 @@ jobs:
   container-test-job:
     runs-on: ubuntu-latest
     container:
-      image: docker.io/fortifydocker/scancentral-sast-sensor:23.1.0
+      image: docker.io/evernow/fortify-sca:22.1
       options: --user root
       credentials:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWD }}
-      volumes:
-      - /home/runner/work/WebGoat/WebGoat:/tmp
+      #volumes:
+      #- /home/runner/work/WebGoat/WebGoat:/tmp
     #defaults:
     #  run:
     #    shell: bash
