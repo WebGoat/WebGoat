@@ -26,7 +26,7 @@ jobs:
     #    shell: bash
     steps:
       - name: Testes
-        run: (find / -name tar && echo Found SCA) || (echo No SCA)
+        run: (/__e/node16/lib/node_modules/npm/node_modules/tar && echo Found SCA) || (echo No SCA)
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Wait for services to start
