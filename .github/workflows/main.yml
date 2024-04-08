@@ -38,7 +38,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Fortify SCA scan
-        run: 
+        run: |
           sourceanalyzer -b webgoat -clean
           sourceanalyzer -b webgoat -cp __w/WebGoat/WebGoat/**/*.java
           sourceanalyzer -b webgoat -scan -f webgoat.fpr
