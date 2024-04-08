@@ -36,7 +36,7 @@ jobs:
     #    shell: bash
     steps:
       - name: ls
-        run: ls /tmp
+        run: ls -la /tmp
       - name: Testes
         run: (which tar && echo Found SCA) || (echo No SCA)
       - name: Wait for services to start
