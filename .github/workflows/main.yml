@@ -37,16 +37,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: ls
-        run: ls -la /tmp
-      - name: Testes
-        run: (which tar && echo Found SCA) || (echo No SCA)
-      - name: Wait for services to start
-        run: sleep 10s
-      - name: ls
-        run: ls
-      - name: Test SCA
-        run: echo 'ls /app/sca/'
+      - name: Run Fortify SCA scan
+        run: 
+          sourceanalyzer -b webgoat -clean
+          sourceanalyzer -b webgoat -cp __w/WebGoat/WebGoat/**/*.java
+          sourceanalyzer -b webgoat -scan -f webgoat.fpr
+          
         #(ls /app/sca/ && echo Found SCA) || (echo No SCA)
 
   cleanup:
