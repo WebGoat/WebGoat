@@ -45,7 +45,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run fortifyupdate
-        run: fortifyupdate
+        run: fortifyupdate -url https://update.fortify.com
       - name: Run Fortify SCA clean
         run: sourceanalyzer -b webgoat -clean
       - name: Run Fortify SCA translate
