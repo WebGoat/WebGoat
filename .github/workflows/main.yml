@@ -40,7 +40,7 @@ jobs:
           cat /etc/os-release
           yum install -y tar gzip
           echo $PATH
-          ldd --version
+          ls -la /opt/fortify/bin
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Fortify SCA clean
