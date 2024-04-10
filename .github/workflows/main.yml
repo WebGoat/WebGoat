@@ -43,15 +43,14 @@ jobs:
           ls -la /opt/fortify/bin
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Run fortifyupdate
+        run: fortifyupdate
       - name: Run Fortify SCA clean
-        run: 
-          sourceanalyzer -b webgoat -clean
+        run: sourceanalyzer -b webgoat -clean
       - name: Run Fortify SCA translate
-        run:
-          sourceanalyzer -b webgoat .
+        run: sourceanalyzer -b webgoat .
       - name: Run Fortify SCA scan
-        run:
-          sourceanalyzer -b webgoat -scan -f webgoat.fpr
+        run: sourceanalyzer -b webgoat -scan -f webgoat.fpr
           
         #(ls /app/sca/ && echo Found SCA) || (echo No SCA)
 
