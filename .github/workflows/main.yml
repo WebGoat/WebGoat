@@ -40,7 +40,6 @@ jobs:
           ls -la /tmp/
           echo $PATH
           ldd --version
-          yum update libc6
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Fortify SCA scan
