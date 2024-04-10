@@ -4,12 +4,9 @@ on:
   push:
     branches:
       - main
-      - dev
   pull_request:
     branches:
       - main
-      - dev
-jobs:    
   container-test-job:
     runs-on: ubuntu-latest
     container:
