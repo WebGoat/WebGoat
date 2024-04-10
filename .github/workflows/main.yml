@@ -39,6 +39,7 @@ jobs:
         run: |
           ls -la /tmp/
           echo $PATH
+          yum install GLIBC_2.27
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Fortify SCA scan
