@@ -38,8 +38,6 @@ jobs:
       - name: Testes
         run: |
           ls -la /tmp/
-          /tmp/installFortify.sh
-          ls -la /tmp/20.2/
           echo $PATH
       - name: Checkout code
         uses: actions/checkout@v4
