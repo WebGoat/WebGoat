@@ -43,10 +43,14 @@ jobs:
           ldd --version
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Run Fortify SCA scan
-        run: |
+      - name: Run Fortify SCA clean
+        run: 
           sourceanalyzer -b webgoat -clean
-          sourceanalyzer -b webgoat -cp /__w/WebGoat/WebGoat/**/*.java
+      - name: Run Fortify SCA translate
+        run:
+          sourceanalyzer -b webgoat .
+      - name: Run Fortify SCA scan
+        run:
           sourceanalyzer -b webgoat -scan -f webgoat.fpr
           
         #(ls /app/sca/ && echo Found SCA) || (echo No SCA)
