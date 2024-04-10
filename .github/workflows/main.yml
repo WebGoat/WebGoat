@@ -35,7 +35,7 @@ jobs:
     #  run:
     #    shell: bash
     steps:
-      - name: Teste
+      - name: Testes
         run: |
           ls -la /tmp/
           echo $PATH
