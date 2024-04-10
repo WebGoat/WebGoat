@@ -55,6 +55,6 @@ jobs:
       - name: Login SSC do lab via FCLI
         run: fcli ssc session login --url=https://ssc.evernow.com.br/ --user ${{ secrets.SSC_USER }} --password ${{ secrets.SSC_PASSWD }}
       - name: Upload artifact via FCLI
-        run: fcli ssc appversion-artifact upload --appversion=88 webgoat.fpr
+        run: fcli ssc artifact upload --appversion=88 --file=webgoat.fpr
           
         #(ls /app/sca/ && echo Found SCA) || (echo No SCA)
