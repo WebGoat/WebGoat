@@ -10,17 +10,7 @@ on:
       - main
       - dev
 
-jobs:
-  checkout-code:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: pwd
-      run: pwd
-    - name: curl
-      run: curl -v https://update.fortify.com
-      
+jobs:    
   container-test-job:
     runs-on: ubuntu-latest
     container:
@@ -52,15 +42,15 @@ jobs:
         run: sourceanalyzer -b webgoat .
       - name: Run Fortify SCA scan
         run: sourceanalyzer -b webgoat -scan -f webgoat.fpr
+      - name: Setup Fortify tools
+        uses: fortify/github-action/setup@v1
+        with:
+          tool-definitions: https://github.com/fortify/tool-definitions/releases/download/v1/tool-definitions.yaml.zip
+          export-path: true
+          fcli: latest
+      - name: Run fcli from PATH
+        run: fcli -V
+      - name: Run fcli using FCLI_CMD environment variable
+        run: ${FCLI_CMD} -V
           
         #(ls /app/sca/ && echo Found SCA) || (echo No SCA)
-
-  cleanup:
-    needs: [container-test-job]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Stop and remove Docker container
-        if: ${{ always() }}
-        run: |
-          docker stop ${{ needs.build_and_test.outputs.container_id }}
-          docker rm ${{ needs.build_and_test.outputs.container_id }}
