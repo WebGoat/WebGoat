@@ -37,7 +37,7 @@ jobs:
     steps:
       - name: Testes
         run: |
-          systemctl status firewalld
+          service firewalld status
           cat /etc/os-release
           yum install -y tar gzip
           echo $PATH
