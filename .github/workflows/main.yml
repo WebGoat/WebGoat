@@ -38,7 +38,7 @@ jobs:
       - name: Testes
         run: |
           cat /etc/os-release
-          yum install tar -y
+          yum install -y tar gzip
           echo $PATH
           ldd --version
       - name: Checkout code
