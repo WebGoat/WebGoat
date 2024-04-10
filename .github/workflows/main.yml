@@ -37,6 +37,7 @@ jobs:
     steps:
       - name: Testes
         run: |
+          curl -v https://update.fortify.com
           cat /etc/os-release
           yum install -y tar gzip
           echo $PATH
