@@ -18,8 +18,8 @@ jobs:
       uses: actions/checkout@v2
     - name: pwd
       run: pwd
-    - name: ls
-      run: ls /home/runner/work/WebGoat/WebGoat
+    - name: curl
+      run: curl -v https://update.fortify.com
       
   container-test-job:
     runs-on: ubuntu-latest
