@@ -46,7 +46,7 @@ jobs:
       - name: Run Fortify SCA scan
         run: |
           sourceanalyzer -b webgoat -clean
-          sourceanalyzer -b webgoat -cp __w/WebGoat/WebGoat/**/*.java
+          sourceanalyzer -b webgoat -cp /__w/WebGoat/WebGoat/**/*.java
           sourceanalyzer -b webgoat -scan -f webgoat.fpr
           
         #(ls /app/sca/ && echo Found SCA) || (echo No SCA)
