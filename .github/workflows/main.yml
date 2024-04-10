@@ -37,7 +37,8 @@ jobs:
     steps:
       - name: Testes
         run: |
-          ls -la /tmp/
+          cat /etc/os-release
+          yum install tar
           echo $PATH
           ldd --version
       - name: Checkout code
