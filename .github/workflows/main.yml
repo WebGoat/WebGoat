@@ -9,7 +9,6 @@ on:
     branches:
       - main
       - dev
-
 jobs:    
   container-test-job:
     runs-on: ubuntu-latest
@@ -19,11 +18,6 @@ jobs:
       credentials:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWD }}
-      #volumes:
-      #- /home/runner/work/WebGoat/WebGoat:/tmp
-    #defaults:
-    #  run:
-    #    shell: bash
     steps:
       - name: Testes
         run: |
@@ -56,5 +50,3 @@ jobs:
         run: fcli ssc session login --url=https://ssc.evernow.com.br/ --user ${{ secrets.SSC_USER }} --password ${{ secrets.SSC_PASSWD }}
       - name: Upload artifact via FCLI
         run: fcli ssc artifact upload --appversion=88 --file=webgoat.fpr
-          
-        #(ls /app/sca/ && echo Found SCA) || (echo No SCA)
