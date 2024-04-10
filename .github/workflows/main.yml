@@ -37,7 +37,7 @@ jobs:
     steps:
       - name: Testes
         run: |
-          service firewalld status
+          find / -name firewalld
           cat /etc/os-release
           yum install -y tar gzip
           echo $PATH
