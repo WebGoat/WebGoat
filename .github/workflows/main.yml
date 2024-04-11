@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - main
+      - dev
   pull_request:
     branches:
       - main
+      - dev
+jobs:
   container-test-job:
     runs-on: ubuntu-latest
     container:
@@ -29,8 +32,20 @@ on:
         run: fortifyupdate -url https://update.fortify.com
       - name: Run Fortify SCA clean
         run: sourceanalyzer -b webgoat -clean
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          architecture: x64
+      - name: Cache Maven packages
+        uses: actions/cache@v4.0.0
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2-
       - name: Run Fortify SCA translate
-        run: sourceanalyzer -b webgoat .
+        run: sourceanalyzer -b webgoat mvn --no-transfer-progress verify
       - name: Run Fortify SCA scan
         run: sourceanalyzer -b webgoat -scan -f webgoat.fpr
       - name: Setup Fortify tools
