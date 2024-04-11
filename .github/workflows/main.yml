@@ -45,7 +45,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
       - name: Run Fortify SCA translate
-        run: sourceanalyzer -b webgoat mvn --no-transfer-progress verify
+        run: sourceanalyzer -b webgoat mvn package
       - name: Run Fortify SCA scan
         run: sourceanalyzer -b webgoat -scan -f webgoat.fpr
       - name: Setup Fortify tools
