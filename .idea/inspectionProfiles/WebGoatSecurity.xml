@@ -1,0 +1,42 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0" is_locked="true">
+    <option name="myName" value="WebGoatSecurity" />
+
+      <!-- JVM languages | Non-safe string is passed to safe method -->
+      <inspection_tool class="SourceToSinkFlow" enabled="true" level="WARNING" enabled_by_default="true">
+          <option name="taintedAnnotations">
+              <list>
+                  <option value="org.springframework.web.bind.annotation.RequestParam" />
+              </list>
+          </option>
+          <option name="untaintedAnnotations">
+              <list />
+          </option>
+          <option name="untaintedParameterIndex">
+              <list>
+                  <option value="1" />
+                  <option value="0" />
+              </list>
+          </option>
+          <option name="untaintedParameterMethodClass">
+              <list>
+                  <option value="java.io.File" />
+                  <option value="org.owasp.webgoat.container.assignments.AttackResult.AttackResultBuilder" />
+              </list>
+          </option>
+          <option name="untaintedParameterMethodName">
+              <list>
+                  <option value=".*" />
+                  <option value=".*" />
+              </list>
+          </option>
+          <option name="showUnknownObject" value="false" />
+          <option name="depthInside" value="100" />
+          <option name="myTaintedMethodMatcher" value="jakarta.servlet.ServletRequest,getParameter" />
+      </inspection_tool>
+
+      <!-- JVM languages | Non-safe string is used as SQL -->
+      <inspection_tool class="SqlSourceToSinkFlow" enabled="true" level="WARNING" enabled_by_default="true" />
+
+  </profile>
+</component>
