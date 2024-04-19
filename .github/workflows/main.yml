@@ -23,7 +23,7 @@ jobs:
           cat /etc/os-release
           yum install -y tar gzip
           echo $PATH
-          ls -la /opt/fortify/bin
+          ls -la /opt/fortify/plugins
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run fortifyupdate
