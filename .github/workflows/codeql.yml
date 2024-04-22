@@ -67,6 +67,11 @@ jobs:
         input: sarif-results/${{matrix.language}}.sarif
         output: sarif-results/${{matrix.language}}.sarif
 
+    - name: Tag OWASP Top Ten 2021
+      uses: advanced-security/codeql-sarif-security-standard-annotator@v1
+      with:
+        sarifFile: sarif-results/${{matrix.language}}.sarif
+
     - name: Upload SARIF
       uses: github/codeql-action/upload-sarif@v3
       with:
