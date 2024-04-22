@@ -45,7 +45,6 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         queries: +security-extended
-        debug: true
 
     - name: Build with Maven
       if: matrix.language == 'java'
