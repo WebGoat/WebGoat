@@ -4,11 +4,14 @@ updates:
         directory: "/"
         schedule:
             interval: "weekly"
+        open-pull-requests-limit: 20
     -   package-ecosystem: "maven"
         directory: "/"
         schedule:
             interval: "weekly"
+        open-pull-requests-limit: 20
     -   package-ecosystem: "docker"
         directory: "/"
         schedule:
             interval: "weekly"
+        open-pull-requests-limit: 20
