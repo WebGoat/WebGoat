@@ -5,11 +5,21 @@ updates:
         schedule:
             interval: "weekly"
         open-pull-requests-limit: 20
+        groups:
+          all:
+            applies-to: security-updates
+            patterns:
+              - "*"
     -   package-ecosystem: "maven"
         directory: "/"
         schedule:
             interval: "weekly"
         open-pull-requests-limit: 20
+        groups:
+          all:
+            applies-to: security-updates
+            patterns:
+              - "*"
     -   package-ecosystem: "docker"
         directory: "/"
         schedule:
