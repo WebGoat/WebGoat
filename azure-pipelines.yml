@@ -24,6 +24,8 @@ steps:
 #      $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris polaris.assessment.types='SAST' polaris.application.name='kyleh' polaris.project.name='GitHub' polaris.branch.name=1 project.directory=WebGoat-Kyle
 - bash: |
     curl -fLsS -o bridge.zip $BRIDGECLI_LINUX64 && unzip -qo -d $(Agent.TempDirectory) bridge.zip && rm -f bridge.zip
+    pwd
+    ls
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
       polaris.assessment.types='SAST' \
       polaris.application.name='kyleh' \
