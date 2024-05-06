@@ -28,15 +28,13 @@ steps:
       polaris.assessment.types='SAST' \
       polaris.application.name='kyleh' \
       polaris.project.name='GitHub' \
-      polaris.branch.name=1 \
-      project.directory=WebGoat-Kyle
+      polaris.branch.name=1 
 - bash: |
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
       polaris.assessment.types='SCA' \
       polaris.application.name='kyleh' \
       polaris.project.name='GitHub' \
-      polaris.branch.name=1 \
-      project.directory=WebGoat-Kyle
+      polaris.branch.name=1 
 - checkout: AzureBoardsScript
 - task: CmdLine@2
   inputs:
