@@ -1,0 +1,19 @@
+name: CI-Polaris-Basic 
+on:
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        
+      - name: Polaris Scan
+        uses: synopsys-sig/synopsys-action@v1.9.0
+        with:
+          polaris_server_url: ${{ vars.POLARIS_SERVER_URL }}
+          polaris_access_token: ${{ secrets.POLARIS_ACCESS_TOKEN }}
+          polaris_assessment_types: "SCA,SAST"
+          polaris_application_name: "Renfe Testing"
+          polaris_project_name: "Renfe Java Demo"
