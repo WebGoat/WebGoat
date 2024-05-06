@@ -30,6 +30,8 @@ steps:
       polaris.project.name='GitHub' \
       polaris.branch.name=1 
 - bash: |
+    cat /home/vsts/work/1/s/.bridge/Coverity Capture/idir.zip
+- bash: |
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
       polaris.assessment.types='SCA' \
       polaris.application.name='kyleh' \
