@@ -119,6 +119,6 @@ public abstract class Lesson {
   public final String getPackage() {
     var packageName = this.getClass().getPackageName();
     // package name is the direct package name below lessons (any subpackage will be removed)
-    return packageName.replaceAll("org.owasp.webgoat.lessons.", "").replaceAll("\\..*", "");
+    return packageName.replace("org.owasp.webgoat.lessons.", "").replace("\\..*", "");
   }
 }
