@@ -8,7 +8,12 @@ jobs:
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
-        
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          architecture: x64
       - name: Polaris Scan
         uses: synopsys-sig/synopsys-action@v1.9.0
         with:
