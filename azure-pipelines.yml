@@ -29,12 +29,11 @@ steps:
       polaris.application.name='kyleh' \
       polaris.project.name='GitHub' \
       polaris.branch.name=1 
-- task: DownloadBuildArtifacts@1
+- task: PublishBuildArtifacts@1
   inputs:
-    buildType: 'current'
-    downloadType: 'specific'
-    itemPattern: '/home/vsts/work/1/s/.bridge/Coverity Capture/idir.zip'
-    downloadPath: '$(System.ArtifactsDirectory)'
+    PathtoPublish: '/home/vsts/work/1/s/.bridge/Coverity Capture/idir.zip'
+    ArtifactName: 'coverity idir'
+    publishLocation: 'Container'
 - bash: |
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
       polaris.assessment.types='SCA' \
