@@ -36,6 +36,7 @@ steps:
     ArtifactName: 'coverity idir'
     publishLocation: 'Container'
 - bash: |
+    cd WebGoat-Kyle
     $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
       polaris.assessment.types='SCA' \
       polaris.application.name='kyleh' \
