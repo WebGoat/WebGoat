@@ -42,27 +42,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class HashingAssignment extends AssignmentEndpoint {
 
   public static final String[] SECRETS = {"secret", "admin", "password", "123456", "passw0rd"};
-    
-  public void superdemo1() {
-    System.out.println("SUPERMEGATEST");
-    System.out.println("SUPERMEGATEST");
-    System.out.println("SUPERMEGATEST");
-    System.out.println("SUPERMEGATEST");
-  }
-
-  public void superdemo2() {
-    System.out.println("SUPERMEGATEST");
-    System.out.println("SUPERMEGATEST");
-    System.out.println("SUPERMEGATEST");
-    System.out.println("SUPERMEGATEST");
-  }
-
-  public void superdemo3() {
-    System.out.println("SUPERMEGATEST");
-    System.out.println("SUPERMEGATEST");
-    System.out.println("SUPERMEGATEST");
-    System.out.println("SUPERMEGATEST");
-  }
+  public static final String[] SECRETS2 = {"secret", "admin", "password", "123456", "passw0rd"};
+  public static final String[] SECRETS3 = {"secret", "admin", "password", "123456", "passw0rd"};
+  public static final String[] SECRETS4 = {"secret", "admin", "password", "123456", "passw0rd"};
 
   @RequestMapping(path = "/crypto/hashing/md5", produces = MediaType.TEXT_HTML_VALUE)
   @ResponseBody
