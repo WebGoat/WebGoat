@@ -42,44 +42,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class HashingAssignment extends AssignmentEndpoint {
 
   public static final String[] SECRETS = {"secret", "admin", "password", "123456", "passw0rd"};
-
+    
   public void superdemo1() {
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
   }
 
   public void superdemo2() {
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
   }
 
   public void superdemo3() {
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
-      System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
+    System.out.println("SUPERMEGATEST");
   }
 
   @RequestMapping(path = "/crypto/hashing/md5", produces = MediaType.TEXT_HTML_VALUE)
