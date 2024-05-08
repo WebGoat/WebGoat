@@ -43,7 +43,7 @@ public class HashingAssignment extends AssignmentEndpoint {
 
   public static final String[] SECRETS = {"secret", "admin", "password", "123456", "passw0rd"};
 
-  public void superdemo1(HttpServletRequest request) throws NoSuchAlgorithmException {
+  public void superdemo1() {
       System.out.println("SUPERMEGATEST");
       System.out.println("SUPERMEGATEST");
       System.out.println("SUPERMEGATEST");
@@ -56,7 +56,7 @@ public class HashingAssignment extends AssignmentEndpoint {
       System.out.println("SUPERMEGATEST");
   }
 
-  public void superdemo2(HttpServletRequest request) throws NoSuchAlgorithmException {
+  public void superdemo2() {
       System.out.println("SUPERMEGATEST");
       System.out.println("SUPERMEGATEST");
       System.out.println("SUPERMEGATEST");
@@ -69,7 +69,7 @@ public class HashingAssignment extends AssignmentEndpoint {
       System.out.println("SUPERMEGATEST");
   }
 
-  public void superdemo3(HttpServletRequest request) throws NoSuchAlgorithmException {
+  public void superdemo3() {
       System.out.println("SUPERMEGATEST");
       System.out.println("SUPERMEGATEST");
       System.out.println("SUPERMEGATEST");
