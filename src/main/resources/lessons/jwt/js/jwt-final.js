@@ -3,6 +3,6 @@ function follow(user) {
         type: 'POST',
         url: 'JWT/final/follow/' + user
     }).then(function (result) {
-        console.log(result);
+        $("#toast").append(result);
     })
 }
