@@ -3,4 +3,4 @@ capture:
     clean-command: mvn clean
     build-command: mvn install -DskipTests -B
   files:
-    exclude-regex: (^|[\/\\])libs[\/\\]|(^|[\/\\])plugins[\/\\]
+    exclude-regex: (^|[\/\\])libs[\/\\]|(^|[\/\\])webwolf[\/\\]
