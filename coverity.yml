@@ -2,3 +2,5 @@ capture:
   build:
     clean-command: mvn clean
     build-command: mvn install -DskipTests -B
+  files:
+    exclude-regex: .*/libs/.*|.*/users/.*
