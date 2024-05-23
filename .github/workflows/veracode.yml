@@ -1,13 +1,66 @@
-name: CI
+veracode_static_scan:
+  push:
+    trigger: true
+    # Please only specify either branches_to_run or branches_to_exclude
+    # Entering both will only execute branches_to_run
+    # Leaving them both blank means this will never run
+    branches_to_run:
+      - '*'
+    branches_to_exclude:
+  pull_request:
+    trigger: true
+    action:
+      - opened
+      - synchronize
+    target_branch:
+      - default_branch 
+  # If the analysis_on_platform is set to true,
+  # Veracode will save your last scan result, on the default branch, as an application profile with the same name as your scanned repository on the Veracode platform. 
+  # If the analysis_on_platform is set to false, scan results will not be saved to the Veracode platform.
+  analysis_on_platform: false
+  # If break_build_policy_findings is set to true, the build will break when findings violate the policy.
+  break_build_policy_findings: true
+  # If break_build_invalid_policy is set to true, the build will break when the policy name is invalid.
+  break_build_invalid_policy: true
+  # If the break_build_on_error is set to true, the build will break if the scan failed to complete in time or with an error and the error_message will be displayed.
+  break_build_on_error: false
+  error_message: "Veracode static scan faced a problem. Please contact your Veracode administrator for more information."
+  # Default policy to be used if a policy isn't already assigned to the application profile.
+  policy: 'Veracode Recommended Medium + SCA'
+  # If the create_code_scanning_alert is set to true, GitHub security code scanning vulnerability alerts will be created for static findings.
+  create_code_scanning_alert: false
+  # If the create_issue is set to true, GitHub Issues will be created for static findings.
+  create_issue: false
+  # If the trigger is set to true, a scan is triggered when you create an issue containing the commands value or add a comment containing the commands value to an issue.
+  # Syntax to be used - COMMANDS_VALUE [branch: BRANCH_NAME]
+  issues:
+    trigger: false
+    commands:
+      - "Veracode Static Scan"
 
-on: [push]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Scan
-      uses: ./.github/actions/sourceclear
-      env:
-        SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+veracode_sca_scan:
+  push:
+    trigger: true
+    # Please only specify either branches_to_run or branches_to_exclude
+    # Entering both will only execute branches_to_run
+    # Leaving them both blank means this will never run
+    branches_to_run:
+      - '*'
+    branches_to_exclude:
+  pull_request:
+    trigger: true
+    action:
+      - opened
+      - synchronize
+    target_branch:
+      - default_branch
+  # If the break_build_on_error is set to true, the build will break if the scan failed to complete or with an error, no libraries were found, 
+  # or no build system was found and the error_message will be displayed.
+  break_build_on_error: true
+  error_message: "Veracode SCA scan faced a problem. Please contact your Veracode administrator for more information."
+  # If the trigger is set to true, a scan is triggered when you create an issue containing the commands value or add a comment containing the commands value to an issue.
+  # Syntax to be used - COMMANDS_VALUE [branch: BRANCH_NAME]
+  issues:
+    trigger: false
+    commands:
+      - "Veracode SCA Scan"
