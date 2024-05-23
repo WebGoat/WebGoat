@@ -663,6 +663,8 @@
         <configuration>
           <source>17</source>
           <target>17</target>
+          <debug>true</debug>
+          <debuglevel>lines,vars,source</debuglevel>
         </configuration>
       </plugin>
     </plugins>
