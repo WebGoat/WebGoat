@@ -1,0 +1,42 @@
+on:
+  # Trigger scan when pushing in master or pull requests, and when creating
+  # a pull request.
+  pull_request:
+      branches:
+        - main
+  push: 
+        branches:
+        - main
+jobs:
+  codethreat_scanner:
+    runs-on: ubuntu-latest
+    name: Codethreat Github Actions
+    steps:
+      - name: Check Out Source Code
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+      - name: CodeThreat Scanner
+        uses: CodeThreat/codethreat-scan-action@master
+        env:
+           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           CT_SERVER: ${{ secrets.CT_SERVER }}
+           USERNAME: ${{ secrets.USERNAME }}
+           PASSWORD: ${{ secrets.PASSWORD }}
+           ORGNAME: ${{ secrets.ORGNAME }}
+        with: 
+            FAILED_ARGS: |
+                 - max_number_of_critical: 23
+                 - max_number_of_high: 23
+                 - weakness_is: ".*injection,buffer.over.read,mass.assigment"
+                 - condition: 'OR'
+                 - automerge: true
+                 - sync_scan: true
+                 - sca_max_number_of_critical: 23
+                 - sca_max_number_of_high: 23
+                 - policy_name: Advanced Security
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: codethreat.sarif.json
