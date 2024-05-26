@@ -3,10 +3,10 @@ on:
   # a pull request.
   pull_request:
       branches:
-        - main
+        - *
   push: 
         branches:
-        - main
+        - *
 jobs:
   codethreat_scanner:
     runs-on: ubuntu-latest
