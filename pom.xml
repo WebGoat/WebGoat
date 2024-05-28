@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.6</version>
+    <version>3.3.0</version>
   </parent>
 
   <groupId>org.owasp.webgoat</groupId>
@@ -153,12 +153,20 @@
 
   <dependencyManagement>
     <dependencies>
-<!-- Fixing Vulnerability  here for Snake.yml -->
+<!-- START Fixing Transitive Dependency Vulnerability  here -->
       <dependency>
         <groupId>org.yaml</groupId>
         <artifactId>snakeyaml</artifactId>
         <version>2.0</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.jboss.xnio</groupId>
+        <artifactId>xnio-api</artifactId>
+        <version>3.8.14.Final</version>
+      </dependency>
+
+<!-- STOP Fixing Transitive Dependency Vulnerability  here-->
 
       <dependency>
         <groupId>org.ow2.asm</groupId>
