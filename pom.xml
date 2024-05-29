@@ -733,9 +733,9 @@
                   <arguments>
                     <argument>java</argument>
                     <argument>-jar</argument>
-                    <!--                    <argument>-Dlogging.pattern.console=</argument>-->
-                    <argument>-Dwebgoat.server.directory=target/webgoat_${webgoat.port}</argument>
-                    <argument>-Dwebgoat.user.directory=target/webgoat_${webgoat.port}</argument>
+                    <argument>-Dlogging.pattern.console=</argument>
+                    <argument>-Dwebgoat.server.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
+                    <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
 
                     <argument>-Dspring.main.banner-mode=off</argument>
                     <argument>--add-opens</argument>
@@ -744,8 +744,6 @@
                     <argument>java.base/java.util=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.lang.reflect=ALL-UNNAMED</argument>
-                    <!--                    <argument>&#45;&#45;add-opens</argument>-->
-                    <!--                    <argument>java.base/java.text=ALL-UNNAMED</argument>-->
                     <argument>--add-opens</argument>
                     <argument>java.desktop/java.beans=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
@@ -754,10 +752,6 @@
                     <argument>java.base/java.io=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.util=ALL-UNNAMED</argument>
-                    <!--                    <argument>&#45;&#45;add-opens</argument>-->
-                    <!--                    <argument>java.base/sun.nio.ch=ALL-UNNAMED</argument>-->
-                    <!--                    <argument>&#45;&#45;add-opens</argument>-->
-                    <!--                    <argument>java.base/java.io=ALL-UNNAMED</argument>-->
                     <argument>${project.build.directory}/webgoat-${project.version}.jar</argument>
                   </arguments>
                   <waitForInterrupt>false</waitForInterrupt>
