@@ -38,6 +38,9 @@ jobs:
                         echo -e "$(ipconfig getifaddr en0) $(hostname -f) $(hostname -s)" | sudo tee -a /etc/hosts
                         echo `sudo lsof -PiTCP -sTCP:LISTEN`
                         cat /etc/hosts
+                        mvn --no-transfer-progress verify -X -DwaittimeForServerStart=150
+                    elif 
+                        mvn --no-transfer-progress verify -DwaittimeForServerStart=30
                     fi
-                    mvn --no-transfer-progress verify -X
+
                 shell: bash

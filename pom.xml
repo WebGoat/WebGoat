@@ -141,6 +141,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
+    <waittimeForServerStart>30</waittimeForServerStart>
     <webdriver.version>5.6.3</webdriver.version>
     <webgoat.context>/</webgoat.context>
     <webgoat.sslenabled>false</webgoat.sslenabled>
@@ -760,7 +761,7 @@
                     <argument>${project.build.directory}/webgoat-${project.version}.jar</argument>
                   </arguments>
                   <waitForInterrupt>false</waitForInterrupt>
-                  <waitAfterLaunch>60</waitAfterLaunch>
+                  <waitAfterLaunch>${waittimeForServerStart}</waitAfterLaunch>
                   <healthCheckUrl>http://127.0.0.1:${webgoat.port}${webgoat.context}login</healthCheckUrl>
                 </configuration>
               </execution>
