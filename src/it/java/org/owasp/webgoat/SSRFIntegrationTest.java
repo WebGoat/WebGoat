@@ -3,13 +3,11 @@ package org.owasp.webgoat;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class SSRFIntegrationTest extends IntegrationTest {
 
   @Test
-  @Disabled
   public void runTests() throws IOException {
     startLesson("SSRF");
 
