@@ -760,6 +760,7 @@
                     <argument>${project.build.directory}/webgoat-${project.version}.jar</argument>
                   </arguments>
                   <waitForInterrupt>false</waitForInterrupt>
+                  <waitAfterLaunch>60</waitAfterLaunch>
                   <healthCheckUrl>http://127.0.0.1:${webgoat.port}${webgoat.context}login</healthCheckUrl>
                 </configuration>
               </execution>
