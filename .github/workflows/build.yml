@@ -39,5 +39,5 @@ jobs:
                         echo `sudo lsof -PiTCP -sTCP:LISTEN`
                         cat /etc/hosts
                     fi
-                    mvn --no-transfer-progress verify
+                    mvn --no-transfer-progress verify -X
                 shell: bash
