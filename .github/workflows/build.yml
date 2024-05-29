@@ -39,7 +39,7 @@ jobs:
                         echo `sudo lsof -PiTCP -sTCP:LISTEN`
                         cat /etc/hosts
                         mvn --no-transfer-progress verify -X -DwaittimeForServerStart=150
-                    elif 
+                    else 
                         mvn --no-transfer-progress verify -DwaittimeForServerStart=30
                     fi
 
