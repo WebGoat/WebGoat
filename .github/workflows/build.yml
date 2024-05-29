@@ -31,4 +31,11 @@ jobs:
                     key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
                     restore-keys: ${{ runner.os }}-m2-
             -   name: Build with Maven
-                run: mvn --no-transfer-progress verify
+                run: |
+                    if [ "$RUNNER_OS" == "macOS" ]; then
+                        # Make "localhost" DNS entry available; see https://github.com/actions/runner-images/issues/6383
+                        # sudo networksetup -setdnsservers Ethernet 9.9.9.9
+                        echo -e "$(ipconfig getifaddr en0) $(hostname -f) $(hostname -s)" | sudo tee -a /etc/hosts
+                        echo `sudo lsof -PiTCP -sTCP:LISTEN`
+                    fi
+                    mvn --no-transfer-progress verify
