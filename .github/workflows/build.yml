@@ -15,7 +15,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                os: [ ubuntu-latest, macos-latest ]
+                os: [ ubuntu-latest, windows-latest, macos-latest ]
         steps:
             -   uses: actions/checkout@v4.1.6
             -   name: Set up JDK 21
@@ -32,7 +32,6 @@ jobs:
                     restore-keys: ${{ runner.os }}-m2-
             -   name: Build with Maven
                 run: |
-                    cat /etc/hosts
                     if [ "$RUNNER_OS" == "macOS" ]; then
                         # Make "localhost" DNS entry available; see https://github.com/actions/runner-images/issues/6383
                         # sudo networksetup -setdnsservers Ethernet 9.9.9.9
@@ -41,3 +40,4 @@ jobs:
                         cat /etc/hosts
                     fi
                     mvn --no-transfer-progress verify
+                shell: bash
