@@ -735,6 +735,7 @@
                     <!--                    <argument>-Dlogging.pattern.console=</argument>-->
                     <argument>-Dwebgoat.server.directory=target/webgoat_${webgoat.port}</argument>
                     <argument>-Dwebgoat.user.directory=target/webgoat_${webgoat.port}</argument>
+
                     <argument>-Dspring.main.banner-mode=off</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.lang=ALL-UNNAMED</argument>
