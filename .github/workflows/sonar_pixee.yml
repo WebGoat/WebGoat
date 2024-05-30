@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.check_run.name == 'SonarCloud Code Analysis' }}
     steps:
-      - uses: pixee/upload-tool-results-action@v1.1.1
+      - uses: pixee/upload-tool-results-action@v1
         with:
           tool: sonar
           # TODO: You must set the SONAR_TOKEN secret either for this repository or for your organization
