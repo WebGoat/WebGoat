@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.5</version>
+    <version>3.2.6</version>
   </parent>
 
   <groupId>org.owasp.webgoat</groupId>
   <artifactId>webgoat</artifactId>
-  <version>2023.9-SNAPSHOT</version>
+  <version>2024.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>WebGoat</name>
@@ -110,21 +110,23 @@
   <properties>
     <!-- Shared properties with plugins and version numbers across submodules-->
     <asciidoctorj.version>2.5.10</asciidoctorj.version>
-    <bootstrap.version>5.3.2</bootstrap.version>
+    <bootstrap.version>5.3.3</bootstrap.version>
     <cglib.version>3.3.0</cglib.version>
     <!-- do not update necessary for lesson -->
     <checkstyle.version>3.3.1</checkstyle.version>
     <commons-collections.version>3.2.1</commons-collections.version>
+    <commons-compress.version>1.26.0</commons-compress.version>
     <commons-io.version>2.15.1</commons-io.version>
-    <commons-lang3.version>3.12.0</commons-lang3.version>
-    <commons-text.version>1.10.0</commons-text.version>
+    <commons-lang3.version>3.14.0</commons-lang3.version>
+    <commons-text.version>1.12.0</commons-text.version>
     <guava.version>32.1.3-jre</guava.version>
     <jacoco.version>0.8.11</jacoco.version>
-    <java.version>17</java.version>
+    <java.version>21</java.version>
     <jaxb.version>2.3.1</jaxb.version>
+    <jetty.version>11.0.18</jetty.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
-    <jquery.version>3.7.0</jquery.version>
+    <jquery.version>3.7.1</jquery.version>
     <jsoup.version>1.17.2</jsoup.version>
     <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
@@ -132,19 +134,20 @@
     <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.2.1</maven-surefire-plugin.version>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
     <pmd.version>3.15.0</pmd.version>
     <!-- Use UTF-8 Encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <thymeleaf.version>3.1.1.RELEASE</thymeleaf.version>
+    <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
+    <waittimeForServerStart>30</waittimeForServerStart>
     <webdriver.version>5.6.3</webdriver.version>
     <webgoat.context>/</webgoat.context>
     <webgoat.sslenabled>false</webgoat.sslenabled>
-    <webjars-locator-core.version>0.53</webjars-locator-core.version>
+    <webjars-locator-core.version>0.58</webjars-locator-core.version>
     <webwolf.context>/</webwolf.context>
-    <wiremock.version>2.27.2</wiremock.version>
+    <wiremock.version>3.6.0</wiremock.version>
     <xml-resolver.version>1.2</xml-resolver.version>
     <xstream.version>1.4.5</xstream.version>
     <!-- do not update necessary for lesson -->
@@ -153,7 +156,13 @@
 
   <dependencyManagement>
     <dependencies>
-
+      <dependency>
+        <groupId>org.eclipse.jetty.ee10</groupId>
+        <artifactId>jetty-ee10-bom</artifactId>
+        <version>12.0.3</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <dependency>
         <groupId>org.ow2.asm</groupId>
         <artifactId>asm</artifactId>
@@ -248,7 +257,7 @@
         <version>${webjars-locator-core.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.github.tomakehurst</groupId>
+        <groupId>org.wiremock</groupId>
         <artifactId>wiremock</artifactId>
         <version>${wiremock.version}</version>
       </dependency>
@@ -260,7 +269,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.25.0</version>
+        <version>${commons-compress.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jruby</groupId>
@@ -727,6 +736,7 @@
                     <argument>-Dlogging.pattern.console=</argument>
                     <argument>-Dwebgoat.server.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
+
                     <argument>-Dspring.main.banner-mode=off</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.lang=ALL-UNNAMED</argument>
@@ -735,24 +745,18 @@
                     <argument>--add-opens</argument>
                     <argument>java.base/java.lang.reflect=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
-                    <argument>java.base/java.text=ALL-UNNAMED</argument>
-                    <argument>--add-opens</argument>
                     <argument>java.desktop/java.beans=ALL-UNNAMED</argument>
-                    <argument>--add-opens</argument>
-                    <argument>java.desktop/java.awt.font=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/sun.nio.ch=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.io=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.util=ALL-UNNAMED</argument>
-                    <argument>--add-opens</argument>
-                    <argument>java.base/sun.nio.ch=ALL-UNNAMED</argument>
-                    <argument>--add-opens</argument>
-                    <argument>java.base/java.io=ALL-UNNAMED</argument>
                     <argument>${project.build.directory}/webgoat-${project.version}.jar</argument>
                   </arguments>
                   <waitForInterrupt>false</waitForInterrupt>
+                  <waitAfterLaunch>${waittimeForServerStart}</waitAfterLaunch>
+                  <healthCheckUrl>http://127.0.0.1:${webgoat.port}${webgoat.context}login</healthCheckUrl>
                 </configuration>
               </execution>
               <execution>
