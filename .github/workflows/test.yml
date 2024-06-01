@@ -21,23 +21,23 @@ jobs:
         name: "Robot framework test"
         steps:
             # Uses an default action to checkout the code
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v4.1.6
             # Uses an action to add Python to the VM
             -   name: Setup Python
                 uses: actions/setup-python@v5
                 with:
                     python-version: '3.7'
                     architecture: x64
-            # Uses an action to add JDK 17 to the VM (and mvn?)
-            -   name: set up JDK 17
-                uses: actions/setup-java@v4
+            # Uses an action to add JDK 21 to the VM (and mvn?)
+            -   name: set up JDK 21
+                uses: actions/setup-java@v4.2.1
                 with:
                     distribution: 'temurin'
-                    java-version: 17
+                    java-version: 21
                     architecture: x64
             #Uses an action to set up a cache using a certain key based on the hash of the dependencies
             -   name: Cache Maven packages
-                uses: actions/cache@v4.0.0
+                uses: actions/cache@v4.0.2
                 with:
                     path: ~/.m2
                     key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
