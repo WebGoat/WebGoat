@@ -19,7 +19,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B compile --file pom.xml
 
     - name: Update dependency graph
       uses: advanced-security/maven-dependency-submission-action@v3.0.3
