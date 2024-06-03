@@ -44,3 +44,6 @@ jobs:
                         mvn --no-transfer-progress verify -DwaittimeForServerStart=30
                     fi
                 shell: bash
+            -   name: Submit dependencies
+                uses: advanced-security/maven-dependency-submission-action@v3.0.3
+                 
