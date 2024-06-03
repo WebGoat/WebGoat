@@ -45,6 +45,8 @@ public class VulnerableTaskHolder implements Serializable {
     // unserialize data so taskName and taskAction are available
     stream.defaultReadObject();
 
+    System.out.println(null.toString());
+      
     // do something with the data
     log.info("restoring task: {}", taskName);
     log.info("restoring time: {}", requestedExecutionTime);
