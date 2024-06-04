@@ -1,0 +1,48 @@
+name: Maven
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          cache: maven
+          distribution: 'adopt'
+
+      - name: Build with Jfrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        env:
+#          JFROG_CLI_OFFER_CONFIG: false
+          JF_URL: ${{ vars.JF_URL }}
+#          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+        with:
+          oidc-provider-name: jfrog-github
+
+
+      - name: Run JFrog CLI
+        env:
+          ARTIFACTORY_REPO_RELEASE: webgoat-libs-release
+          ARTIFACTORY_REPO_SNAPSHOT: webgoat-libs-snapshot
+        run: |
+          export BUILD_NAME=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.artifactId}-${project.version}' --non-recursive exec:exec)
+          export VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+          jf mvn-config --repo-deploy-releases=${ARTIFACTORY_REPO_RELEASE} --repo-deploy-snapshots=${ARTIFACTORY_REPO_RELEASE} --repo-resolve-releases=${ARTIFACTORY_REPO_RELEASE} --repo-resolve-snapshots=${ARTIFACTORY_REPO_SNAPSHOT}
+          jf mvn clean package deploy --build-name=$BUILD_NAME --build-number=$VERSION || export JFROG_BUILD_STATUS="FAIL"
+          jf rt bce $BUILD_NAME $VERSION
+          jf rt bag $BUILD_NAME $VERSION
+          jf rt bp $BUILD_NAME $VERSION
+          jf bs --fail=false $BUILD_NAME $VERSION

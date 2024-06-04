@@ -1,0 +1,114 @@
+name: "Frogbot Scan Pull Request"
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+permissions:
+  pull-requests: write
+  contents: read
+  security-events: write
+  id-token: write
+jobs:
+  scan-pull-request:
+    runs-on: ubuntu-latest
+    # A pull request needs to be approved before Frogbot scans it. Any GitHub user who is associated with the
+    # "frogbot" GitHub environment can approve the pull request to be scanned.
+    environment: frogbot
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      -
+        name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: maven
+
+      #  IMPORTANT:
+      #  1. See the following link for information about the tools that need to be installed for Frogbot to work - https://github.com/jfrog/frogbot/tree/master/docs/templates/github-actions/scan-and-fix
+      #  2. Some projects require creating a frogbot-config.yml file. Read more about it here - https://github.com/jfrog/frogbot/blob/master/docs/frogbot-config.md
+      - uses: jfrog/frogbot@v2  # v2.10.0
+        with:
+          oidc-provider-name: jfrog-github
+        env:
+          # [Mandatory]
+          # JFrog platform URL
+          JF_URL: ${{ vars.JF_URL }}
+          # JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JFROG_CLI_LOG_LEVEL: “DEBUG”
+          # [Optional]
+          # By default, the Frogbot workflows download the Frogbot executable as well as other tools
+          # needed from https://releases.jfrog.io
+          # If the machine that runs Frogbot has no access to the internet, follow these steps to allow the
+          # executable to be downloaded from an Artifactory instance, which the machine has access to:
+          #
+          # 1. Login to the Artifactory UI, with a user who has admin credentials.
+          # 2. Create a Remote Repository with the following properties set.
+          #    Under the 'Basic' tab:
+          #       Package Type: Generic
+          #       URL: https://releases.jfrog.io
+          #    Under the 'Advanced' tab:
+          #       Uncheck the 'Store Artifacts Locally' option
+          # 3. Set the value of the 'JF_RELEASES_REPO' variable with the Repository Key you created.
+          # JF_RELEASES_REPO: ""
+
+          # [Optional]
+          # Configure the SMTP server to enable Frogbot to send emails with detected secrets in pull request scans.
+          # SMTP server URL including should the relevant port: (Example: smtp.server.com:8080)
+          # JF_SMTP_SERVER: ""
+
+          # [Mandatory if JF_SMTP_SERVER is set]
+          # The username required for authenticating with the SMTP server.
+          # JF_SMTP_USER: ""
+
+          # [Mandatory if JF_SMTP_SERVER is set]
+          # The password associated with the username required for authentication with the SMTP server.
+          # JF_SMTP_PASSWORD: ""
+
+          ##########################################################################
+          ##   If your project uses a 'frogbot-config.yml' file, you can define   ##
+          ##   the following variables inside the file, instead of here.          ##
+          ##########################################################################
+
+          # [Mandatory if the two conditions below are met]
+          # 1. The project uses yarn 2, NuGet or .NET Core to download its dependencies
+          # 2. The `installCommand` variable isn't set in your frogbot-config.yml file.
+          #
+          # The command that installs the project dependencies (e.g "nuget restore")
+          # JF_INSTALL_DEPS_CMD: ""
+
+          # [Optional, default: "."]
+          # Relative path to the root of the project in the Git repository. If left empty (without providing "." yourself as default), a recursive scan is triggered from the root directory of the project.
+          # JF_WORKING_DIR: path/to/project/dir
+
+          # [Default: "*git*;*node_modules*;*target*;*venv*;*test*"]
+          # List of exclusion patterns (utilizing wildcards) for excluding paths in the source code of the Git repository during SCA scans.
+          # JF_PATH_EXCLUSIONS: "*git*;*node_modules*;*target*;*venv*;*test*"
+
+          # [Optional]
+          # Xray Watches. Learn more about them here: https://www.jfrog.com/confluence/display/JFROG/Configuring+Xray+Watches
+          # JF_WATCHES: <watch-1>,<watch-2>...<watch-n>
+
+          # [Optional]
+          # JFrog project. Learn more about it here: https://www.jfrog.com/confluence/display/JFROG/Projects
+          # JF_PROJECT: <project-key>
+
+          # [Optional, default: "FALSE"]
+          # Displays all existing vulnerabilities, including the ones that were added by the pull request.
+          # JF_INCLUDE_ALL_VULNERABILITIES: "TRUE"
+
+          # [Optional, default: "FALSE"]
+          # When adding new comments on pull requests, keep old comments that were added by previous scans.
+          # JF_AVOID_PREVIOUS_PR_COMMENTS_DELETION: "TRUE"
+
+          # [Optional, default: "TRUE"]
+          # Fails the Frogbot task if any security issue is found.
+          # JF_FAIL: "FALSE"
+
+          # [Optional]
+          # Frogbot will download the project dependencies if they're not cached locally. To download the
+          # dependencies from a virtual repository in Artifactory, set the name of the repository. There's no
+          # need to set this value, if it is set in the frogbot-config.yml file.
+          # JF_DEPS_REPO: ""
