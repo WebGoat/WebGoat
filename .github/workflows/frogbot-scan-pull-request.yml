@@ -35,7 +35,7 @@ jobs:
           # [Mandatory]
           # JFrog platform URL
           JF_URL: ${{ vars.JF_URL }}
-          # JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
           JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JFROG_CLI_LOG_LEVEL: “DEBUG”
           # [Optional]
