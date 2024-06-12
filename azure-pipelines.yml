@@ -32,7 +32,7 @@ steps:
       polaris.branch.name=2 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '/home/vsts/work/1/s/WebGoat-Kyle/.bridge/Coverity Capture/idir.zip'
+    PathtoPublish: '/home/vsts/work/1/s/WebGoat-Kyle/.bridge/Polaris Coverity Capture/idir.zip'
     ArtifactName: 'coverity idir'
     publishLocation: 'Container'
 - bash: |
