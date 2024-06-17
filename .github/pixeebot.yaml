@@ -1,3 +1,5 @@
 ai:
   allow_llm_access: true
 issues_dashboard: true
+codemods:
+  catalog: more
