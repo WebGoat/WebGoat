@@ -145,7 +145,7 @@
     <webdriver.version>5.8.0</webdriver.version>
     <webgoat.context>/</webgoat.context>
     <webgoat.sslenabled>false</webgoat.sslenabled>
-    <webjars-locator-core.version>0.58</webjars-locator-core.version>
+    <webjars-locator-core.version>0.59</webjars-locator-core.version>
     <webwolf.context>/</webwolf.context>
     <wiremock.version>3.6.0</wiremock.version>
     <xml-resolver.version>1.2</xml-resolver.version>
