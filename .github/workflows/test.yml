@@ -16,7 +16,7 @@ on:
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         # display name of the job
         name: "Robot framework test"
         steps:

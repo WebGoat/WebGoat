@@ -10,7 +10,7 @@ permissions:
 jobs:
     pre-commit:
         name: Pre-commit check
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
             - name: Checkout git repository
               uses: actions/checkout@v4

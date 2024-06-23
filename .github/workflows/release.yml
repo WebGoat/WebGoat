@@ -7,7 +7,7 @@ jobs:
   release:
     if: github.repository == 'CollabInfra/WebGoat'
     name: Release WebGoat
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
         contents: write
     environment:
@@ -116,7 +116,7 @@ jobs:
     if: github.repository == 'CollabInfra/WebGoat'
     name: Update to next SNAPSHOT version
     needs: [ release ]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
         with:

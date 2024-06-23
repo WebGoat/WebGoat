@@ -8,7 +8,7 @@ on:
 jobs:
   greeting:
     if: github.repository == 'CollabInfra/WebGoat'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/first-interaction@v1.3.0
         with:
