@@ -5,7 +5,7 @@ on:
       - v*
 jobs:
   release:
-    if: github.repository == 'WebGoat/WebGoat'
+    if: github.repository == 'CollabInfra/WebGoat'
     name: Release WebGoat
     runs-on: ubuntu-latest
     permissions:
@@ -113,7 +113,7 @@ jobs:
           build-args: |
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
   new_version:
-    if: github.repository == 'WebGoat/WebGoat'
+    if: github.repository == 'CollabInfra/WebGoat'
     name: Update to next SNAPSHOT version
     needs: [ release ]
     runs-on: ubuntu-latest
