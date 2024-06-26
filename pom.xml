@@ -124,7 +124,7 @@
     <java.version>21</java.version>
     <jaxb.version>2.3.1</jaxb.version>
     <jetty.version>11.0.18</jetty.version>
-    <jjwt.version>0.9.1</jjwt.version>
+    <jjwt.version>0.12.6</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
     <jquery.version>3.7.1</jquery.version>
     <jsoup.version>1.17.2</jsoup.version>
