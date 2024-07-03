@@ -1,0 +1,54 @@
+name: coverity-sig-action
+on:
+  push:
+    branches: [ main, master, develop, stage, release ]
+  pull_request:
+    branches: [ main, master, develop, stage, release ]
+  workflow_dispatch:  
+jobs:
+  build:
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+      
+      - name: Coverity Full Scan
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: synopsys-sig/synopsys-action@v1.10.0
+        with:
+          coverity_url: ${{ vars.COVERITY_URL }}
+          coverity_user: ${{ secrets.COVERITY_USER }}
+          coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
+          coverity_project_name: ${{ github.event.repository.name }}
+          coverity_stream_name: ${{ github.event.repository.name }}-${{ github.ref_name }}
+          coverity_policy_view: 'Outstanding Issues'
+          
+          ### Arbitrary product-related CL arguments
+          coverity_build_command: mvn clean install
+          coverity_clean_command: mvn clean
+          # coverity_config_path: /Users/Config/coverity.yml
+          # coverity_args: -c /Users/Config/coverity.yml -o capture.build.clean-command="mvn clean" -- mvn clean install
+          
+          # project_directory: ${{ vars.PROJECT_DIRECTORY }}
+
+          ### Uncomment below configuration if Synopsys Bridge diagnostic files needs to be uploaded
+          # include_diagnostics: true  
+      
+      - name: Coverity PR Scan
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: synopsys-sig/synopsys-action@v1.10.0
+        with:
+          coverity_url: ${{ vars.COVERITY_URL }}
+          coverity_user: ${{ secrets.COVERITY_USER }}
+          coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
+          coverity_project_name: ${{ github.event.repository.name }}
+          coverity_stream_name: ${{ github.event.repository.name }}-${{ github.base_ref }}
+
+          ### Below configuration is used to enable feedback from Coverity security testing as pull request comment
+          coverity_prComment_enabled: true
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Mandatory when coverity_prComment_enabled is set to 'true' 
+          
+          # project_directory: ${{ vars.PROJECT_DIRECTORY }}  
+     
+          ### Uncomment below configuration if Synopsys Bridge diagnostic files needs to be uploaded
+          # include_diagnostics: true
