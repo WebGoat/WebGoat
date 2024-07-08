@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author nbaars
  * @since 4/30/17.
  */
-public interface UserTrackerRepository extends JpaRepository<UserTracker, String> {
+public interface UserProgressRepository extends JpaRepository<UserProgress, String> {
 
-  UserTracker findByUser(String user);
+  UserProgress findByUser(String user);
 }

@@ -39,9 +39,9 @@ import org.owasp.webgoat.container.lessons.LessonMenuItem;
 import org.owasp.webgoat.container.lessons.LessonMenuItemType;
 import org.owasp.webgoat.container.session.Course;
 import org.owasp.webgoat.container.session.WebSession;
-import org.owasp.webgoat.container.users.LessonTracker;
-import org.owasp.webgoat.container.users.UserTracker;
-import org.owasp.webgoat.container.users.UserTrackerRepository;
+import org.owasp.webgoat.container.users.LessonProgress;
+import org.owasp.webgoat.container.users.UserProgress;
+import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,7 +60,7 @@ public class LessonMenuService {
   public static final String URL_LESSONMENU_MVC = "/service/lessonmenu.mvc";
   private final Course course;
   private final WebSession webSession;
-  private UserTrackerRepository userTrackerRepository;
+  private UserProgressRepository userTrackerRepository;
 
   @Value("#{'${exclude.categories}'.split(',')}")
   private List<String> excludeCategories;
@@ -77,7 +77,7 @@ public class LessonMenuService {
   public @ResponseBody List<LessonMenuItem> showLeftNav() {
     List<LessonMenuItem> menu = new ArrayList<>();
     List<Category> categories = course.getCategories();
-    UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
+    UserProgress userTracker = userTrackerRepository.findByUser(webSession.getUserName());
 
     for (Category category : categories) {
       if (excludeCategories.contains(category.name())) {
@@ -97,7 +97,7 @@ public class LessonMenuService {
         lessonItem.setName(lesson.getTitle());
         lessonItem.setLink(lesson.getLink());
         lessonItem.setType(LessonMenuItemType.LESSON);
-        LessonTracker lessonTracker = userTracker.getLessonTracker(lesson);
+        LessonProgress lessonTracker = userTracker.getLessonProgress(lesson);
         boolean lessonSolved = lessonCompleted(lessonTracker.getLessonOverview(), lesson);
         lessonItem.setComplete(lessonSolved);
         categoryItem.addChild(lessonItem);

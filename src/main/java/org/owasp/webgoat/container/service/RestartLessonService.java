@@ -32,8 +32,8 @@ import org.flywaydb.core.Flyway;
 import org.owasp.webgoat.container.lessons.Initializeable;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.session.WebSession;
-import org.owasp.webgoat.container.users.UserTracker;
-import org.owasp.webgoat.container.users.UserTrackerRepository;
+import org.owasp.webgoat.container.users.UserProgress;
+import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class RestartLessonService {
 
   private final WebSession webSession;
-  private final UserTrackerRepository userTrackerRepository;
+  private final UserProgressRepository userTrackerRepository;
   private final Function<String, Flyway> flywayLessons;
   private final List<Initializeable> lessonsToInitialize;
 
@@ -55,7 +55,7 @@ public class RestartLessonService {
     Lesson al = webSession.getCurrentLesson();
     log.debug("Restarting lesson: " + al);
 
-    UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
+    UserProgress userTracker = userTrackerRepository.findByUser(webSession.getUserName());
     userTracker.reset(al);
     userTrackerRepository.save(userTracker);
 

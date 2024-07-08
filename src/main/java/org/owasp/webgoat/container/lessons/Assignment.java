@@ -54,7 +54,7 @@ public class Assignment {
 
   @Transient private List<String> hints;
 
-  private Assignment() {
+  protected Assignment() {
     // Hibernate
   }
 

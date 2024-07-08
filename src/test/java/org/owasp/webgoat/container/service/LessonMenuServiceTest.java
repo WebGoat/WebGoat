@@ -41,9 +41,9 @@ import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.session.Course;
 import org.owasp.webgoat.container.session.WebSession;
-import org.owasp.webgoat.container.users.LessonTracker;
-import org.owasp.webgoat.container.users.UserTracker;
-import org.owasp.webgoat.container.users.UserTrackerRepository;
+import org.owasp.webgoat.container.users.LessonProgress;
+import org.owasp.webgoat.container.users.UserProgress;
+import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -51,11 +51,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 public class LessonMenuServiceTest {
 
   @Mock(lenient = true)
-  private LessonTracker lessonTracker;
+  private LessonProgress lessonTracker;
 
   @Mock private Course course;
-  @Mock private UserTracker userTracker;
-  @Mock private UserTrackerRepository userTrackerRepository;
+  @Mock private UserProgress userTracker;
+  @Mock private UserProgressRepository userTrackerRepository;
   @Mock private WebSession webSession;
   private MockMvc mockMvc;
 
@@ -81,7 +81,7 @@ public class LessonMenuServiceTest {
     when(lessonTracker.isLessonSolved()).thenReturn(false);
     when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1, l2));
     when(course.getCategories()).thenReturn(Lists.newArrayList(Category.A1));
-    when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
+    when(userTracker.getLessonProgress(any(Lesson.class))).thenReturn(lessonTracker);
     when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
 
     mockMvc
@@ -98,7 +98,7 @@ public class LessonMenuServiceTest {
     when(lessonTracker.isLessonSolved()).thenReturn(true);
     when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1));
     when(course.getCategories()).thenReturn(Lists.newArrayList(Category.A1));
-    when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
+    when(userTracker.getLessonProgress(any(Lesson.class))).thenReturn(lessonTracker);
     when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
 
     mockMvc
