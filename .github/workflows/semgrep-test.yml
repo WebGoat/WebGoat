@@ -30,5 +30,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: reviewdog/action-setup@v1
       # Run the "semgrep scan" command on the command line of the docker image. Fazer teste com CI tbm
-      - run: semgrep scan --config auto
-      - run: eslint -f @microsoft/eslint-formatter-sarif . | reviewdog -f=sarif -diff="git diff"
+      - run: semgrep scan --config auto --json > results.json
+      
+      - uses: reviewdog/action-setup@v1
+        with:
+              reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
+      - run: reviewdog -f=sarif -reporter=github-pr-review < results.json
