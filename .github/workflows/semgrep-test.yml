@@ -28,10 +28,7 @@ jobs:
     steps:
       # Fetch project source with GitHub Actions Checkout. Use either v3 or v4.
       - uses: actions/checkout@v4
+      - uses: reviewdog/action-setup@v1
       # Run the "semgrep scan" command on the command line of the docker image. Fazer teste com CI tbm
       - run: semgrep scan --config auto
-      
-      - uses: reviewdog/action-setup@v1
-        with:
-              reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
       - run: eslint -f @microsoft/eslint-formatter-sarif . | reviewdog -f=sarif -diff="git diff"
