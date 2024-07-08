@@ -36,3 +36,5 @@ jobs:
         with:
               reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
       - run: reviewdog -f=sarif -reporter=github-pr-review < results.json
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: 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
