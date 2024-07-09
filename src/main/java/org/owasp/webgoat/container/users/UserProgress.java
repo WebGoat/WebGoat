@@ -7,10 +7,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -52,7 +49,6 @@ import org.owasp.webgoat.container.lessons.Lesson;
 @Slf4j
 @Entity
 @EqualsAndHashCode
-@Table(name = "user_tracker")
 public class UserProgress {
 
   @Id
@@ -63,10 +59,6 @@ public class UserProgress {
   private String user;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinTable(
-      name = "USER_TRACKER_LESSON_TRACKERS",
-      joinColumns = @JoinColumn(name = "USER_TRACKER_ID"),
-      inverseJoinColumns = @JoinColumn(name = "LESSON_TRACKERS_ID"))
   private Set<LessonProgress> lessonProgress = new HashSet<>();
 
   protected UserProgress() {}

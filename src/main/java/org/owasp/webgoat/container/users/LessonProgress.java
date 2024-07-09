@@ -6,10 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import java.util.HashSet;
 import java.util.List;
@@ -55,7 +52,6 @@ import org.owasp.webgoat.container.lessons.Lesson;
  */
 @Entity
 @EqualsAndHashCode
-@Table(name = "lesson_tracker")
 public class LessonProgress {
 
   @Id
@@ -65,17 +61,9 @@ public class LessonProgress {
   @Getter private String lessonName;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinTable(
-      name = "LESSON_TRACKER_SOLVED_ASSIGNMENTS",
-      joinColumns = @JoinColumn(name = "LESSON_TRACKER_ID"),
-      inverseJoinColumns = @JoinColumn(name = "SOLVED_ASSIGNMENTS_ID"))
   private final Set<Assignment> solvedAssignments = new HashSet<>();
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinTable(
-      name = "LESSON_TRACKER_ALL_ASSIGNMENTS",
-      joinColumns = @JoinColumn(name = "LESSON_TRACKER_ID"),
-      inverseJoinColumns = @JoinColumn(name = "ALL_ASSIGNMENTS_ID"))
   private final Set<Assignment> allAssignments = new HashSet<>();
 
   @Getter private int numberOfAttempts = 0;
