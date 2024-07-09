@@ -20,5 +20,3 @@ ALTER TABLE container.user_tracker_lesson_trackers
     ALTER COLUMN lesson_trackers_id RENAME TO lesson_progress_id;
 ALTER TABLE container.user_tracker_lesson_trackers
     RENAME TO container.user_progress_lesson_progress;
-
-
