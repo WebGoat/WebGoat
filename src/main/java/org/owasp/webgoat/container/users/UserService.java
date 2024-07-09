@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
   private final UserRepository userRepository;
-  private final UserTrackerRepository userTrackerRepository;
+  private final UserProgressRepository userTrackerRepository;
   private final JdbcTemplate jdbcTemplate;
   private final Function<String, Flyway> flywayLessons;
   private final List<Initializeable> lessonInitializables;
@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
 
     if (!userAlreadyExists) {
       userTrackerRepository.save(
-          new UserTracker(username)); // if user previously existed it will not get another tracker
+          new UserProgress(username)); // if user previously existed it will not get another tracker
       createLessonsForUser(webGoatUser);
     }
   }

@@ -32,8 +32,8 @@ import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
 import org.owasp.webgoat.container.session.UserSessionData;
 import org.owasp.webgoat.container.session.WebSession;
-import org.owasp.webgoat.container.users.UserTracker;
-import org.owasp.webgoat.container.users.UserTrackerRepository;
+import org.owasp.webgoat.container.users.UserProgress;
+import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
@@ -41,8 +41,8 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 // Do not remove is the base class for all assignments tests
 public class AssignmentEndpointTest {
 
-  @Mock protected UserTracker userTracker;
-  @Mock protected UserTrackerRepository userTrackerRepository;
+  @Mock protected UserProgress userTracker;
+  @Mock protected UserProgressRepository userTrackerRepository;
   @Mock protected WebSession webSession;
   @Mock protected UserSessionData userSessionData;
 
