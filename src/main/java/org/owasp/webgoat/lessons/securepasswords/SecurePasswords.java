@@ -33,13 +33,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class SecurePasswords extends Lesson {
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.A7;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.A7;
+  }
 
-    @Override
-    public String getTitle() {
-        return "secure-passwords.title";
-    }
+  @Override
+  public String getTitle() {
+    return "secure-passwords.title";
+  }
 }

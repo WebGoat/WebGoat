@@ -22,15 +22,13 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.owasp.webgoat.lessons.sqlinjection.SqlLessonTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.owasp.webgoat.lessons.sqlinjection.SqlLessonTest;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 /**
  * @author Benedikt Stuhrmann
@@ -38,36 +36,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class SqlInjectionLesson10Test extends SqlLessonTest {
 
-    private String completedError = "JSON path \"lessonCompleted\"";
+  private String completedError = "JSON path \"lessonCompleted\"";
 
-    @Test
-    public void tableExistsIsFailure() throws Exception {
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack10")
-                    .param("action_string", ""))
+  @Test
+  public void tableExistsIsFailure() throws Exception {
+    try {
+      mockMvc
+          .perform(MockMvcRequestBuilders.post("/SqlInjection/attack10").param("action_string", ""))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("lessonCompleted", is(false)))
+          .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.entries"))));
+    } catch (AssertionError e) {
+      if (!e.getMessage().contains(completedError)) throw e;
 
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("lessonCompleted", is(false)))
-                    .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.entries"))));
-        } catch (AssertionError e) {
-            if (!e.getMessage().contains(completedError)) throw e;
-
-            mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack10")
-                    .param("action_string", ""))
-
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("lessonCompleted", is(true)))
-                    .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.success"))));
-        }
+      mockMvc
+          .perform(MockMvcRequestBuilders.post("/SqlInjection/attack10").param("action_string", ""))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("lessonCompleted", is(true)))
+          .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.success"))));
     }
+  }
 
-    @Test
-    public void tableMissingIsSuccess() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjection/attack10")
+  @Test
+  public void tableMissingIsSuccess() throws Exception {
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/SqlInjection/attack10")
                 .param("action_string", "%'; DROP TABLE access_log;--"))
-
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("lessonCompleted", is(true)))
-                .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.success"))));
-    }
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("lessonCompleted", is(true)))
+        .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.success"))));
+  }
 }

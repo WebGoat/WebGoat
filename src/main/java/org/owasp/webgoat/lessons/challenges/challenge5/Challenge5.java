@@ -33,13 +33,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Challenge5 extends Lesson {
 
-    @Override
-    public Category getDefaultCategory() {
-        return Category.CHALLENGE;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.CHALLENGE;
+  }
 
-    @Override
-    public String getTitle() {
-        return "challenge5.title";
-    }
+  @Override
+  public String getTitle() {
+    return "challenge5.title";
+  }
 }

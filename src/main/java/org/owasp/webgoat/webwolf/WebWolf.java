@@ -36,9 +36,8 @@ import org.springframework.context.annotation.PropertySource;
 @EnableAutoConfiguration
 public class WebWolf {
 
-    @Bean
-    public HttpTraceRepository traceRepository() {
-        return new WebWolfTraceRepository();
-    }
-
+  @Bean
+  public HttpTraceRepository traceRepository() {
+    return new WebWolfTraceRepository();
+  }
 }

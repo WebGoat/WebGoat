@@ -40,43 +40,53 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class MailAssignment extends AssignmentEndpoint {
 
-    private final String webWolfURL;
-    private RestTemplate restTemplate;
+  private final String webWolfURL;
+  private RestTemplate restTemplate;
 
-    public MailAssignment(RestTemplate restTemplate, @Value("${webwolf.mail.url}") String webWolfURL) {
-        this.restTemplate = restTemplate;
-        this.webWolfURL = webWolfURL;
-    }
+  public MailAssignment(
+      RestTemplate restTemplate, @Value("${webwolf.mail.url}") String webWolfURL) {
+    this.restTemplate = restTemplate;
+    this.webWolfURL = webWolfURL;
+  }
 
-    @PostMapping("/WebWolf/mail/send")
-    @ResponseBody
-    public AttackResult sendEmail(@RequestParam String email) {
-        String username = email.substring(0, email.indexOf("@"));
-        if (username.equalsIgnoreCase(getWebSession().getUserName())) {
-            Email mailEvent = Email.builder()
-                    .recipient(username)
-                    .title("Test messages from WebWolf")
-                    .contents("This is a test message from WebWolf, your unique code is: " + StringUtils.reverse(username))
-                    .sender("webgoat@owasp.org")
-                    .build();
-            try {
-                restTemplate.postForEntity(webWolfURL, mailEvent, Object.class);
-            } catch (RestClientException e ) {
-                return informationMessage(this).feedback("webwolf.email_failed").output(e.getMessage()).build();
-            }
-            return informationMessage(this).feedback("webwolf.email_send").feedbackArgs(email).build();
-        } else {
-            return informationMessage(this).feedback("webwolf.email_mismatch").feedbackArgs(username).build();
-        }
+  @PostMapping("/WebWolf/mail/send")
+  @ResponseBody
+  public AttackResult sendEmail(@RequestParam String email) {
+    String username = email.substring(0, email.indexOf("@"));
+    if (username.equalsIgnoreCase(getWebSession().getUserName())) {
+      Email mailEvent =
+          Email.builder()
+              .recipient(username)
+              .title("Test messages from WebWolf")
+              .contents(
+                  "This is a test message from WebWolf, your unique code is: "
+                      + StringUtils.reverse(username))
+              .sender("webgoat@owasp.org")
+              .build();
+      try {
+        restTemplate.postForEntity(webWolfURL, mailEvent, Object.class);
+      } catch (RestClientException e) {
+        return informationMessage(this)
+            .feedback("webwolf.email_failed")
+            .output(e.getMessage())
+            .build();
+      }
+      return informationMessage(this).feedback("webwolf.email_send").feedbackArgs(email).build();
+    } else {
+      return informationMessage(this)
+          .feedback("webwolf.email_mismatch")
+          .feedbackArgs(username)
+          .build();
     }
+  }
 
-    @PostMapping("/WebWolf/mail")
-    @ResponseBody
-    public AttackResult completed(@RequestParam String uniqueCode) {
-        if (uniqueCode.equals(StringUtils.reverse(getWebSession().getUserName()))) {
-            return success(this).build();
-        } else {
-            return failed(this).feedbackArgs("webwolf.code_incorrect").feedbackArgs(uniqueCode).build();
-        }
+  @PostMapping("/WebWolf/mail")
+  @ResponseBody
+  public AttackResult completed(@RequestParam String uniqueCode) {
+    if (uniqueCode.equals(StringUtils.reverse(getWebSession().getUserName()))) {
+      return success(this).build();
+    } else {
+      return failed(this).feedbackArgs("webwolf.code_incorrect").feedbackArgs(uniqueCode).build();
     }
+  }
 }

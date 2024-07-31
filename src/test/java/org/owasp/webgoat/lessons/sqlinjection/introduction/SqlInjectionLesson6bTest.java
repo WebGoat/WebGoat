@@ -22,32 +22,33 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.owasp.webgoat.lessons.sqlinjection.SqlLessonTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Test;
+import org.owasp.webgoat.lessons.sqlinjection.SqlLessonTest;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 public class SqlInjectionLesson6bTest extends SqlLessonTest {
 
-    @Test
-    public void submitCorrectPassword() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjectionAdvanced/attack6b")
+  @Test
+  public void submitCorrectPassword() throws Exception {
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/SqlInjectionAdvanced/attack6b")
                 .param("userid_6b", "passW0rD"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.lessonCompleted", is(true)));
+  }
 
-                .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(true)));
-    }
-
-    @Test
-    public void submitWrongPassword() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/SqlInjectionAdvanced/attack6b")
+  @Test
+  public void submitWrongPassword() throws Exception {
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/SqlInjectionAdvanced/attack6b")
                 .param("userid_6b", "John"))
-
-                .andExpect(status().isOk()).andExpect(jsonPath("$.lessonCompleted", is(false)));
-    }
-
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.lessonCompleted", is(false)));
+  }
 }

@@ -3,8 +3,6 @@ on:
   pull_request:
     paths-ignore:
       - '.txt'
-      - '*.MD'
-      - '*.md'
       - 'LICENSE'
       - 'docs/**'
   push:
@@ -16,8 +14,6 @@ on:
       - '*'
     paths-ignore:
       - '.txt'
-      - '*.MD'
-      - '*.md'
       - 'LICENSE'
       - 'docs/**'
 
@@ -42,13 +38,13 @@ jobs:
           java-version: 17
           architecture: x64
       - name: Cache Maven packages
-        uses: actions/cache@v3.0.8
+        uses: actions/cache@v3.2.3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
       - name: Build with Maven
-        run: mvn --no-transfer-progress package
+        run: mvn --no-transfer-progress verify
 
   build:
     if: github.repository == 'WebGoat/WebGoat' && github.event_name == 'push'
@@ -63,7 +59,7 @@ jobs:
               java-version: 17
               architecture: x64
         - name: Cache Maven packages
-          uses: actions/cache@v3.0.8
+          uses: actions/cache@v3.2.3
           with:
               path: ~/.m2
               key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}

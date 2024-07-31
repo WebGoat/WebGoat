@@ -15,7 +15,6 @@ import org.springframework.data.annotation.Id;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserSession {
 
-    private WebGoatUser webGoatUser;
-    @Id
-    private String sessionId;
+  private WebGoatUser webGoatUser;
+  @Id private String sessionId;
 }

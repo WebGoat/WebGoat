@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class JWTDecodeEndpoint extends AssignmentEndpoint {
 
-    @PostMapping("/JWT/decode")
-    @ResponseBody
-    public AttackResult decode(@RequestParam("jwt-encode-user") String user) {
-        if ("user".equals(user)) {
-            return success(this).build();
-        } else {
-            return failed(this).build();
-        }
+  @PostMapping("/JWT/decode")
+  @ResponseBody
+  public AttackResult decode(@RequestParam("jwt-encode-user") String user) {
+    if ("user".equals(user)) {
+      return success(this).build();
+    } else {
+      return failed(this).build();
     }
+  }
 }

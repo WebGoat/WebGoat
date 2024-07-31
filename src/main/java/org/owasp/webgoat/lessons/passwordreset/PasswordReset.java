@@ -28,13 +28,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PasswordReset extends Lesson {
-    @Override
-    public Category getDefaultCategory() {
-        return Category.A7;
-    }
+  @Override
+  public Category getDefaultCategory() {
+    return Category.A7;
+  }
 
-    @Override
-    public String getTitle() {
-        return "password-reset.title";
-    }
+  @Override
+  public String getTitle() {
+    return "password-reset.title";
+  }
 }
