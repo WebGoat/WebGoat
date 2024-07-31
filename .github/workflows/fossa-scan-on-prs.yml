@@ -1,0 +1,81 @@
+name: FOSSA Dependency Scan
+
+ 
+
+on:
+
+  pull_request: {}
+
+  merge_group:
+
+    types: [checks_requested]
+
+ 
+
+env:
+
+  PROJECT_NAME: ${{ github.event.repository.name }}
+
+  PROJECT_URL: ${{ github.server_url }}/${{ github.repository }}
+
+  LOG_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
+
+  BASE_BRANCH_NAME: ${{ github.base_ref }}
+
+  HEAD_BRANCH_NAME: ${{ github.head_ref }}
+
+ 
+
+jobs:
+
+  fossa:
+
+    name: fossa cli
+
+    runs-on: ubuntu-latest
+
+ 
+
+    # Skip any PR created by dependabot and any check triggered by merge group
+
+    if: (github.actor != 'dependabot[bot]') && (github.event != 'merge_group')
+
+ 
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+ 
+
+      # Checkout and analyse the base branch to be able to compare package diffs. This allows FOSSA to throw an error on new issues.
+
+      # At some point this will be removed to allow FOSSA to fail on existing issues.
+
+      - uses: actions/checkout@v4
+
+        with:
+
+          ref: ${{ env.BASE_BRANCH_NAME }}
+
+          path: base-branch
+
+ 
+
+      - name: Analyse dependencies with FOSSA
+
+        run: |
+
+          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash         
+
+          fossa analyze base-branch -p "$PROJECT_NAME" -P "$PROJECT_URL" -L "$LOG_URL" -b "$BASE_BRANCH_NAME"
+
+          fossa analyze -p "$PROJECT_NAME" -P "$PROJECT_URL" -L "$LOG_URL" -b "$HEAD_BRANCH_NAME" --exclude-path ./base-branch
+
+          fossa test -p "$PROJECT_NAME" --diff "$BASE_SHA"
+
+        env:
+
+          FOSSA_API_KEY: ${{ secrets.FOSSA_API_TOKEN }}
