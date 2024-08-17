@@ -1,4 +1,5 @@
-node {
+pipeline {
+  agent any
   tools {
     jdk 'JDK 17'
   }
