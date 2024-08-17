@@ -9,7 +9,7 @@ pipeline {
               description: 'Type of scan that is going to perform inside the container',
               name: 'SCAN_TYPE'
 
-      string defaultValue: 'http://webgoat:8082/WebGoat',
+      string defaultValue: 'http://webgoat:8080/WebGoat',
               description: 'Target URL to scan',
               name: 'TARGET'
 
@@ -45,8 +45,8 @@ pipeline {
             sh '''
               docker network create -d bridge dast-network || true
               docker run -dt --name webgoat \
-                -p 8082:8080 \
-                -p 9092:9090 \
+                --expose 8080 \
+                --expose 9090 \
                 --network=dast-network \
                 --network-alias webgoat\
                 webgoat/webgoat
