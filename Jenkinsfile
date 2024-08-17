@@ -127,7 +127,7 @@ pipeline {
         steps {
           script {
             sh """
-                docker cp owasp:/zap/wrk/report.json ${WORKSPACE}/report.json
+                docker cp owasp:/zap/wrk/report.json $WORKSPACE/report.json
             """
           }
         }
@@ -137,7 +137,7 @@ pipeline {
           script {
             sh """
               # JSON-Datei einlesen
-              file="${WORKSPACE}/report.json"
+              file=$WORKSPACE/report.json
 
               # Zähle die Gesamtzahl der Schwachstellen
               total_vulnerabilities=$(jq '[.site[].alerts[]] | length' "$file")
