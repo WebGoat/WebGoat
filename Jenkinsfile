@@ -43,7 +43,7 @@ pipeline {
         steps {
           script {
             sh '''
-              docker network create -d bridge dast-network
+              docker network create -d bridge dast-network || true
               docker run -dt --name webgoat \
                 -p 8082:8080 \
                 -p 9092:9090 \
