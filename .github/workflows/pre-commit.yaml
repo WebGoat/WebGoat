@@ -1,29 +1,35 @@
-name: Pre-commit check
+on: 
+  push: 
+    branches: 
+      - main 
+  pull_request:
 
-on:
-    pull_request:
-        branches: [main]
-    workflow_dispatch:
-
-permissions:
-    contents: read
-jobs:
-    pre-commit:
-        name: Pre-commit check
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout git repository
-              uses: actions/checkout@v4
-            - name: Setup python
-              uses: actions/setup-python@v5
-              with:
-                    python-version: "3.9"
-            - uses: actions/setup-java@v4
-              with:
-                  distribution: 'temurin'
-                  java-version: '21'
-            - name: Pre-commit checks
-              uses: pre-commit/action@v3.0.0
-            - name: pre-commit-ci-lite
-              uses: pre-commit-ci/lite-action@v1.0.1
-              if: always()
+permissions: 
+  contents: read 
+  id-token: write 
+  issues: write 
+  pull-requests: write
+  
+jobs: 
+  TruffleHog: 
+    runs-on: ubuntu-latest 
+    defaults: 
+      run: 
+        shell: bash 
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v3 
+        with: 
+          fetch-depth: 0
+      - name: TruffleHog OSS 
+        id: trufflehog 
+        uses: trufflesecurity/trufflehog@add-actions-cli-switch 
+        continue-on-error: true 
+        with: 
+          path: ./ 
+          base: "${{ github.event.repository.default_branch }}" 
+          head: HEAD 
+          extra_args: --debug --only-verified
+      - name: Scan Results Status 
+        if: steps.trufflehog.outcome == 'failure' 
+        run: exit 1
