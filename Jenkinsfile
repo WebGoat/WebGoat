@@ -8,7 +8,7 @@ pipeline {
               description: 'Type of scan that is going to perform inside the container',
               name: 'SCAN_TYPE'
 
-      string defaultValue: 'http://localhost:8082/WebGoat',
+      string defaultValue: 'http://webgoat:8082/WebGoat',
               description: 'Target URL to scan',
               name: 'TARGET'
 
@@ -42,9 +42,11 @@ pipeline {
         steps {
           script {
             sh '''
+              docker network create -d bridge dast-network
               docker run -dt --name webgoat \
                 -p 8082:8080 \
                 -p 9092:9090 \
+                --network dast-network \
                 webgoat/webgoat
             '''
           }
@@ -58,6 +60,7 @@ pipeline {
             sh 'docker pull zaproxy/zap-stable'
             sh '''
               docker run -dt --name owasp \
+              --network dast-network \
               zaproxy/zap-stable \
               /bin/bash
             '''
@@ -87,30 +90,30 @@ pipeline {
               case 'Baseline':
                 sh """
                   docker exec owasp \
-                  zap-baseline.py \
-                  -t $target \
-                  -x report.xml \
-                  -I
+                    zap-baseline.py \
+                    -t $target \
+                    -J report.json \
+                    -I
                 """
                 break
 
               case 'APIS':
                 sh """
                   docker exec owasp \
-                  zap-api-scan.py \
-                  -t $target \
-                  -x report.xml \
-                  -I
+                    zap-api-scan.py \
+                    -t $target \
+                    -J report.json \
+                    -I
                 """
                 break
 
               case 'Full':
                 sh """
                   docker exec owasp \
-                  zap-full-scan.py \
-                  -t $target \
-                  //-x report.xml
-                  -I
+                    zap-full-scan.py \
+                    -t $target \
+                    //-J report.json
+                    -I
                 """
                 break
 
@@ -124,7 +127,7 @@ pipeline {
         steps {
           script {
             sh """
-                docker cp owasp:/zap/wrk/report.xml ${WORKSPACE}/report.xml
+                docker cp owasp:/zap/wrk/report.json ${WORKSPACE}/report.json
             """
           }
         }
@@ -134,7 +137,7 @@ pipeline {
           script {
             sh """
               # JSON-Datei einlesen
-              file="${WORKSPACE}/report.xml"
+              file="${WORKSPACE}/report.json"
 
               # Zähle die Gesamtzahl der Schwachstellen
               total_vulnerabilities=$(jq '[.site[].alerts[]] | length' "$file")
