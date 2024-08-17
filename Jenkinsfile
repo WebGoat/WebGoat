@@ -9,7 +9,7 @@ pipeline {
               description: 'Type of scan that is going to perform inside the container',
               name: 'SCAN_TYPE'
 
-      string defaultValue: 'http://webgoat:8080/WebGoat',
+      string defaultValue: 'http://webgoat:8080/WebGoat/login',
               description: 'Target URL to scan',
               name: 'TARGET'
 
@@ -95,6 +95,7 @@ pipeline {
                     zap-baseline.py \
                     -t $target \
                     -J report.json \
+                    -j \
                     -I
                 """
                 break
@@ -105,6 +106,7 @@ pipeline {
                     zap-api-scan.py \
                     -t $target \
                     -J report.json \
+                    -j \
                     -I
                 """
                 break
@@ -114,7 +116,8 @@ pipeline {
                   docker exec owasp \
                     zap-full-scan.py \
                     -t $target \
-                    //-J report.json
+                    -J report.json \
+                    -j \
                     -I
                 """
                 break
