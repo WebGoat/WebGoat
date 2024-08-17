@@ -166,7 +166,10 @@ pipeline {
     post {
         always {
           echo 'Removing container'
+          // Remove test and dast container
           sh '''
+                docker stop webgoat
+                docker rm webgoat
                 docker stop owasp
                 docker rm owasp
             '''
