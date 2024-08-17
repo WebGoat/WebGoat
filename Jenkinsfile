@@ -140,12 +140,29 @@ pipeline {
       stage('Count severities') {
         steps {
           script {
-            sh """echo "Gesamtzahl der Schwachstellen: \$(jq '[.site[].alerts[]] | length' "$WORKSPACE/report.json")"""
-            sh """echo "Kritisches Risiko: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Critical"))] | length' "$file")"""
-            sh """echo "Hohes Risiko: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("High"))] | length' "$file")"""
-            sh """echo "Mittleres Risiko: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Medium"))] | length' "$file")"""
-            sh """echo "Niedriges Risiko: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Low"))] | length' "$file")"""
-            sh """echo "Informationsschwachstellen: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Informational"))] | length' "$file")"""
+            // Pfad zur JSON-Datei, die von Jenkins verwendet wird
+            def jsonFilePath = "$WORKSPACE/report.json"
+
+            // Bash-Skript zum Parsen und Zählen der Schwachstellen
+            sh '''
+              # Zähle die Gesamtzahl der Schwachstellen
+              total_vulnerabilities=$(jq '[.site[].alerts[]] | length' "$jsonFilePath")
+
+              # Gruppiere nach Schweregrad und zähle jede Gruppe
+              critical_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Critical"))] | length' "$jsonFilePath")
+              high_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("High"))] | length' "$jsonFilePath")
+              medium_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Medium"))] | length' "$jsonFilePath")
+              low_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Low"))] | length' "$jsonFilePath")
+              informational_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Informational"))] | length' "$jsonFilePath")
+
+              # Ergebnisse ausgeben
+              echo "Gesamtzahl der Schwachstellen: $total_vulnerabilities"
+              echo "Kritisches Risiko: $critical_risks"
+              echo "Hohes Risiko: $high_risks"
+              echo "Mittleres Risiko: $medium_risks"
+              echo "Niedriges Risiko: $low_risks"
+              echo "Informationsschwachstellen: $informational_risks"
+            '''
           }
         }
       }
