@@ -8,7 +8,7 @@ pipeline {
               description: 'Type of scan that is going to perform inside the container',
               name: 'SCAN_TYPE'
 
-      string defaultValue: 'http://localhost:8081/WebGoat',
+      string defaultValue: 'http://localhost:8082/WebGoat',
               description: 'Target URL to scan',
               name: 'TARGET'
 
@@ -55,9 +55,10 @@ pipeline {
       stage('Setting up OWASP ZAP docker container') {
         steps {
           script {
+            sh 'docker pull zaproxy/zap-stable'
             sh '''
               docker run -dt --name owasp \
-              owasp/zap2docker-stable \
+              zaproxy/zap-stable \
               /bin/bash
             '''
           }
@@ -124,6 +125,34 @@ pipeline {
           script {
             sh """
                 docker cp owasp:/zap/wrk/report.xml ${WORKSPACE}/report.xml
+            """
+          }
+        }
+      }
+      stage('Count severities') {
+        steps {
+          script {
+            sh """
+              # JSON-Datei einlesen
+              file="${WORKSPACE}/report.xml"
+
+              # Zähle die Gesamtzahl der Schwachstellen
+              total_vulnerabilities=$(jq '[.site[].alerts[]] | length' "$file")
+
+              # Gruppiere nach Schweregrad und zähle jede Gruppe
+              critical_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Critical"))] | length' "$file")
+              high_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("High"))] | length' "$file")
+              medium_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Medium"))] | length' "$file")
+              low_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Low"))] | length' "$file")
+              informational_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Informational"))] | length' "$file")
+
+              # Ergebnisse ausgeben
+              echo "Gesamtzahl der Schwachstellen: $total_vulnerabilities"
+              echo "Kritisches Risiko: $critical_risks"
+              echo "Hohes Risiko: $high_risks"
+              echo "Mittleres Risiko: $medium_risks"
+              echo "Niedriges Risiko: $low_risks"
+              echo "Informationsschwachstellen: $informational_risks"
             """
           }
         }
