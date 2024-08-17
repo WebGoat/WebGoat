@@ -140,14 +140,14 @@ pipeline {
               file=$WORKSPACE/report.json
 
               # Zähle die Gesamtzahl der Schwachstellen
-              total_vulnerabilities=$(jq '[.site[].alerts[]] | length' "$file")
+              total_vulnerabilities=\$(jq '[.site[].alerts[]] | length' "$file")
 
               # Gruppiere nach Schweregrad und zähle jede Gruppe
-              critical_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Critical"))] | length' "$file")
-              high_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("High"))] | length' "$file")
-              medium_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Medium"))] | length' "$file")
-              low_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Low"))] | length' "$file")
-              informational_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Informational"))] | length' "$file")
+              critical_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Critical"))] | length' "$file")
+              high_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("High"))] | length' "$file")
+              medium_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Medium"))] | length' "$file")
+              low_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Low"))] | length' "$file")
+              informational_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Informational"))] | length' "$file")
 
               # Ergebnisse ausgeben
               echo "Gesamtzahl der Schwachstellen: $total_vulnerabilities"
