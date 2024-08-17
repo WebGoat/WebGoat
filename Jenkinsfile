@@ -131,29 +131,25 @@ pipeline {
       stage('Copy Report to Workspace') {
         steps {
           script {
-            sh """
-                docker cp owasp:/zap/wrk/report.json $WORKSPACE/report.json
-            """
+            sh '''
+                docker cp owasp:/zap/wrk/report.json ./report.json
+            '''
           }
         }
       }
       stage('Count severities') {
         steps {
           script {
-            // Pfad zur JSON-Datei, die von Jenkins verwendet wird
-            def jsonFilePath = "$WORKSPACE/report.json"
-
-            // Bash-Skript zum Parsen und Zählen der Schwachstellen
             sh '''
               # Zähle die Gesamtzahl der Schwachstellen
-              total_vulnerabilities=$(jq '[.site[].alerts[]] | length' "$jsonFilePath")
+              total_vulnerabilities=$(jq '[.site[].alerts[]] | length' ./report.json)
 
               # Gruppiere nach Schweregrad und zähle jede Gruppe
-              critical_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Critical"))] | length' "$jsonFilePath")
-              high_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("High"))] | length' "$jsonFilePath")
-              medium_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Medium"))] | length' "$jsonFilePath")
-              low_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Low"))] | length' "$jsonFilePath")
-              informational_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Informational"))] | length' "$jsonFilePath")
+              critical_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Critical"))] | length' ./report.json)
+              high_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("High"))] | length' ./report.json)
+              medium_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Medium"))] | length' ./report.json)
+              low_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Low"))] | length' ./report.json)
+              informational_risks=$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Informational"))] | length' ./report.json)
 
               # Ergebnisse ausgeben
               echo "Gesamtzahl der Schwachstellen: $total_vulnerabilities"
