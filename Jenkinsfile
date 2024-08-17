@@ -2,6 +2,7 @@ pipeline {
     agent any
     tools {
         jdk 'JDK 21'
+        dockerTool 'Docker'
     }
     parameters {
       choice choices: ['Baseline', 'APIS', 'Full'],
