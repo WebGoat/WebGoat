@@ -47,7 +47,8 @@ pipeline {
               docker run -dt --name webgoat \
                 -p 8082:8080 \
                 -p 9092:9090 \
-                --network dast-network \
+                --network=dast-network \
+                --network-alias webgoat\
                 webgoat/webgoat
             '''
           }
@@ -61,7 +62,7 @@ pipeline {
             sh 'docker pull zaproxy/zap-stable'
             sh '''
               docker run -dt --name owasp \
-              --network dast-network \
+              --network=dast-network \
               zaproxy/zap-stable \
               /bin/bash
             '''
