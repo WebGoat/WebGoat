@@ -140,28 +140,12 @@ pipeline {
       stage('Count severities') {
         steps {
           script {
-            sh """
-              # JSON-Datei einlesen
-              file=$WORKSPACE/report.json
-
-              # Zähle die Gesamtzahl der Schwachstellen
-              total_vulnerabilities=\$(jq '[.site[].alerts[]] | length' "$file")
-
-              # Gruppiere nach Schweregrad und zähle jede Gruppe
-              critical_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Critical"))] | length' "$file")
-              high_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("High"))] | length' "$file")
-              medium_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Medium"))] | length' "$file")
-              low_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Low"))] | length' "$file")
-              informational_risks=\$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Informational"))] | length' "$file")
-
-              # Ergebnisse ausgeben
-              echo "Gesamtzahl der Schwachstellen: $total_vulnerabilities"
-              echo "Kritisches Risiko: $critical_risks"
-              echo "Hohes Risiko: $high_risks"
-              echo "Mittleres Risiko: $medium_risks"
-              echo "Niedriges Risiko: $low_risks"
-              echo "Informationsschwachstellen: $informational_risks"
-            """
+            sh """echo "Gesamtzahl der Schwachstellen: \$(jq '[.site[].alerts[]] | length' "$WORKSPACE/report.json")"""
+            sh """echo "Kritisches Risiko: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Critical"))] | length' "$file")"""
+            sh """echo "Hohes Risiko: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("High"))] | length' "$file")"""
+            sh """echo "Mittleres Risiko: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Medium"))] | length' "$file")"""
+            sh """echo "Niedriges Risiko: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Low"))] | length' "$file")"""
+            sh """echo "Informationsschwachstellen: \$(jq '[.site[].alerts[] | select(.riskdesc | startswith("Informational"))] | length' "$file")"""
           }
         }
       }
