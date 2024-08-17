@@ -12,9 +12,11 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                def mvn = tool 'Maven 3.9.8';
-                withSonarQubeEnv() {
-                    sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=test"
+                script {
+                    def mvn = tool 'Maven 3.9.8';
+                    withSonarQubeEnv() {
+                        sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=test"
+                    }
                 }
             }
         }
