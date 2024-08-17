@@ -18,6 +18,10 @@ pipeline {
                         sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=test -Dmaven.test.skip"
                     }
                 }
+            }
+        }
+        stage("SonarQube Result") {
+            steps {
                 waitForQualityGate abortPipeline: true
             }
         }
