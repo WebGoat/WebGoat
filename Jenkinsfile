@@ -1,4 +1,7 @@
 node {
+  tools {
+    jdk 'JDK 17'
+  }
   stage('SCM') {
     checkout scm
   }
