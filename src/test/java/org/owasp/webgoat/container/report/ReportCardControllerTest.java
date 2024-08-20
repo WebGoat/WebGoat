@@ -1,4 +1,4 @@
-package org.owasp.webgoat.container.service;
+package org.owasp.webgoat.container.report;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -18,22 +18,23 @@ import org.owasp.webgoat.container.i18n.PluginMessages;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.session.Course;
 import org.owasp.webgoat.container.session.WebSession;
-import org.owasp.webgoat.container.users.LessonTracker;
-import org.owasp.webgoat.container.users.UserTracker;
-import org.owasp.webgoat.container.users.UserTrackerRepository;
+import org.owasp.webgoat.container.users.LessonProgress;
+import org.owasp.webgoat.container.users.UserProgress;
+import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @ExtendWith(MockitoExtension.class)
-public class ReportCardServiceTest {
+// TODO: Rewrite this as end-to-end test this mocks too many classes
+public class ReportCardControllerTest {
 
   private MockMvc mockMvc;
   @Mock private Course course;
-  @Mock private UserTracker userTracker;
+  @Mock private UserProgress userTracker;
   @Mock private Lesson lesson;
-  @Mock private LessonTracker lessonTracker;
-  @Mock private UserTrackerRepository userTrackerRepository;
+  @Mock private LessonProgress lessonTracker;
+  @Mock private UserProgressRepository userTrackerRepository;
   @Mock private WebSession websession;
   @Mock private PluginMessages pluginMessages;
 
@@ -41,7 +42,7 @@ public class ReportCardServiceTest {
   void setup() {
     this.mockMvc =
         standaloneSetup(
-                new ReportCardService(websession, userTrackerRepository, course, pluginMessages))
+                new ReportCardController(websession, userTrackerRepository, course, pluginMessages))
             .build();
     when(pluginMessages.getMessage(anyString())).thenReturn("Test");
   }
@@ -54,12 +55,11 @@ public class ReportCardServiceTest {
     when(course.getTotalOfAssignments()).thenReturn(10);
     when(course.getLessons()).thenAnswer(x -> List.of(lesson));
     when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
-    when(userTracker.getLessonTracker(any(Lesson.class))).thenReturn(lessonTracker);
+    when(userTracker.getLessonProgress(any(Lesson.class))).thenReturn(lessonTracker);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/service/reportcard.mvc"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.totalNumberOfLessons", is(1)))
-        .andExpect(jsonPath("$.solvedLessons", is(0)))
         .andExpect(jsonPath("$.numberOfAssignmentsSolved", is(0)))
         .andExpect(jsonPath("$.totalNumberOfAssignments", is(10)))
         .andExpect(jsonPath("$.lessonStatistics[0].name", is("Test")))

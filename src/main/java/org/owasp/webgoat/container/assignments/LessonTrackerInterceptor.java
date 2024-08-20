@@ -23,8 +23,8 @@
 package org.owasp.webgoat.container.assignments;
 
 import org.owasp.webgoat.container.session.WebSession;
-import org.owasp.webgoat.container.users.UserTracker;
-import org.owasp.webgoat.container.users.UserTrackerRepository;
+import org.owasp.webgoat.container.users.UserProgress;
+import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -36,11 +36,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
 
-  private UserTrackerRepository userTrackerRepository;
+  private UserProgressRepository userTrackerRepository;
   private WebSession webSession;
 
   public LessonTrackerInterceptor(
-      UserTrackerRepository userTrackerRepository, WebSession webSession) {
+      UserProgressRepository userTrackerRepository, WebSession webSession) {
     this.userTrackerRepository = userTrackerRepository;
     this.webSession = webSession;
   }
@@ -66,9 +66,9 @@ public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
   }
 
   protected AttackResult trackProgress(AttackResult attackResult) {
-    UserTracker userTracker = userTrackerRepository.findByUser(webSession.getUserName());
+    UserProgress userTracker = userTrackerRepository.findByUser(webSession.getUserName());
     if (userTracker == null) {
-      userTracker = new UserTracker(webSession.getUserName());
+      userTracker = new UserProgress(webSession.getUserName());
     }
     if (attackResult.assignmentSolved()) {
       userTracker.assignmentSolved(webSession.getCurrentLesson(), attackResult.getAssignment());

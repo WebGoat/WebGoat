@@ -10,7 +10,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Lesson;
-import org.owasp.webgoat.container.users.LessonTracker;
+import org.owasp.webgoat.container.users.LessonProgress;
 
 /**
  * ************************************************************************************************
@@ -49,7 +49,7 @@ class LessonTrackerTest {
     Lesson lesson = mock(Lesson.class);
     when(lesson.getAssignments())
         .thenReturn(List.of(new Assignment("assignment", "assignment", List.of(""))));
-    LessonTracker lessonTracker = new LessonTracker(lesson);
+    LessonProgress lessonTracker = new LessonProgress(lesson);
     lessonTracker.assignmentSolved("assignment");
 
     Assertions.assertThat(lessonTracker.isLessonSolved()).isTrue();
@@ -62,7 +62,7 @@ class LessonTrackerTest {
     Assignment a2 = new Assignment("a2");
     List<Assignment> assignments = List.of(a1, a2);
     when(lesson.getAssignments()).thenReturn(assignments);
-    LessonTracker lessonTracker = new LessonTracker(lesson);
+    LessonProgress lessonTracker = new LessonProgress(lesson);
     lessonTracker.assignmentSolved("a1");
 
     Map<Assignment, Boolean> lessonOverview = lessonTracker.getLessonOverview();
@@ -76,7 +76,7 @@ class LessonTrackerTest {
     Assignment a1 = new Assignment("a1");
     List<Assignment> assignments = List.of(a1);
     when(lesson.getAssignments()).thenReturn(assignments);
-    LessonTracker lessonTracker = new LessonTracker(lesson);
+    LessonProgress lessonTracker = new LessonProgress(lesson);
     lessonTracker.assignmentSolved("a1");
     lessonTracker.assignmentSolved("a1");
 

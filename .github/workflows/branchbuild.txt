@@ -11,7 +11,7 @@ jobs:
         strategy:
             matrix:
                 os: [ ubuntu-latest, windows-latest, macos-latest ]
-                java-version: [ 17, 21 ]
+                java-version: [ 21 ]
         steps:
             -   uses: actions/checkout@v4
             -   name: Set up JDK ${{ matrix.java-version }}
