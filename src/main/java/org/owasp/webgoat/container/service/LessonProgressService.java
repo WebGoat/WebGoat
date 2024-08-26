@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.session.WebSession;
-import org.owasp.webgoat.container.users.UserTrackerRepository;
+import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 public class LessonProgressService {
 
-  private final UserTrackerRepository userTrackerRepository;
+  private final UserProgressRepository userTrackerRepository;
   private final WebSession webSession;
 
   /**
@@ -36,7 +36,7 @@ public class LessonProgressService {
     var currentLesson = webSession.getCurrentLesson();
 
     if (currentLesson != null) {
-      var lessonTracker = userTracker.getLessonTracker(currentLesson);
+      var lessonTracker = userTracker.getLessonProgress(currentLesson);
       return lessonTracker.getLessonOverview().entrySet().stream()
           .map(entry -> new LessonOverview(entry.getKey(), entry.getValue()))
           .toList();

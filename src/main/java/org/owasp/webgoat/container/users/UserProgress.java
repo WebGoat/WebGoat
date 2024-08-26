@@ -9,13 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Lesson;
 
 /**
@@ -52,7 +49,7 @@ import org.owasp.webgoat.container.lessons.Lesson;
 @Slf4j
 @Entity
 @EqualsAndHashCode
-public class UserTracker {
+public class UserProgress {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,11 +59,11 @@ public class UserTracker {
   private String user;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private Set<LessonTracker> lessonTrackers = new HashSet<>();
+  private Set<LessonProgress> lessonProgress = new HashSet<>();
 
-  private UserTracker() {}
+  protected UserProgress() {}
 
-  public UserTracker(final String user) {
+  public UserProgress(final String user) {
     this.user = user;
   }
 
@@ -76,15 +73,15 @@ public class UserTracker {
    * @param lesson the lesson
    * @return a lesson tracker created if not already present
    */
-  public LessonTracker getLessonTracker(Lesson lesson) {
-    Optional<LessonTracker> lessonTracker =
-        lessonTrackers.stream().filter(l -> l.getLessonName().equals(lesson.getId())).findFirst();
-    if (!lessonTracker.isPresent()) {
-      LessonTracker newLessonTracker = new LessonTracker(lesson);
-      lessonTrackers.add(newLessonTracker);
+  public LessonProgress getLessonProgress(Lesson lesson) {
+    Optional<LessonProgress> progress =
+        lessonProgress.stream().filter(l -> l.getLessonName().equals(lesson.getId())).findFirst();
+    if (!progress.isPresent()) {
+      LessonProgress newLessonTracker = new LessonProgress(lesson);
+      lessonProgress.add(newLessonTracker);
       return newLessonTracker;
     } else {
-      return lessonTracker.get();
+      return progress.get();
     }
   }
 
@@ -94,43 +91,34 @@ public class UserTracker {
    * @param id the id of the lesson
    * @return optional due to the fact we can only create a lesson tracker based on a lesson
    */
-  public Optional<LessonTracker> getLessonTracker(String id) {
-    return lessonTrackers.stream().filter(l -> l.getLessonName().equals(id)).findFirst();
+  public Optional<LessonProgress> getLessonProgress(String id) {
+    return lessonProgress.stream().filter(l -> l.getLessonName().equals(id)).findFirst();
   }
 
   public void assignmentSolved(Lesson lesson, String assignmentName) {
-    LessonTracker lessonTracker = getLessonTracker(lesson);
-    lessonTracker.incrementAttempts();
-    lessonTracker.assignmentSolved(assignmentName);
+    LessonProgress progress = getLessonProgress(lesson);
+    progress.incrementAttempts();
+    progress.assignmentSolved(assignmentName);
   }
 
   public void assignmentFailed(Lesson lesson) {
-    LessonTracker lessonTracker = getLessonTracker(lesson);
-    lessonTracker.incrementAttempts();
+    LessonProgress progress = getLessonProgress(lesson);
+    progress.incrementAttempts();
   }
 
   public void reset(Lesson al) {
-    LessonTracker lessonTracker = getLessonTracker(al);
-    lessonTracker.reset();
+    LessonProgress progress = getLessonProgress(al);
+    progress.reset();
   }
 
-  public int numberOfLessonsSolved() {
-    int numberOfLessonsSolved = 0;
-    for (LessonTracker lessonTracker : lessonTrackers) {
-      if (lessonTracker.isLessonSolved()) {
-        numberOfLessonsSolved = numberOfLessonsSolved + 1;
-      }
-    }
-    return numberOfLessonsSolved;
+  public long numberOfLessonsSolved() {
+    return lessonProgress.stream().filter(LessonProgress::isLessonSolved).count();
   }
 
-  public int numberOfAssignmentsSolved() {
-    int numberOfAssignmentsSolved = 0;
-    for (LessonTracker lessonTracker : lessonTrackers) {
-      Map<Assignment, Boolean> lessonOverview = lessonTracker.getLessonOverview();
-      numberOfAssignmentsSolved =
-          lessonOverview.values().stream().filter(b -> b).collect(Collectors.counting()).intValue();
-    }
-    return numberOfAssignmentsSolved;
+  public long numberOfAssignmentsSolved() {
+    return lessonProgress.stream()
+        .map(LessonProgress::numberOfSolvedAssignments)
+        .mapToLong(Long::valueOf)
+        .sum();
   }
 }

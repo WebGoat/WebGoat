@@ -52,7 +52,7 @@ import org.owasp.webgoat.container.lessons.Lesson;
  */
 @Entity
 @EqualsAndHashCode
-public class LessonTracker {
+public class LessonProgress {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,11 +69,11 @@ public class LessonTracker {
   @Getter private int numberOfAttempts = 0;
   @Version private Integer version;
 
-  private LessonTracker() {
+  protected LessonProgress() {
     // JPA
   }
 
-  public LessonTracker(Lesson lesson) {
+  public LessonProgress(Lesson lesson) {
     lessonName = lesson.getId();
     allAssignments.addAll(lesson.getAssignments() == null ? List.of() : lesson.getAssignments());
   }
@@ -118,5 +118,9 @@ public class LessonTracker {
         notSolved.stream().collect(Collectors.toMap(a -> a, b -> false));
     overview.putAll(solvedAssignments.stream().collect(Collectors.toMap(a -> a, b -> true)));
     return overview;
+  }
+
+  long numberOfSolvedAssignments() {
+    return solvedAssignments.size();
   }
 }

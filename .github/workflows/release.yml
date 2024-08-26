@@ -74,7 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Set up QEMU"
-        uses: docker/setup-qemu-action@v2.2.0
+        uses: docker/setup-qemu-action@v3.1.0
         with:
           platforms: all
 
@@ -82,13 +82,13 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: "Login to dockerhub"
-        uses: docker/login-action@v3.2.0
+        uses: docker/login-action@v3.3.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: "Build and push WebGoat"
-        uses: docker/build-push-action@v6.1.0
+        uses: docker/build-push-action@v6.5.0
         with:
           context: ./
           file: ./Dockerfile
@@ -101,7 +101,7 @@ jobs:
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
 
       - name: "Build and push WebGoat desktop"
-        uses: docker/build-push-action@v6.1.0
+        uses: docker/build-push-action@v6.5.0
         with:
           context: ./
           file: ./Dockerfile_desktop

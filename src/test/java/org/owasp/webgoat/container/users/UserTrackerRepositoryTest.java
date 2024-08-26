@@ -34,23 +34,23 @@ class UserTrackerRepositoryTest {
     }
   }
 
-  @Autowired private UserTrackerRepository userTrackerRepository;
+  @Autowired private UserProgressRepository userTrackerRepository;
 
   @Test
   void saveUserTracker() {
-    UserTracker userTracker = new UserTracker("test");
+    UserProgress userTracker = new UserProgress("test");
 
     userTrackerRepository.save(userTracker);
 
     userTracker = userTrackerRepository.findByUser("test");
-    Assertions.assertThat(userTracker.getLessonTracker("test")).isNotNull();
+    Assertions.assertThat(userTracker.getLessonProgress("test")).isNotNull();
   }
 
   @Test
   void solvedAssignmentsShouldBeSaved() {
-    UserTracker userTracker = new UserTracker("test");
+    UserProgress userTracker = new UserProgress("test");
     TestLesson lesson = new TestLesson();
-    userTracker.getLessonTracker(lesson);
+    userTracker.getLessonProgress(lesson);
     userTracker.assignmentFailed(lesson);
     userTracker.assignmentFailed(lesson);
     userTracker.assignmentSolved(lesson, "test");
@@ -63,9 +63,9 @@ class UserTrackerRepositoryTest {
 
   @Test
   void saveAndLoadShouldHaveCorrectNumberOfAttempts() {
-    UserTracker userTracker = new UserTracker("test");
+    UserProgress userTracker = new UserProgress("test");
     TestLesson lesson = new TestLesson();
-    userTracker.getLessonTracker(lesson);
+    userTracker.getLessonProgress(lesson);
     userTracker.assignmentFailed(lesson);
     userTracker.assignmentFailed(lesson);
     userTrackerRepository.saveAndFlush(userTracker);
@@ -75,6 +75,6 @@ class UserTrackerRepositoryTest {
     userTracker.assignmentFailed(lesson);
     userTrackerRepository.saveAndFlush(userTracker);
 
-    Assertions.assertThat(userTracker.getLessonTracker(lesson).getNumberOfAttempts()).isEqualTo(4);
+    Assertions.assertThat(userTracker.getLessonProgress(lesson).getNumberOfAttempts()).isEqualTo(4);
   }
 }

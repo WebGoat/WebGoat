@@ -8,8 +8,7 @@ define(['jquery',
     'goatApp/support/GoatUtils',
     'goatApp/view/UserAndInfoView',
     'goatApp/view/MenuButtonView',
-    'goatApp/model/LessonInfoModel',
-    'goatApp/view/TitleView'
+    'goatApp/model/LessonInfoModel'
     ],
     function($,
         _,
@@ -21,8 +20,7 @@ define(['jquery',
         GoatUtils,
         UserAndInfoView,
         MenuButtonView,
-        LessonInfoModel,
-        TitleView
+        LessonInfoModel
     ) {
         'use strict'
 

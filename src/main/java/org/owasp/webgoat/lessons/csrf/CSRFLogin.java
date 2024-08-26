@@ -26,8 +26,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.users.UserTracker;
-import org.owasp.webgoat.container.users.UserTrackerRepository;
+import org.owasp.webgoat.container.users.UserProgress;
+import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,9 +40,9 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints({"csrf-login-hint1", "csrf-login-hint2", "csrf-login-hint3"})
 public class CSRFLogin extends AssignmentEndpoint {
 
-  private final UserTrackerRepository userTrackerRepository;
+  private final UserProgressRepository userTrackerRepository;
 
-  public CSRFLogin(UserTrackerRepository userTrackerRepository) {
+  public CSRFLogin(UserProgressRepository userTrackerRepository) {
     this.userTrackerRepository = userTrackerRepository;
   }
 
@@ -60,7 +60,7 @@ public class CSRFLogin extends AssignmentEndpoint {
   }
 
   private void markAssignmentSolvedWithRealUser(String username) {
-    UserTracker userTracker = userTrackerRepository.findByUser(username);
+    UserProgress userTracker = userTrackerRepository.findByUser(username);
     userTracker.assignmentSolved(
         getWebSession().getCurrentLesson(), this.getClass().getSimpleName());
     userTrackerRepository.save(userTracker);
