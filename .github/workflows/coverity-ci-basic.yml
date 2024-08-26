@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v3
       - name: Coverity Scan
-        uses: synopsys-sig/synopsys-action@v1.10.0
+        uses: synopsys-sig/synopsys-action@v1.11.0
         with:
           ### SCANNING: Required fields
           coverity_url: ${{ vars.COVERITY_URL }}
