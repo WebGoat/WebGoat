@@ -7,7 +7,7 @@ on:
   workflow_dispatch:  
 jobs:
   build:
-    runs-on: [ ubuntu-latest ]
+    runs-on: [ self-hosted ]
     steps:
       - name: Checkout Source
         uses: actions/checkout@v3
