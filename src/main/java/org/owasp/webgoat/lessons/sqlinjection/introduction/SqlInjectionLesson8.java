@@ -76,30 +76,8 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
                 ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
         log(connection, query);
         ResultSet results = statement.executeQuery(query);
-
-        if (results.getStatement() != null) {
-          if (results.first()) {
-            output.append(generateTable(results));
-            results.last();
-
-            if (results.getRow() > 1) {
-              // more than one record, the user succeeded
-              return success(this)
-                  .feedback("sql-injection.8.success")
-                  .output(output.toString())
-                  .build();
-            } else {
-              // only one record
-              return failed(this).feedback("sql-injection.8.one").output(output.toString()).build();
-            }
-
-          } else {
-            // no results
-            return failed(this).feedback("sql-injection.8.no.results").build();
-          }
-        } else {
-          return failed(this).build();
-        }
+        ResultSetMetaData resultsMetaData = getMetaData(results, output);
+ 
       } catch (SQLException e) {
         return failed(this)
             .output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>")
@@ -159,5 +137,31 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
+  }
+}
+
+  private ResultSetMetaData getMetaData(ResultSet results, StringBuilder output) {
+  if (results.getStatement() != null) {
+    if (results.first()) {
+      output.append(generateTable(results));
+      results.last();
+
+      if (results.getRow() > 1) {
+        // more than one record, the user succeeded
+        return success(this)
+            .feedback("sql-injection.8.success")
+            .output(output.toString())
+            .build();
+      } else {
+        // only one record
+        return failed(this).feedback("sql-injection.8.one").output(output.toString()).build();
+      }
+
+    } else {
+      // no results
+      return failed(this).feedback("sql-injection.8.no.results").build();
+    }
+  } else {
+    return failed(this).build();
   }
 }
