@@ -63,7 +63,7 @@ jobs:
       - name: Build and Push Docker Image 
         uses: mr-smithers-excellent/docker-build-push@v6 
         with: 
-          image: yjdocker0411/my-webgoat 
+          image: jichew/my-webgoat 
           registry: docker.io 
           username: ${{ secrets.DOCKER_USERNAME }} 
           password: ${{ secrets.DOCKER_PASSWORD }}
