@@ -61,9 +61,12 @@ jobs:
      
     # Add the Docker image build and push step from the first workflow here 
       - name: Build and Push Docker Image 
-        uses: mr-smithers-excellent/docker-build-push@v6 
-        with: 
-          image: jichew/my-webgoat 
-          registry: docker.io 
-          username: ${{ secrets.DOCKER_USERNAME }} 
+        uses: docker/build-push-action@v4.1.1
+        with:
+          context: ./
+          file: ./Dockerfile  # Adjust this if necessary
+          push: true
+          tags: jichew/my-webgoat:latest
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
