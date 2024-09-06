@@ -32,4 +32,3 @@ The following steps are required when you want to add a new language
 7. Run WebGoat and verify that your own language and the other languages work as expected
 
 If you only want to translate more for a certain language, you only need to do step 4-8
-testing
