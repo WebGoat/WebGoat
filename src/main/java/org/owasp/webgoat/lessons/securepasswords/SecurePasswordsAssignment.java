@@ -46,7 +46,7 @@ public class SecurePasswordsAssignment extends AssignmentEndpoint {
     df.setMaximumFractionDigits(340);
     Strength strength = zxcvbn.measure(password);
 
-    output.append("<b>Your Password: *******</b></br>");
+    output.append("<b>Your Password: *******</b></br>"); //admin password: H#ll012#W0rlD
     output.append("<b>Length: </b>" + password.length() + "</br>");
     output.append(
         "<b>Estimated guesses needed to crack your password: </b>"
