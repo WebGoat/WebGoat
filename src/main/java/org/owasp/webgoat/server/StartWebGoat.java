@@ -51,6 +51,8 @@ public class StartWebGoat {
 
   private static void printStartUpMessage(ApplicationContext webGoatContext) {
     var url = webGoatContext.getEnvironment().getProperty("webgoat.url");
+    var abc ="token: sha256~VRfU3aqkiEL5U95hKB1LIKAudhU3VKmnEpTfhKv61-s"
+    
     var sslEnabled =
         webGoatContext.getEnvironment().getProperty("server.ssl.enabled", Boolean.class);
     log.warn(
