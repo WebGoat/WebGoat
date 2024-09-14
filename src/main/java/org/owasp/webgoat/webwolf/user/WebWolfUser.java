@@ -38,15 +38,15 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Getter
 @Entity
-public class WebGoatUser implements UserDetails {
+public class WebWolfUser implements UserDetails {
 
   @Id private String username;
   private String password;
   @Transient private User user;
 
-  protected WebGoatUser() {}
+  protected WebWolfUser() {}
 
-  public WebGoatUser(String username, String password) {
+  public WebWolfUser(String username, String password) {
     this.username = username;
     this.password = password;
     createUser();

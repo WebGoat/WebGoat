@@ -47,7 +47,7 @@ public class UserServiceTest {
   public void testLoadUserByUsername() {
     var username = "guest";
     var password = "123";
-    WebGoatUser user = new WebGoatUser(username, password);
+    WebWolfUser user = new WebWolfUser(username, password);
     when(mockUserRepository.findByUsername(username)).thenReturn(user);
 
     var webGoatUser = sut.loadUserByUsername(username);
@@ -73,6 +73,6 @@ public class UserServiceTest {
 
     sut.addUser(username, password);
 
-    verify(mockUserRepository, times(1)).save(any(WebGoatUser.class));
+    verify(mockUserRepository, times(1)).save(any(WebWolfUser.class));
   }
 }

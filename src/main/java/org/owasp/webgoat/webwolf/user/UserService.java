@@ -40,8 +40,8 @@ public class UserService implements UserDetailsService {
   }
 
   @Override
-  public WebGoatUser loadUserByUsername(final String username) throws UsernameNotFoundException {
-    WebGoatUser webGoatUser = userRepository.findByUsername(username);
+  public WebWolfUser loadUserByUsername(final String username) throws UsernameNotFoundException {
+    WebWolfUser webGoatUser = userRepository.findByUsername(username);
     if (webGoatUser == null) {
       throw new UsernameNotFoundException("User not found");
     }
@@ -50,6 +50,6 @@ public class UserService implements UserDetailsService {
   }
 
   public void addUser(final String username, final String password) {
-    userRepository.save(new WebGoatUser(username, password));
+    userRepository.save(new WebWolfUser(username, password));
   }
 }

@@ -60,7 +60,7 @@ public class DatabaseConfiguration {
   }
 
   @Bean
-  public LessonDataSource lessonDataSource() {
-    return new LessonDataSource(dataSource());
+  public LessonDataSource lessonDataSource(DataSource dataSource) {
+    return new LessonDataSource(dataSource);
   }
 }
