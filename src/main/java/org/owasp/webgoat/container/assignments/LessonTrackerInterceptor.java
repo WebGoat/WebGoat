@@ -36,8 +36,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
 
-  private UserProgressRepository userTrackerRepository;
-  private WebSession webSession;
+  private final UserProgressRepository userTrackerRepository;
+  private final WebSession webSession;
 
   public LessonTrackerInterceptor(
       UserProgressRepository userTrackerRepository, WebSession webSession) {
@@ -65,7 +65,7 @@ public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
     return o;
   }
 
-  protected AttackResult trackProgress(AttackResult attackResult) {
+  private void trackProgress(AttackResult attackResult) {
     UserProgress userTracker = userTrackerRepository.findByUser(webSession.getUserName());
     if (userTracker == null) {
       userTracker = new UserProgress(webSession.getUserName());
@@ -76,7 +76,5 @@ public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
       userTracker.assignmentFailed(webSession.getCurrentLesson());
     }
     userTrackerRepository.save(userTracker);
-
-    return attackResult;
   }
 }
