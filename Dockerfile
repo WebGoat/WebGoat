@@ -36,3 +36,5 @@ ENTRYPOINT [ "java", \
 
 HEALTHCHECK --interval=30s --timeout=3s \
   CMD curl --fail http://localhost:8080/WebGoat/actuator/health || exit 1
+
+#this change won't fail
