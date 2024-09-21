@@ -1,4 +1,4 @@
-FROM docker.io/eclipse-temurin:21.0.3_9-jre
+FROM docker.io/eclipse-temurin:21-jdk-jammy
 LABEL NAME = "WebGoat: A deliberately insecure Web Application"
 LABEL maintainer = "WebGoat team"
 
@@ -34,5 +34,5 @@ ENTRYPOINT [ "java", \
    "-Drunning.in.docker=true", \
    "-jar", "webgoat.jar", "--server.address", "0.0.0.0" ]
 
-HEALTHCHECK --interval=30s --timeout=3s \
+HEALTHCHECK --interval=5s --timeout=3s \
   CMD curl --fail http://localhost:8080/WebGoat/actuator/health || exit 1

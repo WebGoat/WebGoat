@@ -23,7 +23,7 @@ public class WebWolfIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("mail"))
+            .get(new WebWolfUrlBuilder().path("mail").build())
             .then()
             .extract()
             .response()
@@ -53,7 +53,7 @@ public class WebWolfIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .queryParams(params)
-        .get(webWolfUrl("landing"))
+        .get(new WebWolfUrlBuilder().path("landing").build())
         .then()
         .statusCode(200);
     responseBody =
@@ -61,7 +61,7 @@ public class WebWolfIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("requests"))
+            .get(new WebWolfUrlBuilder().path("requests").build())
             .then()
             .extract()
             .response()

@@ -3,51 +3,88 @@ package org.owasp.webgoat;
 import static io.restassured.RestAssured.given;
 
 import io.restassured.RestAssured;
+import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import java.nio.file.Paths;
 import java.util.Map;
 import lombok.Getter;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.output.Slf4jLogConsumer;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.images.builder.ImageFromDockerfile;
 
+@ExtendWith(SpringExtension.class)
+@TestPropertySource("classpath:application-webgoat.properties")
 public abstract class IntegrationTest {
 
-  private static String webGoatPort = System.getenv().getOrDefault("WEBGOAT_PORT", "8080");
-  private static String webGoatContext =
-      System.getenv().getOrDefault("WEBGOAT_CONTEXT", "/WebGoat/");
-
-  @Getter private static String webWolfPort = System.getenv().getOrDefault("WEBWOLF_PORT", "9090");
+  @Getter
+  @Value("${webwolf.port}")
+  private String webWolfPort;
 
   @Getter
-  private static String webWolfHost = System.getenv().getOrDefault("WEBWOLF_HOST", "127.0.0.1");
+  @Value("${webwolf.host}")
+  private String webWolfHost;
 
-  @Getter
-  private static String webGoatHost = System.getenv().getOrDefault("WEBGOAT_HOST", "127.0.0.1");
-
-  private static String webWolfContext =
-      System.getenv().getOrDefault("WEBWOLF_CONTEXT", "/WebWolf/");
-
-  private static boolean useSSL =
-      Boolean.valueOf(System.getenv().getOrDefault("WEBGOAT_SSLENABLED", "false"));
-  private static String webgoatUrl =
-      (useSSL ? "https://" : "http://") + webGoatHost + ":" + webGoatPort + webGoatContext;
-  private static String webWolfUrl = "http://" + webWolfHost + ":" + webWolfPort + webWolfContext;
   @Getter private String webGoatCookie;
   @Getter private String webWolfCookie;
   @Getter private final String user = "webgoat";
 
   protected String url(String url) {
-    return webgoatUrl + url;
+    return "http://localhost:%d/WebGoat/%s".formatted(webGoatContainer.getMappedPort(8080), url);
   }
 
-  protected String webWolfUrl(String url) {
-    return webWolfUrl + url;
+  protected class WebWolfUrlBuilder {
+
+    private boolean attackMode = false;
+    private String path = null;
+
+    protected String build() {
+      return "http://localhost:%d/WebWolf/%s"
+          .formatted(
+              !attackMode ? webGoatContainer.getMappedPort(9090) : 9090, path != null ? path : "");
+    }
+
+    /**
+     * In attack mode it means WebGoat calls WebWolf to perform an attack. In this case we need to
+     * use port 9090 in a Docker environment.
+     */
+    protected WebWolfUrlBuilder attackMode() {
+      attackMode = true;
+      return this;
+    }
+
+    protected WebWolfUrlBuilder path(String path) {
+      this.path = path;
+      return this;
+    }
+
+    protected WebWolfUrlBuilder path(String path, String... uriVariables) {
+      this.path = path.formatted(uriVariables);
+      return this;
+    }
   }
 
-  protected String webWolfFileUrl(String fileName) {
-    return webWolfUrl("files") + "/" + getUser() + "/" + fileName;
+  private static GenericContainer<?> webGoatContainer =
+      new GenericContainer(new ImageFromDockerfile().withFileFromPath("/", Paths.get(".")))
+          .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger("webgoat")))
+          .withExposedPorts(8080, 9090, 5005)
+          .withEnv(
+              "_JAVA_OPTIONS",
+              "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005")
+          .waitingFor(Wait.forHealthcheck());
+
+  static {
+    webGoatContainer.start();
   }
 
   @BeforeEach
@@ -60,6 +97,8 @@ public abstract class IntegrationTest {
             .formParam("password", "password")
             .post(url("login"))
             .then()
+            .log()
+            .ifValidationFails(LogDetail.ALL) // Log the response details if validation fails
             .cookie("JSESSIONID")
             .statusCode(302)
             .extract()
@@ -100,7 +139,7 @@ public abstract class IntegrationTest {
             .relaxedHTTPSValidation()
             .formParam("username", user)
             .formParam("password", "password")
-            .post(webWolfUrl("login"))
+            .post(new WebWolfUrlBuilder().path("login").build())
             .then()
             .statusCode(302)
             .cookie("WEBWOLFSESSION")
@@ -238,7 +277,7 @@ public abstract class IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("file-server-location"))
+            .get(new WebWolfUrlBuilder().path("file-server-location").build())
             .then()
             .extract()
             .response()
@@ -266,7 +305,7 @@ public abstract class IntegrationTest {
         .when()
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
-        .delete(webWolfUrl("mail"))
+        .delete(new WebWolfUrlBuilder().path("mail").build())
         .then()
         .statusCode(HttpStatus.ACCEPTED.value());
   }

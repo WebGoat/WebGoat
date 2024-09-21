@@ -144,7 +144,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("mail"))
+            .get(new WebWolfUrlBuilder().path("mail").build())
             .then()
             .extract()
             .response()
