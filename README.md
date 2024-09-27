@@ -153,3 +153,17 @@ Or in a docker run it would (once this version is pushed into docker hub) look l
 docker run -d -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/webgoat
 ```
 
+```SECRETS```
+
+// #Bad Pratice1 - passwords
+// username = refael
+// password = "TobeORNOTtoBe123"
+
+// #Bad Pratice2 - keys
+// # Hardcoded AWS credentials (for demonstration purposes only)
+// aws_access_key_id = 'AKIAABCDCFGIJKLMMOP1'
+// aws_secret_access_key = 'tQtSurrh+N3zqFDPEPZ95050c+GGQs+Xx1AF/wVc'
+// region_name = 'us-west-2' #
+
+
+//api_token=glpat-e31Y_mAqvRTbZBXTZyFf
