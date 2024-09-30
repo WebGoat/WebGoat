@@ -2,7 +2,7 @@
 
 === Reflected
 * Malicious content from a user request is displayed to the user in a web browser
-* Malicious content is written into the page after from server response
+* Malicious content is written into the page after the server response
 * Social engineering is required
 * Runs with browser privileges inherited from the user in a browser
 
