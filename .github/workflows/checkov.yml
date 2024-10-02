@@ -3,7 +3,7 @@ name: Checkov
 on:
   push:
     branches:
-      - master
+      - development
 jobs:
   build:
 
