@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.util.Base64;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -71,8 +72,10 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
 
   @PostMapping("/PathTraversal/random")
   @ResponseBody
-  public AttackResult execute(@RequestParam(value = "secret", required = false) String secret) {
-    if (Sha512DigestUtils.shaHex(getWebSession().getUserName()).equalsIgnoreCase(secret)) {
+  public AttackResult execute(
+      @RequestParam(value = "secret", required = false) String secret,
+      @CurrentUsername String username) {
+    if (Sha512DigestUtils.shaHex(username).equalsIgnoreCase(secret)) {
       return success(this).build();
     }
     return failed(this).build();

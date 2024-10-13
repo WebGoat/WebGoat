@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -81,10 +82,10 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
 
   @PostMapping("/PasswordReset/reset/login")
   @ResponseBody
-  public AttackResult login(@RequestParam String password, @RequestParam String email) {
+  public AttackResult login(
+      @RequestParam String password, @RequestParam String email, @CurrentUsername String username) {
     if (TOM_EMAIL.equals(email)) {
-      String passwordTom =
-          usersToTomPassword.getOrDefault(getWebSession().getUserName(), PASSWORD_TOM_9);
+      String passwordTom = usersToTomPassword.getOrDefault(username, PASSWORD_TOM_9);
       if (passwordTom.equals(PASSWORD_TOM_9)) {
         return failed(this).feedback("login_failed").build();
       } else if (passwordTom.equals(password)) {
@@ -112,7 +113,9 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
 
   @PostMapping("/PasswordReset/reset/change-password")
   public ModelAndView changePassword(
-      @ModelAttribute("form") PasswordChangeForm form, BindingResult bindingResult) {
+      @ModelAttribute("form") PasswordChangeForm form,
+      BindingResult bindingResult,
+      @CurrentUsername String username) {
     ModelAndView modelAndView = new ModelAndView();
     if (!org.springframework.util.StringUtils.hasText(form.getPassword())) {
       bindingResult.rejectValue("password", "not.empty");
@@ -125,15 +128,15 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
       modelAndView.setViewName(VIEW_FORMATTER.formatted("password_link_not_found"));
       return modelAndView;
     }
-    if (checkIfLinkIsFromTom(form.getResetLink())) {
-      usersToTomPassword.put(getWebSession().getUserName(), form.getPassword());
+    if (checkIfLinkIsFromTom(form.getResetLink(), username)) {
+      usersToTomPassword.put(username, form.getPassword());
     }
     modelAndView.setViewName(VIEW_FORMATTER.formatted("success"));
     return modelAndView;
   }
 
-  private boolean checkIfLinkIsFromTom(String resetLinkFromForm) {
-    String resetLink = userToTomResetLink.getOrDefault(getWebSession().getUserName(), "unknown");
+  private boolean checkIfLinkIsFromTom(String resetLinkFromForm, String username) {
+    String resetLink = userToTomResetLink.getOrDefault(username, "unknown");
     return resetLink.equals(resetLinkFromForm);
   }
 }

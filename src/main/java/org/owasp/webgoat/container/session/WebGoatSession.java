@@ -39,14 +39,14 @@ import org.owasp.webgoat.container.users.WebGoatUser;
  * @version $Id: $Id
  * @since October 28, 2003
  */
-public class WebSession implements Serializable {
+public class WebGoatSession implements Serializable {
 
   @Serial private static final long serialVersionUID = -4270066103101711560L;
   private final WebGoatUser currentUser;
   @Getter @Setter private transient Lesson currentLesson;
   @Getter private boolean securityEnabled;
 
-  public WebSession(WebGoatUser webGoatUser) {
+  public WebGoatSession(WebGoatUser webGoatUser) {
     this.currentUser = webGoatUser;
   }
 

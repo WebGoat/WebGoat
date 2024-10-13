@@ -29,9 +29,9 @@ import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
-import org.owasp.webgoat.container.lessons.Initializeable;
+import org.owasp.webgoat.container.lessons.Initializable;
 import org.owasp.webgoat.container.lessons.Lesson;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.http.HttpStatus;
@@ -44,10 +44,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Slf4j
 public class RestartLessonService {
 
-  private final WebSession webSession;
+  private final WebGoatSession webSession;
   private final UserProgressRepository userTrackerRepository;
   private final Function<String, Flyway> flywayLessons;
-  private final List<Initializeable> lessonsToInitialize;
+  private final List<Initializable> lessonsToInitialize;
 
   @RequestMapping(path = "/service/restartlesson.mvc", produces = "text/text")
   @ResponseStatus(value = HttpStatus.OK)

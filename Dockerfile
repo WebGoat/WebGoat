@@ -1,6 +1,8 @@
+# We need JDK as some of the lessons needs to be able to compile Java code
 FROM docker.io/eclipse-temurin:21-jdk-jammy
-LABEL NAME = "WebGoat: A deliberately insecure Web Application"
-LABEL maintainer = "WebGoat team"
+
+LABEL name="WebGoat: A deliberately insecure Web Application"
+LABEL maintainer="WebGoat team"
 
 RUN \
   useradd -ms /bin/bash webgoat && \

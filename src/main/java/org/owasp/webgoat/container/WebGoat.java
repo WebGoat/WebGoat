@@ -32,8 +32,8 @@
 package org.owasp.webgoat.container;
 
 import java.io.File;
-import org.owasp.webgoat.container.session.UserSessionData;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.LessonSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.UserRepository;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,21 +71,21 @@ public class WebGoat {
 
   @Bean
   @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-  public WebSession webSession() {
-    WebGoatUser webGoatUser = null;
+  public WebGoatSession webSession() {
+    WebGoatUser user = null;
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     if (principal instanceof WebGoatUser) {
-      webGoatUser = (WebGoatUser) principal;
+      user = (WebGoatUser) principal;
     } else if (principal instanceof DefaultOAuth2User) {
-      webGoatUser = userRepository.findByUsername(((DefaultOAuth2User) principal).getName());
+      user = userRepository.findByUsername(((DefaultOAuth2User) principal).getName());
     }
-    return new WebSession(webGoatUser);
+    return new WebGoatSession(user);
   }
 
   @Bean
   @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-  public UserSessionData userSessionData() {
-    return new UserSessionData("test", "data");
+  public LessonSession userSessionData() {
+    return new LessonSession();
   }
 
   @Bean

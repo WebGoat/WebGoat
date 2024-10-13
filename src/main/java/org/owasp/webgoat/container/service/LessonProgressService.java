@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.owasp.webgoat.container.lessons.Assignment;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 public class LessonProgressService {
 
-  private final UserProgressRepository userTrackerRepository;
-  private final WebSession webSession;
+  private final UserProgressRepository userProgressRepository;
+  private final WebGoatSession webSession;
 
   /**
    * Endpoint for fetching the complete lesson overview which informs the user about whether all the
@@ -32,7 +32,7 @@ public class LessonProgressService {
   @RequestMapping(value = "/service/lessonoverview.mvc", produces = "application/json")
   @ResponseBody
   public List<LessonOverview> lessonOverview() {
-    var userTracker = userTrackerRepository.findByUser(webSession.getUserName());
+    var userTracker = userProgressRepository.findByUser(webSession.getUserName());
     var currentLesson = webSession.getCurrentLesson();
 
     if (currentLesson != null) {

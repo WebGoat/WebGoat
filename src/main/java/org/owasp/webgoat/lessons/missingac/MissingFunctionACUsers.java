@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,7 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class MissingFunctionACUsers {
 
   private final MissingAccessControlUserRepository userRepository;
-  private final WebSession webSession;
+  private final WebGoatSession webSession;
 
   @GetMapping(path = {"access-control/users"})
   public ModelAndView listUsers() {

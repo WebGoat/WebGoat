@@ -38,7 +38,7 @@ import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.lessons.LessonMenuItem;
 import org.owasp.webgoat.container.lessons.LessonMenuItemType;
 import org.owasp.webgoat.container.session.Course;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.LessonProgress;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
@@ -59,7 +59,7 @@ public class LessonMenuService {
 
   public static final String URL_LESSONMENU_MVC = "/service/lessonmenu.mvc";
   private final Course course;
-  private final WebSession webSession;
+  private final WebGoatSession webSession;
   private UserProgressRepository userTrackerRepository;
 
   @Value("#{'${exclude.categories}'.split(',')}")

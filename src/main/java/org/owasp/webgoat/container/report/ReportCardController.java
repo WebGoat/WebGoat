@@ -30,7 +30,7 @@ package org.owasp.webgoat.container.report;
 import java.util.List;
 import org.owasp.webgoat.container.i18n.PluginMessages;
 import org.owasp.webgoat.container.session.Course;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,13 +39,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ReportCardController {
 
-  private final WebSession webSession;
+  private final WebGoatSession webSession;
   private final UserProgressRepository userProgressRepository;
   private final Course course;
   private final PluginMessages pluginMessages;
 
   public ReportCardController(
-      WebSession webSession,
+      WebGoatSession webSession,
       UserProgressRepository userProgressRepository,
       Course course,
       PluginMessages pluginMessages) {

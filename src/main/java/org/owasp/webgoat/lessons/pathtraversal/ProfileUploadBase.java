@@ -13,7 +13,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.io.FilenameUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileUploadBase extends AssignmentEndpoint {
 
   private String webGoatHomeDirectory;
-  private WebSession webSession;
+  private WebGoatSession webSession;
 
   protected AttackResult execute(MultipartFile file, String fullName) {
     if (file.isEmpty()) {

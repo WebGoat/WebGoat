@@ -16,7 +16,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
@@ -39,7 +39,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileZipSlip extends ProfileUploadBase {
 
   public ProfileZipSlip(
-      @Value("${webgoat.server.directory}") String webGoatHomeDirectory, WebSession webSession) {
+      @Value("${webgoat.server.directory}") String webGoatHomeDirectory,
+      WebGoatSession webSession) {
     super(webGoatHomeDirectory, webSession);
   }
 

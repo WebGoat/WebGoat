@@ -22,7 +22,7 @@
 
 package org.owasp.webgoat.container.assignments;
 
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.core.MethodParameter;
@@ -36,12 +36,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
 
-  private final UserProgressRepository userTrackerRepository;
-  private final WebSession webSession;
+  private final UserProgressRepository userProgressRepository;
+  private final WebGoatSession webSession;
 
   public LessonTrackerInterceptor(
-      UserProgressRepository userTrackerRepository, WebSession webSession) {
-    this.userTrackerRepository = userTrackerRepository;
+      UserProgressRepository userProgressRepository, WebGoatSession webSession) {
+    this.userProgressRepository = userProgressRepository;
     this.webSession = webSession;
   }
 
@@ -66,15 +66,15 @@ public class LessonTrackerInterceptor implements ResponseBodyAdvice<Object> {
   }
 
   private void trackProgress(AttackResult attackResult) {
-    UserProgress userTracker = userTrackerRepository.findByUser(webSession.getUserName());
-    if (userTracker == null) {
-      userTracker = new UserProgress(webSession.getUserName());
+    UserProgress progress = userProgressRepository.findByUser(webSession.getUserName());
+    if (progress == null) {
+      progress = new UserProgress(webSession.getUserName());
     }
     if (attackResult.assignmentSolved()) {
-      userTracker.assignmentSolved(webSession.getCurrentLesson(), attackResult.getAssignment());
+      progress.assignmentSolved(webSession.getCurrentLesson(), attackResult.getAssignment());
     } else {
-      userTracker.assignmentFailed(webSession.getCurrentLesson());
+      progress.assignmentFailed(webSession.getCurrentLesson());
     }
-    userTrackerRepository.save(userTracker);
+    userProgressRepository.save(progress);
   }
 }

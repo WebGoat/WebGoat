@@ -544,6 +544,7 @@
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+          <!-- Necessary for vulnerable components lesson -->
           <argLine>--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
           --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
           --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED
@@ -551,8 +552,6 @@
           --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED</argLine>
           <excludes>
             <exclude>**/*IntegrationTest.java</exclude>
-            <exclude>src/it/java</exclude>
-            <exclude>org/owasp/webgoat/*Test</exclude>
           </excludes>
         </configuration>
       </plugin>

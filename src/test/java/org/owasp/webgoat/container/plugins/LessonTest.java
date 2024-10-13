@@ -11,8 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.owasp.webgoat.container.WebGoat;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.PluginMessages;
-import org.owasp.webgoat.container.lessons.Initializeable;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.lessons.Initializable;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,8 +41,8 @@ public abstract class LessonTest {
   @Autowired protected WebApplicationContext wac;
   @Autowired protected PluginMessages messages;
   @Autowired private Function<String, Flyway> flywayLessons;
-  @Autowired private List<Initializeable> lessonInitializers;
-  @MockBean protected WebSession webSession;
+  @Autowired private List<Initializable> lessonInitializers;
+  @MockBean protected WebGoatSession webSession;
   @MockBean private Language language;
 
   @MockBean private ClientRegistrationRepository clientRegistrationRepository;

@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +40,7 @@ public class Ping {
   @Value("${webgoat.user.directory}")
   private String webGoatHomeDirectory;
 
-  @Autowired private WebSession webSession;
+  @Autowired private WebGoatSession webSession;
 
   @GetMapping
   @ResponseBody

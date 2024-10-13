@@ -3,7 +3,7 @@ package org.owasp.webgoat.container.service;
 import lombok.AllArgsConstructor;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.lessons.LessonInfoModel;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class LessonInfoService {
 
-  private final WebSession webSession;
+  private final WebGoatSession webSession;
 
   /**
    * getLessonInfo.

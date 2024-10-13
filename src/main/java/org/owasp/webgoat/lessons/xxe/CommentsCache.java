@@ -40,7 +40,7 @@ import java.util.Optional;
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -59,9 +59,9 @@ public class CommentsCache {
   private static final Map<WebGoatUser, Comments> userComments = new HashMap<>();
   private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
 
-  private final WebSession webSession;
+  private final WebGoatSession webSession;
 
-  public CommentsCache(WebSession webSession) {
+  public CommentsCache(WebGoatSession webSession) {
     this.webSession = webSession;
     initDefaultComments();
   }

@@ -20,6 +20,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -56,6 +57,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
+  @WithWebGoatUser
   public void validCommentMustBeAdded() throws Exception {
     int nrOfComments = countComments();
     mockMvc
@@ -69,6 +71,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
+  @WithWebGoatUser
   public void wrongXmlShouldGiveErrorBack() throws Exception {
     mockMvc
         .perform(
@@ -82,6 +85,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
+  @WithWebGoatUser
   public void simpleXXEShouldNotWork() throws Exception {
     File targetFile =
         new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
@@ -97,6 +101,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
+  @WithWebGoatUser
   public void solve() throws Exception {
     File targetFile =
         new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
@@ -130,6 +135,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
+  @WithWebGoatUser
   public void solveOnlyParamReferenceEntityInExternalDTD() throws Exception {
     File targetFile =
         new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");

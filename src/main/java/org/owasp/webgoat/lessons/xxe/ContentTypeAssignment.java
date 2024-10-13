@@ -30,7 +30,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -52,7 +52,7 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
   @Value("${webgoat.server.directory}")
   private String webGoatHomeDirectory;
 
-  @Autowired private WebSession webSession;
+  @Autowired private WebGoatSession webSession;
   @Autowired private CommentsCache comments;
 
   @PostMapping(path = "xxe/content-type")

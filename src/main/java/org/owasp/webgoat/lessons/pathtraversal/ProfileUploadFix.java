@@ -5,7 +5,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileUploadFix extends ProfileUploadBase {
 
   public ProfileUploadFix(
-      @Value("${webgoat.server.directory}") String webGoatHomeDirectory, WebSession webSession) {
+      @Value("${webgoat.server.directory}") String webGoatHomeDirectory,
+      WebGoatSession webSession) {
     super(webGoatHomeDirectory, webSession);
   }
 

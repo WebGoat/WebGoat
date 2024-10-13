@@ -8,7 +8,7 @@ package org.owasp.webgoat.container.service;
 
 import lombok.RequiredArgsConstructor;
 import org.owasp.webgoat.container.i18n.Messages;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 public class SessionService {
 
-  private final WebSession webSession;
+  private final WebGoatSession webSession;
   private final RestartLessonService restartLessonService;
   private final Messages messages;
 

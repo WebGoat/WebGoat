@@ -11,7 +11,7 @@ import java.util.List;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Hint;
 import org.owasp.webgoat.container.lessons.Lesson;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class HintService {
 
   public static final String URL_HINTS_MVC = "/service/hint.mvc";
-  private final WebSession webSession;
+  private final WebGoatSession webSession;
 
-  public HintService(WebSession webSession) {
+  public HintService(WebGoatSession webSession) {
     this.webSession = webSession;
   }
 

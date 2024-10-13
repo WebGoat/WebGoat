@@ -25,7 +25,7 @@ package org.owasp.webgoat.lessons.csrf;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints({"csrf-get.hint1", "csrf-get.hint2", "csrf-get.hint3", "csrf-get.hint4"})
 public class CSRFConfirmFlag1 extends AssignmentEndpoint {
 
-  @Autowired UserSessionData userSessionData;
+  @Autowired LessonSession userSessionData;
 
   @PostMapping(
       path = "/csrf/confirm-flag-1",

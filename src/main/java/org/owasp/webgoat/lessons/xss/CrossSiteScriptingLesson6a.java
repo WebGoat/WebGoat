@@ -25,7 +25,7 @@ package org.owasp.webgoat.lessons.xss;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
       "xss-reflected-6a-hint-4"
     })
 public class CrossSiteScriptingLesson6a extends AssignmentEndpoint {
-  @Autowired UserSessionData userSessionData;
+  @Autowired LessonSession userSessionData;
 
   @PostMapping("/CrossSiteScripting/attack6a")
   @ResponseBody

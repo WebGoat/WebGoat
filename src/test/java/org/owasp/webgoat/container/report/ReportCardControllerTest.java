@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.i18n.PluginMessages;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.session.Course;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.LessonProgress;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
@@ -35,7 +35,7 @@ public class ReportCardControllerTest {
   @Mock private Lesson lesson;
   @Mock private LessonProgress lessonTracker;
   @Mock private UserProgressRepository userTrackerRepository;
-  @Mock private WebSession websession;
+  @Mock private WebGoatSession websession;
   @Mock private PluginMessages pluginMessages;
 
   @BeforeEach

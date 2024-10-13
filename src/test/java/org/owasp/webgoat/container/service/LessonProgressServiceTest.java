@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Lesson;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.LessonProgress;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
@@ -63,7 +63,7 @@ class LessonProgressServiceTest {
   @Mock private UserProgress userTracker;
   @Mock private LessonProgress lessonTracker;
   @Mock private UserProgressRepository userTrackerRepository;
-  @Mock private WebSession websession;
+  @Mock private WebGoatSession websession;
 
   @BeforeEach
   void setup() {

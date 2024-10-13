@@ -40,7 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.session.Course;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.LessonProgress;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
@@ -56,7 +56,7 @@ public class LessonMenuServiceTest {
   @Mock private Course course;
   @Mock private UserProgress userTracker;
   @Mock private UserProgressRepository userTrackerRepository;
-  @Mock private WebSession webSession;
+  @Mock private WebGoatSession webSession;
   private MockMvc mockMvc;
 
   @BeforeEach

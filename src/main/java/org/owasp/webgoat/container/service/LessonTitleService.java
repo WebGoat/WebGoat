@@ -1,7 +1,7 @@
 package org.owasp.webgoat.container.service;
 
 import org.owasp.webgoat.container.lessons.Lesson;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LessonTitleService {
 
-  private final WebSession webSession;
+  private final WebGoatSession webSession;
 
-  public LessonTitleService(final WebSession webSession) {
+  public LessonTitleService(final WebGoatSession webSession) {
     this.webSession = webSession;
   }
 

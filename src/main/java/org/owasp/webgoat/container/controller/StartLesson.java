@@ -33,8 +33,9 @@ package org.owasp.webgoat.container.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.session.Course;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,19 +43,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class StartLesson {
 
-  private final WebSession ws;
+  private final WebGoatSession ws;
   private final Course course;
 
-  public StartLesson(WebSession ws, Course course) {
+  public StartLesson(WebGoatSession ws, Course course) {
     this.ws = ws;
     this.course = course;
   }
 
-  /**
-   * start.
-   *
-   * @return a {@link ModelAndView} object.
-   */
   @RequestMapping(
       path = "startlesson.mvc",
       method = {RequestMethod.GET, RequestMethod.POST})
@@ -68,7 +64,7 @@ public class StartLesson {
     return model;
   }
 
-  @RequestMapping(
+  @GetMapping(
       value = {"*.lesson"},
       produces = "text/html")
   public ModelAndView lessonPage(HttpServletRequest request) {
