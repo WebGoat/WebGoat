@@ -41,8 +41,7 @@ public class ReportCardControllerTest {
   @BeforeEach
   void setup() {
     this.mockMvc =
-        standaloneSetup(
-                new ReportCardController(websession, userTrackerRepository, course, pluginMessages))
+        standaloneSetup(new ReportCardController(userTrackerRepository, course, pluginMessages))
             .build();
     when(pluginMessages.getMessage(anyString())).thenReturn("Test");
   }

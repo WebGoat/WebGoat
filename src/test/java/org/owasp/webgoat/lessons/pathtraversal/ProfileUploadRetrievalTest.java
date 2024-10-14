@@ -21,18 +21,17 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.token.Sha512DigestUtils;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class ProfileUploadRetrievalTest extends LessonTest {
+@WithWebGoatUser
+class ProfileUploadRetrievalTest extends LessonTest {
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     Mockito.when(webSession.getCurrentLesson()).thenReturn(new PathTraversal());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    Mockito.when(webSession.getUserName()).thenReturn("unit-test");
   }
 
   @Test
-  @WithWebGoatUser(username = "unit-test")
-  public void solve() throws Exception {
+  void solve() throws Exception {
     // Look at the response
     mockMvc
         .perform(get("/PathTraversal/random-picture"))
@@ -68,7 +67,7 @@ public class ProfileUploadRetrievalTest extends LessonTest {
   }
 
   @Test
-  public void shouldReceiveRandomPicture() throws Exception {
+  void shouldReceiveRandomPicture() throws Exception {
     mockMvc
         .perform(get("/PathTraversal/random-picture"))
         .andExpect(status().is(200))
@@ -77,7 +76,7 @@ public class ProfileUploadRetrievalTest extends LessonTest {
   }
 
   @Test
-  public void unknownFileShouldGiveDirectoryContents() throws Exception {
+  void unknownFileShouldGiveDirectoryContents() throws Exception {
     mockMvc
         .perform(get("/PathTraversal/random-picture?id=test"))
         .andExpect(status().is(404))

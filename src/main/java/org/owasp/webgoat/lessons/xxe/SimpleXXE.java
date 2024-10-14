@@ -25,13 +25,14 @@ package org.owasp.webgoat.lessons.xxe;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.exec.OS;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.owasp.webgoat.container.CurrentUser;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.owasp.webgoat.container.session.WebGoatSession;
+import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,15 +67,22 @@ public class SimpleXXE extends AssignmentEndpoint {
   @Value("${webwolf.landingpage.url}")
   private String webWolfURL;
 
-  @Autowired private CommentsCache comments;
+  private final CommentsCache comments;
+  private final WebGoatSession webGoatSession;
+
+  public SimpleXXE(CommentsCache comments, WebGoatSession webGoatSession) {
+    this.comments = comments;
+    this.webGoatSession = webGoatSession;
+  }
 
   @PostMapping(path = "xxe/simple", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
   @ResponseBody
-  public AttackResult createNewComment(HttpServletRequest request, @RequestBody String commentStr) {
+  public AttackResult createNewComment(
+      @RequestBody String commentStr, @CurrentUser WebGoatUser user) {
     String error = "";
     try {
-      var comment = comments.parseXml(commentStr);
-      comments.addComment(comment, false);
+      var comment = comments.parseXml(commentStr, webGoatSession.isSecurityEnabled());
+      comments.addComment(comment, user, false);
       if (checkSolution(comment)) {
         return success(this).build();
       }

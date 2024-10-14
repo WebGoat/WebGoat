@@ -26,13 +26,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+@WithWebGoatUser
 class BlindSendFileAssignmentTest extends LessonTest {
 
   private int port;
   private WireMockServer webwolfServer;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     this.webwolfServer = new WireMockServer(options().dynamicPort());
     webwolfServer.start();
     this.port = webwolfServer.port();
@@ -57,8 +58,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  @WithWebGoatUser
-  public void validCommentMustBeAdded() throws Exception {
+  void validCommentMustBeAdded() throws Exception {
     int nrOfComments = countComments();
     mockMvc
         .perform(
@@ -71,8 +71,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  @WithWebGoatUser
-  public void wrongXmlShouldGiveErrorBack() throws Exception {
+  void wrongXmlShouldGiveErrorBack() throws Exception {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/xxe/blind")
@@ -85,8 +84,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  @WithWebGoatUser
-  public void simpleXXEShouldNotWork() throws Exception {
+  void simpleXXEShouldNotWork() throws Exception {
     File targetFile =
         new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
     String content =
@@ -101,8 +99,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  @WithWebGoatUser
-  public void solve() throws Exception {
+  void solve() throws Exception {
     File targetFile =
         new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
     // Host DTD on WebWolf site
@@ -135,8 +132,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  @WithWebGoatUser
-  public void solveOnlyParamReferenceEntityInExternalDTD() throws Exception {
+  void solveOnlyParamReferenceEntityInExternalDTD() throws Exception {
     File targetFile =
         new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
     // Host DTD on WebWolf site

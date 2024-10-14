@@ -32,16 +32,14 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author nbaars
- * @since 11/2/17.
- */
-public class ContentTypeAssignmentTest extends LessonTest {
+@WithWebGoatUser
+class ContentTypeAssignmentTest extends LessonTest {
 
   @BeforeEach
   public void setup() {
@@ -50,7 +48,7 @@ public class ContentTypeAssignmentTest extends LessonTest {
   }
 
   @Test
-  public void sendingXmlButContentTypeIsJson() throws Exception {
+  void sendingXmlButContentTypeIsJson() throws Exception {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/xxe/content-type")
@@ -66,7 +64,7 @@ public class ContentTypeAssignmentTest extends LessonTest {
   }
 
   @Test
-  public void workingAttack() throws Exception {
+  void workingAttack() throws Exception {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/xxe/content-type")
@@ -80,7 +78,7 @@ public class ContentTypeAssignmentTest extends LessonTest {
   }
 
   @Test
-  public void postingJsonShouldAddComment() throws Exception {
+  void postingJsonShouldAddComment() throws Exception {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/xxe/content-type")
@@ -108,7 +106,7 @@ public class ContentTypeAssignmentTest extends LessonTest {
   }
 
   @Test
-  public void postingInvalidJsonShouldNotAddComment() throws Exception {
+  void postingInvalidJsonShouldNotAddComment() throws Exception {
     var numberOfComments = countComments();
     mockMvc
         .perform(

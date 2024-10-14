@@ -8,22 +8,23 @@ import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class ProfileUploadTest extends LessonTest {
+@WithWebGoatUser
+class ProfileUploadTest extends LessonTest {
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     Mockito.when(webSession.getCurrentLesson()).thenReturn(new PathTraversal());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    Mockito.when(webSession.getUserName()).thenReturn("unit-test");
   }
 
   @Test
-  public void solve() throws Exception {
+  void solve() throws Exception {
     var profilePicture =
         new MockMultipartFile(
             "uploadedFile", "../picture.jpg", "text/plain", "an image".getBytes());
@@ -39,7 +40,7 @@ public class ProfileUploadTest extends LessonTest {
   }
 
   @Test
-  public void attemptWithWrongDirectory() throws Exception {
+  void attemptWithWrongDirectory() throws Exception {
     var profilePicture =
         new MockMultipartFile(
             "uploadedFile", "../picture.jpg", "text/plain", "an image".getBytes());
@@ -56,7 +57,7 @@ public class ProfileUploadTest extends LessonTest {
   }
 
   @Test
-  public void shouldNotOverrideExistingFile() throws Exception {
+  void shouldNotOverrideExistingFile() throws Exception {
     var profilePicture =
         new MockMultipartFile("uploadedFile", "picture.jpg", "text/plain", "an image".getBytes());
     mockMvc
@@ -74,7 +75,7 @@ public class ProfileUploadTest extends LessonTest {
   }
 
   @Test
-  public void normalUpdate() throws Exception {
+  void normalUpdate() throws Exception {
     var profilePicture =
         new MockMultipartFile("uploadedFile", "picture.jpg", "text/plain", "an image".getBytes());
 
