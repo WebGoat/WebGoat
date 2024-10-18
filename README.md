@@ -80,7 +80,7 @@ Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/rel
 
 ```shell
 export TZ=Europe/Amsterdam # or your timezone
-java -Dfile.encoding=UTF-8 -jar webgoat-2023.5.jar
+java -Dfile.encoding=UTF-8 -jar webgoat-2023.8.jar
 ```
 
 Click the link in the log to start WebGoat.
@@ -144,7 +144,7 @@ For instance running as a jar on a Linux/macOS it will look like this:
 export TZ=Europe/Amsterdam # or your timezone
 export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
 export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
-java -jar target/webgoat-2023.6-SNAPSHOT.jar
+java -jar target/webgoat-2023.8-SNAPSHOT.jar
 ```
 
 Or in a docker run it would (once this version is pushed into docker hub) look like this:
