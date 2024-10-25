@@ -99,7 +99,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   public void shutdown() {
     // this will run only once after the list of dynamic tests has run, this is to test if the
     // lesson is marked complete
-    checkResults("/PasswordReset");
+    checkResults("PasswordReset");
   }
 
   private void changePassword(String link) {

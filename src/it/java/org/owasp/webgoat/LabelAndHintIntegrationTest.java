@@ -151,7 +151,6 @@ public class LabelAndHintIntegrationTest extends IntegrationTest {
     checkLang(propsDefault, "nl");
     checkLang(propsDefault, "de");
     checkLang(propsDefault, "fr");
-    checkLang(propsDefault, "ru");
   }
 
   private Properties getProperties(String lang) {

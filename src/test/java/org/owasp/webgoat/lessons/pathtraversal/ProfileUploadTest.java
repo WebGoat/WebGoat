@@ -7,7 +7,6 @@ import java.io.File;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.mock.web.MockMultipartFile;
@@ -19,7 +18,6 @@ class ProfileUploadTest extends LessonTest {
 
   @BeforeEach
   void setup() {
-    Mockito.when(webSession.getCurrentLesson()).thenReturn(new PathTraversal());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
@@ -40,6 +38,7 @@ class ProfileUploadTest extends LessonTest {
   }
 
   @Test
+  @WithWebGoatUser
   void attemptWithWrongDirectory() throws Exception {
     var profilePicture =
         new MockMultipartFile(
@@ -49,7 +48,7 @@ class ProfileUploadTest extends LessonTest {
         .perform(
             MockMvcRequestBuilders.multipart("/PathTraversal/profile-upload")
                 .file(profilePicture)
-                .param("fullName", "../../" + webSession.getUserName()))
+                .param("fullName", "../../" + "test"))
         .andExpect(status().is(200))
         .andExpect(jsonPath("$.assignment", CoreMatchers.equalTo("ProfileUpload")))
         .andExpect(jsonPath("$.feedback", CoreMatchers.containsString("Nice try")))
@@ -57,6 +56,7 @@ class ProfileUploadTest extends LessonTest {
   }
 
   @Test
+  @WithWebGoatUser
   void shouldNotOverrideExistingFile() throws Exception {
     var profilePicture =
         new MockMultipartFile("uploadedFile", "picture.jpg", "text/plain", "an image".getBytes());
@@ -64,13 +64,13 @@ class ProfileUploadTest extends LessonTest {
         .perform(
             MockMvcRequestBuilders.multipart("/PathTraversal/profile-upload")
                 .file(profilePicture)
-                .param("fullName", ".." + File.separator + webSession.getUserName()))
+                .param("fullName", ".." + File.separator + "test"))
         .andExpect(
             jsonPath(
                 "$.output",
                 CoreMatchers.anyOf(
                     CoreMatchers.containsString("Is a directory"),
-                    CoreMatchers.containsString("..\\\\" + webSession.getUserName()))))
+                    CoreMatchers.containsString("..\\\\" + "test"))))
         .andExpect(status().is(200));
   }
 
@@ -89,11 +89,7 @@ class ProfileUploadTest extends LessonTest {
             jsonPath(
                 "$.feedback",
                 CoreMatchers.containsStringIgnoringCase(
-                    "PathTraversal\\"
-                        + File.separator
-                        + "unit-test\\"
-                        + File.separator
-                        + "John Doe")))
+                    "PathTraversal\\" + File.separator + "test\\" + File.separator + "John Doe")))
         .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
   }
 }

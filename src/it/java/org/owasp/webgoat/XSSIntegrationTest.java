@@ -111,6 +111,6 @@ public class XSSIntegrationTest extends IntegrationTest {
             + "MyCommentDAO.addComment(threadID, userID).getCleanHTML());");
     checkAssignment(url("CrossSiteScripting/attack4"), params, true);
 
-    checkResults("/CrossSiteScripting");
+    checkResults("CrossSiteScripting");
   }
 }

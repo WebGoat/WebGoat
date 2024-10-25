@@ -31,7 +31,6 @@ import org.owasp.webgoat.container.CurrentUser;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -41,10 +40,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author nbaars
- * @since 4/8/17.
- */
 @RestController
 @AssignmentHints({
   "xxe.hints.simple.xxe.1",
@@ -68,11 +63,9 @@ public class SimpleXXE extends AssignmentEndpoint {
   private String webWolfURL;
 
   private final CommentsCache comments;
-  private final WebGoatSession webGoatSession;
 
-  public SimpleXXE(CommentsCache comments, WebGoatSession webGoatSession) {
+  public SimpleXXE(CommentsCache comments) {
     this.comments = comments;
-    this.webGoatSession = webGoatSession;
   }
 
   @PostMapping(path = "xxe/simple", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -81,7 +74,7 @@ public class SimpleXXE extends AssignmentEndpoint {
       @RequestBody String commentStr, @CurrentUser WebGoatUser user) {
     String error = "";
     try {
-      var comment = comments.parseXml(commentStr, webGoatSession.isSecurityEnabled());
+      var comment = comments.parseXml(commentStr, false);
       comments.addComment(comment, user, false);
       if (checkSolution(comment)) {
         return success(this).build();

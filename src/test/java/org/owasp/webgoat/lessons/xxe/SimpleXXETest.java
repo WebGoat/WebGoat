@@ -22,7 +22,6 @@
 
 package org.owasp.webgoat.lessons.xxe;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,7 +38,6 @@ class SimpleXXETest extends LessonTest {
 
   @BeforeEach
   void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new XXE());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 

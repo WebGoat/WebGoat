@@ -15,7 +15,7 @@ class AccessControlIntegrationTest extends IntegrationTest {
     assignment2();
     assignment3();
 
-    checkResults("/access-control");
+    checkResults("MissingFunctionAC");
   }
 
   private void assignment3() {

@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
+import org.owasp.webgoat.container.lessons.LessonName;
 
 /**
  * ************************************************************************************************
@@ -95,5 +96,22 @@ public class Course {
   public int getTotalOfAssignments() {
     return this.lessons.stream()
         .reduce(0, (total, lesson) -> lesson.getAssignments().size() + total, Integer::sum);
+  }
+
+  public Lesson getLessonByName(LessonName lessonName) {
+    return lessons.stream()
+        .filter(lesson -> lesson.getName().equals(lessonName))
+        .findFirst()
+        .orElse(null);
+  }
+
+  public Lesson getLessonByAssignment(String assignmentName) {
+    return lessons.stream()
+        .filter(
+            lesson ->
+                lesson.getAssignments().stream()
+                    .anyMatch(assignment -> assignment.getName().equals(assignmentName)))
+        .findFirst()
+        .orElse(null);
   }
 }

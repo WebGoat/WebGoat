@@ -7,7 +7,6 @@ import java.io.File;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.mock.web.MockMultipartFile;
@@ -19,7 +18,6 @@ class ProfileUploadRemoveUserInputTest extends LessonTest {
 
   @BeforeEach
   void setup() {
-    Mockito.when(webSession.getCurrentLesson()).thenReturn(new PathTraversal());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
@@ -54,7 +52,7 @@ class ProfileUploadRemoveUserInputTest extends LessonTest {
         .andExpect(
             jsonPath(
                 "$.feedback",
-                CoreMatchers.containsString("unit-test\\" + File.separator + "picture.jpg")))
+                CoreMatchers.containsString("test\\" + File.separator + "picture.jpg")))
         .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
   }
 }

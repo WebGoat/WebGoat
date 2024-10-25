@@ -35,7 +35,6 @@ import org.owasp.webgoat.container.CurrentUser;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -57,12 +56,10 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
   @Value("${webgoat.server.directory}")
   private String webGoatHomeDirectory;
 
-  private final WebGoatSession webSession;
   private final CommentsCache comments;
 
-  public ContentTypeAssignment(CommentsCache comments, WebGoatSession webSession) {
+  public ContentTypeAssignment(CommentsCache comments) {
     this.comments = comments;
-    this.webSession = webSession;
   }
 
   @PostMapping(path = "xxe/content-type")
@@ -80,7 +77,7 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
 
     if (null != contentType && contentType.contains(MediaType.APPLICATION_XML_VALUE)) {
       try {
-        Comment comment = comments.parseXml(commentStr, webSession.isSecurityEnabled());
+        Comment comment = comments.parseXml(commentStr, false);
         comments.addComment(comment, user, false);
         if (checkSolution(comment)) {
           attackResult = success(this).build();

@@ -14,7 +14,6 @@ import java.io.File;
 import java.net.URI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
@@ -26,7 +25,6 @@ class ProfileUploadRetrievalTest extends LessonTest {
 
   @BeforeEach
   void setup() {
-    Mockito.when(webSession.getCurrentLesson()).thenReturn(new PathTraversal());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
@@ -59,8 +57,7 @@ class ProfileUploadRetrievalTest extends LessonTest {
 
     // Post flag
     mockMvc
-        .perform(
-            post("/PathTraversal/random").param("secret", Sha512DigestUtils.shaHex("unit-test")))
+        .perform(post("/PathTraversal/random").param("secret", Sha512DigestUtils.shaHex("test")))
         .andExpect(status().is(200))
         .andExpect(jsonPath("$.assignment", equalTo("ProfileUploadRetrieval")))
         .andExpect(jsonPath("$.lessonCompleted", is(true)));

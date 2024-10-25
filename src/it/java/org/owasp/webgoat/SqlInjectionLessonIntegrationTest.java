@@ -73,6 +73,6 @@ public class SqlInjectionLessonIntegrationTest extends IntegrationTest {
     params.put("action_string", sql_13);
     checkAssignment(url("SqlInjection/attack10"), params, true);
 
-    checkResults("/SqlInjection/");
+    checkResults("SqlInjection");
   }
 }

@@ -25,13 +25,13 @@
 
 package org.owasp.webgoat.container.assignments;
 
-import lombok.Getter;
 import org.owasp.webgoat.container.i18n.PluginMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AssignmentEndpoint {
 
-  @Getter @Autowired private PluginMessages messages;
+  // TODO: move this to different bean.
+  @Autowired private PluginMessages messages;
 
   /**
    * Convenience method for create a successful result:

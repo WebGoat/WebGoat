@@ -33,35 +33,17 @@ package org.owasp.webgoat.container.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.session.Course;
-import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class StartLesson {
 
-  private final WebGoatSession ws;
   private final Course course;
 
-  public StartLesson(WebGoatSession ws, Course course) {
-    this.ws = ws;
+  public StartLesson(Course course) {
     this.course = course;
-  }
-
-  @RequestMapping(
-      path = "startlesson.mvc",
-      method = {RequestMethod.GET, RequestMethod.POST})
-  public ModelAndView start() {
-    var model = new ModelAndView();
-
-    model.addObject("course", course);
-    model.addObject("lesson", ws.getCurrentLesson());
-    model.setViewName("lesson_content");
-
-    return model;
   }
 
   @GetMapping(
@@ -77,8 +59,7 @@ public class StartLesson {
         .findFirst()
         .ifPresent(
             lesson -> {
-              ws.setCurrentLesson(lesson);
-              model.addObject("lesson", lesson);
+              request.setAttribute("lesson", lesson);
             });
 
     return model;

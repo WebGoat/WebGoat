@@ -14,7 +14,7 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 @Retention(RetentionPolicy.RUNTIME)
 public @interface WithWebGoatUser {
 
-  String username() default "unit-test";
+  String username() default "test";
 
   String password() default "password";
 }

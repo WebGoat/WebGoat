@@ -42,7 +42,7 @@ public class CryptoIntegrationTest extends IntegrationTest {
 
     checkAssignmentDefaults();
 
-    checkResults("/crypto");
+    checkResults("Cryptography");
   }
 
   private void checkAssignment2() {

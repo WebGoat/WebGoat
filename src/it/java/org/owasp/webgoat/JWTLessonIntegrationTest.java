@@ -50,11 +50,10 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
 
     quiz();
 
-    checkResults("/JWT/");
+    checkResults("JWT");
   }
 
   private String generateToken(String key) {
-
     return Jwts.builder()
         .setIssuer("WebGoat Token Builder")
         .setAudience("webgoat.org")

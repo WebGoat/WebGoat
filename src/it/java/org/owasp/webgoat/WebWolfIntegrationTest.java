@@ -72,6 +72,6 @@ public class WebWolfIntegrationTest extends IntegrationTest {
     params.put("uniqueCode", uniqueCode);
     checkAssignment(url("WebWolf/landing"), params, true);
 
-    checkResults("/WebWolf");
+    checkResults("WebWolfIntroduction");
   }
 }

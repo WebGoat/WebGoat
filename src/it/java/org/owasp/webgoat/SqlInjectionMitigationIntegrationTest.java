@@ -80,6 +80,6 @@ public class SqlInjectionMitigationIntegrationTest extends IntegrationTest {
     params.put("ip", "104.130.219.202");
     checkAssignment(url("SqlInjectionMitigations/attack12a"), params, true);
 
-    checkResults();
+    checkResults("SqlInjectionMitigations");
   }
 }

@@ -86,7 +86,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
     // logout();
     login(); // because old cookie got replaced and invalidated
     startLesson("CSRF", false);
-    checkResults("/csrf");
+    checkResults("CSRF");
   }
 
   private void uploadTrickHtml(String htmlName, String htmlContent) throws IOException {
@@ -254,15 +254,15 @@ public class CSRFIntegrationTest extends IntegrationTest {
         RestAssured.given()
             .cookie("JSESSIONID", getWebGoatCookie())
             .relaxedHTTPSValidation()
-            .get(url("service/lessonoverview.mvc"))
+            .get(url("service/lessonoverview.mvc/CSRF"))
             .then()
             .extract()
             .jsonPath()
             .getObject("$", Overview[].class);
-    //		assertThat(assignments)
-    //                .filteredOn(a -> a.getAssignment().getName().equals("CSRFLogin"))
-    //                .extracting(o -> o.solved)
-    //                .containsExactly(true);
+    assertThat(assignments)
+        .filteredOn(a -> a.getAssignment().getName().equals("CSRFLogin"))
+        .extracting(o -> o.solved)
+        .containsExactly(true);
   }
 
   @Data

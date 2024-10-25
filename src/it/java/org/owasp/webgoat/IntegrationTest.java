@@ -74,8 +74,14 @@ public abstract class IntegrationTest {
     }
   }
 
+  /**
+   * Debugging options: install TestContainers Desktop and map port 5005 to the host machine with
+   * https://newsletter.testcontainers.com/announcements/set-fixed-ports-to-easily-debug-development-services
+   *
+   * <p>Start the test and connect a remote debugger in IntelliJ to localhost:5005 and attach it.
+   */
   private static GenericContainer<?> webGoatContainer =
-      new GenericContainer(new ImageFromDockerfile().withFileFromPath("/", Paths.get(".")))
+      new GenericContainer(new ImageFromDockerfile("webgoat").withFileFromPath("/", Paths.get(".")))
           .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger("webgoat")))
           .withExposedPorts(8080, 9090, 5005)
           .withEnv(
@@ -170,7 +176,7 @@ public abstract class IntegrationTest {
           .when()
           .relaxedHTTPSValidation()
           .cookie("JSESSIONID", getWebGoatCookie())
-          .get(url("service/restartlesson.mvc"))
+          .get(url("service/restartlesson.mvc/%s.lesson".formatted(lessonName)))
           .then()
           .statusCode(200);
     }
@@ -206,23 +212,18 @@ public abstract class IntegrationTest {
         CoreMatchers.is(expectedResult));
   }
 
-  // TODO is prefix useful? not every lesson endpoint needs to start with a certain prefix (they are
-  // only required to be in the same package)
-  public void checkResults(String prefix) {
-    checkResults();
-
-    MatcherAssert.assertThat(
+  public void checkResults(String lesson) {
+    var result =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("service/lessonoverview.mvc"))
-            .then()
-            .statusCode(200)
-            .extract()
-            .jsonPath()
-            .getList("assignment.path"),
-        CoreMatchers.everyItem(CoreMatchers.startsWith(prefix)));
+            .get(url("service/lessonoverview.mvc/%s.lesson".formatted(lesson)))
+            .andReturn();
+
+    MatcherAssert.assertThat(
+        result.then().statusCode(200).extract().jsonPath().getList("solved"),
+        CoreMatchers.everyItem(CoreMatchers.is(true)));
   }
 
   public void checkResults() {

@@ -30,23 +30,11 @@
 
   <developers>
     <developer>
-      <id>mayhew64</id>
-      <name>Bruce Mayhew</name>
-      <email>webgoat@owasp.org</email>
-      <organization>OWASP</organization>
-      <organizationUrl>https://github.com/WebGoat/WebGoat</organizationUrl>
-    </developer>
-    <developer>
       <id>nbaars</id>
       <name>Nanne Baars</name>
       <email>nanne.baars@owasp.org</email>
       <organizationUrl>https://github.com/nbaars</organizationUrl>
       <timezone>Europe/Amsterdam</timezone>
-    </developer>
-    <developer>
-      <id>misfir3</id>
-      <name>Jason White</name>
-      <email>jason.white@owasp.org</email>
     </developer>
     <developer>
       <id>zubcevic</id>
@@ -58,43 +46,8 @@
       <name>Àngel Ollé Blázquez</name>
       <email>angel@olleb.com</email>
     </developer>
-    <developer>
-      <id>jwayman</id>
-      <name>Jeff Wayman</name>
-      <email></email>
-    </developer>
-    <developer>
-      <id>dcowden</id>
-      <name>Dave Cowden</name>
-      <email></email>
-    </developer>
-    <developer>
-      <id>lawson89</id>
-      <name>Richard Lawson</name>
-      <email></email>
-    </developer>
-    <developer>
-      <id>dougmorato</id>
-      <name>Doug Morato</name>
-      <email>doug.morato@owasp.org</email>
-      <organization>OWASP</organization>
-      <organizationUrl>https://github.com/dougmorato</organizationUrl>
-      <timezone>America/New_York</timezone>
-      <properties>
-        <picUrl>https://avatars2.githubusercontent.com/u/9654?v=3&amp;s=150</picUrl>
-      </properties>
-    </developer>
   </developers>
 
-  <mailingLists>
-    <mailingList>
-      <name>OWASP WebGoat Mailing List</name>
-      <subscribe>https://lists.owasp.org/mailman/listinfo/owasp-webgoat</subscribe>
-      <unsubscribe>Owasp-webgoat-request@lists.owasp.org</unsubscribe>
-      <post>owasp-webgoat@lists.owasp.org</post>
-      <archive>http://lists.owasp.org/pipermail/owasp-webgoat/</archive>
-    </mailingList>
-  </mailingLists>
   <scm>
     <connection>scm:git:git@github.com:WebGoat/WebGoat.git</connection>
     <developerConnection>scm:git:git@github.com:WebGoat/WebGoat.git</developerConnection>

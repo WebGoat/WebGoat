@@ -14,7 +14,7 @@ define(['jquery',
 
             initialize: function ($contentPages,baseLessonUrl,initPageNum) {
                 this.$contentPages = $contentPages;
-                this.collection = new LessonOverviewCollection();
+                this.collection = new LessonOverviewCollection({baseLessonUrl: baseLessonUrl});
                 this.listenTo(this.collection, 'reset', this.render);
                 this.numPages = this.$contentPages.length;
                 this.baseUrl = baseLessonUrl;
@@ -144,7 +144,7 @@ define(['jquery',
 
                 if (this.currentPage >= this.numPages -1) {
                     this.hideNextPageButton();
-                    this.showPrevPageButton;
+                    this.showPrevPageButton();
                 }
                 this.collection.fetch({reset:true});
             },

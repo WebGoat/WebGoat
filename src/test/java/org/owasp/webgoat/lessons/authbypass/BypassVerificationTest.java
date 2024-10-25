@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.test.web.servlet.MockMvc;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +42,7 @@ public class BypassVerificationTest extends AssignmentEndpointTest {
 
   @BeforeEach
   public void setup() {
-    VerifyAccount verifyAccount = new VerifyAccount();
+    VerifyAccount verifyAccount = new VerifyAccount(new LessonSession());
     init(verifyAccount);
     this.mockMvc = standaloneSetup(verifyAccount).build();
   }

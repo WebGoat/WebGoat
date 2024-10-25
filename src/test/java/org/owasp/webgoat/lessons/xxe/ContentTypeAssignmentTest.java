@@ -22,7 +22,6 @@
 
 package org.owasp.webgoat.lessons.xxe;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,7 +42,6 @@ class ContentTypeAssignmentTest extends LessonTest {
 
   @BeforeEach
   public void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new XXE());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 

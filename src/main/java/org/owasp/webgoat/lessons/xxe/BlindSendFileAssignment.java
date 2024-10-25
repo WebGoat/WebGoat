@@ -15,7 +15,6 @@ import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.lessons.Initializable;
-import org.owasp.webgoat.container.session.WebGoatSession;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -64,15 +63,11 @@ public class BlindSendFileAssignment extends AssignmentEndpoint implements Initi
   private final String webGoatHomeDirectory;
   private final CommentsCache comments;
   private final Map<WebGoatUser, String> userToFileContents = new HashMap<>();
-  private final WebGoatSession webGoatSession;
 
   public BlindSendFileAssignment(
-      @Value("${webgoat.user.directory}") String webGoatHomeDirectory,
-      CommentsCache comments,
-      WebGoatSession webGoatSession) {
+      @Value("${webgoat.user.directory}") String webGoatHomeDirectory, CommentsCache comments) {
     this.webGoatHomeDirectory = webGoatHomeDirectory;
     this.comments = comments;
-    this.webGoatSession = webGoatSession;
   }
 
   private void createSecretFileWithRandomContents(WebGoatUser user) {
@@ -101,7 +96,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint implements Initi
     }
 
     try {
-      Comment comment = comments.parseXml(commentStr, webGoatSession.isSecurityEnabled());
+      Comment comment = comments.parseXml(commentStr, false);
       if (fileContentsForUser.contains(comment.getText())) {
         comment.setText("Nice try, you need to send the file to WebWolf");
       }
