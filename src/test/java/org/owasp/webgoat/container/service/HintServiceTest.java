@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-import com.beust.jcommander.internal.Lists;
 import java.util.List;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +27,7 @@ public class HintServiceTest {
   void setup() {
     Lesson lesson = new HttpBasics();
     lesson.addAssignment(
-        new Assignment("test", "/HttpBasics/attack1", Lists.newArrayList("hint 1", "hint 2")));
+        new Assignment("test", "/HttpBasics/attack1", List.of("hint 1", "hint 2")));
     Course course = new Course(List.of(lesson));
     this.mockMvc = standaloneSetup(new HintService(course)).build();
   }

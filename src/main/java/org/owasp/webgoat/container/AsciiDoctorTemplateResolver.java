@@ -37,12 +37,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.Attributes;
+import org.asciidoctor.Options;
 import org.asciidoctor.extension.JavaExtensionRegistry;
 import org.owasp.webgoat.container.asciidoc.*;
 import org.owasp.webgoat.container.i18n.Language;
@@ -135,17 +136,17 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
     return computedResourceName;
   }
 
-  private Map<String, Object> createAttributes() {
-    Map<String, Object> attributes = new HashMap<>();
-    attributes.put("source-highlighter", "coderay");
-    attributes.put("backend", "xhtml");
-    attributes.put("lang", determineLanguage());
-    attributes.put("icons", org.asciidoctor.Attributes.FONT_ICONS);
+  private Options createAttributes() {
 
-    Map<String, Object> options = new HashMap<>();
-    options.put("attributes", attributes);
-
-    return options;
+    return Options.builder()
+        .attributes(
+            Attributes.builder()
+                .attribute("source-highlighter", "coderay")
+                .attribute("backend", "xhtml")
+                .attribute("lang", determineLanguage())
+                .attribute("icons", org.asciidoctor.Attributes.FONT_ICONS)
+                .build())
+        .build();
   }
 
   private String determineLanguage() {
