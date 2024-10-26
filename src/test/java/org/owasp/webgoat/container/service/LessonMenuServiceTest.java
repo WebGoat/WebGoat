@@ -29,8 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-import com.beust.jcommander.internal.Lists;
 import java.util.Arrays;
+import java.util.List;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,8 +74,8 @@ public class LessonMenuServiceTest {
     when(l1.getTitle()).thenReturn("ZA");
     when(l2.getTitle()).thenReturn("AA");
     when(lessonTracker.isLessonSolved()).thenReturn(false);
-    when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1, l2));
-    when(course.getCategories()).thenReturn(Lists.newArrayList(Category.A1));
+    when(course.getLessons(any())).thenReturn(List.of(l1, l2));
+    when(course.getCategories()).thenReturn(List.of(Category.A1));
     when(userTracker.getLessonProgress(any(Lesson.class))).thenReturn(lessonTracker);
     when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
 
@@ -91,8 +91,8 @@ public class LessonMenuServiceTest {
     Lesson l1 = Mockito.mock(Lesson.class);
     when(l1.getTitle()).thenReturn("ZA");
     when(lessonTracker.isLessonSolved()).thenReturn(true);
-    when(course.getLessons(any())).thenReturn(Lists.newArrayList(l1));
-    when(course.getCategories()).thenReturn(Lists.newArrayList(Category.A1));
+    when(course.getLessons(any())).thenReturn(List.of(l1));
+    when(course.getCategories()).thenReturn(List.of(Category.A1));
     when(userTracker.getLessonProgress(any(Lesson.class))).thenReturn(lessonTracker);
     when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
 
