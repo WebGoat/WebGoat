@@ -23,7 +23,6 @@
 package org.owasp.webgoat.lessons.csrf;
 
 import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,7 +43,6 @@ public class CSRFFeedbackTest extends LessonTest {
 
   @BeforeEach
   public void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new CSRF());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 

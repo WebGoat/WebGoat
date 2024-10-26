@@ -4,11 +4,15 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.lessons.Assignment;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.lessons.LessonName;
+import org.owasp.webgoat.container.session.Course;
 import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -20,8 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 public class LessonProgressService {
 
-  private final UserProgressRepository userTrackerRepository;
-  private final WebSession webSession;
+  private final UserProgressRepository userProgressRepository;
+  private final Course course;
 
   /**
    * Endpoint for fetching the complete lesson overview which informs the user about whether all the
@@ -29,19 +33,19 @@ public class LessonProgressService {
    *
    * @return list of assignments
    */
-  @RequestMapping(value = "/service/lessonoverview.mvc", produces = "application/json")
+  @GetMapping(value = "/service/lessonoverview.mvc/{lesson}")
   @ResponseBody
-  public List<LessonOverview> lessonOverview() {
-    var userTracker = userTrackerRepository.findByUser(webSession.getUserName());
-    var currentLesson = webSession.getCurrentLesson();
+  public List<LessonOverview> lessonOverview(
+      @PathVariable("lesson") LessonName lessonName, @CurrentUsername String username) {
+    var userProgress = userProgressRepository.findByUser(username);
+    var lesson = course.getLessonByName(lessonName);
 
-    if (currentLesson != null) {
-      var lessonTracker = userTracker.getLessonProgress(currentLesson);
-      return lessonTracker.getLessonOverview().entrySet().stream()
-          .map(entry -> new LessonOverview(entry.getKey(), entry.getValue()))
-          .toList();
-    }
-    return List.of();
+    Assert.isTrue(lesson != null, "Lesson not found: " + lessonName);
+
+    var lessonProgress = userProgress.getLessonProgress(lesson);
+    return lessonProgress.getLessonOverview().entrySet().stream()
+        .map(entry -> new LessonOverview(entry.getKey(), entry.getValue()))
+        .toList();
   }
 
   @AllArgsConstructor

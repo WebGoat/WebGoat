@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.6</version>
+    <version>3.3.3</version>
   </parent>
 
   <groupId>org.owasp.webgoat</groupId>
@@ -30,23 +30,11 @@
 
   <developers>
     <developer>
-      <id>mayhew64</id>
-      <name>Bruce Mayhew</name>
-      <email>webgoat@owasp.org</email>
-      <organization>OWASP</organization>
-      <organizationUrl>https://github.com/WebGoat/WebGoat</organizationUrl>
-    </developer>
-    <developer>
       <id>nbaars</id>
       <name>Nanne Baars</name>
       <email>nanne.baars@owasp.org</email>
       <organizationUrl>https://github.com/nbaars</organizationUrl>
       <timezone>Europe/Amsterdam</timezone>
-    </developer>
-    <developer>
-      <id>misfir3</id>
-      <name>Jason White</name>
-      <email>jason.white@owasp.org</email>
     </developer>
     <developer>
       <id>zubcevic</id>
@@ -58,43 +46,8 @@
       <name>Àngel Ollé Blázquez</name>
       <email>angel@olleb.com</email>
     </developer>
-    <developer>
-      <id>jwayman</id>
-      <name>Jeff Wayman</name>
-      <email></email>
-    </developer>
-    <developer>
-      <id>dcowden</id>
-      <name>Dave Cowden</name>
-      <email></email>
-    </developer>
-    <developer>
-      <id>lawson89</id>
-      <name>Richard Lawson</name>
-      <email></email>
-    </developer>
-    <developer>
-      <id>dougmorato</id>
-      <name>Doug Morato</name>
-      <email>doug.morato@owasp.org</email>
-      <organization>OWASP</organization>
-      <organizationUrl>https://github.com/dougmorato</organizationUrl>
-      <timezone>America/New_York</timezone>
-      <properties>
-        <picUrl>https://avatars2.githubusercontent.com/u/9654?v=3&amp;s=150</picUrl>
-      </properties>
-    </developer>
   </developers>
 
-  <mailingLists>
-    <mailingList>
-      <name>OWASP WebGoat Mailing List</name>
-      <subscribe>https://lists.owasp.org/mailman/listinfo/owasp-webgoat</subscribe>
-      <unsubscribe>Owasp-webgoat-request@lists.owasp.org</unsubscribe>
-      <post>owasp-webgoat@lists.owasp.org</post>
-      <archive>http://lists.owasp.org/pipermail/owasp-webgoat/</archive>
-    </mailingList>
-  </mailingLists>
   <scm>
     <connection>scm:git:git@github.com:WebGoat/WebGoat.git</connection>
     <developerConnection>scm:git:git@github.com:WebGoat/WebGoat.git</developerConnection>
@@ -123,7 +76,6 @@
     <jacoco.version>0.8.11</jacoco.version>
     <java.version>21</java.version>
     <jaxb.version>2.3.1</jaxb.version>
-    <jetty.version>11.0.18</jetty.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
     <jquery.version>3.7.1</jquery.version>
@@ -156,19 +108,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.eclipse.jetty.ee10</groupId>
-        <artifactId>jetty-ee10-bom</artifactId>
-        <version>12.0.11</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.ow2.asm</groupId>
-        <artifactId>asm</artifactId>
-        <version>9.7</version>
-      </dependency>
-
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-exec</artifactId>
@@ -258,7 +197,7 @@
       </dependency>
       <dependency>
         <groupId>org.wiremock</groupId>
-        <artifactId>wiremock</artifactId>
+        <artifactId>wiremock-standalone</artifactId>
         <version>${wiremock.version}</version>
       </dependency>
       <dependency>
@@ -294,23 +233,25 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <version>1.20.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>1.20.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
       <version>${jaxb.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-undertow</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-tomcat</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -319,6 +260,10 @@
     <dependency>
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-database-hsqldb</artifactId>
     </dependency>
     <dependency>
       <groupId>org.asciidoctor</groupId>
@@ -426,6 +371,12 @@
       <artifactId>jaxb-impl</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>com.github.terma</groupId>
+      <artifactId>javaniotcpproxy</artifactId>
+      <version>1.5</version>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -438,10 +389,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.tomakehurst</groupId>
-      <artifactId>wiremock</artifactId>
-      <version>3.0.0-beta-10</version>
-      <scope>test</scope>
+      <groupId>org.wiremock</groupId>
+      <artifactId>wiremock-standalone</artifactId>
     </dependency>
     <dependency>
       <groupId>io.rest-assured</groupId>
@@ -557,6 +506,7 @@
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+          <!-- Necessary for vulnerable components lesson -->
           <argLine>--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
           --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
           --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED
@@ -564,8 +514,6 @@
           --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED</argLine>
           <excludes>
             <exclude>**/*IntegrationTest.java</exclude>
-            <exclude>src/it/java</exclude>
-            <exclude>org/owasp/webgoat/*Test</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -732,7 +680,6 @@
                     <argument>-Dlogging.pattern.console=</argument>
                     <argument>-Dwebgoat.server.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
                     <argument>-Dwebgoat.user.directory=${java.io.tmpdir}/webgoat_${webgoat.port}</argument>
-
                     <argument>-Dspring.main.banner-mode=off</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.lang=ALL-UNNAMED</argument>

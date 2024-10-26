@@ -7,23 +7,22 @@ import java.io.File;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class ProfileUploadRemoveUserInputTest extends LessonTest {
+@WithWebGoatUser
+class ProfileUploadRemoveUserInputTest extends LessonTest {
 
   @BeforeEach
-  public void setup() {
-    Mockito.when(webSession.getCurrentLesson()).thenReturn(new PathTraversal());
+  void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    Mockito.when(webSession.getUserName()).thenReturn("unit-test");
   }
 
   @Test
-  public void solve() throws Exception {
+  void solve() throws Exception {
     var profilePicture =
         new MockMultipartFile(
             "uploadedFileRemoveUserInput", "../picture.jpg", "text/plain", "an image".getBytes());
@@ -39,7 +38,7 @@ public class ProfileUploadRemoveUserInputTest extends LessonTest {
   }
 
   @Test
-  public void normalUpdate() throws Exception {
+  void normalUpdate() throws Exception {
     var profilePicture =
         new MockMultipartFile(
             "uploadedFileRemoveUserInput", "picture.jpg", "text/plain", "an image".getBytes());
@@ -53,7 +52,7 @@ public class ProfileUploadRemoveUserInputTest extends LessonTest {
         .andExpect(
             jsonPath(
                 "$.feedback",
-                CoreMatchers.containsString("unit-test\\" + File.separator + "picture.jpg")))
+                CoreMatchers.containsString("test\\" + File.separator + "picture.jpg")))
         .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(false)));
   }
 }

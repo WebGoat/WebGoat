@@ -25,7 +25,7 @@ package org.owasp.webgoat.lessons.xss;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,11 +44,16 @@ import org.springframework.web.bind.annotation.RestController;
     })
 public class DOMCrossSiteScriptingVerifier extends AssignmentEndpoint {
 
+  private final LessonSession lessonSession;
+
+  public DOMCrossSiteScriptingVerifier(LessonSession lessonSession) {
+    this.lessonSession = lessonSession;
+  }
+
   @PostMapping("/CrossSiteScripting/dom-follow-up")
   @ResponseBody
   public AttackResult completed(@RequestParam String successMessage) {
-    UserSessionData userSessionData = getUserSessionData();
-    String answer = (String) userSessionData.getValue("randValue");
+    String answer = (String) lessonSession.getValue("randValue");
 
     if (successMessage.equals(answer)) {
       return success(this).feedback("xss-dom-message-success").build();

@@ -23,7 +23,6 @@
 package org.owasp.webgoat.lessons.missingac;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +37,6 @@ class MissingFunctionACUsersTest extends LessonTest {
 
   @BeforeEach
   void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new MissingFunctionAC());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 

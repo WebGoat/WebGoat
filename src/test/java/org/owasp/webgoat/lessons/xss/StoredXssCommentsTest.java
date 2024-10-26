@@ -40,19 +40,19 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @ExtendWith(MockitoExtension.class)
-public class StoredXssCommentsTest extends AssignmentEndpointTest {
+class StoredXssCommentsTest extends AssignmentEndpointTest {
 
   private MockMvc mockMvc;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     StoredXssComments storedXssComments = new StoredXssComments();
     init(storedXssComments);
     this.mockMvc = standaloneSetup(storedXssComments).build();
   }
 
   @Test
-  public void success() throws Exception {
+  void success() throws Exception {
     ResultActions results =
         mockMvc.perform(
             MockMvcRequestBuilders.post("/CrossSiteScriptingStored/stored-xss")
@@ -65,7 +65,7 @@ public class StoredXssCommentsTest extends AssignmentEndpointTest {
   }
 
   @Test
-  public void failure() throws Exception {
+  void failure() throws Exception {
     ResultActions results =
         mockMvc.perform(
             MockMvcRequestBuilders.post("/CrossSiteScriptingStored/stored-xss")

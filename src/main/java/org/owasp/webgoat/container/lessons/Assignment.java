@@ -51,6 +51,7 @@ public class Assignment {
 
   private String name;
   private String path;
+  private boolean solved = false;
 
   @Transient private List<String> hints;
 
@@ -73,5 +74,9 @@ public class Assignment {
     this.name = name;
     this.path = path;
     this.hints = hints;
+  }
+
+  public void solved() {
+    this.solved = true;
   }
 }

@@ -24,6 +24,7 @@ package org.owasp.webgoat.webwolf.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,15 +39,16 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Getter
 @Entity
-public class WebGoatUser implements UserDetails {
+@Table(name = "WEB_GOAT_USER")
+public class WebWolfUser implements UserDetails {
 
   @Id private String username;
   private String password;
   @Transient private User user;
 
-  protected WebGoatUser() {}
+  protected WebWolfUser() {}
 
-  public WebGoatUser(String username, String password) {
+  public WebWolfUser(String username, String password) {
     this.username = username;
     this.password = password;
     createUser();

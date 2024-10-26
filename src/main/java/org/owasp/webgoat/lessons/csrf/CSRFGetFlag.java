@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import org.owasp.webgoat.container.i18n.PluginMessages;
-import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CSRFGetFlag {
 
-  @Autowired UserSessionData userSessionData;
+  @Autowired LessonSession userSessionData;
   @Autowired private PluginMessages pluginMessages;
 
   @PostMapping(

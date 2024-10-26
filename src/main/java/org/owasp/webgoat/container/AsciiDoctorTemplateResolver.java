@@ -32,7 +32,6 @@ package org.owasp.webgoat.container;
 
 import static org.asciidoctor.Asciidoctor.Factory.create;
 
-import io.undertow.util.Headers;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +47,7 @@ import org.asciidoctor.extension.JavaExtensionRegistry;
 import org.owasp.webgoat.container.asciidoc.*;
 import org.owasp.webgoat.container.i18n.Language;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -159,7 +159,7 @@ public class AsciiDoctorTemplateResolver extends FileTemplateResolver {
       log.debug("browser locale {}", browserLocale);
       return browserLocale.getLanguage();
     } else {
-      String langHeader = request.getHeader(Headers.ACCEPT_LANGUAGE_STRING);
+      String langHeader = request.getHeader(HttpHeaders.ACCEPT_LANGUAGE);
       if (null != langHeader) {
         log.debug("browser locale {}", langHeader);
         return langHeader.substring(0, 2);

@@ -61,10 +61,7 @@ public class LessonProgress {
   @Getter private String lessonName;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private final Set<Assignment> solvedAssignments = new HashSet<>();
-
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private final Set<Assignment> allAssignments = new HashSet<>();
+  private final Set<Assignment> assignments = new HashSet<>();
 
   @Getter private int numberOfAttempts = 0;
   @Version private Integer version;
@@ -75,11 +72,11 @@ public class LessonProgress {
 
   public LessonProgress(Lesson lesson) {
     lessonName = lesson.getId();
-    allAssignments.addAll(lesson.getAssignments() == null ? List.of() : lesson.getAssignments());
+    assignments.addAll(lesson.getAssignments() == null ? List.of() : lesson.getAssignments());
   }
 
   public Optional<Assignment> getAssignment(String name) {
-    return allAssignments.stream().filter(a -> a.getName().equals(name)).findFirst();
+    return assignments.stream().filter(a -> a.getName().equals(name)).findFirst();
   }
 
   /**
@@ -88,14 +85,14 @@ public class LessonProgress {
    * @param solvedAssignment the assignment which the user solved
    */
   public void assignmentSolved(String solvedAssignment) {
-    getAssignment(solvedAssignment).ifPresent(solvedAssignments::add);
+    getAssignment(solvedAssignment).ifPresent(Assignment::solved);
   }
 
   /**
    * @return did they user solved all solvedAssignments for the lesson?
    */
   public boolean isLessonSolved() {
-    return allAssignments.size() == solvedAssignments.size();
+    return assignments.stream().allMatch(Assignment::isSolved);
   }
 
   /** Increase the number attempts to solve the lesson */
@@ -105,22 +102,17 @@ public class LessonProgress {
 
   /** Reset the tracker. We do not reset the number of attempts here! */
   void reset() {
-    solvedAssignments.clear();
+    assignments.clear();
   }
 
   /**
    * @return list containing all the assignments solved or not
    */
   public Map<Assignment, Boolean> getLessonOverview() {
-    List<Assignment> notSolved =
-        allAssignments.stream().filter(i -> !solvedAssignments.contains(i)).toList();
-    Map<Assignment, Boolean> overview =
-        notSolved.stream().collect(Collectors.toMap(a -> a, b -> false));
-    overview.putAll(solvedAssignments.stream().collect(Collectors.toMap(a -> a, b -> true)));
-    return overview;
+    return assignments.stream().collect(Collectors.toMap(a -> a, Assignment::isSolved));
   }
 
   long numberOfSolvedAssignments() {
-    return solvedAssignments.size();
+    return assignments.size();
   }
 }

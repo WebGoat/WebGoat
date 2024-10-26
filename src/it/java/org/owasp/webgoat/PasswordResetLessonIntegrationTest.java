@@ -85,7 +85,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("mail"))
+            .get(new WebWolfUrlBuilder().path("mail").build())
             .then()
             .extract()
             .response()
@@ -99,7 +99,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   public void shutdown() {
     // this will run only once after the list of dynamic tests has run, this is to test if the
     // lesson is marked complete
-    checkResults("/PasswordReset");
+    checkResults("PasswordReset");
   }
 
   private void changePassword(String link) {
@@ -119,7 +119,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("requests"))
+            .get(new WebWolfUrlBuilder().path("requests").build())
             .then()
             .extract()
             .response()
