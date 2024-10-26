@@ -35,6 +35,16 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
   }
 
   @Test
+  public void solveAsOtherUserHttpBasics() {
+    login("steven");
+    startLesson("HttpBasics");
+    Map<String, Object> params = new HashMap<>();
+    params.clear();
+    params.put("person", "goatuser");
+    checkAssignment(url("HttpBasics/attack1"), params, true);
+  }
+
+  @Test
   public void httpProxies() {
     startLesson("HttpProxies");
     MatcherAssert.assertThat(
