@@ -22,7 +22,11 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.advanced;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -62,55 +66,66 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
   public AttackResult injectableQuery(String accountName) {
     String query = "";
     try (Connection connection = dataSource.getConnection()) {
-      boolean usedUnion = true;
+      boolean usedUnion = this.unionQueryChecker(accountName);
       query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
-      // Check if Union is used
-      if (!accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)")) {
-        usedUnion = false;
-      }
-      try (Statement statement =
-          connection.createStatement(
-              ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-        ResultSet results = statement.executeQuery(query);
 
-        if ((results != null) && results.first()) {
-          ResultSetMetaData resultsMetaData = results.getMetaData();
-          StringBuilder output = new StringBuilder();
-
-          output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
-
-          String appendingWhenSucceded;
-          if (usedUnion)
-            appendingWhenSucceded =
-                "Well done! Can you also figure out a solution, by appending a new SQL Statement?";
-          else
-            appendingWhenSucceded =
-                "Well done! Can you also figure out a solution, by using a UNION?";
-          results.last();
-
-          if (output.toString().contains("dave") && output.toString().contains("passW0rD")) {
-            output.append(appendingWhenSucceded);
-            return success(this)
-                .feedback("sql-injection.advanced.6a.success")
-                .feedbackArgs(output.toString())
-                .output(" Your query was: " + query)
-                .build();
-          } else {
-            return failed(this).output(output.toString() + YOUR_QUERY_WAS + query).build();
-          }
-        } else {
-          return failed(this)
-              .feedback("sql-injection.advanced.6a.no.results")
-              .output(YOUR_QUERY_WAS + query)
-              .build();
-        }
-      } catch (SQLException sqle) {
-        return failed(this).output(sqle.getMessage() + YOUR_QUERY_WAS + query).build();
-      }
+      return executeSqlInjection(connection, query, usedUnion);
     } catch (Exception e) {
       return failed(this)
           .output(this.getClass().getName() + " : " + e.getMessage() + YOUR_QUERY_WAS + query)
           .build();
     }
+  }
+
+  private boolean unionQueryChecker(String accountName) {
+    return accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)");
+  }
+
+  private AttackResult executeSqlInjection(Connection connection, String query, boolean usedUnion) {
+    try (Statement statement =
+        connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+
+      ResultSet results = statement.executeQuery(query);
+
+      if (!((results != null) && results.first())) {
+        return failed(this)
+            .feedback("sql-injection.advanced.6a.no.results")
+            .output(YOUR_QUERY_WAS + query)
+            .build();
+      }
+
+      ResultSetMetaData resultsMetaData = results.getMetaData();
+      StringBuilder output = new StringBuilder();
+      String appendingWhenSucceded = this.appendSuccededMessage(usedUnion);
+
+      output.append(SqlInjectionLesson5a.writeTable(results, resultsMetaData));
+      results.last();
+
+      return verifySqlInjection(output, appendingWhenSucceded, query);
+    } catch (SQLException sqle) {
+      return failed(this).output(sqle.getMessage() + YOUR_QUERY_WAS + query).build();
+    }
+  }
+
+  private String appendSuccededMessage(boolean isUsedUnion) {
+    String appendingWhenSucceded = "Well done! Can you also figure out a solution, by ";
+
+    appendingWhenSucceded += isUsedUnion ? "appending a new SQL Statement?" : "using a UNION?";
+
+    return appendingWhenSucceded;
+  }
+
+  private AttackResult verifySqlInjection(
+      StringBuilder output, String appendingWhenSucceded, String query) {
+    if (!(output.toString().contains("dave") && output.toString().contains("passW0rD"))) {
+      return failed(this).output(output.toString() + YOUR_QUERY_WAS + query).build();
+    }
+
+    output.append(appendingWhenSucceded);
+    return success(this)
+        .feedback("sql-injection.advanced.6a.success")
+        .feedbackArgs(output.toString())
+        .output(" Your query was: " + query)
+        .build();
   }
 }
