@@ -5,42 +5,33 @@ import static io.restassured.RestAssured.given;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
-import java.nio.file.Paths;
 import java.util.Map;
 import lombok.Getter;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.output.Slf4jLogConsumer;
-import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.images.builder.ImageFromDockerfile;
 
-@ExtendWith(SpringExtension.class)
-@TestPropertySource("classpath:application-webgoat.properties")
 public abstract class IntegrationTest {
 
-  @Getter
-  @Value("${webwolf.port}")
-  private String webWolfPort;
+  private static String webGoatPort = System.getenv().getOrDefault("WEBGOAT_PORT", "8080");
+  @Getter private static String webWolfPort = System.getenv().getOrDefault("WEBWOLF_PORT", "9090");
 
   @Getter
-  @Value("${webwolf.host}")
-  private String webWolfHost;
+  private static String webWolfHost = System.getenv().getOrDefault("WEBWOLF_HOST", "127.0.0.1");
+
+  private static String webGoatContext =
+      System.getenv().getOrDefault("WEBGOAT_CONTEXT", "/WebGoat/");
+  private static String webWolfContext =
+      System.getenv().getOrDefault("WEBWOLF_CONTEXT", "/WebWolf/");
 
   @Getter private String webGoatCookie;
   @Getter private String webWolfCookie;
   @Getter private final String user = "webgoat";
 
   protected String url(String url) {
-    return "http://localhost:%d/WebGoat/%s".formatted(webGoatContainer.getMappedPort(8080), url);
+    return "http://localhost:%s%s%s".formatted(webGoatPort, webGoatContext, url);
   }
 
   protected class WebWolfUrlBuilder {
@@ -49,9 +40,8 @@ public abstract class IntegrationTest {
     private String path = null;
 
     protected String build() {
-      return "http://localhost:%d/WebWolf/%s"
-          .formatted(
-              !attackMode ? webGoatContainer.getMappedPort(9090) : 9090, path != null ? path : "");
+      return "http://localhost:%s%s%s"
+          .formatted(webWolfPort, webWolfContext, path != null ? path : "");
     }
 
     /**
@@ -80,18 +70,19 @@ public abstract class IntegrationTest {
    *
    * <p>Start the test and connect a remote debugger in IntelliJ to localhost:5005 and attach it.
    */
-  private static GenericContainer<?> webGoatContainer =
-      new GenericContainer(new ImageFromDockerfile("webgoat").withFileFromPath("/", Paths.get(".")))
-          .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger("webgoat")))
-          .withExposedPorts(8080, 9090, 5005)
-          .withEnv(
-              "_JAVA_OPTIONS",
-              "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005")
-          .waitingFor(Wait.forHealthcheck());
-
-  static {
-    webGoatContainer.start();
-  }
+  //  private static GenericContainer<?> webGoatContainer =
+  //      new GenericContainer(new ImageFromDockerfile("webgoat").withFileFromPath("/",
+  // Paths.get(".")))
+  //          .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger("webgoat")))
+  //          .withExposedPorts(8080, 9090, 5005)
+  //          .withEnv(
+  //              "_JAVA_OPTIONS",
+  //              "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005")
+  //          .waitingFor(Wait.forHealthcheck());
+  //
+  //  static {
+  //    webGoatContainer.start();
+  //  }
 
   @BeforeEach
   public void login() {
