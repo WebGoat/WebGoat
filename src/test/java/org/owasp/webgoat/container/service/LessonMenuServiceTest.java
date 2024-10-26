@@ -22,6 +22,7 @@
 package org.owasp.webgoat.container.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mock.Strictness.LENIENT;
 import static org.mockito.Mockito.when;
 import static org.owasp.webgoat.container.service.LessonMenuService.URL_LESSONMENU_MVC;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -40,7 +41,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.session.Course;
-import org.owasp.webgoat.container.session.WebSession;
 import org.owasp.webgoat.container.users.LessonProgress;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
@@ -50,13 +50,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @ExtendWith(MockitoExtension.class)
 public class LessonMenuServiceTest {
 
-  @Mock(lenient = true)
+  @Mock(strictness = LENIENT)
   private LessonProgress lessonTracker;
 
   @Mock private Course course;
   @Mock private UserProgress userTracker;
   @Mock private UserProgressRepository userTrackerRepository;
-  @Mock private WebSession webSession;
   private MockMvc mockMvc;
 
   @BeforeEach
@@ -64,11 +63,7 @@ public class LessonMenuServiceTest {
     this.mockMvc =
         standaloneSetup(
                 new LessonMenuService(
-                    course,
-                    webSession,
-                    userTrackerRepository,
-                    Arrays.asList("none"),
-                    Arrays.asList("none")))
+                    course, userTrackerRepository, Arrays.asList("none"), Arrays.asList("none")))
             .build();
   }
 

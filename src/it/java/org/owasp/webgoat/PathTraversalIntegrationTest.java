@@ -147,6 +147,6 @@ class PathTraversalIT extends IntegrationTest {
   void shutdown() {
     // this will run only once after the list of dynamic tests has run, this is to test if the
     // lesson is marked complete
-    checkResults("/PathTraversal");
+    checkResults("PathTraversal");
   }
 }

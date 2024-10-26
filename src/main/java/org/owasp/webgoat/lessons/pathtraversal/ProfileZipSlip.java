@@ -14,9 +14,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
@@ -38,9 +38,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class ProfileZipSlip extends ProfileUploadBase {
 
-  public ProfileZipSlip(
-      @Value("${webgoat.server.directory}") String webGoatHomeDirectory, WebSession webSession) {
-    super(webGoatHomeDirectory, webSession);
+  public ProfileZipSlip(@Value("${webgoat.server.directory}") String webGoatHomeDirectory) {
+    super(webGoatHomeDirectory);
   }
 
   @PostMapping(
@@ -48,19 +47,20 @@ public class ProfileZipSlip extends ProfileUploadBase {
       consumes = ALL_VALUE,
       produces = APPLICATION_JSON_VALUE)
   @ResponseBody
-  public AttackResult uploadFileHandler(@RequestParam("uploadedFileZipSlip") MultipartFile file) {
+  public AttackResult uploadFileHandler(
+      @RequestParam("uploadedFileZipSlip") MultipartFile file, @CurrentUsername String username) {
     if (!file.getOriginalFilename().toLowerCase().endsWith(".zip")) {
       return failed(this).feedback("path-traversal-zip-slip.no-zip").build();
     } else {
-      return processZipUpload(file);
+      return processZipUpload(file, username);
     }
   }
 
   @SneakyThrows
-  private AttackResult processZipUpload(MultipartFile file) {
-    var tmpZipDirectory = Files.createTempDirectory(getWebSession().getUserName());
-    cleanupAndCreateDirectoryForUser();
-    var currentImage = getProfilePictureAsBase64();
+  private AttackResult processZipUpload(MultipartFile file, String username) {
+    var tmpZipDirectory = Files.createTempDirectory(username);
+    cleanupAndCreateDirectoryForUser(username);
+    var currentImage = getProfilePictureAsBase64(username);
 
     try {
       var uploadedZipFile = tmpZipDirectory.resolve(file.getOriginalFilename());
@@ -75,7 +75,7 @@ public class ProfileZipSlip extends ProfileUploadBase {
         Files.copy(is, f.toPath(), StandardCopyOption.REPLACE_EXISTING);
       }
 
-      return isSolved(currentImage, getProfilePictureAsBase64());
+      return isSolved(currentImage, getProfilePictureAsBase64(username));
     } catch (IOException e) {
       return failed(this).output(e.getMessage()).build();
     }
@@ -90,13 +90,13 @@ public class ProfileZipSlip extends ProfileUploadBase {
 
   @GetMapping("/PathTraversal/zip-slip/")
   @ResponseBody
-  public ResponseEntity<?> getProfilePicture() {
-    return super.getProfilePicture();
+  public ResponseEntity<?> getProfilePicture(@CurrentUsername String username) {
+    return super.getProfilePicture(username);
   }
 
   @GetMapping("/PathTraversal/zip-slip/profile-image/{username}")
   @ResponseBody
-  public ResponseEntity<?> getProfilePicture(@PathVariable("username") String username) {
+  public ResponseEntity<?> getProfileImage(@PathVariable String username) {
     return ResponseEntity.notFound().build();
   }
 }

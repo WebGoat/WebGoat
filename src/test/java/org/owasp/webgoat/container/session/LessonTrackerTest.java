@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Lesson;
@@ -56,6 +57,7 @@ class LessonTrackerTest {
   }
 
   @Test
+  @DisplayName("Given two assignments when only one is solved then lesson is not solved")
   void noAssignmentsSolvedShouldMarkLessonAsInComplete() {
     Lesson lesson = mock(Lesson.class);
     Assignment a1 = new Assignment("a1");

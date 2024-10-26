@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Lesson;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.Course;
 import org.owasp.webgoat.container.users.LessonProgress;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
@@ -60,21 +60,20 @@ class LessonProgressServiceTest {
   private MockMvc mockMvc;
 
   @Mock private Lesson lesson;
-  @Mock private UserProgress userTracker;
+  @Mock private UserProgress userProgress;
   @Mock private LessonProgress lessonTracker;
-  @Mock private UserProgressRepository userTrackerRepository;
-  @Mock private WebSession websession;
+  @Mock private UserProgressRepository userProgressRepository;
+  @Mock private Course course;
 
   @BeforeEach
   void setup() {
     Assignment assignment = new Assignment("test", "test", List.of());
-    when(userTrackerRepository.findByUser(any())).thenReturn(userTracker);
-    when(userTracker.getLessonProgress(any(Lesson.class))).thenReturn(lessonTracker);
-    when(websession.getCurrentLesson()).thenReturn(lesson);
+    when(userProgressRepository.findByUser(any())).thenReturn(userProgress);
+    when(userProgress.getLessonProgress(any(Lesson.class))).thenReturn(lessonTracker);
+    when(course.getLessonByName(any())).thenReturn(lesson);
     when(lessonTracker.getLessonOverview()).thenReturn(Maps.newHashMap(assignment, true));
     this.mockMvc =
-        MockMvcBuilders.standaloneSetup(
-                new LessonProgressService(userTrackerRepository, websession))
+        MockMvcBuilders.standaloneSetup(new LessonProgressService(userProgressRepository, course))
             .build();
   }
 
@@ -82,7 +81,7 @@ class LessonProgressServiceTest {
   void jsonLessonOverview() throws Exception {
     this.mockMvc
         .perform(
-            MockMvcRequestBuilders.get("/service/lessonoverview.mvc")
+            MockMvcRequestBuilders.get("/service/lessonoverview.mvc/test.lesson")
                 .accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].assignment.name", is("test")))

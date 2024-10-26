@@ -11,9 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FilenameUtils;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
@@ -26,9 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileUploadBase extends AssignmentEndpoint {
 
   private String webGoatHomeDirectory;
-  private WebSession webSession;
 
-  protected AttackResult execute(MultipartFile file, String fullName) {
+  protected AttackResult execute(MultipartFile file, String fullName, String username) {
     if (file.isEmpty()) {
       return failed(this).feedback("path-traversal-profile-empty-file").build();
     }
@@ -36,7 +35,7 @@ public class ProfileUploadBase extends AssignmentEndpoint {
       return failed(this).feedback("path-traversal-profile-empty-name").build();
     }
 
-    File uploadDirectory = cleanupAndCreateDirectoryForUser();
+    File uploadDirectory = cleanupAndCreateDirectoryForUser(username);
 
     try {
       var uploadedFile = new File(uploadDirectory, fullName);
@@ -57,9 +56,8 @@ public class ProfileUploadBase extends AssignmentEndpoint {
   }
 
   @SneakyThrows
-  protected File cleanupAndCreateDirectoryForUser() {
-    var uploadDirectory =
-        new File(this.webGoatHomeDirectory, "/PathTraversal/" + webSession.getUserName());
+  protected File cleanupAndCreateDirectoryForUser(String username) {
+    var uploadDirectory = new File(this.webGoatHomeDirectory, "/PathTraversal/" + username);
     if (uploadDirectory.exists()) {
       FileSystemUtils.deleteRecursively(uploadDirectory);
     }
@@ -85,15 +83,14 @@ public class ProfileUploadBase extends AssignmentEndpoint {
         .build();
   }
 
-  public ResponseEntity<?> getProfilePicture() {
+  public ResponseEntity<?> getProfilePicture(@CurrentUsername String username) {
     return ResponseEntity.ok()
         .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
-        .body(getProfilePictureAsBase64());
+        .body(getProfilePictureAsBase64(username));
   }
 
-  protected byte[] getProfilePictureAsBase64() {
-    var profilePictureDirectory =
-        new File(this.webGoatHomeDirectory, "/PathTraversal/" + webSession.getUserName());
+  protected byte[] getProfilePictureAsBase64(String username) {
+    var profilePictureDirectory = new File(this.webGoatHomeDirectory, "/PathTraversal/" + username);
     var profileDirectoryFiles = profilePictureDirectory.listFiles();
 
     if (profileDirectoryFiles != null && profileDirectoryFiles.length > 0) {

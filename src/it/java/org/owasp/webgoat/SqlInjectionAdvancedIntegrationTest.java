@@ -56,6 +56,6 @@ public class SqlInjectionAdvancedIntegrationTest extends IntegrationTest {
         "Solution 4: The database registers 'Robert' ); DROP TABLE Students;--'.");
     checkAssignment(url("SqlInjectionAdvanced/quiz"), params, true);
 
-    checkResults("/SqlInjectionAdvanced/");
+    checkResults("SqlInjectionAdvanced");
   }
 }

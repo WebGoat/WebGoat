@@ -4,7 +4,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static io.jsonwebtoken.SignatureAlgorithm.RS256;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,7 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
-import org.owasp.webgoat.lessons.jwt.JWT;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -33,7 +31,6 @@ class JWTHeaderJKUEndpointTest extends LessonTest {
 
   @BeforeEach
   public void setup() throws Exception {
-    when(webSession.getCurrentLesson()).thenReturn(new JWT());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 
     setupWebWolf();

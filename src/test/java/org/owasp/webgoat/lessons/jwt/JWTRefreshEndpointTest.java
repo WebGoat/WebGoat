@@ -23,7 +23,6 @@
 package org.owasp.webgoat.lessons.jwt;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 import static org.owasp.webgoat.lessons.jwt.JWTRefreshEndpoint.PASSWORD;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,19 +34,19 @@ import java.util.Map;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+@WithWebGoatUser
 public class JWTRefreshEndpointTest extends LessonTest {
 
   @BeforeEach
   void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new JWT());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    when(webSession.getUserName()).thenReturn("unit-test");
   }
 
   @Test

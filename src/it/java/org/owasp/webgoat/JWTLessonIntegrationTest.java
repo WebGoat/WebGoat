@@ -13,7 +13,6 @@ import io.jsonwebtoken.impl.TextCodec;
 import io.restassured.RestAssured;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -34,7 +33,7 @@ import org.owasp.webgoat.lessons.jwt.JWTSecretKeyEndpoint;
 public class JWTLessonIntegrationTest extends IntegrationTest {
 
   @Test
-  public void solveAssignment() throws IOException, InvalidKeyException, NoSuchAlgorithmException {
+  public void solveAssignment() throws IOException, NoSuchAlgorithmException {
     startLesson("JWT");
 
     decodingToken();
@@ -51,11 +50,10 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
 
     quiz();
 
-    checkResults("/JWT/");
+    checkResults("JWT");
   }
 
   private String generateToken(String key) {
-
     return Jwts.builder()
         .setIssuer("WebGoat Token Builder")
         .setAudience("webgoat.org")
@@ -96,7 +94,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
         CoreMatchers.is(true));
   }
 
-  private void findPassword() throws IOException, NoSuchAlgorithmException, InvalidKeyException {
+  private void findPassword() {
 
     String accessToken =
         RestAssured.given()
@@ -256,7 +254,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .multiPart("file", "jwks.json", jwks.toJson().getBytes())
-        .post(webWolfUrl("fileupload"))
+        .post(new WebWolfUrlBuilder().path("fileupload").build())
         .then()
         .extract()
         .response()
@@ -265,7 +263,10 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
 
     Map<String, Object> header = new HashMap();
     header.put(Header.TYPE, Header.JWT_TYPE);
-    header.put(JwsHeader.JWK_SET_URL, webWolfFileUrl("jwks.json"));
+    header.put(
+        JwsHeader.JWK_SET_URL,
+        new WebWolfUrlBuilder().attackMode().path("files/%s/jwks.json", getUser()).build());
+
     String token =
         Jwts.builder()
             .setHeader(header)

@@ -27,11 +27,10 @@ package org.owasp.webgoat.container.assignments;
 
 import java.util.Locale;
 import org.mockito.Mock;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
-import org.owasp.webgoat.container.session.UserSessionData;
-import org.owasp.webgoat.container.session.WebSession;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -39,12 +38,12 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 // Do not remove is the base class for all assignments tests
+
+@WithWebGoatUser
 public class AssignmentEndpointTest {
 
   @Mock protected UserProgress userTracker;
   @Mock protected UserProgressRepository userTrackerRepository;
-  @Mock protected WebSession webSession;
-  @Mock protected UserSessionData userSessionData;
 
   private Language language =
       new Language(new FixedLocaleResolver()) {
@@ -59,8 +58,6 @@ public class AssignmentEndpointTest {
 
   public void init(AssignmentEndpoint a) {
     messages.setBasenames("classpath:/i18n/messages", "classpath:/i18n/WebGoatLabels");
-    ReflectionTestUtils.setField(a, "userSessionData", userSessionData);
-    ReflectionTestUtils.setField(a, "webSession", webSession);
     ReflectionTestUtils.setField(a, "messages", pluginMessages);
   }
 }

@@ -18,7 +18,6 @@ var goatConstants = {
 			solutionService: 'service/solution.mvc',
 			lessonPlanService: 'service/lessonplan.mvc',
 			menuService: 'service/lessonmenu.mvc',
-			lessonTitleService: 'service/lessontitle.mvc',
 			restartLessonService: 'service/restartlesson.mvc'
 		}
 	},

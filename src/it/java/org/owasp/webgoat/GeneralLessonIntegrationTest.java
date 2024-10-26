@@ -31,7 +31,17 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("magic_num", "33");
     checkAssignment(url("HttpBasics/attack2"), params, true);
 
-    checkResults("/HttpBasics/");
+    checkResults("HttpBasics");
+  }
+
+  @Test
+  public void solveAsOtherUserHttpBasics() {
+    login("steven");
+    startLesson("HttpBasics");
+    Map<String, Object> params = new HashMap<>();
+    params.clear();
+    params.put("person", "goatuser");
+    checkAssignment(url("HttpBasics/attack1"), params, true);
   }
 
   @Test
@@ -51,7 +61,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
             .path("lessonCompleted"),
         CoreMatchers.is(true));
 
-    checkResults("/HttpProxies/");
+    checkResults("HttpProxies");
   }
 
   @Test
@@ -73,7 +83,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
         "question_3_solution",
         "Solution 2: The systems security is compromised even if only one goal is harmed.");
     checkAssignment(url("cia/quiz"), params, true);
-    checkResults("/cia/");
+    checkResults("CIA");
   }
 
   @Test
@@ -96,7 +106,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
       params.clear();
       params.put("payload", solution);
       checkAssignment(url("VulnerableComponents/attack1"), params, true);
-      checkResults("/VulnerableComponents/");
+      checkResults("VulnerableComponents");
     }
   }
 
@@ -108,7 +118,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("username", "CaptainJack");
     params.put("password", "BlackPearl");
     checkAssignment(url("InsecureLogin/task"), params, true);
-    checkResults("/InsecureLogin/");
+    checkResults("InsecureLogin");
   }
 
   @Test
@@ -118,7 +128,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.clear();
     params.put("password", "ajnaeliclm^&&@kjn.");
     checkAssignment(url("SecurePasswords/assignment"), params, true);
-    checkResults("SecurePasswords/");
+    checkResults("SecurePasswords");
 
     startLesson("AuthBypass");
     params.clear();
@@ -128,7 +138,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("verifyMethod", "SEC_QUESTIONS");
     params.put("userId", "12309746");
     checkAssignment(url("auth-bypass/verify-account"), params, true);
-    checkResults("/auth-bypass/");
+    checkResults("AuthBypass");
 
     startLesson("HttpProxies");
     MatcherAssert.assertThat(
@@ -144,7 +154,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
             .extract()
             .path("lessonCompleted"),
         CoreMatchers.is(true));
-    checkResults("/HttpProxies/");
+    checkResults("HttpProxies");
   }
 
   @Test
@@ -180,7 +190,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("network_num", "24");
     checkAssignment(url("ChromeDevTools/network"), params, true);
 
-    checkResults("/ChromeDevTools/");
+    checkResults("ChromeDevTools");
   }
 
   @Test
@@ -194,7 +204,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("verifyMethod", "SEC_QUESTIONS");
     params.put("userId", "12309746");
     checkAssignment(url("auth-bypass/verify-account"), params, true);
-    checkResults("/auth-bypass/");
+    checkResults("AuthBypass");
   }
 
   @Test
@@ -205,6 +215,6 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("param1", "secr37Value");
     params.put("param2", "Main");
     checkAssignment(url("lesson-template/sample-attack"), params, true);
-    checkResults("/lesson-template/");
+    checkResults("LessonTemplate");
   }
 }

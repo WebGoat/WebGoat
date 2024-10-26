@@ -5,7 +5,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,22 +19,23 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+@WithWebGoatUser
 class BlindSendFileAssignmentTest extends LessonTest {
 
   private int port;
   private WireMockServer webwolfServer;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     this.webwolfServer = new WireMockServer(options().dynamicPort());
     webwolfServer.start();
     this.port = webwolfServer.port();
-    when(webSession.getCurrentLesson()).thenReturn(new XXE());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
@@ -56,7 +56,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  public void validCommentMustBeAdded() throws Exception {
+  void validCommentMustBeAdded() throws Exception {
     int nrOfComments = countComments();
     mockMvc
         .perform(
@@ -69,7 +69,7 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  public void wrongXmlShouldGiveErrorBack() throws Exception {
+  void wrongXmlShouldGiveErrorBack() throws Exception {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/xxe/blind")
@@ -82,9 +82,9 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  public void simpleXXEShouldNotWork() throws Exception {
-    File targetFile =
-        new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
+  @WithWebGoatUser
+  void simpleXXEShouldNotWork() throws Exception {
+    File targetFile = new File(webGoatHomeDirectory, "/XXE/" + "test" + "/secret.txt");
     String content =
         "<?xml version=\"1.0\" standalone=\"yes\" ?><!DOCTYPE user [<!ENTITY root SYSTEM"
             + " \"file:///%s\"> ]><comment><text>&root;</text></comment>";
@@ -97,9 +97,8 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  public void solve() throws Exception {
-    File targetFile =
-        new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
+  void solve() throws Exception {
+    File targetFile = new File(webGoatHomeDirectory, "/XXE/test/secret.txt");
     // Host DTD on WebWolf site
     String dtd =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -130,9 +129,8 @@ class BlindSendFileAssignmentTest extends LessonTest {
   }
 
   @Test
-  public void solveOnlyParamReferenceEntityInExternalDTD() throws Exception {
-    File targetFile =
-        new File(webGoatHomeDirectory, "/XXE/" + webSession.getUserName() + "/secret.txt");
+  void solveOnlyParamReferenceEntityInExternalDTD() throws Exception {
+    File targetFile = new File(webGoatHomeDirectory, "/XXE/test/secret.txt");
     // Host DTD on WebWolf site
     String dtd =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"

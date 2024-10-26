@@ -147,7 +147,6 @@ define(['jquery',
             },
 
             markAssignmentComplete: function () {
-                this.curForm.reset();
                 $(this.curForm).siblings('.assignment-success').find('i').removeClass('hidden');
                 this.paginationControlView.updateCollection();
             },
@@ -222,6 +221,8 @@ define(['jquery',
             },
 
             resetLesson: function () {
+                this.$el.find(form).trigger("reset");
+                this.$el.find(".quiz_question").removeClass('correct incorrect');
                 this.$el.find('.attack-feedback').hide();
                 this.$el.find('.attack-output').hide();
                 this.markAssignmentIncomplete();

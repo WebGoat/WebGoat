@@ -23,12 +23,14 @@
 package org.owasp.webgoat.webwolf.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author nbaars
  * @since 3/19/17.
  */
-public interface UserRepository extends JpaRepository<WebGoatUser, String> {
+@Repository("webWolfUserRepository")
+public interface UserRepository extends JpaRepository<WebWolfUser, String> {
 
-  WebGoatUser findByUsername(String username);
+  WebWolfUser findByUsername(String username);
 }

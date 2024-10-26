@@ -1,6 +1,5 @@
 package org.owasp.webgoat.lessons.passwordreset;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,7 +21,6 @@ public class SecurityQuestionAssignmentTest extends LessonTest {
 
   @BeforeEach
   public void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new PasswordReset());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 

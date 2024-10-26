@@ -26,6 +26,7 @@ import static java.util.Optional.ofNullable;
 
 import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,12 +58,14 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
       path = "/PasswordReset/simple-mail",
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   @ResponseBody
-  public AttackResult login(@RequestParam String email, @RequestParam String password) {
+  public AttackResult login(
+      @RequestParam String email,
+      @RequestParam String password,
+      @CurrentUsername String webGoatUsername) {
     String emailAddress = ofNullable(email).orElse("unknown@webgoat.org");
     String username = extractUsername(emailAddress);
 
-    if (username.equals(getWebSession().getUserName())
-        && StringUtils.reverse(username).equals(password)) {
+    if (username.equals(webGoatUsername) && StringUtils.reverse(username).equals(password)) {
       return success(this).build();
     } else {
       return failed(this).feedbackArgs("password-reset-simple.password_incorrect").build();
@@ -73,9 +76,10 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
       value = "/PasswordReset/simple-mail/reset")
   @ResponseBody
-  public AttackResult resetPassword(@RequestParam String emailReset) {
+  public AttackResult resetPassword(
+      @RequestParam String emailReset, @CurrentUsername String username) {
     String email = ofNullable(emailReset).orElse("unknown@webgoat.org");
-    return sendEmail(extractUsername(email), email);
+    return sendEmail(extractUsername(email), email, username);
   }
 
   private String extractUsername(String email) {
@@ -83,8 +87,8 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
     return email.substring(0, index == -1 ? email.length() : index);
   }
 
-  private AttackResult sendEmail(String username, String email) {
-    if (username.equals(getWebSession().getUserName())) {
+  private AttackResult sendEmail(String username, String email, String webGoatUsername) {
+    if (username.equals(webGoatUsername)) {
       PasswordResetEmail mailEvent =
           PasswordResetEmail.builder()
               .recipient(username)

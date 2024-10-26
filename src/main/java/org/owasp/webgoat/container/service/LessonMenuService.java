@@ -32,13 +32,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.lessons.LessonMenuItem;
 import org.owasp.webgoat.container.lessons.LessonMenuItemType;
 import org.owasp.webgoat.container.session.Course;
-import org.owasp.webgoat.container.session.WebSession;
 import org.owasp.webgoat.container.users.LessonProgress;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
@@ -59,7 +59,6 @@ public class LessonMenuService {
 
   public static final String URL_LESSONMENU_MVC = "/service/lessonmenu.mvc";
   private final Course course;
-  private final WebSession webSession;
   private UserProgressRepository userTrackerRepository;
 
   @Value("#{'${exclude.categories}'.split(',')}")
@@ -74,10 +73,13 @@ public class LessonMenuService {
    * @return a {@link java.util.List} object.
    */
   @RequestMapping(path = URL_LESSONMENU_MVC, produces = "application/json")
-  public @ResponseBody List<LessonMenuItem> showLeftNav() {
+  public @ResponseBody List<LessonMenuItem> showLeftNav(@CurrentUsername String username) {
+    // TODO: this looks way too complicated. Either we save it incorrectly or we miss something to
+    // easily find out
+    // if a lesson if solved or not.
     List<LessonMenuItem> menu = new ArrayList<>();
     List<Category> categories = course.getCategories();
-    UserProgress userTracker = userTrackerRepository.findByUser(webSession.getUserName());
+    UserProgress userTracker = userTrackerRepository.findByUser(username);
 
     for (Category category : categories) {
       if (excludeCategories.contains(category.name())) {
@@ -102,7 +104,7 @@ public class LessonMenuService {
         lessonItem.setComplete(lessonSolved);
         categoryItem.addChild(lessonItem);
       }
-      categoryItem.getChildren().sort((o1, o2) -> o1.getRanking() - o2.getRanking());
+      categoryItem.getChildren().sort(Comparator.comparingInt(LessonMenuItem::getRanking));
       menu.add(categoryItem);
     }
     return menu;

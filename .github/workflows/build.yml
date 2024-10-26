@@ -16,7 +16,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                os: [ windows-latest, ubuntu-latest, macos-13 ]
+                os: [ ubuntu-latest ]
             max-parallel: 1
         steps:
             -   uses: actions/checkout@v4.1.6
@@ -27,7 +27,7 @@ jobs:
                     java-version: 21
                     architecture: x64
             -   name: Cache Maven packages
-                uses: actions/cache@v4.0.2
+                uses: actions/cache@v4.1.1
                 with:
                     path: ~/.m2
                     key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}

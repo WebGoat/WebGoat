@@ -28,6 +28,6 @@ public class DeserializationIntegrationTest extends IntegrationTest {
     }
     checkAssignment(url("InsecureDeserialization/task"), params, true);
 
-    checkResults("/InsecureDeserialization/");
+    checkResults("InsecureDeserialization");
   }
 }

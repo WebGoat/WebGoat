@@ -28,9 +28,9 @@
 package org.owasp.webgoat.container.report;
 
 import java.util.List;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.i18n.PluginMessages;
 import org.owasp.webgoat.container.session.Course;
-import org.owasp.webgoat.container.session.WebSession;
 import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,17 +39,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ReportCardController {
 
-  private final WebSession webSession;
   private final UserProgressRepository userProgressRepository;
   private final Course course;
   private final PluginMessages pluginMessages;
 
   public ReportCardController(
-      WebSession webSession,
-      UserProgressRepository userProgressRepository,
-      Course course,
-      PluginMessages pluginMessages) {
-    this.webSession = webSession;
+      UserProgressRepository userProgressRepository, Course course, PluginMessages pluginMessages) {
     this.userProgressRepository = userProgressRepository;
     this.course = course;
     this.pluginMessages = pluginMessages;
@@ -61,8 +56,8 @@ public class ReportCardController {
    */
   @GetMapping(path = "/service/reportcard.mvc", produces = "application/json")
   @ResponseBody
-  public ReportCard reportCard() {
-    var userProgress = userProgressRepository.findByUser(webSession.getUserName());
+  public ReportCard reportCard(@CurrentUsername String username) {
+    var userProgress = userProgressRepository.findByUser(username);
     var lessonStatistics =
         course.getLessons().stream()
             .map(

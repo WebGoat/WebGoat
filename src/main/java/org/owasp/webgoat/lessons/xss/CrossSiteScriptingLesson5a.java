@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,7 +48,7 @@ public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
       Pattern.compile(
               ".*<script>(console\\.log|alert)\\(.*\\);?</script>.*", Pattern.CASE_INSENSITIVE)
           .asMatchPredicate();
-  @Autowired UserSessionData userSessionData;
+  @Autowired LessonSession userSessionData;
 
   @GetMapping("/CrossSiteScripting/attack5a")
   @ResponseBody

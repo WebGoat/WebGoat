@@ -86,7 +86,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
     // logout();
     login(); // because old cookie got replaced and invalidated
     startLesson("CSRF", false);
-    checkResults("/csrf");
+    checkResults("CSRF");
   }
 
   private void uploadTrickHtml(String htmlName, String htmlContent) throws IOException {
@@ -103,7 +103,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .multiPart("file", htmlName, htmlContent.getBytes())
-        .post(webWolfUrl("fileupload"))
+        .post(new WebWolfUrlBuilder().path("fileupload").build())
         .then()
         .extract()
         .response()
@@ -118,7 +118,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("files/" + this.getUser() + "/" + htmlName))
+            .get(new WebWolfUrlBuilder().path("files/%s/%s", this.getUser(), htmlName).build())
             .then()
             .extract()
             .response()
@@ -136,7 +136,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .header("Referer", webWolfUrl("files/fake.html"))
+            .header("Referer", new WebWolfUrlBuilder().path("files/fake.html").build())
             .post(goatURL)
             .then()
             .extract()
@@ -163,7 +163,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .header("Referer", webWolfUrl("files/fake.html"))
+            .header("Referer", new WebWolfUrlBuilder().path("files/fake.html").build())
             .formParams(params)
             .post(goatURL)
             .then()
@@ -184,7 +184,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .header("Referer", webWolfUrl("files/fake.html"))
+            .header("Referer", new WebWolfUrlBuilder().path("files/fake.html").build())
             .contentType(ContentType.TEXT)
             .body(
                 "{\"name\":\"WebGoat\",\"email\":\"webgoat@webgoat.org\",\"content\":\"WebGoat is"
@@ -217,7 +217,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .header("Referer", webWolfUrl("files/fake.html"))
+            .header("Referer", new WebWolfUrlBuilder().path("files/fake.html").build())
             .params(params)
             .post(goatURL)
             .then()
@@ -254,15 +254,15 @@ public class CSRFIntegrationTest extends IntegrationTest {
         RestAssured.given()
             .cookie("JSESSIONID", getWebGoatCookie())
             .relaxedHTTPSValidation()
-            .get(url("service/lessonoverview.mvc"))
+            .get(url("service/lessonoverview.mvc/CSRF"))
             .then()
             .extract()
             .jsonPath()
             .getObject("$", Overview[].class);
-    //		assertThat(assignments)
-    //                .filteredOn(a -> a.getAssignment().getName().equals("CSRFLogin"))
-    //                .extracting(o -> o.solved)
-    //                .containsExactly(true);
+    assertThat(assignments)
+        .filteredOn(a -> a.getAssignment().getName().equals("CSRFLogin"))
+        .extracting(o -> o.solved)
+        .containsExactly(true);
   }
 
   @Data

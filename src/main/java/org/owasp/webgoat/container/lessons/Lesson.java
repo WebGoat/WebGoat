@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.container.lessons;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,13 +31,10 @@ import lombok.Setter;
 @Setter
 public abstract class Lesson {
 
-  private static int count = 1;
-  private Integer id = null;
-  private List<Assignment> assignments;
+  private List<Assignment> assignments = new ArrayList<>();
 
-  /** Constructor for the Lesson object */
-  protected Lesson() {
-    id = ++count;
+  public void addAssignment(Assignment assignment) {
+    this.assignments.add(assignment);
   }
 
   /**
@@ -44,9 +42,9 @@ public abstract class Lesson {
    *
    * @return a {@link java.lang.String} object.
    */
-  public String getName() {
+  public LessonName getName() {
     String className = getClass().getName();
-    return className.substring(className.lastIndexOf('.') + 1);
+    return new LessonName(className.substring(className.lastIndexOf('.') + 1));
   }
 
   /**
@@ -116,6 +114,10 @@ public abstract class Lesson {
     return this.getClass().getSimpleName();
   }
 
+  /**
+   * This is used in Thymeleaf to construct the HTML to load the lesson content from. See
+   * lesson_content.html
+   */
   public final String getPackage() {
     var packageName = this.getClass().getPackageName();
     // package name is the direct package name below lessons (any subpackage will be removed)

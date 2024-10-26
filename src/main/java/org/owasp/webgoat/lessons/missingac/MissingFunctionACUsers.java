@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,7 +47,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class MissingFunctionACUsers {
 
   private final MissingAccessControlUserRepository userRepository;
-  private final WebSession webSession;
 
   @GetMapping(path = {"access-control/users"})
   public ModelAndView listUsers() {
@@ -81,8 +80,8 @@ public class MissingFunctionACUsers {
       path = {"access-control/users-admin-fix"},
       consumes = "application/json")
   @ResponseBody
-  public ResponseEntity<List<DisplayUser>> usersFixed() {
-    var currentUser = userRepository.findByUsername(webSession.getUserName());
+  public ResponseEntity<List<DisplayUser>> usersFixed(@CurrentUsername String username) {
+    var currentUser = userRepository.findByUsername(username);
     if (currentUser != null && currentUser.isAdmin()) {
       return ResponseEntity.ok(
           userRepository.findAllUsers().stream()

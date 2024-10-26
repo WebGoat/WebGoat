@@ -23,6 +23,7 @@
 package org.owasp.webgoat.lessons.webwolfintroduction;
 
 import org.apache.commons.lang3.StringUtils;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,9 +52,10 @@ public class MailAssignment extends AssignmentEndpoint {
 
   @PostMapping("/WebWolf/mail/send")
   @ResponseBody
-  public AttackResult sendEmail(@RequestParam String email) {
+  public AttackResult sendEmail(
+      @RequestParam String email, @CurrentUsername String webGoatUsername) {
     String username = email.substring(0, email.indexOf("@"));
-    if (username.equalsIgnoreCase(getWebSession().getUserName())) {
+    if (username.equalsIgnoreCase(webGoatUsername)) {
       Email mailEvent =
           Email.builder()
               .recipient(username)
@@ -82,8 +84,8 @@ public class MailAssignment extends AssignmentEndpoint {
 
   @PostMapping("/WebWolf/mail")
   @ResponseBody
-  public AttackResult completed(@RequestParam String uniqueCode) {
-    if (uniqueCode.equals(StringUtils.reverse(getWebSession().getUserName()))) {
+  public AttackResult completed(@RequestParam String uniqueCode, @CurrentUsername String username) {
+    if (uniqueCode.equals(StringUtils.reverse(username))) {
       return success(this).build();
     } else {
       return failed(this).feedbackArgs("webwolf.code_incorrect").feedbackArgs(uniqueCode).build();

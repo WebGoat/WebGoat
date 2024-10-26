@@ -16,7 +16,7 @@ public class EnvironmentExposure implements ApplicationContextAware {
   private static ApplicationContext context;
 
   public static Environment getEnv() {
-    return (null != context) ? context.getEnvironment() : null;
+    return null != context ? context.getEnvironment() : null;
   }
 
   @Override

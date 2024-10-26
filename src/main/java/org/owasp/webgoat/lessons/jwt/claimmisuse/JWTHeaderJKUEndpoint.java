@@ -1,7 +1,6 @@
 package org.owasp.webgoat.lessons.jwt.claimmisuse;
 
 import com.auth0.jwk.JwkException;
-import com.auth0.jwk.JwkProvider;
 import com.auth0.jwk.JwkProviderBuilder;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -48,12 +47,12 @@ public class JWTHeaderJKUEndpoint extends AssignmentEndpoint {
       try {
         var decodedJWT = JWT.decode(token);
         var jku = decodedJWT.getHeaderClaim("jku");
-        JwkProvider jwkProvider = new JwkProviderBuilder(new URL(jku.asString())).build();
+        var jwkProvider = new JwkProviderBuilder(new URL(jku.asString())).build();
         var jwk = jwkProvider.get(decodedJWT.getKeyId());
         var algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey());
         JWT.require(algorithm).build().verify(decodedJWT);
 
-        String username = decodedJWT.getClaims().get("username").asString();
+        var username = decodedJWT.getClaims().get("username").asString();
         if ("Jerry".equals(username)) {
           return failed(this).feedback("jwt-final-jerry-account").build();
         }

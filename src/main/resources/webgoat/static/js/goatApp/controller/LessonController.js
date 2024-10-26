@@ -60,7 +60,6 @@ define(['jquery',
                     this.lessonContentView.navToPage(pageNum);
                     this.lessonHintView.hideHints();
                     this.lessonHintView.showFirstHint();
-                    //this.lessonHintView.selectHints();
                     this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
                     return;
                 }
@@ -78,17 +77,11 @@ define(['jquery',
             };
 
             this.onInfoLoaded = function() {
-                this.helpControlsView = new HelpControlsView({
-                    hasPlan:this.lessonInfoModel.get('hasPlan'),
-                    hasSolution:this.lessonInfoModel.get('hasSolution'),
-                    hasSource:this.lessonInfoModel.get('hasSource')
-                });
-
+                this.helpControlsView = new HelpControlsView();
                 this.listenTo(this.helpControlsView,'hints:show',this.showHintsView);
-
                 this.listenTo(this.helpControlsView,'lesson:restart',this.restartLesson);
-
                 this.helpControlsView.render();
+
                 this.showHintsView();
                 this.titleView.render(this.lessonInfoModel.get('lessonTitle'));
             };
@@ -98,7 +91,8 @@ define(['jquery',
             };
 
             this.onContentLoaded = function(loadHelps) {
-                this.lessonInfoModel = new LessonInfoModel();
+                this.lessonInfoModel = new LessonInfoModel({'lesson':loadHelps['urlRoot']});
+
                 this.listenTo(this.lessonInfoModel,'info:loaded',this.onInfoLoaded);
 
                 if (loadHelps) {
@@ -126,6 +120,8 @@ define(['jquery',
             };
 
             this.showHintsView = function() {
+                var self=this;
+                console.log(self.name);
                 if (!this.lessonHintView) {
                     this.createLessonHintView();
                 }
@@ -141,7 +137,7 @@ define(['jquery',
             this.restartLesson = function() {
                 var self=this;
                 $.ajax({
-                    url:'service/restartlesson.mvc',
+                    url: 'service/restartlesson.mvc/' + encodeURIComponent(self.name),
                     method:'GET'
                 }).done(function(lessonLink) {
                     self.loadLesson(self.name);
