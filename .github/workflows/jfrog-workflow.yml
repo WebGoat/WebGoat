@@ -12,7 +12,7 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4
         env:
           # JFrog platform url (for example: https://acme.jfrog.io)
-          JF_URL: ${{ secrets.JF_URL }}
+          JF_URL: ${{ vars.JF_URL }}
 
           # JFrog Platform access token
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
@@ -23,7 +23,7 @@ jobs:
 
       - name: Run JFrog CLI
         run: |
-          #jfrog c add ${{ secrets.JF_SERVER_ID }} --url ${{ secrets.JF_URL }} --access-token ${{ secrets.JF_ACCESS_TOKEN }}
+          #jfrog c add ${{ vars.JF_SERVER_ID }} --url ${{ vars.JF_URL }} --access-token ${{ secrets.JF_ACCESS_TOKEN }}
           # Ping the server
           jf rt ping
           # Collect environment variables for the build
