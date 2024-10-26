@@ -23,7 +23,7 @@ jobs:
         env:
           # [Mandatory]
           # JFrog platform URL
-          JF_URL: ${{ secrets.JF_URL }}
+          JF_URL: ${{ vars.JF_URL }}
 
           # [Mandatory if JF_USER and JF_PASSWORD are not provided]
           # JFrog access token with 'read' permissions on Xray service
@@ -115,7 +115,7 @@ jobs:
           # [Optional, Default: "FALSE"]
           # If TRUE, Frogbot creates a single pull request with all the fixes.
           # If FALSE, Frogbot creates a separate pull request for each fix.
-          JF_GIT_AGGREGATE_FIXES: "FALSE"
+          JF_GIT_AGGREGATE_FIXES: "TRUE"
 
           # [Optional, Default: "FALSE"]
           # Handle vulnerabilities with fix versions only
