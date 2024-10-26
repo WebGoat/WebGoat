@@ -86,6 +86,10 @@ public abstract class IntegrationTest {
 
   @BeforeEach
   public void login() {
+    login("webgoat");
+  }
+
+  protected void login(String user) {
     String location =
         given()
             .when()
