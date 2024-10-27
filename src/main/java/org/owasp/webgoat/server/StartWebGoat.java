@@ -28,7 +28,6 @@ package org.owasp.webgoat.server;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.WebGoat;
 import org.owasp.webgoat.webwolf.WebWolf;
-import org.springframework.boot.Banner;
 import org.springframework.boot.ResourceBanner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
