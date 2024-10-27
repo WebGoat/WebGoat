@@ -85,6 +85,16 @@ java -Dfile.encoding=UTF-8 -jar webgoat-2023.8.jar
 
 Click the link in the log to start WebGoat.
 
+### 3.1 Running on a different port
+
+If for some reason you want to run WebGoat on a different port, you can do so by adding the following parameter:
+
+```shell
+java -jar webgoat-2023.8.jar --webgoat.port=8001 --webwolf.port=8002
+```
+
+For a full overview of all the parameters you can use, please check the [WebGoat properties file](webgoat-container/src/main/resources/application-{webgoat, webwolf}.properties).
+
 ## 4. Run from the sources
 
 ### Prerequisites:
