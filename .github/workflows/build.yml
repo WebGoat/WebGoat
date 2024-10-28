@@ -16,7 +16,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   name: Checkout git repository
-                uses: actions/checkout@v4
+                uses: actions/checkout@v4.1.6
             -   name: Setup python
                 uses: actions/setup-python@v5
                 with:
