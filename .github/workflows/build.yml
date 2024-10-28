@@ -32,6 +32,7 @@ jobs:
                 if: always()
     build:
         runs-on: ${{ matrix.os }}
+        needs: [ pre-commit ]
         strategy:
             fail-fast: true
             matrix:
