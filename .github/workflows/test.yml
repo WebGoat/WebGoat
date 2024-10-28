@@ -35,13 +35,7 @@ jobs:
                     distribution: 'temurin'
                     java-version: 21
                     architecture: x64
-            #Uses an action to set up a cache using a certain key based on the hash of the dependencies
-            -   name: Cache Maven packages
-                uses: actions/cache@v4.1.1
-                with:
-                    path: ~/.m2
-                    key: ubuntu-latest-m2-${{ hashFiles('**/pom.xml') }}
-                    restore-keys: ubuntu-latest-m2-
+                    cache: 'maven'
             -   uses: BSFishy/pip-action@v1
                 with:
                     packages: |
