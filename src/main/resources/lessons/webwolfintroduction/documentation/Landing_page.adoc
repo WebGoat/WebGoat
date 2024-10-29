@@ -15,9 +15,9 @@ image::images/requests.png[caption="Figure: ", style="lesson-image"]
 {nbsp}
 {nbsp}
 
-Suppose we tricked a user into clicking on a link he/she received in an email. This link will open up our crafted
-password reset link page. The user does not notice any differences compared to the normal password reset page of the company.
-The user enters a new password and hits enter. The new password will be sent to your host. In this case, the new
-password will be sent to WebWolf. Try to locate the unique code.
+Suppose we tricked a user into clicking on a link received in an email. This link will open up our crafted
+password reset link page. The user notices no differences from the company's standard password reset page.
+The user enters a new password and hits enter. Your host will receive the new password. In this case, the new
+password ends up in WebWolf. Try to locate the unique code.
 
-Please be aware that the user will receive an error page after resetting the password. In a real attack scenario the user would probably see a normal success page (this is due to a limit on what we can control with WebWolf)
+Please be aware that the user will receive an error page after resetting the password. In an actual attack scenario, the user would probably see a standard success page (this is due to a limit on what we can control with WebWolf)
