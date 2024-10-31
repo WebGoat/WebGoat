@@ -79,13 +79,16 @@
             <div class="dropdown" style="display:inline">
                 <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="lang-button">
                     <div th:switch="${#locale.language}">
-                        <div th:case="'nl'">
-                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
-                        </div>
                         <div th:case="'de'">
                             <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
                         </div>
                         <div th:case="'fr'">
+                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
+                        </div>
+                        <div th:case="'nl'">
+                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
+                        </div>
+                        <div th:case="'kr'">
                             <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
                         </div>
                         <div th:case="*">
@@ -113,6 +116,11 @@
                     <li role="presentation">
                         <a role="menuitem" th:href="@{/start.mvc?lang=nl#lesson/WebGoatIntroduction.lesson}">
                             <img th:src="@{${'/css/img/nllang.svg'}}" alt="Nederlands" height="20"></img> Nederlands
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" th:href="@{/start.mvc?lang=kr#lesson/WebGoatIntroduction.lesson}">
+                            <img th:src="@{${'/css/img/krlang.svg'}}" alt="한국어" height="20"></img> 한국어
                         </a>
                     </li>
                 </ul>
