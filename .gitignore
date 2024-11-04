@@ -57,3 +57,7 @@ TestClass.class
 /.gitconfig
 
 webgoat.gitconfig
+
+terraform/*
+!terraform/*.tf
+!terraform/*.tfvars

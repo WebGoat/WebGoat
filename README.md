@@ -30,6 +30,36 @@ first thing that all hackers claim.*
 
 ![WebGoat](docs/images/webgoat.png)
 
+# Local development
+
+## Setting up local Kubernetes cluster
+
+To set up a local cluster for development (for Windows), follow the steps below:
+
+First, install [Minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download), [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli), [Docker desktop](https://docs.docker.com/desktop/install/windows-install/).
+
+### Setting up VM and cluster
+
+- Start Docker Desktop.
+- Start Minikube to create a VM and a Kubernetes cluster on that machine.
+```
+minikube start --driver=docker
+```
+- If starting Minikube fails, try deleting with this command and retry again:
+```
+minikube delete
+```
+- In the `variables
+- In your terminal, go to the `terraform` directory
+```shell
+cd ./terraform
+```
+- You can run this command to check the Minikube status
+```
+minikube status
+```
+
+
 # Installation instructions:
 
 For more details check [the Contribution guide](/CONTRIBUTING.md)

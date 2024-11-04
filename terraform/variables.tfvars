@@ -1,0 +1,1 @@
+kubeconfig = "replace with path to kubeconfig"
