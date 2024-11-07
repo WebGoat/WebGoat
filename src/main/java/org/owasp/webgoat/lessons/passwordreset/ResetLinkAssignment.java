@@ -22,6 +22,8 @@
 
 package org.owasp.webgoat.lessons.passwordreset;
 
+import static org.springframework.util.StringUtils.hasText;
+
 import com.google.common.collect.Maps;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,7 +119,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
       BindingResult bindingResult,
       @CurrentUsername String username) {
     ModelAndView modelAndView = new ModelAndView();
-    if (!org.springframework.util.StringUtils.hasText(form.getPassword())) {
+    if (!hasText(form.getPassword())) {
       bindingResult.rejectValue("password", "not.empty");
     }
     if (bindingResult.hasErrors()) {

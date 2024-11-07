@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/JWT/jku")
+@RequestMapping("/JWT/")
 @RestController
 @AssignmentHints({
   "jwt-jku-hint1",
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class JWTHeaderJKUEndpoint extends AssignmentEndpoint {
 
-  @PostMapping("/follow/{user}")
+  @PostMapping("jku/follow/{user}")
   public @ResponseBody String follow(@PathVariable("user") String user) {
     if ("Jerry".equals(user)) {
       return "Following yourself seems redundant";
@@ -39,7 +39,7 @@ public class JWTHeaderJKUEndpoint extends AssignmentEndpoint {
     }
   }
 
-  @PostMapping("/delete")
+  @PostMapping("jku/delete")
   public @ResponseBody AttackResult resetVotes(@RequestParam("token") String token) {
     if (StringUtils.isEmpty(token)) {
       return failed(this).feedback("jwt-invalid-token").build();
