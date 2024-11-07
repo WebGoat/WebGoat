@@ -7,7 +7,7 @@ on:
     #     - completed
     push:
         branches:
-            - main
+            - feature/Partie1-GithubAction-BuildTestDeploiement
 
 jobs:
   push_to_registry:
@@ -45,4 +45,4 @@ jobs:
               log8100projet/projetfinal:latest
               ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-  
+
