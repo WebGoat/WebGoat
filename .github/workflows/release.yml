@@ -108,7 +108,6 @@ jobs:
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
       - name: "Docker Scout Vulnerability Analysis for WebGoat"
         run: docker scout cves webgoat/webgoat:${{ env.WEBGOAT_TAG_VERSION }}
-      
       - name: "Docker Scout Vulnerability Analysis for WebGoat Desktop"
         run: docker scout cves webgoat/webgoat-desktop:${{ env.WEBGOAT_TAG_VERSION }}
   new_version:
