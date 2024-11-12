@@ -52,7 +52,7 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-kid-hint5",
   "jwt-kid-hint6"
 })
-@RequestMapping("/JWT/kid")
+@RequestMapping("/JWT/")
 public class JWTHeaderKIDEndpoint extends AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
@@ -61,7 +61,7 @@ public class JWTHeaderKIDEndpoint extends AssignmentEndpoint {
     this.dataSource = dataSource;
   }
 
-  @PostMapping("/follow/{user}")
+  @PostMapping("kid/follow/{user}")
   public @ResponseBody String follow(@PathVariable("user") String user) {
     if ("Jerry".equals(user)) {
       return "Following yourself seems redundant";
@@ -70,7 +70,7 @@ public class JWTHeaderKIDEndpoint extends AssignmentEndpoint {
     }
   }
 
-  @PostMapping("/delete")
+  @PostMapping("kid/delete")
   public @ResponseBody AttackResult resetVotes(@RequestParam("token") String token) {
     if (StringUtils.isEmpty(token)) {
       return failed(this).feedback("jwt-invalid-token").build();

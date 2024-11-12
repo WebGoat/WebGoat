@@ -1,7 +1,7 @@
 # WebGoat: A deliberately insecure Web Application
 
 [![Build](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml)
-[![java-jdk](https://img.shields.io/badge/java%20jdk-17-green.svg)](https://jdk.java.net/)
+[![java-jdk](https://img.shields.io/badge/java%20jdk-21-green.svg)](https://jdk.java.net/)
 [![OWASP Labs](https://img.shields.io/badge/OWASP-Lab%20project-f7b73c.svg)](https://owasp.org/projects/)
 [![GitHub release](https://img.shields.io/github/release/WebGoat/WebGoat.svg)](https://github.com/WebGoat/WebGoat/releases/latest)
 [![Gitter](https://badges.gitter.im/OWASPWebGoat/community.svg)](https://gitter.im/OWASPWebGoat/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
@@ -80,10 +80,20 @@ Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/rel
 
 ```shell
 export TZ=Europe/Amsterdam # or your timezone
-java -Dfile.encoding=UTF-8 -jar webgoat-2023.5.jar
+java -Dfile.encoding=UTF-8 -jar webgoat-2023.8.jar
 ```
 
 Click the link in the log to start WebGoat.
+
+### 3.1 Running on a different port
+
+If for some reason you want to run WebGoat on a different port, you can do so by adding the following parameter:
+
+```shell
+java -jar webgoat-2023.8.jar --webgoat.port=8001 --webwolf.port=8002
+```
+
+For a full overview of all the parameters you can use, please check the [WebGoat properties file](webgoat-container/src/main/resources/application-{webgoat, webwolf}.properties).
 
 ## 4. Run from the sources
 
@@ -144,7 +154,7 @@ For instance running as a jar on a Linux/macOS it will look like this:
 export TZ=Europe/Amsterdam # or your timezone
 export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
 export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
-java -jar target/webgoat-2023.6-SNAPSHOT.jar
+java -jar target/webgoat-2023.8-SNAPSHOT.jar
 ```
 
 Or in a docker run it would (once this version is pushed into docker hub) look like this:

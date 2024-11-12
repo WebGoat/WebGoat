@@ -22,7 +22,7 @@
                   informationalCallback="profileUploadCallback"
                   prepareData="profileUpload"
                   enctype="multipart/form-data"
-                  action="PathTraversal/profile-upload">
+                  th:action="@{/PathTraversal/profile-upload}">
                 <div class="preview text-center">
                     <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
                          height="200" id="preview"/>
@@ -76,7 +76,7 @@
                   informationalCallback="profileUploadCallbackFix"
                   prepareData="profileUploadFix"
                   enctype="multipart/form-data"
-                  action="PathTraversal/profile-upload-fix">
+                  th:action="@{/PathTraversal/profile-upload-fix}">
                 <div class="preview text-center">
                     <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
                          height="200" id="previewFix"/>
@@ -131,7 +131,7 @@
                   informationalCallback="profileUploadCallbackRemoveUserInput"
                   prepareData="profileUploadRemoveUserInput"
                   enctype="multipart/form-data"
-                  action="PathTraversal/profile-upload-remove-user-input">
+                  th:action="@{/PathTraversal/profile-upload-remove-user-input}">
                 <div class="preview text-center">
                     <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
                          height="200" id="previewRemoveUserInput"/>

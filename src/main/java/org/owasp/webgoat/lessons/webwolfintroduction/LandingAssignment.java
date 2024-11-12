@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.commons.lang3.StringUtils;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,20 +48,21 @@ public class LandingAssignment extends AssignmentEndpoint {
 
   @PostMapping("/WebWolf/landing")
   @ResponseBody
-  public AttackResult click(String uniqueCode) {
-    if (StringUtils.reverse(getWebSession().getUserName()).equals(uniqueCode)) {
+  public AttackResult click(String uniqueCode, @CurrentUsername String username) {
+    if (StringUtils.reverse(username).equals(uniqueCode)) {
       return success(this).build();
     }
     return failed(this).feedback("webwolf.landing_wrong").build();
   }
 
   @GetMapping("/WebWolf/landing/password-reset")
-  public ModelAndView openPasswordReset(HttpServletRequest request) throws URISyntaxException {
+  public ModelAndView openPasswordReset(
+      HttpServletRequest request, @CurrentUsername String username) throws URISyntaxException {
     URI uri = new URI(request.getRequestURL().toString());
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.addObject(
         "webwolfLandingPageUrl", landingPageUrl.replace("//landing", "/landing"));
-    modelAndView.addObject("uniqueCode", StringUtils.reverse(getWebSession().getUserName()));
+    modelAndView.addObject("uniqueCode", StringUtils.reverse(username));
 
     modelAndView.setViewName("lessons/webwolfintroduction/templates/webwolfPasswordReset.html");
     return modelAndView;

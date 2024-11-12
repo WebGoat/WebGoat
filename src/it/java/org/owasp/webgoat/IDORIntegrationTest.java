@@ -30,7 +30,7 @@ public class IDORIntegrationTest extends IntegrationTest {
 
   @AfterEach
   public void shutdown() {
-    checkResults("/IDOR");
+    checkResults("IDOR");
   }
 
   private void loginIDOR() {

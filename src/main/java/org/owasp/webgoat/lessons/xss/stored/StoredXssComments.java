@@ -35,11 +35,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
 import org.owasp.webgoat.lessons.xss.Comment;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,7 +49,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StoredXssComments extends AssignmentEndpoint {
 
-  @Autowired private WebSession webSession;
   private static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
 
   private static final Map<String, List<Comment>> userComments = new HashMap<>();
@@ -77,9 +75,9 @@ public class StoredXssComments extends AssignmentEndpoint {
       produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = ALL_VALUE)
   @ResponseBody
-  public Collection<Comment> retrieveComments() {
+  public Collection<Comment> retrieveComments(@CurrentUsername String username) {
     List<Comment> allComments = Lists.newArrayList();
-    Collection<Comment> newComments = userComments.get(webSession.getUserName());
+    Collection<Comment> newComments = userComments.get(username);
     allComments.addAll(comments);
     if (newComments != null) {
       allComments.addAll(newComments);
@@ -90,15 +88,16 @@ public class StoredXssComments extends AssignmentEndpoint {
 
   @PostMapping("/CrossSiteScriptingStored/stored-xss")
   @ResponseBody
-  public AttackResult createNewComment(@RequestBody String commentStr) {
+  public AttackResult createNewComment(
+      @RequestBody String commentStr, @CurrentUsername String username) {
     Comment comment = parseJson(commentStr);
 
-    List<Comment> comments = userComments.getOrDefault(webSession.getUserName(), new ArrayList<>());
+    List<Comment> comments = userComments.getOrDefault(username, new ArrayList<>());
     comment.setDateTime(LocalDateTime.now().format(fmt));
-    comment.setUser(webSession.getUserName());
+    comment.setUser(username);
 
     comments.add(comment);
-    userComments.put(webSession.getUserName(), comments);
+    userComments.put(username, comments);
 
     if (comment.getText().contains(phoneHomeString)) {
       return (success(this).feedback("xss-stored-comment-success").build());

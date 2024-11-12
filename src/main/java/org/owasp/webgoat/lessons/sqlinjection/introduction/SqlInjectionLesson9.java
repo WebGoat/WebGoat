@@ -63,36 +63,42 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
 
   protected AttackResult injectableQueryIntegrity(String name, String auth_tan) {
     StringBuilder output = new StringBuilder();
-    String query =
+    String queryInjection =
         "SELECT * FROM employees WHERE last_name = '"
             + name
             + "' AND auth_tan = '"
             + auth_tan
             + "'";
     try (Connection connection = dataSource.getConnection()) {
-      try {
-        Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
-        SqlInjectionLesson8.log(connection, query);
-        ResultSet results = statement.executeQuery(query);
-        var test = results.getRow() != 0;
-        if (results.getStatement() != null) {
-          if (results.first()) {
-            output.append(SqlInjectionLesson8.generateTable(results));
-          } else {
-            // no results
-            return failed(this).feedback("sql-injection.8.no.results").build();
-          }
-        }
-      } catch (SQLException e) {
-        System.err.println(e.getMessage());
-        return failed(this)
-            .output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>")
-            .build();
+      // V2019_09_26_7__employees.sql
+      int oldMaxSalary = this.getMaxSalary(connection);
+      int oldSumSalariesOfOtherEmployees = this.getSumSalariesOfOtherEmployees(connection);
+      // begin transaction
+      connection.setAutoCommit(false);
+      // do injectable query
+      Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
+      SqlInjectionLesson8.log(connection, queryInjection);
+      statement.execute(queryInjection);
+      // check new sum of salaries other employees and new salaries of John
+      int newJohnSalary = this.getJohnSalary(connection);
+      int newSumSalariesOfOtherEmployees = this.getSumSalariesOfOtherEmployees(connection);
+      if (newJohnSalary > oldMaxSalary
+          && newSumSalariesOfOtherEmployees == oldSumSalariesOfOtherEmployees) {
+        // success commit
+        connection.commit(); // need execute not executeQuery
+        connection.setAutoCommit(true);
+        output.append(
+            SqlInjectionLesson8.generateTable(this.getEmployeesDataOrderBySalaryDesc(connection)));
+        return success(this).feedback("sql-injection.9.success").output(output.toString()).build();
       }
-
-      return checkSalaryRanking(connection, output);
-
-    } catch (Exception e) {
+      // failed roolback
+      connection.rollback();
+      return failed(this)
+          .feedback("sql-injection.9.one")
+          .output(
+              SqlInjectionLesson8.generateTable(this.getEmployeesDataOrderBySalaryDesc(connection)))
+          .build();
+    } catch (SQLException e) {
       System.err.println(e.getMessage());
       return failed(this)
           .output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>")
@@ -100,29 +106,31 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
     }
   }
 
-  private AttackResult checkSalaryRanking(Connection connection, StringBuilder output) {
-    try {
-      String query = "SELECT * FROM employees ORDER BY salary DESC";
-      try (Statement statement =
-          connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE); ) {
-        ResultSet results = statement.executeQuery(query);
+  private int getSqlInt(Connection connection, String query) throws SQLException {
+    Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
+    ResultSet results = statement.executeQuery(query);
+    results.first();
+    return results.getInt(1);
+  }
 
-        results.first();
-        // user completes lesson if John Smith is the first in the list
-        if ((results.getString(2).equals("John")) && (results.getString(3).equals("Smith"))) {
-          output.append(SqlInjectionLesson8.generateTable(results));
-          return success(this)
-              .feedback("sql-injection.9.success")
-              .output(output.toString())
-              .build();
-        } else {
-          return failed(this).feedback("sql-injection.9.one").output(output.toString()).build();
-        }
-      }
-    } catch (SQLException e) {
-      return failed(this)
-          .output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>")
-          .build();
-    }
+  private int getMaxSalary(Connection connection) throws SQLException {
+    String query = "SELECT max(salary) FROM employees";
+    return this.getSqlInt(connection, query);
+  }
+
+  private int getSumSalariesOfOtherEmployees(Connection connection) throws SQLException {
+    String query = "SELECT sum(salary) FROM employees WHERE auth_tan != '3SL99A'";
+    return this.getSqlInt(connection, query);
+  }
+
+  private int getJohnSalary(Connection connection) throws SQLException {
+    String query = "SELECT salary FROM employees WHERE auth_tan = '3SL99A'";
+    return this.getSqlInt(connection, query);
+  }
+
+  private ResultSet getEmployeesDataOrderBySalaryDesc(Connection connection) throws SQLException {
+    String query = "SELECT * FROM employees ORDER BY salary DESC";
+    Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
+    return statement.executeQuery(query);
   }
 }

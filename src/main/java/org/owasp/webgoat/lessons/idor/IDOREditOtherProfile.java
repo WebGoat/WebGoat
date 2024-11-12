@@ -26,7 +26,7 @@ package org.owasp.webgoat.lessons.idor;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -48,7 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class IDOREditOtherProfile extends AssignmentEndpoint {
 
-  @Autowired private UserSessionData userSessionData;
+  @Autowired private LessonSession userSessionData;
 
   @PutMapping(path = "/IDOR/profile/{userId}", consumes = "application/json")
   @ResponseBody

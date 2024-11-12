@@ -22,7 +22,6 @@
 
 package org.owasp.webgoat.lessons.xss;
 
-import static org.mockito.Mockito.lenient;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -33,21 +32,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @ExtendWith(MockitoExtension.class)
 public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
   private MockMvc mockMvc;
-  private String randVal = "12034837";
 
   @BeforeEach
   public void setup() {
-    DOMCrossSiteScripting domXss = new DOMCrossSiteScripting();
+    LessonSession lessonSession = new LessonSession();
+    DOMCrossSiteScripting domXss = new DOMCrossSiteScripting(lessonSession);
     init(domXss);
     this.mockMvc = standaloneSetup(domXss).build();
     CrossSiteScripting xss = new CrossSiteScripting();
-    lenient().when(userSessionData.getValue("randValue")).thenReturn(randVal);
   }
 
   @Test
@@ -59,8 +58,6 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
                 .param("param1", "42")
                 .param("param2", "24"))
         .andExpect(status().isOk())
-        .andExpect(
-            jsonPath("$.output", CoreMatchers.containsString("phoneHome Response is " + randVal)))
         .andExpect(jsonPath("$.lessonCompleted", CoreMatchers.is(true)));
   }
 

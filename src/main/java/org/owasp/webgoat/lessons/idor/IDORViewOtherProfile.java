@@ -27,7 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class IDORViewOtherProfile extends AssignmentEndpoint {
 
-  @Autowired UserSessionData userSessionData;
+  @Autowired LessonSession userSessionData;
 
   @GetMapping(
       path = "/IDOR/profile/{userId}",

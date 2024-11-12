@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.5</version>
+    <version>3.3.5</version>
   </parent>
 
   <groupId>org.owasp.webgoat</groupId>
   <artifactId>webgoat</artifactId>
-  <version>2023.9-SNAPSHOT</version>
+  <version>2024.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>WebGoat</name>
@@ -30,23 +30,11 @@
 
   <developers>
     <developer>
-      <id>mayhew64</id>
-      <name>Bruce Mayhew</name>
-      <email>webgoat@owasp.org</email>
-      <organization>OWASP</organization>
-      <organizationUrl>https://github.com/WebGoat/WebGoat</organizationUrl>
-    </developer>
-    <developer>
       <id>nbaars</id>
       <name>Nanne Baars</name>
       <email>nanne.baars@owasp.org</email>
       <organizationUrl>https://github.com/nbaars</organizationUrl>
       <timezone>Europe/Amsterdam</timezone>
-    </developer>
-    <developer>
-      <id>misfir3</id>
-      <name>Jason White</name>
-      <email>jason.white@owasp.org</email>
     </developer>
     <developer>
       <id>zubcevic</id>
@@ -58,43 +46,8 @@
       <name>Àngel Ollé Blázquez</name>
       <email>angel@olleb.com</email>
     </developer>
-    <developer>
-      <id>jwayman</id>
-      <name>Jeff Wayman</name>
-      <email></email>
-    </developer>
-    <developer>
-      <id>dcowden</id>
-      <name>Dave Cowden</name>
-      <email></email>
-    </developer>
-    <developer>
-      <id>lawson89</id>
-      <name>Richard Lawson</name>
-      <email></email>
-    </developer>
-    <developer>
-      <id>dougmorato</id>
-      <name>Doug Morato</name>
-      <email>doug.morato@owasp.org</email>
-      <organization>OWASP</organization>
-      <organizationUrl>https://github.com/dougmorato</organizationUrl>
-      <timezone>America/New_York</timezone>
-      <properties>
-        <picUrl>https://avatars2.githubusercontent.com/u/9654?v=3&amp;s=150</picUrl>
-      </properties>
-    </developer>
   </developers>
 
-  <mailingLists>
-    <mailingList>
-      <name>OWASP WebGoat Mailing List</name>
-      <subscribe>https://lists.owasp.org/mailman/listinfo/owasp-webgoat</subscribe>
-      <unsubscribe>Owasp-webgoat-request@lists.owasp.org</unsubscribe>
-      <post>owasp-webgoat@lists.owasp.org</post>
-      <archive>http://lists.owasp.org/pipermail/owasp-webgoat/</archive>
-    </mailingList>
-  </mailingLists>
   <scm>
     <connection>scm:git:git@github.com:WebGoat/WebGoat.git</connection>
     <developerConnection>scm:git:git@github.com:WebGoat/WebGoat.git</developerConnection>
@@ -109,57 +62,52 @@
 
   <properties>
     <!-- Shared properties with plugins and version numbers across submodules-->
-    <asciidoctorj.version>2.5.10</asciidoctorj.version>
-    <bootstrap.version>5.3.2</bootstrap.version>
+    <asciidoctorj.version>3.0.0</asciidoctorj.version>
+    <bootstrap.version>5.3.3</bootstrap.version>
     <cglib.version>3.3.0</cglib.version>
     <!-- do not update necessary for lesson -->
-    <checkstyle.version>3.3.1</checkstyle.version>
+    <checkstyle.version>3.6.0</checkstyle.version>
     <commons-collections.version>3.2.1</commons-collections.version>
-    <commons-io.version>2.15.1</commons-io.version>
-    <commons-lang3.version>3.12.0</commons-lang3.version>
-    <commons-text.version>1.10.0</commons-text.version>
-    <guava.version>32.1.3-jre</guava.version>
+    <commons-compress.version>1.27.1</commons-compress.version>
+    <commons-io.version>2.17.0</commons-io.version>
+    <commons-lang3.version>3.14.0</commons-lang3.version>
+    <commons-text.version>1.12.0</commons-text.version>
+    <guava.version>33.3.1-jre</guava.version>
     <jacoco.version>0.8.11</jacoco.version>
-    <java.version>17</java.version>
+    <java.version>21</java.version>
     <jaxb.version>2.3.1</jaxb.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
-    <jquery.version>3.7.0</jquery.version>
-    <jsoup.version>1.17.2</jsoup.version>
+    <jquery.version>3.7.1</jquery.version>
+    <jsoup.version>1.18.1</jsoup.version>
     <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
     <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
-    <maven-surefire-plugin.version>3.2.1</maven-surefire-plugin.version>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
     <pmd.version>3.15.0</pmd.version>
     <!-- Use UTF-8 Encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <thymeleaf.version>3.1.1.RELEASE</thymeleaf.version>
-    <webdriver.version>5.6.3</webdriver.version>
+    <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
+    <waittimeForServerStart>60</waittimeForServerStart>
+    <webdriver.version>5.9.2</webdriver.version>
     <webgoat.context>/</webgoat.context>
     <webgoat.sslenabled>false</webgoat.sslenabled>
-    <webjars-locator-core.version>0.53</webjars-locator-core.version>
+    <webjars-locator-core.version>0.59</webjars-locator-core.version>
     <webwolf.context>/</webwolf.context>
-    <wiremock.version>2.27.2</wiremock.version>
+    <wiremock.version>3.9.2</wiremock.version>
     <xml-resolver.version>1.2</xml-resolver.version>
     <xstream.version>1.4.5</xstream.version>
     <!-- do not update necessary for lesson -->
-    <zxcvbn.version>1.8.0</zxcvbn.version>
+    <zxcvbn.version>1.9.0</zxcvbn.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-
-      <dependency>
-        <groupId>org.ow2.asm</groupId>
-        <artifactId>asm</artifactId>
-        <version>9.5</version>
-      </dependency>
-
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-exec</artifactId>
@@ -248,8 +196,8 @@
         <version>${webjars-locator-core.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.github.tomakehurst</groupId>
-        <artifactId>wiremock</artifactId>
+        <groupId>org.wiremock</groupId>
+        <artifactId>wiremock-standalone</artifactId>
         <version>${wiremock.version}</version>
       </dependency>
       <dependency>
@@ -260,12 +208,12 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.25.0</version>
+        <version>${commons-compress.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jruby</groupId>
         <artifactId>jruby</artifactId>
-        <version>9.4.3.0</version>
+        <version>9.4.9.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -285,23 +233,25 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <version>1.20.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>1.20.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
       <version>${jaxb.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-undertow</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-tomcat</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -310,6 +260,10 @@
     <dependency>
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-database-hsqldb</artifactId>
     </dependency>
     <dependency>
       <groupId>org.asciidoctor</groupId>
@@ -417,6 +371,12 @@
       <artifactId>jaxb-impl</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>com.github.terma</groupId>
+      <artifactId>javaniotcpproxy</artifactId>
+      <version>1.6</version>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -429,10 +389,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.tomakehurst</groupId>
-      <artifactId>wiremock</artifactId>
-      <version>3.0.0-beta-2</version>
-      <scope>test</scope>
+      <groupId>org.wiremock</groupId>
+      <artifactId>wiremock-standalone</artifactId>
     </dependency>
     <dependency>
       <groupId>io.rest-assured</groupId>
@@ -548,6 +506,7 @@
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+          <!-- Necessary for vulnerable components lesson -->
           <argLine>--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
           --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
           --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED
@@ -555,8 +514,6 @@
           --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED</argLine>
           <excludes>
             <exclude>**/*IntegrationTest.java</exclude>
-            <exclude>src/it/java</exclude>
-            <exclude>org/owasp/webgoat/*Test</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -636,7 +593,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.5.0</version>
         <executions>
           <execution>
             <id>restrict-log4j-versions</id>
@@ -660,10 +617,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>17</source>
-          <target>17</target>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -735,24 +688,18 @@
                     <argument>--add-opens</argument>
                     <argument>java.base/java.lang.reflect=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
-                    <argument>java.base/java.text=ALL-UNNAMED</argument>
-                    <argument>--add-opens</argument>
                     <argument>java.desktop/java.beans=ALL-UNNAMED</argument>
-                    <argument>--add-opens</argument>
-                    <argument>java.desktop/java.awt.font=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/sun.nio.ch=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.io=ALL-UNNAMED</argument>
                     <argument>--add-opens</argument>
                     <argument>java.base/java.util=ALL-UNNAMED</argument>
-                    <argument>--add-opens</argument>
-                    <argument>java.base/sun.nio.ch=ALL-UNNAMED</argument>
-                    <argument>--add-opens</argument>
-                    <argument>java.base/java.io=ALL-UNNAMED</argument>
                     <argument>${project.build.directory}/webgoat-${project.version}.jar</argument>
                   </arguments>
                   <waitForInterrupt>false</waitForInterrupt>
+                  <waitAfterLaunch>${waittimeForServerStart}</waitAfterLaunch>
+                  <healthCheckUrl>http://127.0.0.1:${webgoat.port}${webgoat.context}login</healthCheckUrl>
                 </configuration>
               </execution>
               <execution>

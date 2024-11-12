@@ -24,14 +24,14 @@ package org.owasp.webgoat.lessons.chromedevtools;
 
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * This is just a class used to make the the HTTP request.
+ * This is just a class used to make the HTTP request.
  *
  * @author TMelzer
  * @since 30.11.18
@@ -39,11 +39,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class NetworkDummy extends AssignmentEndpoint {
 
+  private final LessonSession lessonSession;
+
+  public NetworkDummy(LessonSession lessonSession) {
+    this.lessonSession = lessonSession;
+  }
+
   @PostMapping("/ChromeDevTools/dummy")
   @ResponseBody
   public AttackResult completed(@RequestParam String successMessage) {
-    UserSessionData userSessionData = getUserSessionData();
-    String answer = (String) userSessionData.getValue("randValue");
+    String answer = (String) lessonSession.getValue("randValue");
 
     if (successMessage != null && successMessage.equals(answer)) {
       return success(this).feedback("xss-dom-message-success").build();

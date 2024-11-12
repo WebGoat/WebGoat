@@ -22,13 +22,8 @@
 
 package org.owasp.webgoat.lessons.xxe;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
-import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,11 +31,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import org.owasp.webgoat.container.session.WebSession;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -59,10 +52,7 @@ public class CommentsCache {
   private static final Map<WebGoatUser, Comments> userComments = new HashMap<>();
   private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
 
-  private final WebSession webSession;
-
-  public CommentsCache(WebSession webSession) {
-    this.webSession = webSession;
+  public CommentsCache() {
     initDefaultComments();
   }
 
@@ -76,9 +66,9 @@ public class CommentsCache {
     comments.add(new Comment("guest", LocalDateTime.now().format(fmt), "Lol!! :-)."));
   }
 
-  protected Comments getComments() {
+  protected Comments getComments(WebGoatUser user) {
     Comments allComments = new Comments();
-    Comments commentsByUser = userComments.get(webSession.getUser());
+    Comments commentsByUser = userComments.get(user);
     if (commentsByUser != null) {
       allComments.addAll(commentsByUser);
     }
@@ -93,11 +83,13 @@ public class CommentsCache {
    * progress etc). In real life the XmlMapper bean defined above will be used automatically and the
    * Comment class can be directly used in the controller method (instead of a String)
    */
-  protected Comment parseXml(String xml) throws XMLStreamException, JAXBException {
+  protected Comment parseXml(String xml, boolean securityEnabled)
+      throws XMLStreamException, JAXBException {
     var jc = JAXBContext.newInstance(Comment.class);
     var xif = XMLInputFactory.newInstance();
 
-    if (webSession.isSecurityEnabled()) {
+    // TODO fix me disabled for now.
+    if (securityEnabled) {
       xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
       xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // compliant
     }
@@ -108,24 +100,15 @@ public class CommentsCache {
     return (Comment) unmarshaller.unmarshal(xsr);
   }
 
-  protected Optional<Comment> parseJson(String comment) {
-    ObjectMapper mapper = new ObjectMapper();
-    try {
-      return of(mapper.readValue(comment, Comment.class));
-    } catch (IOException e) {
-      return empty();
-    }
-  }
-
-  public void addComment(Comment comment, boolean visibleForAllUsers) {
+  public void addComment(Comment comment, WebGoatUser user, boolean visibleForAllUsers) {
     comment.setDateTime(LocalDateTime.now().format(fmt));
-    comment.setUser(webSession.getUserName());
+    comment.setUser(user.getUsername());
     if (visibleForAllUsers) {
       comments.add(comment);
     } else {
-      var comments = userComments.getOrDefault(webSession.getUserName(), new Comments());
+      var comments = userComments.getOrDefault(user.getUsername(), new Comments());
       comments.add(comment);
-      userComments.put(webSession.getUser(), comments);
+      userComments.put(user, comments);
     }
   }
 

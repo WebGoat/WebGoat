@@ -12,7 +12,7 @@
 		<div id="lessonContent">
 			<form class="attack-form" accept-charset="UNKNOWN"
 				  method="POST" name="form"
-				  action="CrossSiteScripting/attack1">
+				  th:action="@{/CrossSiteScripting/attack1}">
 				<table>
 					<tr>
 						<td><input type="checkbox" name="checkboxAttack1"> The cookies are the same on each tab </td>
@@ -46,7 +46,7 @@
 		<div id="lessonContent">
 			<form class="attack-form" accept-charset="UNKNOWN"
 				  method="GET" name="xss-5a"
-				  action="CrossSiteScripting/attack5a">
+				  th:action="@{/CrossSiteScripting/attack5a}">
 				<center>
 					<h4>Shopping Cart</h4>
 				</center>
@@ -133,7 +133,7 @@
 		<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
 		<form class="attack-form" accept-charset="UNKNOWN"
 			  method="POST" name="DOMTestRoute"
-			  action="CrossSiteScripting/attack6a">
+			  th:action="@{/CrossSiteScripting/attack6a}">
 			<input name="DOMTestRoute" value="" type="TEXT" />
 			<input name="SubmitTestRoute" value="Submit" type="SUBMIT"/>
 		</form>
@@ -148,7 +148,7 @@
 		<div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
 		<form class="attack-form" accept-charset="UNKNOWN"
 			  method="POST" name="DOMFollowUp"
-			  action="CrossSiteScripting/dom-follow-up">
+			  th:action="@{/CrossSiteScripting/dom-follow-up}">
 			<input name="successMessage" value="" type="TEXT" />
 			<input name="submitMessage" value="Submit" type="SUBMIT"/>
 		</form>
@@ -168,7 +168,7 @@
 		<div class="container-fluid">
 			<form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
 				  method="POST" name="form"
-				  action="CrossSiteScripting/quiz" role="form">
+				  th:action="@{/CrossSiteScripting/quiz}" role="form">
 				<div id="q_container"></div>
 				<br />
 				<input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>

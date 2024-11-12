@@ -50,9 +50,9 @@ public class ChallengeIntegrationTest extends IntegrationTest {
     String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
     params.clear();
     params.put("flag", flag);
-    checkAssignment(url("challenge/flag"), params, true);
+    checkAssignment(url("challenge/flag/1"), params, true);
 
-    checkResults("/challenge/1");
+    checkResults("Challenge1");
 
     List<String> capturefFlags =
         RestAssured.given()
@@ -92,9 +92,9 @@ public class ChallengeIntegrationTest extends IntegrationTest {
     String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
     params.clear();
     params.put("flag", flag);
-    checkAssignment(url("challenge/flag"), params, true);
+    checkAssignment(url("challenge/flag/5"), params, true);
 
-    checkResults("/challenge/5");
+    checkResults("Challenge5");
 
     List<String> capturefFlags =
         RestAssured.given()
@@ -126,7 +126,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
         .extract()
         .asString();
 
-    // Should send an email to WebWolf inbox this should give a hint to the link being static
+    // Should email WebWolf inbox this should give a hint to the link being static
     RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
@@ -144,7 +144,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("mail"))
+            .get(new WebWolfUrlBuilder().path("mail").build())
             .then()
             .extract()
             .response()
@@ -165,6 +165,6 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .asString();
 
     String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
-    checkAssignment(url("challenge/flag"), Map.of("flag", flag), true);
+    checkAssignment(url("challenge/flag/7"), Map.of("flag", flag), true);
   }
 }

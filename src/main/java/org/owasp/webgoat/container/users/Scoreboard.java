@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class Scoreboard {
 
-  private final UserTrackerRepository userTrackerRepository;
+  private final UserProgressRepository userTrackerRepository;
   private final UserRepository userRepository;
   private final Course course;
   private final PluginMessages pluginMessages;
@@ -46,7 +46,7 @@ public class Scoreboard {
         .collect(Collectors.toList());
   }
 
-  private List<String> challengesSolved(UserTracker userTracker) {
+  private List<String> challengesSolved(UserProgress userTracker) {
     List<String> challenges =
         List.of(
             "Challenge1",
@@ -59,10 +59,10 @@ public class Scoreboard {
             "Challenge8",
             "Challenge9");
     return challenges.stream()
-        .map(userTracker::getLessonTracker)
+        .map(userTracker::getLessonProgress)
         .flatMap(Optional::stream)
-        .filter(LessonTracker::isLessonSolved)
-        .map(LessonTracker::getLessonName)
+        .filter(LessonProgress::isLessonSolved)
+        .map(LessonProgress::getLessonName)
         .map(this::toLessonTitle)
         .toList();
   }

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/config/jdk-17.0.6+10-jre/bin/java \
+/config/jdk-21.0.3+9-jre/bin/java \
   -Duser.home=/config \
   -Dfile.encoding=UTF-8 \
   -DTZ=Europe/Amsterdam \

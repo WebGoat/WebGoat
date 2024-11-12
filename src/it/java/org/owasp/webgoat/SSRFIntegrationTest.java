@@ -1,6 +1,5 @@
 package org.owasp.webgoat;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class SSRFIntegrationTest extends IntegrationTest {
 
   @Test
-  public void runTests() throws IOException {
+  public void runTests() {
     startLesson("SSRF");
 
     Map<String, Object> params = new HashMap<>();
@@ -21,6 +20,6 @@ public class SSRFIntegrationTest extends IntegrationTest {
 
     checkAssignment(url("SSRF/task2"), params, true);
 
-    checkResults("/SSRF/");
+    checkResults("SSRF");
   }
 }

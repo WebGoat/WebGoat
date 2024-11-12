@@ -28,6 +28,7 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
 import java.time.ZonedDateTime;
@@ -81,13 +82,19 @@ public class FileServer {
 
   @PostMapping(value = "/fileupload")
   public ModelAndView importFile(
-      @RequestParam("file") MultipartFile myFile, Authentication authentication)
+      @RequestParam("file") MultipartFile multipartFile, Authentication authentication)
       throws IOException {
-    String username = authentication.getName();
+    var username = authentication.getName();
     var destinationDir = new File(fileLocation, username);
     destinationDir.mkdirs();
-    myFile.transferTo(new File(destinationDir, myFile.getOriginalFilename()));
-    log.debug("File saved to {}", new File(destinationDir, myFile.getOriginalFilename()));
+    // DO NOT use multipartFile.transferTo(), see
+    // https://stackoverflow.com/questions/60336929/java-nio-file-nosuchfileexception-when-file-transferto-is-called
+    try (InputStream is = multipartFile.getInputStream()) {
+      var destinationFile = destinationDir.toPath().resolve(multipartFile.getOriginalFilename());
+      Files.deleteIfExists(destinationFile);
+      Files.copy(is, destinationFile);
+    }
+    log.debug("File saved to {}", new File(destinationDir, multipartFile.getOriginalFilename()));
 
     return new ModelAndView(
         new RedirectView("files", true),
