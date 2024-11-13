@@ -21,7 +21,7 @@
  * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
  */
 
-package org.owasp.webgoat.lessons.xss;
+package org.owasp.webgoat.lessons.xss.mitigation;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
