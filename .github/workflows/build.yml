@@ -40,6 +40,8 @@ jobs:
             max-parallel: 1
         steps:
             -   uses: actions/checkout@v4.1.6
+            -   name: Build application
+                run: mvn clean package
             -   name: Set up JDK 21
                 uses: actions/setup-java@v4.2.1
                 with:
@@ -49,3 +51,7 @@ jobs:
                     cache: 'maven'
             -   name: Build with Maven
                 run: mvn --no-transfer-progress verify
+
+        
+              
+        
