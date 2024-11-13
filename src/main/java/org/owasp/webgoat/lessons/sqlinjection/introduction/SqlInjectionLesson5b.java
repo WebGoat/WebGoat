@@ -22,7 +22,6 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.*;
 import org.owasp.webgoat.container.LessonDataSource;
@@ -52,8 +51,7 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
 
   @PostMapping("/SqlInjection/assignment5b")
   @ResponseBody
-  public AttackResult completed(
-      @RequestParam String userid, @RequestParam String login_count, HttpServletRequest request)
+  public AttackResult completed(@RequestParam String userid, @RequestParam String login_count)
       throws IOException {
     return injectableQuery(login_count, userid);
   }

@@ -47,7 +47,6 @@ define(['jquery',
                 var pages = [];
 
                 _.each(this.collection.models, function(model) {
-                    //alert (model.get('solved'));
                      if (model.get('solved')) {
                         var key = model.get('assignment').path.replace(/\//g,'');
                         solvedMap[key] = model.get('assignment').name;
@@ -57,7 +56,6 @@ define(['jquery',
 
                 isAttackSolved = function (path) {
                     //strip
-                    //var newPath = path.replace(/^\/WebGoat/,'');
                     var newPath = path.replace(/\//g,'');
                     if (typeof solvedMap[newPath] !== 'undefined') {
                         return true;
