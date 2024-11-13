@@ -121,7 +121,6 @@ define(['jquery',
 
             this.showHintsView = function() {
                 var self=this;
-                console.log(self.name);
                 if (!this.lessonHintView) {
                     this.createLessonHintView();
                 }

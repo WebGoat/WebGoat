@@ -30,6 +30,7 @@ import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.Course;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
@@ -42,10 +43,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CourseConfiguration {
   private final List<Lesson> lessons;
   private final List<AssignmentEndpoint> assignments;
+  private final String contextPath;
 
-  public CourseConfiguration(List<Lesson> lessons, List<AssignmentEndpoint> assignments) {
+  public CourseConfiguration(
+      List<Lesson> lessons,
+      List<AssignmentEndpoint> assignments,
+      @Value("${server.servlet.context-path}") String contextPath) {
     this.lessons = lessons;
     this.assignments = assignments;
+    this.contextPath = contextPath.equals("/") ? "" : contextPath;
   }
 
   private void attachToLessonInParentPackage(
@@ -124,7 +130,7 @@ public class CourseConfiguration {
       if (methodReturnTypeIsOfTypeAttackResult(m)) {
         var mapping = getMapping(m);
         if (mapping != null) {
-          return mapping;
+          return contextPath + mapping;
         }
       }
     }

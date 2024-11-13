@@ -68,10 +68,6 @@ define(['jquery',
                 }
             },
 
-            getCurrentPage: function () {
-                return this.currentPage;
-            },
-
             makeFormsAjax: function () {
                 this.$form = $('form.attack-form');
                 // turn off standard submit
