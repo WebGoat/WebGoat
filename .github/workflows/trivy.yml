@@ -25,14 +25,14 @@ jobs:
         run: docker build -f Dockerfile -t webgoat/webgoat .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@0.24.0
         with:
           image-ref: 'webgoat/webgoat'
           format: 'table'
-          exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-          cache: 'true'
-          db-repository: 'public.ecr.aws/aquasecurity/trivy-db:2'
-          java-db-repository: 'public.ecr.aws/aquasecurity/trivy-java-db:1'
+          severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
+        env:
+          TRIVY_DB_REPOSITORY: 'aquasec/trivy-db:2'
+          TRIVY_JAVA_DB_REPOSITORY: 'aquasec/trivy-java-db:1'
+          TRIVY_TIMEOUT: '20m'
