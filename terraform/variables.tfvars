@@ -1,1 +1,2 @@
-kubeconfig = "replace with path to kubeconfig"
+appId = "<YOUR APP ID>"
+password = "<YOUR APP SECRET>"
