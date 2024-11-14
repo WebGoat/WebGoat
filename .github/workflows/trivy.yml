@@ -34,3 +34,5 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
           cache: 'true'
+          db-repository: 'public.ecr.aws/aquasecurity/trivy-db:2'
+          java-db-repository: 'public.ecr.aws/aquasecurity/trivy-java-db:1'
