@@ -30,10 +30,8 @@ package org.owasp.webgoat.container.service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.owasp.webgoat.container.CurrentUsername;
-import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.lessons.LessonMenuItem;
@@ -100,7 +98,7 @@ public class LessonMenuService {
         lessonItem.setLink(lesson.getLink());
         lessonItem.setType(LessonMenuItemType.LESSON);
         LessonProgress lessonTracker = userTracker.getLessonProgress(lesson);
-        boolean lessonSolved = lessonCompleted(lessonTracker.getLessonOverview(), lesson);
+        boolean lessonSolved = lessonTracker.isLessonSolved();
         lessonItem.setComplete(lessonSolved);
         categoryItem.addChild(lessonItem);
       }
@@ -108,19 +106,5 @@ public class LessonMenuService {
       menu.add(categoryItem);
     }
     return menu;
-  }
-
-  private boolean lessonCompleted(Map<Assignment, Boolean> map, Lesson currentLesson) {
-    boolean result = true;
-    for (Map.Entry<Assignment, Boolean> entry : map.entrySet()) {
-      Assignment storedAssignment = entry.getKey();
-      for (Assignment lessonAssignment : currentLesson.getAssignments()) {
-        if (lessonAssignment.getName().equals(storedAssignment.getName())) {
-          result = result && entry.getValue();
-          break;
-        }
-      }
-    }
-    return result;
   }
 }
