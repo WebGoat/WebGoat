@@ -32,9 +32,9 @@ function($,
 
         toggleLabel: function() {
             if (this.isVisible()) {
-                $('#show-hints-button').text('Hide hints');
-            } else {
-                $('#show-hints-button').text('Show hints');
+				$('#show-hints-button').text(polyglot.t("hide.hints"))
+			} else {
+				$('#show-hints-button').text(polyglot.t("show.hints"))
             }
         },
 
