@@ -1,6 +1,0 @@
-
-=== Observing Differences & Behaviors
-
-A consistent principle from the offensive side of AppSec is to view differences from the raw response to what is visible.
-In other words (as you may have already noted in the client-side filtering lesson), there is often data in the raw response that doesn't show up on the screen/page.
-View the profile below and take note of the differences.

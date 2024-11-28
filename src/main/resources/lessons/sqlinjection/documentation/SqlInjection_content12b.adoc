@@ -1,6 +1,0 @@
-== Input validation alone is not enough!!
-
-So the last attempt to validate if the query did not contain any spaces failed, the development team went further
-into the direction of only performing input validation, can you find out where it went wrong this time?
-
-Read about the lesson goal link:start.mvc#lesson/SqlInjectionAdvanced.lesson/2[here].

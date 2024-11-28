@@ -1,3 +1,0 @@
-== The Quiz
-
-What type of HTTP verb does WebGoat use when submitting the form in this lesson?  A POST or a GET?

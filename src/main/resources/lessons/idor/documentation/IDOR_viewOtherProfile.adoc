@@ -1,7 +1,0 @@
-=== Playing with the Patterns
-
-==== View Another Profile
-
-View someone else's profile by using the alternate path you already used to view your own profile. Use the 'View Profile' button
-and intercept/modify the request to view another profile. Alternatively, you may also just be able to use a manual GET request with
-your browser.

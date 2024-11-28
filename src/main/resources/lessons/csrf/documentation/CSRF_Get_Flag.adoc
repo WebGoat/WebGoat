@@ -1,3 +1,0 @@
-== Basic Get CSRF Exercise
-
-Trigger the form below from an external source while logged in. The response will include a 'flag' (a numeric value).

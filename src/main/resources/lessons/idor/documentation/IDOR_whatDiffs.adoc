@@ -1,1 +1,0 @@
-In the text input below, list the two attributes that are in the server's response, but don't show above in the profile.

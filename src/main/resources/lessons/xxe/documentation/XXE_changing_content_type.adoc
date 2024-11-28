@@ -1,5 +1,0 @@
-== Modern REST framework
-
-In modern REST frameworks the server might be able to accept data formats that you as a developer did not think about. So this might result in JSON endpoints being vulnerable to XXE attacks.
-
-Again same exercise but try to perform the same XML injection as we did in the first assignment.

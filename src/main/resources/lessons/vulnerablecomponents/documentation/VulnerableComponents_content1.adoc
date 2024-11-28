@@ -1,7 +1,0 @@
-
-== 2013 OWASP Top 10 - A9
-
-As early as 2013, thought leaders like OWASP recognized that "WE" need to pay attention to this problem.
-
-
-image::images/OWASP-2013-A9.png[caption="Figure: ", title="2013 OWASP - Top 10 - A9", alt="A9", width="800", height="500", style="lesson-image" link="https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities"]

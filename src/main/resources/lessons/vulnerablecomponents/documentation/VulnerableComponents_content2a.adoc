@@ -1,4 +1,0 @@
-
-=== jquery-ui:1.12.0 Not Vulnerable
-
-Using the same WebGoat source code but upgrading the jquery-ui library to a non-vulnerable version eliminates the exploit.
