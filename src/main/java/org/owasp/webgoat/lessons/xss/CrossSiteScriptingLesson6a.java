@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
       "xss-reflected-6a-hint-3",
       "xss-reflected-6a-hint-4"
     })
-public class CrossSiteScriptingLesson6a extends AssignmentEndpoint {
+public class CrossSiteScriptingLesson6a implements AssignmentEndpoint {
   private final LessonSession userSessionData;
 
   public CrossSiteScriptingLesson6a(LessonSession userSessionData) {

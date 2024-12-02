@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
   "idor.hints.idorDiffAttributes2",
   "idor.hints.idorDiffAttributes3"
 })
-public class IDORDiffAttributes extends AssignmentEndpoint {
+public class IDORDiffAttributes implements AssignmentEndpoint {
 
   @PostMapping("/IDOR/diff-attributes")
   @ResponseBody

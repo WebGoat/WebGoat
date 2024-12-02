@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LogSpoofingTask extends AssignmentEndpoint {
+public class LogSpoofingTask implements AssignmentEndpoint {
 
   @PostMapping("/LogSpoofing/log-spoofing")
   @ResponseBody

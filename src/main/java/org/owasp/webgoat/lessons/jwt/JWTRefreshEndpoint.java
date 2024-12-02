@@ -58,7 +58,7 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-refresh-hint3",
   "jwt-refresh-hint4"
 })
-public class JWTRefreshEndpoint extends AssignmentEndpoint {
+public class JWTRefreshEndpoint implements AssignmentEndpoint {
 
   public static final String PASSWORD = "bm5nhSkxCXZkKRy4";
   private static final String JWT_PASSWORD = "bm5n3SkxCX4kKRy4";

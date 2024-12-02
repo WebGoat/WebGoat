@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  * implement the quiz go to the quiz.js file in webgoat-container -> js
  */
 @RestController
-public class SqlInjectionQuiz extends AssignmentEndpoint {
+public class SqlInjectionQuiz implements AssignmentEndpoint {
 
   String[] solutions = {"Solution 4", "Solution 3", "Solution 2", "Solution 3", "Solution 4"};
   boolean[] guesses = new boolean[solutions.length];

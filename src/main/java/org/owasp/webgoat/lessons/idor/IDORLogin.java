@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"idor.hints.idor_login"})
-public class IDORLogin extends AssignmentEndpoint {
+public class IDORLogin implements AssignmentEndpoint {
   private final LessonSession lessonSession;
 
   public IDORLogin(LessonSession lessonSession) {

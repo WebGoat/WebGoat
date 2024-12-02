@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints(value = {"xss-mitigation-4-hint1"})
-public class CrossSiteScriptingLesson4 extends AssignmentEndpoint {
+public class CrossSiteScriptingLesson4 implements AssignmentEndpoint {
 
   @PostMapping("/CrossSiteScripting/attack4")
   @ResponseBody

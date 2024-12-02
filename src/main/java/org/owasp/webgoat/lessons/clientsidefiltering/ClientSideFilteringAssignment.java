@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
   "ClientSideFilteringHint3",
   "ClientSideFilteringHint4"
 })
-public class ClientSideFilteringAssignment extends AssignmentEndpoint {
+public class ClientSideFilteringAssignment implements AssignmentEndpoint {
 
   @PostMapping("/clientSideFiltering/attack1")
   @ResponseBody

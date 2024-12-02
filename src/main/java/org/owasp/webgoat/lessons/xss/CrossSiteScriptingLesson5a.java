@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
       "xss-reflected-5a-hint-3",
       "xss-reflected-5a-hint-4"
     })
-public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
+public class CrossSiteScriptingLesson5a implements AssignmentEndpoint {
 
   public static final Predicate<String> XSS_PATTERN =
       Pattern.compile(

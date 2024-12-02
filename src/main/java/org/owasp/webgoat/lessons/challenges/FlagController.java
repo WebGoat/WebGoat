@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class FlagController extends AssignmentEndpoint {
+public class FlagController implements AssignmentEndpoint {
 
   private final Flags flags;
 

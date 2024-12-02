@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint5a1"})
-public class SqlInjectionLesson5a extends AssignmentEndpoint {
+public class SqlInjectionLesson5a implements AssignmentEndpoint {
 
   private static final String EXPLANATION =
       "<br> Explanation: This injection works, because <span style=\"font-style: italic\">or '1' ="

@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AssignmentHints(
     value = {"SqlStringInjectionHint4-1", "SqlStringInjectionHint4-2", "SqlStringInjectionHint4-3"})
-public class SqlInjectionLesson4 extends AssignmentEndpoint {
+public class SqlInjectionLesson4 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 

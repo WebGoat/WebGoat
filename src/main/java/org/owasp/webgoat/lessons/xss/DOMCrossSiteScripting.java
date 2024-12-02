@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DOMCrossSiteScripting extends AssignmentEndpoint {
+public class DOMCrossSiteScripting implements AssignmentEndpoint {
 
   private final LessonSession lessonSession;
 

@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"hint1", "hint2", "hint3"})
-public class HtmlTamperingTask extends AssignmentEndpoint {
+public class HtmlTamperingTask implements AssignmentEndpoint {
 
   @PostMapping("/HtmlTampering/task")
   @ResponseBody

@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlOnlyInputValidationOnKeywords-2",
       "SqlOnlyInputValidationOnKeywords-3"
     })
-public class SqlOnlyInputValidationOnKeywords extends AssignmentEndpoint {
+public class SqlOnlyInputValidationOnKeywords implements AssignmentEndpoint {
 
   private final SqlInjectionLesson6a lesson6a;
 

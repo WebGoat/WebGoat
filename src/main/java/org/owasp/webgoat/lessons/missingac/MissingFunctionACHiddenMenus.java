@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
   "access-control.hidden-menus.hint2",
   "access-control.hidden-menus.hint3"
 })
-public class MissingFunctionACHiddenMenus extends AssignmentEndpoint {
+public class MissingFunctionACHiddenMenus implements AssignmentEndpoint {
 
   @PostMapping(
       path = "/access-control/hidden-menu",

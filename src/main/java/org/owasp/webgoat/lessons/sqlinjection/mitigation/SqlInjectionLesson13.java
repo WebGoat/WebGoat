@@ -48,7 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlStringInjectionHint-mitigation-13-4"
     })
 @Slf4j
-public class SqlInjectionLesson13 extends AssignmentEndpoint {
+public class SqlInjectionLesson13 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 

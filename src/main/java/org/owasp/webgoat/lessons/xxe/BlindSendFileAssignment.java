@@ -60,7 +60,7 @@ import org.springframework.web.bind.annotation.RestController;
   "xxe.blind.hints.4",
   "xxe.blind.hints.5"
 })
-public class BlindSendFileAssignment extends AssignmentEndpoint implements Initializable {
+public class BlindSendFileAssignment implements AssignmentEndpoint, Initializable {
 
   private final String webGoatHomeDirectory;
   private final CommentsCache comments;

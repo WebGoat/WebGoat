@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"ssrf.hint1", "ssrf.hint2"})
-public class SSRFTask1 extends AssignmentEndpoint {
+public class SSRFTask1 implements AssignmentEndpoint {
 
   @PostMapping("/SSRF/task1")
   @ResponseBody

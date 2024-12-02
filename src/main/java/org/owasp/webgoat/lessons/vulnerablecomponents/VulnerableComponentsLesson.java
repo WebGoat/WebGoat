@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"vulnerable.hint"})
-public class VulnerableComponentsLesson extends AssignmentEndpoint {
+public class VulnerableComponentsLesson implements AssignmentEndpoint {
 
   @PostMapping("/VulnerableComponents/attack1")
   public @ResponseBody AttackResult completed(@RequestParam String payload) {

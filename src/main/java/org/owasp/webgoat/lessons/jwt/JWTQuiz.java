@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class JWTQuiz extends AssignmentEndpoint {
+public class JWTQuiz implements AssignmentEndpoint {
 
   private final String[] solutions = {"Solution 1", "Solution 2"};
   private final boolean[] guesses = new boolean[solutions.length];

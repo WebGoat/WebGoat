@@ -25,4 +25,4 @@
 
 package org.owasp.webgoat.container.assignments;
 
-public abstract class AssignmentEndpoint {}
+public interface AssignmentEndpoint {}

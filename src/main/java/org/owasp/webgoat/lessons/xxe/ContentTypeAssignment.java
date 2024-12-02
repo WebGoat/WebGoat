@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"xxe.hints.content.type.xxe.1", "xxe.hints.content.type.xxe.2"})
-public class ContentTypeAssignment extends AssignmentEndpoint {
+public class ContentTypeAssignment implements AssignmentEndpoint {
 
   private static final String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
   private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {

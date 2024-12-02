@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since August 11, 2016
  */
 @RestController
-public class Assignment1 extends AssignmentEndpoint {
+public class Assignment1 implements AssignmentEndpoint {
 
   private final Flags flags;
 

@@ -48,7 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
   "idor.hints.otherProfile8",
   "idor.hints.otherProfile9"
 })
-public class IDOREditOtherProfile extends AssignmentEndpoint {
+public class IDOREditOtherProfile implements AssignmentEndpoint {
 
   private final LessonSession userSessionData;
 

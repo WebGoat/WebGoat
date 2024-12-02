@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** Created by jason on 11/23/16. */
 @RestController
-public class StoredCrossSiteScriptingVerifier extends AssignmentEndpoint {
+public class StoredCrossSiteScriptingVerifier implements AssignmentEndpoint {
 
   private final LessonSession lessonSession;
 

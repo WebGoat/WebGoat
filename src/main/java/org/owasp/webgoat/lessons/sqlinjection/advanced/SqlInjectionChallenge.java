@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints(
     value = {"SqlInjectionChallenge1", "SqlInjectionChallenge2", "SqlInjectionChallenge3"})
 @Slf4j
-public class SqlInjectionChallenge extends AssignmentEndpoint {
+public class SqlInjectionChallenge implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 

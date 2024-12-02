@@ -96,14 +96,6 @@ public class AttackResultBuilder {
    * @return a builder for creating a result from a lesson
    * @param assignment
    */
-  public AttackResultBuilder oldSuccess(AssignmentEndpoint assignment) {
-    return this.lessonCompleted(true)
-        .assignmentCompleted(true)
-        .attemptWasMade()
-        .feedback("assignment.solved")
-        .assignment(assignment);
-  }
-
   public static AttackResultBuilder success(AssignmentEndpoint assignment) {
     return new AttackResultBuilder()
         .lessonCompleted(true)

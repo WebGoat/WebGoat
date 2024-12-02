@@ -25,7 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
-public class ProfileUploadBase extends AssignmentEndpoint {
+public class ProfileUploadBase implements AssignmentEndpoint {
 
   private final String webGoatHomeDirectory;
 

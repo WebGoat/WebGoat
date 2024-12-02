@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.RestController;
   "xxe.hints.simple.xxe.5",
   "xxe.hints.simple.xxe.6"
 })
-public class SimpleXXE extends AssignmentEndpoint {
+public class SimpleXXE implements AssignmentEndpoint {
 
   private static final String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
   private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {

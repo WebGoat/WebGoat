@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
   "crypto-secure-defaults.hints.2",
   "crypto-secure-defaults.hints.3"
 })
-public class SecureDefaultsAssignment extends AssignmentEndpoint {
+public class SecureDefaultsAssignment implements AssignmentEndpoint {
 
   @PostMapping("/crypto/secure/defaults")
   @ResponseBody

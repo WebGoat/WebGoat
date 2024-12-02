@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
+public class HttpBasicsInterceptRequest implements AssignmentEndpoint {
 
   @RequestMapping(
       path = "/HttpProxies/intercept-request",

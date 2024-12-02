@@ -48,7 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlStringInjectionHint.10.5",
       "SqlStringInjectionHint.10.6"
     })
-public class SqlInjectionLesson10 extends AssignmentEndpoint {
+public class SqlInjectionLesson10 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 

@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"jwt-secret-hint1", "jwt-secret-hint2", "jwt-secret-hint3"})
-public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
+public class JWTSecretKeyEndpoint implements AssignmentEndpoint {
 
   public static final String[] SECRETS = {
     "victory", "business", "available", "shipping", "washington"

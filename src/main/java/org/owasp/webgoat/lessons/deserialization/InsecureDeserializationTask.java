@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
   "insecure-deserialization.hints.2",
   "insecure-deserialization.hints.3"
 })
-public class InsecureDeserializationTask extends AssignmentEndpoint {
+public class InsecureDeserializationTask implements AssignmentEndpoint {
 
   @PostMapping("/InsecureDeserialization/task")
   @ResponseBody

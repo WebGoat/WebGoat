@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AssignmentHints(
     value = {"SqlOnlyInputValidation-1", "SqlOnlyInputValidation-2", "SqlOnlyInputValidation-3"})
-public class SqlOnlyInputValidation extends AssignmentEndpoint {
+public class SqlOnlyInputValidation implements AssignmentEndpoint {
 
   private final SqlInjectionLesson6a lesson6a;
 

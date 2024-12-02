@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlInjectionChallengeHint3",
       "SqlInjectionChallengeHint4"
     })
-public class SqlInjectionChallengeLogin extends AssignmentEndpoint {
+public class SqlInjectionChallengeLogin implements AssignmentEndpoint {
   private final LessonDataSource dataSource;
 
   public SqlInjectionChallengeLogin(LessonDataSource dataSource) {

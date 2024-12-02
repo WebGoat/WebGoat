@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class BypassRestrictionsFrontendValidation extends AssignmentEndpoint {
+public class BypassRestrictionsFrontendValidation implements AssignmentEndpoint {
 
   @PostMapping("/BypassRestrictions/frontendValidation")
   @ResponseBody

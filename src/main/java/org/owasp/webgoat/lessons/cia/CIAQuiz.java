@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CIAQuiz extends AssignmentEndpoint {
+public class CIAQuiz implements AssignmentEndpoint {
 
   private final String[] solutions = {"Solution 3", "Solution 1", "Solution 4", "Solution 2"};
   boolean[] guesses = new boolean[solutions.length];

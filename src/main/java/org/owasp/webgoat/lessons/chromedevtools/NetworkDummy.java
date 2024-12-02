@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 30.11.18
  */
 @RestController
-public class NetworkDummy extends AssignmentEndpoint {
+public class NetworkDummy implements AssignmentEndpoint {
 
   private final LessonSession lessonSession;
 

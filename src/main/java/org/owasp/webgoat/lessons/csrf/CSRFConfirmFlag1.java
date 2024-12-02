@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 /** Created by jason on 9/29/17. */
 @RestController
 @AssignmentHints({"csrf-get.hint1", "csrf-get.hint2", "csrf-get.hint3", "csrf-get.hint4"})
-public class CSRFConfirmFlag1 extends AssignmentEndpoint {
+public class CSRFConfirmFlag1 implements AssignmentEndpoint {
 
   private final LessonSession userSessionData;
 

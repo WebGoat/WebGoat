@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AssignmentHints({"networkHint1", "networkHint2"})
-public class NetworkLesson extends AssignmentEndpoint {
+public class NetworkLesson implements AssignmentEndpoint {
 
   @PostMapping(
       value = "/ChromeDevTools/network",

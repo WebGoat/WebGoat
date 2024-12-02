@@ -46,7 +46,7 @@ import org.springframework.web.client.RestTemplate;
  * @since 8/20/17.
  */
 @RestController
-public class SimpleMailAssignment extends AssignmentEndpoint {
+public class SimpleMailAssignment implements AssignmentEndpoint {
   private final String webWolfURL;
   private RestTemplate restTemplate;
 

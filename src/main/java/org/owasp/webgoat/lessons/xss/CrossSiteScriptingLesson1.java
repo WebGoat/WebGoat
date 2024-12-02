@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CrossSiteScriptingLesson1 extends AssignmentEndpoint {
+public class CrossSiteScriptingLesson1 implements AssignmentEndpoint {
 
   @PostMapping("/CrossSiteScripting/attack1")
   @ResponseBody

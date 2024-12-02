@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class StoredXssComments extends AssignmentEndpoint {
+public class StoredXssComments implements AssignmentEndpoint {
 
   private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
 

@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 8/20/17.
  */
 @RestController
-public class QuestionsAssignment extends AssignmentEndpoint {
+public class QuestionsAssignment implements AssignmentEndpoint {
 
   private static final Map<String, String> COLORS = new HashMap<>();
 

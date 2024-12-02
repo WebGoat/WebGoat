@@ -68,7 +68,7 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-change-token-hint4",
   "jwt-change-token-hint5"
 })
-public class JWTVotesEndpoint extends AssignmentEndpoint {
+public class JWTVotesEndpoint implements AssignmentEndpoint {
 
   public static final String JWT_PASSWORD = TextCodec.BASE64.encode("victory");
   private static String validUsers = "TomJerrySylvester";

@@ -60,7 +60,7 @@ import org.springframework.web.servlet.ModelAndView;
   "password-reset-hint5",
   "password-reset-hint6"
 })
-public class ResetLinkAssignment extends AssignmentEndpoint {
+public class ResetLinkAssignment implements AssignmentEndpoint {
 
   private static final String VIEW_FORMATTER = "lessons/passwordreset/templates/%s.html";
   static final String PASSWORD_TOM_9 =

@@ -47,7 +47,7 @@ import org.springframework.web.client.RestTemplate;
  * @since 8/20/17.
  */
 @RestController
-public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
+public class ResetLinkAssignmentForgotPassword implements AssignmentEndpoint {
 
   private final RestTemplate restTemplate;
   private final String webWolfHost;

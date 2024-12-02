@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"csrf-feedback-hint1", "csrf-feedback-hint2", "csrf-feedback-hint3"})
-public class CSRFFeedback extends AssignmentEndpoint {
+public class CSRFFeedback implements AssignmentEndpoint {
 
   private final LessonSession userSessionData;
   private final ObjectMapper objectMapper;

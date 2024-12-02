@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SecurePasswordsAssignment extends AssignmentEndpoint {
+public class SecurePasswordsAssignment implements AssignmentEndpoint {
 
   @PostMapping("SecurePasswords/assignment")
   @ResponseBody

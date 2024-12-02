@@ -31,7 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class InsecureLoginTask extends AssignmentEndpoint {
+public class InsecureLoginTask implements AssignmentEndpoint {
 
   @PostMapping("/InsecureLogin/task")
   @ResponseBody

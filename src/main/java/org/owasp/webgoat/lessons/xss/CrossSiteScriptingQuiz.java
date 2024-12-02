@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CrossSiteScriptingQuiz extends AssignmentEndpoint {
+public class CrossSiteScriptingQuiz implements AssignmentEndpoint {
 
   private static final String[] solutions = {
     "Solution 4", "Solution 3", "Solution 1", "Solution 2", "Solution 4"

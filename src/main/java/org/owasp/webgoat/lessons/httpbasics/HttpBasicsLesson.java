@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"http-basics.hints.http_basics_lesson.1"})
-public class HttpBasicsLesson extends AssignmentEndpoint {
+public class HttpBasicsLesson implements AssignmentEndpoint {
 
   @PostMapping("/HttpBasics/attack1")
   @ResponseBody

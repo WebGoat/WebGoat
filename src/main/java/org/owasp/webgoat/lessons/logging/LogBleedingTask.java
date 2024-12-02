@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LogBleedingTask extends AssignmentEndpoint {
+public class LogBleedingTask implements AssignmentEndpoint {
 
   private static final Logger log = LoggerFactory.getLogger(LogBleedingTask.class);
   private final String password;

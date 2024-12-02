@@ -53,7 +53,7 @@ import org.springframework.web.bind.annotation.RestController;
   "hijacksession.hints.4",
   "hijacksession.hints.5"
 })
-public class HijackSessionAssignment extends AssignmentEndpoint {
+public class HijackSessionAssignment implements AssignmentEndpoint {
   private static final String COOKIE_NAME = "hijack_cookie";
 
   private final HijackSessionAuthenticationProvider provider;

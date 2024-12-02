@@ -41,7 +41,7 @@ public class AttackResult {
   private final String assignment;
   private boolean attemptWasMade;
 
-  public AttackResult(
+  private AttackResult(
       boolean lessonCompleted,
       String feedback,
       String output,

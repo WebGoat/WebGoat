@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-public class Assignment5 extends AssignmentEndpoint {
+public class Assignment5 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
   private final Flags flags;

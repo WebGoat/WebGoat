@@ -43,7 +43,7 @@ import org.springframework.web.client.RestTemplate;
  * @since 8/20/17.
  */
 @RestController
-public class MailAssignment extends AssignmentEndpoint {
+public class MailAssignment implements AssignmentEndpoint {
 
   private final String webWolfURL;
   private RestTemplate restTemplate;

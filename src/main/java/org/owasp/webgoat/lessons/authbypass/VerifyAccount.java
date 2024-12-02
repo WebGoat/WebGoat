@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
   "auth-bypass.hints.verify.3",
   "auth-bypass.hints.verify.4"
 })
-public class VerifyAccount extends AssignmentEndpoint {
+public class VerifyAccount implements AssignmentEndpoint {
 
   private final LessonSession userSessionData;
 

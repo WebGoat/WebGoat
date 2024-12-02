@@ -56,7 +56,7 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-kid-hint6"
 })
 @RequestMapping("/JWT/")
-public class JWTHeaderKIDEndpoint extends AssignmentEndpoint {
+public class JWTHeaderKIDEndpoint implements AssignmentEndpoint {
   private final LessonDataSource dataSource;
 
   private JWTHeaderKIDEndpoint(LessonDataSource dataSource) {

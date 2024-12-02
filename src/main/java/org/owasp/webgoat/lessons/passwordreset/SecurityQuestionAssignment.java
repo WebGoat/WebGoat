@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 11.12.18
  */
 @RestController
-public class SecurityQuestionAssignment extends AssignmentEndpoint {
+public class SecurityQuestionAssignment implements AssignmentEndpoint {
 
   private final TriedQuestions triedQuestions;
 

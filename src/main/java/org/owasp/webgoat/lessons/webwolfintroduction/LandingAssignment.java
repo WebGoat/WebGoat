@@ -41,7 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @since 8/20/17.
  */
 @RestController
-public class LandingAssignment extends AssignmentEndpoint {
+public class LandingAssignment implements AssignmentEndpoint {
   private final String landingPageUrl;
 
   public LandingAssignment(@Value("${webwolf.landingpage.url}") String landingPageUrl) {

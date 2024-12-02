@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @AssignmentHints(
     value = {"SqlStringInjectionHint-mitigation-10a-1", "SqlStringInjectionHint-mitigation-10a-2"})
-public class SqlInjectionLesson10a extends AssignmentEndpoint {
+public class SqlInjectionLesson10a implements AssignmentEndpoint {
 
   private static final String[] results = {
     "getConnection", "PreparedStatement", "prepareStatement", "?", "?", "setString", "setString"

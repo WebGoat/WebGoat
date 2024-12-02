@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
   "path-traversal-profile-retrieve.hint6"
 })
 @Slf4j
-public class ProfileUploadRetrieval extends AssignmentEndpoint {
+public class ProfileUploadRetrieval implements AssignmentEndpoint {
   private final File catPicturesDirectory;
 
   public ProfileUploadRetrieval(@Value("${webgoat.server.directory}") String webGoatHomeDirectory) {
