@@ -19,7 +19,7 @@ public class SampleAttack extends AssignmentEndpoint { // <3>
     public AttackResult completed(@RequestParam("param1") String param1, @RequestParam("param2") String param2) { <6>
         if (userSessionData.getValue("some-value") != null) {
             // do any session updating you want here ... or not, just comment/example here
-            //return failed(this).feedback("lesson-template.sample-attack.failure-2").build();
+            //return builder.failed(this).feedback("lesson-template.sample-attack.failure-2").build();
         }
 
         //overly simple example for success. See other existing lessons for ways to detect 'success' or 'failure'
@@ -32,7 +32,7 @@ public class SampleAttack extends AssignmentEndpoint { // <3>
         }
 
         // else
-        return failed(this) // <8>
+        return builder.failed(this) // <8>
                 .feedback("lesson-template.sample-attack.failure-2")
                 .output("Custom output for this failure scenario, usually html that will get rendered directly ... yes, you can self-xss if you want")
                 .build();

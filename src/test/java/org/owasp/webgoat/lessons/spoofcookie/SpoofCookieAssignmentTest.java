@@ -28,22 +28,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import jakarta.servlet.http.Cookie;
 import java.util.stream.Stream;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -53,20 +48,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
  *
  */
 
-@ExtendWith(MockitoExtension.class)
-class SpoofCookieAssignmentTest extends AssignmentEndpointTest {
+class SpoofCookieAssignmentTest extends LessonTest {
 
-  private MockMvc mockMvc;
   private static final String COOKIE_NAME = "spoof_auth";
   private static final String LOGIN_CONTEXT_PATH = "/SpoofCookie/login";
   private static final String ERASE_COOKIE_CONTEXT_PATH = "/SpoofCookie/cleanup";
-
-  @BeforeEach
-  void setup() {
-    SpoofCookieAssignment spoofCookieAssignment = new SpoofCookieAssignment();
-    init(spoofCookieAssignment);
-    mockMvc = standaloneSetup(spoofCookieAssignment).build();
-  }
 
   @Test
   @DisplayName("Lesson completed")

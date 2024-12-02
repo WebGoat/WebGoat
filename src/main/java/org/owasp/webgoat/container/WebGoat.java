@@ -33,7 +33,6 @@ package org.owasp.webgoat.container;
 
 import java.io.File;
 import org.owasp.webgoat.container.session.LessonSession;
-import org.owasp.webgoat.container.users.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -53,12 +52,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableJpaRepositories(basePackages = {"org.owasp.webgoat.container"})
 @EntityScan(basePackages = "org.owasp.webgoat.container")
 public class WebGoat {
-
-  private final UserRepository userRepository;
-
-  public WebGoat(UserRepository userRepository) {
-    this.userRepository = userRepository;
-  }
 
   @Bean(name = "pluginTargetDirectory")
   public File pluginTargetDirectory(@Value("${webgoat.user.directory}") final String webgoatHome) {

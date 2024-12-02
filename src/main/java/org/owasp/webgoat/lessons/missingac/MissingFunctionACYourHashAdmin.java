@@ -22,6 +22,8 @@
 
 package org.owasp.webgoat.lessons.missingac;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_ADMIN;
 
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;

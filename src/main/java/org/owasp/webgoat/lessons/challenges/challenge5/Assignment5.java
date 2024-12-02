@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.challenges.challenge5;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import lombok.RequiredArgsConstructor;

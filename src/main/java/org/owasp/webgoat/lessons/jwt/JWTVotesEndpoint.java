@@ -25,6 +25,8 @@ package org.owasp.webgoat.lessons.jwt;
 import static java.util.Comparator.comparingLong;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
@@ -72,7 +74,7 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
   private static String validUsers = "TomJerrySylvester";
 
   private static int totalVotes = 38929;
-  private Map<String, Vote> votes = new HashMap<>();
+  private final Map<String, Vote> votes = new HashMap<>();
 
   @PostConstruct
   public void initVotes() {

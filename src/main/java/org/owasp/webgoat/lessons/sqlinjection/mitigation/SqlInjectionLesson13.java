@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.mitigation;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,7 +71,7 @@ public class SqlInjectionLesson13 extends AssignmentEndpoint {
       return failed(this).build();
     } catch (SQLException e) {
       log.error("Failed", e);
-      return (failed(this).build());
+      return failed(this).build();
     }
   }
 }

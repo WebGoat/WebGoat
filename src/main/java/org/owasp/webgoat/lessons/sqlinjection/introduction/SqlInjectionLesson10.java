@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -120,8 +123,7 @@ public class SqlInjectionLesson10 extends AssignmentEndpoint {
       if (errorMsg.contains("object not found: ACCESS_LOG")) {
         return false;
       } else {
-        System.err.println(e.getMessage());
-        return false;
+        return true;
       }
     }
   }

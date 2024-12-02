@@ -28,20 +28,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import jakarta.servlet.http.Cookie;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.owasp.webgoat.lessons.hijacksession.cas.Authentication;
 import org.owasp.webgoat.lessons.hijacksession.cas.HijackSessionAuthenticationProvider;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -50,27 +44,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
  * @author Angel Olle Blazquez
  *
  */
+class HijackSessionAssignmentTest extends LessonTest {
 
-@ExtendWith(MockitoExtension.class)
-class HijackSessionAssignmentTest extends AssignmentEndpointTest {
-
-  private MockMvc mockMvc;
   private static final String COOKIE_NAME = "hijack_cookie";
   private static final String LOGIN_CONTEXT_PATH = "/HijackSession/login";
 
-  @Mock Authentication authenticationMock;
+  @MockBean Authentication authenticationMock;
 
-  @Mock HijackSessionAuthenticationProvider providerMock;
-
-  HijackSessionAssignment assignment;
-
-  @BeforeEach
-  void setup() {
-    assignment = new HijackSessionAssignment();
-    init(assignment);
-    ReflectionTestUtils.setField(assignment, "provider", new HijackSessionAuthenticationProvider());
-    mockMvc = standaloneSetup(assignment).build();
-  }
+  @MockBean HijackSessionAuthenticationProvider providerMock;
 
   @Test
   void testValidCookie() throws Exception {
@@ -78,7 +59,6 @@ class HijackSessionAssignmentTest extends AssignmentEndpointTest {
     lenient()
         .when(providerMock.authenticate(any(Authentication.class)))
         .thenReturn(authenticationMock);
-    ReflectionTestUtils.setField(assignment, "provider", providerMock);
 
     Cookie cookie = new Cookie(COOKIE_NAME, "value");
 
@@ -94,6 +74,10 @@ class HijackSessionAssignmentTest extends AssignmentEndpointTest {
 
   @Test
   void testBlankCookie() throws Exception {
+    lenient().when(authenticationMock.isAuthenticated()).thenReturn(false);
+    lenient()
+        .when(providerMock.authenticate(any(Authentication.class)))
+        .thenReturn(authenticationMock);
     ResultActions result =
         mockMvc.perform(
             MockMvcRequestBuilders.post(LOGIN_CONTEXT_PATH)

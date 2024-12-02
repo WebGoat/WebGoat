@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
@@ -57,5 +58,6 @@ public abstract class LessonTest {
         (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     flywayLessons.apply(user.getUsername()).migrate();
     lessonInitializers.forEach(init -> init.initialize(user));
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 }

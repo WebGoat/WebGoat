@@ -1,5 +1,8 @@
 package org.owasp.webgoat.lessons.pathtraversal;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -41,7 +44,6 @@ import org.springframework.web.bind.annotation.RestController;
 })
 @Slf4j
 public class ProfileUploadRetrieval extends AssignmentEndpoint {
-
   private final File catPicturesDirectory;
 
   public ProfileUploadRetrieval(@Value("${webgoat.server.directory}") String webGoatHomeDirectory) {

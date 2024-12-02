@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.passwordreset;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.UUID;
 import org.owasp.webgoat.container.CurrentUsername;
@@ -47,9 +50,9 @@ import org.springframework.web.client.RestTemplate;
 public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
 
   private final RestTemplate restTemplate;
-  private String webWolfHost;
-  private String webWolfPort;
-  private String webWolfURL;
+  private final String webWolfHost;
+  private final String webWolfPort;
+  private final String webWolfURL;
   private final String webWolfMailURL;
 
   public ResetLinkAssignmentForgotPassword(

@@ -23,6 +23,9 @@
 
 package org.owasp.webgoat.lessons.xss.mitigation;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;

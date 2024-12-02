@@ -22,6 +22,8 @@
 
 package org.owasp.webgoat.lessons.passwordreset;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.springframework.util.StringUtils.hasText;
 
 import com.google.common.collect.Maps;

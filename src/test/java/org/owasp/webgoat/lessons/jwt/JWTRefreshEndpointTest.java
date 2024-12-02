@@ -65,7 +65,6 @@ public class JWTRefreshEndpointTest extends LessonTest {
             .andReturn();
     Map<String, String> tokens =
         objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
-    String accessToken = tokens.get("access_token");
     String refreshToken = tokens.get("refresh_token");
 
     // Now create a new refresh token for Tom based on Toms old access token and send the refresh

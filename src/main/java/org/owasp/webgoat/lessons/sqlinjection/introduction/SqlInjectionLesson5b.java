@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.io.IOException;
 import java.sql.*;
 import org.owasp.webgoat.container.LessonDataSource;

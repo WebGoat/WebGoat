@@ -1,5 +1,8 @@
 package org.owasp.webgoat.lessons.jwt.claimmisuse;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import com.auth0.jwk.JwkException;
 import com.auth0.jwk.JwkProviderBuilder;
 import com.auth0.jwt.JWT;

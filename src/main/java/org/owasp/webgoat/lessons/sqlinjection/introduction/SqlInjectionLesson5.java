@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.ResultSet;

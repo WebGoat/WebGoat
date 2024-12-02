@@ -24,32 +24,16 @@ package org.owasp.webgoat.lessons.xss;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
-import org.owasp.webgoat.lessons.xss.stored.StoredXssComments;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@ExtendWith(MockitoExtension.class)
-class StoredXssCommentsTest extends AssignmentEndpointTest {
-
-  private MockMvc mockMvc;
-
-  @BeforeEach
-  void setup() {
-    StoredXssComments storedXssComments = new StoredXssComments();
-    init(storedXssComments);
-    this.mockMvc = standaloneSetup(storedXssComments).build();
-  }
+class StoredXssCommentsTest extends LessonTest {
 
   @Test
   void success() throws Exception {

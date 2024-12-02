@@ -23,11 +23,13 @@
 
 package org.owasp.webgoat.lessons.idor;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.LessonSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,8 +42,11 @@ import org.springframework.web.bind.annotation.RestController;
   "idor.hints.ownProfileAltUrl3"
 })
 public class IDORViewOwnProfileAltUrl extends AssignmentEndpoint {
+  private final LessonSession userSessionData;
 
-  @Autowired LessonSession userSessionData;
+  public IDORViewOwnProfileAltUrl(LessonSession userSessionData) {
+    this.userSessionData = userSessionData;
+  }
 
   @PostMapping("/IDOR/profile/alt-path")
   @ResponseBody

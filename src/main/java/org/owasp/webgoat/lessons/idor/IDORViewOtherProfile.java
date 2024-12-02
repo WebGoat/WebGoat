@@ -23,12 +23,13 @@
 
 package org.owasp.webgoat.lessons.idor;
 
-import jakarta.servlet.http.HttpServletResponse;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.LessonSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,13 +49,17 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class IDORViewOtherProfile extends AssignmentEndpoint {
 
-  @Autowired LessonSession userSessionData;
+  private final LessonSession userSessionData;
+
+  public IDORViewOtherProfile(LessonSession userSessionData) {
+    this.userSessionData = userSessionData;
+  }
 
   @GetMapping(
       path = "/IDOR/profile/{userId}",
       produces = {"application/json"})
   @ResponseBody
-  public AttackResult completed(@PathVariable("userId") String userId, HttpServletResponse resp) {
+  public AttackResult completed(@PathVariable("userId") String userId) {
 
     Object obj = userSessionData.getValue("idor-authenticated-as");
     if (obj != null && obj.equals("tom")) {

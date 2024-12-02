@@ -24,33 +24,16 @@ package org.owasp.webgoat.lessons.xss;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
-import org.owasp.webgoat.container.session.LessonSession;
-import org.springframework.test.web.servlet.MockMvc;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@ExtendWith(MockitoExtension.class)
-public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
-  private MockMvc mockMvc;
-
-  @BeforeEach
-  public void setup() {
-    LessonSession lessonSession = new LessonSession();
-    DOMCrossSiteScripting domXss = new DOMCrossSiteScripting(lessonSession);
-    init(domXss);
-    this.mockMvc = standaloneSetup(domXss).build();
-    CrossSiteScripting xss = new CrossSiteScripting();
-  }
+public class DOMCrossSiteScriptingTest extends LessonTest {
 
   @Test
-  public void success() throws Exception {
+  void success() throws Exception {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/CrossSiteScripting/phone-home-xss")
@@ -62,7 +45,7 @@ public class DOMCrossSiteScriptingTest extends AssignmentEndpointTest {
   }
 
   @Test
-  public void failure() throws Exception {
+  void failure() throws Exception {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/CrossSiteScripting/phone-home-xss")

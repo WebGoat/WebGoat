@@ -28,10 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
-import org.owasp.webgoat.lessons.sqlinjection.SqlLessonTest;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-public class SqlInjectionLesson6aTest extends SqlLessonTest {
+public class SqlInjectionLesson6aTest extends LessonTest {
 
   @Test
   public void wrongSolution() throws Exception {

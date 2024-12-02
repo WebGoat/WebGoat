@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.xss;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.http.HttpServletRequest;
 import java.security.SecureRandom;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
