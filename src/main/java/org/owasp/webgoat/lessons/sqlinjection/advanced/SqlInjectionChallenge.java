@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.advanced;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.sql.*;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.LessonDataSource;
@@ -42,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints(
     value = {"SqlInjectionChallenge1", "SqlInjectionChallenge2", "SqlInjectionChallenge3"})
 @Slf4j
-public class SqlInjectionChallenge extends AssignmentEndpoint {
+public class SqlInjectionChallenge implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 

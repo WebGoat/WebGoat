@@ -22,7 +22,9 @@
 
 package org.owasp.webgoat.lessons.logging;
 
-import jakarta.annotation.PostConstruct;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.UUID;
@@ -37,14 +39,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LogBleedingTask extends AssignmentEndpoint {
+public class LogBleedingTask implements AssignmentEndpoint {
 
-  Logger log = LoggerFactory.getLogger(this.getClass().getName());
-  private String password;
+  private static final Logger log = LoggerFactory.getLogger(LogBleedingTask.class);
+  private final String password;
 
-  @PostConstruct
-  public void generatePassword() {
-    password = UUID.randomUUID().toString();
+  public LogBleedingTask() {
+    this.password = UUID.randomUUID().toString();
     log.info(
         "Password for admin: {}",
         Base64.getEncoder().encodeToString(password.getBytes(StandardCharsets.UTF_8)));

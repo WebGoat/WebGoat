@@ -24,6 +24,8 @@ package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
 import static java.sql.ResultSet.CONCUR_READ_ONLY;
 import static java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -40,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint3-1", "SqlStringInjectionHint3-2"})
-public class SqlInjectionLesson3 extends AssignmentEndpoint {
+public class SqlInjectionLesson3 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 

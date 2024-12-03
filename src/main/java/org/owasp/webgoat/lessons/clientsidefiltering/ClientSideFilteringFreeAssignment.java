@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.clientsidefiltering;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -40,8 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
   "client.side.filtering.free.hint2",
   "client.side.filtering.free.hint3"
 })
-public class ClientSideFilteringFreeAssignment extends AssignmentEndpoint {
-
+public class ClientSideFilteringFreeAssignment implements AssignmentEndpoint {
   public static final String SUPER_COUPON_CODE = "get_it_for_free";
 
   @PostMapping("/clientSideFiltering/getItForFree")

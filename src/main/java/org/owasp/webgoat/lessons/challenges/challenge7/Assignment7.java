@@ -1,5 +1,7 @@
 package org.owasp.webgoat.lessons.challenges.challenge7;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,7 +31,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @RestController
 @Slf4j
-public class Assignment7 extends AssignmentEndpoint {
+public class Assignment7 implements AssignmentEndpoint {
 
   public static final String ADMIN_PASSWORD_LINK = "375afe1104f4a487a73823c50a9292a2";
 

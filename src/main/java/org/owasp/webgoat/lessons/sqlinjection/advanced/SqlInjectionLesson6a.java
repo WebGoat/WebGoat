@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.advanced;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -46,8 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlStringInjectionHint-advanced-6a-4",
       "SqlStringInjectionHint-advanced-6a-5"
     })
-public class SqlInjectionLesson6a extends AssignmentEndpoint {
-
+public class SqlInjectionLesson6a implements AssignmentEndpoint {
   private final LessonDataSource dataSource;
   private static final String YOUR_QUERY_WAS = "<br> Your query was: ";
 

@@ -23,6 +23,10 @@
 
 package org.owasp.webgoat.lessons.spoofcookie;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -48,7 +52,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AssignmentHints({"spoofcookie.hint1", "spoofcookie.hint2", "spoofcookie.hint3"})
 @RestController
-public class SpoofCookieAssignment extends AssignmentEndpoint {
+public class SpoofCookieAssignment implements AssignmentEndpoint {
 
   private static final String COOKIE_NAME = "spoof_auth";
   private static final String COOKIE_INFO =

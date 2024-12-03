@@ -22,7 +22,9 @@
 
 package org.owasp.webgoat.lessons.challenges;
 
-import lombok.AllArgsConstructor;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,10 +34,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AllArgsConstructor
-public class FlagController extends AssignmentEndpoint {
+public class FlagController implements AssignmentEndpoint {
 
   private final Flags flags;
+
+  public FlagController(Flags flags) {
+    this.flags = flags;
+  }
 
   @PostMapping(path = "/challenge/flag/{flagNumber}")
   @ResponseBody

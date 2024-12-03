@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.mitigation;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
@@ -52,7 +55,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlStringInjectionHint-mitigation-10b-4",
       "SqlStringInjectionHint-mitigation-10b-5"
     })
-public class SqlInjectionLesson10b extends AssignmentEndpoint {
+public class SqlInjectionLesson10b implements AssignmentEndpoint {
 
   @PostMapping("/SqlInjectionMitigations/attack10b")
   @ResponseBody

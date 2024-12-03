@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.csrf;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -32,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"csrf-login-hint1", "csrf-login-hint2", "csrf-login-hint3"})
-public class CSRFLogin extends AssignmentEndpoint {
+public class CSRFLogin implements AssignmentEndpoint {
 
   @PostMapping(
       path = "/csrf/login",

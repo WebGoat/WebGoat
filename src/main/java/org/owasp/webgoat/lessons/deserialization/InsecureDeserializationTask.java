@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.deserialization;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InvalidClassException;
@@ -42,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
   "insecure-deserialization.hints.2",
   "insecure-deserialization.hints.3"
 })
-public class InsecureDeserializationTask extends AssignmentEndpoint {
+public class InsecureDeserializationTask implements AssignmentEndpoint {
 
   @PostMapping("/InsecureDeserialization/task")
   @ResponseBody

@@ -24,6 +24,8 @@ package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
 import static java.sql.ResultSet.CONCUR_UPDATABLE;
 import static java.sql.ResultSet.TYPE_SCROLL_SENSITIVE;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -46,7 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlStringInjectionHint.8.4",
       "SqlStringInjectionHint.8.5"
     })
-public class SqlInjectionLesson8 extends AssignmentEndpoint {
+public class SqlInjectionLesson8 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 

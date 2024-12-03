@@ -28,14 +28,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
-import org.owasp.webgoat.lessons.sqlinjection.SqlLessonTest;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 /**
  * @author Benedikt Stuhrmann
  * @since 11/07/18.
  */
-public class SqlInjectionLesson9Test extends SqlLessonTest {
+public class SqlInjectionLesson9Test extends LessonTest {
 
   private final String completedError = "JSON path \"lessonCompleted\"";
 

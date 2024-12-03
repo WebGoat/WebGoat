@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.xss;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.http.HttpServletRequest;
 import java.security.SecureRandom;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -33,7 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DOMCrossSiteScripting extends AssignmentEndpoint {
+public class DOMCrossSiteScripting implements AssignmentEndpoint {
 
   private final LessonSession lessonSession;
 

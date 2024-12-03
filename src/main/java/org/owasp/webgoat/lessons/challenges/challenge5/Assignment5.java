@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.challenges.challenge5;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-public class Assignment5 extends AssignmentEndpoint {
+public class Assignment5 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
   private final Flags flags;

@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.advanced;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.io.IOException;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -37,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  * implement the quiz go to the quiz.js file in webgoat-container -> js
  */
 @RestController
-public class SqlInjectionQuiz extends AssignmentEndpoint {
+public class SqlInjectionQuiz implements AssignmentEndpoint {
 
   String[] solutions = {"Solution 4", "Solution 3", "Solution 2", "Solution 3", "Solution 4"};
   boolean[] guesses = new boolean[solutions.length];

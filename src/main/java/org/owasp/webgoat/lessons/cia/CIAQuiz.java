@@ -1,5 +1,8 @@
 package org.owasp.webgoat.lessons.cia;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CIAQuiz extends AssignmentEndpoint {
+public class CIAQuiz implements AssignmentEndpoint {
 
-  String[] solutions = {"Solution 3", "Solution 1", "Solution 4", "Solution 2"};
+  private final String[] solutions = {"Solution 3", "Solution 1", "Solution 4", "Solution 2"};
   boolean[] guesses = new boolean[solutions.length];
 
   @PostMapping("/cia/quiz")

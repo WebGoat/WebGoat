@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.xss;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -42,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
       "xss-dom-message-hint-5",
       "xss-dom-message-hint-6"
     })
-public class DOMCrossSiteScriptingVerifier extends AssignmentEndpoint {
+public class DOMCrossSiteScriptingVerifier implements AssignmentEndpoint {
 
   private final LessonSession lessonSession;
 

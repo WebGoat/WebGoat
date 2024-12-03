@@ -1,13 +1,13 @@
 === Step 4: Add an assignment to your lesson
 
 With an assignment, a user can practice within a lesson. A lesson can consist of multiple assignments, each assignment
-needs to extend the class `AssignmentEndpoint`, let's look at an example:
+needs to implement the class `AssignmentEndpoint`, let's look at an example:
 
 [source,java]
 ----
-@RestController // <1>
+import org.owasp.webgoat.container.assignments.AssignmentEndpoint;@RestController // <1>
 @AssignmentHints({"lesson-template.hints.1", "lesson-template.hints.2", "lesson-template.hints.3"}) // <2>
-public class SampleAttack extends AssignmentEndpoint { // <3>
+public class SampleAttack implements AssignmentEndpoint { // <3>
 
     private final String secretValue = "secr37Value";
 
@@ -19,7 +19,7 @@ public class SampleAttack extends AssignmentEndpoint { // <3>
     public AttackResult completed(@RequestParam("param1") String param1, @RequestParam("param2") String param2) { <6>
         if (userSessionData.getValue("some-value") != null) {
             // do any session updating you want here ... or not, just comment/example here
-            //return failed(this).feedback("lesson-template.sample-attack.failure-2").build();
+            //return builder.failed(this).feedback("lesson-template.sample-attack.failure-2").build();
         }
 
         //overly simple example for success. See other existing lessons for ways to detect 'success' or 'failure'
@@ -40,7 +40,7 @@ public class SampleAttack extends AssignmentEndpoint { // <3>
 ----
 <1> Every assignment is just a Spring RestController
 <2> Each assignment can have a list of hints. The actual text needs to be placed in `WebGoatLabels.properties` in the folder `src/main/resources/{lessonName}/i18n`
-<3> Each assignment needs to extend the class `AssignmentEndpoint`, giving you some helpful methods you need when you want to mark an assignment as complete
+<3> Each assignment needs to implement the interface `AssignmentEndpoint`. This is a marker interface, so no methods need to be implemented
 <4> As the assignment is a Spring-based class, you can auto wire every component managed by Spring necessary for the assignment
 <5> Each assignment should at least have one mapping with the method signature (see 6)
 <6> When the user tries to solve an assignment, you need return an `AttackResult`

@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.xss.mitigation;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -32,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints(value = {"xss-mitigation-4-hint1"})
-public class CrossSiteScriptingLesson4 extends AssignmentEndpoint {
+public class CrossSiteScriptingLesson4 implements AssignmentEndpoint {
 
   @PostMapping("/CrossSiteScripting/attack4")
   @ResponseBody

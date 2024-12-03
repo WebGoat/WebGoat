@@ -23,6 +23,9 @@
 
 package org.owasp.webgoat.lessons.idor;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -36,15 +39,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"idor.hints.idor_login"})
-public class IDORLogin extends AssignmentEndpoint {
-
+public class IDORLogin implements AssignmentEndpoint {
   private final LessonSession lessonSession;
 
   public IDORLogin(LessonSession lessonSession) {
     this.lessonSession = lessonSession;
   }
 
-  private Map<String, Map<String, String>> idorUserInfo = new HashMap<>();
+  private final Map<String, Map<String, String>> idorUserInfo = new HashMap<>();
 
   public void initIDORInfo() {
 

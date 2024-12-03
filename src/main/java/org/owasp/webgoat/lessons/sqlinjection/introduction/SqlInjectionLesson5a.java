@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.sql.*;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -34,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint5a1"})
-public class SqlInjectionLesson5a extends AssignmentEndpoint {
+public class SqlInjectionLesson5a implements AssignmentEndpoint {
 
   private static final String EXPLANATION =
       "<br> Explanation: This injection works, because <span style=\"font-style: italic\">or '1' ="

@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.ssrf;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -37,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"ssrf.hint3"})
-public class SSRFTask2 extends AssignmentEndpoint {
+public class SSRFTask2 implements AssignmentEndpoint {
 
   @PostMapping("/SSRF/task2")
   @ResponseBody

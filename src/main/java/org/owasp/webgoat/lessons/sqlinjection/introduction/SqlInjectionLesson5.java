@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -43,7 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlStringInjectionHint5-3",
       "SqlStringInjectionHint5-4"
     })
-public class SqlInjectionLesson5 extends AssignmentEndpoint {
+public class SqlInjectionLesson5 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 

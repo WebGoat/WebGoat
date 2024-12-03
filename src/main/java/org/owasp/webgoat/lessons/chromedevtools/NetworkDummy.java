@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.chromedevtools;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.LessonSession;
@@ -37,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 30.11.18
  */
 @RestController
-public class NetworkDummy extends AssignmentEndpoint {
+public class NetworkDummy implements AssignmentEndpoint {
 
   private final LessonSession lessonSession;
 

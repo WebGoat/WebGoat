@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.cryptography;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -32,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"crypto-encoding-xor.hints.1"})
-public class XOREncodingAssignment extends AssignmentEndpoint {
+public class XOREncodingAssignment implements AssignmentEndpoint {
 
   @PostMapping("/crypto/encoding/xor")
   @ResponseBody

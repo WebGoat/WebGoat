@@ -24,6 +24,8 @@ package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
 import static org.hsqldb.jdbc.JDBCResultSet.CONCUR_UPDATABLE;
 import static org.hsqldb.jdbc.JDBCResultSet.TYPE_SCROLL_SENSITIVE;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -47,7 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlStringInjectionHint.9.4",
       "SqlStringInjectionHint.9.5"
     })
-public class SqlInjectionLesson9 extends AssignmentEndpoint {
+public class SqlInjectionLesson9 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 
@@ -99,7 +101,6 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
               SqlInjectionLesson8.generateTable(this.getEmployeesDataOrderBySalaryDesc(connection)))
           .build();
     } catch (SQLException e) {
-      System.err.println(e.getMessage());
       return failed(this)
           .output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>")
           .build();

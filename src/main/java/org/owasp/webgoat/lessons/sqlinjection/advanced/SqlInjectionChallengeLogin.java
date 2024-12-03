@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.advanced;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -39,8 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlInjectionChallengeHint3",
       "SqlInjectionChallengeHint4"
     })
-public class SqlInjectionChallengeLogin extends AssignmentEndpoint {
-
+public class SqlInjectionChallengeLogin implements AssignmentEndpoint {
   private final LessonDataSource dataSource;
 
   public SqlInjectionChallengeLogin(LessonDataSource dataSource) {

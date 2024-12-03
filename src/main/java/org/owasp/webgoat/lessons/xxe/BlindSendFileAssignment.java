@@ -2,6 +2,8 @@ package org.owasp.webgoat.lessons.xxe;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -58,7 +60,7 @@ import org.springframework.web.bind.annotation.RestController;
   "xxe.blind.hints.4",
   "xxe.blind.hints.5"
 })
-public class BlindSendFileAssignment extends AssignmentEndpoint implements Initializable {
+public class BlindSendFileAssignment implements AssignmentEndpoint, Initializable {
 
   private final String webGoatHomeDirectory;
   private final CommentsCache comments;

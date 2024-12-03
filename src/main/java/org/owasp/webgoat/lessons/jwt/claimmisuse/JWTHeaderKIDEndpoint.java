@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.jwt.claimmisuse;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwt;
@@ -53,8 +56,7 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-kid-hint6"
 })
 @RequestMapping("/JWT/")
-public class JWTHeaderKIDEndpoint extends AssignmentEndpoint {
-
+public class JWTHeaderKIDEndpoint implements AssignmentEndpoint {
   private final LessonDataSource dataSource;
 
   private JWTHeaderKIDEndpoint(LessonDataSource dataSource) {

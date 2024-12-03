@@ -23,12 +23,13 @@
 package org.owasp.webgoat.lessons.passwordreset;
 
 import static java.util.Optional.of;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,9 +42,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 11.12.18
  */
 @RestController
-public class SecurityQuestionAssignment extends AssignmentEndpoint {
+public class SecurityQuestionAssignment implements AssignmentEndpoint {
 
-  @Autowired private TriedQuestions triedQuestions;
+  private final TriedQuestions triedQuestions;
 
   private static Map<String, String> questions;
 
@@ -88,6 +89,10 @@ public class SecurityQuestionAssignment extends AssignmentEndpoint {
         "On which wrist do you wear your watch?",
         "There are only to possible real answers, so really easy to guess.");
     questions.put("What is your favorite color?", "Can easily be guessed.");
+  }
+
+  public SecurityQuestionAssignment(TriedQuestions triedQuestions) {
+    this.triedQuestions = triedQuestions;
   }
 
   @PostMapping("/PasswordReset/SecurityQuestions")

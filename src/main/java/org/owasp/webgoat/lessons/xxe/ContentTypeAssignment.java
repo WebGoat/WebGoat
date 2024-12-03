@@ -24,6 +24,8 @@ package org.owasp.webgoat.lessons.xxe;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +38,6 @@ import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.users.WebGoatUser;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,15 +47,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"xxe.hints.content.type.xxe.1", "xxe.hints.content.type.xxe.2"})
-public class ContentTypeAssignment extends AssignmentEndpoint {
+public class ContentTypeAssignment implements AssignmentEndpoint {
 
   private static final String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
   private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {
     "Windows", "Program Files (x86)", "Program Files", "pagefile.sys"
   };
-
-  @Value("${webgoat.server.directory}")
-  private String webGoatHomeDirectory;
 
   private final CommentsCache comments;
 

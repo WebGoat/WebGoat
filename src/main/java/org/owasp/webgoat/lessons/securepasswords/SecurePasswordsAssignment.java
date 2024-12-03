@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.securepasswords;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
 import java.text.DecimalFormat;
@@ -35,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SecurePasswordsAssignment extends AssignmentEndpoint {
+public class SecurePasswordsAssignment implements AssignmentEndpoint {
 
   @PostMapping("SecurePasswords/assignment")
   @ResponseBody

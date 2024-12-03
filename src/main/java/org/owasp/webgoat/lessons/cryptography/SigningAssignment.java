@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.cryptography;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.http.HttpServletRequest;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
@@ -47,7 +50,7 @@ import org.springframework.web.bind.annotation.RestController;
   "crypto-signing.hints.4"
 })
 @Slf4j
-public class SigningAssignment extends AssignmentEndpoint {
+public class SigningAssignment implements AssignmentEndpoint {
 
   @RequestMapping(path = "/crypto/signing/getprivate", produces = MediaType.TEXT_HTML_VALUE)
   @ResponseBody

@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.csrf;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
@@ -34,7 +37,6 @@ import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.LessonSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,10 +46,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"csrf-feedback-hint1", "csrf-feedback-hint2", "csrf-feedback-hint3"})
-public class CSRFFeedback extends AssignmentEndpoint {
+public class CSRFFeedback implements AssignmentEndpoint {
 
-  @Autowired private LessonSession userSessionData;
-  @Autowired private ObjectMapper objectMapper;
+  private final LessonSession userSessionData;
+  private final ObjectMapper objectMapper;
+
+  public CSRFFeedback(LessonSession userSessionData, ObjectMapper objectMapper) {
+    this.userSessionData = userSessionData;
+    this.objectMapper = objectMapper;
+  }
 
   @PostMapping(
       value = "/csrf/feedback/message",

@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.bypassrestrictions;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class BypassRestrictionsFieldRestrictions extends AssignmentEndpoint {
+public class BypassRestrictionsFieldRestrictions implements AssignmentEndpoint {
 
   @PostMapping("/BypassRestrictions/FieldRestrictions")
   @ResponseBody

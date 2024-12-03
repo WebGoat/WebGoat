@@ -23,11 +23,13 @@
 
 package org.owasp.webgoat.lessons.idor;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.LessonSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,9 +48,13 @@ import org.springframework.web.bind.annotation.RestController;
   "idor.hints.otherProfile8",
   "idor.hints.otherProfile9"
 })
-public class IDOREditOtherProfile extends AssignmentEndpoint {
+public class IDOREditOtherProfile implements AssignmentEndpoint {
 
-  @Autowired private LessonSession userSessionData;
+  private final LessonSession userSessionData;
+
+  public IDOREditOtherProfile(LessonSession lessonSession) {
+    this.userSessionData = lessonSession;
+  }
 
   @PutMapping(path = "/IDOR/profile/{userId}", consumes = "application/json")
   @ResponseBody

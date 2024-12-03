@@ -22,13 +22,15 @@
 
 package org.owasp.webgoat.lessons.lessontemplate;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.LessonSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,12 +41,14 @@ import org.springframework.web.bind.annotation.RestController;
 /** Created by jason on 1/5/17. */
 @RestController
 @AssignmentHints({"lesson-template.hints.1", "lesson-template.hints.2", "lesson-template.hints.3"})
-public class SampleAttack extends AssignmentEndpoint {
+public class SampleAttack implements AssignmentEndpoint {
+  private static final String secretValue = "secr37Value";
 
-  String secretValue = "secr37Value";
+  private final LessonSession userSessionData;
 
-  // UserSessionData is bound to session and can be used to persist data across multiple assignments
-  @Autowired LessonSession userSessionData;
+  public SampleAttack(LessonSession userSessionData) {
+    this.userSessionData = userSessionData;
+  }
 
   @PostMapping("/lesson-template/sample-attack")
   @ResponseBody

@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.xss.stored;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.LessonSession;
@@ -32,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** Created by jason on 11/23/16. */
 @RestController
-public class StoredCrossSiteScriptingVerifier extends AssignmentEndpoint {
+public class StoredCrossSiteScriptingVerifier implements AssignmentEndpoint {
 
   private final LessonSession lessonSession;
 

@@ -22,13 +22,15 @@
 
 package org.owasp.webgoat.lessons.xss;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.session.LessonSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,13 +44,18 @@ import org.springframework.web.bind.annotation.RestController;
       "xss-reflected-5a-hint-3",
       "xss-reflected-5a-hint-4"
     })
-public class CrossSiteScriptingLesson5a extends AssignmentEndpoint {
+public class CrossSiteScriptingLesson5a implements AssignmentEndpoint {
 
   public static final Predicate<String> XSS_PATTERN =
       Pattern.compile(
               ".*<script>(console\\.log|alert)\\(.*\\);?</script>.*", Pattern.CASE_INSENSITIVE)
           .asMatchPredicate();
-  @Autowired LessonSession userSessionData;
+
+  private final LessonSession userSessionData;
+
+  public CrossSiteScriptingLesson5a(LessonSession lessonSession) {
+    this.userSessionData = lessonSession;
+  }
 
   @GetMapping("/CrossSiteScripting/attack5a")
   @ResponseBody

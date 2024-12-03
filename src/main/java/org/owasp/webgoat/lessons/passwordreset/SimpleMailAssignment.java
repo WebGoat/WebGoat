@@ -23,6 +23,9 @@
 package org.owasp.webgoat.lessons.passwordreset;
 
 import static java.util.Optional.ofNullable;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
@@ -43,8 +46,7 @@ import org.springframework.web.client.RestTemplate;
  * @since 8/20/17.
  */
 @RestController
-public class SimpleMailAssignment extends AssignmentEndpoint {
-
+public class SimpleMailAssignment implements AssignmentEndpoint {
   private final String webWolfURL;
   private RestTemplate restTemplate;
 

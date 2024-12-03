@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.jwt;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
@@ -44,7 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"jwt-secret-hint1", "jwt-secret-hint2", "jwt-secret-hint3"})
-public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
+public class JWTSecretKeyEndpoint implements AssignmentEndpoint {
 
   public static final String[] SECRETS = {
     "victory", "business", "available", "shipping", "washington"

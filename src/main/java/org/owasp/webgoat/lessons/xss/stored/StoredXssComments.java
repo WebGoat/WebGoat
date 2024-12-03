@@ -22,6 +22,8 @@
 
 package org.owasp.webgoat.lessons.xss.stored;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.springframework.http.MediaType.ALL_VALUE;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,9 +49,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class StoredXssComments extends AssignmentEndpoint {
+public class StoredXssComments implements AssignmentEndpoint {
 
-  private static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
+  private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
 
   private static final Map<String, List<Comment>> userComments = new HashMap<>();
   private static final List<Comment> comments = new ArrayList<>();

@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.clientsidefiltering;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -37,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
   "ClientSideFilteringHint3",
   "ClientSideFilteringHint4"
 })
-public class ClientSideFilteringAssignment extends AssignmentEndpoint {
+public class ClientSideFilteringAssignment implements AssignmentEndpoint {
 
   @PostMapping("/clientSideFiltering/attack1")
   @ResponseBody

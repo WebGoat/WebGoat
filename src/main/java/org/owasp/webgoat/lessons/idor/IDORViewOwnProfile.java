@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.session.LessonSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +35,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class IDORViewOwnProfile {
 
-  @Autowired LessonSession userSessionData;
+  private final LessonSession userSessionData;
+
+  public IDORViewOwnProfile(LessonSession userSessionData) {
+    this.userSessionData = userSessionData;
+  }
 
   @GetMapping(
       path = {"/IDOR/own", "/IDOR/profile"},
@@ -60,7 +63,7 @@ public class IDORViewOwnProfile {
             "You do not have privileges to view the profile. Authenticate as tom first please.");
       }
     } catch (Exception ex) {
-      log.error("something went wrong", ex.getMessage());
+      log.error("something went wrong: {}", ex.getMessage());
     }
     return details;
   }

@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.authbypass;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -46,7 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
   "auth-bypass.hints.verify.3",
   "auth-bypass.hints.verify.4"
 })
-public class VerifyAccount extends AssignmentEndpoint {
+public class VerifyAccount implements AssignmentEndpoint {
 
   private final LessonSession userSessionData;
 

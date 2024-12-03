@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.httpbasics;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AssignmentPath;
@@ -34,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AssignmentHints({"http-basics.hints.http_basic_quiz.1", "http-basics.hints.http_basic_quiz.2"})
 @AssignmentPath("HttpBasics/attack2")
-public class HttpBasicsQuiz extends AssignmentEndpoint {
+public class HttpBasicsQuiz implements AssignmentEndpoint {
 
   @PostMapping("/HttpBasics/attack2")
   @ResponseBody
