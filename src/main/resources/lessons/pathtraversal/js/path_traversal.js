@@ -1,3 +1,16 @@
+
+function sanitizeContent(content) {
+    if (typeof content === 'string') {
+        return DOMPurify.sanitize(content);
+    } else if (window?.jQuery && content instanceof window.jQuery) {
+        var originalHtml = content.prop('outerHTML');
+        var sanitizedHtml = DOMPurify.sanitize(originalHtml);
+        if (sanitizedHtml !== originalHtml) {
+            throw new Error("The content contains potentially unsafe HTML.");
+        }
+    }
+    return content;
+}
 webgoat.customjs.profileUpload = function () {
 
     var picture = document.getElementById("uploadedFile").files[0];
@@ -5,7 +18,7 @@ webgoat.customjs.profileUpload = function () {
     formData.append("uploadedFile", picture);
     formData.append("fullName", $("#fullName").val());
     formData.append("email", $("#email").val());
-    formData.append("password", $("#password").val());
+    formData.append("password", sanitizeContent($("#password").val()));
     return formData;
 }
 
