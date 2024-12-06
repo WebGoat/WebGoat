@@ -9,6 +9,7 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
 [![JFrog SAST Scan](https://github.com/chriswhateley/WebGoat/actions/workflows/jfrog-sast.yml/badge.svg)](https://github.com/chriswhateley/WebGoat/actions/workflows/jfrog-sast.yml)
+[![Frogbot Scan Pull Request](https://github.com/chriswhateley/WebGoat/actions/workflows/frogbot-scan-pr.yml/badge.svg)](https://github.com/chriswhateley/WebGoat/actions/workflows/frogbot-scan-pr.yml)
 
 # Introduction
 
