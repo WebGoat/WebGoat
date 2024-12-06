@@ -17,6 +17,7 @@ on:
     - cron: '17 17 * * 3'
 
 env:
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
   # [Mandatory]
   # JFrog platform URL and access token for
   # a JFrog platform instance with active
@@ -27,6 +28,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+    environment: frogbot
     permissions:
       actions: read
       contents: read
