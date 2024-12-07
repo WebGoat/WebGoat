@@ -1,0 +1,28 @@
+services:
+  app:
+    image: webgoat/webgoat
+    ports:
+      - "8080:8080"
+      - "9091:9090"
+    environment:
+      - WEBGOAT_HOST=www.webgoat.local
+      - WEBWOLF_HOST=www.webwolf.local
+    volumes:
+      - ./webgoat-data:/home/webgoat/.webgoat
+    restart: always
+    #command: /home/webgoat/start.sh
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+
+  #docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e WEBGOAT_HOST=www.webgoat.local -e WEBWOLF_HOST=www.webwolf.local -e TZ=America/Boise webgoat/webgoat
+  #make euqivalent of dockerfile + command above in this file
+
+
