@@ -58,6 +58,9 @@ TestClass.class
 
 webgoat.gitconfig
 
-terraform/*
-!terraform/*.tf
-!terraform/*.tfvars
+terraform/minikube/*
+!terraform/minikube/*.tf
+!terraform/minikube/*.tfvars
+terraform/aks/*
+!terraform/aks/*.tf
+!terraform/aks/*.tfvars
