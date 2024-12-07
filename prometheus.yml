@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s # How often to scrape targets by default
+  evaluation_interval: 15s # How often to evaluate rules
+  scrape_timeout: 10s # Timeout for each scrape
+
+scrape_configs:
+  # Scrape Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Scrape WebGoat app
+  - job_name: 'webgoat'
+    static_configs:
+      - targets: ['app:8080']
