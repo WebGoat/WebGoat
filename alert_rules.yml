@@ -2,13 +2,14 @@ groups:
   - name: critical-alerts
     rules:
       - alert: HighCPUUsage
-        expr: sum(rate(container_cpu_usage_seconds_total[1m])) by (instance) > 0.9
+        expr: (sum by (instance) (avg by (mode, instance) (rate(node_cpu_seconds_total{mode!="idle"}[2m]))) > 0.1)
         for: 1m
         labels:
           severity: critical
         annotations:
           summary: "High CPU usage detected on {{ $labels.instance }}"
           description: "CPU usage is above 90% for the past minute on instance {{ $labels.instance }}."
+        #yes > /dev/null &
 
       - alert: HighMemoryUsage
         expr: sum(container_memory_working_set_bytes / container_spec_memory_limit_bytes) by (instance) > 0.9

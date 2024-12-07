@@ -9,7 +9,7 @@ alerting:
         - targets: ['alertmanager:9093']
 
 rule_files:
-  - "alert_rules.yml" # Define alert rules here
+  - "alert_rules.yml"
 
 scrape_configs:
   # Scrape Prometheus itself
