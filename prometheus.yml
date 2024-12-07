@@ -20,7 +20,7 @@ scrape_configs:
   # Scrape WebGoat app
   - job_name: 'webgoat'
     static_configs:
-      - targets: ['app:8080']
+      - targets: ['localhost:8080']
 
   # Scrape Kubernetes metrics from kube-state-metrics
   #- job_name: 'kube-state-metrics'
