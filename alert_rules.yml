@@ -1,0 +1,29 @@
+groups:
+  - name: critical-alerts
+    rules:
+      - alert: HighCPUUsage
+        expr: sum(rate(container_cpu_usage_seconds_total[1m])) by (instance) > 0.9
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High CPU usage detected on {{ $labels.instance }}"
+          description: "CPU usage is above 90% for the past minute on instance {{ $labels.instance }}."
+
+      - alert: HighMemoryUsage
+        expr: sum(container_memory_working_set_bytes / container_spec_memory_limit_bytes) by (instance) > 0.9
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High memory usage detected on {{ $labels.instance }}"
+          description: "Memory usage is above 90% for the past minute on instance {{ $labels.instance }}."
+
+      - alert: DiskSpaceRunningOut
+        expr: node_filesystem_free_bytes / node_filesystem_size_bytes < 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Less than 10% disk space remaining on {{ $labels.instance }}."
