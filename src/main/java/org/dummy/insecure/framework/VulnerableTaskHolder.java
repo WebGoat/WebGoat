@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class VulnerableTaskHolder implements Serializable {
 
   private static final long serialVersionUID = 2;
-
+  public String password = "password1234";
   private String taskName;
   private String taskAction;
   private LocalDateTime requestedExecutionTime;
