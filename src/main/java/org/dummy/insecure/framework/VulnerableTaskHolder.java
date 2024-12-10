@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class VulnerableTaskHolder implements Serializable {
 
   private static final long serialVersionUID = 2;
-  public String password = "password1234";
+  public static String password = "password1234";
   private String taskName;
   private String taskAction;
   private LocalDateTime requestedExecutionTime;
@@ -48,6 +48,7 @@ public class VulnerableTaskHolder implements Serializable {
     // do something with the data
     log.info("restoring task: {}", taskName);
     log.info("restoring time: {}", requestedExecutionTime);
+    log.info("Using hardcoded password to prevent it being optimized out {}", password);
 
     if (requestedExecutionTime != null
         && (requestedExecutionTime.isBefore(LocalDateTime.now().minusMinutes(10))
