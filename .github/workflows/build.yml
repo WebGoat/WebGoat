@@ -28,8 +28,7 @@ jobs:
                     distribution: 'temurin'
                     java-version: '21'
             -   name: Pre-commit checks
-                uses: pre-commit/action@v3.0.0
-                continue-on-error: true
+                uses: pre-commit/action@v3.0.1
             -   name: pre-commit-ci-lite
                 uses: pre-commit-ci/lite-action@v1.1.0
                 if: always()
@@ -43,8 +42,6 @@ jobs:
             max-parallel: 1
         steps:
             -   uses: actions/checkout@v4.1.6
-            -   name: Build application
-                run: mvn clean package
             -   name: Set up JDK 21
                 uses: actions/setup-java@v4.2.1
                 with:
@@ -100,5 +97,3 @@ jobs:
               uses: SonarSource/sonarcloud-github-action@master
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-              
-        
