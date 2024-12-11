@@ -1,0 +1,29 @@
+name: Discord Alert
+
+on:
+    workflow_call:
+    workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run tests
+        run: |
+          echo "Running tests..."
+          # Simule un échec pour tester les alertes
+          exit 1
+
+    # Ajout d'un bloc pour envoyer une alerte en cas d'échec
+    if: failure()
+    steps:
+      - name: Send Discord alert
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d '{"content": "❌ Le workflow GitHub a échoué sur la branche **${{ github.ref_name }}**. Consultez les logs : ${{ github.run_url }}"}' \
+               $WEBHOOK_URL
