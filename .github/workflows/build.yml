@@ -27,6 +27,14 @@ jobs:
                     java-version: '21'
             -   name: Pre-commit checks
                 uses: pre-commit/action@v3.0.0
+            -   name: Commit changes
+                if: always()
+                run: |
+                    git config --global user.email "zzhibo98@gmail.com"
+                    git config --global user.name "GitHub Actions"
+                    git add .
+                    git commit -m "Apply pre-commit fixes" || echo "No changes to commit"
+                    git push
             -   name: pre-commit-ci-lite
                 uses: pre-commit-ci/lite-action@v1.1.0
                 if: always()
