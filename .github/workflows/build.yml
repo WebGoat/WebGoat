@@ -9,7 +9,9 @@ on:
     push:
         branches:
             - main
-
+permissions:
+  contents: write
+  workflows: write
 jobs:
     pre-commit:
         name: Pre-commit check
