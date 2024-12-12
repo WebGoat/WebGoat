@@ -101,4 +101,3 @@ jobs:
                   -Dsonar.organization=mlevrais
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
