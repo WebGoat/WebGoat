@@ -1,0 +1,28 @@
+name: "Pre-commit check"
+on:
+    push:
+        branches:
+            - main
+            - releases/*
+            - sonarcloud
+
+jobs:
+    pre-commit:
+        name: Pre-commit check
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout git repository
+                uses: actions/checkout@v4.1.6
+            -   name: Setup python
+                uses: actions/setup-python@v5
+                with:
+                    python-version: "3.9"
+            -   uses: actions/setup-java@v4
+                with:
+                    distribution: 'temurin'
+                    java-version: '21'
+            -   name: Pre-commit checks
+                uses: pre-commit/action@v3.0.1
+            -   name: pre-commit-ci-lite
+                uses: pre-commit-ci/lite-action@v1.1.0
+                if: always()
