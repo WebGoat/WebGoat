@@ -95,5 +95,10 @@ jobs:
                 fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
             - name: SonarCloud Scan
               uses: SonarSource/sonarcloud-github-action@master
+              with:
+                args: >
+                  -Dsonar.projectKey=mlevrais_LOG8100_WebGoat
+                  -Dsonar.organization=mlevrais
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
