@@ -40,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
-import org.owasp.webgoat.container.lessons.LessonScanner;
 import org.owasp.webgoat.container.session.LabelDebugger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -73,8 +72,6 @@ import org.thymeleaf.templateresource.StringTemplateResource;
 public class MvcConfiguration implements WebMvcConfigurer {
 
   private static final String UTF8 = "UTF-8";
-
-  private final LessonScanner lessonScanner;
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
@@ -187,28 +184,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     registry
         .addResourceHandler("/fonts/**")
         .addResourceLocations("classpath:/webgoat/static/fonts/");
-
-    // WebGoat lessons
-    registry
-        .addResourceHandler("/images/**")
-        .addResourceLocations(
-            lessonScanner.applyPattern("classpath:/lessons/%s/images/").toArray(String[]::new));
-    registry
-        .addResourceHandler("/lesson_js/**")
-        .addResourceLocations(
-            lessonScanner.applyPattern("classpath:/lessons/%s/js/").toArray(String[]::new));
-    registry
-        .addResourceHandler("/lesson_css/**")
-        .addResourceLocations(
-            lessonScanner.applyPattern("classpath:/lessons/%s/css/").toArray(String[]::new));
-    registry
-        .addResourceHandler("/lesson_templates/**")
-        .addResourceLocations(
-            lessonScanner.applyPattern("classpath:/lessons/%s/templates/").toArray(String[]::new));
-    registry
-        .addResourceHandler("/video/**")
-        .addResourceLocations(
-            lessonScanner.applyPattern("classpath:/lessons/%s/video/").toArray(String[]::new));
   }
 
   @Bean

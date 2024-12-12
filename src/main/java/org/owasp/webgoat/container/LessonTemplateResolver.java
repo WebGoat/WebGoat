@@ -55,8 +55,8 @@ import org.thymeleaf.templateresource.StringTemplateResource;
 public class LessonTemplateResolver extends FileTemplateResolver {
 
   private static final String PREFIX = "lesson:";
-  private ResourceLoader resourceLoader;
-  private Map<String, byte[]> resources = new HashMap<>();
+  private final ResourceLoader resourceLoader;
+  private final Map<String, byte[]> resources = new HashMap<>();
 
   public LessonTemplateResolver(ResourceLoader resourceLoader) {
     this.resourceLoader = resourceLoader;
