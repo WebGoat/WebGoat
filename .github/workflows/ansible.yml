@@ -45,12 +45,12 @@ jobs:
         working-directory: ./terraform/gke
         run: |
           terraform import google_compute_network.vpc projects/${{ secrets.PROJECT_ID }}/global/networks/${{ secrets.GKE_VPC }}
-          terraform import google_compute_subnetwork.subnet ${{ secrets.PROJECT_ID }}/${{ secrets.PROJECT_ID }}/${{ secrets.GKE_SUBNET }}
-          terraform import google_container_cluster.primary projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.PROJECT_ID }}/clusters/${{ secrets.GKE_CLUSTER }}
-          terraform import google_container_node_pool.primary_nodes projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.PROJECT_ID }}/clusters/${{ secrets.GKE_CLUSTER }}/nodePools/${{ secrets.GKE_CLUSTER }}
+          terraform import google_compute_subnetwork.subnet ${{ secrets.PROJECT_ID }}/${{ secrets.GKE_REGION }}/${{ secrets.GKE_SUBNET }}
+          terraform import google_container_cluster.primary projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.GKE_REGION }}/clusters/${{ secrets.GKE_CLUSTER }}
+          terraform import google_container_node_pool.primary_nodes projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.GKE_REGION }}/clusters/${{ secrets.GKE_CLUSTER }}/nodePools/${{ secrets.GKE_CLUSTER }}
       - name: Apply terraform config
         working-directory: ./terraform/gke
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var="project_id=${{ secrets.PROJECT_ID }}" -var="${{ secrets.GKE_REGION }}"
   configure-cluster:
     runs-on: ubuntu-latest
     permissions:
