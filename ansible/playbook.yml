@@ -80,20 +80,7 @@
         release_namespace: webgoat
         state: present
         values:
-          prometheus.prometheusSpec.scrapeInterval: "15s"
-          prometheus.prometheusSpec.retention: "15d"
-          prometheus.prometheusSpec.additionalScrapeConfigs:
-            - job_name: 'kubernetes-nodes'
-              kubernetes_sd_configs:
-                - role: node
-            - job_name: 'kubernetes-pods'
-              kubernetes_sd_configs:
-                - role: pod
-          prometheus.prometheusSpec.alertingConfig:
-            alertmanagers:
-              - static_configs:
-                  - targets:
-                    - 'alertmanager.monitoring.svc:9093'
+          - ./prometheus.yaml  # Reference your custom values.yaml
 
     - name: Install kube-state-metrics using Helm
       kubernetes.core.helm:

@@ -9,54 +9,54 @@ on:
         - main
 
 jobs:
-  provision-cluster:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
-        with:
-          version: '>= 363.0.0'
-      - name: Setup google cloud SDK
-        run: |
-          gcloud config set project ${{ secrets.PROJECT_ID }}
-          gcloud components install gke-gcloud-auth-plugin
-          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --region=${{ secrets.GKE_REGION }}
-      - name: Install Terraform
-        run: |
-          sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
-          wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
-          gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
-          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          sudo apt update
-          sudo apt-get install terraform
-      - name: Initialize terraform
-        working-directory: ./terraform/gke
-        run: terraform init -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}"
-      - name: Import cluster
-        working-directory: ./terraform/gke
-        env:
-          PROJECT_ID: ${{ secrets.PROJECT_ID }}
-          REGION: ${{ secrets.GKE_REGION }}
-        run: |
-          terraform import -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}" google_compute_network.vpc projects/${{ secrets.PROJECT_ID }}/global/networks/${{ secrets.PROJECT_ID }}-vpc
-          terraform import -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}" google_compute_subnetwork.subnet ${{ secrets.PROJECT_ID }}/${{ secrets.GKE_REGION }}/${{ secrets.PROJECT_ID }}-subnet
-          terraform import -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}" google_container_cluster.primary projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.GKE_REGION }}/clusters/${{ secrets.GKE_CLUSTER }}
-          terraform import -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}" google_container_node_pool.primary_nodes projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.GKE_REGION }}/clusters/${{ secrets.GKE_CLUSTER }}/nodePools/${{ secrets.GKE_CLUSTER }}
-      - name: Apply terraform config
-        working-directory: ./terraform/gke
-        run: terraform apply -auto-approve -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}"
+  # provision-cluster:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: 'read'
+  #     id-token: 'write'
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v3
+  #     - id: 'auth'
+  #       uses: 'google-github-actions/auth@v2'
+  #       with:
+  #         credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+  #     - name: 'Set up Cloud SDK'
+  #       uses: 'google-github-actions/setup-gcloud@v2'
+  #       with:
+  #         version: '>= 363.0.0'
+  #     - name: Setup google cloud SDK
+  #       run: |
+  #         gcloud config set project ${{ secrets.PROJECT_ID }}
+  #         gcloud components install gke-gcloud-auth-plugin
+  #         gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --region=${{ secrets.GKE_REGION }}
+  #     - name: Install Terraform
+  #       run: |
+  #         sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+  #         wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+  #         gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
+  #         echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+  #         sudo apt update
+  #         sudo apt-get install terraform
+  #     - name: Initialize terraform
+  #       working-directory: ./terraform/gke
+  #       run: terraform init -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}"
+  #     - name: Import cluster
+  #       working-directory: ./terraform/gke
+  #       env:
+  #         PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  #         REGION: ${{ secrets.GKE_REGION }}
+  #       run: |
+  #         terraform import -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}" google_compute_network.vpc projects/${{ secrets.PROJECT_ID }}/global/networks/${{ secrets.PROJECT_ID }}-vpc
+  #         terraform import -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}" google_compute_subnetwork.subnet ${{ secrets.PROJECT_ID }}/${{ secrets.GKE_REGION }}/${{ secrets.PROJECT_ID }}-subnet
+  #         terraform import -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}" google_container_cluster.primary projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.GKE_REGION }}/clusters/${{ secrets.GKE_CLUSTER }}
+  #         terraform import -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}" google_container_node_pool.primary_nodes projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.GKE_REGION }}/clusters/${{ secrets.GKE_CLUSTER }}/nodePools/${{ secrets.GKE_CLUSTER }}
+  #     - name: Apply terraform config
+  #       working-directory: ./terraform/gke
+  #       run: terraform apply -auto-approve -var="project_id=${{ secrets.PROJECT_ID }}" -var="region=${{ secrets.GKE_REGION }}"
   configure-cluster:
     runs-on: ubuntu-latest
-    needs: provision-cluster
+    # needs: provision-cluster
     permissions:
       contents: 'read'
       id-token: 'write'
