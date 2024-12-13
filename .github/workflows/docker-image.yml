@@ -16,6 +16,62 @@ on:
       - releases/*
 
 jobs:
+  build_and_scan:
+    name: Build and Scan Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build application
+        run: mvn clean package
+
+      - name: Build Docker image
+        id: build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile
+          push: false # Do not push yet
+          tags: temporary-image:latest
+
+      - name: Save Docker image to file
+        run: docker save -o temporary-image.tar temporary-image:latest
+
+      - name: Install Docker Scout
+        run: |
+          curl -fsSL https://github.com/docker/scout-cli/releases/download/v1.15.1/docker-scout_1.15.1_linux_amd64.tar.gz -o docker-scout.tar.gz
+          tar -xvf docker-scout.tar.gz
+          mv docker-scout /usr/local/bin/
+          chmod +x /usr/local/bin/docker-scout
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Scan with Docker Scout
+        run: docker-scout cves temporary-image:latest || echo "Docker Scout scan skipped."
+
+      - name: Scan with Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        env:
+          TRIVY_TIMEOUT: 20m
+          TRIVY_LOG_LEVEL: DEBUG
+        with:
+          image-ref: temporary-image:latest
+          severity: HIGH,CRITICAL
+          format: table
+          # exit-code: 1 # Uncomment if we want to stop pushing when HIGH and CRITICAL vulnerabilities are detected
+
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -56,9 +112,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          #build-args: |
-          #  POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-          #  POSTGRES_DB=${{ secrets.POSTGRES_DATABASE }}
-          #  POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
-          #  POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
-          #  POSTGRES_USER=${{ secrets.POSTGRES_USER }}
