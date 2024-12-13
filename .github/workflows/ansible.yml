@@ -1,69 +1,86 @@
-name: Ansible files & Deployment
+name: Cluster configuration and deployment
 
 on:
   # Use this to test on your PR branch
-  # pull_request:
-  #   branches: [ main ]
+  pull_request:
+    branches: [ main ]
   push:
     branches:
         - main
 
 jobs:
-  run-ansible:
+  provision-cluster:
     runs-on: ubuntu-latest
-
     permissions:
       contents: 'read'
       id-token: 'write'
-
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      # Configure GoogleCloud SDK to coonect to cluster
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
-
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
           version: '>= 363.0.0'
-
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-
-      - name: 'Set project'
-        run: 'gcloud config set project webgoat-444403'
-
-      - name: 'Set up gke-gcloud-auth-plugin'
-        run: 'gcloud components install gke-gcloud-auth-plugin'
-
-      - name: 'Get gcloud credentials'
-        run: 'gcloud container clusters get-credentials webgoat-444403-gke --region=us-central1'
-
-      # Step 2: Set up Python (needed to install Ansible)
+      - name: Setup google cloud SDK
+        run: |
+          gcloud config set project webgoat-444403
+          gcloud components install gke-gcloud-auth-plugin
+          gcloud container clusters get-credentials webgoat-444403-gke --region=us-central1
+      - name: Install Terraform
+        run: |
+          sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+          wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+          gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt update
+          sudo apt-get install terraform
+      - name: Initialize terraform
+        working-directory: ./terraform/gke
+        run: terraform init
+      - name: Import cluster
+        working-directory: ./terraform/gke
+        run: |
+          terraform import google_compute_network.vpc projects/webgoat-444403/global/networks/webgoat-444403-vpc
+          terraform import google_compute_subnetwork.subnet webgoat-444403/us-central1/webgoat-444403-subnet
+          terraform import google_container_cluster.primary projects/webgoat-444403/locations/us-central1/clusters/webgoat-444403-gke
+          terraform import google_container_node_pool.primary_nodes projects/webgoat-444403/locations/us-central1/clusters/webgoat-444403-gke/nodePools/webgoat-444403-gke
+      - name: Apply terraform config
+        working-directory: ./terraform/gke
+        run: terraform apply -auto-approve
+  configure-cluster:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-
-      # Step 3: Install OpenShift
-      - name: Install OpenShift
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          version: '>= 363.0.0'
+      - name: Setup google cloud SDK
+        run: |
+          gcloud config set project webgoat-444403
+          gcloud components install gke-gcloud-auth-plugin
+          gcloud container clusters get-credentials webgoat-444403-gke --region=us-central1
+      - name: Set up ansible
         run: |
           pip install openshift
-
-      # Step 3: Install Ansible
-      - name: Install Ansible
-        run: |
           pip install ansible
-
-      - name: Get Kubeconfig path
-        run: echo $HOME/.kube/config
-
-      # Step 4: Run the Ansible playbook
+          ansible-galaxy collection install kubernetes.core
       - name: Run Ansible Playbook
         run: |
           ansible-playbook -i ./ansible/inventory.ini ./ansible/playbook.yml

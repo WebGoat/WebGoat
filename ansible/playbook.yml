@@ -1,13 +1,6 @@
 - name: Pull and run Docker image
   hosts: localhost
   tasks:
-    # - name: List all K8s namespaces
-    #   k8s_info:
-    #     api_version: v1
-    #     kind: Namespace
-    #     kubeconfig: /home/runner/.kube/config
-    #   register: namespaces
-
     - name: Create namespace webgoat if not exist
       kubernetes.core.k8s:
         name: webgoat
@@ -37,9 +30,18 @@
                 containers:
                   - name: webgoat
                     image: "jesusles/webgoat:main"
+                    env:
+                      - name: "WEBGOAT_PORT"
+                        value: "8080"
                     ports:
-                      - containerPort: 8080  # This matches the port inside the container
-                      - containerPort: 9090  # This is the second port inside the container
+                      - containerPort: 8080  # Application port
+                    readinessProbe:
+                    httpGet:
+                      path: /actuator/health  # Endpoint for checking readiness
+                      port: 8080
+                    initialDelaySeconds: 30  # Wait 10 seconds after the container starts before starting readiness checks
+                    periodSeconds: 5        # Check every 5 seconds
+                    failureThreshold: 3      # Retry 3 times before considering the pod "unready"
 
     - name: Create service to expose the application
       kubernetes.core.k8s:
@@ -59,19 +61,59 @@
                 port: 8080       # Expose this port on the service to the outside world
                 targetPort: 8080  # Forward to containerPort 8080 inside the container
 
-    # - name: Display namespaces
-    #   debug:
-    #     msg: "Namespace: {{ item.metadata.name }}"
-    #   loop: "{{ namespaces.resources }}"
-    # - name: Ensure Docker image is pulled
-    #   docker_image:
-    #     name: hello-world
-    #     source: pull
+    - name: Add stable chart repo
+      kubernetes.core.helm_repository:
+        name: prometheus-community
+        repo_url: "https://prometheus-community.github.io/helm-charts"
 
-    # - name: Run Docker container
-    #   docker_container:
-    #     name: hello-world-container
-    #     image: hello-world
-    #     state: started
-    #     ports:
-    #       - "8080:80"  # Example of mapping ports
+    - name: Separately update the repository cache
+      kubernetes.core.helm:
+        name: prometheus-community
+        namespace: kube-system
+        state: absent
+        update_repo_cache: true
+
+    - name: Install Helm chart for Prometheus
+      kubernetes.core.helm:
+        name: prometheus
+        chart_ref: prometheus-community/prometheus
+        release_namespace: webgoat
+        state: present
+        values:
+          prometheus.prometheusSpec.scrapeInterval: "15s"
+          prometheus.prometheusSpec.retention: "15d"
+          prometheus.prometheusSpec.additionalScrapeConfigs:
+            - job_name: 'kubernetes-nodes'
+              kubernetes_sd_configs:
+                - role: node
+            - job_name: 'kubernetes-pods'
+              kubernetes_sd_configs:
+                - role: pod
+          prometheus.prometheusSpec.alertingConfig:
+            alertmanagers:
+              - static_configs:
+                  - targets:
+                    - 'alertmanager.monitoring.svc:9093'
+
+    - name: Install kube-state-metrics using Helm
+      kubernetes.core.helm:
+        name: kube-state-metrics
+        chart_ref: prometheus-community/kube-state-metrics
+        release_namespace: webgoat  # Replace with your namespace
+        state: present
+        values:
+          serviceMonitor.enabled: true  # This ensures Prometheus scrapes kube-state-metrics
+          serviceMonitor.namespace: monitoring  # The namespace where Prometheus is running
+          serviceMonitor.interval: 30s  # Scrape interval
+
+    - name: Add stable chart repo
+      kubernetes.core.helm_repository:
+        name: grafana
+        repo_url: "https://grafana.github.io/helm-charts"
+
+    - name: Install Helm chart for Grafana
+      kubernetes.core.helm:
+        name: grafana
+        chart_ref: grafana/grafana
+        release_namespace: webgoat
+        state: present
