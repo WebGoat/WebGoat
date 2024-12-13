@@ -27,9 +27,9 @@ jobs:
           version: '>= 363.0.0'
       - name: Setup google cloud SDK
         run: |
-          gcloud config set project webgoat-444403
+          gcloud config set project ${{ secrets.PROJECT_ID }}
           gcloud components install gke-gcloud-auth-plugin
-          gcloud container clusters get-credentials webgoat-444403-gke --region=us-central1
+          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --region=${{ secrets.GKE_REGION }}
       - name: Install Terraform
         run: |
           sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
@@ -44,10 +44,10 @@ jobs:
       - name: Import cluster
         working-directory: ./terraform/gke
         run: |
-          terraform import google_compute_network.vpc projects/webgoat-444403/global/networks/webgoat-444403-vpc
-          terraform import google_compute_subnetwork.subnet webgoat-444403/us-central1/webgoat-444403-subnet
-          terraform import google_container_cluster.primary projects/webgoat-444403/locations/us-central1/clusters/webgoat-444403-gke
-          terraform import google_container_node_pool.primary_nodes projects/webgoat-444403/locations/us-central1/clusters/webgoat-444403-gke/nodePools/webgoat-444403-gke
+          terraform import google_compute_network.vpc projects/${{ secrets.PROJECT_ID }}/global/networks/${{ secrets.GKE_VPC }}
+          terraform import google_compute_subnetwork.subnet ${{ secrets.PROJECT_ID }}/${{ secrets.PROJECT_ID }}/${{ secrets.GKE_SUBNET }}
+          terraform import google_container_cluster.primary projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.PROJECT_ID }}/clusters/${{ secrets.GKE_CLUSTER }}
+          terraform import google_container_node_pool.primary_nodes projects/${{ secrets.PROJECT_ID }}/locations/${{ secrets.PROJECT_ID }}/clusters/${{ secrets.GKE_CLUSTER }}/nodePools/${{ secrets.GKE_CLUSTER }}
       - name: Apply terraform config
         working-directory: ./terraform/gke
         run: terraform apply -auto-approve
@@ -73,9 +73,9 @@ jobs:
           version: '>= 363.0.0'
       - name: Setup google cloud SDK
         run: |
-          gcloud config set project webgoat-444403
+          gcloud config set project ${{ secrets.PROJECT_ID }}
           gcloud components install gke-gcloud-auth-plugin
-          gcloud container clusters get-credentials webgoat-444403-gke --region=us-central1
+          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --region=${{ secrets.GKE_REGION }}
       - name: Set up ansible
         run: |
           pip install openshift
