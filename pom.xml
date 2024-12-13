@@ -106,11 +106,6 @@
     <zxcvbn.version>1.9.0</zxcvbn.version>
   </properties>
 
-  <properties>
-    <sonar.organization>mlevrais</sonar.organization>
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-  </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>

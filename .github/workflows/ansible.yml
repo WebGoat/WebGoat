@@ -1,0 +1,71 @@
+name: Ansible files & Deployment
+
+on:
+  # Use this to test on your PR branch
+  # pull_request:
+  #   branches: [ main ]
+  push:
+    branches:
+        - main
+
+jobs:
+  run-ansible:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Configure GoogleCloud SDK to coonect to cluster
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          version: '>= 363.0.0'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: 'Set project'
+        run: 'gcloud config set project webgoat-444403'
+
+      - name: 'Set up gke-gcloud-auth-plugin'
+        run: 'gcloud components install gke-gcloud-auth-plugin'
+
+      - name: 'Get gcloud credentials'
+        run: 'gcloud container clusters get-credentials webgoat-444403-gke --region=us-central1'
+
+      # Step 2: Set up Python (needed to install Ansible)
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      # Step 3: Install OpenShift
+      - name: Install OpenShift
+        run: |
+          pip install openshift
+
+      # Step 3: Install Ansible
+      - name: Install Ansible
+        run: |
+          pip install ansible
+
+      - name: Get Kubeconfig path
+        run: echo $HOME/.kube/config
+
+      # Step 4: Run the Ansible playbook
+      - name: Run Ansible Playbook
+        run: |
+          ansible-playbook -i ./ansible/inventory.ini ./ansible/playbook.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: 'False'
