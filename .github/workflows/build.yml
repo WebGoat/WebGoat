@@ -85,19 +85,3 @@ jobs:
               uses: ovh/clair-action@v3
               with:
                   clair-image: temporary-image:latest
-    sonarcloud:
-        name: SonarCloud
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - uses: actions/checkout@v4.1.6
-              with:
-                fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-            - name: SonarCloud Scan
-              uses: SonarSource/sonarcloud-github-action@master
-              with:
-                args: >
-                  -Dsonar.projectKey=mlevrais_LOG8100_WebGoat
-                  -Dsonar.organization=mlevrais
-              env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
