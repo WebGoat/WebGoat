@@ -78,7 +78,7 @@ public class ShopEndpointTest extends LessonTest {
   @Test
   public void fetchAllTheCouponsShouldContainGetItForFree() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.get("/clientSideFiltering/challenge-store/coupons/"))
+        .perform(MockMvcRequestBuilders.get("/clientSideFiltering/challenge-store/coupons"))
         .andExpect(jsonPath("$.codes[3].code", is("get_it_for_free")));
   }
 }
