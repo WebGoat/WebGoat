@@ -71,7 +71,7 @@
     <commons-compress.version>1.27.1</commons-compress.version>
     <commons-io.version>2.18.0</commons-io.version>
     <commons-lang3.version>3.14.0</commons-lang3.version>
-    <commons-text.version>1.12.0</commons-text.version>
+    <commons-text.version>1.13.0</commons-text.version>
     <guava.version>33.3.1-jre</guava.version>
     <jacoco.version>0.8.11</jacoco.version>
     <java.version>21</java.version>
