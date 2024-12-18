@@ -22,6 +22,7 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.mitigation;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -71,8 +72,16 @@ public class Servers {
       try (var statement =
           connection.prepareStatement(
               "select id, hostname, ip, mac, status, description from SERVERS where status <> 'out"
-                  + " of order' order by "
-                  + column)) {
+                  + " of order' order by ?")) {
+        try {
+            statement.setInt(1, Math.round(Float.parseFloat(column)));
+        } catch (NumberFormatException e) {
+            log.error("mobb-af40a1ef14ffd9ee053581ee0dba4932: Failed to convert input to type integer");
+
+            // MOBB: using a default value for the SQL parameter in case the input is not convertible.
+            // This is important for preventing users from causing a denial of service to this application by throwing an exception here.
+            statement.setInt(1, 0);
+        }
         try (var rs = statement.executeQuery()) {
           while (rs.next()) {
             Server server =
