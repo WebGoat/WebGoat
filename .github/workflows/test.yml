@@ -28,12 +28,12 @@ jobs:
                 with:
                     python-version: '3.7'
                     architecture: x64
-            # Uses an action to add JDK 21 to the VM (and mvn?)
-            -   name: set up JDK 21
+            # Uses an action to add JDK 23 to the VM (and mvn?)
+            -   name: set up JDK 23
                 uses: actions/setup-java@v4.2.1
                 with:
                     distribution: 'temurin'
-                    java-version: 21
+                    java-version: 23
                     architecture: x64
                     cache: 'maven'
             -   uses: BSFishy/pip-action@v1
