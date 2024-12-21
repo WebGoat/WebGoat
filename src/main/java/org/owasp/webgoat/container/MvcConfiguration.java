@@ -73,6 +73,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
   private static final String UTF8 = "UTF-8";
 
+  private final LessonResourceScanner lessonScanner;
+
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
     registry.addViewController("/login").setViewName("login");
@@ -184,6 +186,28 @@ public class MvcConfiguration implements WebMvcConfigurer {
     registry
         .addResourceHandler("/fonts/**")
         .addResourceLocations("classpath:/webgoat/static/fonts/");
+
+    // WebGoat lessons
+    registry
+        .addResourceHandler("/images/**")
+        .addResourceLocations(
+            lessonScanner.applyPattern("classpath:/lessons/%s/images/").toArray(String[]::new));
+    registry
+        .addResourceHandler("/lesson_js/**")
+        .addResourceLocations(
+            lessonScanner.applyPattern("classpath:/lessons/%s/js/").toArray(String[]::new));
+    registry
+        .addResourceHandler("/lesson_css/**")
+        .addResourceLocations(
+            lessonScanner.applyPattern("classpath:/lessons/%s/css/").toArray(String[]::new));
+    registry
+        .addResourceHandler("/lesson_templates/**")
+        .addResourceLocations(
+            lessonScanner.applyPattern("classpath:/lessons/%s/templates/").toArray(String[]::new));
+    registry
+        .addResourceHandler("/video/**")
+        .addResourceLocations(
+            lessonScanner.applyPattern("classpath:/lessons/%s/video/").toArray(String[]::new));
   }
 
   @Bean
