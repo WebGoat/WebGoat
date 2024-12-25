@@ -7,7 +7,8 @@ function login(user) {
         type: 'POST',
         url: 'JWT/refresh/login',
         contentType: "application/json",
-        data: JSON.stringify({user: user, password: "bm5nhSkxCXZkKRy4"})
+        // TODO: to complete the fix, you must change the password, remove it from the code, and use the environment variable that Mobb created for you
+        data: JSON.stringify({user: user, password: process.env.PASSWORD || "bm5nhSkxCXZkKRy4"})
     }).success(
         function (response) {
             localStorage.setItem('access_token', response['access_token']);
