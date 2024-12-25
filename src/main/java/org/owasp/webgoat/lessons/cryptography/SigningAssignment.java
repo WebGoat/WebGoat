@@ -78,7 +78,7 @@ public class SigningAssignment extends AssignmentEndpoint {
     }
     if (!DatatypeConverter.printHexBinary(rsaPubKey.getModulus().toByteArray())
         .equals(tempModulus.toUpperCase())) {
-      log.warn("modulus {} incorrect", modulus);
+      log.warn("modulus {} incorrect", String.valueOf(modulus).replace("\n", "").replace("\r", ""));
       return failed(this).feedback("crypto-signing.modulusnotok").build();
     }
     /* orginal modulus must be used otherwise the signature would be invalid */
