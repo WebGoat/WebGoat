@@ -29,7 +29,7 @@ $(document).ready(function () {
     })
     $(".btn-plus").on("click", function () {
         var now = $(".quantity").val();
-        if ($.isNumeric(now)) {
+        if ((!isNaN(parseFloat(now)) && isFinite(now))) {
             $(".quantity").val(parseInt(now) + 1);
         } else {
             $(".quantity").val("1");
