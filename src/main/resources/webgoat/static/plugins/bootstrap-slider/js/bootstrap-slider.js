@@ -223,7 +223,7 @@
 			} else {
 				$(document).on({
 					mousemove: $.proxy(this.mousemove, this),
-					mouseup: $.proxy(this.mouseup, this)
+					mouseup: (this.mouseup).bind(this)
 				});
 			}
 
