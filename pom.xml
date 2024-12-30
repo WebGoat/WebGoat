@@ -217,6 +217,11 @@
         <artifactId>jruby</artifactId>
         <version>9.4.9.0</version>
       </dependency>
+      <dependency>
+        <groupId>com.microsoft.playwright</groupId>
+        <artifactId>playwright</artifactId>
+        <version>1.49.0</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
@@ -401,6 +406,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.microsoft.playwright</groupId>
+      <artifactId>playwright</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-properties-migrator</artifactId>
       <scope>runtime</scope>
@@ -464,6 +474,7 @@
             <configuration>
               <sources>
                 <source>src/it/java</source>
+                <source>src/playwright/java</source>
               </sources>
             </configuration>
           </execution>
