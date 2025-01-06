@@ -79,4 +79,8 @@ public class Assignment {
   public void solved() {
     this.solved = true;
   }
+
+  public void reset() {
+    this.solved = false;
+  }
 }
