@@ -21466,7 +21466,7 @@ exports.showErrorMarker = function(editor, dir) {
 
     w.el.className = "error_widget_wrapper";
     el.className = "error_widget " + gutterAnno.className;
-    el.innerHTML = gutterAnno.text.join("<br>");
+    el.textContent = gutterAnno.text.join("<br>");
 
     el.appendChild(dom.createElement("div"));
 
