@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.session.Course;
+import org.owasp.webgoat.container.users.AssignmentProgress;
 import org.owasp.webgoat.container.users.LessonProgress;
 import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
@@ -23,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.testcontainers.shaded.org.checkerframework.checker.units.qual.A;
 
 /**
  * ************************************************************************************************
@@ -68,10 +70,11 @@ class LessonProgressServiceTest {
   @BeforeEach
   void setup() {
     Assignment assignment = new Assignment("test", "test", List.of());
+    AssignmentProgress assignmentProgress = new AssignmentProgress(assignment);
     when(userProgressRepository.findByUser(any())).thenReturn(userProgress);
     when(userProgress.getLessonProgress(any(Lesson.class))).thenReturn(lessonTracker);
     when(course.getLessonByName(any())).thenReturn(lesson);
-    when(lessonTracker.getLessonOverview()).thenReturn(Maps.newHashMap(assignment, true));
+    when(lessonTracker.getLessonOverview()).thenReturn(Maps.newHashMap(assignmentProgress, true));
     this.mockMvc =
         MockMvcBuilders.standaloneSetup(new LessonProgressService(userProgressRepository, course))
             .build();

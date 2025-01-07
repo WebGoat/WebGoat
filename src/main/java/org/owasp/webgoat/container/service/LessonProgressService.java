@@ -44,7 +44,7 @@ public class LessonProgressService {
 
     var lessonProgress = userProgress.getLessonProgress(lesson);
     return lessonProgress.getLessonOverview().entrySet().stream()
-        .map(entry -> new LessonOverview(entry.getKey(), entry.getValue()))
+        .map(entry -> new LessonOverview(entry.getKey().getAssignment(), entry.getValue()))
         .toList();
   }
 
