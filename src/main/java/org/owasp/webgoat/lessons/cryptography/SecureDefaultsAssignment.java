@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.cryptography;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.security.NoSuchAlgorithmException;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -37,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
   "crypto-secure-defaults.hints.2",
   "crypto-secure-defaults.hints.3"
 })
-public class SecureDefaultsAssignment extends AssignmentEndpoint {
+public class SecureDefaultsAssignment implements AssignmentEndpoint {
 
   @PostMapping("/crypto/secure/defaults")
   @ResponseBody

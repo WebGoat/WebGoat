@@ -1,5 +1,60 @@
 # WebGoat release notes
 
+## Version 2023.8
+
+### 🚀 New functionality
+
+- Consistent environment values and url references (#1677)
+- Show directly requested file in requests overview
+- Show creating time in file upload overview
+
+### 🐞 Bug fixes
+
+- Fix startup message (#1687)
+- Fix/state of software supply chain links (#1683)
+- Fix WebWolf UI (#1686)
+
+### 🔄 Technical tasks
+
+- bump actions/setup-java from 3 to 4 (#1690)
+- bump commons-io:commons-io from 2.14.0 to 2.15.1 (#1689)
+- bump com.diffplug.spotless:spotless-maven-plugin (#1688)
+
+## Version 2023.5
+
+### New functionality
+
+- Implement JWT jku example (#1552)
+- Java 21 initial support (#1622)
+- improve MFAC lesson hint texts for a better user experience (#1424)
+- upgrade to Spring Boot version 3 (#1477)
+
+### Bug fixes
+
+- typo in WebGoad.txt (#1667)
+- search box moved and jwt encode/decode with little delay (#1664)
+- skip validation for JWT (#1663)
+- fixed issue in JWT test tool and added robot test (#1658)
+- Password reset link test condition more strict and move all WebWolf links to /WebWolf  (#1645)
+- fix servers id (#1619)
+- potential NPE in the stored XSS assignment
+- crypto basics broken links
+- fixes the default change in trailing slash matching and address the affected assignments
+- hint that was breaking the template, causing hints from different assignments to mix (#1424)
+- HijackSession lesson template deprecated Tymeleaf attribute
+- Fix NPE in IDOR lesson
+- Add new assignment IT tests
+- XSS mitigation
+- Stored Cross-Site Scripting Lesson
+- Add Assignment7 Tests
+- Fix IDOR lesson
+- remove steps from release script (#1509)
+- robotframework fails due to updated dependencies (#1508)
+- fix Java image inside Docker file The image now downloads the correct Java version based on the architecture.
+- Fix typo of HijackSession_content0.adoc
+- Restrict SSRF Regexes
+- update challenge code - Flags are now wired through a Spring config - Introduced Flag class - Removed Flags from the FlagController
+
 ## Version 2023.4
 
 ### New functionality
@@ -160,4 +215,3 @@ Special thanks to the following contributors providing us with a pull request:
 And everyone who provided feedback through Github.
 
 Team WebGoat
-

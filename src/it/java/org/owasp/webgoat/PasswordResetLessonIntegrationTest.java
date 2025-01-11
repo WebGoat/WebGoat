@@ -11,12 +11,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
+import org.springframework.http.HttpHeaders;
 
 public class PasswordResetLessonIntegrationTest extends IntegrationTest {
 
   @BeforeEach
   public void init() {
-    startLesson("/PasswordReset");
+    startLesson("PasswordReset");
   }
 
   @TestFactory
@@ -68,7 +69,6 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
 
     // WebWolf
     var link = getPasswordResetLinkFromLandingPage();
-
     // WebGoat
     changePassword(link);
     checkAssignment(
@@ -85,7 +85,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/WebWolf/mail"))
+            .get(new WebWolfUrlBuilder().path("mail").build())
             .then()
             .extract()
             .response()
@@ -99,7 +99,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   public void shutdown() {
     // this will run only once after the list of dynamic tests has run, this is to test if the
     // lesson is marked complete
-    checkResults("/PasswordReset");
+    checkResults("PasswordReset");
   }
 
   private void changePassword(String link) {
@@ -119,7 +119,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/WebWolf/requests"))
+            .get(new WebWolfUrlBuilder().path("requests").build())
             .then()
             .extract()
             .response()
@@ -136,7 +136,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   private void clickForgotEmailLink(String user) {
     RestAssured.given()
         .when()
-        .header("host", String.format("%s:%s", "localhost", getWebWolfPort()))
+        .header(HttpHeaders.HOST, String.format("%s:%s", getWebWolfHost(), getWebWolfPort()))
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .formParams("email", user)

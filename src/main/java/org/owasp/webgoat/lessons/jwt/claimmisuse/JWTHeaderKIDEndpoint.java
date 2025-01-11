@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.jwt.claimmisuse;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwt;
@@ -52,16 +55,15 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-kid-hint5",
   "jwt-kid-hint6"
 })
-@RequestMapping("/JWT/kid")
-public class JWTHeaderKIDEndpoint extends AssignmentEndpoint {
-
+@RequestMapping("/JWT/")
+public class JWTHeaderKIDEndpoint implements AssignmentEndpoint {
   private final LessonDataSource dataSource;
 
   private JWTHeaderKIDEndpoint(LessonDataSource dataSource) {
     this.dataSource = dataSource;
   }
 
-  @PostMapping("/follow/{user}")
+  @PostMapping("kid/follow/{user}")
   public @ResponseBody String follow(@PathVariable("user") String user) {
     if ("Jerry".equals(user)) {
       return "Following yourself seems redundant";
@@ -70,7 +72,7 @@ public class JWTHeaderKIDEndpoint extends AssignmentEndpoint {
     }
   }
 
-  @PostMapping("/delete")
+  @PostMapping("kid/delete")
   public @ResponseBody AttackResult resetVotes(@RequestParam("token") String token) {
     if (StringUtils.isEmpty(token)) {
       return failed(this).feedback("jwt-invalid-token").build();

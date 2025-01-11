@@ -25,6 +25,8 @@ package org.owasp.webgoat.lessons.jwt;
 import static java.util.Comparator.comparingLong;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
@@ -66,13 +68,13 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-change-token-hint4",
   "jwt-change-token-hint5"
 })
-public class JWTVotesEndpoint extends AssignmentEndpoint {
+public class JWTVotesEndpoint implements AssignmentEndpoint {
 
   public static final String JWT_PASSWORD = TextCodec.BASE64.encode("victory");
   private static String validUsers = "TomJerrySylvester";
 
   private static int totalVotes = 38929;
-  private Map<String, Vote> votes = new HashMap<>();
+  private final Map<String, Vote> votes = new HashMap<>();
 
   @PostConstruct
   public void initVotes() {

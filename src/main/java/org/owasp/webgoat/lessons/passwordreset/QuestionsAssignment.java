@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.passwordreset;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -37,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 8/20/17.
  */
 @RestController
-public class QuestionsAssignment extends AssignmentEndpoint {
+public class QuestionsAssignment implements AssignmentEndpoint {
 
   private static final Map<String, String> COLORS = new HashMap<>();
 

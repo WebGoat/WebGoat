@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.httpproxies;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -34,7 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HttpBasicsInterceptRequest extends AssignmentEndpoint {
+public class HttpBasicsInterceptRequest implements AssignmentEndpoint {
 
   @RequestMapping(
       path = "/HttpProxies/intercept-request",

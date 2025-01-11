@@ -25,34 +25,18 @@ package org.owasp.webgoat.lessons.xss;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 /**
  * @author Angel Olle Blazquez
  */
-@ExtendWith(MockitoExtension.class)
-class CrossSiteScriptingLesson1Test extends AssignmentEndpointTest {
+class CrossSiteScriptingLesson1Test extends LessonTest {
 
   private static final String CONTEXT_PATH = "/CrossSiteScripting/attack1";
-
-  @Autowired private MockMvc mockMvc;
-
-  @BeforeEach
-  public void setup() {
-    CrossSiteScriptingLesson1 crossSiteScriptingLesson1 = new CrossSiteScriptingLesson1();
-    init(crossSiteScriptingLesson1);
-    mockMvc = standaloneSetup(crossSiteScriptingLesson1).build();
-  }
 
   @Test
   void success() throws Exception {

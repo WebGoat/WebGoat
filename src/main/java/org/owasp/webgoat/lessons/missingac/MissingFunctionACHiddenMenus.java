@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.missingac;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -36,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
   "access-control.hidden-menus.hint2",
   "access-control.hidden-menus.hint3"
 })
-public class MissingFunctionACHiddenMenus extends AssignmentEndpoint {
+public class MissingFunctionACHiddenMenus implements AssignmentEndpoint {
 
   @PostMapping(
       path = "/access-control/hidden-menu",

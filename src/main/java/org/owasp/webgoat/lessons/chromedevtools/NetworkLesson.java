@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.chromedevtools;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -40,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AssignmentHints({"networkHint1", "networkHint2"})
-public class NetworkLesson extends AssignmentEndpoint {
+public class NetworkLesson implements AssignmentEndpoint {
 
   @PostMapping(
       value = "/ChromeDevTools/network",

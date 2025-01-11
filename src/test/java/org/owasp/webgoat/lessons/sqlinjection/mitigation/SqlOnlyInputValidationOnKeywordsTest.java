@@ -6,10 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
-import org.owasp.webgoat.lessons.sqlinjection.SqlLessonTest;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-public class SqlOnlyInputValidationOnKeywordsTest extends SqlLessonTest {
+public class SqlOnlyInputValidationOnKeywordsTest extends LessonTest {
 
   @Test
   public void solve() throws Exception {
@@ -40,6 +40,6 @@ public class SqlOnlyInputValidationOnKeywordsTest extends SqlLessonTest {
                 containsString(
                     "unexpected token: *<br> Your query was: SELECT * FROM user_data WHERE"
                         + " last_name ="
-                        + " 'SMITH';\\\\\\/**\\\\\\/*\\\\\\/**\\\\\\/\\\\\\/**\\\\\\/USER_SYSTEM_DATA;--'")));
+                        + " 'SMITH';\\/**\\/*\\/**\\/\\/**\\/USER_SYSTEM_DATA;--'")));
   }
 }

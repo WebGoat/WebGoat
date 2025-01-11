@@ -22,6 +22,8 @@
 
 package org.owasp.webgoat.lessons.missingac;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_ADMIN;
 
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -42,7 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
   "access-control.hash.hint12",
   "access-control.hash.hint13"
 })
-public class MissingFunctionACYourHashAdmin extends AssignmentEndpoint {
+public class MissingFunctionACYourHashAdmin implements AssignmentEndpoint {
 
   private final MissingAccessControlUserRepository userRepository;
 

@@ -22,6 +22,8 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.mitigation;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -34,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AssignmentHints(
     value = {"SqlOnlyInputValidation-1", "SqlOnlyInputValidation-2", "SqlOnlyInputValidation-3"})
-public class SqlOnlyInputValidation extends AssignmentEndpoint {
+public class SqlOnlyInputValidation implements AssignmentEndpoint {
 
   private final SqlInjectionLesson6a lesson6a;
 
@@ -52,7 +54,9 @@ public class SqlOnlyInputValidation extends AssignmentEndpoint {
     return new AttackResult(
         attackResult.isLessonCompleted(),
         attackResult.getFeedback(),
+        attackResult.getFeedbackArgs(),
         attackResult.getOutput(),
+        attackResult.getOutputArgs(),
         getClass().getSimpleName(),
         true);
   }

@@ -22,6 +22,8 @@
 
 package org.owasp.webgoat.lessons.csrf;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.springframework.http.MediaType.ALL_VALUE;
 
 import com.google.common.collect.Lists;
@@ -33,11 +35,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,9 +47,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"csrf-review-hint1", "csrf-review-hint2", "csrf-review-hint3"})
-public class ForgedReviews extends AssignmentEndpoint {
+public class ForgedReviews implements AssignmentEndpoint {
 
-  @Autowired private WebSession webSession;
   private static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss");
 
   private static final Map<String, List<Review>> userReviews = new HashMap<>();
@@ -73,9 +73,9 @@ public class ForgedReviews extends AssignmentEndpoint {
       produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = ALL_VALUE)
   @ResponseBody
-  public Collection<Review> retrieveReviews() {
+  public Collection<Review> retrieveReviews(@CurrentUsername String username) {
     Collection<Review> allReviews = Lists.newArrayList();
-    Collection<Review> newReviews = userReviews.get(webSession.getUserName());
+    Collection<Review> newReviews = userReviews.get(username);
     if (newReviews != null) {
       allReviews.addAll(newReviews);
     }
@@ -88,7 +88,11 @@ public class ForgedReviews extends AssignmentEndpoint {
   @PostMapping("/csrf/review")
   @ResponseBody
   public AttackResult createNewReview(
-      String reviewText, Integer stars, String validateReq, HttpServletRequest request) {
+      String reviewText,
+      Integer stars,
+      String validateReq,
+      HttpServletRequest request,
+      @CurrentUsername String username) {
     final String host = (request.getHeader("host") == null) ? "NULL" : request.getHeader("host");
     final String referer =
         (request.getHeader("referer") == null) ? "NULL" : request.getHeader("referer");
@@ -97,11 +101,11 @@ public class ForgedReviews extends AssignmentEndpoint {
     Review review = new Review();
     review.setText(reviewText);
     review.setDateTime(LocalDateTime.now().format(fmt));
-    review.setUser(webSession.getUserName());
+    review.setUser(username);
     review.setStars(stars);
-    var reviews = userReviews.getOrDefault(webSession.getUserName(), new ArrayList<>());
+    var reviews = userReviews.getOrDefault(username, new ArrayList<>());
     reviews.add(review);
-    userReviews.put(webSession.getUserName(), reviews);
+    userReviews.put(username, reviews);
     // short-circuit
     if (validateReq == null || !validateReq.equals(weakAntiCSRF)) {
       return failed(this).feedback("csrf-you-forgot-something").build();

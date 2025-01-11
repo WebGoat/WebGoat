@@ -27,43 +27,27 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
-import org.owasp.webgoat.lessons.challenges.Flags;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
 
-@ExtendWith(MockitoExtension.class)
-public class Assignment7Test extends AssignmentEndpointTest {
-  private MockMvc mockMvc;
-
+class Assignment7Test extends LessonTest {
   private static final String CHALLENGE_PATH = "/challenge/7";
   private static final String RESET_PASSWORD_PATH = CHALLENGE_PATH + "/reset-password";
   private static final String GIT_PATH = CHALLENGE_PATH + "/.git";
 
-  @Mock private RestTemplate restTemplate;
+  @MockBean private RestTemplate restTemplate;
 
   @Value("${webwolf.mail.url}")
   String webWolfMailURL;
-
-  @BeforeEach
-  void setup() {
-    Assignment7 assignment7 = new Assignment7(new Flags(), restTemplate, webWolfMailURL);
-    init(assignment7);
-    mockMvc = standaloneSetup(assignment7).build();
-  }
 
   @Test
   @DisplayName("Reset password test")

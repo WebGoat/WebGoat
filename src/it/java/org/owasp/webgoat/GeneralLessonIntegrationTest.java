@@ -31,7 +31,17 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("magic_num", "33");
     checkAssignment(url("HttpBasics/attack2"), params, true);
 
-    checkResults("/HttpBasics/");
+    checkResults("HttpBasics");
+  }
+
+  @Test
+  public void solveAsOtherUserHttpBasics() {
+    login("steven");
+    startLesson("HttpBasics");
+    Map<String, Object> params = new HashMap<>();
+    params.clear();
+    params.put("person", "goatuser");
+    checkAssignment(url("HttpBasics/attack1"), params, true);
   }
 
   @Test
@@ -51,7 +61,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
             .path("lessonCompleted"),
         CoreMatchers.is(true));
 
-    checkResults("/HttpProxies/");
+    checkResults("HttpProxies");
   }
 
   @Test
@@ -72,8 +82,8 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put(
         "question_3_solution",
         "Solution 2: The systems security is compromised even if only one goal is harmed.");
-    checkAssignment(url("/WebGoat/cia/quiz"), params, true);
-    checkResults("/cia/");
+    checkAssignment(url("cia/quiz"), params, true);
+    checkResults("CIA");
   }
 
   @Test
@@ -95,8 +105,8 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
       Map<String, Object> params = new HashMap<>();
       params.clear();
       params.put("payload", solution);
-      checkAssignment(url("/WebGoat/VulnerableComponents/attack1"), params, true);
-      checkResults("/VulnerableComponents/");
+      checkAssignment(url("VulnerableComponents/attack1"), params, true);
+      checkResults("VulnerableComponents");
     }
   }
 
@@ -107,8 +117,8 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.clear();
     params.put("username", "CaptainJack");
     params.put("password", "BlackPearl");
-    checkAssignment(url("/WebGoat/InsecureLogin/task"), params, true);
-    checkResults("/InsecureLogin/");
+    checkAssignment(url("InsecureLogin/task"), params, true);
+    checkResults("InsecureLogin");
   }
 
   @Test
@@ -117,8 +127,8 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     Map<String, Object> params = new HashMap<>();
     params.clear();
     params.put("password", "ajnaeliclm^&&@kjn.");
-    checkAssignment(url("/WebGoat/SecurePasswords/assignment"), params, true);
-    checkResults("SecurePasswords/");
+    checkAssignment(url("SecurePasswords/assignment"), params, true);
+    checkResults("SecurePasswords");
 
     startLesson("AuthBypass");
     params.clear();
@@ -127,8 +137,8 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("jsEnabled", "1");
     params.put("verifyMethod", "SEC_QUESTIONS");
     params.put("userId", "12309746");
-    checkAssignment(url("/WebGoat/auth-bypass/verify-account"), params, true);
-    checkResults("/auth-bypass/");
+    checkAssignment(url("auth-bypass/verify-account"), params, true);
+    checkResults("AuthBypass");
 
     startLesson("HttpProxies");
     MatcherAssert.assertThat(
@@ -138,14 +148,13 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
             .cookie("JSESSIONID", getWebGoatCookie())
             .header("x-request-intercepted", "true")
             .contentType(ContentType.JSON)
-            .get(
-                url("/WebGoat/HttpProxies/intercept-request?changeMe=Requests are tampered easily"))
+            .get(url("HttpProxies/intercept-request?changeMe=Requests are tampered easily"))
             .then()
             .statusCode(200)
             .extract()
             .path("lessonCompleted"),
         CoreMatchers.is(true));
-    checkResults("/HttpProxies/");
+    checkResults("HttpProxies");
   }
 
   @Test
@@ -165,7 +174,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
             .header("webgoat-requested-by", "dom-xss-vuln")
             .header("X-Requested-With", "XMLHttpRequest")
             .formParams(params)
-            .post(url("/WebGoat/CrossSiteScripting/phone-home-xss"))
+            .post(url("CrossSiteScripting/phone-home-xss"))
             .then()
             .statusCode(200)
             .extract()
@@ -174,14 +183,14 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
 
     params.clear();
     params.put("successMessage", secretNumber);
-    checkAssignment(url("/WebGoat/ChromeDevTools/dummy"), params, true);
+    checkAssignment(url("ChromeDevTools/dummy"), params, true);
 
     params.clear();
     params.put("number", "24");
     params.put("network_num", "24");
-    checkAssignment(url("/WebGoat/ChromeDevTools/network"), params, true);
+    checkAssignment(url("ChromeDevTools/network"), params, true);
 
-    checkResults("/ChromeDevTools/");
+    checkResults("ChromeDevTools");
   }
 
   @Test
@@ -194,8 +203,8 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.put("jsEnabled", "1");
     params.put("verifyMethod", "SEC_QUESTIONS");
     params.put("userId", "12309746");
-    checkAssignment(url("/auth-bypass/verify-account"), params, true);
-    checkResults("/auth-bypass/");
+    checkAssignment(url("auth-bypass/verify-account"), params, true);
+    checkResults("AuthBypass");
   }
 
   @Test
@@ -205,7 +214,7 @@ public class GeneralLessonIntegrationTest extends IntegrationTest {
     params.clear();
     params.put("param1", "secr37Value");
     params.put("param2", "Main");
-    checkAssignment(url("/lesson-template/sample-attack"), params, true);
-    checkResults("/lesson-template/");
+    checkAssignment(url("lesson-template/sample-attack"), params, true);
+    checkResults("LessonTemplate");
   }
 }

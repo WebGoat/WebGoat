@@ -22,9 +22,10 @@
 
 package org.owasp.webgoat.lessons.missingac;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_SIMPLE;
 
-import lombok.RequiredArgsConstructor;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -40,10 +41,13 @@ import org.springframework.web.bind.annotation.RestController;
   "access-control.hash.hint4",
   "access-control.hash.hint5"
 })
-@RequiredArgsConstructor
-public class MissingFunctionACYourHash extends AssignmentEndpoint {
+public class MissingFunctionACYourHash implements AssignmentEndpoint {
 
   private final MissingAccessControlUserRepository userRepository;
+
+  public MissingFunctionACYourHash(MissingAccessControlUserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   @PostMapping(
       path = "/access-control/user-hash",

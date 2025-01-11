@@ -3,9 +3,9 @@ package org.owasp.webgoat;
 import static io.restassured.RestAssured.given;
 
 import io.restassured.RestAssured;
+import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import java.util.Map;
-import java.util.Objects;
 import lombok.Getter;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -15,40 +15,81 @@ import org.springframework.http.HttpStatus;
 
 public abstract class IntegrationTest {
 
-  private static String webGoatPort = Objects.requireNonNull(System.getProperty("webgoatport"));
+  private static String webGoatPort = System.getenv().getOrDefault("WEBGOAT_PORT", "8080");
+  @Getter private static String webWolfPort = System.getenv().getOrDefault("WEBWOLF_PORT", "9090");
 
   @Getter
-  private static String webWolfPort = Objects.requireNonNull(System.getProperty("webwolfport"));
+  private static String webWolfHost = System.getenv().getOrDefault("WEBWOLF_HOST", "127.0.0.1");
 
-  private static boolean useSSL = false;
-  private static String webgoatUrl =
-      (useSSL ? "https:" : "http:") + "//localhost:" + webGoatPort + "/WebGoat/";
-  private static String webWolfUrl =
-      (useSSL ? "https:" : "http:") + "//localhost:" + webWolfPort + "/";
+  private static String webGoatContext =
+      System.getenv().getOrDefault("WEBGOAT_CONTEXT", "/WebGoat/");
+  private static String webWolfContext =
+      System.getenv().getOrDefault("WEBWOLF_CONTEXT", "/WebWolf/");
+
   @Getter private String webGoatCookie;
   @Getter private String webWolfCookie;
   @Getter private final String user = "webgoat";
 
   protected String url(String url) {
-    url = url.replaceFirst("/WebGoat/", "");
-    url = url.replaceFirst("/WebGoat", "");
-    url = url.startsWith("/") ? url.replaceFirst("/", "") : url;
-    return webgoatUrl + url;
+    return "http://localhost:%s%s%s".formatted(webGoatPort, webGoatContext, url);
   }
 
-  protected String webWolfUrl(String url) {
-    url = url.replaceFirst("/WebWolf/", "");
-    url = url.replaceFirst("/WebWolf", "");
-    url = url.startsWith("/") ? url.replaceFirst("/", "") : url;
-    return webWolfUrl + url;
+  protected class WebWolfUrlBuilder {
+
+    private boolean attackMode = false;
+    private String path = null;
+
+    protected String build() {
+      return "http://localhost:%s%s%s"
+          .formatted(webWolfPort, webWolfContext, path != null ? path : "");
+    }
+
+    /**
+     * In attack mode it means WebGoat calls WebWolf to perform an attack. In this case we need to
+     * use port 9090 in a Docker environment.
+     */
+    protected WebWolfUrlBuilder attackMode() {
+      attackMode = true;
+      return this;
+    }
+
+    protected WebWolfUrlBuilder path(String path) {
+      this.path = path;
+      return this;
+    }
+
+    protected WebWolfUrlBuilder path(String path, String... uriVariables) {
+      this.path = path.formatted(uriVariables);
+      return this;
+    }
   }
 
-  protected String webWolfFileUrl(String fileName) {
-    return webWolfUrl("/files") + "/" + getUser() + "/" + fileName;
-  }
+  /**
+   * Debugging options: install TestContainers Desktop and map port 5005 to the host machine with
+   * https://newsletter.testcontainers.com/announcements/set-fixed-ports-to-easily-debug-development-services
+   *
+   * <p>Start the test and connect a remote debugger in IntelliJ to localhost:5005 and attach it.
+   */
+  //  private static GenericContainer<?> webGoatContainer =
+  //      new GenericContainer(new ImageFromDockerfile("webgoat").withFileFromPath("/",
+  // Paths.get(".")))
+  //          .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger("webgoat")))
+  //          .withExposedPorts(8080, 9090, 5005)
+  //          .withEnv(
+  //              "_JAVA_OPTIONS",
+  //              "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005")
+  //          .waitingFor(Wait.forHealthcheck());
+  //
+  //  static {
+  //    webGoatContainer.start();
+  //  }
 
   @BeforeEach
   public void login() {
+    login("webgoat");
+  }
+
+  protected void login(String user) {
     String location =
         given()
             .when()
@@ -57,6 +98,8 @@ public abstract class IntegrationTest {
             .formParam("password", "password")
             .post(url("login"))
             .then()
+            .log()
+            .ifValidationFails(LogDetail.ALL) // Log the response details if validation fails
             .cookie("JSESSIONID")
             .statusCode(302)
             .extract()
@@ -97,7 +140,7 @@ public abstract class IntegrationTest {
             .relaxedHTTPSValidation()
             .formParam("username", user)
             .formParam("password", "password")
-            .post(webWolfUrl("login"))
+            .post(new WebWolfUrlBuilder().path("login").build())
             .then()
             .statusCode(302)
             .cookie("WEBWOLFSESSION")
@@ -128,7 +171,7 @@ public abstract class IntegrationTest {
           .when()
           .relaxedHTTPSValidation()
           .cookie("JSESSIONID", getWebGoatCookie())
-          .get(url("service/restartlesson.mvc"))
+          .get(url("service/restartlesson.mvc/%s.lesson".formatted(lessonName)))
           .then()
           .statusCode(200);
     }
@@ -164,23 +207,18 @@ public abstract class IntegrationTest {
         CoreMatchers.is(expectedResult));
   }
 
-  // TODO is prefix useful? not every lesson endpoint needs to start with a certain prefix (they are
-  // only required to be in the same package)
-  public void checkResults(String prefix) {
-    checkResults();
-
-    MatcherAssert.assertThat(
+  public void checkResults(String lesson) {
+    var result =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("service/lessonoverview.mvc"))
-            .then()
-            .statusCode(200)
-            .extract()
-            .jsonPath()
-            .getList("assignment.path"),
-        CoreMatchers.everyItem(CoreMatchers.startsWith(prefix)));
+            .get(url("service/lessonoverview.mvc/%s.lesson".formatted(lesson)))
+            .andReturn();
+
+    MatcherAssert.assertThat(
+        result.then().statusCode(200).extract().jsonPath().getList("solved"),
+        CoreMatchers.everyItem(CoreMatchers.is(true)));
   }
 
   public void checkResults() {
@@ -235,7 +273,7 @@ public abstract class IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrl("/file-server-location"))
+            .get(new WebWolfUrlBuilder().path("file-server-location").build())
             .then()
             .extract()
             .response()
@@ -250,7 +288,7 @@ public abstract class IntegrationTest {
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
-        .get(url("/server-directory"))
+        .get(url("server-directory"))
         .then()
         .extract()
         .response()
@@ -263,7 +301,7 @@ public abstract class IntegrationTest {
         .when()
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
-        .delete(webWolfUrl("/mail"))
+        .delete(new WebWolfUrlBuilder().path("mail").build())
         .then()
         .statusCode(HttpStatus.ACCEPTED.value());
   }

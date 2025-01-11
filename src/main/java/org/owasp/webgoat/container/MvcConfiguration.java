@@ -40,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
-import org.owasp.webgoat.container.lessons.LessonScanner;
 import org.owasp.webgoat.container.session.LabelDebugger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -74,7 +73,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
   private static final String UTF8 = "UTF-8";
 
-  private final LessonScanner lessonScanner;
+  private final LessonResourceScanner lessonScanner;
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
@@ -242,6 +241,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(localeChangeInterceptor());
+    registry.addInterceptor(new UserInterceptor());
   }
 
   @Bean

@@ -23,12 +23,15 @@
 
 package org.owasp.webgoat.lessons.idor;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,9 +39,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({"idor.hints.idor_login"})
-public class IDORLogin extends AssignmentEndpoint {
+public class IDORLogin implements AssignmentEndpoint {
+  private final LessonSession lessonSession;
 
-  private Map<String, Map<String, String>> idorUserInfo = new HashMap<>();
+  public IDORLogin(LessonSession lessonSession) {
+    this.lessonSession = lessonSession;
+  }
+
+  private final Map<String, Map<String, String>> idorUserInfo = new HashMap<>();
 
   public void initIDORInfo() {
 
@@ -59,13 +67,11 @@ public class IDORLogin extends AssignmentEndpoint {
   @ResponseBody
   public AttackResult completed(@RequestParam String username, @RequestParam String password) {
     initIDORInfo();
-    UserSessionData userSessionData = getUserSessionData();
 
     if (idorUserInfo.containsKey(username)) {
       if ("tom".equals(username) && idorUserInfo.get("tom").get("password").equals(password)) {
-        userSessionData.setValue("idor-authenticated-as", username);
-        userSessionData.setValue(
-            "idor-authenticated-user-id", idorUserInfo.get(username).get("id"));
+        lessonSession.setValue("idor-authenticated-as", username);
+        lessonSession.setValue("idor-authenticated-user-id", idorUserInfo.get(username).get("id"));
         return success(this).feedback("idor.login.success").feedbackArgs(username).build();
       } else {
         return failed(this).feedback("idor.login.failure").build();

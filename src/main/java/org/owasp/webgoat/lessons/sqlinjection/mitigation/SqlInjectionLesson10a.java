@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.sqlinjection.mitigation;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -35,9 +38,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @AssignmentHints(
     value = {"SqlStringInjectionHint-mitigation-10a-1", "SqlStringInjectionHint-mitigation-10a-2"})
-public class SqlInjectionLesson10a extends AssignmentEndpoint {
+public class SqlInjectionLesson10a implements AssignmentEndpoint {
 
-  private String[] results = {
+  private static final String[] results = {
     "getConnection", "PreparedStatement", "prepareStatement", "?", "?", "setString", "setString"
   };
 

@@ -1,7 +1,9 @@
 package org.owasp.webgoat.lessons.jwt.claimmisuse;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import com.auth0.jwk.JwkException;
-import com.auth0.jwk.JwkProvider;
 import com.auth0.jwk.JwkProviderBuilder;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/JWT/jku")
+@RequestMapping("/JWT/")
 @RestController
 @AssignmentHints({
   "jwt-jku-hint1",
@@ -29,9 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-jku-hint4",
   "jwt-jku-hint5"
 })
-public class JWTHeaderJKUEndpoint extends AssignmentEndpoint {
+public class JWTHeaderJKUEndpoint implements AssignmentEndpoint {
 
-  @PostMapping("/follow/{user}")
+  @PostMapping("jku/follow/{user}")
   public @ResponseBody String follow(@PathVariable("user") String user) {
     if ("Jerry".equals(user)) {
       return "Following yourself seems redundant";
@@ -40,7 +42,7 @@ public class JWTHeaderJKUEndpoint extends AssignmentEndpoint {
     }
   }
 
-  @PostMapping("/delete")
+  @PostMapping("jku/delete")
   public @ResponseBody AttackResult resetVotes(@RequestParam("token") String token) {
     if (StringUtils.isEmpty(token)) {
       return failed(this).feedback("jwt-invalid-token").build();
@@ -48,12 +50,12 @@ public class JWTHeaderJKUEndpoint extends AssignmentEndpoint {
       try {
         var decodedJWT = JWT.decode(token);
         var jku = decodedJWT.getHeaderClaim("jku");
-        JwkProvider jwkProvider = new JwkProviderBuilder(new URL(jku.asString())).build();
+        var jwkProvider = new JwkProviderBuilder(new URL(jku.asString())).build();
         var jwk = jwkProvider.get(decodedJWT.getKeyId());
         var algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey());
         JWT.require(algorithm).build().verify(decodedJWT);
 
-        String username = decodedJWT.getClaims().get("username").asString();
+        var username = decodedJWT.getClaims().get("username").asString();
         if ("Jerry".equals(username)) {
           return failed(this).feedback("jwt-final-jerry-account").build();
         }

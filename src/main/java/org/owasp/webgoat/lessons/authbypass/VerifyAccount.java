@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.authbypass;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -32,9 +35,7 @@ import java.util.Map;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
-import org.owasp.webgoat.container.session.WebSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,11 +49,13 @@ import org.springframework.web.bind.annotation.RestController;
   "auth-bypass.hints.verify.3",
   "auth-bypass.hints.verify.4"
 })
-public class VerifyAccount extends AssignmentEndpoint {
+public class VerifyAccount implements AssignmentEndpoint {
 
-  @Autowired private WebSession webSession;
+  private final LessonSession userSessionData;
 
-  @Autowired UserSessionData userSessionData;
+  public VerifyAccount(LessonSession userSessionData) {
+    this.userSessionData = userSessionData;
+  }
 
   @PostMapping(
       path = "/auth-bypass/verify-account",

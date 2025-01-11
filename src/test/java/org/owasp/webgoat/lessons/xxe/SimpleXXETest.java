@@ -22,34 +22,27 @@
 
 package org.owasp.webgoat.lessons.xxe;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author nbaars
- * @since 11/2/17.
- */
-@ExtendWith(SpringExtension.class)
-public class SimpleXXETest extends LessonTest {
+@WithWebGoatUser
+class SimpleXXETest extends LessonTest {
 
   @BeforeEach
-  public void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new XXE());
+  void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
   @Test
-  public void workingAttack() throws Exception {
+  void workingAttack() throws Exception {
     // Call with XXE injection
     mockMvc
         .perform(
@@ -63,7 +56,7 @@ public class SimpleXXETest extends LessonTest {
   }
 
   @Test
-  public void postingJsonCommentShouldNotSolveAssignment() throws Exception {
+  void postingJsonCommentShouldNotSolveAssignment() throws Exception {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/xxe/simple")
@@ -74,7 +67,7 @@ public class SimpleXXETest extends LessonTest {
   }
 
   @Test
-  public void postingXmlCommentWithoutXXEShouldNotSolveAssignment() throws Exception {
+  void postingXmlCommentWithoutXXEShouldNotSolveAssignment() throws Exception {
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/xxe/simple")
@@ -87,7 +80,7 @@ public class SimpleXXETest extends LessonTest {
   }
 
   @Test
-  public void postingPlainTextShouldThrowException() throws Exception {
+  void postingPlainTextShouldThrowException() throws Exception {
     mockMvc
         .perform(MockMvcRequestBuilders.post("/xxe/simple").content("test"))
         .andExpect(status().isOk())

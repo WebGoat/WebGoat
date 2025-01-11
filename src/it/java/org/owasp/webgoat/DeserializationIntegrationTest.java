@@ -26,8 +26,8 @@ public class DeserializationIntegrationTest extends IntegrationTest {
       params.put(
           "token", SerializationHelper.toString(new VulnerableTaskHolder("wait", "sleep 5")));
     }
-    checkAssignment(url("/WebGoat/InsecureDeserialization/task"), params, true);
+    checkAssignment(url("InsecureDeserialization/task"), params, true);
 
-    checkResults("/InsecureDeserialization/");
+    checkResults("InsecureDeserialization");
   }
 }

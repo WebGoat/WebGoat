@@ -16,7 +16,7 @@ function($,
 		initialize: function() {
 
 		},
-		
+
 		render:function(title) {
 		},
 
@@ -30,7 +30,7 @@ function($,
 					$('#user-and-info-nav .dropdown-menu').hide(200);
 				});*/
 			}
-		
+
 		},
 
 		showAboutModal: function() {

@@ -35,6 +35,7 @@ import org.owasp.webgoat.container.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -54,32 +55,41 @@ public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests(
-        auth ->
-            auth.requestMatchers(
-                    "/css/**",
-                    "/images/**",
-                    "/js/**",
-                    "fonts/**",
-                    "/plugins/**",
-                    "/registration",
-                    "/register.mvc",
-                    "/actuator/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated());
-    http.formLogin()
-        .loginPage("/login")
-        .defaultSuccessUrl("/welcome.mvc", true)
-        .usernameParameter("username")
-        .passwordParameter("password")
-        .permitAll();
-    http.logout().deleteCookies("JSESSIONID").invalidateHttpSession(true);
-    http.csrf().disable();
-
-    http.headers().cacheControl().disable();
-    http.exceptionHandling().authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login"));
-    return http.build();
+    return http.authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers(
+                        "/favicon.ico",
+                        "/css/**",
+                        "/images/**",
+                        "/js/**",
+                        "fonts/**",
+                        "/plugins/**",
+                        "/registration",
+                        "/register.mvc",
+                        "/actuator/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+        .formLogin(
+            login ->
+                login
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/welcome.mvc", true)
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .permitAll())
+        .oauth2Login(
+            oidc -> {
+              oidc.defaultSuccessUrl("/login-oauth.mvc");
+              oidc.loginPage("/login");
+            })
+        .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
+        .csrf(csrf -> csrf.disable())
+        .headers(headers -> headers.disable())
+        .exceptionHandling(
+            handling ->
+                handling.authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login")))
+        .build();
   }
 
   @Autowired
@@ -88,6 +98,7 @@ public class WebSecurityConfig {
   }
 
   @Bean
+  @Primary
   public UserDetailsService userDetailsServiceBean() {
     return userDetailsService;
   }
@@ -98,7 +109,6 @@ public class WebSecurityConfig {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
-  @SuppressWarnings("deprecation")
   @Bean
   public NoOpPasswordEncoder passwordEncoder() {
     return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();

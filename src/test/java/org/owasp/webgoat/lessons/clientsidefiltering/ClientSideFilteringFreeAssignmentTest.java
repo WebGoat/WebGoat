@@ -1,6 +1,5 @@
 package org.owasp.webgoat.lessons.clientsidefiltering;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import org.hamcrest.CoreMatchers;
@@ -15,7 +14,6 @@ public class ClientSideFilteringFreeAssignmentTest extends LessonTest {
 
   @BeforeEach
   public void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new ClientSideFiltering());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 

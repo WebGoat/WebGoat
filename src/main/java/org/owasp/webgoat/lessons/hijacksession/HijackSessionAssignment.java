@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.hijacksession;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +33,6 @@ import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.hijacksession.cas.Authentication;
 import org.owasp.webgoat.lessons.hijacksession.cas.HijackSessionAuthenticationProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,11 +53,14 @@ import org.springframework.web.bind.annotation.RestController;
   "hijacksession.hints.4",
   "hijacksession.hints.5"
 })
-public class HijackSessionAssignment extends AssignmentEndpoint {
-
+public class HijackSessionAssignment implements AssignmentEndpoint {
   private static final String COOKIE_NAME = "hijack_cookie";
 
-  @Autowired HijackSessionAuthenticationProvider provider;
+  private final HijackSessionAuthenticationProvider provider;
+
+  public HijackSessionAssignment(HijackSessionAuthenticationProvider provider) {
+    this.provider = provider;
+  }
 
   @PostMapping(path = "/HijackSession/login")
   @ResponseBody

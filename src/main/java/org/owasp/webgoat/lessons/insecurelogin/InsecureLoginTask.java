@@ -22,13 +22,16 @@
 
 package org.owasp.webgoat.lessons.insecurelogin;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class InsecureLoginTask extends AssignmentEndpoint {
+public class InsecureLoginTask implements AssignmentEndpoint {
 
   @PostMapping("/InsecureLogin/task")
   @ResponseBody

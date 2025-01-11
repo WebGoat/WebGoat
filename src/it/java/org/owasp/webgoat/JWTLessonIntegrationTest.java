@@ -13,7 +13,6 @@ import io.jsonwebtoken.impl.TextCodec;
 import io.restassured.RestAssured;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -34,7 +33,7 @@ import org.owasp.webgoat.lessons.jwt.JWTSecretKeyEndpoint;
 public class JWTLessonIntegrationTest extends IntegrationTest {
 
   @Test
-  public void solveAssignment() throws IOException, InvalidKeyException, NoSuchAlgorithmException {
+  public void solveAssignment() throws IOException, NoSuchAlgorithmException {
     startLesson("JWT");
 
     decodingToken();
@@ -51,11 +50,10 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
 
     quiz();
 
-    checkResults("/JWT/");
+    checkResults("JWT");
   }
 
   private String generateToken(String key) {
-
     return Jwts.builder()
         .setIssuer("WebGoat Token Builder")
         .setAudience("webgoat.org")
@@ -88,7 +86,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .formParam("jwt-encode-user", "user")
-            .post(url("/WebGoat/JWT/decode"))
+            .post(url("JWT/decode"))
             .then()
             .statusCode(200)
             .extract()
@@ -96,14 +94,14 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
         CoreMatchers.is(true));
   }
 
-  private void findPassword() throws IOException, NoSuchAlgorithmException, InvalidKeyException {
+  private void findPassword() {
 
     String accessToken =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/WebGoat/JWT/secret/gettoken"))
+            .get(url("JWT/secret/gettoken"))
             .then()
             .extract()
             .response()
@@ -117,7 +115,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .formParam("token", generateToken(secret))
-            .post(url("/WebGoat/JWT/secret"))
+            .post(url("JWT/secret"))
             .then()
             .statusCode(200)
             .extract()
@@ -131,7 +129,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("/WebGoat/JWT/votings/login?user=Tom"))
+            .get(url("JWT/votings/login?user=Tom"))
             .then()
             .extract()
             .cookie("access_token");
@@ -164,7 +162,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .cookie("access_token", replacedToken)
-            .post(url("/WebGoat/JWT/votings"))
+            .post(url("JWT/votings"))
             .then()
             .statusCode(200)
             .extract()
@@ -205,7 +203,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .header("Authorization", "Bearer " + replacedToken)
-            .post(url("/WebGoat/JWT/refresh/checkout"))
+            .post(url("JWT/refresh/checkout"))
             .then()
             .statusCode(200)
             .extract()
@@ -238,7 +236,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .post(url("/WebGoat/JWT/kid/delete?token=" + token))
+            .post(url("JWT/kid/delete?token=" + token))
             .then()
             .statusCode(200)
             .extract()
@@ -256,7 +254,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .multiPart("file", "jwks.json", jwks.toJson().getBytes())
-        .post(webWolfUrl("/fileupload"))
+        .post(new WebWolfUrlBuilder().path("fileupload").build())
         .then()
         .extract()
         .response()
@@ -265,7 +263,10 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
 
     Map<String, Object> header = new HashMap();
     header.put(Header.TYPE, Header.JWT_TYPE);
-    header.put(JwsHeader.JWK_SET_URL, webWolfFileUrl("jwks.json"));
+    header.put(
+        JwsHeader.JWK_SET_URL,
+        new WebWolfUrlBuilder().attackMode().path("files/%s/jwks.json", getUser()).build());
+
     String token =
         Jwts.builder()
             .setHeader(header)
@@ -285,7 +286,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .post(url("/WebGoat/JWT/jku/delete?token=" + token))
+            .post(url("JWT/jku/delete?token=" + token))
             .then()
             .statusCode(200)
             .extract()
@@ -298,6 +299,6 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
     params.put("question_0_solution", "Solution 1");
     params.put("question_1_solution", "Solution 2");
 
-    checkAssignment(url("/WebGoat/JWT/quiz"), params, true);
+    checkAssignment(url("JWT/quiz"), params, true);
   }
 }

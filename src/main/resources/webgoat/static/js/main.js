@@ -14,7 +14,7 @@ js/main.js << main file for require.js
  * Main configuration for RequireJS. Referred to from Spring MVC /start.mvc using main_new.html template.
  * baseURL is the base path of all JavaScript libraries.
  * paths refers to the JavaScript Libraries that we want to use. A name and relative path is used. Extension .js is not required.
- * 
+ *
  * jquery is a library that can easily access all objects on the HTML page.
  * jquery-ui is an UI extension on jquery and adds stuff like dialog boxes.
  * underscore contains a library of helper methods.
@@ -25,6 +25,7 @@ require.config({
   baseUrl: "js/",
   paths: {
     jquery: 'libs/jquery.min',
+    jqueryvuln: 'libs/jquery-2.1.4.min',
     jqueryuivuln: 'libs/jquery-ui-1.10.4',
     jqueryui: 'libs/jquery-ui.min',
     underscore: 'libs/underscore-min',
@@ -32,19 +33,16 @@ require.config({
     bootstrap: 'libs/bootstrap.min',
     text: 'libs/text',
     templates: 'goatApp/templates',
-    polyglot: 'libs/polyglot.min'
+    polyglot: 'libs/polyglot.min',
+    search: 'search'
   },
 
-  map: {
-	    'libs/jquery-base' : {'jquery':'libs/jquery.min'},
-	    'libs/jquery-vuln' : {'jquery':'libs/jquery-2.1.4.min'}
-  },
-
+  deps: ['search'],
 
   shim: {
 	"jqueryui": {
 	  exports:"$",
-	  deps: ['libs/jquery-base']
+	  deps: ['jquery']
 	},
     underscore: {
       exports: "_"
@@ -65,12 +63,11 @@ require.config({
  */
 require([
 	'jquery',
-	'libs/jquery-base',
-	'libs/jquery-vuln',
-	'jqueryui', 
+	'jqueryvuln',
+	'jqueryui',
 	'underscore',
 	'backbone',
 	'bootstrap',
-	'goatApp/goatApp'], function($,jqueryBase,jqueryVuln,jqueryui,_,Backbone,Bootstrap,Goat){
+	'goatApp/goatApp'], function($,jqueryVuln,jqueryui,_,Backbone,Bootstrap,Goat){
     Goat.initApp();
 });

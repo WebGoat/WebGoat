@@ -1,8 +1,9 @@
 package org.owasp.webgoat.lessons.challenges.challenge1;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.owasp.webgoat.lessons.challenges.SolutionConstants.PASSWORD;
 
-import lombok.RequiredArgsConstructor;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.challenges.Flags;
@@ -42,10 +43,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @since August 11, 2016
  */
 @RestController
-@RequiredArgsConstructor
-public class Assignment1 extends AssignmentEndpoint {
+public class Assignment1 implements AssignmentEndpoint {
 
   private final Flags flags;
+
+  public Assignment1(Flags flags) {
+    this.flags = flags;
+  }
 
   @PostMapping("/challenge/1")
   @ResponseBody

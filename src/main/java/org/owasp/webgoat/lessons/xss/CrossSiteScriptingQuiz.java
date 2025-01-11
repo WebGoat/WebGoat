@@ -22,6 +22,9 @@
 
 package org.owasp.webgoat.lessons.xss;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import java.io.IOException;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -32,9 +35,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CrossSiteScriptingQuiz extends AssignmentEndpoint {
+public class CrossSiteScriptingQuiz implements AssignmentEndpoint {
 
-  String[] solutions = {"Solution 4", "Solution 3", "Solution 1", "Solution 2", "Solution 4"};
+  private static final String[] solutions = {
+    "Solution 4", "Solution 3", "Solution 1", "Solution 2", "Solution 4"
+  };
   boolean[] guesses = new boolean[solutions.length];
 
   @PostMapping("/CrossSiteScripting/quiz")

@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 class UserServiceTest {
 
   @Mock private UserRepository userRepository;
-  @Mock private UserTrackerRepository userTrackerRepository;
+  @Mock private UserProgressRepository userTrackerRepository;
   @Mock private JdbcTemplate jdbcTemplate;
   @Mock private Function<String, Flyway> flywayLessons;
 

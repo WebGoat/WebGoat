@@ -23,6 +23,9 @@
 
 package org.owasp.webgoat.lessons.idor;
 
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -37,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
   "idor.hints.idorDiffAttributes2",
   "idor.hints.idorDiffAttributes3"
 })
-public class IDORDiffAttributes extends AssignmentEndpoint {
+public class IDORDiffAttributes implements AssignmentEndpoint {
 
   @PostMapping("/IDOR/diff-attributes")
   @ResponseBody

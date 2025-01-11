@@ -22,9 +22,8 @@
 
 package org.owasp.webgoat.lessons.vulnerablecomponents;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.StreamException;
@@ -53,7 +52,7 @@ public class VulnerableComponentsLessonTest {
     xstream.setClassLoader(Contact.class.getClassLoader());
     xstream.alias("contact", ContactImpl.class);
     xstream.ignoreUnknownElements();
-    assertNotNull(xstream.fromXML(contact));
+    assertThat(xstream.fromXML(contact)).isNotNull();
   }
 
   @Test
@@ -67,7 +66,7 @@ public class VulnerableComponentsLessonTest {
         assertThrows(
             RuntimeException.class,
             () -> ((Contact) xstream.fromXML(strangeContact)).getFirstName());
-    assertTrue(e.getCause().getMessage().contains("calc.exe"));
+    assertThat(e.getCause().getMessage().contains("calc.exe")).isTrue();
   }
 
   @Test
@@ -79,6 +78,6 @@ public class VulnerableComponentsLessonTest {
     Exception e =
         assertThrows(
             StreamException.class, () -> ((Contact) xstream.fromXML("bullssjfs")).getFirstName());
-    assertTrue(e.getCause().getMessage().contains("START_DOCUMENT"));
+    assertThat(e.getCause().getMessage().contains("START_DOCUMENT")).isTrue();
   }
 }
