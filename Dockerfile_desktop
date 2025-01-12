@@ -1,6 +1,6 @@
 FROM lscr.io/linuxserver/webtop:ubuntu-xfce
-LABEL NAME = "WebGoat: A deliberately insecure Web Application"
-LABEL maintainer = "WebGoat team"
+LABEL name="WebGoat: A deliberately insecure Web Application"
+LABEL maintainer="WebGoat team"
 
 WORKDIR /config
 
@@ -38,9 +38,10 @@ RUN \
  rm -rf java.tar.gz && \
  chmod +x /config/start_webgoat.sh && \
  chmod +x /config/start_zap.sh && \
- echo "JAVA_HOME=/config/jdk-23.0.1+11/" >> .bash_aliases && \
+ mv /config/jdk-23.0.1+11-jre /config/java-jdk && \
+ echo "JAVA_HOME=/config/java-jdk/" >> .bash_aliases && \
  echo "PATH=$PATH:$JAVA_HOME/bin" >> .bash_aliases
 
-ENV JAVA_HOME=/config/jdk-23.0.1+11
+ENV JAVA_HOME=/config/java-jdk
 
 WORKDIR /config/Desktop
