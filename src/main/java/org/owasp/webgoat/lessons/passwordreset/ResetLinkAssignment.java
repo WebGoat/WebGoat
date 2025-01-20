@@ -72,17 +72,17 @@ public class ResetLinkAssignment implements AssignmentEndpoint {
 
   static final String TEMPLATE =
       """
-          Hi, you requested a password reset link, please use this <a target='_blank'
-           href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your
-           password.
+      Hi, you requested a password reset link, please use this <a target='_blank'
+       href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your
+       password.
 
-          If you did not request this password change you can ignore this message.
-          If you have any comments or questions, please do not hesitate to reach us at
-           support@webgoat-cloud.org
+      If you did not request this password change you can ignore this message.
+      If you have any comments or questions, please do not hesitate to reach us at
+       support@webgoat-cloud.org
 
-          Kind regards,
-          Team WebGoat
-          """;
+      Kind regards,
+      Team WebGoat
+      """;
 
   @PostMapping("/PasswordReset/reset/login")
   @ResponseBody

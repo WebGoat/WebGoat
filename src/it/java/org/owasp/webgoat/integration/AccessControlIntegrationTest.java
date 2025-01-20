@@ -32,8 +32,8 @@ class AccessControlIntegrationTest extends IntegrationTest {
     // create user
     var userTemplate =
         """
-                {"username":"%s","password":"%s","admin": "true"}
-                """;
+        {"username":"%s","password":"%s","admin": "true"}
+        """;
     RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
