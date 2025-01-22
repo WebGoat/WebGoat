@@ -20,9 +20,10 @@ public class AssignmentProgress {
   private Long id;
 
   @Getter
-  @OneToOne(cascade = CascadeType.ALL) private Assignment assignment;
-  @Getter
-  private boolean solved;
+  @OneToOne(cascade = CascadeType.ALL)
+  private Assignment assignment;
+
+  @Getter private boolean solved;
 
   protected AssignmentProgress() {}
 

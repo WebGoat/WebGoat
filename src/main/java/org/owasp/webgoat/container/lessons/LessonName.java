@@ -18,4 +18,9 @@ public record LessonName(String lessonName) {
       lessonName = lessonName.substring(0, lessonName.indexOf(".lesson"));
     }
   }
+
+  @Override
+  public String toString() {
+    return lessonName;
+  }
 }

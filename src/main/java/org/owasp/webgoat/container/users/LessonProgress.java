@@ -9,14 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Version;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Lesson;
 
 /**
@@ -72,8 +70,7 @@ public class LessonProgress {
 
   public LessonProgress(Lesson lesson) {
     lessonName = lesson.getId();
-    assignments.addAll(
-        lesson.getAssignments().stream().map(a -> new AssignmentProgress(a)).toList());
+    assignments.addAll(lesson.getAssignments().stream().map(AssignmentProgress::new).toList());
   }
 
   private Optional<AssignmentProgress> getAssignment(String name) {

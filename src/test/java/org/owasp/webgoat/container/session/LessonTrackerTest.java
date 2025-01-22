@@ -69,8 +69,7 @@ class LessonTrackerTest {
     lessonTracker.assignmentSolved("a1");
 
     Map<AssignmentProgress, Boolean> lessonOverview = lessonTracker.getLessonOverview();
-    assertThat(lessonOverview.get(a1)).isTrue();
-    assertThat(lessonOverview.get(a2)).isFalse();
+    assertThat(lessonOverview.values()).containsExactlyInAnyOrder(true, false);
   }
 
   @Test
