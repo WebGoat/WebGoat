@@ -15,7 +15,7 @@ public class PlaywrightTest {
   public static class WebGoatOptions implements OptionsFactory {
     @Override
     public Options getOptions() {
-      return new Options().setHeadless(false).setContextOptions(getContextOptions());
+      return new Options().setHeadless(true).setContextOptions(getContextOptions());
     }
   }
 
