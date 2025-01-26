@@ -31,6 +31,7 @@ public class UserService implements UserDetailsService {
       throw new UsernameNotFoundException("User not found");
     } else {
       webGoatUser.createUser();
+      // TODO maybe better to use an event to initialize lessons to keep dependencies low
       lessonInitializables.forEach(l -> l.initialize(webGoatUser));
     }
     return webGoatUser;

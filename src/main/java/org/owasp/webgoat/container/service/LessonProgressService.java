@@ -10,7 +10,6 @@ import org.owasp.webgoat.container.lessons.LessonName;
 import org.owasp.webgoat.container.session.Course;
 import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,11 +39,9 @@ public class LessonProgressService {
     var userProgress = userProgressRepository.findByUser(username);
     var lesson = course.getLessonByName(lessonName);
 
-    Assert.isTrue(lesson != null, "Lesson not found: " + lessonName);
-
     var lessonProgress = userProgress.getLessonProgress(lesson);
     return lessonProgress.getLessonOverview().entrySet().stream()
-        .map(entry -> new LessonOverview(entry.getKey(), entry.getValue()))
+        .map(entry -> new LessonOverview(entry.getKey().getAssignment(), entry.getValue()))
         .toList();
   }
 

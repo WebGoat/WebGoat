@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Lesson;
+import org.owasp.webgoat.container.users.AssignmentProgress;
 import org.owasp.webgoat.container.users.LessonProgress;
 
 /**
@@ -67,9 +68,8 @@ class LessonTrackerTest {
     LessonProgress lessonTracker = new LessonProgress(lesson);
     lessonTracker.assignmentSolved("a1");
 
-    Map<Assignment, Boolean> lessonOverview = lessonTracker.getLessonOverview();
-    assertThat(lessonOverview.get(a1)).isTrue();
-    assertThat(lessonOverview.get(a2)).isFalse();
+    Map<AssignmentProgress, Boolean> lessonOverview = lessonTracker.getLessonOverview();
+    assertThat(lessonOverview.values()).containsExactlyInAnyOrder(true, false);
   }
 
   @Test

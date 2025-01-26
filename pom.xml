@@ -97,10 +97,12 @@
     <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
     <waittimeForServerStart>60</waittimeForServerStart>
     <webdriver.version>5.9.2</webdriver.version>
-    <webgoat.context>/</webgoat.context>
+    <webgoat.context>/WebGoat</webgoat.context>
+    <webgoat.port>8080</webgoat.port>
     <webgoat.sslenabled>false</webgoat.sslenabled>
     <webjars-locator-core.version>0.59</webjars-locator-core.version>
-    <webwolf.context>/</webwolf.context>
+    <webwolf.context>/WebWolf</webwolf.context>
+    <webwolf.port>9090</webwolf.port>
     <wiremock.version>3.10.0</wiremock.version>
     <xml-resolver.version>1.2</xml-resolver.version>
     <xstream.version>1.4.5</xstream.version>
@@ -216,6 +218,11 @@
         <groupId>org.jruby</groupId>
         <artifactId>jruby</artifactId>
         <version>9.4.9.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.microsoft.playwright</groupId>
+        <artifactId>playwright</artifactId>
+        <version>1.49.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -401,6 +408,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.microsoft.playwright</groupId>
+      <artifactId>playwright</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-properties-migrator</artifactId>
       <scope>runtime</scope>
@@ -486,7 +498,7 @@
             <logback.configurationFile>${basedir}/src/test/resources/logback-test.xml</logback.configurationFile>
           </systemPropertyVariables>
           <argLine>-Xmx512m</argLine>
-          <includes>org/owasp/webgoat/*Test</includes>
+          <includes>org/owasp/webgoat/integration/*Test, org/owasp/webgoat/playwright/**/*Test</includes>
         </configuration>
         <executions>
           <execution>
@@ -517,6 +529,7 @@
           --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED</argLine>
           <excludes>
             <exclude>**/*IntegrationTest.java</exclude>
+            <exclude>**/*UITest.java</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -702,7 +715,7 @@
                   </arguments>
                   <waitForInterrupt>false</waitForInterrupt>
                   <waitAfterLaunch>${waittimeForServerStart}</waitAfterLaunch>
-                  <healthCheckUrl>http://127.0.0.1:${webgoat.port}${webgoat.context}login</healthCheckUrl>
+                  <healthCheckUrl>http://127.0.0.1:${webgoat.port}${webgoat.context}/login</healthCheckUrl>
                 </configuration>
               </execution>
               <execution>
