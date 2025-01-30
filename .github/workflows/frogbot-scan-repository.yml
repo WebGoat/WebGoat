@@ -20,9 +20,9 @@ jobs:
     environment: frogbot
     steps:
     - uses: jfrog/setup-jfrog-cli@v4
-        env:
+      env:
            JF_URL: ${{ vars.JF_URL }}
-        with:
+      with:
           oidc-provider-name: erezn-jfrog
           
           # [Mandatory if JF_USER and JF_PASSWORD are not provided]
