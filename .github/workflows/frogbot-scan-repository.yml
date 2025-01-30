@@ -19,7 +19,7 @@ jobs:
         branch: ["main"]
     environment: frogbot
     steps:
-    - uses: jfrog/setup-jfrog-cli@v4
+    - uses: jfrog/frogbot@v2
       env:
            JF_URL: ${{ vars.JF_URL }}
       #with:
