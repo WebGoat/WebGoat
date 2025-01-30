@@ -22,12 +22,12 @@ jobs:
     - uses: jfrog/setup-jfrog-cli@v4
       env:
            JF_URL: ${{ vars.JF_URL }}
-      with:
-          oidc-provider-name: erezn-jfrog
+      #with:
+       #   oidc-provider-name: erezn-jfrog
           
           # [Mandatory if JF_USER and JF_PASSWORD are not provided]
           # JFrog access token with 'read' permissions on Xray service
-          #JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
 
           # [Mandatory if JF_ACCESS_TOKEN is not provided]
           # JFrog username with 'read' permissions for Xray. Must be provided with JF_PASSWORD
