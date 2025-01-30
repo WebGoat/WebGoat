@@ -17,14 +17,13 @@ jobs:
       matrix:
         # The repository scanning will be triggered periodically on the following branches.
         branch: ["main"]
-    environment: frogbot
     steps:
-    - uses: jfrog/frogbot@v2
-      env:
-           JF_URL: ${{ vars.JF_URL }}
-      #with:
-       #   oidc-provider-name: erezn-jfrog
-          
+      - uses: jfrog/frogbot@v2
+        env:
+          # [Mandatory]
+          # JFrog platform URL
+          JF_URL: ${{ vars.JF_URL }}
+
           # [Mandatory if JF_USER and JF_PASSWORD are not provided]
           # JFrog access token with 'read' permissions on Xray service
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
@@ -84,7 +83,7 @@ jobs:
 
           # [Optional]
           # JFrog project. Learn more about it here: https://www.jfrog.com/confluence/display/JFROG/Projects
-          # JF_PROJECT: <project-key>
+          JF_PROJECT: "webgoat"
 
           # [Optional, default: "TRUE"]
           # Fails the Frogbot task if any security issue is found.
