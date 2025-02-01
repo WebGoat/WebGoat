@@ -7,7 +7,6 @@
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.3.5</version>
   </parent>
-
   <groupId>org.owasp.webgoat</groupId>
   <artifactId>webgoat</artifactId>
   <version>2024.2-SNAPSHOT</version>
