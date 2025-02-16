@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.assignments;
 
 import static org.apache.commons.text.StringEscapeUtils.escapeJson;

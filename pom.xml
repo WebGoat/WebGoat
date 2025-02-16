@@ -551,15 +551,15 @@
         <version>2.44.2</version>
         <configuration>
           <formats>
-              <format>
-                  <includes>
-                      <include>**/*.java</include>
-                  </includes>
-                  <licenseHeader>
-                      <content>/*\n * SPDX-FileCopyrightText: Copyright © 2025 WebGoat authors \n * SPDX-License-Identifier: GPL-2.0-or-later\n */\n</content>
-                      <delimiter>\n</delimiter>
-                  </licenseHeader>
-              </format>
+            <format>
+              <includes>
+                <include>src/**/*.java</include>
+              </includes>
+              <licenseHeader>
+                <file>${project.basedir}/config/license-headers/java</file>
+                <delimiter>(package|import)</delimiter>
+              </licenseHeader>
+            </format>
             <format>
               <includes>
                 <include>.gitignore</include>

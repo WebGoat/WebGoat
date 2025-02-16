@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2025 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.playwright.webgoat.pages;
 
 import static org.owasp.webgoat.playwright.webgoat.PlaywrightTest.webGoatUrl;
