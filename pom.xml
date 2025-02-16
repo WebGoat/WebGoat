@@ -553,6 +553,15 @@
           <formats>
             <format>
               <includes>
+                <include>src/**/*.java</include>
+              </includes>
+              <licenseHeader>
+                <file>${project.basedir}/config/license-headers/java</file>
+                <delimiter>(package|import)</delimiter>
+              </licenseHeader>
+            </format>
+            <format>
+              <includes>
                 <include>.gitignore</include>
               </includes>
               <trimTrailingWhitespace></trimTrailingWhitespace>

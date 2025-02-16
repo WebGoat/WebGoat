@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2020 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.webwolf.jwt;
 
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
