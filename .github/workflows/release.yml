@@ -128,7 +128,7 @@ jobs:
           mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}-SNAPSHOT versions:commit
 
       - name: Push the changes to new branch
-        uses: devops-infra/action-commit-push@v0.9.2
+        uses: devops-infra/action-commit-push@v0.10.0
         with:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
             add_timestamp: true
