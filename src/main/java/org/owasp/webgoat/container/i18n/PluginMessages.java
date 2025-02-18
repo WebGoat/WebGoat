@@ -11,9 +11,6 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
  * Message resource bundle for plugins.
- *
- * @author nbaars
- * @date 2/4/17
  */
 public class PluginMessages extends ReloadableResourceBundleMessageSource {
   private static final String PROPERTIES_SUFFIX = ".properties";

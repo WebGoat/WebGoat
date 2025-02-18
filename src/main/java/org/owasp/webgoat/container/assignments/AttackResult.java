@@ -12,13 +12,13 @@ import org.owasp.webgoat.container.i18n.PluginMessages;
 @Getter
 public class AttackResult {
 
-  private boolean lessonCompleted;
-  private String feedback;
+  private final boolean lessonCompleted;
+  private final String feedback;
   private Object[] feedbackArgs;
-  private String output;
+  private final String output;
   private Object[] outputArgs;
   private final String assignment;
-  private boolean attemptWasMade;
+  private final boolean attemptWasMade;
 
   private AttackResult(
       boolean lessonCompleted,

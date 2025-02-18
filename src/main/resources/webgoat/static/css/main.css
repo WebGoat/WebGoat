@@ -1436,3 +1436,7 @@ pre .conum {
 b.conum * {
     color: inherit !important
 }
+
+.spacing {
+    margin-left: 5px;
+}

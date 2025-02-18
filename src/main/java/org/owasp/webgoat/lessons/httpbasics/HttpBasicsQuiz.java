@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AssignmentHints({"http-basics.hints.http_basic_quiz.1", "http-basics.hints.http_basic_quiz.2"})
+@AssignmentHints({
+  "http-basics.hints.http_basic_quiz.1",
+  "http-basics.hints.http_basic_quiz.2",
+  "http-basics.hints.http_basic_quiz.3"
+})
 public class HttpBasicsQuiz implements AssignmentEndpoint {
 
   @PostMapping("/HttpBasics/attack2")
