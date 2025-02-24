@@ -7,8 +7,7 @@ This lesson presents the basics for understanding the transfer of data between t
 == Goals
 
 The user should become familiar with the features of WebGoat by manipulating the above
-buttons to view hints, show the HTTP request parameters, the HTTP request cookies, and the Java source code. You may also try using
-link:https://www.zaproxy.org/[OWASP Zed Attack Proxy] for the first time.
+buttons to view hints, show the HTTP request parameters, the HTTP request cookies, and the Java source code. You can use the default Developer Tools in your browser to view the HTTP request and response.
 
 === How HTTP works:
 

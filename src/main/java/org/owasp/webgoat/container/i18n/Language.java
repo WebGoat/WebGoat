@@ -13,9 +13,6 @@ import org.springframework.web.servlet.LocaleResolver;
 /**
  * Wrapper around the LocaleResolver from Spring so we do not need to bother with passing the
  * HttpRequest object when asking for a Locale.
- *
- * @author nbaars
- * @date 2/7/17
  */
 @AllArgsConstructor
 public class Language {

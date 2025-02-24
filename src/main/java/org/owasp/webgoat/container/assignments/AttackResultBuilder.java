@@ -8,7 +8,6 @@ import org.owasp.webgoat.container.i18n.PluginMessages;
 
 public class AttackResultBuilder {
 
-  private PluginMessages messages;
   private boolean lessonCompleted;
   private Object[] feedbackArgs;
   private String feedbackResourceBundleKey;
@@ -16,13 +15,6 @@ public class AttackResultBuilder {
   private Object[] outputArgs;
   private AssignmentEndpoint assignment;
   private boolean attemptWasMade = false;
-  private boolean assignmentCompleted;
-
-  public AttackResultBuilder(PluginMessages messages) {
-    this.messages = messages;
-  }
-
-  public AttackResultBuilder() {}
 
   public AttackResultBuilder lessonCompleted(boolean lessonCompleted) {
     this.lessonCompleted = lessonCompleted;
@@ -32,19 +24,6 @@ public class AttackResultBuilder {
 
   public AttackResultBuilder lessonCompleted(boolean lessonCompleted, String resourceBundleKey) {
     this.lessonCompleted = lessonCompleted;
-    this.feedbackResourceBundleKey = resourceBundleKey;
-    return this;
-  }
-
-  public AttackResultBuilder assignmentCompleted(boolean assignmentCompleted) {
-    this.assignmentCompleted = assignmentCompleted;
-    this.feedbackResourceBundleKey = "assignment.completed";
-    return this;
-  }
-
-  public AttackResultBuilder assignmentCompleted(
-      boolean assignmentCompleted, String resourceBundleKey) {
-    this.assignmentCompleted = assignmentCompleted;
     this.feedbackResourceBundleKey = resourceBundleKey;
     return this;
   }
@@ -95,15 +74,14 @@ public class AttackResultBuilder {
    *
    * <p>- Assignment is set to solved - Feedback message is set to 'assignment.solved'
    *
-   * <p>Of course you can overwrite these values in a specific lesson
+   * <p>Of course, you can overwrite these values in a specific lesson
    *
+   * @param assignment the assignment that was solved
    * @return a builder for creating a result from a lesson
-   * @param assignment
    */
   public static AttackResultBuilder success(AssignmentEndpoint assignment) {
     return new AttackResultBuilder()
         .lessonCompleted(true)
-        .assignmentCompleted(true)
         .attemptWasMade()
         .feedback("assignment.solved")
         .assignment(assignment);
@@ -114,15 +92,14 @@ public class AttackResultBuilder {
    *
    * <p>- Assignment is set to not solved - Feedback message is set to 'assignment.not.solved'
    *
-   * <p>Of course you can overwrite these values in a specific lesson
+   * <p>Of course, you can overwrite these values in a specific lesson
    *
+   * @param assignment the assignment that was not solved
    * @return a builder for creating a result from a lesson
-   * @param assignment
    */
   public static AttackResultBuilder failed(AssignmentEndpoint assignment) {
     return new AttackResultBuilder()
         .lessonCompleted(false)
-        .assignmentCompleted(true)
         .attemptWasMade()
         .feedback("assignment.not.solved")
         .assignment(assignment);

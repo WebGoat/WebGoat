@@ -96,7 +96,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
     <waittimeForServerStart>60</waittimeForServerStart>
-    <webdriver.version>5.9.2</webdriver.version>
+    <webdriver.version>5.9.3</webdriver.version>
     <webgoat.context>/WebGoat</webgoat.context>
     <webgoat.port>8080</webgoat.port>
     <webgoat.sslenabled>false</webgoat.sslenabled>
@@ -217,12 +217,12 @@
       <dependency>
         <groupId>org.jruby</groupId>
         <artifactId>jruby</artifactId>
-        <version>9.4.11.0</version>
+        <version>9.4.12.0</version>
       </dependency>
       <dependency>
         <groupId>com.microsoft.playwright</groupId>
         <artifactId>playwright</artifactId>
-        <version>1.49.0</version>
+        <version>1.50.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

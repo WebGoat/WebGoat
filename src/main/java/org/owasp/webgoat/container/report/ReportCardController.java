@@ -54,12 +54,12 @@ public class ReportCardController {
         lessonStatistics);
   }
 
-  private record ReportCard(
+  public record ReportCard(
       int totalNumberOfLessons,
       int totalNumberOfAssignments,
       long numberOfAssignmentsSolved,
       long numberOfLessonsSolved,
       List<LessonStatistics> lessonStatistics) {}
 
-  private record LessonStatistics(String name, boolean solved, int numberOfAttempts) {}
+  public record LessonStatistics(String name, boolean solved, int numberOfAttempts) {}
 }
