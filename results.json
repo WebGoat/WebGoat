@@ -1,0 +1,230 @@
+{
+	"kics_version": "v2.1.4",
+	"files_scanned": 5,
+	"lines_scanned": 325,
+	"files_parsed": 5,
+	"lines_parsed": 319,
+	"lines_ignored": 6,
+	"files_failed_to_scan": 0,
+	"queries_total": 52,
+	"queries_failed_to_execute": 0,
+	"queries_failed_to_compute_similarity_id": 0,
+	"scan_id": "console",
+	"severity_counters": {
+		"CRITICAL": 0,
+		"HIGH": 0,
+		"INFO": 0,
+		"LOW": 13,
+		"MEDIUM": 0,
+		"TRACE": 0
+	},
+	"total_counter": 13,
+	"total_bom_resources": 0,
+	"start": "2025-02-24T12:37:55.488881173Z",
+	"end": "2025-02-24T12:37:56.480945757Z",
+	"paths": [
+		"/path"
+	],
+	"queries": [
+		{
+			"query_name": "Chown Flag Exists",
+			"query_id": "aa93e17f-b6db-4162-9334-c70334e7ac28",
+			"query_url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+			"severity": "LOW",
+			"platform": "Dockerfile",
+			"cwe": "282",
+			"category": "Best Practices",
+			"experimental": false,
+			"description": "It is considered a best practice for every executable in a container to be owned by the root user even if it is executed by a non-root user, only execution permissions are required on the file, not ownership",
+			"description_id": "ba0a34dc",
+			"files": [
+				{
+					"file_name": "../../path/Dockerfile",
+					"similarity_id": "b5986a8d928733f73831c16858f34c46b8685afdd96076f476e8189acf9b82ba",
+					"line": 12,
+					"issue_type": "IncorrectValue",
+					"search_key": "FROM={{docker.io/eclipse-temurin:17-jre-focal}}.{{COPY --chown=webgoat target/webgoat-*.jar /home/webgoat/webgoat.jar}}",
+					"search_line": -1,
+					"search_value": "",
+					"expected_value": "The 'Dockerfile' shouldn´t contain the 'chown' flag",
+					"actual_value": "The 'Dockerfile' contains the 'chown' flag"
+				}
+			]
+		},
+		{
+			"query_name": "Healthcheck Instruction Missing",
+			"query_id": "b03a748a-542d-44f4-bb86-9199ab4fd2d5",
+			"query_url": "https://docs.docker.com/engine/reference/builder/#healthcheck",
+			"severity": "LOW",
+			"platform": "Dockerfile",
+			"cwe": "710",
+			"category": "Insecure Configurations",
+			"experimental": false,
+			"description": "Ensure that HEALTHCHECK is being used. The HEALTHCHECK instruction tells Docker how to test a container to check that it is still working",
+			"description_id": "426121ee",
+			"files": [
+				{
+					"file_name": "../../path/Dockerfile",
+					"similarity_id": "46ed8bbeef771d06b0985d7eb57df4056e236fa278ccfe4d10683495ede24f5b",
+					"line": 1,
+					"issue_type": "MissingAttribute",
+					"search_key": "FROM={{docker.io/eclipse-temurin:17-jre-focal}}",
+					"search_line": -1,
+					"search_value": "",
+					"expected_value": "Dockerfile should contain instruction 'HEALTHCHECK'",
+					"actual_value": "Dockerfile doesn't contain instruction 'HEALTHCHECK'"
+				}
+			]
+		},
+		{
+			"query_name": "MAINTAINER Instruction Being Used",
+			"query_id": "99614418-f82b-4852-a9ae-5051402b741c",
+			"query_url": "https://docs.docker.com/engine/reference/builder/#maintainer-deprecated",
+			"severity": "LOW",
+			"platform": "Dockerfile",
+			"cwe": "710",
+			"category": "Best Practices",
+			"experimental": false,
+			"description": "The MAINTAINER instruction sets the Author field of the generated images. The LABEL instruction is a much more flexible version of this and you should use it instead, as it enables setting any metadata you require, and can be viewed easily",
+			"description_id": "9d9cbf83",
+			"files": [
+				{
+					"file_name": "../../path/Dockerfile",
+					"similarity_id": "85b88100e5c0b1d66e49a35ee31502005f916a929dc6c2371185252a0e5a6d08",
+					"line": 3,
+					"issue_type": "IncorrectValue",
+					"search_key": "FROM={{docker.io/eclipse-temurin:17-jre-focal}}.MAINTAINER={{\"WebGoat team\"}}",
+					"search_line": -1,
+					"search_value": "",
+					"expected_value": "Maintainer instruction being used in Label 'LABEL maintainer=\"WebGoat team\"'",
+					"actual_value": "Maintainer instruction not being used in Label 'MAINTAINER \"WebGoat team\"'"
+				}
+			]
+		},
+		{
+			"query_name": "Unpinned Actions Full Length Commit SHA",
+			"query_id": "555ab8f9-2001-455e-a077-f2d0f41e2fb9",
+			"query_url": "https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-third-party-actions",
+			"severity": "LOW",
+			"platform": "CICD",
+			"cwe": "829",
+			"cloud_provider": "COMMON",
+			"category": "Supply-Chain",
+			"experimental": false,
+			"description": "Pinning an action to a full length commit SHA is currently the only way to use an action as an immutable release. Pinning to a particular SHA helps mitigate the risk of a bad actor adding a backdoor to the action's repository, as they would need to generate a SHA-1 collision for a valid Git object payload. When selecting a SHA, you should verify it is from the action's repository and not a repository fork.",
+			"description_id": "9cb8402d",
+			"files": [
+				{
+					"file_name": "../../path/.github/workflows/release.yml",
+					"similarity_id": "9762696080e496e2d7f71fc54595b669b242d3c4c68d83ab7efcf036271051a1",
+					"line": 89,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{docker/build-push-action@v4.0.0}}",
+					"search_line": 89,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				},
+				{
+					"file_name": "../../path/.github/workflows/release.yml",
+					"similarity_id": "79fc3d8c32d4a80881e9a99f7b493070ea5d7fe16da830c16c409686b396e619",
+					"line": 83,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{docker/login-action@v2.1.0}}",
+					"search_line": 83,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				},
+				{
+					"file_name": "../../path/.github/workflows/release.yml",
+					"similarity_id": "8244dcd3424dafeaf165331ed44140486d04489e57e943aeedcbd84e6a4c7771",
+					"line": 80,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{docker/setup-buildx-action@v2}}",
+					"search_line": 80,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				},
+				{
+					"file_name": "../../path/.github/workflows/release.yml",
+					"similarity_id": "5257f1221b75a802edffa25773dfc0002be87d1125515afe46aba2f15417859c",
+					"line": 75,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{docker/setup-qemu-action@v2.1.0}}",
+					"search_line": 75,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				},
+				{
+					"file_name": "../../path/.github/workflows/test.yml",
+					"similarity_id": "1b02673057faeb7764a92bef213ee43a684b8d10f5349c697dba64c8e016a812",
+					"line": 45,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{BSFishy/pip-action@v1}}",
+					"search_line": 45,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				},
+				{
+					"file_name": "../../path/.github/workflows/test.yml",
+					"similarity_id": "221eb500a72b7cd440fc8a7feb11c565828a303b62b9e3b44b1b1e44f337dfd2",
+					"line": 54,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{ifaxity/wait-on-action@v1}}",
+					"search_line": 54,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				},
+				{
+					"file_name": "../../path/.github/workflows/test.yml",
+					"similarity_id": "f1a65e4a494da960fb6bd39bdbdb95812a483837b2ac8be6a68d50c3f30e5f7e",
+					"line": 62,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{joonvena/robotframework-reporter-action@v2.1}}",
+					"search_line": 62,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				},
+				{
+					"file_name": "../../path/.github/workflows/release.yml",
+					"similarity_id": "d866c204bd43e2b6e5ac1771d8525dc0f2d74e356140d591c3f54e46710ecf96",
+					"line": 124,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{devops-infra/action-commit-push@v0.9.2}}",
+					"search_line": 124,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				},
+				{
+					"file_name": "../../path/.github/workflows/release.yml",
+					"similarity_id": "d2285f36a00bb57899431157a581baa4f8405e01907abd85df3ebb79c036dbc9",
+					"line": 132,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{devops-infra/action-pull-request@v0.5.3}}",
+					"search_line": 132,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				},
+				{
+					"file_name": "../../path/.github/workflows/release.yml",
+					"similarity_id": "2725631851c40961158d7952872d46e10cc472cb36f0113f00fe76570a38ccff",
+					"line": 41,
+					"issue_type": "IncorrectValue",
+					"search_key": "uses={{softprops/action-gh-release@v1}}",
+					"search_line": 41,
+					"search_value": "",
+					"expected_value": "Action pinned to a full length commit SHA.",
+					"actual_value": "Action is not pinned to a full length commit SHA."
+				}
+			]
+		}
+	]
+}
