@@ -27,7 +27,7 @@ public class SqlInjectionMitigationIntegrationTest extends IntegrationTest {
     params.put("field5", "?");
     params.put("field6", "prep.setString(1,\"\")");
     params.put("field7", "prep.setString(2,\\\"\\\")");
-    checkAssignment(url("SqlInjectionMitigations/attack10a"), params, true);
+      checkAssignment(webGoatUrlConfig.url("SqlInjectionMitigations/attack10a"), params, true);
 
     params.put(
         "editor",
@@ -41,37 +41,36 @@ public class SqlInjectionMitigationIntegrationTest extends IntegrationTest {
             + "} catch (Exception e) {\r\n"
             + "    System.out.println(\"Oops. Something went wrong!\");\r\n"
             + "}");
-    checkAssignment(url("SqlInjectionMitigations/attack10b"), params, true);
+      checkAssignment(webGoatUrlConfig.url("SqlInjectionMitigations/attack10b"), params, true);
 
     params.clear();
     params.put(
         "userid_sql_only_input_validation", "Smith';SELECT/**/*/**/from/**/user_system_data;--");
-    checkAssignment(url("SqlOnlyInputValidation/attack"), params, true);
+      checkAssignment(webGoatUrlConfig.url("SqlOnlyInputValidation/attack"), params, true);
 
     params.clear();
     params.put(
         "userid_sql_only_input_validation_on_keywords",
         "Smith';SESELECTLECT/**/*/**/FRFROMOM/**/user_system_data;--");
-    checkAssignment(url("SqlOnlyInputValidationOnKeywords/attack"), params, true);
+      checkAssignment(webGoatUrlConfig.url("SqlOnlyInputValidationOnKeywords/attack"), params, true);
 
-    RestAssured.given()
+      RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .contentType(ContentType.JSON)
         .get(
-            url(
-                "SqlInjectionMitigations/servers?column=(case when (true) then hostname"
-                    + " else id end)"))
+                webGoatUrlConfig.url("SqlInjectionMitigations/servers?column=(case when (true) then hostname"
+                        + " else id end)"))
         .then()
         .statusCode(200);
 
-    RestAssured.given()
+      RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .contentType(ContentType.JSON)
-        .get(url("SqlInjectionMitigations/servers?column=unknown"))
+        .get(webGoatUrlConfig.url("SqlInjectionMitigations/servers?column=unknown"))
         .then()
         .statusCode(500)
         .body(
@@ -82,7 +81,7 @@ public class SqlInjectionMitigationIntegrationTest extends IntegrationTest {
 
     params.clear();
     params.put("ip", "104.130.219.202");
-    checkAssignment(url("SqlInjectionMitigations/attack12a"), params, true);
+      checkAssignment(webGoatUrlConfig.url("SqlInjectionMitigations/attack12a"), params, true);
 
     checkResults("SqlInjectionMitigations");
   }

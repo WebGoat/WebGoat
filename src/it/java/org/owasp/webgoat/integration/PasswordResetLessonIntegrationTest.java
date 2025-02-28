@@ -35,12 +35,12 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   }
 
   public void assignment2() {
-    checkAssignment(
-        url("PasswordReset/simple-mail/reset"),
+      checkAssignment(
+              webGoatUrlConfig.url("PasswordReset/simple-mail/reset"),
         Map.of("emailReset", this.getUser() + "@webgoat.org"),
         false);
-    checkAssignment(
-        url("PasswordReset/simple-mail"),
+      checkAssignment(
+              webGoatUrlConfig.url("PasswordReset/simple-mail"),
         Map.of(
             "email",
             this.getUser() + "@webgoat.org",
@@ -50,19 +50,19 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   }
 
   public void assignment4() {
-    checkAssignment(
-        url("PasswordReset/questions"),
+      checkAssignment(
+              webGoatUrlConfig.url("PasswordReset/questions"),
         Map.of("username", "tom", "securityQuestion", "purple"),
         true);
   }
 
   public void assignment5() {
-    checkAssignment(
-        url("PasswordReset/SecurityQuestions"),
+      checkAssignment(
+              webGoatUrlConfig.url("PasswordReset/SecurityQuestions"),
         Map.of("question", "What is your favorite animal?"),
         false);
-    checkAssignment(
-        url("PasswordReset/SecurityQuestions"),
+      checkAssignment(
+              webGoatUrlConfig.url("PasswordReset/SecurityQuestions"),
         Map.of("question", "What is your favorite color?"),
         true);
   }
@@ -75,8 +75,8 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
     var link = getPasswordResetLinkFromLandingPage();
     // WebGoat
     changePassword(link);
-    checkAssignment(
-        url("PasswordReset/reset/login"),
+      checkAssignment(
+              webGoatUrlConfig.url("PasswordReset/reset/login"),
         Map.of("email", "tom@webgoat-cloud.org", "password", "123456"),
         true);
   }
@@ -89,7 +89,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(new WebWolfUrlBuilder().path("mail").build())
+            .get(webWolfUrlConfig.url("mail"))
             .then()
             .extract()
             .response()
@@ -107,12 +107,12 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   }
 
   private void changePassword(String link) {
-    RestAssured.given()
+      RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .formParams("resetLink", link, "password", "123456")
-        .post(url("PasswordReset/reset/change-password"))
+        .post(webGoatUrlConfig.url("PasswordReset/reset/change-password"))
         .then()
         .statusCode(200);
   }
@@ -123,7 +123,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(new WebWolfUrlBuilder().path("requests").build())
+            .get(webWolfUrlConfig.url("requests"))
             .then()
             .extract()
             .response()
@@ -138,13 +138,13 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   }
 
   private void clickForgotEmailLink(String user) {
-    RestAssured.given()
+      RestAssured.given()
         .when()
-        .header(HttpHeaders.HOST, String.format("%s:%s", "127.0.0.1", getWebWolfUrlConfig().port()))
+        .header(HttpHeaders.HOST, String.format("%s:%s", "127.0.0.1", webWolfUrlConfig.port()))
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .formParams("email", user)
-        .post(url("PasswordReset/ForgotPassword/create-password-reset-link"))
+        .post(webGoatUrlConfig.url("PasswordReset/ForgotPassword/create-password-reset-link"))
         .then()
         .statusCode(200);
   }

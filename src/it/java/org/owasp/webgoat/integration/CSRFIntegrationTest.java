@@ -5,7 +5,7 @@
 package org.owasp.webgoat.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import io.restassured.RestAssured;
@@ -68,12 +68,12 @@ public class CSRFIntegrationTest extends IntegrationTest {
   public void init() {
     startLesson("CSRF");
     webwolfFileDir = getWebWolfFileServerLocation();
-    uploadTrickHtml("csrf3.html", trickHTML3.replace("WEBGOATURL", url("csrf/basic-get-flag")));
-    uploadTrickHtml("csrf4.html", trickHTML4.replace("WEBGOATURL", url("csrf/review")));
-    uploadTrickHtml("csrf7.html", trickHTML7.replace("WEBGOATURL", url("csrf/feedback/message")));
-    uploadTrickHtml(
+      uploadTrickHtml("csrf3.html", trickHTML3.replace("WEBGOATURL", webGoatUrlConfig.url("csrf/basic-get-flag")));
+      uploadTrickHtml("csrf4.html", trickHTML4.replace("WEBGOATURL", webGoatUrlConfig.url("csrf/review")));
+      uploadTrickHtml("csrf7.html", trickHTML7.replace("WEBGOATURL", webGoatUrlConfig.url("csrf/feedback/message")));
+      uploadTrickHtml(
         "csrf8.html",
-        trickHTML8.replace("WEBGOATURL", url("login")).replace("USERNAME", this.getUser()));
+        trickHTML8.replace("WEBGOATURL", webGoatUrlConfig.url("login")).replace("USERNAME", this.getUser()));
   }
 
   @TestFactory
@@ -107,7 +107,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
         .multiPart("file", htmlName, htmlContent.getBytes())
-        .post(new WebWolfUrlBuilder().path("fileupload").build())
+        .post(webWolfUrlConfig.url("fileupload"))
         .then()
         .extract()
         .response()
@@ -122,7 +122,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(new WebWolfUrlBuilder().path("files/%s/%s", this.getUser(), htmlName).build())
+            .get(webWolfUrlConfig.url("files/%s/%s".formatted(this.getUser(), htmlName)))
             .then()
             .extract()
             .response()
@@ -140,7 +140,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .header("Referer", new WebWolfUrlBuilder().path("files/fake.html").build())
+            .header("Referer", webWolfUrlConfig.url("files/fake.html"))
             .post(goatURL)
             .then()
             .extract()
@@ -148,15 +148,13 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .toString();
 
     Map<String, Object> params = new HashMap<>();
-    params.clear();
     params.put("confirmFlagVal", flag);
-    checkAssignment(url("csrf/confirm-flag-1"), params, true);
+      checkAssignment(webGoatUrlConfig.url("csrf/confirm-flag-1"), params, true);
   }
 
   private void checkAssignment4(String goatURL) {
 
     Map<String, Object> params = new HashMap<>();
-    params.clear();
     params.put("reviewText", "test review");
     params.put("stars", "5");
     params.put(
@@ -167,13 +165,13 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .header("Referer", new WebWolfUrlBuilder().path("files/fake.html").build())
+            .header("Referer", webWolfUrlConfig.url("files/fake.html"))
             .formParams(params)
             .post(goatURL)
             .then()
             .extract()
             .path("lessonCompleted");
-    assertEquals(true, result);
+    assertTrue(result);
   }
 
   private void checkAssignment7(String goatURL) {
@@ -188,7 +186,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .header("Referer", new WebWolfUrlBuilder().path("files/fake.html").build())
+            .header("Referer", webWolfUrlConfig.url("files/fake.html"))
             .contentType(ContentType.TEXT)
             .body(
                 "{\"name\":\"WebGoat\",\"email\":\"webgoat@webgoat.org\",\"content\":\"WebGoat is"
@@ -202,7 +200,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
 
     params.clear();
     params.put("confirmFlagVal", flag);
-    checkAssignment(url("csrf/feedback"), params, true);
+      checkAssignment(webGoatUrlConfig.url("csrf/feedback"), params, true);
   }
 
   private void checkAssignment8(String goatURL) {
@@ -211,7 +209,6 @@ public class CSRFIntegrationTest extends IntegrationTest {
     registerCSRFUser();
 
     Map<String, Object> params = new HashMap<>();
-    params.clear();
     params.put("username", "csrf-" + this.getUser());
     params.put("password", "password");
 
@@ -221,7 +218,7 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .header("Referer", new WebWolfUrlBuilder().path("files/fake.html").build())
+            .header("Referer", webWolfUrlConfig.url("files/fake.html"))
             .params(params)
             .post(goatURL)
             .then()
@@ -229,21 +226,21 @@ public class CSRFIntegrationTest extends IntegrationTest {
             .cookie("JSESSIONID");
 
     // select the lesson
-    RestAssured.given()
+      RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", newCookie)
-        .get(url("CSRF.lesson.lesson"))
+        .get(webGoatUrlConfig.url("CSRF.lesson.lesson"))
         .then()
         .statusCode(200);
 
     // click on the assignment
-    boolean result =
+      boolean result =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", newCookie)
-            .post(url("csrf/login"))
+            .post(webGoatUrlConfig.url("csrf/login"))
             .then()
             .statusCode(200)
             .extract()
@@ -254,11 +251,11 @@ public class CSRFIntegrationTest extends IntegrationTest {
     login();
     startLesson("CSRF", false);
 
-    Overview[] assignments =
+      Overview[] assignments =
         RestAssured.given()
             .cookie("JSESSIONID", getWebGoatCookie())
             .relaxedHTTPSValidation()
-            .get(url("service/lessonoverview.mvc/CSRF"))
+            .get(webGoatUrlConfig.url("service/lessonoverview.mvc/CSRF"))
             .then()
             .extract()
             .jsonPath()
@@ -278,13 +275,13 @@ public class CSRFIntegrationTest extends IntegrationTest {
   /** Try to register the new user. Ignore the result. */
   private void registerCSRFUser() {
 
-    RestAssured.given()
+      RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
         .formParam("username", "csrf-" + this.getUser())
         .formParam("password", "password")
         .formParam("matchingPassword", "password")
         .formParam("agree", "agree")
-        .post(url("register.mvc"));
+        .post(webGoatUrlConfig.url("register.mvc"));
   }
 }

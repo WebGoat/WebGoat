@@ -31,7 +31,8 @@ class HijackSessionAssignmentTest extends LessonTest {
   private static final String COOKIE_NAME = "hijack_cookie";
   private static final String LOGIN_CONTEXT_PATH = "/HijackSession/login";
 
-  @MockBean Authentication authenticationMock;
+  @MockBean
+  Authentication authenticationMock;
 
   @MockBean HijackSessionAuthenticationProvider providerMock;
 
