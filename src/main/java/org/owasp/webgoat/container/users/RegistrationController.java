@@ -6,11 +6,14 @@ package org.owasp.webgoat.container.users;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +25,12 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @since 3/19/17.
  */
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class RegistrationController {
 
-  private UserValidator userValidator;
-  private UserService userService;
+  private final UserValidator userValidator;
+  private final UserService userService;
 
   @GetMapping("/registration")
   public String showForm(UserForm userForm) {
@@ -38,13 +41,21 @@ public class RegistrationController {
   public String registration(
       @ModelAttribute("userForm") @Valid UserForm userForm,
       BindingResult bindingResult,
-      HttpServletRequest request)
+      HttpServletRequest request,
+      HttpServletResponse response)
       throws ServletException {
     userValidator.validate(userForm, bindingResult);
 
     if (bindingResult.hasErrors()) {
       return "registration";
     }
+
+    // Logout current user if any
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth != null) {
+      new SecurityContextLogoutHandler().logout(request, response, auth);
+    }
+
     userService.addUser(userForm.getUsername(), userForm.getPassword());
     request.login(userForm.getUsername(), userForm.getPassword());
 
