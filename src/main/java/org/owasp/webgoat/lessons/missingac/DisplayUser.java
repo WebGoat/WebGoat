@@ -13,8 +13,8 @@ import lombok.Getter;
 public class DisplayUser {
   // intended to provide a display version of WebGoatUser for admins to view user attributes
 
-  private String username;
-  private boolean admin;
+  private final String username;
+  private final boolean admin;
   private String userHash;
 
   public DisplayUser(User user, String passwordSalt) {

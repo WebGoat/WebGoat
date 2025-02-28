@@ -43,18 +43,18 @@ public class IDORIntegrationTest extends IntegrationTest {
     params.put("username", "tom");
     params.put("password", "cat");
 
-    checkAssignment(url("IDOR/login"), params, true);
+      checkAssignment(webGoatUrlConfig.url("IDOR/login"), params, true);
   }
 
   private void profile() {
 
     // View profile - assignment 3a
-    MatcherAssert.assertThat(
+      MatcherAssert.assertThat(
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("IDOR/profile"))
+            .get(webGoatUrlConfig.url("IDOR/profile"))
             .then()
             .statusCode(200)
             .extract()
@@ -64,20 +64,20 @@ public class IDORIntegrationTest extends IntegrationTest {
     // Show difference - assignment 3b
     Map<String, Object> params = new HashMap<>();
     params.put("attributes", "userId,role");
-    checkAssignment(url("IDOR/diff-attributes"), params, true);
+      checkAssignment(webGoatUrlConfig.url("IDOR/diff-attributes"), params, true);
 
     // View profile another way - assignment 4
     params.clear();
     params.put("url", "WebGoat/IDOR/profile/2342384");
-    checkAssignment(url("IDOR/profile/alt-path"), params, true);
+      checkAssignment(webGoatUrlConfig.url("IDOR/profile/alt-path"), params, true);
 
     // assignment 5a
-    MatcherAssert.assertThat(
+      MatcherAssert.assertThat(
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("IDOR/profile/2342388"))
+            .get(webGoatUrlConfig.url("IDOR/profile/2342388"))
             .then()
             .statusCode(200)
             .extract()
@@ -85,7 +85,7 @@ public class IDORIntegrationTest extends IntegrationTest {
         CoreMatchers.is(true));
 
     // assignment 5b
-    MatcherAssert.assertThat(
+      MatcherAssert.assertThat(
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
@@ -94,7 +94,7 @@ public class IDORIntegrationTest extends IntegrationTest {
             .body(
                 "{\"role\":\"1\", \"color\":\"red\", \"size\":\"large\", \"name\":\"Buffalo Bill\","
                     + " \"userId\":\"2342388\"}")
-            .put(url("IDOR/profile/2342388"))
+            .put(webGoatUrlConfig.url("IDOR/profile/2342388"))
             .then()
             .statusCode(200)
             .extract()

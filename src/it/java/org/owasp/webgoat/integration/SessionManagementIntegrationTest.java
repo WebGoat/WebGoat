@@ -18,8 +18,8 @@ class SessionManagementIT extends IntegrationTest {
   void hijackSessionTest() {
     startLesson("HijackSession");
 
-    checkAssignment(
-        url(HIJACK_LOGIN_CONTEXT_PATH),
+      checkAssignment(
+              webGoatUrlConfig.url(HIJACK_LOGIN_CONTEXT_PATH),
         Map.of("username", "webgoat", "password", "webgoat"),
         false);
   }

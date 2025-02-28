@@ -18,7 +18,7 @@ public class XSSIntegrationTest extends IntegrationTest {
     Map<String, Object> params = new HashMap<>();
     params.clear();
     params.put("checkboxAttack1", "value");
-    checkAssignment(url("CrossSiteScripting/attack1"), params, true);
+      checkAssignment(webGoatUrlConfig.url("CrossSiteScripting/attack1"), params, true);
 
     params.clear();
     params.put("QTY1", "1");
@@ -27,17 +27,17 @@ public class XSSIntegrationTest extends IntegrationTest {
     params.put("QTY4", "1");
     params.put("field1", "<script>alert('XSS+Test')</script>");
     params.put("field2", "111");
-    checkAssignmentWithGet(url("CrossSiteScripting/attack5a"), params, true);
+      checkAssignmentWithGet(webGoatUrlConfig.url("CrossSiteScripting/attack5a"), params, true);
 
     params.clear();
     params.put("DOMTestRoute", "start.mvc#test");
-    checkAssignment(url("CrossSiteScripting/attack6a"), params, true);
+      checkAssignment(webGoatUrlConfig.url("CrossSiteScripting/attack6a"), params, true);
 
     params.clear();
     params.put("param1", "42");
     params.put("param2", "24");
 
-    String result =
+      String result =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
@@ -45,7 +45,7 @@ public class XSSIntegrationTest extends IntegrationTest {
             .header("webgoat-requested-by", "dom-xss-vuln")
             .header("X-Requested-With", "XMLHttpRequest")
             .formParams(params)
-            .post(url("CrossSiteScripting/phone-home-xss"))
+            .post(webGoatUrlConfig.url("CrossSiteScripting/phone-home-xss"))
             .then()
             .statusCode(200)
             .extract()
@@ -54,7 +54,7 @@ public class XSSIntegrationTest extends IntegrationTest {
 
     params.clear();
     params.put("successMessage", secretNumber);
-    checkAssignment(url("CrossSiteScripting/dom-follow-up"), params, true);
+      checkAssignment(webGoatUrlConfig.url("CrossSiteScripting/dom-follow-up"), params, true);
 
     params.clear();
     params.put(
@@ -77,7 +77,7 @@ public class XSSIntegrationTest extends IntegrationTest {
         "question_4_solution",
         "Solution 4: No there are many other ways. Like HTML, Flash or any other type of code that"
             + " the browser executes.");
-    checkAssignment(url("CrossSiteScripting/quiz"), params, true);
+      checkAssignment(webGoatUrlConfig.url("CrossSiteScripting/quiz"), params, true);
 
     params.clear();
     params.put(
@@ -103,7 +103,7 @@ public class XSSIntegrationTest extends IntegrationTest {
             + "</table>"
             + "</body>"
             + "</html>");
-    checkAssignment(url("CrossSiteScripting/attack3"), params, true);
+      checkAssignment(webGoatUrlConfig.url("CrossSiteScripting/attack3"), params, true);
 
     params.clear();
     params.put(
@@ -113,7 +113,7 @@ public class XSSIntegrationTest extends IntegrationTest {
             + "s.scan(newComment,\"\");"
             + "CleanResults();"
             + "MyCommentDAO.addComment(threadID, userID).getCleanHTML());");
-    checkAssignment(url("CrossSiteScripting/attack4"), params, true);
+      checkAssignment(webGoatUrlConfig.url("CrossSiteScripting/attack4"), params, true);
 
     checkResults("CrossSiteScripting");
   }

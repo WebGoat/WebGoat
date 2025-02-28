@@ -51,12 +51,12 @@ public class CryptoIntegrationTest extends IntegrationTest {
 
   private void checkAssignment2() {
 
-    String basicEncoding =
+      String basicEncoding =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("crypto/encoding/basic"))
+            .get(webGoatUrlConfig.url("crypto/encoding/basic"))
             .then()
             .extract()
             .asString();
@@ -68,7 +68,7 @@ public class CryptoIntegrationTest extends IntegrationTest {
     params.clear();
     params.put("answer_user", answer_user);
     params.put("answer_pwd", answer_pwd);
-    checkAssignment(url("crypto/encoding/basic-auth"), params, true);
+      checkAssignment(webGoatUrlConfig.url("crypto/encoding/basic-auth"), params, true);
   }
 
   private void checkAssignment3() {
@@ -76,27 +76,27 @@ public class CryptoIntegrationTest extends IntegrationTest {
     Map<String, Object> params = new HashMap<>();
     params.clear();
     params.put("answer_pwd1", answer_1);
-    checkAssignment(url("crypto/encoding/xor"), params, true);
+      checkAssignment(webGoatUrlConfig.url("crypto/encoding/xor"), params, true);
   }
 
   private void checkAssignment4() throws NoSuchAlgorithmException {
 
-    String md5Hash =
+      String md5Hash =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("crypto/hashing/md5"))
+            .get(webGoatUrlConfig.url("crypto/hashing/md5"))
             .then()
             .extract()
             .asString();
 
-    String sha256Hash =
+      String sha256Hash =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("crypto/hashing/sha256"))
+            .get(webGoatUrlConfig.url("crypto/hashing/sha256"))
             .then()
             .extract()
             .asString();
@@ -116,17 +116,17 @@ public class CryptoIntegrationTest extends IntegrationTest {
     params.clear();
     params.put("answer_pwd1", answer_1);
     params.put("answer_pwd2", answer_2);
-    checkAssignment(url("crypto/hashing"), params, true);
+      checkAssignment(webGoatUrlConfig.url("crypto/hashing"), params, true);
   }
 
   private void checkAssignmentSigning() throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-    String privatePEM =
+      String privatePEM =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("crypto/signing/getprivate"))
+            .get(webGoatUrlConfig.url("crypto/signing/getprivate"))
             .then()
             .extract()
             .asString();
@@ -139,7 +139,7 @@ public class CryptoIntegrationTest extends IntegrationTest {
     params.clear();
     params.put("modulus", modulus);
     params.put("signature", signature);
-    checkAssignment(url("crypto/signing/verify"), params, true);
+      checkAssignment(webGoatUrlConfig.url("crypto/signing/verify"), params, true);
   }
 
   private void checkAssignmentDefaults() {
@@ -155,6 +155,6 @@ public class CryptoIntegrationTest extends IntegrationTest {
     params.clear();
     params.put("secretText", text);
     params.put("secretFileName", "default_secret");
-    checkAssignment(url("crypto/secure/defaults"), params, true);
+      checkAssignment(webGoatUrlConfig.url("crypto/secure/defaults"), params, true);
   }
 }

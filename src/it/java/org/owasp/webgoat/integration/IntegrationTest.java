@@ -20,65 +20,12 @@ import org.springframework.http.HttpStatus;
 
 public abstract class IntegrationTest {
 
-  private final ServerUrlConfig webGoatUrlConfig = ServerUrlConfig.webGoat();
-  @Getter private final ServerUrlConfig webWolfUrlConfig = ServerUrlConfig.webWolf();
+  protected final ServerUrlConfig webGoatUrlConfig = ServerUrlConfig.webGoat();
+  protected final ServerUrlConfig webWolfUrlConfig = ServerUrlConfig.webWolf();
 
   @Getter private String webGoatCookie;
   @Getter private String webWolfCookie;
   @Getter private final String user = "webgoat";
-
-  protected String url(String url) {
-    return webGoatUrlConfig.url(url);
-  }
-
-  protected class WebWolfUrlBuilder {
-
-    private boolean attackMode = false;
-    private String path = null;
-
-    protected String build() {
-      return webWolfUrlConfig.url(path != null ? path : "");
-    }
-
-    /**
-     * In attack mode it means WebGoat calls WebWolf to perform an attack. In this case we need to
-     * use port 9090 in a Docker environment.
-     */
-    protected WebWolfUrlBuilder attackMode() {
-      attackMode = true;
-      return this;
-    }
-
-    protected WebWolfUrlBuilder path(String path) {
-      this.path = path;
-      return this;
-    }
-
-    protected WebWolfUrlBuilder path(String path, String... uriVariables) {
-      this.path = path.formatted(uriVariables);
-      return this;
-    }
-  }
-
-  /**
-   * Debugging options: install TestContainers Desktop and map port 5005 to the host machine with
-   * https://newsletter.testcontainers.com/announcements/set-fixed-ports-to-easily-debug-development-services
-   *
-   * <p>Start the test and connect a remote debugger in IntelliJ to localhost:5005 and attach it.
-   */
-  //  private static GenericContainer<?> webGoatContainer =
-  //      new GenericContainer(new ImageFromDockerfile("webgoat").withFileFromPath("/",
-  // Paths.get(".")))
-  //          .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger("webgoat")))
-  //          .withExposedPorts(8080, 9090, 5005)
-  //          .withEnv(
-  //              "_JAVA_OPTIONS",
-  //              "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005")
-  //          .waitingFor(Wait.forHealthcheck());
-  //
-  //  static {
-  //    webGoatContainer.start();
-  //  }
 
   @BeforeEach
   public void login() {
@@ -92,7 +39,7 @@ public abstract class IntegrationTest {
             .relaxedHTTPSValidation()
             .formParam("username", user)
             .formParam("password", "password")
-            .post(url("login"))
+            .post(webGoatUrlConfig.url("login"))
             .then()
             .log()
             .ifValidationFails(LogDetail.ALL) // Log the response details if validation fails
@@ -109,7 +56,7 @@ public abstract class IntegrationTest {
               .formParam("password", "password")
               .formParam("matchingPassword", "password")
               .formParam("agree", "agree")
-              .post(url("register.mvc"))
+              .post(webGoatUrlConfig.url("register.mvc"))
               .then()
               .cookie("JSESSIONID")
               .statusCode(302)
@@ -122,7 +69,7 @@ public abstract class IntegrationTest {
               .relaxedHTTPSValidation()
               .formParam("username", user)
               .formParam("password", "password")
-              .post(url("login"))
+              .post(webGoatUrlConfig.url("login"))
               .then()
               .cookie("JSESSIONID")
               .statusCode(302)
@@ -136,7 +83,7 @@ public abstract class IntegrationTest {
             .relaxedHTTPSValidation()
             .formParam("username", user)
             .formParam("password", "password")
-            .post(new WebWolfUrlBuilder().path("login").build())
+            .post(webWolfUrlConfig.url("login"))
             .then()
             .statusCode(302)
             .cookie("WEBWOLFSESSION")
@@ -146,7 +93,12 @@ public abstract class IntegrationTest {
 
   @AfterEach
   public void logout() {
-    RestAssured.given().when().relaxedHTTPSValidation().get(url("logout")).then().statusCode(200);
+    RestAssured.given()
+        .when()
+        .relaxedHTTPSValidation()
+        .get(webGoatUrlConfig.url("logout"))
+        .then()
+        .statusCode(200);
   }
 
   public void startLesson(String lessonName) {
@@ -158,7 +110,7 @@ public abstract class IntegrationTest {
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
-        .get(url(lessonName + ".lesson.lesson"))
+        .get(webGoatUrlConfig.url(lessonName + ".lesson.lesson"))
         .then()
         .statusCode(200);
 
@@ -167,7 +119,7 @@ public abstract class IntegrationTest {
           .when()
           .relaxedHTTPSValidation()
           .cookie("JSESSIONID", getWebGoatCookie())
-          .get(url("service/restartlesson.mvc/%s.lesson".formatted(lessonName)))
+          .get(webGoatUrlConfig.url("service/restartlesson.mvc/%s.lesson".formatted(lessonName)))
           .then()
           .statusCode(200);
     }
@@ -209,7 +161,7 @@ public abstract class IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("service/lessonoverview.mvc/%s.lesson".formatted(lesson)))
+            .get(webGoatUrlConfig.url("service/lessonoverview.mvc/%s.lesson".formatted(lesson)))
             .andReturn();
 
     MatcherAssert.assertThat(
@@ -223,7 +175,7 @@ public abstract class IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .get(url("service/lessonoverview.mvc"))
+            .get(webGoatUrlConfig.url("service/lessonoverview.mvc"))
             .andReturn();
 
     MatcherAssert.assertThat(
@@ -269,7 +221,7 @@ public abstract class IntegrationTest {
             .when()
             .relaxedHTTPSValidation()
             .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(new WebWolfUrlBuilder().path("file-server-location").build())
+            .get(webWolfUrlConfig.url("file-server-location"))
             .then()
             .extract()
             .response()
@@ -284,7 +236,7 @@ public abstract class IntegrationTest {
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
-        .get(url("server-directory"))
+        .get(webGoatUrlConfig.url("server-directory"))
         .then()
         .extract()
         .response()
@@ -297,7 +249,7 @@ public abstract class IntegrationTest {
         .when()
         .relaxedHTTPSValidation()
         .cookie("WEBWOLFSESSION", getWebWolfCookie())
-        .delete(new WebWolfUrlBuilder().path("mail").build())
+        .delete(webWolfUrlConfig.url("mail"))
         .then()
         .statusCode(HttpStatus.ACCEPTED.value());
   }

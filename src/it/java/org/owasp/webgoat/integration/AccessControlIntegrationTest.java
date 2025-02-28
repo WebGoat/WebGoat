@@ -24,12 +24,12 @@ class AccessControlIntegrationTest extends IntegrationTest {
 
   private void assignment3() {
     // direct call should fail if user has not been created
-    RestAssured.given()
+      RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .contentType(ContentType.JSON)
-        .get(url("access-control/users-admin-fix"))
+        .get(webGoatUrlConfig.url("access-control/users-admin-fix"))
         .then()
         .statusCode(HttpStatus.SC_FORBIDDEN);
 
@@ -38,52 +38,52 @@ class AccessControlIntegrationTest extends IntegrationTest {
         """
         {"username":"%s","password":"%s","admin": "true"}
         """;
-    RestAssured.given()
+      RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .contentType(ContentType.JSON)
         .body(String.format(userTemplate, this.getUser(), this.getUser()))
-        .post(url("access-control/users"))
+        .post(webGoatUrlConfig.url("access-control/users"))
         .then()
         .statusCode(HttpStatus.SC_OK);
 
     // get the users
-    var userHash =
+      var userHash =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .contentType(ContentType.JSON)
-            .get(url("access-control/users-admin-fix"))
+            .get(webGoatUrlConfig.url("access-control/users-admin-fix"))
             .then()
             .statusCode(200)
             .extract()
             .jsonPath()
             .get("find { it.username == \"Jerry\" }.userHash");
 
-    checkAssignment(url("access-control/user-hash-fix"), Map.of("userHash", userHash), true);
+      checkAssignment(webGoatUrlConfig.url("access-control/user-hash-fix"), Map.of("userHash", userHash), true);
   }
 
   private void assignment2() {
-    var userHash =
+      var userHash =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
             .contentType(ContentType.JSON)
-            .get(url("access-control/users"))
+            .get(webGoatUrlConfig.url("access-control/users"))
             .then()
             .statusCode(200)
             .extract()
             .jsonPath()
             .get("find { it.username == \"Jerry\" }.userHash");
 
-    checkAssignment(url("access-control/user-hash"), Map.of("userHash", userHash), true);
+      checkAssignment(webGoatUrlConfig.url("access-control/user-hash"), Map.of("userHash", userHash), true);
   }
 
   private void assignment1() {
     var params = Map.of("hiddenMenu1", "Users", "hiddenMenu2", "Config");
-    checkAssignment(url("access-control/hidden-menu"), params, true);
+      checkAssignment(webGoatUrlConfig.url("access-control/hidden-menu"), params, true);
   }
 }
