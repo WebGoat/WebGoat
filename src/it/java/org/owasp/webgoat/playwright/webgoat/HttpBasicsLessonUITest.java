@@ -66,4 +66,18 @@ public class HttpBasicsLessonUITest extends PlaywrightTest {
 
     assertThat(lessonPage.getAssignmentOutput()).containsText("Try again, name cannot be empty.");
   }
+
+  @Test
+  @Order(4)
+  @DisplayName(
+      "Given Sylvester solves the first assignment when Tweety logs in then the first assignment should NOT be solved")
+  void shouldNotSolvePage1(Browser browser) {
+    lessonPage.navigateTo(2);
+    lessonPage.getEnterYourName().fill("John Doe");
+    lessonPage.getGoButton().click();
+
+    var tweetyLessonPage = new HttpBasicsLessonPage(Authentication.tweety(browser));
+    tweetyLessonPage.open(new LessonName("HttpBasics"));
+    Assertions.assertThat(tweetyLessonPage.noAssignmentsCompleted()).isTrue();
+  }
 }
