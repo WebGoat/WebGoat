@@ -84,7 +84,7 @@ public class CourseConfiguration {
 
   @Bean
   public Course course() {
-    assignments.stream().forEach(this::attachToLesson);
+    assignments.forEach(this::attachToLesson);
 
     // Check if all assignments are attached to a lesson
     var assignmentsAttachedToLessons =
@@ -99,7 +99,7 @@ public class CourseConfiguration {
 
   private List<String> findDiff() {
     var matchedToLessons =
-        lessons.stream().flatMap(l -> l.getAssignments().stream()).map(a -> a.getName()).toList();
+        lessons.stream().flatMap(l -> l.getAssignments().stream()).map(Assignment::getName).toList();
     var allAssignments = assignments.stream().map(a -> a.getClass().getSimpleName()).toList();
 
     var diff = new ArrayList<>(allAssignments);

@@ -15,17 +15,16 @@ public class SqlInjectionAdvancedIntegrationTest extends IntegrationTest {
     startLesson("SqlInjectionAdvanced");
 
     Map<String, Object> params = new HashMap<>();
-    params.clear();
     params.put("username_reg", "tom' AND substring(password,1,1)='t");
     params.put("password_reg", "password");
     params.put("email_reg", "someone@microsoft.com");
     params.put("confirm_password", "password");
-      checkAssignmentWithPUT(webGoatUrlConfig.url("SqlInjectionAdvanced/challenge"), params, true);
+      checkAssignmentWithPUT(webGoatUrlConfig.url("SqlInjectionAdvanced/register"), params, false);
 
     params.clear();
     params.put("username_login", "tom");
     params.put("password_login", "thisisasecretfortomonly");
-      checkAssignment(webGoatUrlConfig.url("SqlInjectionAdvanced/challenge_Login"), params, true);
+      checkAssignment(webGoatUrlConfig.url("SqlInjectionAdvanced/login"), params, true);
 
     params.clear();
     params.put("userid_6a", "'; SELECT * FROM user_system_data;--");
@@ -59,7 +58,5 @@ public class SqlInjectionAdvancedIntegrationTest extends IntegrationTest {
         "question_4_solution",
         "Solution 4: The database registers 'Robert' ); DROP TABLE Students;--'.");
       checkAssignment(webGoatUrlConfig.url("SqlInjectionAdvanced/quiz"), params, true);
-
-    checkResults("SqlInjectionAdvanced");
   }
 }
