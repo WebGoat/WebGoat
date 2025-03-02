@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: Copyright © 2025 WebGoat authors
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
-package org.owasp.webgoat.playwright.webgoat.pages;
+package org.owasp.webgoat.playwright.webgoat.pages.lessons;
 
 import static org.owasp.webgoat.playwright.webgoat.PlaywrightTest.webGoatUrl;
 
@@ -14,7 +14,7 @@ import org.assertj.core.api.Assertions;
 import org.owasp.webgoat.container.lessons.LessonName;
 
 @Getter
-class LessonPage {
+public class LessonPage {
 
   private final Page page;
 
@@ -64,5 +64,9 @@ class LessonPage {
 
   public Locator getAssignmentOutput() {
     return page.locator("#lesson-content-wrapper");
+  }
+
+  public Locator getHintsOutput() {
+    return page.locator("#lesson-hint");
   }
 }

@@ -9,7 +9,6 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.succes
 
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,13 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AssignmentHints(
-    value = {
-      "SqlInjectionChallengeHint1",
-      "SqlInjectionChallengeHint2",
-      "SqlInjectionChallengeHint3",
-      "SqlInjectionChallengeHint4"
-    })
 public class SqlInjectionChallengeLogin implements AssignmentEndpoint {
   private final LessonDataSource dataSource;
 
@@ -31,20 +23,22 @@ public class SqlInjectionChallengeLogin implements AssignmentEndpoint {
     this.dataSource = dataSource;
   }
 
-  @PostMapping("/SqlInjectionAdvanced/challenge_Login")
+  @PostMapping("/SqlInjectionAdvanced/login")
   @ResponseBody
   public AttackResult login(
-      @RequestParam String username_login, @RequestParam String password_login) throws Exception {
+      @RequestParam("username_login") String username,
+      @RequestParam("password_login") String password)
+      throws Exception {
     try (var connection = dataSource.getConnection()) {
       var statement =
           connection.prepareStatement(
               "select password from sql_challenge_users where userid = ? and password = ?");
-      statement.setString(1, username_login);
-      statement.setString(2, password_login);
+      statement.setString(1, username);
+      statement.setString(2, password);
       var resultSet = statement.executeQuery();
 
       if (resultSet.next()) {
-        return ("tom".equals(username_login))
+        return ("tom".equals(username))
             ? success(this).build()
             : failed(this).feedback("ResultsButNotTom").build();
       } else {

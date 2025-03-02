@@ -4,11 +4,9 @@
  */
 package org.owasp.webgoat.container.assignments;
 
-import org.owasp.webgoat.container.i18n.PluginMessages;
-
 public class AttackResultBuilder {
 
-  private boolean lessonCompleted;
+  private boolean assignmentCompleted;
   private Object[] feedbackArgs;
   private String feedbackResourceBundleKey;
   private String output;
@@ -16,15 +14,8 @@ public class AttackResultBuilder {
   private AssignmentEndpoint assignment;
   private boolean attemptWasMade = false;
 
-  public AttackResultBuilder lessonCompleted(boolean lessonCompleted) {
-    this.lessonCompleted = lessonCompleted;
-    this.feedbackResourceBundleKey = "lesson.completed";
-    return this;
-  }
-
-  public AttackResultBuilder lessonCompleted(boolean lessonCompleted, String resourceBundleKey) {
-    this.lessonCompleted = lessonCompleted;
-    this.feedbackResourceBundleKey = resourceBundleKey;
+  public AttackResultBuilder assignmentCompleted(boolean lessonCompleted) {
+    this.assignmentCompleted = lessonCompleted;
     return this;
   }
 
@@ -55,7 +46,7 @@ public class AttackResultBuilder {
 
   public AttackResult build() {
     return new AttackResult(
-        lessonCompleted,
+            assignmentCompleted,
         feedbackResourceBundleKey,
         feedbackArgs,
         output,
@@ -81,7 +72,7 @@ public class AttackResultBuilder {
    */
   public static AttackResultBuilder success(AssignmentEndpoint assignment) {
     return new AttackResultBuilder()
-        .lessonCompleted(true)
+        .assignmentCompleted(true)
         .attemptWasMade()
         .feedback("assignment.solved")
         .assignment(assignment);
@@ -99,13 +90,13 @@ public class AttackResultBuilder {
    */
   public static AttackResultBuilder failed(AssignmentEndpoint assignment) {
     return new AttackResultBuilder()
-        .lessonCompleted(false)
+        .assignmentCompleted(false)
         .attemptWasMade()
         .feedback("assignment.not.solved")
         .assignment(assignment);
   }
 
   public static AttackResultBuilder informationMessage(AssignmentEndpoint assignment) {
-    return new AttackResultBuilder().lessonCompleted(false).assignment(assignment);
+    return new AttackResultBuilder().assignmentCompleted(false).assignment(assignment);
   }
 }

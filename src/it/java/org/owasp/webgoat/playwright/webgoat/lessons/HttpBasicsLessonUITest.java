@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: Copyright © 2025 WebGoat authors
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
-package org.owasp.webgoat.playwright.webgoat;
+package org.owasp.webgoat.playwright.webgoat.lessons;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -15,8 +15,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.owasp.webgoat.container.lessons.LessonName;
+import org.owasp.webgoat.playwright.webgoat.PlaywrightTest;
 import org.owasp.webgoat.playwright.webgoat.helpers.Authentication;
-import org.owasp.webgoat.playwright.webgoat.pages.HttpBasicsLessonPage;
+import org.owasp.webgoat.playwright.webgoat.pages.lessons.HttpBasicsLessonPage;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HttpBasicsLessonUITest extends PlaywrightTest {
