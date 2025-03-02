@@ -1,5 +1,11 @@
 # WebGoat release notes
 
+## Version 2025.2
+
+### 🐞 Bug fixes
+
+- Fix SQL advanced lesson assignment 5 (#2047)
+
 ## Version 2025.1
 
 ### 🚀 New functionality

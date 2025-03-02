@@ -18,6 +18,7 @@ mvn verify
 git commit ....
 git tag v2023.01
 git push --tags
+git push
 ```
 
 After the release has been tagged and the build process is done. The release notes should be updated in the GitHub
