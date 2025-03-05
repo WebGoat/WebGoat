@@ -59,7 +59,7 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
   }
 
   protected AttackResult injectableQuery(String login_count, String accountName) {
-    String queryString = "SELECT * From user_data WHERE Login_Count = ? and userid= " + accountName;
+    String queryString = "SELECT * From user_data WHERE Login_Count = ? and userid= ?";
     try (Connection connection = dataSource.getConnection()) {
       PreparedStatement query =
           connection.prepareStatement(
@@ -83,6 +83,15 @@ public class SqlInjectionLesson5b extends AssignmentEndpoint {
       // String query = "SELECT * FROM user_data WHERE Login_Count = " + login_count + " and userid
       // = " + accountName, ;
       try {
+        try {
+            query.setInt(2, Math.round(Float.parseFloat(accountName)));
+        } catch (NumberFormatException e) {
+            // MOBB: consider printing this message to logger: mobb-010bcce0603e7e3e5d7c959aafe97131: Failed to convert input to type integer
+
+            // MOBB: using a default value for the SQL parameter in case the input is not convertible.
+            // This is important for preventing users from causing a denial of service to this application by throwing an exception here.
+            query.setInt(2, 0);
+        }
         ResultSet results = query.executeQuery();
 
         if ((results != null) && (results.first() == true)) {
