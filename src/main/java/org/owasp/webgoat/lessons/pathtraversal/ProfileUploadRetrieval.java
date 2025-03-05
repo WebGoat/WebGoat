@@ -88,6 +88,7 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
     }
     try {
       var id = request.getParameter("id");
+      ensurePathIsRelativeToDest(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
       var catPicture =
           new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
 
@@ -112,5 +113,27 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
     }
 
     return ResponseEntity.badRequest().build();
+  }
+
+  private static void ensurePathIsRelativeToDest(File dest, String path) {
+    File file = new File(dest, path);
+    String destCanonicalPath;
+    String fileCanonicalPath;
+  
+    try {
+      destCanonicalPath = dest.getCanonicalPath();
+      fileCanonicalPath = file.getCanonicalPath();
+    } catch (IOException e) {
+      throw new RuntimeException("Potential directory traversal attempt", e);
+    }
+  
+    if (!fileCanonicalPath.startsWith(destCanonicalPath + File.separator)) {
+      throw new RuntimeException("Potential directory traversal attempt");
+    }
+  }
+
+
+  private static void ensurePathIsRelativeToDest(String dest, String path) {
+    ensurePathIsRelativeToDest(new File(dest), path);
   }
 }
