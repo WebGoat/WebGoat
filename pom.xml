@@ -77,7 +77,7 @@
     <java.version>21</java.version>
     <jaxb.version>2.3.1</jaxb.version>
     <jjwt.version>0.9.1</jjwt.version>
-    <jose444j.version>0.9.3</jose444j.version>
+    <jose4j.version>0.9.3</jose4j.version>
     <jquery.version>3.7.1</jquery.version>
     <jsoup.version>1.18.1</jsoup.version>
     <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -176,8 +176,8 @@
       </dependency>
       <dependency>
         <groupId>org.bitbucket.b_c</groupId>
-        <artifactId>jose444j</artifactId>
-        <version>${jose444j.version}</version>
+        <artifactId>jose4j</artifactId>
+        <version>${jose4j.version}</version>
       </dependency>
       <dependency>
         <groupId>org.webjars</groupId>
@@ -347,7 +347,7 @@
     </dependency>
     <dependency>
       <groupId>org.bitbucket.b_c</groupId>
-      <artifactId>jose444j</artifactId>
+      <artifactId>jose4j</artifactId>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
