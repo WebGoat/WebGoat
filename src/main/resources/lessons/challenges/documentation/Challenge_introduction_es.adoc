@@ -1,0 +1,24 @@
+=== Bienvenido al desafío WebGoat (CTF)
+
+==== Introducción
+
+Los desafíos contienen lecciones más parecidas a un CTF, donde no proporcionamos explicaciones sobre lo que debes hacer y no se darán pistas. Puedes utilizar estos desafíos en un estilo CTF, donde puedes ejecutar WebGoat en un servidor y todos los participantes pueden unirse y hackear los desafíos. Hay un marcador disponible en el link:scoreboard["scoreboard",window=_blank]
+
+:hardbreaks:
+En este CTF, deberás resolver varios desafíos; cada uno te proporcionará una bandera que deberás enviar para obtener puntos.
+
+Las banderas tienen el siguiente formato: `a7179f89-906b-4fec-9d99-f15b796e7208`
+
+==== Reglas
+
+- No intentes hackear la infraestructura de la competición. Si descubres algún error o vulnerabilidad, por favor, envíanos un correo electrónico.
+
+- Juega limpio, no intentes sabotear a otros equipos competidores ni obstaculizar de ninguna manera el progreso de otro equipo.
+
+- No se permite el uso de fuerza bruta en desafíos/flags.
+
+:hardbreaks:
+*¡Diviértete!*
+El equipo WebGoat
+
+image::images/boss.jpg[]
