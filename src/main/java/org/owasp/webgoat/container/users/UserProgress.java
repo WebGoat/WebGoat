@@ -41,7 +41,7 @@ public class UserProgress {
   }
 
   /**
-   * Returns an existing lesson tracker or create a new one based on the lesson
+   * Returns an existing lesson progress or create a new one based on the lesson
    *
    * @param lesson the lesson
    * @return a lesson tracker created if not already present
@@ -49,23 +49,13 @@ public class UserProgress {
   public LessonProgress getLessonProgress(Lesson lesson) {
     Optional<LessonProgress> progress =
         lessonProgress.stream().filter(l -> l.getLessonName().equals(lesson.getId())).findFirst();
-    if (!progress.isPresent()) {
+    if (progress.isEmpty()) {
       LessonProgress newLessonTracker = new LessonProgress(lesson);
       lessonProgress.add(newLessonTracker);
       return newLessonTracker;
     } else {
       return progress.get();
     }
-  }
-
-  /**
-   * Query method for finding a specific lesson tracker based on id
-   *
-   * @param id the id of the lesson
-   * @return optional due to the fact we can only create a lesson tracker based on a lesson
-   */
-  public Optional<LessonProgress> getLessonProgress(String id) {
-    return lessonProgress.stream().filter(l -> l.getLessonName().equals(id)).findFirst();
   }
 
   public void assignmentSolved(Lesson lesson, String assignmentName) {

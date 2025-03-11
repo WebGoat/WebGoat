@@ -84,6 +84,6 @@ public class LessonProgress {
   }
 
   long numberOfSolvedAssignments() {
-    return assignments.size();
+    return assignments.stream().filter(AssignmentProgress::isSolved).count();
   }
 }

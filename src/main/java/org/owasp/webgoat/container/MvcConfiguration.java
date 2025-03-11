@@ -53,7 +53,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     registry.addViewController("/login").setViewName("login");
     registry.addViewController("/lesson_content").setViewName("lesson_content");
     registry.addViewController("/start.mvc").setViewName("main_new");
-    registry.addViewController("/scoreboard").setViewName("scoreboard");
   }
 
   @Bean
