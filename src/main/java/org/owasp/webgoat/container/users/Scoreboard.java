@@ -5,7 +5,6 @@
 package org.owasp.webgoat.container.users;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,24 +50,7 @@ public class Scoreboard {
   }
 
   private List<String> challengesSolved(UserProgress userTracker) {
-    List<String> challenges =
-        List.of(
-            "Challenge1",
-            "Challenge2",
-            "Challenge3",
-            "Challenge4",
-            "Challenge5",
-            "Challenge6",
-            "Challenge7",
-            "Challenge8",
-            "Challenge9");
-    return challenges.stream()
-        .map(userTracker::getLessonProgress)
-        .flatMap(Optional::stream)
-        .filter(LessonProgress::isLessonSolved)
-        .map(LessonProgress::getLessonName)
-        .map(this::toLessonTitle)
-        .toList();
+    return List.of();
   }
 
   private String toLessonTitle(String id) {
