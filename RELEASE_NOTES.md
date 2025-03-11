@@ -1,5 +1,17 @@
 # WebGoat release notes
 
+## Version 2025.3
+
+### 🐞 Bug fixes
+
+- Changed URLs imply other exclusion filters for ZAP (#2052)
+- XSS lesson stage 12 (2 issues) (#1178)
+
+### 🔄 Technical tasks
+
+- bump docker/setup-qemu-action from 3.4.0 to 3.6.0 (#2049)
+- bump docker/build-push-action from 6.14.0 to 6.15.0 (#2050)
+
 ## Version 2025.2
 
 ### 🐞 Bug fixes
