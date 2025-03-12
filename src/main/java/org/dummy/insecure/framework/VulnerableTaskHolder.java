@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 // TODO move back to lesson
 public class VulnerableTaskHolder implements Serializable {
