@@ -10,6 +10,7 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -48,11 +49,7 @@ public class SqlInjectionLesson9 implements AssignmentEndpoint {
   protected AttackResult injectableQueryIntegrity(String name, String auth_tan) {
     StringBuilder output = new StringBuilder();
     String queryInjection =
-        "SELECT * FROM employees WHERE last_name = '"
-            + name
-            + "' AND auth_tan = '"
-            + auth_tan
-            + "'";
+        "SELECT * FROM employees WHERE last_name = ? AND auth_tan = ?";
     try (Connection connection = dataSource.getConnection()) {
       // V2019_09_26_7__employees.sql
       int oldMaxSalary = this.getMaxSalary(connection);
@@ -60,7 +57,11 @@ public class SqlInjectionLesson9 implements AssignmentEndpoint {
       // begin transaction
       connection.setAutoCommit(false);
       // do injectable query
-      Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
+        PreparedStatement statement =
+                connection.prepareStatement(
+                        queryInjection, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        statement.setString(1, name);
+        statement.setString(2, auth_tan);
       SqlInjectionLesson8.log(connection, queryInjection);
       statement.execute(queryInjection);
       // check new sum of salaries other employees and new salaries of John

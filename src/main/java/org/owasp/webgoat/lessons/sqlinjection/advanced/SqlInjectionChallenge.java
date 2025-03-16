@@ -54,6 +54,8 @@ public class SqlInjectionChallenge implements AssignmentEndpoint {
         String checkUserQuery =
             "select userid from sql_challenge_users where userid = '" + username + "'";
         Statement statement = connection.createStatement();
+        PreparedStatement statement1 = connection.prepareStatement("select userid from sql_challenge_users where userid = ?");
+        statement1.setString(1, username);
         ResultSet resultSet = statement.executeQuery(checkUserQuery);
 
         if (resultSet.next()) {

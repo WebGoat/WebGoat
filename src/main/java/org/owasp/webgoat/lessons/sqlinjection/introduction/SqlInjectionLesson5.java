@@ -9,6 +9,7 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.succes
 
 import jakarta.annotation.PostConstruct;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,9 +60,8 @@ public class SqlInjectionLesson5 implements AssignmentEndpoint {
 
   protected AttackResult injectableQuery(String query) {
     try (Connection connection = dataSource.getConnection()) {
-      try (Statement statement =
-          connection.createStatement(
-              ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+      try (PreparedStatement statement =
+                   connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
         statement.executeQuery(query);
         if (checkSolution(connection)) {
           return success(this).build();
