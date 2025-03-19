@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -51,9 +52,10 @@ public class SqlInjectionLesson6a implements AssignmentEndpoint {
     String query = "";
     try (Connection connection = dataSource.getConnection()) {
       boolean usedUnion = this.unionQueryChecker(accountName);
-      query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
-
-      return executeSqlInjection(connection, query, usedUnion);
+      String query = "SELECT * FROM user_data WHERE last_name = ?";
+	  PreparedStatement ps = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+      ps.setString(1, accountName);
+      return executeSqlInjection(ps, usedUnion);
     } catch (Exception e) {
       return failed(this)
           .output(this.getClass().getName() + " : " + e.getMessage() + YOUR_QUERY_WAS + query)
@@ -65,11 +67,10 @@ public class SqlInjectionLesson6a implements AssignmentEndpoint {
     return accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)");
   }
 
-  private AttackResult executeSqlInjection(Connection connection, String query, boolean usedUnion) {
-    try (Statement statement =
-        connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-
-      ResultSet results = statement.executeQuery(query);
+  private AttackResult executeSqlInjection(PreparedStatement ps, boolean usedUnion) {
+    try (
+	  
+      ResultSet results = ps.executeQuery(query);
 
       if (!((results != null) && results.first())) {
         return failed(this)

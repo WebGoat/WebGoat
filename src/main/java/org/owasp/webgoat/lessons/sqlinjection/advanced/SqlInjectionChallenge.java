@@ -51,10 +51,10 @@ public class SqlInjectionChallenge implements AssignmentEndpoint {
     if (attackResult == null) {
 
       try (Connection connection = dataSource.getConnection()) {
-        String checkUserQuery =
-            "select userid from sql_challenge_users where userid = '" + username + "'";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(checkUserQuery);
+        String checkUserQuery = "SELECT userid FROM sql_challenge_users WHERE userid = ?";
+		PreparedStatement prepStat = connection.prepareStatement(checkUserQuery);
+		prepStat.setString(1, username);
+		ResultSet resultSet = prepStat.executeQuery();
 
         if (resultSet.next()) {
           attackResult = failed(this).feedback("user.exists").feedbackArgs(username).build();
