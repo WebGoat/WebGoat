@@ -27,23 +27,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class HashingAssignment implements AssignmentEndpoint {
   public static final String[] SECRETS = {"secret", "admin", "password", "123456", "passw0rd"};
 
+  // Исправлено: теперь используется SHA-512 вместо MD5 для безопасного хэширования
   @RequestMapping(path = "/crypto/hashing/md5", produces = MediaType.TEXT_HTML_VALUE)
   @ResponseBody
-  public String getMd5(HttpServletRequest request) throws NoSuchAlgorithmException {
+  public String getSecureHash(HttpServletRequest request) throws NoSuchAlgorithmException {
 
-    String md5Hash = (String) request.getSession().getAttribute("md5Hash");
-    if (md5Hash == null) {
+    String secureHash = (String) request.getSession().getAttribute("secureHash");
+    if (secureHash == null) {
 
       String secret = SECRETS[new Random().nextInt(SECRETS.length)];
 
-      MessageDigest md = MessageDigest.getInstance("MD5");
+      MessageDigest md = MessageDigest.getInstance("SHA-512"); // Используем SHA-512 вместо MD5
       md.update(secret.getBytes());
       byte[] digest = md.digest();
-      md5Hash = DatatypeConverter.printHexBinary(digest).toUpperCase();
-      request.getSession().setAttribute("md5Hash", md5Hash);
-      request.getSession().setAttribute("md5Secret", secret);
+      secureHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+      request.getSession().setAttribute("secureHash", secureHash);
+      request.getSession().setAttribute("secureSecret", secret);
     }
-    return md5Hash;
+    return secureHash;
   }
 
   @RequestMapping(path = "/crypto/hashing/sha256", produces = MediaType.TEXT_HTML_VALUE)
@@ -63,17 +64,17 @@ public class HashingAssignment implements AssignmentEndpoint {
   @PostMapping("/crypto/hashing")
   @ResponseBody
   public AttackResult completed(
-      HttpServletRequest request,
-      @RequestParam String answer_pwd1,
-      @RequestParam String answer_pwd2) {
+          HttpServletRequest request,
+          @RequestParam String answer_pwd1,
+          @RequestParam String answer_pwd2) {
 
-    String md5Secret = (String) request.getSession().getAttribute("md5Secret");
+    String secureSecret = (String) request.getSession().getAttribute("secureSecret");
     String sha256Secret = (String) request.getSession().getAttribute("sha256Secret");
 
     if (answer_pwd1 != null && answer_pwd2 != null) {
-      if (answer_pwd1.equals(md5Secret) && answer_pwd2.equals(sha256Secret)) {
+      if (answer_pwd1.equals(secureSecret) && answer_pwd2.equals(sha256Secret)) {
         return success(this).feedback("crypto-hashing.success").build();
-      } else if (answer_pwd1.equals(md5Secret) || answer_pwd2.equals(sha256Secret)) {
+      } else if (answer_pwd1.equals(secureSecret) || answer_pwd2.equals(sha256Secret)) {
         return failed(this).feedback("crypto-hashing.oneok").build();
       }
     }
