@@ -13,11 +13,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
-import java.util.Enumeration;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.CurrentUsername;
@@ -43,6 +45,8 @@ import org.springframework.web.multipart.MultipartFile;
 })
 @Slf4j
 public class ProfileZipSlip extends ProfileUploadBase {
+
+  private static final String PICTURE_EXTENSION = ".jpg";
 
   public ProfileZipSlip(@Value("${webgoat.server.directory}") String webGoatHomeDirectory) {
     super(webGoatHomeDirectory);
@@ -72,18 +76,33 @@ public class ProfileZipSlip extends ProfileUploadBase {
       var uploadedZipFile = tmpZipDirectory.resolve(file.getOriginalFilename());
       FileCopyUtils.copy(file.getBytes(), uploadedZipFile.toFile());
 
-      ZipFile zip = new ZipFile(uploadedZipFile.toFile());
-      Enumeration<? extends ZipEntry> entries = zip.entries();
-      while (entries.hasMoreElements()) {
-        ZipEntry e = entries.nextElement();
-        File f = new File(tmpZipDirectory.toFile(), e.getName());
-        InputStream is = zip.getInputStream(e);
-        Files.copy(is, f.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      // Используем ZipInputStream для обработки архива
+      try (InputStream fileInputStream = Files.newInputStream(uploadedZipFile);
+           ZipInputStream zis = new ZipInputStream(fileInputStream)) {
+        ZipEntry entry;
+        while ((entry = zis.getNextEntry()) != null) {
+          if (entry.isDirectory()) {
+            continue; // Пропускаем директории
+          }
+
+          // Генерируем уникальное имя файла вместо использования имени из архива
+          String safeFileName = UUID.randomUUID().toString() + PICTURE_EXTENSION;
+          Path safeFilePath = tmpZipDirectory.resolve(safeFileName);
+
+          // Проверяем, что путь находится внутри tmpZipDirectory
+          if (!safeFilePath.normalize().startsWith(tmpZipDirectory.normalize())) {
+            throw new IOException("Invalid file path detected");
+          }
+
+          // Копируем содержимое записи в безопасный файл
+          Files.copy(zis, safeFilePath, StandardCopyOption.REPLACE_EXISTING);
+          zis.closeEntry();
+        }
       }
 
       return isSolved(currentImage, getProfilePictureAsBase64(username));
     } catch (IOException e) {
-      return failed(this).output(e.getMessage()).build();
+      return failed(this).output("Error processing ZIP: " + e.getMessage()).build();
     }
   }
 
