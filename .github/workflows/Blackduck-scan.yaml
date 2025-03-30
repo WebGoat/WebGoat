@@ -1,0 +1,42 @@
+name: "Black Duck scan demo"
+
+on:
+  push:
+    branches:
+      - "*"
+      - "!main"
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    outputs:
+      token-check: ${{ steps.check-bd-token.outputs.status }}
+    
+    steps:
+      - name: Check BD_TOKEN presence
+        id: check-bd-token
+        run: |
+            if [ -z "${{ secrets.BD_TOKEN }}" ]; then
+            echo "::error::BD_TOKEN value is required"
+            exit 1
+            else
+            echo "BD_TOKEN is set"
+            echo "status=ok" >> $GITHUB_OUTPUT
+            fi
+    
+  scan:
+    runs-on:  [ubuntu-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Black Duck Scan
+        run: |
+          bash <(curl -s -L https://detect.synopsys.com/detect9.sh) \
+          --blackduck.url=https://bd.matrixopensource.com \
+          --blackduck.api.token=${{ secrets.BD_TOKEN }} \
+          --detect.project.name=${{ github.event.repository.name }} \
+          --blackduck.trust.cert=true \
+          --detect.tools=DETECTOR \
+          --detect.project.version.name=${{ github.run_id }}
+            
