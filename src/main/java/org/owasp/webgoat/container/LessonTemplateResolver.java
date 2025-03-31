@@ -47,17 +47,26 @@ public class LessonTemplateResolver extends FileTemplateResolver {
     var templateName = resourceName.substring(PREFIX.length());
     byte[] resource = resources.get(templateName);
     if (resource == null) {
-      try {
-        resource =
-            resourceLoader
-                .getResource("classpath:/" + templateName)
-                .getInputStream()
-                .readAllBytes();
-      } catch (IOException e) {
-        log.error("Unable to find lesson HTML: {}", template);
-      }
-      resources.put(templateName, resource);
+      resource = loadAndCache(templateName);
+    }
+
+    if (resource == null) {
+      return new StringTemplateResource("Unable to find lesson HTML: %s".formatted(templateName));
     }
     return new StringTemplateResource(new String(resource, StandardCharsets.UTF_8));
+  }
+
+  private byte[] loadAndCache(String templateName) {
+    try {
+      var resource =
+          resourceLoader.getResource("classpath:/" + templateName).getInputStream().readAllBytes();
+      resources.put(templateName, resource);
+      return resource;
+    } catch (IOException e) {
+      log.error(
+          "Unable to find lesson HTML: '{}', does the name of HTML file name match the lesson class name?",
+          templateName);
+      return null;
+    }
   }
 }
