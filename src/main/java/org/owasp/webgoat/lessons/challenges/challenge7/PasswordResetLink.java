@@ -8,9 +8,6 @@ import java.util.Random;
 
 /**
  * WARNING: DO NOT CHANGE FILE WITHOUT CHANGING .git contents
- *
- * @author nbaars
- * @since 8/17/17.
  */
 public class PasswordResetLink {
 

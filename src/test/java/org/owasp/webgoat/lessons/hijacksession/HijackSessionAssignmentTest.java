@@ -21,11 +21,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-/***
- *
- * @author Angel Olle Blazquez
- *
- */
 class HijackSessionAssignmentTest extends LessonTest {
 
   private static final String COOKIE_NAME = "hijack_cookie";

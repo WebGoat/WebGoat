@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Assignment where the user has to look through an HTTP Request using the Developer Tools and find
  * a specific number.
- *
- * @author TMelzer
- * @since 30.11.18
  */
 @RestController
 @AssignmentHints({"networkHint1", "networkHint2"})

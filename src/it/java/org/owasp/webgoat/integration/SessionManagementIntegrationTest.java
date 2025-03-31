@@ -7,9 +7,6 @@ package org.owasp.webgoat.integration;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Angel Olle Blazquez
- */
 class SessionManagementIT extends IntegrationTest {
 
   private static final String HIJACK_LOGIN_CONTEXT_PATH = "HijackSession/login";

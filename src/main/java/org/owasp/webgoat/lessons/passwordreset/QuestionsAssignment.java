@@ -17,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author nbaars
- * @since 8/20/17.
- */
 @RestController
 public class QuestionsAssignment implements AssignmentEndpoint {
 

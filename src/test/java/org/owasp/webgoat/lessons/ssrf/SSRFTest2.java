@@ -14,10 +14,6 @@ import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author afry
- * @since 12/28/18.
- */
 public class SSRFTest2 extends LessonTest {
 
   @BeforeEach

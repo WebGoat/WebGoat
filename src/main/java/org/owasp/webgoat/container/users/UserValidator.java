@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- * @author nbaars
- * @since 3/19/17.
- */
 @Component
 @AllArgsConstructor
 public class UserValidator implements Validator {

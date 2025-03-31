@@ -24,12 +24,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-/***
- *
- * @author Angel Olle Blazquez
- *
- */
-
 class SpoofCookieAssignmentTest extends LessonTest {
 
   private static final String COOKIE_NAME = "spoof_auth";

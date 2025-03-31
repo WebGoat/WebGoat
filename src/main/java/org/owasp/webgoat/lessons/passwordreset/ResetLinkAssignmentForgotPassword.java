@@ -22,12 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Part of the password reset assignment. Used to send the e-mail.
- *
- * @author nbaars
- * @since 8/20/17.
- */
 @RestController
 public class ResetLinkAssignmentForgotPassword implements AssignmentEndpoint {
 

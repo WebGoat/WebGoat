@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * This is just a class used to make the HTTP request.
- *
- * @author TMelzer
- * @since 30.11.18
- */
 @RestController
 public class NetworkDummy implements AssignmentEndpoint {
 
