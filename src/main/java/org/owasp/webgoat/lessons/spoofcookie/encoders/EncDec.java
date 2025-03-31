@@ -9,12 +9,6 @@ import java.util.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.codec.Hex;
 
-/***
- *
- * @author Angel Olle Blazquez
- *
- */
-
 public class EncDec {
 
   // PoC: weak encoding method

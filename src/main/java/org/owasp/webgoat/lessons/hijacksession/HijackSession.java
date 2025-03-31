@@ -8,12 +8,6 @@ import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
-/***
- *
- * @author Angel Olle Blazquez
- *
- */
-
 @Component
 public class HijackSession extends Lesson {
 

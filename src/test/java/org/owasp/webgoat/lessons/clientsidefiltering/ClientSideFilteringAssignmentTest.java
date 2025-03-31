@@ -14,10 +14,6 @@ import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author nbaars
- * @since 5/2/17.
- */
 public class ClientSideFilteringAssignmentTest extends LessonTest {
 
   @BeforeEach

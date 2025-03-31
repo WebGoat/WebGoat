@@ -17,12 +17,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.owasp.webgoat.lessons.hijacksession.cas.Authentication.AuthenticationBuilder;
 
-/***
- *
- * @author Angel Olle Blazquez
- *
- */
-
 class HijackSessionAuthenticationProviderTest {
 
   HijackSessionAuthenticationProvider provider = new HijackSessionAuthenticationProvider();

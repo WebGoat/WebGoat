@@ -15,10 +15,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-/**
- * @author nbaars
- * @since 3/19/17.
- */
 @Getter
 @Entity
 @Table(name = "WEB_GOAT_USER")

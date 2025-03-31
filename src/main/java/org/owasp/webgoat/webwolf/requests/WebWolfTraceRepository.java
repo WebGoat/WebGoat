@@ -16,9 +16,6 @@ import org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository;
 /**
  * Keep track of all the incoming requests, we are only keeping track of request originating from
  * WebGoat.
- *
- * @author nbaars
- * @since 8/13/17.
  */
 public class WebWolfTraceRepository implements HttpExchangeRepository {
   private enum MatchingMode {

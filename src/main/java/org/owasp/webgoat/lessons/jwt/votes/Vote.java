@@ -7,10 +7,6 @@ package org.owasp.webgoat.lessons.jwt.votes;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 
-/**
- * @author nbaars
- * @since 5/2/17.
- */
 @Getter
 public class Vote {
   @JsonView(Views.GuestView.class)

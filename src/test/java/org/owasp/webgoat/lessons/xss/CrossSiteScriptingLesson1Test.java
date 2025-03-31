@@ -12,9 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-/**
- * @author Angel Olle Blazquez
- */
 class CrossSiteScriptingLesson1Test extends LessonTest {
 
   private static final String CONTEXT_PATH = "/CrossSiteScripting/attack1";

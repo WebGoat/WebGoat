@@ -7,12 +7,6 @@ package org.owasp.webgoat.container.lessons;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * LessonMenuItem class.
- *
- * @author rlawson
- * @version $Id: $Id
- */
 public class LessonMenuItem {
 
   private String name;

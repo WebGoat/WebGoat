@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * @author nbaars
- * @since 8/20/17.
- */
 @RestController
 public class LandingAssignment implements AssignmentEndpoint {
   private final String landingPageUrl;

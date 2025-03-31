@@ -10,10 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * @author nbaars
- * @since 4/8/17.
- */
 @Getter
 @Setter
 @AllArgsConstructor

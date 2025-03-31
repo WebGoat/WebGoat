@@ -6,12 +6,6 @@ package org.owasp.webgoat.container.session;
 
 import java.io.Serializable;
 
-/**
- * LabelDebugger class.
- *
- * @author dm
- * @version $Id: $Id
- */
 public class LabelDebugger implements Serializable {
 
   private boolean enabled = false;

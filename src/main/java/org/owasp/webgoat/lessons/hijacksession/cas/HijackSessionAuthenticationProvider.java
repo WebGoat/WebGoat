@@ -15,10 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.ApplicationScope;
 
-/**
- * @author Angel Olle Blazquez
- */
-
 // weak id value and mechanism
 
 @ApplicationScope

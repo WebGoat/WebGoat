@@ -17,10 +17,6 @@ import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author nbaars
- * @since 11/17/17.
- */
 public class CSRFFeedbackTest extends LessonTest {
 
   @BeforeEach

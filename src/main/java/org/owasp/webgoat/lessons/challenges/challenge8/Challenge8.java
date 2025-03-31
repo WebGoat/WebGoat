@@ -8,10 +8,6 @@ import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
-/**
- * @author nbaars
- * @since 3/21/17.
- */
 @Component
 public class Challenge8 extends Lesson {
 

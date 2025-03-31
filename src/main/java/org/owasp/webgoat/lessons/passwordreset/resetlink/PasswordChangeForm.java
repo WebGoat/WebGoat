@@ -9,10 +9,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * @author nbaars
- * @since 8/18/17.
- */
 @Getter
 @Setter
 public class PasswordChangeForm {

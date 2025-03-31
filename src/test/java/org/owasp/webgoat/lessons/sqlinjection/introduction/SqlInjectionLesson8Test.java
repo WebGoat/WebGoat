@@ -13,10 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-/**
- * @author Benedikt Stuhrmann
- * @since 11/07/18.
- */
 public class SqlInjectionLesson8Test extends LessonTest {
 
   @Test

@@ -11,8 +11,6 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 /**
  * ExposedReloadableResourceMessageBundleSource class. Extends the reloadable message source with a
  * way to get all messages
- *
- * @author zupzup
  */
 @AllArgsConstructor
 public class Messages extends ReloadableResourceBundleMessageSource {

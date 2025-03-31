@@ -17,12 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Assignment for picking a good security question.
- *
- * @author Tobias Melzer
- * @since 11.12.18
- */
 @RestController
 public class SecurityQuestionAssignment implements AssignmentEndpoint {
 

@@ -18,10 +18,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author nbaars
- * @since 8/20/17.
- */
 @Data
 @Builder
 @AllArgsConstructor
