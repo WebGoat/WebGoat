@@ -139,16 +139,12 @@
                     data-toggle="modal" data-target="#about-modal">
                 <i class="fa fa-info"></i>
             </button>
-            <!-- mailto menu item -->
-            <a th:href="'mailto:' + ${@environment.getProperty('webgoat.email')} + '?Subject=Webgoat%20feedback'" target="_top">
-                <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip"
-                        th:title="#{contact}">
-                    <i class="fa fa-envelope"></i>
+            <!-- GitHub menu item -->
+            <a th:href="@{https://github.com/WebGoat/WebGoat}" target="_blank">
+                <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip">
+                    <i class="fa fa-github"></i>
                 </button>
             </a>
-
-
-
         </div>
     </header>
 
