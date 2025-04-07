@@ -4,11 +4,6 @@
  */
 package org.owasp.webgoat.lessons.pathtraversal;
 
-import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
-import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,13 +11,16 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
-import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.RandomUtils;
 import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -36,6 +34,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @AssignmentHints({
@@ -97,8 +99,19 @@ public class ProfileUploadRetrieval implements AssignmentEndpoint {
     }
     try {
       var id = request.getParameter("id");
-      var catPicture =
-          new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
+
+      if (id == null) {
+        id = String.valueOf(RandomUtils.nextInt(1, 11));
+      }
+
+      Path path = catPicturesDirectory.toPath().resolve(id + ".jpg").normalize();
+      
+      if (!path.startsWith(catPicturesDirectory.toPath())) {
+        return ResponseEntity.badRequest()
+            .body("Access to the requested file is denied");
+      }
+
+      var catPicture = path.toFile();
 
       if (catPicture.getName().toLowerCase().contains("path-traversal-secret.jpg")) {
         return ResponseEntity.ok()
