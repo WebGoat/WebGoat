@@ -52,7 +52,7 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class JWTVotesEndpoint implements AssignmentEndpoint {
 
-  public static final String JWT_PASSWORD = TextCodec.BASE64.encode("victory");
+  public static final String JWT_PASSWORD = TextCodec.BASE64.encode(System.getenv("JWT_PASSWORD2"));
   private static String validUsers = "TomJerrySylvester";
 
   private static int totalVotes = 38929;
