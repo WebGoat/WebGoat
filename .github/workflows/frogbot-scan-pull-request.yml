@@ -1,0 +1,22 @@
+name: "Frogbot Scan Pull Request"
+on:
+  pull_request:
+    types: [opened, synchronize]
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  scan-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jfrog/frogbot@v2
+        env:
+          # [Mandatory]
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JF_URL: ${{ vars.JF_URL }}
+          JF_PROJECT: ${{ vars.JF_PROJECT }}
+        with:
+          fail-on-vulnerability: true
