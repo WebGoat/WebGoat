@@ -231,8 +231,8 @@ pipeline {
           githubNotify credentialsId: 'github-user', context: 'Publish Build Info', status: 'PENDING', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
         }
         sh """
-          jf rt bce ${BUILD_NAME} $BUILD_NUMBER
-          jf rt build-publish ${BUILD_NAME} ${BUILD_NUMBER} 
+          jf rt bce ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT}
+          jf rt build-publish ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT}
         """
         script {
           githubNotify credentialsId: 'github-user', context: 'Publish Build Info', status: 'SUCCESS', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
@@ -252,7 +252,7 @@ pipeline {
           githubNotify credentialsId: 'github-user', context: 'Xray Scan', status: 'PENDING', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
         }
         sh """
-          jf build-scan ${BUILD_NAME} ${BUILD_NUMBER} --format json > xray-report-build.json
+          jf build-scan ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT} --format json > xray-report-build.json
         """
         archiveArtifacts artifacts: 'xray-report.json', allowEmptyArchive: true
         script {
