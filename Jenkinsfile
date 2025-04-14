@@ -45,7 +45,8 @@ pipeline {
   }
 
   environment {
-    IMAGE_NAME = "solengeu.jfrog.io/web-goat-demo-docker-dev-local/webgoat-app"
+    REPO_NAME = "solengeu.jfrog.io/web-goat-demo-docker-dev/"
+    APP_NAME = "webgoat-app"
     GIT_COMMIT = "${env.GIT_COMMIT}"
     BUILD_NAME = "jenkins-webgoat-app"
     BUILD_NUMBER = "${BUILD_NUMBER}"
@@ -162,11 +163,10 @@ pipeline {
         script {
           githubNotify credentialsId: 'github-user', context: 'Build and Scan Image', status: 'PENDING', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
 
-          def dockerImageName = "${IMAGE_NAME}:${BUILD_NUMBER}"
+          def dockerImageName = "${REPO_NAME}${APP_NAME}:${BUILD_NUMBER}"
 
           // jf docker buildx build --platform linux/amd64 --load --tag ${dockerImageName} --file Dockerfile .
           sh """
-            jf docker login 
             if docker buildx ls | grep -q 'mybuilder'; then
               docker buildx use mybuilder
             else
@@ -207,7 +207,7 @@ pipeline {
           githubNotify credentialsId: 'github-user', context: 'Push Docker Image', status: 'PENDING', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
 
           // jf docker buildx build --platform linux/amd64 --push --tag ${dockerImageName} --file Dockerfile .
-          def dockerImageName = "${IMAGE_NAME}:${BUILD_NUMBER}"
+          def dockerImageName = "${REPO_NAME}${APP_NAME}:${BUILD_NUMBER}"
           sh """
             jf docker push ${dockerImageName}
           """
