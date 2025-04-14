@@ -93,7 +93,7 @@ pipeline {
             jf mvnc --repo-resolve-snapshots=web-goat-demo-maven-dev --repo-resolve-releases=web-goat-demo-maven-dev \
             --repo-deploy-snapshots=web-goat-demo-maven-dev --repo-deploy-releases=web-goat-demo-maven-dev 
             jf mvn clean package -DskipTests=true"
-            """
+        """
         archiveArtifacts 'target/*.jar'
         script {
           githubNotify credentialsId: 'github-user', context: 'Build Artifact', status: 'SUCCESS', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
