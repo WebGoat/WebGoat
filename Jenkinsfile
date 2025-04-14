@@ -167,6 +167,7 @@ pipeline {
 
           // jf docker buildx build --platform linux/amd64 --load --tag ${dockerImageName} --file Dockerfile .
           sh """
+            jf docker pull solengeu.jfrog.io/web-goat-demo-docker-dev/eclipse-temurin:23-jdk-noble
             if docker buildx ls | grep -q 'mybuilder'; then
               docker buildx use mybuilder
             else
