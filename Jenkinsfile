@@ -52,6 +52,7 @@ pipeline {
     BUILD_NUMBER = "${BUILD_NUMBER}"
     applicationURL = "http://tomnodeport.soleng.jfrog.info"
     JF_PROJECT = "web-goat-demo"
+    JFROG_CLI_BUILD_PROJECT = "${JF_PROJECT}"
   }
 
   stages {
