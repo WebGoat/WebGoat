@@ -235,7 +235,7 @@ pipeline {
           jf rt bce ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT}
           jf rt build-add-git
           jf rt build-publish ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT}
-          jf build-scan --vuln=true --fail=false --project=${{ vars.JF_PROJECT }}
+          jf build-scan --vuln=true --fail=false --project=${JF_PROJECT}
         """
         script {
           githubNotify credentialsId: 'github-user', context: 'Publish Build Info', status: 'SUCCESS', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
