@@ -256,7 +256,7 @@ pipeline {
         }
         // jf build-scan ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT} --format json > xray-report-build.json
         sh """
-          jf build-scan --vuln=true --fail=false --project=${JF_PROJECT}
+          jf build-scan ${BUILD_NAME} ${BUILD_NUMBER} --vuln=true --fail=false --project=${JF_PROJECT}
         """
         archiveArtifacts artifacts: 'xray-report.json', allowEmptyArchive: true
         script {
