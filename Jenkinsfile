@@ -231,8 +231,8 @@ pipeline {
           githubNotify credentialsId: 'github-user', context: 'Publish Build Info', status: 'PENDING', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
         }
         sh """
-          jf rt bce numeric-app $BUILD_NUMBER
-          jf rt build-publish ${BUILD_NAME} ${BUILD_NUMBER}
+          jf rt bce ${BUILD_NAME} $BUILD_NUMBER
+          jf rt build-publish ${BUILD_NAME} ${BUILD_NUMBER} 
         """
         script {
           githubNotify credentialsId: 'github-user', context: 'Publish Build Info', status: 'SUCCESS', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
