@@ -52,7 +52,7 @@ pipeline {
     BUILD_NUMBER = "${BUILD_NUMBER}"
     applicationURL = "http://tomnodeport.soleng.jfrog.info"
     JF_PROJECT = "web-goat-demo"
-    JFROG_CLI_BUILD_PROJECT = "${JF_PROJECT}"
+    JFROG_CLI_BUILD_PROJECT = "web-goat-demo"
   }
 
   stages {
@@ -233,7 +233,9 @@ pipeline {
         }
         sh """
           jf rt bce ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT}
+          jf rt build-add-git
           jf rt build-publish ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT}
+          jf build-scan --vuln=true --fail=false --project=${{ vars.JF_PROJECT }}
         """
         script {
           githubNotify credentialsId: 'github-user', context: 'Publish Build Info', status: 'SUCCESS', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
@@ -252,10 +254,42 @@ pipeline {
         script {
           githubNotify credentialsId: 'github-user', context: 'Xray Scan', status: 'PENDING', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
         }
+        // jf build-scan ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT} --format json > xray-report-build.json
         sh """
-          jf build-scan ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT} --format json > xray-report-build.json
+          jf build-scan --vuln=true --fail=false --project=${JF_PROJECT}
         """
         archiveArtifacts artifacts: 'xray-report.json', allowEmptyArchive: true
+        script {
+          githubNotify credentialsId: 'github-user', context: 'Xray Scan', status: 'SUCCESS', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
+        }
+      }
+      post {
+        failure {
+          script {
+            githubNotify credentialsId: 'github-user', context: 'Xray Scan', status: 'FAILURE', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
+          }
+          archiveArtifacts artifacts: 'xray-report-build.json', allowEmptyArchive: true
+        }
+      }
+    }
+
+    stage('Evidence on docker') {
+      steps {
+        script {
+          githubNotify credentialsId: 'github-user', context: 'Xray Scan', status: 'PENDING', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
+        }
+        // jf build-scan ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT} --format json > xray-report-build.json
+        sh """
+          git_committer=\$(git log -1 --pretty=format:'%ce')
+          echo '{ "actor": "'\$git_committer'", "date": "'\$(date -u +"%Y-%m-%dT%H:%M:%SZ")'" }' > sign.json
+
+          jf evd create --project ${JF_PROJECT} --package-name $REPO_NAME:${APP_NAME} \\
+            --package-version ${BUILD_NUMBER} --package-repo-name ${REPO_NAME} \\
+            --predicate ./sign.json --predicate-type https://jfrog.com/evidence/signature/v1
+
+          echo '🔎 Evidence attached: `signature` 🔏'
+        """
+        archiveArtifacts artifacts: 'sign.json', allowEmptyArchive: true
         script {
           githubNotify credentialsId: 'github-user', context: 'Xray Scan', status: 'SUCCESS', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
         }
