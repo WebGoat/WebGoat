@@ -161,6 +161,7 @@ pipeline {
 
     stage('Build and scan image') {
       steps {
+            // jf docker scan ${dockerImageName} --format json > xray-scan-report-image.json
         script {
           githubNotify credentialsId: 'github-user', context: 'Build and Scan Image', status: 'PENDING', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
 
@@ -180,7 +181,6 @@ pipeline {
           sh """
             export JFROG_CLI_BUILD_NAME=${BUILD_NAME}
             export JFROG_CLI_BUILD_NUMBER=${BUILD_NUMBER}
-            jf docker scan ${dockerImageName} --format json > xray-scan-report-image.json
           """
           
           sh """
@@ -235,7 +235,7 @@ pipeline {
           jf rt bce ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT}
           jf rt build-add-git
           jf rt build-publish ${BUILD_NAME} ${BUILD_NUMBER} --project ${JF_PROJECT}
-          jf build-scan --vuln=true --fail=false --project=${JF_PROJECT}
+          jf build-scan ${BUILD_NAME} ${BUILD_NUMBER} --vuln=true --fail=false --project=${JF_PROJECT}
         """
         script {
           githubNotify credentialsId: 'github-user', context: 'Publish Build Info', status: 'SUCCESS', repo: 'webgoat', account: 'tpaz1', sha: "${env.GIT_COMMIT}"
