@@ -33,19 +33,19 @@ public class Authentication {
 
   public static Page sylvester(Browser browser) {
     User user = login(browser, sylvester);
-    return browser.newContext(new Browser.NewContextOptions().setStorageState(user.auth)).newPage();
+    return browser.newContext(new Browser.NewContextOptions().setLocale("en-US").setStorageState(user.auth)).newPage();
   }
 
   public static Page tweety(Browser browser) {
     User user = login(browser, tweety);
-    return browser.newContext(new Browser.NewContextOptions().setStorageState(user.auth)).newPage();
+    return browser.newContext(new Browser.NewContextOptions().setLocale("en-US").setStorageState(user.auth)).newPage();
   }
 
   private static User login(Browser browser, User user) {
     if (user.loggedIn()) {
       return user;
     }
-    var page = browser.newContext().newPage();
+    var page = browser.newContext(new Browser.NewContextOptions().setLocale("en-US")).newPage();
     RegistrationPage registrationPage = new RegistrationPage(page);
     registrationPage.open();
     registrationPage.register(user.name, user.password);
