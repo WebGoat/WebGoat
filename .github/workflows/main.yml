@@ -15,7 +15,7 @@ jobs:
       with:
         project: TEST_0000_DEV_WEBGOAT0423 # <-- Insert Checkmarx SAST Project Name
         team: CxServer\GIS\VASPD\WEBGOAT
-        checkmarx_url: https://sast.visa.com/cxwebclient # To be stored in GitHub Secrets.
+        checkmarx_url: https://sast.visa.com/ # To be stored in GitHub Secrets.
         checkmarx_username: ${{ secrets.CHECKMARX_USER }} # To be stored in GitHub Secrets.
         checkmarx_password: ${{ secrets.CHECKMARX_PASSWORD }} # To be stored in GitHub Secrets.
         checkmarx_client_secret: 014DF517-39D1-4453-B7B3-9930C563627C # To be stored in GitHub Secrets.
