@@ -14,7 +14,7 @@ jobs:
       uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.4 #Github Action version
       with:
         project: TEST_0000_DEV_WEBGOAT0423 # <-- Insert Checkmarx SAST Project Name
-        team: CxServer\GIS\VASPD\WEBGOAT
+        team: CxServer/GIS/VASPD/WEBGOAT
         checkmarx_url: https://sast.visa.com/ # To be stored in GitHub Secrets.
         checkmarx_username: ${{ secrets.CHECKMARX_USER }} # To be stored in GitHub Secrets.
         checkmarx_password: ${{ secrets.CHECKMARX_PASSWORD }} # To be stored in GitHub Secrets.
