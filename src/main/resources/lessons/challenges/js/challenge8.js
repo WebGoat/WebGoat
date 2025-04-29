@@ -15,7 +15,7 @@ function loadVotes() {
                 console.log(percent);
                 var progressBar = $('#progressBar' + i);
                 progressBar.width(Math.round(percent) * 2 + '%');
-                $("#nrOfVotes" + i).html(votes[i]);
+                $("#nrOfVotes" + i).html(DOMPurify.sanitize(votes[i]));
 
             }
         }
