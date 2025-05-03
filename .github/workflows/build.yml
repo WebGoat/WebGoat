@@ -28,12 +28,12 @@ jobs:
                 if: always()
     
     dependency-check:
-        name: Run OWASP Dependency Check
+        name: Check dependencies
         runs-on: ubuntu-latest
         needs: [pre-commit]
         steps:
-            - name: Run plugin
-              run: mvn org.owasp:dependency-check-maven:check  
+            -   name: Run OWASP Dependency Check
+                run: mvn org.owasp:dependency-check-maven:check  
 
     build:
         name: Build
