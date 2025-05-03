@@ -21,10 +21,12 @@ jobs:
                 with:
                     distribution: 'temurin'
                     java-version: '23'
-            -   name: Run pre-commit checks
-                run: pre-commit run --all-files
-            -   name: pre-commit-c-lite
-                uses: pre-commit-ci/lite-action@v1.1.0
+            -   name: Pre-commit checks
+                uses: pre-commit/action@v3.0.1
+                with:
+                    extra_args: --all-files
+            #-   name: pre-commit-c-lite
+            #    uses: pre-commit-ci/lite-action@v1.1.0
                 if: always()
     
     dependency-check:
