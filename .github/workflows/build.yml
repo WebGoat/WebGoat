@@ -29,18 +29,10 @@ jobs:
                 uses: pre-commit-ci/lite-action@v1.1.0
                 if: always()
 
-    dependency-check:
-        name: Check dependencies
-        runs-on: ubuntu-latest
-        needs: [pre-commit]
-        steps:
-            -   name: Run OWASP Dependency Check
-                run: mvn org.owasp:dependency-check-maven:check
-
     build:
         name: Build
         runs-on: ubuntu-latest
-        needs: [ dependency-check ]
+        needs: [pre-commit]
         strategy:
             fail-fast: true
             max-parallel: 1
@@ -53,5 +45,7 @@ jobs:
                     java-version: 23
                     architecture: x64
                     cache: 'maven'
+            -   name: Run OWASP Dependency Check
+                run: mvn org.owasp:dependency-check-maven:check
             -   name: Build with Maven
-                run: mvn --no-transfer-progress verify
+                run: mvn --no-transfer-progress clean compile
