@@ -10,9 +10,6 @@ on:
         branches:
             - main
 
-env:
-  NVD_API_KEY: 5f2ac5de-2dfc-4760-a677-999c3898c8d7
-
 jobs:
     pre-commit:
         name: Pre-commit check
@@ -29,9 +26,19 @@ jobs:
             -   name: pre-commit-c-lite
                 uses: pre-commit-ci/lite-action@v1.1.0
                 if: always()
-    build:
+    
+    dependency-check:
+        name: Run OWASP Dependency Check
         runs-on: ubuntu-latest
-        needs: [ pre-commit ]
+        needs: [pre-commit]
+        steps:
+            - name: Run plugin
+              run: mvn org.owasp:dependency-check-maven:check  
+
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        needs: [ dependency-check ]
         strategy:
             fail-fast: true
             max-parallel: 1
@@ -46,9 +53,4 @@ jobs:
                     cache: 'maven'
             -   name: Build with Maven
                 run: mvn --no-transfer-progress verify
-    dependency-check:
-        name: Run OWASP Dependency Check
-        runs-on: ubuntu-latest
-        steps:
-            - name: Check with Maven plugin
-              run: mvn org.owasp:dependency-check-maven:check  
+    
