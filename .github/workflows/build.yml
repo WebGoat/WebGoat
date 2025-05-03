@@ -8,7 +8,10 @@ on:
         branches: [ main ]
     push:
         branches:
-            - main
+            - demo-UNIR
+
+env:
+  NVD_API_KEY: 5f2ac5de-2dfc-4760-a677-999c3898c8d7
 
 jobs:
     pre-commit:
@@ -17,10 +20,6 @@ jobs:
         steps:
             -   name: Checkout git repository
                 uses: actions/checkout@v4.1.6
-            -   name: Setup python
-                uses: actions/setup-python@v5
-                with:
-                    python-version: "3.9"
             -   uses: actions/setup-java@v4
                 with:
                     distribution: 'temurin'
@@ -31,12 +30,10 @@ jobs:
                 uses: pre-commit-ci/lite-action@v1.1.0
                 if: always()
     build:
-        runs-on: ${{ matrix.os }}
+        runs-on: ubuntu-latest
         needs: [ pre-commit ]
         strategy:
             fail-fast: true
-            matrix:
-                os: [ windows-latest, ubuntu-latest, macos-13 ]
             max-parallel: 1
         steps:
             -   uses: actions/checkout@v4.1.6
@@ -49,3 +46,9 @@ jobs:
                     cache: 'maven'
             -   name: Build with Maven
                 run: mvn --no-transfer-progress verify
+    dependency-check:
+        name: Run OWASP Dependency Check
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check with Maven plugin
+              run: mvn org.owasp:dependency-check-maven:check  
