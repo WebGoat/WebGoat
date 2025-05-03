@@ -35,7 +35,7 @@ jobs:
         needs: [pre-commit]
         steps:
             -   name: Run OWASP Dependency Check
-                run: mvn org.owasp:dependency-check-maven:check  
+                run: mvn org.owasp:dependency-check-maven:check
 
     build:
         name: Build
