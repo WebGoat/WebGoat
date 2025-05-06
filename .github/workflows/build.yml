@@ -28,29 +28,10 @@ jobs:
             -   name: pre-commit-c-lite
                 uses: pre-commit-ci/lite-action@v1.1.0
                 if: always()
-
-    build:
-        name: Build
+    depcheck:
+        name: Dependency Check
         runs-on: ubuntu-latest
         needs: [pre-commit]
-        strategy:
-            fail-fast: true
-            max-parallel: 1
-        steps:
-            -   uses: actions/checkout@v4.1.6
-            -   name: Set up JDK 23
-                uses: actions/setup-java@v4.2.1
-                with:
-                    distribution: 'temurin'
-                    java-version: 23
-                    architecture: x64
-                    cache: 'maven'
-            -   name: Build with Maven
-                run: mvn --no-transfer-progress clean install
-
-    depcheck:
-        runs-on: ubuntu-latest
-        name: Dependency Check
         steps:
           #-   name: Run OWASP Dependency Check
           #    run: mvn org.owasp:dependency-check-maven:check
@@ -71,3 +52,23 @@ jobs:
             with:
                 name: Depcheck report
                 path: ${{github.workspace}}/reports
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        needs: [depcheck]
+        strategy:
+            fail-fast: true
+            max-parallel: 1
+        steps:
+            -   uses: actions/checkout@v4.1.6
+            -   name: Set up JDK 23
+                uses: actions/setup-java@v4.2.1
+                with:
+                    distribution: 'temurin'
+                    java-version: 23
+                    architecture: x64
+                    cache: 'maven'
+            -   name: Build with Maven
+                run: mvn --no-transfer-progress clean compile
+
+
