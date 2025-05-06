@@ -65,7 +65,6 @@
     <asciidoctorj.version>3.0.0</asciidoctorj.version>
     <bootstrap.version>5.3.5</bootstrap.version>
     <cglib.version>3.3.0</cglib.version>
-    <nvd.apikey>${env.NVD_API_KEY}</nvd.apikey>
     <!-- do not update necessary for lesson -->
     <checkstyle.version>3.6.0</checkstyle.version>
     <commons-collections.version>3.2.1</commons-collections.version>
@@ -90,6 +89,7 @@
     <maven.compiler.proc>full</maven.compiler.proc>
     <maven.compiler.source>23</maven.compiler.source>
     <maven.compiler.target>23</maven.compiler.target>
+    <nvd.apikey>${env.NVD_API_KEY}</nvd.apikey>
 
     <pmd.version>3.15.0</pmd.version>
     <!-- Use UTF-8 Encoding -->
