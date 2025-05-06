@@ -9,9 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-/**
- * @author Angel Olle Blazquez
- */
 @Getter
 @ToString
 public class Authentication implements Principal {

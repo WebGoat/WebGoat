@@ -21,9 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Controller for fetching all the HTTP requests from WebGoat to WebWolf for a specific user.
- *
- * @author nbaars
- * @since 8/13/17.
  */
 @Controller
 @RequiredArgsConstructor

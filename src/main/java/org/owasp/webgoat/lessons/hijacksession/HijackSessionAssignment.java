@@ -21,12 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/***
- *
- * @author Angel Olle Blazquez
- *
- */
-
 @RestController
 @AssignmentHints({
   "hijacksession.hints.1",

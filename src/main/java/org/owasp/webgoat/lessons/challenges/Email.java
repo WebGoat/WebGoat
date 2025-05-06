@@ -9,10 +9,6 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 
-/**
- * @author nbaars
- * @since 8/20/17.
- */
 @Builder
 @Data
 public class Email implements Serializable {

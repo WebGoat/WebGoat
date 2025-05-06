@@ -20,10 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * @author nbaars
- * @since 8/20/17.
- */
 @RestController
 public class MailAssignment implements AssignmentEndpoint {
 

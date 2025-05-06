@@ -8,10 +8,6 @@ import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.springframework.stereotype.Component;
 
-/**
- * @author TMelzer
- * @since 30.11.18
- */
 @Component
 public class ChromeDevTools extends Lesson {
 

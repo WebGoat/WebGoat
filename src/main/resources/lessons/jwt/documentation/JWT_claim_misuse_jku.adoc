@@ -16,9 +16,9 @@ An example JKU would look like this:
 }
 ----
 
-=== Vulnerability
+=== Vulnerability: JWT claim misuse with JKU
 
-JWT claim misuse with JKU The vulnerability arises when a JWT is signed with a weak or predictable key and the server provides a JKU that points to an external location hosting the public key.
+The vulnerability arises when a JWT is signed with a weak or predictable key and the server provides a JKU that points to an external location hosting the public key.
 
 Attackers can exploit this vulnerability by crafting a JWT with malicious claims and using the `jku` to trick the server into verifying the JWT using a weak or manipulated key.
 It all depends on the library being used inside the application.
@@ -38,6 +38,7 @@ However, filtering on URLs is quite challenging to implement, and this can be by
 - **Server verification**: The server, upon receiving the JWT, validates the signature using the public key obtained from the JWKS endpoint.
 
 - **Successful attack**: If the server uses the weak or manipulated key to verify the JWT, the attacker gains unauthorized access or executes their intended exploit.
+
 
 === Mitigation
 

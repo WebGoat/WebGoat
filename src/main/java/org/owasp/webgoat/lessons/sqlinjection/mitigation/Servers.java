@@ -17,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author nbaars
- * @since 6/13/17.
- */
 @RestController
 @RequestMapping("SqlInjectionMitigations/servers")
 @Slf4j

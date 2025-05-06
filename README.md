@@ -99,7 +99,7 @@ For a full overview of all the parameters you can use, please check the [WebGoat
 
 ### Prerequisites:
 
-* Java 17 or 21
+* Java 23
 * Your favorite IDE
 * Git, or Git support in your IDE
 

@@ -11,11 +11,6 @@ import java.io.IOException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
-/**
- * AjaxAuthenticationEntryPoint class.
- *
- * @author zupzup
- */
 public class AjaxAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
   public AjaxAuthenticationEntryPoint(String loginFormUrl) {
     super(loginFormUrl);

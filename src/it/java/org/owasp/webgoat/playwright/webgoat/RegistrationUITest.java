@@ -35,7 +35,7 @@ public class RegistrationUITest extends PlaywrightTest {
   @Test
   @DisplayName("Should register a new user")
   void registerNewUser(Browser browser) {
-    var page = browser.newContext().newPage();
+    var page = browser.newContext(new Browser.NewContextOptions().setLocale("en-US")).newPage();
     var registrationPage = new RegistrationPage(page);
     registrationPage.open();
 

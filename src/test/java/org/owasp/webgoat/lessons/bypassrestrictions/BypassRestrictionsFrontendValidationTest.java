@@ -14,10 +14,6 @@ import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author nbaars
- * @since 6/16/17.
- */
 public class BypassRestrictionsFrontendValidationTest extends LessonTest {
 
   @BeforeEach
