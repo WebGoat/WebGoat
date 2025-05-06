@@ -65,6 +65,7 @@
     <asciidoctorj.version>3.0.0</asciidoctorj.version>
     <bootstrap.version>5.3.5</bootstrap.version>
     <cglib.version>3.3.0</cglib.version>
+    <nvd.apikey>${env.NVD_API_KEY}</nvd.apikey>
     <!-- do not update necessary for lesson -->
     <checkstyle.version>3.6.0</checkstyle.version>
     <commons-collections.version>3.2.1</commons-collections.version>
@@ -836,7 +837,7 @@
             <artifactId>dependency-check-maven</artifactId>
             <version>12.1.0</version>
             <configuration>
-              <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
+              <nvdApiKey>${nvd.apikey}</nvdApiKey>
               <failBuildOnCVSS>8</failBuildOnCVSS>
             </configuration>
             <executions>
