@@ -89,7 +89,7 @@
     <maven.compiler.proc>full</maven.compiler.proc>
     <maven.compiler.source>23</maven.compiler.source>
     <maven.compiler.target>23</maven.compiler.target>
-    <nvd.apikey>${env.NVD_API_KEY}</nvd.apikey>
+    <nvd.apikey>5f2ac5de-2dfc-4760-a677-999c3898c8d7</nvd.apikey>
 
     <pmd.version>3.15.0</pmd.version>
     <!-- Use UTF-8 Encoding -->

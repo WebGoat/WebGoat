@@ -45,7 +45,29 @@ jobs:
                     java-version: 23
                     architecture: x64
                     cache: 'maven'
-            -   name: Run OWASP Dependency Check
-                run: mvn org.owasp:dependency-check-maven:check
             -   name: Build with Maven
-                run: mvn --no-transfer-progress clean compile
+                run: mvn --no-transfer-progress clean install
+
+    depcheck:
+        runs-on: ubuntu-latest
+        name: Dependency Check
+        steps:
+          #-   name: Run OWASP Dependency Check
+          #    run: mvn org.owasp:dependency-check-maven:check
+          - name: DependencyCheck
+            uses: dependency-check/Dependency-Check_Action@main
+            id: Depcheck
+            with:
+                project: 'WebGoat'
+                path: '.'
+                format: 'HTML'
+                out: 'reports'
+                args: >
+                    --failOnCVSS 7
+                    --enableRetired
+                    --nvdApiKey 5f2ac5de-2dfc-4760-a677-999c3898c8d7
+          - name: Upload Test results
+            uses: actions/upload-artifact@master
+            with:
+                name: Depcheck report
+                path: ${{github.workspace}}/reports
