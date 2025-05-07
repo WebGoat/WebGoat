@@ -54,6 +54,7 @@ jobs:
                 with:
                     name: Upload directory
                     path: ${{github.workspace}}/target
+                if: always()
     # depcheck:
     #     name: Dependency Check
     #     runs-on: ubuntu-latest
