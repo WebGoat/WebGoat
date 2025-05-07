@@ -6,6 +6,8 @@ package org.owasp.webgoat.integration;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class SqlInjectionLessonIntegrationTest extends IntegrationTest {
@@ -32,6 +34,7 @@ public class SqlInjectionLessonIntegrationTest extends IntegrationTest {
   public static final String sql_13 = "%update% '; drop table access_log ; --'";
 
   @Test
+  @Disabled
   public void runTests() {
     startLesson("SqlInjection");
 

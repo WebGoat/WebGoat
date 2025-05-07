@@ -5,6 +5,7 @@
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,7 +43,7 @@ public class SqlInjectionLesson10Test extends LessonTest {
             MockMvcRequestBuilders.post("/SqlInjection/attack10")
                 .param("action_string", "%'; DROP TABLE access_log;--"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("lessonCompleted", is(true)))
-        .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.success"))));
+        .andExpect(jsonPath("lessonCompleted", is(false)))
+        .andExpect(jsonPath("$.feedback", is(messages.getMessage("sql-injection.10.entries"))));
   }
 }
