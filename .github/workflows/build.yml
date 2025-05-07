@@ -62,4 +62,3 @@ jobs:
         steps:
             -   name: Run JUnit Tests
                 run: mvn install
-
