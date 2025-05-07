@@ -73,4 +73,3 @@ jobs:
         #            --failBuildOnCVSS 8
         #            --enableRetired
         #            --nvdApiKey 5f2ac5de-2dfc-4760-a677-999c3898c8d7
-
