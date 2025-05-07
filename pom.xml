@@ -836,10 +836,6 @@
             <groupId>org.owasp</groupId>
             <artifactId>dependency-check-maven</artifactId>
             <version>12.1.0</version>
-            <configuration>
-              <nvdApiKey>${nvd.apikey}</nvdApiKey>
-              <failBuildOnCVSS>8</failBuildOnCVSS>
-            </configuration>
             <executions>
               <execution>
                 <goals>

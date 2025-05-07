@@ -33,25 +33,25 @@ jobs:
         runs-on: ubuntu-latest
         needs: [pre-commit]
         steps:
-          #-   name: Run OWASP Dependency Check
-          #    run: mvn org.owasp:dependency-check-maven:check
-          - name: DependencyCheck
-            uses: dependency-check/Dependency-Check_Action@main
-            id: Depcheck
-            with:
-                project: 'WebGoat'
-                path: '.'
-                format: 'HTML'
-                out: 'reports'
-                args: >
-                    --failOnCVSS 7
-                    --enableRetired
-                    --nvdApiKey 5f2ac5de-2dfc-4760-a677-999c3898c8d7
+          -   name: Run OWASP Dependency Check
+              run: mvn org.owasp:dependency-check-maven:check -DnvdApiKey=${env.NVD_API_KEY} -DfailBuildOnCVSS=7
+          #- name: DependencyCheck
+          #  uses: dependency-check/Dependency-Check_Action@main
+          #  id: Depcheck
+          #  with:
+          #      project: 'WebGoat'
+          #      path: '.'
+          #      format: 'HTML'
+          #      out: 'reports'
+          #      args: >
+          #          --failOnCVSS 7
+          #          --enableRetired
+          #          --nvdApiKey 5f2ac5de-2dfc-4760-a677-999c3898c8d7
           - name: Upload Test results
             uses: actions/upload-artifact@master
             with:
                 name: Depcheck report
-                path: ${{github.workspace}}/reports
+                path: ${{github.workspace}}//target/dependency-check-report.html
     build:
         name: Build
         runs-on: ubuntu-latest
