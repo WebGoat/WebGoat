@@ -55,4 +55,11 @@ jobs:
                     name: Target artifact
                     path: ${{github.workspace}}/target
                 if: always()
+    test:
+        name: Tests
+        runs-on: ubuntu-latest
+        needs: [build]
+        steps:
+            -   name: Run JUnit Tests
+                run: mvn install
 
