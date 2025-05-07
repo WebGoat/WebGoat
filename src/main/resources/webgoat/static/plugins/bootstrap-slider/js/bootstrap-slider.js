@@ -218,7 +218,7 @@
 				// Touch: Bind touch events:
 				$(document).on({
 					touchmove: $.proxy(this.mousemove, this),
-					touchend: $.proxy(this.mouseup, this)
+					touchend: (this.mouseup).bind(this)
 				});
 			} else {
 				$(document).on({
