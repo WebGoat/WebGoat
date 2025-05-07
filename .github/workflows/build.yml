@@ -52,25 +52,7 @@ jobs:
             -   name: Upload Dependency Check report
                 uses: actions/upload-artifact@master
                 with:
-                    name: Upload directory
+                    name: Target artifact
                     path: ${{github.workspace}}/target
                 if: always()
-    # depcheck:
-    #     name: Dependency Check
-    #     runs-on: ubuntu-latest
-    #     needs: [build]
-    #     steps:
-    #       -   name: Run OWASP Dependency Check
-    #           run: mvn org.owasp:dependency-check-maven:check -DnvdApiKey=5f2ac5de-2dfc-4760-a677-999c3898c8d7 -DfailBuildOnCVSS=7
-        #   - name: DependencyCheck
-        #    uses: dependency-check/Dependency-Check_Action@main
-        #    id: Depcheck
-        #    with:
-        #        project: 'WebGoat'
-        #        path: '.'
-        #        format: 'HTML'
-        #        out: 'reports'
-        #        args: >
-        #            --failBuildOnCVSS 8
-        #            --enableRetired
-        #            --nvdApiKey 5f2ac5de-2dfc-4760-a677-999c3898c8d7
+
