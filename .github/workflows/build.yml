@@ -48,7 +48,7 @@ jobs:
             -   name: Build with Maven
                 run: mvn --no-transfer-progress clean compile
             -   name: Run OWASP Dependency Check
-                run: mvn org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }} -DfailBuildOnCVSS=7
+                run: mvn org.owasp:dependency-check-maven:check -DnvdApiKey=${{ vars.NVD_API_KEY }} -DfailBuildOnCVSS=7
             -   name: Upload Dependency Check report
                 uses: actions/upload-artifact@master
                 with:
