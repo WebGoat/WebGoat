@@ -43,7 +43,7 @@ jobs:
           # [Mandatory]
           # The name of the branch on which Frogbot will perform the scan
           JF_GIT_BASE_BRANCH: ${{ matrix.branch }}
-          JF_MIN_SEVERITY: "High"
+          JF_MIN_SEVERITY: "Low"
 
         # [Mandatory if using OIDC authentication protocol instead of JF_ACCESS_TOKEN]
         # Insert to oidc-provider-name the 'Provider Name' defined in the OIDC integration configured in the JPD
