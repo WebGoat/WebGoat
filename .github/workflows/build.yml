@@ -71,16 +71,15 @@ jobs:
                     architecture: x64
                     cache: 'maven'
             -   name: Run OWASP Dependency Check
-                run: mvn org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }} -DfailBuildOnCVSS=7
+                run: mvn org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }} -DfailBuildOnCVSS=${{ vars.FAIL_BUILD_ON_CVSS }}
             -   name: Upload Dependency Check report
                 uses: actions/upload-artifact@master
                 with:
                     name: Dependency Check report path
                     path: ${{github.workspace}}/target/dependency-check-report.html
-                if: always()
             -   name: Install dependencies
                 run: mvn install -DskipTests=true
-                if: always()
+
     tests:
         name: Tests
         runs-on: ubuntu-latest
@@ -100,10 +99,8 @@ jobs:
                     cache: 'maven'
             -   name: Run Unit Test
                 run: mvn test
-                if: always()
             -   name: Run Integration Test
                 run: mvn verify
-                if: always()
 
     sonarqube:
         name: SonarQube
