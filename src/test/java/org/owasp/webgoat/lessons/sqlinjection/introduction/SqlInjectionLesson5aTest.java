@@ -74,6 +74,6 @@ public class SqlInjectionLesson5aTest extends LessonTest {
         .andExpect(
             jsonPath(
                 "$.output",
-                is("texto mal escrito: '1''<br> Your query was: SELECT * FROM user_data WHERE first_name = 'John' and last_name = 'Smith' OR '1' = '1''")));
+                is("malformed string: '1''<br> Your query was: SELECT * FROM user_data WHERE first_name = 'John' and last_name = 'Smith' OR '1' = '1''")));
   }
 }
