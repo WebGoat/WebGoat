@@ -78,7 +78,7 @@ jobs:
                 run: mvn install -DskipTests=true
 
     unit-tests:
-        name: Tests
+        name: Unit Tests
         runs-on: ubuntu-latest
         needs: [depcheck]
         strategy:
