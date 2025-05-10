@@ -8,6 +8,7 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.NoTypePermission;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -23,10 +24,16 @@ public class VulnerableComponentsLesson implements AssignmentEndpoint {
 
   @PostMapping("/VulnerableComponents/attack1")
   public @ResponseBody AttackResult completed(@RequestParam String payload) {
+    // Δημιουργία και ρύθμιση του XStream με περιορισμούς ασφαλείας
     XStream xstream = new XStream();
+    xstream.addPermission(NoTypePermission.NONE); // Αρχικά δεν επιτρέπεται τίποτα
+    xstream.allowTypesByWildcard(new String[] {
+        "org.owasp.webgoat.lessons.vulnerablecomponents.**"
+    }); // Επιτρέπεται μόνο το συγκεκριμένο package
     xstream.setClassLoader(Contact.class.getClassLoader());
     xstream.alias("contact", ContactImpl.class);
     xstream.ignoreUnknownElements();
+
     Contact contact = null;
 
     try {
