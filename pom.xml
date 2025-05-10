@@ -93,6 +93,7 @@
     <!-- Use UTF-8 Encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <skipTests>false</skipTests>
     <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
     <waittimeForServerStart>60</waittimeForServerStart>
     <webdriver.version>6.0.1</webdriver.version>
@@ -472,6 +473,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
+          <skipITs>${skipTests}</skipITs>
           <environmentVariables>
             <WEBGOAT_SSLENABLED>${webgoat.sslenabled}</WEBGOAT_SSLENABLED>
             <WEBGOAT_HOST>127.0.0.1</WEBGOAT_HOST>
@@ -507,6 +509,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
+          <skipTests>${skipTests}</skipTests>
           <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
           <!-- Necessary for vulnerable components lesson -->
           <argLine>--enable-native-access=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED
