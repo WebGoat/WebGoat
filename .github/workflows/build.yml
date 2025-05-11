@@ -20,7 +20,7 @@ jobs:
             -   name: Checkout git repository
                 uses: actions/checkout@v4.1.6
             -   name: Set up JDK 23
-                uses: actions/setup-java@v4.2.1
+                uses: actions/setup-java@v4.7.1
                 with:
                     distribution: 'temurin'
                     java-version: 23
@@ -43,7 +43,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v4.1.6
             -   name: Set up JDK 23
-                uses: actions/setup-java@v4.2.1
+                uses: actions/setup-java@v4.7.1
                 with:
                     distribution: 'temurin'
                     java-version: 23
@@ -61,7 +61,7 @@ jobs:
             -   name: Checkout git repository
                 uses: actions/checkout@v4.1.6
             -   name: Set up JDK 23
-                uses: actions/setup-java@v4.2.1
+                uses: actions/setup-java@v4.7.1
                 with:
                     distribution: 'temurin'
                     java-version: 23
@@ -87,7 +87,7 @@ jobs:
             -   name: Checkout git repository
                 uses: actions/checkout@v4.1.6
             -   name: Set up JDK 23
-                uses: actions/setup-java@v4.2.1
+                uses: actions/setup-java@v4.7.1
                 with:
                     distribution: 'temurin'
                     java-version: 23
@@ -112,7 +112,7 @@ jobs:
             -   name: Checkout git repository
                 uses: actions/checkout@v4.1.6
             -   name: Set up JDK 23
-                uses: actions/setup-java@v4.2.1
+                uses: actions/setup-java@v4.7.1
                 with:
                     distribution: 'temurin'
                     java-version: 23
@@ -137,6 +137,18 @@ jobs:
             -   uses: actions/checkout@v4.1.6
                 with:
                     fetch-depth: 0
+            -   name: Replace Sonar keys
+                run: |
+                    touch sonar-project.properties
+                    cat <<EOF > sonar.keys
+                    sonar.organization=${{ secrets.SONAR_ORG_KEY }}
+                    sonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+                    EOF
+            -   name: Upload sonar-project.properties
+                uses: actions/upload-artifact@master
+                with:
+                    name: Sonar project properties
+                    path: ${{github.workspace}}/sonar-project.properties
             -   name: SonarQube Scan
                 uses: SonarSource/sonarqube-scan-action@v5.2.0
                 env:
