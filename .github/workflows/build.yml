@@ -159,7 +159,6 @@ jobs:
                     architecture: x64
                     cache: 'maven'
             -   name: Run SonarQube Analysis
-                if: ${{ !always() }}
                 run: mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.1.0.4751:sonar  \
                     -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
                     -Dsonar.host.url=https://sonarcloud.io \
