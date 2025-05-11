@@ -139,12 +139,14 @@ jobs:
                 with:
                     fetch-depth: 0
             -   name: Replace Sonar keys
+                if: ${{ !always() }}
                 run: |
                     cat <<EOF > sonar-project.properties
                     sonar.organization=${{ secrets.SONAR_ORG_KEY }}
                     sonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
                     EOF
             -   name: Upload sonar-project.properties
+                if: ${{ !always() }}
                 uses: actions/upload-artifact@master
                 with:
                     name: Sonar project properties
@@ -156,9 +158,25 @@ jobs:
                     java-version: 23
                     architecture: x64
                     cache: 'maven'
+            -   run: whereis java
+            -   name: Run SonarQube Analysis
+                if: ${{ !always() }}
+                run: mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.1.0.4751:sonar  \
+                    -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+                    -Dsonar.host.url=https://sonarcloud.io \
+                    -Dsonar.organization=${{ secrets.SONAR_ORG_KEY }} \
+                    -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+                    -Dsonar.java.jdkHome=/usr/lib/jvm/jdk11/
             -   name: Compile project
+                if: ${{ !always() }}
                 run: mvn --no-transfer-progress clean compile
             -   name: SonarQube Scan
+                if: ${{ !always() }}
                 uses: SonarSource/sonarqube-scan-action@v5.2.0
+                with:
+                    args: >
+                        -Dsonar.organization=${{ secrets.SONAR_ORG_KEY }}
+                        -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+                        -Dsonar.java.binaries=src/main
                 env:
                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
