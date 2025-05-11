@@ -158,7 +158,6 @@ jobs:
                     java-version: 23
                     architecture: x64
                     cache: 'maven'
-            -   run: echo $JAVA_HOME
             -   name: Run SonarQube Analysis
                 if: ${{ !always() }}
                 run: mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.1.0.4751:sonar  \
@@ -166,7 +165,7 @@ jobs:
                     -Dsonar.host.url=https://sonarcloud.io \
                     -Dsonar.organization=${{ secrets.SONAR_ORG_KEY }} \
                     -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-                    -Dsonar.java.jdkHome=/usr/lib/jvm/jdk11/
+                    -Dsonar.java.jdkHome=$JAVA_HOME
             -   name: Compile project
                 if: ${{ !always() }}
                 run: mvn --no-transfer-progress clean compile
