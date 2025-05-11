@@ -156,6 +156,11 @@
 
   <dependencyManagement>
     <dependencies>
+        <dependency>
+    <groupId>org.codehaus.jettison</groupId>
+    <artifactId>jettison</artifactId>
+    <version>1.5.3</version>
+</dependency>
       <dependency>
         <groupId>org.eclipse.jetty.ee10</groupId>
         <artifactId>jetty-ee10-bom</artifactId>
