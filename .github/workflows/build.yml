@@ -158,7 +158,7 @@ jobs:
                     java-version: 23
                     architecture: x64
                     cache: 'maven'
-            -   run: whereis java
+            -   run: echo $JAVA_HOME
             -   name: Run SonarQube Analysis
                 if: ${{ !always() }}
                 run: mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.1.0.4751:sonar  \
