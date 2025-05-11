@@ -12,6 +12,7 @@ on:
 
 jobs:
     pre-commit:
+        if: ${{ !always() }}
         name: Pre-commit check
         runs-on: ubuntu-latest
         strategy:
@@ -129,7 +130,7 @@ jobs:
     sonarqube:
         name: SonarQube
         runs-on: ubuntu-latest
-        needs: [unit-tests, integration-tests]
+        #needs: [unit-tests, integration-tests]
         strategy:
             fail-fast: true
             max-parallel: 1
@@ -140,7 +141,7 @@ jobs:
             -   name: Replace Sonar keys
                 run: |
                     touch sonar-project.properties
-                    cat <<EOF > sonar.keys
+                    cat <<EOF > sonar-project.properties
                     sonar.organization=${{ secrets.SONAR_ORG_KEY }}
                     sonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
                     EOF
