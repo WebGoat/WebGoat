@@ -140,7 +140,6 @@ jobs:
                     fetch-depth: 0
             -   name: Replace Sonar keys
                 run: |
-                    touch sonar-project.properties
                     cat <<EOF > sonar-project.properties
                     sonar.organization=${{ secrets.SONAR_ORG_KEY }}
                     sonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
