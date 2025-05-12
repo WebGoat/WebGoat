@@ -1,0 +1,19 @@
+name: "Dependency Submission API Upload"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '26 18 * * 1'
+
+jobs:
+  depSubmissionAPIUpload:
+    name: Analyze
+    runs-on: 'ubuntu-latest'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Submit Dependency Snapshot
+      uses: advanced-security/maven-dependency-submission-action@v3
