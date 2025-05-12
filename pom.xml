@@ -96,7 +96,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
     <waittimeForServerStart>60</waittimeForServerStart>
-    <webdriver.version>6.0.1</webdriver.version>
+    <webdriver.version>6.1.0</webdriver.version>
     <webgoat.context>/WebGoat</webgoat.context>
     <webgoat.port>8080</webgoat.port>
     <webgoat.sslenabled>false</webgoat.sslenabled>
