@@ -70,7 +70,7 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
-        config-file: liatrio-enterprise/github-security-playground/codeql/codeql-config.yml
+        config-file: liatrio-enterprise/github-security-playground/codeql/codeql-config.yml@main
         external-repository-token: ${{ secrets.GHAS_CONFIG_ACCESS_TOKEN }}
         build-mode: ${{ matrix.build-mode }}
         # If you wish to specify custom queries, you can do so here or in a config file.
