@@ -79,7 +79,7 @@
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
     <jquery.version>3.7.1</jquery.version>
-    <jsoup.version>1.19.1</jsoup.version>
+    <jsoup.version>1.20.1</jsoup.version>
     <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
     <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
     <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
