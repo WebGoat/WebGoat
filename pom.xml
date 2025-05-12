@@ -222,7 +222,7 @@
       <dependency>
         <groupId>com.microsoft.playwright</groupId>
         <artifactId>playwright</artifactId>
-        <version>1.51.0</version>
+        <version>1.52.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
