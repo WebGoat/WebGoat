@@ -197,9 +197,11 @@ jobs:
                     format: json
                     scan-ref: .
                     exit-code: 0
+                if: ${{ always() }}
             -   name: Upload Vulnerability Scan Results
                 uses: actions/upload-artifact@v4
                 with:
                     name: trivy-report
                     path: trivy-report.json
                     retention-days: 30
+                if: ${{ always() }}
