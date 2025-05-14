@@ -172,7 +172,7 @@ jobs:
                     architecture: x64
                     cache: 'maven'
             -   name: Compile project
-                run: mvn --no-transfer-progress clean isntall -DskipTests=true
+                run: mvn --no-transfer-progress clean install -DskipTests=true
             -   name: Build Docker image
                 run: |
                     docker build -f Dockerfile . -t webgoat:v1 .
