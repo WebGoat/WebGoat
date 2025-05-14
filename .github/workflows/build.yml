@@ -175,6 +175,30 @@ jobs:
                 run: mvn --no-transfer-progress clean install -DskipTests=true
             -   name: Build Docker image
                 run: |
-                    docker build -f Dockerfile . -t webgoat:v1
-            -   name: Scan Docker image
-                run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image webgoat:v1 --scanners vuln
+                    docker build -f Dockerfile . -t webgoat:${{ github.sha }}
+            # -   name: Scan Docker image
+            #     run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image webgoat:v1 --scanners vuln
+            # The first call to the action will invoke setup-trivy and install trivy
+            -   name: Run Trivy vulnerability scanner
+                uses: aquasecurity/trivy-action@0.28.0
+                with:
+                    image-ref: 'webgoat:${{ github.sha }}'
+                    format: 'table'
+                    exit-code: '1'
+                    ignore-unfixed: true
+                    vuln-type: 'os,library'
+                    severity: 'CRITICAL,HIGH'
+            -   name: Generate Trivy Vulnerability Report
+                uses: aquasecurity/trivy-action@master
+                with:
+                    scan-type: "fs"
+                    output: trivy-report.json
+                    format: json
+                    scan-ref: .
+                    exit-code: 0
+            -   name: Upload Vulnerability Scan Results
+                uses: actions/upload-artifact@v4
+                with:
+                    name: trivy-report
+                    path: trivy-report.json
+                    retention-days: 30
