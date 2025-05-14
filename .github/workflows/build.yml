@@ -175,6 +175,6 @@ jobs:
                 run: mvn --no-transfer-progress clean install -DskipTests=true
             -   name: Build Docker image
                 run: |
-                    docker build -f Dockerfile . -t webgoat:v1 .
+                    docker build -f Dockerfile . -t webgoat:v1
             -   name: Scan Docker image
                 run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image webgoat:v1 --scanners vuln
