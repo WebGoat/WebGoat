@@ -153,3 +153,17 @@ jobs:
                         -Dsonar.organization=${{ secrets.SONAR_ORG_KEY }} \
                         -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
                         -Dsonar.java.jdkHome=$JAVA_HOME
+    docker:
+        name: Build and Run Docker image
+        runs-on: ubuntu-latest
+        #needs: [sonarqube]
+        strategy:
+            fail-fast: true
+            max-parallel: 1
+        steps:
+            -   uses: actions/checkout@v4.1.6
+                with:
+                    fetch-depth: 0
+            -   name: Build Docker image
+                run: |
+                    docker build -t webgoat:v1 . 
