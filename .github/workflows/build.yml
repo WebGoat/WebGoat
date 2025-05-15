@@ -204,6 +204,7 @@ jobs:
                     retention-days: 30
                 if: ${{ always() }}
     dast:
+        if: ${{ always() }}
         runs-on: ubuntu-latest
         name: Scan the application
         needs: [publish]
