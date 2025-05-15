@@ -179,6 +179,10 @@ jobs:
                     context: .
                     tags: webgoat:${{ github.sha }}
                     outputs: type=docker,dest=${{ runner.temp }}/webgoat-image.tar
+            -   name: Load image
+                run: |
+                    docker load --input ${{ runner.temp }}/webgoat-image.tar
+                    docker image ls -a
             -   name: Run Trivy vulnerability scanner
                 uses: aquasecurity/trivy-action@0.28.0
                 with:
@@ -229,7 +233,7 @@ jobs:
                     docker image ls -a
             -   name: Run Docker image
                 run: |
-                    docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat:${{ github.sha }}
+                    docker run -dit -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat:${{ github.sha }}
             -   run: curl http://localhost:8080/WebGoat
             # -   name: ZAP Scan
             #     uses: zaproxy/action-full-scan@v0.12.0
