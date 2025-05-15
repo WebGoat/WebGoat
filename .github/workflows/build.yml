@@ -234,7 +234,7 @@ jobs:
             -   name: Run Docker image
                 run: |
                     docker run -dit -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat:${{ github.sha }}
-            -   run: |                
+            -   run: |
                     until curl --fail http://localhost:8080/WebGoat; do
                         echo "Waiting for service..."
                         sleep 5
