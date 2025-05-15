@@ -176,12 +176,13 @@ jobs:
             -   name: Build and push to local registry
                 uses: docker/build-push-action@v6
                 with:
+                    context: .
                     push: true
                     tags: webgoat:${{ github.sha }}
-                    # outputs: type=docker,dest=${{ runner.temp }}/webgoat-image.tar
+                    outputs: type=docker,dest=${{ runner.temp }}/webgoat-image.tar
             # -   name: Build Docker image
             #     run: |
-            #         docker build -f Dockerfile . -t
+            #         docker build -f Dockerfile . -t webgoat:${{ github.sha }}
             -   name: Run Trivy vulnerability scanner
                 uses: aquasecurity/trivy-action@0.28.0
                 with:
