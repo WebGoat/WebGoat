@@ -1,0 +1,16 @@
+name: "TruffleHog Scan"
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+
+jobs:
+    scan:
+        name: Scan
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout git repository
+              uses: actions/checkout@v4.1.6
+            - name: TruffleHog OSS
+              uses: trufflesecurity/trufflehog@v3.88.29
