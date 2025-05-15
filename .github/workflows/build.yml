@@ -128,7 +128,7 @@ jobs:
                     path: ${{github.workspace}}/target/failsafe-reports
 
     sast:
-        name: SonarQube
+        name: SAST
         runs-on: ubuntu-latest
         needs: [unit-tests, integration-tests]
         strategy:
@@ -171,12 +171,17 @@ jobs:
                     cache: 'maven'
             -   name: Compile project
                 run: mvn --no-transfer-progress clean install -DskipTests=true
-            -   name: Build Docker image
-                run: |
-                    docker build -f Dockerfile . -t webgoat:${{ github.sha }}
-            # -   name: Scan Docker image
-            #     run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image webgoat:v1 --scanners vuln
-            # The first call to the action will invoke setup-trivy and install trivy
+            -   name: Set up Docker Buildx
+                uses: docker/setup-buildx-action@v3
+            -   name: Build and push to local registry
+                uses: docker/build-push-action@v6
+                with:
+                    push: true
+                    tags: webgoat:${{ github.sha }}
+                    outputs: type=docker,dest=${{ runner.temp }}/webgoat-image.tar
+            # -   name: Build Docker image
+            #     run: |
+            #         docker build -f Dockerfile . -t
             -   name: Run Trivy vulnerability scanner
                 uses: aquasecurity/trivy-action@0.28.0
                 with:
@@ -203,23 +208,38 @@ jobs:
                     path: trivy-report.json
                     retention-days: 30
                 if: ${{ always() }}
+            -   name: Upload Docker image artifact
+                uses: actions/upload-artifact@v4
+                with:
+                    name: webgoat-image
+                    path: ${{ runner.temp }}/webgoat-image.tar
+                if: ${{ always() }}
+            -   run: ln ${{ runner.temp }}
+                if: ${{ always() }}
     dast:
         if: ${{ always() }}
         runs-on: ubuntu-latest
-        name: Scan the application
+        name: DAST
         needs: [publish]
         steps:
-            # -   name: Checkout
-            #     uses: actions/checkout@v4
-            # -   name: Compile project
-            #     run: mvn --no-transfer-progress clean install -DskipTests=true
-            -   name: Run the application
-                run: docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat:${{ github.sha }}
-            -   name: ZAP Scan
-                uses: zaproxy/action-full-scan@v0.12.0
+            -   run: ls ${{ runner.temp }}
+            -   name: Download artifact
+                uses: actions/download-artifact@v4
                 with:
-                    token: ${{ secrets.GITHUB_TOKEN }}
-                    docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
-                    target: 'http://localhost:8080/WebGoat'
-                    rules_file_name: '.zap/rules.tsv'
-                    cmd_options: '-a'
+                    name: webgoat-image
+                    path: ${{ runner.temp }}
+            -   name: Load image
+                run: |
+                    docker load --input ${{ runner.temp }}/webgoat-image.tar
+                    docker image ls -a
+            # -   name: Run the application
+            #     run: |
+            #         docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat:${{ github.sha }}
+            # -   name: ZAP Scan
+            #     uses: zaproxy/action-full-scan@v0.12.0
+            #     with:
+            #         token: ${{ secrets.GITHUB_TOKEN }}
+            #         docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+            #         target: 'http://localhost:8080/WebGoat'
+            #         rules_file_name: '.zap/rules.tsv'
+            #         cmd_options: '-a'
