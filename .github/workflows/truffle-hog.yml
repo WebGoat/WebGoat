@@ -10,7 +10,11 @@ jobs:
         name: Scan
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout git repository
-              uses: actions/checkout@v4.1.6
-            - name: TruffleHog OSS
-              uses: trufflesecurity/trufflehog@v3.88.29
+        - name: Checkout code
+          uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
+        - name: Secret Scanning
+          uses: trufflesecurity/trufflehog@main
+            with:
+              extra_args: --results=verified,unknown

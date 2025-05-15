@@ -20,6 +20,7 @@ public class VulnerableTaskHolder implements Serializable {
 
   private String taskName;
   private String taskAction;
+  public String secret = "ghp_asdf23423fd23r"
   private LocalDateTime requestedExecutionTime;
 
   public VulnerableTaskHolder(String taskName, String taskAction) {
