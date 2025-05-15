@@ -1,20 +1,19 @@
 name: "TruffleHog Scan"
 on:
-    push:
-        branches:
-            - main
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-    scan:
-        name: Scan
-        runs-on: ubuntu-latest
-        steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-            with:
-              fetch-depth: 0
-        - name: Secret Scanning
-          uses: trufflesecurity/trufflehog@main
-            with:
-              extra_args: --results=verified,unknown
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Secret Scanning
+      uses: trufflesecurity/trufflehog@main
+      with:
+        extra_args: --results=verified,unknown
