@@ -177,7 +177,6 @@ jobs:
                 uses: docker/build-push-action@v6
                 with:
                     context: .
-                    push: true
                     tags: webgoat:${{ github.sha }}
                     outputs: type=docker,dest=${{ runner.temp }}/webgoat-image.tar
             # -   name: Build Docker image
