@@ -239,6 +239,7 @@ jobs:
                         echo "Waiting for service..."
                         sleep 5
                     done
+                    echo "WebGoat application running on http://localhost:8080/WebGoat"
             # -   name: ZAP Scan
             #     uses: zaproxy/action-full-scan@v0.12.0
             #     with:
