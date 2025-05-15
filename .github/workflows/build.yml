@@ -178,7 +178,7 @@ jobs:
                 with:
                     push: true
                     tags: webgoat:${{ github.sha }}
-                    outputs: type=docker,dest=${{ runner.temp }}/webgoat-image.tar
+                    # outputs: type=docker,dest=${{ runner.temp }}/webgoat-image.tar
             # -   name: Build Docker image
             #     run: |
             #         docker build -f Dockerfile . -t
