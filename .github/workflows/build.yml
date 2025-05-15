@@ -215,8 +215,6 @@ jobs:
                     name: webgoat-image
                     path: ${{ runner.temp }}/webgoat-image.tar
                 if: ${{ always() }}
-            -   run: ln ${{ runner.temp }}
-                if: ${{ always() }}
     dast:
         if: ${{ always() }}
         runs-on: ubuntu-latest
