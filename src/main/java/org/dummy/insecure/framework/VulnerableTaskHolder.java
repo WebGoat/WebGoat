@@ -22,6 +22,7 @@ public class VulnerableTaskHolder implements Serializable {
   private String taskAction;
   public String secret = "ghp_asdf23423fd23r"
   public String mongoDbConnectionString = "mongodb+srv://my-user:my-password@clustername.mongodb.net/";
+  public String fakeGitHubToken = "ghp_asdf23423fd23r234sdf234234sdfsf234234sdf";
   private LocalDateTime requestedExecutionTime;
 
   public VulnerableTaskHolder(String taskName, String taskAction) {
