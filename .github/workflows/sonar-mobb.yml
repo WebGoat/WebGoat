@@ -1,0 +1,75 @@
+# Mobb/SonarQube Fixer on Pull Requests
+#
+# This GitHub Actions workflow scans every pull request with SonarQube (or SonarCloud),
+# downloads the SAST (static analysis) findings, and passes them to Mobb for automated remediation suggestions.
+#
+# ✅ Supported on both SonarCloud and SonarQube on-premise
+#
+# ➕ Requirements:
+# - Your project must already be set up in SonarQube/SonarCloud.
+# - A GitHub repository using pull requests for change submission.
+#
+# 🔐 Secrets required:
+# - SONAR_TOKEN:       A SonarQube user token (generate from your user profile in SonarCloud or SonarQube)
+# - SONAR_HOST_URL:    Your SonarQube server URL (e.g., https://sonarcloud.io or http://your-sonarqube-server)
+# - SONAR_ORGANIZATION: Your SonarCloud organization key (use `none` if using on-prem SonarQube)
+# - SONAR_PROJECT_KEY: Your SonarQube project key
+# - MOBB_API_TOKEN:    Your Mobb API key (generated at https://app.mobb.ai)
+# - GITHUB_TOKEN:      Automatically provided by GitHub (do not override this)
+#
+# 📂 File layout:
+# - `.github/scripts/sonarqube_download_report.py`: Python script to download the SonarQube PR scan results
+
+name: "Mobb/SonarQube"
+
+on:
+  pull_request:
+    branches: ["*"]
+  workflow_dispatch:
+
+jobs:
+  scan-and-fix:
+    name: Scan with SonarQube and fix with Mobb
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      pull-requests: write
+      statuses: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+                
+      - name: Set up JDK 23
+        uses: actions/setup-java@v4.2.1
+        with:
+            distribution: 'temurin'
+            java-version: 23
+            architecture: x64
+            cache: 'maven'
+            
+      - name: Build with Maven
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=antonychiu2_webgoat
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  
+      - name: Download SonarQube findings using script
+        run: |
+          pip install requests
+          python .github/scripts/sonarqube_download_report.py
+        env:
+          SONARQUBE_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONARQUBE_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONARQUBE_ORG: ${{ secrets.SONAR_ORGANIZATION }}
+          SONARQUBE_PROJECT: ${{ secrets.SONAR_PROJECT_KEY }}
+          PULL_REQUEST_ID: ${{ github.event.pull_request.number }}
+          REPORT_PATH: sonar_report.json
+
+      - name: Run Mobb on the findings and get fixes
+        if: always()
+        uses: mobb-dev/action/review@v1.1
+        with:
+          report-file: "sonar_report.json"
+          api-key: ${{ secrets.MOBB_API_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          scanner: sonarqube
