@@ -233,12 +233,27 @@ jobs:
             -   name: Run Docker image
                 run: |
                     docker run -dit -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat:${{ github.sha }}
-            -   run: |
-                    until curl --silent --fail http://localhost:8080/WebGoat > /dev/null; do
-                        echo "Waiting for service..."
-                        sleep 5
+            -   name: Check web application is running
+                run: |
+                    max_retries=3
+                    retry_count=0
+
+                    while [ $retry_count -lt $max_retries ]; do
+                    curl -m 10 http://localhost:8080/WebGoat
+
+                    if [ $? -eq 0 ]; then
+                        echo "WebGoat application running on http://localhost:8080/WebGoat"
+                        break
+                    else
+                        echo "Request failed with exit code $?. Retrying..."
+                        retry_count=$((retry_count + 1))
+                        sleep 2 # Wait for 2 seconds before retrying
+                    fi
                     done
-                    echo "WebGoat application running on http://localhost:8080/WebGoat"
+
+                    if [ $retry_count -eq $max_retries ]; then
+                        echo "Request failed after $max_retries retries. Exiting."
+                    fi
             -   name: ZAP Scan
                 uses: zaproxy/action-full-scan@v0.12.0
                 with:
