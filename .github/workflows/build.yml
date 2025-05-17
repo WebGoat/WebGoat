@@ -198,7 +198,7 @@ jobs:
                 uses: sigstore/cosign-installer@main
             -   name: Sign Docker image
                 run: |
-                    echo ${{ secrets.COSIGN_KEY }} > cosign.key
+                    echo "${{ secrets.COSIGN_KEY }}" > cosign.key
                     cosign sign --key cosign.key webgoat:${{ github.sha }}
             -   name: Generate Trivy Vulnerability Report
                 uses: aquasecurity/trivy-action@master
