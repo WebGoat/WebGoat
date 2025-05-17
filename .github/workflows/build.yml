@@ -236,7 +236,7 @@ jobs:
                     # docker run -dit -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat:${{ github.sha }}
                     docker run -dit -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat/webgoat:latest
                     docker ps -a
-                    docker inspect --format='{{.State.Health.Status}}' '$(docker ps -q)'
+                    docker inspect --format='{{.State.Health.Status}}' $(docker ps -q)
                     docker inspect webgoat/webgoat:latest | grep -A10 Health
             -   name: Check web application is running
                 run: |
