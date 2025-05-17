@@ -218,7 +218,7 @@ jobs:
     dast:
         runs-on: ubuntu-latest
         name: DAST
-        needs: [publish]
+        # needs: [publish]
         steps:
             -   name: Download Docker image artifact
                 uses: actions/download-artifact@v4
