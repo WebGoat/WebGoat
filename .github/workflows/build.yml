@@ -241,16 +241,16 @@ jobs:
                     retry_count=0
 
                     while [ $retry_count -lt $max_retries ]; do
-                    curl -m 10 http://localhost:8080/WebGoat
+                        curl -m 10 http://localhost:8080/WebGoat
 
-                    if [ $? -eq 0 ]; then
-                        echo "WebGoat application running on http://localhost:8080/WebGoat"
-                        break
-                    else
-                        echo "Request failed with exit code $?. Retrying..."
-                        retry_count=$((retry_count + 1))
-                        sleep 2 # Wait for 2 seconds before retrying
-                    fi
+                        if [ $? -eq 0 ]; then
+                            echo "WebGoat application running on http://localhost:8080/WebGoat"
+                            break
+                        else
+                            echo "Request failed with exit code $?. Retrying..."
+                            retry_count=$((retry_count + 1))
+                            sleep 2 # Wait for 2 seconds before retrying
+                        fi
                     done
 
                     if [ $retry_count -eq $max_retries ]; then
