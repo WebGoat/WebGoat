@@ -200,7 +200,7 @@ jobs:
                 run: |
                     echo "${{ secrets.COSIGN_KEY }}" > cosign.key
                     digest=$(docker image inspect webgoat:${{  github.sha }} | jq '.[].Id')
-                    cosign sign --key cosign.key webgoat:$digest
+                    cosign sign --key cosign.key webgoat@$digest
             -   name: Generate Trivy Vulnerability Report
                 uses: aquasecurity/trivy-action@master
                 with:
