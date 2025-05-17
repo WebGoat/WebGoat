@@ -240,7 +240,7 @@ jobs:
                     docker inspect webgoat/webgoat:latest | grep -A10 Health
             -   name: Check web application is running
                 run: |
-                    max_retries=3
+                    max_retries=15
                     retry_count=0
 
                     while [ $retry_count -lt $max_retries ]; do
