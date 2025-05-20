@@ -212,12 +212,13 @@ jobs:
                     retention-days: 30
             -   name: Generate checksum
                 run: |
-                    sha512sum ${{ runner.temp }}/webgoat-image.tar > ${{ runner.temp }}/sha512sum.txt
-                    tar -czvf ${{ runner.temp }}/docker-artifact.tar ${{ runner.temp }}/webgoat-image.tar ${{ runner.temp }}/sha512sum.txt
+                    cd ${{ runner.temp }}
+                    sha512sum webgoat-image.tar > sha512sum.txt
+                    tar -czvf docker-artifact.tar webgoat-image.tar sha512sum.txt
             -   name: Upload Docker image and checksum artifacts
                 uses: actions/upload-artifact@v4
                 with:
-                    name: Docker image and checksum
+                    name: docker-artifact
                     path: |
                         ${{ runner.temp }}/docker-artifact.tar
             # -   name: Install Cosign
