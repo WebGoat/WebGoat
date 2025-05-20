@@ -236,7 +236,7 @@ jobs:
             -   name: Download Docker image and checksum artifacts
                 uses: actions/download-artifact@v4
                 with:
-                    name: Docker image and checksum
+                    name: docker-artifact
                     path: ${{ runner.temp }}/docker-artifact.tar
             -   name: Verify Docker image
                 run: |
