@@ -68,3 +68,10 @@ jobs:
     
     - name: Build with Maven
       run: mvn clean install -DskipTests
+jobs:
+  pre-commit:
+    name: Pre-commit check
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      ...
