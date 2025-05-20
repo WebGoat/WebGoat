@@ -184,6 +184,7 @@ jobs:
                     docker load --input ${{ runner.temp }}/webgoat-image.tar
                     docker image ls -a
             -   name: Run Trivy vulnerability scanner
+                if: ${{ !always() }}
                 uses: aquasecurity/trivy-action@0.28.0
                 with:
                     image-ref: 'webgoat:${{ github.sha }}'
@@ -193,15 +194,8 @@ jobs:
                     vuln-type: 'os,library'
                     severity: ${{ vars.FAIL_TRIVY_ON_SEVERITY }}
                     scanners: "vuln"
-                if: ${{ !always() }}
-            -   name: Install Cosign
-                uses: sigstore/cosign-installer@main
-            -   name: Sign Docker image
-                run: |
-                    echo "${{ secrets.COSIGN_KEY }}" > cosign.key
-                    digest=$(docker image inspect webgoat:${{ github.sha }} | jq '.[].Id' | awk -F \" '{ print $2 }')
-                    cosign sign --key cosign.key webgoat@$digest
             -   name: Generate Trivy Vulnerability Report
+                if: ${{ !always() }}
                 uses: aquasecurity/trivy-action@master
                 with:
                     scan-type: "fs"
@@ -209,31 +203,44 @@ jobs:
                     format: json
                     scan-ref: .
                     exit-code: 0
-                if: ${{ !always() }}
             -   name: Upload Vulnerability Scan Results
+                if: ${{ !always() }}
                 uses: actions/upload-artifact@v4
                 with:
                     name: trivy-report
                     path: trivy-report.json
                     retention-days: 30
-                if: ${{ !always() }}
-            -   name: Upload Docker image artifact
+            -   name: Generate checksum
+                run: |
+                    sha512sum ${{ runner.temp }}/webgoat-image.tar > ${{ runner.temp }}/sha512sum.txt
+                    tar -czvf ${{ runner.temp }}/docker-artifact.tar ${{ runner.temp }}/webgoat-image.tar ${{ runner.temp }}/sha512sum.txt
+            -   name: Upload Docker image and checksum artifacts
                 uses: actions/upload-artifact@v4
                 with:
-                    name: webgoat-image
-                    path: ${{ runner.temp }}/webgoat-image.tar
-                if: ${{ !always() }}
+                    name: Docker image and checksum
+                    path: |
+                        ${{ runner.temp }}/docker-artifact.tar
+            # -   name: Install Cosign
+            #     uses: sigstore/cosign-installer@main
+            # -   name: Sign Docker image
+            #     run: |
+            #         echo "${{ secrets.COSIGN_KEY }}" > cosign.key
+            #         digest=$(docker image inspect webgoat:${{ github.sha }} | jq '.[].Id' | awk -F \" '{ print $2 }')
+            #         cosign sign --key cosign.key webgoat@$digest
     dast:
-        if: ${{ !always() }}
         runs-on: ubuntu-latest
         name: DAST
         needs: [publish]
         steps:
-            -   name: Download Docker image artifact
+            -   name: Download Docker image and checksum artifacts
                 uses: actions/download-artifact@v4
                 with:
-                    name: webgoat-image
-                    path: ${{ runner.temp }}
+                    name: Docker image and checksum
+                    path: ${{ runner.temp }}/docker-artifact.tar
+            -   name: Verify Docker image
+                run: |
+                    tar -xvf ${{ runner.temp }}/docker-artifact.tar
+                    sha512sum -c ${{ runner.temp }}/sha512sum.txt
             -   name: Load image
                 run: |
                     docker load --input ${{ runner.temp }}/webgoat-image.tar
