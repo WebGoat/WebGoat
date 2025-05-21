@@ -12,7 +12,6 @@ on:
 
 jobs:
     pre-commit:
-        if: ${{ !always() }}
         name: Pre-commit check
         runs-on: ubuntu-latest
         strategy:
@@ -156,7 +155,7 @@ jobs:
     publish:
         name: Publish Docker image
         runs-on: ubuntu-latest
-        # needs: [sast]
+        needs: [sast]
         strategy:
             fail-fast: true
             max-parallel: 1
@@ -184,7 +183,6 @@ jobs:
                     docker load --input docker-image-artifact.tar
                     docker image ls -a
             -   name: Run Trivy vulnerability scanner
-                if: ${{ !always() }}
                 uses: aquasecurity/trivy-action@0.28.0
                 with:
                     image-ref: 'webgoat:${{ github.sha }}'
@@ -195,7 +193,7 @@ jobs:
                     severity: ${{ vars.FAIL_TRIVY_ON_SEVERITY }}
                     scanners: "vuln"
             -   name: Generate Trivy Vulnerability Report
-                if: ${{ !always() }}
+                if: always()
                 uses: aquasecurity/trivy-action@master
                 with:
                     scan-type: "fs"
@@ -204,7 +202,7 @@ jobs:
                     scan-ref: .
                     exit-code: 0
             -   name: Upload Vulnerability Scan Results
-                if: ${{ !always() }}
+                if: always()
                 uses: actions/upload-artifact@v4
                 with:
                     name: trivy-report
@@ -247,13 +245,14 @@ jobs:
                 run: |
                     max_retries=15
                     retry_count=0
-
+                    exit_code=0
                     while [ $retry_count -lt $max_retries ]; do
                         if curl -s --fail http://localhost:8080/WebGoat/actuator/health > /dev/null; then
                             echo "WebGoat application running on http://localhost:8080/WebGoat"
                             break
                         else
-                            echo "Request failed with exit code $?. Retrying..."
+                            echo "Waiting for WebGoat application to be running. Retrying..."
+                            exit_code=$?
                             retry_count=$((retry_count + 1))
                             sleep 5
                         fi
@@ -262,7 +261,7 @@ jobs:
                     if [ $retry_count -eq $max_retries ]; then
                         docker inspect --format='{{.State.Health.Status}}' $(docker ps -q)
                         docker inspect webgoat/webgoat:latest | grep -A10 Health
-                        echo "Request failed after $max_retries retries. Exiting."
+                        echo "Request failed after $max_retries retries. Failed with exit code $exit_code. Exiting."
                     fi
             -   name: ZAP Scan
                 uses: zaproxy/action-full-scan@v0.12.0
