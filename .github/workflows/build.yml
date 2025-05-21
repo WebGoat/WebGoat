@@ -216,28 +216,22 @@ jobs:
             -   name: Upload Docker artifacts
                 uses: actions/upload-artifact@v4
                 with:
-                    name: docker-artifact
+                    name: docker-artifacts
                     path: |
                         docker-image-artifact.tar
                         docker-image-checksum-artifact.txt
 
-            # -   name: Install Cosign
-            #     uses: sigstore/cosign-installer@main
-            # -   name: Sign Docker image
-            #     run: |
-            #         echo "${{ secrets.COSIGN_KEY }}" > cosign.key
-            #         digest=$(docker image inspect webgoat:${{ github.sha }} | jq '.[].Id' | awk -F \" '{ print $2 }')
-            #         cosign sign --key cosign.key webgoat@$digest
     dast:
         runs-on: ubuntu-latest
         name: DAST
         needs: [publish]
         steps:
-            -   name: Download math result for job 1
+            -   name: Download Docker artifacts
                 uses: actions/download-artifact@v4
                 with:
-                    pattern: docker-image-*
-                    merge-multiple: true
+                    name: docker-artifacts
+            -   name: List downloaded files
+                run: ls -R
             -   name: Verify Docker image
                 run: |
                     sha512sum -c docker-image-checksum-artifact.txt
@@ -275,4 +269,3 @@ jobs:
                 with:
                     target: 'http://localhost:8080/WebGoat'
                     fail_action: false
-
