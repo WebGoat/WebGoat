@@ -212,15 +212,15 @@ jobs:
                     retention-days: 30
             -   name: Generate checksum
                 run: |
-                    cd ${{ runner.temp }}
-                    sha512sum webgoat-image.tar > sha512sum.txt
-                    tar -czvf docker-artifact.tar webgoat-image.tar sha512sum.txt
+                    sha512sum ${{ runner.temp }}/webgoat-image.tar > ${{ runner.temp }}/sha512sum.txt
+                    #tar -czvf docker-artifact.tar ${{ runner.temp }}/webgoat-image.tar ${{ runner.temp }}/sha512sum.txt
             -   name: Upload Docker image and checksum artifacts
                 uses: actions/upload-artifact@v4
                 with:
                     name: docker-artifact
                     path: |
-                        ${{ runner.temp }}/docker-artifact.tar
+                        ${{ runner.temp }}/docker-image-artifact.tar
+                        ${{ runner.temp }}/docker-image-checksum-artifact.txt
             # -   name: Install Cosign
             #     uses: sigstore/cosign-installer@main
             # -   name: Sign Docker image
@@ -233,18 +233,18 @@ jobs:
         name: DAST
         needs: [publish]
         steps:
-            -   name: Download Docker image and checksum artifacts
+            -   name: Download Docker artifacts
                 uses: actions/download-artifact@v4
                 with:
-                    name: docker-artifact
-                    path: ${{ runner.temp }}/docker-artifact.tar
+                    pattern: docker-image-*
+                    merge-multiple: true
             -   name: Verify Docker image
                 run: |
-                    tar -xvf ${{ runner.temp }}/docker-artifact.tar
-                    sha512sum -c ${{ runner.temp }}/sha512sum.txt
+                    #tar -xvf ${{ runner.temp }}/docker-artifact.tar
+                    sha512sum -c sha512sum.txt
             -   name: Load image
                 run: |
-                    docker load --input ${{ runner.temp }}/webgoat-image.tar
+                    docker load --input docker-image-artifact.tar
                     docker image ls -a
             -   name: Run Docker image
                 run: |
