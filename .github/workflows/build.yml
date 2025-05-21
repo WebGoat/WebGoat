@@ -178,10 +178,10 @@ jobs:
                 with:
                     context: .
                     tags: webgoat:${{ github.sha }}
-                    outputs: type=docker,dest=${{ runner.temp }}/docker-image-artifact.tar
+                    outputs: type=docker,dest=docker-image-artifact.tar
             -   name: Load image
                 run: |
-                    docker load --input ${{ runner.temp }}/docker-image-artifact.tar
+                    docker load --input docker-image-artifact.tar
                     docker image ls -a
             -   name: Run Trivy vulnerability scanner
                 if: ${{ !always() }}
@@ -212,7 +212,15 @@ jobs:
                     retention-days: 30
             -   name: Generate checksum
                 run: |
-                    sha512sum ${{ runner.temp }}/docker-image-artifact.tar > ${{ runner.temp }}/docker-image-checksum-artifact.txt
+                    sha512sum docker-image-artifact.tar > docker-image-checksum-artifact.txt
+            -   name: Upload Docker artifacts
+                uses: actions/upload-artifact@v4
+                with:
+                    name: docker-artifact
+                    path: |
+                        docker-image-artifact.tar
+                        docker-image-checksum-artifact.txt
+
             # -   name: Install Cosign
             #     uses: sigstore/cosign-installer@main
             # -   name: Sign Docker image
@@ -225,12 +233,17 @@ jobs:
         name: DAST
         needs: [publish]
         steps:
+            -   name: Download math result for job 1
+                uses: actions/download-artifact@v4
+                with:
+                    pattern: docker-image-*
+                    merge-multiple: true
             -   name: Verify Docker image
                 run: |
-                    sha512sum -c ${{ runner.temp }}/docker-image-checksum-artifact.txt
+                    sha512sum -c docker-image-checksum-artifact.txt
             -   name: Load image
                 run: |
-                    docker load --input ${{ runner.temp }}/docker-image-artifact.tar
+                    docker load --input docker-image-artifact.tar
                     docker image ls -a
             -   name: Run Docker image
                 run: |
@@ -262,10 +275,4 @@ jobs:
                 with:
                     target: 'http://localhost:8080/WebGoat'
                     fail_action: false
-            -   name: Upload Docker artifacts
-                uses: actions/upload-artifact@v4
-                with:
-                    name: docker-artifact
-                    path: |
-                        ${{ runner.temp }}/docker-image-artifact.tar
-                        ${{ runner.temp }}/docker-image-checksum-artifact.txt
+
