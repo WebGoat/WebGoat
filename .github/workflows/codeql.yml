@@ -15,13 +15,13 @@ on:
   push:
     branches: [ "main" ]
     paths-ignore:
-      - 'src/main/java/org/owasp/webgoat/lessons/**'
+      - 'src/test/java/org/owasp/webgoat/lessons/jwt/**'
   pull_request:
     branches: [ "main" ]
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
-      - 'src/main/java/org/owasp/webgoat/lessons/**'
+      - 'src/test/java/org/owasp/webgoat/lessons/jwt/**'
   schedule:
     - cron: '30 22 * * 2'
 
