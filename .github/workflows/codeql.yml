@@ -14,11 +14,14 @@ name: "CodeQL Advanced"
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - 'src/main/java/org/owasp/webgoat/lessons/**'
   pull_request:
     branches: [ "main" ]
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
+      - 'src/main/java/org/owasp/webgoat/lessons/**'
   schedule:
     - cron: '30 22 * * 2'
 
@@ -80,7 +83,7 @@ jobs:
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
 
-        # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+        # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-sc[...]
         # queries: security-extended,security-and-quality
 
     # If the analyze step fails for one of the languages you are analyzing with
