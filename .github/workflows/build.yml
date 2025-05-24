@@ -150,7 +150,7 @@ jobs:
             -   name: Run Trivy vulnerability scanner
                 uses: aquasecurity/trivy-action@0.28.0
                 with:
-                    image-ref: 'webgoat:${{ github.sha }}'
+                    image-ref: '${{secrets.DOCKER_USERNAME }}/webgoat:${{ github.sha }}'
                     format: 'table'
                     exit-code: '0'
                     ignore-unfixed: true
