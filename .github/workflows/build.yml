@@ -100,7 +100,8 @@ jobs:
                 run: |
                     mvn clean package -DskipTests=true
                     nohup java -jar target/webgoat-2025.4-SNAPSHOT.jar &
-
+            -   name: Check application is running
+                run: |
                     max_retries=15
                     retry_count=0
                     exit_code=0
@@ -117,10 +118,14 @@ jobs:
                     done
 
                     if [ $retry_count -eq $max_retries ]; then
-                        docker inspect --format='{{.State.Health.Status}}' $(docker ps -q)
-                        docker inspect webgoat/webgoat:latest | grep -A10 Health
+                        cat nohup.out
                         echo "Request failed after $max_retries retries. Failed with exit code $exit_code. Exiting."
                     fi
+            -   name: ZAP Scan
+                uses: zaproxy/action-full-scan@v0.12.0
+                with:
+                    target: 'http://localhost:8080/WebGoat'
+                    fail_action: false
 
     deploy:
         if: ${{ !always() }}
