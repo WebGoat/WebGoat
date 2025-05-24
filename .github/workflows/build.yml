@@ -108,6 +108,31 @@ jobs:
                 with:
                     name: Failsafe reports
                     path: ${{github.workspace}}/target/failsafe-reports
+            -   name: Run application
+                run: |
+                    mvn clean package --DskipTests=true
+                    nohup java -jar target/webgoat-2025.4-SNAPSHOT.jar &
+
+                    max_retries=15
+                    retry_count=0
+                    exit_code=0
+                    while [ $retry_count -lt $max_retries ]; do
+                        if curl -s --fail http://localhost:8080/WebGoat/actuator/health > /dev/null; then
+                            echo "WebGoat application running on http://localhost:8080/WebGoat"
+                            break
+                        else
+                            echo "Waiting for WebGoat application to be running. Retrying..."
+                            exit_code=$?
+                            retry_count=$((retry_count + 1))
+                            sleep 5
+                        fi
+                    done
+
+                    if [ $retry_count -eq $max_retries ]; then
+                        docker inspect --format='{{.State.Health.Status}}' $(docker ps -q)
+                        docker inspect webgoat/webgoat:latest | grep -A10 Health
+                        echo "Request failed after $max_retries retries. Failed with exit code $exit_code. Exiting."
+                    fi
 
     publish:
         if: ${{ !always() }}
