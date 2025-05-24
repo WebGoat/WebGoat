@@ -157,6 +157,7 @@ jobs:
                     vuln-type: 'os,library'
                     severity: ${{ vars.TRIVY_SEVERITY_SCAN_FOR }}
                     scanners: "vuln"
+                    output: "trivy-report.json"
             -   name: Upload Vulnerability Scan Results
                 if: always()
                 uses: actions/upload-artifact@v4
