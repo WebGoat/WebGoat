@@ -1,0 +1,92 @@
+Error: Unable to access jarfile target/webgoat-2025.4-SNAPSHOT.jar
+2025-05-25T00:06:35.249+02:00  INFO 66314 --- [           main] org.owasp.webgoat.server.StartWebGoat    : Starting StartWebGoat v2025.4-SNAPSHOT using Java 23.0.2 with PID 66314 (/Users/sgarcia/src/repos/WebGoat/target/webgoat-2025.4-SNAPSHOT.jar started by sgarcia in /Users/sgarcia/src/repos/WebGoat)
+2025-05-25T00:06:35.252+02:00  INFO 66314 --- [           main] org.owasp.webgoat.server.StartWebGoat    : No active profile set, falling back to 1 default profile: "default"
+2025-05-25T00:06:35.403+02:00  INFO 66314 --- [           main] org.owasp.webgoat.server.StartWebGoat    : Started StartWebGoat in 0.365 seconds (process running for 0.679)
+ __        __   _  __        __    _  __
+ \ \      / /__| |_\ \      / /__ | |/ _|
+  \ \ /\ / / _ \ '_ \ \ /\ / / _ \| | |_
+   \ V  V /  __/ |_) \ V  V / (_) | |  _|
+    \_/\_/ \___|_.__/ \_/\_/ \___/|_|_|
+
+2025-05-25T00:06:35.480+02:00  INFO 66314 --- [           main] org.owasp.webgoat.server.StartWebGoat    : No active profile set, falling back to 1 default profile: "default"
+2025-05-25T00:06:35.785+02:00  INFO 66314 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-25T00:06:35.811+02:00  INFO 66314 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 2 JPA repository interfaces.
+2025-05-25T00:06:36.369+02:00  INFO 66314 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9090 (http)
+2025-05-25T00:06:36.377+02:00  INFO 66314 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-25T00:06:36.377+02:00  INFO 66314 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
+2025-05-25T00:06:36.392+02:00  INFO 66314 --- [           main] o.a.c.c.C.[.[localhost].[/WebWolf]       : Initializing Spring embedded WebApplicationContext
+2025-05-25T00:06:36.392+02:00  INFO 66314 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 865 ms
+2025-05-25T00:06:36.526+02:00  INFO 66314 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-25T00:06:36.746+02:00  INFO 66314 --- [           main] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Driver does not support get/set network timeout for connections. (característica no soportada)
+2025-05-25T00:06:36.747+02:00  INFO 66314 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.hsqldb.jdbc.JDBCConnection@11574592
+2025-05-25T00:06:36.747+02:00  INFO 66314 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-25T00:06:36.772+02:00  INFO 66314 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-25T00:06:36.811+02:00  INFO 66314 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.11.Final
+2025-05-25T00:06:36.831+02:00  INFO 66314 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-25T00:06:36.986+02:00  INFO 66314 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-25T00:06:37.022+02:00  WARN 66314 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: HSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-25T00:06:37.030+02:00  INFO 66314 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.7.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-25T00:06:37.481+02:00  INFO 66314 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-25T00:06:37.483+02:00  INFO 66314 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-25T00:06:37.802+02:00  WARN 66314 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-05-25T00:06:38.530+02:00  INFO 66314 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9090 (http) with context path '/WebWolf'
+2025-05-25T00:06:38.539+02:00  INFO 66314 --- [           main] org.owasp.webgoat.server.StartWebGoat    : Started StartWebGoat in 3.084 seconds (process running for 3.815)
+ __        __   _      ____             _
+ \ \      / /__| |__  / ___| ___   __ _| |_
+  \ \ /\ / / _ \ '_ \| |  _ / _ \ / _` | __|
+   \ V  V /  __/ |_) | |_| | (_) | (_| | |_
+    \_/\_/ \___|_.__/ \____|\___/ \__,_|\__|
+
+2025-05-25T00:06:38.600+02:00  INFO 66314 --- [           main] org.owasp.webgoat.server.StartWebGoat    : No active profile set, falling back to 1 default profile: "default"
+2025-05-25T00:06:38.780+02:00  INFO 66314 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-25T00:06:38.788+02:00  INFO 66314 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 2 JPA repository interfaces.
+2025-05-25T00:06:38.930+02:00  INFO 66314 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-25T00:06:38.931+02:00  INFO 66314 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-25T00:06:38.931+02:00  INFO 66314 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
+2025-05-25T00:06:38.933+02:00  INFO 66314 --- [           main] o.a.c.c.C.[.[localhost].[/WebGoat]       : Initializing Spring embedded WebApplicationContext
+2025-05-25T00:06:38.933+02:00  INFO 66314 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 307 ms
+2025-05-25T00:06:39.076+02:00  INFO 66314 --- [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:hsqldb:file:/Users/sgarcia/.webgoat-2025.4-SNAPSHOT//webgoat (HSQL Database Engine 2.7)
+2025-05-25T00:06:39.097+02:00  INFO 66314 --- [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.013s)
+2025-05-25T00:06:39.102+02:00  INFO 66314 --- [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "container": 1
+2025-05-25T00:06:39.102+02:00  INFO 66314 --- [           main] o.f.core.internal.command.DbMigrate      : Schema "container" is up to date. No migration necessary.
+2025-05-25T00:06:39.117+02:00  INFO 66314 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-25T00:06:39.120+02:00  INFO 66314 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-25T00:06:39.139+02:00  INFO 66314 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-25T00:06:39.142+02:00  WARN 66314 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: HSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-25T00:06:39.143+02:00  INFO 66314 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'org.springframework.jdbc.datasource.DriverManagerDataSource@b8812fb']
+	Database driver: undefined/unknown
+	Database version: 2.7.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-25T00:06:39.346+02:00  INFO 66314 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-25T00:06:39.357+02:00  INFO 66314 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-25T00:06:39.410+02:00  INFO 66314 --- [           main] o.o.w.lessons.logging.LogBleedingTask    : Password for admin: NmVmOGY3YjAtZDEyMS00MmE0LTk0NGItMGQ4OTcyN2E2NWZm
+2025-05-25T00:06:41.181+02:00  WARN 66314 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-05-25T00:06:41.432+02:00  INFO 66314 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-05-25T00:06:41.443+02:00  WARN 66314 --- [           main] thorizationManagerRequestMatcherRegistry : One of the patterns in [/favicon.ico, /css/**, /images/**, /js/**, fonts/**, /plugins/**, /registration, /register.mvc, /actuator/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2025-05-25T00:06:41.531+02:00  WARN 66314 --- [           main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-05-25T00:06:41.542+02:00  INFO 66314 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/WebGoat'
+2025-05-25T00:06:41.546+02:00  INFO 66314 --- [           main] org.owasp.webgoat.server.StartWebGoat    : Started StartWebGoat in 2.959 seconds (process running for 6.822)
+2025-05-25T00:06:41.547+02:00  WARN 66314 --- [           main] org.owasp.webgoat.server.StartWebGoat    : Please browse to http://127.0.0.1:8080/WebGoat to start using WebGoat...
+2025-05-25T00:06:41.772+02:00  INFO 66314 --- [0.1-8080-exec-2] o.a.c.c.C.[.[localhost].[/WebGoat]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-25T00:06:41.772+02:00  INFO 66314 --- [0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-25T00:06:41.774+02:00  INFO 66314 --- [0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-05-25T00:09:32.065+02:00  INFO 66314 --- [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-25T00:09:32.080+02:00  INFO 66314 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-25T00:09:32.084+02:00  INFO 66314 --- [ionShutdownHook] o.s.b.j.HikariCheckpointRestoreLifecycle : Evicting Hikari connections
+2025-05-25T00:09:32.091+02:00  INFO 66314 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-25T00:09:32.097+02:00  INFO 66314 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-25T00:09:32.120+02:00  INFO 66314 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-25T00:09:32.126+02:00  INFO 66314 --- [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-25T00:09:32.127+02:00  INFO 66314 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-25T00:09:32.133+02:00  INFO 66314 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'

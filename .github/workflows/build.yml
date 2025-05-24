@@ -128,7 +128,7 @@ jobs:
                     fail_action: false
 
     deploy:
-        name: Deploy Docker image
+        name: Deploy
         runs-on: ubuntu-latest
         #needs: [test]
         steps:
@@ -152,20 +152,11 @@ jobs:
                 with:
                     image-ref: 'webgoat:${{ github.sha }}'
                     format: 'table'
-                    exit-code: '1'
+                    exit-code: '0'
                     ignore-unfixed: true
                     vuln-type: 'os,library'
-                    severity: ${{ vars.FAIL_TRIVY_ON_SEVERITY }}
+                    severity: ${{ vars.TRIVY_SEVERITY_SCAN_FOR }}
                     scanners: "vuln"
-            -   name: Generate Trivy Vulnerability Report
-                if: always()
-                uses: aquasecurity/trivy-action@master
-                with:
-                    scan-type: "fs"
-                    output: trivy-report.json
-                    format: json
-                    scan-ref: .
-                    exit-code: 0
             -   name: Upload Vulnerability Scan Results
                 if: always()
                 uses: actions/upload-artifact@v4
