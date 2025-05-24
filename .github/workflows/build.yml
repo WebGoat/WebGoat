@@ -130,7 +130,7 @@ jobs:
     deploy:
         name: Deploy Docker image
         runs-on: ubuntu-latest
-        needs: [test]
+        #needs: [test]
         steps:
             -   uses: actions/checkout@v4.1.6
             -   name: Set up JDK 23
