@@ -12,7 +12,6 @@ on:
 
 jobs:
     pre-commit:
-        if: ${{ !always() }}
         name: Pre-commit check
         runs-on: ubuntu-latest
         steps:
