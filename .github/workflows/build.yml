@@ -1,4 +1,4 @@
-name: "Main / Pull requests build"
+name: "Main build"
 on:
     push:
         branches:
