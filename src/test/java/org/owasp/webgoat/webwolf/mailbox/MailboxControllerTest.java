@@ -25,11 +25,11 @@ import org.owasp.webgoat.webwolf.WebSecurityConfig;
 import org.owasp.webgoat.webwolf.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(MailboxController.class)
@@ -37,10 +37,10 @@ import org.springframework.test.web.servlet.MockMvc;
 public class MailboxControllerTest {
 
   @Autowired private MockMvc mvc;
-  @MockBean private MailboxRepository mailbox;
+  @MockitoBean private MailboxRepository mailbox;
 
-  @MockBean private ClientRegistrationRepository clientRegistrationRepository;
-  @MockBean private UserService userService;
+  @MockitoBean private ClientRegistrationRepository clientRegistrationRepository;
+  @MockitoBean private UserService userService;
   @Autowired private ObjectMapper objectMapper;
 
   @JsonIgnoreProperties("time")
