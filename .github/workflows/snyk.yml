@@ -1,0 +1,135 @@
+name: Snyk Full Security Scan with PR Comment
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Permiso para checkout del repo
+      pull-requests: write # Permiso para comentar en PRs
+      security-events: write # Permiso para subir resultados SARIF a Code Scanning
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Download Go modules
+        run: go mod download
+
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      # --- Escaneo de Open Source (Dependencias) ---
+      # 'continue-on-error: true' permite que el workflow continúe incluso si se encuentran vulnerabilidades.
+      # Esto asegura que todos los escaneos se ejecuten.
+      - name: Snyk Open Source Scan (Dependencies)
+        id: snyk-oss
+        run: snyk test --sarif-file-output=snyk-oss.sarif
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
+      # --- Escaneo de Código (SAST - Static Application Security Testing) ---
+      - name: Snyk Code Scan (SAST)
+        id: snyk-code
+        run: snyk code test --sarif-file-output=snyk-code.sarif
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
+      # --- Escaneo de Infraestructura como Código (IaC) ---
+      - name: Snyk IaC Scan
+        id: snyk-iac
+        run: snyk iac test --sarif-file-output=snyk-iac.sarif
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
+      # --- Subida de resultados a GitHub Code Scanning ---
+      # Estos pasos siempre se ejecutarán para subir los resultados, sin importar el éxito de los escaneos.
+      - name: Upload Snyk OSS results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk-oss.sarif
+        if: always()
+
+      - name: Upload Snyk Code results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk-code.sarif
+        if: always()
+
+      - name: Upload Snyk IaC results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk-iac.sarif
+        if: always()
+
+      # --- Lógica de fallo del Job y Comentario en PR ---
+      - name: Check Snyk Scan Outcomes and Fail Job if Vulnerabilities Found
+        id: check-outcomes
+        run: |
+          HAS_VULNERABILITIES=false
+          if [ "${{ steps.snyk-oss.outcome }}" == "failure" ]; then
+            echo "::notice file=snyk-oss.sarif::Snyk Open Source scan found vulnerabilities."
+            HAS_VULNERABILITIES=true
+          fi
+          if [ "${{ steps.snyk-code.outcome }}" == "failure" ]; then
+            echo "::notice file=snyk-code.sarif::Snyk Code scan found vulnerabilities."
+            HAS_VULNERABILITIES=true
+          fi
+          if [ "${{ steps.snyk-iac.outcome }}" == "failure" ]; then
+            echo "::notice file=snyk-iac.sarif::Snyk IaC scan found vulnerabilities."
+            HAS_VULNERABILITIES=true
+          fi
+
+          if [ "$HAS_VULNERABILITIES" = true ]; then
+            echo "Vulnerabilities detected. Failing job to prevent merge without review."
+            exit 1 # Esto hará que el job de GitHub Actions falle
+          else
+            echo "No critical vulnerabilities detected by Snyk scans."
+          fi
+
+      - name: Post PR Comment if Vulnerabilities Detected
+        # Este paso solo se ejecuta si el paso 'check-outcomes' ha fallado (indicando vulnerabilidades).
+        # Para que este paso se ejecute incluso si el anterior falla (el 'check-outcomes'),
+        # tendríamos que hacer 'continue-on-error: true' en 'check-outcomes'
+        # y luego verificar el resultado directamente en 'if'.
+        # Sin embargo, la forma más común es que este paso se ejecute si el job 'snyk' va a fallar.
+        if: failure() && github.event_name == 'pull_request' # Solo comenta en PRs y si el job está fallando
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ⚠️ **¡Snyk ha detectado vulnerabilidades en esta Pull Request!** ⚠️
+
+            Se encontraron problemas en los escaneos de:
+            ${{ steps.snyk-oss.outcome == 'failure' && '- **Open Source (Dependencias)**' || '' }}
+            ${{ steps.snyk-code.outcome == 'failure' && '- **Código (SAST)**' || '' }}
+            ${{ steps.snyk-iac.outcome == 'failure' && '- **Infraestructura como Código (IaC)**' || '' }}
+
+            Por favor, revisa la pestaña de **"Security" > "Code scanning alerts"** en este repositorio para ver los detalles de los hallazgos.
+            La verificación de estado de Snyk ha fallado, **bloqueando la fusión de esta PR.**
+
+            **Para avanzar con la fusión, es necesario:**
+            1.  **Resolver las vulnerabilidades** detectadas y pushear los cambios.
+            2.  **Solicitar una excepción/aprobación manual** si las vulnerabilidades son aceptadas.
+
+            Asegúrate de que estas vulnerabilidades han sido comprendidas y aceptadas por el equipo de seguridad antes de proceder.
