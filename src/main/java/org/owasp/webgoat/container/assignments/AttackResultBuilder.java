@@ -1,47 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2024 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.assignments;
-
-import org.owasp.webgoat.container.i18n.PluginMessages;
 
 public class AttackResultBuilder {
 
-  private PluginMessages messages;
-  private boolean lessonCompleted;
+  private boolean assignmentCompleted;
   private Object[] feedbackArgs;
   private String feedbackResourceBundleKey;
   private String output;
   private Object[] outputArgs;
   private AssignmentEndpoint assignment;
   private boolean attemptWasMade = false;
-  private boolean assignmentCompleted;
 
-  public AttackResultBuilder(PluginMessages messages) {
-    this.messages = messages;
-  }
-
-  public AttackResultBuilder() {}
-
-  public AttackResultBuilder lessonCompleted(boolean lessonCompleted) {
-    this.lessonCompleted = lessonCompleted;
-    this.feedbackResourceBundleKey = "lesson.completed";
-    return this;
-  }
-
-  public AttackResultBuilder lessonCompleted(boolean lessonCompleted, String resourceBundleKey) {
-    this.lessonCompleted = lessonCompleted;
-    this.feedbackResourceBundleKey = resourceBundleKey;
-    return this;
-  }
-
-  public AttackResultBuilder assignmentCompleted(boolean assignmentCompleted) {
-    this.assignmentCompleted = assignmentCompleted;
-    this.feedbackResourceBundleKey = "assignment.completed";
-    return this;
-  }
-
-  public AttackResultBuilder assignmentCompleted(
-      boolean assignmentCompleted, String resourceBundleKey) {
-    this.assignmentCompleted = assignmentCompleted;
-    this.feedbackResourceBundleKey = resourceBundleKey;
+  public AttackResultBuilder assignmentCompleted(boolean lessonCompleted) {
+    this.assignmentCompleted = lessonCompleted;
     return this;
   }
 
@@ -72,7 +46,7 @@ public class AttackResultBuilder {
 
   public AttackResult build() {
     return new AttackResult(
-        lessonCompleted,
+            assignmentCompleted,
         feedbackResourceBundleKey,
         feedbackArgs,
         output,
@@ -91,14 +65,13 @@ public class AttackResultBuilder {
    *
    * <p>- Assignment is set to solved - Feedback message is set to 'assignment.solved'
    *
-   * <p>Of course you can overwrite these values in a specific lesson
+   * <p>Of course, you can overwrite these values in a specific lesson
    *
+   * @param assignment the assignment that was solved
    * @return a builder for creating a result from a lesson
-   * @param assignment
    */
   public static AttackResultBuilder success(AssignmentEndpoint assignment) {
     return new AttackResultBuilder()
-        .lessonCompleted(true)
         .assignmentCompleted(true)
         .attemptWasMade()
         .feedback("assignment.solved")
@@ -110,21 +83,20 @@ public class AttackResultBuilder {
    *
    * <p>- Assignment is set to not solved - Feedback message is set to 'assignment.not.solved'
    *
-   * <p>Of course you can overwrite these values in a specific lesson
+   * <p>Of course, you can overwrite these values in a specific lesson
    *
+   * @param assignment the assignment that was not solved
    * @return a builder for creating a result from a lesson
-   * @param assignment
    */
   public static AttackResultBuilder failed(AssignmentEndpoint assignment) {
     return new AttackResultBuilder()
-        .lessonCompleted(false)
-        .assignmentCompleted(true)
+        .assignmentCompleted(false)
         .attemptWasMade()
         .feedback("assignment.not.solved")
         .assignment(assignment);
   }
 
   public static AttackResultBuilder informationMessage(AssignmentEndpoint assignment) {
-    return new AttackResultBuilder().lessonCompleted(false).assignment(assignment);
+    return new AttackResultBuilder().assignmentCompleted(false).assignment(assignment);
   }
 }

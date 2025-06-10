@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.ssrf;
 
 import static org.hamcrest.Matchers.is;
@@ -10,10 +14,6 @@ import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author afry
- * @since 12/28/18.
- */
 public class SSRFTest1 extends LessonTest {
 
   @BeforeEach

@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.cia;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,10 +14,6 @@ import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-/**
- * @author Benedikt Stuhrmann
- * @since 13/03/19.
- */
 class CIAQuizTest extends LessonTest {
 
   @Test

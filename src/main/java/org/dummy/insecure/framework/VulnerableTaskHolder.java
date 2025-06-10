@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.dummy.insecure.framework;
 
 import java.io.BufferedReader;
@@ -38,8 +42,6 @@ public class VulnerableTaskHolder implements Serializable {
 
   /**
    * Execute a task when de-serializing a saved or received object.
-   *
-   * @author stupid develop
    */
   private void readObject(ObjectInputStream stream) throws Exception {
     // unserialize data so taskName and taskAction are available

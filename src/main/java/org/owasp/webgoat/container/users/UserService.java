@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.users;
 
 import java.util.List;
@@ -10,10 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-/**
- * @author nbaars
- * @since 3/19/17.
- */
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
@@ -31,6 +31,7 @@ public class UserService implements UserDetailsService {
       throw new UsernameNotFoundException("User not found");
     } else {
       webGoatUser.createUser();
+      // TODO maybe better to use an event to initialize lessons to keep dependencies low
       lessonInitializables.forEach(l -> l.initialize(webGoatUser));
     }
     return webGoatUser;

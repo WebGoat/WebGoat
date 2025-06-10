@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.challenges.challenge7;
 
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
@@ -25,10 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * @author nbaars
- * @since 4/8/17.
- */
 @RestController
 @Slf4j
 public class Assignment7 implements AssignmentEndpoint {

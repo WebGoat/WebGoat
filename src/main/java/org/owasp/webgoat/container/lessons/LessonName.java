@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2024 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.lessons;
 
 import org.springframework.util.Assert;
@@ -17,5 +21,10 @@ public record LessonName(String lessonName) {
     if (lessonName.contains(".lesson")) {
       lessonName = lessonName.substring(0, lessonName.indexOf(".lesson"));
     }
+  }
+
+  @Override
+  public String toString() {
+    return lessonName;
   }
 }

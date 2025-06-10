@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.sqlinjection.mitigation;
 
 import static org.hamcrest.Matchers.is;
@@ -8,10 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-/**
- * @author nbaars
- * @since 5/21/17.
- */
 public class SqlInjectionLesson13Test extends LessonTest {
 
   @Test
