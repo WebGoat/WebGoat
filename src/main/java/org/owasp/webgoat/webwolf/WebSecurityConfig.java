@@ -45,6 +45,11 @@ public class WebSecurityConfig {
               auth.anyRequest().authenticated();
             })
         .csrf(csrf -> csrf.disable())
+        .headers(headers -> headers
+            .cacheControl()
+            .contentTypeOptions()
+            .xssProtection()
+            .frameOptions(frame -> frame.sameOrigin()))
         .formLogin(
             login ->
                 login
