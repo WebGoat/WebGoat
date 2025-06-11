@@ -45,6 +45,10 @@ public class WebSecurityConfig {
               auth.anyRequest().authenticated();
             })
         .csrf(csrf -> csrf.disable())
+        .headers(headers -> headers
+            .cacheControl().and()
+            .contentSecurityPolicy("default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'")
+            .and())
         .formLogin(
             login ->
                 login
