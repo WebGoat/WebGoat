@@ -1,0 +1,15 @@
+name: Snyk Code
+on:
+  push:
+    branches:
+      - main
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: snyk/actions/setup@master
+    - name: Snyk Code (SAST)
+      run: snyk code test
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
