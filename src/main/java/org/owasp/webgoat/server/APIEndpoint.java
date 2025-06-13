@@ -23,4 +23,18 @@ public class APIEndpoint {
                 .thenAccept(System.out::println)
                 .join();
     }
+
+    @SneakyThrows
+    @GetMapping("/ssrf2")
+    public void makeRequest2(@RequestParam String url) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(System.out::println)
+                .join();
+    }
 }
