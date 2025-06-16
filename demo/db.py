@@ -4,7 +4,7 @@ import sqlite3
 from openai import OpenAI
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+# Load environment variables from the .env file
 load_dotenv()
 
 app = Flask(__name__)
