@@ -16,7 +16,7 @@ client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY")
 )
 
-@app.route('/')
+@app.route('/users')
 def index():
     """
     Main route that displays the form and shows the constructed SQL query.
@@ -29,6 +29,8 @@ def index():
             app.config['DATABASE'],
             detect_threads=False 
         )
+    
+    # execute query
     cursor = db.cursor()
     cursor.execute(query)
     db.commit()
