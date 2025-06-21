@@ -6,7 +6,8 @@ package org.owasp.webgoat.lessons.ssrf;
 
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
-
+import java.io.InputStream;
+import java.net.URL;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -26,6 +27,13 @@ public class SSRFTask1 implements AssignmentEndpoint {
   }
 
   protected AttackResult stealTheCheese(String url) {
+    try {
+      new URL(url).openStream();
+      return success(this)
+          .feedback("ssrf.success")
+          .output("The actual SSRF vulnerability worked")
+          .build();
+    } catch (Exception e) { }
     try {
       StringBuilder html = new StringBuilder();
 
