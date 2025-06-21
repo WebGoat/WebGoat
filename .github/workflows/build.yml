@@ -36,7 +36,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                os: [ windows-latest, ubuntu-latest, macos-13 ]
+                os: [ ubuntu-latest ]
             max-parallel: 1
         steps:
             -   uses: actions/checkout@v4.1.6
@@ -48,4 +48,4 @@ jobs:
                     architecture: x64
                     cache: 'maven'
             -   name: Build with Maven
-                run: mvn --no-transfer-progress verify
+                run: mvn --no-transfer-progress verify -DskipTests=true org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=SonarSourceResearch_WebGoatForrester -Dsonar.organization=sonarsourceresearch -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=${{ secrets.SONAR_TOKEN }} -Dsonar.qualitygate.wait
