@@ -1,0 +1,26 @@
+name: Checkmarx One++ Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  checkmarx-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Checkmarx One++ GitHub Action
+        uses: checkmarx-ts/cxone-plusplus-github-action@v2
+        with:
+          base-uri: ${{ secrets.base_uri }}
+          cx-tenant: ${{ secrets.tenant }}
+          cx-client-id: ${{ secrets.CX_CLIENT_ID }}
+          cx-client-secret: ${{ secrets.CX_CLIENT_SECRET }}
+          project-name: ${{ github.repository }}
+          additional-scan-params: ''
+         
