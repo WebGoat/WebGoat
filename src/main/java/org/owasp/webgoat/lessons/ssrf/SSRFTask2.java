@@ -31,7 +31,6 @@ public class SSRFTask2 implements AssignmentEndpoint {
   }
 
   protected AttackResult furBall(String url) {
-    if (url.matches("http://ifconfig\\.pro")) {
       String html;
       try (InputStream in = new URL(url).openStream()) {
         html =
@@ -46,7 +45,6 @@ public class SSRFTask2 implements AssignmentEndpoint {
                 + " this exercise the right way!</body></html>";
       }
       return success(this).feedback("ssrf.success").output(html).build();
-    }
     var html = "<img class=\"image\" alt=\"image post\" src=\"images/cat.jpg\">";
     return getFailedResult(html);
   }
