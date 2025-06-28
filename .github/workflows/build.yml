@@ -22,10 +22,6 @@ jobs:
                     architecture: x64
                     cache: 'maven'
             -   name: Pre-commit checks
-                uses: pre-commit/action@v3.0.1
-                with:
-                    extra_args: --all-files
-            -   name: pre-commit-c-lite
                 uses: pre-commit-ci/lite-action@v1.1.0
                 if: always()
             -   name: Run Unit Test
