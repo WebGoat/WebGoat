@@ -1,51 +1,49 @@
+# Downloading and executing Bridge directly
+
 trigger:
-- develop
+- none
+
 pool:
   vmImage: ubuntu-latest
-resources:
-  repositories:
-    - repository: AzureBoardsScript
-      ref: master
-      type: git
-      name: Implementations
 variables:
-  - group: polaris-Kyle
+  - group: Polaris POC
 steps:
 - task: JavaToolInstaller@0
   inputs:
     versionSpec: '17'
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
-- checkout: self
-#- task: CmdLine@2
-#  inputs:
-#    script: |
-#      curl -fLsS -o bridge.zip $BRIDGECLI_LINUX64 && unzip -qo -d $(Agent.TempDirectory) bridge.zip && rm -f bridge.zip
-#      $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris polaris.assessment.types='SAST' polaris.application.name='kyleh' polaris.project.name='GitHub' polaris.branch.name=1 project.directory=WebGoat-Kyle
+  displayName: 'Install Java'
 - bash: |
-    curl -fLsS -o bridge.zip $BRIDGECLI_LINUX64 && unzip -qo -d $(Agent.TempDirectory) bridge.zip && rm -f bridge.zip
-    cd WebGoat-Kyle
-    $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
-      polaris.assessment.types='SAST' \
-      polaris.application.name='kyleh' \
-      polaris.project.name='GitHub' \
-      polaris.branch.name=2 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '/home/vsts/work/1/s/WebGoat-Kyle/.bridge/Polaris Coverity Capture/idir.zip'
-    ArtifactName: 'coverity idir'
-    publishLocation: 'Container'
+    mvn spotless:apply
+    mvn -N wrapper:wrapper
+    ./mvnw spotless:apply
+    ./mvnw clean install
+    curl -fLsS -o bridge.zip $(BRIDGECLI_LINUX64) && unzip -qo -d $(Agent.TempDirectory) bridge.zip && rm -f bridge.zip
+    $(Agent.TempDirectory)/bridge-cli-bundle-linux64/bridge-cli --stage polaris
+  env:
+    BRIDGE_POLARIS_SERVERURL: $(POLARIS_SERVERURL)
+    BRIDGE_POLARIS_ACCESSTOKEN: $(POLARIS_ACCESSTOKEN)
+    BRIDGE_POLARIS_ASSESSMENT_TYPES: 'SAST,SCA'
+    BRIDGE_POLARIS_TEST_SCA_TYPE: 'SCA-PACKAGE,SCA-SIGNATURE'
+    BRIDGE_POLARIS_APPLICATION_NAME: 'KyleH With DAST'
+    BRIDGE_POLARIS_PROJECT_NAME: 'Web Goat Bridge'
+    BRIDGE_POLARIS_BRANCH_NAME: 'Main'
+    # INCLUDE_DIAGNOSTICS: 'true'
+    BRIDGE_COVERITY_BUILD_COMMAND: './mvnw install -DskipTests'
+    BRIDGE_COVERITY_CLEAN_COMMAND: './mvnw clean'
+  displayName: 'Polaris Full Scan'
+  condition: eq(variables['FULL_SCAN'], TRUE)
 - bash: |
-    cd WebGoat-Kyle
-    $(Agent.TempDirectory)/synopsys-bridge --verbose --stage polaris \
-      polaris.assessment.types='SCA' \
-      polaris.application.name='kyleh' \
-      polaris.project.name='GitHub' \
-      polaris.branch.name=2
-- checkout: AzureBoardsScript
-- task: CmdLine@2
-  inputs:
-    script: |
-     cd Implementations/AzureBoardsScript
-     python polaris_azure_ci.py --config "polaris-azure.conf" --polaris-application-name "kyleh" --polaris-project-name "GitHub" --polaris-branch-name 1 --polaris-severities-filter "''''critical'''',''''high'''',''''medium'''',''''low'''',''''info''''" --azure-project-name "PolarisTickets" --azure-iteration-path "iteration 2" --azure-area-path "area path test"
-     cat logs/synopsys-azure.log
+    curl -fLsS -o bridge.zip $(BRIDGECLI_LINUX64) && unzip -qo -d $(Agent.TempDirectory) bridge.zip && rm -f bridge.zip
+    $(Agent.TempDirectory)/bridge-cli-bundle-linux64/bridge-cli --stage polaris
+  env:
+    BRIDGE_POLARIS_SERVERURL: $(POLARIS_SERVERURL)
+    BRIDGE_POLARIS_ACCESSTOKEN: $(POLARIS_ACCESSTOKEN)
+    BRIDGE_POLARIS_ASSESSMENT_TYPES: 'SAST'
+    BRIDGE_POLARIS_APPLICATION_NAME: 'KyleH With DAST'
+    BRIDGE_POLARIS_PROJECT_NAME: 'Web Goat Bridge'
+    BRIDGE_POLARIS_BRANCH_NAME: 'Main'
+    BRIDGE_POLARIS_TEST_SAST_TYPE: "SAST-RAPID"
+  displayName: "rapid scan"
+  condition: eq(variables['FULL_SCAN'],FALSE)
