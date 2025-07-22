@@ -1,0 +1,103 @@
+# 대부분의 프로젝트에서는 이 워크플로우 파일을 변경할 필요가 없습니다. 
+# 단순히 저장소에 커밋하면 됩니다.
+#
+# 분석할 언어 집합을 재정의하거나,
+# 사용자 지정 쿼리 또는 빌드 로직을 제공하기 위해 이 파일을 수정할 수 있습니다.
+#
+# ******** 참고 ********
+# 저장소의 언어를 감지하려고 시도했습니다. 
+# 아래에 정의된 `language` 매트릭스를 확인하여 
+# 올바른 CodeQL 지원 언어가 지정되어 있는지 확인하세요.
+#
+name: "CodeQL Advanced"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '25 18 * * 4'
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    # Runner 크기는 CodeQL 분석 시간에 영향을 줍니다. 자세한 내용은 다음 링크를 참조하세요:
+    #   - https://gh.io/recommended-hardware-resources-for-running-codeql
+    #   - https://gh.io/supported-runners-and-hardware-resources
+    #   - https://gh.io/using-larger-runners (GitHub.com 전용)
+    # 더 빠른 분석 시간을 원한다면, 더 큰 Runner나 높은 성능의 머신을 사용하는 것을 고려하세요.
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    permissions:
+      # required for all workflows (모든 워크플로우에 필요함)
+      security-events: write
+
+      # required to fetch internal or private CodeQL packs (내부 또는 비공개 CodeQL 팩을 가져오는 데 필요함)
+      packages: read
+
+      # only required for workflows in private repositories (비공개 저장소의 워크플로우에만 필요함)
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: actions
+          build-mode: none
+        - language: java-kotlin
+          build-mode: none # This mode only analyzes Java. Set this to 'autobuild' or 'manual' to analyze Kotlin too.
+        - language: javascript-typescript
+          build-mode: none
+        # CodeQL은 'language' 키워드에 대해 다음 값을 지원합니다: 'actions', 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'rust', 'swift'
+        # C, C++ 또는 둘 다로 작성된 코드를 분석하려면 `c-cpp`를 사용하세요.
+        # Java, Kotlin 또는 둘 다로 작성된 코드를 분석하려면 'java-kotlin'을 사용하세요.
+        # JavaScript, TypeScript 또는 둘 다로 작성된 코드를 분석하려면 'javascript-typescript'를 사용하세요.
+        # 분석할 언어를 변경하거나 분석을 위한 빌드 모드를 사용자 지정하는 방법에 대해 더 알아보려면,
+        # https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning 를 참조하세요.
+        # 컴파일된 언어를 분석하는 경우, 해당 언어의 'build-mode'를 수정하여 코드베이스 분석 방식을
+        # 사용자 지정할 수 있습니다. 자세한 내용은 
+        # https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/codeql-code-scanning-for-compiled-languages 를 참조하세요.
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # `github/codeql-action/init` 액션을 실행하기 전에 필요한 설정 단계를 추가하세요.
+    # 여기에는 컴파일러나 런타임 설치(`actions/setup-node` 또는 기타) 같은 단계가 포함됩니다.
+    # 이는 일반적으로 수동 빌드에서만 필요합니다.
+    # - name: Setup runtime (예시)
+    #   uses: actions/setup-example@v1
+
+    # 스캔을 위해 CodeQL 도구를 초기화합니다.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
+        # 사용자 지정 쿼리를 지정하려면 여기나 설정 파일에서 할 수 있습니다.
+        # 기본적으로 여기 나열된 쿼리는 설정 파일에 지정된 쿼리를 덮어씁니다.
+        # 이 목록 앞에 "+"를 붙이면 여기 쿼리와 설정 파일 쿼리를 모두 사용합니다.
+
+        # CodeQL 쿼리 팩에 대한 자세한 내용은 다음을 참조하세요: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+        # queries: security-extended,security-and-quality
+
+    # 분석 단계가 "코드를 자동으로 빌드할 수 없습니다"라는 오류로 실패하면,
+    # 위의 매트릭스에서 해당 언어의 빌드 모드를 "manual"로 설정하세요.
+    # 그런 다음 이 단계에서 코드를 직접 빌드하도록 수정하세요.
+    # ℹ️ OS 셸을 사용하여 실행할 커맨드라인 프로그램입니다.
+    # 📚 자세한 내용은 https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun 을 참고하세요.
+    - if: matrix.build-mode == 'manual'
+      shell: bash
+      run: |
+        echo 'If you are using a "manual" build mode for one or more of the' \
+          'languages you are analyzing, replace this with the commands to build' \
+          'your code, for example:'
+        echo '  make bootstrap'
+        echo '  make release'
+        exit 1
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{matrix.language}}"
