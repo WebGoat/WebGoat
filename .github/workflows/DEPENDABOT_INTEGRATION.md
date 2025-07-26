@@ -33,6 +33,79 @@ The integration creates a fully automated security pipeline that:
 
 ## 🔄 Automated Workflow
 
+### **Visual Workflow Diagram**
+
+```mermaid
+graph TD
+    A[🕘 Dependabot Schedule] --> B{📦 Ecosystem Type?}
+    
+    B -->|Maven| C1[☕ Daily Security Scan]
+    B -->|Actions| C2[⚙️ Weekly Actions Update]
+    B -->|Docker| C3[🐳 Weekly Docker Update]
+    
+    C1 --> D[🔍 Dependency Analysis]
+    C2 --> D
+    C3 --> D
+    
+    D --> E{🚨 Security Update?}
+    E -->|Yes| F1[🔒 High Priority PR]
+    E -->|No| F2[📦 Regular Update PR]
+    
+    F1 --> G[🤖 Dependabot PR Created]
+    F2 --> G
+    
+    G --> H[🎯 Vulnerability Pipeline Triggered]
+    H --> I[🔍 Detect Dependabot Bot]
+    I --> J[📊 Enhanced Security Analysis]
+    
+    J --> K{📈 Scan Results?}
+    K -->|Clean| L1[✅ No Vulnerabilities]
+    K -->|Issues Found| L2[⚠️ Vulnerabilities Detected]
+    
+    L1 --> M1{🔒 Security Update?}
+    L2 --> M2{📉 Reduces Vulnerabilities?}
+    
+    M1 -->|Yes| N1[🚀 Auto-Approve]
+    M1 -->|No| N2[💬 Standard Comment]
+    M2 -->|Yes| N1
+    M2 -->|No| N3[⚠️ Review Required]
+    
+    N1 --> O1[✅ Auto-Approved<br/>+ Security Labels]
+    N2 --> O2[👨‍💻 Manual Review]
+    N3 --> O3[🚨 Security Review]
+    
+    O1 --> P{🔧 Auto-Merge?}
+    P -->|Yes| Q1[🎯 Automatic Merge]
+    P -->|No| Q2[⏳ Ready for Merge]
+    
+    Q1 --> R[🔍 Post-Merge Scan]
+    Q2 --> S[👥 Team Review]
+    O2 --> S
+    O3 --> S
+    
+    S --> T{👍 Approved?}
+    T -->|Yes| U[🔄 Manual Merge]
+    T -->|No| V[❌ Closed/Updated]
+    
+    U --> R
+    R --> W{🚨 New Issues?}
+    W -->|Yes| X[🎫 Security Issue Created]
+    W -->|No| Y[✅ Success]
+    
+    X --> Z[🚨 Alert Security Team]
+    Y --> AA[📊 Update Metrics]
+    Z --> AA
+    
+    AA --> BB[📈 Security Dashboard<br/>MTTR, Coverage, Trends]
+    
+    style F1 fill:#ffcdd2
+    style N1 fill:#c8e6c9
+    style O1 fill:#c8e6c9
+    style Q1 fill:#c8e6c9
+    style Y fill:#c8e6c9
+    style X fill:#ffcdd2
+```
+
 ### 1. **Dependabot Detection**
 ```yaml
 - name: Detect Dependabot PR
