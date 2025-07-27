@@ -1,14 +1,60 @@
 version: 2
 updates:
+    # GitHub Actions dependencies
     -   package-ecosystem: "github-actions"
         directory: "/"
         schedule:
             interval: "weekly"
+            day: "monday"
+            time: "09:00"
+        open-pull-requests-limit: 5
+        labels:
+            - "dependencies"
+            - "github-actions"
+        commit-message:
+            prefix: "chore(deps)"
+            include: "scope"
+
+    # Maven dependencies (most important for security)
     -   package-ecosystem: "maven"
         directory: "/"
         schedule:
-            interval: "weekly"
+            interval: "daily"  # More frequent for security updates
+            time: "09:00"
+        open-pull-requests-limit: 10
+        labels:
+            - "dependencies"
+            - "maven"
+        commit-message:
+            prefix: "fix(deps)"
+            include: "scope"
+        # Group minor and patch updates
+        groups:
+            spring-framework:
+                patterns:
+                    - "org.springframework*"
+                    - "org.springframework.boot*"
+                    - "org.springframework.security*"
+            security-libraries:
+                patterns:
+                    - "*security*"
+                    - "*crypto*"
+                    - "*auth*"
+        # Ignore certain dependencies that require manual review
+        ignore:
+            - dependency-name: "org.owasp*"
+              # Let security team handle OWASP updates manually
+              
+    # Docker dependencies
     -   package-ecosystem: "docker"
         directory: "/"
         schedule:
             interval: "weekly"
+            day: "tuesday"
+            time: "09:00"
+        open-pull-requests-limit: 5
+        labels:
+            - "dependencies"
+            - "docker"
+        commit-message:
+            prefix: "fix(docker)"

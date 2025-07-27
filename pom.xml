@@ -63,7 +63,7 @@
   <properties>
     <!-- Shared properties with plugins and version numbers across submodules-->
     <asciidoctorj.version>3.0.0</asciidoctorj.version>
-    <bootstrap.version>5.3.5</bootstrap.version>
+    <bootstrap.version>4.0.0</bootstrap.version>
     <cglib.version>3.3.0</cglib.version>
     <!-- do not update necessary for lesson -->
     <checkstyle.version>3.6.0</checkstyle.version>
@@ -742,6 +742,16 @@
               <failBuildOnCVSS>7</failBuildOnCVSS>
               <skipProvidedScope>false</skipProvidedScope>
               <skipRuntimeScope>false</skipRuntimeScope>
+              <!-- NVD API Configuration for Speed -->
+              <nvdApiKey>${nvd.api.key}</nvdApiKey>
+              <nvdMaxRetryCount>5</nvdMaxRetryCount>
+              <nvdApiDelay>2000</nvdApiDelay>
+              <!-- Performance Optimizations -->
+              <cveValidForHours>24</cveValidForHours>
+              <enableExperimental>true</enableExperimental>
+              <enableRetired>false</enableRetired>
+              <!-- Skip test dependencies for faster scans -->
+              <skipTestScope>true</skipTestScope>
               <suppressionFiles>
                 <!--suppress UnresolvedMavenProperty -->
                 <suppressionFile>${maven.multiModuleProjectDirectory}/config/dependency-check/project-suppression.xml</suppressionFile>

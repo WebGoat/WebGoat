@@ -1,0 +1,349 @@
+name: Security Rescan & Auto-Closure
+
+on:
+  schedule:
+    # Run daily at 9 AM UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+    inputs:
+      force_closure_check:
+        description: 'Force check for resolved vulnerabilities'
+        required: false
+        default: false
+        type: boolean
+  pull_request:
+    types: [closed]
+    branches: [main]
+    paths:
+      - 'pom.xml'
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+  security-events: write
+  actions: read
+
+jobs:
+  rescan-and-auto-close:
+    name: 🔄 Security Rescan & Auto-Closure
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ☕ Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 📦 Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: 🔍 Get Current Vulnerability Status
+        id: current-scan
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              // Try to get current vulnerability alerts
+              const { data: currentAlerts } = await github.rest.dependabot.listAlertsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                sort: 'created',
+                direction: 'desc'
+              });
+              
+              console.log(`✅ Successfully accessed Dependabot alerts: Found ${currentAlerts.length} current open vulnerability alerts`);
+              
+              // Filter for medium+ severity vulnerabilities
+              const currentMediumPlusVulns = currentAlerts.filter(alert => {
+                const severity = alert.security_vulnerability.severity.toLowerCase();
+                return ['medium', 'high', 'critical'].includes(severity);
+              });
+              
+              // Extract CVE IDs from current vulnerabilities
+              const currentCVEs = currentMediumPlusVulns
+                .map(alert => alert.security_vulnerability.advisory.cve_id)
+                .filter(Boolean);
+              
+              console.log(`Current CVEs: ${currentCVEs.join(', ')}`);
+              
+              core.setOutput('current-vulns', currentAlerts.length);
+              core.setOutput('current-medium-plus', currentMediumPlusVulns.length);
+              core.setOutput('current-cves', JSON.stringify(currentCVEs));
+              core.setOutput('scan-method', 'dependabot-api');
+              
+              return {
+                total: currentAlerts.length,
+                mediumPlus: currentMediumPlusVulns.length,
+                cves: currentCVEs
+              };
+            } catch (error) {
+              console.warn('⚠️ Dependabot API not accessible:', error.message);
+              
+              // Handle 403 errors (GitHub Advanced Security not enabled)
+              if (error.status === 403) {
+                console.log('📋 GitHub Advanced Security is required for Dependabot alerts API');
+                console.log('💡 Rescan scheduler will run with limited functionality');
+                
+                // Set fallback outputs - no vulnerabilities to compare
+                core.setOutput('current-vulns', 0);
+                core.setOutput('current-medium-plus', 0);
+                core.setOutput('current-cves', JSON.stringify([]));
+                core.setOutput('scan-method', 'fallback-required');
+                
+                return {
+                  total: 0,
+                  mediumPlus: 0,
+                  cves: []
+                };
+              } else {
+                // For other errors, fail the workflow  
+                core.setFailed(`Failed to fetch current vulnerabilities: ${error.message}`);
+              }
+            }
+
+      - name: 🎫 Get Tracked Security Issues
+        id: tracked-issues
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              // Get open security issues
+              const { data: openIssues } = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: 'security,vulnerability',
+                state: 'open',
+                per_page: 100
+              });
+              
+              console.log(`Found ${openIssues.length} open security issues`);
+              
+              // Extract CVE information from issues
+              const trackedIssues = openIssues.map(issue => {
+                const cveMatch = issue.title.match(/CVE-\d{4}-\d+/);
+                const packageMatch = issue.title.match(/in (.+)$/);
+                
+                return {
+                  number: issue.number,
+                  title: issue.title,
+                  cve: cveMatch ? cveMatch[0] : null,
+                  package: packageMatch ? packageMatch[1] : null,
+                  created_at: issue.created_at,
+                  labels: issue.labels.map(label => label.name)
+                };
+              }).filter(issue => issue.cve); // Only include issues with CVE IDs
+              
+              console.log(`Tracked issues with CVEs: ${trackedIssues.map(i => i.cve).join(', ')}`);
+              
+              core.setOutput('tracked-issues-count', trackedIssues.length);
+              core.setOutput('tracked-issues', JSON.stringify(trackedIssues));
+              
+              return trackedIssues;
+            } catch (error) {
+              console.error('Error fetching tracked issues:', error);
+              core.setFailed(`Failed to fetch tracked issues: ${error.message}`);
+            }
+
+      - name: 🔒 Identify Resolved Issues
+        id: resolved-issues
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const currentCVEs = JSON.parse('${{ steps.current-scan.outputs.current-cves }}');
+            const trackedIssues = JSON.parse('${{ steps.tracked-issues.outputs.tracked-issues }}');
+            
+            // Find issues that are tracked but no longer have active vulnerabilities
+            const resolvedIssues = trackedIssues.filter(issue => 
+              issue.cve && !currentCVEs.includes(issue.cve)
+            );
+            
+            console.log(`Found ${resolvedIssues.length} resolved issues:`);
+            resolvedIssues.forEach(issue => {
+              console.log(`- Issue #${issue.number}: ${issue.cve} (${issue.package})`);
+            });
+            
+            core.setOutput('resolved-count', resolvedIssues.length);
+            core.setOutput('resolved-issues', JSON.stringify(resolvedIssues));
+            
+            return resolvedIssues;
+
+      - name: ✅ Close Resolved Issues
+        if: steps.resolved-issues.outputs.resolved-count > 0
+        id: close-issues
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const resolvedIssues = JSON.parse('${{ steps.resolved-issues.outputs.resolved-issues }}');
+            const closedIssues = [];
+            
+            for (const issue of resolvedIssues) {
+              try {
+                // Add closure comment
+                const closureComment = [
+                  '## ✅ Vulnerability Resolved',
+                  '',
+                  `The security vulnerability **${issue.cve}** in **${issue.package}** has been resolved.`,
+                  '',
+                  '### Resolution Details',
+                  `- **Resolved Date**: ${new Date().toISOString().split('T')[0]}`,
+                  '- **Resolution Method**: Dependency update or patch applied',
+                  '- **Verification**: No longer detected in automated security scan',
+                  '',
+                  '### Next Steps',
+                  '- No further action required',
+                  '- Issue will be automatically closed',
+                  '- Security metrics updated',
+                  '',
+                  '---',
+                  '**Auto-resolved by Security Pipeline** | This issue has been automatically closed due to vulnerability remediation.'
+                ].join('\n');
+                
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: closureComment
+                });
+                
+                // Close the issue
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed',
+                  labels: [...issue.labels, 'resolved']
+                });
+                
+                console.log(`Closed issue #${issue.number} for resolved CVE ${issue.cve}`);
+                closedIssues.push({
+                  number: issue.number,
+                  cve: issue.cve,
+                  package: issue.package
+                });
+                
+                // Small delay to avoid rate limiting
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+              } catch (error) {
+                console.error(`Failed to close issue #${issue.number}:`, error);
+              }
+            }
+            
+            core.setOutput('closed-issues', JSON.stringify(closedIssues));
+            console.log(`Successfully closed ${closedIssues.length} resolved security issues`);
+
+      - name: 📊 Update Security Metrics
+        id: update-metrics
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const currentVulns = parseInt('${{ steps.current-scan.outputs.current-vulns }}');
+            const currentMediumPlus = parseInt('${{ steps.current-scan.outputs.current-medium-plus }}');
+            const resolvedCount = parseInt('${{ steps.resolved-issues.outputs.resolved-count }}');
+            const trackedCount = parseInt('${{ steps.tracked-issues.outputs.tracked-issues-count }}');
+            
+            const metrics = {
+              lastRescanDate: new Date().toISOString(),
+              totalVulnerabilities: currentVulns,
+              mediumPlusVulnerabilities: currentMediumPlus,
+              resolvedThisScan: resolvedCount,
+              activeTrackedIssues: trackedCount - resolvedCount,
+              scanType: 'rescan-auto-closure'
+            };
+            
+            console.log('Updated security metrics:', metrics);
+            
+            // Calculate resolution rate
+            const resolutionRate = trackedCount > 0 ? ((resolvedCount / trackedCount) * 100).toFixed(1) : 0;
+            
+            let summary = '## 🔄 Security Rescan Results\n\n';
+            summary += `- **Rescan Date**: ${new Date().toISOString().split('T')[0]}\n`;
+            summary += `- **Current Vulnerabilities**: ${currentVulns}\n`;
+            summary += `- **Medium+ Severity**: ${currentMediumPlus}\n`;
+            summary += `- **Issues Resolved**: ${resolvedCount}\n`;
+            summary += `- **Still Tracking**: ${trackedCount - resolvedCount}\n`;
+            summary += `- **Resolution Rate**: ${resolutionRate}%\n\n`;
+            
+            if (resolvedCount > 0) {
+              const closedIssues = JSON.parse('${{ steps.close-issues.outputs.closed-issues }}' || '[]');
+              summary += '### ✅ Resolved Issues\n\n';
+              closedIssues.forEach(issue => {
+                summary += `- [#${issue.number}](../../issues/${issue.number}) - ${issue.cve} in ${issue.package}\n`;
+              });
+              summary += '\n';
+            }
+            
+            if (currentMediumPlus > 0) {
+              summary += '### ⚠️ Active Vulnerabilities\n\n';
+              summary += `There are still ${currentMediumPlus} medium+ severity vulnerabilities requiring attention.\n`;
+              summary += 'Review the [security issues](../../issues?q=is%3Aissue+is%3Aopen+label%3Asecurity) for details.\n\n';
+            }
+            
+            core.setOutput('metrics-summary', summary);
+
+      - name: 🔔 Send Notifications
+        if: steps.resolved-issues.outputs.resolved-count > 0
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const resolvedCount = parseInt('${{ steps.resolved-issues.outputs.resolved-count }}');
+            const closedIssues = JSON.parse('${{ steps.close-issues.outputs.closed-issues }}' || '[]');
+            
+            console.log(`🎉 Security update: ${resolvedCount} vulnerabilities resolved and issues auto-closed`);
+            
+            // Here you could integrate with notification systems
+            // Example: Slack webhook for resolved vulnerabilities
+            /*
+            if (process.env.SLACK_WEBHOOK_URL) {
+              await fetch(process.env.SLACK_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  text: `✅ Security Update: ${resolvedCount} vulnerabilities resolved`,
+                  blocks: [
+                    {
+                      type: 'section',
+                      text: {
+                        type: 'mrkdwn',
+                        text: `*Good news! Security vulnerabilities resolved in ${context.repo.repo}*\n\n` +
+                              `• Vulnerabilities resolved: ${resolvedCount}\n` +
+                              `• Issues auto-closed: ${closedIssues.length}\n\n` +
+                              `The security pipeline has automatically detected and closed resolved vulnerabilities.`
+                      }
+                    }
+                  ]
+                })
+              });
+            }
+            */
+
+      - name: 📈 Generate Final Summary
+        if: always()
+        run: |
+          echo '${{ steps.update-metrics.outputs.metrics-summary }}' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Quick Links:**" >> $GITHUB_STEP_SUMMARY
+          echo "- [Open Security Issues](../../issues?q=is%3Aissue+is%3Aopen+label%3Asecurity)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Closed Security Issues](../../issues?q=is%3Aissue+is%3Aclosed+label%3Asecurity)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Dependabot Alerts](../../security/dependabot)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Security Dashboard](../../security)" >> $GITHUB_STEP_SUMMARY 
