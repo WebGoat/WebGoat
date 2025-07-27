@@ -1,0 +1,248 @@
+name: Feature Branch Security Scan
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches-ignore:
+      - main
+    paths:
+      - 'pom.xml'
+      - 'Dockerfile'
+      - '.github/workflows/**'
+      - 'src/**'
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  security-events: write
+  actions: read
+
+jobs:
+  security-scan:
+    name: 🔍 Security Vulnerability Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Feature Branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ☕ Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 📦 Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: 🔍 Enable Dependabot Analysis
+        id: dependabot-scan
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              // Get repository vulnerability alerts
+              const { data: alerts } = await github.rest.dependabot.listAlertsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                sort: 'created',
+                direction: 'desc'
+              });
+              
+              console.log(`Found ${alerts.length} open vulnerability alerts`);
+              
+              // Filter for medium+ severity vulnerabilities
+              const mediumPlusVulns = alerts.filter(alert => {
+                const severity = alert.security_vulnerability.severity.toLowerCase();
+                return ['medium', 'high', 'critical'].includes(severity);
+              });
+              
+              console.log(`Found ${mediumPlusVulns.length} medium+ severity vulnerabilities`);
+              
+              // Set outputs for next steps
+              core.setOutput('total-vulns', alerts.length);
+              core.setOutput('medium-plus-vulns', mediumPlusVulns.length);
+              core.setOutput('vulnerabilities', JSON.stringify(mediumPlusVulns));
+              
+              return mediumPlusVulns;
+            } catch (error) {
+              console.error('Error fetching vulnerability alerts:', error);
+              core.setFailed(`Failed to fetch vulnerability alerts: ${error.message}`);
+            }
+
+      - name: 📊 Generate Vulnerability Report
+        id: generate-report
+        if: steps.dependabot-scan.outputs.medium-plus-vulns > 0
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const vulnerabilities = JSON.parse('${{ steps.dependabot-scan.outputs.vulnerabilities }}');
+            
+            let report = '🚨 **Security Vulnerability Scan Results**\n\n';
+            
+            // Count vulnerabilities by severity
+            const severityCounts = {
+              critical: 0,
+              high: 0,
+              medium: 0
+            };
+            
+            vulnerabilities.forEach(vuln => {
+              const severity = vuln.security_vulnerability.severity.toLowerCase();
+              if (severityCounts.hasOwnProperty(severity)) {
+                severityCounts[severity]++;
+              }
+            });
+            
+            report += `**Summary**: Found ${vulnerabilities.length} vulnerabilities (`;
+            const summaryParts = [];
+            if (severityCounts.critical > 0) summaryParts.push(`${severityCounts.critical} Critical`);
+            if (severityCounts.high > 0) summaryParts.push(`${severityCounts.high} High`);
+            if (severityCounts.medium > 0) summaryParts.push(`${severityCounts.medium} Medium`);
+            report += summaryParts.join(', ') + ')\n\n';
+            
+            // Group vulnerabilities by severity
+            const groupedVulns = {
+              critical: [],
+              high: [],
+              medium: []
+            };
+            
+            vulnerabilities.forEach(vuln => {
+              const severity = vuln.security_vulnerability.severity.toLowerCase();
+              if (groupedVulns.hasOwnProperty(severity)) {
+                groupedVulns[severity].push(vuln);
+              }
+            });
+            
+            // Add Critical/High severity issues
+            if (severityCounts.critical > 0 || severityCounts.high > 0) {
+              report += '**🔴 Critical/High Severity Issues:**\n';
+              [...groupedVulns.critical, ...groupedVulns.high].forEach(vuln => {
+                const sv = vuln.security_vulnerability;
+                const pkg = sv.package;
+                report += `- **${pkg.name}** v${vuln.dependency.package.version} - ${sv.advisory.cve_id || 'No CVE'}\n`;
+                report += `  - **Impact**: ${sv.advisory.summary}\n`;
+                report += `  - **CVSS Score**: ${sv.advisory.cvss?.score || 'N/A'}\n`;
+                report += `  - **Recommendation**: Update to version ${sv.first_patched_version?.identifier || 'latest'}\n\n`;
+              });
+            }
+            
+            // Add Medium severity issues
+            if (severityCounts.medium > 0) {
+              report += '**🟡 Medium Severity Issues:**\n';
+              groupedVulns.medium.forEach(vuln => {
+                const sv = vuln.security_vulnerability;
+                const pkg = sv.package;
+                report += `- **${pkg.name}** v${vuln.dependency.package.version} - ${sv.advisory.cve_id || 'No CVE'}\n`;
+                report += `  - **Impact**: ${sv.advisory.summary}\n`;
+                report += `  - **CVSS Score**: ${sv.advisory.cvss?.score || 'N/A'}\n`;
+                report += `  - **Recommendation**: Update to version ${sv.first_patched_version?.identifier || 'latest'}\n\n`;
+              });
+            }
+            
+            // Add remediation steps
+            report += '**🔧 Remediation Steps:**\n';
+            report += '1. Update dependencies using: `mvn versions:use-latest-versions`\n';
+            report += '2. Review and test changes\n';
+            report += '3. Re-run security scan\n\n';
+            
+            // Add contact information
+            report += '---\n';
+            report += '📞 **Need Help?** Contact your Application Security Team at security@company.com for assistance with vulnerability remediation.';
+            
+            core.setOutput('report', report);
+            core.setOutput('has-critical-high', (severityCounts.critical + severityCounts.high) > 0 ? 'true' : 'false');
+
+      - name: 💬 Post PR Comment with Findings
+        if: steps.dependabot-scan.outputs.medium-plus-vulns > 0
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const report = `${{ steps.generate-report.outputs.report }}`;
+            
+            // Check if there's already a comment from this workflow
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('Security Vulnerability Scan Results')
+            );
+            
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: report
+              });
+              console.log('Updated existing PR comment');
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: report
+              });
+              console.log('Created new PR comment');
+            }
+
+      - name: 🚨 Set PR Status Check
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const totalVulns = parseInt('${{ steps.dependabot-scan.outputs.medium-plus-vulns }}');
+            const hasCriticalHigh = '${{ steps.generate-report.outputs.has-critical-high }}' === 'true';
+            
+            let state, description;
+            
+            if (totalVulns === 0) {
+              state = 'success';
+              description = '✅ No medium+ severity vulnerabilities found';
+            } else if (hasCriticalHigh) {
+              state = 'failure';
+              description = `❌ Found ${totalVulns} vulnerabilities including Critical/High severity issues`;
+            } else {
+              state = 'success';
+              description = `⚠️ Found ${totalVulns} medium severity vulnerabilities - review recommended`;
+            }
+            
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request.head.sha,
+              state: state,
+              description: description,
+              context: 'Security Scan / Vulnerability Check'
+            });
+            
+            console.log(`Set PR status: ${state} - ${description}`);
+
+      - name: 📈 Update Workflow Summary
+        if: always()
+        run: |
+          echo "## 🔍 Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Total Vulnerabilities**: ${{ steps.dependabot-scan.outputs.total-vulns }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Medium+ Severity**: ${{ steps.dependabot-scan.outputs.medium-plus-vulns }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: $([ '${{ steps.dependabot-scan.outputs.medium-plus-vulns }}' -gt 0 ] && echo '⚠️ Vulnerabilities Found' || echo '✅ Clean')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📊 Check the PR comment for detailed vulnerability information." >> $GITHUB_STEP_SUMMARY 

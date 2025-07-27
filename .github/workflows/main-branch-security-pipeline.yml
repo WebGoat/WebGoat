@@ -1,0 +1,312 @@
+name: Main Branch Security Pipeline
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pom.xml'
+      - 'Dockerfile'
+      - '.github/workflows/**'
+      - 'src/**'
+  workflow_dispatch:
+    inputs:
+      force_scan:
+        description: 'Force a complete security scan'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  security-events: write
+  actions: read
+
+jobs:
+  main-security-scan:
+    name: 🔍 Main Branch Security Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Main Branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ☕ Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 📦 Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: 🔍 Comprehensive Vulnerability Scan
+        id: vuln-scan
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              // Get all repository vulnerability alerts
+              const { data: alerts } = await github.rest.dependabot.listAlertsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                sort: 'created',
+                direction: 'desc'
+              });
+              
+              console.log(`Found ${alerts.length} total open vulnerability alerts`);
+              
+              // Filter for medium+ severity vulnerabilities
+              const mediumPlusVulns = alerts.filter(alert => {
+                const severity = alert.security_vulnerability.severity.toLowerCase();
+                return ['medium', 'high', 'critical'].includes(severity);
+              });
+              
+              console.log(`Found ${mediumPlusVulns.length} medium+ severity vulnerabilities`);
+              
+              // Get existing security issues to compare
+              const { data: existingIssues } = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: 'security,vulnerability',
+                state: 'open'
+              });
+              
+              console.log(`Found ${existingIssues.length} existing security issues`);
+              
+              // Identify new vulnerabilities (not already tracked)
+              const existingCVEs = existingIssues.map(issue => {
+                const match = issue.title.match(/CVE-\d{4}-\d+/);
+                return match ? match[0] : null;
+              }).filter(Boolean);
+              
+              const newVulnerabilities = mediumPlusVulns.filter(vuln => {
+                const cveId = vuln.security_vulnerability.advisory.cve_id;
+                return cveId && !existingCVEs.includes(cveId);
+              });
+              
+              console.log(`Found ${newVulnerabilities.length} new vulnerabilities to track`);
+              
+              // Set outputs
+              core.setOutput('total-vulns', alerts.length);
+              core.setOutput('medium-plus-vulns', mediumPlusVulns.length);
+              core.setOutput('new-vulns', newVulnerabilities.length);
+              core.setOutput('vulnerabilities', JSON.stringify(mediumPlusVulns));
+              core.setOutput('new-vulnerabilities', JSON.stringify(newVulnerabilities));
+              
+              return {
+                total: alerts.length,
+                mediumPlus: mediumPlusVulns.length,
+                new: newVulnerabilities.length
+              };
+            } catch (error) {
+              console.error('Error in vulnerability scan:', error);
+              core.setFailed(`Failed to scan vulnerabilities: ${error.message}`);
+            }
+
+      - name: 🎫 Create GitHub Issues for New Vulnerabilities
+        if: steps.vuln-scan.outputs.new-vulns > 0
+        id: create-issues
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const newVulns = JSON.parse('${{ steps.vuln-scan.outputs.new-vulnerabilities }}');
+            const createdIssues = [];
+            
+            for (const vuln of newVulns) {
+              const sv = vuln.security_vulnerability;
+              const pkg = sv.package;
+              const advisory = sv.advisory;
+              const cveId = advisory.cve_id || 'No-CVE';
+              const severity = sv.severity.toLowerCase();
+              
+              // Calculate target resolution date based on severity
+              const discoveredDate = new Date();
+              const targetDate = new Date(discoveredDate);
+              switch (severity) {
+                case 'critical':
+                  targetDate.setDate(targetDate.getDate() + 7); // 7 days
+                  break;
+                case 'high':
+                  targetDate.setDate(targetDate.getDate() + 14); // 14 days
+                  break;
+                case 'medium':
+                  targetDate.setDate(targetDate.getDate() + 30); // 30 days
+                  break;
+              }
+              
+              const issueTitle = `[SECURITY] ${cveId} in ${pkg.name}`;
+              
+                             const issueBody = [
+                 '## Security Vulnerability Alert',
+                 '',
+                 `**CVE ID**: ${cveId}`,
+                 `**Package**: ${pkg.name} v${vuln.dependency.package.version}`,
+                 `**Severity**: ${severity.charAt(0).toUpperCase() + severity.slice(1)}`,
+                 `**CVSS Score**: ${advisory.cvss?.score || 'N/A'}`,
+                 '',
+                 '### Vulnerability Details',
+                 advisory.summary,
+                 '',
+                 advisory.description ? `**Full Description**: ${advisory.description}` : '',
+                 '',
+                 '### Affected Components',
+                 '- [ ] Production dependencies',
+                 '- [ ] Development dependencies',
+                 '- [ ] Docker base images',
+                 '',
+                 '### Remediation Plan',
+                 `- [ ] Update to version ${sv.first_patched_version?.identifier || 'latest'} or later`,
+                 '- [ ] Test application functionality',
+                 '- [ ] Deploy security patch',
+                 '- [ ] Verify fix with rescan',
+                 '',
+                 '### Timeline',
+                 `- **Discovered**: ${discoveredDate.toISOString().split('T')[0]}`,
+                 `- **Target Resolution**: ${targetDate.toISOString().split('T')[0]}`,
+                 '',
+                 '### References',
+                 advisory.references?.map(ref => `- [${ref.url}](${ref.url})`).join('\n') || 'No additional references',
+                 '',
+                 '---',
+                 '**Auto-generated by Security Pipeline** | Contact App Security Team for assistance'
+               ].filter(line => line !== '').join('\n');
+
+              try {
+                const issue = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: issueTitle,
+                  body: issueBody,
+                  labels: [
+                    'security',
+                    'vulnerability',
+                    severity,
+                    pkg.ecosystem === 'maven' ? 'java' : pkg.ecosystem
+                  ],
+                  assignees: [] // Add security team members here
+                });
+                
+                console.log(`Created issue #${issue.data.number} for ${cveId}`);
+                createdIssues.push({
+                  number: issue.data.number,
+                  cve: cveId,
+                  package: pkg.name,
+                  severity: severity
+                });
+                
+                // Add a small delay to avoid rate limiting
+                await new Promise(resolve => setTimeout(resolve, 1000));
+              } catch (error) {
+                console.error(`Failed to create issue for ${cveId}:`, error);
+              }
+            }
+            
+            core.setOutput('created-issues', JSON.stringify(createdIssues));
+            console.log(`Created ${createdIssues.length} security issues`);
+
+      - name: 📊 Update Security Dashboard
+        id: update-dashboard
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const totalVulns = parseInt('${{ steps.vuln-scan.outputs.total-vulns }}');
+            const mediumPlusVulns = parseInt('${{ steps.vuln-scan.outputs.medium-plus-vulns }}');
+            const newVulns = parseInt('${{ steps.vuln-scan.outputs.new-vulns }}');
+            
+            // Store metrics in repository variables for dashboard
+            const metrics = {
+              lastScanDate: new Date().toISOString(),
+              totalVulnerabilities: totalVulns,
+              mediumPlusVulnerabilities: mediumPlusVulns,
+              newVulnerabilities: newVulns,
+              scanType: 'main-branch'
+            };
+            
+            console.log('Security metrics:', metrics);
+            
+            // You could store these in repository variables or send to external dashboard
+            // For now, we'll output them to the job summary
+            
+            let summary = '## 🔍 Main Branch Security Scan Results\n\n';
+            summary += `- **Scan Date**: ${new Date().toISOString().split('T')[0]}\n`;
+            summary += `- **Total Vulnerabilities**: ${totalVulns}\n`;
+            summary += `- **Medium+ Severity**: ${mediumPlusVulns}\n`;
+            summary += `- **New Issues Created**: ${newVulns}\n\n`;
+            
+            if (newVulns > 0) {
+              const createdIssues = JSON.parse('${{ steps.create-issues.outputs.created-issues }}' || '[]');
+              summary += '### 🎫 New Security Issues Created\n\n';
+              createdIssues.forEach(issue => {
+                summary += `- [#${issue.number}](../../issues/${issue.number}) - ${issue.cve} in ${issue.package} (${issue.severity})\n`;
+              });
+            }
+            
+            core.setOutput('dashboard-summary', summary);
+
+      - name: 🔔 Notify Security Team
+        if: steps.vuln-scan.outputs.new-vulns > 0
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const newVulns = parseInt('${{ steps.vuln-scan.outputs.new-vulns }}');
+            const createdIssues = JSON.parse('${{ steps.create-issues.outputs.created-issues }}' || '[]');
+            
+            // Count critical/high severity issues
+            const criticalHighCount = createdIssues.filter(issue => 
+              ['critical', 'high'].includes(issue.severity)
+            ).length;
+            
+            if (criticalHighCount > 0) {
+              console.log(`🚨 ${criticalHighCount} Critical/High severity vulnerabilities require immediate attention`);
+              
+              // Here you could integrate with Slack, Teams, or email notifications
+              // Example: Send webhook notification
+              /*
+              await fetch(process.env.SLACK_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  text: `🚨 Security Alert: ${criticalHighCount} Critical/High severity vulnerabilities found in ${context.repo.repo}`,
+                  blocks: [
+                    {
+                      type: 'section',
+                      text: {
+                        type: 'mrkdwn',
+                        text: `*Security vulnerabilities detected in ${context.repo.repo}*\n\n` +
+                              `• Total new vulnerabilities: ${newVulns}\n` +
+                              `• Critical/High severity: ${criticalHighCount}\n\n` +
+                              `Please review the created issues and prioritize remediation.`
+                      }
+                    }
+                  ]
+                })
+              });
+              */
+            }
+            
+            console.log(`Notification completed for ${newVulns} new vulnerabilities`);
+
+      - name: 📈 Generate Workflow Summary
+        if: always()
+        run: |
+          echo '${{ steps.update-dashboard.outputs.dashboard-summary }}' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Quick Links:**" >> $GITHUB_STEP_SUMMARY
+          echo "- [Security Issues](../../issues?q=is%3Aissue+is%3Aopen+label%3Asecurity)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Dependabot Alerts](../../security/dependabot)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Security Advisories](../../security/advisories)" >> $GITHUB_STEP_SUMMARY 

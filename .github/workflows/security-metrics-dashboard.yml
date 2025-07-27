@@ -1,0 +1,299 @@
+name: Security Metrics Dashboard
+
+on:
+  schedule:
+    # Run weekly on Mondays at 10 AM UTC
+    - cron: '0 10 * * 1'
+  workflow_dispatch:
+    inputs:
+      generate_report:
+        description: 'Generate comprehensive security report'
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+  security-events: read
+  actions: read
+
+jobs:
+  security-metrics:
+    name: 📊 Security Metrics Collection
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📊 Collect Security Metrics
+        id: collect-metrics
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const startTime = Date.now();
+            
+            try {
+              // Get vulnerability alerts
+              const { data: alerts } = await github.rest.dependabot.listAlertsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                per_page: 100
+              });
+              
+              // Get security issues
+              const { data: securityIssues } = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: 'security,vulnerability',
+                state: 'all',
+                per_page: 100
+              });
+              
+              // Get closed security issues from last 30 days
+              const thirtyDaysAgo = new Date();
+              thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+              
+              const recentClosedIssues = securityIssues.filter(issue => 
+                issue.state === 'closed' && 
+                new Date(issue.closed_at) > thirtyDaysAgo
+              );
+              
+              // Calculate severity distribution
+              const severityCount = {
+                critical: 0,
+                high: 0,
+                medium: 0,
+                low: 0
+              };
+              
+              alerts.forEach(alert => {
+                const severity = alert.security_vulnerability.severity.toLowerCase();
+                if (severityCount.hasOwnProperty(severity)) {
+                  severityCount[severity]++;
+                }
+              });
+              
+              // Calculate MTTD (Mean Time to Detection) - simplified
+              const averageDetectionTime = alerts.length > 0 ? 
+                alerts.reduce((sum, alert) => {
+                  const createdDate = new Date(alert.created_at);
+                  const now = new Date();
+                  return sum + (now - createdDate);
+                }, 0) / alerts.length / (1000 * 60 * 60 * 24) : 0; // Convert to days
+              
+              // Calculate MTTR (Mean Time to Resolution)
+              const averageResolutionTime = recentClosedIssues.length > 0 ?
+                recentClosedIssues.reduce((sum, issue) => {
+                  const createdDate = new Date(issue.created_at);
+                  const closedDate = new Date(issue.closed_at);
+                  return sum + (closedDate - createdDate);
+                }, 0) / recentClosedIssues.length / (1000 * 60 * 60 * 24) : 0; // Convert to days
+              
+              const metrics = {
+                collectionDate: new Date().toISOString(),
+                totalVulnerabilities: alerts.length,
+                mediumPlusVulnerabilities: severityCount.critical + severityCount.high + severityCount.medium,
+                severityDistribution: severityCount,
+                openSecurityIssues: securityIssues.filter(i => i.state === 'open').length,
+                closedSecurityIssues: securityIssues.filter(i => i.state === 'closed').length,
+                recentlyClosedIssues: recentClosedIssues.length,
+                meanTimeToDetection: Math.round(averageDetectionTime * 10) / 10,
+                meanTimeToResolution: Math.round(averageResolutionTime * 10) / 10,
+                autoClosureRate: securityIssues.length > 0 ? 
+                  Math.round((recentClosedIssues.filter(i => i.labels.some(l => l.name === 'resolved')).length / recentClosedIssues.length) * 100) : 0
+              };
+              
+              core.setOutput('metrics', JSON.stringify(metrics));
+              console.log('Collected security metrics:', metrics);
+              
+              return metrics;
+            } catch (error) {
+              console.error('Error collecting metrics:', error);
+              core.setFailed(`Failed to collect metrics: ${error.message}`);
+            }
+
+      - name: 📈 Generate Security Report
+        id: generate-report
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const metrics = JSON.parse('${{ steps.collect-metrics.outputs.metrics }}');
+            
+            // Generate comprehensive report
+            let report = '# 🔒 Security Metrics Dashboard\n\n';
+            report += `**Report Generated**: ${new Date().toISOString().split('T')[0]}\n\n`;
+            
+            // Executive Summary
+            report += '## 📋 Executive Summary\n\n';
+            const securityStatus = metrics.mediumPlusVulnerabilities === 0 ? '🟢 GOOD' : 
+                                  metrics.mediumPlusVulnerabilities <= 5 ? '🟡 MODERATE' : '🔴 CRITICAL';
+            report += `**Overall Security Status**: ${securityStatus}\n\n`;
+            
+            // Key Metrics
+            report += '## 📊 Key Metrics\n\n';
+            report += '| Metric | Value | Status |\n';
+            report += '|--------|--------|--------|\n';
+            report += `| Total Vulnerabilities | ${metrics.totalVulnerabilities} | ${metrics.totalVulnerabilities === 0 ? '✅' : '⚠️'} |\n`;
+            report += `| Medium+ Severity | ${metrics.mediumPlusVulnerabilities} | ${metrics.mediumPlusVulnerabilities === 0 ? '✅' : '🚨'} |\n`;
+            report += `| Open Issues | ${metrics.openSecurityIssues} | ${metrics.openSecurityIssues === 0 ? '✅' : '📋'} |\n`;
+            report += `| Mean Time to Resolution | ${metrics.meanTimeToResolution} days | ${metrics.meanTimeToResolution <= 14 ? '✅' : '⏰'} |\n`;
+            report += `| Auto-Closure Rate | ${metrics.autoClosureRate}% | ${metrics.autoClosureRate >= 80 ? '✅' : '🔧'} |\n\n`;
+            
+            // Severity Breakdown
+            report += '## 🎯 Vulnerability Severity Breakdown\n\n';
+            report += '```\n';
+            report += `Critical: ${metrics.severityDistribution.critical.toString().padStart(3)} 🔴\n`;
+            report += `High:     ${metrics.severityDistribution.high.toString().padStart(3)} 🟠\n`;
+            report += `Medium:   ${metrics.severityDistribution.medium.toString().padStart(3)} 🟡\n`;
+            report += `Low:      ${metrics.severityDistribution.low.toString().padStart(3)} 🟢\n`;
+            report += '```\n\n';
+            
+            // Trends and Analysis
+            report += '## 📈 Security Health Analysis\n\n';
+            
+            if (metrics.mediumPlusVulnerabilities === 0) {
+              report += '✅ **Excellent**: No medium+ severity vulnerabilities detected.\n\n';
+            } else if (metrics.mediumPlusVulnerabilities <= 5) {
+              report += '⚠️ **Good**: Low number of medium+ severity vulnerabilities. Continue monitoring.\n\n';
+            } else {
+              report += '🚨 **Action Required**: High number of medium+ severity vulnerabilities detected.\n\n';
+            }
+            
+            // Resolution Performance
+            if (metrics.meanTimeToResolution <= 7) {
+              report += '🚀 **Fast Response**: Excellent vulnerability resolution time.\n\n';
+            } else if (metrics.meanTimeToResolution <= 14) {
+              report += '👍 **Good Response**: Acceptable vulnerability resolution time.\n\n';
+            } else {
+              report += '⏰ **Slow Response**: Consider improving vulnerability resolution processes.\n\n';
+            }
+            
+            // Auto-closure Performance
+            if (metrics.autoClosureRate >= 80) {
+              report += '🤖 **Automation Success**: High auto-closure rate indicates effective pipeline.\n\n';
+            } else {
+              report += '🔧 **Manual Oversight**: Low auto-closure rate may indicate manual intervention needed.\n\n';
+            }
+            
+            // Recommendations
+            report += '## 🎯 Recommendations\n\n';
+            
+            if (metrics.severityDistribution.critical > 0) {
+              report += '- 🚨 **URGENT**: Address critical vulnerabilities immediately\n';
+            }
+            
+            if (metrics.severityDistribution.high > 0) {
+              report += '- 🔴 **HIGH PRIORITY**: Review and patch high severity vulnerabilities\n';
+            }
+            
+            if (metrics.meanTimeToResolution > 14) {
+              report += '- ⏰ **PROCESS IMPROVEMENT**: Consider streamlining vulnerability resolution workflow\n';
+            }
+            
+            if (metrics.autoClosureRate < 80) {
+              report += '- 🔧 **AUTOMATION**: Review auto-closure logic and improve detection accuracy\n';
+            }
+            
+            if (metrics.totalVulnerabilities === 0) {
+              report += '- ✅ **MAINTAIN**: Continue current security practices\n';
+            }
+            
+            report += '\n';
+            
+            // Quick Links
+            report += '## 🔗 Quick Actions\n\n';
+            report += '- [View Open Security Issues](../../issues?q=is%3Aissue+is%3Aopen+label%3Asecurity)\n';
+            report += '- [Review Dependabot Alerts](../../security/dependabot)\n';
+            report += '- [Security Advisory Dashboard](../../security/advisories)\n';
+            report += '- [Vulnerability History](../../security)\n\n';
+            
+            // Footer
+            report += '---\n';
+            report += '*This report is generated automatically by the Security Metrics Pipeline*\n';
+            
+            core.setOutput('security-report', report);
+            return report;
+
+      - name: 📄 Create Security Report Issue
+        if: github.event.inputs.generate_report != 'false'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const report = `${{ steps.generate-report.outputs.security-report }}`;
+            const metrics = JSON.parse('${{ steps.collect-metrics.outputs.metrics }}');
+            
+            const reportDate = new Date().toISOString().split('T')[0];
+            const issueTitle = `📊 Security Metrics Report - ${reportDate}`;
+            
+            try {
+              // Check if there's already a report issue for this week
+              const { data: existingIssues } = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: 'security-report',
+                state: 'open',
+                per_page: 5
+              });
+              
+              const thisWeekReport = existingIssues.find(issue => 
+                issue.title.includes(reportDate)
+              );
+              
+              if (thisWeekReport) {
+                // Update existing report
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: thisWeekReport.number,
+                  body: report
+                });
+                console.log(`Updated existing security report issue #${thisWeekReport.number}`);
+              } else {
+                // Create new report issue
+                const issue = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: issueTitle,
+                  body: report,
+                  labels: ['security-report', 'documentation']
+                });
+                console.log(`Created new security report issue #${issue.data.number}`);
+              }
+            } catch (error) {
+              console.error('Error creating/updating report issue:', error);
+              // Don't fail the workflow if report creation fails
+            }
+
+      - name: 📊 Generate Workflow Summary
+        if: always()
+        run: |
+          echo "# 📊 Security Metrics Dashboard" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Key Findings" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Parse metrics for summary
+          METRICS='${{ steps.collect-metrics.outputs.metrics }}'
+          
+          if [ "$METRICS" != "" ]; then
+            echo "✅ Security metrics collected successfully" >> $GITHUB_STEP_SUMMARY
+            echo "📊 Comprehensive security report generated" >> $GITHUB_STEP_SUMMARY
+            echo "📄 Report available in Issues section" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Failed to collect security metrics" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Dashboard Links:**" >> $GITHUB_STEP_SUMMARY
+          echo "- [Security Reports](../../issues?q=is%3Aissue+label%3Asecurity-report)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Security Issues](../../issues?q=is%3Aissue+label%3Asecurity)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Dependabot Alerts](../../security/dependabot)" >> $GITHUB_STEP_SUMMARY 
