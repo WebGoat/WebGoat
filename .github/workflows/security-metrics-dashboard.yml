@@ -37,15 +37,30 @@ jobs:
             const startTime = Date.now();
             
             try {
-              // Get vulnerability alerts
-              const { data: alerts } = await github.rest.dependabot.listAlertsForRepo({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                state: 'open',
-                per_page: 100
-              });
+              let alerts = [];
+              let dependabotAvailable = true;
               
-              // Get security issues
+              // Try to get vulnerability alerts
+              try {
+                const { data: alertsData } = await github.rest.dependabot.listAlertsForRepo({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  state: 'open',
+                  per_page: 100
+                });
+                alerts = alertsData;
+                console.log(`✅ Successfully accessed Dependabot alerts: Found ${alerts.length} vulnerability alerts`);
+              } catch (alertError) {
+                if (alertError.status === 403) {
+                  console.warn('⚠️ Dependabot API not accessible - GitHub Advanced Security not enabled');
+                  dependabotAvailable = false;
+                  alerts = [];
+                } else {
+                  throw alertError; // Re-throw other errors
+                }
+              }
+              
+              // Get security issues (this should work regardless of Advanced Security)
               const { data: securityIssues } = await github.rest.issues.listForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -63,7 +78,7 @@ jobs:
                 new Date(issue.closed_at) > thirtyDaysAgo
               );
               
-              // Calculate severity distribution
+              // Calculate severity distribution (only if Dependabot is available)
               const severityCount = {
                 critical: 0,
                 high: 0,
@@ -71,15 +86,17 @@ jobs:
                 low: 0
               };
               
-              alerts.forEach(alert => {
-                const severity = alert.security_vulnerability.severity.toLowerCase();
-                if (severityCount.hasOwnProperty(severity)) {
-                  severityCount[severity]++;
-                }
-              });
+              if (dependabotAvailable) {
+                alerts.forEach(alert => {
+                  const severity = alert.security_vulnerability.severity.toLowerCase();
+                  if (severityCount.hasOwnProperty(severity)) {
+                    severityCount[severity]++;
+                  }
+                });
+              }
               
-              // Calculate MTTD (Mean Time to Detection) - simplified
-              const averageDetectionTime = alerts.length > 0 ? 
+              // Calculate MTTD (Mean Time to Detection) - only if Dependabot is available
+              const averageDetectionTime = dependabotAvailable && alerts.length > 0 ? 
                 alerts.reduce((sum, alert) => {
                   const createdDate = new Date(alert.created_at);
                   const now = new Date();
@@ -96,6 +113,7 @@ jobs:
               
               const metrics = {
                 collectionDate: new Date().toISOString(),
+                dependabotAvailable: dependabotAvailable,
                 totalVulnerabilities: alerts.length,
                 mediumPlusVulnerabilities: severityCount.critical + severityCount.high + severityCount.medium,
                 severityDistribution: severityCount,

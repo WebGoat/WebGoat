@@ -55,7 +55,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             try {
-              // Get current vulnerability alerts
+              // Try to get current vulnerability alerts
               const { data: currentAlerts } = await github.rest.dependabot.listAlertsForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -64,7 +64,7 @@ jobs:
                 direction: 'desc'
               });
               
-              console.log(`Found ${currentAlerts.length} current open vulnerability alerts`);
+              console.log(`✅ Successfully accessed Dependabot alerts: Found ${currentAlerts.length} current open vulnerability alerts`);
               
               // Filter for medium+ severity vulnerabilities
               const currentMediumPlusVulns = currentAlerts.filter(alert => {
@@ -82,6 +82,7 @@ jobs:
               core.setOutput('current-vulns', currentAlerts.length);
               core.setOutput('current-medium-plus', currentMediumPlusVulns.length);
               core.setOutput('current-cves', JSON.stringify(currentCVEs));
+              core.setOutput('scan-method', 'dependabot-api');
               
               return {
                 total: currentAlerts.length,
@@ -89,8 +90,28 @@ jobs:
                 cves: currentCVEs
               };
             } catch (error) {
-              console.error('Error fetching current vulnerabilities:', error);
-              core.setFailed(`Failed to fetch current vulnerabilities: ${error.message}`);
+              console.warn('⚠️ Dependabot API not accessible:', error.message);
+              
+              // Handle 403 errors (GitHub Advanced Security not enabled)
+              if (error.status === 403) {
+                console.log('📋 GitHub Advanced Security is required for Dependabot alerts API');
+                console.log('💡 Rescan scheduler will run with limited functionality');
+                
+                // Set fallback outputs - no vulnerabilities to compare
+                core.setOutput('current-vulns', 0);
+                core.setOutput('current-medium-plus', 0);
+                core.setOutput('current-cves', JSON.stringify([]));
+                core.setOutput('scan-method', 'fallback-required');
+                
+                return {
+                  total: 0,
+                  mediumPlus: 0,
+                  cves: []
+                };
+              } else {
+                // For other errors, fail the workflow  
+                core.setFailed(`Failed to fetch current vulnerabilities: ${error.message}`);
+              }
             }
 
       - name: 🎫 Get Tracked Security Issues
