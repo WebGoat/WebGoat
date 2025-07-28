@@ -24,3 +24,4 @@ git push
 After the release has been tagged and the build process is done. The release notes should be updated in the GitHub
 release page.
 
+Test
