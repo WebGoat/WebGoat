@@ -76,6 +76,8 @@ public class CommentsCache {
     var xsr = xif.createXMLStreamReader(new StringReader(xml));
 
     var unmarshaller = jc.createUnmarshaller();
+    unmarshaller.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Disable external DTDs
+    unmarshaller.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // Disable external schemas
     return (Comment) unmarshaller.unmarshal(xsr);
   }
 
