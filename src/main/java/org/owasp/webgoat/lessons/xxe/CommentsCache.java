@@ -69,7 +69,9 @@ public class CommentsCache {
     var jc = JAXBContext.newInstance(Comment.class);
     var xif = XMLInputFactory.newInstance();
 
-    // Always disable external entity resolution for security.
+    // Always disable external entity resolution and DTD processing for security.
+    xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false); // Disable external entities
+    xif.setProperty(XMLInputFactory.SUPPORT_DTD, false); // Disable DTD processing
     xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
     xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // Compliant
 
