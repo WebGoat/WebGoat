@@ -31,7 +31,9 @@ public class SSRFTask2 implements AssignmentEndpoint {
   }
 
   protected AttackResult furBall(String url) {
-    if (url.matches("http://ifconfig\\.pro")) {
+    // Define a whitelist of allowed URLs
+    final String allowedUrl = "http://ifconfig.pro";
+    if (url.equals(allowedUrl)) {
       String html;
       try (InputStream in = new URL(url).openStream()) {
         html =
