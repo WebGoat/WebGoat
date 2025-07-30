@@ -8,6 +8,7 @@ function initIframe() {
 		element = document.getElementById('lessonPlans');
 
       	iframe = document.createElement('iframe');
+      	iframe.setAttribute('sandbox', '');
       	iframe.style.position = "absolute";
       	iframe.style.visibility = "hidden";
       	body.appendChild(iframe);
