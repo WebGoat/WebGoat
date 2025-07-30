@@ -2535,6 +2535,7 @@ rangy.createModule("DomUtil", function(api, module) {
 
         (function() {
             var iframe = document.createElement("iframe");
+            iframe.setAttribute("sandbox", "");
             body.appendChild(iframe);
 
             var iframeDoc = dom.getIframeDocument(iframe);
