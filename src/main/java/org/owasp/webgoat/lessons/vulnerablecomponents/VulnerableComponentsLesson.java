@@ -23,23 +23,14 @@ public class VulnerableComponentsLesson implements AssignmentEndpoint {
 
   @PostMapping("/VulnerableComponents/attack1")
   public @ResponseBody AttackResult completed(@RequestParam String payload) {
- XStream xstream = new XStream();
-XStream.setupDefaultSecurity(xstream); // <-- πολύ σημαντικό
-xstream.allowTypes(new Class[] { ContactImpl.class }); // μόνο αυτή η κλάση επιτρέπεται
-xstream.alias("contact", ContactImpl.class);
-xstream.ignoreUnknownElements();
+    XStream xstream = new XStream();
+    XStream.setupDefaultSecurity(xstream);
+    xstream.allowTypes(new Class[] { ContactImpl.class });
+    xstream.alias("contact", ContactImpl.class);
+    xstream.ignoreUnknownElements();
     Contact contact = null;
 
     try {
-      if (!StringUtils.isEmpty(payload)) {
-        payload =
-            payload
-                .replace("+", "")
-                .replace("\r", "")
-                .replace("\n", "")
-                .replace("> ", ">")
-                .replace(" <", "<");
-      }
       contact = (Contact) xstream.fromXML(payload);
     } catch (Exception ex) {
       return failed(this).feedback("vulnerable-components.close").output(ex.getMessage()).build();
