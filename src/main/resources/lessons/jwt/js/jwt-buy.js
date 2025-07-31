@@ -11,7 +11,7 @@ $(document).ready(function () {
     });
     $("#quantity2").on("blur", function () {
         var quantity = $("#quantity2").val();
-        if (!$.isNumeric(quantity) || quantity < 0) {
+        if (!(!isNaN(parseFloat(quantity)) && isFinite(quantity)) || quantity < 0) {
             $("#quantity2").val("1");
             quantity = 1;
         }
