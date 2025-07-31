@@ -1,3 +1,16 @@
+
+function sanitizeContent(content) {
+    if (typeof content === 'string') {
+        return DOMPurify.sanitize(content);
+    } else if (window?.jQuery && content instanceof window.jQuery) {
+        var originalHtml = content.prop('outerHTML');
+        var sanitizedHtml = DOMPurify.sanitize(originalHtml);
+        if (sanitizedHtml !== originalHtml) {
+            throw new Error("The content contains potentially unsafe HTML.");
+        }
+    }
+    return content;
+}
 $(function () {
     $('.col-check').hide();
     $('#btn-admin').on('click', function () {
@@ -54,7 +67,7 @@ function getServers(column) {
             server = server.replace('IP', result[i].ip);
             server = server.replace('MAC', result[i].mac);
             server = server.replace('DESCRIPTION', result[i].description);
-            $("#servers").append(server);
+            $("#servers").append(sanitizeContent(server));
         }
 
     });
