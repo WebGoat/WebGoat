@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $("#quantity1").on("blur", function () {
         var quantity = $("#quantity1").val();
-        if (!$.isNumeric(quantity) || quantity < 0) {
+        if (!(!isNaN(parseFloat(quantity)) && isFinite(quantity)) || quantity < 0) {
             $("#quantity1").val("1");
             quantity = 1;
         }
