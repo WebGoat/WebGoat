@@ -128,7 +128,7 @@
 		if (this.touchCapable) {
 			// Touch: Bind touch events:
 			this.picker.on({
-				touchstart: $.proxy(this.mousedown, this)
+				touchstart: (this.mousedown).bind(this)
 			});
 		} else {
 			this.picker.on({
