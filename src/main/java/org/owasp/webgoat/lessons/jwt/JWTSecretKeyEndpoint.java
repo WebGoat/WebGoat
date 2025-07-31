@@ -16,7 +16,7 @@ import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
+import java.util.SecureRandom;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -35,7 +35,7 @@ public class JWTSecretKeyEndpoint implements AssignmentEndpoint {
     "victory", "business", "available", "shipping", "washington"
   };
   public static final String JWT_SECRET =
-      TextCodec.BASE64.encode(SECRETS[new Random().nextInt(SECRETS.length)]);
+      TextCodec.BASE64.encode(SECRETS[new SecureRandom().nextInt(SECRETS.length)]);
   private static final String WEBGOAT_USER = "WebGoat";
   private static final List<String> expectedClaims =
       List.of("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
