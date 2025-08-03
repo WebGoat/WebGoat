@@ -61,7 +61,7 @@ public class LessonMenuService {
       List<Lesson> lessons = course.getLessons(category);
       lessons = lessons.stream().sorted(Comparator.comparing(Lesson::getTitle)).toList();
       for (Lesson lesson : lessons) {
-        if (excludeLessons.contains(lesson.getName())) {
+        if (excludeLessons.contains(lesson.getName().toString())) {
           continue;
         }
         LessonMenuItem lessonItem = new LessonMenuItem();
