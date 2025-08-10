@@ -1,3 +1,16 @@
+
+function sanitizeContent(content) {
+    if (typeof content === 'string') {
+        return DOMPurify.sanitize(content);
+    } else if (window?.jQuery && content instanceof window.jQuery) {
+        var originalHtml = content.prop('outerHTML');
+        var sanitizedHtml = DOMPurify.sanitize(originalHtml);
+        if (sanitizedHtml !== originalHtml) {
+            throw new Error("The content contains potentially unsafe HTML.");
+        }
+    }
+    return content;
+}
 $(document).ready(function () {
 //    $("#postReview").on("click", function () {
 //        var commentInput = $("#reviewInput").val();
@@ -38,7 +51,7 @@ $(document).ready(function () {
                 comment = comment.replace('DATETIME', result[i].dateTime);
                 comment = comment.replace('COMMENT', result[i].text);
                 comment = comment.replace('STARS', result[i].stars)
-                $("#list").append(comment);
+                $("#list").append(sanitizeContent(comment));
             }
 
         });
