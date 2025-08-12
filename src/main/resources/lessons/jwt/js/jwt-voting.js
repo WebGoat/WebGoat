@@ -1,3 +1,16 @@
+
+function sanitizeContent(content) {
+    if (typeof content === 'string') {
+        return DOMPurify.sanitize(content);
+    } else if (window?.jQuery && content instanceof window.jQuery) {
+        var originalHtml = content.prop('outerHTML');
+        var sanitizedHtml = DOMPurify.sanitize(originalHtml);
+        if (sanitizedHtml !== originalHtml) {
+            throw new Error("The content contains potentially unsafe HTML.");
+        }
+    }
+    return content;
+}
 $(document).ready(function () {
     loginVotes('Guest');
 })
@@ -60,7 +73,7 @@ function getVotings() {
             hidden = (result[i].average === undefined ? 'hidden' : '');
             voteTemplate = voteTemplate.replace(/HIDDEN_VIEW_RATING/g, hidden);
 
-            $("#votesList").append(voteTemplate);
+            $("#votesList").append(sanitizeContent(voteTemplate));
         }
     })
 }
