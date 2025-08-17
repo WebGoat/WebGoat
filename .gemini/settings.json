@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "github": {
+      "httpUrl": "https://api.githubcopilot.com/mcp/",
+      "authorization_token": "Bearer <gh path>",
+      "timeout": 5000,
+      "headers": {
+        "Authorization": "Bearer <gh path>",
+        "Content-Type": "application/json"
+      }
+    }
+  }
+}
