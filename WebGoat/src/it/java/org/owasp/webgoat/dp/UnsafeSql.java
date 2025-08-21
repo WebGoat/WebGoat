@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class UnsafeSql {
 
-    // Intentional SQL Injection vulnerability
+    // Intentional SQL Injection vulnerability - change for pr
     public void doQuery(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id"); // unvalidated user input
 
