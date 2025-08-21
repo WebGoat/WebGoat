@@ -1,0 +1,48 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
+    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
+    - name: Update dependency graph
+      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+    - name: Black Duck Security Scan
+      # You may pin to the exact commit or the version.
+      # uses: blackduck-inc/black-duck-security-scan@b66d96c5a078070162210d23e79843a5e66a92ac
+      uses: blackduck-inc/black-duck-security-scan@v2.3.0
+      with:
+        polaris_access_token: '3ql7lgps956ppebobh18je2pm1usqe6qegn4n9sui8bc91ctv13au00l4c2p3ampijt8e875u3nno'# optional
+        polaris_application_name: 'Charles-Mustaqim_test'# optional
+        polaris_project_name: 'mmrTesr2025'# optional
+        polaris_assessment_types: 'SAST'# optional
+        polaris_server_url: 'https://polaris.blackduck.com/'# optional
+        polaris_branch_name: 'main'
+    
+    
