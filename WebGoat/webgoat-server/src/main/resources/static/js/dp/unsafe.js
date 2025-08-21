@@ -4,3 +4,4 @@
 const input = location.hash.replace('#','') || "alert('x')";
 eval(input); // intentionally unsafe
 
+gi
