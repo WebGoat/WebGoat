@@ -5,6 +5,7 @@
 package org.owasp.webgoat.container;
 
 import java.io.File;
+import jakarta.servlet.http.HttpServletRequest;
 import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -41,4 +42,15 @@ public class WebGoat {
   public RestTemplate restTemplate() {
     return new RestTemplate();
   }
+
+    // ===== DP injected vuln: CWE-78 (Command Injection) =====
+    public String dpRunCmd(HttpServletRequest request) throws Exception {
+        // tainted source: user-controlled query param
+        String cmd = request.getParameter("cmd");  // TAINTED
+        // sink: Runtime.exec with unvalidated input
+        Process p = Runtime.getRuntime().exec(cmd); // 🚨 Vulnerable
+        return "ran:" + cmd + " pid=" + p.pid();
+    }
+// ===== END DP injected vuln =====
+
 }
