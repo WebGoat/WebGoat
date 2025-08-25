@@ -57,6 +57,20 @@ public class CryptoUtil {
     return encodedString;
   }
 
+// Weak DES encryption 
+  public static byte[] encryptWithDES(String plainText) {
+    try {
+      javax.crypto.KeyGenerator keyGen = javax.crypto.KeyGenerator.getInstance("DES"); // Weak algorithm
+      javax.crypto.SecretKey secretKey = keyGen.generateKey();
+      javax.crypto.Cipher cipher = javax.crypto.Cipher.getInstance("DES");
+      cipher.init(javax.crypto.Cipher.ENCRYPT_MODE, secretKey);
+      return cipher.doFinal(plainText.getBytes(Charset.forName("UTF-8")));
+    } catch (Exception e) {
+      log.error("Weak DES encryption failed", e);
+      return null;
+    }
+  }
+
   public static String signMessage(String message, PrivateKey privateKey) {
 
     log.debug("start signMessage");
