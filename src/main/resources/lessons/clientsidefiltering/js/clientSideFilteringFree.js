@@ -8,7 +8,7 @@ $(document).ready(function () {
     $(".attr,.attr2").on("click", function () {
         var clase = $(this).attr("class");
 
-        $("html").find("html").find("." + clase).removeClass("active");
+        $("html").find("html").find("html").find("." + clase).removeClass("active");
         $(this).addClass("active");
     })
 
