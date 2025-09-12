@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.owasp.webgoat.lessons.hijacksession.cas.Authentication;
 import org.owasp.webgoat.lessons.hijacksession.cas.HijackSessionAuthenticationProvider;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -26,10 +26,10 @@ class HijackSessionAssignmentTest extends LessonTest {
   private static final String COOKIE_NAME = "hijack_cookie";
   private static final String LOGIN_CONTEXT_PATH = "/HijackSession/login";
 
-  @MockBean
+  @MockitoBean
   Authentication authenticationMock;
 
-  @MockBean HijackSessionAuthenticationProvider providerMock;
+  @MockitoBean HijackSessionAuthenticationProvider providerMock;
 
   @Test
   void testValidCookie() throws Exception {
