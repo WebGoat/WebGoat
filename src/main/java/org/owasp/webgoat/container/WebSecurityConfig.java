@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                         "/css/**",
                         "/images/**",
                         "/js/**",
-                        "fonts/**",
+                        "/fonts/**",
                         "/plugins/**",
                         "/registration",
                         "/register.mvc",

@@ -14,8 +14,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
@@ -25,7 +25,7 @@ class Assignment7Test extends LessonTest {
   private static final String RESET_PASSWORD_PATH = CHALLENGE_PATH + "/reset-password";
   private static final String GIT_PATH = CHALLENGE_PATH + "/.git";
 
-  @MockBean private RestTemplate restTemplate;
+  @MockitoBean private RestTemplate restTemplate;
 
   @Value("${webwolf.mail.url}")
   String webWolfMailURL;

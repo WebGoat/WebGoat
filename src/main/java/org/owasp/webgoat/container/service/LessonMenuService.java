@@ -13,6 +13,7 @@ import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.owasp.webgoat.container.lessons.LessonMenuItem;
 import org.owasp.webgoat.container.lessons.LessonMenuItemType;
+import org.owasp.webgoat.container.lessons.LessonName;
 import org.owasp.webgoat.container.session.Course;
 import org.owasp.webgoat.container.users.LessonProgress;
 import org.owasp.webgoat.container.users.UserProgress;
@@ -61,7 +62,8 @@ public class LessonMenuService {
       List<Lesson> lessons = course.getLessons(category);
       lessons = lessons.stream().sorted(Comparator.comparing(Lesson::getTitle)).toList();
       for (Lesson lesson : lessons) {
-        if (excludeLessons.contains(lesson.getName())) {
+        LessonName lessonName = lesson.getName();
+        if (lessonName != null && excludeLessons.contains(lessonName.toString())) {
           continue;
         }
         LessonMenuItem lessonItem = new LessonMenuItem();

@@ -20,11 +20,11 @@ import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -44,9 +44,9 @@ public abstract class LessonTest {
   @Autowired protected PluginMessages messages;
   @Autowired private Function<String, Flyway> flywayLessons;
   @Autowired private List<Initializable> lessonInitializers;
-  @MockBean private Language language;
+  @MockitoBean private Language language;
 
-  @MockBean private ClientRegistrationRepository clientRegistrationRepository;
+  @MockitoBean private ClientRegistrationRepository clientRegistrationRepository;
 
   @Value("${webgoat.user.directory}")
   protected String webGoatHomeDirectory;

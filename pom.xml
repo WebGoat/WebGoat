@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.4.4</version>
+    <version>3.5.5</version>
   </parent>
 
   <groupId>org.owasp.webgoat</groupId>
@@ -115,7 +115,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-exec</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
       </dependency>
       <dependency>
         <groupId>org.asciidoctor</groupId>
@@ -222,7 +222,7 @@
       <dependency>
         <groupId>com.microsoft.playwright</groupId>
         <artifactId>playwright</artifactId>
-        <version>1.51.0</version>
+        <version>1.55.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
