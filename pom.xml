@@ -89,7 +89,6 @@
     <maven.compiler.proc>full</maven.compiler.proc>
     <maven.compiler.source>23</maven.compiler.source>
     <maven.compiler.target>23</maven.compiler.target>
-    <sonar.organization>whiteclarence</sonar.organization>
     <pmd.version>3.15.0</pmd.version>
     <!-- Use UTF-8 Encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
