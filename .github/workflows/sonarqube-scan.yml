@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Build with Maven cloud
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=whiteclarence_WebGoat -Dsonar.organization=whiteclarence -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+        run:  mvn -B verify sonar:sonar -Dsonar.projectKey=whiteclarence_WebGoat -Dsonar.organization=whiteclarence -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
