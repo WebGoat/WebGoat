@@ -22,11 +22,7 @@ vulnerable to attack. You should disconnect from the Internet while using
 this program.*  WebGoat's default configuration binds to localhost to minimize
 the exposure.
 
-**WARNING 2:** *This program is for educational purposes only. If you attempt
-these techniques without authorization, you are very likely to get caught. If
-you are caught engaging in unauthorized hacking, most companies will fire you.
-Claiming that you were doing security research will not work as that is the
-first thing that all hackers claim.*
+**WARNING 2:** *This program is intended for educational use only. Attempting these techniques without proper authorization can lead to severe consequences. If you're caught engaging in unauthorized hacking activities, you are highly likely to face disciplinary action, including termination. Claiming that you were conducting security research is a common defense used by hackers and is unlikely to be accepted.*
 
 ![WebGoat](docs/images/webgoat.png)
 
