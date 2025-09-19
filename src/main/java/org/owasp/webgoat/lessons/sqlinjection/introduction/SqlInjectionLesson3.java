@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -34,24 +35,26 @@ public class SqlInjectionLesson3 implements AssignmentEndpoint {
 
   @PostMapping("/SqlInjection/attack3")
   @ResponseBody
-  public AttackResult completed(@RequestParam String query) {
-    return injectableQuery(query);
+  public AttackResult completed(@RequestParam String department) {
+    return injectableQuery(department);
   }
 
-  protected AttackResult injectableQuery(String query) {
+  protected AttackResult injectableQuery(String department) {
     try (Connection connection = dataSource.getConnection()) {
-      try (Statement statement =
-          connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
-        Statement checkStatement =
-            connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY);
-        statement.executeUpdate(query);
+      String sqlUpdate = "UPDATE employees SET department=? WHERE last_name='Barnett';";
+      try (
+          PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate);
+          Statement checkStatement =
+              connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
+        updateStatement.setString(1, department);
+        updateStatement.executeUpdate();
         ResultSet results =
             checkStatement.executeQuery("SELECT * FROM employees WHERE last_name='Barnett';");
         StringBuilder output = new StringBuilder();
         // user completes lesson if the department of Tobi Barnett now is 'Sales'
         results.first();
         if (results.getString("department").equals("Sales")) {
-          output.append("<span class='feedback-positive'>" + query + "</span>");
+          output.append("<span class='feedback-positive'>Department set to: " + department + "</span>");
           output.append(SqlInjectionLesson8.generateTable(results));
           return success(this).output(output.toString()).build();
         } else {

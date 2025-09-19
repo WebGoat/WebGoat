@@ -16,6 +16,7 @@ import io.jsonwebtoken.SigningKeyResolverAdapter;
 import io.jsonwebtoken.impl.TextCodec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -69,13 +70,14 @@ public class JWTHeaderKIDEndpoint implements AssignmentEndpoint {
                       public byte[] resolveSigningKeyBytes(JwsHeader header, Claims claims) {
                         final String kid = (String) header.get("kid");
                         try (var connection = dataSource.getConnection()) {
-                          ResultSet rs =
-                              connection
-                                  .createStatement()
-                                  .executeQuery(
-                                      "SELECT key FROM jwt_keys WHERE id = '" + kid + "'");
-                          while (rs.next()) {
-                            return TextCodec.BASE64.decode(rs.getString(1));
+                          String sql = "SELECT key FROM jwt_keys WHERE id = ?";
+                          try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                            ps.setString(1, kid);
+                            try (ResultSet rs = ps.executeQuery()) {
+                              while (rs.next()) {
+                                return TextCodec.BASE64.decode(rs.getString(1));
+                              }
+                            }
                           }
                         } catch (SQLException e) {
                           errorMessage[0] = e.getMessage();

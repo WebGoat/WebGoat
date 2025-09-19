@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -35,24 +36,30 @@ public class SqlInjectionLesson4 implements AssignmentEndpoint {
 
   @PostMapping("/SqlInjection/attack4")
   @ResponseBody
-  public AttackResult completed(@RequestParam String query) {
-    return injectableQuery(query);
+  public AttackResult completed(@RequestParam String phone, @RequestParam int employeeId) {
+    return injectableQuery(phone, employeeId);
   }
 
-  protected AttackResult injectableQuery(String query) {
+  protected AttackResult injectableQuery(String phone, int employeeId) {
+    String updateSql = "UPDATE employees SET phone = ? WHERE employee_id = ?";
     try (Connection connection = dataSource.getConnection()) {
-      try (Statement statement =
-          connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
-        statement.executeUpdate(query);
+      try (PreparedStatement preparedStatement =
+           connection.prepareStatement(updateSql, TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
+        preparedStatement.setString(1, phone);
+        preparedStatement.setInt(2, employeeId);
+        preparedStatement.executeUpdate();
         connection.commit();
-        ResultSet results = statement.executeQuery("SELECT phone from employees;");
-        StringBuilder output = new StringBuilder();
-        // user completes lesson if column phone exists
-        if (results.first()) {
-          output.append("<span class='feedback-positive'>" + query + "</span>");
-          return success(this).output(output.toString()).build();
-        } else {
-          return failed(this).output(output.toString()).build();
+        // Verify the update
+        try (PreparedStatement selectStmt = connection.prepareStatement("SELECT phone FROM employees WHERE employee_id = ?")) {
+          selectStmt.setInt(1, employeeId);
+          ResultSet results = selectStmt.executeQuery();
+          StringBuilder output = new StringBuilder();
+          if (results.next()) {
+            output.append("<span class='feedback-positive'>Update successful: " + phone + "</span>");
+            return success(this).output(output.toString()).build();
+          } else {
+            return failed(this).output("No employee found with id: " + employeeId).build();
+          }
         }
       } catch (SQLException sqle) {
         return failed(this).output(sqle.getMessage()).build();

@@ -46,20 +46,17 @@ public class SqlInjectionLesson8 implements AssignmentEndpoint {
 
   protected AttackResult injectableQueryConfidentiality(String name, String auth_tan) {
     StringBuilder output = new StringBuilder();
-    String query =
-        "SELECT * FROM employees WHERE last_name = '"
-            + name
-            + "' AND auth_tan = '"
-            + auth_tan
-            + "'";
+    String query = "SELECT * FROM employees WHERE last_name = ? AND auth_tan = ?";
 
     try (Connection connection = dataSource.getConnection()) {
       try {
-        Statement statement =
-            connection.createStatement(
-                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        PreparedStatement statement =
+            connection.prepareStatement(
+                query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        statement.setString(1, name);
+        statement.setString(2, auth_tan);
         log(connection, query);
-        ResultSet results = statement.executeQuery(query);
+        ResultSet results = statement.executeQuery();
 
         if (results.getStatement() != null) {
           if (results.first()) {
@@ -134,12 +131,13 @@ public class SqlInjectionLesson8 implements AssignmentEndpoint {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String time = sdf.format(cal.getTime());
 
-    String logQuery =
-        "INSERT INTO access_log (time, action) VALUES ('" + time + "', '" + action + "')";
+    String logQuery = "INSERT INTO access_log (time, action) VALUES (?, ?)";
 
     try {
-      Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
-      statement.executeUpdate(logQuery);
+      PreparedStatement statement = connection.prepareStatement(logQuery);
+      statement.setString(1, time);
+      statement.setString(2, action);
+      statement.executeUpdate();
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }

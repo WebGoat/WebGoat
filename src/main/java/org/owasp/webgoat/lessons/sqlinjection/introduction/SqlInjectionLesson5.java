@@ -52,26 +52,26 @@ public class SqlInjectionLesson5 implements AssignmentEndpoint {
 
   @PostMapping("/SqlInjection/attack5")
   @ResponseBody
-  public AttackResult completed(String query) {
+  public AttackResult completed(String username) {
     createUser();
-    return injectableQuery(query);
+    return injectableQuery(username);
   }
 
-  protected AttackResult injectableQuery(String query) {
+  protected AttackResult injectableQuery(String username) {
+    String safeQuery = "SELECT * FROM users WHERE username = ?";
     try (Connection connection = dataSource.getConnection()) {
-      try (Statement statement =
-          connection.createStatement(
-              ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-        statement.executeQuery(query);
+      try (var statement = connection.prepareStatement(safeQuery)) {
+        statement.setString(1, username);
+        ResultSet rs = statement.executeQuery();
         if (checkSolution(connection)) {
           return success(this).build();
         }
-        return failed(this).output("Your query was: " + query).build();
+        return failed(this).output("No solution found for username: " + username).build();
       }
     } catch (Exception e) {
       return failed(this)
           .output(
-              this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query)
+              this.getClass().getName() + " : " + e.getMessage() + "<br> Your input was: " + username)
           .build();
     }
   }

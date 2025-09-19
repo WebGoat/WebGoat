@@ -45,12 +45,13 @@ public class Servers {
   public List<Server> sort(@RequestParam String column) throws Exception {
     List<Server> servers = new ArrayList<>();
 
+    // Only allow sorting by these columns
+    List<String> allowedColumns = List.of("id", "hostname", "ip", "mac", "status", "description");
+    String orderByColumn = allowedColumns.contains(column) ? column : "id";
+
     try (var connection = dataSource.getConnection()) {
-      try (var statement =
-          connection.prepareStatement(
-              "select id, hostname, ip, mac, status, description from SERVERS where status <> 'out"
-                  + " of order' order by "
-                  + column)) {
+      String query = "select id, hostname, ip, mac, status, description from SERVERS where status <> 'out of order' order by " + orderByColumn;
+      try (var statement = connection.prepareStatement(query)) {
         try (var rs = statement.executeQuery()) {
           while (rs.next()) {
             Server server =
