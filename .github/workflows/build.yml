@@ -62,4 +62,6 @@ jobs:
             -   name: Build with Maven
                 env:
                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                run: mvn --no-transfer-progress -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=whiteclarence_WebGoat
+                #run: mvn --no-transfer-progress -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=whiteclarence_WebGoat
+                run: mvn --no-transfer-progress -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=whiteclarence_WebGoat -Dsonar.organization=whiteclarence
+                 
