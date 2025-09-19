@@ -46,7 +46,7 @@ jobs:
                     distribution: 'temurin'
                     java-version: 23
                     architecture: x64
-                    cache: 'maven'
+                    #cache: 'maven'
             -   name: Cache SonarQube packages
                 uses: actions/cache@v4
                 with:
