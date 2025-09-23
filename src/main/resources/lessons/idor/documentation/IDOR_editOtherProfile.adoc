@@ -1,8 +1,0 @@
-==== Edit Another Profile
-
-Older apps may follow different patterns, but RESTful apps (which is what's going on here) often just change methods (and include a body or not)
-to perform different functions.
-
-Use that knowledge to take the same base request, change its method, path and body (payload) to modify another user's (Buffalo Bill's) profile.
-Change the role to something lower (since higher privilege roles and users are usually lower numbers). Also change the
-user's color to 'red'.

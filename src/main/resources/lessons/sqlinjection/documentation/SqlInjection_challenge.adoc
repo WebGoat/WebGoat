@@ -1,6 +1,0 @@
-We now explained the basic steps involved in an SQL injection. In this assignment you will need to combine all
-the things we explained in the SQL lessons.
-
-Goal: Can you log in as Tom?
-
-Have fun!

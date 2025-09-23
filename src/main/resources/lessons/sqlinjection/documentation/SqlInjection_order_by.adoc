@@ -1,5 +1,0 @@
-In this assignment try to perform an SQL injection through the ORDER BY field.
-Try to find the ip address of the `webgoat-prd` server, guessing the complete
-ip address might take too long so we give you the last part: `xxx.130.219.202`
-
-Note: The submit field of this assignment is *NOT* vulnerable to an SQL injection.

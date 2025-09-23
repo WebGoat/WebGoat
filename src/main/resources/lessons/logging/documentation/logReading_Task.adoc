@@ -1,5 +1,0 @@
-=== Let's try
-
-- Some servers provide Administrator credentials at the boot-up of the server.
-- The goal of this challenge is to find the secret in the application log of the WebGoat server to login as the Admin user.
-- Note that we tried to "protect" it. Can you decode it?

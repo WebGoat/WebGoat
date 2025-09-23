@@ -1,1 +1,0 @@
-Try to reset the password for admin.

@@ -1,6 +1,0 @@
-== Try It! Working with the Network tab
-
-In this assignment, you need to find a specific HTTP request and read a randomized number.
-To start, click the first button. This will generate an HTTP request. Try to find the specific HTTP request.
-The request should contain a field: `networkNum:`
-Copy the number displayed afterward into the input field below and click on the check button.

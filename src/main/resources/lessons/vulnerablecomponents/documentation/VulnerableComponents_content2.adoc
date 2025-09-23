@@ -1,5 +1,0 @@
-== The exploit is not always in "your" code
-Below is an example of using the same WebGoat source code, but different versions of the jquery-ui component. One is exploitable; one is not.
-
-=== jquery-ui:1.10.4
-This example allows the user to specify the content of the "closeText" for the jquery-ui dialog. This is an unlikely development scenario, however the jquery-ui dialog (TBD - show exploit link) does not defend against XSS in the button text of the close dialog.
