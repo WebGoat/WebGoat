@@ -8,6 +8,8 @@ jobs:
     if: github.repository == 'WebGoat/WebGoat'
     name: Release WebGoat
     runs-on: ubuntu-latest
+    env:
+      JAVA_VERSION: '25'
     permissions:
         contents: write
     environment:
@@ -15,11 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 23
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 23
+          java-version: ${{ env.JAVA_VERSION }}
           architecture: x64
           cache: 'maven'
 
@@ -111,16 +113,18 @@ jobs:
     name: Update to next SNAPSHOT version
     needs: [ release ]
     runs-on: ubuntu-latest
+    env:
+      JAVA_VERSION: '23'
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 23
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 23
+          java-version: ${{ env.JAVA_VERSION }}
           architecture: x64
 
       - name: Set version to next snapshot

@@ -32,7 +32,7 @@ import org.jose4j.lang.JoseException;
 @Builder(toBuilder = true)
 public class JWTToken {
 
-  private String encoded = "";
+  private String encoded;
   private String secretKey;
   private String header;
   private boolean validHeader;
