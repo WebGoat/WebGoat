@@ -156,7 +156,7 @@
       <dependency>
         <groupId>com.auth0</groupId>
         <artifactId>jwks-rsa</artifactId>
-        <version>0.22.1</version>
+        <version>0.23.0</version>
       </dependency>
       <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
       <dependency>
