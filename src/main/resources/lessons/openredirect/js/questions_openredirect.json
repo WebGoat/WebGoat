@@ -1,0 +1,35 @@
+[
+  [
+    {
+      "text": "What is the primary security risk enabled by an open redirect?",
+      "solutions": [
+        "Phishing / user trust abuse",
+        "Direct remote code execution",
+        "Privilege escalation in OS",
+        "Memory corruption exploitation"
+      ]
+    },
+    {
+      "text": "Which URL is most likely to bypass a naive contains('webgoat') filter intended to only allow webgoat.org?",
+      "solutions": [
+        "https://webgoat.org/profile",
+        "https://example.com?next=webgoat",
+        "https://webgoat.org.evil.com",
+        "https://localhost/webgoat"
+      ]
+    },
+    {
+      "text": "Double encoding (%2540 → %40) is typically used in open redirect bypasses to conceal which character after the first decode?",
+      "solutions": ["@", ":", "/", "?"]
+    },
+    {
+      "text": "Which mitigation best defends against open redirect attacks?",
+      "solutions": [
+        "Mapping destId to server-side allow-listed paths",
+        "Substring checking the URL for company name",
+        "Allowing any https URL",
+        "Lowercasing the URL then trusting it"
+      ]
+    }
+  ]
+]
