@@ -1,0 +1,86 @@
+=== Real world examples
+
+[#oauth-code-leak]
+==== OAuth 2.0 authorization code interception
+
+.Flow
+. Victim clicks crafted link to Authorization Server (AS) where `redirect_uri` points to a legitimate site that contains an open redirect endpoint
+. AS redirects user (with `code=AUTH_CODE`) to `https://legit.example/redirect?url=https://attacker.example/capture`
+. Open redirect immediately sends the browser (still carrying `code=` in the query) to attacker server
+. Attacker exchanges code at AS for tokens
+
+.Mitigations
+* Register only *exact* redirect URIs (no wildcards)
+* Ensure application-owned redirect endpoints do *not* allow arbitrary further forwarding
+* Use PKCE + short code lifetime
+
+[#password-reset-leak]
+==== Password reset / account activation token leak
+
+.Flow
+. Email link: `https://app.example/reset?token=RESET123&next=https://legit.example/redirect?url=https://attacker.example/x`
+. Reset handler (or an intermediate) trusts `next` and forwards before token consumption or invalidation
+. Token appears in attacker logs
+
+.Mitigations
+* Consume & invalidate tokens *before* any navigation
+* Never chain user-controlled redirects immediately after token-based endpoints
+
+[#magic-login-abuse]
+==== Magic login / one‑time link abuse
+
+.Flow
+. Single‑use login link includes `?loginToken=OTL-A1B2C3`
+. Destination page has a marketing `returnUrl` parameter that is vulnerable
+. Attacker coerces user (phishing) into clicking a composite link that forwards via open redirect to attacker with token intact
+
+.Mitigations
+* Enforce same-origin + path allow list for any continuation parameter
+* Strip continuation params until after token verification
+
+[#signed-url-theft]
+==== Pre‑signed / signed resource URLs
+
+.Flow
+. Application generates `https://cdn.example/file?signature=abc&expires=...` and wraps it in a redirect trampoline (`/download?file=...`)
+. Trampoline has open redirect → attacker domain receives full query string and reuses signature before expiry
+
+.Mitigations
+* Serve signed URLs directly (no intermediate open redirect)
+* Keep signatures short‑lived; prefer POST-bound or back-channel exchanges where possible
+
+[#state-csrf-disclosure]
+==== State / anti-CSRF parameter disclosure
+
+.Flow
+. Endpoint includes `state` (or anti-CSRF token) in a URL parameter
+. Open redirect forwards the entire URL or user bookmarks / shares it
+. Attacker obtains `state` and may replay or reduce entropy for attacks
+
+.Mitigations
+* Treat `state` as confidential; avoid exposing it to arbitrary domains
+* Bind `state` server-side to session instead of trusting roundtrip integrity solely via URL
+
+[#referer-secondary-leak]
+==== Referer-based secondary leak
+
+.Flow
+. Open redirect sends browser to attacker domain
+. Attacker page loads resources from the original application
+. Referer header (if policy permits) includes original URL with sensitive query parameters
+
+.Mitigations
+* Set `Referrer-Policy: strict-origin-when-cross-origin` (or stricter)
+* Avoid placing secrets in query strings—prefer POST or server session state
+
+[#double-encoding-confusion]
+==== Double encoding + delayed validation
+
+.Flow
+. User input includes double-encoded characters (e.g., `%2540` which decodes once to `%40`)
+. Security filter decodes once and considers URL benign (no `@` userinfo yet)
+. Downstream component decodes again, revealing userinfo host confusion and forwarding data externally
+
+.Mitigations
+* Fully canonicalize (repeat-safe decoding) before validation and redirect decisions
+* Reject inputs whose semantics change after additional decoding passes
