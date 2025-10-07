@@ -74,7 +74,7 @@
     <commons-text.version>1.13.1</commons-text.version>
     <guava.version>33.5.0-jre</guava.version>
     <jacoco.version>0.8.11</jacoco.version>
-    <java.version>23</java.version>
+    <java.version>25</java.version>
     <jaxb.version>2.3.1</jaxb.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
@@ -87,8 +87,8 @@
     <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
     <maven.compiler.proc>full</maven.compiler.proc>
-    <maven.compiler.source>23</maven.compiler.source>
-    <maven.compiler.target>23</maven.compiler.target>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
 
     <pmd.version>3.15.0</pmd.version>
     <!-- Use UTF-8 Encoding -->
