@@ -1,47 +1,62 @@
+# Builder stage to download OWASP ZAP once per version
+FROM alpine:3.20 AS zap
+ARG ZAP_VERSION=2.16.1
+RUN apk add --no-cache curl tar \
+  && set -eux; \
+     curl -sSL "https://github.com/zaproxy/zaproxy/releases/download/v${ZAP_VERSION}/ZAP_${ZAP_VERSION}_Linux.tar.gz" -o /tmp/zap.tgz; \
+     mkdir -p /zap; \
+     tar -xzf /tmp/zap.tgz -C /zap --strip-components=1; \
+     rm -f /tmp/zap.tgz
+
+# Builder stage to fetch a JRE suited for the target architecture
+FROM alpine:3.20 AS jre
+ARG JAVA_MAJOR=23
+ARG JAVA_FULL=23.0.1+11
+ARG TARGETARCH
+RUN apk add --no-cache curl tar \
+  && set -eux; \
+     case "${TARGETARCH}" in \
+       amd64) ARCH=x64 ;; \
+       arm64) ARCH=aarch64 ;; \
+       *) echo "Unsupported architecture: ${TARGETARCH}" >&2; exit 1 ;; \
+     esac; \
+     JAVA_ENC="${JAVA_FULL//+/%2B}"; \
+     JAVA_FILE="${JAVA_FULL//+/_}"; \
+     curl -sSL "https://github.com/adoptium/temurin${JAVA_MAJOR}-binaries/releases/download/jdk-${JAVA_ENC}/OpenJDK${JAVA_MAJOR}U-jre_${ARCH}_linux_hotspot_${JAVA_FILE}.tar.gz" -o /tmp/java.tgz; \
+     mkdir -p /jre; \
+     tar -xzf /tmp/java.tgz -C /jre --strip-components=1; \
+     rm -f /tmp/java.tgz
+
+# Final runtime image
 FROM lscr.io/linuxserver/webtop:ubuntu-xfce
 LABEL name="WebGoat: A deliberately insecure Web Application"
 LABEL maintainer="WebGoat team"
 
+ARG ZAP_VERSION=2.16.1
+ARG JAVA_MAJOR=23
+ARG JAVA_FULL=23.0.1+11
+ENV ZAP_VERSION=${ZAP_VERSION} \
+    JAVA_HOME=/config/java-jdk \
+    PATH="${PATH}:/config/java-jdk/bin" \
+    ZAP_HOME=/config/zap
+
 WORKDIR /config
 
+# Install editors and gzip support
+RUN apt-get update \
+  && apt-get --yes install --no-install-recommends vim nano gzip \
+  && rm -rf /var/lib/apt/lists/*
+
+# Application artifacts
 COPY target/webgoat-*.jar /config/webgoat.jar
 COPY config/desktop/start_webgoat.sh /config/start_webgoat.sh
 COPY config/desktop/start_zap.sh /config/start_zap.sh
 COPY config/desktop/WebGoat.txt /config/Desktop/
 
-RUN \
- apt-get update &&  \
- apt-get --yes install vim nano gzip
+# Runtime dependencies produced in the builder stages
+COPY --from=zap /zap ${ZAP_HOME}
+COPY --from=jre /jre ${JAVA_HOME}
 
-RUN \
- case $(uname -m) in \
-  x86_64) ARCH=x64;; \
-  aarch64) ARCH=aarch64;; \
-  *) ARCH=unknown;; \
- esac && \
- echo ${ARCH}
-
-RUN \
- curl -LO https://github.com/zaproxy/zaproxy/releases/download/v2.15.0/ZAP_2.15.0_Linux.tar.gz && \
- tar zfxv ZAP_2.15.0_Linux.tar.gz && \
- rm -rf ZAP_2.15.0_Linux.tar.gz
-
-RUN \
- case $(uname -m) in \
-  x86_64) ARCH=x64;; \
-  aarch64) ARCH=aarch64;; \
-  *) ARCH=unknown;; \
- esac && \
- echo "oeps == ${ARCH}==" && \
- curl -L https://github.com/adoptium/temurin23-binaries/releases/download/jdk-23.0.1%2B11/OpenJDK23U-jre_"${ARCH}"_linux_hotspot_23.0.1_11.tar.gz -o java.tar.gz && \
- tar zfxv java.tar.gz && \
- rm -rf java.tar.gz && \
- chmod +x /config/start_webgoat.sh && \
- chmod +x /config/start_zap.sh && \
- mv /config/jdk-23.0.1+11-jre /config/java-jdk && \
- echo "JAVA_HOME=/config/java-jdk/" >> .bash_aliases && \
- echo "PATH=$PATH:$JAVA_HOME/bin" >> .bash_aliases
-
-ENV JAVA_HOME=/config/java-jdk
+RUN chmod +x /config/start_webgoat.sh /config/start_zap.sh
 
 WORKDIR /config/Desktop

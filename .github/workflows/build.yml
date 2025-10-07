@@ -14,8 +14,6 @@ jobs:
     pre-commit:
         name: Pre-commit check
         runs-on: ubuntu-latest
-        env:
-            JAVA_VERSION: '25'
         steps:
             -   name: Checkout git repository
                 uses: actions/checkout@v4.1.6
@@ -23,10 +21,10 @@ jobs:
                 uses: actions/setup-python@v5
                 with:
                     python-version: "3.9"
-            -   uses: actions/setup-java@v5
+            -   name: Setup Java
+                uses: ./.github/actions/java-setup
                 with:
-                    distribution: 'temurin'
-                    java-version: ${{ env.JAVA_VERSION }}
+                    cache: ""
             -   name: Pre-commit checks
                 uses: pre-commit/action@v3.0.1
             -   name: pre-commit-c-lite
@@ -40,16 +38,11 @@ jobs:
             matrix:
                 os: [ windows-latest, ubuntu-latest, macos-13 ]
             max-parallel: 1
-        env:
-            JAVA_VERSION: '25'
         steps:
             -   uses: actions/checkout@v4.1.6
-            -   name: Set up JDK ${{ env.JAVA_VERSION }}
-                uses: actions/setup-java@v5
+            -   name: Set up JDK
+                uses: ./.github/actions/java-setup
                 with:
-                    distribution: 'temurin'
-                    java-version: ${{ env.JAVA_VERSION }}
-                    architecture: x64
                     cache: 'maven'
             -   name: Build with Maven
                 run: mvn --no-transfer-progress verify
