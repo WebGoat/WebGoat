@@ -1,0 +1,15 @@
+=== Verbose Debug Mode Leakage
+
+The staging build was shipped with **debug mode enabled**. When the application throws an
+exception, Spring now returns full stack traces — including environment variables and
+API secrets.
+
+Steps:
+
+. Trigger the failing controller using the button below.
+. Inspect the returned stack trace and locate the leaked database credentials and system token.
+. Use the leaked token to call the `/config` endpoint below and observe the sensitive configuration.
+. Submit the token to confirm exploitation and note the remediation: disable debug
+  mode (and never expose stack traces to end users).
+
+Remember: detailed errors belong in logs, not in production responses.

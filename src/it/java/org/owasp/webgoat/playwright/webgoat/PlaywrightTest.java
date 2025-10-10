@@ -23,7 +23,6 @@ public class PlaywrightTest {
               .setHeadless(true)
               .setContextOptions(getContextOptions());
     }
-
   }
 
   protected static Browser.NewContextOptions getContextOptions() {
