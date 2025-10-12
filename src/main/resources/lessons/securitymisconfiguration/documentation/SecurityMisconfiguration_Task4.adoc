@@ -1,0 +1,11 @@
+=== Harden the configuration
+
+Operations has agreed to fix the earlier issues, but the configuration file is still a mess.
+Use the form below (a simplified `application.properties`) to set the key hardening values:
+
+. Disable the `/actuator/env` endpoint (`management.endpoint.env.enabled=false`).
+. Hide health details from unauthenticated users (`management.endpoint.health.show-details=never`).
+. Remove the embedded default admin user (leave username/password empty).
+
+Submit the values to confirm the configuration is hardened. In the real world you would place
+these settings into source control and automated environment templates.

@@ -1,0 +1,13 @@
+== Security Misconfiguration
+
+Misconfiguration is one of the fastest ways to lose control of an otherwise solid
+application. Debug flags that never get switched off, default accounts that ship with
+admin rights, staging consoles that remain reachable from production. They are all
+examples of configuration debt waiting to be exploited.
+
+In this lesson you will wear both hats: attacker and defender. Each task exposes a
+setting that should have been hardened before go-live. Your job is to:
+
+* Find the misconfiguration via light reconnaissance,
+* Demonstrate the impact (exploit the weakness), and then
+* Note the remediation so it can be permanently fixed.
