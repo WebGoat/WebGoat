@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/lesson.css}"/>
+<style>
+    .cat-gallery {
+        margin-top: 1.5rem;
+    }
+
+    .cat-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .cat-card {
+        max-width: 200px;
+        text-align: center;
+    }
+
+    .cat-card img {
+        width: 100%;
+        border-radius: 6px;
+    }
+
+    .cat-search-group {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .cat-search-group input {
+        flex: 1;
+    }
+
+    .flag-form {
+        margin-top: 1.25rem;
+    }
+
+    .attack-container > * + * {
+        margin-top: 1rem;
+    }
+
+    .attack-output {
+        margin-top: 1.25rem;
+    }
+</style>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Intro.adoc}"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Story.adoc}"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Safety.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" method="POST" th:action="@{/CommandInjection/safety}">
+            <div class="form-group">
+                <label for="ack">Type the acknowledgement</label>
+                <input class="form-control" id="ack" name="ack" placeholder="I understand commands will execute"
+                       autocomplete="off"/>
+            </div>
+            <button type="submit" class="btn btn-warning btn-block">I understand the risk</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Task1.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" method="POST" th:action="@{/CommandInjection/task1/run}">
+            <div class="form-group">
+                <label for="host">Select host</label>
+                <select class="form-control" id="host" name="host">
+                    <option value="localhost">localhost</option>
+                    <option value="192.168.0.10">192.168.0.10</option>
+                    <option value="support.internal">support.internal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="custom">Custom command fragment</label>
+                <input class="form-control" id="custom" name="custom" placeholder="Enter a custom host or command"
+                       autocomplete="off"/>
+            </div>
+            <div class="form-group">
+                <label for="observed">Observed command</label>
+                <input class="form-control" id="observed" name="observed"
+                       placeholder="Paste the exact command you observed" autocomplete="off"/>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Run diagnostic</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Task2.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" method="POST" th:action="@{/CommandInjection/task2/run}">
+            <div class="form-group">
+                <label for="base">Diagnostic command</label>
+                <input class="form-control" id="base" name="base" autocomplete="off"/>
+            </div>
+            <div class="form-group">
+                <label for="payload">Chained payload</label>
+                <input class="form-control" id="payload" name="payload" autocomplete="off"/>
+            </div>
+            <div class="form-group">
+                <label for="token">Build token</label>
+                <input class="form-control" id="token" name="token" autocomplete="off"/>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Run command</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Task3.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" method="POST" th:action="@{/CommandInjection/task3/search}">
+            <div class="form-group">
+                <label for="title">Cat name</label>
+                <div class="input-group cat-search-group">
+                    <input
+                            class="form-control"
+                            id="title"
+                            name="title"
+                            placeholder="Luna"
+                            autocomplete="off"/>
+                    <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="attack-output"></div>
+        <form
+                class="attack-form flag-form"
+                method="POST"
+                name="flag-form"
+                th:action="@{/CommandInjection/task3/flag}">
+            <div class="form-group">
+                <label for="flag">Flag</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-flag-checkered" aria-hidden="true" style="font-size:20px"></i>
+                    </div>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="flag"
+                            name="flag"
+                            placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"
+                            autocomplete="off"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Submit flag</button>
+        </form>
+        <div class="attack-feedback"></div>
+    </div>
+</div>
+</body>
+</html>
