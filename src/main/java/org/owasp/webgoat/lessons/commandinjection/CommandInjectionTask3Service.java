@@ -6,52 +6,35 @@ package org.owasp.webgoat.lessons.commandinjection;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
-import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
-import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.util.Base64;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.Base64;
-import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.owasp.webgoat.container.CurrentUser;
-import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.container.assignments.AssignmentHints;
-import org.owasp.webgoat.container.assignments.AttackResult;
+import lombok.SneakyThrows;
 import org.owasp.webgoat.container.lessons.Initializable;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.HtmlUtils;
+import org.springframework.stereotype.Service;
 
-/** Task 3: escalate to reading secrets by issuing real commands. */
-@RestController
-@AssignmentHints({
-  "commandinjection.task3.hint1",
-  "commandinjection.task3.hint2",
-  "commandinjection.task3.hint3",
-  "commandinjection.task3.hint4"
-})
-public class CommandInjectionTask3 implements AssignmentEndpoint, Initializable {
+@Service
+public class CommandInjectionTask3Service implements Initializable {
+
+  private static final Pattern GREP_RESULT_PATTERN =
+      Pattern.compile("images/([a-z0-9_-]+)\\.txt:.*", Pattern.CASE_INSENSITIVE);
 
   private final String webGoatHomeDirectory;
   private final Map<String, String> userFlags = new ConcurrentHashMap<>();
@@ -86,60 +69,90 @@ public class CommandInjectionTask3 implements AssignmentEndpoint, Initializable 
       CAT_LIBRARY.stream()
           .collect(Collectors.toUnmodifiableMap(CatDefinition::slug, Function.identity()));
 
-  private static final Pattern GREP_RESULT_PATTERN =
-      Pattern.compile("images/([a-z0-9_-]+)\\.txt:.*", Pattern.CASE_INSENSITIVE);
-
-  public CommandInjectionTask3(@Value("${webgoat.user.directory}") String webGoatHomeDirectory) {
+  public CommandInjectionTask3Service(
+      @Value("${webgoat.user.directory}") String webGoatHomeDirectory) {
     this.webGoatHomeDirectory = webGoatHomeDirectory;
   }
 
-  @PostMapping(
-      value = "/CommandInjection/task3/search",
-      consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public AttackResult search(@CurrentUser WebGoatUser user, @RequestParam("title") String title) {
-    if (title == null || title.isBlank()) {
-      return failed(this).feedback("commandinjection.task3.failure.payload").build();
-    }
-
+  public SearchResponse search(WebGoatUser user, String title) {
+    ensureInitialized(user);
     String command = buildCommand(title);
     CommandResult result = executeCommand(user, command);
-    String output = renderOutput(result);
-    return informationMessage(this).output(output).build();
+    String console = buildConsole(result);
+    List<CatView> cats =
+        extractMatches(result.output()).stream().map(CatDefinition::toView).toList();
+    return new SearchResponse(
+        command, console, result.output(), result.timedOut(), result.executionError(), cats);
   }
 
-  @PostMapping(
-      value = "/CommandInjection/task3/flag",
-      consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public AttackResult submitFlag(
-      @CurrentUser WebGoatUser user, @RequestParam("flag") String submittedFlag) {
-    if (submittedFlag == null || submittedFlag.isBlank()) {
-      return failed(this).feedback("commandinjection.task3.failure.blank").build();
-    }
-
+  public boolean validateFlag(WebGoatUser user, String submittedFlag) {
+    ensureInitialized(user);
     String expectedFlag = userFlags.get(user.getUsername());
-
-    if (expectedFlag.equals(submittedFlag.trim())) {
-      return success(this).feedback("commandinjection.task3.success").build();
-    }
-
-    return failed(this).feedback("commandinjection.task3.failure.invalid").build();
+    return expectedFlag != null && expectedFlag.equals(submittedFlag.trim());
   }
 
+  public void ensureInitialized(WebGoatUser user) {
+    userFlags.computeIfAbsent(user.getUsername(), name -> createFlagForUser(user));
+  }
+
+  @Override
+  public void initialize(WebGoatUser user) {
+    userFlags.remove(user.getUsername());
+    userDirectories.remove(user.getUsername());
+    ensureInitialized(user);
+  }
+
+  private String buildConsole(CommandResult result) {
+    StringBuilder console = new StringBuilder();
+    console.append("Command: ").append(result.command()).append("\n");
+    console.append(result.output());
+    if (result.timedOut()) {
+      console.append("\n[Process terminated after timeout]\n");
+    }
+    if (result.executionError() != null) {
+      console.append("\n[Execution error] ").append(result.executionError());
+    }
+    return console.toString();
+  }
+
+  @SneakyThrows
   private String createFlagForUser(WebGoatUser user) {
-    String flagValue = "#{%s}".formatted(UUID.randomUUID().toString());
+    String flagValue = UUID.randomUUID().toString();
     File userDir = new File(webGoatHomeDirectory, "command-injection/" + user.getUsername());
     userDir.mkdirs();
     prepareGallery(userDir.toPath());
     File flagFile = new File(userDir, "flag.txt");
-    try {
-      Files.writeString(flagFile.toPath(), flagValue, UTF_8);
-      userDirectories.put(user.getUsername(), userDir);
-    } catch (IOException e) {
-      throw new IllegalStateException("Unable to create flag file", e);
-    }
+
+    Files.writeString(flagFile.toPath(), flagValue, UTF_8);
+    userDirectories.put(user.getUsername(), userDir);
     return flagValue;
+  }
+
+  private void prepareGallery(Path userDir) {
+    Path imagesDir = userDir.resolve("images");
+    if (!Files.exists(imagesDir)) {
+      imagesDir.toFile().mkdirs();
+    }
+
+    for (CatDefinition cat : CAT_LIBRARY) {
+      Path imageTarget = imagesDir.resolve(cat.fileName());
+      if (!Files.exists(imageTarget)) {
+        try (InputStream in = new ClassPathResource(cat.resourcePath()).getInputStream()) {
+          Files.copy(in, imageTarget, REPLACE_EXISTING);
+        } catch (IOException e) {
+          throw new IllegalStateException("Unable to copy cat image", e);
+        }
+      }
+
+      Path metaFile = imagesDir.resolve(cat.slug() + ".txt");
+      if (!Files.exists(metaFile)) {
+        try {
+          Files.writeString(metaFile, cat.displayName(), UTF_8);
+        } catch (IOException e) {
+          throw new IllegalStateException("Unable to create cat metadata", e);
+        }
+      }
+    }
   }
 
   private String buildCommand(String title) {
@@ -183,65 +196,6 @@ public class CommandInjectionTask3 implements AssignmentEndpoint, Initializable 
     return new CommandResult(command, processOutput, timedOut, executionError);
   }
 
-  @Override
-  public void initialize(WebGoatUser user) {
-    userFlags.remove(user.getUsername());
-    userDirectories.remove(user.getUsername());
-    createFlagForUser(user);
-  }
-
-  private void prepareGallery(Path userDir) {
-    Path imagesDir = userDir.resolve("images");
-    if (!Files.exists(imagesDir)) {
-      imagesDir.toFile().mkdirs();
-    }
-
-    for (CatDefinition cat : CAT_LIBRARY) {
-      Path imageTarget = imagesDir.resolve(cat.fileName());
-      if (!Files.exists(imageTarget)) {
-        try (InputStream in = new ClassPathResource(cat.resourcePath()).getInputStream()) {
-          Files.copy(in, imageTarget, REPLACE_EXISTING);
-        } catch (IOException e) {
-          throw new IllegalStateException("Unable to copy cat image", e);
-        }
-      }
-
-      Path metaFile = imagesDir.resolve(cat.slug() + ".txt");
-      if (!Files.exists(metaFile)) {
-        try {
-          Files.writeString(metaFile, cat.displayName(), UTF_8);
-        } catch (IOException e) {
-          throw new IllegalStateException("Unable to create cat metadata", e);
-        }
-      }
-    }
-  }
-
-  private String renderOutput(CommandResult result) {
-    StringBuilder rendered = new StringBuilder();
-    StringBuilder rawOutput = new StringBuilder();
-    rawOutput.append("Command: ").append(result.command()).append("\n");
-    rawOutput.append(result.output());
-    if (result.timedOut()) {
-      rawOutput.append("\n[Process terminated after timeout]\n");
-    }
-    if (result.executionError() != null) {
-      rawOutput.append("\n[Execution error] ").append(result.executionError());
-    }
-
-    rendered
-        .append("<div class=\"command-output\"><pre>")
-        .append(HtmlUtils.htmlEscape(rawOutput.toString()))
-        .append("</pre></div>");
-
-    List<CatDefinition> matches = extractMatches(result.output());
-    if (!matches.isEmpty()) {
-      rendered.append(renderGallery(matches));
-    }
-
-    return rendered.toString();
-  }
-
   private List<CatDefinition> extractMatches(String output) {
     return output
         .lines()
@@ -254,36 +208,16 @@ public class CommandInjectionTask3 implements AssignmentEndpoint, Initializable 
         .collect(Collectors.toList());
   }
 
-  private String renderGallery(List<CatDefinition> matches) {
-    StringBuilder gallery = new StringBuilder();
-    gallery.append("<div class=\"cat-gallery\">");
-    gallery.append("<h4>Matching Cats</h4>");
-    gallery.append("<div class=\"cat-grid\">");
-    for (CatDefinition cat : matches) {
-      gallery.append("<figure class=\"cat-card\">");
-      gallery
-          .append("<img src=\"")
-          .append(cat.dataUri())
-          .append("\" alt=\"")
-          .append(HtmlUtils.htmlEscape(cat.displayName()))
-          .append("\" />");
-      gallery.append("<figcaption>");
-      gallery
-          .append("<strong>")
-          .append(HtmlUtils.htmlEscape(cat.displayName()))
-          .append("</strong>");
-      if (!cat.description().isBlank()) {
-        gallery.append("<br/>").append(HtmlUtils.htmlEscape(cat.description()));
-      }
-      gallery.append("</figcaption>");
-      gallery.append("</figure>");
-    }
-    gallery.append("</div></div>");
-    return gallery.toString();
-  }
-
   private record CommandResult(
       String command, String output, boolean timedOut, String executionError) {}
+
+  public record SearchResponse(
+      String command,
+      String console,
+      String stdout,
+      boolean timedOut,
+      String executionError,
+      List<CatView> cats) {}
 
   private static class CatDefinition {
     private final String slug;
@@ -309,16 +243,16 @@ public class CommandInjectionTask3 implements AssignmentEndpoint, Initializable 
       return displayName;
     }
 
-    String description() {
-      return description;
-    }
-
     String resourcePath() {
       return resourcePath;
     }
 
     String fileName() {
       return fileName;
+    }
+
+    String description() {
+      return description;
     }
 
     String dataUri() {
@@ -338,5 +272,11 @@ public class CommandInjectionTask3 implements AssignmentEndpoint, Initializable 
         return dataUri;
       }
     }
+
+    CatView toView() {
+      return new CatView(displayName, description, dataUri());
+    }
   }
+
+  public record CatView(String name, String description, String dataUri) {}
 }
