@@ -40,6 +40,8 @@ public class CommandInjectionTask3Service implements Initializable {
   private final Map<String, String> userFlags = new ConcurrentHashMap<>();
   private final Map<String, File> userDirectories = new ConcurrentHashMap<>();
 
+  private static final Map<String, String> DATA_URI_CACHE = new ConcurrentHashMap<>();
+
   private static final List<CatDefinition> CAT_LIBRARY =
       List.of(
           new CatDefinition(
@@ -219,62 +221,27 @@ public class CommandInjectionTask3Service implements Initializable {
       String executionError,
       List<CatView> cats) {}
 
-  private static class CatDefinition {
-    private final String slug;
-    private final String displayName;
-    private final String description;
-    private final String resourcePath;
-    private final String fileName;
-    private volatile String dataUri;
-
-    CatDefinition(String slug, String displayName, String description, String resourcePath) {
-      this.slug = slug;
-      this.displayName = displayName;
-      this.description = description;
-      this.resourcePath = resourcePath;
-      this.fileName = slug + ".jpg";
-    }
-
-    String slug() {
-      return slug;
-    }
-
-    String displayName() {
-      return displayName;
-    }
-
-    String resourcePath() {
-      return resourcePath;
-    }
+  private record CatDefinition(String slug, String displayName, String description, String resourcePath) {
 
     String fileName() {
-      return fileName;
-    }
-
-    String description() {
-      return description;
-    }
-
-    String dataUri() {
-      String current = dataUri;
-      if (current != null) {
-        return current;
-      }
-      synchronized (this) {
-        if (dataUri == null) {
-          try (InputStream is = new ClassPathResource(resourcePath).getInputStream()) {
-            byte[] bytes = is.readAllBytes();
-            dataUri = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(bytes);
-          } catch (IOException e) {
-            dataUri = "";
-          }
-        }
-        return dataUri;
-      }
+      return slug + ".jpg";
     }
 
     CatView toView() {
       return new CatView(displayName, description, dataUri());
+    }
+
+    String dataUri() {
+      return DATA_URI_CACHE.computeIfAbsent(resourcePath, CommandInjectionTask3Service::loadDataUri);
+    }
+  }
+
+  private static String loadDataUri(String resourcePath) {
+    try (InputStream is = new ClassPathResource(resourcePath).getInputStream()) {
+      byte[] bytes = is.readAllBytes();
+      return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(bytes);
+    } catch (IOException e) {
+      return "";
     }
   }
 
