@@ -41,7 +41,12 @@
         margin-top: 1rem;
     }
 
-    .attack-output {
+    .search-feedback {
+        display: none;
+        margin-top: 0.75rem;
+    }
+
+    .search-output {
         margin-top: 1.25rem;
     }
 </style>
@@ -135,7 +140,7 @@
          th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Task3.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <form class="attack-form" method="POST" th:action="@{/CommandInjection/task3/search}">
+        <form id="cat-search-form" class="cat-search-form" method="POST" th:action="@{/CommandInjection/task3/search}">
             <div class="form-group">
                 <label for="title">Cat name</label>
                 <div class="input-group cat-search-group">
@@ -149,7 +154,8 @@
                 </div>
             </div>
         </form>
-        <div class="attack-output"></div>
+        <div class="search-feedback" id="cat-search-feedback"></div>
+        <div class="search-output" id="cat-search-output"></div>
         <form
                 class="attack-form flag-form"
                 method="POST"
@@ -173,7 +179,147 @@
             <button type="submit" class="btn btn-primary btn-sm">Submit flag</button>
         </form>
         <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
     </div>
 </div>
+<script>
+    (function () {
+        const form = document.getElementById('cat-search-form');
+        if (!form) {
+            return;
+        }
+
+        const feedback = document.getElementById('cat-search-feedback');
+        const output = document.getElementById('cat-search-output');
+
+        const translate = function (key) {
+            if (!key) {
+                return '';
+            }
+            if (window.polyglot && typeof window.polyglot.t === 'function') {
+                return window.polyglot.t(key) || key;
+            }
+            return key;
+        };
+
+        const showFeedback = function (message, isError) {
+            if (!feedback) {
+                return;
+            }
+            if (!message) {
+                feedback.textContent = '';
+                feedback.style.display = 'none';
+                feedback.classList.remove('text-danger');
+                return;
+            }
+            feedback.textContent = translate(message);
+            feedback.style.display = 'block';
+            if (isError) {
+                feedback.classList.add('text-danger');
+            } else {
+                feedback.classList.remove('text-danger');
+            }
+        };
+
+        const renderCats = function (cats) {
+            if (!Array.isArray(cats) || cats.length === 0) {
+                return null;
+            }
+            const gallery = document.createElement('div');
+            gallery.className = 'cat-gallery';
+            const heading = document.createElement('h4');
+            heading.textContent = 'Matching Cats';
+            gallery.appendChild(heading);
+
+            const grid = document.createElement('div');
+            grid.className = 'cat-grid';
+
+            cats.forEach(function (cat) {
+                const figure = document.createElement('figure');
+                figure.className = 'cat-card';
+
+                const image = document.createElement('img');
+                image.src = cat.dataUri;
+                image.alt = cat.name;
+                figure.appendChild(image);
+
+                const caption = document.createElement('figcaption');
+                const strong = document.createElement('strong');
+                strong.textContent = cat.name;
+                caption.appendChild(strong);
+                if (cat.description) {
+                    caption.appendChild(document.createElement('br'));
+                    caption.appendChild(document.createTextNode(cat.description));
+                }
+                figure.appendChild(caption);
+                grid.appendChild(figure);
+            });
+
+            gallery.appendChild(grid);
+            return gallery;
+        };
+
+        const renderConsole = function (consoleText) {
+            const container = document.createElement('div');
+            container.className = 'command-output';
+            const pre = document.createElement('pre');
+            pre.textContent = consoleText || '';
+            container.appendChild(pre);
+            return container;
+        };
+
+        const renderSearchResult = function (data) {
+            if (!output) {
+                return;
+            }
+            output.innerHTML = '';
+
+            if (data && data.console) {
+                output.appendChild(renderConsole(data.console));
+            }
+
+            const gallery = renderCats(data ? data.cats : null);
+            if (gallery) {
+                output.appendChild(gallery);
+            }
+        };
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            showFeedback('', false);
+            if (output) {
+                output.innerHTML = '';
+            }
+
+            const formData = new URLSearchParams(new FormData(form));
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                },
+                body: formData
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        return response.json()
+                            .then(function (problem) {
+                                throw new Error(problem.detail || response.statusText);
+                            })
+                            .catch(function (error) {
+                                throw new Error(error.message || 'Unknown error');
+                            });
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+                    renderSearchResult(data);
+                })
+                .catch(function (error) {
+                    showFeedback(error.message, true);
+                });
+        });
+    })();
+</script>
 </body>
 </html>
