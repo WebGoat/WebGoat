@@ -59,6 +59,12 @@ jobs:
               id: login-ecr
               uses: aws-actions/amazon-ecr-login@v1
 
-            - name: Docker build
+            - name: Build, tag, and push Docker image
+              env:
+                  ECR_REGISTRY: 216989116096.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+                  ECR_REPOSITORY: tim_poc_repo
+                  IMAGE_TAG: ${{ github.sha }}
               run: |
-                  docker build -t webgoat .
+                 docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+                 docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                 docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
