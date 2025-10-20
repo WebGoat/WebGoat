@@ -61,7 +61,7 @@ jobs:
 
             - name: Build, tag, and push Docker image
               env:
-                  ECR_REGISTRY: 216989116096.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+                  ECR_REGISTRY: 216989116096.dkr.ecr.ap-southeast-2.amazonaws.com
                   ECR_REPOSITORY: tim_poc_repo
                   IMAGE_TAG: ${{ github.sha }}
               run: |
