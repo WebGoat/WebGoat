@@ -74,9 +74,9 @@ jobs:
 
             - name: Authenticate to Wiz
               env:
-                WIZ_CLIENT_ID: ${{ secrets.WIZ_CLIENT_ID }}
-                WIZ_CLIENT_SECRET: ${{ secrets.WIZ_CLIENT_SECRET }}
-              run: ./wizcli auth --id "$WIZ_CLIENT_ID" --secret "$WIZ_CLIENT_SECRET"
+                WIZ_CLIENT_ID: ${{ secrets.WIZ_CLI_CLIENT_ID }}
+                WIZ_CLIENT_SECRET: ${{ secrets.WIZ_CLI_CLIENT_SECRET }}
+              run: ./wizcli auth --id $WIZ_CLI_CLIENT_ID --secret $WIZ_CLI_CLIENT_SECRET
 
             - name: Run Wiz Cli docker image scan on git runner
               env:
