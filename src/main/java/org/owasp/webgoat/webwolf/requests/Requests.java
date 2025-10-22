@@ -4,6 +4,7 @@
  */
 package org.owasp.webgoat.webwolf.requests;
 
+// Test comment for SonarQube SAST workflow testing
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
