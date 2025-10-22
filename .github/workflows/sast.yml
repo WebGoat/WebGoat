@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-      - develop # WebGoat's default branch is 'develop', good to include
+      - develop ## WebGoat's default branch is 'develop', good to include
 
 jobs:
   sast-scan:
