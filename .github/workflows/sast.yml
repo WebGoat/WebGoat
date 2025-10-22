@@ -1,0 +1,52 @@
+name: SAST with SonarQube
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop # WebGoat's default branch is 'develop', good to include
+
+jobs:
+  sast-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history so SonarQube can analyze branches properly
+          fetch-depth: 0 
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build with Maven
+        # This builds the project so SonarQube can analyze the compiled Java classes
+        # -DskipTests speeds up the build by skipping WebGoat's unit tests
+        run: mvn clean install -DskipTests
+
+      - name: Run SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Check SonarQube Quality Gate
+        # This step polls SonarQube until the analysis is complete
+        # and then fails the PR if the Quality Gate (e.g., "New Bugs > 0") fails.
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5 # Wait up to 5 minutes for the analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
