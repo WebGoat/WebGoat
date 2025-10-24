@@ -2,8 +2,6 @@
 # https://docs.checkmarx.com/en/34965-68702-checkmarx-one-github-actions.html
 # The additional_params field, you can specify any CLI arguments that you would like to apply to scans of this project.
 
-# NOTE: This pipeline is configured to perform only Software Composition Analysis (SCA) scans, leveraging the SCA Resolver to manage and resolve dependencies
-
 name: Checkmarx One - SCA Scan With SCA Resolver (Maven Resolution)
 on:
   pull_request:
@@ -11,13 +9,53 @@ on:
      - opened
      - synchronize
      - closed
-    branches:
-      - main  
+    # branches:
+    #   - main  
+
   workflow_dispatch:  
   
 jobs:
-  # This workflow contains a single job called "build"
-  build:    
+  #Executes SAST Scan
+  sast:    
+    runs-on: ubuntu-latest
+    steps:     
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Checkmarx AST Github Action
+         # You may pin to the exact commit or the version.        
+        uses: checkmarx/ast-github-action@main
+        with:
+           # Provide the AST portal URL
+           base_uri: https://eu.ast.checkmarx.net/
+           # Provide the Tenant for AST portal URL
+           cx_tenant: ${{ secrets.CXONE_TENANT }}
+           # Client ID for AST portal authentication
+           cx_client_id: ${{ secrets.CXONE_CLIENTID }}
+           # Secret key for AST portal authentication
+           cx_client_secret: ${{ secrets.CXONE_CLIENTSECRET }}
+           # Select a Checkmarx Project Name
+           # optional, default is ${{ github.repository }}
+           project_name: ${{ github.repository }}
+           # Branch name
+           # optional, default is ${{ github.head_ref || github.ref }}
+           branch: ${{ github.head_ref || github.ref }}
+           # GitHub API Token
+           # optional, default is ${{ github.token }}
+           github_token: ${{ secrets.PR_TOKEN }}          
+           # optional, default is ${{ github.event.repository.name }}
+           repo_name: ${{ github.event.repository.name }}
+           # Organization name to create the Pr comment
+           # optional, default is ${{ github.repository_owner }}
+           namespace: ${{ github.repository_owner }}
+           # Pr Number of the pull request that needs the decoration
+           # optional, default is ${{ github.event.number }}
+           pr_number: ${{ github.event.number }}           
+           # Additional parameters for AST scan
+           additional_params: --scan-types "sast"
+
+  #Executes the SCA Resolver scan
+  sca-resolver:    
     runs-on: ubuntu-latest
     steps:     
       - name: Checkout
@@ -30,7 +68,6 @@ jobs:
           sudo update-alternatives --config java
           java -version
         
-
       #Refer to:
       #  https://docs.checkmarx.com/en/34965-19198-installing-supported-package-managers-for-resolver.html#UUID-6a56714b-6836-a1e0-3c21-d1fbb411cf4d_id_InstallingSupportedPackageManagersforResolver-PIPDependencyResolver
       #  https://maven.apache.org/install.html
