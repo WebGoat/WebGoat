@@ -56,6 +56,7 @@ jobs:
 
   #Executes the SCA Resolver scan
   sca-resolver:    
+    needs: sast
     runs-on: ubuntu-latest
     steps:     
       - name: Checkout
