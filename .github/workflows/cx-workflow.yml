@@ -12,7 +12,7 @@ on:
      - closed
     branches:
      - main  
-on:
+     
   push:
     branches:
       - 'tayna-dev'
