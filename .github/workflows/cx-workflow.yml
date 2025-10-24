@@ -12,7 +12,10 @@ on:
      - closed
     branches:
      - main  
-  push
+on:
+  push:
+    branches:
+      - 'tayna-dev'
 
   workflow_dispatch:  
   
