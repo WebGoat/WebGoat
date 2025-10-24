@@ -23,8 +23,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Java Version
+      - name: Java Version - Set up
         run: |
+          sudo apt update
+          sudo apt install openjdk-25-jdk
+          sudo update-alternatives --config java
           java -version
         
 
