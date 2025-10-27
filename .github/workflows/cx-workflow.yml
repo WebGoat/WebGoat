@@ -7,8 +7,8 @@ name: Checkmarx One - SCA Scan With SCA Resolver (Maven Resolution)
 on:
   pull_request:
     types:
-     - opened
-     - synchronize
+     #- opened
+     #- synchronize
      - closed
     branches:
      - main  
