@@ -24,7 +24,11 @@ class CommandInjectionTask3Test {
 
   @BeforeEach
   void setUp() {
-    service = new CommandInjectionTask3Service("./target/webgoat-test");
+    service =
+        new CommandInjectionTask3Service(
+            "./target/webgoat-test",
+            new CommandInjectionCatService(),
+            new CommandExecutionService());
     searchController = new CommandInjectionTask3Search(service);
     flagController = new CommandInjectionTask3Flag(service);
     user = new WebGoatUser("alice", "password");

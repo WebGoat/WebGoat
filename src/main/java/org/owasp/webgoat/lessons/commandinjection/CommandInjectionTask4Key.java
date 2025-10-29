@@ -20,34 +20,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints({
-  "commandinjection.task3.hint1",
-  "commandinjection.task3.hint2",
-  "commandinjection.task3.hint3",
-  "commandinjection.task3.hint4"
+  "commandinjection.task4.hint1",
+  "commandinjection.task4.hint2",
+  "commandinjection.task4.hint3",
+  "commandinjection.task4.hint4"
 })
-public class CommandInjectionTask3Flag implements AssignmentEndpoint, Initializable {
+public class CommandInjectionTask4Key implements AssignmentEndpoint, Initializable {
 
-  private final CommandInjectionTask3Service service;
+  private final CommandInjectionTask4Service service;
 
-  public CommandInjectionTask3Flag(CommandInjectionTask3Service service) {
+  public CommandInjectionTask4Key(CommandInjectionTask4Service service) {
     this.service = service;
   }
 
   @PostMapping(
-      value = "/CommandInjection/task3/flag",
+      value = "/CommandInjection/task4/key",
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public AttackResult submitFlag(
-      @CurrentUser WebGoatUser user, @RequestParam("flag") String submittedFlag) {
-    if (submittedFlag == null || submittedFlag.isBlank()) {
-      return failed(this).feedback("commandinjection.task3.failure.blank").build();
+  public AttackResult submitKey(
+      @CurrentUser WebGoatUser user, @RequestParam("apikey") String submittedKey) {
+
+    service.ensureInitialized(user);
+
+    if (submittedKey == null || submittedKey.isBlank()) {
+      return failed(this).feedback("commandinjection.task4.failure.blank").build();
     }
 
-    if (service.validateFlag(user, submittedFlag)) {
-      return success(this).feedback("commandinjection.task3.success").build();
+    if (service.validateApiKey(user, submittedKey)) {
+      return success(this).feedback("commandinjection.task4.success").build();
     }
 
-    return failed(this).feedback("commandinjection.task3.failure.invalid").build();
+    return failed(this).feedback("commandinjection.task4.failure.invalid").build();
   }
 
   @Override
@@ -55,3 +58,4 @@ public class CommandInjectionTask3Flag implements AssignmentEndpoint, Initializa
     service.initialize(user);
   }
 }
+

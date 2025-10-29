@@ -7,28 +7,29 @@ package org.owasp.webgoat.lessons.commandinjection;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import lombok.SneakyThrows;
 import org.owasp.webgoat.container.lessons.Initializable;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CommandInjectionTask3Service implements Initializable {
+public class CommandInjectionTask4Service implements Initializable {
+
+  private static final List<String> DENY_LIST = List.of(";", "&&", "|");
 
   private final String webGoatHomeDirectory;
-  private final Map<String, String> userFlags = new ConcurrentHashMap<>();
+  private final Map<String, String> userApiKeys = new ConcurrentHashMap<>();
   private final Map<String, File> userDirectories = new ConcurrentHashMap<>();
   private final CommandInjectionCatService catService;
   private final CommandExecutionService commandExecutionService;
 
-  public CommandInjectionTask3Service(
+  public CommandInjectionTask4Service(
       @Value("${webgoat.user.directory}") String webGoatHomeDirectory,
       CommandInjectionCatService catService,
       CommandExecutionService commandExecutionService) {
@@ -39,10 +40,11 @@ public class CommandInjectionTask3Service implements Initializable {
 
   public SearchResponse search(WebGoatUser user, String title) {
     ensureInitialized(user);
-    String command = buildCommand(title);
+    SanitizedPayload payload = sanitizeTitle(title);
+    String command = buildCommand(payload.sanitizedTitle());
     CommandExecutionService.CommandExecutionResult executionResult =
         commandExecutionService.execute(userDirectories.get(user.getUsername()), command);
-    String console = buildConsole(command, executionResult);
+    String console = buildConsole(command, executionResult, payload);
     List<CatView> cats =
         catService.extractMatches(executionResult.output()).stream()
             .map(cat -> new CatView(cat.name(), cat.description(), cat.dataUri()))
@@ -56,25 +58,46 @@ public class CommandInjectionTask3Service implements Initializable {
         cats);
   }
 
-  public boolean validateFlag(WebGoatUser user, String submittedFlag) {
-    String expectedFlag = userFlags.get(user.getUsername());
-    return expectedFlag != null && expectedFlag.contains(submittedFlag.trim());
+  public boolean validateApiKey(WebGoatUser user, String submittedKey) {
+    ensureInitialized(user);
+    String expectedKey = userApiKeys.get(user.getUsername());
+    return expectedKey != null && expectedKey.equals(submittedKey.trim());
   }
 
-  private void ensureInitialized(WebGoatUser user) {
-    userFlags.computeIfAbsent(user.getUsername(), name -> createFlagForUser(user));
+  public void ensureInitialized(WebGoatUser user) {
+    userApiKeys.computeIfAbsent(user.getUsername(), name -> createKeyForUser(user));
   }
 
   @Override
   public void initialize(WebGoatUser user) {
-    userFlags.remove(user.getUsername());
+    userApiKeys.remove(user.getUsername());
     userDirectories.remove(user.getUsername());
     ensureInitialized(user);
   }
 
+  private SanitizedPayload sanitizeTitle(String title) {
+    if (title == null) {
+      return new SanitizedPayload("", false);
+    }
+    String sanitized = title;
+    boolean filtered = false;
+    for (String token : DENY_LIST) {
+      if (sanitized.contains(token)) {
+        filtered = true;
+        sanitized = sanitized.replace(token, " ");
+      }
+    }
+    return new SanitizedPayload(sanitized.trim(), filtered);
+  }
+
   private String buildConsole(
-      String command, CommandExecutionService.CommandExecutionResult result) {
+      String command,
+      CommandExecutionService.CommandExecutionResult result,
+      SanitizedPayload payload) {
     StringBuilder console = new StringBuilder();
+    if (payload.filtered()) {
+      console.append("[Filter] Removed characters: ;, &&, |\n");
+    }
     console.append("Command: ").append(command).append("\n");
     console.append(result.output());
     if (result.timedOut()) {
@@ -86,20 +109,22 @@ public class CommandInjectionTask3Service implements Initializable {
     return console.toString();
   }
 
-  @SneakyThrows
-  private String createFlagForUser(WebGoatUser user) {
-    String flagValue = String.format(Locale.ROOT, "flag{%s}", UUID.randomUUID().toString());
-    File userDir = catService.prepareGallery(webGoatHomeDirectory, "command-injection", user.getUsername());
-    File flagFile = new File(userDir, "flag.txt");
-
-    Files.writeString(flagFile.toPath(), flagValue, UTF_8);
-    userDirectories.put(user.getUsername(), userDir);
-    return flagValue;
+  private String createKeyForUser(WebGoatUser user) {
+    String apiKey = "API_KEY=" + UUID.randomUUID();
+    File userDir =
+        catService.prepareGallery(webGoatHomeDirectory, "command-injection/task4", user.getUsername());
+    File keyFile = new File(userDir, "api-key.txt");
+    try {
+      Files.writeString(keyFile.toPath(), apiKey, UTF_8);
+      userDirectories.put(user.getUsername(), userDir);
+    } catch (IOException e) {
+      throw new IllegalStateException("Unable to create api-key file", e);
+    }
+    return apiKey;
   }
 
   private String buildCommand(String title) {
-    String trimmedTitle = title == null ? "" : title.trim();
-    return "grep " + trimmedTitle + " images/*.txt";
+    return "grep " + (title == null ? "" : title.trim()) + " images/*.txt";
   }
 
   public record SearchResponse(
@@ -111,4 +136,6 @@ public class CommandInjectionTask3Service implements Initializable {
       List<CatView> cats) {}
 
   public record CatView(String name, String description, String dataUri) {}
+
+  private record SanitizedPayload(String sanitizedTitle, boolean filtered) {}
 }

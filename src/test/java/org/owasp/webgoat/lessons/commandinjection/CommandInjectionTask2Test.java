@@ -4,6 +4,7 @@
  */
 package org.owasp.webgoat.lessons.commandinjection;
 
+import static java.util.regex.Pattern.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,10 +37,20 @@ class CommandInjectionTask2Test {
 
   @Test
   void shouldSucceedWhenTokenMatches() {
-    String output = task.simulateExecution(task.buildCommand("uname -a", ""));
-    String token = output.substring(output.indexOf('=') + 1).trim();
+    boolean isWindows = System.getProperty("os.name", "").toLowerCase().contains("win");
+    String payload = isWindows ? "&& echo %WEBGOAT_BUILD_TOKEN%" : "; echo $WEBGOAT_BUILD_TOKEN";
 
-    AttackResult result = task.run("uname -a", "", token);
+    AttackResult failedAttempt = task.run("", payload, "");
+    String output = failedAttempt.getOutput();
+    var matcher =
+        compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            .matcher(output);
+    if (!matcher.find()) {
+      throw new IllegalStateException("Token not present in output: " + output);
+    }
+    String token = matcher.group();
+
+    AttackResult result = task.run("", payload, token);
 
     assertThat(result.assignmentSolved()).isTrue();
     assertThat(result.getFeedback()).isEqualTo("commandinjection.task2.success");
