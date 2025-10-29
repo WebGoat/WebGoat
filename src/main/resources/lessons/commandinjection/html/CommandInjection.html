@@ -66,7 +66,7 @@
          th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Safety.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <form class="attack-form" method="POST" th:action="@{/CommandInjection/safety}">
+        <form id="safety-form" class="attack-form" method="POST" th:action="@{/CommandInjection/safety}">
             <div class="form-group">
                 <label for="ack">Type the acknowledgement</label>
                 <input class="form-control" id="ack" name="ack" placeholder="I understand commands will execute"
@@ -84,7 +84,7 @@
          th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Task1.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <form class="attack-form" method="POST" th:action="@{/CommandInjection/task1/run}">
+        <form id="task1-form" class="attack-form" method="POST" th:action="@{/CommandInjection/task1/run}">
             <div class="form-group">
                 <label for="host">Select host</label>
                 <select class="form-control" id="host" name="host">
@@ -115,7 +115,7 @@
          th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Task2.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <form class="attack-form" method="POST" th:action="@{/CommandInjection/task2/run}">
+        <form id="task2-form" class="attack-form" method="POST" th:action="@{/CommandInjection/task2/run}">
             <div class="form-group">
                 <label for="base">Diagnostic command</label>
                 <input class="form-control" id="base" name="base" autocomplete="off"/>
@@ -140,7 +140,12 @@
          th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Task3.adoc}"></div>
     <div class="attack-container">
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <form id="cat-search-form" class="cat-search-form" method="POST" th:action="@{/CommandInjection/task3/search}">
+        <form id="task3-search-form"
+                class="cat-search-form"
+                method="POST"
+                th:action="@{/CommandInjection/task3/search}"
+                data-feedback-target="cat-search-feedback"
+                data-output-target="cat-search-output">
             <div class="form-group">
                 <label for="title">Cat name</label>
                 <div class="input-group cat-search-group">
@@ -156,7 +161,7 @@
         </form>
         <div class="search-feedback" id="cat-search-feedback"></div>
         <div class="search-output" id="cat-search-output"></div>
-        <form
+        <form id="task3-flag-form"
                 class="attack-form flag-form"
                 method="POST"
                 name="flag-form"
@@ -182,15 +187,97 @@
         <div class="attack-output"></div>
     </div>
 </div>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Task4.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form id="task4-search-form"
+                class="cat-search-form"
+                method="POST"
+                th:action="@{/CommandInjection/task4/search}"
+                data-feedback-target="cat-task4-feedback"
+                data-output-target="cat-task4-output">
+            <div class="form-group">
+                <label for="title-task4">Cat name</label>
+                <div class="input-group cat-search-group">
+                    <input
+                            class="form-control"
+                            id="title-task4"
+                            name="title"
+                            placeholder="Luna"
+                            autocomplete="off"/>
+                    <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="search-feedback" id="cat-task4-feedback"></div>
+        <div class="search-output" id="cat-task4-output"></div>
+        <form id="task4-key-form"
+                class="attack-form flag-form"
+                method="POST"
+                name="api-key-form"
+                th:action="@{/CommandInjection/task4/key}">
+            <div class="form-group">
+                <label for="apikey">API key</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-key" aria-hidden="true" style="font-size:20px"></i>
+                    </div>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="apikey"
+                            name="apikey"
+                            placeholder="API_KEY=..."
+                            autocomplete="off"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Submit key</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Task5.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form id="task5-form" class="attack-form" method="POST" th:action="@{/CommandInjection/task5/evaluate}">
+            <div class="form-group">
+                <label for="mode">Execution mode</label>
+                <select class="form-control" id="mode" name="mode">
+                    <option value="SHELL">Shell</option>
+                    <option value="DIRECT_PROCESS">Direct process</option>
+                    <option value="ALLOWLIST_ONLY">Allowlist only</option>
+                </select>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="allowlist" value="true"/> Enable command allowlist</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="sanitiser" value="true"/> Enable input sanitiser</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Apply configuration</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_BestPractices.adoc}"></div>
+</div>
+
 <script>
     (function () {
-        const form = document.getElementById('cat-search-form');
-        if (!form) {
+        const forms = document.querySelectorAll('.cat-search-form');
+        if (!forms.length) {
             return;
         }
-
-        const feedback = document.getElementById('cat-search-feedback');
-        const output = document.getElementById('cat-search-output');
 
         const translate = function (key) {
             if (!key) {
@@ -202,22 +289,22 @@
             return key;
         };
 
-        const showFeedback = function (message, isError) {
-            if (!feedback) {
+        const showFeedback = function (feedbackEl, message, isError) {
+            if (!feedbackEl) {
                 return;
             }
             if (!message) {
-                feedback.textContent = '';
-                feedback.style.display = 'none';
-                feedback.classList.remove('text-danger');
+                feedbackEl.textContent = '';
+                feedbackEl.style.display = 'none';
+                feedbackEl.classList.remove('text-danger');
                 return;
             }
-            feedback.textContent = translate(message);
-            feedback.style.display = 'block';
+            feedbackEl.textContent = translate(message);
+            feedbackEl.style.display = 'block';
             if (isError) {
-                feedback.classList.add('text-danger');
+                feedbackEl.classList.add('text-danger');
             } else {
-                feedback.classList.remove('text-danger');
+                feedbackEl.classList.remove('text-danger');
             }
         };
 
@@ -268,7 +355,7 @@
             return container;
         };
 
-        const renderSearchResult = function (data) {
+        const renderSearchResult = function (output, data) {
             if (!output) {
                 return;
             }
@@ -284,40 +371,45 @@
             }
         };
 
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            showFeedback('', false);
-            if (output) {
-                output.innerHTML = '';
-            }
+        forms.forEach(function (form) {
+            const feedback = document.getElementById(form.dataset.feedbackTarget);
+            const output = document.getElementById(form.dataset.outputTarget);
 
-            const formData = new URLSearchParams(new FormData(form));
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                showFeedback(feedback, '', false);
+                if (output) {
+                    output.innerHTML = '';
+                }
 
-            fetch(form.action, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                },
-                body: formData
-            })
-                .then(function (response) {
-                    if (!response.ok) {
-                        return response.json()
-                            .then(function (problem) {
-                                throw new Error(problem.detail || response.statusText);
-                            })
-                            .catch(function (error) {
-                                throw new Error(error.message || 'Unknown error');
-                            });
-                    }
-                    return response.json();
+                const formData = new URLSearchParams(new FormData(form));
+
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: formData
                 })
-                .then(function (data) {
-                    renderSearchResult(data);
-                })
-                .catch(function (error) {
-                    showFeedback(error.message, true);
-                });
+                    .then(function (response) {
+                        if (!response.ok) {
+                            return response.json()
+                                .then(function (problem) {
+                                    throw new Error(problem.detail || response.statusText);
+                                })
+                                .catch(function (error) {
+                                    throw new Error(error.message || 'Unknown error');
+                                });
+                        }
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        renderSearchResult(output, data);
+                    })
+                    .catch(function (error) {
+                        showFeedback(feedback, error.message, true);
+                    });
+            });
         });
     })();
 </script>
