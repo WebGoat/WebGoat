@@ -24,12 +24,16 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
     acknowledgeSafetyGate();
 
     solveTask1();
-    String leakedToken = leakTask2Token();
+
+    var leakedToken = leakTask2Token();
     submitTask2Token(leakedToken);
-    String flag = captureTask3Flag();
+
+    var flag = captureTask3Flag();
     submitTask3Flag(flag);
-    String apiKey = captureTask4ApiKey();
+
+    var apiKey = captureTask4ApiKey();
     submitTask4Key(apiKey);
+
     configureTask5Remediation();
 
     checkResults("CommandInjection");
@@ -51,8 +55,8 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
   }
 
   private void solveTask1() {
-    boolean isWindows = isWindowsHost();
-    String expectedCommand =
+    var isWindows = isWindowsHost();
+    var expectedCommand =
         (isWindows ? "cmd.exe /c ping -n 1 " : "/bin/sh -c ping -c 1 ") + "localhost";
 
     assertThat(
@@ -85,8 +89,9 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
             .extract()
             .path("output");
 
-    java.util.regex.Matcher matcher =
-        java.util.regex.Pattern.compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+    var matcher =
+        Pattern.compile(
+                "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             .matcher(output);
     if (!matcher.find()) {
       throw new IllegalStateException("Token not present in Task 2 output");
@@ -112,7 +117,7 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
   }
 
   private String captureTask3Flag() {
-    JsonPath response =
+    var response =
         given()
             .when()
             .relaxedHTTPSValidation()
@@ -124,15 +129,9 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
             .extract()
             .jsonPath();
 
-    String console = response.getString("console");
-    int start = console.indexOf("flag{");
-    if (start < 0) {
-      throw new IllegalStateException("Flag not present in Task 3 output");
-    }
-    int end = console.indexOf("}", start);
-    if (end < 0) {
-      throw new IllegalStateException("Flag not present in Task 3 output");
-    }
+    var console = response.getString("console");
+    var start = console.indexOf("flag{");
+    var end = console.indexOf("}", start);
     return console.substring(start, end + 1);
   }
 
@@ -203,6 +202,7 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
             .path("lessonCompleted"),
         is(true));
   }
+
   private boolean isWindowsHost() {
     return System.getProperty("os.name", "").toLowerCase().contains("win");
   }
