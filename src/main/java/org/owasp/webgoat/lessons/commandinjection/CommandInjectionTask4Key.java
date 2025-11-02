@@ -58,4 +58,3 @@ public class CommandInjectionTask4Key implements AssignmentEndpoint, Initializab
     service.initialize(user);
   }
 }
-

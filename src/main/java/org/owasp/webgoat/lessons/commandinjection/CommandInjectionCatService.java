@@ -147,4 +147,3 @@ public class CommandInjectionCatService {
 
   public record CatView(String name, String description, String dataUri) {}
 }
-

@@ -42,4 +42,3 @@ public class CommandInjectionTask3Search implements Initializable {
     service.initialize(user);
   }
 }
-
