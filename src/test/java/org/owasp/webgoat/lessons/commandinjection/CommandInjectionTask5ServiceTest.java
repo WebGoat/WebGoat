@@ -36,4 +36,3 @@ class CommandInjectionTask5ServiceTest {
     assertThat(result.messageKey()).isEqualTo("commandinjection.task5.success");
   }
 }
-
