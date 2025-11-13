@@ -7,6 +7,7 @@ package org.owasp.webgoat.lessons.commandinjection;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +53,7 @@ class CommandInjectionTask3Test {
   @Test
   void shouldSucceedWhenFlagMatches() {
     CommandInjectionTask3Service.SearchResponse firstRun =
-        searchController.search(user, "luna images/*; cat flag.txt; #");
+        searchController.search(user, injectionPayload());
     Matcher matcher =
         Pattern.compile(
                 "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -64,5 +65,11 @@ class CommandInjectionTask3Test {
 
     assertThat(result.assignmentSolved()).isTrue();
     assertThat(result.getFeedback()).isEqualTo("commandinjection.task3.success");
+  }
+
+  private String injectionPayload() {
+    boolean windows =
+        System.getProperty("os.name", "").toLowerCase(Locale.US).contains("win");
+    return windows ? "luna images/* & type flag.txt & rem" : "luna images/*; cat flag.txt; #";
   }
 }
