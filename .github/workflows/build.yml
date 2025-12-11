@@ -60,8 +60,3 @@ jobs:
                     file: ./Dockerfile
                     push: true
                     platforms: linux/amd64, linux/arm64
-                    tags: |
-                        webgoat/webgoat:${{ env.WEBGOAT_TAG_VERSION }}
-                        webgoat/webgoat:latest
-                    build-args: |
-                        webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
