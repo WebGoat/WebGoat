@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build WebGoat
+      run:  ./mvnw clean install
+    - name: Build the Docker image
+      run: docker build -f Dockerfile . -t webgoat/webgoat
+#    - name: tmas-scan
+#      uses: trendmicro/tmas-scan-action@v3.0.1
