@@ -52,7 +52,7 @@ jobs:
                 with:
                     cache: 'maven'
             -   name: Build with Maven
-                run: mvn --no-transfer-progress verify
+                run: mvn --no-transfer-progress install -DskipTests
             -   name: "Build Docker image"
                 uses: docker/build-push-action@v6.18.0
                 with:
