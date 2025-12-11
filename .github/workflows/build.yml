@@ -74,4 +74,4 @@ jobs:
                     artifact: dir:./
                     additionalArgs: --region=ca-central-1
                     tmasApiKey: ${{ secrets.TMAS_API_KEY }}
-#                    githubToken: ${{ secrets.GITHUB_TOKEN }}
+                    githubToken: ${{ secrets.TMAS_GITHUB_TOKEN }}
