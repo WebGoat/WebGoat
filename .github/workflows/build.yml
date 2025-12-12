@@ -71,7 +71,7 @@ jobs:
                     vulnerabilitiesScan: true
                     malwareScan: true
                     secretsScan: true
-                    artifact: dir:./WebGoat
+                    artifact: docker:webgoat/webgoat:latest
                     additionalArgs: --region=ca-central-1
                     tmasApiKey: ${{ secrets.TMAS_API_KEY }}
                     githubToken: ${{ secrets.TMAS_GITHUB_TOKEN }}
