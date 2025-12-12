@@ -72,7 +72,7 @@ jobs:
                     malwareScan: true
                     secretsScan: true
                     artifact: docker:webgoat/webgoat:latest
-                    additionalArgs: --region=ca-central-1
+                    additionalArgs: --region=us-east-1
                     tmasApiKey: ${{ secrets.TMAS_API_KEY }}
                     githubToken: ${{ secrets.TMAS_GITHUB_TOKEN }}
             -   name: TMAS Repository Scan
@@ -83,6 +83,6 @@ jobs:
                     malwareScan: false # malware scan not supported for directory scan
                     secretsScan: true
                     artifact: dir:./
-                    additionalArgs: --region=ca-central-1
+                    additionalArgs: --region=us-east-1
                     tmasApiKey: ${{ secrets.TMAS_API_KEY }}
                     githubToken: ${{ secrets.TMAS_GITHUB_TOKEN }}
