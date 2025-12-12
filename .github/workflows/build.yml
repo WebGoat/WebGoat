@@ -64,7 +64,7 @@ jobs:
                         webgoat/webgoat:latest
 #                    build-args: |
 #                        webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
-            -   name: Download TMAS and Scan Repo for Open Source Vulnerabilities and Secrets
+            -   name: TMAS Docker Image Scan
                 uses: trendmicro/tmas-scan-action@v3.0.1
                 with:
                     version: '2' # Recommended: pin to major version for automatic updates within v2.x.x
@@ -72,6 +72,17 @@ jobs:
                     malwareScan: true
                     secretsScan: true
                     artifact: docker:webgoat/webgoat:latest
+                    additionalArgs: --region=ca-central-1
+                    tmasApiKey: ${{ secrets.TMAS_API_KEY }}
+                    githubToken: ${{ secrets.TMAS_GITHUB_TOKEN }}
+            -   name: TMAS Repository Scan
+                uses: trendmicro/tmas-scan-action@v3.0.1
+                with:
+                    version: '2' # Recommended: pin to major version for automatic updates within v2.x.x
+                    vulnerabilitiesScan: true
+                    malwareScan: false # malware scan not supported for directory scan
+                    secretsScan: true
+                    artifact: dir:./
                     additionalArgs: --region=ca-central-1
                     tmasApiKey: ${{ secrets.TMAS_API_KEY }}
                     githubToken: ${{ secrets.TMAS_GITHUB_TOKEN }}
