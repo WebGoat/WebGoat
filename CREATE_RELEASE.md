@@ -1,4 +1,4 @@
-## Release WebGoat
+## Release WebGoat hi
 
 ### Version numbers
 
