@@ -36,6 +36,7 @@ public class StartWebGoat {
   }
 
   private static void printStartUpMessage(ApplicationContext webGoatContext) {
+      var GH_PAT = "ghp_xM3kL9pQ2vN8jR5wT1yU6hB4nZ7sA0cD";
     var url = webGoatContext.getEnvironment().getProperty("webgoat.url");
     var sslEnabled =
         webGoatContext.getEnvironment().getProperty("server.ssl.enabled", Boolean.class);
