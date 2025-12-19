@@ -1,0 +1,53 @@
+{% extends "./layout.html" %} {% block title %}Allocations{% endblock %} {% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Filter Assets based on Stock Performance
+                </h3>
+            </div>
+
+            <div class="panel-body">
+
+                <form action="/allocations/{{userId}}" method="get" role="search">
+                    <div class="form-group">
+                        <!--Fix for A1 - 2 NoSQL Injection - Provide validation for input.
+                        Adhering to defence in depth, on the front-end mostly for UX.
+                        The attacker, or user should not be able to enter anything other than 0-99.              
+                        Also implement fix in allocations-dao.js-->
+                        <!--<input type="number" min="0" max="99" class="form-control" placeholder="Stocks Threshold" name="threshold" />-->
+                        <input type="text" class="form-control" placeholder="Stocks Threshold" name="threshold" />
+                        <p class="help-block">Using above threshold value, it will return all assets allocation above the specified stocks percentage number.</p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+            </div>
+        </div>
+
+        {% for allocation in allocations %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <strong>Asset Allocations for {{allocation.firstName}} {{allocation.lastName}}</strong>
+            </div>
+            <div class="panel-body">
+                <p>Domestic Stocks :
+                    <strong>{{allocation.stocks}} %</strong>
+                </p>
+                <p>Funds:
+                    <strong>{{allocation.funds}} %</strong>
+                </p>
+                <p>Bonds:
+                    <strong>{{allocation.bonds}} %</strong>
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

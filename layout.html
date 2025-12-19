@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>OWASP Node.js Goat Project</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/bootstrap.css" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="/vendor/theme/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="/vendor/theme/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap-tour.css">
+    <!--[if lt IE 9]><script src="/vendor/html5shiv.js"><![endif]-->
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/dashboard">
+                    <span style="font-size: x-large">
+                        <span class="fa fa-bullseye"></span>Retire<b>Easy</b>
+                    </span>
+                    <span style="font-size: medium">Employee Retirement Savings Management</span>
+                </a>
+            </div>
+
+            <!--  Nav Links-->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <!--  side nav -->
+                <ul class="nav navbar-nav side-nav">
+                    {% if user.isAdmin %}
+                    <li><a id="benefits-menu-link" href="/benefits"><i class="fa fa-calendar"></i> Benefits</a>
+                    </li>
+                    {% else %}
+                    <li><a id="dashboard-menu-link" href="/"><i class="fa fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li><a id="contributions-menu-link" href="/contributions"><i class="fa fa-bar-chart-o"></i> Contributions</a>
+                    </li>
+                    <li><a id="allocations-menu-link" href="/allocations/{{userId}}"><i class="fa fa-table"></i> Allocations</a>
+                    </li>
+                    <li><a id="memos-menu-link" href="/memos"><i class="fa fa-table"></i> Memos</a>
+                    </li>
+                    <li><a id="profile-menu-link" href="/profile"><i class="fa fa-user"></i> Profile</a>
+                    </li>
+                    <li><a id="learn-menu-link" target="_blank" href="/learn?url=https://www.khanacademy.org/economics-finance-domain/core-finance/investment-vehicles-tutorial/ira-401ks/v/traditional-iras"><i class="fa fa-edit"></i> Learning Resources</a>
+                    </li>
+                    <li><a id="research-menu-link" href="/research"><i class="fa fa-table"></i> Research</a>
+                    </li>
+                    {% endif %}
+                    <li><a id="logout-menu-link" href="/logout"><i class="fa fa-power-off"></i> Logout</a>
+                    </li>
+                </ul>
+
+                <!-- top nav -->
+                <ul class="nav navbar-nav navbar-right navbar-user">
+
+                    <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{firstName}} {{lastName}} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            {% if !user.isAdmin %}
+                            <li><a href="/profile"><i class="fa fa-user"></i> Profile</a>
+                            </li>
+                            <li class="divider"></li>
+                            {% endif %}
+                            <li><a href="/logout"><i class="fa fa-power-off"></i> Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- <h1> <small>{% block title %}{% endblock %}</small></h1> -->
+                    <ol class="breadcrumb">
+                        <li class="active"><i class="fa"></i> {% block title %}{% endblock %}</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            {% block content %}{% endblock %}
+
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/bootstrap.js"></script>
+    <script src="/vendor/bootstrap/bootstrap-tour.js"></script>
+
+    <!-- Page Specific Plugins -->
+    <script src="/vendor/chart/raphael-min.js"></script>
+    <script src="/vendor/chart/morris-0.4.3.min.js"></script>
+
+    <script src="/js/chart/chart-data-morris.js"></script>
+
+    <!-- tour steps related js -->
+    <script src="/js/tour/redirects-steps.js"></script>
+
+    <!-- Load environmental scripts such as live reload -->
+    {% for script in environmentalScripts %}
+    {{script}}
+    {% endfor %}
+
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+{% extends "./layout.html" %} {% block title %}Contributions{% endblock %} {% block content %}
+<div class="row">
+    <div class="col-lg-12">
+
+        {% if updateSuccess %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-dismissable alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Contributions updated successfully.
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        {% endif %} {% if updateError %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-dismissable alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{updateError}}
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        {% endif %}
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    This screen allows you to change the
+                    <strong>payroll percentages</strong> deducted from your paycheck for each
+                    <strong>contribution type</strong>.
+                </h3>
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="table-responsive">
+                    <form method="POST" action="/contributions">
+                        <table class="table table-bordered table-hover tablesorter">
+                            <thead>
+                                <tr>
+                                    <th>Contribution Type</th>
+                                    <th>Payroll Contribution Percent
+                                        <br>(per pay period)
+                                        <br>
+                                    </th>
+                                    <th>New Payroll Contribution Percent
+                                        <br>(per pay period)
+                                        <br>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>Employee Pre-Tax</td>
+                                    <td>{{ preTax |default(0)}} %</td>
+                                    <td>
+                                        <input type="text" name="preTax" value="0"></input>
+                                        <span>%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Roth Contribution</td>
+                                    <td>{{ roth |default(0)}} %</td>
+                                    <td>
+                                        <input type="text" name="roth" value="0"></input>
+                                        <span>%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Employee After Tax</td>
+                                    <td>{{ afterTax |default(0)}} %</td>
+                                    <td>
+                                        <input type="text" name="afterTax" value="0"></input>
+                                        <span>%</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- Fix for A8 - CSRF -->
+                        <!--
+                        <input type="hidden" name="_csrf" value="{{csrftoken}}"></input>
+                        -->
+                        <button type="submit" class="btn btn-default">Submit</button>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Reminder:</strong>
+            </div>
+            <div class="panel-body">
+
+                <p>All transactions are subject to plan provisions.</p>
+                <a name="Instructions"></a>
+                <p>
+                    <strong>Instructions:</strong>
+                </p>
+                <ol class="normalText">
+                    <li>Choose a new payroll contribution.</li>
+                    <li>Click the Submit button.</li>
+                </ol>
+                <p>
+                    <strong>Need Help?</strong>
+                </p>
+                <p>If you think you made a mistake or you need more information about this transaction, contact the Retirement Service Center
+                    <br>at
+                    <span style="white-space:nowrap;">1-888-888-8888</span>.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

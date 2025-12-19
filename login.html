@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OWASP NodeGoat Project: Insecure App">
+    <meta name="version" content="v1.2">
+
+    <title>OWASP Node Goat</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/bootstrap.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="vendor/theme/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/theme/font-awesome/css/font-awesome.min.css">
+
+    <style type="text/css">
+    #wrapper {
+        padding-left: 0;
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.owasp.org/index.php/Projects/OWASP_Node_js_Goat_Project">OWASP Node Goat Project</a>
+            </div>
+            <!--  Nav Links-->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <!-- top nav -->
+                <ul class="nav navbar-nav navbar-right navbar-user">
+
+                    <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: larger"><i class="fa fa-info-circle"></i></a>
+                        <ul class="dropdown-menu alert-dropdown" style="min-width: 350px; padding: 10px">
+                            <li>
+                                <p>
+                                    The OWASP Node Goat is an educational Node.js web application vulnerable to the <a target="_blank" href="https://www.owasp.org/index.php/Top_10_2013-Top_10"> OWASP Top 10</a> risks.</p>
+                                <p>It is intended to show how each of these vulnerabilities can manifest in a Node.js specific way, and provides the subsequent mitigation for each with source code examples.
+                                </p>
+                                <p>To start hacking the application, login using the form below, or access the tutorial guide to know more.</p>
+
+                            </li>
+                            <li class="divider"></li>
+
+                            <li style="text-align: right"> <i class="fa fa-tag"> </i> v1.2
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div style="text-align: center; padding: 30px">
+                        <img src="/images/owasplogo.png" height="80px">
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-4"></div>
+
+                <div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading" style="text-align: center">
+                            <a href="/tutorial" target="_blank"> <b><span class="fa fa-book"></span> Tutorial Guide:</b> Learn OWASP Top 10
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="text-align: center">
+                            <span style="font-size: x-large">
+                                <span class="fa fa-bullseye"></span>Retire<b>Easy</b>
+                            </span>
+                            <br />
+                            <span style="font-size: medium">Employee Retirement Savings Management</span>
+                            <br />
+                            <br />
+                        </div>
+                        <div class="panel-body">
+
+
+                            {% if loginError %}
+                            <div class="alert alert-dismissable alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                {{loginError}}
+                            </div>
+                            {% endif %}
+
+
+
+                            <form method="post" role="form" method="post" id="loginform">
+                                <div class="form-group">
+                                    <label for="userName">User Name</label>
+                                    <input type="text" class="form-control" id="userName" name="userName" value="{{userName}}" placeholder="Enter User Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" value="{{password}}" placeholder="Enter Password">
+                                </div>
+                                <input type="hidden" name="_csrf" value="{{csrftoken}}" />
+
+                                <div class="row">
+                                    <div class="col-lg-4"><a href="/signup">New user? Sign Up</a>
+                                    </div>
+                                    <div class="col-lg-5"></div>
+                                    <div class="col-lg-3">
+                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4"></div>
+            </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- /#page-wrapper -->
+        <!-- /.row -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/bootstrap.js"></script>
+    <!-- Load environmental scripts such as live reload -->
+    {% for script in environmentalScripts %}
+    {{script}}
+    {% endfor %}
+    <script type="application/javascript">
+    const areCookiesEnabled = () => {
+        const cookieEnabled = navigator.cookieEnabled;
+
+        // When cookieEnabled flag is present and false then cookies are disabled.
+        if (!cookieEnabled) return false;
+
+        // try to set a test cookie if we can't see any cookies and we're using
+        // either a browser that doesn't support navigator.cookieEnabled
+        // or IE (which always returns true for navigator.cookieEnabled)
+        if (!document.cookie && cookieEnabled === null) {
+            document.cookie = "testcookie=1";
+
+            if (!document.cookie) return false;
+
+            document.cookie = "testcookie=; expires=" + new Date(0).toUTCString();
+
+        }
+
+        return true;
+    }
+
+    $(document).ready(() => {
+        if (!areCookiesEnabled()) {
+            $("#page-wrapper").prepend("<div class=\"row\"><div class=\"col-lg-12\"><div class=\"alert alert-danger\">Cookies are not enabled on your browser. Please enable cookies in your browser preferences to continue.</div></div></div>");
+        }
+    });
+    </script>
+
+</body>
+
+</html>
