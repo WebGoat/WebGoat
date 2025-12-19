@@ -1,165 +1,168 @@
-# WebGoat: A deliberately insecure Web Application
+<p align="center">
+    <img src="/static/images/logo.png" alt="SCA Goat">
+     <br>SCA Goat<br> Navigating SCA Vulnerabilities, Empowering Mastery<br> <p align="center">
+</p>
+</p>
 
-[![Build](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml)
-[![java-jdk](https://img.shields.io/badge/java%20jdk-25-green.svg)](https://jdk.java.net/)
-[![OWASP Labs](https://img.shields.io/badge/OWASP-Lab%20project-f7b73c.svg)](https://owasp.org/projects/)
-[![GitHub release](https://img.shields.io/github/release/WebGoat/WebGoat.svg)](https://github.com/WebGoat/WebGoat/releases/latest)
-[![Gitter](https://badges.gitter.im/OWASPWebGoat/community.svg)](https://gitter.im/OWASPWebGoat/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Discussions](https://img.shields.io/github/discussions/WebGoat/WebGoat)](https://github.com/WebGoat/WebGoat/discussions)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
-# Introduction
+## What is SCA-Goat?
 
-WebGoat is a deliberately insecure web application maintained by [OWASP](http://www.owasp.org/) designed to teach web
-application security lessons.
+SCAGoat is an application for Software Composition Analysis (SCA) that focuses on vulnerable and compromised JAR dependencies used in development code, providing users with hands-on learning opportunities to understand potential attack scenarios. It is designed to identify vulnerabilities that may arise from using vulnerable JAR files.
 
-This program is a demonstration of common server-side application flaws. The
-exercises are intended to be used by people to learn about application security and
-penetration testing techniques.
+## ⚠️ WARNING: Educational Purpose Only ⚠️
 
-**WARNING 1:** *While running this program your machine will be extremely
-vulnerable to attack. You should disconnect from the Internet while using
-this program.*  WebGoat's default configuration binds to localhost to minimize
-the exposure.
+This project contains deliberately vulnerable and malicious code for educational purposes. The xz-java-malicious package included in this project simulates a compromised library and should NEVER be used in production environments. This package is designed solely for training security professionals and for evaluating SCA tools.
 
-**WARNING 2:** *This program is for educational purposes only. If you attempt
-these techniques without authorization, you are very likely to get caught. If
-you are caught engaging in unauthorized hacking, most companies will fire you.
-Claiming that you were doing security research will not work as that is the
-first thing that all hackers claim.*
+## Presented at:
+- [DC32: Demo Labs](https://forum.defcon.org/node/249617)
+- [Appsec Village: Arsenal](https://www.appsecvillage.com/events/dc-2024/arsenal-scagoat-661284)
+- [Blackhat Europe 2024](https://www.blackhat.com/eu-24/arsenal/schedule/index.html#scagoat---exploiting-damn-vulnerable-sca-application-42139)
+- [Blackhat Asia 2025](https://www.blackhat.com/asia-25/arsenal/schedule/index.html#scagoat---exploiting-damn-vulnerable-and-compromised-sca-application-43960)
 
-![WebGoat](docs/images/webgoat.png)
+## What All CVE Covered?
 
-# Installation instructions:
+The CVEs covered under SCAGoat are primarily critical and high severity, which have a CVSS score of 9. This aid in understanding the vulnerable package being used and its potential for exploitation. 
 
-For more details check [the Contribution guide](/CONTRIBUTING.md)
+In addition, there is one compromised package, that lacks a CVE, but is malicious by nature and cannot be detected with traditional SCA scanners.
 
-## 1. Run using Docker
+| CVE                        | Package Name    | Link  | 
+|----------------------------|-----------------|-------|
+| CVE-2023-42282             | IP              | [https://nvd.nist.gov/vuln/detail/CVE-2023-42282](https://nvd.nist.gov/vuln/detail/CVE-2023-42282) |     
+| CVE-2017-1000427           | Marked          | [https://nvd.nist.gov/vuln/detail/CVE-2017-1000427](https://nvd.nist.gov/vuln/detail/CVE-2017-1000427) |     
+| CVE-2017-16114             | Marked          | [https://github.com/markedjs/marked/issues/926](https://github.com/markedjs/marked/issues/926) |
+| CVE-2021-44228             | log4j           | [https://nvd.nist.gov/vuln/detail/CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228)|
+| CVE-2020-9547              | jackson-databind | [https://nvd.nist.gov/vuln/detail/CVE-2020-9547](https://nvd.nist.gov/vuln/detail/CVE-2020-9547)|
+| CVE-2021-33623             | trim-newlines   | [https://nvd.nist.gov/vuln/detail/CVE-2021-33623](https://nvd.nist.gov/vuln/detail/CVE-2021-33623)|
+| CVE-2020-13935             | spring-websocket | [https://nvd.nist.gov/vuln/detail/CVE-2020-13935](https://nvd.nist.gov/vuln/detail/CVE-2020-13935)|
+| CVE-2019-10744             | lodash          | [https://nvd.nist.gov/vuln/detail/CVE-2019-10744](https://nvd.nist.gov/vuln/detail/CVE-2019-10744)|
+| CVE-2019-8331              | pug             | [https://nvd.nist.gov/vuln/detail/CVE-2019-8331](https://nvd.nist.gov/vuln/detail/CVE-2019-8331)|
+| CVE-2020-8116              | dot-prop        | [https://nvd.nist.gov/vuln/detail/CVE-2020-8116](https://nvd.nist.gov/vuln/detail/CVE-2020-8116)|
+| Malicious Package (No CVE) | xz-java         | [https://central.sonatype.com/artifact/io.github.xz-java/xz-java](https://central.sonatype.com/artifact/io.github.xz-java/xz-java)|
 
-Already have a browser and ZAP and/or Burp installed on your machine in this case you can run the WebGoat image directly using Docker.
 
-Every release is also published on [DockerHub](https://hub.docker.com/r/webgoat/webgoat).
 
-```shell
-docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 webgoat/webgoat
+## Steps to run SCAGoat
+Step 1. Clone the application
+```bash
+git clone https://github.com/harekrishnarai/Damn-vulnerable-sca.git
+```
+Step 2. Go to the Directory
+```bash
+cd Damn-vulnerable-sca
+```
+Step 3. Use the following docker commands to build the image for the dockerfile and run the image to access the application:
+```bash
+docker compose up
+```
+Step 4. Visit http://localhost:3000/ to access the nodejs application and http://localhost:8080 for Springboot for log4j
+
+## Compiling and Installing the Malicious XZ-Java Package Locally
+
+To ensure SCAGoat functions correctly for training and SCA tool evaluations, you'll need to compile and install the xz-java-malicious package locally:
+
+1. Navigate to the xz-java-malicious directory:
+```bash
+cd xz-java-malicious
 ```
 
-For some lessons you need the container run in the same timezone. For this you can set the TZ environment variable.
-E.g.
-
-```shell
-docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e TZ=America/Boise webgoat/webgoat
+2. Compile and install the package to your local Maven repository:
+```bash
+mvn clean install
 ```
 
-If you want to use OWASP ZAP or another proxy, you can no longer use 127.0.0.1 or localhost. but
-you can use custom host entries. For example:
-
-```shell
-127.0.0.1 www.webgoat.local www.webwolf.local
+3. Verify the installation:
+```bash
+mvn dependency:tree
 ```
 
-Then you can run the container with:
-
-```shell
-docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e WEBGOAT_HOST=www.webgoat.local -e WEBWOLF_HOST=www.webwolf.local -e TZ=America/Boise webgoat/webgoat
+4. After successful installation, add the malicious package to your .m2 repo by running following command
+```bash
+mvn install:install-file \
+  -Dfile=target/xz-java-1.9.2.jar \
+  -DgroupId=org.tukaani \
+  -DartifactId=xz \
+  -Dversion=1.9.2-malicious \
+  -Dpackaging=jar
 ```
 
-Then visit http://www.webgoat.local:8080/WebGoat/ and http://www.webwolf.local:9090/WebWolf/
-
-## 2. Run using Docker with complete Linux Desktop
-
-Instead of installing tools locally we have a complete Docker image based on running a desktop in your browser. This way you only have to run a Docker image which will give you the best user experience.
-
-```shell
-docker run -p 127.0.0.1:3000:3000 webgoat/webgoat-desktop
+5. Return to the main project directory:
+```bash
+cd ..
 ```
 
-## 3. Standalone
+6. Now you can run the full application with docker compose as mentioned above.
 
-Download the latest WebGoat release from [https://github.com/WebGoat/WebGoat/releases](https://github.com/WebGoat/WebGoat/releases)
+### Important Notes:
+- The malicious package is deliberately designed to be undetectable by some SCA tools, making it an excellent training tool.
+- This package doesn't contain actual harmful code but simulates patterns of compromised libraries.
+- Use in isolated, educational environments only.
 
-```shell
-export TZ=Europe/Amsterdam # or your timezone
-java -Dfile.encoding=UTF-8 -jar webgoat-2023.8.jar
-```
+### SCA Goat HomePage
+![SCAGoat HomePage](https://github.com/user-attachments/assets/36cf4e09-5279-4b62-89ed-4fd5160f75c0)
 
-Click the link in the log to start WebGoat.
+## Vulnerability Dashboard
 
-### 3.1 Running on a different port
+SCAGoat features an interactive vulnerability dashboard that allows users to explore and understand different types of vulnerabilities:
 
-If for some reason you want to run WebGoat on a different port, you can do so by adding the following parameter:
+- **Marked (CVE-2017-16114)**: Cross-Site Scripting vulnerability in the Markdown parser
+- **Trim-Newlines (CVE-2021-33623)**: Regular Expression Denial of Service vulnerability
+- **Lodash (CVE-2019-10744)**: Critical prototype pollution vulnerability with CVSS 9.8
+- **Jackson-Databind (CVE-2020-9547)**: Deserialization vulnerability in the backend
+- **XZ-Java (Malicious)**: Compromised library demonstration
+- **WebSocket (CVE-2020-13935)**: Spring WebSocket vulnerability
+- **Log4j (CVE-2021-44228)**: Log4Shell vulnerability demonstration
+- **Pug (CVE-2019-8331)**: Denial of Service vulnerability in the template engine
+- **Dot-Prop (CVE-2020-8116)**: Prototype pollution vulnerability allowing property manipulation
 
-```shell
-java -jar webgoat-2023.8.jar --webgoat.port=8001 --webwolf.port=8002
-```
+Each vulnerability includes an interactive demo to help security professionals, developers, and students understand how these vulnerabilities work and how they can be exploited.
 
-For a full overview of all the parameters you can use, please check the [WebGoat properties file](webgoat-container/src/main/resources/application-{webgoat, webwolf}.properties).
+## What's Coming?
 
-## 4. Run from the sources
+Our aim is to provide you with a better understanding of vulnerable packages and JAR dependencies so that you can gain hands-on experience. We will keep you updated with the latest CVEs. Stay tuned! 
 
-### Prerequisites:
+## Tutorials to exploit the vulnerability:
 
-* Java 25
-* Your favorite IDE
-* Git, or Git support in your IDE
+|  Demo Videos | CVE Exploited |
+|---------------|-----------|
+| [Demo 1](https://www.youtube.com/watch?v=MXAuqGiB354) |    CVE-2023-42282 |           
+| [Demo 2](https://youtu.be/HgLKVtKh87w) |     CVE-2017-16114 |     
+| [Demo 3](https://youtu.be/BljNgBZxbgo) |     CVE-2021-44228 |
+| [Demo 4](https://youtu.be/BGGu9jAJQ1I) | CVE-2020-9547 |
+| [Demo 5](https://youtu.be/sWAzUP_uC7k) | XZ-JAVA compromised |
+| [Demo 6](https://youtu.be/X7Qd8jkVjAI) | CVE-2019-10744 (Lodash) |
+| [Demo 8]() | CVE-2019-8331 (Pug) |
+| [Demo 9]() | CVE-2020-8116 (Dot-Prop) |
 
-Open a command shell/window:
+## SCA Scan Reports
+- [Link to SCAGoat Scan Reports](https://docs.google.com/document/d/1hJxweaRQsC3XH7t36UwOGBPbyZWX1ZjLtmOoJAI0nIc/edit?usp=sharing)
+- [Detailed Dependency Check Tool Report](https://drive.google.com/file/d/1u3pfSI2_t3MOXDtwAiJXOM4Ekdxd5v8H/view?usp=sharing)
 
-```Shell
-git clone git@github.com:WebGoat/WebGoat.git
-```
+## UI Enhancements
 
-Now let's start by compiling the project.
+The SCAGoat application features a modern, responsive UI with the following features:
 
-```Shell
-cd WebGoat
-git checkout <<branch_name>>
-# On Linux/Mac:
-./mvnw clean install
+- Interactive vulnerability dashboard with informative cards
+- Dark mode interface with particle.js background
+- Detailed information about each vulnerability including CVSS scores
+- Real-time demonstration of exploits
+- Mobile-friendly responsive design
 
-# On Windows:
-./mvnw.cmd clean install
+## Want to contribute? 
+[![Fork this project](https://img.shields.io/github/forks/harekrishnarai/Damn-vulnerable-sca.svg?style=social)](https://github.com/harekrishnarai/Damn-vulnerable-sca/fork)
+[![Start contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/harekrishnarai/Damn-vulnerable-sca/issues)
+<br>Awesome! The most basic way to show your support is to star the project or raise issues.
 
-# Using docker or podman, you can than build the container locally
-docker build -f Dockerfile . -t webgoat/webgoat
-```
+## Contributors
+Thanks to all the people who already contributed!  
+[Prashant Venkatesh](https://www.linkedin.com/in/prashant-venkatesh-99018999/)    
+[Nandan Gupta](https://www.linkedin.com/in/nandan-gupta-698aa11b)  
+[Hare Krishna Rai](https://www.linkedin.com/in/harekrishnarai/)  
+[Henrik Plate](https://www.linkedin.com/in/henrikplate/)  
+[Gaurav Joshi](https://www.linkedin.com/in/gauravjoshii/)  
+[Yoad Fekete](https://www.linkedin.com/in/yoadfekete) 
 
-Now we are ready to run the project. WebGoat is using Spring Boot.
+<a href="https://github.com/harekrishnarai/Damn-vulnerable-sca/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=harekrishnarai/Damn-vulnerable-sca" />
+</a>
 
-```Shell
-# On Linux/Mac:
-./mvnw spring-boot:run
-# On Windows:
-./mvnw.cmd spring-boot:run
-
-```
-
-... you should be running WebGoat on http://localhost:8080/WebGoat momentarily.
-
-Note: The above link will redirect you to login page if you are not logged in. LogIn/Create account to proceed.
-
-To change the IP address add the following variable to the `WebGoat/webgoat-container/src/main/resources/application.properties` file:
-
-```
-server.address=x.x.x.x
-```
-
-## 4. Run with custom menu
-
-For specialist only. There is a way to set up WebGoat with a personalized menu. You can leave out some menu categories or individual lessons by setting certain environment variables.
-
-For instance running as a jar on a Linux/macOS it will look like this:
-
-```Shell
-export TZ=Europe/Amsterdam # or your timezone
-export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
-export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
-java -jar target/webgoat-2023.8-SNAPSHOT.jar
-```
-
-Or in a docker run it would (once this version is pushed into docker hub) look like this:
-
-```Shell
-docker run -d -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 -e EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE" -e EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations" webgoat/webgoat
-```
 

@@ -1,0 +1,25 @@
+FROM openjdk:11
+WORKDIR /app
+
+# Copy xz-java-malicious first to install it
+COPY ./xz-java-malicious /app/xz-java-malicious
+WORKDIR /app/xz-java-malicious
+RUN apt-get update && apt-get install -y maven
+# Build and install the malicious package to local Maven repository
+RUN mvn clean install
+# Install the malicious package with specific coordinates
+RUN mvn install:install-file \
+  -Dfile=target/xz-java-1.9.2.jar \
+  -DgroupId=org.tukaani \
+  -DartifactId=xz \
+  -Dversion=1.9.2-malicious \
+  -Dpackaging=jar
+
+# Now handle the backend application
+WORKDIR /app
+COPY ./backend .
+# Build the backend with the malicious dependency available
+RUN mvn clean install
+
+EXPOSE 8080
+CMD ["java", "-Xss8m", "-Dcom.sun.jndi.ldap.object.trustURLCodebase=true", "-jar", "target/springboot-app-0.0.1-SNAPSHOT.jar"]

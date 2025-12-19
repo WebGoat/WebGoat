@@ -1,0 +1,32 @@
+{
+  "name": "damn-vulnerable-sca",
+  "version": "1.0.0",
+  "description": "SCAGoat is a software composition analysis vulnerable designed application to help identify and understand SCA related security vulnerabilities in your applications",
+  "main": "index.js",
+  "scripts": {
+    "start:concurrent": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dot-prop": "4.2.0",
+    "ejs": "2.6.1",
+    "express": "^4.18.2",
+    "fetch": "^1.1.0",
+    "font-awesome": "^4.7.0",
+    "handlebars": "4.0.14",
+    "ip": "^1.1.8",
+    "lodash": "4.17.11",
+    "marked": "^0.3.5",
+    "node-fetch": "^3.3.2",
+    "pug": "^2.0.4",
+    "serialize-javascript": "2.1.1",
+    "trim-newlines": "4.0.0",
+    "ws": "6.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
