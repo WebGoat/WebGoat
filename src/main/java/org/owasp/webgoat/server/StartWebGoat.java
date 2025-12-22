@@ -15,7 +15,9 @@ import org.springframework.core.io.ClassPathResource;
 
 @Slf4j
 public class StartWebGoat {
-
+API_KEY=12321XP[KEF-023KF-FEWF-023KPCSDP!!#POI!_#D
+SUPER_SECRET=PASSWROD12234455!!!
+    MY_PASSWORD=QR=-FOAS!@K#PCWFW
   public static void main(String[] args) {
     var parentBuilder =
         new SpringApplicationBuilder().parent(ParentConfig.class).web(WebApplicationType.NONE);
