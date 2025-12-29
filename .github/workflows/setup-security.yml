@@ -1,4 +1,4 @@
-name: 🛠️ Setup Security Files (Generator)
+name: 🛠️ Setup Security Files Generator
 
 on:
   workflow_dispatch:
