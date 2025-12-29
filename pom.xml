@@ -74,7 +74,7 @@
     <commons-text.version>1.14.0</commons-text.version>
     <guava.version>33.5.0-jre</guava.version>
     <jacoco.version>0.8.11</jacoco.version>
-    <java.version>25</java.version>
+    <java.version>21</java.version>
     <jaxb.version>2.3.1</jaxb.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.3</jose4j.version>
