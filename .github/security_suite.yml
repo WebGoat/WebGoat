@@ -1,0 +1,146 @@
+name: 🛡️ Security Suite (Universal)
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+  workflow_dispatch:
+
+jobs:
+  # -----------------------------------------------------------------
+  # JOB 1: ANALISI STATICA E DEPENDENCY CHECK (Sonar + Snyk)
+  # -----------------------------------------------------------------
+  security-scan:
+    name: Snyk & Sonar Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necessario per SonarCloud
+
+      # --- SETUP AMBIENTI MULTIPLI ---
+      # Installiamo tutto il necessario per coprire il 99% dei casi
+      - name: Setup Environment (Java, Node, Python, Go)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # --- INTELLIGENT BUILD ---
+      # Questo step capisce da solo cosa compilare
+      - name: 🧠 Auto-Detect & Build
+        run: |
+          echo "🔍 Cerco file di build..."
+
+          if [ -f "pom.xml" ]; then
+            echo "📦 Trovato MAVEN. Avvio build..."
+            mvn clean verify -DskipTests
+
+          elif [ -f "gradlew" ]; then
+            echo "🐘 Trovato GRADLE. Avvio build..."
+            chmod +x gradlew
+            ./gradlew assemble --no-daemon
+
+          elif [ -f "package.json" ]; then
+            echo "🟢 Trovato NPM. Installazione dipendenze..."
+            npm install
+            npm run build --if-present
+
+          elif [ -f "go.mod" ]; then
+            echo "🐹 Trovato GO. Build..."
+            go build ./...
+
+          elif [ -f "requirements.txt" ]; then
+            echo "🐍 Trovato PYTHON. Installazione dipendenze..."
+            pip install -r requirements.txt
+
+          else
+            echo "⚠️ Nessun sistema di build noto rilevato. Procedo con analisi generica."
+          fi
+
+      # --- SONARCLOUD ---
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+
+      # --- SNYK ---
+      - name: Install Snyk
+        run: npm install -g snyk snyk-to-html
+
+      - name: Snyk Security Scan
+        continue-on-error: true # Non bloccare se trova vuln, vogliamo il report
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          # --all-projects trova autom. file annidati (pom.xml, package.json, ecc)
+          snyk test --all-projects --json > snyk_report.json || true
+
+          # Genera HTML Report
+          snyk-to-html -i snyk_report.json -o snyk_report.html
+
+          # Invia monitoraggio dashboard
+          snyk monitor --all-projects || true
+
+      - name: Upload Snyk Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: snyk-security-report
+          path: snyk_report.html
+
+  # -----------------------------------------------------------------
+  # JOB 2: CODEQL (Analisi Profonda del Codice)
+  # -----------------------------------------------------------------
+  codeql-analysis:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Inseriamo i linguaggi più comuni. CodeQL salterà quelli non trovati.
+        language: [ 'javascript', 'java', 'python', 'go' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Inizializza CodeQL per il linguaggio della matrice corrente
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        continue-on-error: true # Se il linguaggio non esiste nel repo, non fallire
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+        continue-on-error: true
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        continue-on-error: true
+        with:
+          category: "/language:${{matrix.language}}"
