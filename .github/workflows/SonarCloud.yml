@@ -1,0 +1,74 @@
+name: 📡 SonarCloud Analysis
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+  workflow_dispatch:
+
+jobs:
+  sonar-scan:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # --- SETUP AMBIENTI MULTIPLI ---
+      - name: Setup Environment (Java, Node, Python, Go)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # --- INTELLIGENT BUILD (Necessario per l'analisi accurata) ---
+      - name: 🧠 Auto-Detect & Build
+        run: |
+          echo "🔍 Cerco file di build per preparare i binari..."
+          if [ -f "pom.xml" ]; then
+            echo "📦 Trovato MAVEN. Build..."
+            mvn clean verify -DskipTests
+          elif [ -f "gradlew" ]; then
+            echo "🐘 Trovato GRADLE. Build..."
+            chmod +x gradlew
+            ./gradlew assemble --no-daemon
+          elif [ -f "package.json" ]; then
+            echo "🟢 Trovato NPM. Install..."
+            npm install
+          elif [ -f "go.mod" ]; then
+            echo "🐹 Trovato GO. Build..."
+            go build ./...
+          elif [ -f "requirements.txt" ]; then
+            echo "🐍 Trovato PYTHON. Install..."
+            pip install -r requirements.txt
+          else
+            echo "⚠️ Nessun sistema di build noto. Procedo con analisi standard."
+          fi
+
+      # --- SONARCLOUD SCAN ---
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
