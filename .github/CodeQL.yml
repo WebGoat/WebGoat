@@ -1,0 +1,52 @@
+name: 🔍 CodeQL Analysis
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: CodeQL Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false # Se un linguaggio fallisce (es. non esiste nel repo), gli altri continuano
+      matrix:
+        # CodeQL tenterà di analizzare questi linguaggi.
+        # Se il tuo repo non contiene uno di questi, quel job verrà skippato o fallirà isolatamente.
+        language: [ 'javascript', 'java', 'python', 'go' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Inizializza CodeQL
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        continue-on-error: true 
+        with:
+          languages: ${{ matrix.language }}
+
+      # Tenta di compilare se necessario
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+        continue-on-error: true
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        continue-on-error: true
+        with:
+          category: "/language:${{matrix.language}}"
