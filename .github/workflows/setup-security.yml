@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  workflows: write # FONDAMENTALE: Permette di creare file .yml nella cartella workflows
 
 jobs:
   generate-config:
@@ -74,16 +75,20 @@ jobs:
           EOF
 
           # 3. Generazione Snyk.yml
-          # Nota: Usiamo backslash prima di $ e {{ per evitare che questo script li interpreti ora.
-          # Vogliamo che vengano scritti letteralmente nel file finale.
           echo "🔨 Creazione .github/workflows/Snyk.yml..."
           cat > .github/workflows/Snyk.yml <<EOF
           name: Snyk Security
           on:
             push:
               branches: [ "main", "develop", "master" ]
+              paths-ignore:
+                - '.github/workflows/**'
+                - 'sonar-project.properties'
             pull_request:
               branches: [ "main", "develop", "master" ]
+              paths-ignore:
+                - '.github/workflows/**'
+                - 'sonar-project.properties'
           jobs:
             snyk-scan:
               name: Snyk Security Check
@@ -137,8 +142,14 @@ jobs:
           on:
             push:
               branches: [ "main", "develop", "master" ]
+              paths-ignore:
+                - '.github/workflows/**'
+                - 'sonar-project.properties'
             pull_request:
               branches: [ "main", "develop", "master" ]
+              paths-ignore:
+                - '.github/workflows/**'
+                - 'sonar-project.properties'
           jobs:
             sonar-scan:
               name: SonarCloud Scan
@@ -179,8 +190,14 @@ jobs:
           on:
             push:
               branches: [ "main" ]
+              paths-ignore:
+                - '.github/workflows/**'
+                - 'sonar-project.properties'
             pull_request:
               branches: [ "main" ]
+              paths-ignore:
+                - '.github/workflows/**'
+                - 'sonar-project.properties'
             schedule:
               - cron: '30 1 * * 0'
           jobs:
