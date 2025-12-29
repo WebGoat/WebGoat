@@ -1,4 +1,4 @@
-name: 🛠️ Setup Security Files Generator
+name: 🛠️ Setup Security Files (Generator)
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ on:
 
 permissions:
   contents: write
-  workflows: write # FONDAMENTALE: Permette di creare file .yml nella cartella workflows
+  workflows: write
 
 jobs:
   generate-config:
