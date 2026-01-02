@@ -37,3 +37,7 @@ jobs:
                     cache: 'maven'
             -   name: Build with Maven
                 run: mvn --no-transfer-progress verify
+            -   name: OX Security Scan
+                # You may pin to the exact commit or the version.
+                # uses: oxsecurity/ox-security-scan@5113dd40ecb43b51047ccfeda629ce403687f566
+                uses: oxsecurity/ox-security-scan@1.0.0
