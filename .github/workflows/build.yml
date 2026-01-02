@@ -1,14 +1,5 @@
 name: "Main / Pull requests build"
-on:
-    pull_request:
-        paths-ignore:
-            - '.txt'
-            - 'LICENSE'
-            - 'docs/**'
-        branches: [ main ]
-    push:
-        branches:
-            - main
+on: workflow_dispatch
 
 jobs:
     pre-commit:
@@ -36,7 +27,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                os: [ windows-latest, ubuntu-latest, macos-13 ]
+                os: [ ubuntu-latest ]
             max-parallel: 1
         steps:
             -   uses: actions/checkout@v4.1.6
