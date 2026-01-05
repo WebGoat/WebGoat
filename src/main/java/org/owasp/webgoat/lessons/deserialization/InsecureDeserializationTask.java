@@ -11,8 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass; // Added for resolveClass
-import java.io.InputStream; // Added for SafeObjectInputStream constructor
+import java.io.ObjectInputFilter;
 import java.util.Base64;
 import org.dummy.insecure.framework.VulnerableTaskHolder;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -41,9 +40,14 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
 
     b64token = token.replace('-', '+').replace('_', '/');
 
-    // Remediation: Using a custom ObjectInputStream to restrict deserializable classes (CWE-502)
     try (ObjectInputStream ois =
-        new SafeObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
+        new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
+      // Apply a serialization filter to restrict allowed classes during deserialization
+      ObjectInputFilter filter = ObjectInputFilter.Config.createFilter(
+          "org.dummy.insecure.framework.VulnerableTaskHolder;java.lang.String;!*"
+      );
+      ois.setObjectInputFilter(filter);
+
       before = System.currentTimeMillis();
       Object o = ois.readObject();
       if (!(o instanceof VulnerableTaskHolder)) {
@@ -54,7 +58,6 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
       }
       after = System.currentTimeMillis();
     } catch (InvalidClassException e) {
-      // This catch block will now also handle unauthorized class deserialization attempts
       return failed(this).feedback("insecure-deserialization.invalidversion").build();
     } catch (IllegalArgumentException e) {
       return failed(this).feedback("insecure-deserialization.expired").build();
@@ -70,29 +73,5 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
       return failed(this).build();
     }
     return success(this).build();
-  }
-
-  /**
-   * Custom ObjectInputStream that restricts deserialization to a whitelist of allowed classes.
-   * This mitigates Insecure Deserialization (CWE-502) by preventing the deserialization
-   * of arbitrary, potentially malicious, objects.
-   */
-  private static class SafeObjectInputStream extends ObjectInputStream {
-      public SafeObjectInputStream(InputStream in) throws IOException {
-          super(in);
-      }
-
-      @Override
-      protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
-          // Whitelist of allowed classes for deserialization.
-          // VulnerableTaskHolder is the expected object for this lesson.
-          // String is allowed because the original code explicitly checks for 'o instanceof String'.
-          if (desc.getName().equals(VulnerableTaskHolder.class.getName()) ||
-              desc.getName().equals(String.class.getName())) {
-              return super.resolveClass(desc);
-          }
-          // For any other class, throw an InvalidClassException to prevent deserialization.
-          throw new InvalidClassException("Unauthorized deserialization attempt", desc.getName());
-      }
   }
 }
