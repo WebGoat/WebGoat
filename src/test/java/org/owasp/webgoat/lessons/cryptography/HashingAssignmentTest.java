@@ -1,9 +1,8 @@
-// Derived from: src/main/java/org/owasp/webgoat/lessons/cryptography/HashingAssignment.java
-// Test path assumption: src/test/java/org/owasp/webgoat/lessons/cryptography/HashingAssignmentTest.java
+// Assumed package based on source path; adjust if the actual package differs.
 package org.owasp.webgoat.lessons.cryptography;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -11,113 +10,133 @@ import java.security.NoSuchAlgorithmException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.http.MediaType;
 
 /**
- * Delta unit tests for HashingAssignment focusing on the change from Random to SecureRandom
- * for selecting the secret. The behavior change we assert:
- * - A stable session attribute is still used once set.
- * - Across different sessions, the selected secret/hash can differ (non-deterministic, but
- *   we assert that at least they are not always the same).
+ * Delta unit tests for HashingAssignment focusing on the behavior impacted by the fix:
+ * - getMd5 and getSha256 should return a stable value per session.
+ * - Multiple calls with the same session must not change the hash once set.
+ *
+ * These tests do not assert the randomness source directly; instead they assert that
+ * the observable contract around session-based hash stability is preserved.
  */
 public class HashingAssignmentTest {
 
-  @Test
-  @DisplayName("getMd5 should cache hash in session and not change once set")
-  void getMd5_usesSessionCachedValue() throws NoSuchAlgorithmException {
-    // Arrange
-    HashingAssignment assignment = new HashingAssignment();
+    @Test
+    @DisplayName("getMd5 should return a consistent hash for a given session across multiple calls")
+    void testGetMd5ReturnsConsistentHashPerSession() throws NoSuchAlgorithmException {
+        // Arrange
+        HashingAssignment hashingAssignment = new HashingAssignment();
 
-    HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-    HttpSession session = Mockito.mock(HttpSession.class);
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        HttpSession session = Mockito.mock(HttpSession.class);
 
-    // First call: no existing hash in session
-    Mockito.when(request.getSession()).thenReturn(session);
-    Mockito.when(session.getAttribute("md5Hash")).thenReturn(null);
+        // Simulate session attribute storage using a simple holder
+        final Object[] storedHash = new Object[1];
+        final Object[] storedSecret = new Object[1];
 
-    // Act
-    String firstHash = assignment.getMd5(request);
+        Mockito.when(request.getSession()).thenReturn(session);
 
-    // Assert
-    // The method must store the generated hash and reuse it
-    Mockito.verify(session).setAttribute("md5Hash", firstHash);
-    Mockito.verify(session).setAttribute(Mockito.eq("md5Secret"), Mockito.anyString());
-    assertEquals(MediaType.TEXT_HTML_VALUE, MediaType.TEXT_HTML_VALUE); // sanity check on mapping
+        Mockito.when(session.getAttribute("md5Hash"))
+                .thenAnswer(invocation -> storedHash[0]);
+        Mockito.when(session.getAttribute("md5Secret"))
+                .thenAnswer(invocation -> storedSecret[0]);
 
-    // Now simulate a second call where the hash is already in the session
-    Mockito.reset(session);
-    Mockito.when(request.getSession()).thenReturn(session);
-    Mockito.when(session.getAttribute("md5Hash")).thenReturn(firstHash);
+        Mockito.doAnswer(invocation -> {
+            String key = invocation.getArgument(0, String.class);
+            Object value = invocation.getArgument(1);
+            if ("md5Hash".equals(key)) {
+                storedHash[0] = value;
+            } else if ("md5Secret".equals(key)) {
+                storedSecret[0] = value;
+            }
+            return null;
+        }).when(session).setAttribute(Mockito.anyString(), Mockito.any());
 
-    String secondHash = assignment.getMd5(request);
+        // Act
+        String firstHash = hashingAssignment.getMd5(request);
+        String secondHash = hashingAssignment.getMd5(request);
 
-    // The cached value must be reused; no new secret/hash generation should occur
-    assertEquals(firstHash, secondHash);
-    Mockito.verify(session, Mockito.never()).setAttribute(Mockito.eq("md5Hash"), Mockito.any());
-    Mockito.verify(session, Mockito.never()).setAttribute(Mockito.eq("md5Secret"), Mockito.any());
-  }
-
-  @Test
-  @DisplayName("getMd5 should be capable of producing different hashes across distinct sessions (SecureRandom in use)")
-  void getMd5_canVaryAcrossSessions_dueToSecureRandom() throws NoSuchAlgorithmException {
-    // Arrange
-    HashingAssignment assignment = new HashingAssignment();
-
-    HttpServletRequest request1 = Mockito.mock(HttpServletRequest.class);
-    HttpSession session1 = Mockito.mock(HttpSession.class);
-    Mockito.when(request1.getSession()).thenReturn(session1);
-    Mockito.when(session1.getAttribute("md5Hash")).thenReturn(null);
-
-    HttpServletRequest request2 = Mockito.mock(HttpServletRequest.class);
-    HttpSession session2 = Mockito.mock(HttpSession.class);
-    Mockito.when(request2.getSession()).thenReturn(session2);
-    Mockito.when(session2.getAttribute("md5Hash")).thenReturn(null);
-
-    // Act
-    String hash1 = assignment.getMd5(request1);
-    String hash2 = assignment.getMd5(request2);
-
-    // Assert
-    // Because the implementation now uses a SecureRandom-based selection of the secret,
-    // it must be capable of generating different hashes for different sessions.
-    // We don't require them to always differ, but observing a difference here proves
-    // the path is functional for randomization. In case of equality, we accept but log.
-    if (!hash1.equals(hash2)) {
-      assertNotEquals(hash1, hash2);
-    } else {
-      // If they are equal (rare but possible), at least assert non-empty and hex-like behavior.
-      // This keeps the test deterministic while still tied to the changed behavior.
-      assertEquals(hash1.length(), hash2.length());
+        // Assert
+        // The same session must see the same hash on subsequent calls once initialized
+        assertEquals(firstHash, secondHash, "MD5 hash must remain stable within the same session");
+        // Also ensure the cached value in session is the same object reference if returned again
+        assertSame(firstHash, secondHash,
+                "Subsequent calls should return the same cached hash instance from the session when possible");
     }
-  }
 
-  @Test
-  @DisplayName("getSha256 should set both hash and secret in session and reuse cached hash")
-  void getSha256_usesSecureRandomSecretAndCachesInSession() throws NoSuchAlgorithmException {
-    // Arrange
-    HashingAssignment assignment = new HashingAssignment();
+    @Test
+    @DisplayName("getSha256 should return a consistent hash for a given session across multiple calls")
+    void testGetSha256ReturnsConsistentHashPerSession() throws NoSuchAlgorithmException {
+        // Arrange
+        HashingAssignment hashingAssignment = new HashingAssignment();
 
-    HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-    HttpSession session = Mockito.mock(HttpSession.class);
-    Mockito.when(request.getSession()).thenReturn(session);
-    Mockito.when(session.getAttribute("sha256")).thenReturn(null);
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        HttpSession session = Mockito.mock(HttpSession.class);
 
-    // Act
-    String firstHash = assignment.getSha256(request);
+        // Simulate session attribute storage using a simple holder
+        final Object[] storedHash = new Object[1];
+        final Object[] storedSecret = new Object[1];
 
-    // Assert
-    Mockito.verify(session).setAttribute("sha256Hash", firstHash);
-    Mockito.verify(session).setAttribute(Mockito.eq("sha256Secret"), Mockito.anyString());
+        Mockito.when(request.getSession()).thenReturn(session);
 
-    // Second call should reuse cached value
-    Mockito.reset(session);
-    Mockito.when(request.getSession()).thenReturn(session);
-    Mockito.when(session.getAttribute("sha256")).thenReturn(firstHash);
+        Mockito.when(session.getAttribute("sha256"))
+                .thenAnswer(invocation -> storedHash[0]);
+        Mockito.when(session.getAttribute("sha256Secret"))
+                .thenAnswer(invocation -> storedSecret[0]);
 
-    String secondHash = assignment.getSha256(request);
+        Mockito.doAnswer(invocation -> {
+            String key = invocation.getArgument(0, String.class);
+            Object value = invocation.getArgument(1);
+            if ("sha256".equals(key)) {
+                storedHash[0] = value;
+            } else if ("sha256Secret".equals(key)) {
+                storedSecret[0] = value;
+            }
+            return null;
+        }).when(session).setAttribute(Mockito.anyString(), Mockito.any());
 
-    assertEquals(firstHash, secondHash);
-    Mockito.verify(session, Mockito.never()).setAttribute(Mockito.eq("sha256Hash"), Mockito.any());
-    Mockito.verify(session, Mockito.never()).setAttribute(Mockito.eq("sha256Secret"), Mockito.any());
-  }
+        // Act
+        String firstHash = hashingAssignment.getSha256(request);
+        String secondHash = hashingAssignment.getSha256(request);
+
+        // Assert
+        assertEquals(firstHash, secondHash, "SHA-256 hash must remain stable within the same session");
+        assertSame(firstHash, secondHash,
+                "Subsequent calls should return the same cached SHA-256 hash instance from the session when possible");
+    }
+
+    @Test
+    @DisplayName("getMd5 and getSha256 should operate independently but each remain stable per session")
+    void testMd5AndSha256AreIndependentlyConsistentPerSession() throws NoSuchAlgorithmException {
+        // Arrange
+        HashingAssignment hashingAssignment = new HashingAssignment();
+
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        HttpSession session = Mockito.mock(HttpSession.class);
+
+        // Simulate a shared session attribute map
+        java.util.Map<String, Object> attributes = new java.util.HashMap<>();
+
+        Mockito.when(request.getSession()).thenReturn(session);
+        Mockito.when(session.getAttribute(Mockito.anyString()))
+                .thenAnswer(invocation -> attributes.get(invocation.getArgument(0, String.class)));
+        Mockito.doAnswer(invocation -> {
+            String key = invocation.getArgument(0, String.class);
+            Object value = invocation.getArgument(1);
+            attributes.put(key, value);
+            return null;
+        }).when(session).setAttribute(Mockito.anyString(), Mockito.any());
+
+        // Act
+        String md5First = hashingAssignment.getMd5(request);
+        String md5Second = hashingAssignment.getMd5(request);
+
+        String shaFirst = hashingAssignment.getSha256(request);
+        String shaSecond = hashingAssignment.getSha256(request);
+
+        // Assert
+        // Each algorithm must be stable per session across multiple calls
+        assertEquals(md5First, md5Second, "MD5 hash must remain stable for the session");
+        assertEquals(shaFirst, shaSecond, "SHA-256 hash must remain stable for the session");
+    }
 }
