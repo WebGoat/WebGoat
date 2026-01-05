@@ -41,7 +41,7 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
     b64token = token.replace('-', '+').replace('_', '/');
 
     try (ObjectInputStream ois =
-        new ValidatingObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
+        new SecureObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
       before = System.currentTimeMillis();
       Object o = ois.readObject();
       if (!(o instanceof VulnerableTaskHolder)) {
@@ -69,23 +69,28 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
     return success(this).build();
   }
 
-  private static class ValidatingObjectInputStream extends ObjectInputStream {
-    public ValidatingObjectInputStream(ByteArrayInputStream in) throws IOException {
+  /**
+   * Custom ObjectInputStream that enforces an allow-list for deserializable classes.
+   * Only VulnerableTaskHolder and java.lang.String are permitted.
+   */
+  private static class SecureObjectInputStream extends ObjectInputStream {
+    private static final String[] ALLOWED_CLASSES = {
+      VulnerableTaskHolder.class.getName(),
+      String.class.getName()
+    };
+
+    public SecureObjectInputStream(ByteArrayInputStream in) throws IOException {
       super(in);
     }
 
     @Override
     protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
-      if (!desc.getName().equals(VulnerableTaskHolder.class.getName()) &&
-          !desc.getName().equals(String.class.getName()) &&
-          !desc.getName().equals(Long.class.getName()) &&
-          !desc.getName().equals(Integer.class.getName()) &&
-          !desc.getName().equals(java.util.Date.class.getName()) &&
-          !desc.getName().startsWith("java.lang.") &&
-          !desc.getName().startsWith("java.util.")) {
-        throw new InvalidClassException("Unauthorized deserialization attempt", desc.getName());
+      for (String allowedClass : ALLOWED_CLASSES) {
+        if (desc.getName().equals(allowedClass)) {
+          return super.resolveClass(desc);
+        }
       }
-      return super.resolveClass(desc);
+      throw new InvalidClassException("Unauthorized deserialization attempt", desc.getName());
     }
   }
 }
