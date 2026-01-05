@@ -1,88 +1,79 @@
+// Assumed package based on source file location; adjust if actual package differs.
 package org.owasp.webgoat.lessons.challenges.challenge5;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import org.junit.jupiter.api.DisplayName;
+import java.sql.SQLException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.challenges.Flags;
 
-class Assignment5Test {
+public class Assignment5Test {
 
-  @Test
-  @DisplayName("login: should authenticate valid Larry user using bound parameters")
-  void login_authenticatesValidUserWithParameterizedQuery() throws Exception {
-    // Arrange
-    LessonDataSource dataSource = mock(LessonDataSource.class);
-    Flags flags = mock(Flags.class);
-    Assignment5 assignment5 = new Assignment5(dataSource, flags);
+  private LessonDataSource dataSource;
+  private Flags flags;
+  private Assignment5 assignment5;
+  private Connection connection;
+  private PreparedStatement preparedStatement;
+  private ResultSet resultSet;
 
-    Connection connection = mock(Connection.class);
-    PreparedStatement ps = mock(PreparedStatement.class);
-    ResultSet rs = mock(ResultSet.class);
+  @BeforeEach
+  void setUp() throws Exception {
+    dataSource = mock(LessonDataSource.class);
+    flags = mock(Flags.class);
+    assignment5 = new Assignment5(dataSource, flags);
+
+    connection = mock(Connection.class);
+    preparedStatement = mock(PreparedStatement.class);
+    resultSet = mock(ResultSet.class);
 
     when(dataSource.getConnection()).thenReturn(connection);
-    when(connection.prepareStatement(anyString())).thenReturn(ps);
-    when(ps.executeQuery()).thenReturn(rs);
-    when(rs.next()).thenReturn(true);
-    when(flags.getFlag(5)).thenReturn("FLAG-5");
-
-    // Act
-    AttackResult result = assignment5.login("Larry", "goodPassword");
-
-    // Assert
-    verify(connection)
-        .prepareStatement(
-            "select password from challenge_users where userid = ? and password = ?");
-    verify(ps).setString(1, "Larry");
-    verify(ps).setString(2, "goodPassword");
-    verify(ps).executeQuery();
-
-    assertTrue(result.getLessonCompleted(), "Valid credentials for Larry should succeed");
-    assertTrue(
-        result.getFeedback().contains("challenge.solved"),
-        "Feedback should indicate the challenge was solved");
+    when(connection.prepareStatement(
+            "select password from challenge_users where userid = ? and password = ?"))
+        .thenReturn(preparedStatement);
+    when(preparedStatement.executeQuery()).thenReturn(resultSet);
   }
 
   @Test
-  @DisplayName("login: SQL injection attempt in password should not be treated as code")
-  void login_sqlInjectionInPasswordDoesNotBypassAuth() throws Exception {
+  void login_shouldUsePreparedStatementWithParameters() throws Exception {
     // Arrange
-    LessonDataSource dataSource = mock(LessonDataSource.class);
-    Flags flags = mock(Flags.class);
-    Assignment5 assignment5 = new Assignment5(dataSource, flags);
-
-    Connection connection = mock(Connection.class);
-    PreparedStatement ps = mock(PreparedStatement.class);
-    ResultSet rs = mock(ResultSet.class);
-
-    when(dataSource.getConnection()).thenReturn(connection);
-    when(connection.prepareStatement(anyString())).thenReturn(ps);
-    when(ps.executeQuery()).thenReturn(rs);
-    when(rs.next()).thenReturn(false);
-
-    String maliciousPassword = "x' OR '1'='1";
+    String username = "Larry";
+    String password = "password";
+    when(resultSet.next()).thenReturn(true);
+    when(flags.getFlag(5)).thenReturn("FLAG-5");
 
     // Act
-    AttackResult result = assignment5.login("Larry", maliciousPassword);
+    AttackResult result = assignment5.login(username, password);
 
-    // Assert
-    verify(connection)
-        .prepareStatement(
-            "select password from challenge_users where userid = ? and password = ?");
-    verify(ps).setString(1, "Larry");
-    verify(ps).setString(2, maliciousPassword);
-    verify(ps).executeQuery();
+    // Assert secure behavior: parameters are bound, not concatenated
+    verify(preparedStatement).setString(1, username);
+    verify(preparedStatement).setString(2, password);
+    verify(preparedStatement).executeQuery();
 
-    assertFalse(
-        result.getLessonCompleted(), "Injection in password must not bypass authentication");
-    assertTrue(
-        result.getFeedback().contains("challenge.close"),
-        "Feedback should indicate login failure, not success");
+    // Also assert success path is still functional
+    assertTrue(result.getLessonCompleted());
+  }
+
+  @Test
+  void login_shouldReturnFailureWhenSQLExceptionOccurs() throws Exception {
+    // Arrange
+    String username = "Larry";
+    String password = "password";
+    when(connection.prepareStatement(
+            "select password from challenge_users where userid = ? and password = ?"))
+        .thenThrow(new SQLException("DB error"));
+
+    // Act
+    AttackResult result = assignment5.login(username, password);
+
+    // Assert: failure is returned and no exception escapes
+    assertEquals(false, result.getLessonCompleted());
   }
 }

@@ -16,10 +16,10 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // Added import for BCryptPasswordEncoder
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder; // Added import for PasswordEncoder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // Changed from NoOpPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder; // Added for PasswordEncoder interface
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository; // Added for CSRF token repository
 
 /** Security configuration for WebGoat. */
 @Configuration
@@ -60,17 +60,18 @@ public class WebSecurityConfig {
               oidc.loginPage("/login");
             })
         .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
-        // Remediation: Removed .csrf(csrf -> csrf.disable()) to enable CSRF protection
-        .headers(headers -> headers.disable())
+        // Remediation: Enable CSRF protection
+        .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())) // Enabled CSRF and configured token repository
+        .headers(headers -> headers.disable()) // Consider enabling and configuring security headers
         .exceptionHandling(
             handling ->
-                handling.authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login")))\
+                handling.authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login")))
         .build();
   }
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService);
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); // Use the secure password encoder
   }
 
   @Bean
@@ -87,7 +88,6 @@ public class WebSecurityConfig {
 
   @Bean
   public PasswordEncoder passwordEncoder() { // Changed return type to PasswordEncoder
-    // Remediation: Replaced NoOpPasswordEncoder with BCryptPasswordEncoder
-    return new BCryptPasswordEncoder();
+    return new BCryptPasswordEncoder(); // Changed to BCryptPasswordEncoder
   }
 }

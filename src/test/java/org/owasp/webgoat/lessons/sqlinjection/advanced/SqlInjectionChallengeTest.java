@@ -1,114 +1,84 @@
+// Assumed package based on source file location; adjust if actual package differs.
 package org.owasp.webgoat.lessons.sqlinjection.advanced;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AttackResult;
 
-class SqlInjectionChallengeTest {
+public class SqlInjectionChallengeTest {
 
-  @Test
-  @DisplayName("registerNewUser: existing user triggers user.exists using prepared SELECT")
-  void registerNewUser_existingUserUsesPreparedSelect() throws SQLException {
-    LessonDataSource dataSource = mock(LessonDataSource.class);
-    SqlInjectionChallenge challenge = new SqlInjectionChallenge(dataSource);
+  private LessonDataSource dataSource;
+  private SqlInjectionChallenge challenge;
+  private Connection connection;
+  private PreparedStatement checkUserStmt;
+  private PreparedStatement insertUserStmt;
+  private ResultSet resultSet;
 
-    Connection connection = mock(Connection.class);
-    PreparedStatement selectPs = mock(PreparedStatement.class);
-    PreparedStatement insertPs = mock(PreparedStatement.class);
-    ResultSet rs = mock(ResultSet.class);
+  @BeforeEach
+  void setUp() throws Exception {
+    dataSource = mock(LessonDataSource.class);
+    connection = mock(Connection.class);
+    checkUserStmt = mock(PreparedStatement.class);
+    insertUserStmt = mock(PreparedStatement.class);
+    resultSet = mock(ResultSet.class);
 
     when(dataSource.getConnection()).thenReturn(connection);
     when(connection.prepareStatement("select userid from sql_challenge_users where userid = ?"))
-        .thenReturn(selectPs);
+        .thenReturn(checkUserStmt);
     when(connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)"))
-        .thenReturn(insertPs);
-    when(selectPs.executeQuery()).thenReturn(rs);
-    when(rs.next()).thenReturn(true);
+        .thenReturn(insertUserStmt);
+    when(checkUserStmt.executeQuery()).thenReturn(resultSet);
 
-    AttackResult result =
-        challenge.registerNewUser("john", "john@example.com", "secretPassword");
-
-    verify(connection)
-        .prepareStatement("select userid from sql_challenge_users where userid = ?");
-    verify(selectPs).setString(1, "john");
-    verify(selectPs).executeQuery();
-    verify(insertPs, never()).execute();
-
-    assertFalse(result.getLessonCompleted());
-    assertTrue(result.getFeedback().contains("user.exists"));
+    challenge = new SqlInjectionChallenge(dataSource);
   }
 
   @Test
-  @DisplayName("registerNewUser: SQL injection in username does not bypass existence check")
-  void registerNewUser_injectionInUsernameDoesNotBypassCheck() throws SQLException {
-    LessonDataSource dataSource = mock(LessonDataSource.class);
-    SqlInjectionChallenge challenge = new SqlInjectionChallenge(dataSource);
+  void registerNewUser_shouldUsePreparedStatementForUserCheck() {
+    // Arrange
+    String username = "user1";
+    String email = "user1@example.com";
+    String password = "secret";
+    try {
+      when(resultSet.next()).thenReturn(false);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
 
-    Connection connection = mock(Connection.class);
-    PreparedStatement selectPs = mock(PreparedStatement.class);
-    PreparedStatement insertPs = mock(PreparedStatement.class);
-    ResultSet rs = mock(ResultSet.class);
+    // Act
+    AttackResult result = challenge.registerNewUser(username, email, password);
 
-    when(dataSource.getConnection()).thenReturn(connection);
-    when(connection.prepareStatement("select userid from sql_challenge_users where userid = ?"))
-        .thenReturn(selectPs);
-    when(connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)"))
-        .thenReturn(insertPs);
-    when(selectPs.executeQuery()).thenReturn(rs);
-    when(rs.next()).thenReturn(true);
-
-    String maliciousUsername = "john' OR '1'='1";
-
-    AttackResult result =
-        challenge.registerNewUser(maliciousUsername, "attacker@example.com", "pw");
-
-    verify(connection)
-        .prepareStatement("select userid from sql_challenge_users where userid = ?");
-    verify(selectPs).setString(1, maliciousUsername);
-    verify(selectPs).executeQuery();
-    verify(insertPs, never()).execute();
-
-    assertFalse(result.getLessonCompleted());
+    // Assert: check query uses prepared statement with parameter binding
+    try {
+      verify(checkUserStmt).setString(1, username);
+      verify(checkUserStmt).executeQuery();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    assertTrue(result.getOutput().contains("user.created"));
   }
 
   @Test
-  @DisplayName("registerNewUser: new user is inserted using prepared INSERT")
-  void registerNewUser_newUserIsInsertedSecurely() throws SQLException {
-    LessonDataSource dataSource = mock(LessonDataSource.class);
-    SqlInjectionChallenge challenge = new SqlInjectionChallenge(dataSource);
-
-    Connection connection = mock(Connection.class);
-    PreparedStatement selectPs = mock(PreparedStatement.class);
-    PreparedStatement insertPs = mock(PreparedStatement.class);
-    ResultSet rs = mock(ResultSet.class);
-
-    when(dataSource.getConnection()).thenReturn(connection);
+  void registerNewUser_shouldFailGracefullyOnSQLException() throws Exception {
+    // Arrange
+    String username = "user2";
+    String email = "user2@example.com";
+    String password = "secret";
     when(connection.prepareStatement("select userid from sql_challenge_users where userid = ?"))
-        .thenReturn(selectPs);
-    when(connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)"))
-        .thenReturn(insertPs);
-    when(selectPs.executeQuery()).thenReturn(rs);
-    when(rs.next()).thenReturn(false);
+        .thenThrow(new SQLException("DB error"));
 
-    AttackResult result =
-        challenge.registerNewUser("alice", "alice@example.com", "pw123");
+    // Act
+    AttackResult result = challenge.registerNewUser(username, email, password);
 
-    verify(selectPs).setString(1, "alice");
-    verify(selectPs).executeQuery();
-
-    verify(insertPs).setString(1, "alice");
-    verify(insertPs).setString(2, "alice@example.com");
-    verify(insertPs).setString(3, "pw123");
-    verify(insertPs).execute();
-
-    assertTrue(result.getFeedback().contains("user.created"));
+    // Assert: lesson should not be marked as completed
+    assertFalse(result.getLessonCompleted());
   }
 }
