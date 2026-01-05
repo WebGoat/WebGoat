@@ -11,7 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputFilter; // Added import for ObjectInputFilter
+import java.io.ObjectStreamClass; // New import for ObjectStreamClass
 import java.util.Base64;
 import org.dummy.insecure.framework.VulnerableTaskHolder;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -30,9 +30,42 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class InsecureDeserializationTask implements AssignmentEndpoint {
 
+  /**
+   * Custom ObjectInputStream that whitelists allowed classes during deserialization.
+   * This prevents deserialization of arbitrary types, mitigating gadget chain attacks.
+   */
+  private static class WhitelistingObjectInputStream extends ObjectInputStream {
+      private static final String ALLOWED_APPLICATION_CLASS = "org.dummy.insecure.framework.VulnerableTaskHolder";
+
+      public WhitelistingObjectInputStream(ByteArrayInputStream in) throws IOException {
+          super(in);
+      }
+
+      @Override
+      protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+          String className = desc.getName();
+
+          // Explicitly allow the expected application class
+          if (className.equals(ALLOWED_APPLICATION_CLASS)) {
+              return super.resolveClass(desc);
+          }
+
+          // Allow standard JDK classes (java.* and javax.*)
+          // This is a common and generally safe practice for deserialization whitelisting
+          // as it prevents gadget chains from non-JDK libraries while allowing basic types.
+          if (className.startsWith("java.") || className.startsWith("javax.")) {
+              return super.resolveClass(desc);
+          }
+
+          // If the class is not explicitly allowed, throw an InvalidClassException
+          // to prevent deserialization of unauthorized types.
+          throw new InvalidClassException("Unauthorized deserialization attempt: " + className);
+      }
+  }
+
   @PostMapping("/InsecureDeserialization/task")
   @ResponseBody
-  public AttackResult completed(@RequestParam String token) throws IOException {
+  public AttackResult completed(@RequestParam String token) { // Removed 'throws IOException' as all checked exceptions are now caught
     String b64token;
     long before;
     long after;
@@ -41,12 +74,7 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
     b64token = token.replace('-', '+').replace('_', '/');
 
     try (ObjectInputStream ois =
-        new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
-      // Remediation: Implement a serialization filter (JEP 290) to restrict deserialization
-      ObjectInputFilter filter = ObjectInputFilter.Config.createFilter(
-          "org.dummy.insecure.framework.VulnerableTaskHolder;java.lang.String;!*"); // Allow only VulnerableTaskHolder and String, reject all others
-      ois.setObjectInputFilter(filter); // Apply the filter
-
+        new WhitelistingObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
       before = System.currentTimeMillis();
       Object o = ois.readObject();
       if (!(o instanceof VulnerableTaskHolder)) {
@@ -57,12 +85,20 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
       }
       after = System.currentTimeMillis();
     } catch (InvalidClassException e) {
-      return failed(this).feedback("insecure-deserialization.invalidversion").build();
+      // Catches InvalidClassException from our resolveClass or standard deserialization issues
+      return failed(this).feedback("insecure-deserialization.invalidclass").build();
+    } catch (ClassNotFoundException e) {
+      // Catches if a whitelisted class (or any class) cannot be found during deserialization
+      return failed(this).feedback("insecure-deserialization.classnotfound").build();
+    } catch (IOException e) {
+      // Catches general IO issues during stream processing or malformed data within the stream
+      return failed(this).feedback("insecure-deserialization.ioerror").build();
     } catch (IllegalArgumentException e) {
-      return failed(this).feedback("insecure-deserialization.expired").build();
+      // Catches issues with Base64 decoding (e.g., malformed Base64 string)
+      return failed(this).feedback("insecure-deserialization.malformedbase64").build();
     } catch (Exception e) {
-      // Catching generic Exception to handle potential filtering errors or other deserialization issues
-      return failed(this).feedback("insecure-deserialization.deserialization_failed").build(); // More generic error message
+      // Catch any other unexpected exceptions during the process
+      return failed(this).feedback("insecure-deserialization.unexpectederror").build();
     }
 
     delay = (int) (after - before);
