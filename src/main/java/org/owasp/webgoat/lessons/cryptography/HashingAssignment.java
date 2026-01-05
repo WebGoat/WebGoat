@@ -34,8 +34,7 @@ public class HashingAssignment implements AssignmentEndpoint {
     String md5Hash = (String) request.getSession().getAttribute("md5Hash");
     if (md5Hash == null) {
 
-      // Using SecureRandom for cryptographically strong random number generation
-      String secret = SECRETS[new SecureRandom().nextInt(SECRETS.length)];
+      String secret = SECRETS[new SecureRandom().nextInt(SECRETS.length)]; // Changed from new Random()
 
       MessageDigest md = MessageDigest.getInstance("MD5");
       md.update(secret.getBytes());
@@ -53,8 +52,7 @@ public class HashingAssignment implements AssignmentEndpoint {
 
     String sha256 = (String) request.getSession().getAttribute("sha256");
     if (sha256 == null) {
-      // Using SecureRandom for cryptographically strong random number generation
-      String secret = SECRETS[new SecureRandom().nextInt(SECRETS.length)];
+      String secret = SECRETS[new SecureRandom().nextInt(SECRETS.length)]; // Changed from new Random()
       sha256 = getHash(secret, "SHA-256");
       request.getSession().setAttribute("sha256Hash", sha256);
       request.getSession().setAttribute("sha256Secret", secret);
