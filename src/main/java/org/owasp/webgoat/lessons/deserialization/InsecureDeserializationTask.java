@@ -11,7 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass; // New import for ObjectStreamClass
+import java.io.ObjectStreamClass;
 import java.util.Base64;
 import org.dummy.insecure.framework.VulnerableTaskHolder;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -30,42 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class InsecureDeserializationTask implements AssignmentEndpoint {
 
-  /**
-   * Custom ObjectInputStream that whitelists allowed classes during deserialization.
-   * This prevents deserialization of arbitrary types, mitigating gadget chain attacks.
-   */
-  private static class WhitelistingObjectInputStream extends ObjectInputStream {
-      private static final String ALLOWED_APPLICATION_CLASS = "org.dummy.insecure.framework.VulnerableTaskHolder";
-
-      public WhitelistingObjectInputStream(ByteArrayInputStream in) throws IOException {
-          super(in);
-      }
-
-      @Override
-      protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
-          String className = desc.getName();
-
-          // Explicitly allow the expected application class
-          if (className.equals(ALLOWED_APPLICATION_CLASS)) {
-              return super.resolveClass(desc);
-          }
-
-          // Allow standard JDK classes (java.* and javax.*)
-          // This is a common and generally safe practice for deserialization whitelisting
-          // as it prevents gadget chains from non-JDK libraries while allowing basic types.
-          if (className.startsWith("java.") || className.startsWith("javax.")) {
-              return super.resolveClass(desc);
-          }
-
-          // If the class is not explicitly allowed, throw an InvalidClassException
-          // to prevent deserialization of unauthorized types.
-          throw new InvalidClassException("Unauthorized deserialization attempt: " + className);
-      }
-  }
-
   @PostMapping("/InsecureDeserialization/task")
   @ResponseBody
-  public AttackResult completed(@RequestParam String token) { // Removed 'throws IOException' as all checked exceptions are now caught
+  public AttackResult completed(@RequestParam String token) throws IOException {
     String b64token;
     long before;
     long after;
@@ -74,7 +41,7 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
     b64token = token.replace('-', '+').replace('_', '/');
 
     try (ObjectInputStream ois =
-        new WhitelistingObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
+        new ValidatingObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
       before = System.currentTimeMillis();
       Object o = ois.readObject();
       if (!(o instanceof VulnerableTaskHolder)) {
@@ -85,20 +52,11 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
       }
       after = System.currentTimeMillis();
     } catch (InvalidClassException e) {
-      // Catches InvalidClassException from our resolveClass or standard deserialization issues
-      return failed(this).feedback("insecure-deserialization.invalidclass").build();
-    } catch (ClassNotFoundException e) {
-      // Catches if a whitelisted class (or any class) cannot be found during deserialization
-      return failed(this).feedback("insecure-deserialization.classnotfound").build();
-    } catch (IOException e) {
-      // Catches general IO issues during stream processing or malformed data within the stream
-      return failed(this).feedback("insecure-deserialization.ioerror").build();
+      return failed(this).feedback("insecure-deserialization.invalidversion").build();
     } catch (IllegalArgumentException e) {
-      // Catches issues with Base64 decoding (e.g., malformed Base64 string)
-      return failed(this).feedback("insecure-deserialization.malformedbase64").build();
+      return failed(this).feedback("insecure-deserialization.expired").build();
     } catch (Exception e) {
-      // Catch any other unexpected exceptions during the process
-      return failed(this).feedback("insecure-deserialization.unexpectederror").build();
+      return failed(this).feedback("insecure-deserialization.invalidversion").build();
     }
 
     delay = (int) (after - before);
@@ -109,5 +67,25 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
       return failed(this).build();
     }
     return success(this).build();
+  }
+
+  private static class ValidatingObjectInputStream extends ObjectInputStream {
+    public ValidatingObjectInputStream(ByteArrayInputStream in) throws IOException {
+      super(in);
+    }
+
+    @Override
+    protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+      if (!desc.getName().equals(VulnerableTaskHolder.class.getName()) &&
+          !desc.getName().equals(String.class.getName()) &&
+          !desc.getName().equals(Long.class.getName()) &&
+          !desc.getName().equals(Integer.class.getName()) &&
+          !desc.getName().equals(java.util.Date.class.getName()) &&
+          !desc.getName().startsWith("java.lang.") &&
+          !desc.getName().startsWith("java.util.")) {
+        throw new InvalidClassException("Unauthorized deserialization attempt", desc.getName());
+      }
+      return super.resolveClass(desc);
+    }
   }
 }

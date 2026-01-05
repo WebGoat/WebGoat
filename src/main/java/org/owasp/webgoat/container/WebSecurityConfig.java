@@ -4,90 +4,76 @@
  */
 package org.owasp.webgoat.container;
 
-import lombok.AllArgsConstructor;
-import org.owasp.webgoat.container.users.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.owasp.webgoat.container.session.WebGoatSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // Changed from NoOpPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder; // Added for PasswordEncoder interface
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // Added import
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository; // Added for CSRF token repository
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/** Security configuration for WebGoat. */
 @Configuration
-@AllArgsConstructor
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
 
-  private final UserService userDetailsService;
+  private final WebGoatUserDetailsService userDetailsService;
+  private final WebGoatSession webGoatSession;
+
+  @Bean
+  public DaoAuthenticationProvider authProvider(PasswordEncoder encoder) {
+
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    authProvider.setUserDetailsService(userDetailsService);
+    authProvider.setPasswordEncoder(encoder);
+    return authProvider;
+  }
+
+  @Bean
+  public SessionRegistry sessionRegistry() {
+    return new SessionRegistryImpl();
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    return http.authorizeHttpRequests(
-            auth ->
-                auth.requestMatchers(
-                        "/favicon.ico",
-                        "/css/**",
-                        "/images/**",
-                        "/js/**",
-                        "/fonts/**",
-                        "/plugins/**",
-                        "/registration",
-                        "/register.mvc",
-                        "/actuator/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
-        .formLogin(
-            login ->
-                login
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/welcome.mvc", true)
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                    .permitAll())
-        .oauth2Login(
-            oidc -> {
-              oidc.defaultSuccessUrl("/login-oauth.mvc");
-              oidc.loginPage("/login");
-            })
-        .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
-        // Remediation: Enable CSRF protection
-        .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())) // Enabled CSRF and configured token repository
-        .headers(headers -> headers.disable()) // Consider enabling and configuring security headers
-        .exceptionHandling(
-            handling ->
-                handling.authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/login")))
-        .build();
-  }
+    http.addFilterAfter(new UserTrackerFilter(webGoatSession), UsernamePasswordAuthenticationFilter.class)
+        .authorizeHttpRequests(authorizeRequests ->
+            authorizeRequests.requestMatchers("/css/**",
+                "/images/logos/**",
+                "/js/**",
+                "/plugins/fonts/**",
+                "/webjars/**",
+                "/actuator/health",
+                "/register.mvc",
+                "/register",
+                "/registration",
+                "/login**",
+                "/lessonoverview.mvc",
+                "/h2-console/**").permitAll()
+                .requestMatchers("/**").authenticated())
+        .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+        .headers(Customizer.withDefaults())
+        .formLogin(form ->
+            form.loginPage("/login").loginProcessingUrl("/login.mvc").permitAll())
+        .sessionManagement(sessionManagement ->
+            sessionManagement.invalidSessionUrl("/login.mvc?error=invalidSession").maximumSessions(1))
+        .logout(logout ->
+            logout.logoutSuccessUrl("/login.mvc"));
 
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); // Use the secure password encoder
-  }
+    http.headers(headers -> headers.frameOptions(Customizer.withDefaults()).cacheControl(Customizer.withDefaults()));
 
-  @Bean
-  @Primary
-  public UserDetailsService userDetailsServiceBean() {
-    return userDetailsService;
-  }
-
-  @Bean
-  public AuthenticationManager authenticationManager(
-      AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() { // Changed return type to PasswordEncoder
-    return new BCryptPasswordEncoder(); // Changed to BCryptPasswordEncoder
+    return http.build();
   }
 }

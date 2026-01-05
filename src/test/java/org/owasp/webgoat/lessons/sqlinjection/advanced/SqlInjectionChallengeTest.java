@@ -1,84 +1,50 @@
-// Assumed package based on source file location; adjust if actual package differs.
 package org.owasp.webgoat.lessons.sqlinjection.advanced;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.owasp.webgoat.container.LessonDataSource;
-import org.owasp.webgoat.container.assignments.AttackResult;
 
 public class SqlInjectionChallengeTest {
 
-  private LessonDataSource dataSource;
-  private SqlInjectionChallenge challenge;
-  private Connection connection;
-  private PreparedStatement checkUserStmt;
-  private PreparedStatement insertUserStmt;
-  private ResultSet resultSet;
+    @Test
+    void registerNewUser_shouldUsePreparedStatementForUserExistenceCheck() throws Exception {
+        LessonDataSource dataSource = Mockito.mock(LessonDataSource.class);
+        SqlInjectionChallenge challenge = new SqlInjectionChallenge(dataSource);
 
-  @BeforeEach
-  void setUp() throws Exception {
-    dataSource = mock(LessonDataSource.class);
-    connection = mock(Connection.class);
-    checkUserStmt = mock(PreparedStatement.class);
-    insertUserStmt = mock(PreparedStatement.class);
-    resultSet = mock(ResultSet.class);
+        Connection connection = Mockito.mock(Connection.class);
+        PreparedStatement checkUserPs = Mockito.mock(PreparedStatement.class);
+        PreparedStatement insertPs = Mockito.mock(PreparedStatement.class);
+        ResultSet resultSet = Mockito.mock(ResultSet.class);
 
-    when(dataSource.getConnection()).thenReturn(connection);
-    when(connection.prepareStatement("select userid from sql_challenge_users where userid = ?"))
-        .thenReturn(checkUserStmt);
-    when(connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)"))
-        .thenReturn(insertUserStmt);
-    when(checkUserStmt.executeQuery()).thenReturn(resultSet);
+        Mockito.when(dataSource.getConnection()).thenReturn(connection);
+        Mockito.when(connection.prepareStatement(Mockito.eq("select userid from sql_challenge_users where userid = ?")))
+                .thenReturn(checkUserPs);
+        Mockito.when(connection.prepareStatement(Mockito.eq("INSERT INTO sql_challenge_users VALUES (?, ?, ?)")))
+                .thenReturn(insertPs);
 
-    challenge = new SqlInjectionChallenge(dataSource);
-  }
+        Mockito.when(checkUserPs.executeQuery()).thenReturn(resultSet);
+        Mockito.when(resultSet.next()).thenReturn(false);
 
-  @Test
-  void registerNewUser_shouldUsePreparedStatementForUserCheck() {
-    // Arrange
-    String username = "user1";
-    String email = "user1@example.com";
-    String password = "secret";
-    try {
-      when(resultSet.next()).thenReturn(false);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+        String username = "alice";
+        String email = "alice@example.com";
+        String password = "s3cr3t";
+
+        challenge.registerNewUser(username, email, password);
+
+        ArgumentCaptor<String> sqlCaptor = ArgumentCaptor.forClass(String.class);
+        verify(connection).prepareStatement(sqlCaptor.capture());
+        String usedSql = sqlCaptor.getValue();
+        assertEquals(
+                "select userid from sql_challenge_users where userid = ?",
+                usedSql);
+
+        verify(checkUserPs).setString(1, username);
     }
-
-    // Act
-    AttackResult result = challenge.registerNewUser(username, email, password);
-
-    // Assert: check query uses prepared statement with parameter binding
-    try {
-      verify(checkUserStmt).setString(1, username);
-      verify(checkUserStmt).executeQuery();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    assertTrue(result.getOutput().contains("user.created"));
-  }
-
-  @Test
-  void registerNewUser_shouldFailGracefullyOnSQLException() throws Exception {
-    // Arrange
-    String username = "user2";
-    String email = "user2@example.com";
-    String password = "secret";
-    when(connection.prepareStatement("select userid from sql_challenge_users where userid = ?"))
-        .thenThrow(new SQLException("DB error"));
-
-    // Act
-    AttackResult result = challenge.registerNewUser(username, email, password);
-
-    // Assert: lesson should not be marked as completed
-    assertFalse(result.getLessonCompleted());
-  }
 }

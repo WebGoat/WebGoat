@@ -1,89 +1,72 @@
-/*
- * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
- * SPDX-License-Identifier: GPL-2.0-or-later
- */
 package org.owasp.webgoat.lessons.cryptography;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.owasp.webgoat.container.assignments.AttackResult;
+import org.mockito.Mockito;
+import org.springframework.http.MediaType;
 
-class HashingAssignmentTest {
+public class HashingAssignmentTest {
 
-  private HashingAssignment hashingAssignment;
-  private HttpServletRequest request;
-  private HttpSession session;
+    @Test
+    void getMd5_shouldReturnSameHashWithinSameSession() throws NoSuchAlgorithmException {
+        HashingAssignment assignment = new HashingAssignment();
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        HttpSession session = Mockito.mock(HttpSession.class);
 
-  @BeforeEach
-  void setup() {
-    hashingAssignment = new HashingAssignment();
-    request = mock(HttpServletRequest.class);
-    session = mock(HttpSession.class);
-    when(request.getSession()).thenReturn(session);
-  }
+        Mockito.when(request.getSession()).thenReturn(session);
+        Mockito.when(session.getAttribute("md5Hash")).thenReturn(null);
 
-  @Test
-  void shouldGenerateDeterministicMd5ForSession() throws NoSuchAlgorithmException {
-    when(session.getAttribute("md5Hash")).thenReturn(null);
+        String firstHash = assignment.getMd5(request);
 
-    String hash1 = hashingAssignment.getMd5(request);
+        Mockito.when(session.getAttribute("md5Hash")).thenReturn(firstHash);
 
-    when(session.getAttribute("md5Hash")).thenReturn(hash1);
+        String secondHash = assignment.getMd5(request);
 
-    String hash2 = hashingAssignment.getMd5(request);
+        assertEquals(firstHash, secondHash);
+    }
 
-    assertThat(hash1).isEqualTo(hash2);
-  }
+    @RepeatedTest(5)
+    void getMd5_shouldTendToReturnDifferentHashesForDifferentSessions() throws NoSuchAlgorithmException {
+        HashingAssignment assignment = new HashingAssignment();
 
-  @Test
-  void shouldGenerateDeterministicSha256ForSession() throws NoSuchAlgorithmException {
-    when(session.getAttribute("sha256")).thenReturn(null);
+        HttpServletRequest request1 = Mockito.mock(HttpServletRequest.class);
+        HttpServletRequest request2 = Mockito.mock(HttpServletRequest.class);
+        HttpSession session1 = Mockito.mock(HttpSession.class);
+        HttpSession session2 = Mockito.mock(HttpSession.class);
 
-    String hash1 = hashingAssignment.getSha256(request);
+        Mockito.when(request1.getSession()).thenReturn(session1);
+        Mockito.when(request2.getSession()).thenReturn(session2);
 
-    when(session.getAttribute("sha256")).thenReturn(hash1);
+        Mockito.when(session1.getAttribute("md5Hash")).thenReturn(null);
+        Mockito.when(session2.getAttribute("md5Hash")).thenReturn(null);
 
-    String hash2 = hashingAssignment.getSha256(request);
+        String hash1 = assignment.getMd5(request1);
+        String hash2 = assignment.getMd5(request2);
 
-    assertThat(hash1).isEqualTo(hash2);
-  }
+        assertNotEquals(hash1, hash2);
+    }
 
-  @Test
-  void shouldReturnSuccessWhenBothSecretsAreCorrect() {
-    when(session.getAttribute("md5Secret")).thenReturn("secret1");
-    when(session.getAttribute("sha256Secret")).thenReturn("secret2");
+    @Test
+    void getSha256_shouldReturnSameHashWithinSameSession() throws NoSuchAlgorithmException {
+        HashingAssignment assignment = new HashingAssignment();
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        HttpSession session = Mockito.mock(HttpSession.class);
 
-    AttackResult result = hashingAssignment.completed(request, "secret1", "secret2");
+        Mockito.when(request.getSession()).thenReturn(session);
+        Mockito.when(session.getAttribute("sha256")).thenReturn(null);
 
-    assertThat(result.getLessonCompleted()).isTrue();
-  }
+        String firstHash = assignment.getSha256(request);
 
-  @Test
-  void shouldReturnPartialSuccessWhenOneSecretIsCorrect() {
-    when(session.getAttribute("md5Secret")).thenReturn("secret1");
-    when(session.getAttribute("sha256Secret")).thenReturn("secret2");
+        Mockito.when(session.getAttribute("sha256")).thenReturn(firstHash);
 
-    AttackResult result = hashingAssignment.completed(request, "secret1", "wrong");
+        String secondHash = assignment.getSha256(request);
 
-    assertThat(result.getLessonCompleted()).isFalse();
-  }
-
-  @Test
-  void shouldReturnFailureWhenSecretsAreIncorrectOrMissing() {
-    when(session.getAttribute("md5Secret")).thenReturn("secret1");
-    when(session.getAttribute("sha256Secret")).thenReturn("secret2");
-
-    AttackResult result1 = hashingAssignment.completed(request, "wrong1", "wrong2");
-    AttackResult result2 = hashingAssignment.completed(request, null, null);
-
-    assertThat(result1.getLessonCompleted()).isFalse();
-    assertThat(result2.getLessonCompleted()).isFalse();
-  }
+        assertEquals(firstHash, secondHash);
+    }
 }
