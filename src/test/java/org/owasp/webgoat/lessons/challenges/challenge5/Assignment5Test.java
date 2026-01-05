@@ -1,136 +1,171 @@
 package org.owasp.webgoat.lessons.challenges.challenge5;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.challenges.Flags;
 
 /**
- * Delta tests for Assignment5 focusing on the SQL injection fix:
- *  - query must be parameterized (no concatenation of username/password)
- *  - valid Larry credentials still succeed and return the flag
- *  - invalid credentials do not authenticate
+ * Delta tests for Assignment5 focusing on the changed behavior:
+ * - SQL is now constructed via parameterized PreparedStatement (no concatenation).
+ * - Behaviour of login() in key branches is preserved.
+ *
+ * These tests specifically exercise:
+ *  1) Missing credentials  'required4' feedback.
+ *  2) Non-'Larry' username  'user.not.larry' feedback.
+ *  3) Successful login when DB returns a row (resultSet.next() == true)  'challenge.solved'.
+ *  4) Failed login when DB does not return a row  'challenge.close'.
+ *
+ * JDBC collaborators are mocked to assert query and parameter binding rather than executing SQL.
  */
 class Assignment5Test {
 
-    @Test
-    @DisplayName("Valid Larry credentials use parameterized query and return success with flag")
-    void testValidLarryCredentialsUseParameterizedQueryAndSucceed() throws Exception {
-        // Arrange
-        String username = "Larry";
-        String password = "correct-password";
-        String expectedFlag = "FLAG-5";
+  private LessonDataSource dataSource;
+  private Flags flags;
+  private Assignment5 assignment5;
 
-        LessonDataSource dataSource = mock(LessonDataSource.class);
-        Connection connection = mock(Connection.class);
-        PreparedStatement preparedStatement = mock(PreparedStatement.class);
-        ResultSet resultSet = mock(ResultSet.class);
-        Flags flags = mock(Flags.class);
+  private Connection connection;
+  private PreparedStatement preparedStatement;
+  private ResultSet resultSet;
 
-        when(dataSource.getConnection()).thenReturn(connection);
-        when(connection.prepareStatement(
-                "select password from challenge_users where userid = ? and password = ?"))
-            .thenReturn(preparedStatement);
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-        when(resultSet.next()).thenReturn(true); // simulate successful match
-        when(flags.getFlag(5)).thenReturn(expectedFlag);
+  @BeforeEach
+  void setUp() throws Exception {
+    dataSource = mock(LessonDataSource.class);
+    flags = mock(Flags.class);
+    assignment5 = new Assignment5(dataSource, flags);
 
-        Assignment5 assignment5 = new Assignment5(dataSource, flags);
+    connection = mock(Connection.class);
+    preparedStatement = mock(PreparedStatement.class);
+    resultSet = mock(ResultSet.class);
 
-        // Act
-        AttackResult result = assignment5.login(username, password);
+    when(dataSource.getConnection()).thenReturn(connection);
+    when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+    when(preparedStatement.executeQuery()).thenReturn(resultSet);
+  }
 
-        // Assert
-        // 1) Ensure parameterized SQL is used (no concatenation)
-        verify(connection, times(1))
-            .prepareStatement("select password from challenge_users where userid = ? and password = ?");
+  @Test
+  void login_shouldFailWhenCredentialsMissing() throws Exception {
+    // Arrange
+    String username = "";
+    String password = "somePassword";
 
-        // 2) Ensure user-controlled input is passed via parameters, not concatenated
-        verify(preparedStatement, times(1)).setString(1, username);
-        verify(preparedStatement, times(1)).setString(2, password);
+    // Act
+    AttackResult result = assignment5.login(username, password);
 
-        // 3) Ensure query is executed
-        verify(preparedStatement, times(1)).executeQuery();
+    // Assert
+    assertFalse(result.equals(success(this).build()), "Result should not be a generic success");
+    assertTrue(
+        result.getOutput().contains("required4"),
+        "Feedback key 'required4' should be used when credentials are missing"
+    );
 
-        // 4) Functional behavior: success with flag for correct Larry credentials
-        assertThat(result).isNotNull();
-        assertThat(result.getLessonCompleted()).isTrue();
-        assertThat(result.getFeedback()).contains(expectedFlag);
-    }
+    // Verify that DB is never hit when basic validation fails
+    verifyNoInteractions(dataSource);
+  }
 
-    @Test
-    @DisplayName("Invalid Larry password does not authenticate and still uses parameterized query")
-    void testInvalidLarryPasswordDoesNotAuthenticate() throws Exception {
-        // Arrange
-        String username = "Larry";
-        String password = "wrong-password";
+  @Test
+  void login_shouldFailWhenUsernameIsNotLarry() throws Exception {
+    // Arrange
+    String username = "Alice";
+    String password = "somePassword";
 
-        LessonDataSource dataSource = mock(LessonDataSource.class);
-        Connection connection = mock(Connection.class);
-        PreparedStatement preparedStatement = mock(PreparedStatement.class);
-        ResultSet resultSet = mock(ResultSet.class);
-        Flags flags = mock(Flags.class);
+    // Act
+    AttackResult result = assignment5.login(username, password);
 
-        when(dataSource.getConnection()).thenReturn(connection);
-        when(connection.prepareStatement(
-                "select password from challenge_users where userid = ? and password = ?"))
-            .thenReturn(preparedStatement);
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-        when(resultSet.next()).thenReturn(false); // simulate invalid credentials
+    // Assert
+    assertTrue(
+        result.getOutput().contains("user.not.larry"),
+        "Feedback key 'user.not.larry' should be used for non-Larry usernames"
+    );
 
-        Assignment5 assignment5 = new Assignment5(dataSource, flags);
+    // DB should not be queried in this branch
+    verifyNoInteractions(dataSource);
+  }
 
-        // Act
-        AttackResult result = assignment5.login(username, password);
+  @Test
+  void login_shouldSucceedWhenResultSetReturnsRow_andUsesParameterizedQuery() throws Exception {
+    // Arrange
+    String username = "Larry";
+    String password = "correctPassword";
 
-        // Assert
-        // Still must use parameterized query
-        verify(connection, times(1))
-            .prepareStatement("select password from challenge_users where userid = ? and password = ?");
-        verify(preparedStatement, times(1)).setString(1, username);
-        verify(preparedStatement, times(1)).setString(2, password);
-        verify(preparedStatement, times(1)).executeQuery();
+    // Simulate DB having a matching row
+    when(resultSet.next()).thenReturn(true);
+    when(flags.getFlag(5)).thenReturn("FLAG-5");
 
-        // Functional behavior: login should fail
-        assertThat(result).isNotNull();
-        assertThat(result.getLessonCompleted()).isFalse();
-    }
+    // Capture SQL used in preparedStatement
+    ArgumentCaptor<String> sqlCaptor = ArgumentCaptor.forClass(String.class);
+    when(connection.prepareStatement(sqlCaptor.capture())).thenReturn(preparedStatement);
 
-    @Test
-    @DisplayName("Non-Larry username is rejected before hitting database")
-    void testNonLarryUserRejectedBeforeDatabase() throws Exception {
-        // Arrange
-        String username = "Mallory";
-        String password = "anything";
+    // Act
+    AttackResult result = assignment5.login(username, password);
 
-        LessonDataSource dataSource = mock(LessonDataSource.class);
-        Connection connection = mock(Connection.class);
-        PreparedStatement preparedStatement = mock(PreparedStatement.class);
-        Flags flags = mock(Flags.class);
+    // Assert: functional behaviour
+    assertTrue(
+        result.getOutput().contains("challenge.solved"),
+        "Feedback 'challenge.solved' should be used on successful login"
+    );
+    assertTrue(
+        result.getOutput().contains("FLAG-5"),
+        "The flag from Flags.getFlag(5) should be part of the success output"
+    );
 
-        when(dataSource.getConnection()).thenReturn(connection);
-        when(connection.prepareStatement(
-                "select password from challenge_users where userid = ? and password = ?"))
-            .thenReturn(preparedStatement);
+    // Assert: secure SQL construction via parameterized PreparedStatement
+    String usedSql = sqlCaptor.getValue();
+    assertNotNull(usedSql, "SQL passed to prepareStatement should not be null");
+    assertTrue(
+        usedSql.contains("userid = ?") && usedSql.contains("password = ?"),
+        "SQL must use parameter placeholders instead of concatenating user input"
+    );
+    assertFalse(
+        usedSql.contains("Larry") || usedSql.contains("correctPassword"),
+        "SQL must not directly embed user-controlled values"
+    );
 
-        Assignment5 assignment5 = new Assignment5(dataSource, flags);
+    // Assert: parameters bound correctly
+    verify(preparedStatement).setString(1, username);
+    verify(preparedStatement).setString(2, password);
+    verify(preparedStatement).executeQuery();
+  }
 
-        // Act
-        AttackResult result = assignment5.login(username, password);
+  @Test
+  void login_shouldFailWhenResultSetHasNoRows() throws Exception {
+    // Arrange
+    String username = "Larry";
+    String password = "wrongPassword";
 
-        // Assert
-        // For non-Larry, the method should short-circuit and never touch the database
-        verifyNoInteractions(connection);
-        verifyNoInteractions(preparedStatement);
+    // Simulate DB returning no rows
+    when(resultSet.next()).thenReturn(false);
 
-        assertThat(result).isNotNull();
-        assertThat(result.getLessonCompleted()).isFalse();
-    }
+    // Act
+    AttackResult result = assignment5.login(username, password);
+
+    // Assert
+    assertTrue(
+        result.getOutput().contains("challenge.close"),
+        "Feedback 'challenge.close' should be used when credentials are incorrect"
+    );
+
+    // Still expect a parameterized query to be used
+    verify(connection).prepareStatement(
+        argThat(sql ->
+            sql.contains("userid = ?") &&
+            sql.contains("password = ?") &&
+            !sql.contains(username) &&
+            !sql.contains(password)
+        )
+    );
+    verify(preparedStatement).setString(1, username);
+    verify(preparedStatement).setString(2, password);
+    verify(preparedStatement).executeQuery();
+  }
 }
