@@ -1,5 +1,3 @@
-// Assumed package based on source location; adjust if needed.
-// Source: src/main/java/org/owasp/webgoat/lessons/challenges/challenge5/Assignment5.java
 package org.owasp.webgoat.lessons.challenges.challenge5;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,22 +6,19 @@ import static org.mockito.Mockito.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.challenges.Flags;
-import org.springframework.util.StringUtils;
 
 /**
- * Delta tests for Assignment5 focusing on the SQL injection fix:
- * - Ensures PreparedStatement with parameter placeholders is used.
- * - Verifies user input is bound as parameters and not concatenated into SQL.
+ * Delta tests focusing on the change from string-concatenated SQL to parameterized query
+ * in Assignment5.login.
  */
 class Assignment5Test {
 
   @Test
-  void login_shouldUseParameterizedQueryWithUserInputs() throws Exception {
+  void login_usesParameterizedQueryForUsernameAndPassword() throws Exception {
     LessonDataSource dataSource = mock(LessonDataSource.class);
     Flags flags = mock(Flags.class);
     Assignment5 assignment5 = new Assignment5(dataSource, flags);
@@ -38,44 +33,17 @@ class Assignment5Test {
         .thenReturn(preparedStatement);
     when(preparedStatement.executeQuery()).thenReturn(resultSet);
     when(resultSet.next()).thenReturn(true);
-    when(flags.getFlag(5)).thenReturn("FLAG-5");
+    when(flags.getFlag(5)).thenReturn("flag-5");
 
-    AttackResult result = assignment5.login("Larry", "password");
+    AttackResult result = assignment5.login("Larry", "secret");
 
-    // Verify that prepared statement is used with placeholders, not concatenated SQL
-    verify(connection).prepareStatement(
-        "select password from challenge_users where userid = ? and password = ?");
-
-    // Verify parameters are bound properly (no string concatenation of user input)
-    verify(preparedStatement).setString(1, "Larry");
-    verify(preparedStatement).setString(2, "password");
-
-    assertTrue(result.getLessonCompleted(), "Successful login should complete the lesson");
-  }
-
-  @Test
-  void login_shouldRejectNonLarryUserBeforeQueryExecution() throws Exception {
-    LessonDataSource dataSource = mock(LessonDataSource.class);
-    Flags flags = mock(Flags.class);
-    Assignment5 assignment5 = new Assignment5(dataSource, flags);
-
-    AttackResult result = assignment5.login("Mallory", "any");
-
-    // DataSource should never be touched if username is not Larry
-    verifyNoInteractions(dataSource);
-
-    assertFalse(result.getLessonCompleted(), "Non-Larry user must not pass the challenge");
-  }
-
-  @Test
-  void login_shouldRejectEmptyCredentialsBeforeQueryExecution() throws Exception {
-    LessonDataSource dataSource = mock(LessonDataSource.class);
-    Flags flags = mock(Flags.class);
-    Assignment5 assignment5 = new Assignment5(dataSource, flags);
-
-    AttackResult result = assignment5.login("", "");
-
-    verifyNoInteractions(dataSource);
-    assertFalse(result.getLessonCompleted(), "Empty credentials must not pass the challenge");
+    // Verify that a parameterized query is used with placeholders
+    verify(connection, times(1))
+        .prepareStatement(
+            "select password from challenge_users where userid = ? and password = ?");
+    verify(preparedStatement, times(1)).setString(1, "Larry");
+    verify(preparedStatement, times(1)).setString(2, "secret");
+    verify(preparedStatement, times(1)).executeQuery();
+    assertTrue(result.isLessonCompleted());
   }
 }

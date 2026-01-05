@@ -7,10 +7,7 @@ package org.owasp.webgoat.lessons.sqlinjection.advanced;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -24,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints(
-    value = {
+    value = {\
       "SqlInjectionChallenge1",
       "SqlInjectionChallenge2",
       "SqlInjectionChallenge3",
@@ -43,6 +40,7 @@ public class SqlInjectionChallenge implements AssignmentEndpoint {
   }
 
   @PutMapping("/SqlInjectionAdvanced/register")
+  // assignment path is bounded to class so we use different http method :-)
   @ResponseBody
   public AttackResult registerNewUser(
       @RequestParam("username_reg") String username,
@@ -53,10 +51,10 @@ public class SqlInjectionChallenge implements AssignmentEndpoint {
     if (attackResult == null) {
 
       try (Connection connection = dataSource.getConnection()) {
-        String checkUserQuery =
-            "select userid from sql_challenge_users where userid = ?";
+        // Remediation: Use PreparedStatement with a placeholder to prevent SQL Injection
+        String checkUserQuery = "select userid from sql_challenge_users where userid = ?";
         PreparedStatement statement = connection.prepareStatement(checkUserQuery);
-        statement.setString(1, username);
+        statement.setString(1, username); // Bind the username parameter
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {

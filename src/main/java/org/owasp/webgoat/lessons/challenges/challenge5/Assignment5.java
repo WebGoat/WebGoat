@@ -9,7 +9,6 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.succes
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.LessonDataSource;
@@ -33,7 +32,7 @@ public class Assignment5 implements AssignmentEndpoint {
   @PostMapping("/challenge/5")
   @ResponseBody
   public AttackResult login(
-      @RequestParam String username_login, @RequestParam String password_login) throws SQLException {
+      @RequestParam String username_login, @RequestParam String password_login) throws Exception {
     if (!StringUtils.hasText(username_login) || !StringUtils.hasText(password_login)) {
       return failed(this).feedback("required4").build();
     }
@@ -41,6 +40,7 @@ public class Assignment5 implements AssignmentEndpoint {
       return failed(this).feedback("user.not.larry").feedbackArgs(username_login).build();
     }
     try (var connection = dataSource.getConnection()) {
+      // Remediation: Use PreparedStatement with placeholders to prevent SQL Injection
       PreparedStatement statement =
           connection.prepareStatement(
               "select password from challenge_users where userid = ? and password = ?");
