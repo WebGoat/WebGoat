@@ -1,103 +1,89 @@
-// Assumed package based on source file location; adjust if actual package differs.
+/*
+ * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.cryptography;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.owasp.webgoat.container.assignments.AttackResult;
 
-/**
- * Delta tests for HashingAssignment focusing on the change from Random to SecureRandom when
- * selecting a secret. The intent is to guard against regressions that reintroduce predictable PRNG
- * usage.
- */
-public class HashingAssignmentTest {
+class HashingAssignmentTest {
 
   private HashingAssignment hashingAssignment;
   private HttpServletRequest request;
   private HttpSession session;
 
   @BeforeEach
-  void setUp() {
+  void setup() {
     hashingAssignment = new HashingAssignment();
-    request = Mockito.mock(HttpServletRequest.class);
-    session = Mockito.mock(HttpSession.class);
-    Mockito.when(request.getSession()).thenReturn(session);
+    request = mock(HttpServletRequest.class);
+    session = mock(HttpSession.class);
+    when(request.getSession()).thenReturn(session);
   }
 
   @Test
-  void getMd5_shouldGenerateNewHashWhenNotInSession() throws NoSuchAlgorithmException {
-    // Arrange
-    Mockito.when(session.getAttribute("md5Hash")).thenReturn(null);
+  void shouldGenerateDeterministicMd5ForSession() throws NoSuchAlgorithmException {
+    when(session.getAttribute("md5Hash")).thenReturn(null);
 
-    // Act
-    String hash = hashingAssignment.getMd5(request);
+    String hash1 = hashingAssignment.getMd5(request);
 
-    // Assert
-    Mockito.verify(session).setAttribute(Mockito.eq("md5Hash"), Mockito.eq(hash));
-    Mockito.verify(session).setAttribute(Mockito.eq("md5Secret"), Mockito.anyString());
+    when(session.getAttribute("md5Hash")).thenReturn(hash1);
+
+    String hash2 = hashingAssignment.getMd5(request);
+
+    assertThat(hash1).isEqualTo(hash2);
   }
 
   @Test
-  void getMd5_shouldReuseHashFromSessionIfPresent() throws NoSuchAlgorithmException {
-    // Arrange
-    String existingHash = "EXISTING_HASH";
-    Mockito.when(session.getAttribute("md5Hash")).thenReturn(existingHash);
+  void shouldGenerateDeterministicSha256ForSession() throws NoSuchAlgorithmException {
+    when(session.getAttribute("sha256")).thenReturn(null);
 
-    // Act
-    String result = hashingAssignment.getMd5(request);
+    String hash1 = hashingAssignment.getSha256(request);
 
-    // Assert
-    assertEquals(existingHash, result);
-    Mockito.verify(session, Mockito.never())
-        .setAttribute(Mockito.eq("md5Hash"), Mockito.anyString());
+    when(session.getAttribute("sha256")).thenReturn(hash1);
+
+    String hash2 = hashingAssignment.getSha256(request);
+
+    assertThat(hash1).isEqualTo(hash2);
   }
 
   @Test
-  void getSha256_shouldGenerateNewHashWhenNotInSession() throws NoSuchAlgorithmException {
-    // Arrange
-    Mockito.when(session.getAttribute("sha256")).thenReturn(null);
+  void shouldReturnSuccessWhenBothSecretsAreCorrect() {
+    when(session.getAttribute("md5Secret")).thenReturn("secret1");
+    when(session.getAttribute("sha256Secret")).thenReturn("secret2");
 
-    // Act
-    String hash = hashingAssignment.getSha256(request);
+    AttackResult result = hashingAssignment.completed(request, "secret1", "secret2");
 
-    // Assert
-    Mockito.verify(session).setAttribute(Mockito.eq("sha256Hash"), Mockito.eq(hash));
-    Mockito.verify(session).setAttribute(Mockito.eq("sha256Secret"), Mockito.anyString());
+    assertThat(result.getLessonCompleted()).isTrue();
   }
 
   @Test
-  void getSha256_shouldReuseHashFromSessionIfPresent() throws NoSuchAlgorithmException {
-    // Arrange
-    String existingHash = "EXISTING_SHA256_HASH";
-    Mockito.when(session.getAttribute("sha256")).thenReturn(existingHash);
+  void shouldReturnPartialSuccessWhenOneSecretIsCorrect() {
+    when(session.getAttribute("md5Secret")).thenReturn("secret1");
+    when(session.getAttribute("sha256Secret")).thenReturn("secret2");
 
-    // Act
-    String result = hashingAssignment.getSha256(request);
+    AttackResult result = hashingAssignment.completed(request, "secret1", "wrong");
 
-    // Assert
-    assertEquals(existingHash, result);
-    Mockito.verify(session, Mockito.never())
-        .setAttribute(Mockito.eq("sha256Hash"), Mockito.anyString());
+    assertThat(result.getLessonCompleted()).isFalse();
   }
 
   @Test
-  void getMd5_multipleCallsShouldNotAlwaysReturnSameHash_whenNoSessionValue()
-      throws NoSuchAlgorithmException {
-    // This test is probabilistic but aimed to catch an obvious regression to a fixed or predictable
-    // value (e.g., hard-coded secret). It does not prove full cryptographic strength, only that
-    // two independent calls can yield different values.
-    Mockito.when(session.getAttribute("md5Hash")).thenReturn(null, null);
+  void shouldReturnFailureWhenSecretsAreIncorrectOrMissing() {
+    when(session.getAttribute("md5Secret")).thenReturn("secret1");
+    when(session.getAttribute("sha256Secret")).thenReturn("secret2");
 
-    String first = hashingAssignment.getMd5(request);
-    String second = hashingAssignment.getMd5(request);
+    AttackResult result1 = hashingAssignment.completed(request, "wrong1", "wrong2");
+    AttackResult result2 = hashingAssignment.completed(request, null, null);
 
-    // If SecureRandom is replaced by a fixed value or constant secret, these will likely match.
-    assertNotEquals(first, second);
+    assertThat(result1.getLessonCompleted()).isFalse();
+    assertThat(result2.getLessonCompleted()).isFalse();
   }
 }
