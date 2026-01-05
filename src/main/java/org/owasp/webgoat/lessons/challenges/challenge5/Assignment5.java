@@ -9,7 +9,6 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.succes
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException; // Added import for SQLException
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.LessonDataSource;
@@ -41,12 +40,13 @@ public class Assignment5 implements AssignmentEndpoint {
       return failed(this).feedback("user.not.larry").feedbackArgs(username_login).build();
     }
     try (var connection = dataSource.getConnection()) {
-      // Remediation: Using PreparedStatement to prevent SQL Injection
+      // Remediation: Replaced string concatenation with PreparedStatement with placeholders
+      // to prevent SQL Injection.
       PreparedStatement statement =
           connection.prepareStatement(
-              "select password from challenge_users where userid = ? and password = ?"); // Changed to use placeholders
-      statement.setString(1, username_login); // Set parameter for username
-      statement.setString(2, password_login); // Set parameter for password
+              "select password from challenge_users where userid = ? and password = ?");
+      statement.setString(1, username_login);
+      statement.setString(2, password_login);
       ResultSet resultSet = statement.executeQuery();
 
       if (resultSet.next()) {
@@ -54,9 +54,6 @@ public class Assignment5 implements AssignmentEndpoint {
       } else {
         return failed(this).feedback("challenge.close").build();
       }
-    } catch (SQLException e) { // Catch SQLException explicitly
-        log.error("Database error during login for user: {}", username_login, e);
-        return failed(this).feedback("An internal error occurred. Please try again later.").build();
     }
   }
 }
