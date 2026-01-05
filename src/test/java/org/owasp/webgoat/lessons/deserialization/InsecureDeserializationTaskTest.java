@@ -6,60 +6,40 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.Base64;
 import org.dummy.insecure.framework.VulnerableTaskHolder;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.assignments.AttackResult;
 
-/**
- * Delta tests focusing on ObjectInputFilter usage restricting deserialization
- * to VulnerableTaskHolder and rejecting other types.
- */
 class InsecureDeserializationTaskTest {
 
-  private String toUrlSafeBase64(byte[] bytes) {
-    String base64 = Base64.getEncoder().encodeToString(bytes);
+  private static String serializeToWebGoatToken(Object o) throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+      oos.writeObject(o);
+    }
+    String base64 = Base64.getEncoder().encodeToString(baos.toByteArray());
     return base64.replace('+', '-').replace('/', '_');
   }
 
   @Test
-  void completed_allowsVulnerableTaskHolderInstances() throws Exception {
+  @DisplayName("completed: should accept VulnerableTaskHolder (whitelisted type) when delay is in expected range")
+  void completed_allowsWhitelistedType() throws Exception {
     InsecureDeserializationTask task = new InsecureDeserializationTask();
-
-    VulnerableTaskHolder obj = new VulnerableTaskHolder();
-    // keep processing time within required window by making it simple
-    byte[] serialized;
-    try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-      oos.writeObject(obj);
-      oos.flush();
-      serialized = baos.toByteArray();
-    }
-
-    String token = toUrlSafeBase64(serialized);
+    VulnerableTaskHolder holder = new VulnerableTaskHolder();
+    String token = serializeToWebGoatToken(holder);
     AttackResult result = task.completed(token);
-
-    // We only assert that deserialization passes the filter and reaches timing logic;
-    // success or failure on timing is not the focus of this delta test.
-    assertNotNull(result);
+    assertFalse(
+        result.getFeedback().orElse("").contains("insecure-deserialization.stringobject"));
+    assertFalse(
+        result.getFeedback().orElse("").contains("insecure-deserialization.wrongobject"));
   }
 
   @Test
-  void completed_rejectsNonAllowlistedTypes() throws Exception {
+  @DisplayName("completed: should reject non-whitelisted type (e.g., Integer) via filter")
+  void completed_rejectsNonWhitelistedType() throws Exception {
     InsecureDeserializationTask task = new InsecureDeserializationTask();
-
-    String payload = "some-string";
-    byte[] serialized;
-    try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-      oos.writeObject(payload);
-      oos.flush();
-      serialized = baos.toByteArray();
-    }
-
-    String token = toUrlSafeBase64(serialized);
+    String token = serializeToWebGoatToken(Integer.valueOf(42));
     AttackResult result = task.completed(token);
-
-    // If the filter rejects the type or it gets treated as wrong object,
-    // AttackResult should indicate failure (not a successful lesson completion).
-    assertFalse(result.isLessonCompleted());
+    assertFalse(result.getLessonCompleted());
   }
 }

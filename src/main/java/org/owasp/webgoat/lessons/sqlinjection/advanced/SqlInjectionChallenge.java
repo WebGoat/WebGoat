@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AssignmentHints(
-    value = {\
+    value = {
       "SqlInjectionChallenge1",
       "SqlInjectionChallenge2",
       "SqlInjectionChallenge3",
@@ -40,7 +40,6 @@ public class SqlInjectionChallenge implements AssignmentEndpoint {
   }
 
   @PutMapping("/SqlInjectionAdvanced/register")
-  // assignment path is bounded to class so we use different http method :-)
   @ResponseBody
   public AttackResult registerNewUser(
       @RequestParam("username_reg") String username,
@@ -50,26 +49,25 @@ public class SqlInjectionChallenge implements AssignmentEndpoint {
 
     if (attackResult == null) {
 
-      try (Connection connection = dataSource.getConnection()) {
-        // Remediation: Use PreparedStatement with a placeholder to prevent SQL Injection
+      try (java.sql.Connection connection = dataSource.getConnection()) {
         String checkUserQuery = "select userid from sql_challenge_users where userid = ?";
-        PreparedStatement statement = connection.prepareStatement(checkUserQuery);
-        statement.setString(1, username); // Bind the username parameter
-        ResultSet resultSet = statement.executeQuery();
+        java.sql.PreparedStatement preparedStatement = connection.prepareStatement(checkUserQuery);
+        preparedStatement.setString(1, username);
+        java.sql.ResultSet resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next()) {
           attackResult = failed(this).feedback("user.exists").feedbackArgs(username).build();
         } else {
-          PreparedStatement preparedStatement =
+          java.sql.PreparedStatement insertStatement =
               connection.prepareStatement("INSERT INTO sql_challenge_users VALUES (?, ?, ?)");
-          preparedStatement.setString(1, username);
-          preparedStatement.setString(2, email);
-          preparedStatement.setString(3, password);
-          preparedStatement.execute();
+          insertStatement.setString(1, username);
+          insertStatement.setString(2, email);
+          insertStatement.setString(3, password);
+          insertStatement.execute();
           attackResult =
               informationMessage(this).feedback("user.created").feedbackArgs(username).build();
         }
-      } catch (SQLException e) {
+      } catch (java.sql.SQLException e) {
         attackResult = failed(this).output("Something went wrong").build();
       }
     }
