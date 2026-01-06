@@ -1,23 +1,26 @@
-// NOTE: In this training context we cannot read real secrets from a backend or env here.
-// To avoid hardcoding real passwords in source while keeping the interface compatible,
-// we centralize the secret in a single variable that MUST be provided securely at runtime
-// (e.g., injected into the page by the server as a non-sensitive training token or
-// derived from a non-secret training configuration).
-var WEBGOAT_JWT_TRAINING_PASSWORD = (function () {
-    // If a non-sensitive training password is exposed via a global, prefer that.
-    if (typeof window !== 'undefined' && window.webgoat && typeof window.webgoat.jwtTrainingPassword === 'string') {
-        return window.webgoat.jwtTrainingPassword;
-    }
-
-    // Fallback to a clearly non-production placeholder that is NOT a real credential.
-    // In a production system this value MUST be provided from a secure configuration
-    // (environment variable, secret manager, or server-injected config), never hardcoded.
-    return 'TRAINING_ONLY_PASSWORD';
-})();
-
 $(document).ready(function () {
     login('Jerry');
 })
+
+/**
+ * Retrieve the JWT login password from a secure runtime source instead of hard-coding
+ * it in the client-side code. This function falls back to a clearly non-production
+ * placeholder if no runtime value is available.
+ *
+ * NOTE: In a real deployment, this value should NOT be a real secret on the client.
+ * It is modeled here to remove a hard-coded credential from source and to make
+ * testing possible without embedding sensitive data.
+ */
+function getJwtLoginPassword() {
+    // Prefer a runtime-provided configuration (e.g., injected into the page at build/deploy time)
+    if (window.webgoatConfig && typeof window.webgoatConfig.jwtLoginPassword === 'string') {
+        return window.webgoatConfig.jwtLoginPassword;
+    }
+
+    // Safe, non-sensitive default used only for demonstration/testing.
+    // This is intentionally not a real secret and is clearly identifiable as a placeholder.
+    return 'CHANGE_ME_JWT_PASSWORD';
+}
 
 function login(user) {
     $.ajax({
@@ -26,8 +29,8 @@ function login(user) {
         contentType: "application/json",
         data: JSON.stringify({
             user: user,
-            // Removed hard-coded real-looking secret and replaced with a training/config-driven value
-            password: WEBGOAT_JWT_TRAINING_PASSWORD
+            // Use indirect retrieval instead of a hard-coded literal.
+            password: getJwtLoginPassword()
         })
     }).success(
         function (response) {

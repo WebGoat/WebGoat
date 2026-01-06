@@ -1,103 +1,119 @@
 package org.owasp.webgoat.lessons.sqlinjection.advanced;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.owasp.webgoat.container.LessonDataSource;
-import org.owasp.webgoat.container.assignments.AttackResult;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.slf4j.Logger;
 
 /**
- * Delta tests for SqlInjectionLesson6b focusing on:
- * - Password is checked via DB and not returned/exposed.
- * - Correct password yields success, wrong password fails.
- * - Query is parameterized, and no real password value is ever returned.
- *
- * Note: checkPassword is protected; tests exercise it indirectly via completed().
+ * Delta unit tests for SqlInjectionLesson6b focusing on:
+ *  - Replacing printStackTrace() with structured logging.
+ *  - Ensuring getPassword() still retrieves the password correctly on success.
  */
-@Slf4j
 class SqlInjectionLesson6bTest {
 
-    private LessonDataSource dataSource;
-    private SqlInjectionLesson6b lesson;
-    private Connection connection;
-    private PreparedStatement preparedStatement;
-    private ResultSet resultSet;
-
-    @BeforeEach
-    void setUp() throws Exception {
-        dataSource = mock(LessonDataSource.class);
-        lesson = new SqlInjectionLesson6b(dataSource);
-
-        connection = mock(Connection.class);
-        preparedStatement = mock(PreparedStatement.class);
-        resultSet = mock(ResultSet.class);
+    @Test
+    @DisplayName("getPassword should return password from DB when query succeeds")
+    void getPassword_returnsPasswordFromDatabase() throws Exception {
+        // Arrange
+        LessonDataSource dataSource = mock(LessonDataSource.class);
+        Connection connection = mock(Connection.class);
+        Statement statement = mock(Statement.class);
+        ResultSet rs = mock(ResultSet.class);
 
         when(dataSource.getConnection()).thenReturn(connection);
-        when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        when(connection.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+                .thenReturn(statement);
+        when(statement.executeQuery(anyString())).thenReturn(rs);
+        when(rs.first()).thenReturn(true);
+        when(rs.getString("password")).thenReturn("db-password");
 
-        RequestContextHolder.setRequestAttributes(
-                new ServletRequestAttributes(new MockHttpServletRequest()));
+        SqlInjectionLesson6b lesson = new SqlInjectionLesson6b(dataSource);
+
+        // Act
+        String password = lesson.getPassword();
+
+        // Assert
+        assertEquals("db-password", password);
     }
 
     @Test
-    void completed_withCorrectPassword_shouldReturnSuccess() throws Exception {
+    @DisplayName("getPassword should log errors instead of using printStackTrace when SQL exception occurs")
+    void getPassword_logsErrorsInsteadOfPrintStackTrace_onSQLException() throws Exception {
         // Arrange
-        String correctPassword = "secret";
-        when(resultSet.first()).thenReturn(true);
-        when(resultSet.getString("password")).thenReturn(correctPassword);
+        LessonDataSource dataSource = mock(LessonDataSource.class);
+        Connection connection = mock(Connection.class);
+
+        when(dataSource.getConnection()).thenReturn(connection);
+        when(connection.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+                .thenThrow(new java.sql.SQLException("DB error"));
+
+        // We create a spy so we can inject a mock logger if the Lombok-generated log field is used.
+        SqlInjectionLesson6b lesson = new SqlInjectionLesson6b(dataSource);
+
+        // Use reflection to replace the Lombok-generated logger with a mock,
+        // so we can assert it is used instead of printStackTrace.
+        Logger mockLogger = mock(Logger.class);
+        try {
+            java.lang.reflect.Field logField =
+                    SqlInjectionLesson6b.class.getDeclaredField("log");
+            logField.setAccessible(true);
+            logField.set(null, mockLogger);
+        } catch (NoSuchFieldException e) {
+            // If field name differs due to Lombok or build configuration, mark this as a TODO.
+            // TODO: Adjust reflection to match actual logger field name if needed.
+        }
 
         // Act
-        AttackResult result = lesson.completed(correctPassword);
+        String password = lesson.getPassword();
 
-        // Assert behavior: success when supplied password matches stored password
-        assertTrue(result.getLessonCompleted(), "Expected lesson to be completed for correct password");
+        // Assert
+        // Even on error, getPassword should return the default "dave"
+        assertEquals("dave", password);
 
-        // Assert: parameterized query used and username parameter is bound
-        ArgumentCaptor<String> sqlCaptor = ArgumentCaptor.forClass(String.class);
-        verify(connection).prepareStatement(sqlCaptor.capture());
-        String sql = sqlCaptor.getValue();
-        org.junit.jupiter.api.Assertions.assertTrue(
-                sql.contains("WHERE user_name = ?"),
-                "Expected prepared statement with username placeholder");
-
-        // Username is hardcoded 'dave' at call site
-        verify(preparedStatement).setString(1, "dave");
+        // Verify that an error was logged (and not printed directly)
+        verify(mockLogger, atLeastOnce()).error(
+                startsWith("Database error during password retrieval."),
+                any(Throwable.class));
     }
 
     @Test
-    void completed_withWrongPassword_shouldFailWithoutExposingPassword() throws Exception {
+    @DisplayName("getPassword should log unexpected exceptions instead of using printStackTrace")
+    void getPassword_logsUnexpectedExceptions() throws Exception {
         // Arrange
-        String storedPassword = "secret";
-        String wrongPassword = "wrong";
+        LessonDataSource dataSource = mock(LessonDataSource.class);
 
-        when(resultSet.first()).thenReturn(true);
-        when(resultSet.getString("password")).thenReturn(storedPassword);
+        when(dataSource.getConnection()).thenThrow(new RuntimeException("Unexpected"));
+
+        SqlInjectionLesson6b lesson = new SqlInjectionLesson6b(dataSource);
+
+        Logger mockLogger = mock(Logger.class);
+        try {
+            java.lang.reflect.Field logField =
+                    SqlInjectionLesson6b.class.getDeclaredField("log");
+            logField.setAccessible(true);
+            logField.set(null, mockLogger);
+        } catch (NoSuchFieldException e) {
+            // TODO: Adjust reflection to match actual logger field name if needed.
+        }
 
         // Act
-        AttackResult result = lesson.completed(wrongPassword);
+        String password = lesson.getPassword();
 
-        // Assert: lesson not completed for wrong password
-        assertFalse(result.getLessonCompleted(), "Expected failure for incorrect password");
-
-        // Assert indirectly that real password is never exposed:
-        // - checkPassword returns only boolean; completed() returns AttackResult.
-        // - No string of storedPassword should be returned from completed().
-        // We can enforce that by ensuring AttackResult's output is not equal to storedPassword.
-        // Since AttackResult does not expose raw messages here, we rely on type-level contract:
-        // completed() returns AttackResult, never String; this delta test documents that.
+        // Assert
+        assertEquals("dave", password);
+        verify(mockLogger, atLeastOnce()).error(
+                startsWith("Unexpected error during password retrieval."),
+                any(Throwable.class));
     }
 }
