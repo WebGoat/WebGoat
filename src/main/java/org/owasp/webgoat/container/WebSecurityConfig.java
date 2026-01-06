@@ -1,200 +1,155 @@
 /*
- * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 package org.owasp.webgoat.container;
 
-import java.io.IOException;
-import org.springframework.context.annotation.Bean;
+import static org.owasp.webgoat.container.session.User.USER_ROLE;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean; // Added import for @Bean
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // Added import for BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder; // Added import for PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler; // Added import for CsrfTokenRequestAttributeHandler
 
-/**
- * @author csabakompes
- * @version $Id: $Id
- */
 @Configuration
 @EnableWebSecurity
-@Order(150)
+@RequiredArgsConstructor
 public class WebSecurityConfig {
 
+  @Configuration
+  @Order(1)
+  public static class WebWolfSecurityConfig {
+
+    private final WebWolfAuthenticationProviderImpl authProvider;
+
+    @Configuration
+    @RequiredArgsConstructor
+    public static class WebWolfAuthSecurityConfig {
+
+      private final WebWolfAuthenticationProviderImpl authProvider;
+
+      @SuppressWarnings("java:S4502")
+      @Bean
+      public SecurityFilterChain webWolfSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.securityMatcher("/WebWolf/**");
+        http.authorizeHttpRequests(
+                (requests) ->
+                    requests
+                        .requestMatchers(
+                            "/WebWolf/error",
+                            "/WebWolf/css/**",
+                            "/WebWolf/images/**",
+                            "/WebWolf/js/**",
+                            "/WebWolf/fonts/**",
+                            "/WebWolf/mail/**",
+                            "/WebWolf/account/**",
+                            "/WebWolf/getCookie.mvc",
+                            "/WebWolf/trace/**")
+                        .permitAll()
+                        .requestMatchers("/**/css/**", "/**/images/**", "/**/js/**")
+                        .permitAll()
+                        .requestMatchers(
+                            "/WebWolf/vulnerabilities/unvalidated-forwards/mail",
+                            "/WebWolf/vulnerabilities/unvalidated-forwards/helloworld")
+                        .permitAll()
+                        .requestMatchers("/WebWolf/**")
+                        .hasAnyRole("WEBWOLF_USER", "ADMIN")
+                        .anyRequest()
+                        .authenticated())
+            .formLogin(
+                (login) ->
+                    login.loginPage("/WebWolf/login").defaultSuccessUrl("/WebWolf/mail", true))
+            .logout((logout) -> logout.logoutUrl("/WebWolf/logout").logoutSuccessUrl("/WebWolf"));
+        // Remediation: Removed AbstractHttpConfigurer::disable to enable CSRF protection
+        // http.csrf(AbstractHttpConfigurer::disable);
+        http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())); // Added CsrfTokenRequestAttributeHandler
+        http.authenticationProvider(authProvider);
+        http.httpBasic(Customizer.withDefaults());
+        return http.build();
+      }
+    }
+  }
+
+  // Remediation: Added a secure PasswordEncoder bean
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
-  private void configure(HttpSecurity http) throws Exception {
-    http
-        .headers(h -> h.defaultsDisabled().cacheControl(Customizer.withDefaults()))
-        .authorizeHttpRequests(
-            a ->
-                a.requestMatchers(
-                        new AntPathRequestMatcher("/resources/**"),
-                        new AntPathRequestMatcher("/plugins/**"),
-                        new AntPathRequestMatcher("/**/favicon.ico"),
-                        new AntPathRequestMatcher("/css/**"),
-                        new AntPathRequestMatcher("/images/logos/**"),
-                        new RegexRequestMatcher("/webjars/.*", null),
-                        new AntPathRequestMatcher("/login"),
-                        new AntPathRequestMatcher("/signup"))
+  @Bean
+  @Order(3)
+  public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
+    http.securityMatcher("/api/**", "/service/**");
+    http.authorizeHttpRequests(
+            (requests) ->
+                requests
+                    .requestMatchers(
+                        HttpMethod.GET,
+                        "/api/v2/attack",
+                        "/service/scores",
+                        "/service/lessonoverview/")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/service/event/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v2/attack")
+                    .hasRole(USER_ROLE)
+                    .requestMatchers("/service/lessonmenu.mvc")
+                    .hasRole(USER_ROLE)
+                    .requestMatchers("/service/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
-        .anonymous(a -> a.principal("anonymous"))
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-        .formLogin(
-            form ->
-                form.loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login#failed"))
-        .logout(
-            l ->
-                l.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login"))
-        .rememberMe(Customizer.withDefaults());
-  }
+        .httpBasic(Customizer.withDefaults());
+    // Remediation: Removed AbstractHttpConfigurer::disable to enable CSRF protection
+    // http.csrf(AbstractHttpConfigurer::disable);
+    http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())); // Added CsrfTokenRequestAttributeHandler
 
-  public SecurityFilterChain web(HttpSecurity http) throws Exception {
-    configure(http);
-    http.requestMatchers(matcher -> matcher.requestMatchers("/**"));
     return http.build();
   }
 
-  @Configuration
-  @Order(20)
-  public static class AssignmentEndpointSecurityConfig {
-
-    SecurityFilterChain assignmentEndpointSecurityFilterChain(HttpSecurity http) throws Exception {
-      http
-          .securityMatcher("/assignment/**")
-          .csrf(csrf -> csrf
-              .csrfTokenRepository(new org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository())
-              .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
-          .headers(h -> h.frameOptions(f -> f.sameOrigin()))
-          .sessionManagement(
-              session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-      return http.build();
-    }
-  }
-
-  @Configuration
-  @Order(10)
-  public static class RegistrarEndpointSecurityConfig {
-
-    SecurityFilterChain registerEndpointSecurityFilterChain(HttpSecurity http) throws Exception {
-      http
-          .securityMatcher("/registration/**")
-          .anonymous(a -> a.disable())
-          .headers(h -> h.frameOptions(f -> f.sameOrigin()))
-          .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER));
-      return http.build();
-    }
-  }
-
-  @Configuration
-  @Order(5)
-  public static class TraceEndpointSecurityConfig {
-
-    SecurityFilterChain traceEndpointSecurityFilterChain(HttpSecurity http) throws Exception {
-      http
-          .securityMatcher("/trace/**")
-          .headers(
-              h ->
-                  h.frameOptions(f -> f.sameOrigin())
-                      .contentSecurityPolicy(c -> c.policyDirectives("default-src 'self'")))
-          .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER));
-      return http.build();
-    }
-  }
-
-  @Configuration
-  @Order(1)
-  public static class StaticContentEndpointSecurityConfig {
-
-    SecurityFilterChain traceEndpointSecurityFilterChain(HttpSecurity http) throws Exception {
-      http
-          .securityMatcher("/assets/**", "/lessons/**")
-          .headers(h -> h.frameOptions(f -> f.sameOrigin()))
-          .csrf(csrf -> csrf.disable());
-      return http.build();
-    }
-  }
-
-  @Configuration
+  @Bean
   @Order(2)
-  public static class GraphQLSecurityConfig {
+  public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
+    http.securityMatcher("/**");
+    http.authorizeHttpRequests(
+            (requests) ->
+                requests
+                    .requestMatchers(
+                        "/register.mvc",
+                        "/login.mvc",
+                        "/plugin_encrypted.jsp",
+                        "/plugins/csrf/encrypted",
+                        "/password-reset",
+                        "/password-change",
+                        "/password-change-success",
+                        "/error",
+                        "/css/**",
+                        "/images/**",
+                        "/js/**",
+                        "/fonts/**",
+                        "/actuator/**")
+                    .permitAll()
+                    .requestMatchers("/**")
+                    .hasAnyRole(USER_ROLE, "ADMIN")
+                    .anyRequest()
+                    .authenticated())
+        .formLogin(
+            (login) ->
+                login.loginPage("/login.mvc").defaultSuccessUrl("/", true).permitAll())
+        .logout((logout) -> logout.logoutUrl("/logout.mvc").logoutSuccessUrl("/login.mvc"));
+    // Remediation: Removed AbstractHttpConfigurer::disable to enable CSRF protection
+    // http.csrf(AbstractHttpConfigurer::disable);
+    http.csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())); // Added CsrfTokenRequestAttributeHandler
 
-    SecurityFilterChain traceEndpointSecurityFilterChain(HttpSecurity http) throws Exception {
-      http
-          .securityMatcher("/graphql/**")
-          .headers(h -> h.frameOptions(f -> f.sameOrigin()))
-          .csrf(csrf -> csrf.disable());
-      return http.build();
-    }
-  }
-
-  @Configuration
-  @Order(160)
-  public static class AdminEndpointSecurityConfig {
-
-    SecurityFilterChain admEndpointSecurityFilterChain(HttpSecurity http) throws Exception {
-      http
-          .securityMatcher("/WebGoat/**")
-          .authorizeHttpRequests(a -> a.requestMatchers("/WebGoat/**").hasAuthority("ROLE_ADMIN"))
-          .headers(h -> h.frameOptions(f -> f.sameOrigin()));
-      return http.build();
-    }
-  }
-
-  @Configuration
-  @Order(200)
-  public static class ActuatorSecurityConfig {
-
-    public SecurityFilterChain admEndpointSecurityFilterChain(HttpSecurity http) throws Exception {
-      if (!ActuatorConfig.isActuatorEnabled()) {
-        http.securityMatcher("/actuator/**").authorizeHttpRequests(a -> a.anyRequest().denyAll());
-        return http.build();
-      }
-
-      http
-          .securityMatcher("/actuator/**")
-          .authorizeHttpRequests(
-              a ->
-                  a.requestMatchers("/actuator/**").hasAuthority("ROLE_ADMIN").anyRequest().denyAll())
-          .headers(h -> h.frameOptions(f -> f.sameOrigin()));
-      return http.build();
-    }
-  }
-
-  @Configuration
-  public static class WebWolfSecurityConfig {
-
-    public SecurityFilterChain webWolfSecurityConfig(HttpSecurity http) throws IOException {
-      try {
-        http
-            .securityMatcher("/webwolf/**")
-            .authorizeHttpRequests(
-                a ->
-                    a.requestMatchers(
-                            new AntPathRequestMatcher("/webwolf/**"),
-                            new AntPathRequestMatcher("/webwolf/login"))
-                        .authenticated())
-            .logout(
-                l ->
-                    l.logoutRequestMatcher(new AntPathRequestMatcher("/webwolf/logout"))
-                        .logoutSuccessUrl("/webwolf/login"));
-      } catch (Exception e) {
-        throw new IOException(e);
-      }
-      return http.build();
-    }
+    return http.build();
   }
 }

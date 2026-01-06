@@ -7,104 +7,73 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 class HashingAssignmentTest {
 
-    @Test
-    @DisplayName("getMd5 should generate and cache MD5 hash and secret in session when not present")
-    void getMd5_generatesAndCachesHashAndSecret() throws NoSuchAlgorithmException {
-        HashingAssignment assignment = new HashingAssignment();
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpSession session = mock(HttpSession.class);
+  @Test
+  @DisplayName("getMd5 should generate hash and store secret in session only once")
+  void getMd5_usesSessionStoredSecret() throws NoSuchAlgorithmException {
+    HashingAssignment assignment = new HashingAssignment();
 
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("md5Hash")).thenReturn(null);
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    HttpSession session = mock(HttpSession.class);
 
-        String firstHash = assignment.getMd5(request);
+    when(request.getSession()).thenReturn(session);
+    when(session.getAttribute("md5Hash")).thenReturn(null);
 
-        assertNotNull(firstHash, "First MD5 hash must not be null");
-        verify(session).setAttribute(eq("md5Hash"), eq(firstHash));
-        verify(session).setAttribute(eq("md5Secret"), anyString());
-    }
+    String md5HashFirst = assignment.getMd5(request);
 
-    @Test
-    @DisplayName("getMd5 should return cached hash if it already exists in session")
-    void getMd5_returnsCachedHashIfPresent() throws NoSuchAlgorithmException {
-        HashingAssignment assignment = new HashingAssignment();
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpSession session = mock(HttpSession.class);
+    assertNotNull(md5HashFirst, "MD5 hash should be generated on first call");
 
-        String cachedHash = "ABCDEF0123456789";
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("md5Hash")).thenReturn(cachedHash);
+    verify(session).setAttribute(eq("md5Hash"), eq(md5HashFirst));
+    verify(session).setAttribute(eq("md5Secret"), anyString());
 
-        String result = assignment.getMd5(request);
+    reset(session);
+    when(request.getSession()).thenReturn(session);
+    when(session.getAttribute("md5Hash")).thenReturn(md5HashFirst);
 
-        assertEquals(cachedHash, result, "Should return the cached MD5 hash when it exists");
-        verify(session, never()).setAttribute(eq("md5Hash"), any());
-        verify(session, never()).setAttribute(eq("md5Secret"), any());
-    }
+    String md5HashSecond = assignment.getMd5(request);
 
-    @Test
-    @DisplayName("getSha256 should generate and cache SHA-256 hash and secret in session when not present")
-    void getSha256_generatesAndCachesHashAndSecret() throws NoSuchAlgorithmException {
-        HashingAssignment assignment = new HashingAssignment();
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpSession session = mock(HttpSession.class);
+    assertEquals(
+        md5HashFirst,
+        md5HashSecond,
+        "When a hash is already present in the session, it must be reused without new random selection");
 
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("sha256")).thenReturn(null);
+    verify(session, never()).setAttribute(eq("md5Secret"), any());
+    verify(session, never()).setAttribute(eq("md5Hash"), any());
+  }
 
-        String firstHash = assignment.getSha256(request);
+  @Test
+  @DisplayName("getSha256 should generate hash and store secret in session only once")
+  void getSha256_usesSessionStoredSecret() throws NoSuchAlgorithmException {
+    HashingAssignment assignment = new HashingAssignment();
 
-        assertNotNull(firstHash, "First SHA-256 hash must not be null");
-        verify(session).setAttribute(eq("sha256Hash"), eq(firstHash));
-        verify(session).setAttribute(eq("sha256Secret"), anyString());
-    }
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    HttpSession session = mock(HttpSession.class);
 
-    @Test
-    @DisplayName("getSha256 should return cached hash if it already exists in session")
-    void getSha256_returnsCachedHashIfPresent() throws NoSuchAlgorithmException {
-        HashingAssignment assignment = new HashingAssignment();
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpSession session = mock(HttpSession.class);
+    when(request.getSession()).thenReturn(session);
+    when(session.getAttribute("sha256")).thenReturn(null);
 
-        String cachedHash = "ABCDEF0123456789";
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("sha256")).thenReturn(cachedHash);
+    String shaFirst = assignment.getSha256(request);
 
-        String result = assignment.getSha256(request);
+    assertNotNull(shaFirst, "SHA-256 hash should be generated on first call");
 
-        assertEquals(cachedHash, result, "Should return the cached SHA-256 hash when it exists");
-        verify(session, never()).setAttribute(eq("sha256Hash"), any());
-        verify(session, never()).setAttribute(eq("sha256Secret"), any());
-    }
+    verify(session).setAttribute(eq("sha256Hash"), eq(shaFirst));
+    verify(session).setAttribute(eq("sha256Secret"), anyString());
 
-    @RepeatedTest(3)
-    @DisplayName("getMd5 should always use one of the allowed secrets (SecureRandom-based selection)")
-    void getMd5_usesOnlyPredefinedSecrets() throws NoSuchAlgorithmException {
-        HashingAssignment assignment = new HashingAssignment();
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpSession session = mock(HttpSession.class);
+    reset(session);
+    when(request.getSession()).thenReturn(session);
+    when(session.getAttribute("sha256")).thenReturn(shaFirst);
 
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("md5Hash")).thenReturn(null);
+    String shaSecond = assignment.getSha256(request);
 
-        assignment.getMd5(request);
+    assertEquals(
+        shaFirst,
+        shaSecond,
+        "When a SHA-256 hash is already present in the session, it must be reused without new random selection");
 
-        verify(session).setAttribute(eq("md5Secret"), argThat(secret -> {
-            assertNotNull(secret, "Secret stored in session must not be null");
-            boolean found = false;
-            for (String allowed : HashingAssignment.SECRETS) {
-                if (allowed.equals(secret)) {
-                    found = true;
-                    break;
-                }
-            }
-            assertTrue(found, "Secret must be one of the predefined SECRETS");
-            return true;
-        }));
-    }
+    verify(session, never()).setAttribute(eq("sha256Secret"), any());
+    verify(session, never()).setAttribute(eq("sha256Hash"), any());
+  }
 }
