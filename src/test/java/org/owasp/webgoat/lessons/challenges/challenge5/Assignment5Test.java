@@ -1,7 +1,10 @@
+// Assumed test source root: src/test/java
+// Package inferred from source file: org.owasp.webgoat.lessons.challenges.challenge5
 package org.owasp.webgoat.lessons.challenges.challenge5;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.owasp.webgoat.container.assignments.AttackResult.Status.SUCCESS;
+import static org.owasp.webgoat.container.assignments.AttackResult.Status.FAIL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,56 +12,80 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.challenges.Flags;
+import org.springframework.util.StringUtils;
 
+/**
+ * Delta tests for Assignment5 focusing on the change from string-concatenated SQL
+ * to a parameterized PreparedStatement preventing SQL injection.
+ */
 class Assignment5Test {
 
   @Test
-  @DisplayName("login should use PreparedStatement parameters and succeed when credentials are valid")
-  void login_usesParameterizedQuery_andSucceeds() throws Exception {
-    LessonDataSource dataSource = mock(LessonDataSource.class);
-    Flags flags = mock(Flags.class);
+  @DisplayName("login should use parameterized PreparedStatement instead of concatenated SQL")
+  void loginUsesParameterizedPreparedStatement() throws Exception {
+    LessonDataSource dataSource = Mockito.mock(LessonDataSource.class);
+    Flags flags = Mockito.mock(Flags.class);
     Assignment5 assignment = new Assignment5(dataSource, flags);
 
-    Connection connection = mock(Connection.class);
-    PreparedStatement preparedStatement = mock(PreparedStatement.class);
-    ResultSet resultSet = mock(ResultSet.class);
+    Connection connection = Mockito.mock(Connection.class);
+    PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
+    ResultSet resultSet = Mockito.mock(ResultSet.class);
 
-    when(dataSource.getConnection()).thenReturn(connection);
-    when(connection.prepareStatement(
-            "select password from challenge_users where userid = ? and password = ?"))
-        .thenReturn(preparedStatement);
-    when(preparedStatement.executeQuery()).thenReturn(resultSet);
-    when(resultSet.next()).thenReturn(true);
-    when(flags.getFlag(5)).thenReturn("FLAG-5");
+    Mockito.when(dataSource.getConnection()).thenReturn(connection);
+    Mockito.when(connection.prepareStatement(Mockito.anyString())).thenReturn(preparedStatement);
+    Mockito.when(preparedStatement.executeQuery()).thenReturn(resultSet);
+    Mockito.when(resultSet.next()).thenReturn(true);
+    Mockito.when(flags.getFlag(5)).thenReturn("FLAG-5");
 
-    AttackResult result = assignment.login("Larry", "secret");
+    String username = "Larry";
+    String password = "safePass' OR '1'='1"; // attempt injection, should be treated as data
 
-    verify(preparedStatement).setString(1, "Larry");
-    verify(preparedStatement).setString(2, "secret");
-    verify(preparedStatement).executeQuery();
+    AttackResult result = assignment.login(username, password);
 
-    assertTrue(result.getLessonCompleted(), "Valid credentials should still complete the lesson");
+    // Verify that a parameterized query is used
+    ArgumentCaptor<String> sqlCaptor = ArgumentCaptor.forClass(String.class);
+    Mockito.verify(connection).prepareStatement(sqlCaptor.capture());
+    String sql = sqlCaptor.getValue();
+    assertThat(sql)
+        .isEqualTo("select password from challenge_users where userid = ? and password = ?");
+
+    // Verify parameters are bound to the placeholders, not concatenated
+    Mockito.verify(preparedStatement).setString(1, username);
+    Mockito.verify(preparedStatement).setString(2, password);
+
+    // Verify successful path still works with correct credentials
+    assertThat(result.getStatus()).isEqualTo(SUCCESS);
   }
 
   @Test
-  @DisplayName("login should return failure AttackResult when SQLException occurs")
-  void login_handlesSqlException_securely() throws Exception {
-    LessonDataSource dataSource = mock(LessonDataSource.class);
-    Flags flags = mock(Flags.class);
+  @DisplayName("login should handle SQLException gracefully and not leak details")
+  void loginHandlesSqlExceptionGracefully() throws Exception {
+    LessonDataSource dataSource = Mockito.mock(LessonDataSource.class);
+    Flags flags = Mockito.mock(Flags.class);
     Assignment5 assignment = new Assignment5(dataSource, flags);
 
-    Connection connection = mock(Connection.class);
+    Mockito.when(dataSource.getConnection()).thenThrow(new SQLException("DB down"));
 
-    when(dataSource.getConnection()).thenReturn(connection);
-    when(connection.prepareStatement(
-            "select password from challenge_users where userid = ? and password = ?"))
-        .thenThrow(new SQLException("DB down"));
+    AttackResult result = assignment.login("Larry", "anyPassword");
 
-    AttackResult result = assignment.login("Larry", "secret");
+    assertThat(result.getStatus()).isEqualTo(FAIL);
+    assertThat(result.getFeedback()).contains("internal error").doesNotContain("DB down");
+  }
 
-    assertFalse(result.getLessonCompleted(), "On SQLException the lesson must not be completed");
+  @Test
+  @DisplayName("login should still reject non-Larry users (behavior preserved)")
+  void loginStillRejectsNonLarryUser() throws Exception {
+    LessonDataSource dataSource = Mockito.mock(LessonDataSource.class);
+    Flags flags = Mockito.mock(Flags.class);
+    Assignment5 assignment = new Assignment5(dataSource, flags);
+
+    AttackResult result = assignment.login("Bob", "pwd");
+
+    assertThat(result.getStatus()).isEqualTo(FAIL);
   }
 }

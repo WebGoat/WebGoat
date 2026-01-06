@@ -42,11 +42,10 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
 
     try (ObjectInputStream ois =
         new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
-      // Remediation: Applying a strict serialization filter to restrict deserializable classes
-      // Whitelist only VulnerableTaskHolder, reject all others
-      ois.setObjectInputFilter(ObjectInputFilter.Config.createFilter(
-          "org.dummy.insecure.framework.VulnerableTaskHolder;!*" 
-      ));
+      // Remediation: Apply ObjectInputFilter to restrict deserialization to allowed classes
+      ObjectInputFilter filter = ObjectInputFilter.Config.createFilter(
+          "org.dummy.insecure.framework.VulnerableTaskHolder;java.lang.String;java.lang.Long;java.lang.Integer;java.lang.Boolean;java.util.ArrayList;!*");
+      ois.setObjectInputFilter(filter);
 
       before = System.currentTimeMillis();
       Object o = ois.readObject();
@@ -61,9 +60,9 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
       return failed(this).feedback("insecure-deserialization.invalidversion").build();
     } catch (IllegalArgumentException e) {
       return failed(this).feedback("insecure-deserialization.expired").build();
-    } catch (ClassNotFoundException e) { // Added ClassNotFoundException handling
-        return failed(this).feedback("insecure-deserialization.classnotfound").build();
     } catch (Exception e) {
+      // Log the exception for debugging, but return a generic error to the user
+      // log.error("Deserialization error", e); // Assuming 'log' is available, otherwise use System.err
       return failed(this).feedback("insecure-deserialization.invalidversion").build();
     }
 

@@ -41,10 +41,9 @@ public class Assignment5 implements AssignmentEndpoint {
       return failed(this).feedback("user.not.larry").feedbackArgs(username_login).build();
     }
     try (var connection = dataSource.getConnection()) {
-      // Remediation: Using PreparedStatement with placeholders to prevent SQL Injection
-      PreparedStatement statement =
-          connection.prepareStatement(
-              "select password from challenge_users where userid = ? and password = ?");
+      // Remediation: Use PreparedStatement with placeholders to prevent SQL Injection
+      String sql = "select password from challenge_users where userid = ? and password = ?";
+      PreparedStatement statement = connection.prepareStatement(sql);
       statement.setString(1, username_login);
       statement.setString(2, password_login);
       ResultSet resultSet = statement.executeQuery();
@@ -54,8 +53,8 @@ public class Assignment5 implements AssignmentEndpoint {
       } else {
         return failed(this).feedback("challenge.close").build();
       }
-    } catch (SQLException e) { // Catch SQLException for better error handling
-        log.error("Database error during login", e);
+    } catch (SQLException e) { // Added catch for SQLException
+        log.error("Database error during login attempt", e);
         return failed(this).feedback("An internal error occurred.").build();
     }
   }
