@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@Slf4j
 public class SqlInjectionLesson6b implements AssignmentEndpoint {
   private final LessonDataSource dataSource;
 
@@ -33,8 +31,7 @@ public class SqlInjectionLesson6b implements AssignmentEndpoint {
   @PostMapping("/SqlInjectionAdvanced/attack6b")
   @ResponseBody
   public AttackResult completed(@RequestParam String userid_6b) throws IOException {
-    String actualPassword = getPassword();
-    if (userid_6b != null && userid_6b.equals(actualPassword)) {
+    if (userid_6b.equals(getPassword())) {
       return success(this).build();
     } else {
       return failed(this).build();
@@ -42,25 +39,26 @@ public class SqlInjectionLesson6b implements AssignmentEndpoint {
   }
 
   protected String getPassword() {
-    String password = null; // Initialize to null, remove hard-coded "dave"
+    String password = "dave";
     try (Connection connection = dataSource.getConnection()) {
       String query = "SELECT password FROM user_system_data WHERE user_name = 'dave'";
-      try (Statement statement =
-               connection.createStatement(
-                   ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-           ResultSet results = statement.executeQuery(query)) {
+      try {
+        Statement statement =
+            connection.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet results = statement.executeQuery(query);
 
         if (results != null && results.first()) {
           password = results.getString("password");
         }
       } catch (SQLException sqle) {
-        log.error("SQL Exception in getPassword method", sqle); // Replace printStackTrace
+        // Log exception securely, avoid sensitive data: sqle.getMessage()
         // do nothing
       }
     } catch (Exception e) {
-      log.error("General Exception in getPassword method", e); // Replace printStackTrace
+      // Log exception securely, avoid sensitive data: e.getMessage()
       // do nothing
     }
-    return password;
+    return (password);
   }
 }
