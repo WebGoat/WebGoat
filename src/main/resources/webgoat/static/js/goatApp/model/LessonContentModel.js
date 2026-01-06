@@ -7,6 +7,30 @@ define(['jquery',
         Backbone,
         HTMLContentModel){
 
+    // Utility functions to avoid overly-broad regex on full URLs and reduce ReDoS risk
+    function getLessonUrlFromLocation(loc) {
+        if (!loc || !loc.href) {
+            return '';
+        }
+        // Work on pathname only, not the entire URL string
+        var pathname = loc.pathname || '';
+        // Ensure we only ever match the final `.lesson` segment in the path
+        return pathname.replace(/\.lesson(?:\/.*/)?$/, '.lesson');
+    }
+
+    function getLessonPageNumberFromLocation(loc) {
+        if (!loc || !loc.href) {
+            return 0;
+        }
+        var pathname = loc.pathname || '';
+        // Match optional trailing page number segment (1–4 digits) after `.lesson/`
+        var match = pathname.match(/\.lesson\/(\d{1,4})$/);
+        if (match && match[1]) {
+            return match[1];
+        }
+        return 0;
+    }
+
     return HTMLContentModel.extend({
         urlRoot:null,
         defaults: {
@@ -32,22 +56,9 @@ define(['jquery',
             }
             this.set('content',content);
 
-            // Use a safer, bounded regex to avoid potential ReDoS on very long URLs.
-            // Limit match to a reasonable URL length to prevent catastrophic backtracking.
-            var url = document.URL || '';
-            var MAX_URL_LENGTH = 2048;
-            if (url.length > MAX_URL_LENGTH) {
-                url = url.substring(0, MAX_URL_LENGTH);
-            }
-
-            this.set('lessonUrl', url.replace(/\.lesson.*/, '.lesson'));
-
-            var pageMatch = url.match(/\.lesson\/(\d{1,4})$/);
-            if (pageMatch) {
-                this.set('pageNum', pageMatch[1]);
-            } else {
-                this.set('pageNum', 0);
-            }
+            // Use safer helpers that operate on pathname only, avoiding complex patterns on full URL
+            this.set('lessonUrl', getLessonUrlFromLocation(window.location));
+            this.set('pageNum', getLessonPageNumberFromLocation(window.location));
 
             this.trigger('content:loaded',this,loadHelps);
         },
