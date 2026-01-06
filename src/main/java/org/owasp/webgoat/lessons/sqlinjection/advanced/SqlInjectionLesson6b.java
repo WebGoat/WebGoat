@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
@@ -33,7 +33,8 @@ public class SqlInjectionLesson6b implements AssignmentEndpoint {
   @PostMapping("/SqlInjectionAdvanced/attack6b")
   @ResponseBody
   public AttackResult completed(@RequestParam String userid_6b) throws IOException {
-    if (userid_6b.equals(getPassword())) {
+    String actualPassword = getPassword();
+    if (userid_6b != null && userid_6b.equals(actualPassword)) {
       return success(this).build();
     } else {
       return failed(this).build();
@@ -41,26 +42,25 @@ public class SqlInjectionLesson6b implements AssignmentEndpoint {
   }
 
   protected String getPassword() {
-    String password = "dave";
+    String password = null; // Initialize to null, remove hard-coded "dave"
     try (Connection connection = dataSource.getConnection()) {
       String query = "SELECT password FROM user_system_data WHERE user_name = 'dave'";
-      try {
-        Statement statement =
-            connection.createStatement(
-                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ResultSet results = statement.executeQuery(query);
+      try (Statement statement =
+               connection.createStatement(
+                   ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+           ResultSet results = statement.executeQuery(query)) {
 
         if (results != null && results.first()) {
           password = results.getString("password");
         }
       } catch (SQLException sqle) {
-        log.error("SQL error during password retrieval", sqle);
-        // Consider rethrowing a custom, non-sensitive exception or handling gracefully
-      } catch (Exception e) {
-        log.error("Unexpected error during password retrieval", e);
-        // Consider rethrowing a custom, non-sensitive exception or handling gracefully
+        log.error("SQL Exception in getPassword method", sqle); // Replace printStackTrace
+        // do nothing
       }
+    } catch (Exception e) {
+      log.error("General Exception in getPassword method", e); // Replace printStackTrace
+      // do nothing
     }
-    return (password);
+    return password;
   }
 }

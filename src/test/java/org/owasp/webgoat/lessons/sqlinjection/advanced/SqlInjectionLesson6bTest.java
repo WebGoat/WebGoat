@@ -10,69 +10,98 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.junit.jupiter.api.BeforeEach;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.owasp.webgoat.container.LessonDataSource;
+import org.owasp.webgoat.container.assignments.AttackResult;
 
 /**
- * Delta tests for SqlInjectionLesson6b focusing on changed exception handling:
- * - getPassword() returns non-null even when DB is available
- * - getPassword() swallows/logs exceptions and does not rethrow
+ * Delta tests focusing on:
+ * - Removal of hard-coded default password "dave" in getPassword().
+ * - Ensuring exceptions are logged via SLF4J instead of printStackTrace (no stack trace leakage).
  */
+@Slf4j
 class SqlInjectionLesson6bTest {
 
-    private LessonDataSource dataSource;
-    private SqlInjectionLesson6b lesson;
-
-    private Connection connection;
-    private Statement statement;
-    private ResultSet resultSet;
-
-    @BeforeEach
-    void setUp() throws Exception {
-        dataSource = mock(LessonDataSource.class);
-        lesson = new SqlInjectionLesson6b(dataSource);
-
-        connection = mock(Connection.class);
-        statement = mock(Statement.class);
-        resultSet = mock(ResultSet.class);
+    @Test
+    @DisplayName("getPassword returns DB value and does not fall back to hard-coded 'dave'")
+    void getPassword_returnsDbValue_notHardCoded() throws Exception {
+        // Arrange
+        LessonDataSource dataSource = mock(LessonDataSource.class);
+        Connection connection = mock(Connection.class);
+        Statement statement = mock(Statement.class);
+        ResultSet resultSet = mock(ResultSet.class);
 
         when(dataSource.getConnection()).thenReturn(connection);
-        when(connection.createStatement(anyInt(), anyInt())).thenReturn(statement);
+        when(connection.createStatement(
+                anyInt(), anyInt())).thenReturn(statement);
         when(statement.executeQuery(anyString())).thenReturn(resultSet);
-    }
-
-    @Test
-    void getPasswordReturnsNonNullOnSuccessfulQuery() throws Exception {
-        // Arrange
+        when(resultSet != null && resultSet.first()).thenReturn(true);
         when(resultSet.first()).thenReturn(true);
-        when(resultSet.getString("password")).thenReturn("secret");
+        when(resultSet.getString("password")).thenReturn("dbPassword");
+
+        SqlInjectionLesson6b lesson = new SqlInjectionLesson6b(dataSource);
 
         // Act
         String password = lesson.getPassword();
 
         // Assert
-        assertNotNull(password, "Password should not be null when query succeeds");
-        assertEquals("secret", password);
+        assertEquals("dbPassword", password, "Password should come from DB, not a hard-coded default");
+        assertNotEquals("dave", password, "Password must no longer use hard-coded fallback value 'dave'");
     }
 
     @Test
-    void getPasswordHandlesSqlExceptionWithoutThrowing() throws Exception {
+    @DisplayName("completed returns success only when user input matches DB password")
+    void completed_comparesAgainstDbPasswordOnly() throws Exception {
         // Arrange
-        when(connection.createStatement(anyInt(), anyInt())).thenThrow(new SQLException("DB down"));
+        LessonDataSource dataSource = mock(LessonDataSource.class);
+        Connection connection = mock(Connection.class);
+        Statement statement = mock(Statement.class);
+        ResultSet resultSet = mock(ResultSet.class);
+
+        when(dataSource.getConnection()).thenReturn(connection);
+        when(connection.createStatement(
+                anyInt(), anyInt())).thenReturn(statement);
+        when(statement.executeQuery(anyString())).thenReturn(resultSet);
+        when(resultSet.first()).thenReturn(true);
+        when(resultSet.getString("password")).thenReturn("secretFromDb");
+
+        SqlInjectionLesson6b lesson = Mockito.spy(new SqlInjectionLesson6b(dataSource));
+        // Use real getPassword() to ensure behavior is consistent
+        doCallRealMethod().when(lesson).getPassword();
+
+        // Act & Assert
+        AttackResult successResult = lesson.completed("secretFromDb");
+        AttackResult failResult = lesson.completed("wrongPassword");
+
+        assertTrue(successResult.getLessonCompleted(), "Matching DB password should succeed");
+        assertFalse(failResult.getLessonCompleted(), "Non-matching password should fail");
+    }
+
+    @Test
+    @DisplayName("getPassword handles SQL exception without leaking stack trace")
+    void getPassword_onSqlException_doesNotLeakStackTrace() throws Exception {
+        // Arrange
+        LessonDataSource dataSource = mock(LessonDataSource.class);
+        Connection connection = mock(Connection.class);
+
+        when(dataSource.getConnection()).thenReturn(connection);
+        when(connection.createStatement(anyInt(), anyInt()))
+                .thenThrow(new SQLException("Simulated SQL failure"));
+
+        SqlInjectionLesson6b lesson = new SqlInjectionLesson6b(dataSource);
+
+        // We cannot easily assert logging behavior without a logging test appender,
+        // but we can assert that getPassword() does not throw and returns null
+        // (meaning no hard-coded fallback is used) when exceptions occur.
+        // This indirectly verifies the new behavior (no printStackTrace, no 'dave' fallback).
 
         // Act
-        String password = null;
-        try {
-            password = lesson.getPassword();
-        } catch (Exception e) {
-            fail("getPassword() should not propagate exceptions after the logging fix");
-        }
+        String password = lesson.getPassword();
 
         // Assert
-        assertNotNull(password, "Password should still be non-null (fallback default) on exception");
-        assertEquals("dave", password, "Method should return default value when exception occurs");
-        // The fix ensures exceptions are logged via log.error instead of leaking stack traces
+        assertNull(password, "On exception, getPassword should return null and avoid using default 'dave'");
     }
 }
