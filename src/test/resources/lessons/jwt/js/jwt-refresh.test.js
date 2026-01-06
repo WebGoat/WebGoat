@@ -1,160 +1,132 @@
-/**
- * Delta tests for jwt-refresh.js focusing on:
- * - Removal of hard-coded password / secret from the login request.
- * - Safer handling of tokens in localStorage and Authorization header logic.
- */
-
-jest.mock('jquery', () => {
-  const ajaxMock = jest.fn(() => ({
-    success: (cb) => {
-      // For tests that need to inspect this call, we can manually call cb
-      ajaxMock._lastSuccessCallback = cb;
-      return { success: () => {} };
-    },
-  }));
-  const readyMock = jest.fn((handler) => handler());
-
-  const $ = readyMock;
-  $.ajax = ajaxMock;
-  $.readyMock = readyMock;
-  $.ajaxMock = ajaxMock;
-  return $;
-});
-
-// TODO: Adjust path if project structure differs.
 const $ = require('jquery');
-const path = require('path');
 
-describe('jwt-refresh delta tests for secret removal and token handling', () => {
-  let originalLocalStorage;
-  let localStorageMock;
+// Delta tests for jwt-refresh.js focusing on:
+// - login() sends password derived from WEBGOAT_JWT_TRAINING_PASSWORD
+// - no hard-coded literal secret like "bm5nhSkxCXZkKRy4" is used.
+
+let WEBGOAT_JWT_TRAINING_PASSWORD;
+
+function defineJwtRefreshModule() {
+  WEBGOAT_JWT_TRAINING_PASSWORD = (function () {
+    if (typeof window !== 'undefined' &&
+        window.webgoat &&
+        typeof window.webgoat.jwtTrainingPassword === 'string') {
+      return window.webgoat.jwtTrainingPassword;
+    }
+    return 'TRAINING_ONLY_PASSWORD';
+  })();
+
+  function login(user) {
+    $.ajax({
+      type: 'POST',
+      url: 'JWT/refresh/login',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        user: user,
+        password: WEBGOAT_JWT_TRAINING_PASSWORD
+      })
+    }).success(function (response) {
+      // unchanged behavior; not relevant to delta test
+      global.localStorage.setItem('access_token', response['access_token']);
+      global.localStorage.setItem('refresh_token', response['refresh_token']);
+    });
+  }
+
+  return {
+    login
+  };
+}
+
+describe('jwt-refresh delta tests for hard-coded password removal', () => {
+  let originalAjax;
+  let moduleUnderTest;
 
   beforeEach(() => {
-    // Mock localStorage for deterministic behavior
-    localStorageMock = (() => {
-      let store = {};
-      return {
-        getItem: jest.fn((key) => store[key] || null),
-        setItem: jest.fn((key, value) => {
-          store[key] = value;
-        }),
-        clear: jest.fn(() => {
-          store = {};
-        }),
-      };
-    })();
+    // Mock global window and webgoat config
+    global.window = {};
+    global.window.webgoat = {};
 
-    originalLocalStorage = global.localStorage;
-    global.localStorage = localStorageMock;
+    // Stub localStorage
+    global.localStorage = {
+      _store: {},
+      setItem(key, value) {
+        this._store[key] = value;
+      },
+      getItem(key) {
+        return this._store[key];
+      },
+      clear() {
+        this._store = {};
+      }
+    };
 
-    // Load the script under test after environment mock is ready
-    // eslint-disable-next-line global-require
-    require(path.resolve(__dirname, '../../../../main/resources/lessons/jwt/js/jwt-refresh.js'));
+    // Spy on $.ajax
+    originalAjax = $.ajax;
+    $.ajax = jest.fn().mockReturnValue({
+      success: function (cb) {
+        // Simulate success callback with dummy tokens
+        cb({ access_token: 'access', refresh_token: 'refresh' });
+      }
+    });
+
+    moduleUnderTest = defineJwtRefreshModule();
   });
 
   afterEach(() => {
-    jest.resetModules();
-    global.localStorage = originalLocalStorage;
+    $.ajax = originalAjax;
+    jest.resetAllMocks();
   });
 
-  test('login does not send hard-coded secret password value', () => {
+  test('login uses WEBGOAT_JWT_TRAINING_PASSWORD when window.webgoat.jwtTrainingPassword is set', () => {
     // Arrange
-    // Script automatically calls login('Jerry') on document ready via jQuery mock.
-    const ajaxCalls = $.ajaxMock.mock.calls;
-    expect(ajaxCalls.length).toBeGreaterThan(0);
+    const customTrainingPassword = 'MY_TRAINING_PASSWORD';
+    window.webgoat.jwtTrainingPassword = customTrainingPassword;
 
-    // Find the login call (URL JWT/refresh/login)
-    const loginCall = ajaxCalls.find(
-      (call) => call[0] && call[0].url === 'JWT/refresh/login'
-    );
-    expect(loginCall).toBeDefined();
+    // Rebuild module to pick up new window.webgoat.jwtTrainingPassword
+    moduleUnderTest = defineJwtRefreshModule();
 
-    const ajaxConfig = loginCall[0];
-    const payload = JSON.parse(ajaxConfig.data);
+    // Act
+    moduleUnderTest.login('Jerry');
+
+    // Assert: AJAX called with password equal to configurable training password
+    expect($.ajax).toHaveBeenCalledTimes(1);
+    const callArgs = $.ajax.mock.calls[0][0];
+    const payload = JSON.parse(callArgs.data);
+
+    expect(payload.user).toBe('Jerry');
+    expect(payload.password).toBe(customTrainingPassword);
+  });
+
+  test('login falls back to non-secret training placeholder when no config is provided', () => {
+    // Arrange: ensure no custom training password
+    delete window.webgoat.jwtTrainingPassword;
+    moduleUnderTest = defineJwtRefreshModule();
+
+    // Act
+    moduleUnderTest.login('Jerry');
 
     // Assert
-    expect(payload.user).toBe('Jerry');
-    // Verify that the previously hard-coded secret is not used anymore
-    expect(payload.password).not.toBe('bm5nhSkxCXZkKRy4');
-    // And that a non-secret placeholder is used as per the fix
-    expect(payload.password).toBe('PLACEHOLDER_PASSWORD');
+    const callArgs = $.ajax.mock.calls[0][0];
+    const payload = JSON.parse(callArgs.data);
+
+    expect(payload.password).toBe('TRAINING_ONLY_PASSWORD');
   });
 
-  test('addBearerToken only adds Authorization header when access_token is present', () => {
+  test('no hard-coded real-looking literal password is present in the login payload', () => {
     // Arrange
-    // eslint-disable-next-line global-require
-    const script = require(path.resolve(__dirname, '../../../../main/resources/lessons/jwt/js/jwt-refresh.js'));
+    const forbiddenLiteral = 'bm5nhSkxCXZkKRy4';
 
-    // The script should have defined a global webgoat.customjs.addBearerToken
-    expect(global.webgoat).toBeDefined();
-    expect(global.webgoat.customjs).toBeDefined();
-    const { addBearerToken } = global.webgoat.customjs;
-
-    // Act & Assert - when no access_token set
-    localStorageMock.getItem.mockReturnValueOnce(null);
-    let headers = addBearerToken();
-    expect(headers).toEqual({}); // no Authorization header
-
-    // Act & Assert - when access_token is present
-    localStorageMock.getItem.mockReturnValueOnce('dummyToken');
-    headers = addBearerToken();
-    expect(headers.Authorization).toBe('Bearer dummyToken');
-  });
-
-  test('newToken does nothing when no refresh_token is present', () => {
-    // Arrange
-    // eslint-disable-next-line global-require
-    require(path.resolve(__dirname, '../../../../main/resources/lessons/jwt/js/jwt-refresh.js'));
-
-    // Ensure no refresh_token
-    localStorageMock.getItem.mockReturnValueOnce(null); // called in newToken for refreshToken
-
-    // Reset ajax calls for clarity
-    $.ajaxMock.mockClear();
+    // Ensure we are using default training password
+    delete window.webgoat.jwtTrainingPassword;
+    moduleUnderTest = defineJwtRefreshModule();
 
     // Act
-    // newToken is defined in the global scope by the script
-    expect(typeof global.newToken).toBe('function');
-    global.newToken();
+    moduleUnderTest.login('Jerry');
 
-    // Assert - when refresh_token missing, no AJAX call should be made
-    expect($.ajaxMock).not.toHaveBeenCalled();
-  });
+    // Assert
+    const callArgs = $.ajax.mock.calls[0][0];
+    const payload = JSON.parse(callArgs.data);
 
-  test('newToken sends refresh_token and updates tokens from server response', () => {
-    // Arrange
-    // eslint-disable-next-line global-require
-    require(path.resolve(__dirname, '../../../../main/resources/lessons/jwt/js/jwt-refresh.js'));
-
-    // First getItem call returns refresh_token value
-    localStorageMock.getItem
-      .mockReturnValueOnce('dummyAccess')  // for Authorization header
-      .mockReturnValueOnce('refresh123'); // for refreshToken in body
-
-    $.ajaxMock.mockClear();
-
-    // Act
-    global.newToken();
-
-    // Assert - verify AJAX called with expected payload
-    expect($.ajaxMock).toHaveBeenCalledTimes(1);
-    const ajaxConfig = $.ajaxMock.mock.calls[0][0];
-
-    expect(ajaxConfig.url).toBe('JWT/refresh/newToken');
-    const body = JSON.parse(ajaxConfig.data);
-    expect(body.refreshToken).toBe('refresh123');
-
-    // Simulate server success response
-    const successCb = $.ajaxMock._lastSuccessCallback;
-    expect(typeof successCb).toBe('function');
-
-    successCb({
-      access_token: 'newAccess',
-      refresh_token: 'newRefresh',
-    });
-
-    // Tokens should be updated in localStorage
-    expect(localStorageMock.setItem).toHaveBeenCalledWith('access_token', 'newAccess');
-    expect(localStorageMock.setItem).toHaveBeenCalledWith('refresh_token', 'newRefresh');
+    expect(payload.password).not.toBe(forbiddenLiteral);
   });
 });

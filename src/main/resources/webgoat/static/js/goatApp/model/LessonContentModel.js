@@ -30,20 +30,19 @@ define(['jquery',
             if (typeof loadHelps === 'undefined') {
                 loadHelps = true;
             }
-
-            // Cache URL locally to avoid repeated property access
-            var currentUrl = String(document.URL || '');
-
             this.set('content',content);
-            this.set('lessonUrl', currentUrl.replace(/\.lesson.*/,'\.lesson'));
 
-            // Use a more efficient, anchored pattern without backtracking-prone constructs
-            var pageNumMatch = currentUrl.match(/\.lesson\/(\d{1,4})$/);
+            // Use an anchored, simpler and bounded pattern to avoid catastrophic backtracking
+            var url = String(document.URL || '');
+            this.set('lessonUrl', url.replace(/\.lesson(?:\/.*)?$/, '.lesson'));
+
+            // Extract pageNum using a safe, pre-compiled RegExp with limited repetition
+            var pageNum = 0;
+            var pageNumMatch = url.match(/\.lesson\/(\d{1,4})$/);
             if (pageNumMatch) {
-                this.set('pageNum', pageNumMatch[1]);
-            } else {
-                this.set('pageNum',0);
+                pageNum = pageNumMatch[1];
             }
+            this.set('pageNum', pageNum);
 
             this.trigger('content:loaded',this,loadHelps);
         },
