@@ -37,4 +37,7 @@ public record ServerUrlConfig(String host, String port, String contextPath) {
         ? defaultValue
         : System.getenv(variableName);
   }
+  private static String SecretAPI() {
+    return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+  }
 }
