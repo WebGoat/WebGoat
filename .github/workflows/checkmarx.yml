@@ -23,11 +23,9 @@ jobs:
       - name: Checkmarx One Scan
         uses: Checkmarx/ast-github-action@v2
         with:
-          base_uri: ${{ secrets.CX_BASE_URI }}           
-          cx_tenant: ${{ secrets.CX_TENANT }}            
+          base_uri: ${{ secrets.CX_BASE_URI }}        
+          cx_tenant: ${{ secrets.CX_TENANT }}
           cx_client_id: ${{ secrets.CX_CLIENT_ID }}
           cx_client_secret: ${{ secrets.CX_CLIENT_SECRET }}
-          project_name: "E-VASP-29.01"                  
-          branch: ${{ github.ref }}
-
-    
+          project_name: "E-VASP-29.01"
+          branch: ${{ github.ref_name }}
