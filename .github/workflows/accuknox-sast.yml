@@ -1,0 +1,28 @@
+name: AccuKnox SAST Scan (2 Branches)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sast-scan:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        branch: [main, develop]
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+
+      - name: Run AccuKnox SAST OpenGrep
+        uses: accuknox/sast-opengrep-action@v1
+        with:
+          accuknox_endpoint: ${{ secrets.ACCUKNOX_ENDPOINT }}
+          accuknox_tenant: ${{ secrets.ACCUKNOX_TENANT }}
+          accuknox_token: ${{ secrets.ACCUKNOX_TOKEN }}
+
+          repo_name: ${{ github.repository }}
+          branch_name: ${{ matrix.branch }}
