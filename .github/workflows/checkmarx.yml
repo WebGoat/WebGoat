@@ -1,0 +1,40 @@
+name: Checkmarx One Scan
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  cxone-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+      pull-requests: write
+      statuses: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkmarx One Scan
+        uses: Checkmarx/ast-github-action@v1
+        with:
+          base_uri: ${{ secrets.CX_BASE_URI }}           
+          cx_tenant: ${{ secrets.CX_TENANT }}            
+          cx_client_id: ${{ secrets.CX_CLIENT_ID }}
+          cx_client_secret: ${{ secrets.CX_CLIENT_SECRET }}
+          project_name: "E-VASP-29.01"                  
+          branch: ${{ github.ref }}
+
+      # (Opcional) publicar SARIF para "Security → Code scanning alerts"
+      - name: Upload SARIF (if produced)
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
+          category: Checkmarx-One
+``
