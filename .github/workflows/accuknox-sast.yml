@@ -18,7 +18,7 @@ jobs:
           ref: ${{ matrix.branch }}
 
       - name: Run AccuKnox SAST OpenGrep
-        uses: accuknox/sast-opengrep-action@v1
+        uses: accuknox/sast-opengrep@v1
         with:
           accuknox_endpoint: ${{ secrets.ACCUKNOX_ENDPOINT }}
           accuknox_tenant: ${{ secrets.ACCUKNOX_TENANT }}
