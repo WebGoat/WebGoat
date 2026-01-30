@@ -7,23 +7,21 @@ jobs:
   sast-scan:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        branch: [main, develop]
-
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ matrix.branch }}
+          ref: main
 
       - name: Run AccuKnox SAST OpenGrep
         uses: accuknox/sast-scan-opengrep-action@latest
         with:
           accuknox_endpoint: ${{ secrets.ACCUKNOX_ENDPOINT }}
-          accuknox_tenant: ${{ secrets.ACCUKNOX_TENANT }}
           accuknox_token: ${{ secrets.ACCUKNOX_TOKEN }}
           accuknox_label: ${{ secrets.ACCUKNOX_LABEL }}
 
           repo_name: ${{ github.repository }}
-          branch_name: ${{ matrix.branch }}
+         
+
+
+          
