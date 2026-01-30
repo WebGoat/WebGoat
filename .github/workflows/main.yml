@@ -1,0 +1,19 @@
+name: Accuknox SAST
+
+on:
+  workflow_dispatch:
+jobs: 
+  accuknox-cicd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: 'develop'
+      - name: "Run Accuknox SAST: Opengrep"
+        uses: accuknox/sast-scan-opengrep-action@latest
+        with:
+          accuknox_endpoint: ${{ secrets.ACCUKNOX_ENDPOINT }}
+          accuknox_token: ${{ secrets.ACCUKNOX_TOKEN }}
+          accuknox_label: ${{ secrets.ACCUKNOX_LABEL }}
+          soft_fail: "true"
