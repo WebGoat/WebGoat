@@ -155,7 +155,7 @@ export TZ=Europe/Amsterdam # or your timezone
 export EXCLUDE_CATEGORIES="CLIENT_SIDE,GENERAL,CHALLENGE"
 export EXCLUDE_LESSONS="SqlInjectionAdvanced,SqlInjectionMitigations"
 java -jar target/webgoat-2023.8-SNAPSHOT.jar
-```
+``` 
 
 Or in a docker run it would (once this version is pushed into docker hub) look like this:
 
