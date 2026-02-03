@@ -113,7 +113,7 @@ jobs:
         sarif_path = 'sarif-results/${{matrix.language}}.sarif'
         html_path = 'codeql-report-${{matrix.language}}.html'
 
-        html_content = '''<html><head><title>CodeQL Report</title><style>body{font-family:sans-serif;padding:20px;background:#0d1117;color:#c9d1d9} table{border-collapse:collapse;width:100%} th,td{border:1px solid #30363d;padding:8px;text-align:left} th{background:#161b22} .error{color:#ff7b72} .warning{color:#d29922}</style></head><body><h1>CodeQL Analysis Report</h1><table><tr><th>Rule</th><th>Severity</th><th>Message</th><th>Location</th></tr>'''
+        html_content = '''<html><head><title>CodeQL Report</title><style>body{font-family:sans-serif;padding:20px;background:#0d1117;color:#c9d1d9} table{border-collapse:collapse;width:100%} th,td{border:1px solid #30363d;padding:8px;text-align:left} th{background:#161b22} .error{color:#ff7b72} .warning{color:#d29922} .critical{color:#ff7b72;font-weight:bold} .high{color:#ff7b72} .medium{color:#d29922} .low{color:#c9d1d9}</style></head><body><h1>CodeQL Analysis Report</h1><table><tr><th>Rule</th><th>Severity</th><th>Message</th><th>Location</th></tr>'''
 
         try:
             if os.path.exists(sarif_path):
@@ -122,7 +122,45 @@ jobs:
 
                 results = []
                 for run in data.get('runs', []):
-                    results.extend(run.get('results', []))
+                    # SARIF rules mapping to get actual severity
+                    rules = run.get('tool', {}).get('driver', {}).get('rules', [])
+                    run_results = run.get('results', [])
+
+                    for res in run_results:
+                        # Find the rule for this result to get metadata
+                        rule = {}
+                        if 'ruleIndex' in res and res['ruleIndex'] < len(rules):
+                            rule = rules[res['ruleIndex']]
+                        elif 'ruleId' in res:
+                            # Fallback search by ID
+                            for r in rules:
+                                if r.get('id') == res['ruleId']:
+                                    rule = r
+                                    break
+
+                        # Fix Level: if not in result, check default config in rule
+                        if 'level' not in res:
+                            res['level'] = rule.get('defaultConfiguration', {}).get('level', 'warning')
+
+                        # Determine GitHub-style Severity (Critical/High/etc) via security-severity
+                        # 9.0+ Critical, 7.0+ High, 4.0+ Medium, <4.0 Low
+                        props = rule.get('properties', {})
+                        sec_sev = props.get('security-severity')
+
+                        # We add a custom field _display_sev for the HTML report
+                        res['_display_sev'] = res.get('level', 'warning')
+
+                        if sec_sev:
+                            try:
+                                score = float(sec_sev)
+                                if score >= 9.0: res['_display_sev'] = 'Critical'
+                                elif score >= 7.0: res['_display_sev'] = 'High'
+                                elif score >= 4.0: res['_display_sev'] = 'Medium'
+                                else: res['_display_sev'] = 'Low'
+                            except:
+                                pass
+
+                        results.append(res)
 
                 
                 if fail_build and any(r.get('level') == 'error' for r in results):
@@ -134,6 +172,7 @@ jobs:
                     rule_id = res.get('ruleId', 'N/A')
                     msg = res.get('message', {}).get('text', '')
                     level = res.get('level', 'warning')
+                    display_sev = res.get('_display_sev', level)
 
                     loc = 'Unknown'
                     if res.get('locations'):
@@ -142,9 +181,11 @@ jobs:
                         line = loc_obj.get('region', {}).get('startLine', 0)
                         loc = f'{uri}:{line}'
 
-                    cls = 'error' if level == 'error' else 'warning'
+                    cls = 'warning'
+                    if 'Critical' in display_sev or 'High' in display_sev or level == 'error':
+                         cls = 'error'
 
-                    html_content += f'<tr class=\'{cls}\'><td>{rule_id}</td><td>{level}</td><td>{msg}</td><td>{loc}</td></tr>'
+                    html_content += f'<tr class=\'{cls}\'><td>{rule_id}</td><td>{display_sev}</td><td>{msg}</td><td>{loc}</td></tr>'
 
             html_content += '</table></body></html>'
 
