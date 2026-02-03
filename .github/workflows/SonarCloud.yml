@@ -1,30 +1,83 @@
 name: 📡 SonarCloud Analysis
 on:
   push:
-    branches: [ "main", "master", "develop" ]
-    paths-ignore: ['.github/workflows/**', 'sonar-project.properties']
+    branches: [ "**" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+      - '.snyk'
   pull_request:
-    branches: [ "main", "master", "develop" ]
+    branches: [ "**" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+      - '.snyk'
   workflow_dispatch:
+
 jobs:
   sonar-scan:
     name: SonarCloud Scan
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
-      - uses: actions/setup-java@v4
-        with: { java-version: '21', distribution: 'temurin' }
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-      - name: 🧠 Auto-Detect & Build
-        run: |
-          if [ -f "pom.xml" ]; then mvn clean verify -DskipTests; 
-          elif [ -f "gradlew" ]; then chmod +x gradlew && ./gradlew assemble --no-daemon;
-          elif [ -f "package.json" ]; then npm install;
-          else echo "⚠️ No build system detected. Proceeding."; fi
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: 'stable'
+
+    - name: Smart Build & Detection
+      id: smart_build
+      continue-on-error: true
+      run: |
+        echo "SONAR_BINARIES=." >> $GITHUB_ENV
+
+        if [ -f "pom.xml" ]; then
+          mvn package -DskipTests || true
+          BIN_PATH=$(find . -type d -name "classes" | tr '\n' ',' || echo ".")
+          echo "SONAR_BINARIES=$BIN_PATH" >> $GITHUB_ENV
+        fi
+
+        if [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
+          chmod +x gradlew || true
+          ./gradlew assemble -x test || true
+          BIN_PATH=$(find . -type d -path "*/classes/*/main" | tr '\n' ',' || echo ".")
+          echo "SONAR_BINARIES=$BIN_PATH" >> $GITHUB_ENV
+        fi
+
+        if [ -f "package.json" ]; then
+          npm install --ignore-scripts || true
+        fi
+
+        if [ -f "requirements.txt" ]; then
+           pip install -r requirements.txt || true
+        fi
+
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarqube-scan-action@v4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.qualitygate.wait=true -Dsonar.java.binaries=${{ env.SONAR_BINARIES }}

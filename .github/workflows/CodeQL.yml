@@ -1,26 +1,165 @@
 name: 🔍 CodeQL Analysis
 on:
   push:
-    branches: [ "main", "master", "develop" ]
-    paths-ignore: ['.github/workflows/**', 'sonar-project.properties']
+    branches: [ "**" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+      - '.snyk'
   pull_request:
-    branches: [ "main", "master", "develop" ]
+    branches: [ "**" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+      - '.snyk'
   workflow_dispatch:
+
 jobs:
+  check-languages:
+    name: Detect Languages
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.languages }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Auto-detect Project Languages
+        id: set-matrix
+        run: |
+          python3 -c '
+          import os
+          import json
+
+          mapping = {
+              ".py": "python",
+              ".js": "javascript", ".ts": "javascript", ".jsx": "javascript", ".tsx": "javascript",
+              ".java": "java",
+              ".go": "go",
+              ".cs": "csharp",
+              ".cpp": "cpp", ".c": "cpp", ".h": "cpp", ".cc": "cpp", ".cxx": "cpp",
+              ".rb": "ruby",
+              ".swift": "swift"
+          }
+
+          found_languages = set()
+
+          try:
+              for root, dirs, files in os.walk("."):
+                  dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ["node_modules", "dist", "build", "vendor"]]
+
+                  for file in files:
+                      ext = os.path.splitext(file)[1].lower()
+                      if ext in mapping:
+                          found_languages.add(mapping[ext])
+          except Exception:
+              pass
+
+          result_list = sorted(list(found_languages))
+
+          output_json = json.dumps(result_list)
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"languages={output_json}\n")
+          '
+
   analyze:
-    name: CodeQL Analyze (${{ matrix.language }})
+    needs: check-languages
+    if: ${{ needs.check-languages.outputs.matrix != '[]' && needs.check-languages.outputs.matrix != '' }}
+    name: Analyze
     runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
       security-events: write
+
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript', 'java', 'python', 'go' ]
+        language: ${{ fromJson(needs.check-languages.outputs.matrix) }}
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
-        with: { languages: ${{ matrix.language }} }
-      - uses: github/codeql-action/autobuild@v3
-      - uses: github/codeql-action/analyze@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v4
+      continue-on-error: true
+      with:
+        languages: ${{ matrix.language }}
+        queries: security-and-quality
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v4
+      continue-on-error: true
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v4
+      continue-on-error: true
+      with:
+        category: "/language:${{matrix.language}}"
+        output: sarif-results
+
+    - name: Generate HTML Report & Check Status
+      run: |
+        python3 -c "
+        import json
+        import os
+        import sys
+
+        fail_build = True
+        exit_code = 0
+
+        sarif_path = 'sarif-results/${{matrix.language}}.sarif'
+        html_path = 'codeql-report-${{matrix.language}}.html'
+
+        html_content = '''<html><head><title>CodeQL Report</title><style>body{font-family:sans-serif;padding:20px;background:#0d1117;color:#c9d1d9} table{border-collapse:collapse;width:100%} th,td{border:1px solid #30363d;padding:8px;text-align:left} th{background:#161b22} .error{color:#ff7b72} .warning{color:#d29922}</style></head><body><h1>CodeQL Analysis Report</h1><table><tr><th>Rule</th><th>Severity</th><th>Message</th><th>Location</th></tr>'''
+
+        try:
+            if os.path.exists(sarif_path):
+                with open(sarif_path, 'r') as f:
+                    data = json.load(f)
+
+                results = []
+                for run in data.get('runs', []):
+                    results.extend(run.get('results', []))
+
+                
+            if fail_build and any(r.get('level') == 'error' for r in results):
+                print("::error::CodeQL found Critical/Error level vulnerabilities!")
+                exit_code = 1
+        
+
+                for res in results:
+                    rule_id = res.get('ruleId', 'N/A')
+                    msg = res.get('message', {}).get('text', '')
+                    level = res.get('level', 'warning')
+
+                    loc = 'Unknown'
+                    if res.get('locations'):
+                        loc_obj = res['locations'][0].get('physicalLocation', {})
+                        uri = loc_obj.get('artifactLocation', {}).get('uri', '')
+                        line = loc_obj.get('region', {}).get('startLine', 0)
+                        loc = f'{uri}:{line}'
+
+                    cls = 'error' if level == 'error' else 'warning'
+
+                    html_content += f'<tr class=\'{cls}\'><td>{rule_id}</td><td>{level}</td><td>{msg}</td><td>{loc}</td></tr>'
+
+            html_content += '</table></body></html>'
+
+            with open(html_path, 'w') as f:
+                f.write(html_content)
+
+        except Exception as e:
+            print(f'Error processing SARIF: {e}')
+
+        sys.exit(exit_code)
+        "
+
+    - name: Upload HTML Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: codeql-report-${{ matrix.language }}
+        path: codeql-report-${{ matrix.language }}.html

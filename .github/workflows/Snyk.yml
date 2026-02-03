@@ -1,25 +1,83 @@
 name: 🐶 Snyk Security
 on:
   push:
-    branches: [ "main", "master", "develop" ]
-    paths-ignore: ['.github/workflows/**', 'sonar-project.properties']
+    branches: [ "**" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+      - '.snyk'
   pull_request:
-    branches: [ "main", "master", "develop" ]
+    branches: [ "**" ]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'sonar-project.properties'
+      - '.snyk'
   workflow_dispatch:
+
 jobs:
   snyk-scan:
-    name: Snyk Vulnerability Scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-      - run: npm install -g snyk snyk-to-html
-      - run: snyk auth ${{ secrets.SNYK_TOKEN }}
-      - name: Run Snyk Test
-        continue-on-error: true
-        run: |
-          snyk test --all-projects --json > snyk_report.json || true
-          snyk-to-html -i snyk_report.json -o snyk_report.html
-      - uses: actions/upload-artifact@v4
-        with: { name: snyk-security-report, path: snyk_report.html }
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Snyk CLI & Reporter
+      run: |
+        npm install -g snyk snyk-to-html
+
+    - name: Authenticate Snyk
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      run: snyk auth $SNYK_TOKEN
+
+    - name: Snyk Security Scan & Report
+      continue-on-error: false
+      run: |
+        
+        # Run Snyk and save JSON (forcing root policy)
+        snyk test --all-projects --policy-path=.snyk --severity-threshold=medium --json > snyk-results.json || true
+
+        # Convert to HTML
+        cat snyk-results.json | snyk-to-html -o snyk-report.html
+
+        # If blocking is enabled, check json for vulnerabilities and exit 1
+        python3 -c "
+        import json, sys
+        try:
+           with open('snyk-results.json') as f:
+               data = json.load(f)
+           projects = data if isinstance(data, list) else [data]
+           found = False
+           for p in projects:
+               if p.get('uniqueCount', 0) > 0:
+                   found = True
+                   break
+           if found and 'true' == 'true':
+               print('::error::Snyk found vulnerabilities!')
+               sys.exit(1)
+        except Exception as e:
+           print(e)
+        "
+    
+
+    - name: Upload HTML Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: snyk-security-report
+        path: snyk-report.html
