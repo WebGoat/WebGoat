@@ -125,9 +125,9 @@ jobs:
                     results.extend(run.get('results', []))
 
                 
-            if fail_build and any(r.get('level') == 'error' for r in results):
-                print("::error::CodeQL found Critical/Error level vulnerabilities!")
-                exit_code = 1
+                if fail_build and any(r.get('level') == 'error' for r in results):
+                    print('::error::CodeQL found Critical/Error level vulnerabilities!')
+                    exit_code = 1
         
 
                 for res in results:
