@@ -55,7 +55,7 @@ jobs:
         # Convert to HTML
         cat snyk-results.json | snyk-to-html -o snyk-report.html
 
-        # If blocking is enabled, check json for vulnerabilities and exit 1
+        # Strict Blocking Logic
         python3 -c "
         import json, sys
         try:
@@ -67,11 +67,19 @@ jobs:
                if p.get('uniqueCount', 0) > 0:
                    found = True
                    break
+
+           # If vulnerabilities exist and Blocking is enabled, FAIL the build
            if found and 'true' == 'true':
-               print('::error::Snyk found vulnerabilities!')
+               print('::error::Blocking Pipeline: Snyk found security vulnerabilities!')
                sys.exit(1)
+           elif found:
+               print('::warning::Snyk found vulnerabilities (Blocking Disabled)')
+
         except Exception as e:
            print(e)
+           # If checking fails but blocking is on, be safe and fail
+           if 'true' == 'true':
+              sys.exit(1)
         "
     
 

@@ -121,58 +121,79 @@ jobs:
                     data = json.load(f)
 
                 results = []
+                # Map rules by ID for faster lookup
+                rules_map = {}
+
+                # Iterate over runs to build rule map and collect results
                 for run in data.get('runs', []):
-                    # SARIF rules mapping to get actual severity
-                    rules = run.get('tool', {}).get('driver', {}).get('rules', [])
+                    tool_rules = run.get('tool', {}).get('driver', {}).get('rules', [])
+                    for r in tool_rules:
+                        if 'id' in r:
+                            rules_map[r['id']] = r
+
                     run_results = run.get('results', [])
 
                     for res in run_results:
-                        # Find the rule for this result to get metadata
+                        # Find the rule definition
                         rule = {}
-                        if 'ruleIndex' in res and res['ruleIndex'] < len(rules):
-                            rule = rules[res['ruleIndex']]
-                        elif 'ruleId' in res:
-                            # Fallback search by ID
-                            for r in rules:
-                                if r.get('id') == res['ruleId']:
-                                    rule = r
-                                    break
+                        if 'ruleId' in res and res['ruleId'] in rules_map:
+                            rule = rules_map[res['ruleId']]
+                        elif 'ruleIndex' in res and res['ruleIndex'] < len(tool_rules):
+                            rule = tool_rules[res['ruleIndex']]
 
-                        # Fix Level: if not in result, check default config in rule
+                        # Fallback level
                         if 'level' not in res:
                             res['level'] = rule.get('defaultConfiguration', {}).get('level', 'warning')
 
-                        # Determine GitHub-style Severity (Critical/High/etc) via security-severity
-                        # 9.0+ Critical, 7.0+ High, 4.0+ Medium, <4.0 Low
+                        # CALCULATE REAL SEVERITY from security-severity (CVSS)
                         props = rule.get('properties', {})
-                        sec_sev = props.get('security-severity')
+                        sec_sev_str = props.get('security-severity', '0')
 
-                        # We add a custom field _display_sev for the HTML report
-                        res['_display_sev'] = res.get('level', 'warning')
+                        display_sev = 'Low' # Default
 
-                        if sec_sev:
-                            try:
-                                score = float(sec_sev)
-                                if score >= 9.0: res['_display_sev'] = 'Critical'
-                                elif score >= 7.0: res['_display_sev'] = 'High'
-                                elif score >= 4.0: res['_display_sev'] = 'Medium'
-                                else: res['_display_sev'] = 'Low'
-                            except:
-                                pass
+                        try:
+                            score = float(sec_sev_str)
+                            if score >= 9.0: display_sev = 'Critical'
+                            elif score >= 7.0: display_sev = 'High'
+                            elif score >= 4.0: display_sev = 'Medium'
+                            else: display_sev = 'Low'
+                        except:
+                            # If not a number, maybe it is a string label or we fallback to level
+                            if res['level'] == 'error': display_sev = 'High'
+                            else: display_sev = 'Medium'
 
+                        # Inject custom field for processing
+                        res['_display_sev'] = display_sev
                         results.append(res)
 
                 
-                if fail_build and any(r.get('level') == 'error' for r in results):
-                    print('::error::CodeQL found Critical/Error level vulnerabilities!')
+                should_fail = False
+
+                # Check results for blocking conditions
+                for r in results:
+                    sev = r.get('_display_sev', 'Low')
+                    level = r.get('level', 'warning')
+
+                    # Block on Critical or High severity regardless of 'level'
+                    if sev in ['Critical', 'High']:
+                        should_fail = True
+                        print(f"::error::Blocking Pipeline: Found {{sev}} vulnerability!")
+                        break
+
+                    # Also block if the tool explicitly flagged it as an error
+                    if level == 'error':
+                        should_fail = True
+                        print("::error::Blocking Pipeline: Found Error level issue!")
+                        break
+
+                if fail_build and should_fail:
                     exit_code = 1
         
 
                 for res in results:
                     rule_id = res.get('ruleId', 'N/A')
                     msg = res.get('message', {}).get('text', '')
-                    level = res.get('level', 'warning')
-                    display_sev = res.get('_display_sev', level)
+                    display_sev = res.get('_display_sev', 'Medium')
 
                     loc = 'Unknown'
                     if res.get('locations'):
@@ -181,9 +202,10 @@ jobs:
                         line = loc_obj.get('region', {}).get('startLine', 0)
                         loc = f'{uri}:{line}'
 
-                    cls = 'warning'
-                    if 'Critical' in display_sev or 'High' in display_sev or level == 'error':
-                         cls = 'error'
+                    cls = 'medium'
+                    if display_sev == 'Critical': cls = 'critical'
+                    elif display_sev == 'High': cls = 'high'
+                    elif display_sev == 'Low': cls = 'low'
 
                     html_content += f'<tr class=\'{cls}\'><td>{rule_id}</td><td>{display_sev}</td><td>{msg}</td><td>{loc}</td></tr>'
 
