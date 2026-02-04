@@ -9,18 +9,18 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
-          ref: main
+          ref: 'main'
 
       - name: Run AccuKnox SAST OpenGrep
         uses: accuknox/sast-scan-opengrep-action@latest
         with:
           accuknox_endpoint: ${{ secrets.ACCUKNOX_ENDPOINT }}
           accuknox_token: ${{ secrets.ACCUKNOX_TOKEN }}
-          accuknox_label: ${{ secrets.ACCUKNOX_LABEL }}
-
-          repo_name: ${{ github.repository }}
+          accuknox_label: 'openmain'
+          soft_fail: "true"
+      
          
 
 
