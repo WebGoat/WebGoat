@@ -15,5 +15,5 @@ jobs:
         with:
           accuknox_endpoint: ${{ secrets.ACCUKNOX_ENDPOINT }}
           accuknox_token: ${{ secrets.ACCUKNOX_TOKEN }}
-          accuknox_label: 'sastdev'
+          accuknox_label: 'opendev'
           soft_fail: "true"
