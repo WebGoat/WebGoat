@@ -1,0 +1,100 @@
+name: Deploy to Nexus with OIDC
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Get GitHub OIDC Token
+        id: github-token
+        run: |
+          GITHUB_OIDC_TOKEN=$(curl -s \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://donette-nonnotational-unobscenely.ngrok-free.dev" \
+            | jq -r '.value')
+          if [ "$GITHUB_OIDC_TOKEN" == "null" ] || [ -z "$GITHUB_OIDC_TOKEN" ]; then
+            echo "❌ Failed to get GitHub OIDC token"
+            exit 1
+          fi
+          echo "✅ GitHub OIDC token retrieved"
+          echo "::add-mask::$GITHUB_OIDC_TOKEN"
+          echo "token=$GITHUB_OIDC_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Exchange for Nexus Token
+        id: nexus-token
+        run: |
+          RESPONSE=$(curl -s -X POST https://donette-nonnotational-unobscenely.ngrok-free.dev/service/rest/oauth2/token \
+            -H 'Content-Type: application/x-www-form-urlencoded' \
+            -d 'grant_type=urn:ietf:params:oauth:grant-type:token-exchange' \
+            -d "subject_token=${{ steps.github-token.outputs.token }}" \
+            -d 'subject_token_type=urn:ietf:params:oauth:token-type:access_token' \
+            -d 'scope=maven:deploy repository:write' \
+            -d 'expires_in=1800')
+          NEXUS_TOKEN=$(echo $RESPONSE | jq -r '.access_token')
+          if [ "$NEXUS_TOKEN" == "null" ] || [ -z "$NEXUS_TOKEN" ]; then
+            echo "❌ Failed to get Nexus token"
+            echo "Response: $RESPONSE"
+            exit 1
+          fi
+          echo "✅ Nexus token retrieved (expires in 30 minutes)"
+          echo "::add-mask::$NEXUS_TOKEN"
+          echo "token=$NEXUS_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Configure Maven Settings
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml <<'EOF'
+          <settings>
+            <servers>
+              <server>
+                <id>nexus-releases</id>
+                <configuration>
+                  <httpHeaders>
+                    <property>
+                      <name>Authorization</name>
+                      <value>Bearer ${{ steps.nexus-token.outputs.token }}</value>
+                    </property>
+                  </httpHeaders>
+                </configuration>
+              </server>
+              <server>
+                <id>nexus-snapshots</id>
+                <configuration>
+                  <httpHeaders>
+                    <property>
+                      <name>Authorization</name>
+                      <value>Bearer ${{ steps.nexus-token.outputs.token }}</value>
+                    </property>
+                  </httpHeaders>
+                </configuration>
+              </server>
+            </servers>
+          </settings>
+          EOF
+          echo "✅ Maven settings configured with Nexus token"
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      - name: Deploy to Nexus
+        run: |
+          echo "🚀 Deploying to Nexus..."
+          mvn deploy -DskipTests
+          echo "✅ Deployment complete!"
