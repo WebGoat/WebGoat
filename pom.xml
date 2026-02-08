@@ -103,6 +103,19 @@
         <tag>HEAD</tag>
     </scm>
 
+    <distributionManagement>
+  <repository>
+    <id>nexus-releases</id>
+    <name>Nexus Release Repository</name>
+    <url>https://donette-nonnotational-unobscenely.ngrok-free.dev/repository/maven-releases/</url>
+  </repository>
+  <snapshotRepository>
+    <id>nexus-snapshots</id>
+    <name>Nexus Snapshot Repository</name>
+    <url>https://donette-nonnotational-unobscenely.ngrok-free.dev/repository/maven-snapshots/</url>
+  </snapshotRepository>
+</distributionManagement>
+
     <issueManagement>
         <system>Github Issues</system>
         <url>https://github.com/WebGoat/WebGoat/issues</url>
