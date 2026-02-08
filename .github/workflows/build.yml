@@ -36,7 +36,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                os: [ windows-latest, ubuntu-latest, macos-13 ]
+                os: [ windows-latest, ubuntu-latest, macos-latest ]
             max-parallel: 1
         steps:
             -   uses: actions/checkout@v4.1.6
