@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WebGoat Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #111;
+            color: #eee;
+        }
+
+        h1 {
+            color: #ff5555;
+        }
+
+        .box {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #00d4ff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Something went wrong</h1>
+
+    <div class="box">
+        <p><span class="label">Status:</span> [[${status}]]</p>
+        <p><span class="label">Error:</span> [[${error}]]</p>
+        <p><span class="label">Message:</span> [[${message}]]</p>
+
+        <hr>
+
+        <p><span class="label">WebGoat Version:</span> [[${webgoatVersion}]]</p>
+        <p><span class="label">Java Version:</span> [[${javaVersion}]]</p>
+        <p><span class="label">OS:</span> [[${osName}]] ([[${osVersion}]])</p>
+    </div>
+
+</body>
+
+</html>
