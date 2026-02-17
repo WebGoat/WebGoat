@@ -1,0 +1,14 @@
+=== Recon – What command is running?
+
+Before we start breaking things, figure out what the diagnostics console is actually executing.
+Pick a host from the dropdown or provide a custom value. The backend will run a system command
+and show you the exact string it sent to the shell.
+
+Steps:
+
+. Try the default host to see the “safe” command.
+. Observe the command preview returned by the server.
+. Submit the exact command string in the verification box to prove you understand how the
+  wrapper works.
+
+Knowing the command layout is the first step to crafting payloads.

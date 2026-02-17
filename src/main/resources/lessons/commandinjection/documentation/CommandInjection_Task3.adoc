@@ -1,0 +1,8 @@
+=== Escalate – Read the Flag
+
+The cat gallery looks innocuous: when you type a name in the search box it simply runs
+`grep $title images/*` and shows the matching cats.
+Unfortunately the search term is injected into the shell command verbatim.
+Add a separator (`;`, `&&`) and the shell will happily execute whatever else you append under the service account.
+
+Attackers follow this exact pattern to dump environment variables, API keys, and other secrets once they uncover a command injection primitive.
