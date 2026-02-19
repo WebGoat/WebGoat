@@ -45,6 +45,12 @@ jobs:
       uses: github/codeql-action/init@v4
       with:
         languages: ${{ matrix.language }}
+        # Ignore any test.js files
+        config: |
+          paths-ignore:
+            - "**/*.test.js"
+          queries:
+            - uses: security-and-quality
         build-mode: ${{ matrix.build-mode }}
 
     # Manual Maven build for WebGoat
