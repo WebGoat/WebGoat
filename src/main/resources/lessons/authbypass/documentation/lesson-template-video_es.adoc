@@ -1,0 +1,7 @@
+=== Más Contenido, También Videos ...
+
+Puedes estructurar y dar formato al contenido como prefieras. Incluso puedes incluir videos si lo deseas (aunque puede depender del soporte del navegador). Tal vez prefieras que esté más relacionado con la seguridad de las aplicaciones web que el contenido de este.
+
+video::video/sample-video.m4v[width=480,start=5]
+
+see http://asciidoctor.org/docs/asciidoc-syntax-quick-reference/#videos for more detail on video syntax

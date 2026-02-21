@@ -1,0 +1,15 @@
+== La pestaña de la Consola
+
+En la pestaña de la consola, puedes ver cualquier cosa que un archivo JavaScript cargado haya impreso.
+No te preocupes si ves algo en rojo. Aunque sea un error, probablemente se haya resuelto por sí mismo.
+A través de la pestaña de la consola, también puedes ejecutar tu línea de código JavaScript.
+
+Comienza limpiando la consola con el atajo `CTRL+L`.
+
+Para ejecutar tu JavaScript, haz clic dentro de la consola y escribe algo como:
+`console.log("¡Hola WebGoat!");` Presiona Enter. `¡Hola WebGoat!` debería aparecer ahora en tu consola.
+La consola también te permite hacer algunas operaciones aritméticas básicas. Si escribes, por ejemplo, `1+3` y presionas Enter, la consola debería mostrar 4.
+
+Nota: Puede que veas un `undefined` en la consola. Puedes ignorar esta declaración de manera segura, solo significa que la función de JavaScript que has llamado no devolvió nada.
+
+image::images/ChromeDev_Console_Ex.jpg[DeveloperToolsConsoleExample,500,500,style="lesson-image"]
