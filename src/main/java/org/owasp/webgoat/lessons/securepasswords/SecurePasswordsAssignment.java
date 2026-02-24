@@ -59,6 +59,10 @@ public class SecurePasswordsAssignment implements AssignmentEndpoint {
             + calculateTime(
                 (long) strength.getCrackTimeSeconds().getOnlineNoThrottling10perSecond())
             + "</br>");
+      output.append(
+              "<i>Note:</i> This estimate assumes brute-force attack and does not account for "
+                      + "dictionary or rule-based attacks, which can significantly reduce real-world cracking time "
+                      + "for common phrases.</br>");
     if (strength.getFeedback().getWarning().length() != 0)
       output.append("<b>Warning: </b>" + strength.getFeedback().getWarning() + "</br>");
     // possible feedback: https://github.com/dropbox/zxcvbn/blob/master/src/feedback.coffee
