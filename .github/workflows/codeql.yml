@@ -51,6 +51,9 @@ jobs:
             - "**/*.test.js"
           queries:
             - uses: security-and-quality
+            - uses: ../suites/java-security-extended.qls                    
+            - uses: ../suites/javascript-lgtm-full.qls
+              
         build-mode: ${{ matrix.build-mode }}
 
     # Manual Maven build for WebGoat
