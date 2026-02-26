@@ -1,0 +1,47 @@
+name: Publish to Private Wiki
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Checkout wiki
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}.wiki
+          path: wiki
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Copy markdown files
+        run: |
+          # Using rsync for cleaner directory sync
+          rsync -av --delete --include='*.md' --include='*/' --exclude='*' docs/ wiki/
+      
+      - name: Commit and push to wiki
+        run: |
+          cd wiki
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          git commit -m "Update wiki from docs (${GITHUB_SHA:0:7})"
+          git push
+        env:
+          GITHUB_SHA: ${{ github.sha }}
