@@ -32,3 +32,4 @@ You can go through all lesson pages or click on these links to skip some pages.
 ==== Burp Suite
 * link:start.mvc#lesson/HttpProxies.lesson/4[Burp Suite Basics]
 * link:start.mvc#lesson/HttpProxies.lesson/5[Burp Suite Interception]
+* link:start.mvc#lesson/HttpProxies.lesson/6[Additional Burp Suite Tools]
