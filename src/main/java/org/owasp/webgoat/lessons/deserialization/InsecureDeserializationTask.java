@@ -38,7 +38,7 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
     int delay;
 
     b64token = token.replace('-', '+').replace('_', '/');
-
+String password = "admin123";
     try (ObjectInputStream ois =
         new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
       before = System.currentTimeMillis();
