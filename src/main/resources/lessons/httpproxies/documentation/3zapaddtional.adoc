@@ -1,0 +1,113 @@
+== ZAP (Additional)
+
+=== Use the "Edit and resend" functionality in ZAP
+
+Instead of intercepting the request, there is also an option to resend the same request again within ZAP.
+It helps you solve an assignment because you do not have to switch to ZAP, enable the intercept button, go back to WebGoat and perform the request again from within the browser.
+
+Let's look at an example. We are going to use the e-mail example from the WebWolf introduction lesson. This lesson
+will generate a request for `/WebGoat/WebWolf/mail`, in the "History" window, select the URL you want to resend right click
+on the URL and select `Open/Resend with Request Editor`. You can also find the request in the left pane of ZAP as indicated
+with the red arrow in the image below:
+
+image::images/zap_edit_and_resend.png[Open/Resend with Request Editor,style="lesson-image"]
+
+{nbsp} +
+
+A new window will open, and here, you can modify the request, for example, change the e-mail address to someone else and send it again.
+In the response tab, you can inspect the response of the request. The response will show a solved message in some assignments, but sometimes you get a code/flag that you need to submit in WebGoat to complete the assignment. Always be on the
+lookout for a response. If you solved the assignment by making a request, WebGoat would automatically mark
+the lesson as solved.
+
+image::images/zap_edit_and_send.png[Open/Resend with Request Editor,style="lesson-image"]
+
+{nbsp} +
+
+++++
+<img class="lesson-image" src="images/zap_edit_and_response.png"/>
+++++
+
+image::images/zap_edit_and_response.png[Open/Resend response,style="lesson-image"]
+
+=== Proxy from ZAP to HTTPS
+
+The ZAP proxy can also be configured to proxy *HTTPS* requests. It will terminate the HTTPS connection in ZAP and then proxy it to the target using its keystore. You can even proxy to sites with mutual TLS. In that case, you configure OWASP ZAP with the keystore and key to use for the connection.
+
+Go to Tools/Options/Client Certificate to proxy to a mutual TLS HTTPS site.
+Go to Tools/Options/Connection if you want to set timeouts and want to force the use of TLSv1.2 e.g.
+
+
+==== Export the certificate
+
+Depending on the local tools installation, ZAP can start a browser directly with some adjusted options like network settings and certificate adjustments. However, you should do this step if you want to start your browser independently of ZAP. To be able to use the browser, the browser needs the certificate, which you can export here:
+
+image::images/rootca.png[ZAP root CA,style="lesson-image"]
+image::images/savecerts.png[ZAP save CA,style="lesson-image"]
+
+
+
+==== Import the OWASP ZAP root certificate
+
+. Go to your Firefox Preferences (Mac, Linux) or Options (Windows) from the menu.`
+. Search for _certificates_
+. Click _View certificates_
+. Import the ZAP root certificate that was saved (see the previous page)
+
+image::images/firefoxsettingscerts.png[Firefox Certificates,width="75%",style="lesson-image"]
+
+image::images/importcerts.png[Firefox Certificate import,width="75%",style="lesson-image"]
+
+=== Manually setting the proxy
+
+This section is only necessary if you want to use Burp or running the browser through ZAP is not working in both
+cases we need to do some extra configuration.
+In the latest release of Chrome and Firefox no longer proxy traffic from localhost by default.
+
+==== Option 1: Change settings of your browser
+
+- To proxy localhost (and related addresses) with newer Firefox versions (>= 67), the preference network. proxy.allow_hijacking_localhost (accessible through the about:config page) must be set to true.
+- To proxy localhost (and related addresses) with newer Chrome versions (>= 72) the command line argument --proxy-bypass-list=<-loopback> must be provided.
+
+==== Option 2: Use www.webgoat.local
+
+- Use the hostname of your machine instead of `localhost`. You can find or add a hostname in `/etc/hosts` on Linux and MacOSX and `C:\Windows\System32\drivers\etc` on Windows
+
+image::images/newlocalhost.png[Hosts file,style="lesson-image"]
+
+Then in your browser, use http://www.webgoat.local:8080/WebGoat as the address.
+
+==== Configure browser to use proxy
+
+To manually configure a proxy in the browser, follow one of the configurations below:
+
+==== Firefox Proxy Config
+
+. Go to your Firefox Preferences (Mac, Linux) or Options (Windows) from the menu.`
+. Select _Advanced_ on the left
+. Select _Network_ in the Advanced Pane
+. Click _Settings_
+. Select _Manual proxy configuration_
+.. input *127.0.0.1* as the proxy (or www.webgoat.local depending on the choice you made above)
+.. input *8090* as the port if running WebGoat locally, and you updated ZAP to 8090 (otherwise, use *8080*)
+.. check the _Use this proxy server for all protocols_ checkbox
+
+image::images/firefox-proxy-config.png[Firefox Proxy Config,510,634,style="lesson-image"]
+
+==== Chrome Proxy Config
+
+. Bring up Chrome's settings from the menu
+. In the _Search settings_ box, type in *proxy* and hit Enter/Return. This should bring up the Network heading with a _Change proxy settings_ button.
+. Click the _Change proxy settings_ button
+. Select the _proxies_ tab
+. Select Web Proxy (HTTP)
+. Input 127.0.0.1 (or www.webgoat.local depending on the choice you made) in the first box under _Web Proxy Server_ and your port # (8090 if running WebGoat locally, otherwise 8080) in the second box (to the right)
+. You may also want to clear the _Bypass proxy settings for these Hosts & Domains_ text input at the bottom but shouldn't need to
+
+
+image::images/chrome-manual-proxy.png[Chrome Proxy Config,700,447,style="lesson-image"]
+
+(Mac config image above)
+
+image::images/chrome-manual-proxy-win.png[Chrome Proxy, 394,346,style="lesson-image"]
+
+(Win config image above)
