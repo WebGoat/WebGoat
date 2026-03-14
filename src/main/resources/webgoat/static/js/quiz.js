@@ -31,7 +31,7 @@ $(function () {
                   html += "</fieldset></div>";
                 });
             });
-            document.getElementById("q_container").innerHTML = html;
+            document.getElementById("q_container").textContent = html;
         }
     }
     client.send();
