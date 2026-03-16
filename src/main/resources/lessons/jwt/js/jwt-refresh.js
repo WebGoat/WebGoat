@@ -18,7 +18,7 @@ function login(user) {
 
 //Dev comment: Pass token as header as we had an issue with tokens ending up in the access_log
 webgoat.customjs.addBearerToken = function () {
-    const headers_to_set = {};
+    var headers_to_set = {};
     headers_to_set['Authorization'] = 'Bearer ' + localStorage.getItem('access_token');
     return headers_to_set;
 }
