@@ -29,7 +29,6 @@ public class Ping {
       @CurrentUsername String username) {
     String logLine = String.format("%s %s %s", "GET", userAgent, text);
     log.debug(logLine);
-    File logFile = new File(webGoatHomeDirectory, "/XXE/log" + username + ".txt");
     try {
         // Базовая директория логов
         Path baseDir = Paths.get(webGoatHomeDirectory, "XXE");

@@ -85,7 +85,6 @@ public class FileServer {
 
         log.debug("File saved to {}", destinationPath.toAbsolutePath());
     }
-    log.debug("File saved to {}", new File(destinationDir, multipartFile.getOriginalFilename()));
 
     return new ModelAndView(
         new RedirectView("files", true),

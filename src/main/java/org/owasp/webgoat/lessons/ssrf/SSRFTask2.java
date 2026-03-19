@@ -1,77 +1,61 @@
-package org.owasp.webgoat.lessons.ssrf;
-
-import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
-import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
-import org.owasp.webgoat.container.assignments.AssignmentHints;
-import org.owasp.webgoat.container.assignments.AttackResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@AssignmentHints({"ssrf.hint3"})
-public class SSRFTask2 implements AssignmentEndpoint {
-
-  @PostMapping("/SSRF/task2")
-  @ResponseBody
-  public AttackResult completed(@RequestParam String url) {
-    return furBall(url);
-  }
-
-  protected AttackResult furBall(String url) {
+protected AttackResult furBall(String url) {
     try {
-      URL parsedUrl = new URL(url);
+        URL parsedUrl = new URL(url);
 
-      // Разрешаем запросы ТОЛЬКО к ifconfig.pro
-      if (!"ifconfig.pro".equalsIgnoreCase(parsedUrl.getHost())) {
-        return getFailedResult("Access to this URL is not allowed.");
-      }
+        // 1. Проверяем хост (белый список)
+        if (!"ifconfig.pro".equalsIgnoreCase(parsedUrl.getHost())) {
+            return getFailedResult("Access to this URL is not allowed.");
+        }
 
-      // Запрещаем локальные IP-адреса
-      if (isLocalAddress(parsedUrl)) {
-        return getFailedResult("Access to internal resources is forbidden.");
-      }
+        // 2. Запрещаем локальные IP (включая localhost)
+        if (isLocalAddress(parsedUrl)) {
+            return getFailedResult("Access to internal resources is forbidden.");
+        }
 
-      // Открываем соединение с безопасными настройками
-      HttpURLConnection connection = (HttpURLConnection) parsedUrl.openConnection();
-      connection.setRequestMethod("GET");
-      connection.setConnectTimeout(5000);
-      connection.setReadTimeout(5000);
-      // Запрещаем редиректы
-      connection.setInstanceFollowRedirects(false);
+        // 3. Проверяем протокол (только HTTP или HTTPS)
+        String protocol = parsedUrl.getProtocol().toLowerCase();
+        if (!"http".equals(protocol) && !"https".equals(protocol)) {
+            return getFailedResult("Only HTTP/HTTPS protocols are allowed.");
+        }
 
-      try (InputStream in = connection.getInputStream()) {
-        // Форматируем вывод
-        String html = new String(in.readAllBytes(), StandardCharsets.UTF_8).replaceAll("\n", "<br>");
-        return success(this).feedback("ssrf.success").output(html).build();
-      }
+        // 4. Проверяем порт (только стандартные)
+        int port = parsedUrl.getPort();
+        if (port == -1) {
+            port = "https".equals(protocol) ? 443 : 80;
+        } else if (("http".equals(protocol) && port != 80) ||
+                   ("https".equals(protocol) && port != 443)) {
+            return getFailedResult("Non-standard ports are not allowed.");
+        }
+
+        // 5. Получаем путь и query (если они есть) и проверяем на базовые проблемы
+        String path = parsedUrl.getPath();
+        String query = parsedUrl.getQuery();
+        if (path == null) path = "";
+        if (query != null) {
+            // Простейшая проверка на потенциально опасные символы
+            if (query.contains("..") || query.contains("\\")) {
+                return getFailedResult("Invalid characters in query string.");
+            }
+        }
+
+        // 6. Собираем безопасный URL
+        URL safeUrl = new URL(protocol, "ifconfig.pro", port, path + (query != null ? "?" + query : ""));
+
+        // 7. Открываем соединение с безопасными настройками
+        HttpURLConnection connection = (HttpURLConnection) safeUrl.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(5000);
+        connection.setInstanceFollowRedirects(false);
+
+        try (InputStream in = connection.getInputStream()) {
+            String html = new String(in.readAllBytes(), StandardCharsets.UTF_8).replaceAll("\n", "<br>");
+            return success(this).feedback("ssrf.success").output(html).build();
+        }
 
     } catch (MalformedURLException e) {
-      return getFailedResult("Invalid URL format: " + e.getMessage());
+        return getFailedResult("Invalid URL format: " + e.getMessage());
     } catch (IOException e) {
-      return getFailedResult("Failed to retrieve content: " + e.getMessage());
+        return getFailedResult("Failed to retrieve content: " + e.getMessage());
     }
-  }
-
-  private AttackResult getFailedResult(String errorMsg) {
-    return failed(this).feedback("ssrf.failure").output(errorMsg).build();
-  }
-
-  private boolean isLocalAddress(URL url) throws IOException {
-    String host = url.getHost();
-    InetAddress address = InetAddress.getByName(host);
-
-    return address.isLoopbackAddress() || address.isAnyLocalAddress() ||
-           address.isSiteLocalAddress() || host.equalsIgnoreCase("localhost");
-  }
 }

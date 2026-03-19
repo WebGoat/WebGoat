@@ -76,7 +76,6 @@ public class ProfileZipSlip extends ProfileUploadBase {
       Enumeration<? extends ZipEntry> entries = zip.entries();
       while (entries.hasMoreElements()) {
         ZipEntry e = entries.nextElement();
-        File f = new File(tmpZipDirectory.toFile(), e.getName());
         // Безопасный вариант:
         Path destinationPath = tmpZipDirectory.resolve(e.getName()).normalize();
         // Проверяем, что путь не выходит за пределы tmpZipDirectory
