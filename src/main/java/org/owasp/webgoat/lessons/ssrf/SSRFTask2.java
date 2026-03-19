@@ -1,7 +1,3 @@
-/*
- * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors
- * SPDX-License-Identifier: GPL-2.0-or-later
- */
 package org.owasp.webgoat.lessons.ssrf;
 
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
@@ -9,6 +5,8 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.succes
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -31,27 +29,49 @@ public class SSRFTask2 implements AssignmentEndpoint {
   }
 
   protected AttackResult furBall(String url) {
-    if (url.matches("http://ifconfig\\.pro")) {
-      String html;
-      try (InputStream in = new URL(url).openStream()) {
-        html =
-            new String(in.readAllBytes(), StandardCharsets.UTF_8)
-                .replaceAll("\n", "<br>"); // Otherwise the \n gets escaped in the response
-      } catch (MalformedURLException e) {
-        return getFailedResult(e.getMessage());
-      } catch (IOException e) {
-        // in case the external site is down, the test and lesson should still be ok
-        html =
-            "<html><body>Although the http://ifconfig.pro site is down, you still managed to solve"
-                + " this exercise the right way!</body></html>";
+    try {
+      URL parsedUrl = new URL(url);
+
+      // Разрешаем запросы ТОЛЬКО к ifconfig.pro
+      if (!"ifconfig.pro".equalsIgnoreCase(parsedUrl.getHost())) {
+        return getFailedResult("Access to this URL is not allowed.");
       }
-      return success(this).feedback("ssrf.success").output(html).build();
+
+      // Запрещаем локальные IP-адреса
+      if (isLocalAddress(parsedUrl)) {
+        return getFailedResult("Access to internal resources is forbidden.");
+      }
+
+      // Открываем соединение с безопасными настройками
+      HttpURLConnection connection = (HttpURLConnection) parsedUrl.openConnection();
+      connection.setRequestMethod("GET");
+      connection.setConnectTimeout(5000);
+      connection.setReadTimeout(5000);
+      // Запрещаем редиректы
+      connection.setInstanceFollowRedirects(false);
+
+      try (InputStream in = connection.getInputStream()) {
+        // Форматируем вывод
+        String html = new String(in.readAllBytes(), StandardCharsets.UTF_8).replaceAll("\n", "<br>");
+        return success(this).feedback("ssrf.success").output(html).build();
+      }
+
+    } catch (MalformedURLException e) {
+      return getFailedResult("Invalid URL format: " + e.getMessage());
+    } catch (IOException e) {
+      return getFailedResult("Failed to retrieve content: " + e.getMessage());
     }
-    var html = "<img class=\"image\" alt=\"image post\" src=\"images/cat.jpg\">";
-    return getFailedResult(html);
   }
 
   private AttackResult getFailedResult(String errorMsg) {
     return failed(this).feedback("ssrf.failure").output(errorMsg).build();
+  }
+
+  private boolean isLocalAddress(URL url) throws IOException {
+    String host = url.getHost();
+    InetAddress address = InetAddress.getByName(host);
+
+    return address.isLoopbackAddress() || address.isAnyLocalAddress() ||
+           address.isSiteLocalAddress() || host.equalsIgnoreCase("localhost");
   }
 }

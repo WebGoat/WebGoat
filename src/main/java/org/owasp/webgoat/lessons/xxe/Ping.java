@@ -31,11 +31,18 @@ public class Ping {
     log.debug(logLine);
     File logFile = new File(webGoatHomeDirectory, "/XXE/log" + username + ".txt");
     try {
-      try (PrintWriter pw = new PrintWriter(logFile)) {
-        pw.println(logLine);
-      }
+        // Базовая директория логов
+        Path baseDir = Paths.get(webGoatHomeDirectory, "XXE");
+        // Убедимся, что директория существует
+        Files.createDirectories(baseDir);
+        Path logPath = baseDir.resolve(username + ".txt").normalize();
+        // Проверяем, что лог-файл находится внутри директории логов
+        if (!logPath.startsWith(baseDir)) {
+            throw new SecurityException("Invalid log file path: " + logPath);
+        }
+        Files.writeString(logPath, logLine + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     } catch (FileNotFoundException e) {
-      log.error("Error occurred while writing the logfile", e);
+        log.error("Error occurred while writing the logfile", e);
     }
     return "";
   }

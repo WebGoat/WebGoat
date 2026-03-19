@@ -72,9 +72,18 @@ public class FileServer {
     // DO NOT use multipartFile.transferTo(), see
     // https://stackoverflow.com/questions/60336929/java-nio-file-nosuchfileexception-when-file-transferto-is-called
     try (InputStream is = multipartFile.getInputStream()) {
-      var destinationFile = destinationDir.toPath().resolve(multipartFile.getOriginalFilename());
-      Files.deleteIfExists(destinationFile);
-      Files.copy(is, destinationFile);
+        Path baseDir = destinationDir.toPath();
+        Path destinationPath = baseDir.resolve(multipartFile.getOriginalFilename()).normalize();
+
+        // Проверяем, что путь остаётся внутри директории пользователя
+        if (!destinationPath.startsWith(baseDir)) {
+            throw new SecurityException("Invalid file path: " + destinationPath);
+        }
+
+        Files.deleteIfExists(destinationPath);
+        Files.copy(is, destinationPath);
+
+        log.debug("File saved to {}", destinationPath.toAbsolutePath());
     }
     log.debug("File saved to {}", new File(destinationDir, multipartFile.getOriginalFilename()));
 

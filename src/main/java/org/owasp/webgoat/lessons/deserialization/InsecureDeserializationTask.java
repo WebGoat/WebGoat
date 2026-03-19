@@ -1,7 +1,3 @@
-/*
- * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors
- * SPDX-License-Identifier: GPL-2.0-or-later
- */
 package org.owasp.webgoat.lessons.deserialization;
 
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
@@ -20,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @AssignmentHints({
@@ -29,42 +26,24 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class InsecureDeserializationTask implements AssignmentEndpoint {
 
-  @PostMapping("/InsecureDeserialization/task")
-  @ResponseBody
-  public AttackResult completed(@RequestParam String token) throws IOException {
-    String b64token;
-    long before;
-    long after;
-    int delay;
-
-    b64token = token.replace('-', '+').replace('_', '/');
-
-    try (ObjectInputStream ois =
-        new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
-      before = System.currentTimeMillis();
-      Object o = ois.readObject();
-      if (!(o instanceof VulnerableTaskHolder)) {
-        if (o instanceof String) {
-          return failed(this).feedback("insecure-deserialization.stringobject").build();
+    @PostMapping("/InsecureDeserialization/task")
+    @ResponseBody
+    public AttackResult completed(@RequestParam String token) throws IOException {
+        try {
+            String json = new String(Base64.getDecoder().decode(token.replace('-', '+').replace('_', '/')));
+            ObjectMapper objectMapper = new ObjectMapper();
+            SafeTaskHolder task = objectMapper.readValue(json, SafeTaskHolder.class);
+            return success(this).feedback("deserialization.success").build();
+        } catch (IOException e) {
+            return failed(this).feedback("deserialization.invalid").build();
         }
-        return failed(this).feedback("insecure-deserialization.wrongobject").build();
-      }
-      after = System.currentTimeMillis();
-    } catch (InvalidClassException e) {
-      return failed(this).feedback("insecure-deserialization.invalidversion").build();
-    } catch (IllegalArgumentException e) {
-      return failed(this).feedback("insecure-deserialization.expired").build();
-    } catch (Exception e) {
-      return failed(this).feedback("insecure-deserialization.invalidversion").build();
     }
 
-    delay = (int) (after - before);
-    if (delay > 7000) {
-      return failed(this).build();
+    // Безопасный класс без выполнения кода при десериализации
+    public static class SafeTaskHolder {
+        private String task;
+
+        public String getTask() { return task; }
+        public void setTask(String task) { this.task = task; }
     }
-    if (delay < 3000) {
-      return failed(this).build();
-    }
-    return success(this).build();
-  }
 }

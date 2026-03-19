@@ -77,6 +77,15 @@ public class ProfileZipSlip extends ProfileUploadBase {
       while (entries.hasMoreElements()) {
         ZipEntry e = entries.nextElement();
         File f = new File(tmpZipDirectory.toFile(), e.getName());
+        // Безопасный вариант:
+        Path destinationPath = tmpZipDirectory.resolve(e.getName()).normalize();
+        // Проверяем, что путь не выходит за пределы tmpZipDirectory
+        if (!destinationPath.startsWith(tmpZipDirectory)) {
+            throw new IOException("Invalid zip entry: " + e.getName());
+        }
+        try (InputStream is = zip.getInputStream(e)) {
+            Files.copy(is, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+        }
         InputStream is = zip.getInputStream(e);
         Files.copy(is, f.toPath(), StandardCopyOption.REPLACE_EXISTING);
       }
