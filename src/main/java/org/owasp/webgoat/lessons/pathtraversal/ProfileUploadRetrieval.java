@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
@@ -96,9 +97,17 @@ public class ProfileUploadRetrieval implements AssignmentEndpoint {
           .body("Illegal characters are not allowed in the query params");
     }
     try {
-      var id = request.getParameter("id");
-      var catPicture =
-          new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
+        var id = request.getParameter("id");
+        String fileId = (id == null ? String.valueOf(RandomUtils.nextInt(1, 11)) : id);
+
+        Path basePath = catPicturesDirectory.toPath().toRealPath();
+        Path resolvedPath = basePath.resolve(fileId + ".jpg").normalize();
+
+        if (!resolvedPath.startsWith(basePath)) {
+            return ResponseEntity.badRequest().body("Illegal path");
+        }
+
+        var catPicture = resolvedPath.toFile();
 
       if (catPicture.getName().toLowerCase().contains("path-traversal-secret.jpg")) {
         return ResponseEntity.ok()

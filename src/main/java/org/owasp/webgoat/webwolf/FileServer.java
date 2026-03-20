@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -62,26 +63,41 @@ public class FileServer {
     return fileLocation;
   }
 
-  @PostMapping(value = "/fileupload")
-  public ModelAndView importFile(
-      @RequestParam("file") MultipartFile multipartFile, Authentication authentication)
-      throws IOException {
-    var username = authentication.getName();
-    var destinationDir = new File(fileLocation, username);
-    destinationDir.mkdirs();
-    // DO NOT use multipartFile.transferTo(), see
-    // https://stackoverflow.com/questions/60336929/java-nio-file-nosuchfileexception-when-file-transferto-is-called
-    try (InputStream is = multipartFile.getInputStream()) {
-      var destinationFile = destinationDir.toPath().resolve(multipartFile.getOriginalFilename());
-      Files.deleteIfExists(destinationFile);
-      Files.copy(is, destinationFile);
-    }
-    log.debug("File saved to {}", new File(destinationDir, multipartFile.getOriginalFilename()));
+    @PostMapping(value = "/fileupload")
+    public ModelAndView importFile(
+            @RequestParam("file") MultipartFile multipartFile, Authentication authentication)
+            throws IOException {
+        var username = authentication.getName();
+        var destinationDir = new File(fileLocation, username);
+        destinationDir.mkdirs();
 
-    return new ModelAndView(
-        new RedirectView("files", true),
-        new ModelMap().addAttribute("uploadSuccess", "File uploaded successful"));
-  }
+        String originalFilename = multipartFile.getOriginalFilename();
+        if (originalFilename == null || originalFilename.isBlank()) {
+            throw new IOException("Invalid filename");
+        }
+        String safeFilename = new File(originalFilename).getName();
+        if (safeFilename.isBlank()) {
+            throw new IOException("Invalid filename");
+        }
+
+        try (InputStream is = multipartFile.getInputStream()) {
+            Path basePath = destinationDir.toPath().toRealPath();
+            Path destinationFile = basePath.resolve(safeFilename).normalize();
+
+            if (!destinationFile.startsWith(basePath)) {
+                throw new IOException("Path traversal attempt detected");
+            }
+
+            Files.deleteIfExists(destinationFile);
+            Files.copy(is, destinationFile);
+        }
+
+        log.debug("File saved to {}", new File(destinationDir, safeFilename));
+
+        return new ModelAndView(
+                new RedirectView("files", true),
+                new ModelMap().addAttribute("uploadSuccess", "File uploaded successful"));
+    }
 
   @GetMapping(value = "/files")
   public ModelAndView getFiles(
