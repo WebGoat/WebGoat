@@ -1,0 +1,70 @@
+Metadata-Version: 2.1
+Name: ruamel.yaml.clib
+Version: 0.2.14
+Summary: C version of reader, parser and emitter for ruamel.yaml derived from libyaml
+Author: Anthon van der Neut
+Author-email: a.van.der.neut@ruamel.eu
+License-Expression: MIT
+Project-URL: Home, https://sourceforge.net/p/ruamel-yaml-clib/
+Project-URL: Source, https://sourceforge.net/p/ruamel-yaml-clib/code/ci/default/tree/
+Project-URL: Tracker, https://sourceforge.net/p/ruamel-yaml-clib/tickets/
+Project-URL: Documentation, https://yaml.dev/doc/ruamel.yaml.clib/
+Keywords: yaml 1.2 parser c-library config
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown; charset=UTF-8; variant=CommonMark
+
+
+# ruamel.yaml.clib
+
+`ruamel.yaml.clib` is the C based reader/scanner and emitter for ruamel.yaml
+
+<table class="docutils">
+  <tr>
+    <td>version</td>
+    <td>0.2.14</td>
+  </tr>
+  <tr>
+    <td>updated</td>
+    <td>2025-09-22</td>
+  </tr>
+  <tr>
+    <td>documentation</td>
+    <td><a href="https://yaml.dev/doc/ruamel.yaml.clib">https://yaml.dev/doc/ruamel.yaml.clib</a></td>
+  </tr>
+  <tr>
+    <td>repository</td>
+    <td><a href="https://sourceforge.net/projects/ruamel-yaml-clib/">https://sourceforge.net/projects/ruamel-yaml-clib/</a></td>
+  </tr>
+  <tr>
+    <td>pypi</td>
+    <td><a href="https://pypi.org/project/ruamel.yaml.clib/">https://pypi.org/project/ruamel.yaml.clib/</a></td>
+  </tr>
+</table>
+
+
+This package was split of from ruamel.yaml, so that ruamel.yaml can be
+build as a universal wheel. Apart from the C code seldom changing, and
+taking a long time to compile for all platforms, this allows
+installation of the .so on Linux systems under /usr/lib64/pythonX.Y
+(without a .pth file or a ruamel directory) and the Python code for
+ruamel.yaml under /usr/lib/pythonX.Y.
+
+[![image](https://bestpractices.coreinfrastructure.org/projects/1128/badge)](https://bestpractices.coreinfrastructure.org/projects/1128)
+[![image](https://sourceforge.net/p/ruamel-yaml-clib/code/ci/default/tree/_doc/_static/license.svg?format=raw)](https://opensource.org/licenses/MIT)
+[![image](https://sourceforge.net/p/ruamel-yaml-clib/code/ci/default/tree/_doc/_static/pypi.svg?format=raw)](https://pypi.org/project/ruamel.yaml.clib/)
+
+This release in loving memory of Johanna Clasina van der Neut-Bandel
+\[1922-10-19 &ndash; 2015-11-21\]

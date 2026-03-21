@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: face
+Version: 26.0.0
+Summary: A command-line application framework (and CLI parser). Friendly for users, full-featured for developers.
+Author-email: Mahmoud Hashemi <mahmoud@hatnote.com>
+License: BSD-3-Clause
+Project-URL: Homepage, https://github.com/mahmoud/face
+Project-URL: Documentation, https://python-face.readthedocs.io/
+Project-URL: Repository, https://github.com/mahmoud/face
+Classifier: Topic :: Utilities
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: boltons>=20.0.0
+Dynamic: license-file
+
+# Face
+
+*Command-line parser and interface builder*
+
+<a href="https://python-face.readthedocs.io/en/latest/"><img src="https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat"></a>
+<a href="https://pypi.org/project/face/"><img src="https://img.shields.io/pypi/v/face.svg"></a>
+<a href="https://calver.org/"><img src="https://img.shields.io/badge/calver-YY.MINOR.MICRO-22bfda.svg"></a>
+
+Docs [here](https://python-face.readthedocs.io/).
+
+## Users
+
+* Montage [administration tools](https://github.com/hatnote/montage/blob/master/tools/admin.py)
+* [Pocket Protector](https://github.com/SimpleLegal/pocket_protector/blob/master/pocket_protector/cli.py)
+* [glom CLI](https://github.com/mahmoud/glom/blob/master/glom/cli.py)

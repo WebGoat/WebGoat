@@ -1,0 +1,3 @@
+[console_scripts]
+pysemgrep = semgrep.console_scripts.pysemgrep:main
+semgrep = semgrep.console_scripts.entrypoint:main

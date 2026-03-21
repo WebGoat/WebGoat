@@ -1,9 +1,8 @@
 var dataFetched = false;
 
 function selectUser() {
-
     var newEmployeeID = $("#UserSelect").val();
-    document.getElementById("employeeRecord").innerHTML = document.getElementById(newEmployeeID).innerHTML;
+    document.getElementById("employeeRecord").textContent = document.getElementById(newEmployeeID).textContent;
 }
 
 function fetchUserData() {
