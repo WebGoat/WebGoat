@@ -97,8 +97,12 @@ public class ProfileUploadRetrieval implements AssignmentEndpoint {
     }
     try {
       var id = request.getParameter("id");
-      var catPicture =
-          new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
+      var fileName = (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg";
+      var catPicturePath = catPicturesDirectory.toPath().resolve(fileName).normalize();
+      if (!catPicturePath.startsWith(catPicturesDirectory.toPath().normalize())) {
+        return ResponseEntity.badRequest().body("Illegal file path");
+      }
+      var catPicture = catPicturePath.toFile();
 
       if (catPicture.getName().toLowerCase().contains("path-traversal-secret.jpg")) {
         return ResponseEntity.ok()
