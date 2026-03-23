@@ -100,6 +100,13 @@ public class ProfileUploadRetrieval implements AssignmentEndpoint {
       var catPicture =
           new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
 
+      // Fix
+      String canonicalDir = catPicturesDirectory.getCanonicalPath();
+      String canonicalFile = catPicture.getCanonicalPath();
+      if (!canonicalFile.startsWith(canonicalDir + File.separator)) {
+        return ResponseEntity.badRequest().body("Access denied");
+      }
+
       if (catPicture.getName().toLowerCase().contains("path-traversal-secret.jpg")) {
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))

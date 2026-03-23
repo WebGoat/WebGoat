@@ -45,6 +45,12 @@ public class Servers {
   public List<Server> sort(@RequestParam String column) throws Exception {
     List<Server> servers = new ArrayList<>();
 
+    // Fix
+    List<String> allowedColumns = List.of("id", "hostname", "ip", "mac", "status", "description");
+    if (!allowedColumns.contains(column.toLowerCase())) {
+      throw new IllegalArgumentException("Invalid column name: " + column);
+    }
+
     try (var connection = dataSource.getConnection()) {
       try (var statement =
           connection.prepareStatement(

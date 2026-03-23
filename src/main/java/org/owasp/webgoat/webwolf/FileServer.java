@@ -71,12 +71,13 @@ public class FileServer {
     destinationDir.mkdirs();
     // DO NOT use multipartFile.transferTo(), see
     // https://stackoverflow.com/questions/60336929/java-nio-file-nosuchfileexception-when-file-transferto-is-called
+    String safeName = org.apache.commons.io.FilenameUtils.getName(multipartFile.getOriginalFilename());
     try (InputStream is = multipartFile.getInputStream()) {
-      var destinationFile = destinationDir.toPath().resolve(multipartFile.getOriginalFilename());
+      var destinationFile = destinationDir.toPath().resolve(safeName);
       Files.deleteIfExists(destinationFile);
       Files.copy(is, destinationFile);
     }
-    log.debug("File saved to {}", new File(destinationDir, multipartFile.getOriginalFilename()));
+    log.debug("File saved to {}", new File(destinationDir, safeName));
 
     return new ModelAndView(
         new RedirectView("files", true),

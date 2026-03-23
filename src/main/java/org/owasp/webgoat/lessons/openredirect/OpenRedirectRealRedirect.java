@@ -18,6 +18,15 @@ public class OpenRedirectRealRedirect {
   @GetMapping("/OpenRedirect/realRedirect")
   public ModelAndView real(@RequestParam("url") String url) {
     // Intentionally vulnerable: no validation
-    return new ModelAndView("redirect:" + url);
+    // Fix: validate URL against allowlist to prevent open redirect
+    try {
+      java.net.URI uri = new java.net.URI(url);
+      String host = uri.getHost();
+      if (host != null && ALLOWED_HOSTS.contains(host)) {
+        return new ModelAndView("redirect:" + url);
+      }
+    } catch (java.net.URISyntaxException e) {
+    }
+    return new ModelAndView("redirect:/error");
   }
 }
