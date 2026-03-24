@@ -27,10 +27,19 @@ class JwtUITest extends PlaywrightTest {
   void shouldDecodeJwt(Browser browser) {
     var page = Authentication.sylvester(browser);
     var secretKey = "test";
-    var jwt =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+    var jwt  = generateTestJwtToken();
 
-    page.navigate(webWolfURL("jwt"));
+  private String generateTestJwtToken() {
+      return Jwts.builder()
+              .setSubject("test-user")
+              .claim("name", "Test User")
+              .setIssuedAt(new Date())
+              .signWith(SignatureAlgorithm.HS256, "test-secret-key")
+              .compact();
+  }
+
+
+      page.navigate(webWolfURL("jwt"));
     page.getByPlaceholder("Enter your secret key").fill(secretKey);
     page.getByPlaceholder("Paste token here").type(jwt);
     assertThat(page.locator("#header"))

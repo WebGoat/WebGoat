@@ -45,8 +45,12 @@ public class JWTHeaderJKUEndpoint implements AssignmentEndpoint {
       return "You are now following Tom";
     }
   }
+    private static final Set<String> ALLOWED_JKU_DOMAINS = Set.of(
+            "webgoat.org",
+            "trusted-keys.example.com"
+    );
 
-  @PostMapping("jku/delete")
+    @PostMapping("jku/delete")
   public @ResponseBody AttackResult resetVotes(@RequestParam("token") String token) {
     if (StringUtils.isEmpty(token)) {
       return failed(this).feedback("jwt-invalid-token").build();
@@ -54,7 +58,12 @@ public class JWTHeaderJKUEndpoint implements AssignmentEndpoint {
       try {
         var decodedJWT = JWT.decode(token);
         var jku = decodedJWT.getHeaderClaim("jku");
-        var jwkProvider = new JwkProviderBuilder(new URL(jku.asString())).build();
+        URL jkuUrl = new URL(jkuString);
+        String host = jkuUrl.getHost();
+        if (!ALLOWED_JKU_DOMAINS.contains(host)) {
+            throw new SecurityException("JKU domain not allowed: " + host);
+        }
+        var jwkProvider = new JwkProviderBuilder(jkuUrl).build();
         var jwk = jwkProvider.get(decodedJWT.getKeyId());
         var algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey());
         JWT.require(algorithm).build().verify(decodedJWT);
