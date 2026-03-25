@@ -30,12 +30,14 @@ public class CryptoUtil {
     BigInteger.valueOf(65537)
   };
 
+  private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
   public static KeyPair generateKeyPair()
       throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
     KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
     RSAKeyGenParameterSpec kpgSpec =
         new RSAKeyGenParameterSpec(
-            2048, FERMAT_PRIMES[new SecureRandom().nextInt(FERMAT_PRIMES.length)]);
+            2048, FERMAT_PRIMES[SECURE_RANDOM.nextInt(FERMAT_PRIMES.length)]);
     keyPairGenerator.initialize(kpgSpec);
     // keyPairGenerator.initialize(2048);
     return keyPairGenerator.generateKeyPair();

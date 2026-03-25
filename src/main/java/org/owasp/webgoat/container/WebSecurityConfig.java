@@ -31,28 +31,71 @@
 package org.owasp.webgoat.container;
 
 import lombok.AllArgsConstructor;
+import org.owasp.webgoat.container.security.jwt.JwtAuthenticationFilter;
 import org.owasp.webgoat.container.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /** Security configuration for WebGoat. */
 @Configuration
-@AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig {
 
   private final UserService userDetailsService;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+  public WebSecurityConfig(UserService userDetailsService, @Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
+    this.userDetailsService = userDetailsService;
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+  }
+
+  /** Chain 0: Safe deserialization demo endpoint — permit all, no CSRF, no auth */
   @Bean
+  @Order(-100)
+  public SecurityFilterChain safeDeserializationChain(HttpSecurity http) throws Exception {
+    return http.securityMatcher("/InsecureDeserialization/safe-task")
+        .csrf(csrf -> csrf.disable())
+        .headers(headers -> headers.disable())
+        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+        .build();
+  }
+
+  /** Chain 1: JWT API endpoints — stateless, no form login */
+  @Bean
+  @Order(1)
+  public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+    return http.securityMatcher("/api/**")
+        .csrf(csrf -> csrf.disable())
+        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
+            auth -> auth.requestMatchers("/api/jwt/**").permitAll().anyRequest().authenticated())
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+        .exceptionHandling(
+            ex -> ex.authenticationEntryPoint(
+                (request, response, authException) -> {
+                  response.setStatus(401);
+                  response.setContentType("application/json");
+                  response.getWriter().write("{\"error\":\"Unauthorized\"}");
+                }))
+        .build();
+  }
+
+  /** Chain 2: Normal WebGoat UI — form login */
+  @Bean
+  @Order(2)
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http.authorizeHttpRequests(
             auth ->
@@ -65,7 +108,8 @@ public class WebSecurityConfig {
                         "fonts/**",
                         "/plugins/**",
                         "/registration",
-                        "/register.mvc")
+                        "/register.mvc",
+                        "/InsecureDeserialization/safe-task")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
@@ -107,8 +151,4 @@ public class WebSecurityConfig {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
-  @Bean
-  public NoOpPasswordEncoder passwordEncoder() {
-    return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-  }
 }
