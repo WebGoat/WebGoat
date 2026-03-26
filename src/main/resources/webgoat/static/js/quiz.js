@@ -31,7 +31,15 @@ $(function () {
                   html += "</fieldset></div>";
                 });
             });
-            document.getElementById("q_container").innerHTML = html;
+            var container = document.getElementById("q_container");
+            container.textContent = '';
+
+            var tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+
+            while (tempDiv.firstChild) {
+                container.appendChild(tempDiv.firstChild);
+            }
         }
     }
     client.send();
