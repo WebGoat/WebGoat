@@ -71,12 +71,25 @@ public class FileServer {
     destinationDir.mkdirs();
     // DO NOT use multipartFile.transferTo(), see
     // https://stackoverflow.com/questions/60336929/java-nio-file-nosuchfileexception-when-file-transferto-is-called
-    try (InputStream is = multipartFile.getInputStream()) {
-      var destinationFile = destinationDir.toPath().resolve(multipartFile.getOriginalFilename());
-      Files.deleteIfExists(destinationFile);
-      Files.copy(is, destinationFile);
+    String fileName = multipartFile.getOriginalFilename();
+
+    if (fileName == null || !fileName.matches("[a-zA-Z0-9._-]+")) {
+        throw new IllegalArgumentException("Invalid filename");
     }
-    log.debug("File saved to {}", new File(destinationDir, multipartFile.getOriginalFilename()));
+
+    Path basePath = destinationDir.toPath().toAbsolutePath().normalize();
+    Path targetPath = basePath.resolve(fileName).normalize();
+
+    if (!targetPath.startsWith(basePath)) {
+        throw new SecurityException("Invalid file path");
+    }
+
+    try (InputStream is = multipartFile.getInputStream()) {
+        Files.deleteIfExists(targetPath);
+        Files.copy(is, targetPath);
+    }
+
+    log.debug("File saved to {}", targetPath);
 
     return new ModelAndView(
         new RedirectView("files", true),
@@ -87,6 +100,9 @@ public class FileServer {
   public ModelAndView getFiles(
       HttpServletRequest request, Authentication authentication, TimeZone timezone) {
     String username = (null != authentication) ? authentication.getName() : "anonymous";
+    if (!username.matches("[a-zA-Z0-9._-]+")) {
+        throw new IllegalArgumentException();
+    }
     File destinationDir = new File(fileLocation, username);
 
     ModelAndView modelAndView = new ModelAndView();
