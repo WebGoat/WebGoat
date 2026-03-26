@@ -3,8 +3,8 @@ var dataFetched = false;
 function selectUser() {
 
     var newEmployeeID = $("#UserSelect").val();
-    document.getElementById("employeeRecord").innerHTML = document.getElementById(newEmployeeID).innerHTML;
-}
+    var source = document.getElementById(newEmployeeID);
+    document.getElementById("employeeRecord").textContent = source.textContent;}
 
 function fetchUserData() {
     if (!dataFetched) {
