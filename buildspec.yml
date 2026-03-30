@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto21
+
+  pre_build:
+    commands:
+      - echo "Pre-build phase starting..."
+
+  build:
+    commands:
+      - echo "Build started on $(date)"
+      - ./mvnw clean package -DskipTests
+      - echo "Build completed on $(date)"
+
+  post_build:
+    commands:
+      - echo "Post-build phase done"
+
+artifacts:
+  files:
+    - target/webgoat-*.jar
+    - appspec.yml
+    - start.sh
+
+cache:
+  paths:
+    - '/root/.m2/**/*'
