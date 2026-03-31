@@ -64,7 +64,7 @@ jobs:
 
           polaris.accessToken=$POLARIS_ACCESS_TOKEN \
 
-          polaris.application.name=Test \
+          polaris.application.name=Nirmal_SCM \
 
           polaris.project.name=WebGoat \
 
