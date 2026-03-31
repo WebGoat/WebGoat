@@ -1,0 +1,10 @@
+@app.route("/search")
+def search():
+    # User input from the URL: /search?name=Gadget
+    item_name = request.args.get('name')
+    
+    # CRITICAL VULNERABILITY: Direct string formatting
+    query = f"SELECT name, description FROM products WHERE name = '{item_name}'"
+    
+    cursor.execute(query)
+    results = cursor.fetchall()
