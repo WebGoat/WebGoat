@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AssignmentHints(
-    value = {
-      "xss-mitigation-3-hint1",
-      "xss-mitigation-3-hint2",
-      "xss-mitigation-3-hint3",
-      "xss-mitigation-3-hint4"
-    })
+@AssignmentHints(value = {
+    "xss-mitigation-3-hint1",
+    "xss-mitigation-3-hint2",
+    "xss-mitigation-3-hint3",
+    "xss-mitigation-3-hint4"
+})
 public class CrossSiteScriptingLesson3 implements AssignmentEndpoint {
 
   @PostMapping("/CrossSiteScripting/attack3")
@@ -32,16 +31,24 @@ public class CrossSiteScriptingLesson3 implements AssignmentEndpoint {
   public AttackResult completed(@RequestParam String editor) {
     String unescapedString = org.jsoup.parser.Parser.unescapeEntities(editor, true);
     try {
-      if (editor.isEmpty()) return failed(this).feedback("xss-mitigation-3-no-code").build();
+      if (editor.isEmpty())
+        return failed(this).feedback("xss-mitigation-3-no-code").build();
       Document doc = Jsoup.parse(unescapedString);
       String[] lines = unescapedString.split("<html>");
 
       String include = (lines[0]);
-      String fistNameElement =
-          doc.select("body > table > tbody > tr:nth-child(1) > td:nth-child(2)").first().text();
-      String lastNameElement =
-          doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").first().text();
+      String fistNameElement = "";
+      String lastNameElement = "";
 
+      var firstNameNode = doc.select("body > table > tbody > tr:nth-child(1) > td:nth-child(2)").first();
+      if (firstNameNode != null) {
+        fistNameElement = firstNameNode.text();
+      }
+
+      var lastNameNode = doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(2)").first();
+      if (lastNameNode != null) {
+        lastNameElement = lastNameNode.text();
+      }
       boolean includeCorrect = false;
       boolean firstNameCorrect = false;
       boolean lastNameCorrect = false;
@@ -65,7 +72,7 @@ public class CrossSiteScriptingLesson3 implements AssignmentEndpoint {
         return failed(this).feedback("xss-mitigation-3-failure").build();
       }
     } catch (Exception e) {
-      return failed(this).output(e.getMessage()).build();
+      return failed(this).feedback("Internal error").build();
     }
   }
 }

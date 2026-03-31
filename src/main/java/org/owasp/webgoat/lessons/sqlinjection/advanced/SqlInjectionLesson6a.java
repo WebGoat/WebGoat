@@ -8,6 +8,7 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -48,18 +49,22 @@ public class SqlInjectionLesson6a implements AssignmentEndpoint {
   }
 
   public AttackResult injectableQuery(String accountName) {
-    String query = "";
-    try (Connection connection = dataSource.getConnection()) {
-      boolean usedUnion = this.unionQueryChecker(accountName);
-      query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
+    String query = "SELECT * FROM user_data WHERE last_name = ?";
 
-      return executeSqlInjection(connection, query, usedUnion);
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement stmt = connection.prepareStatement(query)) {
+
+        stmt.setString(1, accountName);
+
+        ResultSet rs = stmt.executeQuery();
+        return executeSqlInjectionSafe(rs);
+
     } catch (Exception e) {
-      return failed(this)
-          .output(this.getClass().getName() + " : " + e.getMessage() + YOUR_QUERY_WAS + query)
-          .build();
+        return failed(this)
+            .output(this.getClass().getName() + " : " + e.getMessage())
+            .build();
     }
-  }
+}
 
   private boolean unionQueryChecker(String accountName) {
     return accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)");
