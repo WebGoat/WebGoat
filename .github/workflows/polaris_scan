@@ -1,0 +1,76 @@
+name: Polaris Scan SAST
+ 
+on:
+
+  push:
+
+    branches:
+
+      - Polaris-testing
+
+  workflow_dispatch:
+ 
+jobs:
+
+  polaris:
+
+    runs-on: ubuntu-latest
+ 
+    steps:
+
+      - name: Checkout Code
+
+        uses: actions/checkout@v4
+ 
+      - name: Setup Java
+
+        uses: actions/setup-java@v4
+
+        with:
+
+          distribution: temurin
+
+          java-version: '25'
+ 
+      - name: Setup Maven
+
+        run: mvn -version
+ 
+      - name: Download Bridge CLI
+
+        run: |
+
+          curl -fLsS -o bridge.zip https://repo.blackduck.com/bds-integrations-release/com/blackduck/integration/bridge/binaries/bridge-cli-bundle/latest/bridge-cli-bundle-linux64.zip
+
+          unzip bridge.zip
+
+          chmod +x bridge-cli-bundle-linux64/bridge-cli
+
+      - name: Run Polaris SAST
+
+        env:
+
+          POLARIS_SERVER_URL: ${{ vars.POLARIS_SERVER_URL }}
+
+          POLARIS_ACCESS_TOKEN: ${{ secrets.POLARIS_ACCESS_TOKEN }}
+
+        run: |
+
+          ./bridge-cli-bundle-linux64/bridge-cli \
+
+          --stage polaris \
+
+          polaris.serverUrl=$POLARIS_SERVER_URL \
+
+          polaris.accessToken=$POLARIS_ACCESS_TOKEN \
+
+          polaris.application.name=Test \
+
+          polaris.project.name=WebGoat-JENKINS-test \
+
+          polaris.branch.name=jenkins \
+
+          polaris.assessment.types=SAST \
+
+          coverity.build.command="./mvnw clean install -DskipTests"
+ 
