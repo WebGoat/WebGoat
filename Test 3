@@ -1,0 +1,10 @@
+<?php
+// WARNING: This code is intentionally insecure for educational purposes.
+$id = $_GET['id']; 
+$query = "SELECT username, email, password_hash FROM users WHERE id = " . $id;
+
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+
+echo "User: " . $row['username'];
+?>
