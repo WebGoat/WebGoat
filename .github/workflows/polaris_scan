@@ -3,9 +3,7 @@ name: Polaris Scan SAST
 on:
 
   push:
-
     branches:
-
       - Polaris-testing
 
   workflow_dispatch:
