@@ -66,9 +66,9 @@ jobs:
 
           polaris.application.name=Test \
 
-          polaris.project.name=WebGoat-JENKINS-test \
+          polaris.project.name=WebGoat \
 
-          polaris.branch.name=jenkins \
+          polaris.branch.name=Polaris-testing \
 
           polaris.assessment.types=SAST \
 
