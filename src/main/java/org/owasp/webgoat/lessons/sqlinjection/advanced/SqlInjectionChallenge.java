@@ -6,6 +6,7 @@ package org.owasp.webgoat.lessons.sqlinjection.advanced;
 
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.sql.*;
 import lombok.extern.slf4j.Slf4j;
@@ -84,6 +85,9 @@ public class SqlInjectionChallenge implements AssignmentEndpoint {
     if (username.length() > 250 || email.length() > 30 || password.length() > 30) {
       return failed(this).feedback("input.invalid").build();
     }
-    return null;
+
+    return success(this)
+        .feedback("User created successfully!")
+        .build();
   }
 }
