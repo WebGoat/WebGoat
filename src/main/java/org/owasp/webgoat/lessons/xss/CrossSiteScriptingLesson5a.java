@@ -9,6 +9,7 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.succes
 
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import org.owasp.encoder.Encode;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -62,7 +63,7 @@ public class CrossSiteScriptingLesson5a implements AssignmentEndpoint {
     userSessionData.setValue("xss-reflected1-complete", "false");
     StringBuilder cart = new StringBuilder();
     cart.append("Thank you for shopping at WebGoat. <br />Your support is appreciated<hr />");
-    cart.append("<p>We have charged credit card:" + field1 + "<br />");
+    cart.append("<p>We have charged credit card:" + Encode.forHtml(field1) + "<br />");
     cart.append("                             ------------------- <br />");
     cart.append("                               $" + totalSale);
 

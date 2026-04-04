@@ -23,6 +23,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               th:action="@{/IDOR/login}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td>user/pass</td>
@@ -59,7 +60,7 @@
               method="GET" name="form"
               th:action="@{/IDOR/profile}">
             <script th:src="@{/lesson_js/idor.js}" />
-
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <input name="View Profile" value="View Profile" type="button" onclick="onViewProfile();" />
 
         </form>
@@ -81,6 +82,7 @@
         <form class="attack-form"
               method="POST" name="diff-form"
               th:action="@{/IDOR/diff-attributes}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <input name="attributes" type="text" />
             <input name="Submit Diffs" value="Submit Diffs" type="submit" />
         </form>
@@ -111,6 +113,7 @@
             <div class="adoc-content" th:replace="~{doc:lessons/idor/documentation/IDOR_inputAltPath.adoc}"></div>
             <input name="url" value="WebGoat/" type="text"/>
             <input name="submit" value="Submit" type="SUBMIT"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         </form>
         <!-- do not remove the two following div's, this is where your feedback/output will land -->
         <div class="attack-feedback"></div>
@@ -138,7 +141,7 @@
             <script th:src="@{/lesson_js/idor.js}" />
 
             <input name="View Profile" value="View Profile" type="submit" />
-
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         </form>
 
         <!-- do not remove the two following div's, this is where your feedback/output will land -->
@@ -162,7 +165,7 @@
             <script th:src="@{/lesson_js/idor.js}" />
 
             <input name="View Profile" value="View Profile" type="submit" />
-
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         </form>
         <!-- do not remove the two following div's, this is where your feedback/output will land -->
         <div class="attack-feedback"></div>

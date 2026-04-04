@@ -31,6 +31,7 @@ $(document).ready(initialise);
 			<form class="attack-form" method="POST" name="form"	th:action="@{/crypto/encoding/basic-auth}">
 			Then what was the username
 			<input name="answer_user" value="" type="TEXT"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			and what was the password:
 			<input name="answer_pwd" value="" type="TEXT"/>
 			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
@@ -50,6 +51,7 @@ $(document).ready(initialise);
 			What would be the actual password
 			<input name="answer_pwd1" value="" type="TEXT"/><br/>
 			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			</form>
 			<div class="attack-feedback"></div>
 			<div class="attack-output"></div>
@@ -68,6 +70,7 @@ $(document).ready(initialise);
 			Which password belongs to this hash: <div id="sha256token" ></div>
 			<input name="answer_pwd2" value="" type="TEXT"/>
 			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			</form>
 			<div class="attack-feedback"></div>
 			<div class="attack-output"></div>
@@ -93,6 +96,7 @@ $(document).ready(initialise);
 			and now provide a signature for us based on that modulus
 			<input name="signature" value="" type="TEXT"/>
 			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			</form>
 			<div class="attack-feedback"></div>
 			<div class="attack-output"></div>
@@ -116,6 +120,7 @@ $(document).ready(initialise);
 			and what is the name of the file that stored the password <br/>
 			<input name="secretFileName" value="" type="TEXT"/>
 			<input name="SUBMIT" value="post the answer" type="SUBMIT"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			</form>
 			<div class="attack-feedback"></div>
 			<div class="attack-output"></div>

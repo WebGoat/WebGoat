@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.owasp.webgoat.container.CurrentUsername;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class Ping {
       @CurrentUsername String username) {
     String logLine = String.format("%s %s %s", "GET", userAgent, text);
     log.debug(logLine);
-    File logFile = new File(webGoatHomeDirectory, "/XXE/log" + username + ".txt");
+    File logFile = new File(webGoatHomeDirectory, "/XXE/log" + FilenameUtils.getName(username) + ".txt");
     try {
       try (PrintWriter pw = new PrintWriter(logFile)) {
         pw.println(logLine);

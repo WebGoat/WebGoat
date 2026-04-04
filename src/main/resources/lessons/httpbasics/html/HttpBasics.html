@@ -27,6 +27,7 @@
 						th:action="@{/#attack/307/100}">
 						Enter your name: <input name="person" value="" type="TEXT"/><input
 							name="SUBMIT" value="Go!" type="SUBMIT" class="spacing"/>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 					</form>
 				</div>
 			</form>

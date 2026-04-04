@@ -16,6 +16,7 @@
     <div class="attack-container">
       <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
       <form class="attack-form" method="POST" th:action="@{/OpenRedirect/task1}">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <label for="t1url">Return URL</label>
         <input id="t1url" name="url" placeholder="https://evil.test" value="/home" size="60" />
         <button type="submit">Simulate Redirect</button>
@@ -31,6 +32,7 @@
     <div class="attack-container">
       <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
       <form class="attack-form" method="POST" th:action="@{/OpenRedirect/task2}">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <label for="t2url">Return URL (substring filter active)</label>
         <input id="t2url" name="url" placeholder="https://webgoat.org.evil.com" size="60" />
         <button type="submit">Simulate Redirect</button>
@@ -46,6 +48,7 @@
     <div class="attack-container">
       <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
       <form class="attack-form" method="POST" th:action="@{/OpenRedirect/task3}">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <label for="t3target">Target URL</label>
         <input id="t3target" name="target" placeholder="https://webgoat.local@evil.com" size="55" />
         <label for="t3token">Tracking Token</label>
@@ -62,6 +65,7 @@
     <div class="attack-container">
       <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
       <form class="attack-form" method="POST" th:action="@{/OpenRedirect/task4}">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <label for="t4target">Target URL (double-encoded)</label>
         <input
           id="t4target"
@@ -98,7 +102,8 @@
       <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
       <div class="container-fluid">
         <form id="quiz-form" class="attack-form" method="POST" th:action="@{/OpenRedirect/quiz}" role="form">
-          <div id="q_container"></div>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <div id="q_container"></div>
           <br />
           <input name="Quiz_solutions" value="Submit answers" type="SUBMIT" />
         </form>
@@ -114,6 +119,7 @@
       <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
       <!-- Mitigation verification assignment -->
       <form class="attack-form" method="POST" th:action="@{/OpenRedirect/mitigation}">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <label for="mitigationUrl">External URL to test mitigation</label>
         <input id="mitigationUrl" name="url" placeholder="https://evil.test" size="60" />
         <button type="submit">Test Mitigation</button>
@@ -122,6 +128,7 @@
       <!-- Existing safe redirect demonstration (non-scored) -->
       <h4>Prevention Patterns</h4>
       <form method="GET" th:action="@{/OpenRedirect/safe}">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <label for="destId">Safe Destination ID</label>
         <input id="destId" name="destId" value="1" size="4" />
         <button type="submit">Safe Redirect</button>

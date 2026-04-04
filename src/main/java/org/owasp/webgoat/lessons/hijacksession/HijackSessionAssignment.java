@@ -67,6 +67,8 @@ public class HijackSessionAssignment implements AssignmentEndpoint {
     Cookie cookie = new Cookie(COOKIE_NAME, cookieValue);
     cookie.setPath("/WebGoat");
     cookie.setSecure(true);
+    cookie.setHttpOnly(true);
+    cookie.setAttribute("SameSite", "Strict");
     response.addCookie(cookie);
   }
 }

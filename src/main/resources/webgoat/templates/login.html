@@ -29,6 +29,7 @@
             </div>
             <br/><br/>
             <form th:action="@{/login}" method='POST' style="width: 200px;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="form-group">
                     <label for="exampleInputEmail1" th:text="#{username}">Username</label>
                     <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"

@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -77,7 +78,8 @@ public class SimpleXXE implements AssignmentEndpoint {
   @RequestMapping(
       path = "/xxe/sampledtd",
       consumes = ALL_VALUE,
-      produces = MediaType.TEXT_PLAIN_VALUE)
+      produces = MediaType.TEXT_PLAIN_VALUE,
+      method = RequestMethod.GET)
   @ResponseBody
   public String getSampleDTDFile() {
     return """

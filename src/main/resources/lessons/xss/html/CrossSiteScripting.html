@@ -13,6 +13,7 @@
 			<form class="attack-form" accept-charset="UNKNOWN"
 				  method="POST" name="form"
 				  th:action="@{/CrossSiteScripting/attack1}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 				<table>
 					<tr>
 						<td><input type="checkbox" name="checkboxAttack1"> The cookies are the same on each tab </td>
@@ -47,6 +48,7 @@
 			<form class="attack-form" accept-charset="UNKNOWN"
 				  method="GET" name="xss-5a"
 				  th:action="@{/CrossSiteScripting/attack5a}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 				<center>
 					<h4>Shopping Cart</h4>
 				</center>
@@ -134,6 +136,7 @@
 		<form class="attack-form" accept-charset="UNKNOWN"
 			  method="POST" name="DOMTestRoute"
 			  th:action="@{/CrossSiteScripting/attack6a}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			<input name="DOMTestRoute" value="" type="TEXT" />
 			<input name="SubmitTestRoute" value="Submit" type="SUBMIT"/>
 		</form>
@@ -149,6 +152,7 @@
 		<form class="attack-form" accept-charset="UNKNOWN"
 			  method="POST" name="DOMFollowUp"
 			  th:action="@{/CrossSiteScripting/dom-follow-up}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			<input name="successMessage" value="" type="TEXT" />
 			<input name="submitMessage" value="Submit" type="SUBMIT"/>
 		</form>
@@ -169,6 +173,7 @@
 			<form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
 				  method="POST" name="form"
 				  th:action="@{/CrossSiteScripting/quiz}" role="form">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 				<div id="q_container"></div>
 				<br />
 				<input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>

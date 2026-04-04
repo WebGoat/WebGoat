@@ -17,7 +17,7 @@
         <form class="attack-form" accept-charset="UNKNOWN" name="task"
               method="POST"
               th:action="@{/LogSpoofing/log-spoofing}">
-
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <input type="text" value="" name="username" placeholder="username"/>
             <input type="password" value="" name="password" placeholder="password"/>
             <input type="submit" value="Submit"/>
@@ -39,7 +39,7 @@
         <form class="attack-form" accept-charset="UNKNOWN" name="task"
               method="POST"
               th:action="@{/LogSpoofing/log-bleeding}">
-
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <input type="text" value="" name="username" placeholder="username"/>
             <input type="password" value="" name="password" placeholder="password"/>
             <input type="submit" value="Submit"/>

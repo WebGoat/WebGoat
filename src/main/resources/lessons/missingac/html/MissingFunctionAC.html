@@ -53,7 +53,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               th:action="@{/access-control/hidden-menu}">
-
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <p>Hidden item 1 <input name="hiddenMenu1" value="" type="TEXT"/></p>
             <p>Hidden item 2 <input name="hiddenMenu2" value="" type="TEXT"/></p>
             <br/>
@@ -76,7 +76,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               th:action="@{/access-control/user-hash}">
-
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <p>Your Hash: <input name="userHash" value="" type="TEXT"/></p>
             <br/>
             <input name="submit" value="Submit" type="SUBMIT"/>
@@ -98,7 +98,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               th:action="@{/access-control/user-hash-fix}">
-
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <p>Your Hash: <input name="userHash" value="" type="TEXT"/></p>
             <br/>
             <input name="submit" value="Submit" type="SUBMIT"/>

@@ -232,6 +232,8 @@
 
         <br/>
         <form class="attack-form" method="POST" name="form" th:action="@{/challenge/flag/8}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"

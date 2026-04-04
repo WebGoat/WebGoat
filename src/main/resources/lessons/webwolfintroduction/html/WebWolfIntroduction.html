@@ -19,6 +19,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"  style="position:relative;top:150px"
               method="POST" name="form"
               th:action="@{/WebWolf/mail}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
@@ -40,6 +41,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"  style="position:relative;top:-50px"
               method="POST" name="secondform"
               th:action="@{/WebWolf/mail/send}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
@@ -77,6 +79,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               action="WebWolf/landing">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">

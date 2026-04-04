@@ -28,7 +28,7 @@
 
                 <input type="text" value="doesn't matter really" name="changeMe" />
                 <input type="submit" value="Submit" />
-
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             </form>
             <div class="attack-feedback"></div>
             <div class="attack-output"></div>

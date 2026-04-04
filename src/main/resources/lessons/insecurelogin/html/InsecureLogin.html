@@ -18,7 +18,7 @@
             <form class="attack-form" accept-charset="UNKNOWN" name="task"
                   method="POST"
                   th:action="@{/InsecureLogin/task}">
-
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <button onclick="javascript:submit_secret_credentials();return false;">Log in</button>
 
             </form>
@@ -26,7 +26,7 @@
             <form class="attack-form" accept-charset="UNKNOWN" name="task"
                   method="POST"
                   th:action="@{/InsecureLogin/task}">
-
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <input type="text" value="" name="username" placeholder="username"/>
                 <input type="password" value="" name="password" placeholder="password" />
                 <input type="submit" value="Submit" />

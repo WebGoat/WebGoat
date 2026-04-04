@@ -33,6 +33,7 @@
                 <div id="q_container"></div>
                 <br />
                 <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             </form>
         </div>
         <div class="attack-feedback"></div>

@@ -100,9 +100,11 @@
 			<form class="attack-form" accept-charset="UNKNOWN"
 				method="POST" name="form"
 				action="VulnerableComponents/attack1">
-				<div id="lessonContent">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <div id="lessonContent">
 					<form accept-charset="UNKNOWN" method="POST" name="form"
 						action="#attack/307/100">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 						<table>
 							<tr>
 								<td>Enter the contact's xml representation:</td>

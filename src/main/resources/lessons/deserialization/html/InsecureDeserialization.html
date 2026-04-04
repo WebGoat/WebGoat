@@ -26,6 +26,7 @@
             <form class="attack-form" accept-charset="UNKNOWN" name="task"
                   method="POST"
                   th:action="@{/InsecureDeserialization/task}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                 <input type="textarea" rows="4" cols="40" value="" name="token" placeholder="token"/>
                 <input type="submit" value="Submit" />

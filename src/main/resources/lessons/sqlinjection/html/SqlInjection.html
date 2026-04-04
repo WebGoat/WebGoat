@@ -17,6 +17,7 @@
               method="POST" name="form"
               th:action="@{/SqlInjection/attack2}"
               autocomplete="off">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td><label>SQL query</label></td>
@@ -41,6 +42,7 @@
               method="POST" name="form"
               th:action="@{/SqlInjection/attack3}"
               autocomplete="off">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td><label>SQL query</label></td>
@@ -65,6 +67,7 @@
               method="POST" name="form"
               th:action="@{/SqlInjection/attack4}"
               autocomplete="off">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td><label>SQL query</label></td>
@@ -89,6 +92,7 @@
               method="POST" name="form"
               th:action="@{/SqlInjection/attack5}"
               autocomplete="off">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td><label>SQL query</label></td>
@@ -144,6 +148,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               th:action="@{/SqlInjection/assignment5a}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td>SELECT * FROM user_data WHERE first_name = 'John' AND last_name = '</td>
@@ -189,6 +194,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               th:action="@{/SqlInjection/assignment5b}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td>Login_Count:</td>
@@ -218,6 +224,7 @@
               method="POST" name="form"
               th:action="@{/SqlInjection/attack8}"
               autocomplete="off">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td><label>Employee Name:</label></td>
@@ -246,6 +253,7 @@
               method="POST" name="form"
               th:action="@{/SqlInjection/attack9}"
               autocomplete="off">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td><label>Employee Name:</label></td>
@@ -275,6 +283,7 @@
               method="POST" name="form"
               th:action="@{/SqlInjection/attack10}"
               autocomplete="off">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <table>
                 <tr>
                     <td><label>Action contains:</label></td>

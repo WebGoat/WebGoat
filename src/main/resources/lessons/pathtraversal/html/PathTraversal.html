@@ -23,6 +23,7 @@
                   prepareData="profileUpload"
                   enctype="multipart/form-data"
                   th:action="@{/PathTraversal/profile-upload}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="preview text-center">
                     <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
                          height="200" id="preview"/>
@@ -77,6 +78,7 @@
                   prepareData="profileUploadFix"
                   enctype="multipart/form-data"
                   th:action="@{/PathTraversal/profile-upload-fix}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="preview text-center">
                     <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
                          height="200" id="previewFix"/>
@@ -132,6 +134,7 @@
                   prepareData="profileUploadRemoveUserInput"
                   enctype="multipart/form-data"
                   th:action="@{/PathTraversal/profile-upload-remove-user-input}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="preview text-center">
                     <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
                          height="200" id="previewRemoveUserInput"/>
@@ -190,6 +193,7 @@
 
             <br/>
             <form class="attack-form" method="POST" name="form" action="PathTraversal/random">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
                 <div class="form-group">
                     <div class="input-group">
@@ -228,6 +232,7 @@
                   prepareData="profileZipSlip"
                   enctype="multipart/form-data"
                   action="PathTraversal/zip-slip">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="preview text-center">
                     <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
                          height="200" id="previewZipSlip"/>

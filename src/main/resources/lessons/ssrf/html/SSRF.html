@@ -13,6 +13,7 @@
             <form class="attack-form" accept-charset="UNKNOWN"
                   method="POST" name="form"
                   th:action="@{/SSRF/task1}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <table>
                     <tr>
                         <td><input type="hidden" id="url1" name="url" value="images/tom.png"/></td>
@@ -35,6 +36,7 @@
             <form class="attack-form" accept-charset="UNKNOWN"
                   method="POST" name="form"
                   th:action="@{/SSRF/task2}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <table>
                     <tr>
                         <td><input type="hidden" id="url2" name="url" value="images/cat.png"/></td>

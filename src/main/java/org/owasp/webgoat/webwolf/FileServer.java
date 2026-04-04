@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.TimeZone;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,7 +58,8 @@ public class FileServer {
   @RequestMapping(
       path = "/file-server-location",
       consumes = ALL_VALUE,
-      produces = MediaType.TEXT_PLAIN_VALUE)
+      produces = MediaType.TEXT_PLAIN_VALUE,
+      method = RequestMethod.GET)
   @ResponseBody
   public String getFileLocation() {
     return fileLocation;
@@ -72,7 +75,7 @@ public class FileServer {
     // DO NOT use multipartFile.transferTo(), see
     // https://stackoverflow.com/questions/60336929/java-nio-file-nosuchfileexception-when-file-transferto-is-called
     try (InputStream is = multipartFile.getInputStream()) {
-      var destinationFile = destinationDir.toPath().resolve(multipartFile.getOriginalFilename());
+      var destinationFile = destinationDir.toPath().resolve(FilenameUtils.getName(multipartFile.getOriginalFilename()));
       Files.deleteIfExists(destinationFile);
       Files.copy(is, destinationFile);
     }

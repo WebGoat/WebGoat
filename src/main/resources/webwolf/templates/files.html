@@ -30,6 +30,7 @@
         <div class="card-body">
             <h5 class="card-title"><strong>Upload a file</strong></h5>
             <form th:action="@{/fileupload}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <fieldset>
                     <div class="mb-3">
                         <input type="file" class="form-control" name="file"/>

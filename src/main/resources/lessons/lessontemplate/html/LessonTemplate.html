@@ -48,6 +48,7 @@
             <form class="attack-form" accept-charset="UNKNOWN"
                   method="POST" name="form"
                   th:action="@{/lesson-template/sample-attack}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <table>
                     <tr>
                         <td>two random params</td>

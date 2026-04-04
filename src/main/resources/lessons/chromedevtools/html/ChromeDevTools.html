@@ -25,6 +25,7 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="DOMFollowUp"
               th:action="@{/ChromeDevTools/dummy}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <input name="successMessage" value="" type="TEXT" />
             <input name="submitMessage" value="Submit" type="SUBMIT"/>
         </form>
@@ -46,6 +47,8 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               th:action="@{/ChromeDevTools/network}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
             <script>
                 // sample custom javascript in the recommended way ...
                 // a namespace has been assigned for it, but you can roll your own if you prefer
@@ -67,6 +70,8 @@
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
               th:action="@{/ChromeDevTools/network}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
             <table>
                 <tr>
                     <td>What is the number you found:   </td>

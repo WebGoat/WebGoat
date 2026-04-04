@@ -20,6 +20,7 @@
           th:action="@{/csrf/basic-get-flag}">
         <input name="csrf" type="hidden" value="false"/>
         <input type="submit" name="submit"/>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
     </form>
 
@@ -39,6 +40,7 @@
 
             Confirm Flag Value:
             <input type="text" length="6" name="confirmFlagVal" value=""/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             <input name="submit" value="Submit" type="submit"/>
             <br/>
@@ -94,6 +96,7 @@
                                   method="POST" name="review-form"
                                   successCallback=""
                                   th:action="@{/csrf/review}">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                                 <input class="form-control" id="reviewText" name="reviewText" placeholder="Add a Review"
                                        type="text"/>
                                 <input class="form-control" id="reviewStars" name="stars" type="text"/>
@@ -148,6 +151,7 @@
                                   prepareData="feedback"
                                   th:action="@{/csrf/feedback/message}"
                                   contentType="application/json">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -218,6 +222,7 @@
             <input type="text" length="6" name="confirmFlagVal" value=""/>
 
             <input name="submit" value="Submit" type="submit"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
         </form>
         <div class="attack-feedback"></div>
@@ -241,6 +246,7 @@
             Press the button below when your are logged in as the other user<br/>
 
             <input name="submit" value="Solved!" type="submit"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
         </form>
 

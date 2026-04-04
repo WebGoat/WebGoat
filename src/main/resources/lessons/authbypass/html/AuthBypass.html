@@ -35,6 +35,7 @@
                 <input type="hidden" name="jsEnabled" value="1" />
                 <input type="hidden" name="verifyMethod" value="SEC_QUESTIONS" />
                 <input type="hidden" name="userId" value="12309746" />
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                 <input name="submit" value="Submit" type="submit"/>
 
@@ -56,6 +57,7 @@
                 <input type="hidden" name="userId" value="12309746" />
 
                 <input name="submit" value="Submit" type="submit"/>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             </form>
 
