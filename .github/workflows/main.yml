@@ -18,8 +18,8 @@ jobs:
         uses: blackduck-inc/black-duck-security-scan@v2
 
         env:
-          DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
-          DETECT_PROJECT_VERSION_NAME: ${{ github.ref_name }}
+          DETECT_PROJECT_NAME: "webgoat-pr"
+          DETECT_PROJECT_VERSION_NAME: "1"
 
         with:
           ### SCANNING: Required fields
