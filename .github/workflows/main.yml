@@ -13,42 +13,34 @@ jobs:
     runs-on: [self-hosted, macOS, ARM64]
 
     env:
-      # Homebrew PATH for Apple Silicon (M1/M2)
       PATH: /opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-
-      # Multi-package-manager detection
       DETECT_DETECTOR_SEARCH_DEPTH: 3
       DETECT_DETECTOR_SEARCH_CONTINUE: true
-
-      # Project naming
-      DETECT_PROJECT_NAME: "webgoat-pr"
-      DETECT_PROJECT_VERSION_NAME: "1"
-
-      # npm compatibility (avoids peer dependency errors)
+      DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
+      DETECT_PROJECT_VERSION_NAME: ${{ github.ref_name }}
       DETECT_NPM_ARGUMENTS: "--legacy-peer-deps"
 
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
 
-      - name: Set up Java (Temurin 17 on Apple Silicon)
+      - name: Set up Java (Temurin on Apple Silicon)
         run: |
-          echo "JAVA_HOME=$(/usr/libexec/java_home -v 17)" >> $GITHUB_ENV
+          echo "JAVA_HOME=$(/usr/libexec/java_home -v 21)" >> $GITHUB_ENV
 
       - name: Verify Tool Availability
+        continue-on-error: true
         run: |
           echo "--- Java ---"
           java -version
           echo "--- Node ---"
-          node -v
+          node -v || echo "Node not found (optional)"
           echo "--- npm ---"
-          npm -v
+          npm -v || echo "npm not found (optional)"
           echo "--- Maven ---"
-          mvn -version
+          mvn -version || echo "Maven not found (optional)"
           echo "--- Gradle ---"
-          gradle -version
-          echo "--- .NET ---"
-          dotnet --version
+          gradle -version || echo "Gradle not found (optional)"
           echo "--- Git ---"
           git --version
 
@@ -56,25 +48,11 @@ jobs:
         id: black-duck-sca-scan
         uses: blackduck-inc/black-duck-security-scan@v2
         with:
-          ### Black Duck SCA - Required
           blackducksca_url: ${{ vars.BLACKDUCK_URL }}
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
-
-          ### Fix Pull Request Configuration
           blackducksca_fixpr_enabled: true
           blackducksca_fixpr_maxCount: 5
           blackducksca_fixpr_filter_severities: 'CRITICAL,HIGH'
           blackducksca_fixpr_useUpgradeGuidance: 'SHORT_TERM,LONG_TERM'
-
-          ### PR Comment Configuration
           blackducksca_prcomment_enabled: true
-
-          ### GitHub Token - Required for Fix PRs and PR comments
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-          ### Optional: Break build on policy violations
-          # blackducksca_scan_failure_severities: 'BLOCKER,CRITICAL'
-
-          ### Optional: Generate SARIF report for GitHub Security tab
-          # blackducksca_reports_sarif_create: true
-          # blackducksca_upload_sarif_report: true
