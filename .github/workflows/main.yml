@@ -1,0 +1,46 @@
+name: Black Duck SCA Scan
+on:
+  push:
+    branches: [main, master, develop, stage, release]
+  pull_request:
+    branches: [main, master, develop, stage, release]
+  workflow_dispatch:
+
+jobs:
+  blackduck-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Black Duck SCA Scan
+        id: black-duck-sca-scan
+        uses: blackduck-inc/black-duck-security-scan@v2
+
+        env:
+          DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
+          DETECT_PROJECT_VERSION_NAME: ${{ github.ref_name }}
+
+        with:
+          ### SCANNING: Required fields
+          blackducksca_url: ${{ vars.BLACKDUCK_URL }}
+          blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
+
+          ### FIX PULL REQUEST CREATION
+          blackducksca_fixpr_enabled: true
+          blackducksca_fixpr_maxCount: 5
+          blackducksca_fixpr_filter_severities: 'CRITICAL,HIGH'
+          blackducksca_fixpr_useUpgradeGuidance: 'SHORT_TERM,LONG_TERM'
+
+          ### PULL REQUEST COMMENTS
+          blackducksca_prcomment_enabled: true
+
+          ### GitHub token - Required for Fix PRs and PR comments
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+          ### Optional: Break build on policy violations
+          # blackducksca_scan_failure_severities: 'BLOCKER,CRITICAL'
+
+          ### Optional: SARIF report
+          # blackducksca_reports_sarif_create: true
+          # blackducksca_upload_sarif_report: true
