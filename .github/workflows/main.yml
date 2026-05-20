@@ -1,4 +1,6 @@
+# .github/workflows/main.yml
 name: Black Duck SCA Scan
+
 on:
   push:
     branches: [main, master, develop, stage, release]
@@ -8,39 +10,71 @@ on:
 
 jobs:
   blackduck-scan:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS, ARM64]
+
+    env:
+      # Homebrew PATH for Apple Silicon (M1/M2)
+      PATH: /opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+      # Multi-package-manager detection
+      DETECT_DETECTOR_SEARCH_DEPTH: 3
+      DETECT_DETECTOR_SEARCH_CONTINUE: true
+
+      # Project naming
+      DETECT_PROJECT_NAME: "webgoat-pr"
+      DETECT_PROJECT_VERSION_NAME: "1"
+
+      # npm compatibility (avoids peer dependency errors)
+      DETECT_NPM_ARGUMENTS: "--legacy-peer-deps"
+
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
 
+      - name: Set up Java (Temurin 17 on Apple Silicon)
+        run: |
+          echo "JAVA_HOME=$(/usr/libexec/java_home -v 17)" >> $GITHUB_ENV
+
+      - name: Verify Tool Availability
+        run: |
+          echo "--- Java ---"
+          java -version
+          echo "--- Node ---"
+          node -v
+          echo "--- npm ---"
+          npm -v
+          echo "--- Maven ---"
+          mvn -version
+          echo "--- Gradle ---"
+          gradle -version
+          echo "--- .NET ---"
+          dotnet --version
+          echo "--- Git ---"
+          git --version
+
       - name: Black Duck SCA Scan
         id: black-duck-sca-scan
         uses: blackduck-inc/black-duck-security-scan@v2
-
-        env:
-          DETECT_PROJECT_NAME: "webgoat-pr"
-          DETECT_PROJECT_VERSION_NAME: "1"
-
         with:
-          ### SCANNING: Required fields
+          ### Black Duck SCA - Required
           blackducksca_url: ${{ vars.BLACKDUCK_URL }}
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
 
-          ### FIX PULL REQUEST CREATION
+          ### Fix Pull Request Configuration
           blackducksca_fixpr_enabled: true
           blackducksca_fixpr_maxCount: 5
           blackducksca_fixpr_filter_severities: 'CRITICAL,HIGH'
           blackducksca_fixpr_useUpgradeGuidance: 'SHORT_TERM,LONG_TERM'
 
-          ### PULL REQUEST COMMENTS
+          ### PR Comment Configuration
           blackducksca_prcomment_enabled: true
 
-          ### GitHub token - Required for Fix PRs and PR comments
+          ### GitHub Token - Required for Fix PRs and PR comments
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
           ### Optional: Break build on policy violations
           # blackducksca_scan_failure_severities: 'BLOCKER,CRITICAL'
 
-          ### Optional: SARIF report
+          ### Optional: Generate SARIF report for GitHub Security tab
           # blackducksca_reports_sarif_create: true
           # blackducksca_upload_sarif_report: true
