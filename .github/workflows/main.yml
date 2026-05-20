@@ -50,9 +50,18 @@ jobs:
         with:
           blackducksca_url: ${{ vars.BLACKDUCK_URL }}
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
+
+          ### SSL Certificate Trust
+          network_ssl_trustAll: true
+
+          ### Fix Pull Request Configuration
           blackducksca_fixpr_enabled: true
           blackducksca_fixpr_maxCount: 5
           blackducksca_fixpr_filter_severities: 'CRITICAL,HIGH'
           blackducksca_fixpr_useUpgradeGuidance: 'SHORT_TERM,LONG_TERM'
+
+          ### PR Comment Configuration
           blackducksca_prcomment_enabled: true
+
+          ### GitHub Token
           github_token: ${{ secrets.GITHUB_TOKEN }}
