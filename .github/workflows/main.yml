@@ -44,24 +44,19 @@ jobs:
           echo "--- Git ---"
           git --version
 
-      - name: Black Duck SCA Scan
+      - name: Black Duck SCA Rapid Scan
         id: black-duck-sca-scan
         uses: blackduck-inc/black-duck-security-scan@v2
         with:
           blackducksca_url: ${{ vars.BLACKDUCK_URL }}
           blackducksca_token: ${{ secrets.BLACKDUCK_TOKEN }}
-
-          ### SSL Certificate Trust
           network_ssl_trustAll: true
 
-          ### Fix Pull Request Configuration
-          blackducksca_fixpr_enabled: true
-          blackducksca_fixpr_maxCount: 5
-          blackducksca_fixpr_filter_severities: 'CRITICAL,HIGH'
-          blackducksca_fixpr_useUpgradeGuidance: 'SHORT_TERM,LONG_TERM'
+          ### Rapid Scan
+          blackducksca_scan_full: false
+          blackducksca_scan_failure_severities: 'BLOCKER,CRITICAL'
 
-          ### PR Comment Configuration
+          ### PR Comments — works with rapid scan
           blackducksca_prcomment_enabled: true
 
-          ### GitHub Token
           github_token: ${{ secrets.GITHUB_TOKEN }}
