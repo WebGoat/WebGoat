@@ -1,0 +1,65 @@
+{
+  "questions": [
+    {
+      "text": "What does HTTP stand for?",
+      "solutions": {
+        "1": "Host to terminal pipeline",
+        "2": "Hyper text transfer protocol",
+        "3": "High traffic transfer protocol",
+        "4": "Hyperlink transfer program"
+      }
+    },
+    {
+      "text": "What is the purpose of an HTTP status code?",
+      "solutions": {
+        "1": "To assign a unique ID to each request",
+        "2": "To identify wether the response was received by the client",
+        "3": "To identify the status of a client's request",
+        "4": "To encrypt the connection"
+      }
+    },
+    {
+      "text": "What HTTP request method is commonly used to retrive data from a server?",
+      "solutions": {
+        "1": "GET",
+        "2": "POST",
+        "3": "FETCH",
+        "4": "DELETE"
+      }
+    },
+    {
+      "text": "True or false: every http request must have a body",
+      "solutions": {
+        "1": "True",
+        "2": "False"
+      }
+    },
+    {
+      "text": "What is a role of a cookie in the HTTP protocol?",
+      "solutions": {
+        "1": "To store information for advertisements and tracking",
+        "2": "To store client data on the server for future use",
+        "3": "To store state on a client's browser across multiple HTTP requests",
+        "4": "To encrypt traffic between the client and server"
+      }
+    },
+    {
+      "text": "Which technology does HTTPS use to verify a website's identity?",
+      "solutions": {
+        "1": "DNS servers",
+        "2": "Asymmetric encryption",
+        "3": "User agents",
+        "4": "Certificate authorities"
+      }
+    },
+    {
+      "text": "Why is HTTPS preferred over HTTP",
+      "solutions": {
+        "1": "Attackers cannot intercept and modify traffic sent with HTTPS",
+        "2": "Search engines rank HTTPS websites higher",
+        "3": "Attackers cannot tamper with traffic sent with HTTPS",
+        "4": "All of the above"
+      }
+    }
+  ]
+}

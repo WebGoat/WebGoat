@@ -1,0 +1,19 @@
+= Sending HTTP request via external tools
+
+In previous examples, you utilized HTML forms and browser JavaScript to send HTTP requests. Sometimes, attackers need to
+send HTTP requests with external tools rather than relying on functionality built into the website.
+
+== Examples of external tools
+* The https://curl.se/docs/manpage.html[curl] command
+* Python https://docs.python-requests.org/en/latest/index.html[requests] module
+* An HTTP Attack Proxy like Burp or Zap
+
+== The assignment
+
+Send an HTTP request to the endpoint `/WebGoat/HttpBasics/external` with the following:
+
+* A user agent of `Attacker`
+* A request method of `PUT`
+* A content type of `application/json`
+* The body `{"external": true}`
+* *Ensure you include the `JSESSIONID` header from your browser*
