@@ -7,26 +7,26 @@ package org.owasp.webgoat.lessons.jwt.claimmisuse;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
-import com.auth0.jwk.JwkException;
-import com.auth0.jwk.JwkProviderBuilder;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.interfaces.RSAPublicKey;
+
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/JWT/")
+import com.auth0.jwk.JwkException;
+import com.auth0.jwk.JwkProviderBuilder;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
 @RestController
 @AssignmentHints({
   "jwt-jku-hint1",
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class JWTHeaderJKUEndpoint implements AssignmentEndpoint {
 
-  @PostMapping("jku/follow/{user}")
+  @PostMapping("/JWT/jku/follow/{user}")
   public @ResponseBody String follow(@PathVariable("user") String user) {
     if ("Jerry".equals(user)) {
       return "Following yourself seems redundant";
@@ -46,7 +46,7 @@ public class JWTHeaderJKUEndpoint implements AssignmentEndpoint {
     }
   }
 
-  @PostMapping("jku/delete")
+  @PostMapping("/JWT/jku/delete")
   public @ResponseBody AttackResult resetVotes(@RequestParam("token") String token) {
     if (StringUtils.isEmpty(token)) {
       return failed(this).feedback("jwt-invalid-token").build();
