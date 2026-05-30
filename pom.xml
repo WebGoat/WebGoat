@@ -653,6 +653,43 @@
 
   <profiles>
     <profile>
+      <!-- run with: mvn clean -Pcleanall
+           Removes the runtime data directories (HSQLDB database + uploaded
+           files) that WebGoat leaves behind:
+             - ${user.home}/.webgoat-<version>      created by local runs
+             - ${java.io.tmpdir}/webgoat_<port>     created by integration tests
+           Stale data in the latter (e.g. assignments from older lesson
+           versions) can break the integration tests, so wiping it gives a
+           clean slate. Note this also discards saved lesson progress, which is
+           why it is not enabled by default. -->
+      <id>cleanall</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-clean-plugin</artifactId>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <directory>${user.home}/.webgoat-${project.version}</directory>
+                </fileset>
+                <fileset>
+                  <directory>${java.io.tmpdir}</directory>
+                  <includes>
+                    <include>webgoat_*/**</include>
+                    <include>webgoat_*</include>
+                  </includes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>local-server</id>
     </profile>
     <profile>
