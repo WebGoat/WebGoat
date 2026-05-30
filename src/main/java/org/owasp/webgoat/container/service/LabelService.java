@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +34,8 @@ public class LabelService {
     var allProperties = new Properties();
     allProperties.putAll(messages.getMessages());
     allProperties.putAll(pluginMessages.getMessages());
-    return new ResponseEntity<>(allProperties, HttpStatus.OK);
+    return ResponseEntity.ok()
+        .cacheControl(CacheControl.noStore())
+        .body(allProperties);
   }
 }
