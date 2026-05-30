@@ -1,3 +1,5 @@
+=== Intercepting and modifying requests with ZAP
+
 ==== Configure a breakpoint filter
 
 Before we start diving into intercepting requests with ZAP, we need to exclude the internal requests from the WebGoat
