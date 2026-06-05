@@ -99,12 +99,19 @@ jobs:
         continue-on-error: true
 
   quality-gate:
-    name: Quality gate
+    name: Quality Gate
     runs-on: ubuntu-latest
     needs: [sast-semgrep, sast-sonarcloud, sca-snyk, dast-zap]
     steps:
       - name: Check SonarCloud Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          echo "Checking SonarCloud Quality Gate..."
+          STATUS=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: \
+            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=mehatecodethings_WebGoat" \
+            | python3 -c "import sys,json; print(json.load(sys.stdin)['projectStatus']['status'])")
+          echo "Quality Gate Status: $STATUS"
+          if [ "$STATUS" != "OK" ]; then
+            echo "Quality Gate FAILED with status: $STATUS"
+            exit 1
+          fi
+          echo "Quality Gate PASSED"
