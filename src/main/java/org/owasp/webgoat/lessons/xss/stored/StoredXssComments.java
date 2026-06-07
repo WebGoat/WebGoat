@@ -8,6 +8,8 @@ import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.springframework.http.MediaType.ALL_VALUE;
 
+import org.springframework.web.util.HtmlUtils;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import java.io.IOException;
@@ -79,6 +81,7 @@ public class StoredXssComments implements AssignmentEndpoint {
     List<Comment> comments = userComments.getOrDefault(username, new ArrayList<>());
     comment.setDateTime(LocalDateTime.now().format(fmt));
     comment.setUser(username);
+    comment.setText(HtmlUtils.htmlEscape(comment.getText()));
 
     comments.add(comment);
     userComments.put(username, comments);
