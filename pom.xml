@@ -96,7 +96,7 @@
     <spotless-maven-plugin.version>3.6.0</spotless-maven-plugin.version>
     <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
     <waittimeForServerStart>60</waittimeForServerStart>
-    <webdriver.version>6.3.2</webdriver.version>
+    <webdriver.version>6.3.4</webdriver.version>
     <webgoat.context>/WebGoat</webgoat.context>
     <webgoat.port>8080</webgoat.port>
     <webgoat.sslenabled>false</webgoat.sslenabled>
