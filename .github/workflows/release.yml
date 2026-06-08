@@ -79,7 +79,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: "Build and push WebGoat"
-        uses: docker/build-push-action@v6.18.0
+        uses: docker/build-push-action@v7.2.0
         with:
           context: ./
           file: ./Dockerfile
@@ -92,7 +92,7 @@ jobs:
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
 
       - name: "Build and push WebGoat desktop"
-        uses: docker/build-push-action@v6.18.0
+        uses: docker/build-push-action@v7.2.0
         with:
           context: ./
           file: ./Dockerfile_desktop
@@ -123,7 +123,7 @@ jobs:
           mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}-SNAPSHOT versions:commit
 
       - name: Push the changes to new branch
-        uses: devops-infra/action-commit-push@v0.11.4
+        uses: devops-infra/action-commit-push@v1.3.3
         with:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
             add_timestamp: true
@@ -131,7 +131,7 @@ jobs:
             force: false
 
       - name: Create PR
-        uses: devops-infra/action-pull-request@v1.0.2
+        uses: devops-infra/action-pull-request@v1.2.1
         with:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
             title: ${{ github.event.commits[0].message }}
