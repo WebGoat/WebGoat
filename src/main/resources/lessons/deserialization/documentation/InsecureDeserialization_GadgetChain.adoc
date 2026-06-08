@@ -1,5 +1,7 @@
-== What is a Gadgets Chain
+== What is a Gadget Chain?
 
-It is weird (but it could happen) to find a gadget that runs dangerous actions itself when is deserialized. However, it is much easier to find a gadget that runs action on other gadget when it is deserialized, and that second gadget runs more actions on a third gadget, and so on until a real dangerous action is triggered. That set of gadgets that can be used in a deserialization process to achieve dangerous actions is called "Gadget Chain".
+It is rare, but possible to find a gadget that performs a dangerous action immediately when deserialized. It is
+much more likely that researchers discover gadgets that require pairing with one or more additional gadgets in order to
+perform a malicious action. This sequence of interconnected gadgets that ultimately leads to a dangerous outcome is known as a gadget chain.
 
-Finding gadgets to build gadget chains is an active topic for security researchers. This kind of research usually requires to spend a big amount of time reading code.
+Identifying gadgets and assembling gadget chains is an active area of research in software security. It typically requires extensive time spent reading and analyzing code.
