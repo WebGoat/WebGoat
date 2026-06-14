@@ -7,15 +7,9 @@ package org.owasp.webgoat.lessons.jwt.claimmisuse;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwsHeader;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SigningKeyResolverAdapter;
-import io.jsonwebtoken.impl.TextCodec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
@@ -23,10 +17,17 @@ import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SigningKeyResolverAdapter;
+import io.jsonwebtoken.impl.TextCodec;
 
 @RestController
 @AssignmentHints({
@@ -37,7 +38,6 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-kid-hint5",
   "jwt-kid-hint6"
 })
-@RequestMapping("/JWT/")
 public class JWTHeaderKIDEndpoint implements AssignmentEndpoint {
   private final LessonDataSource dataSource;
 
@@ -45,7 +45,7 @@ public class JWTHeaderKIDEndpoint implements AssignmentEndpoint {
     this.dataSource = dataSource;
   }
 
-  @PostMapping("kid/follow/{user}")
+  @PostMapping("/JWT/kid/follow/{user}")
   public @ResponseBody String follow(@PathVariable("user") String user) {
     if ("Jerry".equals(user)) {
       return "Following yourself seems redundant";
@@ -54,7 +54,7 @@ public class JWTHeaderKIDEndpoint implements AssignmentEndpoint {
     }
   }
 
-  @PostMapping("kid/delete")
+  @PostMapping("/JWT/kid/delete")
   public @ResponseBody AttackResult resetVotes(@RequestParam("token") String token) {
     if (StringUtils.isEmpty(token)) {
       return failed(this).feedback("jwt-invalid-token").build();
