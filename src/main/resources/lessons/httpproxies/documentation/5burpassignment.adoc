@@ -1,0 +1,10 @@
+=== Intercepting and modifying requests with Burp Suite
+
+Follow the instructions below to intercept, modify, and forward a request with Burp Suite.
+
+* Turn on Intercept
+* Click the `Submit` button below
+* Change the Method to GET
+* Add a header 'x-request-intercepted:true'
+* Remove the request body and instead send 'changeMe' as a query string parameter and set the value to 'Requests are tampered easily' (without the single quotes)
+* Forward the request
