@@ -32,7 +32,7 @@ function newToken() {
         },
         type: 'POST',
         url: 'JWT/refresh/newToken',
-        data: JSON.stringify({refreshToken: localStorage.getItem('refresh_token')})
+        data: JSON.stringify({refresh_token: localStorage.getItem('refresh_token')})
     }).success(
         function () {
             localStorage.setItem('access_token', apiToken);
