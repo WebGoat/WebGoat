@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints({"networkHint1", "networkHint2"})
 public class NetworkLesson implements AssignmentEndpoint {
 
-  @PostMapping(
-      value = "/ChromeDevTools/network",
+@PostMapping(
+      path = {"/ChromeDevTools/network", "/chromeDevTools/network"},
       params = {"network_num", "number"})
   @ResponseBody
   public AttackResult completed(@RequestParam String network_num, @RequestParam String number) {
@@ -36,8 +36,7 @@ public class NetworkLesson implements AssignmentEndpoint {
     }
   }
 
-  @PostMapping(path = "/ChromeDevTools/network", params = "networkNum")
-  @ResponseBody
+@PostMapping(path = {"/ChromeDevTools/network", "/chromeDevTools/network"}, params = "networkNum")  @ResponseBody
   public ResponseEntity<?> ok(@RequestParam String networkNum) {
     return ResponseEntity.ok().build();
   }
