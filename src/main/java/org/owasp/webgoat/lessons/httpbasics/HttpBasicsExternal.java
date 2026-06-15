@@ -38,7 +38,9 @@ public class HttpBasicsExternal implements AssignmentEndpoint {
     @PostMapping("/HttpBasics/externalcheck")
     @ResponseBody
     public AttackResult completed(@RequestParam String code) {
-        if (!code.isBlank() && lessonSession.getValue("external_http_secret").equals(code)) {
+        if (lessonSession.getValue("external_http_secret") == null) {
+            return failed(this).feedback("You need to send the right request to /HttpBasics/external to get the secret!").build();
+        }else if (!code.isBlank() && lessonSession.getValue("external_http_secret").equals(code)) {
             return success(this).build();
         } else {
             return failed(this).build();
