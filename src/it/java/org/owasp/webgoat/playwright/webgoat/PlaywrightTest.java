@@ -20,7 +20,7 @@ public class PlaywrightTest {
     @Override
     public Options getOptions() {
       return new Options()
-              .setHeadless(false)
+              .setHeadless(true)
               .setContextOptions(getContextOptions());
     }
   }
