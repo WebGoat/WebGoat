@@ -7,9 +7,39 @@ image::images/jwt_token.png[JWT]
 
 The token is base64 encoded and consists of three parts:
 
- - header
- - claims
- - signature
-
-Both header and claims consist are represented by a JSON object. The header describes the cryptographic operations applied to the JWT and optionally, additional properties of the JWT.
+Both header and claims are represented by a JSON object. The header describes the cryptographic operations applied to the JWT and optionally, additional properties of the JWT.
 The claims represent a JSON object whose members are the claims conveyed by the JWT.
+
+.*Header*
+[source,json]
+----
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+----
+This JWT is signed with the `HS256` algorithm according to the header.
+
+.*Claims*
+[source,json]
+----
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "admin": true,
+  "iat": 1516239022
+}
+----
+The claims field is used to store JSON data in the token. Users can use what ever data they want in this field. Common fields include `iat` for
+issue time and `exp` for expiration time. For a full list of special claims fields check out the
+https://datatracker.ietf.org/doc/html/rfc7519#section-4[JWT Standard's RFC].
+
+*Signature*
+
+
+The secret used to sign the JWT. In this example the `HS256` symmetric algorithm is being used. Meaning that the same
+key used to encrypt the JWT also verifys it.
+
+=== Additional reading
+If you want to learn more about the structure of a JWT check out the official JWT site's documentation
+https://auth0.com/docs/secure/tokens/json-web-tokens/json-web-token-structure[here].
