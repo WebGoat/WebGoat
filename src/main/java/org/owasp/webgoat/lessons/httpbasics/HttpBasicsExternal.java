@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@AssignmentHints({"http-basics.hints.http_basics_external.1"})
+@AssignmentHints({ "http-basics.hints.http_basics_external.1" })
 public class HttpBasicsExternal implements AssignmentEndpoint {
     private final LessonSession lessonSession;
     private final Random random;
@@ -39,8 +39,9 @@ public class HttpBasicsExternal implements AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String code) {
         if (lessonSession.getValue("external_http_secret") == null) {
-            return failed(this).feedback("You need to send the right request to /HttpBasics/external to get the secret!").build();
-        }else if (!code.isBlank() && lessonSession.getValue("external_http_secret").equals(code)) {
+            return failed(this)
+                    .feedback("You need to send the right request to /HttpBasics/external to get the secret!").build();
+        } else if (!code.isBlank() && lessonSession.getValue("external_http_secret").equals(code)) {
             return success(this).build();
         } else {
             return failed(this).build();
@@ -49,18 +50,26 @@ public class HttpBasicsExternal implements AssignmentEndpoint {
 
     @PutMapping("/HttpBasics/external")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> getSecretCode(@RequestBody Map<String, Object> body, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> getSecretCode(@RequestBody Map<String, Object> body,
+            HttpServletRequest request) {
         var secret = Integer.toHexString(random.nextInt());
         lessonSession.setValue("external_http_secret", secret);
-        if (request.getHeader("User-Agent").equalsIgnoreCase("Attacker") &&
+        if (
+                request.getHeader("User-Agent") != null &&
+                request.getHeader("Content-Type") != null &&
+                body != null &&
+                !body.isEmpty() &&
+                request.getHeader("User-Agent").equalsIgnoreCase("attacker") &&
                 request.getHeader("Content-Type").equalsIgnoreCase("application/json") &&
                 body.containsKey("external") &&
                 body.get("external") instanceof Boolean &&
-                (boolean) body.get("external") == true)
+                (boolean) body.get("external"))
             return ResponseEntity
-                .ok()
-                .body(Map.of("secret_code", secret));
-        else return ResponseEntity.badRequest().body(Map.of("error","Double check your request and make sure it matches the assignment's requirements"));
+                    .ok()
+                    .body(Map.of("secret_code", secret));
+        else
+            return ResponseEntity.badRequest().body(Map.of("error",
+                    "Double check your request and make sure it matches the assignment's requirements"));
 
     }
 }
