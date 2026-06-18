@@ -19,7 +19,7 @@
       }
     },
     {
-      "text": "What HTTP request method is commonly used to retrive data from a server?",
+      "text": "What HTTP request method is commonly used to retrieve data from a server?",
       "solutions": {
         "1": "GET",
         "2": "POST",
