@@ -17,3 +17,5 @@ Send an HTTP request to the endpoint `/WebGoat/HttpBasics/external` with the fol
 * A content type of `application/json`
 * The body `{"external": true}`
 * *Ensure you include the `JSESSIONID` header from your browser*
+
+*Enter the secret code returned by the endpoint above in the box below to solve this lesson.*
