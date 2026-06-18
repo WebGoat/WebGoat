@@ -2,25 +2,115 @@
 
 == Concept
 
-This lesson presents the basics for understanding the transfer of data between the browser and the web application and how to trap a request/response with a HTTP proxy.
+This lesson presents the basics for understanding the transfer of data between the browser and a web application and
+what you can change when you trap a request with an HTTP attack proxy. In order to attack and defend the web, one must first understand the
+protocols behind the web.
 
-== Goals
+=== What is HTTP
 
-The user should become familiar with the features of WebGoat by manipulating the above
-buttons to view hints, show the HTTP request parameters, the HTTP request cookies, and the Java source code. You can use the default Developer Tools in your browser to view the HTTP request and response.
+HTTP or the Hyper Text Transfer Protocol is a https://www.geeksforgeeks.org/computer-networks/open-systems-interconnection-model-osi/[layer 7 protocol] used by the browser and web servers to send and receive data. This data is commonly sent
+in the form of HTML files used to render websites. By default HTTP is a stateless protocol, meaning the server does not remember
+anything about the client between requests. Through cookies, HTTP can store information like session data and
+preferences across multiple requests.
 
-=== How HTTP works:
+=== Anatomy of an HTTP request
 
-All HTTP transactions follow the same general format. Each client request and server response has three parts: the request or response line, a header section and the entity body.
+All HTTP requests start by the client sending a request to the server, the server processing the request, and the
+responding to the client.
 
-The client initiates a transaction as follows:
+A request contains three main parts. Observe the example below of a client sending a request, and see if you can find them:
 
-* The client contacts the server and sends a document request.  A GET request can have url parameters and those parameters will be available in the web access logs.
+[source,http]
+----
+POST /submit HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:145.0)
+Content-Type: application/json
+Cookie: session_id=abc123xyz;
+Accept: text/html,application/json
+Connection: keep-alive
 
-** GET /index.html?param=value HTTP/1.0
+{"submit":true}
+----
 
-* Next, the client sends optional header information to inform the server of its configuration and the document formats it will accept.
+The first line contains the request method, location, query parameters (represented as `?param=value`), and the protocol version. Subsequent lines down known as *headers* contain
+additional metadata telling the server and client how to communicate, what formats to use, what to cache and much more.
+Headers are stored in the following format: `Header: Value`. After headers, there is a new line marking the beginning of
+the request body. The request body contains actual data being sent, examples of request body include HTML files, JSON
+data and images. A request body is optional, it appears most commonly in `POST`, requests, but is a legal field in every
+request type besides `GET`.
 
-** User-Agent: Mozilla/4.06 Accept: image/gif,image/jpeg, */*
+[cols="2*", options="header"]
+.Example HTTP request
+|===
+|Request Line |Job
+|`POST /submit HTTP/1.1`
+|`POST` is the HTTP request method. There are `9` HTTP request methods defined in the standard. Click
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods[here] for information on the HTTP methods.
+`/submit` is the endpoint location, commonly used to tell the server which file to retrieve. In this example and in modern
+servers a file extension is omitted.
+`HTTP/1.1` tells the server which version of the HTTP protocol it is using.
+|`Host: example.com`
+| The host header specifies the domain name and port number of the destination of the request.
+|`User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0`
+| The User-Agent header sends information about the client to the server.
+|`Content-Type: application/json`
+| The Content-Type header tells the server what type of data the client is sending.
+|`Cookie: session_id=abc123xyz;`
+| As mentioned earlier HTTP is a stateless protocol by default. The cookie header is used to store state across requests.
+| `Accept: text/html,application/json`
+| The accept header tells the server what formats the client wants back as a response.
+| BLANK
+| A request's body always starts after a blank line.
+| `{"submit": true}`
+| The request's body is a JSON object.
+|===
 
-* In a POST request, the user supplied data will follow the optional headers and is not part of the contained within the POST URL.
+=== Anatomy of an HTTP response
+
+Below is the response from the given HTTP request.
+
+[source,http]
+----
+HTTP/1.1 200
+Content-Type: application/json
+Date: Thu, 09 Apr 2026 20:01:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=60
+Set-Cookie: session_id=new_id;
+Content-Length: 39
+
+{"message": "Successfully submitted"}
+----
+
+HTTP responses follow a similar format to HTTP requests. Like an HTTP request, the first line contains the HTTP
+protocol version, but unlike requests, responses have a status code. Status codes are three-digit numbers used as a standard to tell the client
+how the server handled the request. You are likely already familiar with some HTTP status codes, like `404`, which means
+the server did not find what the client was requesting. For more information on status codes along with a list of codes
+and their meanings, check out this https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status[helpful reference guide from Mozilla].
+
+After the status line, the rest of the response follows the same structure as a request: headers come next, followed by a blank line,
+and then the optional message body.
+
+
+[cols="2*", options="header"]
+.Example HTTP response
+|===
+|Response Line |Job
+|`HTTP/1.1 200`
+| The HTTP protocol version (HTTP 1.1) followed by the status code.
+|`Content-Type: application/json`
+| The Content-Type header tells the client what type of data the server is sending.
+|`Date: Thu, 09 Apr 2026 20:01:34 GMT`
+| The date header tells the client when the server received the request. This header is almost completely exclusive to responses.
+| `Connection: keep-alive`
+| Tells the client that the server wants to reuse the same TCP connection.
+| `Keep-Alive: timeout=60`
+| Says the TCP connection should stay open for 60 seconds before being closed.
+| `Set-Cookie: session_id=new_id;`
+| Sets the client's session_id cookie to a new value.
+| BLANK
+| A response's body always starts after a blank line.
+| `{"message": "Successfully submitted"}`
+| The response's body is a JSON object.
+|===
