@@ -13,10 +13,12 @@ import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Category;
 import org.owasp.webgoat.container.lessons.Lesson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest
+// This slice replaces the datasource with a fresh embedded database (no Flyway), so let Hibernate
+// build the schema. Production/full-context tests keep ddl-auto=none and rely on Flyway.
+@DataJpaTest(properties = "spring.jpa.hibernate.ddl-auto=create-drop")
 @ActiveProfiles("webgoat-test")
 class UserProgressRepositoryTest {
 

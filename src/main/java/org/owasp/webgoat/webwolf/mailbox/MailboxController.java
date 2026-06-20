@@ -4,6 +4,7 @@
  */
 package org.owasp.webgoat.webwolf.mailbox;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,9 @@ public class MailboxController {
   @PostMapping("/mail")
   @ResponseStatus(HttpStatus.CREATED)
   public void sendEmail(@RequestBody Email email) {
+    // time is @JsonIgnore (server-controlled). Stamp the receipt time here: Spring Boot 4 / Jackson
+    // 3 deserializes via the all-args constructor, which bypasses the field's default initializer.
+    email.setTime(LocalDateTime.now());
     mailboxRepository.save(email);
   }
 

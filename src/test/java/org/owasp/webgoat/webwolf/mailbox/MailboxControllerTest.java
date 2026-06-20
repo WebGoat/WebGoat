@@ -24,7 +24,7 @@ import org.mockito.Mockito;
 import org.owasp.webgoat.webwolf.WebSecurityConfig;
 import org.owasp.webgoat.webwolf.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -41,7 +41,11 @@ public class MailboxControllerTest {
 
   @MockitoBean private ClientRegistrationRepository clientRegistrationRepository;
   @MockitoBean private UserService userService;
-  @Autowired private ObjectMapper objectMapper;
+
+  // Spring Boot 4's auto-configured mapper is Jackson 3; this test drives the Jackson 2
+  // ObjectMapper directly to build the request body, so instantiate it here. Register modules so
+  // java.time types (Email#getTimestamp) serialize.
+  private final ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
 
   @JsonIgnoreProperties("time")
   public static class EmailMixIn {}
