@@ -10,4 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MailboxRepository extends JpaRepository<Email, String> {
 
   List<Email> findByRecipientOrderByTimeDesc(String recipient);
+
+  int countByRecipientAndReadFalse(String recipient);
 }

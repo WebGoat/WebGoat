@@ -2,13 +2,16 @@
 
 WebGoat offers a mail client containing the e-mail sent during a lesson.
 You can open it with the envelope (mailbox) button in the top right corner,
-next to the language selector. The mailbox opens in a new browser tab.
+next to the language selector. The mailbox opens in a separate window and the button
+shows a badge with the number of unread e-mails.
 This mailbox is user-specific, so each user has a separate mailbox. All e-mail
 sent to {user}@.... will end up in this inbox.
 
 {nbsp}
 {nbsp}
 {nbsp}
+
+image::images/menuheader.png[caption="Figure: ", style="lesson-image"]
 
 image::images/mailbox.png[caption="Figure: ", style="lesson-image"]
 

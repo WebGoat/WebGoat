@@ -38,6 +38,14 @@ public class Email implements Serializable {
   private String title;
   private String recipient;
 
+  // Tracks whether the recipient has opened the mailbox since this mail arrived. "read" is a
+  // reserved word in some databases, so the column is named read_flag. Used to show the number of
+  // unread messages on the mailbox button. Server-controlled, so it is ignored on the incoming JSON
+  // (a lesson delivering mail never sets it).
+  @JsonIgnore
+  @Column(name = "read_flag")
+  private boolean read;
+
   public String getSummary() {
     return "-" + this.contents.substring(0, Math.min(50, contents.length()));
   }
