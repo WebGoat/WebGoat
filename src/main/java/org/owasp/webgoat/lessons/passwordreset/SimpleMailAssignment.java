@@ -25,13 +25,13 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class SimpleMailAssignment implements AssignmentEndpoint {
-  private final String webWolfURL;
+  private final String mailURL;
   private RestTemplate restTemplate;
 
   public SimpleMailAssignment(
-      RestTemplate restTemplate, @Value("${webwolf.mail.url}") String webWolfURL) {
+      RestTemplate restTemplate, @Value("${webgoat.mail.url}") String mailURL) {
     this.restTemplate = restTemplate;
-    this.webWolfURL = webWolfURL;
+    this.mailURL = mailURL;
   }
 
   @PostMapping(
@@ -80,7 +80,7 @@ public class SimpleMailAssignment implements AssignmentEndpoint {
               .sender("webgoat@owasp.org")
               .build();
       try {
-        restTemplate.postForEntity(webWolfURL, mailEvent, Object.class);
+        restTemplate.postForEntity(mailURL, mailEvent, Object.class);
       } catch (RestClientException e) {
         return informationMessage(this)
             .feedback("password-reset-simple.email_failed")

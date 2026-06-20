@@ -34,19 +34,19 @@ public class ResetLinkAssignmentForgotPassword implements AssignmentEndpoint {
   private final String webWolfHost;
   private final String webWolfPort;
   private final String webWolfURL;
-  private final String webWolfMailURL;
+  private final String mailURL;
 
   public ResetLinkAssignmentForgotPassword(
       RestTemplate restTemplate,
       @Value("${webwolf.host}") String webWolfHost,
       @Value("${webwolf.port}") String webWolfPort,
       @Value("${webwolf.url}") String webWolfURL,
-      @Value("${webwolf.mail.url}") String webWolfMailURL) {
+      @Value("${webgoat.mail.url}") String mailURL) {
     this.restTemplate = restTemplate;
     this.webWolfHost = webWolfHost;
     this.webWolfPort = webWolfPort;
     this.webWolfURL = webWolfURL;
-    this.webWolfMailURL = webWolfMailURL;
+    this.mailURL = mailURL;
   }
 
   @Nullable
@@ -92,7 +92,7 @@ public class ResetLinkAssignmentForgotPassword implements AssignmentEndpoint {
             .sender("password-reset@webgoat-cloud.net")
             .recipient(username)
             .build();
-    this.restTemplate.postForEntity(webWolfMailURL, mail, Object.class);
+    this.restTemplate.postForEntity(mailURL, mail, Object.class);
   }
 
   private void fakeClickingLinkEmail(String webWolfURL, String resetLink) {

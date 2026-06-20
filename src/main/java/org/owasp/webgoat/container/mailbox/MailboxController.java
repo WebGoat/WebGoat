@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
-package org.owasp.webgoat.webwolf.mailbox;
+package org.owasp.webgoat.container.mailbox;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Mailbox used throughout the lessons. It lives in WebGoat (not WebWolf) so the mail a lesson sends
+ * is shown in the same look and feel as the rest of WebGoat, reachable through the mailbox button in
+ * the top navigation bar.
+ */
 @RestController
 @RequiredArgsConstructor
 public class MailboxController {

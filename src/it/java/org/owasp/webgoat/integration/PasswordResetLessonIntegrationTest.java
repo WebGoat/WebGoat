@@ -27,7 +27,7 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   @TestFactory
   Iterable<DynamicTest> passwordResetLesson() {
     return Arrays.asList(
-        dynamicTest("assignment 6 - check email link", () -> sendEmailShouldBeAvailableInWebWolf()),
+        dynamicTest("assignment 6 - check email link", () -> sendEmailShouldBeAvailableInMailbox()),
         dynamicTest("assignment 6 - solve assignment", () -> solveAssignment(false)),
         dynamicTest("assignment 6 - solve assignmen with localhost", () -> solveAssignment(true)),
         dynamicTest("assignment 2 - simple reset", () -> assignment2()),
@@ -82,20 +82,10 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
         true);
   }
 
-  public void sendEmailShouldBeAvailableInWebWolf() {
+  public void sendEmailShouldBeAvailableInMailbox() {
     clickForgotEmailLink(this.getUser() + "@webgoat.org",false);
 
-    var responseBody =
-        RestAssured.given()
-            .when()
-            .relaxedHTTPSValidation()
-            .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrlConfig.url("mail"))
-            .then()
-            .extract()
-            .response()
-            .getBody()
-            .asString();
+    var responseBody = readMailbox();
 
     Assertions.assertThat(responseBody).contains("Hi, you requested a password reset link");
   }

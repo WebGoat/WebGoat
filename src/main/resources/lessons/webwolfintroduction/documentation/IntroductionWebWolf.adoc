@@ -21,5 +21,7 @@ was no clear distinction between what was part of the "attackers" role and what 
 website. WebWolf supports the following functionality:
 
 * Hosting a file
-* Receiving email
 * Landing page for incoming requests
+
+The e-mail sent during the lessons is delivered to your mailbox in WebGoat itself. You can open it
+with the envelope (mailbox) button in the top right corner of WebGoat, next to the language selector.

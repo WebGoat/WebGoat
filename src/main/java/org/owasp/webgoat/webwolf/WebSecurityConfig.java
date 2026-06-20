@@ -41,7 +41,7 @@ public class WebSecurityConfig {
                       "/landing/**",
                       "/PasswordReset/**")
                   .permitAll();
-              auth.requestMatchers(HttpMethod.POST, "/files", "/mail", "/requests").permitAll();
+              auth.requestMatchers(HttpMethod.POST, "/files", "/requests").permitAll();
               auth.anyRequest().authenticated();
             })
         .csrf(csrf -> csrf.disable())

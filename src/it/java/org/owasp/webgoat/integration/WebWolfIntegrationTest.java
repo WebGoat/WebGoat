@@ -22,17 +22,7 @@ public class WebWolfIntegrationTest extends IntegrationTest {
     params.put("email", this.getUser() + "@webgoat.org");
       checkAssignment(webGoatUrlConfig.url("WebWolf/mail/send"), params, false);
 
-    String responseBody =
-        RestAssured.given()
-            .when()
-            .relaxedHTTPSValidation()
-            .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrlConfig.url("mail"))
-            .then()
-            .extract()
-            .response()
-            .getBody()
-            .asString();
+    String responseBody = readMailbox();
 
     String uniqueCode = responseBody.replace("%20", " ");
     uniqueCode =
