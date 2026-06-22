@@ -1,29 +1,17 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2018 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.passwordreset;
 
-import jakarta.servlet.http.HttpServletRequest;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.UUID;
+
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,19 +24,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Part of the password reset assignment. Used to send the e-mail.
- *
- * @author nbaars
- * @since 8/20/17.
- */
+import io.micrometer.common.lang.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
-public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
+public class ResetLinkAssignmentForgotPassword implements AssignmentEndpoint {
 
   private final RestTemplate restTemplate;
-  private String webWolfHost;
-  private String webWolfPort;
-  private String webWolfURL;
+  private final String webWolfHost;
+  private final String webWolfPort;
+  private final String webWolfURL;
   private final String webWolfMailURL;
 
   public ResetLinkAssignmentForgotPassword(
@@ -64,17 +49,27 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
     this.webWolfMailURL = webWolfMailURL;
   }
 
+  @Nullable
+  private static String resolveDNSOrNull(String hostname){
+      try {
+          return InetAddress.getByName(hostname.split(":")[0]).getHostAddress();
+      } catch (UnknownHostException e) {
+          return null;
+      }
+  }
+
   @PostMapping("/PasswordReset/ForgotPassword/create-password-reset-link")
   @ResponseBody
   public AttackResult sendPasswordResetLink(
-      @RequestParam String email, HttpServletRequest request) {
+      @RequestParam String email, HttpServletRequest request, @CurrentUsername String username) {
     String resetLink = UUID.randomUUID().toString();
     ResetLinkAssignment.resetLinks.add(resetLink);
     String host = request.getHeader(HttpHeaders.HOST);
     if (ResetLinkAssignment.TOM_EMAIL.equals(email)
-        && (host.contains(webWolfPort)
-            && host.contains(webWolfHost))) { // User indeed changed the host header.
-      ResetLinkAssignment.userToTomResetLink.put(getWebSession().getUserName(), resetLink);
+        && (host.contains(webWolfPort) // We are also checking the DNS name in case the user enters a domain instead of
+                                       // an IP
+            && (host.contains(webWolfHost) || webWolfHost.equals(resolveDNSOrNull(host))))) { // User indeed changed the host header.
+      ResetLinkAssignment.userToTomResetLink.put(username, resetLink);
       fakeClickingLinkEmail(webWolfURL, resetLink);
     } else {
       try {

@@ -1,0 +1,38 @@
+=== Summary and key takeaways
+
+==== Mitigation strategies for open redirect vulnerabilities
+
+.Open Redirect Risk & Mitigation Matrix
+[cols="1,2,2", options="header"]
+|===
+|*Risk Factor* |*Recommended Mitigation* |*Security Impact*
+|OAuth code leak |• Exact redirect URI allow list +
+• No open redirect chain +
+• PKCE challenge verification |Prevents attackers from hijacking authorization codes and exchanging them for access/refresh tokens
+|Password reset token leak |• Consume & invalidate tokens *before* any navigation +
+• No user-driven "next" URL parameters |Stops attackers from capturing and reusing single-use credential reset links
+|Magic link exposure |• Same-origin + path allow list enforcement +
+• Server-side token-to-destination mapping |Protects passwordless authentication flows from token exfiltration and unauthorized account access
+|Signed URL theft |• Direct-serve signed resources (no redirects) +
+• Short TTL + restricted scopes +
+• Bound to user session where possible |Prevents unauthorized resource access, bandwidth theft, and abuse of pre-signed CDN/storage URLs
+|State/nonce disclosure |• Server-side binding to session +
+• No arbitrary external redirects +
+• CSRF token rotation on use |Preserves critical CSRF/replay protections in OAuth flows and prevents session fixation attacks
+|Referer-based leakage |• Implement `Referrer-Policy: strict-origin-when-cross-origin` +
+• Keep secrets out of query parameters |Eliminates passive data leakage via HTTP headers to third-party sites
+|Double-encoding confusion |• Full canonicalization before validation +
+• Reject semantically ambiguous inputs +
+• Consistent parsing across application tiers |Prevents bypass techniques that hide malicious characters through multiple encoding transformations
+|===
+
+==== Key takeaways
+
+* Open redirects *amplify* existing weaknesses; eliminate arbitrary destinations first.
+* Never trust what appears internal—parse, canonicalize, and strictly compare hosts.
+* Remove secrets from front-channel URLs; prefer back-channel or server session state.
+* Defense in depth: allow lists, referrer policies, token scoping, and canonicalization together reduce compounded risk.
+* Treat any redirect feature as an *attack surface*—instrument and log unexpected external attempts.
+
+[.text-center]
+*Eliminate arbitrary redirect destinations or strictly map identifiers to vetted internal routes.*

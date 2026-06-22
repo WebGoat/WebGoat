@@ -13,21 +13,12 @@ jobs:
     environment:
       name: release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Set up JDK
+        uses: ./.github/actions/java-setup
         with:
-          distribution: 'temurin'
-          java-version: 17
-          architecture: x64
-
-      - name: Cache Maven packages
-        uses: actions/cache@v3.3.1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          cache: 'maven'
 
       - name: "Set labels for ${{ github.ref }}"
         run: |
@@ -40,7 +31,7 @@ jobs:
           mvn --no-transfer-progress install -DskipTests
 
       - name: "Create release"
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           draft: false
           files: |
@@ -74,21 +65,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Set up QEMU"
-        uses: docker/setup-qemu-action@v2.2.0
+        uses: docker/setup-qemu-action@v4.1.0
         with:
           platforms: all
 
       - name: "Set up Docker Buildx"
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: "Login to dockerhub"
-        uses: docker/login-action@v3.0.0
+        uses: docker/login-action@v4.2.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: "Build and push WebGoat"
-        uses: docker/build-push-action@v5.1.0
+        uses: docker/build-push-action@v7.2.0
         with:
           context: ./
           file: ./Dockerfile
@@ -101,7 +92,7 @@ jobs:
             webgoat_version=${{ env.WEBGOAT_MAVEN_VERSION }}
 
       - name: "Build and push WebGoat desktop"
-        uses: docker/build-push-action@v5.1.0
+        uses: docker/build-push-action@v7.2.0
         with:
           context: ./
           file: ./Dockerfile_desktop
@@ -118,23 +109,21 @@ jobs:
     needs: [ release ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Set up JDK
+        uses: ./.github/actions/java-setup
         with:
-          distribution: 'temurin'
-          java-version: 17
-          architecture: x64
+          cache: ''
 
       - name: Set version to next snapshot
         run: |
           mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}-SNAPSHOT versions:commit
 
       - name: Push the changes to new branch
-        uses: devops-infra/action-commit-push@v0.9.2
+        uses: devops-infra/action-commit-push@v1.5.0
         with:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
             add_timestamp: true
@@ -142,7 +131,7 @@ jobs:
             force: false
 
       - name: Create PR
-        uses: devops-infra/action-pull-request@v0.5.5
+        uses: devops-infra/action-pull-request@v1.3.0
         with:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
             title: ${{ github.event.commits[0].message }}

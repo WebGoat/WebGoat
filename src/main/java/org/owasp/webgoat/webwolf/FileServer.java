@@ -1,25 +1,7 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.webwolf;
 
 import static java.util.Comparator.comparing;
@@ -28,6 +10,7 @@ import static org.springframework.http.MediaType.ALL_VALUE;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
 import java.time.ZonedDateTime;
@@ -81,13 +64,19 @@ public class FileServer {
 
   @PostMapping(value = "/fileupload")
   public ModelAndView importFile(
-      @RequestParam("file") MultipartFile myFile, Authentication authentication)
+      @RequestParam("file") MultipartFile multipartFile, Authentication authentication)
       throws IOException {
-    String username = authentication.getName();
+    var username = authentication.getName();
     var destinationDir = new File(fileLocation, username);
     destinationDir.mkdirs();
-    myFile.transferTo(new File(destinationDir, myFile.getOriginalFilename()));
-    log.debug("File saved to {}", new File(destinationDir, myFile.getOriginalFilename()));
+    // DO NOT use multipartFile.transferTo(), see
+    // https://stackoverflow.com/questions/60336929/java-nio-file-nosuchfileexception-when-file-transferto-is-called
+    try (InputStream is = multipartFile.getInputStream()) {
+      var destinationFile = destinationDir.toPath().resolve(multipartFile.getOriginalFilename());
+      Files.deleteIfExists(destinationFile);
+      Files.copy(is, destinationFile);
+    }
+    log.debug("File saved to {}", new File(destinationDir, multipartFile.getOriginalFilename()));
 
     return new ModelAndView(
         new RedirectView("files", true),

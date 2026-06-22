@@ -10,7 +10,7 @@ define(['jquery',
 		return Backbone.Collection.extend({
 			model: HintModel,
 			url:'service/hint.mvc',
-			initialize: function () {
+			initialize: function (options) {
 				var self = this;
 				this.fetch().then(function (data) {
 					this.models = data;

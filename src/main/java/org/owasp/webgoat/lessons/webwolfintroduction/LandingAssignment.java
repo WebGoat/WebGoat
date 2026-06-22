@@ -1,31 +1,14 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.webwolfintroduction;
 
-import jakarta.servlet.http.HttpServletRequest;
-import java.net.URI;
-import java.net.URISyntaxException;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+
 import org.apache.commons.lang3.StringUtils;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,32 +18,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * @author nbaars
- * @since 8/20/17.
- */
 @RestController
-public class LandingAssignment extends AssignmentEndpoint {
+public class LandingAssignment implements AssignmentEndpoint {
+  private final String landingPageUrl;
 
-  @Value("${webwolf.landingpage.url}")
-  private String landingPageUrl;
+  public LandingAssignment(@Value("${webwolf.landingpage.url}") String landingPageUrl) {
+    this.landingPageUrl = landingPageUrl;
+  }
 
   @PostMapping("/WebWolf/landing")
   @ResponseBody
-  public AttackResult click(String uniqueCode) {
-    if (StringUtils.reverse(getWebSession().getUserName()).equals(uniqueCode)) {
+  public AttackResult click(String uniqueCode, @CurrentUsername String username) {
+    if (StringUtils.reverse(username).equals(uniqueCode)) {
       return success(this).build();
     }
     return failed(this).feedback("webwolf.landing_wrong").build();
   }
 
   @GetMapping("/WebWolf/landing/password-reset")
-  public ModelAndView openPasswordReset(HttpServletRequest request) throws URISyntaxException {
-    URI uri = new URI(request.getRequestURL().toString());
+  public ModelAndView openPasswordReset(@CurrentUsername String username) {
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.addObject(
         "webwolfLandingPageUrl", landingPageUrl.replace("//landing", "/landing"));
-    modelAndView.addObject("uniqueCode", StringUtils.reverse(getWebSession().getUserName()));
+    modelAndView.addObject("uniqueCode", StringUtils.reverse(username));
 
     modelAndView.setViewName("lessons/webwolfintroduction/templates/webwolfPasswordReset.html");
     return modelAndView;

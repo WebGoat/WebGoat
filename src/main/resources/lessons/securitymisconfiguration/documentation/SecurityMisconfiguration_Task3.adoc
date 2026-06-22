@@ -1,0 +1,17 @@
+=== Exposed Actuator endpoints
+
+The operations team left the actuator endpoints wide open. Anyone on the internet can hit
+`/actuator/env` and `/actuator/health` without authentication, leaking internal secrets and
+status information.
+
+Steps:
+
+. Query the exposed endpoints using the buttons below.
+. Inspect the JSON response and locate the system API key.
+. Submit the leaked key to complete the task and note the remediation: lock down or
+  disable actuator endpoints, or protect them with authentication and network filters.
+
+If an attacker can reach these maintenance endpoints, they can pivot into sensitive
+configuration data or even trigger dangerous actions.
+
+Once misconfigured endpoints expose environment variables, tokens, or health data, an attacker can pivot into other APIs, replay leaked secrets, or gather intel for further compromise. Restrict actuator/admin consoles to trusted networks, enforce authentication, and disable sensitive endpoints in production.

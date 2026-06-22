@@ -1,4 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.challenges.challenge7;
+
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -23,13 +29,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * @author nbaars
- * @since 4/8/17.
- */
 @RestController
 @Slf4j
-public class Assignment7 extends AssignmentEndpoint {
+public class Assignment7 implements AssignmentEndpoint {
 
   public static final String ADMIN_PASSWORD_LINK = "375afe1104f4a487a73823c50a9292a2";
 

@@ -1,0 +1,88 @@
+== What is an open redirect?
+
+image::images/redirect-flow.svg[Open Redirect Flow,align=left]
+
+[subs=+quotes]
+____
+User --> *Trusted Site* (/redirect?url=...) --> HTTP 302 Location: attacker site --> User's browser now on malicious page.
+____
+
+An open redirect occurs when an application takes a user‑controllable value (query parameter, form field, fragment, path segment) and uses it to build a redirect response (typically HTTP 302/303/307) without *strong validation* of the final destination.
+
+=== Why it matters
+
+Even though an open redirect does **not** directly execute attacker code, it is a powerful *phishing multiplier* and *trust pivot*:
+
+* Users first see a legitimate domain, click a link, then get transparently forwarded to a malicious site.
+* OAuth / SSO and federated login flows sometimes leak authorization codes or tokens into a redirect URI the attacker controls if validation is weak.
+* Some security scanners and filters treat a redirect chain ending on a dangerous payload differently than a direct request, letting attackers bypass simplistic defenses.
+
+=== Typical parameter names
+
+Commonly abused parameter names you should watch for (case / separator variations included):
+
+[cols="1,3"]
+|===
+|Parameter | Rationale
+|`returnUrl`, `return`, `r` | Post‑login continuation or deep link
+|`next`, `nxt`, `continue` | After auth / purchase flow
+|`redirect`, `redirectUrl`, `redir` | Generic bounce endpoints
+|`dest`, `destination`, `target`, `to` | Marketing / tracking links
+|`go`, `url` | Short convenience parameters
+|`callback`, `cb` | OAuth / API style callback destinations
+|===
+
+=== Weak (insecure) validation patterns
+
+* Substring checks: `if (url.contains("mycorp"))` – allows `mycorp.attacker.com`.
+* Prefix checks on raw string only: `url.startsWith("https://portal.mycorp.com")` – bypass via userinfo: `https://portal.mycorp.com@evil.com`.
+* Single decode only before validation: double‑encoding hides dangerous characters until later.
+* Allowing protocol‑relative forms: `//evil.com` inherits current scheme.
+* Blindly appending paths: `"https://portal.mycorp.com" + userValue` – `userValue` beginning with `//evil.com` changes target in some user agents.
+
+=== Exploitation recipe (attacker mindset)
+
+. Discover a redirect parameter by browsing, proxy interception, or fuzzing.
+. Supply an absolute URL with a distinct host; observe if the server 302s there.
+. If blocked, iterate through bypass vectors:
+.. Add trusted substring inside a larger attacker host (`trusted.com.evil.net`).
+.. Inject userinfo section (`trusted.com@evil.net`).
+.. Double encode critical characters (`%2540` -> `%40` -> `@`).
+.. Try protocol‑relative `//evil.net/path`.
+.. Leverage case / trailing dot / Unicode homoglyph tricks (if normalization missing).
+. Chain or escalate: combine with open redirect in OAuth to steal codes, or build convincing phishing links.
+
+=== Real‑world impact scenarios
+
+* *Credential Harvesting*: Phishing email uses legitimate domain first: `https://bank.example/invite?returnUrl=https://bank.example.login-reset.attacker.site`.
+* *Token Leakage*: Misconfigured OAuth redirect URI `https://app.example/redirect?next=https://evil.site` can forward the authorization code if the intermediate page reflects it.
+* *Filter Evasion*: WAF rule whitelists first hop; chain to final exploit server.
+
+=== Safer design patterns
+
+* **Strict allow list**: Parse with a robust URI library, compare exact host + optional port to a set of constants.
+* **ID / token mapping**: Client sends `destId=3`; server maps to `/user/profile` internally—never lets raw external URLs through.
+* **Relative path only**: Reject all absolute URLs; accept only validated, canonicalized, normalized relative paths.
+* **Canonicalization**: Lowercase host, remove trailing dots, decode repeatedly in a *bounded* + defensive way before validating, then refuse if decoding alters classification.
+* **Context separation**: Don’t reflect the user-supplied URL verbatim in HTML/JS (prevents chained XSS/social engineering embellishments).
+
+=== Quick manual testing checklist
+
+[ ] Parameter accepts absolute URL?
+[ ] Host filtering logic? Substring / prefix / regex?
+[ ] Behavior with userinfo `@`?
+[ ] Behavior with double encoding `%252F`, `%2540`?
+[ ] Protocol‑relative accepted?
+[ ] Mixed case / trailing dot host accepted?
+[ ] Redirect code (301 vs 302 vs 307) consistent?
+[ ] Are query fragments preserved (possible open redirect + token leak)?
+
+=== How this lesson maps to reality
+
+* Task 1: Purely insecure – ANY external host works.
+* Task 2: Naive substring filter.
+* Task 3: Prefix check fails to verify parsed host.
+* Task 4: Single decode validation; second decode changes semantics.
+* Prevention page: Shows allow list + ID mapping principle.
+
+Carry these mental models forward; real attacks chain subtle normalization quirks with misleading UX to exploit user trust.

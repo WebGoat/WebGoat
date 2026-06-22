@@ -1,0 +1,17 @@
+== Bypass a naive substring filter
+
+A developer attempted a quick fix: reject any redirect unless the supplied URL contains the substring `webgoat`.
+
+This is NOT a proper allow list.
+
+Goal:
+
+* Craft a URL which contains the substring `webgoat` but whose real host is NOT one of the allowed hosts: `webgoat.local`, `webgoat.org`, `localhost`.
+
+Examples that should work:
+
+* `https://webgoat.org.evil.com`
+* `https://webgoat.local.attacker.net`
+* `https://webgoat.org@evil.com/path`
+
+On success you will see confirmation that the naive filter was bypassed.

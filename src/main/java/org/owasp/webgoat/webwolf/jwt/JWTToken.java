@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2020 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.webwolf.jwt;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -6,6 +10,7 @@ import static org.springframework.util.StringUtils.hasText;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import lombok.AllArgsConstructor;
@@ -13,13 +18,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jose4j.jwk.JsonWebKey;
+import org.jose4j.jwk.JsonWebKeySet;
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.jwx.CompactSerializer;
+import org.jose4j.jwx.JsonWebStructure;
 import org.jose4j.keys.HmacKey;
+import org.jose4j.keys.resolvers.VerificationKeyResolver;
 import org.jose4j.lang.JoseException;
+import org.jose4j.lang.UnresolvableKeyException;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +38,7 @@ import org.jose4j.lang.JoseException;
 @Builder(toBuilder = true)
 public class JWTToken {
 
-  private String encoded = "";
+  private String encoded;
   private String secretKey;
   private String header;
   private boolean validHeader;
@@ -38,8 +48,16 @@ public class JWTToken {
   private boolean signatureValid = true;
 
   public static JWTToken decode(String jwt, String secretKey) {
-    var token = parseToken(jwt.trim().replace(System.getProperty("line.separator"), ""));
-    return token.toBuilder().signatureValid(validateSignature(secretKey, jwt)).build();
+    return decode(jwt, secretKey, null);
+  }
+
+  public static JWTToken decode(String jwt, String secretKey, String jwksJson) {
+    var cleanedToken = jwt.trim().replace(System.getProperty("line.separator"), "");
+    var token = parseToken(cleanedToken);
+    return token
+        .toBuilder()
+        .signatureValid(validateSignature(secretKey, jwksJson, cleanedToken))
+        .build();
   }
 
   private static Map<String, Object> parse(String header) {
@@ -118,21 +136,60 @@ public class JWTToken {
     return builder.build();
   }
 
-  private static boolean validateSignature(String secretKey, String jwt) {
+  private static boolean validateSignature(String secretKey, String jwksJson, String jwt) {
     if (hasText(secretKey)) {
+      return validateWithSharedSecret(secretKey, jwt);
+    }
+    if (hasText(jwksJson)) {
+      return validateWithJwks(jwksJson, jwt);
+    }
+    return false;
+  }
+
+  private static boolean validateWithSharedSecret(String secretKey, String jwt) {
+    JwtConsumer jwtConsumer =
+        new JwtConsumerBuilder()
+            .setSkipAllValidators()
+            .setVerificationKey(new HmacKey(secretKey.getBytes(UTF_8)))
+            .setRelaxVerificationKeyValidation()
+            .build();
+    try {
+      jwtConsumer.processToClaims(jwt);
+      return true;
+    } catch (InvalidJwtException e) {
+      return false;
+    }
+  }
+
+  private static boolean validateWithJwks(String jwksJson, String jwt) {
+    try {
+      JsonWebKeySet jsonWebKeySet = new JsonWebKeySet(jwksJson);
+      VerificationKeyResolver resolver =
+          (JsonWebSignature jws, List<JsonWebStructure> nestingContext) -> {
+            String keyId = jws.getKeyIdHeaderValue();
+            if (hasText(keyId)) {
+              for (JsonWebKey jwk : jsonWebKeySet.getJsonWebKeys()) {
+                if (keyId.equals(jwk.getKeyId())) {
+                  return jwk.getKey();
+                }
+              }
+            }
+            if (!jsonWebKeySet.getJsonWebKeys().isEmpty()) {
+              return jsonWebKeySet.getJsonWebKeys().get(0).getKey();
+            }
+            throw new UnresolvableKeyException("No keys available in JWKS");
+          };
+
       JwtConsumer jwtConsumer =
           new JwtConsumerBuilder()
               .setSkipAllValidators()
-              .setVerificationKey(new HmacKey(secretKey.getBytes(UTF_8)))
+              .setVerificationKeyResolver(resolver)
               .setRelaxVerificationKeyValidation()
               .build();
-      try {
-        jwtConsumer.processToClaims(jwt);
-        return true;
-      } catch (InvalidJwtException e) {
-        return false;
-      }
+      jwtConsumer.processToClaims(jwt);
+      return true;
+    } catch (JoseException | InvalidJwtException e) {
+      return false;
     }
-    return false;
   }
 }

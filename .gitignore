@@ -39,7 +39,6 @@ UserDatabase.mv.db
 webgoat-container/src/main/webapp/users/guest.org.owasp.webgoat.plugin.*.props
 webgoat-container/src/main/webapp/plugin_lessons/dist-*.pom
 webgoat-lessons/**/target
-**/*.jar
 **/.DS_Store
 webgoat-server/mongo-data/*
 webgoat-lessons/vulnerable-components/dependency-reduced-pom.xml
@@ -57,3 +56,8 @@ TestClass.class
 /.gitconfig
 
 webgoat.gitconfig
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

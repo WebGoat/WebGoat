@@ -67,7 +67,7 @@
 
 		<form class="attack-form" accept-charset="UNKNOWN"
 			  method="POST" name="DOMFollowUp"
-			  action="CrossSiteScriptingStored/stored-xss-follow-up">
+			  th:action="@{/CrossSiteScriptingStored/stored-xss-follow-up}">
 			<input name="successMessage" value="" type="TEXT" />
 			<input name="submitMessage" value="Submit" type="SUBMIT"/>
 		</form>

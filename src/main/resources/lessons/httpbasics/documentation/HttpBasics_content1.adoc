@@ -4,5 +4,5 @@ input and display it back to the user, illustrating the basics of handling an HT
 
 == Try It!
 
-Enter your name in the input field below and press "Go!" to submit. The server will accept the request, reverse the input
-and display it back to the user, illustrating the basics of handling an HTTP request.
+Enter your name in the input field below and press "Go!" to submit. Use the Developer Tools to view the HTTP request and response.
+Can you see the response with the reversed username?

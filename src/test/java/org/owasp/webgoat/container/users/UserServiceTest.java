@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.users;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -18,7 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 class UserServiceTest {
 
   @Mock private UserRepository userRepository;
-  @Mock private UserTrackerRepository userTrackerRepository;
+  @Mock private UserProgressRepository userTrackerRepository;
   @Mock private JdbcTemplate jdbcTemplate;
   @Mock private Function<String, Flyway> flywayLessons;
 

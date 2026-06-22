@@ -1,25 +1,7 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2021 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2021 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.spoofcookie;
 
 import static org.hamcrest.Matchers.emptyString;
@@ -28,45 +10,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import jakarta.servlet.http.Cookie;
 import java.util.stream.Stream;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-/***
- *
- * @author Angel Olle Blazquez
- *
- */
+class SpoofCookieAssignmentTest extends LessonTest {
 
-@ExtendWith(MockitoExtension.class)
-class SpoofCookieAssignmentTest extends AssignmentEndpointTest {
-
-  private MockMvc mockMvc;
   private static final String COOKIE_NAME = "spoof_auth";
   private static final String LOGIN_CONTEXT_PATH = "/SpoofCookie/login";
   private static final String ERASE_COOKIE_CONTEXT_PATH = "/SpoofCookie/cleanup";
-
-  @BeforeEach
-  void setup() {
-    SpoofCookieAssignment spoofCookieAssignment = new SpoofCookieAssignment();
-    init(spoofCookieAssignment);
-    mockMvc = standaloneSetup(spoofCookieAssignment).build();
-  }
 
   @Test
   @DisplayName("Lesson completed")

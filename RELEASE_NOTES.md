@@ -1,5 +1,79 @@
 # WebGoat release notes
 
+## Version 2025.3
+
+### 🐞 Bug fixes
+
+- Changed URLs imply other exclusion filters for ZAP (#2052)
+- XSS lesson stage 12 (2 issues) (#1178)
+
+### 🔄 Technical tasks
+
+- bump docker/setup-qemu-action from 3.4.0 to 3.6.0 (#2049)
+- bump docker/build-push-action from 6.14.0 to 6.15.0 (#2050)
+
+## Version 2025.2
+
+### 🐞 Bug fixes
+
+- Fix SQL advanced lesson assignment 5 (#2047)
+
+## Version 2025.1
+
+### 🚀 New functionality
+
+- Introduce Playwright for UI testing
+- Refactoring of core code
+
+### 🐞 Bug fixes
+
+- Introduce assignment progress (#2043)
+- Add test case for multiple users solving lessons (#2043)
+- Register user while already logged in as other user. (#2042)
+- Small updates and improvements in HTTP Basic lesson (#2024)
+- Improve HTTP basics lesson
+- Solve compiler warnings
+- Cleanup attack result and builder
+- Format all code according to SPDX
+- Fixed one invalid solution about CSRF attack (#2010)
+- Reset a lesson no longer removes all assignments
+- Hint labels showing default text regardless of localization (#1965)
+- Automatically solve XSS mitigation (#1957)
+- Remove implicit context path guessing (#1956)
+- JWT kid/jku lessons (#1949)
+- Fix password reset lesson (#1941)
+- Fix passing command line arguments (#1933)
+- Use banners correctly
+- Show boolean operators priority on `where` (#1902)
+- Remove WebGoat session object (#1929)
+- Reset form and quiz color on reset lesson (#1903)
+- XSS lesson typo
+- Copying file using `transferTo` sometimes fails. (#1862)
+- Fix report card (#1845)
+- Success if only Smith earn most salary (#1744)
+- Update HttpBasics_plan.adoc - fix broken link to https://www.zaproxy.org/ (#1803)
+- Move CSRF to A3 (#1776)
+- Fix typo in SQLi blind case
+- Use $ instead of jQuery which is undefined (#1736)
+- Fix hidden links in MissingFunctionAC.html. (#1710)
+
+### 🔄 Technical tasks
+
+- Lots of dependency updates
+
+## Contributors
+
+Special thanks to the following contributors providing us with a pull request:
+
+- François Capon
+- GoogTech HackHuang
+- Peter Potrowl
+- cap-dev0x
+- Benjamin Mouncer
+- Jeong Rok Suh
+- Rui Melo
+- Vandeputte Brice
+
 ## Version 2023.8
 
 ### 🚀 New functionality
@@ -53,13 +127,17 @@
 - fix Java image inside Docker file The image now downloads the correct Java version based on the architecture.
 - Fix typo of HijackSession_content0.adoc
 - Restrict SSRF Regexes
-- update challenge code - Flags are now wired through a Spring config - Introduced Flag class - Removed Flags from the FlagController
+- update challenge code - Flags are now wired through a Spring config - Introduced Flag class - Removed Flags from the
+  FlagController
 
 ## Version 2023.4
 
 ### New functionality
 
-- [#1422 Add Docker Linux Desktop variant with all tools installed](https://github.com/WebGoat/WebGoat/issues/1422). Thanks to the [OWASP WrongSecrets project](https://owasp.org/www-project-wrongsecrets/) we now have a Docker Linux desktop image with all the tools installed. No need to install any tools locally only run the new Docker image. See README.md for details on how to start it.
+- [#1422 Add Docker Linux Desktop variant with all tools installed](https://github.com/WebGoat/WebGoat/issues/1422).
+  Thanks to the [OWASP WrongSecrets project](https://owasp.org/www-project-wrongsecrets/) we now have a Docker Linux
+  desktop image with all the tools installed. No need to install any tools locally only run the new Docker image. See
+  README.md for details on how to start it.
 - [#1411 JWT: looks that buy as Tom also works with alg:none](https://github.com/WebGoat/WebGoat/issues/1411).
 
 ### Bug fixes
@@ -70,31 +148,42 @@
 
 ## Version 2023.3
 
-With great pleasure, we present you with a new release of WebGoat **2023.3**. Finally, it has been a while. This year starts with a new release of WebGoat. This year we will undoubtedly release more often. From this release on, we began to use a new versioning scheme (https://calver.org/#scheme).
+With great pleasure, we present you with a new release of WebGoat **2023.3**. Finally, it has been a while. This year
+starts with a new release of WebGoat. This year we will undoubtedly release more often. From this release on, we began
+to use a new versioning scheme (https://calver.org/#scheme).
 
-A big thanks to René Zubcevic and Àngel Ollé Blázquez for keeping the project alive this last year, and hopefully, we can make
+A big thanks to René Zubcevic and Àngel Ollé Blázquez for keeping the project alive this last year, and hopefully, we
+can make
 many more releases this year.
 
 ### New functionality
 
 - New year's resolution(2022): major refactoring of WebGoat to simplify the setup and improve building times.
 - Move away from multi-project setup:
-  * This has a huge performance benefit when building the application. Build time locally is now `Total time:  42.469 s` (depends on your local machine of course)
+  * This has a huge performance benefit when building the application. Build time locally is now
+    `Total time:  42.469 s` (depends on your local machine of course)
   * No longer add Maven dependencies in several places
-  * H2 no longer needs to run as separate process, which solves the issue of WebWolf sharing and needing to configure the correct database connection.
+  * H2 no longer needs to run as separate process, which solves the issue of WebWolf sharing and needing to configure
+    the correct database connection.
 - More explicit paths in html files to reference `adoc` files, less magic.
-- Integrate WebWolf in WebGoat, the setup was way too complicated and needed configuration which could lead to mistakes and a not working application. This also simplifies the Docker configuration as there is only 1 Docker image.
+- Integrate WebWolf in WebGoat, the setup was way too complicated and needed configuration which could lead to mistakes
+  and a not working application. This also simplifies the Docker configuration as there is only 1 Docker image.
 - Add WebWolf button in WebGoat
 - Move all lessons into `src/main/resources`
-- WebGoat selects a port dynamically when starting. It will still start of port 8080 it will try another port to ease the user experience.
+- WebGoat selects a port dynamically when starting. It will still start of port 8080 it will try another port to ease
+  the user experience.
 - WebGoat logs URL after startup: `Please browse to http://127.0.0.1:8080/WebGoat to get started...`
 - Simplify `Dockerfile` as we no longer need a script to start everything
 - Maven build now start WebGoat jar with Maven plugin to make sure we run against the latest build.
-- Added `Initializable` interface for a lesson, an assignment can implement this interface to set it up for a specific user and to reset the assignment back to its original state when a reset lesson occurs. See `BlindSendFileAssignment` for an example.
-- Integration tests now use the same user. This saves a lot of time as before every test used a different user which triggered the Flyway migration to set up the database schema for the user. This migration took a lot of time.
+- Added `Initializable` interface for a lesson, an assignment can implement this interface to set it up for a specific
+  user and to reset the assignment back to its original state when a reset lesson occurs. See `BlindSendFileAssignment`
+  for an example.
+- Integration tests now use the same user. This saves a lot of time as before every test used a different user which
+  triggered the Flyway migration to set up the database schema for the user. This migration took a lot of time.
 - Updated introduction lesson to WebWolf.
 - Added language switch for support for multiple languages.
-- Removed logic to start WebGoat on a random port when port `8080` is taken. We would loop until we found a free port. We simplified this to just start on the specified port.
+- Removed logic to start WebGoat on a random port when port `8080` is taken. We would loop until we found a free port.
+  We simplified this to just start on the specified port.
 - Add Google formatter for all our code, a PR now checks whether the code adheres to the standard.
 - Renaming of all packages and folders.
 - [#1039 New OWASP Top 10](https://github.com/WebGoat/WebGoat/issues/1093)
@@ -178,14 +267,16 @@ Special thanks to the following contributors providing us with a pull request:
 
 - Added new lessons for cryptography and path-traversal
 - Extra content added to the XXE lesson
-- Explanation of the assignments will be part of WebGoat, in this release we added detailed descriptions on how to solve the XXE lesson. In the upcoming releases new explanations will be added. If you want to contribute please create a pull request on Github.
+- Explanation of the assignments will be part of WebGoat, in this release we added detailed descriptions on how to solve
+  the XXE lesson. In the upcoming releases new explanations will be added. If you want to contribute please create a
+  pull request on Github.
 - Docker improvements + docker stack for complete container with nginx
 - Included JWT token decoding and generation, since jwt.io does not support None anymore
 
 ### Bug fixes
 
 - [#743 - Character encoding errors](https://github.com/WebGoat/WebGoat/issues/743)
-- [#811 -  Flag submission fails](https://github.com/WebGoat/WebGoat/issues/811)
+- [#811 - Flag submission fails](https://github.com/WebGoat/WebGoat/issues/811)
 - [#810 - Scoreboard for challenges shows csrf users](https://github.com/WebGoat/WebGoat/issues/810)
 - [#788 - strange copy in constructor](https://github.com/WebGoat/WebGoat/issues/788)
 - [#760 - Execution of standalone jar fails (Flyway migration step](https://github.com/WebGoat/WebGoat/issues/760)
@@ -194,7 +285,7 @@ Special thanks to the following contributors providing us with a pull request:
 - [#719 - WebGoat: 'Contact Us' email link in header is not correctly set](https://github.com/WebGoat/WebGoat/issues/719)
 - [#715 - Reset lesson doesn't reset the "HTML lesson" => forms stay succesful](https://github.com/WebGoat/WebGoat/issues/715)
 - [#725 - Vulnerable Components lesson 12 broken due to too new dependency](https://github.com/WebGoat/WebGoat/issues/725)
-- [#716 -  On M26 @project.version@ is not "interpreted" #7](https://github.com/WebGoat/WebGoat/issues/716)
+- [#716 - On M26 @project.version@ is not "interpreted" #7](https://github.com/WebGoat/WebGoat/issues/716)
 - [#721 couldn't be able to run CSRF lesson 3: Receive Whitelabel Error Page](https://github.com/WebGoat/WebGoat/issues/721)
 - [#724 - Dead link in VulnerableComponents lesson 11](https://github.com/WebGoat/WebGoat/issues/724)
 

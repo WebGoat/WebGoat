@@ -1,31 +1,17 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2018 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.passwordreset;
 
 import static java.util.Optional.ofNullable;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,13 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * @author nbaars
- * @since 8/20/17.
- */
 @RestController
-public class SimpleMailAssignment extends AssignmentEndpoint {
-
+public class SimpleMailAssignment implements AssignmentEndpoint {
   private final String webWolfURL;
   private RestTemplate restTemplate;
 
@@ -57,12 +38,14 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
       path = "/PasswordReset/simple-mail",
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   @ResponseBody
-  public AttackResult login(@RequestParam String email, @RequestParam String password) {
+  public AttackResult login(
+      @RequestParam String email,
+      @RequestParam String password,
+      @CurrentUsername String webGoatUsername) {
     String emailAddress = ofNullable(email).orElse("unknown@webgoat.org");
     String username = extractUsername(emailAddress);
 
-    if (username.equals(getWebSession().getUserName())
-        && StringUtils.reverse(username).equals(password)) {
+    if (username.equals(webGoatUsername) && StringUtils.reverse(username).equals(password)) {
       return success(this).build();
     } else {
       return failed(this).feedbackArgs("password-reset-simple.password_incorrect").build();
@@ -73,9 +56,10 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
       value = "/PasswordReset/simple-mail/reset")
   @ResponseBody
-  public AttackResult resetPassword(@RequestParam String emailReset) {
+  public AttackResult resetPassword(
+      @RequestParam String emailReset, @CurrentUsername String username) {
     String email = ofNullable(emailReset).orElse("unknown@webgoat.org");
-    return sendEmail(extractUsername(email), email);
+    return sendEmail(extractUsername(email), email, username);
   }
 
   private String extractUsername(String email) {
@@ -83,8 +67,8 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
     return email.substring(0, index == -1 ? email.length() : index);
   }
 
-  private AttackResult sendEmail(String username, String email) {
-    if (username.equals(getWebSession().getUserName())) {
+  private AttackResult sendEmail(String username, String email, String webGoatUsername) {
+    if (username.equals(webGoatUsername)) {
       PasswordResetEmail mailEvent =
           PasswordResetEmail.builder()
               .recipient(username)

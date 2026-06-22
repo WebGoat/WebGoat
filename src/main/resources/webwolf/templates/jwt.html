@@ -52,13 +52,34 @@
             </div>
         </form>
 
-        <div class="input-group input-group-sm mb-3 mt-3">
+        <div class="mt-3">
+            <label class="form-label"><strong>Signature verification</strong></label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="verificationMode" id="verificationSecret" value="secret" checked>
+                <label class="form-check-label" for="verificationSecret">Shared secret (HMAC)</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="verificationMode" id="verificationJwks" value="jwks">
+                <label class="form-check-label" for="verificationJwks">JWKS (public keys)</label>
+            </div>
+        </div>
+
+        <div id="secretKeySection" class="input-group input-group-sm mb-3 mt-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">Secret key</span>
             <input type="text" class="form-control" id="secretKey" placeholder="Enter your secret key" aria-describedby="inputGroup-sizing-sm">
         </div>
 
-        <div class="input-group mt-2">
-            <h4 id="signatureValid">Invalid signature</h4>
+        <div id="jwksSection" class="mt-3 d-none">
+            <label for="jwks" class="form-label">JWKS JSON</label>
+            <textarea class="form-control" id="jwks" name="jwks" rows="6" style="font-family: monospace;" placeholder='{"keys":[...]}' spellcheck="false"></textarea>
+            <small class="text-muted">Paste the JWKS (public keys) used to verify RS/ES signed tokens.</small>
+        </div>
+
+        <div class="input-group mt-3">
+            <div class="spinner-border text-secondary me-2 d-none" id="signatureSpinner" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h4 id="signatureValid">Signature not validated</h4>
         </div>
 
 

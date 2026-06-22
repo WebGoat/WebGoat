@@ -20,7 +20,7 @@
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="SqlInjectionAdvanced/attack6a">
+              th:action="@{/SqlInjectionAdvanced/attack6a}">
             <table>
                 <tr>
                     <td>Name:</td>
@@ -33,7 +33,7 @@
         </form>
         <form class="attack-form" accept-charset="UNKNOWN"
               method="POST" name="form"
-              action="SqlInjectionAdvanced/attack6b">
+              th:action="@{/SqlInjectionAdvanced/attack6b}">
             <table>
                 <tr>
                     <td>Password:</td>
@@ -79,7 +79,7 @@
                                 <div class="col-lg-12">
                                     <form id="login-form" class="attack-form" accept-charset="UNKNOWN"
                                           method="POST" name="form"
-                                          action="SqlInjectionAdvanced/challenge_Login"
+                                          th:action="@{/SqlInjectionAdvanced/login}"
                                           role="form">
                                         <div class="form-group">
                                             <input type="text" name="username_login" id="username4" tabindex="1"
@@ -115,7 +115,7 @@
                                     </form>
                                     <form id="register-form" class="attack-form" accept-charset="UNKNOWN"
                                           method="PUT" name="form"
-                                          action="SqlInjectionAdvanced/challenge"
+                                          th:action="@{/SqlInjectionAdvanced/register}"
                                           style="display: none;" role="form">
                                         <div class="form-group">
                                             <input type="text" name="username_reg" id="username" tabindex="1"
@@ -168,7 +168,7 @@
             <div class="container-fluid">
                 <form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
                       method="POST" name="form"
-                      action="SqlInjectionAdvanced/quiz"
+                      th:action="@{/SqlInjectionAdvanced/quiz}"
                       role="form">
                     <div id="q_container"></div>
                     <br />

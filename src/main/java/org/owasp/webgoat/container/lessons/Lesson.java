@@ -1,27 +1,10 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2008 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.container.lessons;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,13 +13,10 @@ import lombok.Setter;
 @Setter
 public abstract class Lesson {
 
-  private static int count = 1;
-  private Integer id = null;
-  private List<Assignment> assignments;
+  private List<Assignment> assignments = new ArrayList<>();
 
-  /** Constructor for the Lesson object */
-  protected Lesson() {
-    id = ++count;
+  public void addAssignment(Assignment assignment) {
+    this.assignments.add(assignment);
   }
 
   /**
@@ -44,9 +24,9 @@ public abstract class Lesson {
    *
    * @return a {@link java.lang.String} object.
    */
-  public String getName() {
+  public LessonName getName() {
     String className = getClass().getName();
-    return className.substring(className.lastIndexOf('.') + 1);
+    return new LessonName(className.substring(className.lastIndexOf('.') + 1));
   }
 
   /**
@@ -116,6 +96,10 @@ public abstract class Lesson {
     return this.getClass().getSimpleName();
   }
 
+  /**
+   * This is used in Thymeleaf to construct the HTML to load the lesson content from. See
+   * lesson_content.html
+   */
   public final String getPackage() {
     var packageName = this.getClass().getPackageName();
     // package name is the direct package name below lessons (any subpackage will be removed)

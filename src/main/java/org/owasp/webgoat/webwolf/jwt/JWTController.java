@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2020 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.webwolf.jwt;
 
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
@@ -25,7 +29,8 @@ public class JWTController {
   public JWTToken decode(@RequestBody MultiValueMap<String, String> formData) {
     var jwt = formData.getFirst("token");
     var secretKey = formData.getFirst("secretKey");
-    return JWTToken.decode(jwt, secretKey);
+    var jwks = formData.getFirst("jwks");
+    return JWTToken.decode(jwt, secretKey, jwks);
   }
 
   @PostMapping(

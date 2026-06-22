@@ -1,28 +1,28 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.users;
 
 import java.util.List;
 import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import org.flywaydb.core.Flyway;
-import org.owasp.webgoat.container.lessons.Initializeable;
+import org.owasp.webgoat.container.lessons.Initializable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-/**
- * @author nbaars
- * @since 3/19/17.
- */
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
 
   private final UserRepository userRepository;
-  private final UserTrackerRepository userTrackerRepository;
+  private final UserProgressRepository userTrackerRepository;
   private final JdbcTemplate jdbcTemplate;
   private final Function<String, Flyway> flywayLessons;
-  private final List<Initializeable> lessonInitializables;
+  private final List<Initializable> lessonInitializables;
 
   @Override
   public WebGoatUser loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,6 +31,7 @@ public class UserService implements UserDetailsService {
       throw new UsernameNotFoundException("User not found");
     } else {
       webGoatUser.createUser();
+      // TODO maybe better to use an event to initialize lessons to keep dependencies low
       lessonInitializables.forEach(l -> l.initialize(webGoatUser));
     }
     return webGoatUser;
@@ -43,7 +44,7 @@ public class UserService implements UserDetailsService {
 
     if (!userAlreadyExists) {
       userTrackerRepository.save(
-          new UserTracker(username)); // if user previously existed it will not get another tracker
+          new UserProgress(username)); // if user previously existed it will not get another tracker
       createLessonsForUser(webGoatUser);
     }
   }
