@@ -1,6 +1,6 @@
 # Builder stage to download OWASP ZAP once per version
-FROM alpine:3.22 AS zap
-ARG ZAP_VERSION=2.16.1
+FROM alpine:3.24.1 AS zap
+ARG ZAP_VERSION=2.17.0
 RUN apk add --no-cache curl tar \
   && set -eux; \
      curl -sSL "https://github.com/zaproxy/zaproxy/releases/download/v${ZAP_VERSION}/ZAP_${ZAP_VERSION}_Linux.tar.gz" -o /tmp/zap.tgz; \
@@ -9,9 +9,9 @@ RUN apk add --no-cache curl tar \
      rm -f /tmp/zap.tgz
 
 # Builder stage to fetch a JRE suited for the target architecture
-FROM alpine:3.22 AS jre
-ARG JAVA_MAJOR=23
-ARG JAVA_FULL=23.0.1+11
+FROM alpine:3.24.1 AS jre
+ARG JAVA_MAJOR=25
+ARG JAVA_FULL=25.0.3.0
 ARG TARGETARCH
 RUN apk add --no-cache curl tar \
   && set -eux; \
@@ -22,19 +22,17 @@ RUN apk add --no-cache curl tar \
      esac; \
      JAVA_ENC="${JAVA_FULL//+/%2B}"; \
      JAVA_FILE="${JAVA_FULL//+/_}"; \
-     curl -sSL "https://github.com/adoptium/temurin${JAVA_MAJOR}-binaries/releases/download/jdk-${JAVA_ENC}/OpenJDK${JAVA_MAJOR}U-jre_${ARCH}_linux_hotspot_${JAVA_FILE}.tar.gz" -o /tmp/java.tgz; \
+     curl -sSL "https://github.com/AdoptOpenJDK/semeru${JAVA_MAJOR}-binaries/releases/download/jdk-${JAVA_ENC}/ibm-semeru-open-jre_${ARCH}_linux_${JAVA_ENC}.tar.gz" -o /tmp/java.tgz; \
      mkdir -p /jre; \
      tar -xzf /tmp/java.tgz -C /jre --strip-components=1; \
      rm -f /tmp/java.tgz
 
 # Final runtime image
-FROM lscr.io/linuxserver/webtop:ubuntu-xfce
+FROM lscr.io/linuxserver/webtop:ubuntu-kde
 LABEL name="WebGoat: A deliberately insecure Web Application"
 LABEL maintainer="WebGoat team"
 
-ARG ZAP_VERSION=2.16.1
-ARG JAVA_MAJOR=23
-ARG JAVA_FULL=23.0.1+11
+ARG ZAP_VERSION=2.17.0
 ENV ZAP_VERSION=${ZAP_VERSION} \
     JAVA_HOME=/config/java-jdk \
     PATH="${PATH}:/config/java-jdk/bin" \
