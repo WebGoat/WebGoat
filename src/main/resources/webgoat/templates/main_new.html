@@ -118,6 +118,14 @@
                 </ul>
             </div>
             </div>
+            <!-- mailbox menu item -->
+            <span style="position:relative;display:inline-block">
+                <button type="button" id="mailbox-button" class="btn btn-default right_nav_button"
+                        th:title="#{mailbox}" th:data-url="@{/mail}" th:data-count-url="@{/mail/count}">
+                    <i class="fa fa-envelope"></i>
+                </button>
+                <span id="mailbox-count" class="badge" style="display:none;position:absolute;top:-5px;right:-6px;background:#e84c3d;color:#fff;border-radius:10px;padding:2px 6px;font-size:11px;"></span>
+            </span>
             <!-- reportcard menu item -->
             <div style="display:inline" id="settings">
                 <!--<button type="button" id="admin-button" class="btn btn-default right_nav_button" title="Administrator">-->
@@ -223,6 +231,50 @@
         <div class="modal-content" th:replace="~{about :: about}"></div>
     </div>
 </div>
+
+<!-- Show the number of e-mails in the mailbox on the mailbox button -->
+<script type="text/javascript">
+    (function () {
+        var button = document.getElementById('mailbox-button');
+        var badge = document.getElementById('mailbox-count');
+        if (!button || !badge) {
+            return;
+        }
+        function refreshMailboxCount() {
+            fetch(button.getAttribute('data-count-url'), {credentials: 'same-origin'})
+                .then(function (response) { return response.ok ? response.json() : null; })
+                .then(function (data) {
+                    var count = data ? data.count : 0;
+                    if (count > 0) {
+                        badge.textContent = count > 99 ? '99+' : count;
+                        badge.style.display = 'inline-block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                })
+                .catch(function () { /* ignore, leave badge hidden */ });
+        }
+        // Open the mailbox in a separate popup window (reused on subsequent clicks).
+        button.addEventListener('click', function () {
+            var popup = window.open(
+                button.getAttribute('data-url'),
+                'webgoatMailbox',
+                'width=900,height=650,resizable=yes,scrollbars=yes');
+            if (popup) {
+                popup.focus();
+            }
+        });
+        refreshMailboxCount();
+        // Keep the count up to date while the user works on a lesson.
+        setInterval(refreshMailboxCount, 3000);
+        // Refresh immediately when the user returns to the WebGoat tab (e.g. after reading mail).
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden) {
+                refreshMailboxCount();
+            }
+        });
+    })();
+</script>
 </body>
 
 

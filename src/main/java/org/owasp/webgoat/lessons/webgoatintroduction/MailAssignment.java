@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
-package org.owasp.webgoat.lessons.webwolfintroduction;
+package org.owasp.webgoat.lessons.webgoatintroduction;
 
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
@@ -23,16 +23,16 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class MailAssignment implements AssignmentEndpoint {
 
-  private final String webWolfURL;
+  private final String mailURL;
   private RestTemplate restTemplate;
 
   public MailAssignment(
-      RestTemplate restTemplate, @Value("${webwolf.mail.url}") String webWolfURL) {
+      RestTemplate restTemplate, @Value("${webgoat.mail.url}") String mailURL) {
     this.restTemplate = restTemplate;
-    this.webWolfURL = webWolfURL;
+    this.mailURL = mailURL;
   }
 
-  @PostMapping("/WebWolf/mail/send")
+  @PostMapping("/WebGoat/mail/send")
   @ResponseBody
   public AttackResult sendEmail(
       @RequestParam String email, @CurrentUsername String webGoatUsername) {
@@ -41,36 +41,36 @@ public class MailAssignment implements AssignmentEndpoint {
       Email mailEvent =
           Email.builder()
               .recipient(username)
-              .title("Test messages from WebWolf")
+              .title("Test messages from WebGoat")
               .contents(
-                  "This is a test message from WebWolf, your unique code is: "
+                  "This is a test message from WebGoat, your unique code is: "
                       + StringUtils.reverse(username))
               .sender("webgoat@owasp.org")
               .build();
       try {
-        restTemplate.postForEntity(webWolfURL, mailEvent, Object.class);
+        restTemplate.postForEntity(mailURL, mailEvent, Object.class);
       } catch (RestClientException e) {
         return informationMessage(this)
-            .feedback("webwolf.email_failed")
+            .feedback("webgoat.email_failed")
             .output(e.getMessage())
             .build();
       }
-      return informationMessage(this).feedback("webwolf.email_send").feedbackArgs(email).build();
+      return informationMessage(this).feedback("webgoat.email_send").feedbackArgs(email).build();
     } else {
       return informationMessage(this)
-          .feedback("webwolf.email_mismatch")
+          .feedback("webgoat.email_mismatch")
           .feedbackArgs(username)
           .build();
     }
   }
 
-  @PostMapping("/WebWolf/mail")
+  @PostMapping("/WebGoat/mail")
   @ResponseBody
   public AttackResult completed(@RequestParam String uniqueCode, @CurrentUsername String username) {
     if (uniqueCode.equals(StringUtils.reverse(username))) {
       return success(this).build();
     } else {
-      return failed(this).feedbackArgs("webwolf.code_incorrect").feedbackArgs(uniqueCode).build();
+      return failed(this).feedbackArgs("webgoat.code_incorrect").feedbackArgs(uniqueCode).build();
     }
   }
 }
