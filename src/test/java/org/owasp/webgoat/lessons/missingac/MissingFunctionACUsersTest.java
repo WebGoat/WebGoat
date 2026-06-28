@@ -27,7 +27,7 @@ class MissingFunctionACUsersTest extends LessonTest {
     mockMvc
         .perform(
             MockMvcRequestBuilders.get("/access-control/users")
-                .header("Content-type", "application/json"))
+                .header("Accept", "application/json"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].username", CoreMatchers.is("Tom")))
         .andExpect(
@@ -52,7 +52,7 @@ class MissingFunctionACUsersTest extends LessonTest {
     mockMvc
         .perform(
             MockMvcRequestBuilders.get("/access-control/users")
-                .header("Content-type", "application/json"))
+                .header("Accept", "application/json"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.size()", is(4)));
   }
