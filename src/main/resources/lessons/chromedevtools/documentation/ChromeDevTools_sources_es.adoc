@@ -1,0 +1,15 @@
+== La pestaña de Fuentes
+
+En la pestaña de Fuentes, puedes examinar el sistema de archivos y ver todos los archivos HTML, CSS y JavaScript utilizados para
+crear el sitio web. Haz clic en un archivo para ver su contenido.
+
+image::images/ChromeDev_Sources.jpg[DeveloperToolsSources,400,500,style="lesson-image"]
+
+== La pestaña de Red
+
+En la pestaña de Red, puedes ver las solicitudes HTTP y las respuestas que ha realizado el sitio web.
+Simplemente haz clic en una si deseas obtener información más detallada sobre una solicitud específica.
+La "Línea de tiempo" sobre los puntos azules representa cuándo se realizaron estas solicitudes y respuestas.
+También puedes ver las solicitudes realizadas en un marco de tiempo específico simplemente haciendo clic y arrastrando en la línea de tiempo. La ventana inferior solo mostrará las solicitudes y respuestas realizadas en ese marco de tiempo.
+
+image::images/ChromeDev_Network.jpg[DeveloperToolsNetwork,400,500,style="lesson-image"]
