@@ -75,10 +75,18 @@ public class ProfileZipSlip extends ProfileUploadBase {
       ZipFile zip = new ZipFile(uploadedZipFile.toFile());
       Enumeration<? extends ZipEntry> entries = zip.entries();
       while (entries.hasMoreElements()) {
-        ZipEntry e = entries.nextElement();
-        File f = new File(tmpZipDirectory.toFile(), e.getName());
-        InputStream is = zip.getInputStream(e);
-        Files.copy(is, f.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          ZipEntry e = entries.nextElement();
+          File f = new File(tmpZipDirectory.toFile(), e.getName());
+          InputStream is = zip.getInputStream(e);
+          
+          // Validate path stays within intended directory
+          String canonicalDestination = f.getCanonicalPath();
+          String canonicalTarget = tmpZipDirectory.toFile().getCanonicalPath();
+          if (!canonicalDestination.startsWith(canonicalTarget)) {
+              throw new IOException("Zip Slip detected: " + e.getName());
+          }
+          
+          Files.copy(is, f.toPath(), StandardCopyOption.REPLACE_EXISTING);
       }
 
       return isSolved(currentImage, getProfilePictureAsBase64(username));
