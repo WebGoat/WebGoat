@@ -96,7 +96,7 @@
     <!-- rest-assured is no longer managed by the Spring Boot 4 BOM; 6.x is built for the
          Groovy 5 that Spring Boot 4 ships (5.x targets Groovy 4 and fails at runtime). -->
     <rest-assured.version>6.0.0</rest-assured.version>
-    <spotless-maven-plugin.version>3.7.0</spotless-maven-plugin.version>
+    <spotless-maven-plugin.version>3.8.0</spotless-maven-plugin.version>
     <waittimeForServerStart>60</waittimeForServerStart>
     <webdriver.version>6.3.4</webdriver.version>
     <webgoat.context>/WebGoat</webgoat.context>
