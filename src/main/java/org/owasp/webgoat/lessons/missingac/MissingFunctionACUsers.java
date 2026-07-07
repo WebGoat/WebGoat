@@ -49,7 +49,7 @@ public class MissingFunctionACUsers {
 
   @GetMapping(
       path = {"access-control/users"},
-      consumes = "application/json")
+      produces = "application/json")
   @ResponseBody
   public ResponseEntity<List<DisplayUser>> usersService() {
     return ResponseEntity.ok(
