@@ -17,6 +17,7 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(
     properties = {
       // The mailbox entity maps to the CONTAINER schema. Let Hibernate build that schema and the
+            // The mailbox entity maps to the CONTAINER schema. Let Hibernate build that schema and the sample change
       // email table on the embedded test database (Flyway is not needed for this slice).
       "spring.flyway.enabled=false",
       "spring.jpa.hibernate.ddl-auto=create-drop",
