@@ -463,14 +463,14 @@
 
   <build>
     <plugins>
-        <plugin>
-            <groupId>org.owasp</groupId>
-            <artifactId>dependency-check-maven</artifactId>
-            <version>12.1.8</version>
-            <configuration>
-                <format>HTML</format>
-            </configuration>
-        </plugin>
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>12.1.8</version>
+        <configuration>
+          <format>HTML</format>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
