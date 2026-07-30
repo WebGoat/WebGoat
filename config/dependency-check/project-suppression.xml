@@ -1,52 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-    <suppress>
+    <!-- Global blanket suppression removed: allow Medium (CVSS < 7) findings to surface -->
+
+    <!--
+      XStream is intentionally pinned to 1.4.5 for the "vulnerable-components" lesson.
+      These CVEs are lesson-required and isolated to lesson endpoints; they are not part of
+      the supporting infrastructure (container/server/webwolf). Suppress them narrowly and
+      revisit before the until date.
+    -->
+    <suppress until="2028-06-30">
         <notes><![CDATA[
-        This suppresses all CVE entries that have a score below CVSS 7.
+        Required by vulnerable-components lesson; do not upgrade. These issues are part of the
+        teaching material and not reachable from non-lesson surfaces. See task scope.
         ]]></notes>
-        <cvssBelow>7</cvssBelow>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-        file name: spring-tx-5.3.21.jar
-        ]]></notes>
-        <sha1>13f4f564024d2f85502c151942307c3ca851a4f7</sha1>
-        <cve>CVE-2016-1000027</cve>
-     </suppress>
-     <suppress>
-        <notes><![CDATA[
-        file name: spring-core-5.3.21.jar
-        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.springframework/spring\-core@.*$</packageUrl>
-        <cve>CVE-2016-1000027</cve>
-     </suppress>
-     <suppress>
-        <notes><![CDATA[
-        file name: spring-aop-5.3.21.jar
-        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.springframework/spring\-aop@.*$</packageUrl>
-        <cve>CVE-2016-1000027</cve>
-     </suppress>
-     <suppress>
-        <notes><![CDATA[
-        file name: spring-boot-starter-security-2.7.1.jar
-        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring\-boot\-starter\-security@.*$</packageUrl>
-        <cve>CVE-2022-22978</cve>
-     </suppress>
-     <suppress>
-        <notes><![CDATA[
-        file name: jruby-stdlib-9.2.20.1.jar: jopenssl.jar (shaded: rubygems:jruby-openssl:0.11.0)
-        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/rubygems/jruby\-openssl@.*$</packageUrl>
-        <cpe>cpe:/a:jruby:jruby</cpe>
-        <cpe>cpe:/a:openssl:openssl</cpe>
-     </suppress>
-    <suppress>
-        <notes><![CDATA[
-        file name: xstream-1.4.5.jar
-        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/com\.thoughtworks\.xstream/xstream@.*$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/com\.thoughtworks\.xstream/xstream@1\.4\.5$</packageUrl>
         <cpe>cpe:/a:xstream_project:xstream</cpe>
         <vulnerabilityName>CVE-2013-7285</vulnerabilityName>
         <vulnerabilityName>CVE-2016-3674</vulnerabilityName>
@@ -66,12 +33,20 @@
         <vulnerabilityName>CVE-2021-21350</vulnerabilityName>
         <vulnerabilityName>CVE-2021-21351</vulnerabilityName>
         <vulnerabilityName>CVE-2021-43859</vulnerabilityName>
-     </suppress>
-     <suppress>
+    </suppress>
+
+    <!--
+      jruby-openssl is shaded into jruby-stdlib for AsciidoctorJ, used at build-time to render docs.
+      It is not part of the runtime application artifact. Dependency-Check often maps it to the OpenSSL
+      CPE, producing irrelevant findings. Suppress this false-positive mapping and revisit on upgrades.
+    -->
+    <suppress until="2027-12-31">
         <notes><![CDATA[
-        file name: spring-jcl-5.3.21.jar
+        Build-time only via AsciidoctorJ (shaded); not shipped at runtime. Suppressing false-positive
+        CPE matches to jruby and OpenSSL to keep the gate actionable.
         ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.springframework/spring\-.*@.*$</packageUrl>
-        <cve>CVE-2016-1000027</cve>
-     </suppress>
+        <packageUrl regex="true">^pkg:maven/rubygems/jruby\-openssl@.*$</packageUrl>
+        <cpe>cpe:/a:jruby:jruby</cpe>
+        <cpe>cpe:/a:openssl:openssl</cpe>
+    </suppress>
 </suppressions>
