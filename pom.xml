@@ -112,6 +112,11 @@
 
   <dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>com.github.codingandcoding</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+        </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-exec</artifactId>
