@@ -33,7 +33,11 @@ define(['jquery',
     	$('div.pages').hide();
         //TODO this works for now because we only have one page we should rewrite this a bit
         if (view != null) {
-        	$('#report-card-page').show();
+        	if (view.el && (view.el.id === 'admin-panel-page' || $(view.el).attr('id') === 'admin-panel-page')) {
+        	    $('#admin-panel-page').show();
+        	} else {
+        	    $('#report-card-page').show();
+        	}
         } else {
         	$('#lesson-title').show();
         	$('#lesson-page').show();
@@ -50,7 +54,8 @@ define(['jquery',
             'lesson/:name': 'lessonRoute',
             'lesson/:name/:pageNum': 'lessonPageRoute',
             'test/:param': 'testRoute',
-            'reportCard': 'reportCard'
+            'reportCard': 'reportCard',
+            'adminPanel': 'adminPanel'
         },
 
         lessonController: null,
@@ -130,6 +135,14 @@ define(['jquery',
             require(['goatApp/view/ReportCardView'], function (ReportCardView) {
                 self.titleView.render('Report card');
                 render(new ReportCardView());
+            });
+        },
+
+        adminPanel : function () {
+            var self = this;
+            require(['goatApp/view/AdminView'], function (AdminView) {
+                self.titleView.render('Administration');
+                render(new AdminView());
             });
         },
     });

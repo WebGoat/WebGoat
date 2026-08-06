@@ -82,4 +82,20 @@ public class UserService implements UserDetailsService {
   public List<WebGoatUser> getAllUsers() {
     return userRepository.findAll();
   }
+
+  /**
+   * Resets the password of an existing user.
+   *
+   * @param username the username whose password should be reset
+   * @param newPassword the new (plain-text) password – stored as-is because WebGoat uses
+   *     {@link org.springframework.security.crypto.password.NoOpPasswordEncoder}
+   * @throws UsernameNotFoundException when the user does not exist
+   */
+  public void resetPassword(String username, String newPassword) {
+    WebGoatUser existing = userRepository.findByUsername(username);
+    if (existing == null) {
+      throw new UsernameNotFoundException("User not found: " + username);
+    }
+    userRepository.save(new WebGoatUser(username, newPassword, existing.getRole()));
+  }
 }

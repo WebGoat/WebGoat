@@ -25,11 +25,11 @@ public abstract class IntegrationTest {
 
   @Getter private String webGoatCookie;
   @Getter private String webWolfCookie;
-  @Getter private final String user = "webgoat";
+  @Getter private final String user = "webgoat-user";
 
   @BeforeEach
   public void login() {
-    login("webgoat");
+    login("webgoat-user");
   }
 
   protected void login(String user) {
