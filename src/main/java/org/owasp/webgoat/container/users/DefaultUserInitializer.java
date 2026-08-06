@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * Seeds default accounts on first startup so that the platform is immediately usable
  * without manual database intervention.
  *
- * <p>If the users already exist, their credentials are left untouched (for normal users) 
+ * <p>If the users already exist, their credentials are left untouched (for normal users)
  * or re-ensured (for admins), making this bean idempotent across restarts.
  */
 @Component
