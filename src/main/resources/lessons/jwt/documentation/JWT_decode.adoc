@@ -1,8 +1,21 @@
 == Decoding a JWT token
 
-Let's try decoding a JWT token, for this you can use the webWolfLink:JWT[target=jwt] functionality inside WebWolf.
-Given the following token:
+=== JWT tools
+The upcoming activities require reading, modifying and tampering with JWTs. webWolfLink:WebWolf[target=jwt] works great
+for all of this, but if you want to challenge yourself and use tools for real penetration tests, check out the following:
 
+- https://www.jwt.io/[JWT.io web editor]
+- https://github.com/ticarpi/jwt_tool[jwt_tool Python script] (*Works great for performing JWT attacks*)
+- https://portswigger.net/burp/documentation/desktop/testing-workflow/vulnerabilities/session-management/jwts[Burp
+  Suite's JWT tools and plugin] (*Most commonly used in pentests*)
+  - https://www.zaproxy.org/blog/2020-09-03-zap-jwt-scanner/[ZAP JWT add-on]
+
+
+=== Assignment
+Let's try decoding a JWT token, for this you can use the webWolfLink:JWT[target=jwt] functionality inside WebWolf or any
+of the additional tools.
+
+.Given the following token:
 [source]
 ----
 eyJhbGciOiJIUzI1NiJ9.ew0KICAiYXV0aG9yaXRpZXMiIDogWyAiUk9MRV9BRE1JTiIsICJST0xFX1VTRVIiIF0sDQogICJjbGllbnRfaWQiIDogIm15LWNsaWVudC13aXRoLXNlY3JldCIsDQogICJleHAiIDogMTYwNzA5OTYwOCwNCiAgImp0aSIgOiAiOWJjOTJhNDQtMGIxYS00YzVlLWJlNzAtZGE1MjA3NWI5YTg0IiwNCiAgInNjb3BlIiA6IFsgInJlYWQiLCAid3JpdGUiIF0sDQogICJ1c2VyX25hbWUiIDogInVzZXIiDQp9.9lYaULTuoIDJ86-zKDSntJQyHPpJ2mZAbnWRfel99iI

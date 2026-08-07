@@ -27,8 +27,9 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
   @TestFactory
   Iterable<DynamicTest> passwordResetLesson() {
     return Arrays.asList(
-        dynamicTest("assignment 6 - check email link", () -> sendEmailShouldBeAvailableInWebWolf()),
-        dynamicTest("assignment 6 - solve assignment", () -> solveAssignment()),
+        dynamicTest("assignment 6 - check email link", () -> sendEmailShouldBeAvailableInMailbox()),
+        dynamicTest("assignment 6 - solve assignment", () -> solveAssignment(false)),
+        dynamicTest("assignment 6 - solve assignmen with localhost", () -> solveAssignment(true)),
         dynamicTest("assignment 2 - simple reset", () -> assignment2()),
         dynamicTest("assignment 4 - guess questions", () -> assignment4()),
         dynamicTest("assignment 5 - simple questions", () -> assignment5()));
@@ -67,9 +68,9 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
         true);
   }
 
-  public void solveAssignment() {
+  public void solveAssignment(boolean localhost) {
     // WebGoat
-    clickForgotEmailLink("tom@webgoat-cloud.org");
+    clickForgotEmailLink("tom@webgoat-cloud.org",localhost);
 
     // WebWolf
     var link = getPasswordResetLinkFromLandingPage();
@@ -81,20 +82,10 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
         true);
   }
 
-  public void sendEmailShouldBeAvailableInWebWolf() {
-    clickForgotEmailLink(this.getUser() + "@webgoat.org");
+  public void sendEmailShouldBeAvailableInMailbox() {
+    clickForgotEmailLink(this.getUser() + "@webgoat.org",false);
 
-    var responseBody =
-        RestAssured.given()
-            .when()
-            .relaxedHTTPSValidation()
-            .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrlConfig.url("mail"))
-            .then()
-            .extract()
-            .response()
-            .getBody()
-            .asString();
+    var responseBody = readMailbox();
 
     Assertions.assertThat(responseBody).contains("Hi, you requested a password reset link");
   }
@@ -137,10 +128,10 @@ public class PasswordResetLessonIntegrationTest extends IntegrationTest {
     return link;
   }
 
-  private void clickForgotEmailLink(String user) {
+  private void clickForgotEmailLink(String user, boolean localhost) {
       RestAssured.given()
         .when()
-        .header(HttpHeaders.HOST, String.format("%s:%s", "127.0.0.1", webWolfUrlConfig.port()))
+        .header(HttpHeaders.HOST, String.format("%s:%s", localhost ? "localhost" : "127.0.0.1" , webWolfUrlConfig.port()))
         .relaxedHTTPSValidation()
         .cookie("JSESSIONID", getWebGoatCookie())
         .formParams("email", user)

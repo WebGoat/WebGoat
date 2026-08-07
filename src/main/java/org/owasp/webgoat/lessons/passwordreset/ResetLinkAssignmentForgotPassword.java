@@ -7,8 +7,10 @@ package org.owasp.webgoat.lessons.passwordreset;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
-import jakarta.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.UUID;
+
 import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import io.micrometer.common.lang.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 public class ResetLinkAssignmentForgotPassword implements AssignmentEndpoint {
 
@@ -29,19 +34,28 @@ public class ResetLinkAssignmentForgotPassword implements AssignmentEndpoint {
   private final String webWolfHost;
   private final String webWolfPort;
   private final String webWolfURL;
-  private final String webWolfMailURL;
+  private final String mailURL;
 
   public ResetLinkAssignmentForgotPassword(
       RestTemplate restTemplate,
       @Value("${webwolf.host}") String webWolfHost,
       @Value("${webwolf.port}") String webWolfPort,
       @Value("${webwolf.url}") String webWolfURL,
-      @Value("${webwolf.mail.url}") String webWolfMailURL) {
+      @Value("${webgoat.mail.url}") String mailURL) {
     this.restTemplate = restTemplate;
     this.webWolfHost = webWolfHost;
     this.webWolfPort = webWolfPort;
     this.webWolfURL = webWolfURL;
-    this.webWolfMailURL = webWolfMailURL;
+    this.mailURL = mailURL;
+  }
+
+  @Nullable
+  private static String resolveDNSOrNull(String hostname){
+      try {
+          return InetAddress.getByName(hostname.split(":")[0]).getHostAddress();
+      } catch (UnknownHostException e) {
+          return null;
+      }
   }
 
   @PostMapping("/PasswordReset/ForgotPassword/create-password-reset-link")
@@ -52,8 +66,9 @@ public class ResetLinkAssignmentForgotPassword implements AssignmentEndpoint {
     ResetLinkAssignment.resetLinks.add(resetLink);
     String host = request.getHeader(HttpHeaders.HOST);
     if (ResetLinkAssignment.TOM_EMAIL.equals(email)
-        && (host.contains(webWolfPort)
-            && host.contains(webWolfHost))) { // User indeed changed the host header.
+        && (host.contains(webWolfPort) // We are also checking the DNS name in case the user enters a domain instead of
+                                       // an IP
+            && (host.contains(webWolfHost) || webWolfHost.equals(resolveDNSOrNull(host))))) { // User indeed changed the host header.
       ResetLinkAssignment.userToTomResetLink.put(username, resetLink);
       fakeClickingLinkEmail(webWolfURL, resetLink);
     } else {
@@ -77,7 +92,7 @@ public class ResetLinkAssignmentForgotPassword implements AssignmentEndpoint {
             .sender("password-reset@webgoat-cloud.net")
             .recipient(username)
             .build();
-    this.restTemplate.postForEntity(webWolfMailURL, mail, Object.class);
+    this.restTemplate.postForEntity(mailURL, mail, Object.class);
   }
 
   private void fakeClickingLinkEmail(String webWolfURL, String resetLink) {

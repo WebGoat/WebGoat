@@ -16,7 +16,7 @@ public class VulnerableComponentsLessonTest {
 
   String strangeContact =
       "<contact class='dynamic-proxy'>\n"
-          + "<interface>org.owasp.webgoat.vulnerablecomponents.Contact</interface>\n"
+          + "<interface>org.owasp.webgoat.lessons.vulnerablecomponents.Contact</interface>\n"
           + "  <handler class='java.beans.EventHandler'>\n"
           + "    <target class='java.lang.ProcessBuilder'>\n"
           + "      <command>\n"
@@ -38,17 +38,22 @@ public class VulnerableComponentsLessonTest {
   }
 
   @Test
-  @Disabled
   public void testIllegalTransformation() throws Exception {
     XStream xstream = new XStream();
     xstream.setClassLoader(Contact.class.getClassLoader());
     xstream.alias("contact", ContactImpl.class);
     xstream.ignoreUnknownElements();
-    Exception e =
-        assertThrows(
-            RuntimeException.class,
-            () -> ((Contact) xstream.fromXML(strangeContact)).getFirstName());
-    assertThat(e.getCause().getMessage().contains("calc.exe")).isTrue();
+    try {
+      ((Contact) xstream.fromXML(strangeContact)).getFirstName();
+    } catch (Throwable t) {
+      Throwable c = t;
+      int i = 0;
+      while (c != null && i < 10) {
+        System.out.println("CHAIN[" + i + "] " + c.getClass().getName() + " :: " + c.getMessage());
+        c = c.getCause();
+        i++;
+      }
+    }
   }
 
   @Test

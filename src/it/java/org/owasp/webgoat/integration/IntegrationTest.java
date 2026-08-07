@@ -248,9 +248,22 @@ public abstract class IntegrationTest {
     RestAssured.given()
         .when()
         .relaxedHTTPSValidation()
-        .cookie("WEBWOLFSESSION", getWebWolfCookie())
-        .delete(webWolfUrlConfig.url("mail"))
+        .cookie("JSESSIONID", getWebGoatCookie())
+        .delete(webGoatUrlConfig.url("mail"))
         .then()
         .statusCode(HttpStatus.ACCEPTED.value());
+  }
+
+  public String readMailbox() {
+    return RestAssured.given()
+        .when()
+        .relaxedHTTPSValidation()
+        .cookie("JSESSIONID", getWebGoatCookie())
+        .get(webGoatUrlConfig.url("mail"))
+        .then()
+        .extract()
+        .response()
+        .getBody()
+        .asString();
   }
 }

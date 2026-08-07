@@ -45,7 +45,7 @@ public class SimpleXXE implements AssignmentEndpoint {
     this.comments = comments;
   }
 
-  @PostMapping(path = "xxe/simple", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
+  @PostMapping(path = "/xxe/simple", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
   @ResponseBody
   public AttackResult createNewComment(
       @RequestBody String commentStr, @CurrentUser WebGoatUser user) {

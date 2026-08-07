@@ -113,18 +113,8 @@ public class ChallengeIntegrationTest extends IntegrationTest {
         .extract()
         .asString();
 
-    // Check whether email has been received
-    var responseBody =
-        RestAssured.given()
-            .when()
-            .relaxedHTTPSValidation()
-            .cookie("WEBWOLFSESSION", getWebWolfCookie())
-            .get(webWolfUrlConfig.url("mail"))
-            .then()
-            .extract()
-            .response()
-            .getBody()
-            .asString();
+    // Check whether email has been received in the WebGoat mailbox
+    var responseBody = readMailbox();
     Assertions.assertThat(responseBody).contains("Hi, you requested a password reset link");
 
     // Call reset link with admin link

@@ -42,7 +42,7 @@ public class ContentTypeAssignment implements AssignmentEndpoint {
     this.comments = comments;
   }
 
-  @PostMapping(path = "xxe/content-type")
+  @PostMapping(path = "/xxe/content-type")
   @ResponseBody
   public AttackResult createNewUser(
       @RequestBody String commentStr,

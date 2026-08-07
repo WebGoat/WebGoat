@@ -1,0 +1,62 @@
+== Burp Suite
+
+=== What is Burp Suite?
+Considered the gold standard of HTTP proxies, Burp suite is a proprietary GUI tool created by the web security research company Port Swigger.
+It comes in two versions, enterprise and community, the community version is more than sufficient for WebGoat.
+Burp allows penetration testers to view, intercept, and tamper with HTTP(s) traffic via a series of modules. Notable modules include the proxy, allowing users to intercept and modify requests made in a browser, the repeater which allows users to reuse and tamper with already sent requests, and the intruder which assists with brute force attacks.
+
+{nbsp} +
+
+=== Installing Burp Suite
+One of the exercises in WebGoat can only be resolved with Burp and not yet with ZAP.
+
+You can download the Burp community edition as a https://portswigger.net/burp/communitydownload[JAR file,window=_blank].
+
+[source]
+----
+java -jar burpsuite_community_{VERSION}.jar
+----
+
+Choose `temporary project`, followed by `use burp defaults.`
+
+Go to the proxy options and change it to use port other than `8080` or `9090`, as they conflict with WebGoat.
+
+
+image::images/burpproxy-updated.png[Burp proxy options,style="lesson-image"]
+
+{nbsp} +
+
+On this page, you can also export the Burp certificate and import it into your browser. Similar to the instructions in link:start.mvc#lesson/HttpProxies.lesson/3[ZAP Additional Tools].
+
+Go to the proxy intercept page and click on the toggle so that intercept is switched off. (By default nd in the picture below, it is switched on)
+
+image::images/burpintercept-updated.png[Burp intercept,style="lesson-image"]
+
+{nbsp} +
+
+Then start a browser connected to the proxy and start using WebGoat.
+
+NOTE: Burp also supports manual browser configuration. For a link to a tutorial go https://portswigger.net/burp/documentation/desktop/external-browser-config[here].
+
+WebGoat uses websockets for internal communication, to avoid picking these up in Burp configure a scope in the target tab.
+
+*BE SURE TO ENABLE 'Use advanced scope control'*
+
+Add WebGoat's address to the scope and include files with the following regex `.\*WebGoat*.`. Create an exclude rule for internal websockets `.\*\.mvc.*`, and lesson pages `.\*\.lesson.*`.
+
+image::images/burptarget.png[Burp target tab,style="lesson-image"]
+
+Now we need to tell Burp Suite to ignore traffic outside of our target scope. Do this by going to the `Proxy` tab, clicking `Proxy Settings` and under `Request Interception Rules` select `Is in target scope`.
+
+
+image::images/burpproxyscope.png[Burp client filtering by scope,style="lesson-image"]
+
+{nbsp} +
+
+Then enable the intercept by clicking on the earlier mentioned toggle.
+
+An intercept will look like:
+
+image::images/burpintercepted-updated.png[Request intercepted in Burp Suite,style="lesson-image"]
+
+To forward or drop a request once it has been intercepted select the request and click the `Forward` or `Drop` buttons.

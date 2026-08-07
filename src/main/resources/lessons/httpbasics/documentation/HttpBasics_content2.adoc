@@ -1,4 +1,4 @@
-== The Quiz
+== HTML Forms
 
 What type of HTTP verb does WebGoat use when submitting the form in this assignment? A POST or a GET?
 And can you find the magic number?

@@ -27,8 +27,8 @@ class Assignment7Test extends LessonTest {
 
   @MockitoBean private RestTemplate restTemplate;
 
-  @Value("${webwolf.mail.url}")
-  String webWolfMailURL;
+  @Value("${webgoat.mail.url}")
+  String mailURL;
 
   @Test
   @DisplayName("Reset password test")

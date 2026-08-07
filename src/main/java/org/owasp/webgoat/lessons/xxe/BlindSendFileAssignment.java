@@ -64,7 +64,7 @@ public class BlindSendFileAssignment implements AssignmentEndpoint, Initializabl
     }
   }
 
-  @PostMapping(path = "xxe/blind", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
+  @PostMapping(path = "/xxe/blind", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
   @ResponseBody
   public AttackResult addComment(
       @RequestBody String commentStr, @AuthenticationPrincipal WebGoatUser user) {

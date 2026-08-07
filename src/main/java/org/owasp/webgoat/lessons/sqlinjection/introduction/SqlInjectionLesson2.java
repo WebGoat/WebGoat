@@ -49,10 +49,14 @@ public class SqlInjectionLesson2 implements AssignmentEndpoint {
       ResultSet results = statement.executeQuery(query);
       StringBuilder output = new StringBuilder();
 
-      results.first();
+      if(!results.first()) {
+          return failed(this).feedback("sql-injection.2.failed").build();
+      }
 
-      if (results.getString("department").equals("Marketing")) {
-        output.append("<span class='feedback-positive'>" + query + "</span>");
+      if ("Marketing".equals(results.getString("department"))) {
+        output.append("<span class='feedback-positive'>")
+                .append(query)
+                .append("</span>");
         output.append(SqlInjectionLesson8.generateTable(results));
         return success(this).feedback("sql-injection.2.success").output(output.toString()).build();
       } else {

@@ -84,6 +84,15 @@ class ResetLinkAssignmentTest extends LessonTest {
                 .header(HttpHeaders.HOST, webWolfHost + ":" + webWolfPort))
         .andExpect(status().isOk());
     Assertions.assertThat(ResetLinkAssignment.resetLinks).isNotEmpty();
+    ResetLinkAssignment.resetLinks.clear();;
+    // Create reset link with localhost
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/PasswordReset/ForgotPassword/create-password-reset-link")
+                .param("email", TOM_EMAIL)
+                .header(HttpHeaders.HOST, "localhost" + ":" + webWolfPort))
+        .andExpect(status().isOk());
+    Assertions.assertThat(ResetLinkAssignment.resetLinks).isNotEmpty();
 
     // With a known link you should be
     MvcResult mvcResult =

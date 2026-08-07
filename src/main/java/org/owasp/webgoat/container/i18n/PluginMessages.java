@@ -31,10 +31,16 @@ public class PluginMessages extends ReloadableResourceBundleMessageSource {
     Properties properties = new Properties();
     long lastModified = System.currentTimeMillis();
 
+    // filename is passed by Spring as e.g. "WebGoatLabels" or "WebGoatLabels_nl".
+    // Strip any path prefix so we get just the bare file basename to use in the
+    // classpath glob, preserving the locale suffix (e.g. "_nl", "_de", "_fr").
+    String fileBasename =
+        filename.contains("/") ? filename.substring(filename.lastIndexOf('/') + 1) : filename;
+
     try {
       var resources =
           resourcePatternResolver.getResources(
-              "classpath:/lessons/**/i18n" + "/WebGoatLabels" + PROPERTIES_SUFFIX);
+              "classpath:/lessons/**/i18n/" + fileBasename + PROPERTIES_SUFFIX);
       for (var resource : resources) {
         String sourcePath = resource.getURI().toString().replace(PROPERTIES_SUFFIX, "");
         PropertiesHolder holder = super.refreshProperties(sourcePath, propHolder);

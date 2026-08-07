@@ -16,9 +16,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   name: Checkout git repository
-                uses: actions/checkout@v4.1.6
+                uses: actions/checkout@v7
             -   name: Setup python
-                uses: actions/setup-python@v6
+                uses: actions/setup-python@v7
                 with:
                     python-version: "3.9"
             -   name: Setup Java
@@ -36,10 +36,10 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                os: [ windows-latest, ubuntu-latest, macos-13 ]
+                os: [ windows-latest, ubuntu-latest, macos-15-intel ]
             max-parallel: 1
         steps:
-            -   uses: actions/checkout@v4.1.6
+            -   uses: actions/checkout@v7
             -   name: Set up JDK
                 uses: ./.github/actions/java-setup
                 with:

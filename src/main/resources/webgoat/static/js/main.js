@@ -44,6 +44,9 @@ require.config({
 	  exports:"$",
 	  deps: ['jquery']
 	},
+	"jqueryuivuln": {
+	  deps: ['jqueryvuln']
+	},
     underscore: {
       exports: "_"
     },

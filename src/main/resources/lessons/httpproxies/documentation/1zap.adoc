@@ -1,0 +1,88 @@
+== ZAP Basics
+This section will teach you about the https://www.zaproxy.org/[Zed Attack Proxy (ZAP)].
+
+=== What is ZAP?
+ZAP (or Zed Proxy Attack) is a free, open source web scanner and attack proxy tool originally developed by OWASP, now maintained by Checkmarx.
+ZAP allows penetration testers to inspect traffic, modify requests and responses from and to their browser, and get reports on a range of known vulnerabilities that ZAP detects through the inspection of the traffic.
+The passive and active reporting on security issues is usually used in Continuous Delivery pipelines that use a GUI-less ZAP.
+Here we will use ZAP interactively and mainly to see and modify requests to find vulnerabilities and solve assignments.
+ZAP has a graphical user interface but now also has a HUD Heads-On-Display, which uses a web socket connection between the browser, and the ZAP proxy.
+
+=== ZAP Installation
+* First download and install https://www.zaproxy.org/download/[ZAP] for your operating system
+* Start ZAP
+* Start the browser directly from ZAP
+
+
+=== Setting up browser
+
+As the ZAP setup for proxying localhost varies based on your browser, we recommend following the instructions at: https://www.zaproxy.org/docs/desktop/start/proxies/
+After you setup the proxy, you should see the following in OWASP ZAP on the history panel:
+
+{nbsp} +
+
+image::images/zap-history.png[ZAP History,style="lesson-image"]
+
+{nbsp} +
+
+On the next page, we will show how to filter these requests to see only relevant requests and configure the interceptor.
+
+
+=== Filter requests in history panel
+
+In the main ZAP window, click on Filter; see the image below.
+
+image::images/zap-exclude.png[Exclude internal APIs from WebGoat,style="lesson-image"]
+
+{nbsp} +
+
+Then in the `URL Inc Regex` box type:
+
+[source]
+----
+.*WebGoat.*
+----
+
+And in the `URL Exc Regex` box type:
+
+[source]
+----
+.*lesson.*.mvc.*
+----
+
+Click 'Apply to close the window, and ZAP will now no longer show internal WebGoat requests.
+
+==== Configure a breakpoint filter
+
+Before we start diving into intercepting requests with ZAP, we need to exclude the internal requests from the WebGoat
+framework. Otherwise, ZAP will also stop at all the requests which are only necessary for the inner working of WebGoat.
+Basically, a breakpoint is configured that will intercept requests when the request header contains a POST. You can add other rules as long as the polling `.mvc` messages will be excluded. As this would be annoying.
+
+Set the breakpoint as follows:
+
+image::images/breakpoint.png[Set breakpoint,style="lesson-image"]
+
+{nbsp} +
+
+You can see your active breakpoints here. And if you click on the checkbox, you can temporarily deactivate them and enable them again when you are just about to intercept the request. *DO NOT use the green/red button anymore*
+
+image::images/breakpoint2.png[Active breakpoints,style="lesson-image"]
+
+{nbsp} +
+
+Once you are intercepting requests and a request is made, it should look something like this:
+
+image::images/proxy-intercept-details.png[ZAP history tab,style="lesson-image"]
+
+==== Intercept and modify a request
+
+Set up the intercept as noted above and then submit the form/request below by clicking the submit button. When your request is intercepted (hits the breakpoint),
+modify it as follows.
+
+* Change the Method to GET
+* Add a header 'x-request-intercepted:true'
+* Remove the request body and instead send 'changeMe' as a query string parameter and set the value to 'Requests are tampered easily' (without the single quotes)
+
+Then let the request continue through (by hitting the play button).
+
+NOTE: The two play buttons behave a little differently, but we'll let you tinker and figure that out for yourself.

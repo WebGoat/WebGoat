@@ -1,6 +1,6 @@
 == Claim misuse
 
-Header claims misuse can occur when the header information is tampered with or manipulated inappropriately
+Header claims misuse can occur when the header information is tampered with or manipulated inappropriately.
 
 === JSON Web Key URL (JKU)
 
@@ -38,6 +38,42 @@ However, filtering on URLs is quite challenging to implement, and this can be by
 - **Server verification**: The server, upon receiving the JWT, validates the signature using the public key obtained from the JWKS endpoint.
 
 - **Successful attack**: If the server uses the weak or manipulated key to verify the JWT, the attacker gains unauthorized access or executes their intended exploit.
+
+==== Generating JWKs files
+
+Not many tools exist for generating JWKs files, I found that Bespoke Engineering's open source JWK generator works the best. It comes in an https://mkjwk.org/[online version] and a https://github.com/bspk/json-web-key-generator[CLI].
+
+
+*For security purposes it is recommended to use the CLI as processing occurs on your computer instead of an untrusted external server which could potentially store keys.*
+
+
+==== Example JWKs file
+
+The following is an example of a JWKs file _(JSON Web Key Set)_. It contains two `RS256` JWK public keys with `KIDs`
+_(Key IDs)_  of `example` and `example2`.
+
+.Example JWKs file
+[source,json]
+----
+{
+    "keys": [
+    {
+        "kty": "RSA",
+            "e": "AQAB",
+            "kid": "example",
+            "alg": "RS256",
+            "n": "hUZW3uZNJWlPSo6QEr2eRWTJB9Iq24NrOB8BDBIGlgUgpdI-1iORl7u_L-ypgtD8U3EJNXfSJnhl9n_CsfJsDpOc2S3i0rwSfd9JI8wWyCes3fy7k7TdqMXLzwquY5EnFBCimUs7mV__EpRdNrdnH7ikufa_-DWcRqJyqPUMembBS1BanXXsbnq3zuKyizV2bWVB7NcFg_ehEyNBHzC1RqIc07HECYDTUb9m2pP-H-ah7DJds7lSz1FdYi6IXiSAl3M92rpCdZL7l2spw1ppiDFlESwHMnCICrHjRaDRyy1FrvqeCzBdTrUqTIZEvBTYH_LjutvZ6zbH9hunspkfnQ"
+    },
+    {
+        "kty": "RSA",
+        "e": "AQAB",
+        "kid": "example2",
+        "alg": "RS256",
+        "n": "1NAfP6Sh2Pb_TWEGuwRr_-VmNUOGVmfusmDl9aWfRcYAkO91a4h31tCIdemfUIcMi58x7XR0wY-z4gxWAcaFHEAqMn-vQe4r7rQDkMBGFaCX39MbjQgNA9lGzwx8FUinXw3B6dZYapun5LoN4hfcC_XjUdodjiGpKI8rtwgmmOgV07wNeOSFRpGoNYEvVu7-J53V3YAnrXiYXtzsL-9fbXn62Dt0ejYeUkbknRnH4DmidJr83lnEvGZSxjOtynBEb9UCBuX49YIy1orsi3hIDHulram2ez-LPjI2xY_Wh0tryEZBfAiPidX0Jl-tsk3j1o7F4ENzqCshAVe1J20V1Q"
+    }
+    ]
+}
+----
 
 
 === Mitigation

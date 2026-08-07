@@ -120,6 +120,8 @@ git checkout <<branch_name>>
 # On Windows:
 ./mvnw.cmd clean install
 
+If you have ran WebGoat before, you should first run mvn clean -Pcleanall to clean up files from your temp and home directories which could fail the tests due to changes in lessons!
+
 # Using docker or podman, you can than build the container locally
 docker build -f Dockerfile . -t webgoat/webgoat
 ```

@@ -48,13 +48,13 @@ public class Assignment7 implements AssignmentEndpoint {
 
   private final Flags flags;
   private final RestTemplate restTemplate;
-  private final String webWolfMailURL;
+  private final String mailURL;
 
   public Assignment7(
-      Flags flags, RestTemplate restTemplate, @Value("${webwolf.mail.url}") String webWolfMailURL) {
+      Flags flags, RestTemplate restTemplate, @Value("${webgoat.mail.url}") String mailURL) {
     this.flags = flags;
     this.restTemplate = restTemplate;
-    this.webWolfMailURL = webWolfMailURL;
+    this.mailURL = mailURL;
   }
 
   @GetMapping("/challenge/7/reset-password/{link}")
@@ -91,7 +91,7 @@ public class Assignment7 implements AssignmentEndpoint {
                 .recipient(username)
                 .time(LocalDateTime.now())
                 .build();
-        restTemplate.postForEntity(webWolfMailURL, mail, Object.class);
+        restTemplate.postForEntity(mailURL, mail, Object.class);
       }
     }
     return success(this).feedback("email.send").feedbackArgs(email).build();
