@@ -36,6 +36,9 @@ public class LessonProgressService {
   public List<LessonOverview> lessonOverview(
       @PathVariable("lesson") LessonName lessonName, @CurrentUsername String username) {
     var userProgress = userProgressRepository.findByUser(username);
+    if (userProgress == null) {
+      return List.of();
+    }
     var lesson = course.getLessonByName(lessonName);
 
     var lessonProgress = userProgress.getLessonProgress(lesson);
