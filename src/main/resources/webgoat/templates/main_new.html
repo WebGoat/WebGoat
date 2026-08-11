@@ -115,6 +115,11 @@
                             <img th:src="@{${'/css/img/nllang.svg'}}" alt="Nederlands" height="20"></img> Nederlands
                         </a>
                     </li>
+                    <li role="presentation">
+                        <a role="menuitem" th:href="@{/start.mvc?lang=es#lesson/WebGoatIntroduction.lesson}">
+                            <img th:src="@{${'/css/img/eslang.svg'}}" alt="Spanish" height="20"></img> Español
+                        </a>
+                    </li>
                 </ul>
             </div>
             </div>
@@ -128,19 +133,21 @@
             </span>
             <!-- reportcard menu item -->
             <div style="display:inline" id="settings">
-                <!--<button type="button" id="admin-button" class="btn btn-default right_nav_button" title="Administrator">-->
-                <!--<i class="fa fa-cog"></i>-->
-                <!--</button>-->
+                <!-- Admin panel: visible only to administrators -->
+                <span sec:authorize="hasAuthority('WEBGOAT_ADMIN')">
+                    <a href="#adminPanel">
+                        <button type="button" id="admin-button" class="btn btn-default right_nav_button"
+                                title="Administration">
+                            <i class="fa fa-users"></i>
+                        </button>
+                    </a>
+                </span>
                 <a href="#reportCard">
                     <button type="button" id="report-card-button" class="btn btn-default right_nav_button button-up"
                             th:title="#{report.card}">
                        <i class="fa fa-bar-chart-o"></i>
                     </button>
                 </a>
-                <!--<button type="button" id="user-management" class="btn btn-default right_nav_button"-->
-                <!--title="User management">-->
-                <!--<i class="fa fa-users"></i>-->
-                <!--</button>-->
             </div>
             <!-- about menu item -->
             <button type="button" id="about-button" class="btn btn-default right_nav_button" th:title="#{about}"
@@ -218,6 +225,8 @@
                 </div>
             </div>
             <div id="report-card-page" class="pages" style="display: none;">
+            </div>
+            <div id="admin-panel-page" class="pages" style="display: none;">
             </div>
         </section>
     </section>

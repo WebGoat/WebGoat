@@ -48,6 +48,9 @@ public class WebSecurityConfig {
                     // the mailbox (GET /mail) stays authenticated so users only see their own mail.
                     .requestMatchers(HttpMethod.POST, "/mail")
                     .permitAll()
+                    // Administration endpoints: restricted to WEBGOAT_ADMIN only.
+                    .requestMatchers("/service/admin/**")
+                    .hasAuthority("WEBGOAT_ADMIN")
                     .anyRequest()
                     .authenticated())
         .formLogin(

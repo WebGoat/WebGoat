@@ -50,6 +50,9 @@ public class LessonMenuService {
     List<LessonMenuItem> menu = new ArrayList<>();
     List<Category> categories = course.getCategories();
     UserProgress userTracker = userTrackerRepository.findByUser(username);
+    if (userTracker == null) {
+      return menu;
+    }
 
     for (Category category : categories) {
       if (excludeCategories.contains(category.name())) {
