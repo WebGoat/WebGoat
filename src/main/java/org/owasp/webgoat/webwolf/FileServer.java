@@ -42,6 +42,12 @@ public class FileServer {
   private static final DateTimeFormatter dateTimeFormatter =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+  /** Messages shown on the files page, the upload redirects to it with one of them. */
+  static final String UPLOAD_SUCCESSFUL = "File uploaded successful";
+
+  static final String NOTHING_TO_UPLOAD = "Nothing to upload";
+  static final String UPLOAD_TOO_LARGE = "File is too large to upload";
+
   @Value("${webwolf.fileserver.location}")
   private String fileLocation;
 
@@ -74,7 +80,7 @@ public class FileServer {
       log.debug("No file selected for upload by {}", username);
       return new ModelAndView(
           new RedirectView("files", true),
-          new ModelMap().addAttribute("uploadSuccess", "Nothing to upload"));
+          new ModelMap().addAttribute("uploadSuccess", NOTHING_TO_UPLOAD));
     }
 
     var destinationDir = new File(fileLocation, username);
@@ -90,7 +96,7 @@ public class FileServer {
 
     return new ModelAndView(
         new RedirectView("files", true),
-        new ModelMap().addAttribute("uploadSuccess", "File uploaded successful"));
+        new ModelMap().addAttribute("uploadSuccess", UPLOAD_SUCCESSFUL));
   }
 
   @GetMapping(value = "/files")
@@ -101,11 +107,13 @@ public class FileServer {
 
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("files");
-    File changeIndicatorFile = new File(destinationDir, username + "_changed");
-    if (changeIndicatorFile.exists()) {
-      modelAndView.addObject("uploadSuccess", request.getParameter("uploadSuccess"));
+    // the message of the upload we are redirected from, see importFile and
+    // FileUploadExceptionAdvice
+    var uploadMessage = request.getParameter("uploadSuccess");
+    if (StringUtils.hasText(uploadMessage)) {
+      modelAndView.addObject("uploadSuccess", uploadMessage);
+      modelAndView.addObject("uploadFailed", !UPLOAD_SUCCESSFUL.equals(uploadMessage));
     }
-    changeIndicatorFile.delete();
 
     record UploadedFile(String name, String size, String link, String creationTime) {}
 

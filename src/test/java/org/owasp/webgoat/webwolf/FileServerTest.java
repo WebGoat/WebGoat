@@ -104,6 +104,31 @@ class FileServerTest {
             });
   }
 
+  @Test
+  @DisplayName("The message of the upload we are redirected from is passed on to the files page")
+  void shouldShowUploadMessageFromRedirect() throws Exception {
+    mockMvc
+        .perform(
+            get("/files")
+                .param("uploadSuccess", FileServer.UPLOAD_TOO_LARGE)
+                .principal(AUTHENTICATION))
+        .andExpect(status().isOk())
+        .andExpect(model().attribute("uploadSuccess", FileServer.UPLOAD_TOO_LARGE))
+        .andExpect(model().attribute("uploadFailed", true));
+
+    mockMvc
+        .perform(
+            get("/files")
+                .param("uploadSuccess", FileServer.UPLOAD_SUCCESSFUL)
+                .principal(AUTHENTICATION))
+        .andExpect(model().attribute("uploadFailed", false));
+
+    // no message means no alert on the files page
+    mockMvc
+        .perform(get("/files").principal(AUTHENTICATION))
+        .andExpect(model().attributeDoesNotExist("uploadSuccess", "uploadFailed"));
+  }
+
   private Path userDirectory() {
     return fileServerLocation.resolve(USERNAME);
   }
