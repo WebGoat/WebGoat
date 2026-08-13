@@ -47,7 +47,7 @@ public class VerifyAccount implements AssignmentEndpoint {
       throws ServletException, IOException {
     AccountVerificationHelper verificationHelper = new AccountVerificationHelper();
     Map<String, String> submittedAnswers = parseSecQuestions(req);
-    if (verificationHelper.didUserLikelylCheat((HashMap) submittedAnswers)) {
+    if (verificationHelper.didUserLikelylCheat((HashMap<String, String>) submittedAnswers)) {
       return failed(this)
           .feedback("verify-account.cheated")
           .output("Yes, you guessed correctly, but see the feedback message")
@@ -55,7 +55,7 @@ public class VerifyAccount implements AssignmentEndpoint {
     }
 
     // else
-    if (verificationHelper.verifyAccount(Integer.valueOf(userId), (HashMap) submittedAnswers)) {
+    if (verificationHelper.verifyAccount(Integer.valueOf(userId), (HashMap<String, String>) submittedAnswers)) {
       userSessionData.setValue("account-verified-id", userId);
       return success(this).feedback("verify-account.success").build();
     } else {
@@ -72,6 +72,6 @@ public class VerifyAccount implements AssignmentEndpoint {
         userAnswers.put(paramName, req.getParameter(paramName));
       }
     }
-    return (HashMap) userAnswers;
+    return (HashMap<String, String>) userAnswers;
   }
 }

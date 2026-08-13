@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +68,15 @@ public class FileServer {
       @RequestParam("file") MultipartFile multipartFile, Authentication authentication)
       throws IOException {
     var username = authentication.getName();
+    if (multipartFile == null
+        || multipartFile.isEmpty()
+        || !StringUtils.hasText(multipartFile.getOriginalFilename())) {
+      log.debug("No file selected for upload by {}", username);
+      return new ModelAndView(
+          new RedirectView("files", true),
+          new ModelMap().addAttribute("uploadSuccess", "Nothing to upload"));
+    }
+
     var destinationDir = new File(fileLocation, username);
     destinationDir.mkdirs();
     // DO NOT use multipartFile.transferTo(), see

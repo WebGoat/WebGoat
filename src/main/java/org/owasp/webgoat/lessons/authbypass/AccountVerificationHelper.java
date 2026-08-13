@@ -19,7 +19,7 @@ public class AccountVerificationHelper {
     userSecQuestions.put("secQuestion1", "Baker Street");
   }
 
-  private static final Map<Integer, Map> secQuestionStore = new HashMap<>();
+  private static final Map<Integer, Map<String, String>> secQuestionStore = new HashMap<>();
 
   static {
     secQuestionStore.put(verifyUserId, userSecQuestions);

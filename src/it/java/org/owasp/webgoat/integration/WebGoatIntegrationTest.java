@@ -4,13 +4,11 @@
  */
 package org.owasp.webgoat.integration;
 
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WebGoatIntegrationTest extends IntegrationTest {
 

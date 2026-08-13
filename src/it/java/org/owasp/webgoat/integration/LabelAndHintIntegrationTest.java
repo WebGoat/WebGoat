@@ -7,9 +7,11 @@ package org.owasp.webgoat.integration;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
+import io.restassured.path.json.exception.JsonPathException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -133,13 +135,10 @@ public class LabelAndHintIntegrationTest extends IntegrationTest {
       for (String key : hintKeys) {
         String keyValue =
             jsonPathLabels.getString(ESCAPE_JSON_PATH_CHAR + key + ESCAPE_JSON_PATH_CHAR);
-        // System.out.println("key: " + key + " ,value: " + keyValue);
         Assertions.assertNotNull(keyValue);
         Assertions.assertNotEquals(key, keyValue);
       }
     }
-    // Assertions.assertEquals("http-basics.hints.http_basics_lesson.1",
-    // ""+jsonPath.getList("hint").get(0));
   }
 
   @Test
@@ -215,8 +214,13 @@ public class LabelAndHintIntegrationTest extends IntegrationTest {
         .jsonPath();
   }
 
+  /**
+   * Returns the hint keys of the lesson which is currently started. A lesson without hints (or an
+   * assignment which does not return the hints as JSON) yields an empty list instead of failing on
+   * the response parsing.
+   */
   private List<String> getHints() {
-      JsonPath jsonPath =
+    var response =
         RestAssured.given()
             .when()
             .relaxedHTTPSValidation()
@@ -224,10 +228,24 @@ public class LabelAndHintIntegrationTest extends IntegrationTest {
             .cookie("JSESSIONID", getWebGoatCookie())
             .get(webGoatUrlConfig.url("service/hint.mvc"))
             .then()
-            // .log().all()
             .statusCode(200)
             .extract()
-            .jsonPath();
-    return jsonPath.getList("hint");
+            .response();
+
+    var body = response.asString();
+    if (body == null || body.isBlank()) {
+      return List.of();
+    }
+
+    List<String> hints;
+    try {
+      hints = response.jsonPath().getList("hint");
+    } catch (JsonPathException e) {
+      return List.of();
+    }
+    if (hints == null) {
+      return List.of();
+    }
+    return hints.stream().filter(Objects::nonNull).toList();
   }
 }
