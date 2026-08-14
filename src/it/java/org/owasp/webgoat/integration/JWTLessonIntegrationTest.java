@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.JwsHeader;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -74,10 +73,11 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
   private String getSecretToken(String token) {
     for (String key : JWTSecretKeyEndpoint.SECRETS) {
       try {
-        Jwt jwt = Jwts.parser().setSigningKey(TextCodec.BASE64.encode(key)).parse(token);
+        Jwts.parser().setSigningKey(TextCodec.BASE64.encode(key)).parse(token);
       } catch (JwtException e) {
         continue;
       }
+      //no exception, then it must be the right key
       return TextCodec.BASE64.encode(key);
     }
     return null;
@@ -216,7 +216,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
   }
 
   private void deleteTomThroughKidClaim() {
-    Map<String, Object> header = new HashMap();
+    var header = new HashMap<String, Object>();
     header.put(Header.TYPE, Header.JWT_TYPE);
     header.put(
         JwsHeader.KEY_ID,
@@ -265,7 +265,7 @@ public class JWTLessonIntegrationTest extends IntegrationTest {
         .getBody()
         .asString();
 
-    Map<String, Object> header = new HashMap();
+    var header = new HashMap<String, Object>();
     header.put(Header.TYPE, Header.JWT_TYPE);
     header.put(
         JwsHeader.JWK_SET_URL, webWolfUrlConfig.url("files/%s/jwks.json".formatted(getUser())));
