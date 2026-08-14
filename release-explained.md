@@ -61,12 +61,12 @@ to a different minor version.
 
 ### Things that will bite you
 
-| What                                 | Why                                                                                                                                                                |
-|--------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| The tag name *is* the version        | `WEBGOAT_MAVEN_VERSION=${WEBGOAT_TAG_VERSION:1}` strips the first character. `v2026.2` → `2026.2`. A tag without the `v` never triggers, and `vtest10` would build maven version `test10`. |
-| It does not run on a fork            | Both jobs are guarded by `if: github.repository == 'WebGoat/WebGoat'`.                                                                                              |
-| The `release` environment            | The job uses `environment: name: release`. Required reviewers make it wait for approval, and `DOCKERHUB_USERNAME` / `DOCKERHUB_TOKEN` must be available there.       |
-| No tests are run                     | The build is `mvn install -DskipTests`, so the build on `main` is the only gate.                                                                                     |
+|             What              |                                                                                            Why                                                                                             |
+|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| The tag name *is* the version | `WEBGOAT_MAVEN_VERSION=${WEBGOAT_TAG_VERSION:1}` strips the first character. `v2026.2` → `2026.2`. A tag without the `v` never triggers, and `vtest10` would build maven version `test10`. |
+| It does not run on a fork     | Both jobs are guarded by `if: github.repository == 'WebGoat/WebGoat'`.                                                                                                                     |
+| The `release` environment     | The job uses `environment: name: release`. Required reviewers make it wait for approval, and `DOCKERHUB_USERNAME` / `DOCKERHUB_TOKEN` must be available there.                             |
+| No tests are run              | The build is `mvn install -DskipTests`, so the build on `main` is the only gate.                                                                                                           |
 
 ## What the workflow does
 
