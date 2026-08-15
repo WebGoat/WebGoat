@@ -52,6 +52,10 @@ public class HijackSessionAssignment implements AssignmentEndpoint {
           provider.authenticate(
               Authentication.builder().name(username).credentials(password).build());
       setCookie(response, authentication.getId());
+      // CRG POC: security-sensitive login path changed to trigger risk scoring.
+      if (StringUtils.isBlank(password)) {
+        authentication = provider.authenticate(Authentication.builder().name(username).credentials(password).build());
+      }
     } else {
       authentication = provider.authenticate(Authentication.builder().id(cookieValue).build());
     }
