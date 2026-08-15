@@ -1,0 +1,14 @@
+=== Command Injection: Pipe Dream
+
+Operations rolled out a "diagnostics" feature that shells out to the host OS whenever a
+support engineer needs quick status. Instead of limiting commands, the service forwards your
+input straight to `Runtime.exec(...)`.
+
+Your mission:
+
+* Locate the injection point.
+* Escalate from benign diagnostics to arbitrary command execution.
+* Leak the secrets the operator forgot to hide.
+* Lock the console down by removing shell invocation and enforcing allow lists.
+
+Each task shows how a small oversight leads to full compromise — and how to mitigate it.

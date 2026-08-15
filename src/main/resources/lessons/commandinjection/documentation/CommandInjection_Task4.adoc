@@ -1,0 +1,12 @@
+=== Filter Bypass – Leak the API Key
+
+Operations noticed people chaining commands and added a quick denylist: the server now strips
+`;`, `&&`, and `|` from your cat search before sending it to the shell. The diags console still runs
+`grep $title images/*`, so you need a separator that survives.
+
+At startup the lesson stores an API key for you in
+`command-injection/task4/<username>/api-key.txt`. Bypass the filter, read the file, and enter the key
+below to finish the task.
+
+The filter only scrubs a few obvious characters—construct a payload using substitution syntax (for
+example, `$(...)`) or inject a newline to run your command.

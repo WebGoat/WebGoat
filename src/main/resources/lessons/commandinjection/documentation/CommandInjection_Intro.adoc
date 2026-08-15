@@ -1,0 +1,21 @@
+=== What Is Command Injection?
+
+Command injection happens when user-controlled data is passed to an operating system shell
+without strict validation or parameterization. The application may wrap the input in helper
+commands (`ping`, `cat`, `dir`), but because it delegates to `/bin/sh`, `cmd.exe`, or another
+shell, an attacker can break out of the intended command and execute anything the running
+process is allowed to run.
+
+Common reasons this surfaces:
+
+* Using `Runtime.exec`, `ProcessBuilder`, or `popen` with concatenated strings.
+* Trusting user input when building command-line arguments (think backup scripts or log
+  viewers that shell out).
+* Attempting to sanitise by stripping a few metacharacters, but missing others.
+
+The impact depends on the privileges of the application user. At minimum, attackers can
+read data, pivot into the local network, or drop backdoors. In worst cases, they gain full
+control of the host.
+
+In the following tasks you’ll see how a tiny “diagnostic” feature snowballs into arbitrary
+code execution—and how to harden it.
