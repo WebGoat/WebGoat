@@ -1,5 +1,75 @@
 # WebGoat release notes
 
+## Version 2026.3
+
+A large release: WebGoat moves to Spring Boot 4 and Java 25, WebWolf's mail functionality is folded into WebGoat, and
+an administration panel is introduced. Several lessons were expanded or rewritten and a long tail of progress-tracking
+bugs was fixed.
+
+### 🚀 New functionality
+
+- Add WebGoat administration panel with a default admin user, so lessons and user progress can be managed from the UI (#2498, #2048)
+- New lesson: Open Redirects (#2233)
+- New lesson: Security Misconfiguration (#2238)
+- Implement JWKS validation in WebWolf (#2234)
+- Move the mail functionality from WebWolf into WebGoat (#2470)
+- General support for the Spanish language, including translated intro, challenges, auth bypass, bypass front-end
+  restrictions and Chrome DevTools documentation
+- Improved language selector with sensible defaults per language (#2440)
+- Add a lesson template for the Missing Function Level Access Control modules
+- Expanded HTTP Basics lesson (#2423)
+- Upgraded and reworked the JWT lessons (#2431)
+- Expanded and updated the Burp Suite section and consolidated the ZAP modules (#2305)
+- Add a `cleanall` Maven profile to wipe test results and the test database (#2442)
+
+### 🐞 Bug fixes
+
+- Lessons do not turn green upon completion (#2434)
+- Advanced SQL injection module never showing completed (#2414)
+- Correct number of solved assignments in the report card (#2065)
+- `EXCLUDE_LESSONS` not excluding lessons as expected (#2175)
+- Fix for the file server (#2509)
+- Challenge introduction page does not load (#2095)
+- Hints not appearing for the XXE lessons (#2432)
+- Removed a duplicate slash in the XXE blind assignment (#2436)
+- Hostnames not working in the password reset lesson's host header (#2422)
+- Handle both lowercase and CamelCase network routes (#2380)
+- Null-safe string comparison to prevent a `NullPointerException` in `SqlInjectionLesson2` (#2302)
+- Resolve the URL for the developer tools network lesson (#2087)
+- Correct URLs in SQL mitigation lessons 9 and 10 (#2077)
+- Capitalization issue in the log bleeding lesson (#2376)
+- Grammar and wording cleanup for the insecure deserialization lessons
+- Clarify the brute-force assumption in the Secure Passwords cracking time lesson (#2273)
+- Set the browser language so Playwright tests also pass when the default browser language is not English (#2108)
+- Remove outdated mailing list references (#2097) and update the about page (#2070) to webgoat.org (#2066)
+
+### 🔄 Technical tasks
+
+- Migration to Spring Boot 4.1 (#2468)
+- Java 25 (base image moved to `eclipse-temurin:25-jdk-noble`)
+- Removed deprecations in the test code (#2144)
+- Reworked the release workflow and documented it in `release-explained.md` (#2513)
+- CI moved to the `macos-15-intel` runner and GitHub Actions were updated across the board
+- Lots of dependency updates (Spring Boot, JRuby 10, Playwright, jsoup, Guava, Lombok, commons-*, java-jwt, jwks-rsa,
+  jose4j, WireMock, WebDriverManager, Alpine, spotless and friends)
+
+### Contributors
+
+Special thanks to the following contributors providing us with a pull request:
+
+- Àngel Ollé Blázquez
+- Nanne Baars
+- René Zubcevic
+- Alex (agrevster)
+- Sahitya Singh
+- Shourya Thakur
+- Geoffrey Tsai
+- Bernhard Molz
+- Hazem
+- Ishita Dubey
+- Kaustub Gairola
+- Danish Verma
+
 ## Version 2025.3
 
 ### 🐞 Bug fixes
