@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>4.1.0</version>
+    <version>4.1.1</version>
   </parent>
 
   <groupId>org.owasp.webgoat</groupId>
   <artifactId>webgoat</artifactId>
-  <version>2026.2-SNAPSHOT</version>
+  <version>2026.4-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>WebGoat</name>
@@ -72,20 +72,20 @@
     <commons-io.version>2.22.0</commons-io.version>
     <commons-lang3.version>3.14.0</commons-lang3.version>
     <commons-text.version>1.15.0</commons-text.version>
-    <guava.version>33.6.0-jre</guava.version>
+    <guava.version>33.7.1-jre</guava.version>
     <jacoco.version>0.8.11</jacoco.version>
     <java.version>25</java.version>
     <jaxb.version>2.3.1</jaxb.version>
     <jjwt.version>0.9.1</jjwt.version>
     <jose4j.version>0.9.6</jose4j.version>
     <jquery.version>4.0.0</jquery.version>
-    <jsoup.version>1.23.1</jsoup.version>
-    <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+    <jsoup.version>1.23.2</jsoup.version>
+    <maven-compiler-plugin.version>3.16.0</maven-compiler-plugin.version>
     <maven-failsafe-plugin.version>3.5.6</maven-failsafe-plugin.version>
     <maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
-    <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.6.0</maven-surefire-plugin.version>
     <maven.compiler.proc>full</maven.compiler.proc>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -96,7 +96,7 @@
     <!-- rest-assured is no longer managed by the Spring Boot 4 BOM; 6.x is built for the
          Groovy 5 that Spring Boot 4 ships (5.x targets Groovy 4 and fails at runtime). -->
     <rest-assured.version>6.0.1</rest-assured.version>
-    <spotless-maven-plugin.version>3.9.0</spotless-maven-plugin.version>
+    <spotless-maven-plugin.version>3.10.1</spotless-maven-plugin.version>
     <waittimeForServerStart>60</waittimeForServerStart>
     <webdriver.version>6.3.4</webdriver.version>
     <webgoat.context>/WebGoat</webgoat.context>
@@ -241,7 +241,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.46</version>
+      <version>1.18.48</version>
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
@@ -675,7 +675,7 @@
             <path>
               <groupId>org.projectlombok</groupId>
               <artifactId>lombok</artifactId>
-              <version>1.18.46</version>
+              <version>1.18.48</version>
             </path>
           </annotationProcessorPaths>
           <compilerArgs>

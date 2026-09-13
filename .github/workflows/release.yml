@@ -30,37 +30,16 @@ jobs:
           mvn --no-transfer-progress versions:set -DnewVersion=${{ env.WEBGOAT_MAVEN_VERSION }}
           mvn --no-transfer-progress install -DskipTests
 
+      # Published as a draft so the generated notes can be reviewed and edited before they go public,
+      # the release itself is created with the notes GitHub derives from the merged pull requests
+      # since the previous tag.
       - name: "Create release"
         uses: softprops/action-gh-release@v3
         with:
-          draft: false
+          draft: true
+          generate_release_notes: true
           files: |
             target/webgoat-${{ env.WEBGOAT_MAVEN_VERSION }}.jar
-          body: |
-           ## Version ${{ github.ref_name }}
-
-            ### New functionality
-
-            - test
-
-            ### Bug fixes
-
-            - [#743 - Character encoding errors](https://github.com/WebGoat/WebGoat/issues/743)
-
-            Full change log: https://github.com/WebGoat/WebGoat/compare/${{ github.ref_name }}...${{ github.ref_name }}
-
-
-            ## Contributors
-
-            Special thanks to the following contributors providing us with a pull request:
-
-            - Person 1
-            - Person 2
-
-            And everyone who provided feedback through Github.
-
-
-            Team WebGoat
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -108,9 +87,15 @@ jobs:
     name: Update to next SNAPSHOT version
     needs: [ release ]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
+      # The workflow is triggered by a tag, checking out main makes sure the branch we push and the
+      # pull request we open only contain the version bump.
       - uses: actions/checkout@v7
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Set up JDK
@@ -118,21 +103,23 @@ jobs:
         with:
           cache: ''
 
+      # nextMinorVersion and not minorVersion: the released pom is 2026.2, development continues on
+      # 2026.3-SNAPSHOT.
       - name: Set version to next snapshot
         run: |
-          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}-SNAPSHOT versions:commit
+          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}-SNAPSHOT versions:commit
 
       - name: Push the changes to new branch
         uses: devops-infra/action-commit-push@v1.5.0
         with:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
             add_timestamp: true
-            commit_message: "Updating to the new development version"
+            commit_message: "chore: back to snapshot after ${{ github.ref_name }}"
             force: false
 
       - name: Create PR
         uses: devops-infra/action-pull-request@v1.4.0
         with:
             github_token: "${{ secrets.GITHUB_TOKEN }}"
-            title: ${{ github.event.commits[0].message }}
+            title: "chore: back to snapshot after ${{ github.ref_name }}"
             target_branch: main
