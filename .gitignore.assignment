@@ -1,0 +1,14 @@
+# Append these entries to the upstream .gitignore
+.env
+.env.*
+!.env.example
+reports/
+evidence/private/
+*.pem
+*.key
+*.p12
+*.pfx
+.trivy/
+.semgrep/
+.gitleaks/
+dependency-check-data/

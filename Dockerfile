@@ -5,9 +5,14 @@ LABEL name="WebGoat: A deliberately insecure Web Application"
 LABEL maintainer="WebGoat team"
 
 RUN \
+  apt-get update && \
+  apt-get install -y --no-install-recommends curl && \
+  rm -rf /var/lib/apt/lists/* && \
   useradd -ms /bin/bash webgoat && \
+  mkdir -p /home/webgoat/.webgoat-2026.2-SNAPSHOT && \
   chgrp -R 0 /home/webgoat && \
-  chmod -R g=u /home/webgoat
+  chmod -R g=u /home/webgoat && \
+  chmod 777 /home/webgoat/.webgoat-2026.2-SNAPSHOT
 
 USER webgoat
 

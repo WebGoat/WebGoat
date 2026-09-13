@@ -1,0 +1,28 @@
+rules:
+  - id: ie3142-java-sql-string-concatenation
+    message: Untrusted values must not be concatenated into SQL; use bound parameters.
+    severity: ERROR
+    languages: [java]
+    patterns:
+      - pattern-either:
+          - pattern: $S.executeQuery($Q + $X)
+          - pattern: $S.executeUpdate($Q + $X)
+          - pattern: $S.prepareStatement($Q + $X)
+  - id: ie3142-java-runtime-exec
+    message: Avoid command execution with user-controlled values.
+    severity: ERROR
+    languages: [java]
+    patterns:
+      - pattern-either:
+          - pattern: Runtime.getRuntime().exec(...)
+          - pattern: new ProcessBuilder(...)
+  - id: ie3142-hardcoded-password
+    message: Do not hardcode passwords. Inject secrets at runtime.
+    severity: ERROR
+    languages: [java]
+    patterns:
+      - pattern-regex: '(?i)(password|passwd|pwd)\s*=\s*"[^"${}]{8,}"'
+    paths:
+      exclude:
+        - "**/src/test/**"
+        - "**/target/**"

@@ -1,0 +1,12 @@
+title = "IE3142 Gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Documentation and verified synthetic fixtures only"
+paths = [
+  '''(^|/)docs/''',
+  '''(^|/)evidence/''',
+  '''(^|/)\.env\.example$'''
+]

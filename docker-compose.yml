@@ -1,0 +1,33 @@
+services:
+  webgoat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ie3142-webgoat:${IMAGE_TAG:-local}
+    container_name: ie3142-webgoat
+    environment:
+      TZ: ${TZ:-Asia/Colombo}
+      WEBGOAT_HOST: ${WEBGOAT_HOST:-www.webgoat.local}
+      WEBWOLF_HOST: ${WEBWOLF_HOST:-www.webwolf.local}
+    ports:
+      - "127.0.0.1:${WEBGOAT_PORT:-8080}:8080"
+      - "127.0.0.1:${WEBWOLF_PORT:-9090}:9090"
+    volumes:
+      - webgoat-data:/home/webgoat/.webgoat-2026.2-SNAPSHOT
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=256m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/WebGoat/actuator/health || curl -fsS http://127.0.0.1:8080/WebGoat/ >/dev/null"]
+      interval: 20s
+      timeout: 5s
+      retries: 12
+      start_period: 90s
+    restart: "no"
+
+volumes:
+  webgoat-data:

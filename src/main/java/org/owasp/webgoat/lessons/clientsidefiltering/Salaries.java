@@ -39,7 +39,7 @@ public class Salaries {
   @PostConstruct
   public void copyFiles() {
     ClassPathResource classPathResource = new ClassPathResource("lessons/employees.xml");
-    File targetDirectory = new File(webGoatHomeDirectory, "/ClientSideFiltering");
+    File targetDirectory = new File(webGoatHomeDirectory, "ClientSideFiltering");
     if (!targetDirectory.exists()) {
       targetDirectory.mkdir();
     }
