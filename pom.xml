@@ -10,7 +10,7 @@
 
   <groupId>org.owasp.webgoat</groupId>
   <artifactId>webgoat</artifactId>
-  <version>2026.3-SNAPSHOT</version>
+  <version>2026.4-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>WebGoat</name>
