@@ -88,6 +88,9 @@
                         <div th:case="'fr'">
                             <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
                         </div>
+                        <div th:case="'es'">
+                            <img th:src="@{${'/css/img/'}+${#locale.language}+${'lang.svg'}}"></img><span class="caret"></span>
+                        </div>
                         <div th:case="*">
                             <img th:src="@{${'/css/img/enlang.svg'}}"></img><span class="caret"></span>
                         </div>
