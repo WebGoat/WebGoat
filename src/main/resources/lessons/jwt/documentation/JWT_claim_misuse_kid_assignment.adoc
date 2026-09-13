@@ -1,4 +1,4 @@
-== Try it out...
+== Try it out... (JWT with KID version)
 
 Below you see two accounts, one of Jerry and one of Tom.
 Jerry wants to remove Tom's account from Twitter, but his token can only delete his account.
