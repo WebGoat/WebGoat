@@ -85,6 +85,19 @@ class FileServerTest {
   }
 
   @Test
+  void shouldRejectUploadWithPathTraversal() throws Exception {
+    mockMvc
+        .perform(
+            multipart("/fileupload")
+                .file(new MockMultipartFile("file", "../outside.txt", "text/plain", "x".getBytes()))
+                .principal(AUTHENTICATION))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("files?uploadSuccess=Nothing+to+upload"));
+
+    Assertions.assertThat(fileServerLocation.resolve("outside.txt")).doesNotExist();
+  }
+
+  @Test
   @DisplayName("An uploaded file is listed on the files page")
   void shouldListUploadedFile() throws Exception {
     mockMvc.perform(multipart("/fileupload").file(testFile()).principal(AUTHENTICATION));

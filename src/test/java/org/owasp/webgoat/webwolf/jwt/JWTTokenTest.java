@@ -127,6 +127,24 @@ class JWTTokenTest {
     assertThat(token.isSignatureValid()).isFalse();
   }
 
+  @Test
+  @SneakyThrows
+  void decodeTokenFailsWhenJwksKeyIdIsMissing() {
+    RsaJsonWebKey jwk = RsaJwkGenerator.generateJwk(2048);
+    jwk.setKeyId("signing-key");
+    JsonWebSignature jws = new JsonWebSignature();
+    jws.setPayload(toString(Map.of("scope", "read")));
+    jws.setKey(jwk.getPrivateKey());
+    jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
+    String compact = jws.getCompactSerialization();
+
+    var token =
+        JWTToken.decode(
+            compact, null, new JsonWebKeySet(jwk).toJson(OutputControlLevel.PUBLIC_ONLY));
+
+    assertThat(token.isSignatureValid()).isFalse();
+  }
+
   @SneakyThrows
   private String toString(Map<String, String> map) {
     var mapper = new ObjectMapper();

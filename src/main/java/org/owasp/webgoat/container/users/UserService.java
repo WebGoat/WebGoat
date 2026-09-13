@@ -75,8 +75,16 @@ public class UserService implements UserDetailsService {
   }
 
   private void createLessonsForUser(WebGoatUser webGoatUser) {
-    jdbcTemplate.execute("CREATE SCHEMA \"" + webGoatUser.getUsername() + "\" authorization dba");
+    jdbcTemplate.execute(
+        "CREATE SCHEMA " + quoteIdentifier(webGoatUser.getUsername()) + " authorization dba");
     flywayLessons.apply(webGoatUser.getUsername()).migrate();
+  }
+
+  static String quoteIdentifier(String identifier) {
+    if (identifier == null || identifier.indexOf('\0') >= 0) {
+      throw new IllegalArgumentException("Invalid schema identifier");
+    }
+    return "\"" + identifier.replace("\"", "\"\"") + "\"";
   }
 
   public List<WebGoatUser> getAllUsers() {

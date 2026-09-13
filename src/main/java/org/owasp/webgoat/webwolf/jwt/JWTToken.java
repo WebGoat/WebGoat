@@ -167,17 +167,15 @@ public class JWTToken {
       VerificationKeyResolver resolver =
           (JsonWebSignature jws, List<JsonWebStructure> nestingContext) -> {
             String keyId = jws.getKeyIdHeaderValue();
-            if (hasText(keyId)) {
-              for (JsonWebKey jwk : jsonWebKeySet.getJsonWebKeys()) {
-                if (keyId.equals(jwk.getKeyId())) {
-                  return jwk.getKey();
-                }
+            if (!hasText(keyId)) {
+              throw new UnresolvableKeyException("JWT does not specify a key id");
+            }
+            for (JsonWebKey jwk : jsonWebKeySet.getJsonWebKeys()) {
+              if (keyId.equals(jwk.getKeyId())) {
+                return jwk.getKey();
               }
             }
-            if (!jsonWebKeySet.getJsonWebKeys().isEmpty()) {
-              return jsonWebKeySet.getJsonWebKeys().get(0).getKey();
-            }
-            throw new UnresolvableKeyException("No keys available in JWKS");
+            throw new UnresolvableKeyException("No matching key in JWKS");
           };
 
       JwtConsumer jwtConsumer =

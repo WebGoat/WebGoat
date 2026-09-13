@@ -42,4 +42,10 @@ class UserServiceTest {
     Assertions.assertThatThrownBy(() -> userService.loadUserByUsername("unknown"))
         .isInstanceOf(UsernameNotFoundException.class);
   }
+
+  @Test
+  void quoteIdentifierEscapesQuotesInsteadOfAllowingSqlInjection() {
+    Assertions.assertThat(UserService.quoteIdentifier("user\"; DROP SCHEMA PUBLIC; --"))
+        .isEqualTo("\"user\"\"; DROP SCHEMA PUBLIC; --\"");
+  }
 }

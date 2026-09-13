@@ -88,7 +88,15 @@ public class FileServer {
     // DO NOT use multipartFile.transferTo(), see
     // https://stackoverflow.com/questions/60336929/java-nio-file-nosuchfileexception-when-file-transferto-is-called
     try (InputStream is = multipartFile.getInputStream()) {
-      var destinationFile = destinationDir.toPath().resolve(multipartFile.getOriginalFilename());
+      var originalFilename = multipartFile.getOriginalFilename();
+      var destinationFile = destinationDir.toPath().resolve(originalFilename).normalize();
+      if (!destinationFile.getParent().equals(destinationDir.toPath().toAbsolutePath())
+          && !destinationFile.getParent().equals(destinationDir.toPath())) {
+        log.warn("Rejected upload with path component from {}", username);
+        return new ModelAndView(
+            new RedirectView("files", true),
+            new ModelMap().addAttribute("uploadSuccess", NOTHING_TO_UPLOAD));
+      }
       Files.deleteIfExists(destinationFile);
       Files.copy(is, destinationFile);
     }
