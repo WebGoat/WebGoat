@@ -34,7 +34,7 @@ ENTRYPOINT [ "java", \
    "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", \
    "--add-opens", "java.base/java.io=ALL-UNNAMED", \
    "-Drunning.in.docker=true", \
-   "-jar", "webgoat.jar", "--server.address", "0.0.0.0" ]
+   "-jar", "webgoat.jar", "--server.address=0.0.0.0" ]
 
 HEALTHCHECK --interval=5s --timeout=3s \
   CMD curl --fail http://localhost:8080/WebGoat/actuator/health || exit 1
