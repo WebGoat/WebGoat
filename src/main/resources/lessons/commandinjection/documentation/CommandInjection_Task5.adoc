@@ -1,0 +1,19 @@
+=== Sandbox the diagnostics
+
+You now control the diagnostics console. The team proposed three switches:
+
+*Execution mode*
+
+- Shell – legacy behaviour that spawns `/bin/sh -c` / `cmd.exe /c`
+- Direct process – use `ProcessBuilder` without a shell
+- Allowlist only – run commands strictly from a fixed list
+
+*Command allowlist* – enables the predefined safe commands (hostname, uptime).
+
+*Input sanitiser* – strips the obvious separators.
+
+Find the combination that allows the legitimate status check to run while preventing the command
+injections from earlier tasks. Submit your configuration to verify the fix.
+
+Secure remediation relies on removing the shell and enforcing a tight allowlist. A deny list and
+sanitisers are insufficient by themselves.

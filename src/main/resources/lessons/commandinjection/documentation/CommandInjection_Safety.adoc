@@ -1,0 +1,10 @@
+=== Safety First
+
+These exercises execute real commands on the machine running WebGoat. If you are running the
+standalone JAR on your workstation, a malformed input could leave processes running or modify
+files. We strongly suggest using the Docker container for this lesson so you can tear down the
+environment after experimenting.
+
+Type the sentence below to acknowledge the risk and continue:
+
+`I understand commands will execute`

@@ -1,0 +1,14 @@
+=== Chain commands to leak system info
+
+The diagnostics console concatenates your input with a shell command. Try appending a new
+command (for example, with `;` or `&&`) that prints the environment variable
+`WEBGOAT_BUILD_TOKEN`. The backend will show you the raw output.
+
+Steps:
+
+. Use the console to run a normal diagnostic.
+. Append a chained command that echoes the token (e.g., `; echo $WEBGOAT_BUILD_TOKEN` on Linux or
+  `&& echo %WEBGOAT_BUILD_TOKEN%` on Windows).
+. Copy the leaked build token from the output and submit it below.
+
+If you can chain commands, you can run anything the service account can.
