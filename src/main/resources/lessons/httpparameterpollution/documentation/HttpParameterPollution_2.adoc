@@ -1,0 +1,20 @@
+== Observe the parser
+
+Different parts of an application may interpret duplicate parameters in different ways.
+
+For example, a component might use the first value, the last value, or the complete list.
+
+=== Assignment
+
+The form below has two inputs named `name`. The browser sends both values in one query string:
+
+[source,text]
+----
+?name=WebGoat&name=WebGoat
+----
+
+Submit the form once and compare what a component that expects one value sees with what a component that accepts several values sees.
+
+Then change one input so the two values differ and submit the form again.
+
+The endpoint reads the complete value array. It deliberately displays the first value beside the full array, so the result does not depend on implicit framework behavior.
