@@ -28,17 +28,28 @@ public class Authentication {
     }
   }
 
-  @Getter private static User sylvester = new User("sylvester", "sylvester", null);
-  @Getter private static User tweety = new User("tweety", "tweety", null);
+  @Getter private static volatile User sylvester = new User("sylvester", "sylvester", null);
+  @Getter private static volatile User tweety = new User("tweety", "tweety", null);
+
+  private static final Object sylvesterLock = new Object();
+  private static final Object tweetyLock = new Object();
 
   public static Page sylvester(Browser browser) {
-    User user = login(browser, sylvester);
-    return browser.newContext(new Browser.NewContextOptions().setLocale("en-US").setStorageState(user.auth)).newPage();
+    synchronized (sylvesterLock) {
+      if (!sylvester.loggedIn()) {
+        sylvester = login(browser, sylvester);
+      }
+      return browser.newContext(new Browser.NewContextOptions().setLocale("en-US").setStorageState(sylvester.auth)).newPage();
+    }
   }
 
   public static Page tweety(Browser browser) {
-    User user = login(browser, tweety);
-    return browser.newContext(new Browser.NewContextOptions().setLocale("en-US").setStorageState(user.auth)).newPage();
+    synchronized (tweetyLock) {
+      if (!tweety.loggedIn()) {
+        tweety = login(browser, tweety);
+      }
+      return browser.newContext(new Browser.NewContextOptions().setLocale("en-US").setStorageState(tweety.auth)).newPage();
+    }
   }
 
   private static User login(Browser browser, User user) {
