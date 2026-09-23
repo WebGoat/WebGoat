@@ -1,0 +1,11 @@
+== Extract a noisy signal
+
+Real measurements vary because of scheduling, runtime activity, network latency, and other work on the host. This endpoint adds between 0 and 8 milliseconds of random jitter while reducing the matching-byte signal to about 2 milliseconds:
+
+----
+GET /WebGoat/crypto/timing/verify-noisy?message=WebGoat%20with%20noise&signature=00000000
+----
+
+This assignment uses the message `WebGoat with noise`, so the tag recovered in the previous assignment cannot be reused. One request is no longer useful evidence. Take several samples for each candidate and compare an aggregate such as the median, mean, or trimmed mean. No single statistical method is required.
+
+You can reduce the request count through progressive elimination. Measure every candidate a few times, retain the strongest group, take more samples for that group, and repeat until one candidate remains. This is a statistical attack against an implementation leak. It does not recover the HMAC secret or break SHA-256.
