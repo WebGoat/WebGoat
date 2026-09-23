@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/http-parameter-pollution.css}" />
+
+<div class="lesson-page-wrapper">
+    <!-- Page 1: Introduction -->
+    <div class="adoc-content" th:replace="~{doc:lessons/httpparameterpollution/documentation/HttpParameterPollution_1.adoc}"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <!-- Page 2: Observe the Parser -->
+    <div class="adoc-content" th:replace="~{doc:lessons/httpparameterpollution/documentation/HttpParameterPollution_2.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="container-fluid">
+            <form class="attack-form" accept-charset="UNKNOWN" name="parameters" method="GET"
+                  th:action="@{/HttpParameterPollution/parameters}">
+                <div class="http-parameter-fields">
+                    <label for="name-first">First value for <code>name</code>:</label>
+                    <input type="text" name="name" id="name-first" value="WebGoat"/>
+                    <label for="name-second">Second value for <code>name</code>:</label>
+                    <input type="text" name="name" id="name-second" value="WebGoat"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <div class="attack-feedback"></div>
+            <div class="attack-output"></div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <!-- Page 3: Exploit -->
+    <div class="adoc-content" th:replace="~{doc:lessons/httpparameterpollution/documentation/HttpParameterPollution_3.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="container-fluid">
+            <form class="attack-form" accept-charset="UNKNOWN" name="transfer" method="POST"
+                  th:action="@{/HttpParameterPollution/transfer}">
+                <div class="http-parameter-fields">
+                    <label for="recipient">Recipient:</label>
+                    <input type="text" name="recipient" id="recipient" value="alice"/>
+                    <label for="amount">Amount:</label>
+                    <input type="number" name="amount" id="amount" value="100"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Transfer</button>
+            </form>
+            <div class="attack-feedback"></div>
+            <div class="attack-output"></div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <!-- Page 4: Mitigation -->
+    <div class="adoc-content" th:replace="~{doc:lessons/httpparameterpollution/documentation/HttpParameterPollution_4.adoc}"></div>
+</div>
+</html>
