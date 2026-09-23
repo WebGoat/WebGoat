@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 public class CommandInjectionCatService {
 
   private static final Pattern GREP_RESULT_PATTERN =
-      Pattern.compile("images/([a-z0-9_-]+)\\.txt:.*", Pattern.CASE_INSENSITIVE);
+      Pattern.compile("images[/\\\\]([a-z0-9_-]+)\\.txt:.*", Pattern.CASE_INSENSITIVE);
 
   private static final List<CatDefinition> CAT_LIBRARY =
       List.of(

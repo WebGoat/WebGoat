@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import lombok.SneakyThrows;
 import org.owasp.webgoat.container.lessons.Initializable;
 import org.owasp.webgoat.container.users.WebGoatUser;
+import org.owasp.webgoat.lessons.commandinjection.CommandExecutionService.CommandExecutionResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,7 @@ public class CommandInjectionTask3Service implements Initializable {
   public SearchResponse search(WebGoatUser user, String title) {
     ensureInitialized(user);
     String command = buildCommand(title);
-    CommandExecutionService.CommandExecutionResult executionResult =
+    CommandExecutionResult executionResult =
         commandExecutionService.execute(userDirectories.get(user.getUsername()), command);
     String console = buildConsole(command, executionResult);
     List<CatView> cats =
@@ -58,7 +59,9 @@ public class CommandInjectionTask3Service implements Initializable {
 
   public boolean validateFlag(WebGoatUser user, String submittedFlag) {
     String expectedFlag = userFlags.get(user.getUsername());
-    return expectedFlag != null && expectedFlag.contains(submittedFlag.trim());
+    String value = submittedFlag.trim();
+    return expectedFlag != null
+        && (expectedFlag.equals(value) || expectedFlag.equals("flag{" + value + "}"));
   }
 
   private void ensureInitialized(WebGoatUser user) {
@@ -73,7 +76,7 @@ public class CommandInjectionTask3Service implements Initializable {
   }
 
   private String buildConsole(
-      String command, CommandExecutionService.CommandExecutionResult result) {
+      String command, CommandExecutionResult result) {
     StringBuilder console = new StringBuilder();
     console.append("Command: ").append(command).append("\n");
     console.append(result.output());
@@ -99,6 +102,9 @@ public class CommandInjectionTask3Service implements Initializable {
 
   private String buildCommand(String title) {
     String trimmedTitle = title == null ? "" : title.trim();
+    if (CommandExecutionService.isWindows()) {
+      return "findstr /I " + trimmedTitle + " images\\*.txt";
+    }
     return "grep " + trimmedTitle + " images/*.txt";
   }
 

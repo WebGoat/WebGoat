@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.users.WebGoatUser;
+import org.owasp.webgoat.lessons.commandinjection.CommandInjectionTask3Service.SearchResponse;
 import org.springframework.web.server.ResponseStatusException;
 
 class CommandInjectionTask3Test {
@@ -30,9 +31,11 @@ class CommandInjectionTask3Test {
             "./target/webgoat-test",
             new CommandInjectionCatService(),
             new CommandExecutionService());
-    searchController = new CommandInjectionTask3Search(service);
-    flagController = new CommandInjectionTask3Flag(service);
     user = new WebGoatUser("alice", "password");
+    var safetyService = new CommandInjectionSafetyService();
+    safetyService.acknowledge(user);
+    searchController = new CommandInjectionTask3Search(service, safetyService);
+    flagController = new CommandInjectionTask3Flag(service);
     service.initialize(user);
   }
 
@@ -52,8 +55,7 @@ class CommandInjectionTask3Test {
 
   @Test
   void shouldSucceedWhenFlagMatches() {
-    CommandInjectionTask3Service.SearchResponse firstRun =
-        searchController.search(user, injectionPayload());
+    SearchResponse firstRun = searchController.search(user, injectionPayload());
     Matcher matcher =
         Pattern.compile(
                 "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -65,6 +67,13 @@ class CommandInjectionTask3Test {
 
     assertThat(result.assignmentSolved()).isTrue();
     assertThat(result.getFeedback()).isEqualTo("commandinjection.task3.success");
+  }
+
+  @Test
+  void shouldRejectFlagFragment() {
+    AttackResult result = flagController.submitFlag(user, "}");
+
+    assertThat(result.assignmentSolved()).isFalse();
   }
 
   private String injectionPayload() {

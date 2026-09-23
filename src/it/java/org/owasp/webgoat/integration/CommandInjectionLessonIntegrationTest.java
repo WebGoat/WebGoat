@@ -40,6 +40,15 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
   }
 
   private void acknowledgeSafetyGate() {
+    given()
+        .when()
+        .relaxedHTTPSValidation()
+        .cookie("JSESSIONID", getWebGoatCookie())
+        .get(webGoatUrlConfig.url("CommandInjection/safety/status"))
+        .then()
+        .statusCode(200)
+        .body("commandExecutionUnlocked", is(false));
+
     assertThat(
         given()
             .when()
@@ -52,6 +61,15 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
             .extract()
             .path("lessonCompleted"),
         is(true));
+
+    given()
+        .when()
+        .relaxedHTTPSValidation()
+        .cookie("JSESSIONID", getWebGoatCookie())
+        .get(webGoatUrlConfig.url("CommandInjection/safety/status"))
+        .then()
+        .statusCode(200)
+        .body("commandExecutionUnlocked", is(true));
   }
 
   private void solveTask1() {
@@ -117,12 +135,16 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
   }
 
   private String captureTask3Flag() {
+    String payload =
+        isWindowsHost()
+            ? "luna images\\*.txt & type flag.txt & rem"
+            : "luna images/*; cat flag.txt; #";
     var response =
         given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .formParam("title", "luna images/*; cat flag.txt; #")
+            .formParam("title", payload)
             .post(webGoatUrlConfig.url("CommandInjection/task3/search"))
             .then()
             .statusCode(200)
@@ -151,12 +173,16 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
   }
 
   private String captureTask4ApiKey() {
+    String payload =
+        isWindowsHost()
+            ? "luna images\\*.txt & type api-key.txt & rem"
+            : "$(cat api-key.txt >&2)";
     JsonPath response =
         given()
             .when()
             .relaxedHTTPSValidation()
             .cookie("JSESSIONID", getWebGoatCookie())
-            .formParam("title", "$(cat api-key.txt >&2)")
+            .formParam("title", payload)
             .post(webGoatUrlConfig.url("CommandInjection/task4/search"))
             .then()
             .statusCode(200)

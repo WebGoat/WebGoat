@@ -98,13 +98,6 @@ define(['jquery',
                 this.$curFeedback = $(curForm).closest('.attack-container').find('.attack-feedback');
                 this.$curOutput = $(curForm).closest('.attack-container').find('.attack-output');
 
-                if (this.$curFeedback.length) {
-                    this.$curFeedback.stop(true, true).hide().empty();
-                }
-                if (this.$curOutput.length) {
-                    this.$curOutput.stop(true, true).hide().empty();
-                }
-
                 var formUrl = $(curForm).attr('action');
                 var formMethod = $(curForm).attr('method');
                 var contentType = ($(curForm).attr('contentType')) ? $(curForm).attr('contentType') : 'application/x-www-form-urlencoded; charset=UTF-8';
@@ -176,10 +169,6 @@ define(['jquery',
             },
 
             renderFeedback: function (feedback) {
-                if (!feedback) {
-                    this.$curFeedback.hide().empty();
-                    return;
-                }
                 var s = this.removeSlashesFromJSON(feedback);
                 this.$curFeedback.html(polyglot.t(s) || "");
                 this.$curFeedback.show(400)

@@ -9,6 +9,7 @@ Steps:
 . Use the console to run a normal diagnostic.
 . Append a chained command that echoes the token (e.g., `; echo $WEBGOAT_BUILD_TOKEN` on Linux or
   `&& echo %WEBGOAT_BUILD_TOKEN%` on Windows).
-. Copy the leaked build token from the output and submit it below.
+. Copy either the complete `WEBGOAT_BUILD_TOKEN=...` value or its UUID from the output and submit it
+  below.
 
 If you can chain commands, you can run anything the service account can.

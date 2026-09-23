@@ -49,6 +49,27 @@
     .search-output {
         margin-top: 1.25rem;
     }
+
+    .command-console {
+        font-family: monospace;
+        white-space: pre-wrap;
+    }
+
+    .safety-status h4 {
+        margin-top: 0;
+    }
+
+    .safety-status dl {
+        display: grid;
+        grid-template-columns: max-content auto;
+        gap: 0.25rem 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .safety-status dt,
+    .safety-status dd {
+        margin: 0;
+    }
 </style>
 
 <div class="lesson-page-wrapper">
@@ -65,8 +86,19 @@
     <div class="adoc-content"
          th:replace="~{doc:lessons/commandinjection/documentation/CommandInjection_Safety.adoc}"></div>
     <div class="attack-container">
+        <div id="command-injection-safety-status"
+             class="alert alert-info safety-status"
+             role="status"
+             aria-live="polite"
+             th:attr="data-status-url=@{/CommandInjection/safety/status}">
+            Checking runtime status...
+        </div>
         <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
-        <form id="safety-form" class="attack-form" method="POST" th:action="@{/CommandInjection/safety}">
+        <form id="safety-form"
+              class="attack-form"
+              method="POST"
+              successCallback="refreshCommandInjectionSafetyStatus"
+              th:action="@{/CommandInjection/safety}">
             <div class="form-group">
                 <label for="ack">Type the acknowledgement</label>
                 <input class="form-control" id="ack" name="ack" placeholder="I understand commands will execute"
@@ -103,7 +135,7 @@
                 <input class="form-control" id="observed" name="observed"
                        placeholder="Paste the exact command you observed" autocomplete="off"/>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Run diagnostic</button>
+            <button type="submit" class="btn btn-primary btn-block">Preview command</button>
         </form>
         <div class="attack-feedback"></div>
         <div class="attack-output"></div>
@@ -131,7 +163,7 @@
             <button type="submit" class="btn btn-primary btn-block">Run command</button>
         </form>
         <div class="attack-feedback"></div>
-        <div class="attack-output"></div>
+        <div class="attack-output command-console"></div>
     </div>
 </div>
 
@@ -251,7 +283,7 @@
                 <select class="form-control" id="mode" name="mode">
                     <option value="SHELL">Shell</option>
                     <option value="DIRECT_PROCESS">Direct process</option>
-                    <option value="ALLOWLIST_ONLY">Allowlist only</option>
+                    <option value="ALLOWLIST_ONLY">Fixed allowlist runner</option>
                 </select>
             </div>
             <div class="checkbox">
@@ -260,10 +292,10 @@
             <div class="checkbox">
                 <label><input type="checkbox" name="sanitiser" value="true"/> Enable input sanitiser</label>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Apply configuration</button>
+            <button type="submit" class="btn btn-primary btn-block">Test configuration</button>
         </form>
         <div class="attack-feedback"></div>
-        <div class="attack-output"></div>
+        <div class="attack-output command-console"></div>
     </div>
 </div>
 
@@ -274,6 +306,81 @@
 
 <script>
     (function () {
+        const safetyStatus = document.getElementById('command-injection-safety-status');
+
+        const addStatusRow = function (list, label, value) {
+            const term = document.createElement('dt');
+            term.textContent = label;
+            list.appendChild(term);
+
+            const description = document.createElement('dd');
+            description.textContent = value;
+            list.appendChild(description);
+        };
+
+        const renderSafetyStatus = function (status) {
+            if (!safetyStatus) {
+                return;
+            }
+
+            safetyStatus.replaceChildren();
+            safetyStatus.classList.remove('alert-info', 'alert-warning', 'alert-success');
+            safetyStatus.classList.add(status.runningInDocker ? 'alert-success' : 'alert-warning');
+
+            const heading = document.createElement('h4');
+            heading.textContent = 'Runtime status';
+            safetyStatus.appendChild(heading);
+
+            const list = document.createElement('dl');
+            addStatusRow(list, 'Docker image', status.runningInDocker ? 'Detected' : 'Not detected');
+            addStatusRow(list, 'Operating system', status.operatingSystem);
+            addStatusRow(list, 'Command shell', status.commandShell);
+            addStatusRow(
+                list,
+                'Command execution',
+                status.commandExecutionUnlocked ? 'Unlocked' : 'Locked'
+            );
+            safetyStatus.appendChild(list);
+
+            const recommendation = document.createElement('p');
+            recommendation.textContent = status.runningInDocker
+                ? 'This lesson is running in the recommended Docker image.'
+                : 'For this lesson, we highly recommend the official webgoat/webgoat Docker image.';
+            safetyStatus.appendChild(recommendation);
+        };
+
+        const renderSafetyStatusError = function () {
+            if (!safetyStatus) {
+                return;
+            }
+            safetyStatus.classList.remove('alert-info', 'alert-success');
+            safetyStatus.classList.add('alert-warning');
+            safetyStatus.textContent = 'Runtime status is unavailable. Treat command execution as local.';
+        };
+
+        const refreshSafetyStatus = function () {
+            if (!safetyStatus || !safetyStatus.dataset.statusUrl) {
+                return;
+            }
+            fetch(safetyStatus.dataset.statusUrl, {
+                credentials: 'same-origin',
+                headers: {'Accept': 'application/json'}
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(renderSafetyStatus)
+                .catch(renderSafetyStatusError);
+        };
+
+        if (window.webgoat && window.webgoat.customjs) {
+            window.webgoat.customjs.refreshCommandInjectionSafetyStatus = refreshSafetyStatus;
+        }
+        refreshSafetyStatus();
+
         const forms = document.querySelectorAll('.cat-search-form');
         if (!forms.length) {
             return;

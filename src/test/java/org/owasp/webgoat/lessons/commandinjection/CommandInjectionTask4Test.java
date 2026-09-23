@@ -7,10 +7,12 @@ package org.owasp.webgoat.lessons.commandinjection;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.container.users.WebGoatUser;
+import org.owasp.webgoat.lessons.commandinjection.CommandInjectionTask4Service.SearchResponse;
 import org.springframework.web.server.ResponseStatusException;
 
 class CommandInjectionTask4Test {
@@ -27,9 +29,11 @@ class CommandInjectionTask4Test {
             "./target/webgoat-test",
             new CommandInjectionCatService(),
             new CommandExecutionService());
-    searchController = new CommandInjectionTask4Search(service);
-    keyController = new CommandInjectionTask4Key(service);
     user = new WebGoatUser("bob", "password");
+    var safetyService = new CommandInjectionSafetyService();
+    safetyService.acknowledge(user);
+    searchController = new CommandInjectionTask4Search(service, safetyService);
+    keyController = new CommandInjectionTask4Key(service);
     service.initialize(user);
   }
 
@@ -42,8 +46,7 @@ class CommandInjectionTask4Test {
 
   @Test
   void shouldMentionFilterWhenBlacklistHit() {
-    CommandInjectionTask4Service.SearchResponse response =
-        searchController.search(user, "luna; cat api-key.txt");
+    SearchResponse response = searchController.search(user, "luna; cat api-key.txt");
 
     assertThat(response.console()).contains("[Filter] Removed characters");
     assertThat(response.command()).doesNotContain(";").doesNotContain("&&").doesNotContain("|");
@@ -51,8 +54,11 @@ class CommandInjectionTask4Test {
 
   @Test
   void shouldLeakApiKeyWithSubstitutionInjection() {
-    CommandInjectionTask4Service.SearchResponse response =
-        searchController.search(user, "$(cat api-key.txt >&2)");
+    boolean windows =
+        System.getProperty("os.name", "").toLowerCase(Locale.US).contains("win");
+    String payload =
+        windows ? "luna images\\*.txt & type api-key.txt & rem" : "$(cat api-key.txt >&2)";
+    SearchResponse response = searchController.search(user, payload);
 
     String apiKey = extractApiKey(response.console());
     AttackResult result = keyController.submitKey(user, apiKey);

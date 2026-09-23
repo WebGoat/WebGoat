@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.owasp.webgoat.container.lessons.Initializable;
 import org.owasp.webgoat.container.users.WebGoatUser;
+import org.owasp.webgoat.lessons.commandinjection.CommandExecutionService.CommandExecutionResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,7 @@ public class CommandInjectionTask4Service implements Initializable {
     ensureInitialized(user);
     SanitizedPayload payload = sanitizeTitle(title);
     String command = buildCommand(payload.sanitizedTitle());
-    CommandExecutionService.CommandExecutionResult executionResult =
+    CommandExecutionResult executionResult =
         commandExecutionService.execute(userDirectories.get(user.getUsername()), command);
     String console = buildConsole(command, executionResult, payload);
     List<CatView> cats =
@@ -92,7 +93,7 @@ public class CommandInjectionTask4Service implements Initializable {
 
   private String buildConsole(
       String command,
-      CommandExecutionService.CommandExecutionResult result,
+      CommandExecutionResult result,
       SanitizedPayload payload) {
     StringBuilder console = new StringBuilder();
     if (payload.filtered()) {
@@ -124,7 +125,11 @@ public class CommandInjectionTask4Service implements Initializable {
   }
 
   private String buildCommand(String title) {
-    return "grep " + (title == null ? "" : title.trim()) + " images/*.txt";
+    String trimmedTitle = title == null ? "" : title.trim();
+    if (CommandExecutionService.isWindows()) {
+      return "findstr /I " + trimmedTitle + " images\\*.txt";
+    }
+    return "grep " + trimmedTitle + " images/*.txt";
   }
 
   public record SearchResponse(

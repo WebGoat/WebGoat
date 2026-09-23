@@ -48,11 +48,11 @@ public class CommandInjectionLessonUITest extends PlaywrightTest {
     lessonPage.solveTask2(isWindows);
 
     lessonPage.navigateTo(6);
-    lessonPage.solveTask3();
+    lessonPage.solveTask3(isWindows);
     assertThat(lessonPage.task3FlagFeedback()).containsText("Flag captured");
 
     lessonPage.navigateTo(7);
-    lessonPage.solveTask4();
+    lessonPage.solveTask4(isWindows);
     assertThat(lessonPage.task4KeyFeedback()).containsText("Great!");
 
     lessonPage.navigateTo(8);

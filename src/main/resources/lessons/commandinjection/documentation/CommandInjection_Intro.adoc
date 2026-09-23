@@ -17,5 +17,5 @@ The impact depends on the privileges of the application user. At minimum, attack
 read data, pivot into the local network, or drop backdoors. In worst cases, they gain full
 control of the host.
 
-In the following tasks you’ll see how a tiny “diagnostic” feature snowballs into arbitrary
-code execution—and how to harden it.
+The following tasks show how a small "diagnostic" feature permits arbitrary code execution and
+how to harden it.

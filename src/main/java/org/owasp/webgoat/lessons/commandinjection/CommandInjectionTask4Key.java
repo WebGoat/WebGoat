@@ -11,7 +11,6 @@ import org.owasp.webgoat.container.CurrentUser;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.lessons.Initializable;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
   "commandinjection.task4.hint3",
   "commandinjection.task4.hint4"
 })
-public class CommandInjectionTask4Key implements AssignmentEndpoint, Initializable {
+public class CommandInjectionTask4Key implements AssignmentEndpoint {
 
   private final CommandInjectionTask4Service service;
 
@@ -51,10 +50,5 @@ public class CommandInjectionTask4Key implements AssignmentEndpoint, Initializab
     }
 
     return failed(this).feedback("commandinjection.task4.failure.invalid").build();
-  }
-
-  @Override
-  public void initialize(WebGoatUser user) {
-    service.initialize(user);
   }
 }
