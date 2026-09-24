@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -16,6 +17,8 @@ import org.owasp.webgoat.lessons.commandinjection.CommandInjectionTask4Service.S
 import org.springframework.web.server.ResponseStatusException;
 
 class CommandInjectionTask4Test {
+
+  private static final Pattern API_KEY_PATTERN = Pattern.compile("API_KEY=[0-9a-fA-F-]{36}");
 
   private CommandInjectionTask4Service service;
   private CommandInjectionTask4Search searchController;
@@ -65,11 +68,18 @@ class CommandInjectionTask4Test {
     assertThat(result.assignmentSolved()).isTrue();
   }
 
+  @Test
+  void shouldExtractApiKeyWhenWindowsCommandsShareAnOutputLine() {
+    String apiKey = "API_KEY=12345678-1234-1234-1234-123456789abc";
+
+    assertThat(extractApiKey("images\\luna.txt:Luna" + apiKey)).isEqualTo(apiKey);
+  }
+
   private String extractApiKey(String console) {
-    return console
-        .lines()
-        .filter(line -> line.startsWith("API_KEY="))
-        .findFirst()
-        .orElseThrow();
+    var matcher = API_KEY_PATTERN.matcher(console);
+    if (!matcher.find()) {
+      throw new IllegalStateException("API key not present in command output: " + console);
+    }
+    return matcher.group();
   }
 }
