@@ -1,7 +1,7 @@
 /*
  * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
  * SPDX-License-Identifier: GPL-2.0-or-later
- */
+ */spdx
 package org.dummy.insecure.framework;
 
 import java.io.BufferedReader;
