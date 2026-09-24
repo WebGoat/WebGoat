@@ -12,7 +12,7 @@ on:
 
 jobs:
     pre-commit:
-        name: Pre-commit check
+        name: Pre-committ check
         runs-on: ubuntu-latest
         steps:
             -   name: Checkout git repository
