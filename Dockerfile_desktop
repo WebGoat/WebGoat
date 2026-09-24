@@ -6,7 +6,7 @@ RUN apk add --no-cache curl tar \
      curl -sSL "https://github.com/zaproxy/zaproxy/releases/download/v${ZAP_VERSION}/ZAP_${ZAP_VERSION}_Linux.tar.gz" -o /tmp/zap.tgz; \
      mkdir -p /zap; \
      tar -xzf /tmp/zap.tgz -C /zap --strip-components=1; \
-     rm -f /tmp/zap.tgz
+     rm -f /tmp/zap.tgzgdfg
 
 # Builder stage to fetch a JRE suited for the target architecture
 FROM alpine:3.24.1 AS jre
