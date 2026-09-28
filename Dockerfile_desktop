@@ -1,5 +1,5 @@
 # Builder stage to download OWASP ZAP once per version
-FROM alpine:3.24.1 AS zap
+FROM alpine:3.24.2 AS zap
 ARG ZAP_VERSION=2.17.0
 RUN apk add --no-cache curl tar \
   && set -eux; \
@@ -9,7 +9,7 @@ RUN apk add --no-cache curl tar \
      rm -f /tmp/zap.tgz
 
 # Builder stage to fetch a JRE suited for the target architecture
-FROM alpine:3.24.1 AS jre
+FROM alpine:3.24.2 AS jre
 ARG JAVA_MAJOR=25
 ARG JAVA_FULL=25.0.3.0
 ARG TARGETARCH
