@@ -15,11 +15,11 @@ on:
 
 env:
   JF_PROJECT: krypto-data
-  
+
 permissions:
   id-token: write
   contents: read
-  
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
