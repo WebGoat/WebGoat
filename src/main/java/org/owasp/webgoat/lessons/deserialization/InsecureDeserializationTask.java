@@ -30,8 +30,6 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
 
   private static final int MAX_PAYLOAD_SIZE = 4096;
   private static final int TIME_WINDOW_MINUTES = 10;
-  private static final int MIN_DELAY_MS = 3000;
-  private static final int MAX_DELAY_MS = 7000;
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -71,9 +69,7 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
       }
 
       // Deserialize JSON instead of binary Java objects
-      long before = System.currentTimeMillis();
       TaskDto task = objectMapper.readValue(payload, TaskDto.class);
-      long after = System.currentTimeMillis();
 
       // Validate required fields
       if (task.taskName == null || task.taskName.isBlank() ||
@@ -92,12 +88,6 @@ public class InsecureDeserializationTask implements AssignmentEndpoint {
 
       if (minutesDiff > TIME_WINDOW_MINUTES) {
         return failed(this).feedback("insecure-deserialization.expired").build();
-      }
-
-      // Validate timing constraint (if needed for the lesson)
-      int delay = (int) (after - before);
-      if (delay > MAX_DELAY_MS || delay < MIN_DELAY_MS) {
-        return failed(this).build();
       }
 
       return success(this).build();
