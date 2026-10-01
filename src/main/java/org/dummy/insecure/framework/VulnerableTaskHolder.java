@@ -46,10 +46,10 @@ public class VulnerableTaskHolder implements Serializable {
    * and removing dynamic OS command execution.
    */
   private void readObject(ObjectInputStream stream) throws Exception {
-    // 1\. Layer 1 Mitigation: Apply JVM Class Filter (Allowlist safe classes, reject all others with ';!\*')
+    // Fix 1: Apply JVM Class Filter (Allowlist safe classes, reject all others with ';!\*')
     ObjectInputFilter filter = ObjectInputFilter.Config.createFilter( "java.time.LocalDateTime;java.lang.String;org.dummy.insecure.framework.SecureTaskHolder;!\*" );
     stream.setObjectInputFilter(filter);
-    // 2\. Safely restore serialized fields (throws InvalidClassException if object stream contains unauthorized classes) 
+    // Fix 2: Safely restore serialized fields (throws InvalidClassException if object stream contains unauthorized classes) 
     stream.defaultReadObject();;
 
     // do something with the data
@@ -64,7 +64,7 @@ public class VulnerableTaskHolder implements Serializable {
       throw new IllegalArgumentException("outdated");
     }
 
-    // 3\. Layer 1 Mitigation (Sink Removal): Removed Runtime.getRuntime().exec() entirely. 
+    // Fix 3: Layer 1 Mitigation (Sink Removal): Removed Runtime.getRuntime().exec() entirely. 
     // Untrusted strings restored from a stream are never passed directly to OS execution sinks.
     // condition is here to prevent you from destroying the goat altogether
     log.info("Task '{}' validated and queued safely without process execution.", taskName);
