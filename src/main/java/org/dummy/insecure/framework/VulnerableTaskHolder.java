@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
+import java.io.ObjectInputFilter; // I added 
 
 @Slf4j
 // TODO move back to lesson
@@ -41,11 +42,15 @@ public class VulnerableTaskHolder implements Serializable {
   }
 
   /**
-   * Execute a task when de-serializing a saved or received object.
+   * Safely de-serialize a saved or received object using ObjectInputFilter
+   * and removing dynamic OS command execution.
    */
   private void readObject(ObjectInputStream stream) throws Exception {
-    // unserialize data so taskName and taskAction are available
-    stream.defaultReadObject();
+    // 1\. Layer 1 Mitigation: Apply JVM Class Filter (Allowlist safe classes, reject all others with ';!\*')
+    ObjectInputFilter filter = ObjectInputFilter.Config.createFilter( "java.time.LocalDateTime;java.lang.String;org.dummy.insecure.framework.SecureTaskHolder;!\*" );
+    stream.setObjectInputFilter(filter);
+    // 2\. Safely restore serialized fields (throws InvalidClassException if object stream contains unauthorized classes) 
+    stream.defaultReadObject();;
 
     // do something with the data
     log.info("restoring task: {}", taskName);
@@ -59,8 +64,11 @@ public class VulnerableTaskHolder implements Serializable {
       throw new IllegalArgumentException("outdated");
     }
 
+    // 3\. Layer 1 Mitigation (Sink Removal): Removed Runtime.getRuntime().exec() entirely. 
+    // Untrusted strings restored from a stream are never passed directly to OS execution sinks.
     // condition is here to prevent you from destroying the goat altogether
-    if ((taskAction.startsWith("sleep") || taskAction.startsWith("ping"))
+    log.info("Task '{}' validated and queued safely without process execution.", taskName);
+    /**if ((taskAction.startsWith("sleep") || taskAction.startsWith("ping"))
         && taskAction.length() < 22) {
       log.info("about to execute: {}", taskAction);
       try {
@@ -72,6 +80,7 @@ public class VulnerableTaskHolder implements Serializable {
         }
       } catch (IOException e) {
         log.error("IO Exception", e);
+        */
       }
     }
   }
