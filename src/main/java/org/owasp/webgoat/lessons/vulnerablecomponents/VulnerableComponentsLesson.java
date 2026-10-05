@@ -1,12 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2026 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.vulnerablecomponents;
 
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
 import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermitted;
-import com.thoughtworks.xstream.security.NoTypePermitted;
-import com.thoughtworks.xstream.security.PrimitiveTypePermitted;
+import com.thoughtworks.xstream.security.NoTypePermission;
+import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -20,22 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 @AssignmentHints({"vulnerable.hint"})
 public class VulnerableComponentsLesson implements AssignmentEndpoint {
 
-  @PostMapping("/VulnerableComponents/attack1")
-  public @ResponseBody AttackResult completed(@RequestParam String payload) {
+  static XStream createSecureXStream() {
     XStream xstream = new XStream();
     xstream.setClassLoader(Contact.class.getClassLoader());
-    
-    // CRITICAL: Apply security restrictions
-    // 1. Start with denying all types
-    xstream.addPermission(NoTypePermitted.NONE);
-    
-    // 2. Explicitly allow only safe classes
-    xstream.addPermission(PrimitiveTypePermitted.PRIMITIVES);
-    xstream.allowTypes(new Class[]{ContactImpl.class, Contact.class, String.class});
-    
+    xstream.addPermission(NoTypePermission.NONE);
+    xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
+    xstream.allowTypes(new Class[] {ContactImpl.class, Contact.class, String.class});
     xstream.alias("contact", ContactImpl.class);
     xstream.ignoreUnknownElements();
-    
+    return xstream;
+  }
+
+  @PostMapping("/VulnerableComponents/attack1")
+  public @ResponseBody AttackResult completed(@RequestParam String payload) {
+    XStream xstream = createSecureXStream();
     Contact contact = null;
 
     try {
